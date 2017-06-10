@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var routes = require('./routes/routes');
-var middlewares = require('./app/middlewares/middleware');
+var middlewares = require('./app/middlewares/middleware');	
 var app = express();
 
 // view engine setup
@@ -21,8 +21,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use( middlewares);
-app.use( routes);
+app.use(middlewares);
+app.use(routes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -42,4 +42,34 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+//initialize pg-promise
+let pgp = require('pg-promise')(); 
+//connect to database
+let db = pgp({
+	host: 'localhost',
+	port: 5432,	
+	database: 'CSODB',
+	user: 'postgres',
+	password: '1234'
+});
+
+let qrm = pgp.queryResult;
+//query from database
+db.query('SELECT * FROM account', undefined, qrm.any)
+  .then((data) => {
+  	console.log(data);
+  })
+  .catch((error) => {
+  	console.log(error);
+  });
+
+
+let queryFile = pgp.QueryFile('../app/query/testQuery.sql', {minify: true});
+//same as the above
+ db.any(queryFile)
+   .then((data) => {
+		console.log(data);
+ }).catch((error) => {
+ 		console.log(error);
+ });
 module.exports = app;
