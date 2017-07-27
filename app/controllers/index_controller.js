@@ -5,4 +5,4 @@ module.exports ={
 	neil :(req,res) => {
 		res.send("Neil");
 	}
-}
+};

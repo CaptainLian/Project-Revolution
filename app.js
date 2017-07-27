@@ -45,6 +45,8 @@ app.use(function(err, req, res, next) {
 //initialize pg-promise
 let pgp = require('pg-promise')(); 
 //connect to database
+
+/*
 let db = pgp({
 	host: 'localhost',
 	port: 5432,	
@@ -55,7 +57,7 @@ let db = pgp({
 
 let qrm = pgp.queryResult;
 //query from database
-db.query('SELECT * FROM account', undefined, qrm.any)
+db.query('SELECT * FROM organization', undefined, qrm.any)
   .then((data) => {
   	console.log(data);
   })
@@ -72,4 +74,5 @@ let queryFile = pgp.QueryFile('../app/query/testQuery.sql', {minify: true});
  }).catch((error) => {
  		console.log(error);
  });
+ */
 module.exports = app;

@@ -1,11 +1,11 @@
-var express = require('express')
-var router = express.Router()
+var express = require('express');
+var router = express.Router();
 
-var index = require('../app/controllers/index_controller')
+var index = require('../app/controllers/index_controller');
 
 router.get('/', index.neil);
 
-router.get('/neil', index.home)
+router.get('/neil', index.home);
 
 
-module.exports = router
+module.exports = router;
