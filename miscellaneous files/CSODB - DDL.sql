@@ -34,6 +34,8 @@ CREATE TABLE Account (
     firstname VARCHAR(45),
     middlename VARCHAR(45),
     lastname VARCHAR(45),
+    contactNumber VARCHAR(16),
+    email VARCHAR(255),
     dateCreated TIMESTAMP WITH TIME ZONE,
 
     PRIMARY KEY (studentID)
