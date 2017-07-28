@@ -1,6 +1,9 @@
+
+
 module.exports ={
 	home: (req,res) => {
-		res.render('HomeMain');
+		//if president
+		res.render('PresidentTemplate');
 	},	
 	neil :(req,res) => {
 		res.send("Neil");
