@@ -1,0 +1,164 @@
+{% extends "../../template/orgTemplate.html" %}
+
+{%block header%}
+	{%include "../../section/header.html"%}
+
+	{%block style%}
+		<link href="plugins/bower_components/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+    	<link href="cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
+    	<link href="bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css" rel="stylesheet">
+    <!-- Menu CSS -->
+    
+    <!-- animation CSS -->
+    <link href="css/animate.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/style.css" rel="stylesheet">
+    <!-- color CSS -->
+    <link href="css/colors/default.css" id="theme" rel="stylesheet">
+	{%endblock%}
+
+{%endblock%}
+
+
+{%block sidebar%}
+	{%include "../../section/sidebar/president.html"%}
+{%endblock%}
+
+{%block name%}
+	President
+{%endblock%}
+
+{%block usertitle%}
+	President
+{%endblock%}
+
+
+
+
+{%block pagetitle%}
+	{{pagetitle}}
+	
+{%endblock%}
+
+{%block content%}
+<!-- if create gosm -->
+<div class="table-responsive">
+	<table id="myTable" class="table table-striped">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Position</th>
+				<th>Office</th>
+				<th>Age</th>
+				<th>Start date</th>
+				<th>Salary</th>
+				<th class="text-nowrap">Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>Tiger Nixon</td>
+				<td>System Architect</td>
+				<td>Edinburgh</td>
+				<td>61</td>
+				<td>2011/04/25</td>
+				<td>$320,800</td>
+				<td class="text-nowrap">
+	                <a href="#" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+	                <a href="#" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
+	            </td>
+			</tr>
+
+			<tr>
+				<td>Shad Decker</td>
+				<td>Regional Director</td>
+				<td>Edinburgh</td>
+				<td>51</td>
+				<td>2008/11/13</td>
+				<td>$183,000</td>
+				<td class="text-nowrap">
+	                <a href="#" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+	                <a href="#" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
+	            </td>
+			</tr>
+			<tr>
+				<td>Michael Bruce</td>
+				<td>Javascript Developer</td>
+				<td>Singapore</td>
+				<td>29</td>
+				<td>2011/06/27</td>
+				<td>$183,000</td>
+				<td class="text-nowrap">
+	                <a href="#" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+	                <a href="#" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
+	            </td>
+			</tr>
+			<tr>
+				<td>Donna Snider</td>
+				<td>Customer Support</td>
+				<td>New York</td>
+				<td>27</td>
+				<td>2011/01/25</td>
+				<td>$112,000</td>
+				<td class="text-nowrap">
+	                <a href="#" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+	                <a href="#" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
+	            </td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<!-- if view gosm -->
+     
+{%endblock%}
+
+{%block scripts%}
+	{%include "../../section/scripts.html"%}
+	<script type="js/dataTables.buttons.min.js"></script>
+	<script src="../plugins/bower_components/datatables/jquery.dataTables.min.html"></script>
+    <!-- start - This is for export functionality only -->
+    <script src="cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
+    <script src="cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script src="cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+    <script src="cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+    <script src="cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+    <script src="cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+    <!-- end - This is for export functionality only -->
+    <script>
+    
+    var table = $('#myTable').DataTable({
+	   dom: 'Bfrtip',
+        buttons: [
+            {
+                text: 'Add Activity',
+                action: function ( e, dt, node, config ) {
+                    dt.button().add( 1, {
+                        text: 'Button '+(counter++),
+                        action: function () {
+                            this.remove();
+                        }
+                    } );
+                }
+            },
+             {
+                text: 'Done',
+                action: function ( e, dt, node, config ) {
+                    dt.button().add( 1, {
+                        text: 'Button '+(counter++),
+                        action: function () {
+                            this.remove();
+                        }
+                    } );
+                }
+            }
+        ]
+
+	});
+       
+  
+    </script>
+	
+	
+{%endblock%}

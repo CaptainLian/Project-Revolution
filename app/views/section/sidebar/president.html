@@ -5,11 +5,8 @@
                                     Dashboard <!-- uncomment for notif<span class="label label-rouded label-custom pull-right">4</span></span> -->
                                 </a>
                             </li>
-                            <li> <a href="#" class="waves-effect"><i class="zmdi zmdi-view-dashboard zmdi-hc-fw fa-fw" ></i> <span class="hide-menu"> <span class="fa arrow"></span>GOSM <!--<span class="label label-rouded label-custom pull-right">4</span></span> --></a>
-                                <ul class="nav nav-second-level">
-                                    <li> <a href="#">Create GOSM</a> </li>
-                                    <li> <a href="#">View GOSM</a> </li>
-                                </ul>
+                            <li{%if gosm%} class="active"{%endif%}> <a href="/gosm" class="waves-effect {%if gosm%}active{%endif%}"><i class="zmdi zmdi-view-dashboard zmdi-hc-fw fa-fw" ></i> <span class="hide-menu">GOSM <!--<span class="label label-rouded label-custom pull-right">4</span></span> --></a>
+                            
                             </li>
                         
                             <li> <a href="#" class="waves-effect"><i class="zmdi zmdi-view-dashboard zmdi-hc-fw fa-fw" ></i> <span class="hide-menu"> <span class="fa arrow"></span>Activities <!--<span class="label label-rouded label-custom pull-right">4</span></span> --></a>

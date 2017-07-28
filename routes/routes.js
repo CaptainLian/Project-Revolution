@@ -5,6 +5,8 @@ var index = require('../app/controllers/index_controller');
 
 router.get('/', index.home);
 
+router.get('/gosm', index.gosm);
+
 router.get('/neil', index.neil);
 
 
