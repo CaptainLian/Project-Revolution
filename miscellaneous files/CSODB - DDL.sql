@@ -50,6 +50,11 @@ CREATE TABLE College (
     PRIMARY KEY (shortAcronym)
 );
 
+/* Organizations */
+DROP SEQUENCE IF EXISTS organization_id_sequence;
+CREATE SEQUENCE organization_id_sequence INCREMENT BY 1
+MINVALUE 0 NO MAXVALUE START WITH 0 NO CYCLE;
+
 DROP TABLE IF EXISTS OrganizationType CASCADE;
 CREATE TABLE OrganizationType (
     id SERIAL,
@@ -57,8 +62,8 @@ CREATE TABLE OrganizationType (
 
     PRIMARY KEY(id)
 );
-DROP TABLE IF EXISTS Organization CASCADE;
-CREATE TABLE Organization (
+DROP TABLE IF EXISTS StudentOrganization CASCADE;
+CREATE TABLE StudentOrganization (
     id SERIAL,
     organizationTypeID INTEGER NOT NULL REFERENCES OrganizationType(id),
     acronym VARCHAR(20),
@@ -67,21 +72,13 @@ CREATE TABLE Organization (
 
     PRIMARY KEY (id)
 );
-DROP TABLE IF EXISTS ProfessionalOrganizationGroup CASCADE;
-CREATE TABLE ProfessionalOrganizationGroup (
-    college CHAR(3) REFERENCES College(shortAcronym)
-) INHERITS (Organization);
-DROP TABLE IF EXISTS ProfessionalOrganization CASCADE;
-CREATE TABLE ProfessionalOrganization (
-    organizationGroup INTEGER REFERENCES Organization(id)
-) INHERITS (Organization);
 
 -- FORMS
 	/* GOSM RELATED*/
 DROP TABLE IF EXISTS GOSM CASCADE;
 CREATE TABLE GOSM (
     schoolYear INTEGER REFERENCES SchoolYear(id),
-    studentOrganization INTEGER REFERENCES Organization(id),
+    studentOrganization INTEGER REFERENCES StudentOrganization(id),
     goals TEXT,
     objectives TEXT,
     description TEXT,
@@ -115,7 +112,7 @@ CREATE TABLE ProjectProposal (
     objectives TEXT[],
     accumulatedOperationalFunds NUMERIC(16, 4),
     accumulatedDepositoryFunds NUMERIC(16, 4),
-    organization INTEGER REFERENCES Organization(id),
+    organization INTEGER REFERENCES StudentOrganization(id),
     financeSignatory INTEGER REFERENCES Account(studentID),
     preparedBy INTEGER REFERENCES Account(studentID),
 
@@ -181,7 +178,7 @@ CREATE TABLE SpecialApproval (
     id SERIAL,
     dateSubmmited TIMESTAMP WITH TIME ZONE,
     submissionType INTEGER NOT NULL REFERENCES SpecialApprovalType(id),
-    requestingOrganization INTEGER NOT NULL REFERENCES Organization(id),
+    requestingOrganization INTEGER NOT NULL REFERENCES StudentOrganization(id),
     activityTitle VARCHAR(45),
     justification TEXT,
     submittedBy INTEGER NOT NULL REFERENCES Account(studentID),
