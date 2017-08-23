@@ -4,6 +4,7 @@ var app = express();
 
 module.exports = function (app, database, models, queryFiles){
 	return [
+	/*
 		{
 			name: '',
 			description: '',
@@ -21,5 +22,6 @@ module.exports = function (app, database, models, queryFiles){
 				next();
 			}
 		}
+	*/
 	];
 };

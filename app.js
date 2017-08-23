@@ -122,6 +122,7 @@ var requireRoutes = requireDir(global.config.webserver.routes.path);
 for(var key in requireRoutes){
   console.log(`\tFile: ${key}.js`);
   routes[key] = requireRoutes[key](app,controllers);
+  app.use(routes[key]);
 }
 console.log('Loading Routes Complete\n');
 

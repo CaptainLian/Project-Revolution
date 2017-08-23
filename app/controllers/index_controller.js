@@ -3,11 +3,11 @@ module.exports = function(database, models, queryFiles){
 		home: (req, res, next) => {
 		//if president
 			res.render('users/president/home',{home:true});
-			next();
+			//next();
 		},	
 		neil :(req, res, next) => {
 			res.send("Neil");
-			next();
+			//next();
 		},
 		gosm :(req, res, next) => {
 			res.render("users/president/gosm",{
@@ -17,7 +17,7 @@ module.exports = function(database, models, queryFiles){
 				
 			});
 			
-			next();
+			//next();
 		}
 	};
 }
