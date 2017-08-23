@@ -3,9 +3,10 @@ var router = express.Router();
 
 module.exports = function (app, controllers){
 	var index = controllers.index_controller;
-	router.get('/', index.home);
-	router.get('/neil', index.neil);
+	var gosm = controllers.gosmController;
 
+	router.get('/createGOSM', gosm.viewCreateGOSM);
+	router.post('/createGOSM', gosm.inputCreateGOSM);
 	return router;
 };
 
