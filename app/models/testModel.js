@@ -1,4 +1,5 @@
-module.exports = function(){
+module.exports = function(database, queryFiles){
+	return {
 
-	
+	};
 };

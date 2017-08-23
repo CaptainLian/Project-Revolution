@@ -10,30 +10,12 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var routes = require('./routes/routes');
-var middlewares = require('./app/middlewares/middleware');	
-
 //function to help me
 var requireDir = require('require-dir');
 var app = express();
 
-/* Loading of configuration is done here */
-console.log('Loading Server Configuration');
-var config = require('./config.json');
-global.config = {};
 
-for (var key in config){
-  console.log(`Adding global.config.key: ${key}`);
-  var object = config[key];
-  global.config[key] = {};
-  for(var oKey in object){
-    global.config[key][oKey] = object[oKey];
-  }
-}
-
-console.log('Server Configuration Loaded\n');
-
-console.log('Connecting to database');
+console.log('Testing Connection to database');
 var pgPromise = require('pg-promise')();
 var database = pgPromise({
   host: global.config.database.host,
@@ -42,7 +24,18 @@ var database = pgPromise({
   user: global.config.database.username,
   password: global.config.database.password
 });
-console.log('Database Connected\n');
+
+/* testing the connection */
+var qrm = pgPromise.queryResult;
+//query from database
+database.query('SELECT * FROM account WHERE studentid = 11445955', undefined, qrm.any)
+  .then((data) => {
+    //console.log(data);
+    console.log('Database Connection successful');
+  })
+  .catch((error) => {
+    console.log(error);
+  });
 
 // view engine setup
 app.set('views', path.join(__dirname, 'app/views'));
@@ -60,8 +53,105 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(global.config.webserver.assets.path));
 
-app.use(middlewares);
-app.use(routes);
+/* 
+Load QueryFiles
+*/
+var QueryFile = pgPromise.QueryFile;
+var queryFiles = {};
+var requireQueryFiles = requireDir(global.config.database.query_files.path);
+
+for(var key in requireQueryFiles){
+  console.log(key);
+}
+
+/*
+ Load Models
+ */
+console.log('Loading Models');
+var models = {};
+var requireModels= requireDir(global.config.database.models.path);
+for(var key in requireModels){
+  console.log(`\tFile: ${key}.js`);
+  models[key] = requireModels[key](database, queryFiles);
+}
+console.log('Loading Models Complete\n');
+
+/*
+Load Pre-middlewares
+ */
+console.log('Loading Pre-middlewares');
+var requirePre_Middlewares = requireDir(global.config.webserver.pre_middlewares.path);
+for(var key in requirePre_Middlewares){
+  console.log(`\tFile: ${key}.js`);
+  var middlewares = requirePre_Middlewares[key](app, database, models, queryFiles);
+
+  for(var index = 0, length = middlewares.length; index < length; ++index){
+    var middleware = middlewares[index];
+    console.log(`\t\tMiddleware Action Named: ${middleware.name}`);
+    if(!!middleware.description){
+      console.log(`\t\t\tDescription: ${middleware.description}`);
+    }
+    if(!!middleware.route && typeof middleware.route === 'string'){
+      console.log(`\t\t\tRoute: '${middleware.route}'`);
+      app.use(middleware.route, middleware.action);
+    }else{
+      app.use(middleware.action);
+    }
+  }
+}
+console.log('Loading Pre-middlewares Complete\n');
+/*
+Load controllers
+ */
+console.log('Loading Controllers');
+var controllers = {};
+var requireControllers = requireDir(global.config.webserver.controllers.path);
+for(var key in requireControllers){
+  console.log(`\tFile: ${key}.js`);
+  controllers[key] = requireControllers[key](app, database, models, queryFiles);
+}
+console.log('Loading Controllers Complete\n');
+
+
+/*
+Load routes
+ */
+console.log('Loading Routes');
+var routes = {};
+var requireRoutes = requireDir(global.config.webserver.routes.path);
+for(var key in requireRoutes){
+  console.log(`\tFile: ${key}.js`);
+  routes[key] = requireRoutes[key](app,controllers);
+}
+console.log('Loading Routes Complete\n');
+
+/*
+Load post-middlewares
+ */
+console.log('Loading Post-middlewares');
+var requirePost_Middlewares = requireDir(global.config.webserver.post_middlewares.path);
+for(var key in requirePost_Middlewares){
+  console.log(`\tFile: ${key}.js`);
+  var middlewares = requirePost_Middlewares[key](app, database, models, queryFiles);
+
+  for(var index = 0, length = middlewares.length; index < length; ++index){
+    var middleware = middlewares[index];
+    console.log(`\t\tMiddleware Action Named: ${middleware.name}`);
+    if(!!middleware.description){
+      console.log(`\t\t\tDescription: ${middleware.description}`);
+    }
+    if(!!middleware.route && typeof middleware.route === 'string'){
+      console.log(`\t\t\tRoute: '${middleware.route}'`);
+      app.use(middleware.route, middleware.action);
+    }else{
+      app.use(middleware.action);
+    }
+  }
+}
+console.log('Loading Post-middlewares Complete\n');
+
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -83,15 +173,6 @@ app.use(function(err, req, res, next) {
 
 
 /*
-let qrm = pgp.queryResult;
-//query from database
-db.query('SELECT * FROM organization', undefined, qrm.any)
-  .then((data) => {
-  	console.log(data);
-  })
-  .catch((error) => {
-  	console.log(error);
-  });
 
 
 let queryFile = pgp.QueryFile('../app/query/testQuery.sql', {minify: true});
