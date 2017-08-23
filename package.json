@@ -17,6 +17,7 @@
     "nunjucks": "^3.0.1",
     "pg-minify": "^0.4.2",
     "pg-promise": "^5.9.7",
+    "require-dir": "^0.3.2",
     "serve-favicon": "^2.4.3"
   },
   "devDependencies": {

@@ -1,7 +1,4 @@
-﻿END TRANSACTION;
-BEGIN TRANSACTION;
-
-TRUNCATE TABLE SchoolYear CASCADE;
+﻿TRUNCATE TABLE SchoolYear CASCADE;
 INSERT INTO SchoolYear (id, endYear, startYear)
                 VALUES (1, 2014, 2015);
 INSERT INTO SchoolYear (id, endYear, startYear)
@@ -65,4 +62,3 @@ INSERT INTO OrganizationType (id, description)
                       VALUES (3, 'Socio-civic and Religious');
 INSERT INTO OrganizationType (id, description)
                       VALUES (4, 'Professional Organization Group');
-

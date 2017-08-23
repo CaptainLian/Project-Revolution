@@ -1,0 +1,37 @@
+{
+	"webserver":{
+		"port": 3000,
+		"url": "",
+		"controllers": {
+			"path": "./app/controllers"
+		},
+		"pre_middlewares": {
+			"path": "./app/pre_middlewares"
+		},
+		"routes": {
+			"path": "./app/routes"
+		},
+		"post_middlewares": {
+			"path": "./app/post_middlewares"
+		},
+		"assets": {
+			"path": "./app/assets"
+		},
+		"views": {
+			"path": "./app/views"
+		}
+	},	
+	"database": {
+		"host": "localhost",
+		"port": 5432,
+		"database": "CSODB",
+		"username": "postgres",
+		"password": "1234",
+		"query_files": {
+			"path": "./app/queries"
+		},
+		"models": {
+			"path": "./app/models"
+		}
+	}
+}

@@ -10,7 +10,7 @@ module.exports ={
 		res.render("users/president/gosm",{
 			datatables:true,
 			gosm:true,
-			pagetitle:"GOSM",
+			pagetitle:"GOSM"
 			
 		});
 	}

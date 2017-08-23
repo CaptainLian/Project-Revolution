@@ -1,5 +1,9 @@
+'use strict';
+console.log('Initializing Server\n');
+
 var express = require('express');
 var path = require('path');
+
 var favicon = require('serve-favicon');
 var nunjucks = require('nunjucks');
 var logger = require('morgan');
@@ -8,7 +12,37 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/routes');
 var middlewares = require('./app/middlewares/middleware');	
+
+//function to help me
+var requireDir = require('require-dir');
 var app = express();
+
+/* Loading of configuration is done here */
+console.log('Loading Server Configuration');
+var config = require('./config.json');
+global.config = {};
+
+for (var key in config){
+  console.log(`Adding global.config.key: ${key}`);
+  var object = config[key];
+  global.config[key] = {};
+  for(var oKey in object){
+    global.config[key][oKey] = object[oKey];
+  }
+}
+
+console.log('Server Configuration Loaded\n');
+
+console.log('Connecting to database');
+var pgPromise = require('pg-promise')();
+var database = pgPromise({
+  host: global.config.database.host,
+  port: global.config.database.port, 
+  database: global.config.database.database,
+  user: global.config.database.username,
+  password: global.config.database.password
+});
+console.log('Database Connected\n');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'app/views'));
@@ -18,14 +52,13 @@ nunjucks.configure('./app/views/', {
     express: app
 });
 
-
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static('./app/assets'));
+app.use(express.static(global.config.webserver.assets.path));
 
 app.use(middlewares);
 app.use(routes);
@@ -48,19 +81,8 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-//initialize pg-promise
-let pgp = require('pg-promise')(); 
-//connect to database
 
 /*
-let db = pgp({
-	host: 'localhost',
-	port: 5432,	
-	database: 'CSODB',
-	user: 'postgres',
-	password: '1234'
-});
-
 let qrm = pgp.queryResult;
 //query from database
 db.query('SELECT * FROM organization', undefined, qrm.any)
@@ -81,4 +103,5 @@ let queryFile = pgp.QueryFile('../app/query/testQuery.sql', {minify: true});
  		console.log(error);
  });
  */
+console.log('Server Initialization Complete');
 module.exports = app;
