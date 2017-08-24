@@ -99,7 +99,6 @@ for(var key in requireModels){
 }
 console.log('Loading Models Complete\n');
 
-models.gosm.getAllActivityTypes();
 /*
 Load Pre-middlewares
  */
@@ -132,7 +131,7 @@ var controllers = {};
 var requireControllers = requireDir(global.config.webserver.controllers.path);
 for(var key in requireControllers){
   console.log(`\tFile: ${key}.js`);
-  controllers[key] = requireControllers[key](app, database, models, queryFiles);
+  controllers[key] = requireControllers[key](database, models, queryFiles);
 }
 console.log('Loading Controllers Complete\n');
 
@@ -173,9 +172,8 @@ for(var key in requirePost_Middlewares){
     }
   }
 }
+
 console.log('Loading Post-middlewares Complete\n');
-
-
 
 
 // catch 404 and forward to error handler
