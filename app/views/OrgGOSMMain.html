@@ -1,0 +1,64 @@
+{% extends "./template/APS/AssociateOrg.html" %}
+
+
+{%block styles%}
+	<link href="css/custom.css" rel="stylesheet">
+{%endblock%}
+
+{%block header%}
+	{%include "section/header.html"%}
+{%endblock%}
+
+{%block sidebar%}
+	{%include "section/sidebar/president.html"%}
+{%endblock%}
+
+
+{%block content%}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="white-box">
+            <h3 class="box-title m-b-0">GOSM of La Salle Computer Society</h3>
+
+            <div class="table-responsive">
+
+                <table id="myTable" class="table table-hover" role="grid" aria-describedby="myTable_info">
+                    <thead>
+                        <tr role="row">
+                            <th class="sorting" tabindex="0" aria-controls="myTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 139px;">Activity Name</th>
+                            <th class="sorting" tabindex="0" aria-controls="myTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 139px;">Activity Date</th>
+                            <th class="sorting " tabindex="0" aria-controls="myTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 129px;">Time</th>
+                            <th class="sorting " tabindex="0" aria-controls="myTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 129px;">Venue</th>
+                        </tr>
+                    </thead>
+                    <tbody> 
+                        <tr role="row" class="odd" data-toggle="modal" data-target="#sampleModal">
+                            <td>Unite: General Assembly</td><!-- Activity name-->
+                            <td>January 1, 2017</td><!-- Activity date -->
+                            <td class="">9:00 AM - 10:00 PM</td><!-- Activity time -->
+                            <td class="">Gokongwei Lobby</td><!-- Activity venue -->
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="text-center">
+                    <h4>Actions</h4>
+                    <button class="btn btn-success" type="">Approve</button>
+                    <button class="btn btn-warning" type="">Pend</button>
+                    <button class="btn btn-danger" type="">Deny</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+
+    </div>
+    <div class="col-sm-12">
+
+    </div>
+</div>
+{%endblock%}
+
+{%block scripts%}
+
+{%endblock%}

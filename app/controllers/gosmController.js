@@ -7,7 +7,15 @@ module.exports = function(database, models, queryFiles){
 			res.render('GOSMMain');
 			//next();
 		},
-
+		viewOrglist:( req, res) =>{
+			res.render('OrglistMain');
+		},
+		viewOrgGOSM :( req, res)=>{
+			res.render('OrgGOSMMain');
+		},
+		activityList :( req, res)=>{
+			res.render('ActivityListMain');
+		},
 		inputCreateGOSM: (req, res) => {
 
 			console.log(JSON.stringify(req.body));
