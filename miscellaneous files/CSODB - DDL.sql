@@ -11,7 +11,7 @@ CREATE TABLE SchoolYear (
     endYear INTEGER,
     
     PRIMARY KEY (startYear, endYear),
-    CONSTRAINT endyear_startyear_value CHECK(endYear < startYear)
+    CONSTRAINT endyear_startyear_value CHECK(endYear > startYear)
 );
 
 DROP TABLE IF EXISTS Term CASCADE;
@@ -92,7 +92,7 @@ CREATE TABLE StudentOrganization (
 
 -- FORMS
 	/* GOSM RELATED*/
-DROP TABLE IF EXISTS GOSMStatus;
+DROP TABLE IF EXISTS GOSMStatus CASCADE;
 CREATE TABLE GOSMStatus (
     id INTEGER,
     name VARCHAR(45),
