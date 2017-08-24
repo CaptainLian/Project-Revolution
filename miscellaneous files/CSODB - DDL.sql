@@ -16,13 +16,13 @@ CREATE TABLE SchoolYear (
 
 DROP TABLE IF EXISTS Term CASCADE;
 CREATE TABLE Term (
-    id SERIAL,
+    schoolYear INTEGER REFERENCES SchoolYear(id),
     number INTEGER,
     dateStart DATE,
     dateEnd DATE,
-    schoolYear INTEGER REFERENCES SchoolYear(id),
+    
 
-    PRIMARY KEY (id),
+    PRIMARY KEY (schoolYear, number),
     CONSTRAINT number_min_value CHECK(number >= 1),
     CONSTRAINT number_max_value CHECK(number <= 3)
 );
@@ -57,6 +57,15 @@ CREATE TABLE ActivityType (
 
 	PRIMARY KEY(id)
 );
+
+DROP TABLE IF EXISTS ActivityNature CASCADE;
+CREATE TABLE ActivityNature (
+    id INTEGER,
+    name VARCHAR(45) NOT NULL,
+
+    PRIMARY KEY(id)
+);
+
 /* Organizations */
 DROP SEQUENCE IF EXISTS organization_id_sequence;
 CREATE SEQUENCE organization_id_sequence INCREMENT BY 1
@@ -87,21 +96,47 @@ DROP TABLE IF EXISTS GOSM CASCADE;
 CREATE TABLE GOSM (
     schoolYear INTEGER REFERENCES SchoolYear(id),
     studentOrganization INTEGER REFERENCES StudentOrganization(id),
-    goals TEXT,
-    objectives TEXT,
-    description TEXT,
-    measures TEXT,
-    targetDateStart DATE,
-    targetDateEnd DATE,
-    peopleInCharge VARCHAR(60)[],
-    activityNature VARCHAR(45),
-    activityType INTEGER REFERENCES ActivityType(id),
-    activityTypeOtherDescription VARCHAR(45),
-    isRelatedToOrganizationNature BOOLEAN,
-    budget NUMERIC(16, 4),
 
     PRIMARY KEY (schoolYear, studentOrganization)
 );
+
+DROP TABLE IF EXISTS GOSMActivities CASCADE;
+CREATE TABLE GOSMActivities (
+    id INTEGER,
+    schoolYear INTEGER,
+    studentOrganization INTEGER,
+    goals VARCHAR(45) NOT NULL,
+    objectives VARCHAR(45)[] NOT NULL,
+    description VARCHAR(255) NOT NULL,
+    measures VARCHAR(45) NOT NULL,
+    targetDateStart DATE NOT NULL,
+    targetDateEnd DATE,
+    peopleInCharge VARCHAR(60)[] NOT NULL,
+    activityNature INTEGER REFERENCES ActivityNature(id),
+    activityType INTEGER REFERENCES ActivityType(id),
+    activityTypeOtherDescription VARCHAR(45) NULL,
+    isRelatedToOrganizationNature BOOLEAN NOT NULL,
+    budget NUMERIC(16, 4) NOT NULL,
+
+    FOREIGN KEY (schoolYear, studentOrganization) REFERENCES GOSM(schoolYear, studentOrganization),
+    PRIMARY KEY (id, schoolYear, studentOrganization)  
+);
+CREATE OR REPLACE FUNCTION trigger_before_insert_GOSMActivities()
+RETURNS trigger AS
+$trigger_before_insert_GOSMActivities$
+    BEGIN
+        SELECT MAX(id) + 1 INTO STRICT NEW.id
+          FROM GOSMActivities
+         WHERE schoolYear = NEW.schoolYear
+           AND studentOrganization = NEW.studentOrganization;
+        return NEW;
+    END;
+$trigger_before_insert_GOSMActivities$ LANGUAGE plpgsql;
+CREATE TRIGGER before_insert_GOSMActivities
+    BEFORE INSERT ON GOSMActivities
+    FOR EACH ROW
+    EXECUTE PROCEDURE trigger_before_insert_GOSMActivities();
+
 	/* END GOSM */
 
 	/* Project Proposal */
