@@ -50,6 +50,13 @@ CREATE TABLE College (
     PRIMARY KEY (shortAcronym)
 );
 
+DROP TABLE IF EXISTS ActivityType CASCADE;
+CREATE TABLE ActivityType (
+	id INTEGER,
+	name VARCHAR(45) NOT NULL,
+
+	PRIMARY KEY(id)
+);
 /* Organizations */
 DROP SEQUENCE IF EXISTS organization_id_sequence;
 CREATE SEQUENCE organization_id_sequence INCREMENT BY 1
@@ -57,7 +64,7 @@ MINVALUE 0 NO MAXVALUE START WITH 0 NO CYCLE;
 
 DROP TABLE IF EXISTS OrganizationType CASCADE;
 CREATE TABLE OrganizationType (
-    id SERIAL,
+    id INTEGER,
     description VARCHAR(45) NOT NULL,
 
     PRIMARY KEY(id)
@@ -73,6 +80,7 @@ CREATE TABLE StudentOrganization (
     PRIMARY KEY (id)
 );
 
+
 -- FORMS
 	/* GOSM RELATED*/
 DROP TABLE IF EXISTS GOSM CASCADE;
@@ -87,7 +95,8 @@ CREATE TABLE GOSM (
     targetDateEnd DATE,
     peopleInCharge VARCHAR(60)[],
     activityNature VARCHAR(45),
-    activityType VARCHAR(45),
+    activityType INTEGER REFERENCES ActivityType(id),
+    activityTypeOtherDescription VARCHAR(45),
     isRelatedToOrganizationNature BOOLEAN,
     budget NUMERIC(16, 4),
 
@@ -168,7 +177,7 @@ CREATE TABLE ProjectProposalSourceFunds (
 	/* SPECIAL APPROVAL SLIP */
 DROP TABLE IF EXISTS SpecialApprovalType CASCADE;
 CREATE TABLE SpecialApprovalType (
-    id SERIAL,
+    id INTEGER,
     description VARCHAR(45),
 
     PRIMARY KEY (id)

@@ -12,6 +12,8 @@ var bodyParser = require('body-parser');
 
 //function to help me
 var requireDir = require('require-dir');
+var fileSystem = require('fs');
+
 var app = express();
 
 
@@ -56,13 +58,29 @@ app.use(express.static(global.config.webserver.assets.path));
 /* 
 Load QueryFiles
 */
+/*
+
+
+let queryFile = pgp.QueryFile('../app/query/testQuery.sql', {minify: true});
+//same as the above
+ db.any(queryFile)
+   .then((data) => {
+    console.log(data);
+ }).catch((error) => {
+    console.log(error);
+ });
+ */
+console.log('Loading Query Files');
 var QueryFile = pgPromise.QueryFile;
 var queryFiles = {};
-var requireQueryFiles = requireDir(global.config.database.query_files.path);
+var queryFilesDir = fileSystem.readdirSync(global.config.database.query_files.path);
 
-for(var key in requireQueryFiles){
-  console.log(key);
+for(var index = 0, length = queryFilesDir.length; index < length; ++index){
+  console.log(`\tFile: ${queryFilesDir[index]}`);
+  var filename = queryFilesDir[index].substring(0, queryFilesDir[index].lastIndexOf('.'));
+  queryFiles[filename] = QueryFile(global.config.database.query_files.path + `/${queryFilesDir[index]}`, {minify: true});
 }
+console.log('Loading Query Files Complete\n');
 
 /*
  Load Models
@@ -173,17 +191,5 @@ app.use(function(err, req, res, next) {
 });
 
 
-/*
-
-
-let queryFile = pgp.QueryFile('../app/query/testQuery.sql', {minify: true});
-//same as the above
- db.any(queryFile)
-   .then((data) => {
-		console.log(data);
- }).catch((error) => {
- 		console.log(error);
- });
- */
 console.log('Server Initialization Complete');
 module.exports = app;

@@ -62,3 +62,24 @@ INSERT INTO OrganizationType (id, description)
                       VALUES (3, 'Socio-civic and Religious');
 INSERT INTO OrganizationType (id, description)
                       VALUES (4, 'Professional Organization Group');
+
+INSERT INTO ActivityType (id, name)
+                  VALUES (1, 'Academic Contest');
+INSERT INTO ActivityType (id, name)
+                  VALUES (2, 'Distribution');
+INSERT INTO ActivityType (id, name)			
+                  VALUES (3, 'General Assembly');
+INSERT INTO ActivityType (id, name)
+                  VALUES (4, 'Seminar/Workshops'); 
+INSERT INTO ActivityType (id, name)
+                  VALUES (5, 'Publicity/Awareness Campaign');
+INSERT INTO ActivityType (id, name)
+                  VALUES (6, 'Meetings');
+INSERT INTO ActivityType (id, name)
+                  VALUES (7, 'Spiritual Activity');
+INSERT INTO ActivityType (id, name)
+                  VALUES (8, 'Recruitment/Audition');
+INSERT INTO ActivityType (id, name)
+                  VALUES (9, 'Recreation');
+INSERT INTO ActivityType (id, name)
+                  VALUES (10, 'Others');

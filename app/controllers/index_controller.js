@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = function(database, models, queryFiles){
 	return {
 		home: (req, res, next) => {
@@ -20,4 +22,4 @@ module.exports = function(database, models, queryFiles){
 			//next();
 		}
 	};
-}
+};
