@@ -26,17 +26,61 @@
     $('#sa-warning').click(function(){
         swal({   
             title: "Are you sure?",   
-            text: "You will not be able to recover this imaginary file!",   
+            text: "Clicking Yes will ",   
             type: "warning",   
             showCancelButton: true,   
             confirmButtonColor: "#DD6B55",   
-            confirmButtonText: "Yes, delete it!",   
+            confirmButtonText: "approve !",   
             closeOnConfirm: false 
         }, function(){   
             swal("Deleted!", "Your imaginary file has been deleted.", "success"); 
         });
     });
 
+    //Approve Activity
+    $('#sa-approve').click(function(){
+        swal({   
+            title: "Approve Activity?",   
+            text: "Clicking confirm will approve the activity",   
+            type: "warning",   
+            showCancelButton: true,   
+            confirmButtonColor: "#DD6B55",   
+            confirmButtonText: "Confirm",   
+            closeOnConfirm: false 
+        }, function(){   
+            swal("Success!", "The activity has been approved", "success"); 
+        });
+    });
+    //Pend Activity
+    $('#sa-pend').click(function(){
+        swal({   
+            title: "Pend this Activity?",   
+            text: "<textarea id='text' placeholder='Write the reason why'></textarea>",
+            html: true,
+            type: "warning",   
+            showCancelButton: true,   
+            confirmButtonColor: "#DD6B55",   
+            confirmButtonText: "confirm",   
+            closeOnConfirm: false 
+        }, function(){   
+            swal("Success!", "This activity has been pended.", "success"); 
+        });
+    });
+    //Deny Activity
+    $('#sa-deny').click(function(){
+        swal({   
+            title: "Deny this activity?",   
+            text: "<textarea id='text1' placeholder='Write the reason why'></textarea>",
+            html: true,
+            type: "warning",   
+            showCancelButton: true,   
+            confirmButtonColor: "#DD6B55",   
+            confirmButtonText: "confirm",   
+            closeOnConfirm: false 
+        }, function(){   
+            swal("Success!", "This activity has been denied.", "success"); 
+        });
+    });
     //Parameter
     $('#sa-params').click(function(){
         swal({   
