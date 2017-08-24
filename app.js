@@ -13,7 +13,6 @@ var bodyParser = require('body-parser');
 //function to help me
 var requireDir = require('require-dir');
 var fileSystem = require('fs');
-
 var app = express();
 
 
@@ -78,7 +77,13 @@ var queryFilesDir = fileSystem.readdirSync(global.config.database.query_files.pa
 for(var index = 0, length = queryFilesDir.length; index < length; ++index){
   console.log(`\tFile: ${queryFilesDir[index]}`);
   var filename = queryFilesDir[index].substring(0, queryFilesDir[index].lastIndexOf('.'));
-  queryFiles[filename] = QueryFile(global.config.database.query_files.path + `/${queryFilesDir[index]}`, {minify: true});
+  queryFiles[filename] = QueryFile(
+    path.resolve(global.config.database.query_files.path) + '/' + queryFilesDir[index], 
+    {
+      minify: global.config.database.query_files.minify, 
+      compress: global.config.database.query_files.compress
+    }
+  );
 }
 console.log('Loading Query Files Complete\n');
 
@@ -94,6 +99,7 @@ for(var key in requireModels){
 }
 console.log('Loading Models Complete\n');
 
+models.gosm.getAllActivityTypes();
 /*
 Load Pre-middlewares
  */

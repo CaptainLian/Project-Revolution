@@ -28,7 +28,9 @@
 		"username": "postgres",
 		"password": "1234",
 		"query_files": {
-			"path": "./app/queries"
+			"path": "./app/queries",
+			"compress": true,
+			"minify": true
 		},
 		"models": {
 			"path": "./app/models"

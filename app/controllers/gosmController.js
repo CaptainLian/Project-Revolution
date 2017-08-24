@@ -1,4 +1,6 @@
 module.exports = function(database, models, queryFiles){
+	var getAllActivityTypeSQL = queryFiles.getAllActivityTypes;
+	
 	return {
 		viewCreateGOSM: (req, res) => {
 		//if president
@@ -12,4 +14,4 @@ module.exports = function(database, models, queryFiles){
 			res.render('GOSM');
 		}
 	};
-}
+};
