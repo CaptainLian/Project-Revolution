@@ -1,0 +1,24 @@
+#loginlogo{
+	height: 200px;
+}
+#loginButton{
+	background: green;
+	border: green;
+}
+.headerLogo{
+	height:50px;
+}
+.navbarHeader{
+	background: #00c292;
+	float: left;
+}
+.sideBarText{
+	color: #104e12;
+}
+.fix-sidebar .top-left-part{
+	background: #ffffff;
+	float: left;	
+}
+.tr .denied{
+	background-color: rgba(251,58,58,.8);
+}

@@ -48,7 +48,7 @@ table.dataTable thead .sorting_asc {
     background-image: url("sort_asc.png")
 }
 table.dataTable thead .sorting_desc {
-    background-image: url("sort_desc.html")
+    background-image: url("sort_desc.png")
 }
 table.dataTable thead .sorting_asc_disabled {
     background-image: url("sort_asc_disabled.png")

@@ -60,11 +60,11 @@ body {
 }
 /*Right panel*/
 .right-sidebar .rpanel-title {
-  background: #FF5722;
+  background: #fb9678;
 }
 /*Bread Crumb*/
 .bg-title .breadcrumb .active {
-  color: #FF5722;
+  color: #fb9678;
 }
 /*Sidebar*/
 .sidebar {
@@ -79,28 +79,29 @@ body {
 }
 #side-menu li a {
   color: #54667a;
+  border-left: 0px solid #fff;
 }
 #side-menu > li > a:hover,
 #side-menu > li > a:focus {
   background: rgba(0, 0, 0, 0.03);
 }
 #side-menu > li > a.active {
-  border-left: 3px solid #FF5722;
+  border-left: 3px solid #fb9678;
   color: #2b2b2b;
   font-weight: 500;
 }
 #side-menu > li > a.active i {
-  color: #FF5722;
+  color: #fb9678;
 }
 #side-menu ul > li > a:hover {
-  color: #FF5722;
+  color: #fb9678;
 }
 #side-menu ul > li > a.active {
   color: #2b2b2b;
   font-weight: 500;
 }
 .sidebar #side-menu .user-pro .nav-second-level a:hover {
-  color: #FF5722;
+  color: #fb9678;
 }
 .fix-sidebar .top-left-part {
   background: #4F5467;
@@ -114,37 +115,37 @@ body {
 }
 /*Chat widget*/
 .chat-list .odd .chat-text {
-  background: #FF5722;
+  background: #fb9678;
 }
 /*Button*/
 .btn-custom {
-  background: #FF5722;
-  border: 1px solid #FF5722;
+  background: #fb9678;
+  border: 1px solid #fb9678;
   color: #ffffff;
 }
 .btn-custom:hover {
-  background: #FF5722;
+  background: #fb9678;
   opacity: 0.8;
   color: #ffffff;
-  border: 1px solid #FF5722;
+  border: 1px solid #fb9678;
 }
 /*Custom tab*/
 .customtab li.active a,
 .customtab li.active a:hover,
 .customtab li.active a:focus {
-  border-bottom: 2px solid #FF5722;
-  color: #FF5722;
+  border-bottom: 2px solid #fb9678;
+  color: #fb9678;
 }
 .tabs-vertical li.active a,
 .tabs-vertical li.active a:hover,
 .tabs-vertical li.active a:focus {
-  background: #FF5722;
-  border-right: 2px solid #FF5722;
+  background: #fb9678;
+  border-right: 2px solid #fb9678;
 }
 /*Nav-pills*/
 .nav-pills > li.active > a,
 .nav-pills > li.active > a:focus,
 .nav-pills > li.active > a:hover {
-  background: #FF5722;
+  background: #fb9678;
   color: #ffffff;
 }

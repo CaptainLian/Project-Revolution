@@ -32,7 +32,7 @@ module.exports = {
 		port: 5432,
 		database: 'CSODB',
 		username: 'postgres',
-		password: '1234',
+		password: '',
 		query_files:{
 			path: './app/queries'
 		},
