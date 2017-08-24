@@ -63,6 +63,7 @@ INSERT INTO OrganizationType (id, description)
 INSERT INTO OrganizationType (id, description)
                       VALUES (4, 'Professional Organization Group');
 
+TRUNCATE TABLE ActivityType CASCADE;
 INSERT INTO ActivityType (id, name)
                   VALUES (1, 'Academic Contest');
 INSERT INTO ActivityType (id, name)
@@ -83,3 +84,29 @@ INSERT INTO ActivityType (id, name)
                   VALUES (9, 'Recreation');
 INSERT INTO ActivityType (id, name)
                   VALUES (10, 'Others');
+
+TRUNCATE TABLE ActivityNature CASCADE;
+INSERT INTO ActivityNature (id, name)
+                    VALUES (1, 'Academic');
+INSERT INTO ActivityNature (id, name)
+                    VALUES (2, 'Special Interest');
+INSERT INTO ActivityNature (id, name)     
+                    VALUES (3, 'Departmental Initiative');
+INSERT INTO ActivityNature (id, name)
+                    VALUES (4, 'Fundraising'); 
+INSERT INTO ActivityNature (id, name)
+                    VALUES (5, 'Community Development');
+INSERT INTO ActivityNature (id, name)
+                    VALUES (6, 'Organizational Development');
+INSERT INTO ActivityNature (id, name)
+                    VALUES (7, 'Issue Advocacy');
+INSERT INTO ActivityNature (id, name)
+                    VALUES (8, 'Lasallian Formation/Spiritual Growth');
+INSERT INTO ActivityNature (id, name)
+                    VALUES (9, 'Outreach');
+
+TRUNCATE TABLE GOSMStatus CASCADE;
+INSERT INTO GOSMStatus (id, name)
+                VALUES (1, 'Pending');
+INSERT INTO GOSMStatus (id, name)
+                VALUES (2, 'Filed');

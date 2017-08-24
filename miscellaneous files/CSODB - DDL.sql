@@ -92,11 +92,18 @@ CREATE TABLE StudentOrganization (
 
 -- FORMS
 	/* GOSM RELATED*/
+DROP TABLE IF EXISTS GOSMStatus;
+CREATE TABLE GOSMStatus (
+    id INTEGER,
+    name VARCHAR(45),
+
+    PRIMARY KEY (id)
+);
 DROP TABLE IF EXISTS GOSM CASCADE;
 CREATE TABLE GOSM (
     schoolYear INTEGER REFERENCES SchoolYear(id),
     studentOrganization INTEGER REFERENCES StudentOrganization(id),
-
+    status INTEGER REFERENCES GOSMStatus(id) DEFAULT 1,
     PRIMARY KEY (schoolYear, studentOrganization)
 );
 
