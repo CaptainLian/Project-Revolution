@@ -1,6 +1,6 @@
 $( document ).ready(function() {
     
-    var ctx1 = document.getElementById("chart1").getContext("2d");
+/*    var ctx1 = document.getElementById("chart2").getContext("2d");
     var data1 = {
         labels: ["January", "February", "March", "April", "May", "June", "July"],
         datasets: [
@@ -84,39 +84,21 @@ $( document ).ready(function() {
         barDatasetSpacing : 3,
         legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].fillColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>",
         responsive: true
-    });
+    });*/
     
     var ctx3 = document.getElementById("chart3").getContext("2d");
     var data3 = [
         {
             value: 300,
-            color:"#25a6f7",
-            highlight: "#25a6f7",
-            label: "Blue"
+            color:"#01579b",
+            highlight: "#0277bd",
+            label: "Academic"
         },
         {
             value: 50,
             color: "#edf1f5",
             highlight: "#edf1f5",
-            label: "Light"
-        },
-		 {
-            value: 50,
-            color: "#b4c1d7",
-            highlight: "#b4c1d7",
-            label: "Dark"
-        },
-		 {
-            value: 50,
-            color: "#b8edf0",
-            highlight: "#b8edf0",
-            label: "Megna"
-        },
-        {
-            value: 100,
-            color: "#fcc9ba",
-            highlight: "#fcc9ba",
-            label: "Orange"
+            label: "Non-Academic"
         }
     ];
     
@@ -132,7 +114,66 @@ $( document ).ready(function() {
         legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span style=\"background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>",
         responsive: true
     });
+
+
+    var ctx4 = document.getElementById("chart4").getContext("2d");
+    var data4 = [
+        {
+            value: 50,
+            color: "#b8edf0",
+            highlight: "#b8edf0",
+            label: "Megna"
+        },
+        {
+            value: 100,
+            color: "#006064",
+            highlight: "#00838f",
+            label: "Orange"
+        }
+    ];
     
+    var myPieChart = new Chart(ctx4).Pie(data4,{
+        segmentShowStroke : true,
+        segmentStrokeColor : "#fff",
+        segmentStrokeWidth : 0,
+        animationSteps : 100,
+        tooltipCornerRadius: 0,
+        animationEasing : "easeOutBounce",
+        animateRotate : true,
+        animateScale : false,
+        legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span style=\"background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>",
+        responsive: true
+    });
+
+    var ctx5 = document.getElementById("chart5").getContext("2d");
+    var data5 = [
+        {
+            value: 50,
+            color: "#b8edf0",
+            highlight: "#b8edf0",
+            label: "Megna"
+        },
+        {
+            value: 100,
+            color: "#004d40",
+            highlight: "#00695c",
+            label: "Orange"
+        }
+    ];
+    
+    var myPieChart = new Chart(ctx5).Pie(data5,{
+        segmentShowStroke : true,
+        segmentStrokeColor : "#fff",
+        segmentStrokeWidth : 0,
+        animationSteps : 100,
+        tooltipCornerRadius: 0,
+        animationEasing : "easeOutBounce",
+        animateRotate : true,
+        animateScale : false,
+        legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span style=\"background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>",
+        responsive: true
+    });
+  /*  
     var ctx4 = document.getElementById("chart4").getContext("2d");
     var data4 = [
         {
@@ -168,7 +209,7 @@ $( document ).ready(function() {
         responsive: true
     });
     
-    var ctx5 = document.getElementById("chart5").getContext("2d");
+    /*var ctx5 = document.getElementById("chart5").getContext("2d");
     var data5 =  [
         {
             value: 300,
@@ -195,9 +236,9 @@ $( document ).ready(function() {
             label: "Grey"
         }
 
-    ];
+    ];*/
     
-    var myPolarArea = new Chart(ctx5).PolarArea(data5, {
+   /* var myPolarArea = new Chart(ctx5).PolarArea(data5, {
         scaleShowLabelBackdrop : true,
         scaleBackdropColor : "rgba(255,255,255,0.75)",
         scaleBeginAtZero : true,
@@ -265,5 +306,5 @@ $( document ).ready(function() {
         legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>",
         responsive: true
     });
-    
+   */ 
 });
