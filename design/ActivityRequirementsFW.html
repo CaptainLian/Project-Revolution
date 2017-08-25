@@ -53,6 +53,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
         .close-day:hover{
             color:red;
         }
+        #add-tab{
+            border-color: white white #ddd white
+        }
+        #add-tab:hover{
+            border-top-color: #ddd;
+            border-right-color: #ddd;
+            border-left-color: #ddd;
+        }
     </style>
 </head>
 
@@ -611,14 +619,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                                                     <li class="active nav-item" id="t0" role="presentation"><a aria-expanded="true" class="nav-link" aria-controls="home" data-toggle="tab" role="tab" id="tab-0" href="#ctab0">Day 1</a></li>
                                                                                                     <!--    <li class=" nav-item" id="t1" role="presentation"><a aria-expanded="true" class="nav-link" aria-controls="home" data-toggle="tab" role="tab" id="tab-1" href="#ctab1">Day 2</a></li> -->
                                                                                                     <!-- <li role="presentation" class="nav-item panel-success"><a aria-controls="profile" class="nav-link" id="add-tab" href="tab-" role="tab"  aria-expanded="false"></a></li> -->
-                                                                                                    <li role="presentation" class="nav-item "><a style="border-color: white white #ddd white" aria-controls="profile" class="nav-link" id="add-tab" href="#" role="tab"   aria-expanded="false"><i class="text-success fa fa-plus"></i></a></li>
+                                                                                                    <li role="presentation" class="nav-item "><a aria-controls="profile" class="nav-link" id="add-tab" href="#" role="tab"   aria-expanded="false"><i class="text-success fa fa-plus"></i></a></li>
                                                                                                     <!--  <li role="presentation" class="nav-item "><a style="border-color: white white #ddd white" aria-controls="profile" class="nav-link" id="delete-tab" href="#" role="tab"   aria-expanded="false"><i class="text-danger fa fa-times"></i></a></li> -->
 
                                                                                                 </ul>
                                                                                                 <div class="tab-content" id="myTabContent">
                                                                                                     <div aria-labelledby="tab-0" id="ctab0" class="tab-pane fade active in" role="tabpanel">
                                                                                                        <div class="row">
-                                                                                                        <div class="col-md-4" style="padding: 25px;position: relative;  ">
+                                                                                                        <div class="col-md-4" id="clone-question"  style="padding: 25px;position: relative;  ">
                                                                                                             <!-- pangcancel ng auto open datepicker -->
                                                                                                             <input style="height:0px; top:-1000px; position:absolute;display: none" type="text" value="">
                                                                                                             <label>Date</label>
@@ -677,7 +685,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                                                            </div>
                                                                                                        </div>
                                                                                                        <!--/span-->
-                                                                                                       <div class="col-md-8 " style="padding-top: 15px">
+                                                                                                       <div class="col-md-8 " id="clone-table" style="padding-top: 15px">
                                                                                                         <table id="program-tables" class="table program color-bordered-table success-bordered-table" >
                                                                                                             <thead>
                                                                                                                 <tr>
@@ -699,32 +707,32 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                                                                     <td></td>
                                                                                                                     <td></td>
                                                                                                                 </tr>
-                                                                                            <!-- 
-                                                                                            <tr>
-                                                                                                <td></td>
-                                                                                                <td>09:00 - 12:00</td>
-                                                                                                <td>Deshmukh</td>
-                                                                                                <td>Prohaska</td>
-                                                                                                <td>@Genelia</td>
-                                                                                                <td>@Sonu</td>
-                                                                                            </tr>
-                                                                                            <tr>
-                                                                                                <td></td>
-                                                                                               <td>09:00 - 12:00</td>
-                                                                                                <td>Roshan</td>
-                                                                                                <td>Rogahn</td>
-                                                                                                <td>@Hritik</td>
-                                                                                                <td>@Sonu</td>
-                                                                                            </tr> -->
-                                                                                        </tbody>
-                                                                                    </table>
-                                                                                </div>
-                                                                                <!--/span-->
-                                                                            </div>
-                                                                        </div>
-                                                                    <!-- <div aria-labelledby="tab-1" id="ctab1" class="tab-pane" role="tabpanel">
-                                                                       asd
-                                                                   </div> -->
+                                                                                                            <!-- 
+                                                                                                            <tr>
+                                                                                                                <td></td>
+                                                                                                                <td>09:00 - 12:00</td>
+                                                                                                                <td>Deshmukh</td>
+                                                                                                                <td>Prohaska</td>
+                                                                                                                <td>@Genelia</td>
+                                                                                                                <td>@Sonu</td>
+                                                                                                            </tr>
+                                                                                                            <tr>
+                                                                                                                <td></td>
+                                                                                                               <td>09:00 - 12:00</td>
+                                                                                                                <td>Roshan</td>
+                                                                                                                <td>Rogahn</td>
+                                                                                                                <td>@Hritik</td>
+                                                                                                                <td>@Sonu</td>
+                                                                                                            </tr> -->
+                                                                                                            </tbody>
+                                                                                                        </table>
+                                                                                                    </div>
+                                                                                                    <!--/span-->
+                                                                                                </div>
+                                                                                    </div>
+                                                                                <!-- <div aria-labelledby="tab-1" id="ctab1" class="tab-pane" role="tabpanel">
+                                                                                   asd
+                                                                               </div> -->
 
 
                                                                </div>
@@ -949,18 +957,177 @@ scratch. This page gets rid of all links and provides the needed markup only.
     ctr = 0;
     $(".select2").select2();
     $("div.fixed-table-loading").remove();
+    $("#myTabs ").on('click','i.close-day',function(){
+            var c = $(this).closest("a").attr("href");
+            ctr--;
+            console.log("asd"+ c);
+            $(this).closest("li").remove();
+            $(c).remove();
+            var tabFirst = $('#myTabs a:first');
+            // resetTab();
+            tabFirst.tab('show');
+
+    });
     $(document).ready(function(){
         $("div.fixed-table-loading").remove();
-            // $("tr.no-records-found").remove();
+        $('#datepicker-autoclose').datepicker({
+            autoclose: true,
+            todayHighlight: true
         });
+            // $("tr.no-records-found").remove();.on("focus","input",
+    });
+    $(document).bind("customHtmlGenerated", function(){
+         $('#datepicker-autoclose'+ctr).datepicker({
+            autoclose: true,
+            todayHighlight: true
+        });
+
+        var clockpicker = $('#start-time'+ctr).clockpicker({
+            donetext: 'Done',
+            autoclose:true,            
+        });
+        console.log("asd");
+        var clockpicker2 = $('#end-time'+ctr).clockpicker({
+            donetext: 'Done',
+            autoclose:true,           
+        });
+
+         $("#insert-button"+ctr).click(function(){
+            var trow = " <tr>"+
+
+            "<td  style='color:#2b2b2b'>09:00 - 12:00</td>"+
+            "<td style='color:#2b2b2b'>Roshan</td>"+
+            "<td style='color:#2b2b2b'>Rogahn</td>"+
+            "<td style='color:#2b2b2b'>@Hritik</td>"+
+            "<td style='color:#2b2b2b'>@Sonu</td>"+
+            '<td ><i class="fa fa-times text-danger remove-time"></i></td>'+
+            "</tr>";
+            var ttd=
+            "<td style='color:#2b2b2b'>09:00 - 12:00</td>"+
+            "<td style='color:#2b2b2b'>Roshan</td>"+
+            "<td style='color:#2b2b2b'>Rogahn</td>"+
+            "<td style='color:#2b2b2b'>@Hritik</td>"+
+            "<td style='color:#2b2b2b'>@Sonu</td>"+
+            '<td ><i class="fa fa-times text-danger remove-time"></i></td>';
+            console.log("ASD");
+            if(tctr ==0){
+
+                $("#program-tables tr.no-records-found").find("td").remove();
+                $("#program-tables tr.no-records-found").append(ttd);
+                $("#program-tables tr.no-records-found").removeAttr("class","no-records-found");
+            }else{
+                console.log("pasok");
+                $("#program-tables tbody").append(trow);
+            }
+
+            tctr++;
+            console.log(tctr);
+
+        });
+        //NEED TO BE FIXED TO ROUND
+        // clockpicker.change(function(){
+        //     console.log("DONW");
+        //     clockpicker.val(round());
+        // });
+        // clockpicker2.change(function(){
+        //     console.log("DONW");
+        //     clockpicker2.val(round2());
+        // });
+        
+    });
     $("ul li").on('click','a#add-tab',function(e){
+        var div = $("<div class='row'><div style='display:none'></div></div>");
+       
+        // var toBeInserted = div.find("div").append(qclon,qtabl);
+                
+
+
         ctr++;
         e.preventDefault();
         console.log("ASd");
-        $("#t"+(ctr-1)).after('<li role="presentation" class="nav-item " id="t'+ctr+'"><a aria-controls="profile " class="nav-link" id="tab-'+ctr+'" data-toggle="tab" href="#ctab'+ ctr + '" role="tab"  aria-expanded="true">Day '+ (ctr+1)+'      '+'<i class="fa ti-close text-warning close-day" style="font-size:8px;top:5px;right:5px;position:absolute;"></i></a></li>');
-        $("#ctab"+(ctr-1)).after('<div aria-labelledby="tab-'+ctr+'" id="ctab'+ctr+'" class="tab-pane " role="tabpanel"> sadsd</div>');
-        $(".nav-tabs  a[href='#ctab" + (ctr)+ "']").tab("show");
 
+              var tni = 
+
+     
+            '<div class="col-md-4" style="padding: 25px;position: relative;  ">'+               
+                '<input style="height:0px; top:-1000px; position:absolute;display: none" type="text" value="">'+
+                '<label>Date</label>'+
+                '<div class="input-group">'+
+                    '<input readonly="" class="form-control" id="datepicker-autoclose'+ctr+'" placeholder="mm/dd/yyyy" type="text">'+
+                    '<span class="input-group-addon"><i class="icon-calender"></i></span>'+
+                '</div>'+
+                '<div>&nbsp</div>'+
+                '<label>Time</label>'+
+                '<div class="input-group clockpicker " data-autoclose="true">'+
+                    '<input type="text" id="start-time'+ctr+'" class="form-control" value="00:00" readonly="">'+
+                    '<span class=" input-group-addon bg-info b-0 text-white">to</span>'+
+                    '<input type="text" id="end-time'+ctr+'" class="form-control" value="00:00" readonly="">'+
+                '</div>'+
+                '<div>&nbsp</div>'+
+                '<label>Activity</label>'+
+                '<input type="text" class="form-control">'+
+                '<div>&nbsp</div>'+
+                '<label>Description</label>'+
+                '<textarea class="form-control" rows="2" ></textarea>'+
+                '<div>&nbsp</div>'+
+                '<label>Person in Charge</label>'+
+                '<select class="form-control select2">'+
+                    '<option value="DE">Delaware</option>'                    +
+
+                '</select>'+
+                '<div>&nbsp</div>'+
+                '<div class=" form-group text-center">'+
+
+                   '<button type="button" id="insert-button'+ctr+'" class="btn btn-success">Insert </button>'+
+
+               '</div>'+
+            '</div>'+
+    
+            '<div class="col-md-8 " style="padding-top: 15px">'+
+                '<table id="program-tables" class="table program color-bordered-table success-bordered-table" >'+
+                    '<thead>'+
+                        '<tr>'+
+
+                            '<th >Time</th>'+
+                            '<th>Duration</th>'+
+                            '<th>Activity</th>'+
+                            '<th>Description</th>'+
+                            '<th>Person in Charge</th>'+
+                            '<th data-field="state" data-checkbox="true"></th>'+
+                        '</tr>'+
+                    '</thead>'+
+                    '<tbody>'+
+                        '<tr class="no-records-found">'+
+                            '<td ></td>'+
+                            '<td></td>'+
+                            '<td></td>'+
+                            '<td></td>'+
+                            '<td></td>'+
+                            '<td></td>'+
+                        '</tr>'+
+                                                      
+                    '</tbody>'+
+                '</table>'+
+            '</div>';
+
+
+        $("#t"+(ctr-1)).after('<li role="presentation" class="nav-item " id="t'+ctr+'"><a aria-controls="profile " class="nav-link" id="tab-'+ctr+'" data-toggle="tab" href="#ctab'+ ctr + '" role="tab"  aria-expanded="true">Day '+ (ctr+1)+'      '+'<i class="fa ti-close text-warning close-day" style="font-size:8px;top:5px;right:5px;position:absolute;"></i></a></li>');
+         var cont = $("#ctab"+(ctr-1)).after('<div aria-labelledby="tab-'+ctr+'" id="ctab'+ctr+'" class="tab-pane " role="tabpanel"><div id="temp'+ctr+'" class="row">'+tni+'</div></div>');
+        // cont.find("#temp").append(toBeInserted);
+
+        //NEED TO REINITIALIZE
+       
+        
+
+    
+        
+        //  var qclon = $("#clone-question").clone(true).appendTo("#temp"+ctr);
+        // var qtabl = $("#clone-table").clone(true).appendTo("#temp"+ctr);
+
+
+        $(".nav-tabs  a[href='#ctab" + (ctr)+ "']").tab("show");
+        $("#tab-0").removeAttr("class","active");
+        $(document).trigger("customHtmlGenerated");
 
 
     });
@@ -1081,10 +1248,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             });
 
         })();
-        $("table tbody tr td").on("longclick",function(e){
-            console.log("asd");
-            $(this).closest("tr").remove();
-        });
+        
         (function() {
             $('#exampleBasic').wizard({
                 onFinish: function() {
@@ -1178,17 +1342,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 }
             });
         })();
-        $("#myTabs ").on('click','i.close-day',function(){
-            var c = $(this).closest("a").attr("href");
-            ctr--;
-            console.log("asd"+ c);
-            $(this).closest("li").remove();
-            $(c).remove();
-            var tabFirst = $('#myTabs a:first');
-            // resetTab();
-            tabFirst.tab('show');
-
-        });
+        
         
     // $("button .wizard-next").click(function(){
     //      $("#datepicker-autoclose").datepicker('hide');
