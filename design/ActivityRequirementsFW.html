@@ -195,13 +195,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                           </div>
                                                                           <div>&nbsp</div>
                                                                           <label>Activity</label>
-                                                                          <input type="text" class="form-control">
+                                                                          <input id="act0"  type="text" class="form-control">
                                                                           <div>&nbsp</div>
                                                                           <label>Description</label>
-                                                                          <textarea class="form-control" rows="2" ></textarea>
+                                                                          <textarea id="desc0" class="form-control" rows="2" ></textarea>
                                                                           <div>&nbsp</div>
                                                                           <label>Person in Charge</label>
-                                                                          <select class="form-control select2">                                                                                    
+                                                                          <select id="sel0" class="form-control select2">                                                                                    
                                                                               <option value="DE">Delaware</option>
                                                                               <option value="FL">Florida</option>
                                                                               <option value="GA">Georgia</option>
@@ -542,49 +542,87 @@ scratch. This page gets rid of all links and provides the needed markup only.
             // $("tr.no-records-found").remove();.on("focus","input",
         });
     $(document).bind("customHtmlGenerated", function(){
+      var idNumber = $("ul#myTabs").find(".active").attr("id").substring(1);
        $('#datepicker-autoclose'+ctr).datepicker({
-        autoclose: true,
-        todayHighlight: true
-    });
+          autoclose: true,
+          todayHighlight: true
+      });
 
-       var clockpicker = $('#start-time'+ctr).clockpicker({
-        donetext: 'Done',
-        autoclose:true,            
-    });
-       console.log("asd");
-       var clockpicker2 = $('#end-time'+ctr).clockpicker({
-        donetext: 'Done',
-        autoclose:true,           
-    });
+         var clockpicker = $('#start-time'+ctr).clockpicker({
+          donetext: 'Done',
+          autoclose:true,            
+      });
+         console.log("asd");
+         var clockpicker2 = $('#end-time'+ctr).clockpicker({
+          donetext: 'Done',
+          autoclose:true,           
+      });
+      $("#program-tables"+idNumber).on('click','.remove-time',function(){
+          tctr--;
+          var tspace = 
+          '<td ></td>'+
+          '<td></td>'+
+          '<td></td>'+
+          '<td></td>'+
+          '<td></td>'+
+          '<td></td>'
+          ;
+          if(tctr ==0){
+              $(this).closest("tr").attr("class","no-records-found").find("td").html(" ");
+          }else{
+              $(this).closest("tr").remove();         
+          }
+          
+          
+          
+
+      });
 
        $("#insert-button"+ctr).click(function(){
+        
+        var dateInp =  $("#datepicker-autoclose"+idNumber).val();
+        var startInp = $("#start-time"+idNumber).val();
+        var endInp = $("#end-time"+idNumber).val();
+        if(idNumber == 0 ){
+          dateInp =  $("#datepicker-autoclose").val();
+          startInp = $("#start-time").val();
+          endInp = $("#end-time").val();
+        }
+        
+        var actInp = $("#act"+idNumber).val();
+        var descInp = $("#desc"+idNumber).val();
+        var selInp = $("#sel"+idNumber).val();
+
+
+
         var trow = " <tr>"+
 
-        "<td  style='color:#2b2b2b'>09:00 - 12:00</td>"+
-        "<td style='color:#2b2b2b'>Roshan</td>"+
-        "<td style='color:#2b2b2b'>Rogahn</td>"+
-        "<td style='color:#2b2b2b'>@Hritik</td>"+
-        "<td style='color:#2b2b2b'>@Sonu</td>"+
-        '<td ><i class="fa fa-times text-danger  remove-time"></i></td>'+
-        "</tr>";
+                  "<td  style='color:#2b2b2b'>"+startInp+" - "+endInp+"</td>"+
+                  "<td style='color:#2b2b2b'>Roshan</td>"+
+                  "<td style='color:#2b2b2b'>"+actInp+"</td>"+
+                  "<td style='color:#2b2b2b'>"+descInp+"</td>"+
+                  "<td style='color:#2b2b2b'>"+selInp+"</td>"+
+                  '<td ><i class="fa fa-times text-danger  remove-time"></i></td>'+
+                  "</tr>";
         var ttd=
-        "<td style='color:#2b2b2b'>09:00 - 12:00</td>"+
-        "<td style='color:#2b2b2b'>Roshan</td>"+
-        "<td style='color:#2b2b2b'>Rogahn</td>"+
-        "<td style='color:#2b2b2b'>@Hritik</td>"+
-        "<td style='color:#2b2b2b'>@Sonu</td>"+
+         "<td  style='color:#2b2b2b'>"+startInp+" - "+endInp+"</td>"+
+          "<td style='color:#2b2b2b'>Roshan</td>"+
+          "<td style='color:#2b2b2b'>"+actInp+"</td>"+
+          "<td style='color:#2b2b2b'>"+descInp+"</td>"+
+          "<td style='color:#2b2b2b'>"+selInp+"</td>"+
         '<td ><i class="fa fa-times text-danger remove-time"></i></td>';
         console.log("ASD");
 
         console.log("UNANG IF" + $("#program-tables"+ctr+" tbody tr:first").hasClass("no-records-found"));
-        if($("#program-tables"+ctr+" tbody tr:first").hasClass("no-records-found")){
+        if($("#program-tables"+$("ul#myTabs").find(".active").attr("id").substring(1)+" tbody tr:first").hasClass("no-records-found")){
             console.log("PASOK asd")
-            $("#program-tables"+ctr+" tr.no-records-found").find("td").remove();
-            $("#program-tables"+ctr+" tr.no-records-found").append(ttd);
-            $("#program-tables"+ctr+" tbody tr.no-records-found").removeClass("no-records-found");
+            $("#program-tables"+$("ul#myTabs").find(".active").attr("id").substring(1)+" tr.no-records-found").find("td").remove();
+            $("#program-tables"+$("ul#myTabs").find(".active").attr("id").substring(1)+" tr.no-records-found").append(ttd);
+            $("#program-tables"+$("ul#myTabs").find(".active").attr("id").substring(1)+" tbody tr.no-records-found").removeClass("no-records-found");
         }else{
             console.log("pasok");
-            $("#program-tables"+ctr+" tbody").append(trow);
+            console.log("TABLE NUMBER "+$("ul#myTabs").find(".active").attr("id").substring(1));
+            $("#program-tables"+$("ul#myTabs").find(".active").attr("id").substring(1)+" tbody").append(trow);
         }
 
         
@@ -631,13 +669,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
         '</div>'+
         '<div>&nbsp</div>'+
         '<label>Activity</label>'+
-        '<input type="text" class="form-control">'+
+        '<input type="text" class="form-control" id="act'+ctr+'">'+
         '<div>&nbsp</div>'+
         '<label>Description</label>'+
-        '<textarea class="form-control" rows="2" ></textarea>'+
+        '<textarea class="form-control" rows="2" id="desc'+ctr+'"></textarea>'+
         '<div>&nbsp</div>'+
         '<label>Person in Charge</label>'+
-        '<select class="form-control select2">'+
+        '<select class="form-control select2" id="sel'+ctr+'">'+
         '<option value="DE">Delaware</option>'                    +
 
         '</select>'+
@@ -748,21 +786,27 @@ scratch. This page gets rid of all links and provides the needed markup only.
         tctr = 0
         
         $("#insert-button").click(function(){
+          var dateInp =  $("#datepicker-autoclose").val();
+          var startInp = $("#start-time").val();
+          var endInp = $("#end-time").val();
+          var actInp = $("#act0").val();
+          var descInp = $("#desc0").val();
+          var selInp = $("#sel0").val();
             var trow = " <tr>"+
 
-            "<td  style='color:#2b2b2b'>09:00 - 12:00</td>"+
+            "<td  style='color:#2b2b2b'>"+startInp+" - "+endInp+"</td>"+
             "<td style='color:#2b2b2b'>Roshan</td>"+
-            "<td style='color:#2b2b2b'>Rogahn</td>"+
-            "<td style='color:#2b2b2b'>@Hritik</td>"+
-            "<td style='color:#2b2b2b'>@Sonu</td>"+
+            "<td style='color:#2b2b2b'>"+actInp+"</td>"+
+            "<td style='color:#2b2b2b'>"+descInp+"</td>"+
+            "<td style='color:#2b2b2b'>"+selInp+"</td>"+
             '<td ><i class="fa fa-times remove-time"></i></td>'+
             "</tr>";
             var ttd=
-            "<td style='color:#2b2b2b'>09:00 - 12:00</td>"+
+            "<td  style='color:#2b2b2b'>"+startInp+" - "+endInp+"</td>"+
             "<td style='color:#2b2b2b'>Roshan</td>"+
-            "<td style='color:#2b2b2b'>Rogahn</td>"+
-            "<td style='color:#2b2b2b'>@Hritik</td>"+
-            "<td style='color:#2b2b2b'>@Sonu</td>"+
+            "<td style='color:#2b2b2b'>"+actInp+"</td>"+
+            "<td style='color:#2b2b2b'>"+descInp+"</td>"+
+            "<td style='color:#2b2b2b'>"+selInp+"</td>"+
             '<td ><i class="fa fa-times  remove-time"></i></td>';
             console.log("ASD");
             if(tctr ==0){
@@ -801,10 +845,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
         });
         $("#insert-button-expense").click(function(){
           var ttr = '<tr>'+
-                      '<td>Car</td>'+
-                      '<td>100</td>'+
-                      '<td>20</td>'+
-                      '<th class="total">0</th>'+
+                      '<td></td>'+
+                      '<td></td>'+
+                      '<td></td>'+
+                      '<th class="total"></th>'+
                   '</tr>';
           $("#mainTable tbody").append(ttr);
           $('#mainTable').editableTableWidget().numericInputExample().find('td:first').focus();
