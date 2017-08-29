@@ -74,6 +74,7 @@ CREATE TABLE OrganizationType (
 DROP TABLE IF EXISTS StudentOrganization CASCADE;
 CREATE TABLE StudentOrganization (
     id SERIAL,
+    college CHAR(3) REFERENCES College(shortAcronym),
     organizationTypeID INTEGER NOT NULL REFERENCES OrganizationType(id),
     acronym VARCHAR(20),
     name VARCHAR(60),

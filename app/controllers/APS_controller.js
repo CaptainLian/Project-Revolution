@@ -3,6 +3,7 @@ module.exports = function(database, models, queryFiles){
 	var gosmModel = models.GOSM_model;
 	return {
 		viewCreateGOSM: (req, res) => {
+			console.log('VIEW CREATE GOSM CONTROLLER');
 			gosmModel.getAllActivityTypes()
 				.then(data => {
 					res.render('GOSMMain', {
@@ -10,7 +11,8 @@ module.exports = function(database, models, queryFiles){
 					});
 				})
 				.catch(error => {
-
+					console.log(error);
+					res('ERROR');
 				});
 		},
 
