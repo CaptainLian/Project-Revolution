@@ -32,13 +32,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
    <link rel="stylesheet" href="../plugins/bower_components/jquery-datatables-editable/datatables.css" />
    <!-- Animation CSS -->
    <link href="css/animate.css" rel="stylesheet">
-   <!-- Custom CSS -->
    <link href="css/style.css" rel="stylesheet">
-   <!-- color CSS you can use different color css from css/colors folder -->
-    <!-- We have chosen the skin-blue (blue.css) for this starter
-          page. However, you can choose any other skin from folder css / colors .
-      -->
-      <link href="css/colors/default.css" id="theme" rel="stylesheet">
+   <link href="css/custom.css" rel="stylesheet">
+    <!-- color CSS -->
+    <link href="css/colors/default.css" id="theme" rel="stylesheet">
       <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
       <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -66,7 +63,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
             border-left-color: #ddd;
         }
         .remove-time{
-          color:  #fb9678;
+          color:  #fec107;
+        }
+        .remove-time:hover{
+          color: #fb9678;  
         }
        /* .wizard-content{
           border-color: white!important;
@@ -80,404 +80,486 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <div class="cssload-speeding-wheel"></div>
     </div>
     <div id="wrapper">
+         <!-- Top Navigation -->
+      <nav class="navbar navbar-default navbar-static-top m-b-0">
+          <div class="navbarHeader"> <a class="navbar-toggle hidden-sm hidden-md hidden-lg " href="javascript:void(0)" data-toggle="collapse" data-target=".navbar-collapse"><i class="ti-menu"></i></a>
+              <div class="topLeft top-left-part"><a class="logo" href="index.html"><b><img class="headerLogo" src="../plugins/images/cso.png" alt="home"></b></a></div>
+              <ul class="nav navbar-top-links navbar-left hidden-xs">
+                  <li><a href="javascript:void(0)" class="open-close hidden-xs waves-effect waves-light"><i class="ti-menu"></i></a></li>
+                  
+              </ul>
+              <ul class="nav navbar-top-links navbar-right pull-right">
 
+                  <!-- /.dropdown -->
+                  <li class="dropdown">
+                      <a class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#" aria-expanded="false"><i class="icon-note"></i>
+                          <div class="notify"><span class="heartbit"></span><span class="point"></span></div>
+                      </a>
+                      <ul class="dropdown-menu dropdown-tasks scale-up">
+                          <li>
+                              <a href="#">
+                                  <div>
+                                      <p> <strong>Task 1</strong> <span class="pull-right text-muted">40% Complete</span> </p>
+                                      <div class="progress progress-striped active">
+                                          <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                      </div>
+                                  </div>
+                              </a>
+                          </li>
+                          <li class="divider"></li>
+                          <li>
+                              <a href="#">
+                                  <div>
+                                      <p> <strong>Task 2</strong> <span class="pull-right text-muted">20% Complete</span> </p>
+                                      <div class="progress progress-striped active">
+                                          <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%"> <span class="sr-only">20% Complete</span> </div>
+                                      </div>
+                                  </div>
+                              </a>
+                          </li>
+                          <li class="divider"></li>
+                          <li>
+                              <a href="#">
+                                  <div>
+                                      <p> <strong>Task 3</strong> <span class="pull-right text-muted">60% Complete</span> </p>
+                                      <div class="progress progress-striped active">
+                                          <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%"> <span class="sr-only">60% Complete (warning)</span> </div>
+                                      </div>
+                                  </div>
+                              </a>
+                          </li>
+                          <li class="divider"></li>
+                          <li>
+                              <a href="#">
+                                  <div>
+                                      <p> <strong>Task 4</strong> <span class="pull-right text-muted">80% Complete</span> </p>
+                                      <div class="progress progress-striped active">
+                                          <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%"> <span class="sr-only">80% Complete (danger)</span> </div>
+                                      </div>
+                                  </div>
+                              </a>
+                          </li>
+                          <li class="divider"></li>
+                          <li>
+                              <a class="text-center" href="#"> <strong>See All Tasks</strong> <i class="fa fa-angle-right"></i> </a>
+                          </li>
+                      </ul>
+                      <!-- /.dropdown-tasks -->
+                  </li>
+                  <!-- /.dropdown -->
+                  <li class="dropdown">
+                      <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false"> <img src="../plugins/images/users/varun.html" alt="user-img" width="36" class="img-circle"><b class="hidden-xs">Steave</b> </a>
+                      <ul class="dropdown-menu dropdown-user scale-up">
+                          <li><a href="#"><i class="ti-user"></i> My Profile</a></li>
+                          <li></li>
+                          <li></li>
+                          <li role="separator" class="divider"></li>
+                          <li><a href="#"><i class="ti-settings"></i> Account Setting</a></li>
+                          <li role="separator" class="divider"></li>
+                          <li><a href="#"><i class="fa fa-power-off"></i> Logout</a></li>
+                      </ul>
+                      <!-- /.dropdown-user -->
+                  </li>
+
+                  <li class="right-side-toggle"> </li>
+                  <!-- /.dropdown -->
+              </ul>
+          </div>
+          <!-- /.navbar-header -->
+          <!-- /.navbar-top-links -->
+          <!-- /.navbar-static-side -->
+      </nav>
             
-                                        <!-- Page Content -->
-        <div id="page-wrapper">
-            <div class="container-fluid">
-                <div class="row bg-title">
-                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                        <h4 class="page-title">Activity Requirements </h4>
-                    </div>
-                    <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
-                        <a href="https://themeforest.net/item/elite-admin-responsive-dashboard-web-app-kit-/16750820" target="_blank" class="btn btn-danger pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">Buy Now</a>
-                        <ol class="breadcrumb">
-                            <li><a href="#">Dashboard</a></li>
-                            <li class="active">Starter Page</li>
-                        </ol>
-                    </div>
-                    <!-- /.col-lg-12 -->
-                </div>
-                <div class="row">
+        
+      <div id="page-wrapper">
+          <div class="container-fluid">
+              <div class="row bg-title">
+                  <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                      <h4 class="page-title">Activity Requirements </h4>
+                  </div>
+                  <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+                      <a href="https://themeforest.net/item/elite-admin-responsive-dashboard-web-app-kit-/16750820" target="_blank" class="btn btn-danger pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">Buy Now</a>
+                      <ol class="breadcrumb">
+                          <li><a href="#">Dashboard</a></li>
+                          <li class="active">Starter Page</li>
+                      </ol>
+                  </div>
+                  <!-- /.col-lg-12 -->
+              </div>
+              <div class="row">
 
-                    <div class="col-md-12">
-                        <div class="panel panel-default white-box">
-                            <div class="panel-wrapper collapse in">
-                                <div class="panel-body">
-                                     <p>asdasdasd</p>
-                                     <p>asdasdasd</p>
-                                     <p>asdasdasd</p>
-                                     <p>asdasdasd</p>
-                                    
-                                      <section id="section-linetriangle-2" style="min-height:1000px;padding-top:55px">
-                                          <div id="exampleBasic" class="wizard">
-                                              <ul class="wizard-steps" role="tablist">
-                                                  <li class="active" role="tab">
-                                                      <span>I.</span> 
-                                                  </li>
-                                                  <li role="tab"><h4><span>II.</span></h4> </li>
-                                                  <li role="tab"><h4><span>III.</span></h4> </li>
-                                                  <li role="tab"><h4><span>IV.</span> </h4> </li>
-                                                  <li role="tab"><h4><span>VI.</span></h4> </li>
-                                              </ul>
-                                              <div class="wizard-content">
+                  <div class="col-md-12">
+                      <div class="panel panel-default white-box">
+                          <div class="panel-wrapper collapse in">
+                              <div class="panel-body">
+                                   <p>asdasdasd</p>
+                                   <p>asdasdasd</p>
+                                   <p>asdasdasd</p>
+                                   <p>asdasdasd</p>
+                                  
+                                    <section id="section-linetriangle-2" style="min-height:1000px;padding-top:55px">
+                                        <div id="exampleBasic" class="wizard">
+                                            <ul class="wizard-steps" role="tablist">
+                                                <li class="active" role="tab">
+                                                    <span>I.</span> 
+                                                </li>
+                                                <li role="tab"><h4><span>II.</span></h4> </li>
+                                                <li role="tab"><h4><span>III.</span></h4> </li>
+                                                <li role="tab"><h4><span>IV.</span> </h4> </li>
+                                                <li role="tab"><h4><span>VI.</span></h4> </li>
+                                            </ul>
+                                            <div class="wizard-content">
 
-                                                <div class="wizard-pane active" role="tabpanel">
-                                                      <div class="row">
-                                                          <div class="col-md-12">
-                                                              <div class="form-group">
-                                                                  <p>
-                                                                      <strong> Minimum of 3 paragraphs answering the following questions in application of the Lasallian Reflection   Framework:
-                                                                      </strong>
-                                                                  </p>
-                                                                  <ul >
-                                                                      <li>
-                                                                          What situation do you see (observation/s) in your organization, university, society, or our world?
-                                                                          What certain experiences, problems, or questions do you have in relation to what you see? (May be supported with data or research if there is any or if needed)
-                                                                      </li>
+                                              <div class="wizard-pane active" role="tabpanel">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <p>
+                                                                    <strong> Minimum of 3 paragraphs answering the following questions in application of the Lasallian Reflection   Framework:
+                                                                    </strong>
+                                                                </p>
+                                                                <ul >
+                                                                    <li>
+                                                                        What situation do you see (observation/s) in your organization, university, society, or our world?
+                                                                        What certain experiences, problems, or questions do you have in relation to what you see? (May be supported with data or research if there is any or if needed)
+                                                                    </li>
 
-                                                                      <li>
-                                                                          Why is there a problem?
-                                                                          What could be the cause and effect?
-                                                                          How did you feel about the experience, situation, or problem? And why did you feel that way?
-                                                                          What can we discover or realize?
-                                                                      </li>
+                                                                    <li>
+                                                                        Why is there a problem?
+                                                                        What could be the cause and effect?
+                                                                        How did you feel about the experience, situation, or problem? And why did you feel that way?
+                                                                        What can we discover or realize?
+                                                                    </li>
 
-                                                                      <li >
-                                                                        Out of all the possible projects, activities, and solutions, Why this?
-                                                                        As an organization, what will you commit as a response to what you have stated in Part 2?
-                                                                      </li>
+                                                                    <li >
+                                                                      Out of all the possible projects, activities, and solutions, Why this?
+                                                                      As an organization, what will you commit as a response to what you have stated in Part 2?
+                                                                    </li>
 
-                                                                    </ul>
+                                                                  </ul>
 
+                                                                
+                                                                <label class="control-label"></label>
+                                                                <textarea  class="form-control" rows=20></textarea> 
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                              </div>
+
+                                              <div class="wizard-pane" role="tabpanel">
+                                                    <div data-example-id="togglable-tabs" class="bs-example bs-example-tabs">
+                                                        <ul role="tablist" class="nav nav-tabs" id="myTabs">
+                                                            <li class="active nav-item" id="t0" role="presentation"><a aria-expanded="true" class="nav-link" aria-controls="home" data-toggle="tab" role="tab" id="tab-0" href="#ctab0">Day 1</a></li>
+                                                            <!--    <li class=" nav-item" id="t1" role="presentation"><a aria-expanded="true" class="nav-link" aria-controls="home" data-toggle="tab" role="tab" id="tab-1" href="#ctab1">Day 2</a></li> -->
+                                                            <!-- <li role="presentation" class="nav-item panel-success"><a aria-controls="profile" class="nav-link" id="add-tab" href="tab-" role="tab"  aria-expanded="false"></a></li> -->
+                                                            <li role="presentation" class="nav-item "><a aria-controls="profile" class="nav-link" id="add-tab" href="#" role="tab"   aria-expanded="false"><i class="text-success fa fa-plus"></i></a></li>
+                                                            <!--  <li role="presentation" class="nav-item "><a style="border-color: white white #ddd white" aria-controls="profile" class="nav-link" id="delete-tab" href="#" role="tab"   aria-expanded="false"><i class="text-danger fa fa-times"></i></a></li> -->
+
+                                                        </ul>
+                                                        <div class="tab-content" id="myTabContent">
+                                                            <div aria-labelledby="tab-0" id="ctab0" class="tab-pane fade active in" role="tabpanel">
+                                                                 <div class="row">
+                                                                    <div class="col-md-4" id="clone-question"  style="padding: 25px;position: relative;  ">
+                                                                        <!-- pangcancel ng auto open datepicker -->
+                                                                        <input style="height:0px; top:-1000px; position:absolute;display: none" type="text" value="">
+                                                                        <label>Date</label>
+                                                                        <div class="input-group">
+                                                                            <input readonly="" class="form-control" id="datepicker-autoclose" placeholder="mm/dd/yyyy" type="text">
+                                                                            <span class="input-group-addon"><i class="icon-calender"></i></span> 
+                                                                        </div>
+                                                                        <div>&nbsp</div>
+                                                                        <label>Time</label>
+                                                                        <div class="input-group clockpicker " data-autoclose="true">
+                                                                            <input type="text" id="start-time" class="form-control" value="00:00" readonly="">
+                                                                            <span class=" input-group-addon bg-info b-0 text-white">to</span>
+                                                                            <!-- <input type="text" name="end" class="form-control" value="00:00" readonly=""> -->
+
+
+                                                                            <input type="text" id="end-time" class="form-control" value="00:00" readonly="">
+
+                                                                            <!-- <input type="text" name="end" class="form-control" value="00:00" readonly=""> -->
+
+                                                                        </div>
+                                                                        <div>&nbsp</div>
+                                                                        <label>Activity</label>
+                                                                        <input id="act0"  type="text" class="form-control">
+                                                                        <div>&nbsp</div>
+                                                                        <label>Description</label>
+                                                                        <textarea id="desc0" class="form-control" rows="2" ></textarea>
+                                                                        <div>&nbsp</div>
+                                                                        <label>Person in Charge</label>
+                                                                        <select id="sel0" class="form-control select2">                                                                                    
+                                                                            <option value="DE">Delaware</option>
+                                                                            <option value="FL">Florida</option>
+                                                                            <option value="GA">Georgia</option>
+                                                                            <option value="IN">Indiana</option>
+                                                                            <option value="ME">Maine</option>
+                                                                            <option value="MD">Maryland</option>
+                                                                            <option value="MA">Massachusetts</option>
+                                                                            <option value="MI">Michigan</option>
+                                                                            <option value="NH">New Hampshire</option>
+                                                                            <option value="NJ">New Jersey</option>
+                                                                            <option value="NY">New York</option>
+                                                                            <option value="NC">North Carolina</option>
+                                                                            <option value="OH">Ohio</option>
+                                                                            <option value="PA">Pennsylvania</option>
+                                                                            <option value="RI">Rhode Island</option>
+                                                                            <option value="SC">South Carolina</option>
+                                                                            <option value="VT">Vermont</option>
+                                                                            <option value="VA">Virginia</option>
+                                                                            <option value="WV">West Virginia</option>
+
+                                                                        </select>
+                                                                        <div>&nbsp</div>
+                                                                        <div class=" form-group text-center">
+
+                                                                         <button type="button" id="insert-button" class="btn btn-success">Insert </button>
+
+                                                                     </div>
+                                                                    </div>
+                                                                 <!--/span-->
+                                                                     <div class="col-md-8 " id="clone-table" style="padding-top: 30px">
+                                                                        <table id="program-tables" class="table program color-bordered-table success-bordered-table" >
+                                                                            <thead>
+                                                                                <tr>
+
+                                                                                    <th width="21%" >Time</th>
+                                                                                    <th width="10%">Duration</th>
+                                                                                    <th width="20%">Activity</th>
+                                                                                    <th width="21%">Description</th>
+                                                                                    <th width="23%">Person in Charge</th>
+                                                                                    <th width="5%" data-field="state" data-checkbox="true"></th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                <tr class="no-records-found">
+                                                                                    <td ></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                </tr>
+                                                                            <!-- 
+                                                                            <tr>
+                                                                                <td></td>
+                                                                                <td>09:00 - 12:00</td>
+                                                                                <td>Deshmukh</td>
+                                                                                <td>Prohaska</td>
+                                                                                <td>@Genelia</td>
+                                                                                <td>@Sonu</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td></td>
+                                                                               <td>09:00 - 12:00</td>
+                                                                                <td>Roshan</td>
+                                                                                <td>Rogahn</td>
+                                                                                <td>@Hritik</td>
+                                                                                <td>@Sonu</td>
+                                                                            </tr> -->
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                            <!--/span-->
+                                                                </div>
+                                                            </div>
+                                                                <!-- <div aria-labelledby="tab-1" id="ctab1" class="tab-pane" role="tabpanel">
+                                                           asd
+                                                       </div> -->
+
+
+                                                        </div>
+                                                    </div>
+                                              </div>
+
+                                              <div class="wizard-pane" role="tabpanel">
+                                                    <div class="row" style="padding-top: 25px">
+                                                        <div class="col-md-12">
+                                                           
+
+
+                                                            <table id="mainTable" class="table editable-table table-bordered color-bordered-table success-bordered-table table-striped m-b-0">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Material</th>
+                                                                        <th>Quantity</th>
+                                                                        <th>Unit Cost</th>
+                                                                        <th>Total Cost</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <!-- <tr>
+                                                                        <td>Car</td>
+                                                                        <td>100</td>
+                                                                    
+                                                                        <td>20</td>
+                                                                        <th class="total">0</th>
+                                                                    </tr> -->
                                                                   
-                                                                  <label class="control-label"></label>
-                                                                  <textarea  class="form-control" rows=20></textarea> 
-                                                              </div>
-                                                          </div>
+                                                                </tbody>
+                                                                <tfoot>
+                                                                    <tr>
+                                                                        <th class="text-right" colspan="3"><strong>TOTAL</strong></th>
+                                                                        
+                                                                        <th></th>
+                                                                    </tr>
+                                                                    </thead>
+                                                            </table>
 
-                                                      </div>
-                                                </div>
+                                                                
+                                                            <div>&nbsp</div>
+                                                            <div class=" form-group text-center">
 
-                                                <div class="wizard-pane" role="tabpanel">
-                                                      <div data-example-id="togglable-tabs" class="bs-example bs-example-tabs">
-                                                          <ul role="tablist" class="nav nav-tabs" id="myTabs">
-                                                              <li class="active nav-item" id="t0" role="presentation"><a aria-expanded="true" class="nav-link" aria-controls="home" data-toggle="tab" role="tab" id="tab-0" href="#ctab0">Day 1</a></li>
-                                                              <!--    <li class=" nav-item" id="t1" role="presentation"><a aria-expanded="true" class="nav-link" aria-controls="home" data-toggle="tab" role="tab" id="tab-1" href="#ctab1">Day 2</a></li> -->
-                                                              <!-- <li role="presentation" class="nav-item panel-success"><a aria-controls="profile" class="nav-link" id="add-tab" href="tab-" role="tab"  aria-expanded="false"></a></li> -->
-                                                              <li role="presentation" class="nav-item "><a aria-controls="profile" class="nav-link" id="add-tab" href="#" role="tab"   aria-expanded="false"><i class="text-success fa fa-plus"></i></a></li>
-                                                              <!--  <li role="presentation" class="nav-item "><a style="border-color: white white #ddd white" aria-controls="profile" class="nav-link" id="delete-tab" href="#" role="tab"   aria-expanded="false"><i class="text-danger fa fa-times"></i></a></li> -->
+                                                                 <button type="button" id="insert-button-expense" class="btn btn-success">Insert </button>
+                                                             </div>
 
-                                                          </ul>
-                                                          <div class="tab-content" id="myTabContent">
-                                                              <div aria-labelledby="tab-0" id="ctab0" class="tab-pane fade active in" role="tabpanel">
-                                                                   <div class="row">
-                                                                      <div class="col-md-4" id="clone-question"  style="padding: 25px;position: relative;  ">
-                                                                          <!-- pangcancel ng auto open datepicker -->
-                                                                          <input style="height:0px; top:-1000px; position:absolute;display: none" type="text" value="">
-                                                                          <label>Date</label>
-                                                                          <div class="input-group">
-                                                                              <input readonly="" class="form-control" id="datepicker-autoclose" placeholder="mm/dd/yyyy" type="text">
-                                                                              <span class="input-group-addon"><i class="icon-calender"></i></span> 
-                                                                          </div>
-                                                                          <div>&nbsp</div>
-                                                                          <label>Time</label>
-                                                                          <div class="input-group clockpicker " data-autoclose="true">
-                                                                              <input type="text" id="start-time" class="form-control" value="00:00" readonly="">
-                                                                              <span class=" input-group-addon bg-info b-0 text-white">to</span>
-                                                                              <!-- <input type="text" name="end" class="form-control" value="00:00" readonly=""> -->
+                                                        </div>
+                                                    </div>
 
+                                                   
+                                                    
+                                              </div>
 
-                                                                              <input type="text" id="end-time" class="form-control" value="00:00" readonly="">
-
-                                                                              <!-- <input type="text" name="end" class="form-control" value="00:00" readonly=""> -->
-
-                                                                          </div>
-                                                                          <div>&nbsp</div>
-                                                                          <label>Activity</label>
-                                                                          <input id="act0"  type="text" class="form-control">
-                                                                          <div>&nbsp</div>
-                                                                          <label>Description</label>
-                                                                          <textarea id="desc0" class="form-control" rows="2" ></textarea>
-                                                                          <div>&nbsp</div>
-                                                                          <label>Person in Charge</label>
-                                                                          <select id="sel0" class="form-control select2">                                                                                    
-                                                                              <option value="DE">Delaware</option>
-                                                                              <option value="FL">Florida</option>
-                                                                              <option value="GA">Georgia</option>
-                                                                              <option value="IN">Indiana</option>
-                                                                              <option value="ME">Maine</option>
-                                                                              <option value="MD">Maryland</option>
-                                                                              <option value="MA">Massachusetts</option>
-                                                                              <option value="MI">Michigan</option>
-                                                                              <option value="NH">New Hampshire</option>
-                                                                              <option value="NJ">New Jersey</option>
-                                                                              <option value="NY">New York</option>
-                                                                              <option value="NC">North Carolina</option>
-                                                                              <option value="OH">Ohio</option>
-                                                                              <option value="PA">Pennsylvania</option>
-                                                                              <option value="RI">Rhode Island</option>
-                                                                              <option value="SC">South Carolina</option>
-                                                                              <option value="VT">Vermont</option>
-                                                                              <option value="VA">Virginia</option>
-                                                                              <option value="WV">West Virginia</option>
-
-                                                                          </select>
-                                                                          <div>&nbsp</div>
-                                                                          <div class=" form-group text-center">
-
-                                                                           <button type="button" id="insert-button" class="btn btn-success">Insert </button>
-
-                                                                       </div>
-                                                                      </div>
-                                                                   <!--/span-->
-                                                                       <div class="col-md-8 " id="clone-table" style="padding-top: 30px">
-                                                                          <table id="program-tables" class="table program color-bordered-table success-bordered-table" >
-                                                                              <thead>
-                                                                                  <tr>
-
-                                                                                      <th >Time</th>
-                                                                                      <th>Duration</th>
-                                                                                      <th>Activity</th>
-                                                                                      <th>Description</th>
-                                                                                      <th>Person in Charge</th>
-                                                                                      <th data-field="state" data-checkbox="true"></th>
-                                                                                  </tr>
-                                                                              </thead>
-                                                                              <tbody>
-                                                                                  <tr class="no-records-found">
-                                                                                      <td ></td>
-                                                                                      <td></td>
-                                                                                      <td></td>
-                                                                                      <td></td>
-                                                                                      <td></td>
-                                                                                      <td></td>
-                                                                                  </tr>
-                                                                              <!-- 
-                                                                              <tr>
-                                                                                  <td></td>
-                                                                                  <td>09:00 - 12:00</td>
-                                                                                  <td>Deshmukh</td>
-                                                                                  <td>Prohaska</td>
-                                                                                  <td>@Genelia</td>
-                                                                                  <td>@Sonu</td>
-                                                                              </tr>
-                                                                              <tr>
-                                                                                  <td></td>
-                                                                                 <td>09:00 - 12:00</td>
-                                                                                  <td>Roshan</td>
-                                                                                  <td>Rogahn</td>
-                                                                                  <td>@Hritik</td>
-                                                                                  <td>@Sonu</td>
-                                                                              </tr> -->
-                                                                              </tbody>
-                                                                          </table>
-                                                                      </div>
-                                                              <!--/span-->
+                                              <div class="wizard-pane" role="tabpanel">
+                                                      <div class="form-group">
+                                                              <label class="control-label col-md-3">Expenses</label>
+                                                              <div class="col-md-9">
+                                                                  <div class="radio-list">
+                                                                      <label>
+                                                                          <input  name="optionsRadios2" value="option1" type="radio"> Yes </label>
+                                                                      <label>
+                                                                          <input name="optionsRadios2" value="option2" checked="" type="radio"> No </label>
                                                                   </div>
                                                               </div>
-                                                                  <!-- <div aria-labelledby="tab-1" id="ctab1" class="tab-pane" role="tabpanel">
-                                                             asd
-                                                         </div> -->
+                                                            </div>
 
+                                                            <div class="exp">&nbsp</div>
 
-                                                          </div>
+                                                            <div class="form-group exp">
+                                                              <label class="control-label col-md-3">Organizational Funds</label>
+                                                              <input class="col-md-6" type="text">
+                                                                
+                                                                 
+                                                            </div>
+
+                                                            <div class="exp">&nbsp</div>
+
+                                                            <div class="form-group exp">
+                                                              <label class="control-label col-md-3">Participant's Fee</label>
+                                                              <input class="col-md-6" type="text">
+                                                                
+                                                                 
+                                                            </div>
+
+                                                            <div class="exp">&nbsp</div>
+
+                                                            <div class="form-group exp">
+                                                              <label class="control-label col-md-3">Others(i.e Sponsorship)</label>
+                                                              <input class="col-md-6" type="text">
+                                                                
+                                                                 
+                                                            </div>
+
+                                                            <div class="exp">&nbsp</div>
+                                                            <hr class="exp">
+
+                                                             <div class="form-group exp">
+                                                              <label class="control-label col-md-3">Total</label>
+                                                              <a class="col-md-6" type="text">1909</a>
+                                                                
+                                                                 
+                                                            </div>
+                                                            <div class="exp">&nbsp</div>
+                                                            <div class="exp">&nbsp</div>
+
+                                                            <div class="exp">&nbsp</div>
+                                                            <div class="exp">&nbsp</div>
+                                                            <div>&nbsp</div>
+
+                                                            <div>&nbsp</div>
+
+                                                            <div class="form-group">
+                                                              <label class="control-label col-md-3">Operational Fund</label>
+                                                              <input class="col-md-6" type="text">
+                                                                
+                                                                 
+                                                            </div>
+
+                                                            <div>&nbsp</div>
+
+                                                            <div class="form-group">
+                                                              <label class="control-label col-md-3">Depository Fund</label>
+                                                              <input class="col-md-6" type="text">
+                                                                
+                                                                 
+                                                            </div>
+
+                                                            <div>&nbsp</div>
+
+                                                            <div class="form-group">
+                                                              <label class="control-label col-md-3">Other Sources of Funds</label>
+                                                              <input class="col-md-6" type="text">
+                                                                
+                                                                 
+                                                            </div>
+
+                                                            <div>&nbsp</div>
+                                                            <hr>
+
+                                                             <div class="form-group">
+                                                              <label class="control-label col-md-3">Total Cash for Disbursement:</label>
+                                                              <a class="col-md-6" type="text">1909</a>
+                                                                
+                                                                 
+                                                            </div>
+                                                            <div>&nbsp</div>
+                                                            <div>&nbsp</div>
+                                                            <div>&nbsp</div>
+
+                                                            
+
+                                                             <div class="form-group">
+                                                              <label class="control-label col-md-3">Total Projected Expenses:</label>
+                                                              <a class="col-md-6" type="text">1909</a>
+                                                                
+                                                                 
+                                                            </div>
+                                              </div>
+
+                                              <div class="wizard-pane" role="tabpanel">
+
+                                                  <div class="form-group">
+                                                      <label class="col-sm-12">File upload</label>
+                                                      <div class="col-sm-12">
+                                                          <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                              <div class="form-control" data-trigger="fileinput">
+                                                                  <i class="glyphicon glyphicon-file fileinput-exists"></i>
+                                                                  <span class="fileinput-filename"></span>
+                                                              </div>
+                                                              <span class="input-group-addon btn btn-default btn-file"> 
+                                                              <span class="fileinput-new">Select file</span>
+                                                              <span class="fileinput-exists">Change</span>
+                                                              <input type="file" name="...">
+                                                              </span>
+                                                              <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a> </div>
                                                       </div>
-                                                </div>
+                                                  </div>
 
-                                                <div class="wizard-pane" role="tabpanel">
-                                                      <div class="row" style="padding-top: 25px">
-                                                          <div class="col-md-12">
-                                                             
+                                              </div>
 
-
-                                                              <table id="mainTable" class="table editable-table table-bordered color-bordered-table success-bordered-table table-striped m-b-0">
-                                                                  <thead>
-                                                                      <tr>
-                                                                          <th>Material</th>
-                                                                          <th>Quantity</th>
-                                                                          <th>Unit Cost</th>
-                                                                          <th>Total Cost</th>
-                                                                      </tr>
-                                                                  </thead>
-                                                                  <tbody>
-                                                                      <tr>
-                                                                          <td>Car</td>
-                                                                          <td>100</td>
-                                                                          <!-- Life hack para di maging editable yung cell -->
-                                                                          <td>20</td>
-                                                                          <th class="total">0</th>
-                                                                      </tr>
-                                                                      <tr>
-                                                                          <td>Bike</td>
-                                                                          <td>330</td>
-                                                                          <td>240</td>
-                                                                          <td>1</td>
-                                                                      </tr>
-                                                                      <tr>
-                                                                          <td>Plane</td>
-                                                                          <td>430</td>
-                                                                          <td>540</td>
-                                                                          <td>3</td>
-                                                                      </tr>
-                                                                      <tr>
-                                                                          <td>Yacht</td>
-                                                                          <td>100</td>
-                                                                          <td>200</td>
-                                                                          <td>0</td>
-                                                                      </tr>
-                                                                      <tr>
-                                                                          <td>Segway</td>
-                                                                          <td>330</td>
-                                                                          <td>240</td>
-                                                                          <td>1</td>
-                                                                      </tr>
-                                                                  </tbody>
-                                                                  <tfoot>
-                                                                      <tr>
-                                                                          <th class="text-right" colspan="3"><strong>TOTAL</strong></th>
-                                                                          
-                                                                          <th></th>
-                                                                      </tr>
-                                                                      </thead>
-                                                              </table>
-
-                                                                  
-                                                              <div>&nbsp</div>
-                                                              <div class=" form-group text-center">
-
-                                                                   <button type="button" id="insert-button-expense" class="btn btn-success">Insert </button>
-                                                               </div>
-
-                                                          </div>
-                                                      </div>
-
-                                                     
-                                                      
-                                                </div>
-
-                                                <div class="wizard-pane" role="tabpanel">
-                                                        <div class="form-group">
-                                                                <label class="control-label col-md-3">Expenses</label>
-                                                                <div class="col-md-9">
-                                                                    <div class="radio-list">
-                                                                        <label>
-                                                                            <input name="optionsRadios2" value="option1" type="radio"> Yes </label>
-                                                                        <label>
-                                                                            <input name="optionsRadios2" value="option2" checked="" type="radio"> No </label>
-                                                                    </div>
-                                                                </div>
-                                                              </div>
-
-                                                              <div>&nbsp</div>
-
-                                                              <div class="form-group">
-                                                                <label class="control-label col-md-3">Organizational Funds</label>
-                                                                <input class="col-md-6" type="text">
-                                                                  
-                                                                   
-                                                              </div>
-
-                                                              <div>&nbsp</div>
-
-                                                              <div class="form-group">
-                                                                <label class="control-label col-md-3">Participant's Fee</label>
-                                                                <input class="col-md-6" type="text">
-                                                                  
-                                                                   
-                                                              </div>
-
-                                                              <div>&nbsp</div>
-
-                                                              <div class="form-group">
-                                                                <label class="control-label col-md-3">Others(i.e Sponsorship)</label>
-                                                                <input class="col-md-6" type="text">
-                                                                  
-                                                                   
-                                                              </div>
-
-                                                              <div>&nbsp</div>
-                                                              <hr>
-
-                                                               <div class="form-group">
-                                                                <label class="control-label col-md-3">Total</label>
-                                                                <a class="col-md-6" type="text">1909</a>
-                                                                  
-                                                                   
-                                                              </div>
-                                                              <div>&nbsp</div>
-                                                              <div>&nbsp</div>
-
-                                                              <div>&nbsp</div>
-                                                              <div>&nbsp</div>
-                                                              <div>&nbsp</div>
-
-                                                              <div>&nbsp</div>
-
-                                                              <div class="form-group">
-                                                                <label class="control-label col-md-3">Operational Fund</label>
-                                                                <input class="col-md-6" type="text">
-                                                                  
-                                                                   
-                                                              </div>
-
-                                                              <div>&nbsp</div>
-
-                                                              <div class="form-group">
-                                                                <label class="control-label col-md-3">Depository Fund</label>
-                                                                <input class="col-md-6" type="text">
-                                                                  
-                                                                   
-                                                              </div>
-
-                                                              <div>&nbsp</div>
-
-                                                              <div class="form-group">
-                                                                <label class="control-label col-md-3">Other Sources of Funds</label>
-                                                                <input class="col-md-6" type="text">
-                                                                  
-                                                                   
-                                                              </div>
-
-                                                              <div>&nbsp</div>
-                                                              <hr>
-
-                                                               <div class="form-group">
-                                                                <label class="control-label col-md-3">Total Cash for Disbursement:</label>
-                                                                <a class="col-md-6" type="text">1909</a>
-                                                                  
-                                                                   
-                                                              </div>
-                                                              <div>&nbsp</div>
-                                                              <div>&nbsp</div>
-                                                              <div>&nbsp</div>
-
-                                                              
-
-                                                               <div class="form-group">
-                                                                <label class="control-label col-md-3">Total Projected Expenses:</label>
-                                                                <a class="col-md-6" type="text">1909</a>
-                                                                  
-                                                                   
-                                                              </div>
-                                                </div>
-
-                                                <div class="wizard-pane" role="tabpanel">
-                                                    Upload
-                                                </div>
-
-                                          </div>                                                   
-                                      </section>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-            </div>
-            <!-- /.container-fluid -->
-            <footer class="footer text-center"> 2017 &copy; Elite Admin brought to you by themedesigner.in </footer>
-        </div>
+                                        </div>                                                   
+                                    </section>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              
+          </div>
+          <!-- /.container-fluid -->
+          <footer class="footer text-center"> 2017 &copy; Elite Admin brought to you by themedesigner.in </footer>
+      </div>
         <!-- /#page-wrapper -->
     </div>
 <!-- /#wrapper -->
@@ -809,7 +891,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             "<td style='color:#2b2b2b'>"+selInp+"</td>"+
             '<td ><i class="fa fa-times  remove-time"></i></td>';
             console.log("ASD");
-            if(tctr ==0){
+             if($("#program-tables tbody tr:first").hasClass("no-records-found")){
 
                 $("#program-tables tr.no-records-found").find("td").remove();
                 $("#program-tables tr.no-records-found").append(ttd);
@@ -969,7 +1051,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
     // $("button .wizard-next").click(function(){
     //      $("#datepicker-autoclose").datepicker('hide');
     // });
-
+    $("input[name='optionsRadios2']").change(function(){
+      console.log("OPtioNS");
+      console.log($(this).val());
+      if($(this).val() == "option1"){
+        $(".exp").css("display","");
+      }else{
+        $(".exp").css("display","none");
+      }
+      
+    });
     
 </script>
 </body>
