@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html lang="en">
+
+<head>
+   <meta charset="utf-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <!-- Tell the browser to be responsive to screen width -->
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta name="description" content="">
+   <meta name="author" content="">
+   <!-- Favicon icon -->
+   <link rel="icon" type="image/png" sizes="16x16" href="../plugins/images/favicon.png">
+   <title>Elite Admin - is a responsive admin template</title>
+
+   <link href="../plugins/bower_components/jqueryui/jquery-ui.min.css" rel="stylesheet">
+   <!-- Bootstrap Core CSS -->
+   <link href="bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+   <link href="../plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css" rel="stylesheet">
+   <!-- Menu CSS -->
+   <link href="../plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css" rel="stylesheet">
+   <link href="../plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
+   <link href="../plugins/bower_components/jquery-wizard-master/css/wizard.css" rel="stylesheet">
+   <link href="../plugins/bower_components/clockpicker/dist/jquery-clockpicker.min.css" rel="stylesheet">
+
+   <link href="../plugins/bower_components/lobipanel/dist/css/lobipanel.min.css" rel="stylesheet">
+   <link href="../plugins/bower_components/custom-select/custom-select.css" rel="stylesheet" type="text/css" />
+   <link href="../plugins/bower_components/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+   <link rel="stylesheet" href="../plugins/bower_components/jquery-datatables-editable/datatables.css" />
+   <!-- Animation CSS -->
+   <link href="css/animate.css" rel="stylesheet">
+   <link href="css/style.css" rel="stylesheet">
+   <link href="css/custom.css" rel="stylesheet">
+    <!-- color CSS -->
+    <link href="css/colors/default.css" id="theme" rel="stylesheet">
+      <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+      <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style type="text/css">
+        .td-title{
+            white-space: nowrap;
+            max-width:0;overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .close-day{
+            color:#fec107;
+        }
+        .close-day:hover{
+            color:red;
+        }
+        #add-tab{
+            border-color: white white #ddd white
+        }
+        #add-tab:hover{
+            border-top-color: #ddd;
+            border-right-color: #ddd;
+            border-left-color: #ddd;
+        }
+        .remove-time{
+          color:  #fec107;
+        }
+        .remove-time:hover{
+          color: #fb9678;  
+        }
+       /* .wizard-content{
+          border-color: white!important;
+        }*/
+        {%block styles%}
+        {%endblock%}
+    </style>
+</head>
+
+<body>
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="cssload-speeding-wheel"></div>
+    </div>
+    <div id="wrapper">
+      <!-- Top Navigation -->
+        {%block header%}
+        {%endblock%}
+        <!-- End Top Navigation -->
+        <!-- Left navbar-header -->
+        {%block sidebar%}
+        {%endblock%}
+        <!-- Left navbar-header end -->
+        <!-- Page Content -->
+      <div id="page-wrapper">
+          <div class="container-fluid">
+              <div class="row bg-title">
+                  <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                      <h4 class="page-title">Activity Requirements </h4>
+                  </div>
+                  <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+                      <a href="https://themeforest.net/item/elite-admin-responsive-dashboard-web-app-kit-/16750820" target="_blank" class="btn btn-danger pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">Buy Now</a>
+                      <ol class="breadcrumb">
+                          <li><a href="#">Dashboard</a></li>
+                          <li class="active">Starter Page</li>
+                      </ol>
+                  </div>
+                  <!-- /.col-lg-12 -->
+              </div>
+              {%block content%}
+              {%endblock%}
+              
+          </div>
+          <!-- /.container-fluid -->
+          <footer class="footer text-center"> 2017 &copy; Elite Admin brought to you by themedesigner.in </footer>
+      </div>
+        <!-- /#page-wrapper -->
+    </div>
+<!-- /#wrapper -->
+<!-- jQuery -->
+<script src="../plugins/bower_components/jquery/dist/jquery.min.js"></script>
+<script src="../plugins/bower_components/jqueryui/jquery-ui.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="bootstrap/dist/js/tether.min.js"></script>
+<script src="bootstrap/dist/js/bootstrap-3.3.7.min.js"></script>
+<script src="../plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js"></script>
+<!-- Menu Plugin JavaScript -->
+<script src="../plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js"></script>
+<!--slimscroll JavaScript -->
+<script src="js/jquery.slimscroll.js"></script>
+<!--Wave Effects -->
+<script src="js/waves.js"></script>
+
+
+<script src="../plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+<script src="../plugins/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+<script src="../plugins/bower_components/jquery-wizard-master/dist/jquery-wizard.min.js"></script>
+<!-- Custom Theme JavaScript -->
+<script src="js/custom.min.js"></script>
+<script src="js/jasny-bootstrap.js"></script>
+<!--Style Switcher -->
+<script src="../plugins/bower_components/custom-select/custom-select.min.js" type="text/javascript"></script>
+<script src="../plugins/bower_components/styleswitcher/jQuery.style.switcher.js"></script>
+<!-- Custom Theme JavaScript -->
+<!-- <script src="js/custom.min.js"></script> -->
+<script src="../plugins/bower_components/bootstrap-table/dist/bootstrap-table.min.js"></script>
+<script src="../plugins/bower_components/bootstrap-table/dist/bootstrap-table.ints.js"></script>
+<script src="../plugins/bower_components/lobipanel/dist/js/lobipanel.min.js"></script>
+<script src="js/cbpFWTabs.js"></script>
+<script src="../plugins/bower_components/clockpicker/dist/jquery-clockpicker.min.js"></script>
+<script src="../plugins/bower_components/jquery-wizard-master/dist/jquery-wizard.min.js"></script>
+    <script src="../plugins/bower_components/jquery-datatables-editable/jquery.dataTables.js"></script>
+    <script src="../plugins/bower_components/datatables/dataTables.bootstrap.js"></script>
+    <script src="../plugins/bower_components/tiny-editable/mindmup-editabletable.js"></script>
+    <script src="../plugins/bower_components/tiny-editable/numeric-input-example.js"></script>
+<script type="text/javascript">
+    ctr = 0;
+    $(".select2").select2();
+    $("div.fixed-table-loading").remove();
+    $("#myTabs ").on('click','i.close-day',function(){
+        var c = $(this).closest("a").attr("href");
+        ctr--;
+        console.log("asd"+ c);
+        $(this).closest("li").remove();
+        $(c).remove();
+        var tabFirst = $('#myTabs a:first');
+            // resetTab();
+            tabFirst.tab('show');
+
+        });
+    $(document).ready(function(){
+        $("div.fixed-table-loading").remove();
+        $('#datepicker-autoclose').datepicker({
+            autoclose: true,
+            todayHighlight: true
+        });
+            // $("tr.no-records-found").remove();.on("focus","input",
+        });
+    $(document).bind("customHtmlGenerated", function(){
+      var idNumber = $("ul#myTabs").find(".active").attr("id").substring(1);
+       $('#datepicker-autoclose'+ctr).datepicker({
+          autoclose: true,
+          todayHighlight: true
+      });
+
+         var clockpicker = $('#start-time'+ctr).clockpicker({
+          donetext: 'Done',
+          autoclose:true,            
+      });
+         console.log("asd");
+         var clockpicker2 = $('#end-time'+ctr).clockpicker({
+          donetext: 'Done',
+          autoclose:true,           
+      });
+      $("#program-tables"+idNumber).on('click','.remove-time',function(){
+          tctr--;
+          var tspace = 
+          '<td ></td>'+
+          '<td></td>'+
+          '<td></td>'+
+          '<td></td>'+
+          '<td></td>'+
+          '<td></td>'
+          ;
+          if(tctr ==0){
+              $(this).closest("tr").attr("class","no-records-found").find("td").html(" ");
+          }else{
+              $(this).closest("tr").remove();         
+          }
+          
+          
+          
+
+      });
+
+       $("#insert-button"+ctr).click(function(){
+        
+        var dateInp =  $("#datepicker-autoclose"+idNumber).val();
+        var startInp = $("#start-time"+idNumber).val();
+        var endInp = $("#end-time"+idNumber).val();
+        if(idNumber == 0 ){
+          dateInp =  $("#datepicker-autoclose").val();
+          startInp = $("#start-time").val();
+          endInp = $("#end-time").val();
+        }
+        
+        var actInp = $("#act"+idNumber).val();
+        var descInp = $("#desc"+idNumber).val();
+        var selInp = $("#sel"+idNumber).val();
+
+
+
+        var trow = " <tr>"+
+
+                  "<td  style='color:#2b2b2b'>"+startInp+" - "+endInp+"</td>"+
+                  "<td style='color:#2b2b2b'>Roshan</td>"+
+                  "<td style='color:#2b2b2b'>"+actInp+"</td>"+
+                  "<td style='color:#2b2b2b'>"+descInp+"</td>"+
+                  "<td style='color:#2b2b2b'>"+selInp+"</td>"+
+                  '<td ><i class="fa fa-times text-danger  remove-time"></i></td>'+
+                  "</tr>";
+        var ttd=
+         "<td  style='color:#2b2b2b'>"+startInp+" - "+endInp+"</td>"+
+          "<td style='color:#2b2b2b'>Roshan</td>"+
+          "<td style='color:#2b2b2b'>"+actInp+"</td>"+
+          "<td style='color:#2b2b2b'>"+descInp+"</td>"+
+          "<td style='color:#2b2b2b'>"+selInp+"</td>"+
+        '<td ><i class="fa fa-times text-danger remove-time"></i></td>';
+        console.log("ASD");
+
+        console.log("UNANG IF" + $("#program-tables"+ctr+" tbody tr:first").hasClass("no-records-found"));
+        if($("#program-tables"+$("ul#myTabs").find(".active").attr("id").substring(1)+" tbody tr:first").hasClass("no-records-found")){
+            console.log("PASOK asd")
+            $("#program-tables"+$("ul#myTabs").find(".active").attr("id").substring(1)+" tr.no-records-found").find("td").remove();
+            $("#program-tables"+$("ul#myTabs").find(".active").attr("id").substring(1)+" tr.no-records-found").append(ttd);
+            $("#program-tables"+$("ul#myTabs").find(".active").attr("id").substring(1)+" tbody tr.no-records-found").removeClass("no-records-found");
+        }else{
+            console.log("pasok");
+            console.log("TABLE NUMBER "+$("ul#myTabs").find(".active").attr("id").substring(1));
+            $("#program-tables"+$("ul#myTabs").find(".active").attr("id").substring(1)+" tbody").append(trow);
+        }
+
+        
+
+    });
+        //NEED TO BE FIXED TO ROUND
+        // clockpicker.change(function(){
+        //     console.log("DONW");
+        //     clockpicker.val(round());
+        // });
+        // clockpicker2.change(function(){
+        //     console.log("DONW");
+        //     clockpicker2.val(round2());
+        // });
+        
+    });
+    $("ul li").on('click','a#add-tab',function(e){
+        var div = $("<div class='row'><div style='display:none'></div></div>");
+
+        // var toBeInserted = div.find("div").append(qclon,qtabl);
+
+
+
+        ctr++;
+        e.preventDefault();
+        console.log("ASd");
+
+        var tni = 
+
+
+        '<div class="col-md-4" style="padding: 25px;position: relative;  ">'+               
+        '<input style="height:0px; top:-1000px; position:absolute;display: none" type="text" value="">'+
+        '<label>Date</label>'+
+        '<div class="input-group">'+
+        '<input readonly="" class="form-control" id="datepicker-autoclose'+ctr+'" placeholder="mm/dd/yyyy" type="text">'+
+        '<span class="input-group-addon"><i class="icon-calender"></i></span>'+
+        '</div>'+
+        '<div>&nbsp</div>'+
+        '<label>Time</label>'+
+        '<div class="input-group clockpicker " data-autoclose="true">'+
+        '<input type="text" id="start-time'+ctr+'" class="form-control" value="00:00" readonly="">'+
+        '<span class=" input-group-addon bg-info b-0 text-white">to</span>'+
+        '<input type="text" id="end-time'+ctr+'" class="form-control" value="00:00" readonly="">'+
+        '</div>'+
+        '<div>&nbsp</div>'+
+        '<label>Activity</label>'+
+        '<input type="text" class="form-control" id="act'+ctr+'">'+
+        '<div>&nbsp</div>'+
+        '<label>Description</label>'+
+        '<textarea class="form-control" rows="2" id="desc'+ctr+'"></textarea>'+
+        '<div>&nbsp</div>'+
+        '<label>Person in Charge</label>'+
+        '<select class="form-control select2" id="sel'+ctr+'">'+
+        '<option value="DE">Delaware</option>'                    +
+
+        '</select>'+
+        '<div>&nbsp</div>'+
+        '<div class=" form-group text-center">'+
+
+        '<button type="button" id="insert-button'+ctr+'" class="btn btn-success">Insert </button>'+
+
+        '</div>'+
+        '</div>'+
+
+        '<div class="col-md-8 " style="padding-top: 15px">'+
+        '<table id="program-tables'+ctr+'" class="table program color-bordered-table success-bordered-table" >'+
+        '<thead>'+
+        '<tr>'+
+
+        '<th >Time</th>'+
+        '<th>Duration</th>'+
+        '<th>Activity</th>'+
+        '<th>Description</th>'+
+        '<th>Person in Charge</th>'+
+        '<th data-field="state" data-checkbox="true"></th>'+
+        '</tr>'+
+        '</thead>'+
+        '<tbody>'+
+        '<tr class="no-records-found">'+
+        '<td ></td>'+
+        '<td></td>'+
+        '<td></td>'+
+        '<td></td>'+
+        '<td></td>'+
+        '<td></td>'+
+        '</tr>'+
+
+        '</tbody>'+
+        '</table>'+
+        '</div>';
+
+
+        $("#t"+(ctr-1)).after('<li role="presentation" class="nav-item " id="t'+ctr+'"><a aria-controls="profile " class="nav-link" id="tab-'+ctr+'" data-toggle="tab" href="#ctab'+ ctr + '" role="tab"  aria-expanded="true">Day '+ (ctr+1)+'      '+'<i class="fa ti-close close-day" style="font-size:8px;top:5px;right:5px;position:absolute;"></i></a></li>');
+        var cont = $("#ctab"+(ctr-1)).after('<div aria-labelledby="tab-'+ctr+'" id="ctab'+ctr+'" class="tab-pane " role="tabpanel"><div id="temp'+ctr+'" class="row">'+tni+'</div></div>');
+        // cont.find("#temp").append(toBeInserted);
+
+        //NEED TO REINITIALIZE
+
+        
+
+
+        
+        //  var qclon = $("#clone-question").clone(true).appendTo("#temp"+ctr);
+        // var qtabl = $("#clone-table").clone(true).appendTo("#temp"+ctr);
+
+
+        $(".nav-tabs  a[href='#ctab" + (ctr)+ "']").tab("show");
+        $("#tab-0").removeAttr("class","active");
+        $(document).trigger("customHtmlGenerated");
+
+
+    });
+    var clockpicker = $('#start-time').clockpicker({
+        donetext: 'Done',
+        autoclose:true,            
+    });
+    var clockpicker2 = $('#end-time').clockpicker({
+        donetext: 'Done',
+        autoclose:true,           
+    });
+
+    clockpicker.change(function(){
+        console.log("DONW");
+        clockpicker.val(round());
+    });
+    clockpicker2.change(function(){
+        console.log("DONW");
+        clockpicker2.val(round2());
+    });
+
+
+    function round() {
+      var time = clockpicker.val(),
+      arr = time.split(':'),
+      hour = arr[0],
+      min = arr[1],
+      newMin = (Math.floor(parseInt(min) / 5)) * 5;
+
+      return hour + ':' + (newMin > 9 ? '' : '0') + newMin;
+  }
+        // JEJEMON TO TINAMAD NA AKO. AYUSIN KO NEXT TIME
+        function round2() {
+          var time = clockpicker2.val(),
+          arr = time.split(':'),
+          hour = arr[0],
+          min = arr[1],
+          newMin = (Math.floor(parseInt(min) / 5)) * 5;
+
+          return hour + ':' + (newMin > 9 ? '' : '0') + newMin;
+      }
+        // $('#start-time').clockpicker({
+        //     donetext: 'Done',
+        //     autoclose:true,
+
+
+        // });
+        $('#datepicker-autoclose').datepicker({
+            autoclose: true,
+            todayHighlight: true
+        });
+        tctr = 0
+        
+        $("#insert-button").click(function(){
+          var dateInp =  $("#datepicker-autoclose").val();
+          var startInp = $("#start-time").val();
+          var endInp = $("#end-time").val();
+          var actInp = $("#act0").val();
+          var descInp = $("#desc0").val();
+          var selInp = $("#sel0").val();
+            var trow = " <tr>"+
+
+            "<td  style='color:#2b2b2b'>"+startInp+" - "+endInp+"</td>"+
+            "<td style='color:#2b2b2b'>Roshan</td>"+
+            "<td style='color:#2b2b2b'>"+actInp+"</td>"+
+            "<td style='color:#2b2b2b'>"+descInp+"</td>"+
+            "<td style='color:#2b2b2b'>"+selInp+"</td>"+
+            '<td ><i class="fa fa-times remove-time"></i></td>'+
+            "</tr>";
+            var ttd=
+            "<td  style='color:#2b2b2b'>"+startInp+" - "+endInp+"</td>"+
+            "<td style='color:#2b2b2b'>Roshan</td>"+
+            "<td style='color:#2b2b2b'>"+actInp+"</td>"+
+            "<td style='color:#2b2b2b'>"+descInp+"</td>"+
+            "<td style='color:#2b2b2b'>"+selInp+"</td>"+
+            '<td ><i class="fa fa-times  remove-time"></i></td>';
+            console.log("ASD");
+             if($("#program-tables tbody tr:first").hasClass("no-records-found")){
+
+                $("#program-tables tr.no-records-found").find("td").remove();
+                $("#program-tables tr.no-records-found").append(ttd);
+                $("#program-tables tr.no-records-found").removeAttr("class","no-records-found");
+            }else{
+                console.log("pasok");
+                $("#program-tables tbody").append(trow);
+            }
+
+            tctr++;
+            console.log(tctr);
+
+        });
+        $("#program-tables").on('click','.remove-time',function(){
+            tctr--;
+            var tspace = 
+            '<td ></td>'+
+            '<td></td>'+
+            '<td></td>'+
+            '<td></td>'+
+            '<td></td>'+
+            '<td></td>'
+            ;
+            if(tctr ==0){
+                $(this).closest("tr").attr("class","no-records-found").find("td").html(" ");
+            }else{
+                $(this).closest("tr").remove();         
+            }
+            
+            
+            
+
+        });
+        $("#insert-button-expense").click(function(){
+          var ttr = '<tr>'+
+                      '<td></td>'+
+                      '<td></td>'+
+                      '<td></td>'+
+                      '<th class="total"></th>'+
+                  '</tr>';
+          $("#mainTable tbody").append(ttr);
+          $('#mainTable').editableTableWidget().numericInputExample().find('td:first').focus();
+
+        });
+        // .find('input').change(function() {
+        //     console.log(this.value);
+        // });
+        // $("#delete-tab").click(function(e){
+        //     e.preventDefault();
+        //     console.log($('.nav-tabs .active').text());
+        //     $(".nav-tabs  a[href='#ctab" + (ctr)+ "']").tab("show");
+        // });
+        (function() {
+
+            [].slice.call(document.querySelectorAll('.sttabs')).forEach(function(el) {
+                new CBPFWTabs(el);
+            });
+
+        })();
+        
+        (function() {
+            $('#exampleBasic').wizard({
+                onFinish: function() {
+                    alert('finish');
+                }
+            });
+            $('#exampleBasic2').wizard({
+                onFinish: function() {
+                    alert('finish');
+                }
+            });
+            $('#exampleValidator').wizard({
+                onInit: function() {
+                    $('#validation').formValidation({
+                        framework: 'bootstrap',
+                        fields: {
+                            username: {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'The username is required'
+                                    },
+                                    stringLength: {
+                                        min: 6,
+                                        max: 30,
+                                        message: 'The username must be more than 6 and less than 30 characters long'
+                                    },
+                                    regexp: {
+                                        regexp: /^[a-zA-Z0-9_\.]+$/,
+                                        message: 'The username can only consist of alphabetical, number, dot and underscore'
+                                    }
+                                }
+                            },
+                            email: {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'The email address is required'
+                                    },
+                                    emailAddress: {
+                                        message: 'The input is not a valid email address'
+                                    }
+                                }
+                            },
+                            password: {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'The password is required'
+                                    },
+                                    different: {
+                                        field: 'username',
+                                        message: 'The password cannot be the same as username'
+                                    }
+                                }
+                            }
+                        }
+                    });
+                },
+                validator: function() {
+                    var fv = $('#validation').data('formValidation');
+                    var $this = $(this);
+                // Validate the container
+                fv.validateContainer($this);
+                var isValidStep = fv.isValidContainer($this);
+                if (isValidStep === false || isValidStep === null) {
+                    return false;
+                }
+                return true;
+            },
+            onFinish: function() {
+                $.post("keep.php", $("#validation").serialize()).done(function() {
+                    alert("hiiii");
+                });
+            }
+        });
+            $('#accordion').wizard({
+                step: '[data-toggle="collapse"]',
+                buttonsAppendTo: '.panel-collapse',
+                templates: {
+                    buttons: function() {
+                        var options = this.options;
+                        return '<div class="panel-footer"><ul class="pager">' + '<li class="previous">' + '<a href="#' + this.id + '" data-wizard="back" role="button">' + options.buttonLabels.back + '</a>' + '</li>' + '<li class="next">' + '<a href="#' + this.id + '" data-wizard="next" role="button">' + options.buttonLabels.next + '</a>' + '<a href="#' + this.id + '" data-wizard="finish" role="button">' + options.buttonLabels.finish + '</a>' + '</li>' + '</ul></div>';
+                    }
+                },
+                onBeforeShow: function(step) {
+                    step.$pane.collapse('show');
+                },
+                onBeforeHide: function(step) {
+                    step.$pane.collapse('hide');
+                },
+                onFinish: function() {
+                    alert('finish');
+                }
+            });
+        })();
+        
+    $('#mainTable').editableTableWidget().numericInputExample().find('td:first').focus();
+    // $('#editable-datatable').DataTable();
+    // $("button .wizard-next").click(function(){
+    //      $("#datepicker-autoclose").datepicker('hide');
+    // });
+    $("input[name='optionsRadios2']").change(function(){
+      console.log("OPtioNS");
+      console.log($(this).val());
+      if($(this).val() == "option1"){
+        $(".exp").css("display","");
+      }else{
+        $(".exp").css("display","none");
+      }
+      
+    });
+    
+</script>
+{%block scripts%}
+{%endblock%}
+</body>
+
+</html>
