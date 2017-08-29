@@ -9,7 +9,8 @@ var nunjucks = require('nunjucks');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var session = require('express-session'),
+var pg = require('pg'),
+    session = require('express-session'),
     pgSession = require('connect-pg-simple')(session);
 
 //function to help me
@@ -20,13 +21,15 @@ var app = express();
 
 console.log('Testing Connection to database');
 var pgPromise = require('pg-promise')();
-var database = pgPromise({
+
+var database_connection_options = {
   host: global.config.database.host,
   port: global.config.database.port, 
   database: global.config.database.database,
   user: global.config.database.username,
   password: global.config.database.password
-});
+};
+var database = pgPromise(database_connection_options);
 
 /* testing the connection */
 var qrm = pgPromise.queryResult;
@@ -39,21 +42,19 @@ nunjucks.configure('./app/views/', {
     express: app
 });
 
+
 // uncomment after placing your favicon in /public
 // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(cookieParser('this is a place holder secret, would be replaced by an auto generated secret'));
 app.use(express.static(global.config.webserver.assets.path));
 
-
 let session_config = global.config.webserver.session;
-console.log(session_config.saveUninitialized);
 app.use(session({
   store: new pgSession({
-    pgPromise: database,
-    tableName: session_config.table_name
+    pool: new pg.Pool(database_connection_options)
   }),
   proxy: session_config.proxy,
   name: session_config.name,
@@ -70,6 +71,11 @@ app.use(session({
 }));
 
 
+app.get('/test2', function(req, res){
+  
+  req.session.views = !!req.session.views ? 1 : req.session.views++;
+  res.send(new String(req.session.views));
+});
 
 /* 
 Load QueryFiles
@@ -181,26 +187,6 @@ for(var key in requirePost_Middlewares){
 }
 
 console.log('Loading Post-middlewares Complete\n');
-
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
-
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
-
 
 console.log('Server Initialization Complete');
 module.exports = app;

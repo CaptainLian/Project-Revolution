@@ -247,7 +247,7 @@ CREATE TABLE SpecialApproval (
 -- COMMIT;
 
     /* SESSION TABLE */
-CREATE TABLE IF NOT EXISTS user_session (
+CREATE TABLE IF NOT EXISTS session (
     "sid" varchar NOT NULL COLLATE "default",
     "sess" json NOT NULL,
     "expire" timestamp(6) NOT NULL,

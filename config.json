@@ -26,7 +26,7 @@
 			"resave": false,
 			"saveUninitialized": false,
 			"unset": "destroy",
-			"table_name": "user_session",
+			"table_name": "session",
 			"cookie": {
 				"httpOnly": false,
 				"path": "/",
