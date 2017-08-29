@@ -3,8 +3,9 @@ var router = express.Router();
 
 module.exports = function (app, controllers){
 	var index = controllers.index_controller;
+	var test = controllers.test_controller;
+
 	router.get('/', index.home);
-	router.get('/neil', index.neil);
 
 	return router;
 };

@@ -6,10 +6,6 @@ module.exports = function(database, models, queryFiles){
 		//if president
 			res.render('users/president/home',{home:true});
 			//next();
-		},	
-		neil :(req, res, next) => {
-			res.send("Neil");
-			//next();
 		},
 		gosm :(req, res, next) => {
 			res.render("users/president/gosm",{
