@@ -8,8 +8,8 @@ module.exports = function(db, queryFiles){
 		getAllActivityTypes: function(){
 			return db.many(getAllActivityTypesSQL);
 		},//getAllActivityTypes()
-		insertProposedActivity: function(){
-			return db.none(insertProposedActivitySQL)
+		insertProposedActivity: function(param){
+			return db.none(insertProposedActivitySQL, param);
 		}
 	};
 };
