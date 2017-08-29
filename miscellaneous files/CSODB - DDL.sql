@@ -113,6 +113,7 @@ CREATE TABLE GOSMActivities (
     studentOrganization INTEGER,
     goals VARCHAR(45) NOT NULL,
     objectives VARCHAR(45)[] NOT NULL,
+    strategies VARCHAR(45) NOT NULL,
     description VARCHAR(255) NOT NULL,
     measures VARCHAR(45) NOT NULL,
     targetDateStart DATE NOT NULL,
