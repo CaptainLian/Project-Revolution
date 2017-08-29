@@ -16,15 +16,17 @@ CREATE TABLE SchoolYear (
 
 DROP TABLE IF EXISTS Term CASCADE;
 CREATE TABLE Term (
-    schoolYear INTEGER REFERENCES SchoolYear(id),
+    startYear INTEGER,
+    endYear INTEGER,
     number INTEGER,
-    dateStart DATE,
-    dateEnd DATE,
+    dateStart DATE NOT NULL,
+    dateEnd DATE NOT NULL,
     
 
-    PRIMARY KEY (schoolYear, number),
+    PRIMARY KEY (startYear, endYear, number),
     CONSTRAINT number_min_value CHECK(number >= 1),
-    CONSTRAINT number_max_value CHECK(number <= 3)
+    CONSTRAINT number_max_value CHECK(number <= 3),
+    CONSTRAINT start_end_year_value CHECK(endYear > startYear)
 );
 
 DROP TABLE IF EXISTS Account CASCADE;
@@ -101,16 +103,20 @@ CREATE TABLE GOSMStatus (
 );
 DROP TABLE IF EXISTS GOSM CASCADE;
 CREATE TABLE GOSM (
-    schoolYear INTEGER REFERENCES SchoolYear(id),
+    startYear INTEGER,
+    endYear INTEGER,
     studentOrganization INTEGER REFERENCES StudentOrganization(id),
-    status INTEGER REFERENCES GOSMStatus(id) DEFAULT 1,
-    PRIMARY KEY (schoolYear, studentOrganization)
+    status INTEGER NOT NULL REFERENCES GOSMStatus(id) DEFAULT 1,
+
+    PRIMARY KEY (startYear, endYear, studentOrganization),
+    CONSTRAINT start_end_year_value CHECK(endYear > startYear)
 );
 
 DROP TABLE IF EXISTS GOSMActivities CASCADE;
 CREATE TABLE GOSMActivities (
     id INTEGER,
-    schoolYear INTEGER,
+    startYear INTEGER,
+    endYear INTEGER,
     studentOrganization INTEGER,
     goals VARCHAR(45) NOT NULL,
     objectives VARCHAR(45)[] NOT NULL,
@@ -125,8 +131,9 @@ CREATE TABLE GOSMActivities (
     isRelatedToOrganizationNature BOOLEAN NOT NULL,
     budget NUMERIC(16, 4) NOT NULL,
 
-    FOREIGN KEY (schoolYear, studentOrganization) REFERENCES GOSM(schoolYear, studentOrganization),
-    PRIMARY KEY (id, schoolYear, studentOrganization)  
+    FOREIGN KEY (schoolYear, studentOrganization) REFERENCES GOSM(startYear, endYear, studentOrganization),
+    PRIMARY KEY (id, startYear, endYear, studentOrganization),
+    CONSTRAINT start_end_year_value CHECK(endYear > startYear)
 );
 CREATE OR REPLACE FUNCTION trigger_before_insert_GOSMActivities()
 RETURNS trigger AS
