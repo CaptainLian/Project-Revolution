@@ -18,24 +18,68 @@
 <div class="row">
 
   <div class="col-md-12">
-      <div class="panel panel-default white-box">
-          <div class="panel-wrapper collapse in">
-              <div class="panel-body">
-                   <p>asdasdasd</p>
-                   <p>asdasdasd</p>
-                   <p>asdasdasd</p>
-                   <p>asdasdasd</p>
+    <div class="panel panel-default white-box">
+        <div class="panel-wrapper collapse in">
+            <div class="panel-body">
+                   <table class="table table-striped">
+                                        <thead>
+                                            <tr style="display: none">
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            
+                                            <tr>
+                                                <td><strong>Title of Activity:</strong></td>
+                                                <td colspan="3">Recreation</td>
+                                                
+                                                    
+                                            </tr>
+                                            <tr>
+                                                <td> <strong>Nature of Activity:</strong></td>
+                                                <td >Special Interest</td>
+                                                
+                                                <td><strong> ENMP / ENP:    </strong></td>
+                                                <td>12</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Date:</strong></td>
+                                                <td colspan="3">September 17, 2017 - September 18, 2017</td>
+                                                
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Time:</strong></td>
+                                                <td >7:30 PM - 12:30 PM</td>
+                                                 <td><strong>Venue:</strong></td>
+                                                <td >Gokongwei Building</td>
+                                            </tr>
+                                            
+                                            
+                                            <tr>
+                                                <td><strong>Project Heads:</strong></td>
+                                                <td colspan="3">
+                                                    <p>Juan Dela Cruz - 09478569874</p>
+                                                    <p>Pedro Aquino - 09478532147</p>
+                                                </td>
+                                            </tr>
+                                          
+                                           
+                                        </tbody>
+                                </table>
                   
                     <section id="section-linetriangle-2" style="min-height:1000px;padding-top:55px">
                         <div id="exampleBasic" class="wizard">
                             <ul class="wizard-steps" role="tablist">
-                                <li class="active" role="tab">
-                                    <span>I.</span> 
+                                <li class="active text-center current" role="tab">
+                                    <h4><span><i class="fa fa-book"></i></span> </h4>
                                 </li>
-                                <li role="tab"><h4><span>II.</span></h4> </li>
-                                <li role="tab"><h4><span>III.</span></h4> </li>
-                                <li role="tab"><h4><span>IV.</span> </h4> </li>
-                                <li role="tab"><h4><span>VI.</span></h4> </li>
+                                <li class="text-center" role="tab"><h4><span><i class="fa fa-calendar"></i></span></h4> </li>
+                                <li class="text-center" role="tab"><h4><span><i class="fa fa-money"></i></span></h4> </li>
+                                <li class="text-center" role="tab"><h4><span><i class="fa fa-credit-card"></i></span> </h4> </li>
+                                <li class="text-center" role="tab"><h4><span><i class="fa fa-upload"></i></span></h4> </li>
                             </ul>
                             <div class="wizard-content">
 
@@ -43,6 +87,8 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
+                                                <h3>Brief Context / Perspective of the Activity</h3>
+                                                <hr>
                                                 <p>
                                                     <strong> Minimum of 3 paragraphs answering the following questions in application of the Lasallian Reflection   Framework:
                                                     </strong>
@@ -77,7 +123,9 @@
                               </div>
 
                               <div class="wizard-pane" role="tabpanel">
-                                    <div data-example-id="togglable-tabs" class="bs-example bs-example-tabs">
+                                    <h3>Comprehensive Program Design</h3>
+                                    <hr>
+                                    <div data-example-id="togglable-tabs" class="bs-example bs-example-tabs" style="padding-top: 25px">
                                         <ul role="tablist" class="nav nav-tabs" id="myTabs">
                                             <li class="active nav-item" id="t0" role="presentation"><a aria-expanded="true" class="nav-link" aria-controls="home" data-toggle="tab" role="tab" id="tab-0" href="#ctab0">Day 1</a></li>
                                             <!--    <li class=" nav-item" id="t1" role="presentation"><a aria-expanded="true" class="nav-link" aria-controls="home" data-toggle="tab" role="tab" id="tab-1" href="#ctab1">Day 2</a></li> -->
@@ -203,6 +251,8 @@
                               </div>
 
                               <div class="wizard-pane" role="tabpanel">
+                               <h3>Breakdown of Expense</h3>
+                                            <hr>
                                     <div class="row" style="padding-top: 25px">
                                         <div class="col-md-12">
                                            
@@ -251,6 +301,8 @@
                               </div>
 
                               <div class="wizard-pane" role="tabpanel">
+                                      <h3>Source and Organizational Funds</h3>
+                                      <hr>
                                       <div class="form-group">
                                               <label class="control-label col-md-3">Expenses</label>
                                               <div class="col-md-9">
@@ -357,7 +409,8 @@
                               </div>
 
                               <div class="wizard-pane" role="tabpanel">
-
+                                    <h3>Attachments</h3>
+                                    <hr>
                                   <div class="form-group">
                                       <label class="col-sm-12">File upload</label>
                                       <div class="col-sm-12">
@@ -380,12 +433,476 @@
                         </div>                                                   
                     </section>
               </div>
-          </div>
-      </div>
+        </div>
+    </div>
   </div>
 </div>
 {%endblock%}
 
 {%block scripts%}
+
+<script type="text/javascript">
+    ctr = 0;
+    $(".select2").select2();
+    $("div.fixed-table-loading").remove();
+    $("#myTabs ").on('click','i.close-day',function(){
+        var c = $(this).closest("a").attr("href");
+        ctr--;
+        console.log("asd"+ c);
+        $(this).closest("li").remove();
+        $(c).remove();
+        var tabFirst = $('#myTabs a:first');
+            // resetTab();
+            tabFirst.tab('show');
+
+        });
+    $(document).ready(function(){
+        $("div.fixed-table-loading").remove();
+        $('#datepicker-autoclose').datepicker({
+            autoclose: true,
+            todayHighlight: true
+        });
+            // $("tr.no-records-found").remove();.on("focus","input",
+        });
+    $(document).bind("customHtmlGenerated", function(){
+      var idNumber = $("ul#myTabs").find(".active").attr("id").substring(1);
+       $('#datepicker-autoclose'+ctr).datepicker({
+          autoclose: true,
+          todayHighlight: true
+      });
+
+         var clockpicker = $('#start-time'+ctr).clockpicker({
+          donetext: 'Done',
+          autoclose:true,            
+      });
+         console.log("asd");
+         var clockpicker2 = $('#end-time'+ctr).clockpicker({
+          donetext: 'Done',
+          autoclose:true,           
+      });
+      $("#program-tables"+idNumber).on('click','.remove-time',function(){
+          tctr--;
+          var tspace = 
+          '<td ></td>'+
+          '<td></td>'+
+          '<td></td>'+
+          '<td></td>'+
+          '<td></td>'+
+          '<td></td>'
+          ;
+          if(tctr ==0){
+              $(this).closest("tr").attr("class","no-records-found").find("td").html(" ");
+          }else{
+              $(this).closest("tr").remove();         
+          }
+          
+          
+          
+
+      });
+
+       $("#insert-button"+ctr).click(function(){
+        
+        var dateInp =  $("#datepicker-autoclose"+idNumber).val();
+        var startInp = $("#start-time"+idNumber).val();
+        var endInp = $("#end-time"+idNumber).val();
+        if(idNumber == 0 ){
+          dateInp =  $("#datepicker-autoclose").val();
+          startInp = $("#start-time").val();
+          endInp = $("#end-time").val();
+        }
+        
+        var actInp = $("#act"+idNumber).val();
+        var descInp = $("#desc"+idNumber).val();
+        var selInp = $("#sel"+idNumber).val();
+
+
+
+        var trow = " <tr>"+
+
+                  "<td  style='color:#2b2b2b'>"+startInp+" - "+endInp+"</td>"+
+                  "<td style='color:#2b2b2b'>Roshan</td>"+
+                  "<td style='color:#2b2b2b'>"+actInp+"</td>"+
+                  "<td style='color:#2b2b2b'>"+descInp+"</td>"+
+                  "<td style='color:#2b2b2b'>"+selInp+"</td>"+
+                  '<td ><i class="fa fa-times text-danger  remove-time"></i></td>'+
+                  "</tr>";
+        var ttd=
+         "<td  style='color:#2b2b2b'>"+startInp+" - "+endInp+"</td>"+
+          "<td style='color:#2b2b2b'>Roshan</td>"+
+          "<td style='color:#2b2b2b'>"+actInp+"</td>"+
+          "<td style='color:#2b2b2b'>"+descInp+"</td>"+
+          "<td style='color:#2b2b2b'>"+selInp+"</td>"+
+        '<td ><i class="fa fa-times text-danger remove-time"></i></td>';
+        console.log("ASD");
+
+        console.log("UNANG IF" + $("#program-tables"+ctr+" tbody tr:first").hasClass("no-records-found"));
+        if($("#program-tables"+$("ul#myTabs").find(".active").attr("id").substring(1)+" tbody tr:first").hasClass("no-records-found")){
+            console.log("PASOK asd")
+            $("#program-tables"+$("ul#myTabs").find(".active").attr("id").substring(1)+" tr.no-records-found").find("td").remove();
+            $("#program-tables"+$("ul#myTabs").find(".active").attr("id").substring(1)+" tr.no-records-found").append(ttd);
+            $("#program-tables"+$("ul#myTabs").find(".active").attr("id").substring(1)+" tbody tr.no-records-found").removeClass("no-records-found");
+        }else{
+            console.log("pasok");
+            console.log("TABLE NUMBER "+$("ul#myTabs").find(".active").attr("id").substring(1));
+            $("#program-tables"+$("ul#myTabs").find(".active").attr("id").substring(1)+" tbody").append(trow);
+        }
+
+        
+
+    });
+        //NEED TO BE FIXED TO ROUND
+        // clockpicker.change(function(){
+        //     console.log("DONW");
+        //     clockpicker.val(round());
+        // });
+        // clockpicker2.change(function(){
+        //     console.log("DONW");
+        //     clockpicker2.val(round2());
+        // });
+        
+    });
+    $("ul li").on('click','a#add-tab',function(e){
+        var div = $("<div class='row'><div style='display:none'></div></div>");
+
+        // var toBeInserted = div.find("div").append(qclon,qtabl);
+
+
+
+        ctr++;
+        e.preventDefault();
+        console.log("ASd");
+
+        var tni = 
+
+
+        '<div class="col-md-4" style="padding: 25px;position: relative;  ">'+               
+        '<input style="height:0px; top:-1000px; position:absolute;display: none" type="text" value="">'+
+        '<label>Date</label>'+
+        '<div class="input-group">'+
+        '<input readonly="" class="form-control" id="datepicker-autoclose'+ctr+'" placeholder="mm/dd/yyyy" type="text">'+
+        '<span class="input-group-addon"><i class="icon-calender"></i></span>'+
+        '</div>'+
+        '<div>&nbsp</div>'+
+        '<label>Time</label>'+
+        '<div class="input-group clockpicker " data-autoclose="true">'+
+        '<input type="text" id="start-time'+ctr+'" class="form-control" value="00:00" readonly="">'+
+        '<span class=" input-group-addon bg-info b-0 text-white">to</span>'+
+        '<input type="text" id="end-time'+ctr+'" class="form-control" value="00:00" readonly="">'+
+        '</div>'+
+        '<div>&nbsp</div>'+
+        '<label>Activity</label>'+
+        '<input type="text" class="form-control" id="act'+ctr+'">'+
+        '<div>&nbsp</div>'+
+        '<label>Description</label>'+
+        '<textarea class="form-control" rows="2" id="desc'+ctr+'"></textarea>'+
+        '<div>&nbsp</div>'+
+        '<label>Person in Charge</label>'+
+        '<select class="form-control select2" id="sel'+ctr+'">'+
+        '<option value="DE">Delaware</option>'                    +
+
+        '</select>'+
+        '<div>&nbsp</div>'+
+        '<div class=" form-group text-center">'+
+
+        '<button type="button" id="insert-button'+ctr+'" class="btn btn-success">Insert </button>'+
+
+        '</div>'+
+        '</div>'+
+
+        '<div class="col-md-8 " style="padding-top: 15px">'+
+        '<table id="program-tables'+ctr+'" class="table program color-bordered-table success-bordered-table" >'+
+        '<thead>'+
+        '<tr>'+
+
+        '<th >Time</th>'+
+        '<th>Duration</th>'+
+        '<th>Activity</th>'+
+        '<th>Description</th>'+
+        '<th>Person in Charge</th>'+
+        '<th data-field="state" data-checkbox="true"></th>'+
+        '</tr>'+
+        '</thead>'+
+        '<tbody>'+
+        '<tr class="no-records-found">'+
+        '<td ></td>'+
+        '<td></td>'+
+        '<td></td>'+
+        '<td></td>'+
+        '<td></td>'+
+        '<td></td>'+
+        '</tr>'+
+
+        '</tbody>'+
+        '</table>'+
+        '</div>';
+
+
+        $("#t"+(ctr-1)).after('<li role="presentation" class="nav-item " id="t'+ctr+'"><a aria-controls="profile " class="nav-link" id="tab-'+ctr+'" data-toggle="tab" href="#ctab'+ ctr + '" role="tab"  aria-expanded="true">Day '+ (ctr+1)+'      '+'<i class="fa ti-close close-day" style="font-size:8px;top:5px;right:5px;position:absolute;"></i></a></li>');
+        var cont = $("#ctab"+(ctr-1)).after('<div aria-labelledby="tab-'+ctr+'" id="ctab'+ctr+'" class="tab-pane " role="tabpanel"><div id="temp'+ctr+'" class="row">'+tni+'</div></div>');
+        // cont.find("#temp").append(toBeInserted);
+
+        //NEED TO REINITIALIZE
+
+        
+
+
+        
+        //  var qclon = $("#clone-question").clone(true).appendTo("#temp"+ctr);
+        // var qtabl = $("#clone-table").clone(true).appendTo("#temp"+ctr);
+
+
+        $(".nav-tabs  a[href='#ctab" + (ctr)+ "']").tab("show");
+        $("#tab-0").removeAttr("class","active");
+        $(document).trigger("customHtmlGenerated");
+
+
+    });
+    var clockpicker = $('#start-time').clockpicker({
+        donetext: 'Done',
+        autoclose:true,            
+    });
+    var clockpicker2 = $('#end-time').clockpicker({
+        donetext: 'Done',
+        autoclose:true,           
+    });
+
+    clockpicker.change(function(){
+        console.log("DONW");
+        clockpicker.val(round());
+    });
+    clockpicker2.change(function(){
+        console.log("DONW");
+        clockpicker2.val(round2());
+    });
+
+
+    function round() {
+      var time = clockpicker.val(),
+      arr = time.split(':'),
+      hour = arr[0],
+      min = arr[1],
+      newMin = (Math.floor(parseInt(min) / 5)) * 5;
+
+      return hour + ':' + (newMin > 9 ? '' : '0') + newMin;
+  }
+        // JEJEMON TO TINAMAD NA AKO. AYUSIN KO NEXT TIME
+        function round2() {
+          var time = clockpicker2.val(),
+          arr = time.split(':'),
+          hour = arr[0],
+          min = arr[1],
+          newMin = (Math.floor(parseInt(min) / 5)) * 5;
+
+          return hour + ':' + (newMin > 9 ? '' : '0') + newMin;
+      }
+        // $('#start-time').clockpicker({
+        //     donetext: 'Done',
+        //     autoclose:true,
+
+
+        // });
+        $('#datepicker-autoclose').datepicker({
+            autoclose: true,
+            todayHighlight: true
+        });
+        tctr = 0
+        
+        $("#insert-button").click(function(){
+          var dateInp =  $("#datepicker-autoclose").val();
+          var startInp = $("#start-time").val();
+          var endInp = $("#end-time").val();
+          var actInp = $("#act0").val();
+          var descInp = $("#desc0").val();
+          var selInp = $("#sel0").val();
+            var trow = " <tr>"+
+
+            "<td  style='color:#2b2b2b'>"+startInp+" - "+endInp+"</td>"+
+            "<td style='color:#2b2b2b'>Roshan</td>"+
+            "<td style='color:#2b2b2b'>"+actInp+"</td>"+
+            "<td style='color:#2b2b2b'>"+descInp+"</td>"+
+            "<td style='color:#2b2b2b'>"+selInp+"</td>"+
+            '<td ><i class="fa fa-times remove-time"></i></td>'+
+            "</tr>";
+            var ttd=
+            "<td  style='color:#2b2b2b'>"+startInp+" - "+endInp+"</td>"+
+            "<td style='color:#2b2b2b'>Roshan</td>"+
+            "<td style='color:#2b2b2b'>"+actInp+"</td>"+
+            "<td style='color:#2b2b2b'>"+descInp+"</td>"+
+            "<td style='color:#2b2b2b'>"+selInp+"</td>"+
+            '<td ><i class="fa fa-times  remove-time"></i></td>';
+            console.log("ASD");
+             if($("#program-tables tbody tr:first").hasClass("no-records-found")){
+
+                $("#program-tables tr.no-records-found").find("td").remove();
+                $("#program-tables tr.no-records-found").append(ttd);
+                $("#program-tables tr.no-records-found").removeAttr("class","no-records-found");
+            }else{
+                console.log("pasok");
+                $("#program-tables tbody").append(trow);
+            }
+
+            tctr++;
+            console.log(tctr);
+
+        });
+        $("#program-tables").on('click','.remove-time',function(){
+            tctr--;
+            var tspace = 
+            '<td ></td>'+
+            '<td></td>'+
+            '<td></td>'+
+            '<td></td>'+
+            '<td></td>'+
+            '<td></td>'
+            ;
+            if(tctr ==0){
+                $(this).closest("tr").attr("class","no-records-found").find("td").html(" ");
+            }else{
+                $(this).closest("tr").remove();         
+            }
+            
+            
+            
+
+        });
+        $("#insert-button-expense").click(function(){
+          var ttr = '<tr>'+
+                      '<td></td>'+
+                      '<td></td>'+
+                      '<td></td>'+
+                      '<th class="total"></th>'+
+                  '</tr>';
+          $("#mainTable tbody").append(ttr);
+          $('#mainTable').editableTableWidget().numericInputExample().find('td:first').focus();
+
+        });
+        // .find('input').change(function() {
+        //     console.log(this.value);
+        // });
+        // $("#delete-tab").click(function(e){
+        //     e.preventDefault();
+        //     console.log($('.nav-tabs .active').text());
+        //     $(".nav-tabs  a[href='#ctab" + (ctr)+ "']").tab("show");
+        // });
+        (function() {
+
+            [].slice.call(document.querySelectorAll('.sttabs')).forEach(function(el) {
+                new CBPFWTabs(el);
+            });
+
+        })();
+        
+        (function() {
+            $('#exampleBasic').wizard({
+                onFinish: function() {
+                    alert('finish');
+                }
+            });
+            $('#exampleBasic2').wizard({
+                onFinish: function() {
+                    alert('finish');
+                }
+            });
+            $('#exampleValidator').wizard({
+                onInit: function() {
+                    $('#validation').formValidation({
+                        framework: 'bootstrap',
+                        fields: {
+                            username: {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'The username is required'
+                                    },
+                                    stringLength: {
+                                        min: 6,
+                                        max: 30,
+                                        message: 'The username must be more than 6 and less than 30 characters long'
+                                    },
+                                    regexp: {
+                                        regexp: /^[a-zA-Z0-9_\.]+$/,
+                                        message: 'The username can only consist of alphabetical, number, dot and underscore'
+                                    }
+                                }
+                            },
+                            email: {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'The email address is required'
+                                    },
+                                    emailAddress: {
+                                        message: 'The input is not a valid email address'
+                                    }
+                                }
+                            },
+                            password: {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'The password is required'
+                                    },
+                                    different: {
+                                        field: 'username',
+                                        message: 'The password cannot be the same as username'
+                                    }
+                                }
+                            }
+                        }
+                    });
+                },
+                validator: function() {
+                    var fv = $('#validation').data('formValidation');
+                    var $this = $(this);
+                // Validate the container
+                fv.validateContainer($this);
+                var isValidStep = fv.isValidContainer($this);
+                if (isValidStep === false || isValidStep === null) {
+                    return false;
+                }
+                return true;
+            },
+            onFinish: function() {
+                $.post("keep.php", $("#validation").serialize()).done(function() {
+                    alert("hiiii");
+                });
+            }
+        });
+            $('#accordion').wizard({
+                step: '[data-toggle="collapse"]',
+                buttonsAppendTo: '.panel-collapse',
+                templates: {
+                    buttons: function() {
+                        var options = this.options;
+                        return '<div class="panel-footer"><ul class="pager">' + '<li class="previous">' + '<a href="#' + this.id + '" data-wizard="back" role="button">' + options.buttonLabels.back + '</a>' + '</li>' + '<li class="next">' + '<a href="#' + this.id + '" data-wizard="next" role="button">' + options.buttonLabels.next + '</a>' + '<a href="#' + this.id + '" data-wizard="finish" role="button">' + options.buttonLabels.finish + '</a>' + '</li>' + '</ul></div>';
+                    }
+                },
+                onBeforeShow: function(step) {
+                    step.$pane.collapse('show');
+                },
+                onBeforeHide: function(step) {
+                    step.$pane.collapse('hide');
+                },
+                onFinish: function() {
+                    alert('finish');
+                }
+            });
+        })();
+        
+    $('#mainTable').editableTableWidget().numericInputExample().find('td:first').focus();
+    // $('#editable-datatable').DataTable();
+    // $("button .wizard-next").click(function(){
+    //      $("#datepicker-autoclose").datepicker('hide');
+    // });
+    $("input[name='optionsRadios2']").change(function(){
+      console.log("OPtioNS");
+      console.log($(this).val());
+      if($(this).val() == "option1"){
+        $(".exp").css("display","");
+      }else{
+        $(".exp").css("display","none");
+      }
+      
+    });
+    
+</script>
 
 {%endblock%}
