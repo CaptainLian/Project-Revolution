@@ -125,6 +125,7 @@
                               <div class="wizard-pane" role="tabpanel">
                                     <h3>Comprehensive Program Design</h3>
                                     <hr>
+                                            
                                     <div data-example-id="togglable-tabs" class="bs-example bs-example-tabs" style="padding-top: 25px">
                                         <ul role="tablist" class="nav nav-tabs" id="myTabs">
                                             <li class="active nav-item" id="t0" role="presentation"><a aria-expanded="true" class="nav-link" aria-controls="home" data-toggle="tab" role="tab" id="tab-0" href="#ctab0">Day 1</a></li>
@@ -251,66 +252,16 @@
                               </div>
 
                               <div class="wizard-pane" role="tabpanel">
-                               <h3>Breakdown of Expense</h3>
-                                            <hr>
-                                    <div class="row" style="padding-top: 25px">
-                                        <div class="col-md-12">
-                                           
-
-
-                                            <table id="mainTable" class="table editable-table table-bordered color-bordered-table success-bordered-table table-striped m-b-0">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Material</th>
-                                                        <th>Quantity</th>
-                                                        <th>Unit Cost</th>
-                                                        <th>Total Cost</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <!-- <tr>
-                                                        <td>Car</td>
-                                                        <td>100</td>
-                                                    
-                                                        <td>20</td>
-                                                        <th class="total">0</th>
-                                                    </tr> -->
-                                                  
-                                                </tbody>
-                                                <tfoot>
-                                                    <tr>
-                                                        <th class="text-right" colspan="3"><strong>TOTAL</strong></th>
-                                                        
-                                                        <th></th>
-                                                    </tr>
-                                                    </thead>
-                                            </table>
-
-                                                
-                                            <div>&nbsp</div>
-                                            <div class=" form-group text-center">
-
-                                                 <button type="button" id="insert-button-expense" class="btn btn-success">Insert </button>
-                                             </div>
-
-                                        </div>
-                                    </div>
-
-                                   
-                                    
-                              </div>
-
-                              <div class="wizard-pane" role="tabpanel">
-                                      <h3>Source and Organizational Funds</h3>
-                                      <hr>
-                                      <div class="form-group">
+                                    <h3>Source of Funds and Breakdown of Expense </h3>
+                                    <hr>
+                                    <div class="form-group">
                                               <label class="control-label col-md-3">Expenses</label>
                                               <div class="col-md-9">
                                                   <div class="radio-list">
                                                       <label>
-                                                          <input  name="optionsRadios2" value="option1" type="radio"> Yes </label>
+                                                          <input  name="optionsRadios2" value="option1" checked="" type="radio"> Yes </label>
                                                       <label>
-                                                          <input name="optionsRadios2" value="option2" checked="" type="radio"> No </label>
+                                                          <input name="optionsRadios2" value="option2"  type="radio"> No </label>
                                                   </div>
                                               </div>
                                             </div>
@@ -356,13 +307,63 @@
 
                                             <div class="exp">&nbsp</div>
                                             <div class="exp">&nbsp</div>
-                                            <div>&nbsp</div>
+                                    <div class="row exp" style="padding-top: 25px">
+                                        <div class="col-md-12">
+                                           
 
+
+                                            <table id="mainTable" class="table editable-table table-bordered color-bordered-table success-bordered-table table-striped m-b-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Material</th>
+                                                        <th>Quantity</th>
+                                                        <th>Unit Cost</th>
+                                                        <th>Total Cost</th>
+                                                        <th width="5%"></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!-- <tr>
+                                                        <td>Car</td>
+                                                        <td>100</td>
+                                                    
+                                                        <td>20</td>
+                                                        <th class="total">0</th>
+                                                    </tr> -->
+                                                  
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th class="text-right" colspan="3"><strong>TOTAL</strong></th>
+                                                        
+                                                        <th colspan="2"></th>
+                                                    </tr>
+                                                    </thead>
+                                            </table>
+
+                                                
                                             <div>&nbsp</div>
+                                            <div class=" form-group text-center">
+
+                                                 <button type="button" id="insert-button-expense" class="btn btn-success">Insert </button>
+                                             </div>
+
+                                        </div>
+                                    </div>
+
+                                   
+                                    
+                              </div>
+
+                              <div class="wizard-pane" role="tabpanel">
+                                      <h3>Organizational Funds</h3>
+                                      <hr>
+                                            
+                                          
 
                                             <div class="form-group">
                                               <label class="control-label col-md-3">Operational Fund</label>
-                                              <input class="col-md-6" type="text">
+                                              <input class="col-md-9" type="text">
                                                 
                                                  
                                             </div>
@@ -371,7 +372,7 @@
 
                                             <div class="form-group">
                                               <label class="control-label col-md-3">Depository Fund</label>
-                                              <input class="col-md-6" type="text">
+                                              <input class="col-md-9" type="text">
                                                 
                                                  
                                             </div>
@@ -380,7 +381,7 @@
 
                                             <div class="form-group">
                                               <label class="control-label col-md-3">Other Sources of Funds</label>
-                                              <input class="col-md-6" type="text">
+                                              <input class="col-md-9" type="text">
                                                 
                                                  
                                             </div>
@@ -390,7 +391,7 @@
 
                                              <div class="form-group">
                                               <label class="control-label col-md-3">Total Cash for Disbursement:</label>
-                                              <a class="col-md-6" type="text">1909</a>
+                                              <a class="col-md-9" type="text">1909</a>
                                                 
                                                  
                                             </div>
@@ -402,7 +403,7 @@
 
                                              <div class="form-group">
                                               <label class="control-label col-md-3">Total Projected Expenses:</label>
-                                              <a class="col-md-6" type="text">1909</a>
+                                              <a class="col-md-9" type="text">1909</a>
                                                 
                                                  
                                             </div>
@@ -610,17 +611,17 @@
         '</div>'+
         '</div>'+
 
-        '<div class="col-md-8 " style="padding-top: 15px">'+
-        '<table id="program-tables'+ctr+'" class="table program color-bordered-table success-bordered-table" >'+
+        '<div class="col-md-8 " style="padding-top: 30px">'+
+        '<table id="program-tables'+ctr+'" class="table program color-bordered-table success-bordered-table"  >'+
         '<thead>'+
         '<tr>'+
 
-        '<th >Time</th>'+
-        '<th>Duration</th>'+
-        '<th>Activity</th>'+
-        '<th>Description</th>'+
-        '<th>Person in Charge</th>'+
-        '<th data-field="state" data-checkbox="true"></th>'+
+        '<th width="21%">Time</th>'+
+        '<th width="10%">Duration</th>'+
+        '<th width="20%">Activity</th>'+
+        '<th width="21%">Description</th>'+
+        '<th width="23%">Person in Charge</th>'+
+        '<th width="25%" data-field="state" data-checkbox="true"></th>'+
         '</tr>'+
         '</thead>'+
         '<tbody>'+
@@ -772,6 +773,7 @@
                       '<td></td>'+
                       '<td></td>'+
                       '<th class="total"></th>'+
+                      '<th class="text-center" width="5%"><i class="fa fa-times remove-time"></i></th>'+
                   '</tr>';
           $("#mainTable tbody").append(ttr);
           $('#mainTable').editableTableWidget().numericInputExample().find('td:first').focus();
