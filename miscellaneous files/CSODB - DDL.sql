@@ -26,7 +26,8 @@ CREATE TABLE Term (
     PRIMARY KEY (startYear, endYear, number),
     CONSTRAINT number_min_value CHECK(number >= 1),
     CONSTRAINT number_max_value CHECK(number <= 3),
-    CONSTRAINT start_end_year_value CHECK(endYear > startYear)
+    CONSTRAINT start_end_year_value CHECK(endYear > startYear),
+    CONSTRAINT date_start_end_value CHECK (dateEnd > dateStart)
 );
 
 DROP TABLE IF EXISTS Account CASCADE;
@@ -107,6 +108,7 @@ CREATE TABLE GOSM (
     endYear INTEGER,
     studentOrganization INTEGER REFERENCES StudentOrganization(id),
     status INTEGER NOT NULL REFERENCES GOSMStatus(id) DEFAULT 1,
+    dateFiled DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     PRIMARY KEY (startYear, endYear, studentOrganization),
     CONSTRAINT start_end_year_value CHECK(endYear > startYear)
@@ -133,7 +135,8 @@ CREATE TABLE GOSMActivities (
 
     FOREIGN KEY (schoolYear, studentOrganization) REFERENCES GOSM(startYear, endYear, studentOrganization),
     PRIMARY KEY (id, startYear, endYear, studentOrganization),
-    CONSTRAINT start_end_year_value CHECK(endYear > startYear)
+    CONSTRAINT start_end_year_value CHECK(endYear > startYear),
+    CONSTRAINT targetdate_start_end_value CHECK(targetDateEnd > targetDateStart)
 );
 CREATE OR REPLACE FUNCTION trigger_before_insert_GOSMActivities()
 RETURNS trigger AS
@@ -188,7 +191,7 @@ CREATE TABLE ProjectProposalProgramDesign (
     personInCharge VARCHAR(60)[],
 
     PRIMARY KEY (projectProposalID, id),
-    CHECK(startTime > endTime)
+    CHECK(endTime > startTime)
 );
 -- TODO: TRIGGER FOR ID
 DROP TABLE IF EXISTS ProjectProposalProjectedIncome CASCADE;
