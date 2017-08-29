@@ -1,40 +1,4 @@
-﻿TRUNCATE TABLE SchoolYear CASCADE;
-INSERT INTO SchoolYear (id, startYear, endYear)
-                VALUES (1, 2014, 2015);
-INSERT INTO SchoolYear (id, startYear, endYear)
-                VALUES (2, 2015, 2016);
-INSERT INTO SchoolYear (id, startYear, endYear)
-                VALUES (3, 2016, 2017);
-INSERT INTO SchoolYear (id, startYear, endYear)
-                VALUES (4, 2017, 2018);
-INSERT INTO SchoolYear (id, startYear, endYear)
-                VALUES (5, 2018, 2019);
-INSERT INTO SchoolYear (id, startYear, endYear)
-                VALUES (6, 2019, 2020);
-INSERT INTO SchoolYear (id, startYear, endYear)
-                VALUES (7, 2020, 2021);
-INSERT INTO SchoolYear (id, startYear, endYear)
-                VALUES (8, 2021, 2022);
-INSERT INTO SchoolYear (id, startYear, endYear)
-                VALUES (9, 2022, 2023);
-INSERT INTO SchoolYear (id, startYear, endYear)
-                VALUES (10, 2023, 2024);
-INSERT INTO SchoolYear (id, startYear, endYear)
-                VALUES (11, 2024, 2025);
-INSERT INTO SchoolYear (id, startYear, endYear)
-                VALUES (12, 2025, 2026);
-INSERT INTO SchoolYear (id, startYear, endYear)
-                VALUES (13, 2026, 2027);
-INSERT INTO SchoolYear (id, startYear, endYear)
-                VALUES (14, 2027, 2028);
-INSERT INTO SchoolYear (id, startYear, endYear)
-                VALUES (15, 2028, 2029);
-INSERT INTO SchoolYear (id, startYear, endYear)
-                VALUES (16, 2029, 2030);
-INSERT INTO SchoolYear (id, startYear, endYear)
-                VALUES (17, 2030, 2031);
-
-TRUNCATE TABLE College CASCADE;
+﻿TRUNCATE TABLE College CASCADE;
 INSERT INTO College (shortAcronym, fullAcronym, name)
              VALUES ('CED', 'BAGCED', 'Br. Andrew Gonzalez FSC College of Education');
 INSERT INTO College (shortAcronym, fullAcronym, name)

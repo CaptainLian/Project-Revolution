@@ -4,27 +4,20 @@ DROP EXTENSION IF EXISTS "uuid-ossp";
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-DROP TABLE IF EXISTS SchoolYear CASCADE;
-CREATE TABLE SchoolYear (
-    id SERIAL UNIQUE NOT NULL,
-    startYear INTEGER,
-    endYear INTEGER,
-    
-    PRIMARY KEY (startYear, endYear),
-    CONSTRAINT endyear_startyear_value CHECK(endYear > startYear)
-);
-
 DROP TABLE IF EXISTS Term CASCADE;
 CREATE TABLE Term (
-    schoolYear INTEGER REFERENCES SchoolYear(id),
+    startYear INTEGER,
+    endYear INTEGER,
     number INTEGER,
-    dateStart DATE,
-    dateEnd DATE,
+    dateStart DATE NOT NULL,
+    dateEnd DATE NOT NULL,
     
 
-    PRIMARY KEY (schoolYear, number),
+    PRIMARY KEY (startYear, endYear, number),
     CONSTRAINT number_min_value CHECK(number >= 1),
-    CONSTRAINT number_max_value CHECK(number <= 3)
+    CONSTRAINT number_max_value CHECK(number <= 3),
+    CONSTRAINT start_end_year_value CHECK(endYear > startYear),
+    CONSTRAINT date_start_end_value CHECK (dateEnd > dateStart)
 );
 
 DROP TABLE IF EXISTS Account CASCADE;
@@ -81,6 +74,7 @@ CREATE TABLE OrganizationType (
 DROP TABLE IF EXISTS StudentOrganization CASCADE;
 CREATE TABLE StudentOrganization (
     id SERIAL,
+    college CHAR(3) REFERENCES College(shortAcronym),
     organizationTypeID INTEGER NOT NULL REFERENCES OrganizationType(id),
     acronym VARCHAR(20),
     name VARCHAR(60),
@@ -101,16 +95,21 @@ CREATE TABLE GOSMStatus (
 );
 DROP TABLE IF EXISTS GOSM CASCADE;
 CREATE TABLE GOSM (
-    schoolYear INTEGER REFERENCES SchoolYear(id),
+    startYear INTEGER,
+    endYear INTEGER,
     studentOrganization INTEGER REFERENCES StudentOrganization(id),
-    status INTEGER REFERENCES GOSMStatus(id) DEFAULT 1,
-    PRIMARY KEY (schoolYear, studentOrganization)
+    status INTEGER NOT NULL REFERENCES GOSMStatus(id) DEFAULT 1,
+    dateFiled DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (startYear, endYear, studentOrganization),
+    CONSTRAINT start_end_year_value CHECK(endYear > startYear)
 );
 
 DROP TABLE IF EXISTS GOSMActivities CASCADE;
 CREATE TABLE GOSMActivities (
     id INTEGER,
-    schoolYear INTEGER,
+    startYear INTEGER,
+    endYear INTEGER,
     studentOrganization INTEGER,
     goals VARCHAR(45) NOT NULL,
     objectives VARCHAR(45)[] NOT NULL,
@@ -125,8 +124,10 @@ CREATE TABLE GOSMActivities (
     isRelatedToOrganizationNature BOOLEAN NOT NULL,
     budget NUMERIC(16, 4) NOT NULL,
 
-    FOREIGN KEY (schoolYear, studentOrganization) REFERENCES GOSM(schoolYear, studentOrganization),
-    PRIMARY KEY (id, schoolYear, studentOrganization)  
+    FOREIGN KEY (startYear, endYear, studentOrganization) REFERENCES GOSM(startYear, endYear, studentOrganization),
+    PRIMARY KEY (id, startYear, endYear, studentOrganization),
+    CONSTRAINT start_end_year_value CHECK(endYear > startYear),
+    CONSTRAINT targetdate_start_end_value CHECK(targetDateEnd > targetDateStart)
 );
 CREATE OR REPLACE FUNCTION trigger_before_insert_GOSMActivities()
 RETURNS trigger AS
@@ -134,7 +135,8 @@ $trigger_before_insert_GOSMActivities$
     BEGIN
         SELECT MAX(id) + 1 INTO STRICT NEW.id
           FROM GOSMActivities
-         WHERE schoolYear = NEW.schoolYear
+         WHERE startYear = NEW.startYear
+           AND endYear = NEW.endYear
            AND studentOrganization = NEW.studentOrganization;
         return NEW;
     END;
@@ -181,7 +183,7 @@ CREATE TABLE ProjectProposalProgramDesign (
     personInCharge VARCHAR(60)[],
 
     PRIMARY KEY (projectProposalID, id),
-    CHECK(startTime > endTime)
+    CHECK(endTime > startTime)
 );
 -- TODO: TRIGGER FOR ID
 DROP TABLE IF EXISTS ProjectProposalProjectedIncome CASCADE;
