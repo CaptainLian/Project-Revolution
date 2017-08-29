@@ -245,3 +245,13 @@ CREATE TABLE SpecialApproval (
 	/* END SPECIAL APPROVAL SLIP */
 -- END FORMS 
 -- COMMIT;
+
+    /* SESSION TABLE */
+CREATE TABLE IF NOT EXISTS user_session (
+    "sid" varchar NOT NULL COLLATE "default",
+    "sess" json NOT NULL,
+    "expire" timestamp(6) NOT NULL,
+
+    PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE
+)
+WITH (OIDS=FALSE);

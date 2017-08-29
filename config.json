@@ -19,6 +19,20 @@
 		},
 		"views": {
 			"path": "./app/views"
+		},
+		"session": {
+			"proxy": false,
+			"name": "CSO",
+			"resave": false,
+			"saveUninitialized": false,
+			"unset": "destroy",
+			"table_name": "user_session",
+			"cookie": {
+				"httpOnly": false,
+				"path": "/",
+				"sameSite": "strict",
+				"secure": false
+			}
 		}
 	},	
 	"database": {

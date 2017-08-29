@@ -9,6 +9,8 @@ var nunjucks = require('nunjucks');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session'),
+    pgSession = require('connect-pg-simple')(session);
 
 //function to help me
 var requireDir = require('require-dir');
@@ -28,15 +30,6 @@ var database = pgPromise({
 
 /* testing the connection */
 var qrm = pgPromise.queryResult;
-//query from database
-database.query('SELECT * FROM account WHERE studentid = 11445955', undefined, qrm.any)
-  .then((data) => {
-    //console.log(data);
-    console.log('Database Connection successful');
-  })
-  .catch((error) => {
-    console.log(error);
-  });
 
 // view engine setup
 app.set('views', path.join(__dirname, 'app/views'));
@@ -47,28 +40,40 @@ nunjucks.configure('./app/views/', {
 });
 
 // uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+// app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(global.config.webserver.assets.path));
 
+
+let session_config = global.config.webserver.session;
+console.log(session_config.saveUninitialized);
+app.use(session({
+  store: new pgSession({
+    pgPromise: database,
+    tableName: session_config.table_name
+  }),
+  proxy: session_config.proxy,
+  name: session_config.name,
+  resave: session_config.resave,
+  saveUninitialized: session_config.saveUninitialized,
+  unset: session_config.unset,
+  secret: 'this is a place holder secret, would be replaced by an auto generated secret',
+  cookie: {
+    httpOnly: session_config.cookie.httpOnly,
+    path: session_config.cookie.path,
+    sameSite: session_config.cookie.sameSite,
+    secure: session_config.cookie.secure
+  }
+}));
+
+
+
 /* 
 Load QueryFiles
 */
-/*
-
-
-let queryFile = pgp.QueryFile('../app/query/testQuery.sql', {minify: true});
-//same as the above
- db.any(queryFile)
-   .then((data) => {
-    console.log(data);
- }).catch((error) => {
-    console.log(error);
- });
- */
 console.log('Loading Query Files');
 var QueryFile = pgPromise.QueryFile;
 var queryFiles = {};
