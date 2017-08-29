@@ -4,16 +4,6 @@ DROP EXTENSION IF EXISTS "uuid-ossp";
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-DROP TABLE IF EXISTS SchoolYear CASCADE;
-CREATE TABLE SchoolYear (
-    id SERIAL UNIQUE NOT NULL,
-    startYear INTEGER,
-    endYear INTEGER,
-    
-    PRIMARY KEY (startYear, endYear),
-    CONSTRAINT endyear_startyear_value CHECK(endYear > startYear)
-);
-
 DROP TABLE IF EXISTS Term CASCADE;
 CREATE TABLE Term (
     startYear INTEGER,
@@ -133,7 +123,7 @@ CREATE TABLE GOSMActivities (
     isRelatedToOrganizationNature BOOLEAN NOT NULL,
     budget NUMERIC(16, 4) NOT NULL,
 
-    FOREIGN KEY (schoolYear, studentOrganization) REFERENCES GOSM(startYear, endYear, studentOrganization),
+    FOREIGN KEY (startYear, endYear, studentOrganization) REFERENCES GOSM(startYear, endYear, studentOrganization),
     PRIMARY KEY (id, startYear, endYear, studentOrganization),
     CONSTRAINT start_end_year_value CHECK(endYear > startYear),
     CONSTRAINT targetdate_start_end_value CHECK(targetDateEnd > targetDateStart)
@@ -144,7 +134,8 @@ $trigger_before_insert_GOSMActivities$
     BEGIN
         SELECT MAX(id) + 1 INTO STRICT NEW.id
           FROM GOSMActivities
-         WHERE schoolYear = NEW.schoolYear
+         WHERE startYear = NEW.startYear
+           AND endYear = NEW.endYear
            AND studentOrganization = NEW.studentOrganization;
         return NEW;
     END;
