@@ -46,18 +46,7 @@
 
 							
 							<div id="div-after-objectives"></div>
-                                             <!--    
-                                                <label class="control-label col-md-3">&nbsp</label>
-                                                <div class="col-md-8" id="div-objectives">
-                                                    <input type="text" placeholder="" class="form-control">
-                                                    <span class="help-block">&nbsp</span> 
-                                                   
-                                                </div>
-                                                <div class="col-md-1" style="margin-top: 8px" >
-                                                    <i class="fa fa-times text-danger" data-toggle="tooltip" title="Remove"></i>
-                                                </div> -->
-
-
+                                            
                                                 <div style="text-align: center" class="col-md-12">
                                                 	<button id="objectives-add" type="button" class="btn btn-success">&nbsp&nbsp&nbsp+&nbsp&nbsp&nbsp</button>
                                                 </div>
@@ -91,7 +80,7 @@
                                             <div class="form-group">
                                             	<label class="control-label col-md-3">Activity Type</label>
                                             	<div class="col-md-9">
-                                            		<select class="form-control select" id="activity-type">
+                                            		<select class="form-control select" name="activity-type" id="activity-type">
                                             			{% for type in activityTypes %}
                                                             <option value="{{type.id}}">{{type.name}}</option>
                                             			
@@ -113,7 +102,7 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">Nature Type</label>
                                                 <div class="col-md-9">
-                                                    <select class="form-control select" id="activity-type">
+                                                    <select class="form-control select" name="nature-type" id="nature-type">
                                                         
                                                         <option value="">Academic</option>
                                                         <option value="">Special Interest</option>

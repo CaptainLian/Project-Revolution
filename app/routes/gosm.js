@@ -7,8 +7,6 @@ module.exports = function (app, controllers){
 	router.get('/viewOrglist', gosm.viewOrglist);
 	router.get('/viewOrgGOSM', gosm.viewOrgGOSM);
 	router.get('/viewActivityList', gosm.activityList);
-	router.get('/createGOSM', gosm.viewCreateGOSM);
-	router.post('/createGOSM', gosm.inputCreateGOSM);
 	return router;
 };
 
