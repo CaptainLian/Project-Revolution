@@ -113,6 +113,7 @@ CREATE TABLE GOSMActivities (
     studentOrganization INTEGER,
     goals VARCHAR(45) NOT NULL,
     objectives VARCHAR(45)[] NOT NULL,
+    strategies VARCHAR(45) NOT NULL,
     description VARCHAR(255) NOT NULL,
     measures VARCHAR(45) NOT NULL,
     targetDateStart DATE NOT NULL,
@@ -245,3 +246,13 @@ CREATE TABLE SpecialApproval (
 	/* END SPECIAL APPROVAL SLIP */
 -- END FORMS 
 -- COMMIT;
+
+    /* SESSION TABLE */
+CREATE TABLE IF NOT EXISTS session (
+    "sid" varchar NOT NULL COLLATE "default",
+    "sess" json NOT NULL,
+    "expire" timestamp(6) NOT NULL,
+
+    PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE
+)
+WITH (OIDS=FALSE);
