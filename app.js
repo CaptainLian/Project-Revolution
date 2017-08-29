@@ -13,6 +13,7 @@ var pg = require('pg'),
     session = require('express-session'),
     pgSession = require('connect-pg-simple')(session);
 
+var Pool = require('pg-pool');
 //function to help me
 var requireDir = require('require-dir');
 var fileSystem = require('fs');
@@ -43,6 +44,7 @@ nunjucks.configure('./app/views/', {
 });
 
 
+
 // uncomment after placing your favicon in /public
 // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
@@ -54,7 +56,8 @@ app.use(express.static(global.config.webserver.assets.path));
 let session_config = global.config.webserver.session;
 app.use(session({
   store: new pgSession({
-    pool: new pg.Pool(database_connection_options)
+    pool: new Pool(database_connection_options),
+    tableName:'user_session'
   }),
   proxy: session_config.proxy,
   name: session_config.name,
