@@ -15,6 +15,9 @@ module.exports = function(database, models, queryFiles){
 					res('ERROR');
 				});
 		},
+		createActivityRequirements:(req, res)=>{
+			res.render("ActivityRequirementsMain");
+		},
 
 		inputCreateGOSM: (req, res) => {
 			
