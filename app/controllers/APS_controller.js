@@ -7,7 +7,6 @@ module.exports = function(database, models, queryFiles){
 
 			Promise.all([gosmModel.getAllActivityTypes(), gosmModel.getAllActivityNature()])
 				.then(data => {
-					console.log(data);
 					res.render('GOSMMain', {
 						activityTypes: data[0],
 						activityNature: data[1]
@@ -72,8 +71,8 @@ module.exports = function(database, models, queryFiles){
 						strategies: strategy,
 						description: description,
 						measures: measures,
-						targetDateStart: startDateSplit[2]+"-"+startDateSplit[0]+"-"+startDateSplit[1],
-						targetDateEnd: endDateSplit[2]+"-"+endDateSplit[0]+"-"+endDateSplit[1],
+						targetDateStart: "'"+startDateSplit[2]+"-"+startDateSplit[0]+"-"+startDateSplit[1]+"'",
+						targetDateEnd: "'"+endDateSplit[2]+"-"+endDateSplit[0]+"-"+endDateSplit[1]+"'",
 						peopleInCharge: personInCharge,
 						activityNature: natureType,
 						activityType: activityType,
