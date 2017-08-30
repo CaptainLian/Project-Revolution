@@ -90,14 +90,19 @@ module.exports = function(database, models, queryFiles){
 					else{
 					//insert to db
 						gosmModel.insertProposedActivity(dbParam)
-							.then()
+							.then(data =>{
+								res.send(1);
+							})
 							.catch(error =>{
+								res.send(0);
 								console.log(error);
 							});
 
+
+
 					}	
 
-					 res.send("lkjlkj");
+					 
 
 
 				});
