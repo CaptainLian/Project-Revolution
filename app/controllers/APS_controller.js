@@ -16,7 +16,7 @@ module.exports = function(database, models, queryFiles){
 				});
 		},
 		createActivityRequirements:(req, res)=>{
-			res.render("ActivityRequirementsMain");
+			res.render("APS/ActivityRequirementsMain");
 		},
 
 		inputCreateGOSM: (req, res) => {
