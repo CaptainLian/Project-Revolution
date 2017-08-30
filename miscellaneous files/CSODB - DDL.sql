@@ -128,7 +128,7 @@ CREATE TABLE GOSMActivities (
     FOREIGN KEY (startYear, endYear, studentOrganization) REFERENCES GOSM(startYear, endYear, studentOrganization),
     PRIMARY KEY (id, startYear, endYear, studentOrganization),
     CONSTRAINT start_end_year_value CHECK(endYear > startYear),
-    CONSTRAINT targetdate_start_end_value CHECK(targetDateEnd > targetDateStart)
+    CONSTRAINT targetdate_start_end_value CHECK(targetDateEnd >= targetDateStart)
 );
 CREATE OR REPLACE FUNCTION trigger_before_insert_GOSMActivities()
 RETURNS trigger AS

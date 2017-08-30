@@ -1,3 +1,5 @@
+const dateFormat = require('dateFormat');
+
 module.exports = function(database, models, queryFiles){
 	var getAllActivityTypeSQL = queryFiles.getAllActivityTypes;
 	const model_gosm = models.gosmModel;
@@ -11,13 +13,21 @@ module.exports = function(database, models, queryFiles){
 			let yearsPromise = model_gosm.getSubmissionYears();
 			let allGOSMPromise = model_gosm.getAll();
 			Promise.all([yearsPromise, allGOSMPromise])
-				.then(function(years) {
-					console.log(years);
+				.then(function(data) {
+					let GOSMList = data[1];
+					for(const gosm of GOSMList){
+						console.log(gosm);
+					}
+					res.render('APS/OrglistMain', {
+						GOSMList: data[1]
+					});
 				})
 				.catch(function(error) {
 					console.log(error);
+
+					res.send(500);
+					throw error;
 				});
-			res.render('APS/OrglistMain');
 		},
 		viewOrgGOSM :( req, res)=>{
 			res.render('APS/OrgGOSMMain');
