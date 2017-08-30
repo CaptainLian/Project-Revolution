@@ -176,7 +176,7 @@
                                 		<div class="panel-heading">Added Activities (60/40)</div>
                                 		
                                 		<div class="panel-body">
-                                			<table class="table">
+                                			<table id="added-act" class="table">
                                 				<thead>
                                 					<tr>
                                 						<th>#</th>
@@ -260,7 +260,30 @@
                     },
 
             success:function(data){
-                console.log(data);
+
+                
+                
+                console.log("console"+data);
+                if(data == "1"){
+                    console.log("console1");
+                    var ctr = 1; 
+                    $("#added-act tbody tr").each(function(){
+                        ctr++
+                    });
+                    var tr = '<tr>'+
+                                '<td>'+ctr+'</td>'+
+                                '<td class="td-title" >'+strategy+'</td>'+
+                                '<td class="text-nowrap">'+
+                                    '<a href="#" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>'+
+                                    '<a href="#" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>'+
+                                '</td>'+
+                            '</tr>';
+                    $("#added-act tbody").append(tr);
+
+                }else{
+                    console.log("consol2");
+
+                }
             }
         });
     });

@@ -91,10 +91,10 @@ module.exports = function(database, models, queryFiles){
 					//insert to db
 						gosmModel.insertProposedActivity(dbParam)
 							.then(data =>{
-								res.send(1);
+								res.send("1");
 							})
 							.catch(error =>{
-								res.send(0);
+								res.send("0");
 								console.log(error);
 							});
 
