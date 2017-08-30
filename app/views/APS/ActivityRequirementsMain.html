@@ -456,7 +456,7 @@
                                                     <tr>
                                                         <th class="text-right" colspan="3"><strong>Total Income</strong></th>
                                                         
-                                                        <th colspan="2"></th>
+                                                        <th class="income-tots" colspan="2"></th>
                                                     </tr>
                                                     </thead>
                                     </table>
@@ -528,7 +528,6 @@
             tabFirst.tab('show');
 
         });
-    
     $(document).ready(function(){
         $("div.fixed-table-loading").remove();
         $('#datepicker-autoclose').datepicker({
@@ -1005,34 +1004,95 @@
         
     $('#mainTable').editableTableWidget().numericInputExample().find('td:first').focus();
     $('#mainTable2').editableTableWidget().numericInputExample().find('td:first').focus();
+    
     $("#insert-button-expense2").click(function(){
-        var td =  '<tr >'+
+        var td =  '<tr class="exp" >'+
                     '<td></td>'+
-                    '<td></td>'+                
-                    '<td></td>'+
+                    '<td class="quan"></td>'+                
+                    '<td class="cost"></td>'+
                     '<th class="total">0</th>'+
                     '<th class="text-center"><i class="fa fa-times remove-time"></i></th>'+
-                '</tr>';
+                   '</tr>';
         $(".exp-row").after(td);
         $('#mainTable2').editableTableWidget().numericInputExample().find('td:first').focus();
+
+        // REMOVE ROW
         $("#mainTable, #mainTable2").on('click','i.remove-time',function(){
             $(this).closest("tr").remove();
         });
+
+        //CALCULATE ROW
+        $("#mainTable2 tbody td").on('change',function(){
+            // CALCULATE TOTAL PER ROW
+            $("#mainTable2 tbody tr.exp").each(function(){
+                console.log("NEIL");
+                $(this).find("th.total").html(parseFloat($(this).find("td.cost").html())*parseInt($(this).find("td.quan").html()));                
+            });
+
+            // TOTAL
+            var inc = 0;
+            $("#mainTable2 tbody tr.inc").each(function(){
+                
+                console.log("NEIL");
+                inc = (parseFloat($(this).find("th.total").html())+ inc);
+            });
+            var exp = 0;
+            $("#mainTable2 tbody tr.exp").each(function(){
+                
+                console.log("NEIL");
+                exp = (parseFloat($(this).find("th.total").html())+ exp);
+            });          
+            var curr = inc - exp;
+            $(".income-tots").html(curr); 
+            
+        });
     });
     $("#insert-button-income").click(function(){
-        var td =  '<tr >'+
-                    '<td></td>'+
-                    '<td></td>'+                
-                    '<td></td>'+
+        var td =  '<tr  class="inc">'+
+                    '<td ></td>'+
+                    '<td class="quan"></td>'+                
+                    '<td class="cost"></td>'+
                     '<th class="total">0</th>'+
                     '<th class="text-center"><i class="fa fa-times remove-time"></i></th>'+
                 '</tr>';
         $(".rev-row").after(td);
         $('#mainTable2').editableTableWidget().numericInputExample().find('td:first').focus();
+
+        //REMOVE ROW
         $("#mainTable, #mainTable2").on('click','i.remove-time',function(){
             $(this).closest("tr").remove();
-          });
+        });
+
+        
+        //CALCULATE ROW
+        $("#mainTable2 tbody td").on('change',function(){
+            // CALCULATE TOTAL PER ROW
+            $("#mainTable2 tbody tr.inc").each(function(){
+                console.log("NEIL");
+                $(this).find("th.total").html(parseFloat($(this).find("td.cost").html())*parseInt($(this).find("td.quan").html()));
+                 
+            });
+            // TOTAL
+            var inc = 0;
+            $("#mainTable2 tbody tr.inc").each(function(){
+                
+                console.log("NEIL");
+                inc = (parseFloat($(this).find("th.total").html())+ inc);
+            });
+            var exp = 0;
+            $("#mainTable2 tbody tr.exp").each(function(){
+                
+                console.log("NEIL");
+                exp = (parseFloat($(this).find("th.total").html())+ exp);
+            });          
+            var curr = inc - exp;
+            $(".income-tots").html(curr); 
+            
+        });
     });
+
+
+
     // $('#editable-datatable').DataTable();
     // $("button .wizard-next").click(function(){
     //      $("#datepicker-autoclose").datepicker('hide');
