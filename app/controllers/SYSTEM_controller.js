@@ -21,6 +21,7 @@ module.exports = function(database, models, queryFiles){
 				
 				req.session.valid = true;
 				console.log("VALID PARAM "+req.session.valid);
+				
 				req.session.cookie.expires = new Date(Date.now() + 5000);
 				req.session.cookie.maxAge = 5000;
 				

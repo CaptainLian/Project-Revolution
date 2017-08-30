@@ -62,18 +62,17 @@ app.use(session({
   }),
   // proxy: session_config.proxy,
   name: session_config.name,
-  // rolling: session_config.rolling,
+  rolling: session_config.rolling,
   resave: session_config.resave,
   saveUninitialized: session_config.saveUninitialized,
   unset: session_config.unset,
-
   secret: 'this is a place holder secret, would be replaced by an auto generated secret',
   cookie: {
     httpOnly: session_config.cookie.httpOnly,
     path: session_config.cookie.path,
     sameSite: session_config.cookie.sameSite,
     secure: session_config.cookie.secure,
-    // maxAge: session_config.maxAge,
+    // maxAge: session_config.cookie.maxAge,
     
   }
 }));

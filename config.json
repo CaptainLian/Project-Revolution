@@ -28,13 +28,15 @@
 			"saveUninitialized": false,
 			"unset": "destroy",
 			"table_name": "session",
-			"maxAge":5000,
+			
 			"rolling":true,
 			"cookie": {
 				"httpOnly": false,
 				"path": "/",
 				"sameSite": "strict",
-				"secure": false				
+				"secure": false,
+				"maxAge":5000
+
 			}
 		}
 	},	
