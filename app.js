@@ -74,11 +74,17 @@ app.use(session({
 }));
 
 
-app.get('/test2', function(req, res){
-  
-  req.session.views = !!req.session.views ? 1 : req.session.views++;
-  res.send(new String(req.session.views));
-});
+if(global.config.webserver.debug_mode){
+	app.get('/test/sessions', function(req, res){
+		let session = req.session;
+		if(session.views){
+			session.views = new Number(session.views) + 1;
+		}else{
+			session.views = 1;
+		}
+		res.send(session.views.toString());
+	});
+}
 
 /* 
 Load QueryFiles
