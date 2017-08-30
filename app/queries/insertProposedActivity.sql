@@ -1,6 +1,6 @@
-INSERT INTO GOSMACTIVITIES (startYear, endYear, studentOrganization, goals,	objectives, description, 
+INSERT INTO GOSMACTIVITIES (startYear, endYear, studentOrganization, goals,	objectives, strategies, description, 
 							measures, targetDateStart, targetDateEnd, peopleInCharge, activityNature,
-							activityType, activityTypeOthersDescription, isRelatedToOrganization, budget) 
-	   VALUES (${startYear}, ${endYear}, ${studentOrganization}, ${goals}, ${objectives}, ${description}, 
+							activityType, activityTypeOtherDescription, isRelatedToOrganizationNature, budget) 
+	   VALUES (${startYear}, ${endYear}, ${studentOrganization}, ${goals}, ${objectives}, ${strategies}, ${description}, 
 				${measures}, ${targetDateStart}, ${targetDateEnd}, ${peopleInCharge}, ${activityNature},
-				${activityType}, ${activityTypeOthersDescription}, ${isRelatedToOrganization}, ${budget});
+				${activityType}, ${activityTypeOtherDescription}, ${isRelatedToOrganizationNature}, ${budget});
