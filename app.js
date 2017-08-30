@@ -60,35 +60,38 @@ app.use(session({
     pool: new Pool(database_connection_options),
     tableName:'user_session'
   }),
-  proxy: session_config.proxy,
+  // proxy: session_config.proxy,
   name: session_config.name,
-  resave: session_config.resave,
+  rolling: session_config.rolling,
+  // resave: session_config.resave,
   saveUninitialized: session_config.saveUninitialized,
   unset: session_config.unset,
+  maxAge: session_config.maxAge,
   secret: 'this is a place holder secret, would be replaced by an auto generated secret',
   cookie: {
     httpOnly: session_config.cookie.httpOnly,
     path: session_config.cookie.path,
     sameSite: session_config.cookie.sameSite,
-    secure: session_config.cookie.secure
+    secure: session_config.cookie.secure,
+    
   }
 }));
 
 
 
 
-if(global.config.webserver.debug_mode){
-	app.get('/test/sessions', function(req, res){
-		let session = req.session;
-		if(session.views){
-			session.views = new Number(session.views) + 1;
-		}else{
-			session.views = 1;
-		}
+// if(global.config.webserver.debug_mode){
+// 	app.get('/test/sessions', function(req, res){
+// 		let session = req.session;
+// 		if(session.views){
+// 			session.views = new Number(session.views) + 1;
+// 		}else{
+// 			session.views = 1;
+// 		}
     
-		res.send(session.views.toString());
-	});
-}
+// 		res.send(session.views.toString());
+// 	});
+// }
 
 /* 
 Load QueryFiles

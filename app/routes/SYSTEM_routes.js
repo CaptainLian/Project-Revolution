@@ -3,7 +3,7 @@ var router = express.Router();
 
 module.exports = function(app , controllers){
 	router.get('/', controllers.SYSTEM_controller.viewLogin);
-	router.get('/login', controllers.SYSTEM_controller.viewLogin);
+	
 	router.post('/', controllers.SYSTEM_controller.checkLogin);
 	return router; 
 }

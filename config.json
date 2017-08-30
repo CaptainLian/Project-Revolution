@@ -24,15 +24,17 @@
 		"session": {
 			"proxy": false,
 			"name": "CSO",
-			"resave": false,
+			"resave": true,
 			"saveUninitialized": false,
 			"unset": "destroy",
 			"table_name": "session",
+			"maxAge":5000,
+			"rolling":true,
 			"cookie": {
 				"httpOnly": false,
 				"path": "/",
 				"sameSite": "strict",
-				"secure": false
+				"secure": false				
 			}
 		}
 	},	
