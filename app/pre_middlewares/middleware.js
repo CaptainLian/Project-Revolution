@@ -4,22 +4,19 @@ var app = express();
 module.exports = function (app, database, models, queryFiles){
 	return [
 		{
-			name: 'First',
-			description: '',
+			name: 'Authenticate',
+			description: 'Check if user is logged in',
+			route:'*',
 			action: function (req, res, next){
-				console.log("TITS ni harambe");
-				next();
+				console.log(req);
+				if(!req.session.valid && req._parsedUrl.pathname != '/'){
+					res.render("System/403");
+				}else{
+					next();
+				}
+
 			} 
 		},
 
-
-		{
-			name: 'Second',
-			description: '',
-			route: '/',
-			action: function (req, rest, next){
-				next();
-			}
-		}
 	];
 };
