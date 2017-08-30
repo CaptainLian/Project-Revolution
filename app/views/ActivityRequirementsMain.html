@@ -418,40 +418,67 @@
                                     <h3>Projected Income</h3>
                                     <hr>
 
+                                  
                                     <table id="mainTable2" class="table editable-table table-bordered color-bordered-table success-bordered-table table-striped m-b-0">
                                                 <thead>
                                                     <tr>
-                                                        <th>Material</th>
+                                                        <th colspan="5">Projected Revenue</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Item</th>
                                                         <th>Quantity</th>
-                                                        <th>Unit Cost</th>
+                                                        <th>Selling Price</th>
                                                         <th>Total Cost</th>
                                                         <th width="5%"></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <!-- <tr>
+                                                    <tr class="rev-row" style="display: none">
                                                         <td>Car</td>
                                                         <td>100</td>
                                                     
                                                         <td>20</td>
                                                         <th class="total">0</th>
-                                                    </tr> -->
-                                                  
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Car</td>
+                                                        <td>100</td>
+                                                    
+                                                        <td>20</td>
+                                                        <th class="total">0</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th bgcolor="#fb9678" style="color: #fff" colspan="5" >Less: Projected Expense</th>
+                                                    </tr>
+                                                     <tr class="exp-row">
+                                                        <th bgcolor="#fb9678" style="color: #fff">Item</th>
+                                                        <th bgcolor="#fb9678" style="color: #fff">Quantity</th>
+                                                        <th bgcolor="#fb9678" style="color: #fff">Selling Price</th>
+                                                        <th bgcolor="#fb9678" style="color: #fff">Total Cost</th>
+                                                        <th bgcolor="#fb9678" style="color: #fff" width="5%"></th>
+                                                    </tr>
+                                                    
                                                 </tbody>
                                                 <tfoot>
                                                     <tr>
-                                                        <th class="text-right" colspan="3"><strong>TOTAL</strong></th>
+                                                        <th class="text-right" colspan="3"><strong>Total Income</strong></th>
                                                         
                                                         <th colspan="2"></th>
                                                     </tr>
                                                     </thead>
                                     </table>
 
+
                                     <div>&nbsp</div>
                                     <div class=" form-group text-center">
 
-                                         <button type="button" id="insert-button-expense" class="btn btn-success">Insert </button>
+                                         <button type="button" id="insert-button-income" class="btn btn-success">Insert Revenue</button>
+                                           <button type="button" id="insert-button-expense2" class="btn btn-danger">Insert Expense </button>
                                     </div>
+
+                                    <div>&nbsp</div>
+                                    <div>&nbsp</div>
+                                    <div>&nbsp</div>
 
 
 
@@ -494,6 +521,7 @@
 
 <script type="text/javascript">
     ctr = 0;
+    
     $(".select2").select2();
     $("div.fixed-table-loading").remove();
     $("#myTabs ").on('click','i.close-day',function(){
@@ -507,14 +535,20 @@
             tabFirst.tab('show');
 
         });
+    
     $(document).ready(function(){
         $("div.fixed-table-loading").remove();
         $('#datepicker-autoclose').datepicker({
             autoclose: true,
             todayHighlight: true
         });
+        
+        
+        
+
+         // $('.fxsdr').attr('checked', true);
             // $("tr.no-records-found").remove();.on("focus","input",
-        });
+    });
     $(document).bind("customHtmlGenerated", function(){
       var idNumber = $("ul#myTabs").find(".active").attr("id").substring(1);
        $('#datepicker-autoclose'+ctr).datepicker({
@@ -940,6 +974,30 @@
         })();
         
     $('#mainTable').editableTableWidget().numericInputExample().find('td:first').focus();
+    $('#mainTable2').editableTableWidget().numericInputExample().find('td:first').focus();
+    $("#insert-button-expense2").click(function(){
+        var td =  '<tr >'+
+                    '<td></td>'+
+                    '<td></td>'+                
+                    '<td></td>'+
+                    '<th class="total">0</th>'+
+                    '<td class="text-center"><i class="fa fa-times remove-time"></i></td>'+
+                '</tr>';
+        $(".exp-row").after(td);
+        $('#mainTable2').editableTableWidget().numericInputExample().find('td:first').focus();
+
+    });
+    $("#insert-button-income").click(function(){
+        var td =  '<tr >'+
+                    '<td></td>'+
+                    '<td></td>'+                
+                    '<td></td>'+
+                    '<th class="total">0</th>'+
+                    '<td class="text-center"><i class="fa fa-times remove-time"></i></td>'+
+                '</tr>';
+        $(".rev-row").after(td);
+        $('#mainTable2').editableTableWidget().numericInputExample().find('td:first').focus();
+    });
     // $('#editable-datatable').DataTable();
     // $("button .wizard-next").click(function(){
     //      $("#datepicker-autoclose").datepicker('hide');
