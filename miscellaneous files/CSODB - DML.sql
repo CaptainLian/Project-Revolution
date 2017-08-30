@@ -77,7 +77,15 @@ INSERT INTO GOSMStatus (id, name)
 INSERT INTO GOSMStatus (id, name)
                 VALUES (3, 'Denied');
 
+TRUNCATE TABLE StudentOrganization CASCADE;
 INSERT INTO StudentOrganization (id, college, organizationType, acronym, name, description)
                          VALUES (1, 'CCS', 2, 'LSCS', 'La Salle Computer Society', E'Best organization in CCS, because it\'s the only organization in CCS');
+TRUNCATE TABLE GOSM CASCADE;
 INSERT INTO GOSM (startYear, endYear, StudentOrganization)
           VALUES (2016, 2017, 1);
+TRUNCATE TABLE GOSMActivities CASCADE;
+INSERT INTO GOSMActivities (startYear, endYear, studentOrganization, goals, objectives, strategies, description, measures, targetDateStart, targetDateEnd, peopleInCharge, activityNature, activityType, isRelatedToOrganizationNature, budget)
+                    VALUES (2016, 2017, 1, 'Goal Mo to', '{"Objectives", "mo", "to"}', 'Strategy mo to', 'description mo to', 'measure mo to', '2017-8-30', '2017-8-31', '{"In charge si acoe"}', 1, 1, false, 69.699);
+INSERT INTO GOSMActivities (startYear, endYear, studentOrganization, goals, objectives, strategies, description, measures, targetDateStart, targetDateEnd, peopleInCharge, activityNature, activityType, isRelatedToOrganizationNature, budget)
+                    VALUES (2016, 2017, 1, 'Goal Mo to', '{"Objectives", "mo", "to"}', 'Strategy mo to', 'description mo to', 'measure mo to', '2017-8-30', '2017-8-31', '{"In charge si acoe"}', 1, 1, false, 69.699)
+          

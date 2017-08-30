@@ -107,7 +107,7 @@ CREATE TABLE GOSM (
 
 DROP TABLE IF EXISTS GOSMActivities CASCADE;
 CREATE TABLE GOSMActivities (
-    id INTEGER,
+    id INTEGER DEFAULT 0,
     startYear INTEGER,
     endYear INTEGER,
     studentOrganization INTEGER,
@@ -134,7 +134,7 @@ CREATE OR REPLACE FUNCTION trigger_before_insert_GOSMActivities()
 RETURNS trigger AS
 $trigger_before_insert_GOSMActivities$
     BEGIN
-        SELECT MAX(id) + 1 INTO STRICT NEW.id
+        SELECT COALESCE(MAX(id) + 1, 1) INTO STRICT NEW.id
           FROM GOSMActivities
          WHERE startYear = NEW.startYear
            AND endYear = NEW.endYear
