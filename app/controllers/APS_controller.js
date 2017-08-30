@@ -6,7 +6,7 @@ module.exports = function(database, models, queryFiles){
 			console.log('VIEW CREATE GOSM CONTROLLER');
 			gosmModel.getAllActivityTypes()
 				.then(data => {
-					res.render('GOSMMain', {
+					res.render('APS/GOSMMain', {
 						activityTypes: data
 					});
 				})
@@ -23,7 +23,7 @@ module.exports = function(database, models, queryFiles){
 			console.log(JSON.stringify(req.body));
 			gosmModel.getAllActivityTypes()
 				.then(data => {
-					res.render('GOSMMain', {
+					res.render('APS/GOSMMain', {
 						activityTypes: data
 					});
 				})

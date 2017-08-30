@@ -4,17 +4,17 @@ module.exports = function(database, models, queryFiles){
 	return {
 		viewCreateGOSM: (req, res) => {
 		//if president
-			res.render('GOSMMain');
+			res.render('APS/GOSMMain');
 			//next();
 		},
 		viewOrglist:( req, res) =>{
-			res.render('OrglistMain');
+			res.render('APS/OrglistMain');
 		},
 		viewOrgGOSM :( req, res)=>{
-			res.render('OrgGOSMMain');
+			res.render('APS/OrgGOSMMain');
 		},
 		activityList :( req, res)=>{
-			res.render('ActivityListMain');
+			res.render('APS/ActivityListMain');
 		},
 		inputCreateGOSM: (req, res) => {
 
