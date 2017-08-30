@@ -3,10 +3,11 @@ var app = express();
 
 module.exports = function (app, database, models, queryFiles){
 	return [
-		/*{
+		{
 			name: 'First',
 			description: '',
 			action: function (req, res, next){
+				console.log("TITS ni harambe");
 				next();
 			} 
 		},
@@ -19,6 +20,6 @@ module.exports = function (app, database, models, queryFiles){
 			action: function (req, rest, next){
 				next();
 			}
-		}*/
+		}
 	];
 };

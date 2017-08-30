@@ -44,6 +44,7 @@ nunjucks.configure('./app/views/', {
 });
 
 
+// Middle
 
 // uncomment after placing your favicon in /public
 // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -74,6 +75,8 @@ app.use(session({
 }));
 
 
+
+
 if(global.config.webserver.debug_mode){
 	app.get('/test/sessions', function(req, res){
 		let session = req.session;
@@ -82,6 +85,7 @@ if(global.config.webserver.debug_mode){
 		}else{
 			session.views = 1;
 		}
+    
 		res.send(session.views.toString());
 	});
 }
