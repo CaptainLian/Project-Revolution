@@ -5,7 +5,7 @@ module.exports = function(database, models, queryFiles){
 		viewCreateGOSM: (req, res) => {
 			console.log('VIEW CREATE GOSM CONTROLLER');
 
-			promise.all([gosmModel.getAllActivityTypes(), gosmModel.getAllActivityNature()])
+			Promise.all([gosmModel.getAllActivityTypes(), gosmModel.getAllActivityNature()])
 				.then(data => {
 					console.log(data);
 					res.render('GOSMMain', {

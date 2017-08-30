@@ -17,7 +17,7 @@ module.exports = function(db, queryFiles){
 			return db.none(insertProposedActivitySQL, param);
 		},
 		getSchoolYear: function(){
-			return db.one(getSchoolYearSQL)
+			return db.one(getSchoolYearSQL);
 		}
 	};
 };
