@@ -272,7 +272,7 @@
 
                                     <div class="form-group exp">
                                       <label class="control-label col-md-3">Organizational Funds</label>
-                                      <input class="col-md-6" type="text">
+                                      <input id="org-exp" class="col-md-6" type="text">
                                         
                                          
                                     </div>
@@ -281,7 +281,7 @@
 
                                     <div class="form-group exp">
                                       <label class="control-label col-md-3">Participant's Fee</label>
-                                      <input class="col-md-6" type="text">
+                                      <input id="par-exp" class="col-md-6" type="text">
                                         
                                          
                                     </div>
@@ -290,7 +290,7 @@
 
                                     <div class="form-group exp">
                                       <label class="control-label col-md-3">Others(i.e Sponsorship)</label>
-                                      <input class="col-md-6" type="text">
+                                      <input id="others-exp" class="col-md-6" type="text">
                                         
                                          
                                     </div>
@@ -300,7 +300,7 @@
 
                                      <div class="form-group exp">
                                       <label class="control-label col-md-3">Total</label>
-                                      <a class="col-md-6" type="text">1909</a>
+                                      <a class="col-md-6" id="tot-exp" type="text">0</a>
                                         
                                          
                                     </div>
@@ -366,7 +366,7 @@
 
                                     <div class="form-group">
                                       <label class="control-label col-md-3">Operational Fund</label>
-                                      <input class="col-md-9" type="text">
+                                      <input id="ope-fund"  class="col-md-9" type="text">
                                         
                                          
                                     </div>
@@ -375,7 +375,7 @@
 
                                     <div class="form-group">
                                       <label class="control-label col-md-3">Depository Fund</label>
-                                      <input class="col-md-9" type="text">
+                                      <input id="dep-fund" class="col-md-9" type="text">
                                         
                                          
                                     </div>
@@ -384,7 +384,7 @@
 
                                     <div class="form-group">
                                       <label class="control-label col-md-3">Other Sources of Funds</label>
-                                      <input class="col-md-9" type="text">
+                                      <input id="other-fund" class="col-md-9" type="text">
                                         
                                          
                                     </div>
@@ -394,7 +394,7 @@
 
                                      <div class="form-group">
                                       <label class="control-label col-md-3">Total Cash for Disbursement:</label>
-                                      <a class="col-md-9" type="text">1909</a>
+                                      <a id="tot-fund" class="col-md-9" type="text">0</a>
                                         
                                          
                                     </div>
@@ -406,7 +406,18 @@
 
                                      <div class="form-group">
                                       <label class="control-label col-md-3">Total Projected Expenses:</label>
-                                      <a class="col-md-9" type="text">1909</a>
+                                      <a id="proj-exp" class="col-md-9" type="text">0</a>
+                                        
+                                         
+                                    </div>
+
+                                    <div>&nbsp</div>
+                                    <div>&nbsp</div>
+                                    <div>&nbsp</div>
+
+                                     <div class="form-group">
+                                      <label class="control-label col-md-3">Remaining Balance:</label>
+                                      <a id="bal-fund" class="col-md-9" type="text">0</a>
                                         
                                          
                                     </div>
@@ -534,8 +545,8 @@
             autoclose: true,
             todayHighlight: true
         });
-        
-        
+        $("#org-exp").trigger("focus");
+        $("#ope-fund, #dep-fund, #other-fund, #org-exp, #par-exp, #others-exp").val("0");
         
 
          // $('.fxsdr').attr('checked', true);
@@ -867,6 +878,7 @@
                     curr = (parseFloat($(this).find("th.total").html())+ curr);
                 });
                 $(".expense-total").html(curr);
+                $("#proj-exp").html(curr);
             
             });
 
@@ -885,6 +897,7 @@
                     curr = (parseFloat($(this).find("th.total").html())+ curr);
                 });
                 $(".expense-total").html(curr);
+                $("#proj-exp").html(curr);
             });
 
             
@@ -1005,6 +1018,16 @@
     $('#mainTable').editableTableWidget().numericInputExample().find('td:first').focus();
     $('#mainTable2').editableTableWidget().numericInputExample().find('td:first').focus();
     
+
+    $("#ope-fund, #dep-fund, #other-fund").focus(function(){
+        $("#tot-fund").html(parseFloat($("#ope-fund").val())+parseFloat($("#dep-fund").val())+parseFloat($("#other-fund").val()));
+        $("#bal-fund").html(parseFloat($("#tot-fund").html())-parseFloat($("#proj-exp").html()));
+    });
+    $("#ope-fund, #dep-fund, #other-fund").change(function(){
+        $("#tot-fund").html(parseFloat($("#ope-fund").val())+parseFloat($("#dep-fund").val())+parseFloat($("#other-fund").val()));
+        $("#bal-fund").html(parseFloat($("#tot-fund").html())-parseFloat($("#proj-exp").html()));
+    });
+
     $("#insert-button-expense2").click(function(){
         var td =  '<tr class="exp" >'+
                     '<td></td>'+
@@ -1019,6 +1042,21 @@
         // REMOVE ROW
         $("#mainTable, #mainTable2").on('click','i.remove-time',function(){
             $(this).closest("tr").remove();
+            // TOTAL
+            var inc = 0;
+            $("#mainTable2 tbody tr.inc").each(function(){
+                
+                console.log("NEIL");
+                inc = (parseFloat($(this).find("th.total").html())+ inc);
+            });
+            var exp = 0;
+            $("#mainTable2 tbody tr.exp").each(function(){
+                
+                console.log("NEIL");
+                exp = (parseFloat($(this).find("th.total").html())+ exp);
+            });          
+            var curr = inc - exp;
+            $(".income-tots").html(curr); 
         });
 
         //CALCULATE ROW
@@ -1046,6 +1084,12 @@
             $(".income-tots").html(curr); 
             
         });
+    });
+    $("#org-exp, #par-exp, #others-exp").focus(function(){
+        $("#tot-exp").html(parseFloat($("#org-exp").val())+parseFloat($("#par-exp").val())+parseFloat($("#others-exp").val()));
+    });
+    $("#org-exp, #par-exp, #others-exp").change(function(){
+        $("#tot-exp").html(parseFloat($("#org-exp").val())+parseFloat($("#par-exp").val())+parseFloat($("#others-exp").val()));
     });
     $("#insert-button-income").click(function(){
         var td =  '<tr  class="inc">'+
