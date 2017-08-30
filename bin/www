@@ -8,14 +8,13 @@ var config = require('../config.json');
 global.config = {};
 
 for (var key in config){
-  console.log(`Adding global.config.key: ${key}`);
+  console.log(`\tAdding global.config.key: ${key}`);
   var object = config[key];
   global.config[key] = {};
   for(var oKey in object){
     global.config[key][oKey] = object[oKey];
   }
 }
-
 console.log('Server Configuration Loaded\n');
 
 /**

@@ -9,14 +9,18 @@
   },
   "dependencies": {
     "body-parser": "^1.17.2",
+    "connect-pg-simple": "^4.2.1",
     "cookie-parser": "^1.4.3",
     "debug": "^2.6.8",
     "ejs": "^2.5.7",
     "express": "^4.15.4",
     "express-nunjucks": "^2.2.3",
+    "express-session": "^1.15.5",
     "morgan": "^1.8.2",
     "nunjucks": "^3.0.1",
+    "pg": "^7.2.0",
     "pg-minify": "^0.4.5",
+    "pg-pool": "^2.0.3",
     "pg-promise": "^5.9.7",
     "require-dir": "^0.3.2",
     "serve-favicon": "^2.4.3"

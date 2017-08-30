@@ -73,4 +73,11 @@ TRUNCATE TABLE GOSMStatus CASCADE;
 INSERT INTO GOSMStatus (id, name)
                 VALUES (1, 'Pending');
 INSERT INTO GOSMStatus (id, name)
-                VALUES (2, 'Filed');
+                VALUES (2, 'Approved');
+INSERT INTO GOSMStatus (id, name)
+                VALUES (3, 'Denied');
+
+INSERT INTO StudentOrganization (id, college, organizationType, acronym, name, description)
+                         VALUES (1, 'CCS', 2, 'LSCS', 'La Salle Computer Society', E'Best organization in CCS, because it\'s the only organization in CCS');
+INSERT INTO GOSM (startYear, endYear, StudentOrganization)
+          VALUES (2016, 2017, 1);

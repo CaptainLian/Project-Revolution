@@ -1,0 +1,60 @@
+{% extends "../template/APS/AssociateOrglist.html" %}
+
+
+{%block styles%}
+	<link href="css/custom.css" rel="stylesheet">
+{%endblock%}
+
+{%block header%}
+	{%include "../section/header.html"%}
+{%endblock%}
+
+{%block sidebar%}
+	{%include "../section/sidebar/cso-aps.html"%}
+{%endblock%}
+
+
+{%block content%}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="white-box">
+            <h3 class="box-title m-b-0">Organizations</h3>
+            <p class="text-muted m-b-30">A table showing the list of organizations</p>
+            <div class="table-responsive">
+
+                <table id="myTable" class="table table-hover" role="grid" aria-describedby="myTable_info">
+                    <thead>
+                        <tr role="row">
+                            <th class="sorting" tabindex="0" aria-controls="myTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 139px;">Organization Name</th>
+                            <th class="sorting" tabindex="0" aria-controls="myTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 139px;">Date Submitted</th>
+                            <th class="sorting " tabindex="0" aria-controls="myTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 129px;">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody> 
+                        <tr role="row" class="odd" onclick="window.location='viewOrgGOSM';">
+                            <td>La Salle Computer Society</td><!-- date of event-->
+                            <td>January 1, 2017</td><!-- days until late-->
+                            <td class="">Approved</td>
+                        </tr>
+                        <tr role="row" class="odd denied" onclick="window.location='viewOrgGOSM';">
+                            <td>Adcreate Society</td><!-- date of event-->
+                            <td>January 2, 2017</td><!-- days until late-->
+                            <td class="">Denied</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+
+    </div>
+    <div class="col-sm-12">
+
+    </div>
+</div>
+{%endblock%}
+
+{%block scripts%}
+
+{%endblock%}

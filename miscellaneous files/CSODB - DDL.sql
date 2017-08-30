@@ -75,7 +75,7 @@ DROP TABLE IF EXISTS StudentOrganization CASCADE;
 CREATE TABLE StudentOrganization (
     id SERIAL,
     college CHAR(3) REFERENCES College(shortAcronym),
-    organizationTypeID INTEGER NOT NULL REFERENCES OrganizationType(id),
+    organizationType INTEGER NOT NULL REFERENCES OrganizationType(id),
     acronym VARCHAR(20),
     name VARCHAR(60),
     description TEXT,
@@ -99,7 +99,7 @@ CREATE TABLE GOSM (
     endYear INTEGER,
     studentOrganization INTEGER REFERENCES StudentOrganization(id),
     status INTEGER NOT NULL REFERENCES GOSMStatus(id) DEFAULT 1,
-    dateFiled DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    dateCreated DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     PRIMARY KEY (startYear, endYear, studentOrganization),
     CONSTRAINT start_end_year_value CHECK(endYear > startYear)
@@ -246,3 +246,13 @@ CREATE TABLE SpecialApproval (
 	/* END SPECIAL APPROVAL SLIP */
 -- END FORMS 
 -- COMMIT;
+
+    /* SESSION TABLE */
+CREATE TABLE IF NOT EXISTS session (
+    "sid" varchar NOT NULL COLLATE "default",
+    "sess" json NOT NULL,
+    "expire" timestamp(6) NOT NULL,
+
+    PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE
+)
+WITH (OIDS=FALSE);

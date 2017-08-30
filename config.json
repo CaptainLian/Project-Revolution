@@ -2,6 +2,7 @@
 	"webserver":{
 		"port": 3000,
 		"url": "",
+		"debug_mode": true,
 		"controllers": {
 			"path": "./app/controllers"
 		},
@@ -19,6 +20,20 @@
 		},
 		"views": {
 			"path": "./app/views"
+		},
+		"session": {
+			"proxy": false,
+			"name": "CSO",
+			"resave": false,
+			"saveUninitialized": false,
+			"unset": "destroy",
+			"table_name": "session",
+			"cookie": {
+				"httpOnly": false,
+				"path": "/",
+				"sameSite": "strict",
+				"secure": false
+			}
 		}
 	},	
 	"database": {
@@ -26,7 +41,7 @@
 		"port": 5432,
 		"database": "CSODB",
 		"username": "postgres",
-		"password": "1234",
+		"password": "",
 		"query_files": {
 			"path": "./app/queries",
 			"compress": true,
