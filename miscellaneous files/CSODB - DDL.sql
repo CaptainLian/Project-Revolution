@@ -20,6 +20,7 @@ CREATE TABLE Term (
     CONSTRAINT date_start_end_value CHECK (dateEnd > dateStart)
 );
 
+
 DROP TABLE IF EXISTS Account CASCADE;
 CREATE TABLE Account (
     studentID INTEGER,
@@ -30,6 +31,8 @@ CREATE TABLE Account (
     contactNumber VARCHAR(16),
     email VARCHAR(255),
     dateCreated TIMESTAMP WITH TIME ZONE,
+    privatekey TEXT,
+    publickey TEXT,
 
     PRIMARY KEY (studentID)
 );
