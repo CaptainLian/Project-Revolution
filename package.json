@@ -24,7 +24,8 @@
     "pg-pool": "^2.0.3",
     "pg-promise": "^5.9.7",
     "require-dir": "^0.3.2",
-    "serve-favicon": "^2.4.3"
+    "serve-favicon": "^2.4.3",
+    "squel": "^5.11.1"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
