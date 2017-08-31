@@ -87,5 +87,14 @@ TRUNCATE TABLE GOSMActivities CASCADE;
 INSERT INTO GOSMActivities (startYear, endYear, studentOrganization, goals, objectives, strategies, description, measures, targetDateStart, targetDateEnd, peopleInCharge, activityNature, activityType, isRelatedToOrganizationNature, budget)
                     VALUES (2016, 2017, 1, 'Goal Mo to', '{"Objectives", "mo", "to"}', 'Strategy mo to', 'description mo to', 'measure mo to', '2017-8-30', '2017-8-31', '{"In charge si acoe"}', 1, 1, false, 69.699);
 INSERT INTO GOSMActivities (startYear, endYear, studentOrganization, goals, objectives, strategies, description, measures, targetDateStart, targetDateEnd, peopleInCharge, activityNature, activityType, isRelatedToOrganizationNature, budget)
-                    VALUES (2016, 2017, 1, 'Goal Mo to', '{"Objectives", "mo", "to"}', 'Strategy mo to', 'description mo to', 'measure mo to', '2017-8-30', '2017-8-31', '{"In charge si acoe"}', 1, 1, false, 69.699)
-          
+                    VALUES (2016, 2017, 1, 'Goal Mo to', '{"Objectives", "mo", "to"}', 'Strategy mo to', 'description mo to', 'measure mo to', '2017-8-30', '2017-8-31', '{"In charge si acoe"}', 1, 1, false, 69.699);
+
+TRUNCATE TABLE Account CASCADE;
+INSERT INTO Account (email, idNumber, password, firstname, middlename, lastname, contactNumber)
+             VALUES ('juliano_laguio@dlsu.edu.ph', 11445955, '1234', 'Lian', 'Blanco', 'Laguio', '+63 9228474849');
+INSERT INTO Account (email, idNumber, password, firstname, lastname, contactNumber, dateCreated, dateModified)
+             VALUES ('markus_flores@dlsu.edu.ph', 11445955, '1234', 'Markus', 'Flores', '+63 9228474849');
+INSERT INTO Account (email, idNumber, password, firstname, lastname, contactNumber)
+             VALUES ('dominique_dagunton@dlsu.edu.ph', 11445955, '1234', 'Dominique', 'Dagunton', '+63 9228474849');
+INSERT INTO Account (email, idNumber, password, firstname, lastname, contactNumber)
+             VALUES ('neil_capistrano@dlsu.edu.ph', 11445955, '1234', 'Neil', 'Capistrano', '+63 9228474849');
