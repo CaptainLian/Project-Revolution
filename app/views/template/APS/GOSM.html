@@ -203,7 +203,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
             $("#div-after-objectives").after(con);  
             
         });
-        $(".select").select2();
+        $("#nature-type").select2();
+        $("#personInCharge").select2();
         $("body").on('click',"i.remove",function(){
             console.log($(this).parent());
             $(this).closest("div.temp").empty().remove();

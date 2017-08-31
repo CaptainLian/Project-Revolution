@@ -21,7 +21,7 @@ module.exports = function(database, models, queryFiles){
 
 					Promise.all([gosmModel.getAllActivityTypes(), gosmModel.getAllActivityNature(), gosmModel.getGOSMActivities(dbParam)])
 						.then(data => {
-							res.render('GOSMMain', {
+							res.render('APS/GOSMMain', {
 								activityTypes: data[0],
 								activityNature: data[1],
 								gosmActivities: data[2]
