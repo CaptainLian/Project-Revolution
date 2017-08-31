@@ -34,7 +34,7 @@
 				"path": "/",
 				"sameSite": "strict",
 				"secure": false,
-				"maxAge":5000
+				"maxAge":3600000
 
 			}
 		}

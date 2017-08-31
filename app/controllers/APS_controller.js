@@ -5,17 +5,37 @@ module.exports = function(database, models, queryFiles){
 		viewCreateGOSM: (req, res) => {
 			console.log('VIEW CREATE GOSM CONTROLLER');
 
-			Promise.all([gosmModel.getAllActivityTypes(), gosmModel.getAllActivityNature()])
+			gosmModel.getSchoolYear()
 				.then(data => {
-					res.render('GOSMMain', {
-						activityTypes: data[0],
-						activityNature: data[1]
-					});
-				})
-				.catch(error => {
-					console.log(error);
-					res('ERROR');
+					console.log(data.endyear);
+					var endYear = data.endyear;
+					var startYear = endYear-1;
+
+
+					var dbParam = {
+						startYear: startYear,
+						endYear: endYear,
+						studentOrganization: 1, //to be replaced by session variable
+
+					};
+
+					Promise.all([gosmModel.getAllActivityTypes(), gosmModel.getAllActivityNature(), gosmModel.getGOSMActivities(dbParam)])
+						.then(data => {
+							res.render('GOSMMain', {
+								activityTypes: data[0],
+								activityNature: data[1],
+								gosmActivities: data[2]
+							});
+						})
+						.catch(error => {
+							console.log(error);
+							res('ERROR');
+						});
+
+
 				});
+
+			
 		},
 		createActivityRequirements:(req, res)=>{
 			res.render("APS/ActivityRequirementsMain");
