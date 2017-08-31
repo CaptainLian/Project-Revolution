@@ -5,6 +5,7 @@ module.exports = function(db, queryFiles){
 	var insertProposedActivitySQL = queryFiles.insertProposedActivity;
 	var getSchoolYearSQL = queryFiles.getSchoolYear;
 	var getAllActivityNatureSQL = queryFiles.getAllActivityNature;
+	var getGOSMActivitiesSQL = queryFiles.getGOSMActivities;
 
 	return {
 		getAllActivityTypes: function(){
@@ -18,6 +19,9 @@ module.exports = function(db, queryFiles){
 		},
 		getSchoolYear: function(){
 			return db.one(getSchoolYearSQL);
+		},
+		getGOSMActivities: function(param){
+			return db.many(getGOSMActivitiesSQL, param);
 		}
 	};
 };

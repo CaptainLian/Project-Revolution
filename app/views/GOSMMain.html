@@ -180,28 +180,24 @@
                                 				<thead>
                                 					<tr>
                                 						<th>#</th>
-                                						<th>First Name</th>
+                                						<th>Strategy</th>
                                 						<th>Actions</th>
                                 						
                                 					</tr>
                                 				</thead>
                                 				<tbody>
-                                					<tr>
-                                						<td>1</td>
-                                						<td class="td-title" >MyCareer</td>
-                                						<td class="text-nowrap">
-                                							<a href="#" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
-                                							<a href="#" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
-                                						</td>                                  
-                                					</tr>
-                                					<tr>
-                                						<td>2</td>
-                                						<td class="td-title">Nook Suxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxpplies</td>
-                                						<td class="text-nowrap">
-                                							<a href="#" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
-                                							<a href="#" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
-                                						</td>                                  
-                                					</tr>
+
+
+                                                        {% for activities in gosmActivities %}
+                                                            <tr>
+                                                                <td>{{loop.index}}</td>
+                                                                <td class="td-title" >{{activities.strategies}}</td>
+                                                                <td class="text-nowrap">
+                                                                    <a href="#" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                                                    <a href="#" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
+                                                                </td>                                  
+                                                            </tr>
+                                                        {% endfor %}
                                 					
                                 				</tbody>
                                 			</table>
