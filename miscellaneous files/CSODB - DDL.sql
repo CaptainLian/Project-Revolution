@@ -19,9 +19,87 @@ CREATE TABLE Term (
     CONSTRAINT number_min_value CHECK(number >= 1),
     CONSTRAINT number_max_value CHECK(number <= 3),
     CONSTRAINT start_end_year_value CHECK(startYear < endYear),
-    CONSTRAINT date_start_end_value CHECK (dateStart < dateEnd)
+    CONSTRAINT date_start_end_value CHECK (dateStart <= dateEnd)
 );
 
+DROP TABLE IF EXISTS College CASCADE;
+CREATE TABLE College (
+    shortAcronym CHAR(3),
+    fullAcronym VARCHAR(20),
+    name VARCHAR(60),
+
+    PRIMARY KEY (shortAcronym)
+);
+
+DROP TABLE IF EXISTS ActivityType CASCADE;
+CREATE TABLE ActivityType (
+	id INTEGER,
+	name VARCHAR(45) NOT NULL,
+
+	PRIMARY KEY(id)
+);
+
+DROP TABLE IF EXISTS ActivityNature CASCADE;
+CREATE TABLE ActivityNature (
+    id INTEGER,
+    name VARCHAR(45) NOT NULL,
+
+    PRIMARY KEY(id)
+);
+
+/* Organizations */
+DROP SEQUENCE IF EXISTS organization_id_sequence;
+CREATE SEQUENCE organization_id_sequence INCREMENT BY 1
+MINVALUE 0 NO MAXVALUE START WITH 0 NO CYCLE;
+
+DROP TABLE IF EXISTS OrganizationNature CASCADE;
+CREATE TABLE OrganizationNature (
+    id INTEGER,
+    name VARCHAR(45) NOT NULL,
+    acronym VARCHAR(10),
+
+    PRIMARY KEY(id)
+);
+DROP TABLE IF EXISTS OrganizationCluster CASCADE;
+CREATE TABLE OrganizationCluster (
+    id INTEGER,
+    name VARCHAR(45) NOT NULL,
+    acronym VARCHAR(20),
+
+    PRIMARY KEY(id)
+);
+DROP TABLE IF EXISTS StudentOrganization CASCADE;
+CREATE TABLE StudentOrganization (
+    id SERIAL,
+    cluster INTEGER REFERENCES OrganizationCluster(id),
+    nature INTEGER NOT NULL REFERENCES OrganizationNature(id),
+    college CHAR(3) REFERENCES College(shortAcronym),
+    acronym VARCHAR(20),
+    name VARCHAR(60),
+    description TEXT,
+
+    PRIMARY KEY (id)
+);
+    /* Organization Structure */
+DROP TABLE IF EXISTS OrganizationPosition CASCADE;
+CREATE TABLE OrganizationPosition (
+    id INTEGER,
+    name VARCHAR(45),
+
+    PRIMARY KEY (id)
+);
+
+DROP TABLE IF EXISTS OrganizationOfficer CASCADE;
+CREATE TABLE OrganizationOfficer (
+    organization INTEGER REFERENCES StudentOrganization(id),
+    officerID INTEGER REFERENCES Account(idNumber),
+    position INTEGER REFERENCES OrganizationPosition(id),
+    dateAssigned TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    
+
+    PRIMARY KEY (organization, officerID)
+);
+    /* Organization Structure End */
 DROP TABLE IF EXISTS Account CASCADE;
 CREATE TABLE Account (
     email VARCHAR(255),
@@ -76,55 +154,6 @@ CREATE TRIGGER before_update_Account
     FOR EACH ROW
     EXECUTE PROCEDURE trigger_before_update_Account();
     /* Account Table Triggers End */
-DROP TABLE IF EXISTS College CASCADE;
-CREATE TABLE College (
-    shortAcronym CHAR(3),
-    fullAcronym VARCHAR(20),
-    name VARCHAR(60),
-
-    PRIMARY KEY (shortAcronym)
-);
-
-DROP TABLE IF EXISTS ActivityType CASCADE;
-CREATE TABLE ActivityType (
-	id INTEGER,
-	name VARCHAR(45) NOT NULL,
-
-	PRIMARY KEY(id)
-);
-
-DROP TABLE IF EXISTS ActivityNature CASCADE;
-CREATE TABLE ActivityNature (
-    id INTEGER,
-    name VARCHAR(45) NOT NULL,
-
-    PRIMARY KEY(id)
-);
-
-/* Organizations */
-DROP SEQUENCE IF EXISTS organization_id_sequence;
-CREATE SEQUENCE organization_id_sequence INCREMENT BY 1
-MINVALUE 0 NO MAXVALUE START WITH 0 NO CYCLE;
-
-DROP TABLE IF EXISTS OrganizationType CASCADE;
-CREATE TABLE OrganizationType (
-    id INTEGER,
-    description VARCHAR(45) NOT NULL,
-
-    PRIMARY KEY(id)
-);
-DROP TABLE IF EXISTS StudentOrganization CASCADE;
-CREATE TABLE StudentOrganization (
-    id SERIAL,
-    college CHAR(3) REFERENCES College(shortAcronym),
-    organizationType INTEGER NOT NULL REFERENCES OrganizationType(id),
-    acronym VARCHAR(20),
-    name VARCHAR(60),
-    description TEXT,
-
-    PRIMARY KEY (id)
-);
-
 
 -- FORMS
 	/* GOSM RELATED*/

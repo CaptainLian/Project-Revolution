@@ -17,15 +17,15 @@ INSERT INTO College (shortAcronym, fullAcronym, name)
              VALUES ('SOE', null, 'School of Economics');
 
 /* Organization Data */
-TRUNCATE TABLE OrganizationType CASCADE;
-INSERT INTO OrganizationType (id, description)
-                      VALUES (1, 'Special Interest');
-INSERT INTO OrganizationType (id, description)
-                      VALUES (2, 'Professional Organization');
-INSERT INTO OrganizationType (id, description)
-                      VALUES (3, 'Socio-civic and Religious');
-INSERT INTO OrganizationType (id, description)
-                      VALUES (4, 'Professional Organization Group');
+TRUNCATE TABLE OrganizationNature CASCADE;
+INSERT INTO OrganizationNature (id, name, acronym)
+                      VALUES (1, 'Special Interest', 'SPIN');
+INSERT INTO OrganizationNature (id, name, acronym)
+                      VALUES (2, 'Professional Organization', 'PROF');
+INSERT INTO OrganizationNature (id, name, acronym)
+                      VALUES (3, 'Socio-civic and Religious', 'SCORE');
+INSERT INTO OrganizationNature (id, name, acronym)
+                      VALUES (4, 'Professional Organization Group', 'PROG');
 
 TRUNCATE TABLE ActivityType CASCADE;
 INSERT INTO ActivityType (id, name)
@@ -78,7 +78,7 @@ INSERT INTO GOSMStatus (id, name)
                 VALUES (3, 'Denied');
 
 TRUNCATE TABLE StudentOrganization CASCADE;
-INSERT INTO StudentOrganization (id, college, organizationType, acronym, name, description)
+INSERT INTO StudentOrganization (id, college, nature, acronym, name, description)
                          VALUES (1, 'CCS', 2, 'LSCS', 'La Salle Computer Society', E'Best organization in CCS, because it\'s the only organization in CCS');
 TRUNCATE TABLE GOSM CASCADE;
 INSERT INTO GOSM (startYear, endYear, StudentOrganization)
@@ -92,9 +92,9 @@ INSERT INTO GOSMActivities (startYear, endYear, studentOrganization, goals, obje
 TRUNCATE TABLE Account CASCADE;
 INSERT INTO Account (email, idNumber, password, firstname, middlename, lastname, contactNumber)
              VALUES ('juliano_laguio@dlsu.edu.ph', 11445955, '1234', 'Lian', 'Blanco', 'Laguio', '+63 9228474849');
-INSERT INTO Account (email, idNumber, password, firstname, lastname, contactNumber, dateCreated, dateModified)
-             VALUES ('markus_flores@dlsu.edu.ph', 11445955, '1234', 'Markus', 'Flores', '+63 9228474849');
 INSERT INTO Account (email, idNumber, password, firstname, lastname, contactNumber)
-             VALUES ('dominique_dagunton@dlsu.edu.ph', 11445955, '1234', 'Dominique', 'Dagunton', '+63 9228474849');
+             VALUES ('markus_flores@dlsu.edu.ph', 11445954, '1234', 'Markus', 'Flores', '+63 9228474849');
 INSERT INTO Account (email, idNumber, password, firstname, lastname, contactNumber)
-             VALUES ('neil_capistrano@dlsu.edu.ph', 11445955, '1234', 'Neil', 'Capistrano', '+63 9228474849');
+             VALUES ('dominique_dagunton@dlsu.edu.ph', 11445953, '1234', 'Dominique', 'Dagunton', '+63 9228474849');
+INSERT INTO Account (email, idNumber, password, firstname, lastname, contactNumber)
+             VALUES ('neil_capistrano@dlsu.edu.ph', 11445952, '1234', 'Neil', 'Capistrano', '+63 9228474849');
