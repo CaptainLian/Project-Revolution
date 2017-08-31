@@ -1,4 +1,4 @@
-const dateFormat = require('dateFormat');
+const dateFormat = require('dateformat');
 
 module.exports = function(database, models, queryFiles){
 	var getAllActivityTypeSQL = queryFiles.getAllActivityTypes;

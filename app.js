@@ -44,6 +44,7 @@ nunjucks.configure('./app/views/', {
 });
 
 
+// Middle
 
 // uncomment after placing your favicon in /public
 // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -59,8 +60,9 @@ app.use(session({
     pool: new Pool(database_connection_options),
     tableName:'user_session'
   }),
-  proxy: session_config.proxy,
+  // proxy: session_config.proxy,
   name: session_config.name,
+  rolling: session_config.rolling,
   resave: session_config.resave,
   saveUninitialized: session_config.saveUninitialized,
   unset: session_config.unset,
@@ -69,22 +71,27 @@ app.use(session({
     httpOnly: session_config.cookie.httpOnly,
     path: session_config.cookie.path,
     sameSite: session_config.cookie.sameSite,
-    secure: session_config.cookie.secure
+    secure: session_config.cookie.secure,
+    maxAge: session_config.cookie.maxAge,
+    
   }
 }));
 
 
-if(global.config.webserver.debug_mode){
-	app.get('/test/sessions', function(req, res){
-		let session = req.session;
-		if(session.views){
-			session.views = new Number(session.views) + 1;
-		}else{
-			session.views = 1;
-		}
-		res.send(session.views.toString());
-	});
-}
+
+
+// if(global.config.webserver.debug_mode){
+// 	app.get('/test/sessions', function(req, res){
+// 		let session = req.session;
+// 		if(session.views){
+// 			session.views = new Number(session.views) + 1;
+// 		}else{
+// 			session.views = 1;
+// 		}
+    
+// 		res.send(session.views.toString());
+// 	});
+// }
 
 /* 
 Load QueryFiles
