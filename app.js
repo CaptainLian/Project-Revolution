@@ -58,7 +58,7 @@ let session_config = global.config.webserver.session;
 app.use(session({
   store: new pgSession({
     pool: new Pool(database_connection_options),
-    tableName:'user_session'
+    tableName: session_config.table_name
   }),
   // proxy: session_config.proxy,
   name: session_config.name,
@@ -72,8 +72,7 @@ app.use(session({
     path: session_config.cookie.path,
     sameSite: session_config.cookie.sameSite,
     secure: session_config.cookie.secure,
-    maxAge: session_config.cookie.maxAge,
-    
+    maxAge: session_config.cookie.maxAge
   }
 }));
 

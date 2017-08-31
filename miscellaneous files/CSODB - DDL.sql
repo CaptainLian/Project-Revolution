@@ -63,7 +63,7 @@ CREATE TABLE OrganizationNature (
 DROP TABLE IF EXISTS OrganizationCluster CASCADE;
 CREATE TABLE OrganizationCluster (
     id INTEGER,
-    name VARCHAR(45) NOT NULL,
+    name VARCHAR(128) NOT NULL,
     acronym VARCHAR(20),
 
     PRIMARY KEY(id)
@@ -71,11 +71,11 @@ CREATE TABLE OrganizationCluster (
 DROP TABLE IF EXISTS StudentOrganization CASCADE;
 CREATE TABLE StudentOrganization (
     id SERIAL,
+    name VARCHAR(128),
     cluster INTEGER REFERENCES OrganizationCluster(id),
-    nature INTEGER NOT NULL REFERENCES OrganizationNature(id),
+    nature INTEGER REFERENCES OrganizationNature(id),
     college CHAR(3) REFERENCES College(shortAcronym),
-    acronym VARCHAR(20),
-    name VARCHAR(60),
+    acronym VARCHAR(20) UNIQUE,
     description TEXT,
 
     PRIMARY KEY (id)
