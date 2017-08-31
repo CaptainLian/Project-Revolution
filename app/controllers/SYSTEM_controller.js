@@ -3,8 +3,15 @@ module.exports = function(database, models, queryFiles){
 	var systemModel = models.SYSTEM_model;
 	return {
 		viewLogin:(req, res)=>{
-			req.session.valid = false;
+			
 			res.render('System/LoginMain');
+		},
+		logout:(req, res)=>{
+			req.session.user = undefined;
+			req.session.save(function(){
+				res.redirect("/");	
+			});
+			
 		},
 		checkLogin:(req, res)=>{
 			console.log("checkLogin");
@@ -17,17 +24,14 @@ module.exports = function(database, models, queryFiles){
 			.then(data=>{
 
 				console.log("DATA LOGIN: "+data);
-
 				
-				req.session.valid = true;
+				req.session.user = data;
 				console.log("VALID PARAM "+req.session.valid);
-				
-				req.session.cookie.expires = new Date(Date.now() + 5000);
-				req.session.cookie.maxAge = 5000;
+								
 				
 				req.session.save(function(err){
 
-					console.log(" CON VALID == "+ req.session.valid);
+					console.log(" CON VALID == "+ req.session.user);
 					res.redirect('/viewOrgList');
 				});
 

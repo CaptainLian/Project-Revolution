@@ -25,10 +25,9 @@
 			"proxy": false,
 			"name": "CSO",
 			"resave": true,
-			"saveUninitialized": false,
+			"saveUninitialized": true,
 			"unset": "destroy",
-			"table_name": "session",
-			
+			"table_name": "session",			
 			"rolling":true,
 			"cookie": {
 				"httpOnly": false,

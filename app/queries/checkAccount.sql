@@ -1,1 +1,1 @@
-SELECT * FROM ACCOUNT WHERE EMAIL = ${email} and PASSWORD = ${pass};
+SELECT studentid,email,firstname,lastname,middlename FROM ACCOUNT WHERE EMAIL = ${email} and PASSWORD = ${pass};

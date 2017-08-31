@@ -8,8 +8,8 @@ module.exports = function (app, database, models, queryFiles){
 			description: 'Check if user is logged in',
 			route:'*',
 			action: function (req, res, next){
-				console.log("MID VALID == "+ req.session.valid);
-				if(!req.session.valid && req._parsedUrl.pathname != '/'){
+				console.log("MID VALID == "+ req.session.user);
+				if(req.session.user === undefined && req._parsedUrl.pathname != '/'){
 					res.render("System/403");
 				}else{
 					next();
