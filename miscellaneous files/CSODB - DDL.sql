@@ -80,26 +80,7 @@ CREATE TABLE StudentOrganization (
 
     PRIMARY KEY (id)
 );
-    /* Organization Structure */
-DROP TABLE IF EXISTS OrganizationPosition CASCADE;
-CREATE TABLE OrganizationPosition (
-    id INTEGER,
-    name VARCHAR(45),
 
-    PRIMARY KEY (id)
-);
-
-DROP TABLE IF EXISTS OrganizationOfficer CASCADE;
-CREATE TABLE OrganizationOfficer (
-    organization INTEGER REFERENCES StudentOrganization(id),
-    officerID INTEGER REFERENCES Account(idNumber),
-    position INTEGER REFERENCES OrganizationPosition(id),
-    dateAssigned TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    
-
-    PRIMARY KEY (organization, officerID)
-);
-    /* Organization Structure End */
 DROP TABLE IF EXISTS Account CASCADE;
 CREATE TABLE Account (
     email VARCHAR(255),
@@ -155,6 +136,25 @@ CREATE TRIGGER before_update_Account
     EXECUTE PROCEDURE trigger_before_update_Account();
     /* Account Table Triggers End */
 
+    /* Organization Structure */
+DROP TABLE IF EXISTS OrganizationPosition CASCADE;
+CREATE TABLE OrganizationPosition (
+    id INTEGER,
+    name VARCHAR(45),
+
+    PRIMARY KEY (id)
+);
+
+DROP TABLE IF EXISTS OrganizationOfficer CASCADE;
+CREATE TABLE OrganizationOfficer (
+    organization INTEGER REFERENCES StudentOrganization(id),
+    officerID INTEGER REFERENCES Account(idNumber),
+    position INTEGER REFERENCES OrganizationPosition(id),
+    dateAssigned TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    
+
+    PRIMARY KEY (organization, officerID)
+);
 -- FORMS
 	/* GOSM RELATED*/
 DROP TABLE IF EXISTS GOSMStatus CASCADE;
