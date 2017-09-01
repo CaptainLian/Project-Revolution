@@ -1,6 +1,9 @@
+const dateFormat = require('dateformat');
+
+
 module.exports = function(database, models, queryFiles){
 
-	var gosmModel = models.GOSM_model;
+	var gosmModel = models.gosmModel;
 	return {
 		viewCreateGOSM: (req, res) => {
 			console.log('VIEW CREATE GOSM CONTROLLER');
@@ -133,6 +136,68 @@ module.exports = function(database, models, queryFiles){
 		},
 		submitGOSM:(req ,res)=>{
 
+		},
+
+		viewOrglist:( req, res) =>{	
+			let yearsPromise = gosmModel.getSubmissionYears();
+			let allGOSMPromise = gosmModel.getAll();
+			Promise.all([yearsPromise, allGOSMPromise])
+				.then(function(data) {
+					let GOSMList = data[1];
+					for(const gosm of GOSMList){
+						console.log(gosm);
+					}
+					res.render('APS/OrglistMain', {
+						GOSMList: data[1]
+					});
+				})
+				.catch(function(error) {
+					console.log(error);
+
+					res.send(500);
+					throw error;
+				});
+		},
+		viewOrgGOSM :( req, res)=>{
+			console.log("CHECK THIS OUT" +req.params.orgid);
+
+			gosmModel.getSchoolYear()
+				.then(data =>{
+					var endYear = data.endyear;
+					var startYear = endYear-1;
+
+					var dbParam = {
+						startYear: startYear,
+						endYear: endYear,
+						studentOrganization: req.params.orgid, 
+
+					};
+
+					gosmModel.getGOSMActivities(dbParam)
+						.then(data =>{
+							res.render('APS/OrgGOSMMain', {
+								gosmActivities: data
+							});
+
+						})
+						.catch(function(error) {
+							console.log(error);
+						});
+
+
+
+				})
+				.catch(function(error){
+					console.log(error);
+				});
+
+		},
+		activityList :( req, res)=>{
+			res.render('APS/ActivityListMain');
+		},
+		inputCreateGOSM: (req, res) => {
+			console.log(JSON.stringify(req.body));
+			res.render('GOSM');
 		}
 	};
 };
