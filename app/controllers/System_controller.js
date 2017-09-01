@@ -4,7 +4,7 @@ const debug = require('debug')('Login: ');
 const squel = require('squel');
 
 //password hashing
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 //Document Signature
 const selfsigned = require('selfsigned');
