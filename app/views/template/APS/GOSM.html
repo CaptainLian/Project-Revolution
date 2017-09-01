@@ -199,7 +199,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         var cObj = 0;
         $("#objectives-add").click(function(){
             cObj ++;
-            $(con).append('<div class="temp"> <label class="control-label col-md-3">&nbsp</label><div class="col-md-8" id="div-objectives"><input type="text" placeholder="" class="form-control"><span class="help-block">&nbsp</span></div><div class="col-md-1" style="margin-top: 8px" > <i class="fa fa-times text-danger remove" data-toggle="tooltip" title="Remove"></i> </div></div>');
+            $(con).append('<div class="temp"> <label class="control-label col-md-3">&nbsp</label><div class="col-md-8" id="div-objectives"><input name="objectives[]" type="text" placeholder="" class="form-control"><span class="help-block">&nbsp</span></div><div class="col-md-1" style="margin-top: 8px" > <i class="fa fa-times text-danger remove" data-toggle="tooltip" title="Remove"></i> </div></div>');
             $("#div-after-objectives").after(con);  
             
         });

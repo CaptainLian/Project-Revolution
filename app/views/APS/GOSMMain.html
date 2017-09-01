@@ -1,4 +1,4 @@
-{% extends "./template/APS/GOSM.html" %}
+{% extends "../template/APS/GOSM.html" %}
 
 
 {%block styles%}
@@ -6,11 +6,11 @@
 {%endblock%}
 
 {%block header%}
-	{%include "section/header.html"%}
+	{%include "../section/header.html"%}
 {%endblock%}
 
 {%block sidebar%}
-	{%include "section/sidebar/cso-aps.html"%}
+	{%include "../section/sidebar/cso-aps.html"%}
 {%endblock%}
 
 
@@ -149,7 +149,7 @@
                                             			<label class="control-label col-md-3">Budget</label>
                                             			<div class="col-md-9 input-group">
                                             				<div class="input-group-addon"><i>₱</i></div>
-                                            				<input name="budget"  id ="budget" class="form-control">
+                                            				<input name="budget" type="number"  id ="budget" class="form-control">
                                             			</div>
                                             		</div>
                                             		
@@ -180,24 +180,28 @@
                                 				<thead>
                                 					<tr>
                                 						<th>#</th>
-                                						<th>Strategy</th>
+                                						<th>First Name</th>
                                 						<th>Actions</th>
                                 						
                                 					</tr>
                                 				</thead>
                                 				<tbody>
-
-
-                                                        {% for activities in gosmActivities %}
-                                                            <tr>
-                                                                <td>{{loop.index}}</td>
-                                                                <td class="td-title" >{{activities.strategies}}</td>
-                                                                <td class="text-nowrap">
-                                                                    <a href="#" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
-                                                                    <a href="#" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
-                                                                </td>                                  
-                                                            </tr>
-                                                        {% endfor %}
+                                					<tr>
+                                						<td>1</td>
+                                						<td class="td-title" >MyCareer</td>
+                                						<td class="text-nowrap">
+                                							<a href="#" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                							<a href="#" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
+                                						</td>                                  
+                                					</tr>
+                                					<tr>
+                                						<td>2</td>
+                                						<td class="td-title">Nook Suxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxpplies</td>
+                                						<td class="text-nowrap">
+                                							<a href="#" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                							<a href="#" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
+                                						</td>                                  
+                                					</tr>
                                 					
                                 				</tbody>
                                 			</table>
@@ -257,11 +261,10 @@
 
             success:function(data){
 
-                
+                data = JSON.stringify(data);
                 
                 console.log("console"+data);
-                if(data == "1"){
-                    console.log("console1");
+                if(data == 1){
                     var ctr = 1; 
                     $("#added-act tbody tr").each(function(){
                         ctr++
@@ -277,7 +280,6 @@
                     $("#added-act tbody").append(tr);
 
                 }else{
-                    console.log("consol2");
 
                 }
             }

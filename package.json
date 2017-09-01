@@ -4,31 +4,38 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "watch": "nodemon ./bin/www",
     "test": "nodemon ./bin/www"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "bcryptjs-then": "^1.0.1",
     "body-parser": "^1.17.2",
+    "connect-pg-simple": "^4.2.1",
     "cookie-parser": "^1.4.3",
-    "debug": "^2.6.8",
-    "ejs": "^2.5.7",
+    "crypto2": "^0.3.2",
+    "dateformat": "^2.0.0",
+    "debug": "^3.0.1",
     "express": "^4.15.4",
     "express-nunjucks": "^2.2.3",
+    "express-session": "^1.15.5",
     "morgan": "^1.8.2",
     "nunjucks": "^3.0.1",
-    "pg-minify": "^0.4.5",
-    "pg-promise": "^5.9.7",
+    "pg": "^7.2.0",
+    "pg-minify": "^0.5.3",
+    "pg-pool": "^2.0.3",
+    "pg-promise": "^6.5.1",
     "require-dir": "^0.3.2",
-    "serve-favicon": "^2.4.3"
+    "selfsigned": "^1.10.1",
+    "serve-favicon": "^2.4.3",
+    "squel": "^5.11.1"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
-    "gulp-clean-css": "^3.0.4",
+    "gulp-clean-css": "^3.7.0",
     "gulp-concat": "^2.6.1",
-    "gulp-minify": "0.0.15",
+    "gulp-minify": "^1.0.0",
     "gulp-rename": "^1.2.2",
     "gulp-size": "^2.1.0",
-    "gulp-uglify": "^2.1.2",
-    "nodemon": "^1.11.0"
+    "gulp-uglify": "^3.0.0"
   }
 }
