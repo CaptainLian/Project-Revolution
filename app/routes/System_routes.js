@@ -9,5 +9,8 @@ module.exports = function(app , controllers){
 
 	router.get('/logout', systemController.logout);
 	router.post('/logout', systemController.logout);
+
+	router.get('/documentSign', systemController.documentSign);
+
 	return router;
 };
