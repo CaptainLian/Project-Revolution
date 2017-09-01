@@ -1,0 +1,56 @@
+{
+	"webserver":{
+		"port": 3000,
+		"url": "",
+		"debug_mode": true,
+		"controllers": {
+			"path": "./app/controllers"
+		},
+		"pre_middlewares": {
+			"path": "./app/pre_middlewares"
+		},
+		"routes": {
+			"path": "./app/routes"
+		},
+		"post_middlewares": {
+			"path": "./app/post_middlewares"
+		},
+		"assets": {
+			"path": "./app/assets"
+		},
+		"views": {
+			"path": "./app/views"
+		},
+		"session": {
+			"proxy": false,
+			"name": "CSO",
+			"resave": true,
+			"saveUninitialized": true,
+			"unset": "destroy",
+			"table_name": "session",			
+			"rolling":true,
+			"cookie": {
+				"httpOnly": false,
+				"path": "/",
+				"sameSite": "strict",
+				"secure": false,
+				"maxAge":3600000
+			}
+		}
+	},	
+	"database": {
+		"host": "localhost",
+		"port": 5432,
+		"database": "CSODB",
+		"username": "postgres",
+		"password": "1234",
+		"query_files": {
+			"path": "./app/queries",
+			"compress": true,
+			"minify": true
+		},
+		"models": {
+			"path": "./app/models"
+		}
+	}
+}

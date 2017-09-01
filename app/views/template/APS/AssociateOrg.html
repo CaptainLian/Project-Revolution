@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" sizes="16x16" href="/plugins/images/favicon.png">
+    <title>Elite Admin - is a responsive admin template</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css" rel="stylesheet">
+    <link href="/plugins/bower_components/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <link href="/cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <!-- Menu CSS -->
+    <link href="/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css" rel="stylesheet">
+    <!-- animation CSS -->
+    <link href="/css/animate.css" rel="stylesheet">
+    <!--alerts CSS -->
+    <link href="/plugins/bower_components/sweetalert/sweetalert.css" rel="stylesheet" type="text/css">
+    <!-- Custom CSS -->
+
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/custom.css" rel="stylesheet">
+    <!-- color CSS -->
+    <link href="/css/colors/default.css" id="theme" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+    {%block styles%}
+    {%endblock%}
+</head>
+
+<body class="fix-sidebar">
+    <!-- Preloader -->
+    <div class="preloader">
+        <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+        </svg>
+    </div>
+    <div id="wrapper">
+        <!-- Top Navigation -->
+        {%block header%}
+        {%endblock%}
+        <!-- End Top Navigation -->
+        <!-- Left navbar-header -->
+        {%block sidebar%}
+        {%endblock%}
+        <!-- Left navbar-header end -->
+        <!-- Page Content -->
+        <div id="page-wrapper" style="min-height: 363px;">
+            <div class="container-fluid">
+                <div class="row bg-title">
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                        <h4 class="page-title">APS Associate</h4>
+                    </div>
+                    <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+
+                        <ol class="breadcrumb">
+                            <li><a href="#">ORG GOSM</a></li>
+                            <!--<li><a href="#">Table</a></li>-->
+                            <li class="active">ORG NAME</li>
+                        </ol>
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+                <!-- /row -->
+                {%block content%}
+                {%endblock%}
+                <!-- /.row -->
+                <!-- .right-sidebar -->
+
+                <!-- /.right-sidebar -->
+            </div>
+            <!-- /.container-fluid -->
+            <footer class="footer text-center"> 2017 © Elite Admin brought to you by themedesigner.in </footer>
+            <!--/modals-->
+    <!--modals-->
+    <div class="modal fade bs-example-modal-lg" id = "sampleModal" tabindex="-1" role="dialog" aria-labelledby="sampleModal" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="">Activity Name</h4>
+                </div>
+                <div class="modal-body">
+                    <section>
+                        <div class="sttabs tabs-style-bar">
+                            <nav>
+                                <ul>
+                                    <li><a href="#section-bar-1" ><span>1. Activity Details</span></a></li>
+                                    <li><a href="#section-bar-2" ><span>2. Add Comment</span></a></li>
+                                </ul>
+                            </nav>
+                            <div class="content-wrap">
+                                <section id="section-bar-1">
+                                    <h3>I. Activity Details</h3>
+                                <div class="table-responsive">
+                                <table class="table table-striped">
+                                        <thead>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr>
+                                                <th>Type of Activity:
+                                                    </th><td colspan="2">Recreation</td>
+                                                <th></th><td colspan="2"></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Nature of Activity:                   </th><td colspan="2">Special Interest</td>
+                                                <th></th><td colspan="2"></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Date:</th>
+                                                <td colspan="2">September 17, 2017 - September 18, 2017</td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Time:</th>
+                                                <td colspan="2">7:30 PM - 12:30 PM</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Venue:</th>
+                                                <td colspan="6">Gokongwei Building</td>
+                                            </tr>
+                                            <tr>
+                                                <th>ENP</th>
+                                                <td colspan="6">12</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Project Heads:</th>
+                                                <td colspan="6">Juan Dela Cruz - 09478569874</td>
+                                            </tr>
+                                            <tr>
+                                                <th></th>
+                                                <td colspan="6">Pedro Aquino - 09478532147</td>
+                                            </tr>
+                                            <tr>
+                                              <th>Faculty Adviser:</th>
+                                              <td colspan="" rowspan="" headers="">Juan Dela Cruz</td>
+                                            </tr>
+                                            <tr>
+                                            </tr>
+                                        </tbody>
+                                </table>
+
+                                </div>
+                                </section>
+                                <section id="section-bar-2">
+
+                                    <div class="form-group">
+                                        <label class="col-md-12">Write a comment for revision</label>
+                                        <div class="col-md-12 text-center">
+                                            <textarea class="form-control" rows="5"></textarea> <br>
+                                            <button class ="btn btn-info" type="" data-dismiss="modal"> Add Comment</button>
+                                        </div>
+
+                                    </div>
+                                </section>
+
+                            </div>
+                            <!-- /content -->
+                        </div>
+                        <!-- /tabs -->
+                    </section>
+                </div>
+                <div class="modal-footer">
+                    <!--<button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>-->
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!--/modals-->
+        </div>
+        <!-- /#page-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+    <!-- jQuery -->
+    <script src="/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/bootstrap/dist/js/tether.min.js"></script>
+    <script src="/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js"></script>
+    <!-- Menu Plugin JavaScript -->
+    <script src="/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js"></script>
+    <!--slimscroll JavaScript -->
+    <script src="/js/jquery.slimscroll.js"></script>
+    <!--Wave Effects -->
+    <script src="/js/waves.js"></script>
+    <!-- Custom Theme JavaScript -->
+    <script src="/js/custom.min.js"></script>
+    <script src="/js/cbpFWTabs.js"></script> <!-- tabs-->
+    <script src="/plugins/bower_components/datatables/jquery.dataTables.min.js"></script>
+    <!-- Sweet-Alert  -->
+    <script src="/plugins/bower_components/sweetalert/sweetalert.min.js"></script>
+    <script src="/plugins/bower_components/sweetalert/jquery.sweet-alert.custom.js"></script>
+    <script>
+    $(document).ready(function() {
+        //window.location.href("facebook.com");
+        $('#myTable').DataTable();
+        $(document).ready(function() {
+           // location.replace("https://www.facebook.com");
+            var table = $('#example').DataTable({
+                "columnDefs": [{
+                    "visible": false,
+                    "targets": 2
+                }],
+                "order": [
+                    [2, 'asc']
+                ],
+                "displayLength": 25,
+                "drawCallback": function(settings) {
+                    var api = this.api();
+                    var rows = api.rows({
+                        page: 'current'
+                    }).nodes();
+                    var last = null;
+
+                    api.column(2, {
+                        page: 'current'
+                    }).data().each(function(group, i) {
+                        if (last !== group) {
+                            $(rows).eq(i).before(
+                                '<tr class="group"><td colspan="5">' + group + '</td></tr>'
+                            );
+
+                            last = group;
+                        }
+                    });
+                }
+            });
+
+            // Order by the grouping
+            $('#example tbody').on('click', 'tr.group', function() {
+                var currentOrder = table.order()[0];
+                if (currentOrder[0] === 2 && currentOrder[1] === 'asc') {
+                    table.order([2, 'desc']).draw();
+                } else {
+                    table.order([2, 'asc']).draw();
+                }
+            });
+        });
+    });
+    </script>
+    <script type="text/javascript">
+    (function() {
+
+        [].slice.call(document.querySelectorAll('.sttabs')).forEach(function(el) {
+            new CBPFWTabs(el);
+        });
+
+    })();
+    </script>
+    <!--Style Switcher -->
+    <script src="/plugins/bower_components/styleswitcher/jQuery.style.switcher.js"></script>
+
+    {%block scripts%}
+    {%endblock%}
+</body>
+
+
+
+</html>
