@@ -81,6 +81,7 @@ CREATE TABLE StudentOrganization (
     PRIMARY KEY (id)
 );
 
+
 DROP TABLE IF EXISTS Account CASCADE;
 CREATE TABLE Account (
     email VARCHAR(255),
@@ -91,6 +92,9 @@ CREATE TABLE Account (
     middlename VARCHAR(45),
     lastname VARCHAR(45),
     contactNumber VARCHAR(16),
+    email VARCHAR(255),
+    privatekey TEXT,
+    publickey TEXT,
     dateCreated TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     dateModified TIMESTAMP WITH TIME ZONE,
 

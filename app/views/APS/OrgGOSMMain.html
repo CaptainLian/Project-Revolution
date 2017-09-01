@@ -32,12 +32,19 @@
                         </tr>
                     </thead>
                     <tbody> 
-                        <tr role="row" class="odd" data-toggle="modal" data-target="#sampleModal">
-                            <td>Unite: General Assembly</td><!-- Activity name-->
-                            <td>January 1, 2017</td><!-- Activity date -->
-                            <td class="">9:00 AM - 10:00 PM</td><!-- Activity time -->
-                            <td class="">Gokongwei Lobby</td><!-- Activity venue -->
-                        </tr>
+
+                        {% for activities in gosmActivities %}
+                           
+                            <tr role="row" class="odd" data-toggle="modal" data-target="#sampleModal">
+                            <td>{{activities.strategies}}</td><!-- Activity name-->
+                            <td>{{activities.targetDateStart}}</td><!-- Activity date -->
+                            <!-- <td class="">9:00 AM - 10:00 PM</td> Activity time -->
+                            <!-- <td class="">Gokongwei Lobby</td> Activity venue -->
+
+                            </tr>
+                        {% endfor %}
+
+
                     </tbody>
                 </table>
 
