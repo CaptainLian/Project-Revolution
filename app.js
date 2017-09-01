@@ -25,7 +25,7 @@ var pgPromise = require('pg-promise')();
 
 var database_connection_options = {
   host: global.config.database.host,
-  port: global.config.database.port, 
+  port: global.config.database.port,
   database: global.config.database.database,
   user: global.config.database.username,
   password: global.config.database.password
@@ -76,9 +76,6 @@ app.use(session({
   }
 }));
 
-
-
-
 // if(global.config.webserver.debug_mode){
 // 	app.get('/test/sessions', function(req, res){
 // 		let session = req.session;
@@ -87,12 +84,12 @@ app.use(session({
 // 		}else{
 // 			session.views = 1;
 // 		}
-    
+
 // 		res.send(session.views.toString());
 // 	});
 // }
 
-/* 
+/*
 Load QueryFiles
 */
 console.log('Loading Query Files');
@@ -105,13 +102,13 @@ for(var index = 0, length = queryFilesDir.length; index < length; ++index){
       console.log(`\tFile: ${queryFilesDir[index]}`);
       var filename = queryFilesDir[index].substring(0, queryFilesDir[index].lastIndexOf('.'));
       queryFiles[filename] = QueryFile(
-      path.resolve(global.config.database.query_files.path) + '/' + queryFilesDir[index], 
+      path.resolve(global.config.database.query_files.path) + '/' + queryFilesDir[index],
       {
-        minify: global.config.database.query_files.minify, 
+        minify: global.config.database.query_files.minify,
         compress: global.config.database.query_files.compress
       }
     );
-  } 
+  }
 }
 console.log('Loading Query Files Complete\n');
 
