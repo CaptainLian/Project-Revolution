@@ -2,7 +2,7 @@
 
 
 {%block styles%}
-	<link href="css/custom.css" rel="stylesheet">
+	<link href="/css/custom.css" rel="stylesheet">
 {%endblock%}
 
 {%block header%}
@@ -31,16 +31,14 @@
                             <th class="sorting " tabindex="0" aria-controls="myTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 129px;">Venue</th>
                         </tr>
                     </thead>
-                    <tbody> 
+                    <tbody>
 
-                        {% for activities in gosmActivities %}
-                           
+                        {% for activity in activities %}
                             <tr role="row" class="odd" data-toggle="modal" data-target="#sampleModal">
-                            <td>{{activities.strategies}}</td><!-- Activity name-->
-                            <td>{{activities.targetDateStart}}</td><!-- Activity date -->
-                            <!-- <td class="">9:00 AM - 10:00 PM</td> Activity time -->
-                            <!-- <td class="">Gokongwei Lobby</td> Activity venue -->
-
+	                            <td>{{activity.strategies}}</td><!-- Activity name-->
+	                            <td>{{activity.targetDateStart}}</td><!-- Activity date -->
+	                            <td class="">9:00 AM - 10:00 PM</td> <!-- Activity time -->
+	                            <td class="">{{activity.venue}}</td><!-- Activity venue -->
                             </tr>
                         {% endfor %}
 

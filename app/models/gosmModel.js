@@ -9,6 +9,7 @@ module.exports = function(db, queryFiles){
 	const query_getSubmissionYears = queryFiles.gosm_getSubmissionYears;
 	const query_getAllCurrent = queryFiles.gosm_getAllCurrent;
 	const query_getAll = queryFiles.gosm_getAll;
+	const query_getSpecificOrg = queryFiles.gosm_getSpecificOrg;
 
 	return {
 		getAllActivityTypes: function(){
@@ -31,6 +32,9 @@ module.exports = function(db, queryFiles){
 		},
 		getAll: function(){
 			return db.any(query_getAll);
-		} 
+		},
+		getSpecificOrg: function(organizationID){
+			return db.any(query_getSpecificOrg, {organization: organizationID});
+		}
 	};
 };

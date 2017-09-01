@@ -187,3 +187,8 @@ INSERT INTO Account (email, idNumber, password, firstname, lastname, contactNumb
              VALUES ('dominique_dagunton@dlsu.edu.ph', 11445953, '1234', 'Dominique', 'Dagunton', '+63 9228474849');
 INSERT INTO Account (email, idNumber, password, firstname, lastname, contactNumber)
              VALUES ('neil_capistrano@dlsu.edu.ph', 11445952, '1234', 'Neil', 'Capistrano', '+63 9228474849');
+
+
+TRUNCATE TABLE Term CASCADE;
+INSERT INTO TERM (startYear, endYear, number, dateStart, dateEnd)
+          VALUES (2016, 2017, 3, '2017-7-4', '2017-8-1');

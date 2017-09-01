@@ -38,7 +38,7 @@ module.exports = function(database, models, queryFiles){
 
 				});
 
-			
+
 		},
 		createActivityRequirements:(req, res)=>{
 			res.render("APS/ActivityRequirementsMain");
@@ -101,7 +101,7 @@ module.exports = function(database, models, queryFiles){
 						activityType: activityType,
 						activityTypeOtherDescription: others,
 						isRelatedToOrganizationNature: isRelatedToOrganization,
-						budget: budget	
+						budget: budget
 
 					};
 
@@ -109,7 +109,7 @@ module.exports = function(database, models, queryFiles){
 						//error blank others
 
 					}
-			
+
 					else{
 					//insert to db
 						gosmModel.insertProposedActivity(dbParam)
@@ -123,22 +123,22 @@ module.exports = function(database, models, queryFiles){
 
 
 
-					}	
+					}
 
-					 
+
 
 
 				});
-			
-			
-			
+
+
+
 
 		},
 		submitGOSM:(req ,res)=>{
 
 		},
 
-		viewOrglist:( req, res) =>{	
+		viewOrglist:( req, res) =>{
 			let yearsPromise = gosmModel.getSubmissionYears();
 			let allGOSMPromise = gosmModel.getAll();
 			Promise.all([yearsPromise, allGOSMPromise])
@@ -147,6 +147,7 @@ module.exports = function(database, models, queryFiles){
 					for(const gosm of GOSMList){
 						console.log(gosm);
 					}
+					console.log(GOSMList);
 					res.render('APS/OrglistMain', {
 						GOSMList: data[1]
 					});
@@ -161,36 +162,16 @@ module.exports = function(database, models, queryFiles){
 		viewOrgGOSM :( req, res)=>{
 			console.log("CHECK THIS OUT" +req.params.orgid);
 
-			gosmModel.getSchoolYear()
-				.then(data =>{
-					var endYear = data.endyear;
-					var startYear = endYear-1;
-
-					var dbParam = {
-						startYear: startYear,
-						endYear: endYear,
-						studentOrganization: req.params.orgid, 
-
-					};
-
-					gosmModel.getGOSMActivities(dbParam)
-						.then(data =>{
-							res.render('APS/OrgGOSMMain', {
-								gosmActivities: data
-							});
-
-						})
-						.catch(function(error) {
-							console.log(error);
-						});
-
-
-
-				})
-				.catch(function(error){
-					console.log(error);
-				});
-
+			let organizationID = req.params.orgid;
+			gosmModel.getSpecificOrg(organizationID)
+			.then(data => {
+				console.log(data);
+				res.render('APS/OrgGOSMMain', {activities: data});
+			})
+			.catch(error => {
+				console.log(data);
+				throw error;
+			});
 		},
 		activityList :( req, res)=>{
 			res.render('APS/ActivityListMain');
