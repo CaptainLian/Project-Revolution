@@ -7,7 +7,7 @@ module.exports = function(db, queryFiles){
 	return {
 		checkAccount: function(param){
 			return db.one(checkAccount, param);
-		},//getAllActivityTypes()
+		},
 		
 	};
 };

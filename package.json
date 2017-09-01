@@ -11,6 +11,7 @@
     "body-parser": "^1.17.2",
     "connect-pg-simple": "^4.2.1",
     "cookie-parser": "^1.4.3",
+    "crypto2": "^0.3.2",
     "dateformat": "^2.0.0",
     "debug": "^2.6.8",
     "ejs": "^2.5.7",
@@ -24,6 +25,7 @@
     "pg-pool": "^2.0.3",
     "pg-promise": "^5.9.7",
     "require-dir": "^0.3.2",
+    "selfsigned": "^1.10.1",
     "serve-favicon": "^2.4.3"
   },
   "devDependencies": {
