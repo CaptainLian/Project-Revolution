@@ -991,8 +991,140 @@
                 return true;
             },
             onFinish: function() {
+                var time = {
+                    start:'',
+                    end:'',
+                    actName:'',
+                    actDesc:'',
+                    pic:'',
+
+                };
+                var day = {
+                    date:'',
+                    time:[time],
+                };
+
+                // var breakdownItem = {
+                //     material:'',
+                //     quan:'',
+                //     unitCost:'',
+
+                // }
+
+                // var exp = {
+                //     orgFunds:'',
+                //     participant:'',
+                //     others:'',
+                //     breakdown: [] ;
+                // };
+
+                var funds = {
+                    ope:'',
+                    dep:'',
+                    other:'',
+                };
+
+                $("#").each(function(){
+
+                });
+
+                var revenue = [];
+                //BREAKDOWN OF REVENUE
+                $("#mainTable2 tbody tr.inc").each(function(){
+                    var ctr = 0;
+                    var revenueItem = {
+                        item:'',
+                        quan:'',
+                        price:'',
+
+                    }
+                    //PER TD
+                    $(this).find("td").each(function(){
+                        if( ctr == 0){
+                            revenueItem.item = $(this).text();
+                        }else if( ctr == 1 ){
+                            revenueItem.quan = $(this).text();
+                        }else{
+                            revenueItem.price = $(this).text();
+                        }
+                        ctr++;
+                    });
+
+                    revenue.push(revenueItem);
+                });
+
+                var expense = [];
+                //BREAKDOWN OF EXPENSES
+                $("#mainTable2 tbody tr.exp").each(function(){
+                    var ctr = 0;
+                    var expenseItem = {
+                        item:'',
+                        quan:'',
+                        price:'',
+
+                    }
+                    //PER TD
+                    $(this).find("td").each(function(){
+                        if( ctr == 0){
+                            expenseItem.item = $(this).text();
+                        }else if( ctr == 1 ){
+                            expenseItem.quan = $(this).text();
+                        }else{
+                            expenseItem.price = $(this).text();
+                        }
+                        ctr++;
+                    });
+
+                    expense.push(expenseItem);
+                });
+
+
+
+
+                var breakdown = [];
+                //BREAKDOWN OF EXPENSE. PER TR
+                $("#mainTable tbody tr").each(function(){
+                    var ctr = 0;
+                    var breakdownItem = {
+                        material:'',
+                        quan:'',
+                        unitCost:'',
+
+                    }
+                    //PER TD
+                    $(this).find("td").each(function(){
+                        if( ctr == 0){
+                            breakdownItem.material = $(this).text();
+                        }else if( ctr == 1 ){
+                            breakdownItem.quan = $(this).text();
+                        }else{
+                            breakdownItem.cost = $(this).text();
+                        }
+                        ctr++;
+                    });
+
+                    breakdown.push(breakdownItem);
+                });
+
+                var exp = {
+                    orgFunds:'',
+                    participant:'',
+                    others:'',
+                    breakdown: breakdown ;
+                };
+                
                 $.post("keep.php", $("#validation").serialize()).done(function() {
                     alert("hiiii");
+                });
+                $.ajax({
+                    type:'POST',
+                    url:'/inputActivityRequirements',
+                    data:{
+
+                    },
+                    success:function(data){
+
+                    }
                 });
             }
         });
