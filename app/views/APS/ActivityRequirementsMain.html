@@ -115,7 +115,7 @@
 
                                                 
                                                 <label class="control-label"></label>
-                                                <input style="height:0px; top:-1000px; position:absolute;display: none" type="text" value="">
+                                                <input name="prespective" style="height:0px; top:-1000px; position:absolute;display: none" type="text" value="">
                                                 <textarea  class="form-control" rows=20></textarea> 
                                             </div>
                                         </div>
@@ -144,31 +144,31 @@
                                                         <input style="height:0px; top:-1000px; position:absolute;display: none" type="text" value="">
                                                         <label>Date</label>
                                                         <div class="input-group">
-                                                            <input readonly="" class="form-control" id="datepicker-autoclose" placeholder="mm/dd/yyyy" type="text">
+                                                            <input name="date" readonly="" class="form-control" id="datepicker-autoclose" placeholder="mm/dd/yyyy" type="text">
                                                             <span class="input-group-addon"><i class="icon-calender"></i></span> 
                                                         </div>
                                                         <div>&nbsp</div>
                                                         <label>Time</label>
                                                         <div class="input-group clockpicker " data-autoclose="true">
-                                                            <input type="text" id="start-time" class="form-control" value="00:00" readonly="">
+                                                            <input name="timeStart" type="text" id="start-time" class="form-control" value="00:00" readonly="">
                                                             <span class=" input-group-addon bg-info b-0 text-white">to</span>
                                                             <!-- <input type="text" name="end" class="form-control" value="00:00" readonly=""> -->
 
 
-                                                            <input type="text" id="end-time" class="form-control" value="00:00" readonly="">
+                                                            <input name="timeEnd" type="text" id="end-time" class="form-control" value="00:00" readonly="">
 
                                                             <!-- <input type="text" name="end" class="form-control" value="00:00" readonly=""> -->
 
                                                         </div>
                                                         <div>&nbsp</div>
                                                         <label>Activity</label>
-                                                        <input id="act0"  type="text" class="form-control">
+                                                        <input name="activity" id="act0"  type="text" class="form-control">
                                                         <div>&nbsp</div>
                                                         <label>Description</label>
-                                                        <textarea id="desc0" class="form-control" rows="2" ></textarea>
+                                                        <textarea name="description" id="desc0" class="form-control" rows="2" ></textarea>
                                                         <div>&nbsp</div>
                                                         <label>Person in Charge</label>
-                                                        <select id="sel0" class="form-control select2">                                                                                    
+                                                        <select name="personInCharge" id="sel0" class="form-control select2">                                                                                    
                                                             <option value="DE">Delaware</option>
                                                             <option value="FL">Florida</option>
                                                             <option value="GA">Georgia</option>
@@ -256,7 +256,7 @@
                                     <h3>Source of Funds and Breakdown of Expense </h3>
                                     <hr>
                                     <div class="form-group">
-                                     <input style="height:0px; top:-1000px; position:absolute;display: none" type="text" value="">
+                                     <input name="expenses" style="height:0px; top:-1000px; position:absolute;display: none" type="text" value="">
                                       <label class="control-label col-md-3">Expenses</label>
                                       <div class="col-md-9">
                                           <div class="radio-list">
@@ -272,7 +272,7 @@
 
                                     <div class="form-group exp">
                                       <label class="control-label col-md-3">Organizational Funds</label>
-                                      <input id="org-exp" class="col-md-6" type="text">
+                                      <input name="organizationalFunds" id="org-exp" class="col-md-6" type="text">
                                         
                                          
                                     </div>
@@ -281,7 +281,7 @@
 
                                     <div class="form-group exp">
                                       <label class="control-label col-md-3">Participant's Fee</label>
-                                      <input id="par-exp" class="col-md-6" type="text">
+                                      <input name="participantsFee" id="par-exp" class="col-md-6" type="text">
                                         
                                          
                                     </div>
@@ -290,7 +290,7 @@
 
                                     <div class="form-group exp">
                                       <label class="control-label col-md-3">Others(i.e Sponsorship)</label>
-                                      <input id="others-exp" class="col-md-6" type="text">
+                                      <input name="others" id="others-exp" class="col-md-6" type="text">
                                         
                                          
                                     </div>
