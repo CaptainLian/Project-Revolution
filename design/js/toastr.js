@@ -37,10 +37,10 @@ $(document).ready(function() {
 
      });
 
-      $(".tst4").click(function(){
+      $(".error").click(function(){
            $.toast({
-            heading: 'Welcome to my Elite admin',
-            text: 'Use the predefined ones, or specify a custom position object.',
+            heading: 'Login Failed!',
+            text: 'Invalid username and/or password.',
             position: 'top-right',
             loaderBg:'#ff6849',
             icon: 'error',
