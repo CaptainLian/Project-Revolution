@@ -176,9 +176,6 @@ module.exports = function(database, models, queryFiles){
 		activityList :( req, res)=>{
 			res.render('APS/ActivityListMain');
 		},
-		inputCreateGOSM: (req, res) => {
-			console.log(JSON.stringify(req.body));
-			res.render('GOSM');
-		}
+		
 	};
 };
