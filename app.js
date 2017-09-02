@@ -26,7 +26,7 @@ var pgPromise = require('pg-promise')();
 
 var database_connection_options = {
   host: global.config.database.host,
-  port: global.config.database.port, 
+  port: global.config.database.port,
   database: global.config.database.database,
   user: global.config.database.username,
   password: global.config.database.password
@@ -59,7 +59,7 @@ let session_config = global.config.webserver.session;
 app.use(session({
   store: new pgSession({
     pool: new Pool(database_connection_options),
-    tableName:'user_session'
+    tableName: session_config.table_name
   }),
   // proxy: session_config.proxy,
   name: session_config.name,
@@ -73,13 +73,9 @@ app.use(session({
     path: session_config.cookie.path,
     sameSite: session_config.cookie.sameSite,
     secure: session_config.cookie.secure,
-    maxAge: session_config.cookie.maxAge,
-    
+    maxAge: session_config.cookie.maxAge
   }
 }));
-
-
-
 
 // if(global.config.webserver.debug_mode){
 // 	app.get('/test/sessions', function(req, res){
@@ -89,12 +85,12 @@ app.use(session({
 // 		}else{
 // 			session.views = 1;
 // 		}
-    
+
 // 		res.send(session.views.toString());
 // 	});
 // }
 
-/* 
+/*
 Load QueryFiles
 */
 console.log('Loading Query Files');
@@ -107,13 +103,13 @@ for(var index = 0, length = queryFilesDir.length; index < length; ++index){
       console.log(`\tFile: ${queryFilesDir[index]}`);
       var filename = queryFilesDir[index].substring(0, queryFilesDir[index].lastIndexOf('.'));
       queryFiles[filename] = QueryFile(
-      path.resolve(global.config.database.query_files.path) + '/' + queryFilesDir[index], 
+      path.resolve(global.config.database.query_files.path) + '/' + queryFilesDir[index],
       {
-        minify: global.config.database.query_files.minify, 
+        minify: global.config.database.query_files.minify,
         compress: global.config.database.query_files.compress
       }
     );
-  } 
+  }
 }
 console.log('Loading Query Files Complete\n');
 

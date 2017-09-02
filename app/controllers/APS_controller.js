@@ -1,6 +1,9 @@
+const dateFormat = require('dateformat');
+
+
 module.exports = function(database, models, queryFiles){
 
-	var gosmModel = models.GOSM_model;
+	var gosmModel = models.gosmModel;
 	return {
 		viewCreateGOSM: (req, res) => {
 			console.log('VIEW CREATE GOSM CONTROLLER');
@@ -35,7 +38,7 @@ module.exports = function(database, models, queryFiles){
 
 				});
 
-			
+
 		},
 		createActivityRequirements:(req, res)=>{
 			res.render("APS/ActivityRequirementsMain");
@@ -98,7 +101,7 @@ module.exports = function(database, models, queryFiles){
 						activityType: activityType,
 						activityTypeOtherDescription: others,
 						isRelatedToOrganizationNature: isRelatedToOrganization,
-						budget: budget	
+						budget: budget
 
 					};
 
@@ -106,7 +109,7 @@ module.exports = function(database, models, queryFiles){
 						//error blank others
 
 					}
-			
+
 					else{
 					//insert to db
 						gosmModel.insertProposedActivity(dbParam)
@@ -120,19 +123,62 @@ module.exports = function(database, models, queryFiles){
 
 
 
-					}	
+					}
 
-					 
+
 
 
 				});
-			
-			
-			
+
+
+
 
 		},
 		submitGOSM:(req ,res)=>{
 
+		},
+
+		viewOrglist:( req, res) =>{
+			let yearsPromise = gosmModel.getSubmissionYears();
+			let allGOSMPromise = gosmModel.getAll();
+			Promise.all([yearsPromise, allGOSMPromise])
+				.then(function(data) {
+					let GOSMList = data[1];
+					for(const gosm of GOSMList){
+						console.log(gosm);
+					}
+					console.log(GOSMList);
+					res.render('APS/OrglistMain', {
+						GOSMList: data[1]
+					});
+				})
+				.catch(function(error) {
+					console.log(error);
+
+					res.send(500);
+					throw error;
+				});
+		},
+		viewOrgGOSM :( req, res)=>{
+			console.log("CHECK THIS OUT" +req.params.orgid);
+
+			let organizationID = req.params.orgid;
+			gosmModel.getSpecificOrg(organizationID)
+			.then(data => {
+				console.log(data);
+				res.render('APS/OrgGOSMMain', {activities: data});
+			})
+			.catch(error => {
+				console.log(data);
+				throw error;
+			});
+		},
+		activityList :( req, res)=>{
+			res.render('APS/ActivityListMain');
+		},
+		inputCreateGOSM: (req, res) => {
+			console.log(JSON.stringify(req.body));
+			res.render('GOSM');
 		}
 	};
 };
