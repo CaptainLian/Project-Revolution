@@ -172,11 +172,6 @@ INSERT INTO GOSMStatus (id, name)
 TRUNCATE TABLE GOSM CASCADE;
 INSERT INTO GOSM (startYear, endYear, StudentOrganization)
           VALUES (2016, 2017, 1);
-TRUNCATE TABLE GOSMActivities CASCADE;
-INSERT INTO GOSMActivities (startYear, endYear, studentOrganization, goals, objectives, strategies, description, measures, targetDateStart, targetDateEnd, peopleInCharge, activityNature, activityType, isRelatedToOrganizationNature, budget)
-                    VALUES (2016, 2017, 1, 'Goal Mo to', '{"Objectives", "mo", "to"}', 'Strategy mo to', 'description mo to', 'measure mo to', '2017-8-30', '2017-8-31', '{"In charge si acoe"}', 1, 1, false, 69.699);
-INSERT INTO GOSMActivities (startYear, endYear, studentOrganization, goals, objectives, strategies, description, measures, targetDateStart, targetDateEnd, peopleInCharge, activityNature, activityType, isRelatedToOrganizationNature, budget)
-                    VALUES (2016, 2017, 1, 'Goal Mo to', '{"Objectives", "mo", "to"}', 'Strategy mo to', 'description mo to', 'measure mo to', '2017-8-30', '2017-8-31', '{"In charge si acoe"}', 1, 1, false, 69.699);
 
 TRUNCATE TABLE Account CASCADE;
 INSERT INTO Account (email, idNumber, password, firstname, middlename, lastname, contactNumber)
@@ -187,8 +182,3 @@ INSERT INTO Account (email, idNumber, password, firstname, lastname, contactNumb
              VALUES ('dominique_dagunton@dlsu.edu.ph', 11445953, '1234', 'Dominique', 'Dagunton', '+63 9228474849');
 INSERT INTO Account (email, idNumber, password, firstname, lastname, contactNumber)
              VALUES ('neil_capistrano@dlsu.edu.ph', 11445952, '1234', 'Neil', 'Capistrano', '+63 9228474849');
-
-
-TRUNCATE TABLE Term CASCADE;
-INSERT INTO TERM (startYear, endYear, number, dateStart, dateEnd)
-          VALUES (2016, 2017, 3, '2017-7-4', '2017-8-1');
