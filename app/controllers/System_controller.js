@@ -17,6 +17,7 @@ module.exports = function(database, models, queryFiles) {
     return {
 
         viewLogin: (req, res) => {
+            req.session.user="Neil";
             res.render('System/LoginMain');
         },
 

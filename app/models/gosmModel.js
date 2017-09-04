@@ -41,7 +41,7 @@ module.exports = function(db, queryFiles){
 			return db.none(insertNewGOSMSQL, param);
 		},
 		getOrgGOSM: function(param){
-			return db.any(getOrgGOSMSQL, param);
+			return db.oneOrNone(getOrgGOSMSQL, param);
 		},
 		getActivitiesFromID(GOSMID, fields){
 			const query = squel.select()

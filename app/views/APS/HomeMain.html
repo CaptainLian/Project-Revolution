@@ -1,4 +1,4 @@
-{% extends "../template/GOSM.html" %}
+{% extends "../template/APS/Home.html" %}
 
 
 {%block styles%}
@@ -16,206 +16,118 @@
 
 {%block content%}
 <div class="row">
-	
-	<div class="col-md-8">
-		<div class="panel panel-info">
-			<div class="panel-heading">Proposed Activity</div>
-			
-			<div class="panel-body">
-				<form action="#" class="form-horizontal form-bordered">
-					<div class="form-body">
-						<div class="form-group">
-							<label class="control-label col-md-3">Strategy</label>
-							<div class="col-md-9">
-								<input type="text" placeholder="" class="form-control">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="control-label col-md-3">Goals</label>
-							<div class="col-md-9">
-								<input type="text" placeholder="" class="form-control">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="control-label col-md-3">Objectives</label>
-							<div class="col-md-9" id="div-objectives">
-								<input type="text" placeholder="" class="form-control">
-								<span class="help-block">&nbsp</span> 
-								
-							</div>
+    <div class="col-md-3 col-xs-12 col-sm-6">
+        <div class="white-box text-center bg-inverse">
+            <h1 class=" text-white counter">10</h1>
+            <p class="text-white">Projects</p>
+        </div>
+    </div>
+    <div class="col-md-3 col-xs-12 col-sm-6">
+        <div class="white-box text-center bg-danger">
+            <h1 class="text-white counter">2</h1>
+            <p class="text-white">Denied</p>
+        </div>
+    </div>
+    <div class="col-md-3 col-xs-12 col-sm-6">
+        <div class="white-box text-center bg-warning">
+            <h1 class="counter text-white">3</h1>
+            <p class=" text-white">Pending</p>
+        </div>
+    </div>
+    <div class="col-md-3 col-xs-12 col-sm-6">
+        <div class="white-box text-center bg-success">
+            <h1 class="text-white counter">5</h1>
+            <p class="text-white">Success</p>
+        </div>
+    </div>
+</div>
+<!-- /row -->
+<!--row -->
+<div class="row">
+    <div class="col-md-12 col-lg-8 col-sm-12">
+        <div class="white-box">
+            <h3 class="box-title">Project
+              <div class="col-md-3 col-sm-3 col-xs-3 pull-right">
+                <select class="form-control pull-right row b-none">
+                  <option>All</option>
+                  <option>Denied</option>
+                  <option>Pending</option>
+                  <option>Success</option>
+                  
+                </select>
+              </div>
+            </h3>
+            
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>NAME</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td class="txt-oflo">Elite admin</td>                                          
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td class="txt-oflo">Real Homes WP Theme</td>                                            
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td class="txt-oflo">Medical Pro WP Theme</td>
+                            
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td class="txt-oflo">Hosting press html</td>
+                           
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td class="txt-oflo">Helping Hands WP Theme</td>
+                            
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td class="txt-oflo">Digital Agency PSD</td>
+                            
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td class="txt-oflo">Helping Hands WP Theme</td>
+                           
+                        </tr>
+                    </tbody>
+                </table> 
+                </div>
+        </div>
+    </div>
+    <div class="col-md-12 col-lg-4 col-sm-12">
+        <div class="white-box">
+            <h3 class="box-title">Recent Comments</h3>
+            <div class="comment-center" style="height: 420px;overflow-y: auto">
+                <!-- PENDING -->
+                <div class="comment-body pending">
+                    <div class="user-img"> <img src="../plugins/images/users/pawandeep.jpg" alt="user" class="img-circle"></div>
+                    <div class="mail-contnet">
+                        <h5>Pavan kumar</h5> <span class="mail-desc">Donec ac condimentum massa. Etiam pellentesque pretium lacus. Phasellus ultricies dictum suscipit. Aenean commodo dui pellentesque molestie feugiat.</span> <span class="label label-rouded label-info">PENDING</span><a href="javacript:void(0)" class="action"></a><span class="time pull-right">April 14, 2017</span></div>
+                </div>  
+                <!-- DENIED -->
+                <div class="comment-body denied">
+                    <div class="user-img"> <img src="../plugins/images/users/pawandeep.jpg" alt="user" class="img-circle"></div>
+                    <div class="mail-contnet">
+                        <h5>Pavan kumar</h5> <span class="mail-desc">Donec ac condimentum massa. Etiam pellentesque pretium lacus. Phasellus ultricies dictum suscipit. Aenean commodo dui pellentesque molestie feugiat.</span> <span class="label label-rouded label-info">PENDING</span><a href="javacript:void(0)" class="action"></a><span class="time pull-right">April 14, 2017</span></div>
+                </div>        
 
-							
-							<div id="div-after-objectives"></div>
-                                             <!--    
-                                                <label class="control-label col-md-3">&nbsp</label>
-                                                <div class="col-md-8" id="div-objectives">
-                                                    <input type="text" placeholder="" class="form-control">
-                                                    <span class="help-block">&nbsp</span> 
-                                                   
-                                                </div>
-                                                <div class="col-md-1" style="margin-top: 8px" >
-                                                    <i class="fa fa-times text-danger" data-toggle="tooltip" title="Remove"></i>
-                                                </div> -->
-
-
-                                                <div style="text-align: center" class="col-md-12">
-                                                	<button id="objectives-add" type="button" class="btn btn-success">&nbsp&nbsp&nbsp+&nbsp&nbsp&nbsp</button>
-                                                </div>
-
-
-                                            </div>
-                                            <div class="form-group">
-                                            	<label class="control-label col-md-3">Description</label>
-                                            	<div class="col-md-9">
-                                            		<textarea  rows=4 class="form-control"></textarea> 
-                                            	</div>
-                                            </div>
-                                            <div class="form-group">
-                                            	<label class="control-label col-md-3">Measures</label>
-                                            	<div class="col-md-9">
-                                            		<input type="text" placeholder="" class="form-control">
-                                            	</div>
-                                            </div>
-                                            <div class="form-group">
-                                            	<label class="control-label col-md-3">Target Date</label>
-                                            	<div class="input-daterange input-group col-md-8" id="date-range">
-                                            		<input class="form-control" readonly="" placeholder="mm/dd/yyyy" name="start" type="text">
-                                            		<span class="input-group-addon bg-info b-0 text-white">to</span>
-                                            		<input class="form-control" readonly="" name="end" type="text" placeholder="mm/dd/yyyy">
-                                            		
-                                            	</div>
-                                            	<div class="col-md-1" style="margin-top: 8px" >
-                                            		<i class="fa fa-cog fa-spin text-inverse m-r-10" data-toggle="tooltip" title="Click to choose TERM Long or YEAR Long"></i>
-                                            	</div>
-                                            </div>
-                                            <div class="form-group">
-                                            	<label class="control-label col-md-3">Activity Type</label>
-                                            	<div class="col-md-9">
-                                            		<select class="form-control select" id="activity-type">
-                                            			
-                                            			<option value="">Academic</option>
-                                            			<option value="">Special Interest</option>
-                                            			<option value="">Departmental Initiative</option>
-                                            			<option value="">Fundraising</option>
-                                            			<option value="">Community Development</option>
-                                            			<option value="">Organizational Development</option>
-                                            			<option value="">Issue Advocacy</option>
-                                            			<option value="">Lasallian Formation</option>
-                                            			<option value="">Outreach</option>
-                                            			<option value="others">Others</option>
-                                            		</select>
-                                            		
-                                            	</div>
-
-                                            	<div class="col-md-12 act-others" style="display: none" id="div-space">&nbsp</div>
-
-                                            	<label class="control-label col-md-3" style="display: none" id="act-others-label">Others</label>
-
-                                            	<div class="col-md-9 act-others" style="display: none" id="div-others">                                                  
-                                            		<input type="text" class="form-control" style="display: none" id="activity-others">
-                                            	</div>
-
-                                            	
-
-                                            </div>
-                                            
-                                            
-                                            <div class="form-group">
-                                            	<label class="control-label col-md-3">Person in Charge</label>
-                                            	<div class="col-md-9">
-                                            		<select class="form-control select" id="pic">
-                                            			<option value="Category 1">Neil Capistrano</option>
-                                            			<option value="Category 2">Dominique Dagunton</option>
-                                            			<option value="Category 3">Markus Flores</option>
-                                            			<option value="Category 4">Lian Laguio</option>
-                                            		</select>
-                                            	</div>
-                                            </div>
-                                            
-                                            <div class="form-group">
-                                            	<label class="control-label col-md-3">Related to Organization</label>
-                                            	<div class="col-md-9">
-                                            		<div class="radio-list">
-                                            			<label>
-                                            				<input type="radio" name="optionsRadios2" value="option1"> Yes </label>
-                                            				<label>
-                                            					<input type="radio" name="optionsRadios2" value="option2" checked=""> No </label>
-                                            				</div>
-                                            			</div>
-                                            		</div>
-                                            		<div class="form-group">
-                                            			<label class="control-label col-md-3">Budget</label>
-                                            			<div class="col-md-9 input-group">
-                                            				<div class="input-group-addon"><i>₱</i></div>
-                                            				<input type="number"  class="form-control">
-                                            			</div>
-                                            		</div>
-                                            		
-                                            	</div>
-                                            	<div class="form-actions">
-                                            		<div class="row">
-                                            			<div class="col-md-12">
-                                            				<div class="row">
-                                            					<div class=" col-md-12" style="text-align: center">
-                                            						<button type="submit" class="btn btn-info">Add to GOSM</button>
-                                            						<button type="button" class="btn btn-default">Cancel</button>
-                                            					</div>
-                                            				</div>
-                                            			</div>
-                                            		</div>
-                                            	</div>
-                                            </form>
-                                            
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                	<div class="panel panel-warning">
-                                		<div class="panel-heading">Added Activities (60/40)</div>
-                                		
-                                		<div class="panel-body">
-                                			<table class="table">
-                                				<thead>
-                                					<tr>
-                                						<th>#</th>
-                                						<th>First Name</th>
-                                						<th>Actions</th>
-                                						
-                                					</tr>
-                                				</thead>
-                                				<tbody>
-                                					<tr>
-                                						<td>1</td>
-                                						<td class="td-title" >MyCareer</td>
-                                						<td class="text-nowrap">
-                                							<a href="#" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
-                                							<a href="#" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
-                                						</td>                                  
-                                					</tr>
-                                					<tr>
-                                						<td>2</td>
-                                						<td class="td-title">Nook Suxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxpplies</td>
-                                						<td class="text-nowrap">
-                                							<a href="#" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
-                                							<a href="#" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
-                                						</td>                                  
-                                					</tr>
-                                					
-                                				</tbody>
-                                			</table>
-                                		</div>
-                                		<div class="panel-footer"> 
-
-                                			<div class="row">
-                                				<div class=" col-md-12" style="text-align: center">
-                                					<button type="submit" class="btn btn-success">Submit to CSO</button>                                                
-                                				</div>
-                                			</div>
-                                		</div>
-                                		
-                                	</div>
-                                </div>
-                            </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
 {%endblock%}
 
 {%block scripts%}
