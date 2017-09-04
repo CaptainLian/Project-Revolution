@@ -169,9 +169,6 @@ INSERT INTO GOSMStatus (id, name)
                 VALUES (2, 'Approved');
 INSERT INTO GOSMStatus (id, name)
                 VALUES (3, 'Denied');
-TRUNCATE TABLE GOSM CASCADE;
-INSERT INTO GOSM (startYear, endYear, StudentOrganization)
-          VALUES (2016, 2017, 1);
 
 TRUNCATE TABLE Account CASCADE;
 INSERT INTO Account (email, idNumber, password, firstname, middlename, lastname, contactNumber)
