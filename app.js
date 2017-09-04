@@ -20,12 +20,13 @@ var fileSystem = require('fs');
 var app = express();
 
 
+
 console.log('Testing Connection to database');
 var pgPromise = require('pg-promise')();
 
 var database_connection_options = {
   host: global.config.database.host,
-  port: global.config.database.port, 
+  port: global.config.database.port,
   database: global.config.database.database,
   user: global.config.database.username,
   password: global.config.database.password
@@ -44,6 +45,7 @@ nunjucks.configure('./app/views/', {
 });
 
 
+// Middle
 
 // uncomment after placing your favicon in /public
 // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -57,10 +59,11 @@ let session_config = global.config.webserver.session;
 app.use(session({
   store: new pgSession({
     pool: new Pool(database_connection_options),
-    tableName:'user_session'
+    tableName: session_config.table_name
   }),
-  proxy: session_config.proxy,
+  // proxy: session_config.proxy,
   name: session_config.name,
+  rolling: session_config.rolling,
   resave: session_config.resave,
   saveUninitialized: session_config.saveUninitialized,
   unset: session_config.unset,
@@ -69,18 +72,25 @@ app.use(session({
     httpOnly: session_config.cookie.httpOnly,
     path: session_config.cookie.path,
     sameSite: session_config.cookie.sameSite,
-    secure: session_config.cookie.secure
+    secure: session_config.cookie.secure,
+    maxAge: session_config.cookie.maxAge
   }
 }));
 
+// if(global.config.webserver.debug_mode){
+// 	app.get('/test/sessions', function(req, res){
+// 		let session = req.session;
+// 		if(session.views){
+// 			session.views = new Number(session.views) + 1;
+// 		}else{
+// 			session.views = 1;
+// 		}
 
-app.get('/test2', function(req, res){
-  
-  req.session.views = !!req.session.views ? 1 : req.session.views++;
-  res.send(new String(req.session.views));
-});
+// 		res.send(session.views.toString());
+// 	});
+// }
 
-/* 
+/*
 Load QueryFiles
 */
 console.log('Loading Query Files');
@@ -93,13 +103,13 @@ for(var index = 0, length = queryFilesDir.length; index < length; ++index){
       console.log(`\tFile: ${queryFilesDir[index]}`);
       var filename = queryFilesDir[index].substring(0, queryFilesDir[index].lastIndexOf('.'));
       queryFiles[filename] = QueryFile(
-      path.resolve(global.config.database.query_files.path) + '/' + queryFilesDir[index], 
+      path.resolve(global.config.database.query_files.path) + '/' + queryFilesDir[index],
       {
-        minify: global.config.database.query_files.minify, 
+        minify: global.config.database.query_files.minify,
         compress: global.config.database.query_files.compress
       }
     );
-  } 
+  }
 }
 console.log('Loading Query Files Complete\n');
 

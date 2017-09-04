@@ -1,8 +1,10 @@
 ﻿-- START TRANSACTION;
 
 DROP EXTENSION IF EXISTS "uuid-ossp";
+DROP EXTENSION IF EXISTS "pgcrypto";
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
 DROP TABLE IF EXISTS Term CASCADE;
 CREATE TABLE Term (
@@ -16,22 +18,8 @@ CREATE TABLE Term (
     PRIMARY KEY (startYear, endYear, number),
     CONSTRAINT number_min_value CHECK(number >= 1),
     CONSTRAINT number_max_value CHECK(number <= 3),
-    CONSTRAINT start_end_year_value CHECK(endYear > startYear),
-    CONSTRAINT date_start_end_value CHECK (dateEnd > dateStart)
-);
-
-DROP TABLE IF EXISTS Account CASCADE;
-CREATE TABLE Account (
-    studentID INTEGER,
-    password CHAR(128) NOT NULL,
-    firstname VARCHAR(45),
-    middlename VARCHAR(45),
-    lastname VARCHAR(45),
-    contactNumber VARCHAR(16),
-    email VARCHAR(255),
-    dateCreated TIMESTAMP WITH TIME ZONE,
-
-    PRIMARY KEY (studentID)
+    CONSTRAINT start_end_year_value CHECK(startYear < endYear),
+    CONSTRAINT date_start_end_value CHECK (dateStart <= dateEnd)
 );
 
 DROP TABLE IF EXISTS College CASCADE;
@@ -64,26 +52,112 @@ DROP SEQUENCE IF EXISTS organization_id_sequence;
 CREATE SEQUENCE organization_id_sequence INCREMENT BY 1
 MINVALUE 0 NO MAXVALUE START WITH 0 NO CYCLE;
 
-DROP TABLE IF EXISTS OrganizationType CASCADE;
-CREATE TABLE OrganizationType (
+DROP TABLE IF EXISTS OrganizationNature CASCADE;
+CREATE TABLE OrganizationNature (
     id INTEGER,
-    description VARCHAR(45) NOT NULL,
+    name VARCHAR(45) NOT NULL,
+    acronym VARCHAR(10),
+
+    PRIMARY KEY(id)
+);
+DROP TABLE IF EXISTS OrganizationCluster CASCADE;
+CREATE TABLE OrganizationCluster (
+    id INTEGER,
+    name VARCHAR(128) NOT NULL,
+    acronym VARCHAR(20),
 
     PRIMARY KEY(id)
 );
 DROP TABLE IF EXISTS StudentOrganization CASCADE;
 CREATE TABLE StudentOrganization (
     id SERIAL,
+    name VARCHAR(128),
+    cluster INTEGER REFERENCES OrganizationCluster(id),
+    nature INTEGER REFERENCES OrganizationNature(id),
     college CHAR(3) REFERENCES College(shortAcronym),
-    organizationTypeID INTEGER NOT NULL REFERENCES OrganizationType(id),
-    acronym VARCHAR(20),
-    name VARCHAR(60),
+    acronym VARCHAR(20) UNIQUE,
     description TEXT,
 
     PRIMARY KEY (id)
 );
 
 
+DROP TABLE IF EXISTS Account CASCADE;
+CREATE TABLE Account (
+    email VARCHAR(255),
+    idNumber INTEGER NULL UNIQUE,
+    password CHAR(60) NOT NULL,
+    salt CHAR(29),
+    firstname VARCHAR(45),
+    middlename VARCHAR(45),
+    lastname VARCHAR(45),
+    contactNumber VARCHAR(16),
+    privatekey TEXT,
+    publickey TEXT,
+    dateCreated TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    dateModified TIMESTAMP WITH TIME ZONE,
+
+    PRIMARY KEY (email)
+);
+    /* Account Table Triggers */
+CREATE OR REPLACE FUNCTION trigger_before_insert_Account()
+RETURNS trigger AS
+$trigger_before_insert_Account$
+    DECLARE 
+        salt CHAR(29);
+    BEGIN
+        SELECT gen_salt('bf') INTO salt;
+        NEW.salt = salt;
+        SELECT crypt(NEW.password, NEW.salt) INTO NEW.password;
+
+        NEW.dateCreated = CURRENT_TIMESTAMP;
+        NEW.dateModified = NEW.dateCreated;
+        return NEW;
+    END;
+$trigger_before_insert_Account$ LANGUAGE plpgsql;
+CREATE TRIGGER before_insert_Account
+    BEFORE INSERT ON Account
+    FOR EACH ROW
+    EXECUTE PROCEDURE trigger_before_insert_Account();
+
+CREATE OR REPLACE FUNCTION trigger_before_update_Account()
+RETURNS trigger AS
+$trigger_before_update_Account$
+    DECLARE 
+        salt CHAR(29);
+    BEGIN
+        SELECT gen_salt('bf') INTO salt;
+        NEW.salt = salt;
+        SELECT crypt(NEW.password, NEW.salt) INTO NEW.password;
+        NEW.dateModified = CURRENT_TIMESTAMP;
+        return NEW;
+    END;
+$trigger_before_update_Account$ LANGUAGE plpgsql;
+CREATE TRIGGER before_update_Account
+    BEFORE UPDATE ON Account
+    FOR EACH ROW
+    EXECUTE PROCEDURE trigger_before_update_Account();
+    /* Account Table Triggers End */
+
+    /* Organization Structure */
+DROP TABLE IF EXISTS OrganizationPosition CASCADE;
+CREATE TABLE OrganizationPosition (
+    id INTEGER,
+    name VARCHAR(45),
+
+    PRIMARY KEY (id)
+);
+
+DROP TABLE IF EXISTS OrganizationOfficer CASCADE;
+CREATE TABLE OrganizationOfficer (
+    organization INTEGER REFERENCES StudentOrganization(id),
+    officerID INTEGER REFERENCES Account(idNumber),
+    position INTEGER REFERENCES OrganizationPosition(id),
+    dateAssigned TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    
+
+    PRIMARY KEY (organization, officerID)
+);
 -- FORMS
 	/* GOSM RELATED*/
 DROP TABLE IF EXISTS GOSMStatus CASCADE;
@@ -99,7 +173,7 @@ CREATE TABLE GOSM (
     endYear INTEGER,
     studentOrganization INTEGER REFERENCES StudentOrganization(id),
     status INTEGER NOT NULL REFERENCES GOSMStatus(id) DEFAULT 1,
-    dateFiled DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    dateCreated DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     PRIMARY KEY (startYear, endYear, studentOrganization),
     CONSTRAINT start_end_year_value CHECK(endYear > startYear)
@@ -107,15 +181,17 @@ CREATE TABLE GOSM (
 
 DROP TABLE IF EXISTS GOSMActivities CASCADE;
 CREATE TABLE GOSMActivities (
-    id INTEGER,
+    id INTEGER DEFAULT 0,
     startYear INTEGER,
     endYear INTEGER,
     studentOrganization INTEGER,
+    name VARCHAR(45),
     goals VARCHAR(45) NOT NULL,
     objectives VARCHAR(45)[] NOT NULL,
     strategies VARCHAR(45) NOT NULL,
     description VARCHAR(255) NOT NULL,
     measures VARCHAR(45) NOT NULL,
+    venue VARCHAR(100),
     targetDateStart DATE NOT NULL,
     targetDateEnd DATE,
     peopleInCharge VARCHAR(60)[] NOT NULL,
@@ -124,17 +200,18 @@ CREATE TABLE GOSMActivities (
     activityTypeOtherDescription VARCHAR(45) NULL,
     isRelatedToOrganizationNature BOOLEAN NOT NULL,
     budget NUMERIC(16, 4) NOT NULL,
+    comments TEXT,
 
     FOREIGN KEY (startYear, endYear, studentOrganization) REFERENCES GOSM(startYear, endYear, studentOrganization),
     PRIMARY KEY (id, startYear, endYear, studentOrganization),
     CONSTRAINT start_end_year_value CHECK(endYear > startYear),
-    CONSTRAINT targetdate_start_end_value CHECK(targetDateEnd > targetDateStart)
+    CONSTRAINT targetdate_start_end_value CHECK(targetDateStart <= targetDateEnd)
 );
 CREATE OR REPLACE FUNCTION trigger_before_insert_GOSMActivities()
 RETURNS trigger AS
 $trigger_before_insert_GOSMActivities$
     BEGIN
-        SELECT MAX(id) + 1 INTO STRICT NEW.id
+        SELECT COALESCE(MAX(id) + 1, 1) INTO STRICT NEW.id
           FROM GOSMActivities
          WHERE startYear = NEW.startYear
            AND endYear = NEW.endYear
@@ -167,8 +244,8 @@ CREATE TABLE ProjectProposal (
     accumulatedOperationalFunds NUMERIC(16, 4),
     accumulatedDepositoryFunds NUMERIC(16, 4),
     organization INTEGER REFERENCES StudentOrganization(id),
-    financeSignatory INTEGER REFERENCES Account(studentID),
-    preparedBy INTEGER REFERENCES Account(studentID),
+    financeSignatory INTEGER REFERENCES Account(idNumber),
+    preparedBy INTEGER REFERENCES Account(idNumber),
 
     PRIMARY KEY (id)
 );
@@ -184,7 +261,7 @@ CREATE TABLE ProjectProposalProgramDesign (
     personInCharge VARCHAR(60)[],
 
     PRIMARY KEY (projectProposalID, id),
-    CHECK(endTime > startTime)
+    CHECK(startTime < endTime)
 );
 -- TODO: TRIGGER FOR ID
 DROP TABLE IF EXISTS ProjectProposalProjectedIncome CASCADE;
@@ -235,10 +312,10 @@ CREATE TABLE SpecialApproval (
     requestingOrganization INTEGER NOT NULL REFERENCES StudentOrganization(id),
     activityTitle VARCHAR(45),
     justification TEXT,
-    submittedBy INTEGER NOT NULL REFERENCES Account(studentID),
-    president INTEGER NOT NULL REFERENCES Account(studentID),
+    submittedBy INTEGER NOT NULL REFERENCES Account(idNumber),
+    president INTEGER NOT NULL REFERENCES Account(idNumber),
     datePresidentSigned TIMESTAMP WITH TIME ZONE,
-    approvalSignatory INTEGER NOT NULL REFERENCES Account(studentID),
+    approvalSignatory INTEGER NOT NULL REFERENCES Account(idNumber),
     dateApprovalSignatorySigned TIMESTAMP WITH TIME ZONE,
 
     PRIMARY KEY (id)
