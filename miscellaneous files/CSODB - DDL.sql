@@ -1,7 +1,25 @@
 ﻿-- START TRANSACTION;
 CREATE OR REPLACE FUNCTION array_remove_element_index(anyarray, int)
-  RETURNS anyarray LANGUAGE sql IMMUTABLE AS
-'SELECT $1[:$2-1] || $1[$2+1:]';
+RETURNS anyarray IMMUTABLE AS
+    'SELECT $1[:$2-1] || $1[$2+1:]' LANGUAGE SQL;
+
+/*
+CREATE OR REPLACE FUNCTION array_element_contain_null(anyarray)
+RETURNS boolean IMMUTABLE AS 
+$$
+    DECLARE
+        elem any;
+    BEGIN
+        FOREACH elem IN ARRAY $1
+        LOOP
+            IF elem IS NULL THEN
+                return true;
+            END IF;
+        END LOOP;
+        RETURN false;
+    END;
+$$ LANGUAGE 'plpgsql';
+*/
 
 DROP EXTENSION IF EXISTS "uuid-ossp";
 DROP EXTENSION IF EXISTS "pgcrypto";
