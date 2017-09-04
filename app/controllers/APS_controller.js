@@ -281,19 +281,18 @@ module.exports = function(database, models, queryFiles){
 			let GOSMID = req.params.GOSMID;
 
 			let orgDetailPromise = organizationModel.getOrganizationInformation(organizationID, 'name');
-			let GOSMPromise = gosmModel.getActivitiesFromID(GOSMID, ['strategies', 'targetDateStart']);
+			let GOSMPromise = gosmModel.getActivitiesFromID(GOSMID, ['id', 'strategies', 'targetDateStart']);
 			Promise.all([orgDetailPromise, GOSMPromise])
-			.then(data => {
-				console.log(data);
-				res.render('APS/OrgGOSMMain', {
-					organizationName: data[0].name,
-					GOSMActivities: data[1]
+				.then(data => {
+					console.log(data);
+					res.render('APS/OrgGOSMMain', {
+						organizationName: data[0].name,
+						GOSMActivities: data[1]
+					});
+				})
+				.catch( error => {
+					throw error;
 				});
-			})
-			.catch( error => {
-				throw error;
-			});
-			
 		},
 
 
