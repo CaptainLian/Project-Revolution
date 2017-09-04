@@ -5,6 +5,9 @@ module.exports = function(database, models, queryFiles){
 
 	var gosmModel = models.gosmModel;
 	return {
+		home: (req, res)=>{
+			res.render('APS/HomeMain');
+		},
 		viewCreateGOSM: (req, res) => {
 			console.log('VIEW CREATE GOSM CONTROLLER');
 
