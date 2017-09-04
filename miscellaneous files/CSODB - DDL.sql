@@ -1,4 +1,25 @@
 ﻿-- START TRANSACTION;
+CREATE OR REPLACE FUNCTION array_remove_element_index(anyarray, int)
+RETURNS anyarray IMMUTABLE AS
+    'SELECT $1[:$2-1] || $1[$2+1:]' LANGUAGE SQL;
+
+/*
+CREATE OR REPLACE FUNCTION array_element_contain_null(anyarray)
+RETURNS boolean IMMUTABLE AS 
+$$
+    DECLARE
+        elem any;
+    BEGIN
+        FOREACH elem IN ARRAY $1
+        LOOP
+            IF elem IS NULL THEN
+                return true;
+            END IF;
+        END LOOP;
+        RETURN false;
+    END;
+$$ LANGUAGE 'plpgsql';
+*/
 
 DROP EXTENSION IF EXISTS "uuid-ossp";
 DROP EXTENSION IF EXISTS "pgcrypto";
@@ -8,6 +29,7 @@ CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
 DROP TABLE IF EXISTS Term CASCADE;
 CREATE TABLE Term (
+    id SERIAL UNIQUE,
     startYear INTEGER,
     endYear INTEGER,
     number INTEGER,
@@ -169,30 +191,31 @@ CREATE TABLE GOSMStatus (
 );
 DROP TABLE IF EXISTS GOSM CASCADE;
 CREATE TABLE GOSM (
-    startYear INTEGER,
-    endYear INTEGER,
+    id SERIAL UNIQUE,
+    termID INTEGER,
     studentOrganization INTEGER REFERENCES StudentOrganization(id),
     status INTEGER NOT NULL REFERENCES GOSMStatus(id) DEFAULT 1,
-    dateCreated DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    dateCreated TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    dateSubmitted TIMESTAMP WITH TIME ZONE,
+    dateRejected TIMESTAMP WITH TIME ZONE,
+    dateAccepted TIMESTAMP WITH TIME ZONE,
+    datePended TIMESTAMP WITH TIME ZONE,
+    comments TEXT,
 
-    PRIMARY KEY (startYear, endYear, studentOrganization),
-    CONSTRAINT start_end_year_value CHECK(endYear > startYear)
+    PRIMARY KEY (termID, studentOrganization)
 );
 
 DROP TABLE IF EXISTS GOSMActivities CASCADE;
 CREATE TABLE GOSMActivities (
-    id INTEGER DEFAULT 0,
-    startYear INTEGER,
-    endYear INTEGER,
-    studentOrganization INTEGER,
-    name VARCHAR(45),
+    id SERIAL UNIQUE,
+    GOSM INTEGER,
+    sequence INTEGER REFERENCES GOSM(id) DEFAULT -1,
     goals VARCHAR(45) NOT NULL,
     objectives VARCHAR(45)[] NOT NULL,
     strategies VARCHAR(45) NOT NULL,
     description VARCHAR(255) NOT NULL,
     measures VARCHAR(45) NOT NULL,
-    venue VARCHAR(100),
-    targetDateStart DATE NOT NULL,
+    targetDateStart DATE,
     targetDateEnd DATE,
     peopleInCharge VARCHAR(60)[] NOT NULL,
     activityNature INTEGER REFERENCES ActivityNature(id),
@@ -202,20 +225,16 @@ CREATE TABLE GOSMActivities (
     budget NUMERIC(16, 4) NOT NULL,
     comments TEXT,
 
-    FOREIGN KEY (startYear, endYear, studentOrganization) REFERENCES GOSM(startYear, endYear, studentOrganization),
-    PRIMARY KEY (id, startYear, endYear, studentOrganization),
-    CONSTRAINT start_end_year_value CHECK(endYear > startYear),
+    PRIMARY KEY (GOSM, sequence),
     CONSTRAINT targetdate_start_end_value CHECK(targetDateStart <= targetDateEnd)
 );
 CREATE OR REPLACE FUNCTION trigger_before_insert_GOSMActivities()
 RETURNS trigger AS
 $trigger_before_insert_GOSMActivities$
     BEGIN
-        SELECT COALESCE(MAX(id) + 1, 1) INTO STRICT NEW.id
+        SELECT COALESCE(MAX(id) + 1, 1) INTO STRICT NEW.sequence
           FROM GOSMActivities
-         WHERE startYear = NEW.startYear
-           AND endYear = NEW.endYear
-           AND studentOrganization = NEW.studentOrganization;
+         WHERE GOSM = NEW.GOSM;
         return NEW;
     END;
 $trigger_before_insert_GOSMActivities$ LANGUAGE plpgsql;
@@ -227,74 +246,146 @@ CREATE TRIGGER before_insert_GOSMActivities
 	/* END GOSM */
 
 	/* Project Proposal */
+
+
 DROP TABLE IF EXISTS ProjectProposal CASCADE;
 CREATE TABLE ProjectProposal (
-    id SERIAL,
-    dateSubmitted TIMESTAMP,
-    activityTitle VARCHAR(45),
+    id SERIAL UNIQUE,
+    GOSMActivity INTEGER REFERENCES GOSMActivities(id),
+    sequence INTEGER DEFAULT -1,
+    dateSubmitted TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     ENP INTEGER,
     ENMP INTEGER,
-    activityType VARCHAR(45),
-    activityNature VARCHAR(45),
     targetDate DATE,
     venue TEXT,
-    projectHeads VARCHAR(60)[],
     contactNumber VARCHAR(16),
-    objectives TEXT[],
     accumulatedOperationalFunds NUMERIC(16, 4),
     accumulatedDepositoryFunds NUMERIC(16, 4),
-    organization INTEGER REFERENCES StudentOrganization(id),
     financeSignatory INTEGER REFERENCES Account(idNumber),
     preparedBy INTEGER REFERENCES Account(idNumber),
 
-    PRIMARY KEY (id)
+    PRIMARY KEY (GOSMActivity, sequence)
 );
--- TODO: TRIGGER FOR ID
+CREATE OR REPLACE FUNCTION trigger_before_insert_ProjectProposal()
+RETURNS trigger AS
+$trigger_before_insert_ProjectProposal$
+    BEGIN
+        SELECT COALESCE(MAX(sequence) + 1, 1) INTO STRICT NEW.sequence
+          FROM ProjectProposal
+         WHERE GOSMActivity = NEW.GOSMActivity;
+        return NEW;
+    END;
+$trigger_before_insert_ProjectProposal$ LANGUAGE plpgsql;
+CREATE TRIGGER before_insert_ProjectProposal
+    BEFORE INSERT ON ProjectProposal
+    FOR EACH ROW
+    EXECUTE PROCEDURE trigger_before_insert_ProjectProposal();
+
 DROP TABLE IF EXISTS ProjectProposalProgramDesign CASCADE;
 CREATE TABLE ProjectProposalProgramDesign (
-    projectProposalID INTEGER REFERENCES ProjectProposal(id),
-    id INTEGER,
+    projectProposal INTEGER REFERENCES ProjectProposal(id),
+    sequence INTEGER,
     startTime TIME WITH TIME ZONE,
     endTime TIME WITH TIME ZONE,
     activity TEXT,
     activityDescription TEXT,
     personInCharge VARCHAR(60)[],
 
-    PRIMARY KEY (projectProposalID, id),
+    PRIMARY KEY (projectProposal, sequence),
     CHECK(startTime < endTime)
 );
--- TODO: TRIGGER FOR ID
+CREATE OR REPLACE FUNCTION trigger_before_insert_ProjectProposalProgramDesign()
+RETURNS trigger AS
+$trigger_before_insert_ProjectProposalProgramDesign$
+    BEGIN
+        SELECT COALESCE(MAX(sequence) + 1, 1) INTO STRICT NEW.sequence
+          FROM ProjectProposalProgramDesign
+         WHERE projectProposal = NEW.projectProposal;
+        return NEW;
+    END;
+$trigger_before_insert_ProjectProposalProgramDesign$ LANGUAGE plpgsql;
+CREATE TRIGGER before_insert_ProjectProposal
+    BEFORE INSERT ON ProjectProposalProgramDesign
+    FOR EACH ROW
+    EXECUTE PROCEDURE trigger_before_insert_ProjectProposalProgramDesign();
+
+
 DROP TABLE IF EXISTS ProjectProposalProjectedIncome CASCADE;
 CREATE TABLE ProjectProposalProjectedIncome (
-    projectProposalID INTEGER REFERENCES ProjectProposal(id),
-    id INTEGER,
+    projectProposal INTEGER REFERENCES ProjectProposal(id),
+    sequence INTEGER,
     item VARCHAR(30) NOT NULL,
     quantity INTEGER NOT NULL,
     sellingPrice NUMERIC(16, 4) NOT NULL,
 
-    PRIMARY KEY (projectProposalID, id)
+    PRIMARY KEY (projectProposal, sequence)
 );
--- TODO: TRIGGER FOR ID
+CREATE OR REPLACE FUNCTION trigger_before_insert_ProjectProposalProjectedIncome()
+RETURNS trigger AS
+$trigger_before_insert_ProjectProposalProjectedIncome$
+    BEGIN
+        SELECT COALESCE(MAX(sequence) + 1, 1) INTO STRICT NEW.sequence
+          FROM ProjectProposalProjectedIncome
+         WHERE projectProposal = NEW.projectProposal;
+        return NEW;
+    END;
+$trigger_before_insert_ProjectProposalProjectedIncome$ LANGUAGE plpgsql;
+CREATE TRIGGER before_insert_ProjectProposalProjectedIncome
+    BEFORE INSERT ON ProjectProposalProjectedIncome
+    FOR EACH ROW
+    EXECUTE PROCEDURE trigger_before_insert_ProjectProposalProjectedIncome();
+
+
 DROP TABLE IF EXISTS ProjectProposalExpenses CASCADE;
 CREATE TABLE ProjectProposalExpenses (
-    projectProposalID INTEGER REFERENCES ProjectProposal(id),
-    id INTEGER,
+    projectProposal INTEGER REFERENCES ProjectProposal(id),
+    sequence INTEGER,
     material VARCHAR(30) NOT NULL,
     quantity INTEGER NOT NULL,
     unitCost NUMERIC(16, 4) NOT NULL,
 
-    PRIMARY KEY (projectProposalID, id)
+    PRIMARY KEY (projectProposal, sequence)
 );
--- TODO: TRIGGER FOR ID
+CREATE OR REPLACE FUNCTION trigger_before_insert_ProjectProposalExpenses()
+RETURNS trigger AS
+$trigger_before_insert_ProjectProposalExpenses$
+    BEGIN
+        SELECT COALESCE(MAX(sequence) + 1, 1) INTO STRICT NEW.sequence
+          FROM ProjectProposalExpenses
+         WHERE projectProposal = NEW.projectProposal;
+        return NEW;
+    END;
+$trigger_before_insert_ProjectProposalExpenses$ LANGUAGE plpgsql;
+CREATE TRIGGER before_insert_ProjectProposalExpenses
+    BEFORE INSERT ON ProjectProposalExpenses
+    FOR EACH ROW
+    EXECUTE PROCEDURE trigger_before_insert_ProjectProposalExpenses();
+
+
 DROP TABLE IF EXISTS ProjectProposalSourceFunds CASCADE;
 CREATE TABLE ProjectProposalSourceFunds (
-    projectProposalID INTEGER REFERENCES ProjectProposal(id),
-    id INTEGER,
+    projectProposal INTEGER REFERENCES ProjectProposal(id),
+    sequence INTEGER,
    	name VARCHAR (45),
    	amount NUMERIC(16, 4),
 
-    PRIMARY KEY (projectProposalID, id)
+    PRIMARY KEY (projectProposal, sequence)
 );
+CREATE OR REPLACE FUNCTION trigger_before_insert_ProjectProposalSourceFunds()
+RETURNS trigger AS
+$trigger_before_insert_ProjectProposalSourceFunds$
+    BEGIN
+        SELECT COALESCE(MAX(sequence) + 1, 1) INTO STRICT NEW.sequence
+          FROM ProjectProposalSourceFunds
+         WHERE projectProposal = NEW.projectProposal;
+        return NEW;
+    END;
+$trigger_before_insert_ProjectProposalSourceFunds$ LANGUAGE plpgsql;
+CREATE TRIGGER before_insert_ProjectProposal
+    BEFORE INSERT ON ProjectProposalSourceFunds
+    FOR EACH ROW
+    EXECUTE PROCEDURE trigger_before_insert_ProjectProposalSourceFunds();
+
 	/* End Project Proposal */
 	/* SPECIAL APPROVAL SLIP */
 DROP TABLE IF EXISTS SpecialApprovalType CASCADE;
