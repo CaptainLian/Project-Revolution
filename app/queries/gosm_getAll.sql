@@ -1,5 +1,8 @@
-SELECT g.studentOrganization AS id, s.name, to_char(g.dateCreated, 'Mon DD YYYY') as dateCreated, gs.name AS status
-  FROM GOSM g LEFT JOIN GOSMStatus gs
-                     ON g.status = gs.id
-              LEFT JOIN StudentOrganization s
-                     ON g.studentOrganization = s.id;
+SELECT g.id, so.name AS organization, g.dateSubmitted, gs.name AS status
+  FROM GOSM g LEFT JOIN StudentOrganization so
+                      ON g.studentOrganization = so.id
+               LEFT JOIN GOSMStatus gs
+                       ON g.status = gs.id
+ WHERE g.termID = (SELECT id
+                      FROM Term
+                     WHERE CURRENT_DATE BETWEEN dateStart AND dateEnd);
