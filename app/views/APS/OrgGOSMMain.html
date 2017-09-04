@@ -31,10 +31,10 @@
                     </thead>
                     <tbody>
 
-                        {% for activity in activities %}
+                        {% for activity in GOSMActivities %}
                             <tr role="row" class="odd" data-toggle="modal" data-target="#sampleModal">
 	                            <td>{{activity.strategies}}</td><!-- Activity name-->
-	                            <td>{{activity.targetDateStart}}</td><!-- Activity date -->
+	                            <td>{{activity.targetdatestart}}</td><!-- Activity date -->
                             </tr>
                         {% endfor %}
 

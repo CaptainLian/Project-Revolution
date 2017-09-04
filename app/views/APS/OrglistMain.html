@@ -31,10 +31,10 @@
                         </thead>
                         <tbody>
                             {% for gosm in GOSMList %}
-                                <tr role="row" class="odd denied" onclick="window.location='/viewOrgGOSM/{{gosm.id}}';">
+                                <tr role="row" class="odd denied" onclick="window.location='/viewOrgGOSM/{{gosm.organizationid}}/{{gosm.gosmid}}';">
                                     <td>{{gosm.organization}}</td>
                                     <td>{{gosm.dateSubmitted}}</td>
-                                    <td class="">{{gosm.status}}</td>
+                                    <td>{{gosm.status}}</td>
                                 </tr>
                             {% endfor %}
                         </tbody>

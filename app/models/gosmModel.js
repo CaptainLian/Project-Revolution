@@ -1,5 +1,7 @@
 'use strict';
 
+const squel = require('squel').useFlavour('postgres');
+
 module.exports = function(db, queryFiles){
 	const getAllActivityTypesSQL = queryFiles.getAllActivityTypes;
 	const insertProposedActivitySQL = queryFiles.insertProposedActivity;
@@ -41,8 +43,19 @@ module.exports = function(db, queryFiles){
 		getOrgGOSM: function(param){
 			return db.any(getOrgGOSMSQL, param);
 		},
-		getActivitiesFromID(){
-			return db.any(query_getActivitiesFromID);
+		getActivitiesFromID(GOSMID, fields){
+			const query = squel.select()
+				.from('GOSMActivities')
+				.where('GOSM = ${GOSMID}');
+			if(typeof fields === 'string'){
+				query.field(fields);
+			}else if(Array.isArray(fields)){
+				for(const field of fields){
+					query.field(field);
+				}	
+			}
+
+			return db.any(query.toString(), {GOSMID: GOSMID});
 		}
 	};
 };

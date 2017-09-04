@@ -3,7 +3,9 @@ const dateFormat = require('dateformat');
 
 module.exports = function(database, models, queryFiles){
 
-	var gosmModel = models.gosmModel;
+	const gosmModel = models.gosmModel;
+	const organizationModel = models.organization_model;
+
 	return {
 		viewCreateGOSM: (req, res) => {
 			console.log('VIEW CREATE GOSM CONTROLLER');
@@ -174,10 +176,6 @@ module.exports = function(database, models, queryFiles){
 				});
 		},
 
-		submitGOSM:(req ,res)=>{
-
-		},
-
 		viewOrglist:( req, res) =>{
 			gosmModel.getAllCurrent()
 				.then(GOSMList => {
@@ -253,9 +251,26 @@ module.exports = function(database, models, queryFiles){
 		viewOrgGOSM :( req, res)=>{
 			console.log("CHECK THIS OUT" +req.params.orgid);
 
-			let organizationID = req.params.orgid;
-			res.render('APS/OrgGOSMMain');
+			let organizationID = req.params.orgID;
+			let GOSMID = req.params.GOSMID;
+
+			let orgDetailPromise = organizationModel.getOrganizationInformation(organizationID, 'name');
+			let GOSMPromise = gosmModel.getActivitiesFromID(GOSMID, ['strategies', 'targetDateStart']);
+			Promise.all([orgDetailPromise, GOSMPromise])
+			.then(data => {
+				console.log(data);
+				res.render('APS/OrgGOSMMain', {
+					organizationName: data[0].name,
+					GOSMActivities: data[1]
+				});
+			})
+			.catch( error => {
+				throw error;
+			});
+			
 		},
+
+
 		activityList :( req, res)=>{
 			res.render('APS/ActivityListMain');
 		},
