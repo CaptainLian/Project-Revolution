@@ -16,7 +16,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="icon" type="image/png" sizes="16x16" href="../plugins/images/favicon.png">
     <title>Elite Admin - is a responsive admin template</title>
 
-    <link href="plugins/bower_components/jqueryui/jquery-ui.min.css" rel="stylesheet">
+    
     <!-- Bootstrap Core CSS -->
     <link href="bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css" rel="stylesheet">
@@ -25,6 +25,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link href="plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
     <link href="plugins/bower_components/jquery-wizard-master/css/wizard.css" rel="stylesheet">
 
+    <link href="plugins/bower_components/sweetalert/sweetalert.css" rel="stylesheet" type="text/css">
+
     <link href="plugins/bower_components/lobipanel/dist/css/lobipanel.min.css" rel="stylesheet">
     <link href="plugins/bower_components/custom-select/custom-select.css" rel="stylesheet" type="text/css" />
     <link href="plugins/bower_components/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
@@ -32,7 +34,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link href="css/animate.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="css/style.css" rel="stylesheet">
-
+    <link href="plugins/bower_components/jqueryui/jquery-ui.min.css" rel="stylesheet">
     <!-- color CSS you can use different color css from css/colors folder -->
     <!-- We have chosen the skin-blue (blue.css) for this starter
           page. However, you can choose any other skin from folder css / colors .
@@ -180,7 +182,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js"></script>
     <!--slimscroll JavaScript -->
     <script src="js/jquery.slimscroll.js"></script>
-    <!--Wave Effects -->
+    <!--Wave Effects -->    
+    <script src="plugins/bower_components/sweetalert/sweetalert.min.js"></script>
+    <script src="plugins/bower_components/sweetalert/jquery.sweet-alert.custom.js"></script>
     <script src="js/waves.js"></script>
 
     <script src="plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
@@ -206,7 +210,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="plugins/bower_components/lobipanel/dist/js/lobipanel.min.js"></script>
     <script src="../plugins/bower_components/toast-master/js/jquery.toast.js"></script>
     <script type="text/javascript">
-        var con = $(document.createElement('div'));
+        var con = $(document.createElement('div')).addClass("dy-obj");
         var cObj = 0;
         $("#objectives-add").click(function(){
             cObj ++;
