@@ -3,6 +3,7 @@
 
 {%block styles%}
 	<link href="css/custom.css" rel="stylesheet">
+
 {%endblock%}
 
 {%block header%}
@@ -15,214 +16,291 @@
 
 
 {%block content%}
-<div class="row">
-	
-	<div class="col-md-8">
-		<div class="panel panel-info">
-			<div class="panel-heading">Proposed Activity</div>
-			
-			<div class="panel-body">
-				<form class="form-horizontal form-bordered">
-					<div class="form-body">
-						<div class="form-group">
-							<label class="control-label col-md-3">Strategy</label>
-							<div class="col-md-9">
-								<input name="strategy" id="strategy" type="text" placeholder="" class="form-control">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="control-label col-md-3">Goals</label>
-							<div class="col-md-9">
-								<input name="goals" id="goals" type="text" placeholder="" class="form-control">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="control-label col-md-3">Objectives</label>
-							<div class="col-md-9" id="div-objectives">
-								<input name="objectives[]" id="objectives" type="text" placeholder="" class="form-control">
-								<span class="help-block">&nbsp</span> 
-								
-							</div>
-
-							
-							<div id="div-after-objectives"></div>
-                                            
-                                                <div style="text-align: center" class="col-md-12">
-                                                	<button id="objectives-add" type="button" class="btn btn-success">&nbsp&nbsp&nbsp+&nbsp&nbsp&nbsp</button>
-                                                </div>
 
 
-                                            </div>
-                                            <div class="form-group">
-                                            	<label class="control-label col-md-3">Description</label>
-                                            	<div class="col-md-9">
-                                            		<textarea  name="description" id="description" rows=4 class="form-control"></textarea> 
-                                            	</div>
-                                            </div>
-                                            <div class="form-group">
-                                            	<label class="control-label col-md-3">Measures</label>
-                                            	<div class="col-md-9">
-                                            		<input name="measures" id="measures" type="text" placeholder="" class="form-control">
-                                            	</div>
-                                            </div>
-                                            <div class="form-group">
-                                            	<label class="control-label col-md-3">Target Date</label>
-                                            	<div class="input-daterange input-group col-md-8" id="date-range">
-                                            		<input name="targetDateStart" id="targetDateStart" class="form-control" readonly="" placeholder="mm/dd/yyyy" name="start" type="text">
-                                            		<span class="input-group-addon bg-info b-0 text-white">to</span>
-                                            		<input name="targetDateEnd" id="targetDateEnd" class="form-control" readonly="" name="end" type="text" placeholder="mm/dd/yyyy">
-                                            		
-                                            	</div>
-                                            	<div class="col-md-1" style="margin-top: 8px" >
-                                            		<i class="fa fa-cog fa-spin text-inverse m-r-10" data-toggle="tooltip" title="Click to choose TERM Long or YEAR Long"></i>
-                                            	</div>
-                                            </div>
-                                            <div class="form-group">
-                                            	<label class="control-label col-md-3">Activity Type</label>
-                                            	<div class="col-md-9">
-                                            		<select class="form-control select" name="activity-type" id="activity-type">
-                                            			{% for type in activityTypes %}
-                                                            <option value="{{type.id}}">{{type.name}}</option>
-                                            			
-                                                        {% endfor %}
+<div class="sttabs tabs-style-linebox">
+    <nav class="nav-tab-custom">
+        <ul>
+            <li id="home-tab" ><a  href="#section-linebox-1"><span>Proposed Activity</span></a></li>
+            <li id="other-tab"><a href="#section-linebox-2"><span>Added Activites</span></a></li>            
+        </ul>
+    </nav>
+    <div class="content-wrap text-center">
 
-                                                        
-                                            		</select>
-                                            		
-                                            	</div>
+        <section id="section-linebox-1">
+            <div class="white-box">
+                <form action="/createGOSM" method="POST" class="form-horizontal form-bordered">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Strategy</label>
+                            <div class="col-md-9">
+                                <input name="strategy" id="strategy" type="text" placeholder="" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Goals</label>
+                            <div class="col-md-9">
+                                <input name="goals" id="goals" type="text" placeholder="" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Objectives</label>
+                            <div class="col-md-9" id="div-objectives">
+                                <input name="objectives[]" id="objectives" type="text" placeholder="" class="form-control">
+                                <span class="help-block">&nbsp</span> 
+                                
+                            </div>
 
-                                            	<div class="col-md-12 act-others" style="display: none" id="div-space">&nbsp</div>
-
-                                            	<label class="control-label col-md-3" style="display: none" id="act-others-label">Others</label>
-
-                                            	<div class="col-md-9 act-others" style="display: none" id="div-others">                                                  
-                                            		<input name="othersDescription" id="othersDescription" type="text" class="form-control" style="display: none" id="activity-others">
-                                            	</div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-md-3">Nature Type</label>
-                                                <div class="col-md-9">
-                                                    <select class="form-control select" name="nature-type" id="nature-type">
-                                                        
-
-                                                       
-                                                        {% for nature in activityNature %}
-                                                            <option value="{{nature.id}}">{{nature.name}}</option>
-                                                        {% endfor %}
-
-                                                        
-                                                        
-                                                        
-                                                    </select>
-                                                    
-                                                </div>
+                                
+                            <div id="div-after-objectives"></div>
+                            
+                            <div style="text-align: center" class="col-md-12">
+                                <button id="objectives-add" type="button" class="btn btn-success">&nbsp&nbsp&nbsp+&nbsp&nbsp&nbsp</button>
+                            </div>
 
 
-                                                
+                        </div>
 
-                                            </div>
-                                            
-                                            <div class="form-group">
-                                            	<label class="control-label col-md-3">Person in Charge</label>
-                                            	<div class="col-md-9">
-                                            		<select name="personInCharge[]" class="form-control select" id="personInCharge">
-                                            			<option value="Category 1">Neil Capistrano</option>
-                                            			<option value="Category 2">Dominique Dagunton</option>
-                                            			<option value="Category 3">Markus Flores</option>
-                                            			<option value="Category 4">Lian Laguio</option>
-                                            		</select>
-                                            	</div>
-                                            </div>
-                                            
-                                            <div class="form-group">
-                                            	<label class="control-label col-md-3">Related to Organization</label>
-                                            	<div class="col-md-9">
-                                            		<div class="radio-list">
-                                            			<label>
-                                            				<input type="radio" id="isRelatedToOrganization" name="isRelatedToOrganization" value="true"> Yes </label>
-                                            				<label>
-                                            					<input type="radio" id="isRelatedToOrganization" name="isRelatedToOrganization" value="false" checked=""> No </label>
-                                            				</div>
-                                            			</div>
-                                            		</div>
-                                            		<div class="form-group">
-                                            			<label class="control-label col-md-3">Budget</label>
-                                            			<div class="col-md-9 input-group">
-                                            				<div class="input-group-addon"><i>₱</i></div>
-                                            				<input name="budget" type="number"  id ="budget" class="form-control">
-                                            			</div>
-                                            		</div>
-                                            		
-                                            	</div>
-                                            	<div class="form-actions">
-                                            		<div class="row">
-                                            			<div class="col-md-12">
-                                            				<div class="row">
-                                            					<div class=" col-md-12" style="text-align: center">
-                                            						<button type="submit" id="add-gosm" class="btn btn-info">Add to GOSM</button>
-                                            						<button type="button" class="btn btn-default">Cancel</button>
-                                            					</div>
-                                            				</div>
-                                            			</div>
-                                            		</div>
-                                            	</div>
-                                            </form>
-                                            
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                	<div class="panel panel-warning">
-                                		<div class="panel-heading">Added Activities (60/40)</div>
-                                		
-                                		<div class="panel-body">
-                                			<table id="added-act" class="table">
-                                				<thead>
-                                					<tr>
-                                						<th>#</th>
-                                						<th>First Name</th>
-                                						<th>Actions</th>
-                                						
-                                					</tr>
-                                				</thead>
-                                				<tbody>
-                                					<tr>
-                                						<td>1</td>
-                                						<td class="td-title" >MyCareer</td>
-                                						<td class="text-nowrap">
-                                							<a href="#" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
-                                							<a href="#" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
-                                						</td>                                  
-                                					</tr>
-                                					<tr>
-                                						<td>2</td>
-                                						<td class="td-title">Nook Suxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxpplies</td>
-                                						<td class="text-nowrap">
-                                							<a href="#" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
-                                							<a href="#" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
-                                						</td>                                  
-                                					</tr>
-                                					
-                                				</tbody>
-                                			</table>
-                                		</div>
-                                		<div class="panel-footer"> 
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Description</label>
+                            <div class="col-md-9">
+                                <textarea  name="description" id="description" rows=4 class="form-control"></textarea> 
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Measures</label>
+                            <div class="col-md-9">
+                                <input name="measures" id="measures" type="text" placeholder="" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Target Date</label>
+                            <div class="input-daterange input-group col-md-8" id="date-range">
+                                <input name="targetDateStart" id="targetDateStart" class="form-control" readonly="" placeholder="mm/dd/yyyy" name="start" type="text">
+                                <span class="input-group-addon bg-info b-0 text-white">to</span>
+                                <input name="targetDateEnd" id="targetDateEnd" class="form-control" readonly="" name="end" type="text" placeholder="mm/dd/yyyy">
 
-                                			<div class="row">
-                                				<div class=" col-md-12" style="text-align: center">
-                                					<button type="submit" class="btn btn-success">Submit to CSO</button>                                                
-                                				</div>
-                                			</div>
-                                		</div>
-                                		
-                                	</div>
+                            </div>
+                            <div class="col-md-1" style="margin-top: 8px" >
+                                <i class="fa fa-cog fa-spin text-inverse m-r-10" data-toggle="tooltip" title="Click to choose TERM Long or YEAR Long"></i>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Activity Type</label>
+                            <div class="col-md-9">
+                                <select class="form-control select" name="activity-type" id="activity-type">
+                                    {% for type in activityTypes %}
+                                    <option value="{{type.id}}">{{type.name}}</option>
+
+                                    {% endfor %}
+
+
+                                </select>
+
+                            </div>
+
+                            <div class="col-md-12 act-others" style="display: none" id="div-space">&nbsp</div>
+
+                            <label class="control-label col-md-3" style="display: none" id="act-others-label">Others</label>
+
+                            <div class="col-md-9 act-others" style="display: none" id="div-others">                                                  
+                                <input name="othersDescription" id="othersDescription" type="text" class="form-control" style="display: none" id="activity-others">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Nature Type</label>
+                            <div class="col-md-9">
+                                <select class="form-control " name="nature-type" id="nature-type">
+
+
+
+                                    {% for nature in activityNature %}
+                                    <option value="{{nature.id}}">{{nature.name}}</option>
+                                    {% endfor %}
+
+
+
+
+                                </select>
+
+                            </div>
+
+
+
+
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Person in Charge</label>
+                            <div class="col-md-9">
+                                <select multiple="multiple" name="personInCharge[]" class="select" id="personInCharge">
+                                    <option value="Category 1">Neil Capistrano</option>
+                                    <option value="Category 2">Dominique Dagunton</option>
+                                    <option value="Category 3">Markus Flores</option>
+                                    <option value="Category 4">Lian Laguio</option>
+                                </select>
+                            </div>
+
+
+
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Related to Organization</label>
+                            <div class="col-md-9">
+                                <div class="radio-list">
+                                    <label>
+                                        <input type="radio" id="isRelatedToOrganization" name="isRelatedToOrganization" value="true"> Yes </label>
+                                        <label>
+                                            <input type="radio" id="isRelatedToOrganization" name="isRelatedToOrganization" value="false" checked=""> No </label>
                                 </div>
                             </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Budget</label>
+                            <div class="col-md-9 input-group">
+                                <div class="input-group-addon"><i>₱</i></div>
+                                <input name="budget"  id ="budget" class="form-control">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class=" col-md-12" style="text-align: center">
+                                        <button type="submit" id="add-gosm" class="btn btn-info">Add to GOSM</button>
+                                        <button type="button" class="btn btn-default">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+
+        </section>
+
+        <section id="section-linebox-2">
+            <div class="panel ">
+              
+                <div class="panel-body">
+                    <table id="added-act" class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Strategy</th>
+                                <th class="text-center">Actions</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+
+
+                                {% for activities in gosmActivities %}
+                                    <tr>
+                                        <td class="text-left"  >{{loop.index}}</td>
+                                        <td class="text-left td-title" >{{activities.strategies}}</td>
+                                        <td class="text-center text-nowrap">
+                                            <a  data-toggle="tooltip" data-original-title="Edit"> <i db-id="{{activities.id}}" db-startyear="{{activities.startyear}}" db-endyear="{{activities.endyear}}" db-studentorg="{{activities.studentorganization}}" class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                            <a href="#" data-toggle="tooltip" data-original-title="Close"> <i db-id="{{activities.id}}" db-startyear="{{activities.startyear}}" db-endyear="{{activities.endyear}}" db-studentorg="{{activities.studentorganization}}" class="fa fa-close text-danger"></i> </a>
+                                        </td>                                  
+                                    </tr>
+                                {% endfor %}
+                            
+                        </tbody>
+                    </table>
+                </div>
+                <div class="panel-footer"> 
+
+                    <div class="row">
+                        <div class=" col-md-12" style="text-align: center">
+                            <button type="submit" class="btn btn-success">Submit to CSO</button>                                                
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </section>
+
+    </div>
+    <!-- /content -->
+</div>
+
+<div id="alerttopright-success" class="myadmin-alert  alert-success myadmin-alert-top-right">     
+    <a href="#" class="closed">&times;</a>
+    <h4 id="alert-title">Success!</h4> 
+    <b id="strategy-name">Strategy name</b> has been successfully added.
+</div>
+<div id="alerttopright-fail" class="myadmin-alert  alert-danger myadmin-alert-top-right">     
+    <a href="#" class="closed">&times;</a>
+    <h4 id="alert-title">Failed!</h4> 
+     An error occured on insert.
+</div>
+
 {%endblock%}
 
 {%block scripts%}
 <script type="text/javascript">
+    $("i.fa-pencil").click(function(){
+
+        $("html, body").animate({ scrollTop: 0 }, function(){
+            $.ajax({
+                type:'POST',
+                url:'/getActivityDetails',
+                data:{ 
+                    "db-id" : $(this).attr("db-id"),
+                    "db-startyear" : $(this).attr("db-startyear"),
+                    "db-endyear" : $(this).attr("db-endyear"),
+                    "db-studentorg" : $(this).attr("db-studentorg")},
+                success:function(data){
+                    
+                }
+
+            });
+            $("#home-tab").click();
+
+        }); 
+
+    });
+    $("i.fa-close").click(function(){
+        var ppr = {
+            description:"",
+            sched:[
+                date:
+                time:{
+
+                }
+            ]
+        }
+        // TO DELETE
+        $.ajax({
+            type:'POST',
+            url:'/deleteActivity',
+            data:{ 
+                "db-id" : $(this).attr("db-id"),
+                "db-startyear" : $(this).attr("db-startyear"),
+                "db-endyear" : $(this).attr("db-endyear"),
+                "db-studentorg" : $(this).attr("db-studentorg")},
+            success:function(data){
+                if(data == "1"){
+
+                }else{
+
+                }
+            }
+        });
+    });
+
+    $(".myadmin-alert .closed").click(function(event) {
+        $(this).parents(".myadmin-alert").fadeToggle(350);
+        return false;
+    });
+
     $("#add-gosm").click(function(e){
+        // $("#alerttopright").fadeToggle(350);
         e.preventDefault();
         var strategy = $("#strategy").val();
         var goals = $("#goals").val();
@@ -261,10 +339,11 @@
 
             success:function(data){
 
-                data = JSON.stringify(data);
+                
                 
                 console.log("console"+data);
-                if(data == 1){
+                if(data == "1"){
+                    console.log("console1");
                     var ctr = 1; 
                     $("#added-act tbody tr").each(function(){
                         ctr++
@@ -278,9 +357,23 @@
                                 '</td>'+
                             '</tr>';
                     $("#added-act tbody").append(tr);
+                    // Change Name
+                    $("#strategy-name").html(strategy);
+                    //Hide Current Toast
+                    $(".myadmin-alert").hide();
+                    $("html, body").animate({ scrollTop: 0 }, "slow"); 
+                    $("#alerttopright-success").fadeToggle(350);
 
                 }else{
+                    console.log("consol2");
+                    //Hide Current Toast
+                    $(".myadmin-alert").hide();
 
+
+                    $("#alerttopright-fail").fadeToggle(350);
+
+                    // $("#alerttopright-fail").fadeToggle(350);
+                    $("html, body").animate({ scrollTop: 0 }, "slow"); 
                 }
             }
         });

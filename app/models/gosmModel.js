@@ -25,7 +25,7 @@ module.exports = function(db, queryFiles){
 			return db.one(getSchoolYearSQL);
 		},
 		getGOSMActivities: function(param){
-			return db.many(getGOSMActivitiesSQL, param);
+			return db.any(getGOSMActivitiesSQL, param);
 		},
 		getSubmissionYears: function(){
 			return db.any(query_getSubmissionYears);
