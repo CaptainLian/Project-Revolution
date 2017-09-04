@@ -5,6 +5,7 @@ module.exports = function (app, controllers){
 	router.get('/createGOSM', controllers.APS_controller.viewCreateGOSM);
 	router.get('/activityRequirements', controllers.APS_controller.createActivityRequirements);
 	router.post('/createGOSM', controllers.APS_controller.inputCreateGOSM);
+	router.post('deleteActivity', controllers.APS_controller.deleteActivity);
 
 	router.post('/submitGOSM', controllers.APS_controller.submitGOSM);
 	router.get('/viewOrglist', controllers.APS_controller.viewOrglist);

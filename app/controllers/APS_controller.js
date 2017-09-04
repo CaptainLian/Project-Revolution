@@ -23,9 +23,8 @@ module.exports = function(database, models, queryFiles){
 						.then(data =>{
 							console.log(data);
 
-							var gosmID = data.id;
 
-							if(data.termID == null){
+							if(data == null){
 								// insert GOSM
 
 								console.log("DUMAAN SIYA DITO");
@@ -35,7 +34,7 @@ module.exports = function(database, models, queryFiles){
 
 										gosmModel.getOrgGOSM(orgGOSMParam)
 											.then(data =>{
-												gosmID = data.id;
+												var gosmID = data.id;
 												
 											dbParam = {
 												GOSM: gosmID
@@ -62,6 +61,9 @@ module.exports = function(database, models, queryFiles){
 									});
 							}
 							else{
+
+								var gosmID = data.id;
+
 
 								dbParam = {
 									GOSM: gosmID
@@ -135,43 +137,64 @@ module.exports = function(database, models, queryFiles){
 					var isRelatedToOrganization = req.body.isRelatedToOrganization;
 					var budget = req.body.budget;
 
-					var dbParam = {
-						startYear: startYear,
-						endYear: endYear,
-						studentOrganization: 1, //to be replaced by session variable
-						goals: goals,
-						objectives: objectives,
-						strategies: strategy,
-						description: description,
-						measures: measures,
-						targetDateStart: "'"+startDateSplit[2]+"-"+startDateSplit[0]+"-"+startDateSplit[1]+"'",
-						targetDateEnd: "'"+endDateSplit[2]+"-"+endDateSplit[0]+"-"+endDateSplit[1]+"'",
-						peopleInCharge: personInCharge,
-						activityNature: natureType,
-						activityType: activityType,
-						activityTypeOtherDescription: others,
-						isRelatedToOrganizationNature: isRelatedToOrganization,
-						budget: budget
+					var orgGOSMParam = {
+						termID: data.id,
+						studentOrganization: 1 //to be replaced by session variable
 
 					};
 
-					if (activityType == 10 && others == null){
-						//error blank others
+					gosmModel.getOrgGOSM(orgGOSMParam)
+						.then(data =>{
 
-					}
+							var dbParam = {
+								GOSM: data.id, //to be replaced by session variable
+								goals: goals,
+								objectives: objectives,
+								strategies: strategy,
+								description: description,
+								measures: measures,
+								targetDateStart: "'"+startDateSplit[2]+"-"+startDateSplit[0]+"-"+startDateSplit[1]+"'",
+								targetDateEnd: "'"+endDateSplit[2]+"-"+endDateSplit[0]+"-"+endDateSplit[1]+"'",
+								peopleInCharge: personInCharge,
+								activityNature: natureType,
+								activityType: activityType,
+								activityTypeOtherDescription: others,
+								isRelatedToOrganizationNature: isRelatedToOrganization,
+								budget: budget
 
-					else{
-					//insert to db
-						gosmModel.insertProposedActivity(dbParam)
-							.then(data =>{
-								res.send("1");
-							})
-							.catch(error =>{
-								res.send("0");
-								console.log(error);
-							});
-					}
+							};
+
+							console.log(dbParam);
+
+							if (activityType == 10 && others == null){
+								//error blank others
+
+							}
+
+							else{
+							//insert to db
+								gosmModel.insertProposedActivity(dbParam)
+									.then(data =>{
+										res.send("1");
+									})
+									.catch(error =>{
+										res.send("0");
+										console.log(error);
+									});
+							}
+
+						})
+						.catch(error =>{
+							console.log(error);
+						});
+
+					
 				});
+		},
+		deleteActivity: (req,res)=>{
+
+
+
 		},
 
 		submitGOSM:(req ,res)=>{

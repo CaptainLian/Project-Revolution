@@ -280,10 +280,10 @@
             type:'POST',
             url:'/deleteActivity',
             data:{ 
-                "db-id" : $(this).attr("db-id"),
-                "db-startyear" : $(this).attr("db-startyear"),
-                "db-endyear" : $(this).attr("db-endyear"),
-                "db-studentorg" : $(this).attr("db-studentorg")},
+                "dbid" : $(this).attr("db-id"),
+                "dbstartyear" : $(this).attr("db-startyear"),
+                "dbendyear" : $(this).attr("db-endyear"),
+                "dbstudentorg" : $(this).attr("db-studentorg")},
             success:function(data){
                 if(data == "1"){
 
