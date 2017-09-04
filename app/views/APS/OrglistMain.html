@@ -32,8 +32,8 @@
                         <tbody>
                             {% for gosm in GOSMList %}
                                 <tr role="row" class="odd denied" onclick="window.location='/viewOrgGOSM/{{gosm.id}}';">
-                                    <td>{{gosm.name}}</td>
-                                    <td>{{gosm.datecreated}}</td>
+                                    <td>{{gosm.organization}}</td>
+                                    <td>{{gosm.dateSubmitted}}</td>
                                     <td class="">{{gosm.status}}</td>
                                 </tr>
                             {% endfor %}

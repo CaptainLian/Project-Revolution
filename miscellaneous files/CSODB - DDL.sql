@@ -197,63 +197,96 @@ CREATE TABLE GOSM (
     status INTEGER NOT NULL REFERENCES GOSMStatus(id) DEFAULT 1,
     dateCreated TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     dateSubmitted TIMESTAMP WITH TIME ZONE,
-    dateRejected TIMESTAMP WITH TIME ZONE,
+    dateDenied TIMESTAMP WITH TIME ZONE,
     dateAccepted TIMESTAMP WITH TIME ZONE,
     datePended TIMESTAMP WITH TIME ZONE,
     comments TEXT,
 
     PRIMARY KEY (termID, studentOrganization)
 );
+CREATE OR REPLACE FUNCTION trigger_before_update_GOSM()
+RETURNS trigger AS
+$trigger_before_update_GOSM$
+    BEGIN
+        CASE NEW.status
+            WHEN 2 /* Initial Submission */ THEN
+                NEW.dateSubmitted := CURRENT_TIMESTAMP;
+            WHEN 3 /* Approved */ THEN
+                NEW.dateApproved := CURRENT_TIMESTAMP;
+            WHEN 4 /* Pending */ THEN
+                NEW.datePended := CURRENT_TIMESTAMP;
+            WHEN 5 /* Denied */ THEN
+                NEW.dateDenied := CURRENT_TIMESTAMP;
+        END CASE;
+        RETURN NEW;
+    END;
+$trigger_before_update_GOSM$ LANGUAGE plpgsql;
+CREATE TRIGGER before_update_GGOSM
+    BEFORE UPDATE ON GOSM
+    FOR EACH ROW WHEN (OLD.status <> NEW.status) 
+    EXECUTE PROCEDURE trigger_before_update_GOSM();
 
-DROP TABLE IF EXISTS GOSMActivities CASCADE;
-CREATE TABLE GOSMActivities (
+DROP TABLE IF EXISTS GOSMActivity CASCADE;
+CREATE TABLE GOSMActivity (
     id SERIAL UNIQUE,
-    GOSM INTEGER,
-    sequence INTEGER REFERENCES GOSM(id) DEFAULT -1,
-    goals VARCHAR(45) NOT NULL,
-    objectives VARCHAR(45)[] NOT NULL,
-    strategies VARCHAR(45) NOT NULL,
-    description VARCHAR(255) NOT NULL,
-    measures VARCHAR(45) NOT NULL,
+    GOSM INTEGER REFERENCES GOSM(id),
+    sequence INTEGER NOT NULL DEFAULT -1,
+    goals VARCHAR(255) NOT NULL,
+    objectives VARCHAR(255)[] NOT NULL,
+    strategies VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    measures VARCHAR(255) NOT NULL,
     targetDateStart DATE,
     targetDateEnd DATE,
-    peopleInCharge VARCHAR(60)[] NOT NULL,
     activityNature INTEGER REFERENCES ActivityNature(id),
     activityType INTEGER REFERENCES ActivityType(id),
-    activityTypeOtherDescription VARCHAR(45) NULL,
+    activityTypeOtherDescription VARCHAR(45),
     isRelatedToOrganizationNature BOOLEAN NOT NULL,
-    budget NUMERIC(16, 4) NOT NULL,
+    budget NUMERIC(16, 4) NOT NULL DEFAULT 0.0,
     comments TEXT,
 
     PRIMARY KEY (GOSM, sequence),
     CONSTRAINT targetdate_start_end_value CHECK(targetDateStart <= targetDateEnd)
 );
-CREATE OR REPLACE FUNCTION trigger_before_insert_GOSMActivities()
+CREATE OR REPLACE FUNCTION trigger_before_insert_GOSMActivity()
 RETURNS trigger AS
-$trigger_before_insert_GOSMActivities$
+$trigger_before_insert_GOSMActivity$
     BEGIN
         SELECT COALESCE(MAX(id) + 1, 1) INTO STRICT NEW.sequence
-          FROM GOSMActivities
+          FROM GOSMActivity
          WHERE GOSM = NEW.GOSM;
         return NEW;
     END;
-$trigger_before_insert_GOSMActivities$ LANGUAGE plpgsql;
-CREATE TRIGGER before_insert_GOSMActivities
-    BEFORE INSERT ON GOSMActivities
+$trigger_before_insert_GOSMActivity$ LANGUAGE plpgsql;
+CREATE TRIGGER before_insert_GOSMActivity
+    BEFORE INSERT ON GOSMActivity
     FOR EACH ROW
-    EXECUTE PROCEDURE trigger_before_insert_GOSMActivities();
+    EXECUTE PROCEDURE trigger_before_insert_GOSMActivity();
 
+DROP TABLE IF EXISTS GOSMActivityProjectHead CASCADE;
+CREATE TABLE GOSMActivityProjectHead ( 
+    idNumber INTEGER REFERENCES Account(idNumber),
+    activityID INTEGER REFERENCES GOSMActivity (id),
+
+    PRIMARY KEY (idNumber, activityID)
+);
 	/* END GOSM */
 
 	/* Project Proposal */
+DROP TABLE IF EXISTS ProjectProposalStatus CASCADE;
+CREATE TABLE ProjectProposalStatus (
+    id INTEGER,
+    name VARCHAR(45),
 
+    PRIMARY KEY (id)
+);
 
 DROP TABLE IF EXISTS ProjectProposal CASCADE;
 CREATE TABLE ProjectProposal (
     id SERIAL UNIQUE,
-    GOSMActivity INTEGER REFERENCES GOSMActivities(id),
+    GOSMActivity INTEGER REFERENCES GOSMActivity(id),
     sequence INTEGER DEFAULT -1,
-    dateSubmitted TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    status INTEGER NOT NULL REFERENCES ProjectProposalStatus(id) DEFAULT 1,
     ENP INTEGER,
     ENMP INTEGER,
     targetDate DATE,
@@ -261,11 +294,39 @@ CREATE TABLE ProjectProposal (
     contactNumber VARCHAR(16),
     accumulatedOperationalFunds NUMERIC(16, 4),
     accumulatedDepositoryFunds NUMERIC(16, 4),
+    facultyAdviser INTEGER REFERENCES Account(idNumber),
     financeSignatory INTEGER REFERENCES Account(idNumber),
     preparedBy INTEGER REFERENCES Account(idNumber),
+    dateCreated TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    dateSubmitted TIMESTAMP WITH TIME ZONE,
+    datePended TIMESTAMP WITH TIME ZONE,
+    dateApproved TIMESTAMP WITH TIME ZONE,
+    dateDenied TIMESTAMP WITH TIME ZONE,
 
     PRIMARY KEY (GOSMActivity, sequence)
 );
+CREATE OR REPLACE FUNCTION trigger_before_update_ProjectProposal()
+RETURNS trigger AS
+$trigger_before_update_ProjectProposal$
+    BEGIN
+        CASE NEW.status
+            WHEN 2 /* Initial Submission */ THEN
+                NEW.dateSubmitted := CURRENT_TIMESTAMP;
+            WHEN 3 /* Approved */ THEN
+                NEW.dateApproved := CURRENT_TIMESTAMP;
+            WHEN 4 /* Pending */ THEN
+                NEW.datePended := CURRENT_TIMESTAMP;
+            WHEN 5 /* Denied */ THEN
+                NEW.dateDenied := CURRENT_TIMESTAMP;
+        END CASE;
+        RETURN NEW;
+    END;
+$trigger_before_update_ProjectProposal$ LANGUAGE plpgsql;
+CREATE TRIGGER before_update_ProjectProposal
+    BEFORE UPDATE ON ProjectProposal
+    FOR EACH ROW WHEN (OLD.status <> NEW.status) 
+    EXECUTE PROCEDURE trigger_before_update_ProjectProposal();
+    
 CREATE OR REPLACE FUNCTION trigger_before_insert_ProjectProposal()
 RETURNS trigger AS
 $trigger_before_insert_ProjectProposal$

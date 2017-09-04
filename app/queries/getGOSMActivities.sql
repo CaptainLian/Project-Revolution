@@ -1,5 +1,5 @@
 SELECT *
-  FROM GOSMACTIVITIES
+  FROM GOSMActivity
  WHERE studentOrganization = ${studentOrganization}
    AND startYear = ${startYear}
 	 AND endYear = ${endYear};

@@ -14,12 +14,10 @@ module.exports = function(database, models, queryFiles){
 					var endYear = data.endyear;
 					var startYear = endYear-1;
 
-
 					var dbParam = {
 						startYear: startYear,
 						endYear: endYear,
 						studentOrganization: 1, //to be replaced by session variable
-
 					};
 
 					Promise.all([gosmModel.getAllActivityTypes(), gosmModel.getAllActivityNature(), gosmModel.getGOSMActivities(dbParam)])
@@ -34,12 +32,9 @@ module.exports = function(database, models, queryFiles){
 							console.log(error);
 							res('ERROR');
 						});
-
-
 				});
-
-
 		},
+
 		createActivityRequirements:(req, res)=>{
 			res.render("APS/ActivityRequirementsMain");
 		},
@@ -120,47 +115,25 @@ module.exports = function(database, models, queryFiles){
 								res.send("0");
 								console.log(error);
 							});
-
-
-
 					}
-
-
-
-
 				});
-
-
-
-
 		},
+
 		submitGOSM:(req ,res)=>{
 
 		},
 
 		viewOrglist:( req, res) =>{
-			let yearsPromise = gosmModel.getSubmissionYears();
-			let allGOSMPromise = gosmModel.getAll();
-			Promise.all([yearsPromise, allGOSMPromise])
-				.then(function(data) {
-					let GOSMList = data[1];
-					for(const gosm of GOSMList){
-						console.log(gosm);
-					}
+			gosmModel.getAllCurrent()
+				.then(GOSMList => {
 					console.log(GOSMList);
-					res.render('APS/OrglistMain', {
-						GOSMList: data[1]
-					});
+					res.render('APS/OrglistMain', {GOSMList: GOSMList});
 				})
-				.catch(function(error) {
+				.catch(error => {
 					console.log(error);
-
-					res.send(500);
-					throw error;
 				});
 		},
-
-
+		
 		inputActivityRequirements: (req, res) => {
 
 			console.log(req.body);
@@ -226,15 +199,7 @@ module.exports = function(database, models, queryFiles){
 			console.log("CHECK THIS OUT" +req.params.orgid);
 
 			let organizationID = req.params.orgid;
-			gosmModel.getSpecificOrg(organizationID)
-			.then(data => {
-				console.log(data);
-				res.render('APS/OrgGOSMMain', {activities: data});
-			})
-			.catch(error => {
-				console.log(data);
-				throw error;
-			});
+			res.render('APS/OrgGOSMMain');
 		},
 		activityList :( req, res)=>{
 			res.render('APS/ActivityListMain');
