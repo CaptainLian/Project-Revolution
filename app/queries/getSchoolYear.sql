@@ -1,0 +1,3 @@
+SELECT ENDYEAR FROM TERM 
+				ORDER BY 1 DESC 
+                LIMIT 1;
