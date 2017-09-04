@@ -13,7 +13,6 @@ module.exports = function (app, controllers){
 	});
 	router.get('/viewOrgGOSM/:orgid', controllers.APS_controller.viewOrgGOSM);
 
-
 	router.get('/viewActivityList', controllers.APS_controller.activityList);
 
 	return router;

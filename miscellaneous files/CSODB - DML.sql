@@ -164,11 +164,27 @@ INSERT INTO ActivityNature (id, name)
 
 TRUNCATE TABLE GOSMStatus CASCADE;
 INSERT INTO GOSMStatus (id, name)
-                VALUES (1, 'Pending');
+                VALUES (1, 'Created');
 INSERT INTO GOSMStatus (id, name)
-                VALUES (2, 'Approved');
+                VALUES (2, 'Initial Submission');
 INSERT INTO GOSMStatus (id, name)
-                VALUES (3, 'Denied');
+                VALUES (3, 'Approved');
+INSERT INTO GOSMStatus (id, name)
+                VALUES (4, 'Pending');
+INSERT INTO GOSMStatus (id, name)
+                VALUES (5, 'Denied');
+
+TRUNCATE TABLE ProjectProposalStatus CASCADE;
+INSERT INTO ProjectProposalStatus (id, name)
+                           VALUES (1, 'Created');
+INSERT INTO ProjectProposalStatus (id, name)
+                           VALUES (2, 'Initial Submission');
+INSERT INTO ProjectProposalStatus (id, name)
+                           VALUES (3, 'Approved');
+INSERT INTO ProjectProposalStatus (id, name)
+                           VALUES (4, 'Pending');
+INSERT INTO ProjectProposalStatus (id, name)
+                           VALUES (5, 'Denied');
 
 TRUNCATE TABLE Account CASCADE;
 INSERT INTO Account (email, idNumber, password, firstname, middlename, lastname, contactNumber)
@@ -179,3 +195,17 @@ INSERT INTO Account (email, idNumber, password, firstname, lastname, contactNumb
              VALUES ('dominique_dagunton@dlsu.edu.ph', 11445953, '1234', 'Dominique', 'Dagunton', '+63 9228474849');
 INSERT INTO Account (email, idNumber, password, firstname, lastname, contactNumber)
              VALUES ('neil_capistrano@dlsu.edu.ph', 11445952, '1234', 'Neil', 'Capistrano', '+63 9228474849');
+
+TRUNCATE TABLE TERM CASCADE;
+INSERT INTO TERM (startYear, endYear, number, dateStart, dateEnd) 
+          VALUES (2016, 2017, 1, '2017-8-24', '2017-9-11'); 
+
+TRUNCATE TABLE GOSM CASCADE;
+INSERT INTO GOSM (termID, studentOrganization, dateSubmitted)
+           VALUES ((SELECT id
+                      FROM TERM
+                     WHERE CURRENT_DATE BETWEEN dateStart AND dateEnd), 1, CURRENT_TIMESTAMP);
+
+TRUNCATE TABLE GOSMActivity CASCADE;
+INSERT INTO GOSMActivity (gosm, goals, objectives, strategies, description, measures, targetDateStart, targetDateEnd, ActivityNature, ActivityType, isRelatedToOrganizationNature, budget)
+                    VALUES (1, 'Goal Mo to', '{"Objectives", "Mo", "To"}', 'Strategies Mo to', 'Descibe kita', 'Measure mo to :)', '2017-9-6', '2017-9-6', 1, 2, false, 999.99);
