@@ -11,29 +11,93 @@ module.exports = function(database, models, queryFiles){
 			gosmModel.getSchoolYear()
 				.then(data => {
 					console.log(data.endyear);
-					var endYear = data.endyear;
-					var startYear = endYear-1;
 
 
-					var dbParam = {
-						startYear: startYear,
-						endYear: endYear,
-						studentOrganization: 1, //to be replaced by session variable
+					var orgGOSMParam = {
+						termID: data.id,
+						studentOrganization: 1 //to be replaced by session variable
 
 					};
 
-					Promise.all([gosmModel.getAllActivityTypes(), gosmModel.getAllActivityNature(), gosmModel.getGOSMActivities(dbParam)])
-						.then(data => {
-							res.render('APS/GOSMMain', {
-								activityTypes: data[0],
-								activityNature: data[1],
-								gosmActivities: data[2]
-							});
+					gosmModel.getOrgGOSM(orgGOSMParam)
+						.then(data =>{
+							console.log(data);
+
+							var gosmID = data.id;
+
+							if(data.termID == null){
+								// insert GOSM
+
+								console.log("DUMAAN SIYA DITO");
+
+								gosmModel.insertNewGOSM(orgGOSMParam)
+									.then(data =>{
+
+										gosmModel.getOrgGOSM(orgGOSMParam)
+											.then(data =>{
+												gosmID = data.id;
+
+
+											dbParam = {
+												GOSM: gosmID
+											}
+
+
+											Promise.all([gosmModel.getAllActivityTypes(), gosmModel.getAllActivityNature(), gosmModel.getGOSMActivities(dbParam)])
+												.then(data => {
+													res.render('APS/GOSMMain', {
+														activityTypes: data[0],
+														activityNature: data[1],
+														gosmActivities: data[2]
+													});
+												})
+												.catch(error => {
+													console.log(error);
+													res('ERROR');
+												});
+
+
+											})
+											.catch(error =>{
+
+											});
+
+									})
+									.catch(error =>{
+										console.log(error);
+									});
+
+
+							}
+							else{
+
+								dbParam = {
+									GOSM: gosmID
+								}
+
+
+								Promise.all([gosmModel.getAllActivityTypes(), gosmModel.getAllActivityNature(), gosmModel.getGOSMActivities(dbParam)])
+									.then(data => {
+										res.render('APS/GOSMMain', {
+											activityTypes: data[0],
+											activityNature: data[1],
+											gosmActivities: data[2]
+										});
+									})
+									.catch(error => {
+										console.log(error);
+										res('ERROR');
+									});
+							}
+
+
+							
+
 						})
-						.catch(error => {
+						.catch(error =>{
 							console.log(error);
-							res('ERROR');
 						});
+
 
 
 				});

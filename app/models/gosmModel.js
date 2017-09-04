@@ -1,11 +1,13 @@
 'use strict';
 
 module.exports = function(db, queryFiles){
-	var getAllActivityTypesSQL = queryFiles.getAllActivityTypes;
-	var insertProposedActivitySQL = queryFiles.insertProposedActivity;
-	var getSchoolYearSQL = queryFiles.getSchoolYear;
-	var getAllActivityNatureSQL = queryFiles.getAllActivityNature;
-	var getGOSMActivitiesSQL = queryFiles.getGOSMActivities;
+	const getAllActivityTypesSQL = queryFiles.getAllActivityTypes;
+	const insertProposedActivitySQL = queryFiles.insertProposedActivity;
+	const getSchoolYearSQL = queryFiles.getSchoolYear;
+	const getAllActivityNatureSQL = queryFiles.getAllActivityNature;
+	const getGOSMActivitiesSQL = queryFiles.getGOSMActivities;
+	const insertNewGOSMSQL = queryFiles.insertNewGOSM;
+	const getOrgGOSMSQL = queryFiles.getOrgGOSM;
 	const query_getSubmissionYears = queryFiles.gosm_getSubmissionYears;
 	const query_getAllCurrent = queryFiles.gosm_getAllCurrent;
 	const query_getAll = queryFiles.gosm_getAll;
@@ -35,6 +37,12 @@ module.exports = function(db, queryFiles){
 		},
 		getSpecificOrg: function(organizationID){
 			return db.any(query_getSpecificOrg, {organization: organizationID});
+		},
+		insertNewGOSM: function(param){
+			return db.none(insertNewGOSMSQL, param);
+		},
+		getOrgGOSM: function(param){
+			return db.any(getOrgGOSMSQL, param);
 		}
 	};
 };
