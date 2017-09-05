@@ -1,26 +1,3 @@
-﻿-- START TRANSACTION;
-CREATE OR REPLACE FUNCTION array_remove_element_index(anyarray, int)
-RETURNS anyarray IMMUTABLE AS
-    'SELECT $1[:$2-1] || $1[$2+1:]' LANGUAGE SQL;
-
-/*
-CREATE OR REPLACE FUNCTION array_element_contain_null(anyarray)
-RETURNS boolean IMMUTABLE AS 
-$$
-    DECLARE
-        elem any;
-    BEGIN
-        FOREACH elem IN ARRAY $1
-        LOOP
-            IF elem IS NULL THEN
-                return true;
-            END IF;
-        END LOOP;
-        RETURN false;
-    END;
-$$ LANGUAGE 'plpgsql';
-*/
-
 DROP EXTENSION IF EXISTS "uuid-ossp";
 DROP EXTENSION IF EXISTS "pgcrypto";
 
@@ -35,7 +12,7 @@ CREATE TABLE Term (
     number INTEGER,
     dateStart DATE NOT NULL,
     dateEnd DATE NOT NULL,
-    
+
 
     PRIMARY KEY (startYear, endYear, number),
     CONSTRAINT number_min_value CHECK(number >= 1),
@@ -125,7 +102,7 @@ CREATE TABLE Account (
 CREATE OR REPLACE FUNCTION trigger_before_insert_Account()
 RETURNS trigger AS
 $trigger_before_insert_Account$
-    DECLARE 
+    DECLARE
         salt CHAR(29);
     BEGIN
         SELECT gen_salt('bf') INTO salt;
@@ -145,7 +122,7 @@ CREATE TRIGGER before_insert_Account
 CREATE OR REPLACE FUNCTION trigger_before_update_Account()
 RETURNS trigger AS
 $trigger_before_update_Account$
-    DECLARE 
+    DECLARE
         salt CHAR(29);
     BEGIN
         SELECT gen_salt('bf') INTO salt;
@@ -176,7 +153,7 @@ CREATE TABLE OrganizationOfficer (
     officerID INTEGER REFERENCES Account(idNumber),
     position INTEGER REFERENCES OrganizationPosition(id),
     dateAssigned TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    
+
 
     PRIMARY KEY (organization, officerID)
 );
@@ -223,7 +200,7 @@ $trigger_before_update_GOSM$
 $trigger_before_update_GOSM$ LANGUAGE plpgsql;
 CREATE TRIGGER before_update_GGOSM
     BEFORE UPDATE ON GOSM
-    FOR EACH ROW WHEN (OLD.status <> NEW.status) 
+    FOR EACH ROW WHEN (OLD.status <> NEW.status)
     EXECUTE PROCEDURE trigger_before_update_GOSM();
 
 DROP TABLE IF EXISTS GOSMActivity CASCADE;
@@ -264,7 +241,7 @@ CREATE TRIGGER before_insert_GOSMActivity
     EXECUTE PROCEDURE trigger_before_insert_GOSMActivity();
 
 DROP TABLE IF EXISTS GOSMActivityProjectHead CASCADE;
-CREATE TABLE GOSMActivityProjectHead ( 
+CREATE TABLE GOSMActivityProjectHead (
     idNumber INTEGER REFERENCES Account(idNumber),
     activityID INTEGER REFERENCES GOSMActivity (id),
 
@@ -324,9 +301,9 @@ $trigger_before_update_ProjectProposal$
 $trigger_before_update_ProjectProposal$ LANGUAGE plpgsql;
 CREATE TRIGGER before_update_ProjectProposal
     BEFORE UPDATE ON ProjectProposal
-    FOR EACH ROW WHEN (OLD.status <> NEW.status) 
+    FOR EACH ROW WHEN (OLD.status <> NEW.status)
     EXECUTE PROCEDURE trigger_before_update_ProjectProposal();
-    
+
 CREATE OR REPLACE FUNCTION trigger_before_insert_ProjectProposal()
 RETURNS trigger AS
 $trigger_before_insert_ProjectProposal$
@@ -473,7 +450,7 @@ CREATE TABLE SpecialApproval (
     PRIMARY KEY (id)
 );
 	/* END SPECIAL APPROVAL SLIP */
--- END FORMS 
+-- END FORMS
 -- COMMIT;
 
     /* SESSION TABLE */

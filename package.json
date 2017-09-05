@@ -27,7 +27,8 @@
     "require-dir": "^0.3.2",
     "selfsigned": "^1.10.1",
     "serve-favicon": "^2.4.3",
-    "squel": "^5.11.1"
+    "squel": "^5.11.1",
+    "winston": "^2.3.1"
   },
   "devDependencies": {
     "gulp": "^3.9.1",

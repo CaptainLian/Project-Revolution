@@ -31,8 +31,9 @@
                         </tr>
                     </thead>
                     <tbody>
+												{% set cls = cycler("odd", "even") %}
                         {% for activity in GOSMActivities %}
-                            <tr class="activity_row odd" data-activityID="{{activity.id}}" role="row" data-toggle="modal" data-target="#sampleModal">
+                            <tr class="activity_row {{ cls.next() }}" data-activity-id="{{activity.id}}" role="row" data-toggle="modal" data-target="#sampleModal">
 	                            <td>{{activity.strategies}}</td><!-- Activity name-->
 	                            <td>{{activity.targetdatestart}}</td><!-- Activity date -->
                             </tr>
@@ -59,7 +60,7 @@
 
 
 <!--modals-->
-<div class="modal fade bs-example-modal-lg" id = "sampleModal" tabindex="-1" role="dialog" aria-labelledby="sampleModal" aria-hidden="true" style="display: none;">
+<div class="modal fade bs-example-modal-lg" id="sampleModal" tabindex="-1" role="dialog" aria-labelledby="sampleModal" aria-hidden="true" style="display: none;">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -82,19 +83,27 @@
                                     <table class="table table-striped">
                                         <tbody>
                                             <tr>
-                                                <th>Type of Activity:
+                                                <th>
+																									Type of Activity:
                                                 </th>
-                                                <td colspan="2">Recreation</td>
+                                                <td colspan="2">
+																									<span id="modal_type"></span>
+																								</td>
                                                 <th></th>
                                                 <td colspan="2"></td>
                                             </tr>
                                             <tr>
-                                                <th>Nature of Activity: </th><td colspan="2">Special Interest</td>
+                                                <th>
+																									Nature of Activity:
+																								</th>
+																								<td colspan="2">
+																									<span id="modal_nature"></span>
+																								</td>
                                                 <th></th><td colspan="2"></td>
                                             </tr>
                                             <tr>
                                                 <th>Date:</th>
-                                                <td colspan="2">September 17, 2017 - September 18, 2017</td>
+                                                <td colspan="2"><span id="modal_date"></span></td>
                                                 <td></td>
                                                 <td></td>
                                             </tr>

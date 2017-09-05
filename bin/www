@@ -1,10 +1,71 @@
 #!/usr/bin/env node
-
+'use strict';
 /**
- * Loading of configuration is done here 
+* Setup of logger
+*/
+const dateFormat = require('dateformat');
+
+const formatter = function(options){
+  // Return string will be passed to logger.
+  var colour = '';
+  switch (options.level) {
+    case 'error':
+      colour =  '\x1b[41m';
+      break;
+    case 'warning':
+      colour =  '\x1b[43m';
+      break;
+    case 'info':
+      colour =  '\x1b[44m';
+      break;
+    case 'debug':
+      colour =  '\x1b[46m';
+      break;
+  }
+
+  let from = typeof options.meta.from === 'string' ? `[${options.meta.from}]` : '';
+  from = typeof options.meta.color === 'string' ? `${options.meta.color}${from}\x1b[0m` : `\x1b[42m${from}`;
+  let pre = typeof options.meta.pre === 'string' ? `${options.meta.pre}` : '';
+  return `${colour}[${dateFormat(Date.now(), 'yyyy-mmm-dd hh:mm:ss TT')}][${options.level.toUpperCase()}]${from}${pre}\x1b[0m: ${options.message ? options.message : ''}`;
+}
+
+const winston = require('winston');
+const logger = new (winston.Logger)({
+  emitErrs: false,
+  level: 'debug',
+  transports: [
+     new (winston.transports.File)({
+       filename: 'system.log',
+       formatter: function(options){
+         let from = '';
+         if(typeof options.meta === 'string'){
+           from = `[${options.meta}]`;
+         }else if(typeof options.meta === 'object' && typeof options.meta.from !== 'undefined'){
+           from = `[${options.meta.from}]`;
+         }
+
+         return `[${dateFormat(Date.now(), 'yyyy-mmm-dd hh:mm:ss TT')}][${options.level.toUpperCase()}]${from}: ${options.message ? options.message : ''}`;
+       }
+     }),
+     new(winston.transports.Console)({
+       colorize: true,
+       formatter: formatter
+     })
+  ],
+  levels: {
+    error: 0,
+    warning: 1,
+    info: 2,
+    debug: 3
+  }
+});
+
+global.logger = logger;
+/**
+ * Loading of configuration is done here
  */
 console.log('Loading Server Configuration');
-var config = require('../config.json');
+const config = require('../config.json');
 global.config = {};
 
 for (var key in config){

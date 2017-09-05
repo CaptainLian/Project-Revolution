@@ -45,17 +45,23 @@ module.exports = function(db, queryFiles){
 		},
 		getActivitiesFromID(GOSMID, fields){
 			const query = squel.select()
-				.from('GOSMActivities')
+				.from('GOSMActivity')
 				.where('GOSM = ${GOSMID}');
 			if(typeof fields === 'string'){
 				query.field(fields);
 			}else if(Array.isArray(fields)){
 				for(const field of fields){
 					query.field(field);
-				}	
+				}
 			}
 
 			return db.any(query.toString(), {GOSMID: GOSMID});
+		},
+		getActivityDetails: function(id){
+			return db.oneOrNone(queryFiles.gosm_getActivityFromID, {activityID: id});
+		},
+		getActivityProjectHeads: function(id){
+			return db.manyOrNone(queryFiles.gosm_getActivityProjectHeadsFromID, {activityID: id});
 		}
 	};
 };
