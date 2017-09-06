@@ -9,6 +9,7 @@ module.exports = function(db, queryFiles){
 	const getAllActivityNatureSQL = queryFiles.getAllActivityNature;
 	const getGOSMActivitiesSQL = queryFiles.getGOSMActivities;
 	const insertNewGOSMSQL = queryFiles.insertNewGOSM;
+	const deleteActivitySQL = queryFiles.deleteActivity;
 	const getOrgGOSMSQL = queryFiles.getOrgGOSM;
 	const query_getSubmissionYears = queryFiles.gosm_getSubmissionYears;
 	const query_getAllCurrent = queryFiles.gosm_getAllCurrent;
@@ -48,6 +49,9 @@ module.exports = function(db, queryFiles){
 		},
 		insertNewGOSM: function(param){
 			return db.none(insertNewGOSMSQL, param);
+		},
+		deleteActivity: function(param){
+			return db.none(deleteActivitySQL, param);
 		},
 		getOrgGOSM: function(param){
 			return db.oneOrNone(getOrgGOSMSQL, param);

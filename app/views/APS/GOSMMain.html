@@ -212,9 +212,9 @@
                                         <td class="text-left td-title" >{{activities.targetdatestart}} - {{activities.targetdateend}}</td>
                                         <td class="text-left td-title" >{{activities.description}}</td>
                                         <td class="text-center text-nowrap">
-                                            <a  data-toggle="tooltip" data-original-title="Details"> <i db-id="{{activities.id}}" db-startyear="{{activities.startyear}}" db-endyear="{{activities.endyear}}" db-studentorg="{{activities.studentorganization}}" class="fa fa-eye text-inverse m-r-10"></i> </a>
-                                            <a  data-toggle="tooltip" data-original-title="Edit"> <i db-id="{{activities.id}}" db-startyear="{{activities.startyear}}" db-endyear="{{activities.endyear}}" db-studentorg="{{activities.studentorganization}}" class="fa fa-pencil text-inverse m-r-10"></i> </a>
-                                            <a class="remove"  data-toggle="tooltip" data-original-title="Close"> <i db-id="{{activities.id}}" db-startyear="{{activities.startyear}}" db-endyear="{{activities.endyear}}" db-studentorg="{{activities.studentorganization}}" class="fa fa-close text-danger"></i> </a>
+                                            <a  data-toggle="tooltip" data-original-title="Details"> <i db-id="{{activities.id}}"  class="fa fa-eye text-inverse m-r-10"></i> </a>
+                                            <a  data-toggle="tooltip" data-original-title="Edit"> <i db-id="{{activities.id}}"  class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                            <a class="remove"  data-toggle="tooltip" data-original-title="Close"> <i db-id="{{activities.id}}" class="fa fa-close text-danger"></i> </a>
                                         </td>                                  
                                     </tr>
                                 {% endfor %}
@@ -444,9 +444,6 @@
                 url:'/getActivityDetails',
                 data:{ 
                     "db-id" : $(this).attr("db-id"),
-                    "db-startyear" : $(this).attr("db-startyear"),
-                    "db-endyear" : $(this).attr("db-endyear"),
-                    "db-studentorg" : $(this).attr("db-studentorg")},
                 success:function(data){
                     
                 }
@@ -480,9 +477,6 @@
             url:'/deleteActivity',
             data:{ 
                 "dbid" : $(this).attr("db-id"),
-                "dbstartyear" : $(this).attr("db-startyear"),
-                "dbendyear" : $(this).attr("db-endyear"),
-                "dbstudentorg" : $(this).attr("db-studentorg")},
             success:function(data){
                 if(data == "1"){
 
