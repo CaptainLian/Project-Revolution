@@ -4,9 +4,10 @@ var router = express.Router();
 module.exports = function (app, controllers){
 	router.get('/createGOSM', controllers.APS_controller.viewCreateGOSM);
 	router.get('/home', controllers.APS_controller.home);
+	router.get('/getActivityDetails', controllers.APS_controller.getActivityDetails);
 	router.get('/activityRequirements', controllers.APS_controller.createActivityRequirements);
 	router.post('/createGOSM', controllers.APS_controller.inputCreateGOSM);
-	router.post('deleteActivity', controllers.APS_controller.deleteActivity);
+	router.post('/deleteActivity', controllers.APS_controller.deleteActivity);
 
 	router.get('/viewOrglist', controllers.APS_controller.viewOrglist);
 	router.get('/viewOrgGOSM/', function(req, res){

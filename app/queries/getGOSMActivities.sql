@@ -1,3 +1,3 @@
 SELECT *
   FROM GOSMACTIVITY
- WHERE GOSM = ${GOSM};
+ WHERE gosm = ${gosm};

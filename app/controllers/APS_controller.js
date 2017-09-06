@@ -54,7 +54,7 @@ module.exports = function(database, models, queryFiles){
 												})
 												.catch(error => {
 													console.log(error);
-													res('ERROR');
+													res.send('ERROR');
 												});
 											})
 											.catch(error =>{
@@ -87,7 +87,7 @@ module.exports = function(database, models, queryFiles){
 									})
 									.catch(error => {
 										console.log(error);
-										res('ERROR');
+										res.send('ERROR');
 									});
 							}
 						})
@@ -209,9 +209,9 @@ module.exports = function(database, models, queryFiles){
 													console.log(error);
 												});
 										}
-
-
 										res.send("1");
+
+										
 									})
 									.catch(error =>{
 										res.send("0");
@@ -228,17 +228,22 @@ module.exports = function(database, models, queryFiles){
 				});
 		},
 		deleteActivity: (req,res)=>{
-
+			
 			var dbParam = {
 				id: req.body.dbid
 			};
+			console.log("TO DELETE");
+			console.log(dbParam);
 
 			gosmModel.deleteActivity(dbParam)
 				.then(data =>{
+					
+					res.send("1");
 
 				})
 				.catch(error =>{
 					console.log(error);
+					res.send('0');
 				});
 
 
@@ -342,6 +347,9 @@ module.exports = function(database, models, queryFiles){
 
 		activityList :(req, res)=>{
 			res.render('APS/ActivityListMain');
+		},
+		getActivityDetails : (req,res)=>{
+			
 		},
 
 	};
