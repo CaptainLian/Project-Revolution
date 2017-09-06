@@ -1,6 +1,7 @@
-INSERT INTO GOSMACTIVITIES (GOSM, goals,	objectives, strategies, description, 
-							measures, targetDateStart, targetDateEnd, peopleInCharge, activityNature,
+INSERT INTO GOSMACTIVITY (GOSM, goals,	objectives, strategies, description, 
+							measures, targetDateStart, targetDateEnd, activityNature,
 							activityType, activityTypeOtherDescription, isRelatedToOrganizationNature, budget) 
 	   VALUES (${GOSM}, ${goals}, ${objectives}, ${strategies}, ${description}, 
-				${measures}, ${targetDateStart}, ${targetDateEnd}, ${peopleInCharge}, ${activityNature},
-				${activityType}, ${activityTypeOtherDescription}, ${isRelatedToOrganizationNature}, ${budget});
+				${measures}, ${targetDateStart}, ${targetDateEnd}, ${activityNature},
+				${activityType}, ${activityTypeOtherDescription}, ${isRelatedToOrganizationNature}, ${budget})
+	   RETURNING id as activityID;
