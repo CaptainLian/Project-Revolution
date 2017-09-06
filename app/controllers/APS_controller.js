@@ -1,5 +1,5 @@
 const dateFormat = require('dateformat');
-
+const logger = global.logger;
 
 module.exports = function(database, models, queryFiles){
 
@@ -198,8 +198,6 @@ module.exports = function(database, models, queryFiles){
 		},
 		deleteActivity: (req,res)=>{
 
-
-
 		},
 
 		viewOrglist:( req, res) =>{
@@ -275,28 +273,30 @@ module.exports = function(database, models, queryFiles){
 		},
 
 		viewOrgGOSM :( req, res)=>{
-			console.log("CHECK THIS OUT" +req.params.orgid);
-
 			let organizationID = req.params.orgID;
 			let GOSMID = req.params.GOSMID;
 
-			let orgDetailPromise = organizationModel.getOrganizationInformation(organizationID, 'name');
-			let GOSMPromise = gosmModel.getActivitiesFromID(GOSMID, ['id', 'strategies', 'targetDateStart']);
-			Promise.all([orgDetailPromise, GOSMPromise])
-				.then(data => {
-					console.log(data);
-					res.render('APS/OrgGOSMMain', {
-						organizationName: data[0].name,
-						GOSMActivities: data[1]
-					});
-				})
-				.catch( error => {
-					throw error;
+			logger.debug(`Viewing GOSM of ID: ${GOSMID} of Organization: ${organizationID}`);
+
+			database.task( t => {
+				return t.batch([
+					organizationModel.getOrganizationInformation(organizationID, 'name', t),
+					gosmModel.getActivitiesFromID(GOSMID, ['id', 'strategies', 'targetDateStart'], t)
+				]);
+			})
+			.then(data => {
+				logger.debug(JSON.stringify(data));
+				res.render('APS/OrgGOSMMain', {
+					organizationName: data[0].name,
+					GOSMActivities: data[1]
 				});
+			})
+			.catch( error => {
+				throw error;
+			});
 		},
 
-
-		activityList :( req, res)=>{
+		activityList :(req, res)=>{
 			res.render('APS/ActivityListMain');
 		},
 

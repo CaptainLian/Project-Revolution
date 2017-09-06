@@ -28,6 +28,14 @@ $('#myTable > tbody > tr, .activity_row')
       $('#modal_type').html(activityDetails.type);
       $('#modal_nature').html(activityDetails.nature);
       $('#modal_date').html(activityDetails.startdate + ' - '+ activityDetails.enddate);
+
+      const table = $('#modal_table_activity');
+      table.find('.modal_head_row').remove();
+
+      if(projectHeads.length > 0){
+
+      }
+
     },
     error: function(jqXHR, textStatus, errorThrown) {
       console.log(errorThrown);

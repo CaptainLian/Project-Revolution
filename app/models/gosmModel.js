@@ -1,5 +1,5 @@
 'use strict';
-
+const logger = global.logger;
 const squel = require('squel').useFlavour('postgres');
 
 module.exports = function(db, queryFiles){
@@ -14,6 +14,15 @@ module.exports = function(db, queryFiles){
 	const query_getAllCurrent = queryFiles.gosm_getAllCurrent;
 	const query_getAll = queryFiles.gosm_getAll;
 	const query_getActivitiesFromID = queryFiles.gosm_getSpecificOrg;
+
+	const dbType = typeof db;
+	const queryExec = function(method, query, param, connection){
+		const conType = typeof connection;
+		if(conType === dbType || conType === 'undefined'){
+			return db[method](query, param);
+		}
+		return connection[method](query, param);
+	};
 
 	return {
 		getAllActivityTypes: function(){
@@ -43,8 +52,9 @@ module.exports = function(db, queryFiles){
 		getOrgGOSM: function(param){
 			return db.oneOrNone(getOrgGOSMSQL, param);
 		},
-		getActivitiesFromID(GOSMID, fields){
-			const query = squel.select()
+
+		getActivitiesFromID(GOSMID, fields, connection){
+			let query = squel.select()
 				.from('GOSMActivity')
 				.where('GOSM = ${GOSMID}');
 			if(typeof fields === 'string'){
@@ -55,13 +65,17 @@ module.exports = function(db, queryFiles){
 				}
 			}
 
-			return db.any(query.toString(), {GOSMID: GOSMID});
+			query = query.toString();
+			logger.debug(`Executing query: ${query}`);
+			return queryExec('any', query.toString(), {GOSMID: GOSMID}, connection);
 		},
-		getActivityDetails: function(id){
-			return db.oneOrNone(queryFiles.gosm_getActivityFromID, {activityID: id});
+
+		getActivityDetails: function(id, connection){
+			return queryExec('oneOrNone', queryFiles.gosm_getActivityFromID, {activityID: id}, connection);
 		},
-		getActivityProjectHeads: function(id){
-			return db.manyOrNone(queryFiles.gosm_getActivityProjectHeadsFromID, {activityID: id});
+
+		getActivityProjectHeads: function(id, connection){
+			return queryExec('manyOrNone', queryFiles.gosm_getActivityProjectHeadsFromID, {activityID: id});
 		}
 	};
 };

@@ -1,11 +1,11 @@
 {
 	"debug":{
-		"enabled": true
+		"enabled": true,
+		"enable_login_check": true
 	},
 	"webserver":{
 		"port": 3000,
 		"url": "",
-		"debug_mode": true,
 		"controllers": {
 			"path": "./app/controllers"
 		},
