@@ -53,32 +53,44 @@
     });
     //Pend Activity
     $('.sa-pend').click(function(){
-        swal({   
-            title: "Pend this Activity?",   
-            text: "<textarea id='text' placeholder='Write the reason why'></textarea>",
-            html: true,
-            type: "warning",   
-            showCancelButton: true,   
-            confirmButtonColor: "#DD6B55",   
-            confirmButtonText: "confirm",   
-            closeOnConfirm: false 
-        }, function(){   
-            swal("Success!", "This activity has been pended.", "success"); 
+        swal({
+          title: "Pend Activity",
+          text: "Write your reason for pending the activity:",
+          type: "input",
+          showCancelButton: true,
+          closeOnConfirm: false,
+          inputPlaceholder: "Write something"
+        },
+        function(inputValue){
+          if (inputValue === false) return false;
+          
+          if (inputValue === "") {
+            swal.showInputError("You need to write something!");
+            return false
+          }
+          
+          swal("Success!", "You wrote: " + inputValue, "success");
         });
     });
     //Deny Activity
     $('.sa-deny').click(function(){
-        swal({   
-            title: "Deny this activity?",   
-            text: "<textarea id='text1' placeholder='Write the reason why'></textarea>",
-            html: true,
-            type: "warning",   
-            showCancelButton: true,   
-            confirmButtonColor: "#DD6B55",   
-            confirmButtonText: "confirm",   
-            closeOnConfirm: false 
-        }, function(){   
-            swal("Success!", "This activity has been denied.", "success"); 
+        swal({
+          title: "Deny Activity",
+          text: "Write your reason for denying the activity:",
+          type: "input",
+          showCancelButton: true,
+          closeOnConfirm: false,
+          inputPlaceholder: "Write something"
+        },
+        function(inputValue){
+          if (inputValue === false) return false;
+          
+          if (inputValue === "") {
+            swal.showInputError("You need to write something!");
+            return false
+          }
+          
+          swal("Success!", "You wrote: " + inputValue, "success");
         });
     });
     //Parameter
