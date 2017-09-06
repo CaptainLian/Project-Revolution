@@ -122,8 +122,10 @@ module.exports = function(database, models, queryFiles){
 					var objectives = [];
 					objectives = req.body['objectives[]'];
 
-					if(typeof objectives !== 'array'){
+
+					if(!Array.isArray(objectives)){
 						objectives = [objectives];
+
 					}
 
 					var description = req.body.description;
@@ -138,7 +140,8 @@ module.exports = function(database, models, queryFiles){
 					var personInCharge = [];
 					personInCharge = req.body['personInCharge[]'];
 
-					if(typeof personInCharge !== 'array'){
+
+					if(!Array.isArray(personInCharge)){
 						personInCharge = [personInCharge];
 					}
 
@@ -163,7 +166,6 @@ module.exports = function(database, models, queryFiles){
 								measures: measures,
 								targetDateStart: "'"+startDateSplit[2]+"-"+startDateSplit[0]+"-"+startDateSplit[1]+"'",
 								targetDateEnd: "'"+endDateSplit[2]+"-"+endDateSplit[0]+"-"+endDateSplit[1]+"'",
-								peopleInCharge: personInCharge,
 								activityNature: natureType,
 								activityType: activityType,
 								activityTypeOtherDescription: others,
@@ -183,6 +185,32 @@ module.exports = function(database, models, queryFiles){
 							//insert to db
 								gosmModel.insertProposedActivity(dbParam)
 									.then(data =>{
+
+										console.log(data.activityid);
+
+										console.log(personInCharge.length);
+
+										for (var i = 0; i < personInCharge.length; i++){
+
+											console.log("Inside the loop");
+											console.log(personInCharge[i]);
+
+											var projectHeadParam = {
+												idNumber: parseInt(personInCharge[i]),
+												activityID: data.activityid
+
+											};
+
+											gosmModel.insertActivityProjectHead(projectHeadParam)
+												.then(data=>{
+
+												})
+												.catch(error =>{
+													console.log(error);
+												});
+										}
+
+
 										res.send("1");
 									})
 									.catch(error =>{

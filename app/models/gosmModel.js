@@ -5,6 +5,7 @@ const squel = require('squel').useFlavour('postgres');
 module.exports = function(db, queryFiles){
 	const getAllActivityTypesSQL = queryFiles.getAllActivityTypes;
 	const insertProposedActivitySQL = queryFiles.insertProposedActivity;
+	const insertActivityProjectHeadSQL = queryFiles.insertActivityProjectHead;
 	const getSchoolYearSQL = queryFiles.getSchoolYear;
 	const getAllActivityNatureSQL = queryFiles.getAllActivityNature;
 	const getGOSMActivitiesSQL = queryFiles.getGOSMActivities;
@@ -33,7 +34,10 @@ module.exports = function(db, queryFiles){
 			return db.many(getAllActivityNatureSQL);
 		},
 		insertProposedActivity: function(param){
-			return db.none(insertProposedActivitySQL, param);
+			return db.one(insertProposedActivitySQL, param);
+		},
+		insertActivityProjectHead: function(param){
+			return db.none(insertActivityProjectHeadSQL, param);
 		},
 		getSchoolYear: function(){
 			return db.one(getSchoolYearSQL);
