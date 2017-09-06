@@ -6,6 +6,11 @@ module.exports = function(database, models, queryFiles){
 			res.render('Finance/DashboardMain');
 			//next();
 		},
+		createTransaction: (req, res) => {
+		
+			res.render('Finance/TransactionMain');
+			//next();
+		},
 		
 		
 	};

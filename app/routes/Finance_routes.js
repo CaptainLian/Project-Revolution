@@ -4,5 +4,6 @@ var router = express.Router();
 module.exports = function(app , controllers){
 	console.log(controllers);
 	router.get('/financeD', controllers.Finance_controller.viewDashboard);
+	router.get('/transaction', controllers.Finance_controller.createTransaction);
 	return router; 
 }
