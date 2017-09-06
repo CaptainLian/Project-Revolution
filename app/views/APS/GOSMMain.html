@@ -33,7 +33,7 @@
 
         <section id="section-linebox-1">
             <div class="white-box">
-                <form action="/createGOSM" method="POST" class="form-horizontal form-bordered">
+                <form class="form-horizontal form-bordered">
                     <div class="form-body">
                         <div class="form-group">
                             <label class="control-label col-md-3">Strategy</label>
@@ -138,10 +138,10 @@
                             <label class="control-label col-md-3">Person in Charge</label>
                             <div class="col-md-9">
                                 <select multiple="multiple" name="personInCharge[]" class="select" id="personInCharge">
-                                    <option value="11400221">Neil Capistrano</option>
-                                    <option value="11400222">Dominique Dagunton</option>
-                                    <option value="11400223">Markus Flores</option>
-                                    <option value="11400224">Lian Laguio</option>
+                                    <option value="11445955">Neil Capistrano</option>
+                                    <option value="11445954">Dominique Dagunton</option>
+                                    <option value="11445953">Markus Flores</option>
+                                    <option value="11445952">Lian Laguio</option>
                                 </select>
                             </div>
 
@@ -174,7 +174,7 @@
                             <div class="col-md-12">
                                 <div class="row">
                                     <div class=" col-md-12" style="text-align: center">
-                                        <button type="submit" id="add-gosm" class="btn btn-info">Add to GOSM</button>
+                                        <button type="button" id="add-gosm" class="btn btn-info">Add to GOSM</button>
                                         
                                     </div>
                                 </div>
@@ -212,9 +212,15 @@
                                         <td class="text-left td-title" >{{activities.targetdatestart}} - {{activities.targetdateend}}</td>
                                         <td class="text-left td-title" >{{activities.description}}</td>
                                         <td class="text-center text-nowrap">
-                                            <a  data-toggle="tooltip" data-original-title="Details"> <i db-id="{{activities.id}}"  class="fa fa-eye text-inverse m-r-10"></i> </a>
-                                            <a  data-toggle="tooltip" data-original-title="Edit"> <i db-id="{{activities.id}}"  class="fa fa-pencil text-inverse m-r-10"></i> </a>
-                                            <a class="remove"  data-toggle="tooltip" data-original-title="Close"> <i db-id="{{activities.id}}" class="fa fa-close text-danger"></i> </a>
+                                            <a  data-toggle="tooltip" data-original-title="Details"> 
+                                                <i db-id="{{activities.id}}"  class="fa fa-eye text-inverse m-r-10"></i> 
+                                            </a>
+                                            <a  data-toggle="tooltip" data-original-title="Edit"> 
+                                                <i db-id="{{activities.id}}"  class="fa fa-pencil text-inverse m-r-10"></i> 
+                                            </a>
+                                            <a class="remove"  data-toggle="tooltip" data-original-title="Close"> 
+                                                <i db-id="{{activities.id}}" class="fa fa-close text-danger"></i> 
+                                            </a>
                                         </td>                                  
                                     </tr>
                                 {% endfor %}
@@ -425,10 +431,10 @@
 
 {%block scripts%}
 <script type="text/javascript">
-    $("tr").on('click',function(){
-        console.log("EDIT");
-        $(this).find("i.fa-eye").click();
-    });
+    // $("table tbody tr").on('click',function(){
+    //     console.log("EDIT");
+    //     $(this).find("i.fa-eye").click();
+    // });
     $("#edit").on('click',function(){
         $("#myModal").modal('hide');
          $("html, body").animate({ scrollTop: 0 },function(){
@@ -436,7 +442,7 @@
          });
             
     });
-    $("i.fa-pencil").click(function(){
+    $(document).on('click',"i.fa-pencil",function(){
 
         $("html, body").animate({ scrollTop: 0 }, function(){
             $.ajax({
@@ -444,6 +450,7 @@
                 url:'/getActivityDetails',
                 data:{ 
                     "db-id" : $(this).attr("db-id"),
+                },
                 success:function(data){
                     
                 }
@@ -454,11 +461,25 @@
         }); 
 
     });
-    $("i.fa-eye").click(function(){
+    $(document).on('click','i.fa-eye',function(){
         $("#myModal").modal('show');
+        $.ajax({
+            type:'POST',
+            url:'/getActivityDetails',
+            data:{ 
+                "db-id" : $(this).attr("db-id"),
+            },
+            success:function(data){
+                
+            }
+
+        });
+            
+
+        }); 
         
     });
-    $("i.fa-close").click(function(){
+    $(document).on('click','i.fa-close',function(){
         // var ppr = {
         //     description:"",
         //     sched:[
@@ -468,17 +489,22 @@
         //         }
         //     ]
         // }
-        $(this).closest("tr").remove();
-        $(".myadmin-alert").hide();
-        $("#alerttopright-success-delete").fadeToggle(350);
+       
         // TO DELETE
+        var trR =   $(this).closest("tr");
+        console.log("DB-ID"+$(this).attr("db-id"));
         $.ajax({
             type:'POST',
             url:'/deleteActivity',
             data:{ 
                 "dbid" : $(this).attr("db-id"),
+            },
             success:function(data){
+                console.log(data);  
                 if(data == "1"){
+                 trR    .remove();
+                    $(".myadmin-alert").hide();
+                    $("#alerttopright-success-delete").fadeToggle(350);
 
                 }else{
 
@@ -533,20 +559,37 @@
             success:function(data){
 
                 
-                
-                console.log("console"+data);
-                if(data == "1"){
+                console.log("ADDED");
+                console.log(parseInt(data));
+                if(data > 0 ){
                     console.log("console1");
                     var ctr = 1; 
                     $("#added-act tbody tr").each(function(){
                         ctr++
                     });
+
+                    // <tr>
+                    //     <td class="text-left"  >{{loop.index}}</td>
+                    //     <td class="text-left td-title" >{{activities.strategies}}</td>
+                    //     <td class="text-left td-title" >{{activities.targetdatestart}} - {{activities.targetdateend}}</td>
+                    //     <td class="text-left td-title" >{{activities.description}}</td>
+                    //     <td class="text-center text-nowrap">
+                    //         <a  data-toggle="tooltip" data-original-title="Details"> <i db-id="{{activities.id}}"  class="fa fa-eye text-inverse m-r-10"></i> </a>
+                    //         <a  data-toggle="tooltip" data-original-title="Edit"> <i db-id="{{activities.id}}"  class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                    //         <a class="remove"  data-toggle="tooltip" data-original-title="Close"> <i db-id="{{activities.id}}" class="fa fa-close text-danger"></i> </a>
+                    //     </td>                                  
+                    // </tr>
                     var tr = '<tr>'+
-                                '<td>'+ctr+'</td>'+
-                                '<td class="td-title" >'+strategy+'</td>'+
-                                '<td class="text-nowrap">'+
-                                    '<a href="#" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>'+
-                                    '<a href="#" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>'+
+                                '<td width="5%" class="text-left">'+data+'</td>'+
+                                '<td width="15%" class="td-title text-left" >'+strategy+'</td>'+
+                                '<td width="15%" class="td-title text-left" >'+targetDateStart +' - '+targetDateEnd+'</td>'+
+                                '<td width="35%" class="td-title text-left" >'+description+'</td>'+
+                                '<td width="10%" class="text-nowrap text-center">'+
+                                    '<a  data-toggle="tooltip" data-original-title="Details"> '+
+                                        '<i db-id="'+data+'"  class="fa fa-eye text-inverse m-r-10"></i> '+
+                                    '</a>'+
+                                    '<a data-toggle="tooltip" data-original-title="Edit"> <i db-id="'+data+'" class="fa fa-pencil text-inverse m-r-10"></i> </a>'+
+                                    '<a  data-toggle="tooltip" data-original-title="Close"> <i db-id="'+data+'" class="fa fa-close text-danger"></i> </a>'+
                                 '</td>'+
                             '</tr>';
                     $("#added-act tbody").append(tr);
