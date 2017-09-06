@@ -198,6 +198,17 @@ module.exports = function(database, models, queryFiles){
 		},
 		deleteActivity: (req,res)=>{
 
+			var dbParam = {
+				id: req.body.dbid
+			};
+
+			gosmModel.deleteActivity(dbParam)
+				.then(data =>{
+
+				})
+				.catch(error =>{
+					console.log(error);
+				});
 
 
 		},
