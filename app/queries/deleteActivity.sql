@@ -1,0 +1,2 @@
+DELETE FROM GOSMACTIVITIES
+	   WHERE id = ${id};
