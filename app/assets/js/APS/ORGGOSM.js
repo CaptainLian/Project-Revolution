@@ -6,7 +6,7 @@ $('#myTable').DataTable();
   new CBPFWTabs(el);
 });
 
-$('#myTable > tbody > tr, .activity_row')
+$('#myTable > tbody > .activity_row')
 .click(function() {
   console.log('CLICKED ON A ROW');
   let row = $(this);
@@ -24,7 +24,6 @@ $('#myTable > tbody > tr, .activity_row')
       console.log(data);
       const activityDetails = data.activityDetails;
       const projectHeads = data.projectHeads;
-
       $('#modal_type').html(activityDetails.type);
       $('#modal_nature').html(activityDetails.nature);
       $('#modal_date').html(activityDetails.startdate + ' - '+ activityDetails.enddate);
@@ -32,8 +31,12 @@ $('#myTable > tbody > tr, .activity_row')
       const table = $('#modal_table_activity');
       table.find('.modal_head_row').remove();
 
+      console.log(JSON.stringify(projectHeads));
       if(projectHeads.length > 0){
-
+        table.append('<tr class="modal_head_row"><th>Project Heads:</th><td colspan="6">' + projectHeads[0].name + ": " + projectHeads[0].contactnumber + '</td></tr>');
+        for(let index = 1, length = projectHeads.length; index < length; ++index){
+          table.append('<tr class="modal_head_row"><th></th><td colspan="6">' + projectHeads[index].name + ": " + projectHeads[index].contactnumber + '</td></tr>');
+        }
       }
 
     },

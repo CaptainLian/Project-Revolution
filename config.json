@@ -1,7 +1,7 @@
 {
 	"debug":{
 		"enabled": true,
-		"enable_login_check": true
+		"enable_login_check": false
 	},
 	"webserver":{
 		"port": 3000,

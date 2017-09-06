@@ -9,6 +9,11 @@ module.exports = function(database, models, queryFiles){
 	return {
 		getGOSMActivityDetails: function(req, res){
 			const activityID = parseInt(req.query.activityID ? req.query.activityID : req.body.activityID);
+			if(isNaN(activityID) ){
+				logger.debug(`Invalid input`);
+				res.send({valid: false});
+				return;
+			}
 			logger.debug(`Getting Activity Details of id: ${activityID}`, log_options);
 
 			database.task(t => {
@@ -21,7 +26,7 @@ module.exports = function(database, models, queryFiles){
 				logger.debug(`activity: ${JSON.stringify(data)}`, log_options);
 				res.send({
 					activityDetails: data[0],
-					projectHeads: [1]
+					projectHeads: data[1]
 				});
 			}).catch(error => {
 				logger.error(error, log_options);

@@ -69,7 +69,11 @@ module.exports = function(db, queryFiles){
 				query.field(fields);
 			}else if(Array.isArray(fields)){
 				for(const field of fields){
-					query.field(field);
+					if(Array.isArray(field)){
+						query.field(field[0], field[1]);
+					}else{
+						query.field(field);
+					}
 				}
 			}
 

@@ -1,6 +1,9 @@
-const dateFormat = require('dateformat');
-const logger = global.logger;
+'use strict';
 
+const dateFormat = require('dateformat');
+
+const logger = global.logger;
+const log_options = {from: 'APS-Controller'};
 module.exports = function(database, models, queryFiles){
 
 	const gosmModel = models.gosmModel;
@@ -238,16 +241,14 @@ module.exports = function(database, models, queryFiles){
 
 				})
 				.catch(error =>{
-					console.log(error);
+					logger.error(error, log_options);
 				});
-
-
 		},
 
 		viewOrglist:( req, res) =>{
 			gosmModel.getAllCurrent()
 				.then(GOSMList => {
-					console.log(GOSMList);
+					logger.debug(`Displaying GOSM list: ${JSON.stringify(GOSMList)}`, log_options);
 					res.render('APS/OrglistMain', {GOSMList: GOSMList});
 				})
 				.catch(error => {
@@ -320,16 +321,16 @@ module.exports = function(database, models, queryFiles){
 			let organizationID = req.params.orgID;
 			let GOSMID = req.params.GOSMID;
 
-			logger.debug(`Viewing GOSM of ID: ${GOSMID} of Organization: ${organizationID}`);
+			logger.debug(`Viewing GOSM of ID: ${GOSMID} of Organization: ${organizationID}`, log_options);
 
 			database.task( t => {
 				return t.batch([
 					organizationModel.getOrganizationInformation(organizationID, 'name', t),
-					gosmModel.getActivitiesFromID(GOSMID, ['id', 'strategies', 'targetDateStart'], t)
+					gosmModel.getActivitiesFromID(GOSMID, ['id', 'strategies', ["to_char(targetDateStart, 'Mon DD, YYYY')",'targetDateStart']], t)
 				]);
 			})
 			.then(data => {
-				logger.debug(JSON.stringify(data));
+				logger.debug(JSON.stringify(data), log_options);
 				res.render('APS/OrgGOSMMain', {
 					organizationName: data[0].name,
 					GOSMActivities: data[1]
@@ -342,7 +343,6 @@ module.exports = function(database, models, queryFiles){
 
 		activityList :(req, res)=>{
 			res.render('APS/ActivityListMain');
-		},
-
+		}
 	};
 };
