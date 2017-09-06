@@ -61,6 +61,15 @@ jQuery(document).ready(function($) {
                             validators: {
                                 notEmpty: {
                                     message: 'The payment requisition number is required'
+                                },
+                                stringLength :{
+                                	min: 6,
+                                    max: 6,
+                                    message: 'The prs number must be 6 digits long'
+                                },
+                                regexp: {
+									regexp:/[0-9]/,
+									message:'The prs number must only contain digits'
                                 }
                             }
                         },
@@ -76,6 +85,7 @@ jQuery(document).ready(function($) {
                         		notEmpty:{
                         			message:'this field is required.'
                         		}
+
                         	}
                         }
                     }

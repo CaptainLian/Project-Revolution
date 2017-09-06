@@ -29,6 +29,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Custom CSS -->
     <link href="css/style.css" rel="stylesheet">
     <link href="css/custom.css" rel="stylesheet">
+    <!-- dropify-->
+    <link rel="stylesheet" href="../plugins/bower_components/dropify/dist/css/dropify.min.css">
+    <!-- Editable CSS -->
+    <link rel="stylesheet" href="../plugins/bower_components/jquery-datatables-editable/datatables.css" />
     <!-- color CSS you can use different color css from css/colors folder -->
     <!-- We have chosen the skin-blue (blue.css) for this starter
           page. However, you can choose any other skin from folder css / colors .
@@ -244,21 +248,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <h3 class="box-title m-b-0">Cash Advance</h3>
                             <p class="text-muted m-b-30 font-13">Withdraw cash from the Depository Fund before the activity. It is to be used for projected expenses of the activity.</p>
                             <div id="transactionWizard" class="wizard">
-                                <ul class="wizard-steps" role="tablist">
+                                <ul class="wizard-steps text-center" role="tablist">
                                     <li class="active" role="tab">
-                                        <h4><span><i class="ti-agenda"></i></span>1</h4>
+                                        <h4><span><i class="ti-agenda"></i></span></h4><!-- prs -->
                                     </li>
                                     <li role="tab">
-                                        <h4><span><i class="ti-credit-card"></i>2</span></h4>
+                                        <h4><span><i class="ti-credit-card"></i></span></h4><!-- CA MEMO -->
                                     </li>
                                     <li role="tab">
-                                        <h4><span><i class="ti-check"></i></span>3</h4>
+                                        <h4><span><i class="ti-notepad"></i></span></h4><!-- Informal Quotation -->
                                     </li>
                                     <li role="tab">
-                                        <h4><span><i class="ti-check"></i></span>4</h4>
+                                        <h4><span><i class="ti-file"></i></span></h4><!-- List of participants -->
                                     </li>
                                     <li role="tab">
-                                        <h4><span><i class="ti-check"></i></span>5</h4>
+                                        <h4><span><i class="ti-game"></i></span></h4><!-- Game Mechanics -->
                                     </li>
                                 </ul>
                                 <form id="validation" class="form-horizontal" action="keep.php" method="post">
@@ -382,7 +386,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             <div class="form-group">
                                                 <label class="col-xs-3 control-label">Payment Requisition Slip Number</label>
                                                 <div class="col-xs-5">
-                                                    <input type="text" class="form-control" name="prs" data-mask="999999"/>
+                                                    <input type="text" class="form-control" name="prs" />
                                                     <span class="help-block"><small>Input the 6-digit code on the top right of your PRS form.</small></span>
                                                 </div>
                                             </div>
@@ -452,22 +456,84 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         <div class="wizard-pane" role="tabpanel">
                                             <div class="form-group">
                                                 <label class="col-xs-3 control-label">INFORMAL QUOTATION</label>
-                                                <div class="col-xs-5">
-                                                    <input type="password" class="form-control" name="password" /> </div>
                                             </div>
+                                            <table id="mainTable" class="table editable-table table-bordered table-striped m-b-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Item Name</th>
+                                                        <th>Contact Person</th>
+                                                        <th>Contact No.</th>
+                                                        <th>Unit Price</th>
+                                                        <th>Quantity</th>
+                                                        <th>subTotal</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Car</td>
+                                                        <td>100</td>
+                                                        <td>200</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Bike</td>
+                                                        <td>330</td>
+                                                        <td>240</td>
+                                                        <td>1</td>
+                                                        <td>0</td>
+                                                        <td>0</td>                                                    </tr>
+                                                    <tr>
+                                                        <td>Plane</td>
+                                                        <td>430</td>
+                                                        <td>540</td>
+                                                        <td>3</td>
+                                                        <td>0</td>
+                                                        <td>0</td>                                                      </tr>
+                                                    <tr>
+                                                        <td>Yacht</td>
+                                                        <td>100</td>
+                                                        <td>200</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>                                                      </tr>
+                                                    <tr>
+                                                        <td>Segway</td>
+                                                        <td>330</td>
+                                                        <td>240</td>
+                                                        <td>1</td>
+                                                        <td>0</td>
+                                                        <td>0</td>                                                      </tr>
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <td><strong>TOTAL</strong></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                    
+                                            </table>
                                         </div>
                                         <div class="wizard-pane" role="tabpanel">
                                             <div class="form-group">
                                                 <label class="col-xs-3 control-label">LIST OF PARTICIPANTS</label>
-                                                <div class="col-xs-5">
-                                                    <input type="password" class="form-control" name="password" /> </div>
+                                                <div class="col-md-12">
+                                                    <div class="white-box">
+                                                    <input type="file" id="input-file-now" class="dropify" /> </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="wizard-pane" role="tabpanel">
                                             <div class="form-group">
                                                 <label class="col-xs-3 control-label">MECHANICS OF COMPETITION</label>
-                                                <div class="col-xs-5">
-                                                    <input type="password" class="form-control" name="password" /> </div>
+                                                <div class="col-md-12">
+                                                    <div class="white-box">
+                                                    <input type="file" id="input-file-now" class="dropify" /> </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -796,6 +862,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="../plugins/bower_components/jquery-wizard-master/libs/formvalidation/formValidation.min.js"></script>
     <script src="../plugins/bower_components/jquery-wizard-master/libs/formvalidation/bootstrap.min.js"></script>
     <script src="js/newTransaction.js"></script>
+    <!-- Editable -->
+    <script src="../plugins/bower_components/jquery-datatables-editable/jquery.dataTables.js"></script>
+    <script src="../plugins/bower_components/datatables/dataTables.bootstrap.js"></script>
+    <script src="../plugins/bower_components/tiny-editable/mindmup-editabletable.js"></script>
+    <script src="../plugins/bower_components/tiny-editable/numeric-input-example.js"></script>
+    <!-- jQuery file upload -->
+    <script src="../plugins/bower_components/dropify/dist/js/dropify.min.js"></script>
 
     <script type="text/javascript">
     (function() {
@@ -806,73 +879,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
     </script>
 
     <script>
-    jQuery(document).ready(function() {
+        jQuery(document).ready(function() {
 
-        // For select 2
+            // For select 2
 
-        $(".select2").select2();
-        $('.selectpicker').selectpicker();
-    
-    });
-
+            $(".select2").select2();
+            $('.selectpicker').selectpicker();
+        
+        });
     </script>
-    <!--
+
     <script>
-    jQuery(document).ready(function() {
-        $('#transaction').on('change', function() {
-            /*
-            <option value="1">Cash Advance</option> id = CA
-            <option value="2">Direct Payment (Pre-acts)</option> id = DPPre
-            <option value="3">Direct Payment (Post-acts)</option> id = DPPost
-            <option value="4">Reimbursement</option> id = RB
-            <option value="5">Petty Cash Replenishment</option> id = PCR
-            <option value="6">Book Transfer</option> id = BT
-            <option value="7">Liquidation(With deposit)</option> id = LD
-            <option value="8">Liquidation(With reimbursement)</option> id = LR
-            */
-            var val = $(this).val();
-            switch (val) {
-                case '1'://cash advance
-                   $('.m-t-40').hide();
-                   $('#CA').show();
-                   console.log(val);
-                    break;
-                case '2':
-                    $('.m-t-40').hide();
-                    $('#DPPre').show();
-                    break;
-                case '3':
-                    $('.m-t-40').hide();
-                    $('#DPPost').show();
-                    break;
-                case '4':
-                    $('.m-t-40').hide();
-                    $('#RB').show();
-                    break;
-                case '5':
-                    $('.m-t-40').hide();
-                    $('#PCR').show();
-                    break;
-                case '6':
-                    $('.m-t-40').hide();
-                    $('#BT').show();
-                    break;
-                case '7':
-                    $('.m-t-40').hide();
-                    $('#LD').show();
-                    break;
-                case '8':
-                    $('.m-t-40').hide();
-                    $('#LR').show();
-                    break;
-                default:
-                    $('.m-t-40').hide();
-                    break;
-            }
-         });
-    });
+        $('#mainTable').editableTableWidget().numericInputExample().find('td:first').focus();
     </script>
-    -->
+
+    <script type="text/javascript">
+        $('.dropify').dropify();
+    </script>
+
+
 
 
    
