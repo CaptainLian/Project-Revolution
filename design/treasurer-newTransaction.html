@@ -18,6 +18,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Bootstrap Core CSS -->
     <link href="bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="../plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css" rel="stylesheet">
+    <!-- Wizard CSS -->
+    <link href="../plugins/bower_components/jquery-wizard-master/css/wizard.css" rel="stylesheet">
     <!-- Menu CSS -->
     <link href="../plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css" rel="stylesheet">
     <!-- page CSS -->
@@ -151,16 +153,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <!-- /input-group -->
                     </li>
 
-                    <li> <a href="javascript:void(0);" csass="waves-effect"><i class="linea-icon linea-basic fa-file-word-o text-danger" data-icon="7"></i>
+                    <li> <a href="javascript:void(0);" csass="waves-effect"><i class="linea-icon linea-aerrow text-success" data-icon="&#xe00d;"></i>
                             <span class="hide-menu sideBarText">New Transaction <!--<span class="label label-rouded label-danger pull-right">HOT</span>--></span>
                          </a>
                     </li>
-                    <li> <a href="javascript:void(0);" class="waves-effect"><i class="linea-icon linea-basic fa-fw text-danger" data-icon="7"></i>
-                            <span class="hide-menu sideBarText">View Activity   <!--<span class="label label-rouded label-danger pull-right">HOT</span>--></span>
+                    <li> <a href="javascript:void(0);" class="waves-effect"><i class="linea-icon linea-basic fa-fw text-success" data-icon="H"></i>
+                            <span class="hide-menu sideBarText">View Transactions   <!--<span class="label label-rouded label-danger pull-right">HOT</span>--></span>
                          </a>
                     </li>
-                    <li> <a href="javascript:void(0);" class="waves-effect"><i class="linea-icon linea-basic fa-fw text-danger" data-icon="7"></i>
-                            <span class="hide-menu sideBarText">ORG GOSM  <!--<span class="label label-rouded label-danger pull-right">HOT</span>--></span>
+                    <li> <a href="javascript:void(0);" class="waves-effect"><i class="linea-icon linea-basic fa-fw text-success" data-icon="v"></i>
+                            <span class="hide-menu sideBarText">Dashboard  <!--<span class="label label-rouded label-danger pull-right">HOT</span>--></span>
+                         </a>
+                    </li>
+                    <li> <a href="javascript:void(0);" class="waves-effect"><i class="linea-icon linea-elaborate fa-fw text-success" data-icon="&#xe025;"></i>
+                            <span class="hide-menu sideBarText">Budget Proposal  <!--<span class="label label-rouded label-danger pull-right">HOT</span>--></span>
                          </a>
                     </li>
 
@@ -193,70 +199,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <form class="floating-labels ">
                                         <div class="form-group m-b-40">
                                             <select class="form-control select2">
-                                                <option>Select</option>
-                                                <optgroup label="Alaskan/Hawaiian Time Zone">
-                                                    <option value="AK">Alaska</option>
-                                                    <option value="HI">Hawaii</option>
-                                                </optgroup>
-                                                <optgroup label="Pacific Time Zone">
-                                                    <option value="CA">California</option>
-                                                    <option value="NV">Nevada</option>
-                                                    <option value="OR">Oregon</option>
-                                                    <option value="WA">Washington</option>
-                                                </optgroup>
-                                                <optgroup label="Mountain Time Zone">
-                                                    <option value="AZ">Arizona</option>
-                                                    <option value="CO">Colorado</option>
-                                                    <option value="ID">Idaho</option>
-                                                    <option value="MT">Montana</option>
-                                                    <option value="NE">Nebraska</option>
-                                                    <option value="NM">New Mexico</option>
-                                                    <option value="ND">North Dakota</option>
-                                                    <option value="UT">Utah</option>
-                                                    <option value="WY">Wyoming</option>
-                                                </optgroup>
-                                                <optgroup label="Central Time Zone">
-                                                    <option value="AL">Alabama</option>
-                                                    <option value="AR">Arkansas</option>
-                                                    <option value="IL">Illinois</option>
-                                                    <option value="IA">Iowa</option>
-                                                    <option value="KS">Kansas</option>
-                                                    <option value="KY">Kentucky</option>
-                                                    <option value="LA">Louisiana</option>
-                                                    <option value="MN">Minnesota</option>
-                                                    <option value="MS">Mississippi</option>
-                                                    <option value="MO">Missouri</option>
-                                                    <option value="OK">Oklahoma</option>
-                                                    <option value="SD">South Dakota</option>
-                                                    <option value="TX">Texas</option>
-                                                    <option value="TN">Tennessee</option>
-                                                    <option value="WI">Wisconsin</option>
-                                                </optgroup>
-                                                <optgroup label="Eastern Time Zone">
-                                                    <option value="CT">Connecticut</option>
-                                                    <option value="DE">Delaware</option>
-                                                    <option value="FL">Florida</option>
-                                                    <option value="GA">Georgia</option>
-                                                    <option value="IN">Indiana</option>
-                                                    <option value="ME">Maine</option>
-                                                    <option value="MD">Maryland</option>
-                                                    <option value="MA">Massachusetts</option>
-                                                    <option value="MI">Michigan</option>
-                                                    <option value="NH">New Hampshire</option>
-                                                    <option value="NJ">New Jersey</option>
-                                                    <option value="NY">New York</option>
-                                                    <option value="NC">North Carolina</option>
-                                                    <option value="OH">Ohio</option>
-                                                    <option value="PA">Pennsylvania</option>
-                                                    <option value="RI">Rhode Island</option>
-                                                    <option value="SC">South Carolina</option>
+                                                <option selected="true" disabled="disabled">Select Transaction</option>
                                                     <option value="VT">Vermont</option>
                                                     <option value="VA">Virginia</option>
                                                     <option value="WV">West Virginia</option>
-                                                </optgroup>
+                        
                                             </select>
                                             <span class="highlight"></span> <span class="bar"></span>
-                                            <label for="input6">Input Select</label>
+                                            <label for="input6">Activity</label>
                                             <span class="help-block"><small>Select an activity from the list of approved activities.</small></span>
                                         </div>
                                     </form>
@@ -264,72 +214,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <div class="col-md-6">
                                     <form class="floating-labels ">
                                         <div class="form-group m-b-40">
-                                            <select class="form-control select2">
-                                                <option>Select</option>
-                                                <optgroup label="Alaskan/Hawaiian Time Zone">
-                                                    <option value="AK">Alaska</option>
-                                                    <option value="HI">Hawaii</option>
-                                                </optgroup>
-                                                <optgroup label="Pacific Time Zone">
-                                                    <option value="CA">California</option>
-                                                    <option value="NV">Nevada</option>
-                                                    <option value="OR">Oregon</option>
-                                                    <option value="WA">Washington</option>
-                                                </optgroup>
-                                                <optgroup label="Mountain Time Zone">
-                                                    <option value="AZ">Arizona</option>
-                                                    <option value="CO">Colorado</option>
-                                                    <option value="ID">Idaho</option>
-                                                    <option value="MT">Montana</option>
-                                                    <option value="NE">Nebraska</option>
-                                                    <option value="NM">New Mexico</option>
-                                                    <option value="ND">North Dakota</option>
-                                                    <option value="UT">Utah</option>
-                                                    <option value="WY">Wyoming</option>
-                                                </optgroup>
-                                                <optgroup label="Central Time Zone">
-                                                    <option value="AL">Alabama</option>
-                                                    <option value="AR">Arkansas</option>
-                                                    <option value="IL">Illinois</option>
-                                                    <option value="IA">Iowa</option>
-                                                    <option value="KS">Kansas</option>
-                                                    <option value="KY">Kentucky</option>
-                                                    <option value="LA">Louisiana</option>
-                                                    <option value="MN">Minnesota</option>
-                                                    <option value="MS">Mississippi</option>
-                                                    <option value="MO">Missouri</option>
-                                                    <option value="OK">Oklahoma</option>
-                                                    <option value="SD">South Dakota</option>
-                                                    <option value="TX">Texas</option>
-                                                    <option value="TN">Tennessee</option>
-                                                    <option value="WI">Wisconsin</option>
-                                                </optgroup>
-                                                <optgroup label="Eastern Time Zone">
-                                                    <option value="CT">Connecticut</option>
-                                                    <option value="DE">Delaware</option>
-                                                    <option value="FL">Florida</option>
-                                                    <option value="GA">Georgia</option>
-                                                    <option value="IN">Indiana</option>
-                                                    <option value="ME">Maine</option>
-                                                    <option value="MD">Maryland</option>
-                                                    <option value="MA">Massachusetts</option>
-                                                    <option value="MI">Michigan</option>
-                                                    <option value="NH">New Hampshire</option>
-                                                    <option value="NJ">New Jersey</option>
-                                                    <option value="NY">New York</option>
-                                                    <option value="NC">North Carolina</option>
-                                                    <option value="OH">Ohio</option>
-                                                    <option value="PA">Pennsylvania</option>
-                                                    <option value="RI">Rhode Island</option>
-                                                    <option value="SC">South Carolina</option>
-                                                    <option value="VT">Vermont</option>
-                                                    <option value="VA">Virginia</option>
-                                                    <option value="WV">West Virginia</option>
-                                                </optgroup>
+                                            <select class="form-control select2" id ="transaction">
+                                                <option selected="true" disabled="disabled" >Select</option>
+                                                    <option value="1">Cash Advance</option>
+                                                    <option value="2">Direct Payment (Pre-acts)</option>
+                                                    <option value="3">Direct Payment (Post-acts)</option>
+                                                    <option value="4">Reimbursement</option>
+                                                    <option value="5">Petty Cash Replenishment</option>
+                                                    <option value="6">Book Transfer</option>
+                                                    <option value="7">Liquidation(With deposit)</option>
+                                                    <option value="8">Liquidation(With reimbursement)</option>
+                                                   
                                             </select>
                                             <span class="highlight"></span> <span class="bar"></span>
-                                            
-                                            <span class="help-block"><small>Select an activity from the list of approved activities.</small></span>
+                                            <label for="input6">Transaction</label>
+                                            <span class="help-block"><small>Select the type of transaction you want to process.</small></span>
                                         </div>
                                     </form>
                                 </div>
@@ -338,80 +237,524 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </div>
                 </div>
                 <!-- /.row -->
-                <!-- .right-sidebar -->
-                <div class="right-sidebar">
-                    <div class="slimscrollright">
-                        <div class="rpanel-title"> Service Panel <span><i class="ti-close right-side-toggle"></i></span> </div>
-                        <div class="r-panel-body">
-                            <ul>
-                                <li><b>Layout Options</b></li>
-                                <li>
-                                    <div class="checkbox checkbox-info">
-                                        <input id="checkbox1" type="checkbox" class="fxhdr">
-                                        <label for="checkbox1"> Fix Header </label>
+                <!-- .row -->
+                <div class="row transactions" id="CA">
+                    <div class="col-sm-12">
+                        <div class="white-box">
+                            <h3 class="box-title m-b-0">Cash Advance</h3>
+                            <p class="text-muted m-b-30 font-13">Withdraw cash from the Depository Fund before the activity. It is to be used for projected expenses of the activity.</p>
+                            <div id="transactionWizard" class="wizard">
+                                <ul class="wizard-steps" role="tablist">
+                                    <li class="active" role="tab">
+                                        <h4><span><i class="ti-agenda"></i></span>1</h4>
+                                    </li>
+                                    <li role="tab">
+                                        <h4><span><i class="ti-credit-card"></i>2</span></h4>
+                                    </li>
+                                    <li role="tab">
+                                        <h4><span><i class="ti-check"></i></span>3</h4>
+                                    </li>
+                                    <li role="tab">
+                                        <h4><span><i class="ti-check"></i></span>4</h4>
+                                    </li>
+                                    <li role="tab">
+                                        <h4><span><i class="ti-check"></i></span>5</h4>
+                                    </li>
+                                </ul>
+                                <form id="validation" class="form-horizontal" action="keep.php" method="post">
+                                    <div class="wizard-content">
+                                        <div class="wizard-pane active" role="tabpanel">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="panel panel-success">
+                                                        <div class="panel-heading">PAYMENT REQUISITION SLIP</div>
+                                                        <div class="panel-wrapper collapse in" aria-expanded="true">
+                                                            <div class="panel-body">
+                                                                <form class="form-horizontal" role="form">
+                                                                    <div class="form-body">
+                                                                        <h3 class="box-title">Account Information</h3>
+                                                                        <hr class="m-t-0 m-b-40">
+                                                                        <div class="row">
+                                                                            <div class="col-md-6">
+                                                                                <div class="form-group">
+                                                                                    <label class="control-label col-md-3">TO:</label>
+                                                                                    <div class="col-md-9">
+                                                                                        <p class="form-control-static"> ACCOUNTING OFFICE </p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!--/span-->
+                                                                            <div class="col-md-6">
+                                                                                <div class="form-group">
+                                                                                    <label class="control-label col-md-3">FROM:</label>
+                                                                                    <div class="col-md-9">
+                                                                                        <p class="form-control-static">USER'S NAME</p>
+                                                                                        <p class="form-control-static">USER'S number</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!--/span-->
+                                                                        </div>
+                                                                        <!--/row-->
+                                                                        <div class="row">
+                                                                            <div class="col-md-6">
+                                                                                <div class="form-group">
+                                                                                    <label class="control-label col-md-3">LOCAL NO:</label>
+                                                                                    <div class="col-md-9">
+                                                                                        <p class="form-control-static"> 744 </p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!--/span-->
+                                                                            <div class="col-md-6">
+                                                                                <div class="form-group">
+                                                                                    <label class="control-label col-md-3">THRU:</label>
+                                                                                    <div class="col-md-9">
+                                                                                        <p class="form-control-static">NAME OF SLIFE DIRECTOR</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!--/span-->
+                                                                        </div>
+                                                                        <!--/row-->
+                                                                        <h3 class="box-title">Amount</h3>
+                                                                        <hr class="m-t-0 m-b-40">
+                                                                        <div class="row">
+                                                                            <div class="col-md-6">
+                                                                                <div class="form-group">
+                                                                                    <label class="control-label col-md-3">IN WORDS:</label>
+                                                                                    <div class="col-md-9">
+                                                                                        <p class="form-control-static font-light">TWO THOUSAND PESOS</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!--/span-->
+                                                                            <div class="col-md-6">
+                                                                                <div class="form-group">
+                                                                                    <label class="control-label col-md-3">IN FIGURES:</label>
+                                                                                    <div class="col-md-9">
+                                                                                        <p class="form-control-static">P 2,000.00</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!--/span-->
+                                                                        </div>
+                                                                        <!--/row-->
+                                                                        <h3 class="box-title">Address</h3>
+                                                                        <hr class="m-t-0 m-b-40">
+                                                                        <div class="row">
+                                                                            <div class="col-md-6">
+                                                                                <div class="form-group">
+                                                                                    <label class="control-label col-md-3">PAYABLE TO:</label>
+                                                                                    <div class="col-md-9">
+                                                                                        <p class="form-control-static">USER'S NAME</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-md-6">
+                                                                                <div class="form-group">
+                                                                                    <label class="control-label col-md-3">CHARGE TO:</label>
+                                                                                    <div class="col-md-9">
+                                                                                        <p class="form-control-static"> ORG NAME </p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!--/span-->
+                                                                            <div class="col-md-6">
+                                                                                <div class="form-group">
+                                                                                    <label class="control-label col-md-5">ACCOUNT NUMBER:</label>
+                                                                                    <div class="col-md-7">
+                                                                                        <p class="form-control-static"> ORG ACCOUNT NUMBER </p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!--/span-->
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-xs-3 control-label">Payment Requisition Slip Number</label>
+                                                <div class="col-xs-5">
+                                                    <input type="text" class="form-control" name="prs" data-mask="999999"/>
+                                                    <span class="help-block"><small>Input the 6-digit code on the top right of your PRS form.</small></span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-xs-3 control-label">Reason</label>
+                                                <div class="col-xs-5">
+                                                    <textarea type="text" class="form-control" name="reason" placeholder="Ex: To be used for the expenses in the Annual Recruitment Week 2016-2017"></textarea>
+                                                    <span class="help-block"><small>Type your reason for requesting the transaction.</small></span>
+                                                </div>
+                
+                                            </div>
+                                        </div>
+                                        <div class="wizard-pane" role="tabpanel">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="panel panel-success">
+                                                        <div class="panel-heading">CASH ADVANCE MEMO</div>
+                                                        <div class="panel-wrapper collapse in" aria-expanded="true">
+                                                            <div class="panel-body">
+                                                                <form class="form-horizontal" role="form">
+                                                                    <div class="form-body">
+                                                                        <h3 class="box-title">SUMMARY OF EXPENSES TO BE INCURRED</h3>
+                                                                        <hr class="m-t-0 m-b-40">
+                                                                        <div class="table-responsive">
+                                                                            <table class="table table-bordered">
+                                                                                <thead>
+                                                                                    <tr>
+                                                                                        
+                                                                                        <th>Particulars</th>
+                                                                                        <th>Amount</th>
+                                                                                        
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    <tr>
+                                                                                        <td>ITEM FROM PPR EXPENSES</td>
+                                                                                        <td>AMOUNT OF ITEM</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td>ITEM FROM PPR EXPENSES</td>
+                                                                                        <td>AMOUNT OF ITEM</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td>TOTAL EXPENSES TO BE INCURRED</td>
+                                                                                        <td id="totalAmount" value="2000">total AMOUNT OF ITEM</td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--IF TOTAL EXPENSE >=2000 SHOW THIS DIV -->
+                                            <div class="form-group" id="justification">
+                                                <label class="col-xs-3 control-label">Justification</label>
+                                                <div class="col-xs-5">
+                                                    <input type="text" class="form-control" name="justification" />
+                                                    <span class="help-block"><small>Write your justification for not using Direct Payment.</small></span>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="wizard-pane" role="tabpanel">
+                                            <div class="form-group">
+                                                <label class="col-xs-3 control-label">INFORMAL QUOTATION</label>
+                                                <div class="col-xs-5">
+                                                    <input type="password" class="form-control" name="password" /> </div>
+                                            </div>
+                                        </div>
+                                        <div class="wizard-pane" role="tabpanel">
+                                            <div class="form-group">
+                                                <label class="col-xs-3 control-label">LIST OF PARTICIPANTS</label>
+                                                <div class="col-xs-5">
+                                                    <input type="password" class="form-control" name="password" /> </div>
+                                            </div>
+                                        </div>
+                                        <div class="wizard-pane" role="tabpanel">
+                                            <div class="form-group">
+                                                <label class="col-xs-3 control-label">MECHANICS OF COMPETITION</label>
+                                                <div class="col-xs-5">
+                                                    <input type="password" class="form-control" name="password" /> </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </li>
-                                <li>
-                                    <div class="checkbox checkbox-warning">
-                                        <input id="checkbox2" type="checkbox" checked="" class="fxsdr">
-                                        <label for="checkbox2"> Fix Sidebar </label>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="checkbox checkbox-success">
-                                        <input id="checkbox4" type="checkbox" class="open-close">
-                                        <label for="checkbox4"> Toggle Sidebar </label>
-                                    </div>
-                                </li>
-                            </ul>
-                            <ul id="themecolors" class="m-t-20">
-                                <li><b>With Light sidebar</b></li>
-                                <li><a href="javascript:void(0)" theme="default" class="default-theme">1</a></li>
-                                <li><a href="javascript:void(0)" theme="green" class="green-theme">2</a></li>
-                                <li><a href="javascript:void(0)" theme="gray" class="yellow-theme">3</a></li>
-                                <li><a href="javascript:void(0)" theme="blue" class="blue-theme working">4</a></li>
-                                <li><a href="javascript:void(0)" theme="purple" class="purple-theme">5</a></li>
-                                <li><a href="javascript:void(0)" theme="megna" class="megna-theme">6</a></li>
-                                <li><b>With Dark sidebar</b></li>
-                                <br/>
-                                <li><a href="javascript:void(0)" theme="default-dark" class="default-dark-theme">7</a></li>
-                                <li><a href="javascript:void(0)" theme="green-dark" class="green-dark-theme">8</a></li>
-                                <li><a href="javascript:void(0)" theme="gray-dark" class="yellow-dark-theme">9</a></li>
-                                <li><a href="javascript:void(0)" theme="blue-dark" class="blue-dark-theme">10</a></li>
-                                <li><a href="javascript:void(0)" theme="purple-dark" class="purple-dark-theme">11</a></li>
-                                <li><a href="javascript:void(0)" theme="megna-dark" class="megna-dark-theme">12</a></li>
-                            </ul>
-                            <ul class="m-t-20 chatonline">
-                                <li><b>Chat option</b></li>
-                                <li>
-                                    <a href="javascript:void(0)"><img src="../plugins/images/users/varun.jpg" alt="user-img" class="img-circle"> <span>Varun Dhavan <small class="text-success">online</small></span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"><img src="../plugins/images/users/genu.jpg" alt="user-img" class="img-circle"> <span>Genelia Deshmukh <small class="text-warning">Away</small></span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"><img src="../plugins/images/users/ritesh.jpg" alt="user-img" class="img-circle"> <span>Ritesh Deshmukh <small class="text-danger">Busy</small></span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"><img src="../plugins/images/users/arijit.jpg" alt="user-img" class="img-circle"> <span>Arijit Sinh <small class="text-muted">Offline</small></span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"><img src="../plugins/images/users/govinda.jpg" alt="user-img" class="img-circle"> <span>Govinda Star <small class="text-success">online</small></span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"><img src="../plugins/images/users/hritik.jpg" alt="user-img" class="img-circle"> <span>John Abraham<small class="text-success">online</small></span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"><img src="../plugins/images/users/john.jpg" alt="user-img" class="img-circle"> <span>Hritik Roshan<small class="text-success">online</small></span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"><img src="../plugins/images/users/pawandeep.jpg" alt="user-img" class="img-circle"> <span>Pwandeep rajan <small class="text-success">online</small></span></a>
-                                </li>
-                            </ul>
+                                    
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <!-- /.right-sidebar -->
+                <!-- /.row -->
+                <!-- .row -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="white-box p-l-20 p-r-20">
+                            <br>
+                            <!-- Cash Advance Tabs-->
+                            <section class="hiddenTab m-t-40" >
+                                <div class="sttabs tabs-style-linebox">
+                                    <nav>
+                                        <ul>
+                                            <li><a href="#section-linebox-5"><span>Payment Requisition Slip</span></a></li>
+                                            <li><a href="#section-linebox-4"><span>Cash Advance Memo</span></a></li>
+                                            <li><a href="#section-linebox-2"><span>Informal Quotation</span></a></li>
+                                            <li><a href="#section-linebox-3"><span>Participants</span></a></li>
+                                            <li><a href="#section-linebox-5"><span>Mechanics</span></a></li>
+                                            
+                                        </ul>
+                                    </nav>
+                                    <div class="content-wrap">
+                                        <section id="section-linebox-1">
+                                            <form class="form-material form-horizontal">
+                                                <div class="form-group">
+
+                                                    <div class="col-md-6">
+                                                        <input class="form-control form-control-line"  type="text" data-mask="999999" placeholder="PRS number">
+                                                        <span class="help-block"><small>Input the number printed on the top right portion of your Payment Requisition Slip</small></span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-md-12">
+                                                        <textarea class="form-control" rows="5" placeholder="Purpose"></textarea>
+                                                    </div>
+                                                    <span class="help-block"><small>Indicate your purpose for requesting the transaction.</small></span>
+                                                </div>
+                                            </form>
+                                        </section>
+                                        <section id="section-linebox-2">
+                                            <h2>Tabbing 2</h2></section>
+                                        <section id="section-linebox-3">
+                                            <h2>Tabbing 3</h2></section>
+                                        <section id="section-linebox-4">
+                                            <h2>Tabbing 4</h2></section>
+                                        <section id="section-linebox-5">
+                                            <h2>Tabbing 5</h2></section>
+                                    </div>
+                                    <!-- /content -->
+                                </div>
+                                <!-- /tabs -->
+                            </section>
+                            <!-- /Cash Advance Tabs-->
+                            <!-- Direct Payment Preacts Tabs-->
+                            <section class="hiddenTab m-t-40" id="DPPre" >
+                                <div class="sttabs tabs-style-linebox">
+                                    <nav>
+                                        <ul>
+                                            <li><a href="#section-linebox-5"><span>Airline</span></a></li>
+                                            <li><a href="#section-linebox-4"><span>Schedule</span></a></li>
+                                            <li><a href="#section-linebox-2"><span>Deals</span></a></li>
+                                            <li><a href="#section-linebox-3"><span>Drinks</span></a></li>
+                                            <li><a href="#section-linebox-5"><span>Settings</span></a></li>
+                                        </ul>
+                                    </nav>
+                                    <div class="content-wrap text-center">
+                                        <section id="section-linebox-1">
+                                            <h3>Direct Payment with preacts</h3>
+                                            <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
+                                        </section>
+                                        <section id="section-linebox-2">
+                                            <h2>Tabbing 2</h2></section>
+                                        <section id="section-linebox-3">
+                                            <h2>Tabbing 3</h2></section>
+                                        <section id="section-linebox-4">
+                                            <h2>Tabbing 4</h2></section>
+                                        <section id="section-linebox-5">
+                                            <h2>Tabbing 5</h2></section>
+                                    </div>
+                                    <!-- /content -->
+                                </div>
+                                <!-- /tabs -->
+                            </section>
+                            <!-- /Direct Payment Preacts Tabs-->
+                            <!-- Direct Payment Postacts Tabs-->
+                            <section class="hiddenTab m-t-40" id="DPPost" >
+                                <div class="sttabs tabs-style-linebox">
+                                    <nav>
+                                        <ul>
+                                            <li><a href="#section-linebox-5"><span>Airline</span></a></li>
+                                            <li><a href="#section-linebox-4"><span>Schedule</span></a></li>
+                                            <li><a href="#section-linebox-2"><span>Deals</span></a></li>
+                                            <li><a href="#section-linebox-3"><span>Drinks</span></a></li>
+                                            <li><a href="#section-linebox-5"><span>Settings</span></a></li>
+                                        </ul>
+                                    </nav>
+                                    <div class="content-wrap text-center">
+                                        <section id="section-linebox-1">
+                                            <h3>Direct Payment with Postacts</h3>
+                                            <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
+                                        </section>
+                                        <section id="section-linebox-2">
+                                            <h2>Tabbing 2</h2></section>
+                                        <section id="section-linebox-3">
+                                            <h2>Tabbing 3</h2></section>
+                                        <section id="section-linebox-4">
+                                            <h2>Tabbing 4</h2></section>
+                                        <section id="section-linebox-5">
+                                            <h2>Tabbing 5</h2></section>
+                                    </div>
+                                    <!-- /content -->
+                                </div>
+                                <!-- /tabs -->
+                            </section>
+                            <!-- /Direct Payment Postacts Tabs-->
+                            <!-- Reimbursement Tabs-->
+                            <section class="hiddenTab m-t-40" id="RB" >
+                                <div class="sttabs tabs-style-linebox">
+                                    <nav>
+                                        <ul>
+                                            <li><a href="#section-linebox-5"><span>Airline</span></a></li>
+                                            <li><a href="#section-linebox-4"><span>Schedule</span></a></li>
+                                            <li><a href="#section-linebox-2"><span>Deals</span></a></li>
+                                            <li><a href="#section-linebox-3"><span>Drinks</span></a></li>
+                                            <li><a href="#section-linebox-5"><span>Settings</span></a></li>
+                                        </ul>
+                                    </nav>
+                                    <div class="content-wrap text-center">
+                                        <section id="section-linebox-1">
+                                            <h3>Reimbursement</h3>
+                                            <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
+                                        </section>
+                                        <section id="section-linebox-2">
+                                            <h2>Tabbing 2</h2></section>
+                                        <section id="section-linebox-3">
+                                            <h2>Tabbing 3</h2></section>
+                                        <section id="section-linebox-4">
+                                            <h2>Tabbing 4</h2></section>
+                                        <section id="section-linebox-5">
+                                            <h2>Tabbing 5</h2></section>
+                                    </div>
+                                    <!-- /content -->
+                                </div>
+                                <!-- /tabs -->
+                            </section>
+                            <!-- /Reimbursement Tabs-->
+                            <!-- Petty Cash Replenishment Tabs-->
+                            <section class="hiddenTab m-t-40" id="PCR" >
+                                <div class="sttabs tabs-style-linebox">
+                                    <nav>
+                                        <ul>
+                                            <li><a href="#section-linebox-5"><span>Airline</span></a></li>
+                                            <li><a href="#section-linebox-4"><span>Schedule</span></a></li>
+                                            <li><a href="#section-linebox-2"><span>Deals</span></a></li>
+                                            <li><a href="#section-linebox-3"><span>Drinks</span></a></li>
+                                            <li><a href="#section-linebox-5"><span>Settings</span></a></li>
+                                        </ul>
+                                    </nav>
+                                    <div class="content-wrap text-center">
+                                        <section id="section-linebox-1">
+                                            <h3>Petty Cash Replenishment</h3>
+                                            <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
+                                        </section>
+                                        <section id="section-linebox-2">
+                                            <h2>Tabbing 2</h2></section>
+                                        <section id="section-linebox-3">
+                                            <h2>Tabbing 3</h2></section>
+                                        <section id="section-linebox-4">
+                                            <h2>Tabbing 4</h2></section>
+                                        <section id="section-linebox-5">
+                                            <h2>Tabbing 5</h2></section>
+                                    </div>
+                                    <!-- /content -->
+                                </div>
+                                <!-- /tabs -->
+                            </section>
+                            <!-- /Petty Cash Replenishment Tabs-->
+                            <!-- Liquidation(With deposit Tabs-->
+                            <section class="hiddenTab m-t-40" id="LD">
+
+                                <div class="sttabs tabs-style-linebox">
+                                    <nav>
+                                        <ul>
+                                            <li><a href="#section-linebox-5"><span>Airline</span></a></li>
+                                            <li><a href="#section-linebox-4"><span>Schedule</span></a></li>
+                                            <li><a href="#section-linebox-2"><span>Deals</span></a></li>
+                                            <li><a href="#section-linebox-3"><span>Drinks</span></a></li>
+                                            <li><a href="#section-linebox-5"><span>Settings</span></a></li>
+                                        </ul>
+                                    </nav>
+                                    <div class="content-wrap text-center">
+                                        <section id="section-linebox-1">
+                                            <h3>Liquidation(With deposit</h3>
+                                            <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
+                                        </section>
+                                        <section id="section-linebox-2">
+                                            <h2>Tabbing 2</h2></section>
+                                        <section id="section-linebox-3">
+                                            <h2>Tabbing 3</h2></section>
+                                        <section id="section-linebox-4">
+                                            <h2>Tabbing 4</h2></section>
+                                        <section id="section-linebox-5">
+                                            <h2>Tabbing 5</h2></section>
+                                    </div>
+                                    <!-- /content -->
+                                </div>
+                                <!-- /tabs -->
+                            </section>
+                            <!-- /Liquidation(With deposit) Tabs-->
+                            <!-- Liquidation(With reimbursement)-->
+                            <section class="hiddenTab m-t-40" id="LR">
+
+                                <div class="sttabs tabs-style-linebox">
+                                    <nav>
+                                        <ul>
+                                            <li><a href="#section-linebox-5"><span>Airline</span></a></li>
+                                            <li><a href="#section-linebox-4"><span>Schedule</span></a></li>
+                                            <li><a href="#section-linebox-2"><span>Deals</span></a></li>
+                                            <li><a href="#section-linebox-3"><span>Drinks</span></a></li>
+                                            <li><a href="#section-linebox-5"><span>Settings</span></a></li>
+                                        </ul>
+                                    </nav>
+                                    <div class="content-wrap text-center">
+                                        <section id="section-linebox-1">
+                                            <h3>Liquidation with reimbursement</h3>
+                                            <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
+                                        </section>
+                                        <section id="section-linebox-2">
+                                            <h2>Tabbing 2</h2></section>
+                                        <section id="section-linebox-3">
+                                            <h2>Tabbing 3</h2></section>
+                                        <section id="section-linebox-4">
+                                            <h2>Tabbing 4</h2></section>
+                                        <section id="section-linebox-5">
+                                            <h2>Tabbing 5</h2></section>
+                                    </div>
+                                    <!-- /content -->
+                                </div>
+                                <!-- /tabs -->
+                            </section>
+                            <!-- /Liquidation(With reimbursement) Tabs-->
+                            <!-- Book Transfer Tabs-->
+                            <section class="hiddenTab m-t-40" id="BT">
+
+                                <div class="sttabs tabs-style-linebox">
+                                    <nav>
+                                        <ul>
+                                            <li><a href="#section-linebox-5"><span>Airline</span></a></li>
+                                            <li><a href="#section-linebox-4"><span>Schedule</span></a></li>
+                                            <li><a href="#section-linebox-2"><span>Deals</span></a></li>
+                                            <li><a href="#section-linebox-3"><span>Drinks</span></a></li>
+                                            <li><a href="#section-linebox-5"><span>Settings</span></a></li>
+                                        </ul>
+                                    </nav>
+                                    <div class="content-wrap text-center">
+                                        <section id="section-linebox-1">
+                                            <h3>Book Transfer</h3>
+                                            <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
+                                        </section>
+                                        <section id="section-linebox-2">
+                                            <h2>Tabbing 2</h2></section>
+                                        <section id="section-linebox-3">
+                                            <h2>Tabbing 3</h2></section>
+                                        <section id="section-linebox-4">
+                                            <h2>Tabbing 4</h2></section>
+                                        <section id="section-linebox-5">
+                                            <h2>Tabbing 5</h2></section>
+                                    </div>
+                                    <!-- /content -->
+                                </div>
+                                <!-- /tabs -->
+                            </section>
+                            <!-- /Book Transfer Tabs-->
+
+
+                            </div>
+                    </div>
+                </div>
+                <!-- /.row -->
+
             </div>
             <!-- /.container-fluid -->
             <footer class="footer text-center"> 2017 &copy; Elite Admin brought to you by themedesigner.in </footer>
@@ -442,7 +785,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script type="text/javascript" src="../plugins/bower_components/multiselect/js/jquery.multi-select.js"></script>
     <!--Style Switcher -->
     <script src="../plugins/bower_components/styleswitcher/jQuery.style.switcher.js"></script>
-    
+    <script src="js/cbpFWTabs.js"></script>
+    <!-- Input mask-->
+    <script src="js/mask.js"></script>
+    <!-- Form Wizard JavaScript -->
+    <script src="../plugins/bower_components/jquery-wizard-master/dist/jquery-wizard.min.js"></script>
+    <!-- FormValidation -->
+    <link rel="stylesheet" href="../plugins/bower_components/jquery-wizard-master/libs/formvalidation/formValidation.min.css">
+    <!-- FormValidation plugin and the class supports validating Bootstrap form -->
+    <script src="../plugins/bower_components/jquery-wizard-master/libs/formvalidation/formValidation.min.js"></script>
+    <script src="../plugins/bower_components/jquery-wizard-master/libs/formvalidation/bootstrap.min.js"></script>
+    <script src="js/newTransaction.js"></script>
+
+    <script type="text/javascript">
+    (function() {
+        [].slice.call(document.querySelectorAll('.sttabs')).forEach(function(el) {
+            new CBPFWTabs(el);
+        });
+    })();
+    </script>
 
     <script>
     jQuery(document).ready(function() {
@@ -455,6 +816,65 @@ scratch. This page gets rid of all links and provides the needed markup only.
     });
 
     </script>
+    <!--
+    <script>
+    jQuery(document).ready(function() {
+        $('#transaction').on('change', function() {
+            /*
+            <option value="1">Cash Advance</option> id = CA
+            <option value="2">Direct Payment (Pre-acts)</option> id = DPPre
+            <option value="3">Direct Payment (Post-acts)</option> id = DPPost
+            <option value="4">Reimbursement</option> id = RB
+            <option value="5">Petty Cash Replenishment</option> id = PCR
+            <option value="6">Book Transfer</option> id = BT
+            <option value="7">Liquidation(With deposit)</option> id = LD
+            <option value="8">Liquidation(With reimbursement)</option> id = LR
+            */
+            var val = $(this).val();
+            switch (val) {
+                case '1'://cash advance
+                   $('.m-t-40').hide();
+                   $('#CA').show();
+                   console.log(val);
+                    break;
+                case '2':
+                    $('.m-t-40').hide();
+                    $('#DPPre').show();
+                    break;
+                case '3':
+                    $('.m-t-40').hide();
+                    $('#DPPost').show();
+                    break;
+                case '4':
+                    $('.m-t-40').hide();
+                    $('#RB').show();
+                    break;
+                case '5':
+                    $('.m-t-40').hide();
+                    $('#PCR').show();
+                    break;
+                case '6':
+                    $('.m-t-40').hide();
+                    $('#BT').show();
+                    break;
+                case '7':
+                    $('.m-t-40').hide();
+                    $('#LD').show();
+                    break;
+                case '8':
+                    $('.m-t-40').hide();
+                    $('#LR').show();
+                    break;
+                default:
+                    $('.m-t-40').hide();
+                    break;
+            }
+         });
+    });
+    </script>
+    -->
+
+
    
 </body>
 
