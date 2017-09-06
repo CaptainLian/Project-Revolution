@@ -66,13 +66,16 @@ module.exports = function(database, models, queryFiles){
 									});
 							}
 							else{
+								console.log("ELSE");
 
 								var gosmID = data.id;
 
 
 								dbParam = {
-									GOSM: gosmID
-								}
+									gosm: gosmID
+								};
+
+								console.log(dbParam);
 
 								Promise.all([gosmModel.getAllActivityTypes(), gosmModel.getAllActivityNature(), gosmModel.getGOSMActivities(dbParam)])
 									.then(data => {
