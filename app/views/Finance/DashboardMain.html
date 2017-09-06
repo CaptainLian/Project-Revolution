@@ -1,0 +1,105 @@
+{% extends "../template/Finance/Dashboard.html" %}
+
+
+{%block styles%}
+	<link href="css/custom.css" rel="stylesheet">
+    <style type="text/css">
+
+    </style>
+
+
+{%endblock%}
+
+{%block header%}
+	{%include "../section/header.html"%}
+{%endblock%}
+
+{%block sidebar%}
+	{%include "../section/sidebar/cso-finance.html"%}
+{%endblock%}
+
+
+{%block content%}
+<div class="row">
+
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="white-box">
+                    <h3 class="box-title">APPROVED TRANSACTIONS</h3>
+                    <ul class="list-inline two-part">
+                        <li><i class="linea-icon linea-aerrow text-success" data-icon="&#xe007;"></i></li>
+                        <li class="text-right text-success"><span class="counter">23</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="white-box">
+                    <h3 class="box-title">PENDING TRANSACTIONS</h3>
+                    <ul class="list-inline two-part">
+                        <li><i class="linea-icon linea-aerrow text-warning"  data-icon="&#xe027;"></i></li>
+                        <li class="text-right text-warning"><span class="counter">169</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="white-box">
+                    <h3 class="box-title">DENIED TRANSACTIONS</h3>
+                    <ul class="list-inline two-part">
+                        <li><i class="linea-icon linea-aerrow text-danger" data-icon="&#xe016;"></i></li>
+                        <li class="text-right text-danger"><span class="">311</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="white-box">
+                    <h3 class="box-title">CANCELLED TRANSACTIONS</h3>
+                    <ul class="list-inline two-part">
+                        <li><i class="linea-icon linea-aerrow text-danger" data-icon="&#xe00e;"></i></li>
+                        <li class="text-right text-danger"><span class="">117</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- cash inflow and outflow-->
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="white-box">
+                    <h3 class="box-title">CASH INFLOW</h3>
+                    <ul class="list-inline two-part">
+                        <li><i class="linea-icon linea-ecommerce text-success" data-icon="p"></i></li>
+                        <li class="text-right text-success"><span class="counter">23</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="white-box">
+                    <h3 class="box-title">CASH OUTFLOW</h3>
+                    <ul class="list-inline two-part">
+                        <li><i class="linea-icon linea-ecommerce text-danger"  data-icon="v"></i></li>
+                        <li class="text-right text-danger"><span class="counter">169</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="white-box">
+                    <h3 class="box-title">ORGANIZATION FUND</h3>
+                    <ul class="list-inline two-part">
+                        <li><i class="linea-icon linea-ecommerce text-info"  data-icon="k"></i></li>
+                        <li class="text-right text-info"><span class="counter">169</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{%endblock%}
+
+{%block scripts%}
+
+{%endblock%}

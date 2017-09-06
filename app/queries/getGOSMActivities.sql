@@ -1,3 +1,8 @@
 SELECT *
+<<<<<<< HEAD
   FROM GOSMACTIVITY
  WHERE GOSM = ${GOSM};
+=======
+  FROM GOSMACTIVITIES
+ WHERE gosm = ${GOSM};
+>>>>>>> 878fbea742210bc2d92b1dda0281e34f139c3b19
