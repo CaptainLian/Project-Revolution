@@ -1091,6 +1091,20 @@
                     };
 
                     console.log(pprData);
+                    $.ajax({
+                        type:'POST',
+                        url:'/activityRequirements',
+                        data: {
+                            context : $("textarea").val(),
+                            sched: JSON.stringify(sched),
+                            exp: JSON.stringify(exp),
+                            funds: JSON.stringify(funds)
+                        },
+                        datatype:'json',
+                        success:function(){
+
+                        }
+                    });
 
                     alert('finish');
                 }

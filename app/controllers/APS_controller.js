@@ -257,10 +257,10 @@ module.exports = function(database, models, queryFiles){
 		
 		inputActivityRequirements: (req, res) => {
 
-			console.log(req.body);
+			console.log(req.body.sched);
 
 			//step 1
-			var perspective = req.body.perspective;
+			var context = req.body.context;
 			
 			//step 2
 			var date = [];
