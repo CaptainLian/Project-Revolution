@@ -8,22 +8,22 @@
     SweetAlert.prototype.init = function() {
         
     //Basic
-    $('#sa-basic').click(function(){
+    $('.sa-basic').click(function(){
         swal("Here's a message!");
     });
 
     //A title with a text under
-    $('#sa-title').click(function(){
+    $('.sa-title').click(function(){
         swal("Here's a message!", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lorem erat eleifend ex semper, lobortis purus sed.")
     });
 
     //Success Message
-    $('#sa-success').click(function(){
+    $('.sa-success').click(function(){
         swal("Good job!", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lorem erat eleifend ex semper, lobortis purus sed.", "success")
     });
 
     //Warning Message
-    $('#sa-warning').click(function(){
+    $('.sa-warning').click(function(){
         swal({   
             title: "Are you sure?",   
             text: "Clicking Yes will ",   
@@ -38,7 +38,7 @@
     });
 
     //Approve Activity
-    $('#sa-approve').click(function(){
+    $('.sa-approve').click(function(){
         swal({   
             title: "Approve Activity?",   
             text: "Clicking confirm will approve the activity",   
@@ -52,7 +52,7 @@
         });
     });
     //Pend Activity
-    $('#sa-pend').click(function(){
+    $('.sa-pend').click(function(){
         swal({   
             title: "Pend this Activity?",   
             text: "<textarea id='text' placeholder='Write the reason why'></textarea>",
@@ -67,7 +67,7 @@
         });
     });
     //Deny Activity
-    $('#sa-deny').click(function(){
+    $('.sa-deny').click(function(){
         swal({   
             title: "Deny this activity?",   
             text: "<textarea id='text1' placeholder='Write the reason why'></textarea>",
