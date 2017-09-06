@@ -8,7 +8,7 @@ module.exports = function (app, controllers){
 	router.post('/createGOSM', controllers.APS_controller.inputCreateGOSM);
 	router.post('deleteActivity', controllers.APS_controller.deleteActivity);
 
-	router.post('/submitGOSM', controllers.APS_controller.submitGOSM);
+	// router.post('/submitGOSM', controllers.APS_controller.submitGOSM);
 	router.get('/viewOrglist', controllers.APS_controller.viewOrglist);
 	router.get('/viewOrgGOSM/', function(req, res){
 		res.redirect('/viewOrglist');

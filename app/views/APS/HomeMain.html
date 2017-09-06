@@ -46,13 +46,13 @@
 <div class="row">
     <div class="col-md-12 col-lg-8 col-sm-12">
         <div class="white-box">
-            <h3 class="box-title">Project
+            <h3 class="box-title">Activity
               <div class="col-md-3 col-sm-3 col-xs-3 pull-right">
-                <select class="form-control pull-right row b-none">
-                  <option>All</option>
-                  <option>Denied</option>
-                  <option>Pending</option>
-                  <option>Success</option>
+                <select id="project-status" class="form-control pull-right row b-none">
+                  
+                  <option value="den">Denied</option>
+                  <option value="pen">Pending</option>
+                  <option value="app">Approved</option>
                   
                 </select>
               </div>
@@ -62,45 +62,44 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th>NAME</th>
+                            
+                            <th width="85%">NAME</th>
+                            <th width="15%" class="text-center">Actions</th>
                             
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
+                        <tr class="den">                           
                             <td class="txt-oflo">Elite admin</td>                                          
+                            <td class="text-center">
+                                <a  data-toggle="tooltip" data-original-title="View Comments"> <i db-id="{{activities.id}}" db-startyear="{{activities.startyear}}" db-endyear="{{activities.endyear}}" db-studentorg="{{activities.studentorganization}}" class="fa fa-comment-o text-inverse m-r-10"></i> </a>
+                            </td>
                         </tr>
-                        <tr>
-                            <td>2</td>
-                            <td class="txt-oflo">Real Homes WP Theme</td>                                            
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td class="txt-oflo">Medical Pro WP Theme</td>
-                            
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td class="txt-oflo">Hosting press html</td>
+                        <tr class="app">
                            
+                            <td class="txt-oflo">Project Elixir</td>
+                            <td class="text-center">
+                               &nbsp
+                            </td>
+
+
+
                         </tr>
-                        <tr>
-                            <td>5</td>
-                            <td class="txt-oflo">Helping Hands WP Theme</td>
-                            
-                        </tr>
-                        <tr>
-                            <td>6</td>
-                            <td class="txt-oflo">Digital Agency PSD</td>
-                            
-                        </tr>
-                        <tr>
-                            <td>7</td>
-                            <td class="txt-oflo">Helping Hands WP Theme</td>
+                        <tr class="pen">
                            
+                            <td class="txt-oflo">EProject Revolution</td>
+                            <td class="text-center">
+                                <a  data-toggle="tooltip" data-original-title="View Comments"> <i db-id="{{activities.id}}" db-startyear="{{activities.startyear}}" db-endyear="{{activities.endyear}}" db-studentorg="{{activities.studentorganization}}" class="fa fa-comment-o text-inverse m-r-10"></i> </a>
+                            </td>                                          
                         </tr>
+                        <tr class="app">
+                        
+                            <td class="txt-oflo">Project Genesis</td>
+                            <td class="text-center">
+                               &nbsp
+                            </td>                                            
+                        </tr>
+                        
                     </tbody>
                 </table> 
                 </div>
@@ -108,19 +107,27 @@
     </div>
     <div class="col-md-12 col-lg-4 col-sm-12">
         <div class="white-box">
-            <h3 class="box-title">Recent Comments</h3>
+            <h3 class="box-title">Comments</h3>
             <div class="comment-center" style="height: 420px;overflow-y: auto">
                 <!-- PENDING -->
                 <div class="comment-body pending">
                     <div class="user-img"> <img src="../plugins/images/users/pawandeep.jpg" alt="user" class="img-circle"></div>
                     <div class="mail-contnet">
-                        <h5>Pavan kumar</h5> <span class="mail-desc">Donec ac condimentum massa. Etiam pellentesque pretium lacus. Phasellus ultricies dictum suscipit. Aenean commodo dui pellentesque molestie feugiat.</span> <span class="label label-rouded label-info">PENDING</span><a href="javacript:void(0)" class="action"></a><span class="time pull-right">April 14, 2017</span></div>
+                        <h5>Pavan kumar</h5> <span class="mail-desc">
+                        Donec ac condimentum massa. Etiam pellentesque pretium lacus. Phasellus ultricies dictum suscipit. Aenean commodo dui pellentesque molestie feugiat.
+                        Donec ac condimentum mazxcssa. Etiam pellentesque pretium lacus. Phasellus ultricies dictum suscipit. Aenean commodo dui pellentesque molestie feugiat.
+                        Donec ac condimentum massa. Etiam pellentesque pretium lacus. Phasellus ultricies dictum suscipit. Aenean commodo dui pellentesque molestie feugiat.
+                        Donec ac condimentum mazxcssa. Etiam pellentesque pretium lacus. Phasellus ultricies dictum suscipit. Aenean commodo dui pellentesque molestie feugiat.
+                        Donec ac condimentum massa. Etiam pellentesque pretium lacus. Phasellus ultricies dictum suscipit. Aenean commodo dui pellentesque molestie feugiat.
+                        Donec ac condimentum mazxcssa. Etiam pellentesque pretium lacus. Phasellus ultricies dictum suscipit. Aenean commodo dui pellentesque molestie feugiat.
+
+                        </span> <span class="label label-rouded label-warning">PENDING</span><a href="javacript:void(0)" class="action"></a><span class="time pull-right">April 14, 2017</span></div>
                 </div>  
                 <!-- DENIED -->
                 <div class="comment-body denied">
                     <div class="user-img"> <img src="../plugins/images/users/pawandeep.jpg" alt="user" class="img-circle"></div>
                     <div class="mail-contnet">
-                        <h5>Pavan kumar</h5> <span class="mail-desc">Donec ac condimentum massa. Etiam pellentesque pretium lacus. Phasellus ultricies dictum suscipit. Aenean commodo dui pellentesque molestie feugiat.</span> <span class="label label-rouded label-info">PENDING</span><a href="javacript:void(0)" class="action"></a><span class="time pull-right">April 14, 2017</span></div>
+                        <h5>Pavan kumar</h5> <span class="mail-desc">Donec ac condimentum massa. Etiam pellentesque pretium lacus. Phasellus ultricies dictum suscipit. Aenean commodo dui pellentesque molestie feugiat.</span> <span class="label label-rouded label-danger">DENIED</span><a href="javacript:void(0)" class="action"></a><span class="time pull-right">April 14, 2017</span></div>
                 </div>        
 
             </div>
@@ -131,5 +138,50 @@
 {%endblock%}
 
 {%block scripts%}
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('select').trigger('change');
+        $('select').val('den');
+
+    });
+
+
+    $("select").change(function(){
+        if($(this).val() == 'pen'){
+            $("tr.pen").css('display','');
+            $("tr.app").css('display','none');
+            $("tr.den").css('display','none');
+
+            $("div.pending").css('display','');
+            $("div.denied").css('display','none');
+
+            $('.comment-center').removeClass("flash animated").addClass("flash animated").one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+                $(this).removeClass("flash animated");
+            });
+        }else if($(this).val() == 'app'){
+            $("tr.pen").css('display','none');
+            $("tr.app").css('display','');
+            $("tr.den").css('display','none');
+
+
+             $("div.pending").css('display','none');
+            $("div.denied").css('display','none');
+
+        }else if($(this).val() == 'den'){
+            $("tr.pen").css('display','none');
+            $("tr.app").css('display','none');
+            $("tr.den").css('display','');
+
+
+            $("div.pending").css('display','none');
+            $("div.denied").css('display','');
+
+            $('.comment-center').removeClass("shake animated").addClass("shake   animated").one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+                $(this).removeClass("shake animated");
+            });
+
+        }
+    });
+</script>
 
 {%endblock%}
