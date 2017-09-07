@@ -1,3 +1,4 @@
+[BACK-END]
 https://help.ubuntu.com/community/CustomizingBashPrompt
 
 https://www.npmjs.com/package/dateformat
@@ -6,3 +7,7 @@ https://www.npmjs.com/package/squel
 https://hiddentao.com/squel/
 
 https://mozilla.github.io/nunjucks/templating.html
+
+
+[FRONT-END]
+https://sweetalert.js.org/

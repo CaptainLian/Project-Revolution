@@ -1,8 +1,12 @@
 {% extends "../template/APS/AssociateOrg.html" %}
 
+{%block meta%}
+    <meta data-name="GOSM" data-id="{{GOSMID}}" />
+{%endblock%}
 
 {%block styles%}
-	<link href="/css/custom.css" rel="stylesheet">
+    <link href="/css/ViewOrgGOSM.css" rel="stylesheet" />
+    <link href="/css/custom.css" rel="stylesheet" />
 {%endblock%}
 
 {%block header%}
@@ -13,13 +17,13 @@
 	{%include "../section/sidebar/cso-aps.html"%}
 {%endblock%}
 {%block pre_js%}
-<script type="text/javascript" src="/js/APS/ORGGOSM.js" defer="defer"></script>
+    <script type="text/javascript" src="/js/APS/ORGGOSM.js" defer="defer"></script>
 {%endblock%}
 {%block content%}
 <div class="row">
     <div class="col-sm-12">
         <div class="white-box">
-            <h3 class="box-title m-b-0">GOSM of La Salle Computer Society</h3>
+            <h3 class="box-title m-b-0">GOSM of {{organizationName}}</h3>
 
             <div class="table-responsive">
 
@@ -43,9 +47,9 @@
 
                 <div class="text-center">
                     <h4>Actions</h4>
-                    <button id="btn_approve" class="btn btn-success" type="">Approve</button>
-                    <button id="btn_pend" class="btn btn-warning" type="">Pend</button>
-                    <button id="btn_deny" class="btn btn-danger" type="">Deny</button>
+                    <button id="btn_approve" class="btnGosm btn btn-success btn-rounded sa-approve" alt="alert">Approve</button>
+                    <button id="btn_pend" class="btn btn-warning btn-rounded sa-pend btnGosm" alt="alert">Pend</button>
+                    <button id="btn_deny" class="btn btn-danger btn-rounded sa-deny btnGosm" alt="alert">Deny</button>
                 </div>
             </div>
         </div>
@@ -57,7 +61,6 @@
 
     </div>
 </div>
-
 
 <!--modals-->
 <div class="modal fade bs-example-modal-lg" id="sampleModal" tabindex="-1" role="dialog" aria-labelledby="sampleModal" aria-hidden="true" style="display: none;">
@@ -84,21 +87,21 @@
                                         <tbody>
                                             <tr>
                                                 <th>
-												    Type of Activity:
+                                                    Type of Activity:
                                                 </th>
                                                 <td colspan="2">
-        											<span id="modal_type"></span>
-        										</td>
+                                                    <span id="modal_type"></span>
+                                                </td>
                                                 <th></th>
                                                 <td colspan="2"></td>
                                             </tr>
                                             <tr>
                                                 <th>
-    												Nature of Activity:
-    											</th>
-    											<td colspan="2">
-    												<span id="modal_nature"></span>
-    											</td>
+                                                    Nature of Activity:
+                                                </th>
+                                                <td colspan="2">
+                                                    <span id="modal_nature"></span>
+                                                </td>
                                                 <th></th><td colspan="2"></td>
                                             </tr>
                                             <tr>
@@ -145,7 +148,6 @@
     <!-- /.modal-dialog -->
 </div>
 <!--/modals-->
-
 {%endblock%}
 
 {%block scripts%}

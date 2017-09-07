@@ -1,6 +1,9 @@
-const dateFormat = require('dateformat');
-const logger = global.logger;
+'use strict';
 
+const dateFormat = require('dateformat');
+
+const logger = global.logger;
+const log_options = {from: 'APS-Controller'};
 module.exports = function(database, models, queryFiles){
 
 	const gosmModel = models.gosmModel;
@@ -54,7 +57,7 @@ module.exports = function(database, models, queryFiles){
 												})
 												.catch(error => {
 													console.log(error);
-													res('ERROR');
+													res.send('ERROR');
 												});
 											})
 											.catch(error =>{
@@ -71,7 +74,7 @@ module.exports = function(database, models, queryFiles){
 								var gosmID = data.id;
 
 
-								dbParam = {
+								var dbParam = {
 									gosm: gosmID
 								};
 
@@ -87,7 +90,7 @@ module.exports = function(database, models, queryFiles){
 									})
 									.catch(error => {
 										console.log(error);
-										res('ERROR');
+										res.send('ERROR');
 									});
 							}
 						})
@@ -209,9 +212,9 @@ module.exports = function(database, models, queryFiles){
 													console.log(error);
 												});
 										}
+										res.send(data.activityid+'');
 
-
-										res.send("1");
+										
 									})
 									.catch(error =>{
 										res.send("0");
@@ -228,26 +231,33 @@ module.exports = function(database, models, queryFiles){
 				});
 		},
 		deleteActivity: (req,res)=>{
-
+			
 			var dbParam = {
 				id: req.body.dbid
 			};
+			console.log("TO DELETE");
+			console.log(dbParam);
 
 			gosmModel.deleteActivity(dbParam)
 				.then(data =>{
+					
+					res.send("1");
 
 				})
 				.catch(error =>{
+
 					console.log(error);
+					res.send('0');
+
+					logger.error(error, log_options);
+
 				});
-
-
 		},
 
 		viewOrglist:( req, res) =>{
 			gosmModel.getAllCurrent()
 				.then(GOSMList => {
-					console.log(GOSMList);
+					logger.debug(`Displaying GOSM list: ${JSON.stringify(GOSMList)}`, log_options);
 					res.render('APS/OrglistMain', {GOSMList: GOSMList});
 				})
 				.catch(error => {
@@ -337,22 +347,23 @@ module.exports = function(database, models, queryFiles){
 		},
 
 		viewOrgGOSM :( req, res)=>{
-			let organizationID = req.params.orgID;
-			let GOSMID = req.params.GOSMID;
+			const organizationID = req.params.orgID;
+			const GOSMID = req.params.GOSMID;
 
-			logger.debug(`Viewing GOSM of ID: ${GOSMID} of Organization: ${organizationID}`);
+			logger.debug(`Viewing GOSM of ID: ${GOSMID} of Organization: ${organizationID}`, log_options);
 
 			database.task( t => {
 				return t.batch([
 					organizationModel.getOrganizationInformation(organizationID, 'name', t),
-					gosmModel.getActivitiesFromID(GOSMID, ['id', 'strategies', 'targetDateStart'], t)
+					gosmModel.getActivitiesFromID(GOSMID, ['id', 'strategies', ["to_char(targetDateStart, 'Mon DD, YYYY')",'targetDateStart']], t)
 				]);
 			})
 			.then(data => {
-				logger.debug(JSON.stringify(data));
+				logger.debug(JSON.stringify(data), log_options);
 				res.render('APS/OrgGOSMMain', {
 					organizationName: data[0].name,
-					GOSMActivities: data[1]
+					GOSMActivities: data[1],
+					GOSMID: GOSMID
 				});
 			})
 			.catch( error => {
@@ -362,7 +373,29 @@ module.exports = function(database, models, queryFiles){
 
 		activityList :(req, res)=>{
 			res.render('APS/ActivityListMain');
+
 		},
+		getActivityDetails : (req,res)=>{
+			console.log("GET ACTIVITY DETAILS");
+
+			console.log(req.body.dbid);
+			Promise.all([gosmModel.getActivityDetails(req.body.dbid), 
+						 gosmModel.getActivityProjectHeads(req.body.dbid)])
+			.then(data=>{
+				res.send(data);
+			}).catch(err=>{
+
+			});
+
+			// gosmModel.getActivityDetails().then(data=>{
+			// 	console.log(data);
+			// 	res.send(data);
+			// }).catch(err=>{
+
+			// });
+
+		},
+
 
 	};
 };
