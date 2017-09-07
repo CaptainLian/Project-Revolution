@@ -471,6 +471,25 @@
                     "dbid" : trRow,
                 },
                 success:function(data){
+                    $("#strategy").val(data[0].strategies);
+                    $("#goals").val(data[0].goals);
+                    var objectives = $("input[name='objectives[]']")
+                          .map(function(){return $(this).val();}).get();
+                    $("textarea").val(data[0].description);
+                    $("#measures").val(data[0].measures);
+                    // var targetDateStart = $("#targetDateStart").val();
+                    // var targetDateEnd = $("#targetDateEnd").val();
+                    // var activityType = $("#activity-type").val();
+                    // var othersDescription = $("#othersDescription").val();
+                    // var natureType =  $("#nature-type").val();
+                    // var personInCharge = $("select[name='personInCharge[]']")
+                    //       .map(function(){return $(this).val();}).get();
+                    $("#isRelatedToOrganization").val(data[0].isrelatedorganizationnature);
+                    $("#budget").val(data[0].budget);
+
+
+
+
                     $("#add-gosm").css("display","none");
                     $("#edit-gosm").css("display","");
                     $("#cancel-gosm").css("display","");
