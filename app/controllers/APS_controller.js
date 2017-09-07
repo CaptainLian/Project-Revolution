@@ -256,8 +256,28 @@ module.exports = function(database, models, queryFiles){
 		},
 		
 		inputActivityRequirements: (req, res) => {
+			var sched = JSON.parse(req.body.sched);
+			console.log(sched);
+			var exp = JSON.parse(req.body.exp);
+			var funds = JSON.parse(req.body.funds);
+			// var sched = sched[0]
+			console.log(sched);
+			// console.log(sched.time[1].start);
 
-			console.log(req.body.sched);
+			for (var i = 0; i < sched.length; i++){
+				for (var j = 0; j < sched[i].length; j++){
+					dbParam = {
+						date: sched[i].date,
+						startTime: sched[i].time[j].start,
+						endTime: sched[i].time[j].end,
+						activity: sched[i].time[j].actName,
+						activityDescription: sched[i].time[j].actDesc,
+						personInCharge: sched[i].time[j].pic
+					}
+
+					//insert
+				}
+			}
 
 			//step 1
 			var context = req.body.context;
