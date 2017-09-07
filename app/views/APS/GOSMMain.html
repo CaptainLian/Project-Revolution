@@ -473,12 +473,17 @@
             },
             success:function(data){
                 $("#modal-strat").text(data.strategies);
-                $("#modal-starttime").text(data.targetdatestart);
-                $("#modal-endtime").text(data.targetdateend);
+               
                 $("#modal-goals").text(data.goals);
                 $("#modal-desc").text(data.description);
                 $("#modal-measures").text(data.measures);
                 $("#modal-budget").text(data.budget);
+                var day = new Date(data.targetdatestart);
+                var startday = day.getMonth()+'/'+day.getDay()+ '/'+day.getFullYear();
+                var day2 = new Date(data.targetdateend);
+                var endday = day2.getMonth()+'/'+day2.getDay()+ '/'+day2.getFullYear();
+                 $("#modal-starttime").text(startday);
+                $("#modal-endtime").text(endday);
 
 
                 
