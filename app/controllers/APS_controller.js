@@ -343,7 +343,8 @@ module.exports = function(database, models, queryFiles){
 				logger.debug(JSON.stringify(data), log_options);
 				res.render('APS/OrgGOSMMain', {
 					organizationName: data[0].name,
-					GOSMActivities: data[1]
+					GOSMActivities: data[1],
+					GOSMID: GOSMID
 				});
 			})
 			.catch( error => {

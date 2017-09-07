@@ -266,7 +266,6 @@ CREATE TABLE ProjectProposal (
     status INTEGER NOT NULL REFERENCES ProjectProposalStatus(id) DEFAULT 1,
     ENP INTEGER,
     ENMP INTEGER,
-    targetDate DATE,
     venue TEXT,
     contactNumber VARCHAR(16),
     accumulatedOperationalFunds NUMERIC(16, 4),
@@ -322,6 +321,8 @@ CREATE TRIGGER before_insert_ProjectProposal
 DROP TABLE IF EXISTS ProjectProposalProgramDesign CASCADE;
 CREATE TABLE ProjectProposalProgramDesign (
     projectProposal INTEGER REFERENCES ProjectProposal(id),
+    dayID INTEGER,
+    date DATE,
     sequence INTEGER,
     startTime TIME WITH TIME ZONE,
     endTime TIME WITH TIME ZONE,
@@ -329,7 +330,7 @@ CREATE TABLE ProjectProposalProgramDesign (
     activityDescription TEXT,
     personInCharge VARCHAR(60)[],
 
-    PRIMARY KEY (projectProposal, sequence),
+    PRIMARY KEY (projectProposal, dayID, sequence),
     CHECK(startTime < endTime)
 );
 CREATE OR REPLACE FUNCTION trigger_before_insert_ProjectProposalProgramDesign()
