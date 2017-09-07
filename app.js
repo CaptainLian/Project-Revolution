@@ -186,6 +186,7 @@ logger.info('Loading Routes Complete\n');
 
 /*
 Load post-middlewares
+Wet code :(
  */
 logger.info('Loading Post-middlewares');
 var requirePost_Middlewares = requireDir(global.config.webserver.post_middlewares.path);
@@ -211,4 +212,5 @@ for(let key in requirePost_Middlewares){
 logger.info('Loading Post-middlewares Complete\n');
 
 logger.info('Server Initialization Complete');
+
 module.exports = app;

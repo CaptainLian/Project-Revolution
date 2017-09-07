@@ -10,6 +10,8 @@ const bcrypt = require('bcryptjs');
 const selfsigned = require('selfsigned');
 const crypto2 = require('crypto2');
 
+const logger = global.logger;
+const log_options = {from: 'Account'};
 module.exports = function(database, models, queryFiles) {
 
     const accountModel = models.Account_model;
@@ -17,7 +19,6 @@ module.exports = function(database, models, queryFiles) {
     return {
 
         viewLogin: (req, res) => {
-            req.session.user="Neil";
             res.render('System/LoginMain');
         },
 
@@ -30,7 +31,7 @@ module.exports = function(database, models, queryFiles) {
 
         checkLogin: (req, res) => {
             let input = req.body;
-            console.log(input);
+            logger.debug(`Login attempt input: ${JSON.stringify(input)}`, log_options);
             //parse id number
             let credential = parseInt(input.credential);
             let credentialFloat = parseFloat(input.credential);
@@ -55,35 +56,34 @@ module.exports = function(database, models, queryFiles) {
 
             if (valid) {
                 database.one(query.toString(), {
-                        credential: input.credential
-                    })
-                    .then(account => {
-                        console.log(account);
-                        if (account.password === bcrypt.hashSync(input.password, account.salt)) {
-                            console.log('Enter!!');
-                            req.session.user = account.email;
-                            req.session.valid = true;
-                            req.session.save(() => {});
-                            res.send({
-                                valid: true,
-                                route: '/'
-                            });
-                        } else {
-                            console.log('incorrect Password');
-                            res.send({
-                                valid: false
-                            });
-                        }
-                    })
-                    .catch(error => {
-                        console.log(error);
-                        console.log('Account does not exists');
+                    credential: input.credential
+                })
+                .then(account => {
+                    logger.debug(`Account found: ${JSON.stringify(account)}`, log_options);
+                    if (account.password === bcrypt.hashSync(input.password, account.salt)) {
+                        console.log('Enter!!');
+                        req.session.user = account.email;
+                        req.session.valid = true;
+                        req.session.save(() => {});
+                        res.send({
+                            valid: true,
+                            route: '/'
+                        });
+                    } else {
+                        logger.debug('Incorrect password');
                         res.send({
                             valid: false
                         });
+                    }
+                })
+                .catch(error => {
+                    logger.debug('Account not exist');
+                    res.send({
+                        valid: false
                     });
+                });
             } else {
-                console.log('incorrect value');
+                logger.debug('Aguy input');
                 res.send({
                     valid: false
                 });
