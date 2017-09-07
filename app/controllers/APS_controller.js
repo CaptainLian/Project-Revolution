@@ -187,7 +187,7 @@ module.exports = function(database, models, queryFiles){
 							else{
 							//insert to db
 								gosmModel.insertProposedActivity(dbParam)
-									.then(data =>{
+									.then(data =>{   
 
 										console.log(data.activityid);
 
@@ -212,6 +212,7 @@ module.exports = function(database, models, queryFiles){
 													console.log(error);
 												});
 										}
+										
 										res.send(data.activityid+'');
 
 										

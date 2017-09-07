@@ -439,6 +439,24 @@
     //     console.log("EDIT");
     //     $(this).find("i.fa-eye").click();
     // });
+
+    //CLEAR INPUT 
+    function clear(){
+         $("#strategy").val('');
+            $("#goals").val('');
+            var objectives = $("input[name='objectives[]']")
+                  .map(function(){return $(this).val();}).get();
+            $("textarea").val('');
+            $("#measures").val('');
+            $("#targetDateStart").val('');
+            $("#targetDateEnd").val('');
+            // var activityType = $("#activity-type").val();
+            // var othersDescription = $("#othersDescription").val();
+            // var natureType =  $("#nature-type").val();
+            $("#personInCharge").val('').trigger('change');
+            $("#isRelatedToOrganization").val(data[0].isrelatedorganizationnature);
+            $("#budget").val('0');
+    }
     $("#edit").on('click',function(){
         $("#myModal").modal('hide');
          $("html, body").animate({ scrollTop: 0 },function(){
@@ -458,6 +476,10 @@
         $("#add-gosm").css("display","");
         $("#edit-gosm").css("display","none");
         $("#cancel-gosm").css("display","none");
+
+        clear();
+
+
     });
 
 
