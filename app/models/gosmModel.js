@@ -1,6 +1,7 @@
 'use strict';
 
 const logger = global.logger;
+const log_options = {from: 'GOSM-Model'};
 
 const squel = require('squel').useFlavour('postgres');
 
@@ -24,7 +25,7 @@ module.exports = function(db, queryFiles) {
 	const attachFields = dbHelper.attachFields;
 
     return {
-        getAllActivityTypes: function(fields, connection) {
+        getAllActivityTypes: function(connection) {
             return db.many(getAllActivityTypesSQL);
         }, //getAllActivityTypes()
         getAllActivityNature: function() {
@@ -65,7 +66,7 @@ module.exports = function(db, queryFiles) {
 
             attachFields(query, fields);
             query = query.toString();
-            logger.debug(`Executing query: ${query}`);
+            logger.debug(`Executing query: ${query}`, log_options);
             return queryExec('any', query, {GOSMID: GOSMID}, connection);
         },
 
@@ -82,19 +83,49 @@ module.exports = function(db, queryFiles) {
         			.left_join('ActivityType', 'at', 'ga.activityType = at.id')
         		.where('ga.id = ${activityID}');
 
-        	dbHelper.attachFields(query, fields);
+        	attachFields(query, fields);
 
         	query = query.toString();
-        	logger.debug(`Executing query: ${query}`, {from: 'GOSM_model'});
+        	logger.debug(`Executing query: ${query}`, log_options);
             return queryExec('oneOrNone', query, {
                 activityID: id
             }, connection);
         },
 
-        getActivityProjectHeads: function(id, connection) {
-            return queryExec('manyOrNone', queryFiles.gosm_getActivityProjectHeadsFromID, {
+        /**
+			
+        */
+        getActivityProjectHeads: function(id, fields, connection) {
+        	let query = squel.select()
+        	.from('GOSMActivityProjectHead', 'ph')
+        		.left_join('Account', 'a', 'ph.idNumber = a.idNumber');
+        	attachFields(query, fields);	
+            
+            query = query.toString();
+            logger.debug(`Executing query: ${query}`, log_options);
+            return queryExec('manyOrNone', query, {
                 activityID: id
             }, connection);
+        },
+
+        updateActivityStatus: function(id, statusID, comments, connection){
+        	let query = squel.update()
+        	.table('GOSM')
+        	.set('id', '${id}')
+        	.set('status', '${statusID}');
+        	query = query.toString();
+
+        	let param = {
+        		id: id,
+        		statusID: statusID
+        	};
+        	if(typeof comments === 'string'){
+        		query.set('comments', '${comments}')
+        		param.comments = comments;
+        	}
+
+            logger.debug(`Executing query: ${query}`, log_options);
+            return queryExec('none', query, param, connection);
         }
     };
 };
