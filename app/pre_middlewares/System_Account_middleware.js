@@ -13,6 +13,7 @@ module.exports = function (app, database, models, queryFiles){
 					const session = req.session;
 					if(session.user === undefined && req._parsedUrl.pathname !== '/'){
 						logger.debug('User Not Logged-in!', log_options);
+						res.status(405);
 						res.render("System/403");
 					}else{
 						logger.debug('Passed!', log_options);
