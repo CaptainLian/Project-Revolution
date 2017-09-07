@@ -108,8 +108,24 @@ module.exports = function(db, queryFiles) {
             }, connection);
         },
 
-        updateActivityStatus: function(id, statusID, fields, connection){
-        	
+        updateActivityStatus: function(id, statusID, comments, connection){
+        	let query = squel.update()
+        	.table('GOSM')
+        	.set('id', '${id}')
+        	.set('status', '${statusID}');
+        	query = query.toString();
+
+        	let param = {
+        		id: id,
+        		statusID: statusID
+        	};
+        	if(typeof comments === 'string'){
+        		query.set('comments', '${comments}')
+        		param.comments = comments;
+        	}
+
+            logger.debug(`Executing query: ${query}`, log_options);
+            return queryExec('none', query, param, connection);
         }
     };
 };

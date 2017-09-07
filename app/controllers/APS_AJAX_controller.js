@@ -49,11 +49,21 @@ module.exports = function(database, models, queryFiles){
 		updateGOSM: (req, res) => {
 			const activityID = parseInt(req.query.activityID ? req.query.activityID : req.body.activityID);
 			const statusID = parseInt(req.query.statusID ? req.query.statusID : req.body.statusID);
-			
+
 			if(isNaN(activityID) || isNan(statusID)){
 				logger.debug(`Invalid input: activityID = ${activityID}, statusID = ${statusID}`);
+				res.send({valid: false});
+				return;
 			}
-
+			gosmModel.updateActivityStatus(activityID, statusID, comments)
+			.then(status => {
+				logger.debug(status, log_options);
+				res.send({valid: true, success: true});
+			})
+			.catch(error => {
+				logger.debug(error, log_options);
+				res.send({valid: true, success: false});
+			});
 			res.send('APS_AJAX_Controller: Hello');
 		}
 	};

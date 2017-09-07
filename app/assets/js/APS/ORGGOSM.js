@@ -9,6 +9,7 @@ table.DataTable();
 });
 
 
+
 let rows = document.querySelectorAll('#myTable > tbody > .activity_row');
 for (const row of rows) {
     row.addEventListener('click', function() {
@@ -121,6 +122,13 @@ function setActivityModal(activityID) {
     }); //$.ajax()a
 }
 
+/*
+  1 - Created
+  2 - Initial Submission
+  3 - Approved
+  4 - Pending
+  5 - Denied
+*/
 function updateStatus(statusID){
   const GOSMID = $('meta[data-name="GOSM"]').data('id');
   $.ajax({
@@ -133,8 +141,14 @@ function updateStatus(statusID){
         async: true,
         success: function(data, textStatus, jqXHR) {
             console.log(data);
-            
-            
+
+            if(data.valid && data.success){
+
+            }else if(data.valid && !data.success){
+              swal('Oh no!', 'Something went wrong!',  'error');              
+            }else{
+              swal('Oh no!', 'Something went wrong! Please check your input',  'error');
+            }
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.log(errorThrown);
