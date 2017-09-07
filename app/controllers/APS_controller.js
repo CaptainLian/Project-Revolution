@@ -212,7 +212,7 @@ module.exports = function(database, models, queryFiles){
 													console.log(error);
 												});
 										}
-										res.send("1");
+										res.send(data.activityid+'');
 
 										
 									})
@@ -358,13 +358,20 @@ module.exports = function(database, models, queryFiles){
 			console.log("GET ACTIVITY DETAILS");
 
 			console.log(req.body.dbid);
-
-			gosmModel.getActivityDetails(req.body.dbid).then(data=>{
-				console.log(data);
+			Promise.all([gosmModel.getActivityDetails(req.body.dbid), 
+						 gosmModel.getActivityProjectHeads(req.body.dbid)])
+			.then(data=>{
 				res.send(data);
 			}).catch(err=>{
 
 			});
+
+			// gosmModel.getActivityDetails().then(data=>{
+			// 	console.log(data);
+			// 	res.send(data);
+			// }).catch(err=>{
+
+			// });
 
 		},
 

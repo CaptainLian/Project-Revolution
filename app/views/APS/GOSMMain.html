@@ -175,6 +175,8 @@
                                 <div class="row">
                                     <div class=" col-md-12" style="text-align: center">
                                         <button type="button" id="add-gosm" class="btn btn-info">Add to GOSM</button>
+                                        <button style="display: none" type="button" id="edit-gosm" class="btn btn-warning">Edit Activity</button>
+                                        <button style="display: none" type="button" id="cancel-gosm" class="btn btn-muted">Cancel</button>
                                         
                                     </div>
                                 </div>
@@ -310,7 +312,7 @@
                         <div class="col-md-2 text-right">
                             <strong> Objectives:</strong>
                         </div>
-                        <div class="col-md-10">
+                        <div id="modal-obj" class="col-md-10">
                                 <p >To aid students in their subjects</p><p>To serve as an mock test and reviewer for those subjects</p><p>To give them 1-on-1 tutorials</p>
 
                         </div>
@@ -380,7 +382,7 @@
                         <div class="col-md-2 text-right">
                             <strong> Person in Charge:</strong>
                         </div>
-                        <div class="col-md-10">
+                        <div id="modal-pic" class="col-md-10">
                                 <p >Glenn Comendador</p><p>Rohit Nihalani</p>
 
                         </div>
@@ -440,10 +442,25 @@
     $("#edit").on('click',function(){
         $("#myModal").modal('hide');
          $("html, body").animate({ scrollTop: 0 },function(){
-             $("#home-tab").click();
+            $("#home-tab").click();
+            $("#add-gosm").css("display","none");
+            $("#edit-gosm").css("display","");
+            $("#cancel-gosm").css("display","");
          });
             
     });
+    $("#edit-gosm").click(function(){
+        $("#add-gosm").css("display","");
+        $("#edit-gosm").css("display","none");
+        $("#cancel-gosm").css("display","none");
+    });
+    $("#cancel-gosm").click(function(){
+        $("#add-gosm").css("display","");
+        $("#edit-gosm").css("display","none");
+        $("#cancel-gosm").css("display","none");
+    });
+
+
     $(document).on('click',"i.fa-pencil",function(){
         var trRow = $(this).attr("db-id");
         $("html, body").animate({ scrollTop: 0 }, function(){
@@ -454,6 +471,9 @@
                     "dbid" : trRow,
                 },
                 success:function(data){
+                    $("#add-gosm").css("display","none");
+                    $("#edit-gosm").css("display","");
+                    $("#cancel-gosm").css("display","");
                     console.log(data);
                 }
 
@@ -463,6 +483,7 @@
         }); 
 
     });
+
     $(document).on('click','i.fa-eye',function(){
         $("#myModal").modal('show');
         $.ajax({
@@ -472,8 +493,11 @@
                 "dbid" : $(this).attr("db-id"),
             },
             success:function(data){
+                console.log(data);
+                var pic  = data[1];
+                data = data[0];
                 $("#modal-strat").text(data.strategies);
-               
+                var objectives = data.objectives;
                 $("#modal-goals").text(data.goals);
                 $("#modal-desc").text(data.description);
                 $("#modal-measures").text(data.measures);
@@ -482,8 +506,25 @@
                 var startday = day.getMonth()+'/'+day.getDay()+ '/'+day.getFullYear();
                 var day2 = new Date(data.targetdateend);
                 var endday = day2.getMonth()+'/'+day2.getDay()+ '/'+day2.getFullYear();
-                 $("#modal-starttime").text(startday);
+                $("#modal-starttime").text(startday);
                 $("#modal-endtime").text(endday);
+                var toBeInserted = '';
+                for(     var x = 0; x < pic.length; x++){
+                    var i = '<p>'+pic[x].name+'</p>';
+                    toBeInserted = toBeInserted + i;
+                }
+                $("#modal-pic").html(toBeInserted);
+
+                var toBeInserted2 = '';
+                for(     var x = 0; x < objectives.length; x++){
+                    var i = '<p>'+objectives[x]+'</p>';
+                    toBeInserted2 = toBeInserted2 + i;
+                }
+                $("#modal-obj").html(toBeInserted2);
+
+
+
+
 
 
                 
@@ -579,23 +620,12 @@
                 console.log("ADDED");
                 console.log(parseInt(data));
                 if(data > 0 ){
-                    console.log("console1");
+                    console.log("console"+data);
                     var ctr = 1; 
                     $("#added-act tbody tr").each(function(){
                         ctr++
                     });
 
-                    // <tr>
-                    //     <td class="text-left"  >{{loop.index}}</td>
-                    //     <td class="text-left td-title" >{{activities.strategies}}</td>
-                    //     <td class="text-left td-title" >{{activities.targetdatestart}} - {{activities.targetdateend}}</td>
-                    //     <td class="text-left td-title" >{{activities.description}}</td>
-                    //     <td class="text-center text-nowrap">
-                    //         <a  data-toggle="tooltip" data-original-title="Details"> <i db-id="{{activities.id}}"  class="fa fa-eye text-inverse m-r-10"></i> </a>
-                    //         <a  data-toggle="tooltip" data-original-title="Edit"> <i db-id="{{activities.id}}"  class="fa fa-pencil text-inverse m-r-10"></i> </a>
-                    //         <a class="remove"  data-toggle="tooltip" data-original-title="Close"> <i db-id="{{activities.id}}" class="fa fa-close text-danger"></i> </a>
-                    //     </td>                                  
-                    // </tr>
                     var tr = '<tr>'+
                                 '<td width="5%" class="text-left">'+data+'</td>'+
                                 '<td width="15%" class="td-title text-left" >'+strategy+'</td>'+
