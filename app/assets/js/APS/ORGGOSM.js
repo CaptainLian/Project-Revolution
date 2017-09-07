@@ -1,14 +1,23 @@
 'use strict';
 
-$('#myTable').DataTable();
+const table = $('#myTable');
+
+table.DataTable();
 
 [].slice.call(document.querySelectorAll('.sttabs')).forEach(function(el) {
   new CBPFWTabs(el);
 });
 
-$('#myTable > tbody > .activity_row')
-.click(function() {
-  console.log('CLICKED ON A ROW');
+
+let rows = document.querySelectorAll('#myTable > tbody > .activity_row');
+for(const row of rows){
+  row.addEventListener('click', function(){
+    console.log('CLICKED AN ACTIVITY ROW');
+  }, 
+  false)
+}
+
+table.find('tbody > .activity_row').click(function (){
   let row = $(this);
   let activityID = row.data('activity-id');
 
@@ -33,9 +42,9 @@ $('#myTable > tbody > .activity_row')
 
       console.log(JSON.stringify(projectHeads));
       if(projectHeads.length > 0){
-        table.append('<tr class="modal_head_row"><th>Project Heads:</th><td colspan="6">' + projectHeads[0].name + ": " + projectHeads[0].contactnumber + '</td></tr>');
+        table.append('<tr class="modal_head_row"><th>Project Heads:</th><td colspan="6">' + projectHeads[0].name + ":&nbsp;" + projectHeads[0].contactnumber + '</td></tr>');
         for(let index = 1, length = projectHeads.length; index < length; ++index){
-          table.append('<tr class="modal_head_row"><th></th><td colspan="6">' + projectHeads[index].name + ": " + projectHeads[index].contactnumber + '</td></tr>');
+          table.append('<tr class="modal_head_row"><th></th><td colspan="6">' + projectHeads[index].name + ":&nbsp;" + projectHeads[index].contactnumber + '</td></tr>');
         }
       }
 

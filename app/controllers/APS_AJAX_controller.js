@@ -18,7 +18,13 @@ module.exports = function(database, models, queryFiles){
 
 			database.task(t => {
 				return t.batch([
-					gosmModel.getActivityDetails(activityID, t),
+					gosmModel.getActivityDetails(
+						activityID, [
+							['at.name', 'type'],
+							['an.name', 'nature'],
+							["to_char(ga.targetDateStart, 'Mon DD, YYYY')", 'startDate'],
+							["to_char(ga.targetDateEnd, 'Mon DD, YYYY')", 'endDate']], 
+						t),
 					gosmModel.getActivityProjectHeads(activityID, t)
 				]);
 			})

@@ -1,14 +1,10 @@
 //Alerts
 $(".myadmin-alert .closed").click(function(event) {
-    console.log('AGUY');
-    console.log(this);
     $(this).parents(".myadmin-alert").fadeToggle(250);
     return false;
 });
 /* Click to close */
 $(".myadmin-alert-click").click(function(event) {
-    console.log(this);
-    console.log('AGUY');
     $(this).fadeToggle(250);
     return false;
 });
@@ -17,9 +13,7 @@ $(".myadmin-alert-click").click(function(event) {
 $(".error").click(function() {
     let credential = $('#input_credential').val();
     let password = $('#input_password').val();
-
-    let valid = true;
-    valid = valid && (credential != '' && (typeof credential !== 'undefined'));
+    
     if(credential == ''){
     	$.toast({
             text: "Warning", // Text that is to be shown in the toast

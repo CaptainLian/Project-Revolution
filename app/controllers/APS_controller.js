@@ -318,8 +318,8 @@ module.exports = function(database, models, queryFiles){
 		},
 
 		viewOrgGOSM :( req, res)=>{
-			let organizationID = req.params.orgID;
-			let GOSMID = req.params.GOSMID;
+			const organizationID = req.params.orgID;
+			const GOSMID = req.params.GOSMID;
 
 			logger.debug(`Viewing GOSM of ID: ${GOSMID} of Organization: ${organizationID}`, log_options);
 
