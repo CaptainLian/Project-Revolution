@@ -6,5 +6,4 @@ SELECT g.id AS GOSMID, so.id AS organizationID, so.name AS organization, to_char
  WHERE g.termID = (SELECT id
                       FROM Term
                      WHERE CURRENT_DATE BETWEEN dateStart AND dateEnd)
- AND g.status <> 1
- AND g.status <> 3;
+ AND g.status <> 1;

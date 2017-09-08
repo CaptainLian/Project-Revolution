@@ -113,7 +113,7 @@ module.exports = function(db, queryFiles) {
             }, connection);
         },
 
-        updateActivityStatus: function(id, statusID, comments, connection){
+        updateGOSMStatus: function(id, statusID, comments, connection){
         	let query = squel.update()
         	.table('GOSM')
         	.set('status', '${statusID}')

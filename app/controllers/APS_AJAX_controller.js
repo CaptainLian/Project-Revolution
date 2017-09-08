@@ -21,6 +21,7 @@ module.exports = function(database, models, queryFiles){
 				return t.batch([
 					gosmModel.getActivityDetails(
 						activityID, [
+							['ga.comment'],
 							['at.name', 'type'],
 							['an.name', 'nature'],
 							["to_char(ga.targetDateStart, 'Mon DD, YYYY')", 'startDate'],
@@ -56,7 +57,7 @@ module.exports = function(database, models, queryFiles){
 				res.send({valid: false});
 				return;
 			}
-			gosmModel.updateActivityStatus(GOSMID, statusID, comments)
+			gosmModel.updateGOSMStatus(GOSMID, statusID, comments)
 			.then(status => {
 				logger.debug(`query result: $(status)`, log_options);
 				res.send({valid: true, success: true});
@@ -65,6 +66,10 @@ module.exports = function(database, models, queryFiles){
 				logger.debug(error, log_options);
 				res.send({valid: true, success: false});
 			});
+		},
+
+		updateGOSMActivityComment: (req, res) => {	
+
 		}
 	};
 };
