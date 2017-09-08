@@ -38,3 +38,6 @@
 .tab-current-info{
 	color: #03A9F3;
 }
+.cog{
+	cursor: pointer;
+}
