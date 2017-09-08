@@ -51,7 +51,7 @@ module.exports = function(database, models, queryFiles) {
 												
 											dbParam = {
 												GOSM: gosmID
-											}
+											};
 											Promise.all([gosmModel.getAllActivityTypes(), gosmModel.getAllActivityNature(), gosmModel.getGOSMActivities(dbParam)])
 												.then(data => {
 													res.render('APS/GOSMMain', {
@@ -81,7 +81,7 @@ module.exports = function(database, models, queryFiles) {
 
 
 								var dbParam = {
-									gosm: gosmID
+									GOSM: gosmID
 								};
 
 								console.log(dbParam);
@@ -242,25 +242,45 @@ module.exports = function(database, models, queryFiles) {
 
         inputActivityRequirements: (req, res) => {
 			var sched = JSON.parse(req.body.sched);
-			console.log(req.body);
+
 			var exp = JSON.parse(req.body.exp);
 			var funds = JSON.parse(req.body.funds);
-			// var sched = sched[0]
-			console.log(sched);
-			// console.log(sched.time[1].start);
+			var sched = sched[0];
+
+			console.log(sched.time[1].start);
+
+			// console.log(exp);
+			
+
+			// dummy values
+			var projectProposalParam = {
+				GOSMactivity: 1,
+				status: 1,
+				enp: 10,
+				enmp: 20,
+				venue: 'gokongwei',
+				contactNumber: 123455678,
+				accumulatedOperationalFunds: 100,
+				accumulatedDepositoryFunds: 100
+
+			};
+
 
 			for (var i = 0; i < sched.length; i++){
 				for (var j = 0; j < sched[i].length; j++){
-					dbParam = {
+					var dbParam = {
+
 						date: sched[i].date,
 						startTime: sched[i].time[j].start,
 						endTime: sched[i].time[j].end,
 						activity: sched[i].time[j].actName,
 						activityDescription: sched[i].time[j].actDesc,
 						personInCharge: sched[i].time[j].pic
-					}
+					};
 
 					//insert
+
+
 				}
 			}
 
@@ -338,6 +358,21 @@ module.exports = function(database, models, queryFiles) {
                 });
         },
 
+        submitGOSM: (req, res) => {
+
+        	var dbParam ={
+        		studentorganization: 1 // session variable of organization
+        	};
+
+        	gosmModel.submitGOSM(dbParam)
+        		.then(data => {
+
+        		})
+        		.catch(error =>{
+        			console.log(error);
+        		});
+        },
+
         viewOrglist: (req, res) => {
             gosmModel.getAllCurrent()
                 .then(GOSMList => {
@@ -351,6 +386,7 @@ module.exports = function(database, models, queryFiles) {
                     console.log(error);
                 });
         },
+
 
         // inputActivityRequirements: (req, res) => {
 
@@ -412,6 +448,7 @@ module.exports = function(database, models, queryFiles) {
         //     var enp = req.body.enp;
         //     var venue = req.body.venue;
         // },
+
 
         viewOrgGOSM: (req, res) => {
             const organizationID = req.params.orgID;

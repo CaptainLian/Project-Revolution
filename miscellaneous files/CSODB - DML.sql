@@ -201,10 +201,13 @@ INSERT INTO TERM (startYear, endYear, number, dateStart, dateEnd)
           VALUES (2016, 2017, 1, '2017-8-24', '2017-9-11');
 
 TRUNCATE TABLE GOSM CASCADE;
-INSERT INTO GOSM (termID, studentOrganization, dateSubmitted, status)
+INSERT INTO GOSM (termID, studentOrganization)
            VALUES ((SELECT id
                       FROM TERM
-                     WHERE CURRENT_DATE BETWEEN dateStart AND dateEnd), 2, CURRENT_TIMESTAMP, 2);
+                     WHERE CURRENT_DATE BETWEEN dateStart AND dateEnd), 2 );
+UPDATE GOSM
+SET status = 2
+WHERE id = 1;
 
 TRUNCATE TABLE GOSMActivity CASCADE;
 INSERT INTO GOSMActivity (gosm, goals, objectives, strategies, description, measures, targetDateStart, targetDateEnd, ActivityNature, ActivityType, isRelatedToOrganizationNature, budget)
