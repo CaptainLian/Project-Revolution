@@ -10,13 +10,14 @@ module.exports = function(app, database, models, queryFiles) {
     return [{
             name: 'Bad CSRF Token',
             action: function(err, req, res, next) {
-                logger.debug(req.session.csrfSecret ,  log_options);
-                logger.warning('Bad CSRF token', log_options);
-                if (err.code !== 'EBADCSRFTOKEN')
-                    return next(err);
-
-                res.status(403);
-                res.render('System/403');
+                
+                if (err.code === 'EBADCSRFTOKEN'){
+                    logger.warning(`Bad CSRF token: ${req.session.csrfSecret}`, log_options);
+                    res.status(403);
+                    res.render('System/403');
+                    return;
+                }
+                next(err);
             }
         }, {
             name: 'Error 404',

@@ -52,20 +52,19 @@ module.exports = function(database, models, queryFiles){
 			const comments = req.query.comments ? req.query.comments : req.body.comments;
 			
 			if(isNaN(GOSMID) || isNaN(statusID)){
-				logger.debug(`Invalid input: activityID = ${activityID}, statusID = ${statusID}`, log_options);
+				logger.debug(`Invalid input: GOSMID = ${GOSMID}, statusID = ${statusID}`, log_options);
 				res.send({valid: false});
 				return;
 			}
 			gosmModel.updateActivityStatus(GOSMID, statusID, comments)
 			.then(status => {
-				logger.debug(status, log_options, log_options);
+				logger.debug(`query result: $(status)`, log_options);
 				res.send({valid: true, success: true});
 			})
 			.catch(error => {
 				logger.debug(error, log_options);
 				res.send({valid: true, success: false});
 			});
-			res.send('APS_AJAX_Controller: Hello');
 		}
 	};
 };

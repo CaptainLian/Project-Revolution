@@ -116,20 +116,22 @@ module.exports = function(db, queryFiles) {
         updateActivityStatus: function(id, statusID, comments, connection){
         	let query = squel.update()
         	.table('GOSM')
-        	.set('id', '${id}')
-        	.set('status', '${statusID}');
-        	query = query.toString();
+        	.set('status', '${statusID}')
+            .where('id = ${id}');
+        	
 
         	let param = {
         		id: id,
         		statusID: statusID
         	};
         	if(typeof comments === 'string'){
-        		query.set('comments', '${comments}')
+        		query.set('comments', "'${comments}'");
         		param.comments = comments;
         	}
 
-            logger.debug(`Executing query: ${query}`, log_options);
+            query = query.toString();
+            logger.debug(`Executing query: ${query} with parameters ${JSON.stringify(param)}`, log_options);
+
             return queryExec('none', query, param, connection);
         }
     };

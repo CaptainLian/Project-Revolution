@@ -29,9 +29,6 @@ var database_connection_options = {
 };
 var database = pgPromise(database_connection_options);
 
-/* testing the connection */
-var qrm = pgPromise.queryResult;
-
 // view engine setup
 app.set('views', path.join(__dirname, 'app/views'));
 app.set('view engine', 'html');

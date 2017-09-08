@@ -46,7 +46,7 @@ document.getElementById('btn_pend')
             function(inputValue) {
                 if (inputValue) {
                     updateGOSMStatus  (4, inputValue, () => {
-                      swal(`Success! you commented: ${inputValue}`, 'success');
+                      swal('Success!', `you commented: ${inputValue}`, 'success');
                     }, () => {
                       swal("Uh oh!", "An error occured", "error");
                     });
@@ -72,7 +72,7 @@ document.getElementById('btn_deny')
             function(inputValue) {
                 if (inputValue) {
                     updateGOSMStatus(5, inputValue, () => {
-                        swal(`Success! you commented: ${inputValue}`, 'success');
+                        swal('Success!', `You commented ${inputValue}`, 'success');
                     }, () => {
                         swal("Oops", "An error occured", "error");
                     });
@@ -128,7 +128,7 @@ function setActivityModal(activityID) {
   4 - Pending
   5 - Denied
 */
-function updateGOSMStatus(statusID, comments, succcess, fail) {
+function updateGOSMStatus(statusID, comments, success, fail) {
     const GOSMID = $('meta[data-name="GOSM"]').data('id');
     let data = {
         GOSMID: GOSMID,
@@ -158,10 +158,4 @@ function updateGOSMStatus(statusID, comments, succcess, fail) {
             fail();
         }
     });
-}
-
-function date(activityID, comments) {
-    $.ajax({
-
-    }); //ajax();
 }

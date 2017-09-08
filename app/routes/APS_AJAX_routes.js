@@ -9,4 +9,4 @@ module.exports = function(app , controllers){
 	router.post('/APS/ajax/UpdateGOSM', controllers.APS_AJAX_controller.updateGOSM);
 
 	return router; 
-}
+};
