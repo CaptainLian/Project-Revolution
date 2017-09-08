@@ -396,7 +396,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     <textarea type="text" class="form-control" name="reason" placeholder="Ex: To be used for the expenses in the Annual Recruitment Week 2016-2017"></textarea>
                                                     <span class="help-block"><small>Type your reason for requesting the transaction.</small></span>
                                                 </div>
-                
                                             </div>
                                         </div>
                                         <div class="wizard-pane" role="tabpanel">
@@ -465,7 +464,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                         <th>Contact No.</th>
                                                         <th>Unit Price</th>
                                                         <th>Quantity</th>
-                                                        <th>subTotal</th>
+                                                        <th class="readonly">subTotal</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -891,6 +890,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <script>
         $('#mainTable').editableTableWidget().numericInputExample().find('td:first').focus();
+        
     </script>
 
     <script type="text/javascript">
