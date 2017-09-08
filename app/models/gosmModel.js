@@ -31,14 +31,14 @@ module.exports = function(db, queryFiles) {
         getAllActivityNature: function() {
             return db.many(getAllActivityNatureSQL);
         },
-        insertProposedActivity: function(param) {
-            return db.one(insertProposedActivitySQL, param);
+        insertProposedActivity: function(param, connection) {
+            return queryExec('one', insertProposedActivitySQL, param, connection);
         },
-        insertActivityProjectHead: function(param) {
-            return db.none(insertActivityProjectHeadSQL, param);
+        insertActivityProjectHead: function(param, connection) {
+            return queryExec('none', insertActivityProjectHeadSQL, param, connection);
         },
-        getSchoolYear: function() {
-            return db.one(getSchoolYearSQL);
+        getSchoolYear: function(connection) {
+            return queryExec('one', getSchoolYearSQL, undefined, connection);
         },
         getGOSMActivities: function(param) {
             return db.any(getGOSMActivitiesSQL, param);
@@ -55,8 +55,8 @@ module.exports = function(db, queryFiles) {
         deleteActivity: function(param) {
             return db.none(deleteActivitySQL, param);
         },
-        getOrgGOSM: function(param) {
-            return db.oneOrNone(getOrgGOSMSQL, param);
+        getOrgGOSM: function(param, connection) {
+            return queryExec('oneOrNone', getOrgGOSMSQL, param, connection);
         },
 
         getActivitiesFromID(GOSMID, fields, connection) {
