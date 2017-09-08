@@ -20,6 +20,8 @@ module.exports = function(db, queryFiles) {
     const query_getAllCurrent = queryFiles.gosm_getAllCurrent;
     const query_getAll = queryFiles.gosm_getAll;
     const query_getActivitiesFromID = queryFiles.gosm_getSpecificOrg;
+    const insertProjectProposalSQL = queryFiles.insertProjectProposal;
+    const insertProjectProposalProgramDesignSQL = queryFiles.insertProjectProposalProgramDesign;
 
     const dbHelper = require('../utility/databaseHelper')(db);
 	const queryExec = dbHelper.queryExec;
@@ -131,6 +133,13 @@ module.exports = function(db, queryFiles) {
 
             logger.debug(`Executing query: ${query}`, log_options);
             return queryExec('none', query, param, connection);
+        },
+
+        insertProjectProposal: function(param, connection){
+        	return queryExec('one', insertProjectProposalSQL, param, connection);
+        },
+        insertProjectProposalProgramDesign: function(param){
+        	return db.none(insertProjectProposalProgramDesignSQL, param);
         }
     };
 };

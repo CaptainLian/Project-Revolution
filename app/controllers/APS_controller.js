@@ -21,6 +21,18 @@ module.exports = function(database, models, queryFiles) {
         viewCreateGOSM: (req, res) => {
 			console.log('VIEW CREATE GOSM CONTROLLER');
 
+			// gosmModel.getSchoolYear()
+			// .then(data => {
+			// 	var orgGOSMParam = {
+			// 			termID: data.id,
+			// 			studentOrganization: 1 //to be replaced by session variable
+
+			// 		};
+			// 	return gosmModel.getOrgGOSM(orgGOSMParam);
+			// })
+			// .then(data => {
+			// 	if (data)
+			// });
 			gosmModel.getSchoolYear()
 				.then(data => {
 					console.log(data.endyear);
@@ -245,100 +257,80 @@ module.exports = function(database, models, queryFiles) {
 			// console.log(sched);
 			var exp = JSON.parse(req.body.exp);
 			var funds = JSON.parse(req.body.funds);
-			var sched = sched[0];
+			// var sched = sched[0];
 
-			console.log(sched.time[1].start);
+			// console.log(sched.time[1].start);
 
-			// console.log(exp);
+			console.log(funds);
 			
 
 			// dummy values
 			var projectProposalParam = {
-				GOSMactivity: 1,
+				GOSMactivity: 1, // value should come from previous page
 				status: 1,
-				enp: 10,
-				enmp: 20,
-				venue: 'gokongwei',
-				contactNumber: 123455678,
-				accumulatedOperationalFunds: 100,
-				accumulatedDepositoryFunds: 100
-
+				enp: 10, // to be added later
+				enmp: 20, // to be added later
+				venue: 'gokongwei', // to be added later
+				sourceFundOther: exp.others,
+				sourceFundParticipantFee: exp.participant,
+				sourceFundOrganizational: exp.orgFunds,
+				accumulatedOperationalFunds: funds.ope,
+				accumulatedDepositoryFunds: funds.dep,
+				organizationalFundOtherSource: funds.other
+				preparedBy: 11445955 // to be replaced by session variable of current user
 			};
 
+			db.tx(t => {
+				return gosmModel.insertProjectProposal(projectProposalParam, t)
+				.then(data => {
 
-			for (var i = 0; i < sched.length; i++){
-				for (var j = 0; j < sched[i].length; j++){
-					var dbParam = {
+					var projectProposal = data.projectProposal
+					
+					let queries = [];
+					for (var i = 0; i < sched.length; i++){
+							for (var j = 0; j < sched[i].length; j++){
+								var dbParam = {
 
-						date: sched[i].date,
-						startTime: sched[i].time[j].start,
-						endTime: sched[i].time[j].end,
-						activity: sched[i].time[j].actName,
-						activityDescription: sched[i].time[j].actDesc,
-						personInCharge: sched[i].time[j].pic
-					};
+									projectProposal: projectProposal,
+									dayID: i,
+									date: sched[i].date,
+									startTime: sched[i].time[j].start,
+									endTime: sched[i].time[j].end,
+									activity: sched[i].time[j].actName,
+									activityDescription: sched[i].time[j].actDesc,
+									personInCharge: sched[i].time[j].pic
+								};
 
-					//insert
+								queries.push(t.none(gosmModel.insertProjectProposalProgramDesign(dbParam)));
 
 
-				}
-			}
+							}
+						}
 
-			//step 1
-			var context = req.body.context;
+
+					return t.batch(queries);
+				});
+			}).then(data => {
+
+			}).catch(error=>{
+				console.log(error);
+			});
+
+			// gosmModel.insertProjectProposal(projectProposalParam)
+			// 	.then(data =>{
+			// 		var projectProposal = data.projectProposal
+
+			// 		db.tx(t => {
+						
+			// 		});
+					
+			// 	})
+			// 	.catch(error=>{
+			// 		console.log(error);
+			// 	});
+
+
 			
-			//step 2
-			var date = [];
-			date = req.body['date[]'];
-			var timeStart = [];
-			timeStart = req.body['timeStart[]'];
-			var timeEnd = [];
-			timeEnd = req.body['timeEnd[]'];
-			var activity = [];
-			activity = req.body['activity[]'];
-			var description = [];
-			description = req.body['description[]'];
-			var personInCharge = [];
-			personInCharge = req.body['personInCharge'];
-
-			//step 3
-			var expenses = req.body.expenses;
-			var organizationalFunds = req.body.organizationalFunds;
-			var participantsFee = req.body.participantsFee;
-			var others = req.body.others;
-
-			var material = [];
-			material = req.body['material[]'];
-			var materialQuantity = [];
-			materialQuantity = req.body['materialQuantity[]'];
-			var unitCost = [];
-			unitCost = req.body['unitCost[]'];
-
-			//step 4
-			var operationalFund = req.body.operationalFund;
-			var depositoryFund = req.body.depositoryFund;
-			var otherSourceOfFunds = req.body.otherSourceOfFunds;
-
-			var revenueItem = [];
-			revenueItem = req.body['revenueItem[]'];
-			var revenueQuantity = [];
-			revenueQuantity = req.body['revenueQuantity[]'];
-			var revenueSellingPrice = [];
-			revenueSellingPrice = req.body['revenueSellingPrice[]'];
-
-
-			var expenseItem = [];
-			expenseItem = req.body['expenseItem[]'];
-			var expenseQuantity = [];
-			expenseQuantity = req.body['expenseQuantity[]'];
-			var expenseSellingPrice = [];
-			expenseSellingPrice = req.body['expenseSellingPrice[]'];
-
-			//step 5
-			var attachment = req.body.attachment;
-
-			var enp = req.body.enp;
-			var venue = req.body.venue;
 		},
         deleteActivity: (req, res) => {
 
