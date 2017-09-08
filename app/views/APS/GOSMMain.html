@@ -156,7 +156,7 @@
                                     <label>
                                         <input type="radio" id="isRelatedToOrganization" name="isRelatedToOrganization" value="true"> Yes </label>
                                         <label>
-                                            <input type="radio" id="isRelatedToOrganization" name="isRelatedToOrganization" value="false" checked=""> No </label>
+                                        <input type="radio" id="isRelatedToOrganization" name="isRelatedToOrganization" value="false" > No </label>
                                 </div>
                             </div>
                         </div>
@@ -705,7 +705,7 @@
         var natureType =  $("#nature-type").val();
         var personInCharge = $("select[name='personInCharge[]']")
               .map(function(){return $(this).val();}).get();
-        var isRelatedToOrganization = $("#isRelatedToOrganization").val();
+        var isRelatedToOrganization = $("input[name='isRelatedToOrganization']:checked").val();
         var budget = $("#budget").val();
 
 
