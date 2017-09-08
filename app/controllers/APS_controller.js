@@ -276,7 +276,7 @@ module.exports = function(database, models, queryFiles) {
 				sourceFundOrganizational: exp.orgFunds,
 				accumulatedOperationalFunds: funds.ope,
 				accumulatedDepositoryFunds: funds.dep,
-				organizationalFundOtherSource: funds.other
+				organizationalFundOtherSource: funds.other,
 				preparedBy: 11445955 // to be replaced by session variable of current user
 			};
 
