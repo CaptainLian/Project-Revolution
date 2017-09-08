@@ -98,7 +98,8 @@ module.exports = function(db, queryFiles) {
         getActivityProjectHeads: function(id, fields, connection) {
         	let query = squel.select()
         	.from('GOSMActivityProjectHead', 'ph')
-        		.left_join('Account', 'a', 'ph.idNumber = a.idNumber');
+        		.left_join('Account', 'a', 'ph.idNumber = a.idNumber')
+        		.where('ph.activityid = ${activityID}');
         	attachFields(query, fields);	
             
             query = query.toString();

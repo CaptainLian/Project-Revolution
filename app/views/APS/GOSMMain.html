@@ -454,8 +454,8 @@
             // var othersDescription = $("#othersDescription").val();
             // var natureType =  $("#nature-type").val();
             $("#personInCharge").val('').trigger('change');
-            $("#isRelatedToOrganization").val(data[0].isrelatedorganizationnature);
-            $("#budget").val('0');
+            /*$("#isRelatedToOrganization").val(data[0].isrelatedorganizationnature);*/
+            $("#budget").val('');
     }
     $("#edit").on('click',function(){
         $("#myModal").modal('hide');
@@ -508,7 +508,14 @@
                     //       .map(function(){return $(this).val();}).get();
                     $("#isRelatedToOrganization").val(data[0].isrelatedorganizationnature);
                     $("#budget").val(data[0].budget);
-
+                    data = data[0];
+                    var day = new Date(data.targetdatestart);
+                    var startday = day.getMonth()+'/'+day.getDay()+ '/'+day.getFullYear();
+                    var day2 = new Date(data.targetdateend);
+                    var endday = day2.getMonth()+'/'+day2.getDay()+ '/'+day2.getFullYear();
+                    
+                    var targetDateStart = $("#targetDateStart").val(startday).trigger('change');
+                    var targetDateEnd = $("#targetDateEnd").val(endday).trigger('change');
 
 
 
@@ -525,8 +532,22 @@
 
     });
 
+    function clearModal(){
+        $("#modal-strat").text('');   
+        $("#modal-goals").text('');
+        $("#modal-desc").text('');
+        $("#modal-measures").text('');
+        $("#modal-budget").text('');
+        $("#modal-starttime").text('');
+        $("#modal-endtime").text('');
+        $("#modal-pic").html('');
+        $("#modal-obj").html('');
+    }
+
     $(document).on('click','i.fa-eye',function(){
         $("#myModal").modal('show');
+        clearModal();
+        console.log("DB-ID = "+ $(this).attr("db-id"));
         $.ajax({
             type:'POST',
             url:'/getActivityDetails',
@@ -551,7 +572,7 @@
                 $("#modal-endtime").text(endday);
                 var toBeInserted = '';
                 for(     var x = 0; x < pic.length; x++){
-                    var i = '<p>'+pic[x].name+'</p>';
+                    var i = '<p>'+pic[x].firstname+' '+pic[x].lastname+'</p>';
                     toBeInserted = toBeInserted + i;
                 }
                 $("#modal-pic").html(toBeInserted);

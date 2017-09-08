@@ -383,6 +383,7 @@ module.exports = function(database, models, queryFiles){
 			Promise.all([gosmModel.getActivityDetails(req.body.dbid), 
 						 gosmModel.getActivityProjectHeads(req.body.dbid)])
 			.then(data=>{
+				console.log(data);
 				res.send(data);
 			}).catch(err=>{
 
