@@ -434,12 +434,14 @@
 {%endblock%}
 
 {%block scripts%}
+
+    {%include "../section/ajax/ajaxCSRF.html"%}
 <script type="text/javascript">
     // $("table tbody tr").on('click',function(){
     //     console.log("EDIT");
     //     $(this).find("i.fa-eye").click();
     // });
-
+    
     //CLEAR INPUT 
     function clear(){
          $("#strategy").val('');
@@ -454,8 +456,8 @@
             // var othersDescription = $("#othersDescription").val();
             // var natureType =  $("#nature-type").val();
             $("#personInCharge").val('').trigger('change');
-            $("#isRelatedToOrganization").val(data[0].isrelatedorganizationnature);
-            $("#budget").val('0');
+            /*$("#isRelatedToOrganization").val(data[0].isrelatedorganizationnature);*/
+            $("#budget").val('');
     }
     $("#edit").on('click',function(){
         $("#myModal").modal('hide');
@@ -473,11 +475,13 @@
         $("#cancel-gosm").css("display","none");
     });
     $("#cancel-gosm").click(function(){
+
         $("#add-gosm").css("display","");
         $("#edit-gosm").css("display","none");
         $("#cancel-gosm").css("display","none");
 
         clear();
+        $("html, body").animate({ scrollTop: 0 },function(){});
 
 
     });
@@ -508,7 +512,14 @@
                     //       .map(function(){return $(this).val();}).get();
                     $("#isRelatedToOrganization").val(data[0].isrelatedorganizationnature);
                     $("#budget").val(data[0].budget);
-
+                    data = data[0];
+                    var day = new Date(data.targetdatestart);
+                    var startday = day.getMonth()+'/'+day.getDay()+ '/'+day.getFullYear();
+                    var day2 = new Date(data.targetdateend);
+                    var endday = day2.getMonth()+'/'+day2.getDay()+ '/'+day2.getFullYear();
+                    
+                    var targetDateStart = $("#targetDateStart").val(startday).trigger('change');
+                    var targetDateEnd = $("#targetDateEnd").val(endday).trigger('change');
 
 
 
@@ -525,13 +536,72 @@
 
     });
 
+    function clearModal(){
+        $("#modal-strat").text('');   
+        $("#modal-goals").text('');
+        $("#modal-desc").text('');
+        $("#modal-measures").text('');
+        $("#modal-budget").text('');
+        $("#modal-starttime").text('');
+        $("#modal-endtime").text('');
+        $("#modal-pic").html('');
+        $("#modal-obj").html('');
+    }
+    function dType(val){
+        if( val == 1){
+            return "Academic Contest";
+        }else if (val == 2){
+            return "Distribution";
+        }else if( val == 3){
+            return "General Assembly";
+        }else if( val == 4){
+            return "Seminar/Workshops";
+        }else if( val == 5){
+            return "Publicity/Awareness";
+        }else if( val == 6){
+            return "Meetings";
+        }else if( val == 7){
+            return "Spiritual Activity";
+        }else if( val == 8){
+            return "Recruitment Audition";
+        }else if( val == 9){
+            return "Recreation";
+        }else if( val == 10){
+            return "Others";
+        }
+    }
+    function dNat(val){
+        if( val == 1){
+            return "Academic";
+        }else if (val == 2){
+            return "special Interest";
+        }else if( val == 3){
+            return "Department Initiative";
+        }else if( val == 4){
+            return "Fundraising";
+        }else if( val == 5){
+            return "Community Development";
+        }else if( val == 6){
+            return "Organizational Development";
+        }else if( val == 7){
+            return "issue Advocacy";
+        }else if( val == 8){
+            return "Lasallian Formation/Spiritual Growth";
+        }else if( val == 9){
+            return "Outreach";
+        }
+    }
     $(document).on('click','i.fa-eye',function(){
         $("#myModal").modal('show');
+        clearModal();
+        console.log("DB-ID = "+ $(this).attr("db-id"));
         $.ajax({
             type:'POST',
             url:'/getActivityDetails',
+
             data:{ 
                 "dbid" : $(this).attr("db-id"),
+
             },
             success:function(data){
                 console.log(data);
@@ -543,6 +613,8 @@
                 $("#modal-desc").text(data.description);
                 $("#modal-measures").text(data.measures);
                 $("#modal-budget").text(data.budget);
+                $("#modal-type").text(dType(data.activitytype));
+                $("#modal-nature").text(dNat(data.activitynature));
                 var day = new Date(data.targetdatestart);
                 var startday = day.getMonth()+'/'+day.getDay()+ '/'+day.getFullYear();
                 var day2 = new Date(data.targetdateend);
@@ -551,7 +623,7 @@
                 $("#modal-endtime").text(endday);
                 var toBeInserted = '';
                 for(     var x = 0; x < pic.length; x++){
-                    var i = '<p>'+pic[x].name+'</p>';
+                    var i = '<p>'+pic[x].firstname+' '+pic[x].lastname+'</p>';
                     toBeInserted = toBeInserted + i;
                 }
                 $("#modal-pic").html(toBeInserted);

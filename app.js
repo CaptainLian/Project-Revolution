@@ -99,6 +99,11 @@ app.use(
   })
 );
 
+app.use(require('csurf')({
+	cookie: false,
+	ignoreMethods: ['GET', 'HEAD', 'OPTIONS'],
+	sessionKey: 'session'
+}));
 /*
 Load QueryFiles
 */
