@@ -434,12 +434,14 @@
 {%endblock%}
 
 {%block scripts%}
+
+    {%include "../section/ajax/ajaxCSRF.html"%}
 <script type="text/javascript">
     // $("table tbody tr").on('click',function(){
     //     console.log("EDIT");
     //     $(this).find("i.fa-eye").click();
     // });
-
+    
     //CLEAR INPUT 
     function clear(){
          $("#strategy").val('');
@@ -596,8 +598,10 @@
         $.ajax({
             type:'POST',
             url:'/getActivityDetails',
+
             data:{ 
                 "dbid" : $(this).attr("db-id"),
+
             },
             success:function(data){
                 console.log(data);

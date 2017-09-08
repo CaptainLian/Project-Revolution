@@ -138,6 +138,7 @@
 {%endblock%}
 
 {%block scripts%}
+    {%include "../section/ajax/ajaxCSRF.html"%}
 <script type="text/javascript">
     $(document).ready(function(){
         $('select').trigger('change');

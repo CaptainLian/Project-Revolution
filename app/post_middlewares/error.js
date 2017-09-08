@@ -11,6 +11,7 @@ module.exports = function(app, database, models, queryFiles) {
             name: 'Bad CSRF Token',
             action: function(err, req, res, next) {
                 logger.debug('Bad CSRF token', log_options);
+                logger.debug(req.session.csrfSecret ,  log_options);
                 if (err.code !== 'EBADCSRFTOKEN')
                     return next(err);
 
