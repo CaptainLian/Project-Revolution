@@ -275,9 +275,28 @@ module.exports = function(database, models, queryFiles){
 			console.log(sched);
 			// console.log(sched.time[1].start);
 
+			console.log(exp);
+			
+
+			// dummy values
+			projectProposalParam = {
+				GOSMactivity: 1,
+				status: 1,
+				enp: 10,
+				enmp: 20,
+				venue: 'gokongwei',
+				contactNumber: 123455678,
+				accumulatedOperationalFunds: ,
+				accumulatedDepositoryFunds: ,
+
+			}
+
+			gosmModel
+
 			for (var i = 0; i < sched.length; i++){
 				for (var j = 0; j < sched[i].length; j++){
 					dbParam = {
+
 						date: sched[i].date,
 						startTime: sched[i].time[j].start,
 						endTime: sched[i].time[j].end,
@@ -287,6 +306,8 @@ module.exports = function(database, models, queryFiles){
 					}
 
 					//insert
+
+
 				}
 			}
 
