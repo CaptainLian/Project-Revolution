@@ -242,7 +242,7 @@ module.exports = function(database, models, queryFiles) {
 
         inputActivityRequirements: (req, res) => {
 			var sched = JSON.parse(req.body.sched);
-			console.log(sched);
+			console.log(req.body);
 			var exp = JSON.parse(req.body.exp);
 			var funds = JSON.parse(req.body.funds);
 			// var sched = sched[0]
