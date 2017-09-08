@@ -174,9 +174,9 @@ CREATE TABLE GOSM (
     status INTEGER NOT NULL REFERENCES GOSMStatus(id) DEFAULT 1,
     dateCreated TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     dateSubmitted TIMESTAMP WITH TIME ZONE,
-    dateDenied TIMESTAMP WITH TIME ZONE,
-    dateAccepted TIMESTAMP WITH TIME ZONE,
-    datePended TIMESTAMP WITH TIME ZONE,
+    dateStatusModified TIMESTAMP WITH TIME ZONE, 
+    preparedBy INTEGER REFERENCES Account(idNumber),
+    statusModifier INTEGER REFERENCES Account(idNumber),
     comments TEXT,
 
     PRIMARY KEY (termID, studentOrganization)
@@ -188,12 +188,8 @@ $trigger_before_update_GOSM$
         CASE NEW.status
             WHEN 2 /* Initial Submission */ THEN
                 NEW.dateSubmitted := CURRENT_TIMESTAMP;
-            WHEN 3 /* Approved */ THEN
-                NEW.dateApproved := CURRENT_TIMESTAMP;
-            WHEN 4 /* Pending */ THEN
-                NEW.datePended := CURRENT_TIMESTAMP;
-            WHEN 5 /* Denied */ THEN
-                NEW.dateDenied := CURRENT_TIMESTAMP;
+            WHEN 3, 4, 5 /* Approved */ THEN
+                NEW.dateStatusModified := CURRENT_TIMESTAMP;
         END CASE;
         RETURN NEW;
     END;
@@ -267,17 +263,19 @@ CREATE TABLE ProjectProposal (
     ENP INTEGER,
     ENMP INTEGER,
     venue TEXT,
-    contactNumber VARCHAR(16),
+    sourceFundOther NUMERIC(16, 4),
+    sourceFundParticipantFee NUMERIC(16, 4),
+    sourceFundOrganizational NUMERIC(16, 4),
     accumulatedOperationalFunds NUMERIC(16, 4),
     accumulatedDepositoryFunds NUMERIC(16, 4),
+    organizationFundOtherSource NUMERIC(16, 4),
     facultyAdviser INTEGER REFERENCES Account(idNumber),
     financeSignatory INTEGER REFERENCES Account(idNumber),
     preparedBy INTEGER REFERENCES Account(idNumber),
     dateCreated TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    dateSubmitted TIMESTAMP WITH TIME ZONE,
-    datePended TIMESTAMP WITH TIME ZONE,
-    dateApproved TIMESTAMP WITH TIME ZONE,
-    dateDenied TIMESTAMP WITH TIME ZONE,
+    dateSubmitted TIMESTAMP WITH TIME ZONE, 
+    dateStatusModified TIMESTAMP WITH TIME ZONE,
+    statusModifier INTEGER REFERENCES Account(idNumber),
 
     PRIMARY KEY (GOSMActivity, sequence)
 );
@@ -288,13 +286,10 @@ $trigger_before_update_ProjectProposal$
         CASE NEW.status
             WHEN 2 /* Initial Submission */ THEN
                 NEW.dateSubmitted := CURRENT_TIMESTAMP;
-            WHEN 3 /* Approved */ THEN
-                NEW.dateApproved := CURRENT_TIMESTAMP;
-            WHEN 4 /* Pending */ THEN
-                NEW.datePended := CURRENT_TIMESTAMP;
-            WHEN 5 /* Denied */ THEN
-                NEW.dateDenied := CURRENT_TIMESTAMP;
+            WHEN 3, 4, 5 /* Approved, Pending, Denied */ THEN
+                NEW.dateStatusModified := CURRENT_TIMESTAMP;
         END CASE;
+
         RETURN NEW;
     END;
 $trigger_before_update_ProjectProposal$ LANGUAGE plpgsql;

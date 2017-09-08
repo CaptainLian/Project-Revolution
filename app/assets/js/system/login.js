@@ -1,3 +1,5 @@
+const csrfToken = $('meta[data-name="csrf"]').data('token');
+
 //Alerts
 $(".myadmin-alert .closed").click(function(event) {
     $(this).parents(".myadmin-alert").fadeToggle(250);
@@ -42,7 +44,8 @@ $(".error").click(function() {
             url: '/',
             data: {
                 credential: credential,
-                password: password
+                password: password,
+                _csrf: csrfToken
             },
             async: true,
             success: function(data, textStatus, jqXHR) {

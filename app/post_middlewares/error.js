@@ -10,7 +10,7 @@ module.exports = function(app, database, models, queryFiles) {
     return [{
             name: 'Bad CSRF Token',
             action: function(err, req, res, next) {
-                logger.debug('Bad CSRF token', log_options);
+                logger.warning('Bad CSRF token', log_options);
                 if (err.code !== 'EBADCSRFTOKEN')
                     return next(err);
 

@@ -11,7 +11,9 @@ const selfsigned = require('selfsigned');
 const crypto2 = require('crypto2');
 
 const logger = global.logger;
+
 const log_options = {from: 'Account'};
+
 module.exports = function(database, models, queryFiles) {
 
     const accountModel = models.Account_model;
@@ -19,7 +21,9 @@ module.exports = function(database, models, queryFiles) {
     return {
 
         viewLogin: (req, res) => {
-            res.render('System/LoginMain');
+            const csrfToken = req.csrfToken();
+            logger.debug(`login CSRFToken: ${csrfToken}`, log_options);
+            res.render('System/LoginMain', {csrfToken: csrfToken});
         },
 
         logout: (req, res) => {
