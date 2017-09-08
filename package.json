@@ -13,7 +13,9 @@
     "connect-pg-simple": "^4.2.1",
     "cookie-parser": "^1.4.3",
     "crypto2": "^0.3.2",
+    "csurf": "^1.9.0",
     "dateformat": "^2.0.0",
+    "debug": "^3.0.1",
     "express": "^4.15.4",
     "express-nunjucks": "^2.2.3",
     "express-session": "^1.15.5",
@@ -27,7 +29,5 @@
     "squel": "^5.11.1",
     "winston": "^2.3.1"
   },
-  "devDependencies": {
-
-  }
+  "devDependencies": {}
 }
