@@ -1,12 +1,10 @@
 'use strict';
 
-const dateFormat = require('dateformat');
-
 const logger = global.logger;
-
 const log_options = {
     from: 'APS-Controller'
 };
+
 module.exports = function(database, models, queryFiles) {
 
     const gosmModel = models.gosmModel;
@@ -242,7 +240,7 @@ module.exports = function(database, models, queryFiles) {
             // console.log(sched);
             var exp = JSON.parse(req.body.exp);
             var funds = JSON.parse(req.body.funds);
-            var sched = sched[0];
+            sched = sched[0];
 
             console.log(sched.time[1].start);
 
@@ -390,15 +388,15 @@ module.exports = function(database, models, queryFiles) {
             const GOSMID = req.params.GOSMID;
 
             logger.debug(`Viewing GOSM of ID: ${GOSMID} of Organization: ${organizationID}`, log_options);
-
             database.task(t => {
                     return t.batch([
                         organizationModel.getOrganizationInformation(organizationID, 'name', t),
                         gosmModel.getActivitiesFromID(GOSMID, [
-                        	'id', 
-                        	'strategies', 
-                        	["to_char(targetDateStart, 'Mon DD, YYYY')", 'targetDateStart']
-                        ], t)
+                            'id',
+                            'strategies', 
+                            ["to_char(targetDateStart, 'Mon DD, YYYY')", 'targetDateStart']
+                        ], t),
+                        gosmModel.getGOSM(GOSMID, 'status', t)
                     ]);
                 })
                 .then(data => {
@@ -407,6 +405,7 @@ module.exports = function(database, models, queryFiles) {
                         organizationName: data[0].name,
                         GOSMActivities: data[1],
                         GOSMID: GOSMID,
+                        GOSMStatus: data[2].status,
                         csrfToken: req.csrfToken()
                     });
                 })
@@ -422,10 +421,8 @@ module.exports = function(database, models, queryFiles) {
         },
 
         getActivityDetails: (req, res) => {
-            console.log("GET ACTIVITY DETAILS");
-
+            logger.debug("GET ACTIVITY DETAILS", log_options);
             console.log(req.body.dbid);
-
             database.task(t => {
                 return t.batch([
                     gosmModel.getActivityDetails(req.body.dbid, undefined, t),

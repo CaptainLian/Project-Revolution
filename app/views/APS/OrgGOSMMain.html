@@ -2,6 +2,7 @@
 
 {%block meta%}
     <meta data-name="GOSM" data-id="{{GOSMID}}" />
+    <meta data-name="csrf" data-token="{{csrfToken}}" />
 {%endblock%}
 
 {%block styles%}
@@ -63,7 +64,7 @@
 </div>
 
 <!--modals-->
-<div class="modal fade bs-example-modal-lg" id="sampleModal" tabindex="-1" role="dialog" aria-labelledby="sampleModal" aria-hidden="true" style="display: none;">
+<div class="modal fade bs-example-modal-lg" id="sampleModal" tabindex="-1" role="dialog" aria-labelledby="sampleModal" aria-hidden="true" style="display: none;" data-activity-id="">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -128,8 +129,8 @@
                                 <div class="form-group">
                                     <label class="col-md-12">Write a comment for revision</label>
                                     <div class="col-md-12 text-center">
-                                        <textarea class="form-control" rows="5"></textarea> <br>
-                                        <button class ="btn btn-info" type="" data-dismiss="modal"> Add Comment</button>
+                                        <textarea id="modal_txtarea_comments" class="form-control" rows="5"></textarea> <br>
+                                        <button id="modal_btn_add_comment" class="btn btn-info" type="" data-dismiss="modal">Add Comment</button>
                                     </div>
                                 </div>
                             </section>
@@ -148,8 +149,4 @@
     <!-- /.modal-dialog -->
 </div>
 <!--/modals-->
-{%endblock%}
-
-{%block scripts%}
-    {%include "../section/ajax/ajaxCSRF.html"%}
 {%endblock%}
