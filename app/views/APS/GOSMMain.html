@@ -399,7 +399,7 @@
                             <strong> Related to Organization:</strong>
                         </div>
                         <div  class="col-md-10">
-                                <p> No</p>
+                                <p id="modal-is"> No</p>
 
                         </div>
                             
@@ -605,6 +605,8 @@
                           .map(function(){return $(this).val();}).get();
                     $("textarea").val(data[0].description);
                     $("#measures").val(data[0].measures);
+                    
+                    // $("input[name='isRelatedToOrganization']").val(data[0].isrelatedorganizationnature);
                     // var targetDateStart = $("#targetDateStart").val();
                     // var targetDateEnd = $("#targetDateEnd").val();
                     // var activityType = $("#activity-type").val();
@@ -612,8 +614,10 @@
                     // var natureType =  $("#nature-type").val();
                     // var personInCharge = $("select[name='personInCharge[]']")
                     //       .map(function(){return $(this).val();}).get();
-                    $("#isRelatedToOrganization").val(data[0].isrelatedorganizationnature);
+                    // $("#isRelatedToOrganization").val(data[0].isrelatedorganizationnature);
                     $("#budget").val(data[0].budget);
+                    console.log(data[0].isrelatedtoorganizationnature);
+                    $("input[name='isRelatedToOrganization'][value='"+data[0].isrelatedtoorganizationnature+"']").attr('checked','checked');
                     data = data[0];
                     var day = new Date(data.targetdatestart);
                     var startday = day.getMonth()+'/'+day.getDay()+ '/'+day.getFullYear();
@@ -624,11 +628,11 @@
                     var targetDateEnd = $("#targetDateEnd").val(endday).trigger('change');
 
 
-
+                    
                     $("#add-gosm").css("display","none");
                     $("#edit-gosm").css("display","");
                     $("#cancel-gosm").css("display","");
-                    console.log(data);
+                    
                 }
 
             });
@@ -737,7 +741,11 @@
                     toBeInserted2 = toBeInserted2 + i;
                 }
                 $("#modal-obj").html(toBeInserted2);
-
+                if(data.isrelatedtoorganizationnature){
+                    $("#modal-is").text("Yes");
+                }else{
+                    $("#modal-is").text("No");
+                }
 
 
 
