@@ -159,7 +159,7 @@ module.exports = function(db, queryFiles) {
 
             query = query.toString();
             logger.debug(`Executing query: ${query}`, log_options);
-            return queryExec('none', query, {
+            return queryExec('one', query, {
                 id: id
             }, connection);
         }

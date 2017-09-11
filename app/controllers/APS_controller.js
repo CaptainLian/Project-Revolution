@@ -74,11 +74,8 @@ module.exports = function(database, models, queryFiles) {
                             } else {
                                 console.log("ELSE");
 
-                                var gosmID = data.id;
-
-
                                 var dbParam = {
-                                    GOSM: gosmID
+                                    GOSM: data.id
                                 };
 
                                 console.log(dbParam);
@@ -101,9 +98,6 @@ module.exports = function(database, models, queryFiles) {
                         .catch(error => {
                             console.log(error);
                         });
-
-
-
                 });
         },
 
@@ -148,7 +142,6 @@ module.exports = function(database, models, queryFiles) {
                     var personInCharge = [];
                     personInCharge = req.body['personInCharge[]'];
 
-
                     if (!Array.isArray(personInCharge)) {
                         personInCharge = [personInCharge];
                     }
@@ -159,7 +152,6 @@ module.exports = function(database, models, queryFiles) {
                     var orgGOSMParam = {
                         termID: data.id,
                         studentOrganization: 1 //to be replaced by session variable
-
                     };
 
                     gosmModel.getOrgGOSM(orgGOSMParam)
@@ -215,23 +207,17 @@ module.exports = function(database, models, queryFiles) {
                                                     console.log(error);
                                                 });
                                         }
-
                                         res.send(data.activityid + '');
-
-
                                     })
                                     .catch(error => {
                                         res.send("0");
                                         console.log(error);
                                     });
                             }
-
                         })
                         .catch(error => {
                             console.log(error);
                         });
-
-
                 });
         },
 
@@ -274,8 +260,6 @@ module.exports = function(database, models, queryFiles) {
                     };
 
                     //insert
-
-
                 }
             }
 
@@ -364,7 +348,7 @@ module.exports = function(database, models, queryFiles) {
 
                 })
                 .catch(error => {
-                    console.log(error);
+                    throw error;
                 });
         },
 
@@ -378,10 +362,9 @@ module.exports = function(database, models, queryFiles) {
                     });
                 })
                 .catch(error => {
-                    console.log(error);
+                    throw error;
                 });
         },
-
 
         viewOrgGOSM: (req, res) => {
             const organizationID = req.params.orgID;
@@ -393,21 +376,23 @@ module.exports = function(database, models, queryFiles) {
                         organizationModel.getOrganizationInformation(organizationID, 'name', t),
                         gosmModel.getActivitiesFromID(GOSMID, [
                             'id',
-                            'strategies', 
-                            ["to_char(targetDateStart, 'Mon DD, YYYY')", 'targetDateStart']
+                            'strategies', ["to_char(targetDateStart, 'Mon DD, YYYY')", 'targetDateStart']
                         ], t),
                         gosmModel.getGOSM(GOSMID, 'status', t)
                     ]);
                 })
                 .then(data => {
                     logger.debug(JSON.stringify(data), log_options);
-                    res.render('APS/OrgGOSMMain', {
+
+                    let view = {
                         organizationName: data[0].name,
                         GOSMActivities: data[1],
                         GOSMID: GOSMID,
                         GOSMStatus: data[2].status,
                         csrfToken: req.csrfToken()
-                    });
+                    };
+                    view.showUpdateButtons = view.GOSMStatus != 1 && view.GOSMStatus != 3;
+                    res.render('APS/OrgGOSMMain', view);
                 })
                 .catch(error => {
                     throw error;

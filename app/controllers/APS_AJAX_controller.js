@@ -62,8 +62,8 @@ module.exports = function(database, models, queryFiles){
 				res.send({valid: true, success: true});
 			})
 			.catch(error => {
-				logger.debug(error, log_options);
 				res.send({valid: true, success: false});
+				throw error;
 			});
 		},
 
@@ -84,8 +84,8 @@ module.exports = function(database, models, queryFiles){
 				res.send({valid: true, success: true});
 			})
 			.catch(error => {
-				logger.warning(error, log_options);
 				res.send({valid: true, success: false});
+				throw error;
 			});
 		}
 	};

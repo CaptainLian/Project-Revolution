@@ -46,12 +46,14 @@
                     </tbody>
                 </table>
 
+                {% if showUpdateButtons %}
                 <div class="text-center">
                     <h4>Actions</h4>
                     <button id="btn_approve" class="btnGosm btn btn-success btn-rounded sa-approve" alt="alert">Approve</button>
                     <button id="btn_pend" class="btn btn-warning btn-rounded sa-pend btnGosm" alt="alert">Pend</button>
                     <button id="btn_deny" class="btn btn-danger btn-rounded sa-deny btnGosm" alt="alert">Deny</button>
                 </div>
+                {% endif %}
             </div>
         </div>
     </div>
