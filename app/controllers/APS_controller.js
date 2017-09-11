@@ -268,16 +268,16 @@ module.exports = function(database, models, queryFiles) {
 			var projectProposalParam = {
 				GOSMactivity: 1, // value should come from previous page
 				status: 1,
-				enp: 10, // to be added later
-				enmp: 20, // to be added later
-				venue: 'gokongwei', // to be added later
+				enp: req.body.enp, 
+				enmp: req.body.enmp,
+				venue: req.body.venue,
 				sourceFundOther: exp.others,
 				sourceFundParticipantFee: exp.participant,
 				sourceFundOrganizational: exp.orgFunds,
 				accumulatedOperationalFunds: funds.ope,
 				accumulatedDepositoryFunds: funds.dep,
 				organizationalFundOtherSource: funds.other,
-				preparedBy: req.session.user // to be replaced by session variable of current user
+				preparedBy: req.session.user 
 			};
 
 			db.tx(t => {
@@ -306,6 +306,10 @@ module.exports = function(database, models, queryFiles) {
 
 							}
 						}
+
+					// insert finances
+
+					
 
 
 					return t.batch(queries);
