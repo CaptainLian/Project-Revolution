@@ -235,7 +235,7 @@
 
                     <div class="row">
                         <div class=" col-md-12" style="text-align: center">
-                            <button type="submit" class="btn btn-success">Submit to CSO</button>                                                
+                            <button type="submit" id="submit-gosm" class="btn btn-success">Submit to CSO</button>                                                
                         </div>
                     </div>
                 </div>
@@ -544,6 +544,7 @@
             $("#measures").val('');
             $("#targetDateStart").val('');
             $("#targetDateEnd").val('');
+            $("#objectives").val('');
             // var activityType = $("#activity-type").val();
             // var othersDescription = $("#othersDescription").val();
             // var natureType =  $("#nature-type").val();
@@ -552,8 +553,10 @@
             $("#budget").val('');
     }
     $("#edit").on('click',function(){
+        tPencil.trigger('click');
         $("#myModal").modal('hide');
          $("html, body").animate({ scrollTop: 0 },function(){
+            
             $("#home-tab").click();
             $("#add-gosm").css("display","none");
             $("#edit-gosm").css("display","");
@@ -605,6 +608,18 @@
 
             },
             success:function(data){
+                if(data > 0){
+                    
+                    $("html, body").animate({ scrollTop: 0 },function(){
+                        $(".myadmin-alert").hide();
+                        clear();
+                        $("#add-gosm").css("display","");
+                        $("#edit-gosm").css("display","none");
+                        $("#cancel-gosm").css("display","none");
+                    });
+                }else{
+
+                }
 
             }
         });
@@ -662,10 +677,13 @@
                     console.log(data[0].isrelatedtoorganizationnature);
                     $("input[name='isRelatedToOrganization'][value='"+data[0].isrelatedtoorganizationnature+"']").attr('checked','checked');
                     data = data[0];
-                    var day = new Date(data.targetdatestart);
-                    var startday = day.getMonth()+'/'+day.getDay()+ '/'+day.getFullYear();
-                    var day2 = new Date(data.targetdateend);
-                    var endday = day2.getMonth()+'/'+day2.getDay()+ '/'+day2.getFullYear();
+                     data.targetdatestart  = data.targetdatestart.substring(0,10);
+                     console.log(data.targetdatestart);
+                var sdate = data.targetdatestart.split('-');
+                var startday = sdate[1]+'/'+sdate[2]+ '/'+sdate[0];
+                data.targetdateend  = data.targetdateend.substring(0,10);
+                var edate = data.targetdateend.split('-');
+                var endday = edate[1]+'/'+edate[2]+ '/'+edate[0];
                     
                     var targetDateStart = $("#targetDateStart").val(startday).trigger('change');
                     var targetDateEnd = $("#targetDateEnd").val(endday).trigger('change');
@@ -741,8 +759,10 @@
         }
     }
     var currentID = 0;
+    var tPencil;
     $(document).on('click','i.fa-eye',function(){
         $("#myModal").modal('show');
+        tPencil = $(this).closest("i.fa-pencil");
         clearModal();
         currentID = $(this).attr("db-id");
         console.log("DB-ID = "+ $(this).attr("db-id"));
@@ -767,10 +787,12 @@
                 $("#modal-budget").text(data.budget);
                 $("#modal-type").text(dType(data.activitytype));
                 $("#modal-nature").text(dNat(data.activitynature));
-                var day = new Date(data.targetdatestart);
-                var startday = day.getMonth()+'/'+day.getDay()+ '/'+day.getFullYear();
-                var day2 = new Date(data.targetdateend);
-                var endday = day2.getMonth()+'/'+day2.getDay()+ '/'+day2.getFullYear();
+                data.targetdatestart  = data.targetdatestart.substring(0,10);
+                var sdate = data.targetdatestart.split('-');
+                var startday = sdate[1]+'/'+sdate[2]+ '/'+sdate[0];
+                data.targetdateend  = data.targetdateend.substring(0,10);
+                var edate = data.targetdateend.split('-');
+                var endday = edate[1]+'/'+edate[2]+ '/'+edate[0];
                 $("#modal-starttime").text(startday).trigger('change');
                 $("#modal-endtime").text(endday).trigger('change');
                 var toBeInserted = '';
@@ -927,6 +949,16 @@
                     // $("#alerttopright-fail").fadeToggle(350);
                     $("html, body").animate({ scrollTop: 0 }, "slow"); 
                 }
+            }
+        });
+    });
+    $("#submit-gosm").click(function(){
+        $.ajax({
+            type:'POST',
+            url:'/submitGOSM',
+            data:{'org':1},
+            success:function(data){
+
             }
         });
     });

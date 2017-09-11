@@ -427,7 +427,7 @@ module.exports = function(database, models, queryFiles) {
             database.task(t => {
                 return t.batch([
                     gosmModel.getActivityDetails(req.body.dbid, undefined, t),
-                    gosmModel.getActivityProjectHeads(req.body.dbid, undefined, t)
+                    gosmModel.getActivityProjectHeads(req.body.dbid, ['firstname','lastname','a.idNumber'], t)
                 ]);
             }).then(data => {
                 res.send(data);
