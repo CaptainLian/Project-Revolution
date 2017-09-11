@@ -143,6 +143,7 @@
                                     <option value="11445953">Markus Flores</option>
                                     <option value="11445952">Lian Laguio</option>
                                 </select>
+
                             </div>
 
 
@@ -154,9 +155,9 @@
                             <div class="col-md-9">
                                 <div class="radio-list">
                                     <label>
-                                        <input type="radio" id="isRelatedToOrganization" name="isRelatedToOrganization" value="true"> Yes </label>
+                                        <input type="radio" name="isRelatedToOrganization" value="true"> Yes </label>
                                         <label>
-                                        <input type="radio" id="isRelatedToOrganization" name="isRelatedToOrganization" value="false" > No </label>
+                                        <input type="radio"  name="isRelatedToOrganization" value="false" > No </label>
                                 </div>
                             </div>
                         </div>
@@ -497,6 +498,13 @@
                     "dbid" : trRow,
                 },
                 success:function(data){
+                    console.log(data[1]);
+                    var pic = data[1];
+                    var id = [];
+                    for(var x = 0; x < pic.length; x++){
+                        id.push(pic[x].idnumber);
+                    }
+                    $("#personInCharge").select2('val',id);
                     $("#strategy").val(data[0].strategies);
                     $("#goals").val(data[0].goals);
                     var objectives = $("input[name='objectives[]']")
@@ -606,6 +614,7 @@
             success:function(data){
                 console.log(data);
                 var pic  = data[1];
+
                 data = data[0];
                 $("#modal-strat").text(data.strategies);
                 var objectives = data.objectives;
@@ -619,8 +628,8 @@
                 var startday = day.getMonth()+'/'+day.getDay()+ '/'+day.getFullYear();
                 var day2 = new Date(data.targetdateend);
                 var endday = day2.getMonth()+'/'+day2.getDay()+ '/'+day2.getFullYear();
-                $("#modal-starttime").text(startday);
-                $("#modal-endtime").text(endday);
+                $("#modal-starttime").text(startday).trigger('change');
+                $("#modal-endtime").text(endday).trigger('change');
                 var toBeInserted = '';
                 for(     var x = 0; x < pic.length; x++){
                     var i = '<p>'+pic[x].firstname+' '+pic[x].lastname+'</p>';
