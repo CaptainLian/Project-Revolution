@@ -562,9 +562,52 @@
             
     });
     $("#edit-gosm").click(function(){
+
         $("#add-gosm").css("display","");
         $("#edit-gosm").css("display","none");
         $("#cancel-gosm").css("display","none");
+
+        var strategy = $("#strategy").val();
+        var goals = $("#goals").val();
+        var objectives = $("input[name='objectives[]']")
+              .map(function(){return $(this).val();}).get();
+        var description = $("textarea").val();
+        var measures =  $("#measures").val();
+        var targetDateStart = $("#targetDateStart").val();
+        var targetDateEnd = $("#targetDateEnd").val();
+        var activityType = $("#activity-type").val();
+        var othersDescription = $("#othersDescription").val();
+        var natureType =  $("#nature-type").val();
+        var personInCharge = $("select[name='personInCharge[]']")
+              .map(function(){return $(this).val();}).get();
+        var isRelatedToOrganization = $("input[name='isRelatedToOrganization']:checked").val();
+        var budget = $("#budget").val();
+
+
+        $.ajax({
+            type:'POST',
+            url:'',
+            data:{
+                "id":currentID,
+                "strategy":strategy,
+                "goals":goals,
+                "objectives":objectives,
+                "description":description,
+                "measures":measures,
+                "targetDateStart":targetDateStart,
+                "targetDateEnd":targetDateEnd,
+                "activity-type":activityType,
+                "othersDescription": othersDescription,
+                "nature-type":natureType,
+                "personInCharge":personInCharge,
+                "isRelatedToOrganization":isRelatedToOrganization,
+                "budget":budget
+
+            },
+            success:function(data){
+
+            }
+        });
     });
     $("#cancel-gosm").click(function(){
 
@@ -697,9 +740,11 @@
             return "Outreach";
         }
     }
+    var currentID = 0;
     $(document).on('click','i.fa-eye',function(){
         $("#myModal").modal('show');
         clearModal();
+        currentID = $(this).attr("db-id");
         console.log("DB-ID = "+ $(this).attr("db-id"));
         $.ajax({
             type:'POST',
