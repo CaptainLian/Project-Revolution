@@ -185,13 +185,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <span class="hide-menu sideBarText">Budget Proposal  <!--<span class="label label-rouded label-danger pull-right">HOT</span>--></span>
                          </a>
                     </li>
-                    <li> <a href="javascript:void(0);" class="waves-effect"><i class="linea-icon linea-elaborate fa-fw text-success" data-icon="&#xe025;"></i>
-                            <span class="hide-menu sideBarText">Assigning OIC<!--<span class="label label-rouded label-danger pull-right">HOT</span>--><span class="fa arrow"></span></span>
+                    <li> <a data-toggle="modal" href='#assignModal' class="waves-effect"><i class="linea-icon linea-elaborate fa-fw text-success" data-icon="&#xe025;"></i>
+                            <span class="hide-menu sideBarText">Assign OIC<!--<span class="label label-rouded label-danger pull-right">HOT</span>--></span>
                          </a>
-                         <ul class="nav nav-second-level collapse">
-                            <li><a data-toggle="modal" href='#orgFundModal'>Organization Fund</a></li>
-                            <li><a data-toggle="modal" href='#pettyCashFundModal'>Petty Cash Fund</a></li>
-                         </ul>
                     </li>
                 </ul>
             </div><div class="slimScrollBar" style="background: rgb(220, 220, 220); width: 5px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 7px; z-index: 99; right: 1px; height: 364px;"></div><div class="slimScrollRail" style="width: 5px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 1px;"></div></div>
@@ -220,34 +216,24 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <!-- /.row -->
             </div>
             <!--modals-->
-            <div class="modal fade" id="orgFundModal">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title">Assign Officer-In-Charge for Org Funds</h4>
-                        </div>
-                        <div class="modal-body">
-                            
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <div class="modal fade" id="pettyCashFundModal">
+            <div class="modal fade" id="assignModal">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title">Assign Officer-In-Charge for Petty Cash Funds</h4>
+                            <h4 class="modal-title">Assign an Officer-In-Charge</h4>
                         </div>
                         <div class="modal-body">
 
                             <div>
+                                <h5 class="box-title m-t-30">Fund type:</h5>
+                                <div class="input-group">
+                                    <select name="" id="input" class="form-control" required="required">
+                                        <option value="">Organization Fund</option>
+                                        <option value="">Petty Cash Fund</option>
+                                    </select>
+                                </div>
                                 <h5 class="box-title m-t-30">Select an officer to replace you</h5>
                                 <div class="input-group">
                                     <select name="" id="input" class="form-control" required="required">
