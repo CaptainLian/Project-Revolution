@@ -340,11 +340,12 @@ module.exports = function(database, models, queryFiles) {
         submitGOSM: (req, res) => {
 
             var dbParam = {
+                //TODO: Session get student organization
                 studentorganization: 1 // session variable of organization
             };
 
             gosmModel.submitGOSM(dbParam)
-                .then(data => {
+                .then(() => {
 
                 })
                 .catch(error => {
