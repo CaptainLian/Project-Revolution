@@ -22,6 +22,10 @@
         swal("Good job!", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lorem erat eleifend ex semper, lobortis purus sed.", "success")
     });
 
+    //success request
+    $('.sa-successRequest').click(function(){
+        swal("Success!", "Request has been submitted for approval.", "success")
+    });
     //Warning Message
     $('.sa-warning').click(function(){
         swal({   
