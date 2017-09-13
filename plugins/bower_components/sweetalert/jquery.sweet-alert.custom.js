@@ -8,22 +8,26 @@
     SweetAlert.prototype.init = function() {
         
     //Basic
-    $('#sa-basic').click(function(){
+    $('.sa-basic').click(function(){
         swal("Here's a message!");
     });
 
     //A title with a text under
-    $('#sa-title').click(function(){
+    $('.sa-title').click(function(){
         swal("Here's a message!", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lorem erat eleifend ex semper, lobortis purus sed.")
     });
 
     //Success Message
-    $('#sa-success').click(function(){
+    $('.sa-success').click(function(){
         swal("Good job!", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lorem erat eleifend ex semper, lobortis purus sed.", "success")
     });
 
+    //success request
+    $('.sa-successRequest').click(function(){
+        swal("Success!", "Request has been submitted for approval.", "success")
+    });
     //Warning Message
-    $('#sa-warning').click(function(){
+    $('.sa-warning').click(function(){
         swal({   
             title: "Are you sure?",   
             text: "Clicking Yes will ",   
@@ -38,7 +42,7 @@
     });
 
     //Approve Activity
-    $('#sa-approve').click(function(){
+    $('.sa-approve').click(function(){
         swal({   
             title: "Approve Activity?",   
             text: "Clicking confirm will approve the activity",   
@@ -52,33 +56,45 @@
         });
     });
     //Pend Activity
-    $('#sa-pend').click(function(){
-        swal({   
-            title: "Pend this Activity?",   
-            text: "<textarea id='text' placeholder='Write the reason why'></textarea>",
-            html: true,
-            type: "warning",   
-            showCancelButton: true,   
-            confirmButtonColor: "#DD6B55",   
-            confirmButtonText: "confirm",   
-            closeOnConfirm: false 
-        }, function(){   
-            swal("Success!", "This activity has been pended.", "success"); 
+    $('.sa-pend').click(function(){
+        swal({
+          title: "Pend Activity",
+          text: "Write your reason for pending the activity:",
+          type: "input",
+          showCancelButton: true,
+          closeOnConfirm: false,
+          inputPlaceholder: "Write something"
+        },
+        function(inputValue){
+          if (inputValue === false) return false;
+          
+          if (inputValue === "") {
+            swal.showInputError("You need to write something!");
+            return false
+          }
+          
+          swal("Success!", "You wrote: " + inputValue, "success");
         });
     });
     //Deny Activity
-    $('#sa-deny').click(function(){
-        swal({   
-            title: "Deny this activity?",   
-            text: "<textarea id='text1' placeholder='Write the reason why'></textarea>",
-            html: true,
-            type: "warning",   
-            showCancelButton: true,   
-            confirmButtonColor: "#DD6B55",   
-            confirmButtonText: "confirm",   
-            closeOnConfirm: false 
-        }, function(){   
-            swal("Success!", "This activity has been denied.", "success"); 
+    $('.sa-deny').click(function(){
+        swal({
+          title: "Deny Activity",
+          text: "Write your reason for denying the activity:",
+          type: "input",
+          showCancelButton: true,
+          closeOnConfirm: false,
+          inputPlaceholder: "Write something"
+        },
+        function(inputValue){
+          if (inputValue === false) return false;
+          
+          if (inputValue === "") {
+            swal.showInputError("You need to write something!");
+            return false
+          }
+          
+          swal("Success!", "You wrote: " + inputValue, "success");
         });
     });
     //Parameter

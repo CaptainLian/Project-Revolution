@@ -25,3 +25,19 @@
 .hiddenTab{
 	display: none;
 }
+.btnGosm{
+	display: inline-block;
+	
+}
+.tab-current-warning{
+	color: #FEC107;
+}
+.tab-current-success{
+	color: #00C292;
+}
+.tab-current-info{
+	color: #03A9F3;
+}
+.cog{
+	cursor: pointer;
+}
