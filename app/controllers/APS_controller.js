@@ -225,8 +225,8 @@ module.exports = function(database, models, queryFiles) {
             var sched = JSON.parse(req.body.sched);
             // console.log(sched);
             var exp = JSON.parse(req.body.exp);
-            var funds = JSON.parse(req.body.funds);
             sched = sched[0];
+            var funds = JSON.parse(req.body.funds);
 
             console.log(sched.time[1].start);
 
@@ -412,7 +412,7 @@ module.exports = function(database, models, queryFiles) {
             database.task(t => {
                 return t.batch([
                     gosmModel.getActivityDetails(req.body.dbid, undefined, t),
-                    gosmModel.getActivityProjectHeads(req.body.dbid, undefined, t)
+                    gosmModel.getActivityProjectHeads(req.body.dbid, ['firstname','lastname','a.idNumber'], t)
                 ]);
             }).then(data => {
                 res.send(data);

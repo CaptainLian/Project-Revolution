@@ -3,6 +3,7 @@
 
 {%block styles%}
 	<link href="css/custom.css" rel="stylesheet">
+
 {%endblock%}
 
 {%block header%}
@@ -22,52 +23,46 @@
         <div class="panel-wrapper collapse in">
             <div class="panel-body">
                    <table class="table table-striped">
-                                        <thead>
-                                            <tr style="display: none">
-                                                <th></th>
-                                                <th></th>
-                                                <th></th>
-                                                <th></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            
-                                            <tr>
-                                                <td><strong>Title of Activity:</strong></td>
-                                                <td colspan="3">Recreation</td>
-                                                
-                                                    
-                                            </tr>
-                                            <tr>
-                                                <td> <strong>Nature of Activity:</strong></td>
-                                                <td >Special Interest</td>
-                                                
-                                                <td><strong> ENMP / ENP:    </strong></td>
-                                                <td>12</td>
-                                            </tr>
-                                            <tr>
-                                                <td><strong>Date:</strong></td>
-                                                <td colspan="3">September 17, 2017 - September 18, 2017</td>
-                                                
-                                            </tr>
-                                            <tr>
-                                                <td><strong>Time:</strong></td>
-                                                <td >7:30 PM - 12:30 PM</td>
-                                                 <td><strong>Venue:</strong></td>
-                                                <td >Gokongwei Building</td>
-                                            </tr>
-                                            
-                                            
-                                            <tr>
-                                                <td><strong>Project Heads:</strong></td>
-                                                <td colspan="3">
-                                                    <p>Juan Dela Cruz - 09478569874</p>
-                                                    <p>Pedro Aquino - 09478532147</p>
-                                                </td>
-                                            </tr>
-                                          
-                                           
-                                        </tbody>
+                            <thead>
+                                <tr style="display: none">
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                                <tr>
+                                    <td><strong>Title of Activity:</strong></td>
+                                    <td colspan="3">Recreation</td>
+                                    
+                                        
+                                </tr>
+                                <tr>
+                                    <td> <strong>Nature of Activity:</strong></td>
+                                    <td colspan="3" >Special Interest</td>
+                                    
+                                    
+                                </tr>
+                                <tr>
+                                    <td><strong>Date:</strong></td>
+                                    <td colspan="3">September 17, 2017 - September 18, 2017</td>
+                                    
+                                </tr>
+                                
+                                
+                                
+                                <tr>
+                                    <td><strong>Project Heads:</strong></td>
+                                    <td colspan="3">
+                                        <p>Juan Dela Cruz - 09478569874</p>
+                                        <p>Pedro Aquino - 09478532147</p>
+                                    </td>
+                                </tr>
+                              
+                               
+                            </tbody>
                     </table>
                   
                     <section id="section-linetriangle-2" style="min-height:1000px;padding-top:55px">
@@ -78,7 +73,7 @@
                                 </li>
                                 <li class="text-center" role="tab"><h4><span><i class="fa fa-calendar"></i></span></h4> </li>
                                 <li class="text-center" role="tab"><h4><span><i class="fa fa-money"></i></span></h4> </li>
-                                <li class="text-center" role="tab"><h4><span><i class="fa fa-credit-card"></i></span> </h4> </li>
+                               
                                 <li class="text-center" role="tab"><h4><span><i class="fa fa-upload"></i></span></h4> </li>
                             </ul>
                             <div class="wizard-content">
@@ -86,9 +81,28 @@
                               <div class="wizard-pane active" role="tabpanel">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <div class="form-group">
+                                            <div class="form-group col-md-12 ">
                                                 <h3>Brief Context / Perspective of the Activity</h3>
                                                 <hr>
+                                                <label class="control-label col-md-6">Expected number of Member Participants</label>
+                                                <input id="enmp" class="col-md-6" disabled="" type="text">                                                                                 
+                                            </div>
+                                            <div class="form-group col-md-12 ">
+                                                <label class="control-label col-md-6">Expected number of Participants</label>
+                                                <input id="emp" class="col-md-6" disabled="" type="text">                                                                                 
+                                            </div>
+                                            <div class="form-group col-md-12 ">
+                                                <label class="control-label col-md-6">Venue</label>
+                                                 <select  name="venue" class="select col-md-6" id="venue">
+                                                    <option value="11445955">Neil Capistrano</option>
+                                                    <option value="11445954">Dominique Dagunton</option>
+                                                    <option value="11445953">Markus Flores</option>
+                                                    <option value="11445952">Lian Laguio</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+
+                                               
                                                 <p>
                                                     <strong> Minimum of 3 paragraphs answering the following questions in application of the Lasallian Reflection   Framework:
                                                     </strong>
@@ -253,57 +267,96 @@
                               </div>
 
                               <div class="wizard-pane" role="tabpanel">
-                                    <h3>Source of Funds and Breakdown of Expense </h3>
+                                    <h3>Funding</h3>
                                     <hr>
-                                    <div class="form-group">
+                                    <div class="form-group col-md-12" >
                                      <input name="expenses" style="height:0px; top:-1000px; position:absolute;display: none" type="text" value="">
                                       <label class="control-label col-md-3">Expenses</label>
                                       <div class="col-md-9">
                                           <div class="radio-list">
-                                              <label>
-                                                  <input  name="optionsRadios2" value="option1" checked="" type="radio"> Yes </label>
-                                              <label>
-                                                  <input name="optionsRadios2" value="option2"  type="radio"> No </label>
+                                                <label>
+                                                  <input  name="optionsRadios2" value="option1" checked="" type="radio"> Yes 
+                                                </label>
+                                                <label>
+                                                  <input name="optionsRadios2" value="option2"  type="radio"> No 
+                                                </label>
                                           </div>
                                       </div>
                                     </div>
-
-                                    <div class="exp">&nbsp</div>
-
-                                    <div class="form-group exp">
-                                      <label class="control-label col-md-3">Organizational Funds</label>
-                                      <input name="organizationalFunds" id="org-exp" class="col-md-6" type="text">
+                                    <div class="row col-md-6 exp" style="border-right-color: #aaa !important ;border-right: 1px solid">
+                                        <div class="form-group col-md-12 ">
+                                            <h3 class="text-center">Organizational Funds</h3>
+                                            <hr/>
+                                            <label class="control-label col-md-6">Operational Fund</label>
+                                            <input id="ope-fund"  class="col-md-6" type="text">                                             
+                                        </div>
+                                        <div class="form-group col-md-12 ">
+                                            <label class="control-label col-md-6">Depository Fund ()</label>
+                                            <input id="dep-fund" class="col-md-6" disabled="" type="text">                                                                                 
+                                        </div>
                                         
-                                         
+
+                                        <div class="form-group col-md-12 ">
+                                            <label class="control-label col-md-6">Other Sources of Funds</label>
+                                            <input id="other-fund" class="col-md-6" type="text">                                                                                
+                                        </div>
+
+                                        
+                                        <div class="form-group col-md-12   ">
+                                            <hr/>
+                                            <label class="control-label col-md-6">Total Cash for Disbursement:</label>
+                                            <a id="tot-fund" class="col-md-6" type="text">0</a>                                                                                         
+                                        </div>
+
+                                        <div class="form-group col-md-12 ">
+                                            <label class="control-label col-md-6">Total Projected Expenses:</label>
+                                            <a id="proj-exp" class="col-md-6" type="text">0</a>
+                                            
+                                             
+                                        </div>
+
+                                        <div class="form-group col-md-12 ">
+                                            <label class="control-label col-md-6">Remaining Balance:</label>
+                                            <a id="bal-fund" class="col-md-6" type="text">0</a>
+                                        </div>
+                                                
                                     </div>
 
-                                    <div class="exp">&nbsp</div>
-
-                                    <div class="form-group exp">
-                                      <label class="control-label col-md-3">Participant's Fee</label>
-                                      <input name="participantsFee" id="par-exp" class="col-md-6" type="text">
+                                    <div class="row col-md-6 exp">
                                         
-                                         
+                                        <div class="form-group exp col-md-12">
+                                            <h3 class="text-center">Source of Funds</h3>
+                                            <hr>
+                                            <label class="control-label col-md-6">Organizational Funds</label>
+                                            <input name="organizationalFunds" disabled="" id="org-exp" class="col-md-6" type="text">                                                                                 
+                                        </div>
+                                                                       
+                                        <div class="form-group exp col-md-12">
+                                            <label class="control-label col-md-6">Participant's Fee</label>
+                                            <input name="participantsFee" id="par-exp" class="col-md-6" type="text">                                                                                 
+                                        </div>
+                
+
+                                        <div class="form-group exp col-md-12">
+                                            <label class="control-label col-md-6">Others(i.e Sponsorship)</label>
+                                            <input name="others" id="others-exp" class="col-md-6" type="text">                                                                        
+                                        </div>
+
+                                        <div class="form-group col-md-12 exp">
+                                            <hr/>
+                                            <label class="control-label asd col-md-6">Total</label>
+                                            <a class="col-md-6 tot-exp" id="tot-exp">0</a>                                                                                 
+                                        </div>
+
                                     </div>
 
-                                    <div class="exp">&nbsp</div>
+<!--                                     <div class="exp">&nbsp</div>
 
-                                    <div class="form-group exp">
-                                      <label class="control-label col-md-3">Others(i.e Sponsorship)</label>
-                                      <input name="others" id="others-exp" class="col-md-6" type="text">
-                                        
-                                         
-                                    </div>
+                                    
 
-                                    <div class="exp">&nbsp</div>
-                                    <hr class="exp">
+                                   
 
-                                     <div class="form-group exp">
-                                      <label class="control-label col-md-3">Total</label>
-                                      <a class="col-md-6" id="tot-exp" type="text">0</a>
-                                        
-                                         
-                                    </div>
+
                                     <div class="exp">&nbsp</div>
                                     <div class="exp">&nbsp</div>
 
@@ -325,13 +378,13 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <!-- <tr>
+                                                    <tr>
                                                         <td>Car</td>
                                                         <td>100</td>
                                                     
                                                         <td>20</td>
                                                         <th class="total">0</th>
-                                                    </tr> -->
+                                                    </tr>
                                                   
                                                 </tbody>
                                                 <tfoot>
@@ -351,133 +404,100 @@
                                              </div>
 
                                         </div>
-                                    </div>
+                                    </div> -->
 
-                                   
-                                    
-                              </div>
 
-                              <div class="wizard-pane" role="tabpanel">
-                                    <h3>Organizational Funds</h3>
+
+<!-- 
+                                                                        <h3>Organizational Funds</h3>
                                     <input style="height:0px; top:-1000px; position:absolute;display: none" type="text" value="">
                                     <hr>
-                                        
+                                         -->
                                           
 
-                                    <div class="form-group">
-                                      <label class="control-label col-md-3">Operational Fund</label>
-                                      <input id="ope-fund"  class="col-md-9" type="text">
-                                        
-                                         
-                                    </div>
+                                    
 
                                     <div>&nbsp</div>
 
-                                    <div class="form-group">
-                                      <label class="control-label col-md-3">Depository Fund</label>
-                                      <input id="dep-fund" class="col-md-9" type="text">
-                                        
-                                         
-                                    </div>
+                                   
 
                                     <div>&nbsp</div>
 
-                                    <div class="form-group">
-                                      <label class="control-label col-md-3">Other Sources of Funds</label>
-                                      <input id="other-fund" class="col-md-9" type="text">
-                                        
-                                         
-                                    </div>
+                                   
 
                                     <div>&nbsp</div>
-                                    <hr>
+                                    
 
-                                     <div class="form-group">
-                                      <label class="control-label col-md-3">Total Cash for Disbursement:</label>
-                                      <a id="tot-fund" class="col-md-9" type="text">0</a>
-                                        
-                                         
-                                    </div>
+                                   
                                     <div>&nbsp</div>
                                     <div>&nbsp</div>
                                     <div>&nbsp</div>
 
                                     
 
-                                     <div class="form-group">
-                                      <label class="control-label col-md-3">Total Projected Expenses:</label>
-                                      <a id="proj-exp" class="col-md-9" type="text">0</a>
-                                        
-                                         
-                                    </div>
+                                    
 
                                     <div>&nbsp</div>
                                     <div>&nbsp</div>
                                     <div>&nbsp</div>
+                                    
 
-                                     <div class="form-group">
-                                      <label class="control-label col-md-3">Remaining Balance:</label>
-                                      <a id="bal-fund" class="col-md-9" type="text">0</a>
-                                        
-                                         
-                                    </div>
+                                    
+                                    <div class="row col-md-12">&nbsp</div>
+                                    <div class="row col-md-12">&nbsp</div>
+                                    <div class="row col-md-12">&nbsp</div>
+                                    <div class="row col-md-12">&nbsp</div>
 
-                                    <div>&nbsp</div>
-                                    <div>&nbsp</div>
-                                    <div>&nbsp</div>
-
-                                    <h3>Projected Income</h3>
-                                    <hr>
 
                                   
                                     <table id="mainTable2" class="table editable-table table-bordered color-bordered-table success-bordered-table table-striped m-b-0">
-                                                <thead>
-                                                    <tr>
-                                                        <th colspan="5">Projected Revenue</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>Item</th>
-                                                        <th>Quantity</th>
-                                                        <th>Selling Price</th>
-                                                        <th>Total Cost</th>
-                                                        <th width="5%"></th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr class="rev-row" style="display: none">
-                                                        <td>Car</td>
-                                                        <td>100</td>
-                                                    
-                                                        <td>20</td>
-                                                        <th class="total">0</th>
-                                                    </tr>                                                    
-                                                    <tr>
-                                                        <th bgcolor="#fb9678" style="color: #fff" colspan="5" >Less: Projected Expense</th>
-                                                    </tr>
-                                                     <tr class="exp-row">
-                                                        <th bgcolor="#fb9678" style="color: #fff">Item</th>
-                                                        <th bgcolor="#fb9678" style="color: #fff">Quantity</th>
-                                                        <th bgcolor="#fb9678" style="color: #fff">Selling Price</th>
-                                                        <th bgcolor="#fb9678" style="color: #fff">Total Cost</th>
-                                                        <th bgcolor="#fb9678" style="color: #fff" width="5%"></th>
-                                                    </tr>
-                                                    
-                                                </tbody>
-                                                <tfoot>
-                                                    <tr>
-                                                        <th class="text-right" colspan="3"><strong>Total Income</strong></th>
-                                                        
-                                                        <th class="income-tots" colspan="2"></th>
-                                                    </tr>
-                                                    </thead>
+                                        <thead class="table-less">
+                                            <tr>
+                                                <th colspan="5">Projected Revenue</th>
+                                            </tr>
+                                            <tr>
+                                                <th>Item</th>
+                                                <th>Quantity</th>
+                                                <th>Selling Price</th>
+                                                <th>Total Cost</th>
+                                                <th width="5%"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="rev-row" style="display: none">
+                                                <td>Car</td>
+                                                <td>100</td>
+                                            
+                                                <td>20</td>
+                                                <th class="total">0</th>
+                                            </tr>                                                    
+                                            <tr>
+                                                <th bgcolor="#fb9678" style="color: #fff" colspan="5" ><a class="table-less">Less: </a>Projected Expense</th>
+                                            </tr>
+                                             <tr class="exp-row">
+                                                <th bgcolor="#fb9678" style="color: #fff">Item</th>
+                                                <th bgcolor="#fb9678" style="color: #fff">Quantity</th>
+                                                <th bgcolor="#fb9678" style="color: #fff">Selling Price</th>
+                                                <th bgcolor="#fb9678" style="color: #fff">Total Cost</th>
+                                                <th bgcolor="#fb9678" style="color: #fff" width="5%"></th>
+                                            </tr>
+                                            
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th class="text-right" colspan="3"><strong>Total<a class="table-less">Income</a></strong></th>
+                                                
+                                                <th class="income-tots" colspan="2"></th>
+                                            </tr>
+                                            </thead>
                                     </table>
 
 
                                     <div>&nbsp</div>
                                     <div class=" form-group text-center">
 
-                                         <button type="button" id="insert-button-income" class="btn btn-success">Insert Revenue</button>
-                                           <button type="button" id="insert-button-expense2" class="btn btn-danger">Insert Expense </button>
+                                         <button  type="button" id="insert-button-income" class="btn btn-success table-less">Insert Revenue</button>
+                                           <button type="button" id="insert-button-expense2" class="btn btn-danger ">Insert Expense </button>
                                     </div>
 
                                     <div>&nbsp</div>
@@ -485,9 +505,11 @@
                                     <div>&nbsp</div>
 
 
-
+                                   
+                                    
                               </div>
 
+                             
                               <div class="wizard-pane" role="tabpanel">
                                     <h3>Attachments</h3>
                                     <hr>
@@ -524,7 +546,13 @@
 {%block scripts%}
     {%include "../section/ajax/ajaxCSRF.html"%}
 <script type="text/javascript">
+
+    var revenueLess = 1;
+
     ctr = 0;
+    
+
+    $("#venue").select2();
     $("textarea").change(function(){
         $(this).val();
     });
@@ -542,11 +570,19 @@
 
         });
     $(document).ready(function(){
+        if(revenueLess){
+            $(".table-less").css('display','none');
+            $("#mainTable2").removeClass('success-bordered-table').addClass('danger-bordered-table');
+
+        }
         $("div.fixed-table-loading").remove();
         $('#datepicker-autoclose').datepicker({
             autoclose: true,
             todayHighlight: true
         });
+
+
+
         $("#org-exp").trigger("focus");
         $("#ope-fund, #dep-fund, #other-fund, #org-exp, #par-exp, #others-exp").val("0");
         
@@ -1089,12 +1125,15 @@
                         exp:exp,
                         funds:funds 
                     };
-
+                    console.log("pprData");
                     console.log(pprData);
                     $.ajax({
                         type:'POST',
                         url:'/activityRequirements',
                         data: {
+                            enmp: $("#enmp").val(),
+                            emp: $("#emp").val(),
+                            venue: $("#venue").val(),
                             context : $("textarea").val(),
                             sched: JSON.stringify(sched),
                             exp: JSON.stringify(exp),
@@ -1290,6 +1329,9 @@
                 exp = (parseFloat($(this).find("th.total").html())+ exp);
             });          
             var curr = inc - exp;
+            if(revenueLess){
+                curr = curr * -1;
+            }
             $(".income-tots").html(curr); 
         });
 
@@ -1315,21 +1357,38 @@
                 exp = (parseFloat($(this).find("th.total").html())+ exp);
             });          
             var curr = inc - exp;
+            if(revenueLess){
+                curr = curr * -1;
+            }
             $(".income-tots").html(curr); 
             
         });
     });
-    $("#org-exp, #par-exp, #others-exp").focus(function(){
-        $("#tot-exp").html(parseFloat($("#org-exp").val())+parseFloat($("#par-exp").val())+parseFloat($("#others-exp").val()));
+    $(" #par-exp, #others-exp").on('focus',function(){
+        $("#org-exp").off();
+        $("#org-exp").val(parseFloat($("#tot-exp").text())-(parseFloat($("#par-exp").val())+parseFloat($("#others-exp").val())   ));
+
+        $("#org-exp").on();
+        $("#org-exp").trigger('change');
     });
-    $("#org-exp, #par-exp, #others-exp").change(function(){
-        $("#tot-exp").html(parseFloat($("#org-exp").val())+parseFloat($("#par-exp").val())+parseFloat($("#others-exp").val()));
+    $(" #par-exp, #others-exp").on('change',function(){
+        $("#org-exp").off();
+        $("#org-exp").val(parseFloat($("#tot-exp").text())-(parseFloat($("#par-exp").val())+parseFloat($("#others-exp").val())));
+        $("#org-exp").on();
+        $("#org-exp").trigger('change');
+
     });
-    $("#org-exp, #par-exp, #others-exp").keypress(function(){
-        $("#tot-exp").html(parseFloat($("#org-exp").val())+parseFloat($("#par-exp").val())+parseFloat($("#others-exp").val()));
+    $("#par-exp, #others-exp").on('keypress',function(){
+        $("#org-exp").off();
+        $("#org-exp").val(parseFloat($("#tot-exp").text())-(parseFloat($("#par-exp").val())+parseFloat($("#others-exp").val())));
+        $("#org-exp").on();
+        $("#org-exp").trigger('change');
     });
-    $("#org-exp, #par-exp, #others-exp").keyup(function(){
-        $("#tot-exp").html(parseFloat($("#org-exp").val())+parseFloat($("#par-exp").val())+parseFloat($("#others-exp").val()));
+    $(" #par-exp, #others-exp").on('keyup',function(){
+        $("#org-exp").off();
+        $("#org-exp").val(parseFloat($("#tot-exp").text())-(parseFloat($("#par-exp").val())+parseFloat($("#others-exp").val())));
+        $("#org-exp").on();
+        $("#org-exp").trigger('change');
     });
     $("#insert-button-income").click(function(){
         var td =  '<tr  class="inc">'+
@@ -1391,6 +1450,24 @@
       }
       
     });
+    
+     $('th.income-tots').bind('DOMSubtreeModified',function(e){
+        
+        var exp = parseFloat($(this).html());
+        $("#proj-exp").text(exp);   
+
+        var orgexp = exp - ($("#par-exp").val() + $("#others-exp").val());
+        $("#org-exp").val(orgexp);
+
+        $("a#tot-exp").text(exp);
+
+        $("#ope-fund").trigger('change');
+        // $("#org-exp").trigger('change');
+
+    });
+
+   
+
     
 </script>
 
