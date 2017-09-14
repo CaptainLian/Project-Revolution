@@ -128,7 +128,7 @@ module.exports = function(db, queryFiles) {
                 statusID: statusID
             };
             if (typeof comments === 'string') {
-                query.set('comments', "'${comments}'");
+                query.set('comments', '${comments}', {dontQuote: true});
                 param.comments = comments;
             }
 
@@ -139,7 +139,7 @@ module.exports = function(db, queryFiles) {
         updateActivityComment(id, comments, connection) {
             let query = squel.update()
                 .table('GOSMActivity')
-                .set('comments', "'${comments}'")
+                .set('comments', '${comments}', {dontQuote: true})
                 .where('id = ${id}');
 
 

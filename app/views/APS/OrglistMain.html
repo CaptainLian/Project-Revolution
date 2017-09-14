@@ -1,15 +1,17 @@
-{% extends "../template/APS/AssociateOrglist.html" %}
+{% extends './APS_master.html' %}
 
-{%block styles%}
-	<link href="css/custom.css" rel="stylesheet">
+{%block meta%}
+    {{super()}}
 {%endblock%}
 
-{%block header%}
-	{%include "../section/header.html"%}
+{%block page_title%}APS - Organization GOSM Submissions{%-endblock%}
+
+{%block style%}
+    {{super()}}
 {%endblock%}
 
-{%block sidebar%}
-	{%include "../section/sidebar/cso-aps.html"%}
+{%block breadcrumb%}
+    {{breadcrumb_item('Organization Submissions List', 'active')}}
 {%endblock%}
 
 {%block content%}
@@ -60,8 +62,4 @@
 
         </div>
     </div>
-{%endblock%}
-
-{%block scripts%}
-    {%include "../section/ajax/ajaxCSRF.html"%}
 {%endblock%}
