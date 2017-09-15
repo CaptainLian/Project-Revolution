@@ -39,6 +39,9 @@ INSERT INTO OrganizationCluster (id, name, acronym)
                          VALUES (5, 'Alliance of Professional Organizations of Business and Economics', 'PROBE');
 
 TRUNCATE TABLE StudentOrganization CASCADE;
+INSERT INTO StudentOrganization (id, acronym, name, description)
+                 VALUES (0, 'CSO', 'Council of Student Organizations', NULL);
+
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
                  VALUES (1, 'Chemsoc', 'Chemistry Society', 1, NULL);
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)

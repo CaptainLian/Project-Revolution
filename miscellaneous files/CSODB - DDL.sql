@@ -1,5 +1,5 @@
-DROP EXTENSION IF EXISTS "uuid-ossp";
-DROP EXTENSION IF EXISTS "pgcrypto";
+DROP EXTENSION IF EXISTS "uuid-ossp" CASCADE;
+DROP EXTENSION IF EXISTS "pgcrypto" CASCADE;
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
@@ -40,10 +40,10 @@ CREATE TABLE College (
 
 DROP TABLE IF EXISTS ActivityType CASCADE;
 CREATE TABLE ActivityType (
-	id INTEGER,
-	name VARCHAR(45) NOT NULL,
+    id INTEGER,
+    name VARCHAR(45) NOT NULL,
 
-	PRIMARY KEY(id)
+    PRIMARY KEY(id)
 );
 
 DROP TABLE IF EXISTS ActivityNature CASCADE;
@@ -88,10 +88,17 @@ CREATE TABLE StudentOrganization (
     PRIMARY KEY (id)
 );
 
+DROP TABLE IF EXISTS AccountType CASCADE;
+CREATE TABLE AccountType (
+    id INTEGER,
+    name VARCHAR(45),
 
+    PRIMARY KEY (id)
+);
 DROP TABLE IF EXISTS Account CASCADE;
 CREATE TABLE Account (
     email VARCHAR(255),
+    type INTEGER REFERENCES AccountType(id),
     idNumber INTEGER NULL UNIQUE,
     password CHAR(60) NOT NULL,
     salt CHAR(29),
@@ -110,11 +117,8 @@ CREATE TABLE Account (
 CREATE OR REPLACE FUNCTION trigger_before_insert_Account()
 RETURNS trigger AS
 $trigger_before_insert_Account$
-    DECLARE
-        salt CHAR(29);
     BEGIN
-        SELECT gen_salt('bf') INTO salt;
-        NEW.salt = salt;
+        SELECT gen_salt('bf') INTO NEW.salt;
         SELECT crypt(NEW.password, NEW.salt) INTO NEW.password;
 
         NEW.dateCreated = CURRENT_TIMESTAMP;
@@ -130,11 +134,8 @@ CREATE TRIGGER before_insert_Account
 CREATE OR REPLACE FUNCTION trigger_before_update_Account()
 RETURNS trigger AS
 $trigger_before_update_Account$
-    DECLARE
-        salt CHAR(29);
     BEGIN
-        SELECT gen_salt('bf') INTO salt;
-        NEW.salt = salt;
+        SELECT gen_salt('bf') INTO NEW.salt;
         SELECT crypt(NEW.password, NEW.salt) INTO NEW.password;
         NEW.dateModified = CURRENT_TIMESTAMP;
         return NEW;
@@ -142,31 +143,47 @@ $trigger_before_update_Account$
 $trigger_before_update_Account$ LANGUAGE plpgsql;
 CREATE TRIGGER before_update_Account
     BEFORE UPDATE ON Account
-    FOR EACH ROW
+    FOR EACH ROW WHEN (crypt(NEW.password, OLD.salt) <> OLD.password)
     EXECUTE PROCEDURE trigger_before_update_Account();
     /* Account Table Triggers End */
 
-    /* Organization Structure */
 DROP TABLE IF EXISTS OrganizationPosition CASCADE;
 CREATE TABLE OrganizationPosition (
-    id INTEGER,
-    name VARCHAR(45),
+    id SERIAL UNIQUE,
+    organization INTEGER REFERENCES StudentOrganization(id),
+    sequence INTEGER NOT NULL DEFAULT -1,
+    rank INTEGER,
+    uniquePosition BOOLEAN NOT NULL DEFAULT FALSE,
+    masterPosition INTEGER,
 
-    PRIMARY KEY (id)
+    PRIMARY KEY(organization, sequence),
+    CONSTRAINT rank_nonnegative_only CHECK(rank >= 0)
 );
+CREATE OR REPLACE FUNCTION trigger_before_insert_OrganizationPosition()
+RETURNS trigger AS
+$trigger_before_insert_OrganizationPosition$
+    BEGIN
+        SELECT COALESCE(MAX(id) + 1, 1) INTO STRICT NEW.sequence
+          FROM GOSMActivity
+         WHERE GOSM = NEW.GOSM;
+        return NEW;
+    END;
+$trigger_before_insert_OrganizationPosition$ LANGUAGE plpgsql;
+CREATE TRIGGER before_insert_OrganizationPosition
+    BEFORE INSERT ON OrganizationPosition
+    FOR EACH ROW
+    EXECUTE PROCEDURE trigger_before_insert_OrganizationPosition();
 
 DROP TABLE IF EXISTS OrganizationOfficer CASCADE;
 CREATE TABLE OrganizationOfficer (
-    organization INTEGER REFERENCES StudentOrganization(id),
-    officerID INTEGER REFERENCES Account(idNumber),
+    idNumber INTEGER REFERENCES Account(idNumber),
     position INTEGER REFERENCES OrganizationPosition(id),
-    dateAssigned TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    dateAssigned TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-
-    PRIMARY KEY (organization, officerID)
+    PRIMARY KEY(idNumber, position)
 );
 -- FORMS
-	/* GOSM RELATED*/
+    /* GOSM RELATED*/
 DROP TABLE IF EXISTS GOSMStatus CASCADE;
 CREATE TABLE GOSMStatus (
     id INTEGER,
@@ -251,9 +268,9 @@ CREATE TABLE GOSMActivityProjectHead (
 
     PRIMARY KEY (idNumber, activityID)
 );
-	/* END GOSM */
+    /* END GOSM */
 
-	/* Project Proposal */
+    /* Project Proposal */
 DROP TABLE IF EXISTS ProjectProposalStatus CASCADE;
 CREATE TABLE ProjectProposalStatus (
     id INTEGER,
@@ -408,8 +425,8 @@ DROP TABLE IF EXISTS ProjectProposalSourceFunds CASCADE;
 CREATE TABLE ProjectProposalSourceFunds (
     projectProposal INTEGER REFERENCES ProjectProposal(id),
     sequence INTEGER,
-   	name VARCHAR (45),
-   	amount NUMERIC(16, 4),
+    name VARCHAR (45),
+    amount NUMERIC(16, 4),
 
     PRIMARY KEY (projectProposal, sequence)
 );
@@ -428,8 +445,8 @@ CREATE TRIGGER before_insert_ProjectProposal
     FOR EACH ROW
     EXECUTE PROCEDURE trigger_before_insert_ProjectProposalSourceFunds();
 
-	/* End Project Proposal */
-	/* SPECIAL APPROVAL SLIP */
+    /* End Project Proposal */
+    /* SPECIAL APPROVAL SLIP */
 DROP TABLE IF EXISTS SpecialApprovalType CASCADE;
 CREATE TABLE SpecialApprovalType (
     id INTEGER,
@@ -453,7 +470,7 @@ CREATE TABLE SpecialApproval (
 
     PRIMARY KEY (id)
 );
-	/* END SPECIAL APPROVAL SLIP */
+    /* END SPECIAL APPROVAL SLIP */
 -- END FORMS
 -- COMMIT;
 
