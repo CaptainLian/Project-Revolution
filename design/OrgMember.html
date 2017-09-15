@@ -16,6 +16,7 @@
     <link href="../plugins/bower_components/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
     <link href="../plugins/bower_components/nestable/nestable.css" rel="stylesheet" type="text/css" />
     <link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/nestable2/1.5.0/jquery.nestable.min.CSS" rel="stylesheet" type="text/css" />
     <!-- Menu CSS -->
     <link href="../plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css" rel="stylesheet">
     <!-- animation CSS -->
@@ -34,6 +35,11 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
+    <style type="text/css">
+        .remove:{
+            color: yellow
+        }
+    </style>
 </head>
 
 <body class="fix-sidebar">
@@ -329,18 +335,30 @@
                     <h4 class="modal-title" id="myLargeModalLabel">Large modal</h4> </div>
                 <div class="modal-body">
                     
-                    <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
-                    <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+                    <div class="form-horizontal" style="vertical-align: middle;">
+                        <div class="form-group row">
+                            <label for="pos" class="col-sm-2 control-label col-form-label">Position</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="pos">
+                            </div>
+                            <div class="col-md-2" style="margin-top: 7.5px" >
+                                <span class="fa fa-plus text-success" id="add-position" style="vertical-align: middle;"></span>
+                            </div>
+                        </div>
+
+                      
+                    </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="white-box">
-                                <h3 class="box-title">Position</h3>
+                            <div class="white-box" style="border-color: #fff 1px">
+                                
                                 <div class="myadmin-dd dd" id="nestable">
                                     <ol class="dd-list">
                                         <li class="dd-item" data-id="1">
-                                            <div class="dd-handle"> Item 1 </div>
+                                            <div class="dd-handle"> Item 1 <span class="remove-pos fa fa-times" style="float: right"></span> </div>
+
                                         </li>
-                                        <li class="dd-item" data-id="2">
+                                        <li class="dd-item dd-collapsed" data-id="2">
                                             <div class="dd-handle"> Item 2 </div>
                                             <ol class="dd-list">
                                                 <li class="dd-item" data-id="3">
@@ -379,7 +397,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                    <button type="button" id="sub-pos" class="btn btn-info waves-effect text-left" data-dismiss="modal">Submit</button>
                 </div>
             </div>
             <!-- /.modal-content -->
@@ -417,8 +435,62 @@
     <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
     
     <script src="../plugins/bower_components/sweetalert/jquery.sweet-alert.custom.js"></script>
-    <script src="../plugins/bower_components/nestable/jquery.nestable.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/nestable2/1.5.0/jquery.nestable.min.js"></script>
     <script>
+        $("#sub-pos").click(function(){
+            var json = ($("#nestable").nestable('serialize'));
+            $.ajax({
+                type:'POST',
+                url:'',
+                data:{ pos:json},
+                success: function(data){
+
+                }
+            })
+        });
+        var nest = $('#nestable').nestable({
+          
+
+        });
+        $('.dd span.remove-pos').on('mousedown', function (event) {
+          event.preventDefault(); return false; 
+        });
+        $(document).on('click','span.remove-pos',function(){
+            
+            $(this).closest('li').remove();
+            console.log("Na click");
+        });
+
+        $("#pos").keypress(function(e){
+            if(e.which == 13){
+                $("#add-position").trigger('click');
+            }
+        });
+        $("#add-position").click(function(){
+
+            var value  = $("#pos").val();
+            // console.log("ASD");1
+            // $('#nestable').nestable('add', {"id":value});   
+            console.log("VALUE   - - "+value);
+            var item = '<li class="dd-item" data-id="'+ value +'">'+
+                            '<div class="dd-handle">'+ value +' <span class="remove-pos fa fa-times" style="float: right"></span> </div>'+
+                        '</li>';
+            $("#pos").val('');
+            $("#nestable").append(item);
+            $('.dd span.remove-pos').on('mousedown', function (event) {
+              event.preventDefault(); return false; 
+            });
+            $(document).on('click','span.remove-pos',function(){
+                
+                $(this).closest('li').remove();
+                console.log("Na click");
+            });
+                
+        });
+        
+            
+        
+        
         $('#myTable').DataTable( {
             dom: 'Bfrtip',
             buttons: [
@@ -436,9 +508,7 @@
                 }
             ]
         } );
-        $('#nestable').nestable({
-            group: 1
-        })
+        
     </script>
     <script type="text/javascript">
     (function() {
