@@ -1,0 +1,158 @@
+{% extends "../template/Org/OrgMember.html" %}
+
+
+{%block styles%}
+	<link href="css/custom.css" rel="stylesheet">
+{%endblock%}
+
+{%block header%}
+	{%include "../section/header.html"%}
+{%endblock%}
+
+{%block sidebar%}
+	{%include "../section/sidebar/cso-aps.html"%}
+{%endblock%}
+
+
+{%block content%}
+<div class="row">
+	<div class="col-sm-12">
+		<div class="white-box">
+			<h3 class="box-title m-b-0">Organizations</h3>
+			<p class="text-muted m-b-30">A table showing the list of organizations</p>
+			<div class="table-responsive">
+
+				<table id="myTable" class="table table-hover" role="grid" aria-describedby="myTable_info">
+					<thead>
+						<tr role="row">
+							<th class="sorting text-left" width="25%" >Name</th>
+							<th class="sorting text-left" width="21%" >Position</th>
+							<th class="sorting text-left" width="10%">Degree</th>
+							<th class="sorting text-left" width="20">Number </th>
+							<th class="sorting text-left" width="15">Email</th>
+							<th class="sorting text-center" width="9%">Actions</th>
+						</tr>
+					</thead>
+					<tbody> 
+						<tr>
+							<td>Neil Capistrano</td><!-- date of event-->
+							<td>Chairperson</td><!-- days until late-->
+							<td class="">BSIT</td>
+							<td class="">09390290165</td>
+							<td class="">neil_capistrano@dlsu.edu.ph</td>
+							<td class="text-center text-nowrap">                                                   
+								<a  data-toggle="tooltip" data-original-title="Edit"> 
+									<i  class="fa fa-pencil text-inverse m-r-10"></i> 
+								</a>
+								<a class="remove"  data-toggle="tooltip" data-original-title="Close"> 
+									<i class="fa fa-close text-danger"></i> 
+								</a>
+							</td>  
+						</tr>
+						<tr>
+							<td>Neil Capistrano</td><!-- date of event-->
+							<td>Chairperson</td><!-- days until late-->
+							<td class="">BSIT</td>
+							<td class="">09390290165</td>
+							<td class="">neil_capistrano@dlsu.edu.ph</td>
+							<td class="text-center text-nowrap">                                                   
+								<a  data-toggle="tooltip" data-original-title="Edit"> 
+									<i  class="fa fa-pencil text-inverse m-r-10"></i> 
+								</a>
+								<a class="remove"  data-toggle="tooltip" data-original-title="Close"> 
+									<i class="fa fa-close text-danger"></i> 
+								</a>
+							</td>  
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-12">
+
+	</div>
+	<div class="col-sm-12">
+
+	</div>
+
+</div>
+{%endblock%}
+
+{%block scripts%}
+    {%include "../section/ajax/ajaxCSRF.html"%}
+    <script>
+    	$("#sub-pos").click(function(){
+    		var json = ($("#nestable").nestable('serialize'));
+    		$.ajax({
+    			type:'POST',
+    			url:'',
+    			data:{ pos:json},
+    			success: function(data){
+
+    			}
+    		})
+    	});
+    	var nest = $('#nestable').nestable({
+    		
+
+    	});
+    	$('.dd span.remove-pos').on('mousedown', function (event) {
+    		event.preventDefault(); return false; 
+    	});
+    	$(document).on('click','span.remove-pos',function(){
+    		
+    		$(this).closest('li').remove();
+    		console.log("Na click");
+    	});
+
+    	$("#pos").keypress(function(e){
+    		if(e.which == 13){
+    			$("#add-position").trigger('click');
+    		}
+    	});
+    	$("#add-position").click(function(){
+
+    		var value  = $("#pos").val();
+            // console.log("ASD");1
+            // $('#nestable').nestable('add', {"id":value});   
+            console.log("VALUE   - - "+value);
+            var item = '<li class="dd-item" data-id="'+ value +'">'+
+            '<div class="dd-handle">'+ value +' <span class="remove-pos fa fa-times" style="float: right"></span> </div>'+
+            '</li>';
+            $("#pos").val('');
+            $("#nestable").append(item);
+            $('.dd span.remove-pos').on('mousedown', function (event) {
+            	event.preventDefault(); return false; 
+            });
+            $(document).on('click','span.remove-pos',function(){
+            	
+            	$(this).closest('li').remove();
+            	console.log("Na click");
+            });
+            
+        });
+    	
+    	
+    	
+    	
+    	$('#myTable').DataTable( {
+    		dom: 'Bfrtip',
+    		buttons: [
+    		{
+    			text: 'Add Member',
+    			action: function ( e, dt, node, config ) {
+    				$("#largeModal").modal('show');
+    			}
+    		},
+    		{
+    			text: 'Position',
+    			action: function ( e, dt, node, config ) {
+    				$("#position-modal").modal('show');
+    			}
+    		}
+    		]
+    	} );
+    	
+    </script>
+{%endblock%}
