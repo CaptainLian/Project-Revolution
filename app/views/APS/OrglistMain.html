@@ -33,7 +33,19 @@
                                 <tr role="row" class="odd denied" onclick="window.location='/viewOrgGOSM/{{gosm.organizationid}}/{{gosm.gosmid}}';">
                                     <td>{{gosm.organization}}</td>
                                     <td>{{gosm.datesubmitted}}</td>
-                                    <td>{{gosm.status}}</td>
+                                    
+                                    <td>
+                                    {% set status = gosm.status.toUpperCase() %}
+                                    {% if (status === 'APPROVED' ) %}
+                                        <span class="label label-success m-l-5">{{gosm.status}}</span>
+                                    {% elif (status === 'PENDING') %}
+                                        <span class="label label-warning m-l-5">{{gosm.status}}</span>
+                                    {% elif (status === 'DENIED') %}
+                                        <span class="label label-danger m-l-5">{{gosm.status}}</span>
+                                    {% else %}
+                                        <span class="label label-info m-l-5">{{gosm.status}}</span>
+                                    {% endif %}
+                                    </td>
                                 </tr>
                             {% endfor %}
                         </tbody>
@@ -52,5 +64,4 @@
 
 {%block scripts%}
     {%include "../section/ajax/ajaxCSRF.html"%}
-
 {%endblock%}

@@ -4,22 +4,30 @@ DROP EXTENSION IF EXISTS "pgcrypto";
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
-DROP TABLE IF EXISTS Term CASCADE;
-CREATE TABLE Term (
+DROP TABLE IF EXISTS SchoolYear CASCADE;
+CREATE TABLE SchoolYear (
     id SERIAL UNIQUE,
     startYear INTEGER,
     endYear INTEGER,
+
+    PRIMARY KEY (startYear, endYear),
+    CONSTRAINT start_end_year_value CHECK(startYear < endYear)
+);
+DROP TABLE IF EXISTS Term CASCADE;
+CREATE TABLE Term (
+    id SERIAL UNIQUE,
+    schoolYearID INTEGER REFERENCES SchoolYear(id),
     number INTEGER,
     dateStart DATE NOT NULL,
     dateEnd DATE NOT NULL,
 
 
-    PRIMARY KEY (startYear, endYear, number),
+    PRIMARY KEY (schoolYearID, number),
     CONSTRAINT number_min_value CHECK(number >= 1),
     CONSTRAINT number_max_value CHECK(number <= 3),
-    CONSTRAINT start_end_year_value CHECK(startYear < endYear),
     CONSTRAINT date_start_end_value CHECK (dateStart <= dateEnd)
 );
+
 
 DROP TABLE IF EXISTS College CASCADE;
 CREATE TABLE College (

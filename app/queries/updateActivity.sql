@@ -1,3 +1,4 @@
 UPDATE GOSMACTIVITY
-	SET goals=${goals}, objectives=${objectives}, strategies=${strategies}, description=${description}, measures=${measures}, targetdatestart=${targetdatestart}, targetdateend=${targetdateend}, activitynature=${activitynature}, activitytype=${activitytype}, activitytypeotherdescription=${activitytypeotherdescription}, isrelatedtoorganizationnature={isrelatedtoorganizationnature}, budget=${budget}, comments=${comments}
-	WHERE id=${id};
+	SET goals=${goals}, objectives=${objectives}, strategies=${strategies}, description=${description}, measures=${measures}, targetdatestart=${targetDateStart}, targetdateend=${targetDateEnd}, activitynature=${activityNature}, activitytype=${activityType}, activitytypeotherdescription=${activityTypeOtherDescription}, isrelatedtoorganizationnature=${isRelatedToOrganizationNature}, budget=${budget}
+	WHERE id=${id}
+	RETURNING id;

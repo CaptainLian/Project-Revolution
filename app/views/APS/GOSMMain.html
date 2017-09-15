@@ -638,6 +638,7 @@
 
 
     $(document).on('click',"i.fa-pencil",function(){
+        currentID = $(this).attr('db-id');
         var trRow = $(this).attr("db-id");
         $("html, body").animate({ scrollTop: 0 }, function(){
             $.ajax({

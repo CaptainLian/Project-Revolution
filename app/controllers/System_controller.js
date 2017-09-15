@@ -65,10 +65,10 @@ module.exports = function(database, models, queryFiles) {
                 .then(account => {
                     logger.debug(`Account found: ${JSON.stringify(account)}`, log_options);
                     if (account.password === bcrypt.hashSync(input.password, account.salt)) {
-                        console.log('Enter!!');
-                        req.session.user = account.email;
+                        logger.debug('Enter!!', log_options);
+                        req.session.user = account.idnumber;
                         req.session.valid = true;
-                        req.session.save(() => {});
+                        req.session.save();
                         res.send({
                             valid: true,
                             route: '/'

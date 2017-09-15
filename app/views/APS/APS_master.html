@@ -1,0 +1,79 @@
+{% extends '../template/master.html' %}
+
+{%block meta%}
+	{{super()}}
+{%endblock%}
+
+{%block page_title%}CSO - APS{%-endblock%}
+
+{%block style%}
+	<!-- Bootstrap Core CSS -->
+    <link href="/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css" rel="stylesheet">
+    <link href="/plugins/bower_components/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <!-- Menu CSS -->
+    <link href="/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css" rel="stylesheet">
+    <!-- animation CSS -->
+    <link href="/css/animate.css" rel="stylesheet">
+    <!--alerts CSS -->
+    <link href="/plugins/bower_components/sweetalert/sweetalert.css" rel="stylesheet" type="text/css">
+    <!-- Custom CSS -->
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/custom.css" rel="stylesheet">
+    <!-- color CSS -->
+    <link href="/css/colors/default.css" id="theme" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Page Styles -->
+{%endblock%}
+
+{%block defer_script%}
+	<!-- jQuery -->
+    <script src="/plugins/bower_components/jquery/dist/jquery.min.js" defer="defer"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/bootstrap/dist/js/tether.min.js" defer="defer"></script>
+    <script src="/bootstrap/dist/js/bootstrap.min.js" defer="defer"></script>
+    <script src="/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js" defer="defer"></script>
+    <!-- Menu Plugin JavaScript -->
+    <script src="/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js" defer="defer"></script>
+    <!--slimscroll JavaScript -->
+    <script src="/js/jquery.slimscroll.js" defer="defer"></script>
+    <!--Wave Effects -->
+    <script src="/js/waves.js" defer="defer"></script>
+    <!-- Custom Theme JavaScript -->
+    <script src="/js/custom.min.js" defer="defer"></script>
+    <script src="/js/cbpFWTabs.js" defer="defer"></script> <!-- tabs-->
+    <script src="/plugins/bower_components/datatables/jquery.dataTables.min.js" defer="defer"></script>
+    <!-- Sweet-Alert  -->
+    <script src="/plugins/bower_components/sweetalert/sweetalert.min.js" defer="defer"></script>
+
+    <!-- Page-Scripts -->
+{%endblock%}
+
+{%block body%}
+	<!-- Top Navigation -->
+	{%block header%}
+		{%include 'section/header.html' %}
+	{%endblock%}
+	 <!-- End Top Navigation -->
+
+     <!-- Left navbar-header -->
+	{%block sidebar%}
+		{%include 'section/sidebar.html' %}
+	{%endblock%}
+	<!-- Left navbar-header end -->
+
+	{%block content%}
+
+	{%endblock%}
+{%endblock%}
+
+{%block script%}
+
+{%endblock%}

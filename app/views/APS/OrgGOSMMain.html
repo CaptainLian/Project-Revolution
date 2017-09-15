@@ -2,6 +2,7 @@
 
 {%block meta%}
     <meta data-name="GOSM" data-id="{{GOSMID}}" />
+    <meta data-name="csrf" data-token="{{csrfToken}}" />
 {%endblock%}
 
 {%block styles%}
@@ -16,9 +17,11 @@
 {%block sidebar%}
 	{%include "../section/sidebar/cso-aps.html"%}
 {%endblock%}
+
 {%block pre_js%}
     <script type="text/javascript" src="/js/APS/ORGGOSM.js" defer="defer"></script>
 {%endblock%}
+
 {%block content%}
 <div class="row">
     <div class="col-sm-12">
@@ -45,12 +48,14 @@
                     </tbody>
                 </table>
 
+                {% if showUpdateButtons %}
                 <div class="text-center">
                     <h4>Actions</h4>
                     <button id="btn_approve" class="btnGosm btn btn-success btn-rounded sa-approve" alt="alert">Approve</button>
                     <button id="btn_pend" class="btn btn-warning btn-rounded sa-pend btnGosm" alt="alert">Pend</button>
                     <button id="btn_deny" class="btn btn-danger btn-rounded sa-deny btnGosm" alt="alert">Deny</button>
                 </div>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -63,7 +68,7 @@
 </div>
 
 <!--modals-->
-<div class="modal fade bs-example-modal-lg" id="sampleModal" tabindex="-1" role="dialog" aria-labelledby="sampleModal" aria-hidden="true" style="display: none;">
+<div class="modal fade bs-example-modal-lg" id="sampleModal" tabindex="-1" role="dialog" aria-labelledby="sampleModal" aria-hidden="true" style="display: none;" data-activity-id="">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -128,8 +133,8 @@
                                 <div class="form-group">
                                     <label class="col-md-12">Write a comment for revision</label>
                                     <div class="col-md-12 text-center">
-                                        <textarea class="form-control" rows="5"></textarea> <br>
-                                        <button class ="btn btn-info" type="" data-dismiss="modal"> Add Comment</button>
+                                        <textarea id="modal_txtarea_comments" class="form-control" rows="5"></textarea> <br>
+                                        <button id="modal_btn_add_comment" class="btn btn-info" type="" data-dismiss="modal">Add Comment</button>
                                     </div>
                                 </div>
                             </section>
@@ -140,7 +145,9 @@
                 </section>
             </div>
             <div class="modal-footer">
-                 <!--<button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>-->
+                 <!--
+                    <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                 -->
              </div>
         </div>
          <!-- /.modal-content -->
@@ -148,9 +155,4 @@
     <!-- /.modal-dialog -->
 </div>
 <!--/modals-->
-{%endblock%}
-
-{%block scripts%}
-    {%include "../section/ajax/ajaxCSRF.html"%}
-
 {%endblock%}

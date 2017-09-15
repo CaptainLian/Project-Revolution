@@ -4,4 +4,4 @@ var router = express.Router();
 module.exports = function(app , controllers){
 
 	return router; 
-}
+};
