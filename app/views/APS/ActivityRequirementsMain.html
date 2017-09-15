@@ -85,11 +85,11 @@
                                                 <h3>Brief Context / Perspective of the Activity</h3>
                                                 <hr>
                                                 <label class="control-label col-md-6">Expected number of Member Participants</label>
-                                                <input id="enmp" class="col-md-6" disabled="" type="text">                                                                                 
+                                                <input id="enmp" class="col-md-6" type="number">                                                                                 
                                             </div>
                                             <div class="form-group col-md-12 ">
                                                 <label class="control-label col-md-6">Expected number of Participants</label>
-                                                <input id="emp" class="col-md-6" disabled="" type="text">                                                                                 
+                                                <input id="emp" class="col-md-6" type="number">                                                                                 
                                             </div>
                                             <div class="form-group col-md-12 ">
                                                 <label class="control-label col-md-6">Venue</label>
@@ -1132,7 +1132,7 @@
                         url:'/activityRequirements',
                         data: {
                             enmp: $("#enmp").val(),
-                            emp: $("#emp").val(),
+                            enp: $("#emp").val(),
                             venue: $("#venue").val(),
                             context : $("textarea").val(),
                             sched: JSON.stringify(sched),

@@ -12,6 +12,7 @@ module.exports = function (app, controllers){
 
 	router.post('/createGOSM', controllers.APS_controller.inputCreateGOSM);
 	router.post('/deleteActivity', controllers.APS_controller.deleteActivity);
+	router.post('/updateActivity', controllers.APS_controller.updateActivity);
 	router.post('/submitGOSM', controllers.APS_controller.submitGOSM);
 
 	router.get('/viewOrglist', controllers.APS_controller.viewOrglist);

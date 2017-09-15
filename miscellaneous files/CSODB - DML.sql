@@ -196,9 +196,37 @@ INSERT INTO Account (email, idNumber, password, firstname, lastname, contactNumb
 INSERT INTO Account (email, idNumber, password, firstname, lastname, contactNumber)
              VALUES ('neil_capistrano@dlsu.edu.ph', 11445952, '1234', 'Neil', 'Capistrano', '+63 9228474849');
 
+/* 2015 - 2016 */
+TRUNCATE TABLE SchoolYear CASCADE;
 TRUNCATE TABLE TERM CASCADE;
-INSERT INTO TERM (startYear, endYear, number, dateStart, dateEnd)
-          VALUES (2016, 2017, 1, '2017-8-24', '2017-9-11');
+INSERT INTO SchoolYear(id, startYear, endYear)
+               VALUES (1, 2015, 2016);
+INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
+          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2015 AND endYear = 2016), 1, '2015-08-24', '2015-12-08');
+INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
+          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2015 AND endYear = 2016), 2, '2016-01-06', '2016-04-16');
+INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
+          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2015 AND endYear = 2016), 3, '2016-05-23', '2016-08-27');
+
+/* 2016 - 2017 */
+INSERT INTO SchoolYear(id, startYear, endYear)
+               VALUES (2, 2016, 2017);
+INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
+          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2016 AND endYear = 2017), 1, '2016-09-12', '2016-12-17');
+INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
+          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2016 AND endYear = 2017), 2, '2016-01-04', '2016-04-11');
+INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
+          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2016 AND endYear = 2017), 3, '2017-05-15', '2017-08-19');
+
+/* 2017 - 2018 */
+INSERT INTO SchoolYear(id, startYear, endYear)
+               VALUES (3, 2017, 2018);
+INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
+          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2017 AND endYear = 2018), 1, '2017-09-11', '2017-12-16');
+INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
+          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2017 AND endYear = 2018), 2, '2018-01-08', '2018-04-21');
+INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
+          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2017 AND endYear = 2018), 3, '2018-05-24', '2018-08-28');
 
 TRUNCATE TABLE GOSM CASCADE;
 INSERT INTO GOSM (termID, studentOrganization)
@@ -206,8 +234,8 @@ INSERT INTO GOSM (termID, studentOrganization)
                       FROM TERM
                      WHERE CURRENT_DATE BETWEEN dateStart AND dateEnd), 2 );
 UPDATE GOSM
-SET status = 2
-WHERE id = 1;
+   SET status = 2
+ WHERE id = 1;
 
 TRUNCATE TABLE GOSMActivity CASCADE;
 INSERT INTO GOSMActivity (gosm, goals, objectives, strategies, description, measures, targetDateStart, targetDateEnd, ActivityNature, ActivityType, isRelatedToOrganizationNature, budget)

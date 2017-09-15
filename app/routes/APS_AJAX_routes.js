@@ -8,5 +8,7 @@ module.exports = function(app , controllers){
 	router.get('/APS/ajax/UpdateGOSM', controllers.APS_AJAX_controller.updateGOSM);
 	router.post('/APS/ajax/UpdateGOSM', controllers.APS_AJAX_controller.updateGOSM);
 
+	router.post('/APS/ajax/UpdateGOSMActivityComment', controllers.APS_AJAX_controller.updateGOSMActivityComment);
+	router.get('/APS/ajax/UpdateGOSMActivityComment', controllers.APS_AJAX_controller.updateGOSMActivityComment);
 	return router; 
-}
+};
