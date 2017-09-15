@@ -413,9 +413,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                         <div class="col-xs-5">
                                                                             <select name="" id="input" class="form-control" name="check">
                                                                                 <option value="" class="disabled" disabled="">Select Check Number</option>
-                                                                                <option value="">999 999</option>
+                                                                                <option value="">999999</option>
                                                                             </select>
-                                                                            <span class="help-block"><small>Write your reason for cancelling the cheque.</small></span>
+                                                                           <!-- <span class="help-block"><small>Write your reason for revising the PRS.</small></span>-->
                                                                         </div>
                                                                         <label class="col-xs-3 control-label">Reason for Cancellation</label>
                                                                         <div class="col-xs-5">
@@ -526,7 +526,191 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </div>
                 </div>
                 <!-- /.row -->
-
+                <!-- Change of Payee.row -->
+                <div class="row transactions" id="CP">
+                    <div class="col-sm-12">
+                        <div class="white-box">
+                            <h3 class="box-title m-b-0">Change of Payee</h3>
+                            <!--<p class="text-muted m-b-30 font-13">Withdraw cash from the Depository Fund before the activity. It is to be used for projected expenses of the activity.</p>-->
+                            <div id="CPWizard" class="wizard">
+                                <ul class="wizard-steps text-center" role="tablist">
+                                    <li class="active" role="tab">
+                                        <h4><span><i class="ti-agenda"></i></span></h4><!-- prs -->
+                                    </li>
+                                    <li role="tab">
+                                        <h4><span><i class="ti-credit-card"></i></span></h4><!-- CA MEMO -->
+                                    </li>
+                                </ul>
+                                <form id="CPvalidation" class="form-horizontal" action="keep.php" method="post">
+                                    <div class="wizard-content">
+                                        <div class="wizard-pane active" role="tabpanel">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="panel panel-success">
+                                                        <div class="panel-heading">PAYMENT REQUISITION SLIP</div>
+                                                        <div class="panel-wrapper collapse in" aria-expanded="true">
+                                                            <div class="panel-body">
+                                                                <form class="form-horizontal" role="form">
+                                                                    <div class="form-body">
+                                                                        <h3 class="box-title">Account Information</h3>
+                                                                        <hr class="m-t-0 m-b-40">
+                                                                        <div class="row">
+                                                                            <div class="col-md-6">
+                                                                                <div class="form-group">
+                                                                                    <label class="control-label col-md-3">TO:</label>
+                                                                                    <div class="col-md-9">
+                                                                                        <p class="form-control-static"> ACCOUNTING OFFICE </p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!--/span-->
+                                                                            <div class="col-md-6">
+                                                                                <div class="form-group">
+                                                                                    <label class="control-label col-md-3">FROM:</label>
+                                                                                    <div class="col-md-9">
+                                                                                        <p class="form-control-static">USER'S NAME</p>
+                                                                                        <p class="form-control-static">USER'S number</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!--/span-->
+                                                                        </div>
+                                                                        <!--/row-->
+                                                                        <div class="row">
+                                                                            <div class="col-md-6">
+                                                                                <div class="form-group">
+                                                                                    <label class="control-label col-md-3">LOCAL NO:</label>
+                                                                                    <div class="col-md-9">
+                                                                                        <p class="form-control-static"> 744 </p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!--/span-->
+                                                                            <div class="col-md-6">
+                                                                                <div class="form-group">
+                                                                                    <label class="control-label col-md-3">THRU:</label>
+                                                                                    <div class="col-md-9">
+                                                                                        <p class="form-control-static">NAME OF SLIFE DIRECTOR</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!--/span-->
+                                                                        </div>
+                                                                        <!--/row-->
+                                                                        <h3 class="box-title">Amount</h3>
+                                                                        <hr class="m-t-0 m-b-40">
+                                                                        <div class="row">
+                                                                            <div class="col-md-6">
+                                                                                <div class="form-group">
+                                                                                    <label class="control-label col-md-3">IN WORDS:</label>
+                                                                                    <div class="col-md-9">
+                                                                                        <p class="form-control-static font-light">SEVENTY PESOS</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!--/span-->
+                                                                            <div class="col-md-6">
+                                                                                <div class="form-group">
+                                                                                    <label class="control-label col-md-3">IN FIGURES:</label>
+                                                                                    <div class="col-md-9">
+                                                                                        <p class="form-control-static">P 70.00</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!--/span-->
+                                                                        </div>
+                                                                        <!--/row-->
+                                                                        <h3 class="box-title">Address</h3>
+                                                                        <hr class="m-t-0 m-b-40">
+                                                                        <div class="row">
+                                                                            <div class="col-md-6">
+                                                                                <div class="form-group">
+                                                                                    <label class="control-label col-md-3">PAYABLE TO:</label>
+                                                                                    <div class="col-md-9">
+                                                                                        <p class="form-control-static">ACCOUNTING OFFICE</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-md-6">
+                                                                                <div class="form-group">
+                                                                                    <label class="control-label col-md-3">CHARGE TO:</label>
+                                                                                    <div class="col-md-9">
+                                                                                        <p class="form-control-static"> ORG NAME </p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!--/span-->
+                                                                            <div class="col-md-6">
+                                                                                <div class="form-group">
+                                                                                    <label class="control-label col-md-5">ACCOUNT NUMBER:</label>
+                                                                                    <div class="col-md-7">
+                                                                                        <p class="form-control-static"> ORG ACCOUNT NUMBER </p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!--/span-->
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-xs-3 control-label">Payment Requisition Slip Number</label>
+                                                <div class="col-xs-5">
+                                                    <input type="text" class="form-control" name="CPprs" />
+                                                    <span class="help-block"><small>Input the 6-digit code on the top right of your PRS form.</small></span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-xs-3 control-label">Reason</label>
+                                                <div class="col-xs-5">
+                                                    <textarea type="text" class="form-control" name="CPreason" placeholder="Ex: Cancellation of check for the activity [activity] held last [date]"></textarea>
+                                                    <span class="help-block"><small>Type your reason for requesting the transaction.</small></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="wizard-pane" role="tabpanel">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="panel panel-success">
+                                                        <div class="panel-heading">REQUEST FOR CHANGE OF NAME MEMO</div>
+                                                        <div class="panel-wrapper collapse in" aria-expanded="true">
+                                                            <div class="panel-body">
+                                                                <form class="form-horizontal" role="form">
+                                                                    <div class="form-body">
+                                                                        <label class="col-xs-3 control-label">PRS Number</label>
+                                                                        <div class="col-xs-5">
+                                                                            <select name="" id="input" class="form-control" name="PRStoRevise">
+                                                                                <option value="" class="disabled" disabled="">PRS Number</option>
+                                                                                <option value="">999 999</option>
+                                                                            </select>
+                                                                            <span class="help-block"><small>Select the PRS number you wish to revise.</small></span>
+                                                                        </div>
+                                                                        <label class="col-xs-3 control-label">Payee's Name</label>
+                                                                        <div class="col-xs-5">
+                                                                            <input type="text" class="form-control" name="payeeName" />
+                                                                            <span class="help-block"><small>Write the new name of the payee.</small></span>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>  
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row -->
                 <!-- .row -->
 
             </div>

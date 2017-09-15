@@ -1,14 +1,8 @@
 jQuery(document).ready(function($) {
+     $('.transactions').hide();
 	$('#transaction').on('change', function() {
 	    /*
-	    <option value="1">Cash Advance</option> id = CA
-	    <option value="2">Direct Payment (Pre-acts)</option> id = DPPre
-	    <option value="3">Direct Payment (Post-acts)</option> id = DPPost
-	    <option value="4">Reimbursement</option> id = RB
-	    <option value="5">Petty Cash Replenishment</option> id = PCR
-	    <option value="6">Book Transfer</option> id = BT
-	    <option value="7">Liquidation(With deposit)</option> id = LD
-	    <option value="8">Liquidation(With reimbursement)</option> id = LR
+
 	    */
 	    var val = $(this).val();
 	    switch (val) {
@@ -19,7 +13,7 @@ jQuery(document).ready(function($) {
 	            break;
 	        case '2':
 	            $('.transactions').hide();
-	            $('#DPPre').show();
+	            $('#CP').show();
 	            break;
 	        case '3':
 	            $('.transactions').hide();
@@ -80,14 +74,6 @@ jQuery(document).ready(function($) {
                         		}
                         	}
                         },
-                        reason:{
-                        	validators:{
-                        		notEmpty:{
-                        			message:'this field is required.'
-                        		}
-
-                        	}
-                        },
                         check:{
                             validators:{
                                 notEmpty:{
@@ -100,6 +86,91 @@ jQuery(document).ready(function($) {
             },
             validator: function() {
                 var fv = $('#validation').data('formValidation');
+                var $this = $(this);
+                // Validate the container
+                fv.validateContainer($this);
+                var isValidStep = fv.isValidContainer($this);
+                if (isValidStep === false || isValidStep === null) {
+                    return false;
+                }
+                return true;
+            },
+            onFinish: function() {
+                $.post("keep.php", $("#validation").serialize()).done(function() {
+                    alert("hiiii");
+                });
+            }
+        });
+        $('#accordion').wizard({
+            step: '[data-toggle="collapse"]',
+            buttonsAppendTo: '.panel-collapse',
+            templates: {
+                buttons: function() {
+                    var options = this.options;
+                    return '<div class="panel-footer"><ul class="pager">' + '<li class="previous">' + '<a href="#' + this.id + '" data-wizard="back" role="button">' + options.buttonLabels.back + '</a>' + '</li>' + '<li class="next">' + '<a href="#' + this.id + '" data-wizard="next" role="button">' + options.buttonLabels.next + '</a>' + '<a href="#' + this.id + '" data-wizard="finish" role="button">' + options.buttonLabels.finish + '</a>' + '</li>' + '</ul></div>';
+                }
+            },
+            onBeforeShow: function(step) {
+                step.$pane.collapse('show');
+            },
+            onBeforeHide: function(step) {
+                step.$pane.collapse('hide');
+            },
+            onFinish: function() {
+                alert('finish');
+            }
+        });
+    })();
+
+    (function() {
+        $('#CPWizard').wizard({
+            onInit: function() {
+                $('#CPvalidation').formValidation({
+                    framework: 'bootstrap',
+                    fields: {
+                        CPprs: {
+                            validators: {
+                                notEmpty: {
+                                    message: 'The payment requisition number is required'
+                                },
+                                stringLength :{
+                                    min: 6,
+                                    max: 6,
+                                    message: 'The prs number must be 6 digits long'
+                                },
+                                regexp: {
+                                    regexp:/[0-9]/,
+                                    message:'The prs number must only contain digits'
+                                }
+                            }
+                        },
+                        PRStoRevise:{
+                            validators:{
+                                notEmpty:{
+                                    message:'this field is required.'
+                                }
+                            }
+                        },
+                        CPreason:{
+                            validators:{
+                                notEmpty:{
+                                    message:'this field is required.'
+                                }
+
+                            }
+                        },
+                        payeeName:{
+                            validators:{
+                                notEmpty:{
+                                    message:'this field is required.'
+                                }
+                            }
+                        }
+                    }
+                });
+            },
+            validator: function() {
+                var fv = $('#CPvalidation').data('formValidation');
                 var $this = $(this);
                 // Validate the container
                 fv.validateContainer($this);
