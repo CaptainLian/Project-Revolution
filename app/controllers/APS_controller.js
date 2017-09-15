@@ -158,7 +158,7 @@ module.exports = function(database, models, queryFiles) {
 					var endDate = req.body.targetDateEnd;
 					var endDateSplit = endDate.split("/");
 					var activityType = req.body['activity-type'];
-					var others = req.body.otherDescription;
+					var others = req.body.othersDescription;
 					var natureType =  req.body['nature-type'];
 					var personInCharge = [];
 					personInCharge = req.body['personInCharge[]'];
@@ -250,6 +250,73 @@ module.exports = function(database, models, queryFiles) {
 
 					
 				});
+		},
+
+		updateActivity: (req, res) => {
+
+			console.log(req.body);
+
+				var id = req.body.id;
+
+				var strategy = req.body.strategy;
+				var goals = req.body.goals;
+				var objectives = [];
+				objectives = req.body['objectives[]'];
+
+
+				if(!Array.isArray(objectives)){
+					objectives = [objectives];
+
+				}
+
+				var description = req.body.description;
+				var measures =  req.body.measures;
+				var startDate = req.body.targetDateStart;
+				var startDateSplit = startDate.split("/");
+				var endDate = req.body.targetDateEnd;
+				var endDateSplit = endDate.split("/");
+				var activityType = req.body['activity-type'];
+				var others = req.body.othersDescription;
+				var natureType =  req.body['nature-type'];
+				var personInCharge = [];
+				personInCharge = req.body['personInCharge[]'];
+
+
+				if(!Array.isArray(personInCharge)){
+					personInCharge = [personInCharge];
+				}
+
+				var isRelatedToOrganization = req.body.isRelatedToOrganization;
+				var budget = req.body.budget;
+
+				var dbParam = {
+
+					id: id,
+					goals: goals,
+					objectives: objectives,
+					strategies: strategy,
+					description: description,
+					measures: measures,
+					targetDateStart: "'"+startDateSplit[2]+"-"+startDateSplit[0]+"-"+startDateSplit[1]+"'",
+					targetDateEnd: "'"+endDateSplit[2]+"-"+endDateSplit[0]+"-"+endDateSplit[1]+"'",
+					activityNature: natureType,
+					activityType: activityType,
+					activityTypeOtherDescription: others,
+					isRelatedToOrganizationNature: isRelatedToOrganization,
+					budget: budget
+
+				};
+
+				gosmModel.updateActivity(dbParam)
+					.then(data =>{
+
+					})
+					.catch(error =>{
+						console.log(error);
+					});
+
+				
+
 		},
 
         inputActivityRequirements: (req, res) => {
