@@ -123,6 +123,14 @@ INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
                  VALUES (38, 'YES', 'Young Entrepreneurs Society', 5, NULL);
 
+INSERT INTO AccountType (id, name)
+                 VALUES (0, 'System Administrator');
+INSERT INTO AccountType (id, name)
+                 VALUES (1, 'SLIFE Officer');
+INSERT INTO AccountType (id, name)
+                 VALUES (2, 'CSO Officer');
+INSERT INTO AccountType (id, name)
+                 VALUES (3, 'Organization Officer');
 
 TRUNCATE TABLE ActivityType CASCADE;
 INSERT INTO ActivityType (id, name)

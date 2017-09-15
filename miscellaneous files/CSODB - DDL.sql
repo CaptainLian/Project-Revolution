@@ -84,7 +84,8 @@ CREATE TABLE StudentOrganization (
     college CHAR(3) REFERENCES College(shortAcronym),
     acronym VARCHAR(20) UNIQUE,
     description TEXT,
-
+    funds NUMERIC(16, 4) DEFAULT 0.0,
+    
     PRIMARY KEY (id)
 );
 
