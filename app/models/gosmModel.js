@@ -16,10 +16,18 @@ module.exports = function(db, queryFiles) {
     const getGOSMActivitiesSQL = queryFiles.getGOSMActivities;
     const insertNewGOSMSQL = queryFiles.insertNewGOSM;
     const deleteActivitySQL = queryFiles.deleteActivity;
+    const updateActivitySQL = queryFiles.updateActivity;
     const submitGOSMSQL = queryFiles.submitGOSM;
     const getOrgGOSMSQL = queryFiles.getOrgGOSM;
     const query_getSubmissionYears = queryFiles.gosm_getSubmissionYears;
     const query_getAll = queryFiles.gosm_getAll;
+
+    const query_getActivitiesFromID = queryFiles.gosm_getSpecificOrg;
+    const insertProjectProposalSQL = queryFiles.insertProjectProposal;
+    const insertProjectProposalProgramDesignSQL = queryFiles.insertProjectProposalProgramDesign;
+    const insertProjectProposalProjectedIncomeSQL = queryFiles.insertProjectProposalProjectedIncome;
+    const insertProjectProposalExpensesSQL = queryFiles.insertProjectProposalExpenses;
+
 
     const dbHelper = require('../utility/databaseHelper')(db);
     const queryExec = dbHelper.queryExec;
@@ -57,8 +65,12 @@ module.exports = function(db, queryFiles) {
         deleteActivity: function(param) {
             return db.none(deleteActivitySQL, param);
         },
-        submitGOSM: function(param) {
-            return db.none(submitGOSMSQL, param);
+        updateActivity: function(param) {
+            return db.one(updateActivitySQL, param);
+        },
+        submitGOSM: function(param){
+        	return db.none(submitGOSMSQL, param);
+
         },
         getOrgGOSM: function(param, connection) {
             return queryExec('oneOrNone', getOrgGOSMSQL, param, connection);
@@ -136,7 +148,20 @@ module.exports = function(db, queryFiles) {
             logger.debug(`Executing query: ${query} with parameters ${JSON.stringify(param)}`, log_options);
             return queryExec('none', query, param, connection);
         },
-        updateActivityComment(id, comments, connection) {
+
+        insertProjectProposal: function(param, connection){
+        	return queryExec('one', insertProjectProposalSQL, param, connection);
+        },
+        insertProjectProposalProgramDesign: function(param){
+        	return db.none(insertProjectProposalProgramDesignSQL, param);
+        },
+        insertProjectProposalProjectedIncome: function(param){
+            return db.none(insertProjectProposalProjectedIncomeSQL, param);
+        },
+        insertProjectProposalExpenses: function(param){
+            return db.none(insertProjectProposalExpensesSQL, param);
+        },
+        updateActivityComment: function(id, comments, connection) {
             let query = squel.update()
                 .table('GOSMActivity')
                 .set('comments', '${comments}', {dontQuote: true})
@@ -162,6 +187,7 @@ module.exports = function(db, queryFiles) {
             return queryExec('one', query, {
                 id: id
             }, connection);
+
         }
     };
 };

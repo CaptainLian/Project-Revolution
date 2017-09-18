@@ -589,7 +589,7 @@
 
         $.ajax({
             type:'POST',
-            url:'',
+            url:'/updateActivity',
             data:{
                 "id":currentID,
                 "strategy":strategy,
@@ -638,6 +638,7 @@
 
 
     $(document).on('click',"i.fa-pencil",function(){
+        currentID = $(this).attr('db-id');
         var trRow = $(this).attr("db-id");
         $("html, body").animate({ scrollTop: 0 }, function(){
             $.ajax({
@@ -712,7 +713,11 @@
         $("#modal-starttime").text('');
         $("#modal-endtime").text('');
         $("#modal-pic").html('');
-        $("#modal-obj").html('');
+        $("#modal-is").html('');
+        $("#modal-nature").html('');
+        $("#modal-type").html('');
+
+
     }
     function dType(val){
         if( val == 1){
