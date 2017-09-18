@@ -20,13 +20,21 @@ module.exports = function(db, queryFiles) {
     Model.prototype.getProjectProposalDetails = function(id, fields, connection){
     	let query = squel.select()
     	.from('ProjectProposal', 'pp')
-    	.where('pp.id = ${id}');
+    	.where('pp.id = ${id}')
+    	.with('GOSMA', 
+    		squel.select()
+    		.from('GOSMActivity', 'ga')
+    		.where('ga.id = ?', squel.select()
+    		                         .field('GOSMActivity')
+    			                     .from('ProjectProposal', 'pp')
+    			                     .where('pp.id = ${id}')))
+    	.left_join('GOSMA', 'ga', 'pp.GOSMActivity = ga.id');
 
     	this._attachFields(query, fields);
 
     	query = query.toString();
-
-    	return this._queryExec('any', query, {id: id}, connection);
+    	logger.debug(`Query: ${query}`,log_options);
+    	//return this._queryExec('any', query, {id: id}, connection);
     };
 
     return new Model(queryExec, attachFields);
