@@ -346,8 +346,9 @@ module.exports = function(database, models, queryFiles) {
 			// var sched = sched[0];
 
 			// console.log(sched.time[1].start);
+			// req.body.context
 
-			console.log(funds);
+			console.log(req.body);
 			
 
 			var projectProposalParam = {
