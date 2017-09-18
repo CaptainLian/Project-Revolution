@@ -14,13 +14,13 @@ module.exports = function (app, controllers){
 	router.post('/deleteActivity', controllers.APS_controller.deleteActivity);
 	router.post('/submitGOSM', controllers.APS_controller.submitGOSM);
 
-	router.get('/viewOrglist', controllers.APS_controller.viewOrglist);
-	router.get('/viewOrgGOSM/', function(req, res){
-		res.redirect('/viewOrglist');
+	router.get('/APS/viewOrglist', controllers.APS_controller.viewOrglist);
+	router.get('/APS/viewOrgGOSM/', function(req, res){
+		res.redirect('/APS/viewOrglist');
 	});
-	router.get('/viewOrgGOSM/:orgID/:GOSMID', controllers.APS_controller.viewOrgGOSM);
+	router.get('/APS/viewOrgGOSM/:orgID/:GOSMID', controllers.APS_controller.viewOrgGOSM);
 
-	router.get('/viewActivityList', controllers.APS_controller.activityList);
+	router.get('/APS/viewActivityList', controllers.APS_controller.activityList);
 
 	return router;
 };
