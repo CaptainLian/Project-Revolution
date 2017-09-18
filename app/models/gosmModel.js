@@ -25,6 +25,8 @@ module.exports = function(db, queryFiles) {
     const query_getActivitiesFromID = queryFiles.gosm_getSpecificOrg;
     const insertProjectProposalSQL = queryFiles.insertProjectProposal;
     const insertProjectProposalProgramDesignSQL = queryFiles.insertProjectProposalProgramDesign;
+    const insertProjectProposalProjectedIncomeSQL = queryFiles.insertProjectProposalProjectedIncome;
+    const insertProjectProposalExpensesSQL = queryFiles.insertProjectProposalExpenses;
 
 
     const dbHelper = require('../utility/databaseHelper')(db);
@@ -152,6 +154,12 @@ module.exports = function(db, queryFiles) {
         },
         insertProjectProposalProgramDesign: function(param){
         	return db.none(insertProjectProposalProgramDesignSQL, param);
+        },
+        insertProjectProposalProjectedIncome: function(param){
+            return db.none(insertProjectProposalProjectedIncomeSQL, param);
+        },
+        insertProjectProposalExpenses: function(param){
+            return db.none(insertProjectProposalExpensesSQL, param);
         },
         updateActivityComment: function(id, comments, connection) {
             let query = squel.update()

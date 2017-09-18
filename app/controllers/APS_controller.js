@@ -350,7 +350,6 @@ module.exports = function(database, models, queryFiles) {
 			console.log(funds);
 			
 
-			// dummy values
 			var projectProposalParam = {
 				GOSMactivity: 1, // value should come from previous page
 				status: 1,
@@ -393,7 +392,38 @@ module.exports = function(database, models, queryFiles) {
 							}
 						}
 
+
 					// insert finances
+
+					for (var i = 0; i < funds.revenue.length; i++){
+
+						var dbParam = {
+
+							projectProposal: projectProposal,
+							material: funds.revenue.item,
+							quantity: funds.revenue.quan,
+							sellingPrice: funds.revenue.price
+
+						};
+
+						queries.push(t.none(gosmModel.insertProjectProposalProjectedIncome(dbParam)));
+
+					}
+
+					for (var i = 0; i < funds.expense.length; i++){
+
+						var dbParam = {
+
+							projectProposal: projectProposal,
+							material: funds.expense.item,
+							quantity: funds.expense.quan,
+							unitCost: funds.expense.price
+
+						};
+
+						queries.push(t.none(gosmModel.insertProjectProposalExpenses(dbParam)));
+						
+					}
 
 					
 
@@ -405,20 +435,6 @@ module.exports = function(database, models, queryFiles) {
 			}).catch(error=>{
 				console.log(error);
 			});
-
-			// gosmModel.insertProjectProposal(projectProposalParam)
-			// 	.then(data =>{
-			// 		var projectProposal = data.projectProposal
-
-			// 		db.tx(t => {
-						
-			// 		});
-					
-			// 	})
-			// 	.catch(error=>{
-			// 		console.log(error);
-			// 	});
-
 
 			
 		},
