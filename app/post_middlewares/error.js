@@ -22,7 +22,7 @@ module.exports = function(app, database, models, queryFiles) {
         name: 'Error 404',
         description: 'For unset/unknown URLs',
         action: function(req, res, next) {
-            logger.debug('Error 404', log_options);
+            logger.warning(`Error 404 original URL: ${req.originalUrl}, url: ${req.url}`, log_options);
             var err = new Error('Not Found');
             err.status = 404;
             res.render('System/404');

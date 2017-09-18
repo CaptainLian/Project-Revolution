@@ -20,7 +20,7 @@ module.exports = function (app, controllers){
 	});
 	router.get('/APS/viewOrgGOSM/:orgID/:GOSMID', controllers.APS_controller.viewOrgGOSM);
 
-	router.get('/APS/viewActivityList', controllers.APS_controller.activityList);
+	router.get('/APS/ActivityList', controllers.APS_controller.viewActivityList);
 
 	return router;
 };

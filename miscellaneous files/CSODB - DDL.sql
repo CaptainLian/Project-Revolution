@@ -288,7 +288,8 @@ CREATE TABLE ProjectProposal (
     status INTEGER NOT NULL REFERENCES ProjectProposalStatus(id) DEFAULT 1,
     ENP INTEGER,
     ENMP INTEGER,
-    venue TEXT,
+    venue VARCHAR(100),
+    context TEXT,
     sourceFundOther NUMERIC(16, 4),
     sourceFundParticipantFee NUMERIC(16, 4),
     sourceFundOrganizational NUMERIC(16, 4),
@@ -374,7 +375,7 @@ DROP TABLE IF EXISTS ProjectProposalProjectedIncome CASCADE;
 CREATE TABLE ProjectProposalProjectedIncome (
     projectProposal INTEGER REFERENCES ProjectProposal(id),
     sequence INTEGER,
-    item VARCHAR(30) NOT NULL,
+    item VARCHAR(45) NOT NULL,
     quantity INTEGER NOT NULL,
     sellingPrice NUMERIC(16, 4) NOT NULL,
 
@@ -400,7 +401,7 @@ DROP TABLE IF EXISTS ProjectProposalExpenses CASCADE;
 CREATE TABLE ProjectProposalExpenses (
     projectProposal INTEGER REFERENCES ProjectProposal(id),
     sequence INTEGER,
-    material VARCHAR(30) NOT NULL,
+    material VARCHAR(45) NOT NULL,
     quantity INTEGER NOT NULL,
     unitCost NUMERIC(16, 4) NOT NULL,
 

@@ -7,8 +7,6 @@ module.exports = function(database, models, queryFiles){
 		//if president
 			res.render('APS/GOSMMain');
 			//next();
-		},
-		
-		
+		}
 	};
 };

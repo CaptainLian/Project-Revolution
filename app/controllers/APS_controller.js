@@ -9,6 +9,7 @@ module.exports = function(database, models, queryFiles) {
 
     const gosmModel = models.gosmModel;
     const organizationModel = models.organization_model;
+    const projectProposalModel = models.ProjectProposal_model;
 
     return {
         home: (req, res) => {
@@ -377,7 +378,9 @@ module.exports = function(database, models, queryFiles) {
                         organizationModel.getOrganizationInformation(organizationID, 'name', t),
                         gosmModel.getActivitiesFromID(GOSMID, [
                             'id',
-                            'strategies', ["to_char(targetDateStart, 'Mon DD, YYYY')", 'targetDateStart']
+                            'strategies', ["to_char(targetDateStart, 'Mon DD, YYYY')",
+                                'targetDateStart'
+                            ]
                         ], t),
                         gosmModel.getGOSM(GOSMID, 'status', t)
                     ]);
@@ -400,24 +403,25 @@ module.exports = function(database, models, queryFiles) {
                 });
         },
 
-        activityList: (req, res) => {
-            res.render('APS/ActivityListMain', {
-                csrfToken: req.csrfToken()
-            });
-        },
-
         getActivityDetails: (req, res) => {
-            logger.debug("GET ACTIVITY DETAILS", log_options);
-            console.log(req.body.dbid);
+            logger.debug(`GET ACTIVITY DETAILS: ${req.body.dbid}`, log_options);
+
             database.task(t => {
                 return t.batch([
                     gosmModel.getActivityDetails(req.body.dbid, undefined, t),
-                    gosmModel.getActivityProjectHeads(req.body.dbid, ['firstname','lastname','a.idNumber'], t)
+                    gosmModel.getActivityProjectHeads(req.body.dbid, ['firstname', 'lastname', 'a.idNumber'], t)
                 ]);
             }).then(data => {
                 res.send(data);
             }).catch(error => {
                 throw error;
+            });
+        },
+
+        viewActivityList: (req, res) => {
+            let activityDetails;
+            res.render('APS/ActivityList', {
+                csrfToken: req.csrfToken()
             });
         }
     };
