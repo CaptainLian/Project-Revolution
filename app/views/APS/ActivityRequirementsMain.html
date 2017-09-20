@@ -485,7 +485,7 @@
                                         </tbody>
                                         <tfoot>
                                             <tr>
-                                                <th class="text-right" colspan="3"><strong>Total<a class="table-less">Income</a></strong></th>
+                                                <th class="text-right" colspan="3"><strong>Total<a class="table-less"> &nbspIncome</a></strong></th>
                                                 
                                                 <th class="income-tots" colspan="2"></th>
                                             </tr>
@@ -554,7 +554,7 @@
     {%include "../section/ajax/ajaxCSRF.html"%}
 <script type="text/javascript">
 
-    var revenueLess = 0;
+    var revenueLess = 1 ;
 
     ctr = 0;
     
@@ -1307,7 +1307,7 @@
         $("#bal-fund").html(parseFloat($("#tot-fund").html())-parseFloat($("#proj-exp").html()));
     });
 
-
+    var tempExp = 0;
     $("#insert-button-expense2").click(function(){
         var td =  '<tr class="exp" >'+
                     '<td></td>'+
@@ -1338,6 +1338,8 @@
             var curr = inc - exp;
             if(revenueLess){
                 curr = curr * -1;
+            }else{
+                tempExp = exp;
             }
             $(".income-tots").html(curr); 
         });
@@ -1362,25 +1364,34 @@
                 
                 console.log("NEIL");
                 exp = (parseFloat($(this).find("th.total").html())+ exp);
-            });          
+            });  
+
             var curr = inc - exp;
             if(revenueLess){
                 curr = curr * -1;
+            }else{
+                tempExp = exp;
             }
             $(".income-tots").html(curr); 
             
         });
     });
+
     $(" #par-exp, #others-exp").on('focus',function(){
         $("#org-exp").off();
         $("#org-exp").val(parseFloat($("#tot-exp").text())-(parseFloat($("#par-exp").val())+parseFloat($("#others-exp").val())   ));
-
+        $("#proj-exp").off();
+        $("#proj-exp").text($("#org-exp").val());
+        $("#proj-exp").on();
         $("#org-exp").on();
         $("#org-exp").trigger('change');
     });
     $(" #par-exp, #others-exp").on('change',function(){
         $("#org-exp").off();
         $("#org-exp").val(parseFloat($("#tot-exp").text())-(parseFloat($("#par-exp").val())+parseFloat($("#others-exp").val())));
+        $("#proj-exp").off();
+        $("#proj-exp").text($("#org-exp").val());
+        $("#proj-exp").on();
         $("#org-exp").on();
         $("#org-exp").trigger('change');
 
@@ -1388,12 +1399,18 @@
     $("#par-exp, #others-exp").on('keypress',function(){
         $("#org-exp").off();
         $("#org-exp").val(parseFloat($("#tot-exp").text())-(parseFloat($("#par-exp").val())+parseFloat($("#others-exp").val())));
+        $("#proj-exp").off();
+        $("#proj-exp").text($("#org-exp").val());
+        $("#proj-exp").on();
         $("#org-exp").on();
         $("#org-exp").trigger('change');
     });
     $(" #par-exp, #others-exp").on('keyup',function(){
         $("#org-exp").off();
         $("#org-exp").val(parseFloat($("#tot-exp").text())-(parseFloat($("#par-exp").val())+parseFloat($("#others-exp").val())));
+        $("#proj-exp").off();
+        $("#proj-exp").text($("#org-exp").val());
+        $("#proj-exp").on();
         $("#org-exp").on();
         $("#org-exp").trigger('change');
     });
@@ -1459,12 +1476,20 @@
     });
     
      $('th.income-tots').bind('DOMSubtreeModified',function(e){
+        if(revenueLess){
+            var exp = parseFloat($(this).html());    
+        }else{
+            var exp = tempExp;
+        }
         
-        var exp = parseFloat($(this).html());
         $("#proj-exp").text(exp);   
 
         var orgexp = exp - ($("#par-exp").val() + $("#others-exp").val());
-        $("#org-exp").val(orgexp);
+       
+        $("#org-exp").val(orgexp);    
+
+        
+
 
         $("a#tot-exp").text(exp);
 
