@@ -251,6 +251,12 @@ UPDATE GOSM
 TRUNCATE TABLE GOSMActivity CASCADE;
 INSERT INTO GOSMActivity (gosm, goals, objectives, strategies, description, measures, targetDateStart, targetDateEnd, ActivityNature, ActivityType, isRelatedToOrganizationNature, budget)
                     VALUES (1, 'Goal Mo to', '{"Objectives", "Mo", "To"}', 'Strategies Mo to', 'Descibe kita', 'Measure mo to :)', '2017-9-6', '2017-9-6', 1, 2, false, 999.99);
+TRUNCATE ProjectProposal CASCADE;
+INSERT INTO ProjectProposal (GOSMActivity, ENP, ENMP, venue, context, sourceFundOther, sourceFundParticipantFee, sourceFundOrganizational, accumulatedOperationalFunds, accumulatedDepositoryFunds, comments)
+                     VALUES (1, 1, 1, 'Venue ito', 'Context kita', 69.69, 69.69, 69.69, 69.69, 69.69, 'Comments ko toh');
+UPDATE ProjectProposal
+SET status = 2
+WHERE id = 1;
 TRUNCATE TABLE GOSMActivityProjectHead CASCADE;
 INSERT INTO GOSMActivityProjectHead (idNumber, activityID)
                              VALUES (11445955, 1);

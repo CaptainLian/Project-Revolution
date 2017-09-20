@@ -70,10 +70,10 @@ module.exports = function(db, queryFiles) {
         },
         submitGOSM: function(param){
         	return db.none(submitGOSMSQL, param);
-
         },
-        getOrgGOSM: function(param, connection) {
-            return queryExec('oneOrNone', getOrgGOSMSQL, param, connection);
+
+        getOrgGOSM: function(param, connection=db) {
+            return connection.oneOrNone(getOrgGOSMSQL, param);
         },
 
         getActivitiesFromID(GOSMID, fields, connection) {
@@ -167,7 +167,6 @@ module.exports = function(db, queryFiles) {
                 .set('comments', '${comments}', {dontQuote: true})
                 .where('id = ${id}');
 
-
             query = query.toString();
             logger.debug(`Executing query: ${query}`, log_options);
             return queryExec('none', query, {
@@ -176,7 +175,7 @@ module.exports = function(db, queryFiles) {
             }, connection);
         },
 
-        getGOSM: function(id, fields, connection) {
+        getGOSM: function(id, fields, connection=db) {
             let query = squel.select()
                 .from('GOSM', 'g')
                 .where('id = ${id}');
@@ -184,10 +183,7 @@ module.exports = function(db, queryFiles) {
 
             query = query.toString();
             logger.debug(`Executing query: ${query}`, log_options);
-            return queryExec('one', query, {
-                id: id
-            }, connection);
-
+            return connection.one(query, {id: id});
         }
     };
 };

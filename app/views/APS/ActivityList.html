@@ -37,6 +37,22 @@
                                 <button type="button" class="btn btn-danger btn-circle waves-effect" alt="alert" id="sa-deny"><i class="fa fa-times"></i> </button>
                             </td>
                         </tr>
+
+                        {% set cls = cycler("even", "odd") %}
+                        {% for activity in proposals %}
+                            <tr role="row" class="{{cls.next()}}" data-toggle="modal" data-target="#sampleModal" data-ppr-id="{{activity.id}}">
+
+                                <td class="sorting_1" data-toggle="modal" data-target ="#sampleModal">{{activity.name}}</td><!-- event name-->
+                                <td>{{activity.dateevent}}</td><!-- date of event-->
+                                <td>{{activity.dayslate}}</td><!-- days until late-->
+                                <td>{{activity.organizationname}}</td>
+                                <td class="jsgrid-cell jsgrid-control-field jsgrid-align-center" style="width: 50px;">
+                                    <button type="button" class="btn btn-success btn-circle waves-effect" alt="alert" id="sa-approve"><i class="fa fa-check"></i> </button>
+                                    <button type="button" class="btn btn-warning btn-circle waves-effect" alt="alert" id="sa-pend"><i class="fa fa-pause"></i> </button>
+                                    <button type="button" class="btn btn-danger btn-circle waves-effect" alt="alert" id="sa-deny"><i class="fa fa-times"></i> </button>
+                            </td>
+                            </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>

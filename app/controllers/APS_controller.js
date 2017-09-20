@@ -19,108 +19,107 @@ module.exports = function(database, models, queryFiles) {
         },
         viewCreateGOSM: (req, res) => {
 
-			console.log('VIEW CREATE GOSM CONTROLLER');
+            console.log('VIEW CREATE GOSM CONTROLLER');
 
-			// gosmModel.getSchoolYear()
-			// .then(data => {
-			// 	var orgGOSMParam = {
-			// 			termID: data.id,
-			// 			studentOrganization: 1 //to be replaced by session variable
+            // gosmModel.getSchoolYear()
+            // .then(data => {
+            //  var orgGOSMParam = {
+            //          termID: data.id,
+            //          studentOrganization: 1 //to be replaced by session variable
 
-			// 		};
-			// 	return gosmModel.getOrgGOSM(orgGOSMParam);
-			// })
-			// .then(data => {
-			// 	if (data)
-			// });
-			gosmModel.getSchoolYear()
-				.then(data => {
-					console.log(data.endyear);
-					
-
-					var orgGOSMParam = {
-						termID: data.id,
-						studentOrganization: 1 //to be replaced by session variable
-
-					};
-
-					gosmModel.getOrgGOSM(orgGOSMParam)
-						.then(data =>{
-							console.log(data);
+            //      };
+            //  return gosmModel.getOrgGOSM(orgGOSMParam);
+            // })
+            // .then(data => {
+            //  if (data)
+            // });
+            gosmModel.getSchoolYear()
+                .then(data => {
+                    console.log(data.endyear);
 
 
-							if(data == null){
-								// insert GOSM
+                    var orgGOSMParam = {
+                        termID: data.id,
+                        studentOrganization: 1 //to be replaced by session variable
 
-								console.log("DUMAAN SIYA DITO");
+                    };
 
-								gosmModel.insertNewGOSM(orgGOSMParam)
-									.then(data =>{
-
-										gosmModel.getOrgGOSM(orgGOSMParam)
-											.then(data =>{
-												var gosmID = data.id;
-												
-											dbParam = {
-												GOSM: gosmID
-											};
-											Promise.all([gosmModel.getAllActivityTypes(), gosmModel.getAllActivityNature(), gosmModel.getGOSMActivities(dbParam)])
-												.then(data => {
-													res.render('APS/GOSMMain', {
-														activityTypes: data[0],
-														activityNature: data[1],
-														gosmActivities: data[2],
-														csrfToken: req.csrfToken()
-													});
-												})
-												.catch(error => {
-													console.log(error);
-													res.send('ERROR');
-												});
-											})
-											.catch(error =>{
-
-											});
-									})
-									.catch(error =>{
-										console.log(error);
-									});
-							}
-							else{
-								console.log("ELSE");
-
-								var gosmID = data.id;
+                    gosmModel.getOrgGOSM(orgGOSMParam)
+                        .then(data => {
+                            console.log(data);
 
 
-								var dbParam = {
-									GOSM: gosmID
-								};
+                            if (data == null) {
+                                // insert GOSM
 
-								console.log(dbParam);
+                                console.log("DUMAAN SIYA DITO");
 
-								Promise.all([gosmModel.getAllActivityTypes(), gosmModel.getAllActivityNature(), gosmModel.getGOSMActivities(dbParam)])
-									.then(data => {
-										res.render('APS/GOSMMain', {
-											activityTypes: data[0],
-											activityNature: data[1],
-											gosmActivities: data[2],
-											csrfToken: req.csrfToken()
-										});
-									})
-									.catch(error => {
-										console.log(error);
-										res.send('ERROR');
-									});
-							}
-						})
-						.catch(error =>{
-							console.log(error);
-						});
+                                gosmModel.insertNewGOSM(orgGOSMParam)
+                                    .then(data => {
+
+                                        gosmModel.getOrgGOSM(orgGOSMParam)
+                                            .then(data => {
+                                                var gosmID = data.id;
+
+                                                dbParam = {
+                                                    GOSM: gosmID
+                                                };
+                                                Promise.all([gosmModel.getAllActivityTypes(), gosmModel.getAllActivityNature(), gosmModel.getGOSMActivities(dbParam)])
+                                                    .then(data => {
+                                                        res.render('APS/GOSMMain', {
+                                                            activityTypes: data[0],
+                                                            activityNature: data[1],
+                                                            gosmActivities: data[2],
+                                                            csrfToken: req.csrfToken()
+                                                        });
+                                                    })
+                                                    .catch(error => {
+                                                        console.log(error);
+                                                        res.send('ERROR');
+                                                    });
+                                            })
+                                            .catch(error => {
+
+                                            });
+                                    })
+                                    .catch(error => {
+                                        console.log(error);
+                                    });
+                            } else {
+                                console.log("ELSE");
+
+                                var gosmID = data.id;
+
+
+                                var dbParam = {
+                                    GOSM: gosmID
+                                };
+
+                                console.log(dbParam);
+
+                                Promise.all([gosmModel.getAllActivityTypes(), gosmModel.getAllActivityNature(), gosmModel.getGOSMActivities(dbParam)])
+                                    .then(data => {
+                                        res.render('APS/GOSMMain', {
+                                            activityTypes: data[0],
+                                            activityNature: data[1],
+                                            gosmActivities: data[2],
+                                            csrfToken: req.csrfToken()
+                                        });
+                                    })
+                                    .catch(error => {
+                                        console.log(error);
+                                        res.send('ERROR');
+                                    });
+                            }
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        });
 
 
 
-				});
-		},
+                });
+        },
 
 
         createActivityRequirements: (req, res) => {
@@ -270,176 +269,170 @@ module.exports = function(database, models, queryFiles) {
             };
 
         },
-		updateActivity: (req, res) => {
+        updateActivity: (req, res) => {
 
-			console.log(req.body);
+            console.log(req.body);
 
-				var id = req.body.id;
+            var id = req.body.id;
 
-				var strategy = req.body.strategy;
-				var goals = req.body.goals;
-				var objectives = [];
-				objectives = req.body['objectives[]'];
-
-
-				if(!Array.isArray(objectives)){
-					objectives = [objectives];
-
-				}
-
-				var description = req.body.description;
-				var measures =  req.body.measures;
-				var startDate = req.body.targetDateStart;
-				var startDateSplit = startDate.split("/");
-				var endDate = req.body.targetDateEnd;
-				var endDateSplit = endDate.split("/");
-				var activityType = req.body['activity-type'];
-				var others = req.body.othersDescription;
-				var natureType =  req.body['nature-type'];
-				var personInCharge = [];
-				personInCharge = req.body['personInCharge[]'];
+            var strategy = req.body.strategy;
+            var goals = req.body.goals;
+            var objectives = [];
+            objectives = req.body['objectives[]'];
 
 
-				if(!Array.isArray(personInCharge)){
-					personInCharge = [personInCharge];
-				}
+            if (!Array.isArray(objectives)) {
+                objectives = [objectives];
 
-				var isRelatedToOrganization = req.body.isRelatedToOrganization;
-				var budget = req.body.budget;
+            }
 
-				var dbParam = {
+            var description = req.body.description;
+            var measures = req.body.measures;
+            var startDate = req.body.targetDateStart;
+            var startDateSplit = startDate.split("/");
+            var endDate = req.body.targetDateEnd;
+            var endDateSplit = endDate.split("/");
+            var activityType = req.body['activity-type'];
+            var others = req.body.othersDescription;
+            var natureType = req.body['nature-type'];
+            var personInCharge = [];
+            personInCharge = req.body['personInCharge[]'];
 
-					id: id,
-					goals: goals,
-					objectives: objectives,
-					strategies: strategy,
-					description: description,
-					measures: measures,
-					targetDateStart: "'"+startDateSplit[2]+"-"+startDateSplit[0]+"-"+startDateSplit[1]+"'",
-					targetDateEnd: "'"+endDateSplit[2]+"-"+endDateSplit[0]+"-"+endDateSplit[1]+"'",
-					activityNature: natureType,
-					activityType: activityType,
-					activityTypeOtherDescription: others,
-					isRelatedToOrganizationNature: isRelatedToOrganization,
-					budget: budget
 
-				};
+            if (!Array.isArray(personInCharge)) {
+                personInCharge = [personInCharge];
+            }
 
-				gosmModel.updateActivity(dbParam)
-					.then(data =>{
-						console.log(data);
-						res.send(data.id+"");
-					})
-					.catch(error =>{
-						console.log(error);
-						res.send("0");
-					});
+            var isRelatedToOrganization = req.body.isRelatedToOrganization;
+            var budget = req.body.budget;
 
-				
+            var dbParam = {
 
-		},
+                id: id,
+                goals: goals,
+                objectives: objectives,
+                strategies: strategy,
+                description: description,
+                measures: measures,
+                targetDateStart: "'" + startDateSplit[2] + "-" + startDateSplit[0] + "-" + startDateSplit[1] + "'",
+                targetDateEnd: "'" + endDateSplit[2] + "-" + endDateSplit[0] + "-" + endDateSplit[1] + "'",
+                activityNature: natureType,
+                activityType: activityType,
+                activityTypeOtherDescription: others,
+                isRelatedToOrganizationNature: isRelatedToOrganization,
+                budget: budget
+
+            };
+
+            gosmModel.updateActivity(dbParam)
+                .then(data => {
+                    console.log(data);
+                    res.send(data.id + "");
+                })
+                .catch(error => {
+                    console.log(error);
+                    res.send("0");
+                });
+
+
+
+        },
 
         inputActivityRequirements: (req, res) => {
-			var sched = JSON.parse(req.body.sched);
+            var sched = JSON.parse(req.body.sched);
 
-			var exp = JSON.parse(req.body.exp);
-			var funds = JSON.parse(req.body.funds);
-			// var sched = sched[0];
+            var exp = JSON.parse(req.body.exp);
+            var funds = JSON.parse(req.body.funds);
+            // var sched = sched[0];
 
-			// console.log(sched.time[1].start);
-			// req.body.context
+            // console.log(sched.time[1].start);
+            // req.body.context
 
-			console.log(req.body);
-			
-
-			var projectProposalParam = {
-				GOSMactivity: 1, // value should come from previous page
-				status: 1,
-				enp: req.body.enp, 
-				enmp: req.body.enmp,
-				venue: req.body.venue,
-				sourceFundOther: exp.others,
-				sourceFundParticipantFee: exp.participant,
-				sourceFundOrganizational: exp.orgFunds,
-				accumulatedOperationalFunds: funds.ope,
-				accumulatedDepositoryFunds: funds.dep,
-				organizationalFundOtherSource: funds.other,
-				preparedBy: req.session.user 
-			};
-
-			db.tx(t => {
-				return gosmModel.insertProjectProposal(projectProposalParam, t)
-				.then(data => {
-
-					var projectProposal = data.projectProposal
-					
-					let queries = [];
-					for (var i = 0; i < sched.length; i++){
-							for (var j = 0; j < sched[i].length; j++){
-								var dbParam = {
-
-									projectProposal: projectProposal,
-									dayID: i,
-									date: sched[i].date,
-									startTime: sched[i].time[j].start,
-									endTime: sched[i].time[j].end,
-									activity: sched[i].time[j].actName,
-									activityDescription: sched[i].time[j].actDesc,
-									personInCharge: sched[i].time[j].pic
-								};
-
-								queries.push(t.none(gosmModel.insertProjectProposalProgramDesign(dbParam)));
+            console.log(req.body);
 
 
-							}
-						}
+            var projectProposalParam = {
+                GOSMactivity: 1, // value should come from previous page
+                status: 1,
+                enp: req.body.enp,
+                enmp: req.body.enmp,
+                venue: req.body.venue,
+                sourceFundOther: exp.others,
+                sourceFundParticipantFee: exp.participant,
+                sourceFundOrganizational: exp.orgFunds,
+                accumulatedOperationalFunds: funds.ope,
+                accumulatedDepositoryFunds: funds.dep,
+                organizationalFundOtherSource: funds.other,
+                preparedBy: req.session.user
+            };
+
+            db.tx(t => {
+                return gosmModel.insertProjectProposal(projectProposalParam, t)
+                    .then(data => {
+
+                        var projectProposal = data.projectProposal;
+
+                        let queries = [];
+                        for (var i = 0; i < sched.length; i++) {
+                            for (var j = 0; j < sched[i].length; j++) {
+                                var dbParam = {
+
+                                    projectProposal: projectProposal,
+                                    dayID: i,
+                                    date: sched[i].date,
+                                    startTime: sched[i].time[j].start,
+                                    endTime: sched[i].time[j].end,
+                                    activity: sched[i].time[j].actName,
+                                    activityDescription: sched[i].time[j].actDesc,
+                                    personInCharge: sched[i].time[j].pic
+                                };
+
+                                queries.push(t.none(gosmModel.insertProjectProposalProgramDesign(dbParam)));
 
 
-					// insert finances
-
-					for (var i = 0; i < funds.revenue.length; i++){
-
-						var dbParam = {
-
-							projectProposal: projectProposal,
-							material: funds.revenue.item,
-							quantity: funds.revenue.quan,
-							sellingPrice: funds.revenue.price
-
-						};
-
-						queries.push(t.none(gosmModel.insertProjectProposalProjectedIncome(dbParam)));
-
-					}
-
-					for (var i = 0; i < funds.expense.length; i++){
-
-						var dbParam = {
-
-							projectProposal: projectProposal,
-							material: funds.expense.item,
-							quantity: funds.expense.quan,
-							unitCost: funds.expense.price
-
-						};
-
-						queries.push(t.none(gosmModel.insertProjectProposalExpenses(dbParam)));
-						
-					}
-
-					
+                            }
+                        }
 
 
-					return t.batch(queries);
-				});
-			}).then(data => {
+                        // insert finances
 
-			}).catch(error=>{
-				console.log(error);
-			});
+                        for (var i = 0; i < funds.revenue.length; i++) {
 
-			
-		},
+                            var dbParam = {
+
+                                projectProposal: projectProposal,
+                                material: funds.revenue.item,
+                                quantity: funds.revenue.quan,
+                                sellingPrice: funds.revenue.price
+
+                            };
+
+                            queries.push(t.none(gosmModel.insertProjectProposalProjectedIncome(dbParam)));
+
+                        }
+
+                        for (var i = 0; i < funds.expense.length; i++) {
+
+                            var dbParam = {
+
+                                projectProposal: projectProposal,
+                                material: funds.expense.item,
+                                quantity: funds.expense.quan,
+                                unitCost: funds.expense.price
+
+                            };
+
+                            queries.push(t.none(gosmModel.insertProjectProposalExpenses(dbParam)));
+
+                        }
+                        return t.batch(queries);
+                    });
+            }).then(data => {
+
+            }).catch(error => {
+                console.log(error);
+            });
+        },
 
         deleteActivity: (req, res) => {
 
@@ -540,10 +533,24 @@ module.exports = function(database, models, queryFiles) {
         },
 
         viewActivityList: (req, res) => {
-            let activityDetails;
-            res.render('APS/ActivityList', {
-                csrfToken: req.csrfToken()
-            });
+            projectProposalModel.getAllActivityProjectProposal([
+                    'ga.id',
+                    'ga.strategies AS name',
+                    "to_char(ga.targetDateStart, 'Mon DD, YYYY') AS dateEvent",
+                    //AS can be placed in a 2nd array
+                    ["date_part('day', age(ga.targetDateStart, CURRENT_TIMESTAMP))", 'daysLate'],
+                    'so.name AS organizationName'
+                ])
+                .then(data => {
+                    logger.debug(`Data: ${JSON.stringify(data)}`, log_options);
+                    res.render('APS/ActivityList', {
+                        csrfToken: req.csrfToken(),
+                        proposals: data
+                    });
+                })
+                .catch(err => {
+                    throw err;
+                });
         }
     };
 };
