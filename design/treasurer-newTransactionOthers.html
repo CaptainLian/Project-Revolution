@@ -361,7 +361,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                         <div class="row">
                                                                             <div class="col-md-6">
                                                                                 <div class="form-group">
+
+
                                                                                     <label class="control-label col-md-3">CHARGE TO:</label>
+
                                                                                     <div class="col-md-9">
                                                                                         <p class="form-control-static"> ORG NAME </p>
                                                                                     </div>
@@ -711,11 +714,227 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </div>
                 </div>
                 <!-- /.row -->
-                <!-- .row -->
+                <!-- Petty Cash Fund row -->
+                <div class="row transactions" id="PCF">
+                    <div class="col-sm-12">
+                        <div class="white-box">
+                            <h3 class="box-title m-b-0">Petty Cash Fund</h3>
+                            <!--<p class="text-muted m-b-30 font-13">Withdraw cash from the Depository Fund before the activity. It is to be used for projected expenses of the activity.</p>-->
+                            <div id="PCFWizard" class="wizard">
+                                <ul class="wizard-steps text-center" role="tablist">
+                                    <li class="active" role="tab">
+                                        <h4><span><i class="ti-agenda"></i></span></h4><!-- prs -->
+                                    </li>
+                                    <li role="tab">
+                                        <h4><span><i class="ti-credit-card"></i></span></h4><!-- CA MEMO -->
+                                    </li>
+                                </ul>
+                                <form id="PCFvalidation" class="form-horizontal" action="keep.php" method="post">
+                                    <div class="wizard-content">
+                                        <div class="wizard-pane active" role="tabpanel">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="panel panel-success">
+                                                        <div class="panel-heading">PAYMENT REQUISITION SLIP</div>
+                                                        <div class="panel-wrapper collapse in" aria-expanded="true">
+                                                            <div class="panel-body">
+                                                                <form class="form-horizontal" role="form">
+                                                                    <div class="form-body">
+                                                                        <div class="panel panel-default">
+                                                                            <div class="panel-heading ">ACCOUNT INFORMATION:
+                                                                                <div class="panel-action"><a href="#" data-perform="panel-collapse"><i class="fa fa-plus"></i></a></div>
+                                                                            </div>
+                                                                            <div class="panel-wrapper collapse" aria-expanded="false" style="">
+                                                                                <div class="panel-body">
+                                                                                    <div class="row">
+                                                                                        <div class="col-md-6">
+                                                                                            <div class="form-group">
+                                                                                                <label class="control-label col-md-3">LOCAL NO:</label>
+                                                                                                <div class="col-md-9">
+                                                                                                    <p class="form-control-static"> 744 </p>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <!--/span-->
+                                                                                        <div class="col-md-6">
+                                                                                            <div class="form-group">
+                                                                                                <label class="control-label col-md-3">THRU:</label>
+                                                                                                <div class="col-md-9">
+                                                                                                    <p class="form-control-static">NAME OF SLIFE DIRECTOR</p>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <!--/span-->
+                                                                                    </div>
+                                                                                    <div class="row">
+                                                                                        <div class="col-md-6">
+                                                                                            <div class="form-group">
+                                                                                                <label class="control-label col-md-3">TO:</label>
+                                                                                                <div class="col-md-9">
+                                                                                                    <p class="form-control-static"> ACCOUNTING OFFICE </p>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <!--/span-->
+                                                                                        <div class="col-md-6">
+                                                                                            <div class="form-group">
+                                                                                                <label class="control-label col-md-3">FROM:</label>
+                                                                                                <div class="col-md-9">
+                                                                                                    <p class="form-control-static">DOMINIQUE E. DAGUNTON</p>
+                                                                                                    <p class="form-control-static">11426403</p>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <!--/span-->
+                                                                                    </div>                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="panel panel-default">
+                                                                            <div class="panel-heading">AMOUNT:
+                                                                                <div class="panel-action"><a href="#" data-perform="panel-collapse"><i class="fa fa-plus"></i></a></div>
+                                                                            </div>
+                                                                            <div class="panel-wrapper collapse" aria-expanded="false" style="">
+                                                                                <div class="panel-body">
+                                                                                    <div class="row">
+                                                                                        <div class="col-md-6">
+                                                                                            <div class="form-group">
+                                                                                                <label class="control-label col-md-3">IN WORDS:</label>
+                                                                                                <div class="col-md-9">
+                                                                                                    <p class="form-control-static font-light">THREE THOUSAND PESOS</p>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <!--/span-->
+                                                                                        <div class="col-md-6">
+                                                                                            <div class="form-group">
+                                                                                                <label class="control-label col-md-3">IN FIGURES:</label>
+                                                                                                <div class="col-md-9">
+                                                                                                    <p class="form-control-static">P 3000.00</p>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <!--/span-->
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="panel panel-default">
+                                                                            <div class="panel-heading">REQUESTING ORG:
+                                                                                <div class="panel-action"><a href="#" data-perform="panel-collapse"><i class="fa fa-plus"></i></a></div>
+                                                                            </div>
+                                                                            <div class="panel-wrapper collapse" aria-expanded="false" style="">
+                                                                                <div class="panel-body">
+                                                                            <div class="row">
+                                                                                <div class="col-md-6">
+                                                                                    <div class="form-group">
+                                                                                        <div class="row"></div>
+                                                                                        <label class="col-md-12">PAYABLE TO:</label>
+                                                                                        <div class="col-md-12 margin-5">
+                                                                                            <p><strong>Amelia Galang</strong><br>VP Finance</p>
+                                                                                        </div>
 
+                                                                                        <label class="col-md-12">CHARGE TO:</label>
+                                                                                        <div class="col-md-12 margin-5">
+                                                                                            <p><strong>La Salle Computer Society</strong><br>99999</p>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!--/row-->
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-xs-3 control-label">Payment Requisition Slip Number</label>
+                                                                        <div class="col-xs-5">
+                                                                            <input type="text" class="form-control" name="CPprs" />
+                                                                            <span class="help-block"><small>Input the 6-digit code on the top right of your PRS form.</small></span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-xs-3 control-label">Reason</label>
+                                                                        <div class="col-xs-5">
+                                                                            <textarea type="text" class="form-control" name="CPreason" placeholder="Ex: Cancellation of check for the activity [activity] held last [date]"></textarea>
+                                                                            <span class="help-block"><small>Type your reason for requesting the transaction.</small></span>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="wizard-pane" role="tabpanel">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="panel panel-success">
+                                                        <div class="panel-heading">ESTABLISHMENT OF PETTY CASH FUND MEMO</div>
+                                                        <div class="panel-wrapper collapse in" aria-expanded="false">
+                                                            <div class="panel-body">
+                                                                <form class="form-horizontal" role="form">
+                                                                    <div class="form-body">
+                                                                        <div class="panel panel-default">
+                                                                            <div class="panel-heading">TO:
+                                                                                <div class="panel-action"><a href="#" data-perform="panel-collapse"><i class="fa fa-plus"></i></a></div>
+                                                                            </div>
+                                                                            <div class="panel-wrapper collapse" aria-expanded="false" style="">
+                                                                                <div class="panel-body">
+                                                                                    <p><strong>Ms. Amelia Galang</strong><br>Controller, Accounting Office</p>
+                                                                
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="panel panel-default">
+                                                                            <div class="panel-heading">THRU:
+                                                                                <div class="panel-action"><a href="#" data-perform="panel-collapse"><i class="fa fa-plus"></i></a></div>
+                                                                            </div>
+                                                                            <div class="panel-wrapper collapse" aria-expanded="false" style="">
+                                                                                <div class="panel-body">
+                                                                                    <p><strong>Ms. Amelia Galang</strong><br>Faculty Adviser</p>
+                                                                                    <p><strong>Ms. Amelia Galang</strong><br>Dean of Student Affairs</p>
+                                                                                    <p><strong>Ms. Amelia Galang</strong><br>Director, Office of Student L.I.F.E.</p>
+                                                                                    <p><strong>Ms. Amelia Galang</strong><br>Executive Vice Chairperson for Finance, CSO</p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="panel panel-default">
+                                                                            <div class="panel-heading">FROM:
+                                                                                <div class="panel-action"><a href="#" data-perform="panel-collapse"><i class="fa fa-plus"></i></a></div>
+                                                                            </div>
+                                                                            <div class="panel-wrapper collapse" aria-expanded="false" style="">
+                                                                                <div class="panel-body">
+                                                                                    <p><strong>Ms. Amelia Galang</strong><br>[President, Name of Organization]</p>
+                                                                                    <p><strong>Ms. Amelia Galang</strong><br>[Highest Ranked Finance Officer, Name of Organization]</p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <br>
+                                                                            <label class="col-xs-3 control-label">Purpose</label>
+                                                                            <div class="col-xs-5">
+                                                                                <textarea type="text" class="form-control" name="reason"></textarea>
+                                                                                <span class="help-block"><small>Write your justification for the given request.</small></span>
+                                                                            </div>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>  
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row -->
+                <!-- .row -->
             </div>
             <!-- /.container-fluid -->
-            <footer class="footer text-center"> 2017 &copy; Elite Admin brought to you by themedesigner.in </footer>
         </div>
         <!-- /#page-wrapper -->
     </div>
@@ -733,6 +952,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!--Wave Effects -->
     <script src="js/waves.js"></script>
     <!-- Custom Theme JavaScript -->
+    <script src="js/custom.js"></script>
     <!-- Custom Theme JavaScript -->
     <script src="js/custom.min.js"></script>
     <script src="../plugins/bower_components/switchery/dist/switchery.min.js"></script>

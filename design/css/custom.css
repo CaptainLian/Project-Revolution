@@ -41,3 +41,12 @@
 .cog{
 	cursor: pointer;
 }
+.margin-5{
+	margin-left:5em;
+}
+.text-gray{
+	color: #686868;
+}
+.panel-default .panel-heading{
+	color: #686868;
+}
