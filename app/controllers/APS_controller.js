@@ -367,76 +367,90 @@ module.exports = function(database, models, queryFiles) {
 				preparedBy: req.session.user 
 			};
 
-			db.tx(t => {
-				return gosmModel.insertProjectProposal(projectProposalParam, t)
-				.then(data => {
+			gosmModel.insertProjectProposal(projectProposalParam)
+				.then(data =>{
 
-					var projectProposal = data.projectProposal
-					
-					let queries = [];
-					for (var i = 0; i < sched.length; i++){
-							for (var j = 0; j < sched[i].length; j++){
-								var dbParam = {
+					database.tx(t => {
 
-									projectProposal: projectProposal,
-									dayID: i,
-									date: sched[i].date,
-									startTime: sched[i].time[j].start,
-									endTime: sched[i].time[j].end,
-									activity: sched[i].time[j].actName,
-									activityDescription: sched[i].time[j].actDesc,
-									personInCharge: sched[i].time[j].pic
-								};
+						var projectProposal = data.projectproposal;
 
-								queries.push(t.none(gosmModel.insertProjectProposalProgramDesign(dbParam)));
+						console.log(data.projectproposal);
+						
+						let queries = [];
+						for (var i = 0; i < sched.length; i++){
+								for (var j = 0; j < sched[i].length; j++){
+									var dbParam = {
 
+										projectProposal: projectProposal,
+										dayID: i,
+										date: sched[i].date,
+										startTime: sched[i].time[j].start,
+										endTime: sched[i].time[j].end,
+										activity: sched[i].time[j].actName,
+										activityDescription: sched[i].time[j].actDesc,
+										personInCharge: sched[i].time[j].pic
+									};
 
+									queries.push(gosmModel.insertProjectProposalProgramDesign(dbParam));
+								}
 							}
+
+
+						// insert finances
+
+						for (var i = 0; i < funds.revenue.length; i++){
+
+							var dbParam = {
+
+								projectProposal: projectProposal,
+								material: funds.revenue[i].item,
+								quantity: funds.revenue[i].quan,
+								sellingPrice: funds.revenue[i].price
+
+							};
+
+							queries.push(gosmModel.insertProjectProposalProjectedIncome(dbParam));
+
 						}
 
+						for (var i = 0; i < funds.expense.length; i++){
 
-					// insert finances
+							console.log(i);
+							console.log(projectProposal);
+							console.log(funds.expense[i].item);
+							console.log(funds.expense[i].quan);
+							console.log(funds.expense[i].price);
 
-					for (var i = 0; i < funds.revenue.length; i++){
+							var dbParam = {
 
-						var dbParam = {
+								projectProposal: projectProposal,
+								material: funds.expense[i].item,
+								quantity: funds.expense[i].quan,
+								unitCost: funds.expense[i].price
 
-							projectProposal: projectProposal,
-							material: funds.revenue.item,
-							quantity: funds.revenue.quan,
-							sellingPrice: funds.revenue.price
+							};
 
-						};
+							queries.push(gosmModel.insertProjectProposalExpenses(dbParam));
+							
+						}
 
-						queries.push(t.none(gosmModel.insertProjectProposalProjectedIncome(dbParam)));
-
-					}
-
-					for (var i = 0; i < funds.expense.length; i++){
-
-						var dbParam = {
-
-							projectProposal: projectProposal,
-							material: funds.expense.item,
-							quantity: funds.expense.quan,
-							unitCost: funds.expense.price
-
-						};
-
-						queries.push(t.none(gosmModel.insertProjectProposalExpenses(dbParam)));
 						
-					}
-
-					
 
 
-					return t.batch(queries);
-				});
-			}).then(data => {
+						return t.batch(queries);
+				
+					}).then(data => {
 
-			}).catch(error=>{
-				console.log(error);
-			});
+					}).catch(error=>{
+						console.log(error);
+					});
+
+				})
+				.catch(error =>{
+					console.log(error);
+				})
+
+			
 
 			
 		},
