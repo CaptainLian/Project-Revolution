@@ -1,4 +1,7 @@
+'use strict';
+
 (() => {
+    const csrfToken = document.querySelector('meta[data-name="csrf"]').getAttribute('data-token');
 
     (() => {
         [].slice.call(document.querySelectorAll('.sttabs')).forEach(function(el) {
@@ -6,7 +9,7 @@
         });
     })();
 
-    $(document).ready(function() {
+    (() => {
         //window.location.href("facebook.com");
         $('#myTable').DataTable();
         $(document).ready(function() {
@@ -51,5 +54,17 @@
                 }
             });
         });
-    });
+    })();
+
+    (() => {
+        const modal_table_details = document.getElementById('modal_table_details');
+
+        const modal_view_activityType = document.getElementById('modal_view_type');
+        const modal_view_activityNature = document.getElementById('modal_view_nature');
+        const modal_view_venue = document.getElementById('modal_view_venue');
+        const modal_view_date = document.getElementById('modal_view_date');
+        const modal_view_enp = document.getElementById('modal_view_enp');
+
+        
+    })();
 })();

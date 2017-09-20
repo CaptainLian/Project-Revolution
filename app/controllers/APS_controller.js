@@ -307,7 +307,6 @@ module.exports = function(database, models, queryFiles) {
             var budget = req.body.budget;
 
             var dbParam = {
-
                 id: id,
                 goals: goals,
                 objectives: objectives,
@@ -321,7 +320,6 @@ module.exports = function(database, models, queryFiles) {
                 activityTypeOtherDescription: others,
                 isRelatedToOrganizationNature: isRelatedToOrganization,
                 budget: budget
-
             };
 
             gosmModel.updateActivity(dbParam)
@@ -333,16 +331,13 @@ module.exports = function(database, models, queryFiles) {
                     console.log(error);
                     res.send("0");
                 });
-
-
-
         },
 
         inputActivityRequirements: (req, res) => {
-            var sched = JSON.parse(req.body.sched);
+            let sched = JSON.parse(req.body.sched);
 
-            var exp = JSON.parse(req.body.exp);
-            var funds = JSON.parse(req.body.funds);
+            let exp = JSON.parse(req.body.exp);
+            let funds = JSON.parse(req.body.funds);
             // var sched = sched[0];
 
             // console.log(sched.time[1].start);
@@ -351,7 +346,7 @@ module.exports = function(database, models, queryFiles) {
             console.log(req.body);
 
 
-            var projectProposalParam = {
+            let projectProposalParam = {
                 GOSMactivity: 1, // value should come from previous page
                 status: 1,
                 enp: req.body.enp,
@@ -366,16 +361,16 @@ module.exports = function(database, models, queryFiles) {
                 preparedBy: req.session.user
             };
 
-            db.tx(t => {
+            database.tx(t => {
                 return gosmModel.insertProjectProposal(projectProposalParam, t)
                     .then(data => {
 
-                        var projectProposal = data.projectProposal;
+                        let projectProposal = data.projectProposal;
 
                         let queries = [];
-                        for (var i = 0; i < sched.length; i++) {
-                            for (var j = 0; j < sched[i].length; j++) {
-                                var dbParam = {
+                        for (let i = 0; i < sched.length; i++) {
+                            for (let j = 0; j < sched[i].length; j++) {
+                                let dbParam = {
 
                                     projectProposal: projectProposal,
                                     dayID: i,
@@ -388,17 +383,14 @@ module.exports = function(database, models, queryFiles) {
                                 };
 
                                 queries.push(t.none(gosmModel.insertProjectProposalProgramDesign(dbParam)));
-
-
                             }
                         }
 
 
                         // insert finances
+                        for (let i = 0; i < funds.revenue.length; i++) {
 
-                        for (var i = 0; i < funds.revenue.length; i++) {
-
-                            var dbParam = {
+                            let dbParam = {
 
                                 projectProposal: projectProposal,
                                 material: funds.revenue.item,
@@ -406,37 +398,32 @@ module.exports = function(database, models, queryFiles) {
                                 sellingPrice: funds.revenue.price
 
                             };
-
                             queries.push(t.none(gosmModel.insertProjectProposalProjectedIncome(dbParam)));
-
                         }
 
-                        for (var i = 0; i < funds.expense.length; i++) {
+                        for (let i = 0; i < funds.expense.length; i++) {
 
-                            var dbParam = {
-
+                            let dbParam = {
                                 projectProposal: projectProposal,
                                 material: funds.expense.item,
                                 quantity: funds.expense.quan,
                                 unitCost: funds.expense.price
-
                             };
 
                             queries.push(t.none(gosmModel.insertProjectProposalExpenses(dbParam)));
-
                         }
                         return t.batch(queries);
                     });
             }).then(data => {
 
             }).catch(error => {
-                console.log(error);
+                throw error;
             });
         },
 
         deleteActivity: (req, res) => {
 
-            var dbParam = {
+            let dbParam = {
                 id: req.body.dbid
             };
             console.log("TO DELETE");
@@ -454,7 +441,7 @@ module.exports = function(database, models, queryFiles) {
 
         submitGOSM: (req, res) => {
 
-            var dbParam = {
+            let dbParam = {
                 //TODO: Session get student organization
                 studentorganization: 1 // session variable of organization
             };
@@ -504,7 +491,7 @@ module.exports = function(database, models, queryFiles) {
 
                     let view = {
                         organizationName: data[0].name,
-                        GOSMActivities: data[1],
+                        GOSActivities: data[1],
                         GOSMID: GOSMID,
                         GOSMStatus: data[2].status,
                         csrfToken: req.csrfToken()

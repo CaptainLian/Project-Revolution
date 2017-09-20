@@ -10,5 +10,7 @@ module.exports = function(app , controllers){
 
 	router.post('/APS/ajax/UpdateGOSMActivityComment', controllers.APS_AJAX_controller.updateGOSMActivityComment);
 	router.get('/APS/ajax/UpdateGOSMActivityComment', controllers.APS_AJAX_controller.updateGOSMActivityComment);
+
+	router.post('/APS/ajax/getProjectProposaActivityDetails', controllers.APS_AJAX_controller.getProjectProposaActivityDetails);
 	return router; 
 };

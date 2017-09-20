@@ -2,7 +2,7 @@
 
 const logger = global.logger;
 const log_options = {
-    from: 'ProjectProposal-Model'
+    from: 'ProjectProposal-ProjectProposalModel'
 };
 
 const squel = require('squel').useFlavour('postgres');
@@ -10,8 +10,8 @@ const squel = require('squel').useFlavour('postgres');
 module.exports = function(db, queryFiles) {
     let dbHelper = require('../utility/databaseHelper')(db);
 
-    const Model = function(db, attachFields) {
-        logger.debug('Constructing ProjectProposal-Model');
+    const ProjectProposalModel = function(db, attachFields) {
+        logger.debug('Constructing ProjectProposal-ProjectProposalModel');
         this._db = db;
         this._attachFields = attachFields;
     };
@@ -21,7 +21,7 @@ module.exports = function(db, queryFiles) {
         ProjectProposal = pp 
         GOSMActivity = ga
     */
-    Model.prototype.getActivityProjectProposalDetails = function(id, fields, connection = this._db) {
+    ProjectProposalModel.prototype.getActivityProjectProposalDetails = function(id, fields, connection = this._db) {
         let query = squel.select()
             .with('PPR',
                 squel.select()
@@ -52,7 +52,7 @@ module.exports = function(db, queryFiles) {
         ProjectProposal = pp 
         GOSMActivity = ga
     */
-    Model.prototype.getAllActivityProjectProposal = function(fields, connection = this._db) {
+    ProjectProposalModel.prototype.getAllActivityProjectProposal = function(fields, connection = this._db) {
         let query = squel.select()
             .with('PPR',
                 squel.select()
@@ -97,5 +97,5 @@ module.exports = function(db, queryFiles) {
         return connection.any(query);
     };
 
-    return new Model(db, dbHelper.attachFields);
+    return new ProjectProposalModel(db, dbHelper.attachFields);
 };

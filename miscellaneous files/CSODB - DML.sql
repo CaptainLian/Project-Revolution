@@ -257,6 +257,13 @@ INSERT INTO ProjectProposal (GOSMActivity, ENP, ENMP, venue, context, sourceFund
 UPDATE ProjectProposal
 SET status = 2
 WHERE id = 1;
+
+TRUNCATE ProjectProposalExpenses CASCADE;
+INSERT INTO ProjectProposalExpenses (projectProposal, material, quantity, unitCost)
+                              VALUES(1, 'Boyfriend Material 1', 7, 60.0000);
+INSERT INTO ProjectProposalExpenses (projectProposal, material, quantity, unitCost)
+                              VALUES(1, 'Boyfriend Material 2', 80, 60.0000);
+                              
 TRUNCATE TABLE GOSMActivityProjectHead CASCADE;
 INSERT INTO GOSMActivityProjectHead (idNumber, activityID)
                              VALUES (11445955, 1);
