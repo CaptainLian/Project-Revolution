@@ -1,5 +1,6 @@
-module.exports = function(database, queryFiles){
-	
+'use strict';
+
+module.exports = function(database, queryFiles){	
 	return {
 
 	};

@@ -321,67 +321,74 @@ module.exports = function(database, models, queryFiles) {
 
             database.tx(t => {
                 return projectProposalModel.insertProjectProposal({}, t)
-                .then(data => {
-                    const projectProposalID = data.projectProposal;
-                    t.task(t => {
-                        const queries = [];
+                    .then(data => {
+                        const projectProposalID = data.projectProposal;
+                        t.task(t => {
+                            const queries = [];
 
-                        /* 
+                            /* 
 
-                            PPR Program Design
+                                PPR Program Design
 
-                        */
-                        for(const program of sched){
-                            for(let index = 0; index < program.length; index++){
-                                const item = program[index];
-                                queries[queries.length] = projectProposalModel.insertProjectProposalDesign({
-                                    projectProposal: projectProposalID,
-                                    dayID: index,
-                                    date: item.date,
-                                    startTime: item.start,
-                                    endTime: item.end,
-                                    activity: item.actName,
-                                    activityDescription: item.actDesc,
-                                    personInCharge: item.pic
-                                }, t);   
+                            */
+                            for (const program of sched) {
+                                for (let index = 0; index < program.length; index++) {
+                                    const item = program[index];
+                                    queries[queries.length] = projectProposalModel.insertProjectProposalDesign({
+                                        projectProposal: projectProposalID,
+                                        dayID: index,
+                                        date: item.date,
+                                        startTime: item.start,
+                                        endTime: item.end,
+                                        activity: item.actName,
+                                        activityDescription: item.actDesc,
+                                        personInCharge: item.pic
+                                    }, t);
+                                }
                             }
-                        }
 
-                        // insert finances
+                            // insert finances
 
-                        /* 
 
-                            Revenue
+                            /* 
 
-                        */
-                        for (const item of funds.revenue){
-                            queries[queries.length] = projectProposalModel.insertProjectProposalProjectedIncome({
-                                projectProposal: projectProposalID,
-                                material: item.item,
-                                quantity: item.quan,
-                                sellingPrice: item.price
-                            }, t);
-                        }
+                                Revenue
 
-                        /*
+                            */
+                            for (const item of funds.revenue) {
+                                queries[queries.length] = projectProposalModel.insertProjectProposalProjectedIncome({
+                                    projectProposal: projectProposalID,
+                                    material: item.item,
+                                    quantity: item.quan,
+                                    sellingPrice: item.price
+                                }, t);
+                            }
 
-                            Expense
+                            /*
 
-                        */
-                        for(const item of funds.expense){
-                            queries[queries.length] = projectProposalModel.insertProjectProposalExpenses({
-                                projectProposal: projectProposalID,
-                                material: item.item,
-                                quantity: item.quan,
-                                unitCost: item.price
-                            }, t);
-                        }
+                                Expense
 
-                        return t.batch(queries);
+                            */
+                            for (const item of funds.expense) {
+                                queries[queries.length] = projectProposalModel.insertProjectProposalExpenses({
+                                    projectProposal: projectProposalID,
+                                    material: item.item,
+                                    quantity: item.quan,
+                                    unitCost: item.price
+                                }, t);
+                            }
+
+                            return t.batch(queries);
+                        });
                     });
-                });     
-            });			
-		},
+            })
+            .then(data => {
+                logger.debug('', log_options);
+            })
+            .catch(err => {
+                throw err;
+            });
+        },
 
         deleteActivity: (req, res) => {
 
@@ -441,8 +448,8 @@ module.exports = function(database, models, queryFiles) {
                         organizationModel.getOrganizationInformation(organizationID, 'name', t),
                         gosmModel.getActivitiesFromID(GOSMID, [
                             'id',
-                            'strategies', ["to_char(targetDateStart, 'Mon DD, YYYY')",
-                                'targetDateStart'
+                            'strategies', 
+                            ["to_char(targetDateStart, 'Mon DD, YYYY')", 'targetDateStart'
                             ]
                         ], t),
                         gosmModel.getGOSM(GOSMID, 'status', t)

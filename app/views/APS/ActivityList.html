@@ -41,7 +41,7 @@
 
                         {% set cls = cycler("even", "odd") %}
                         {% for activity in proposals %}
-                            <tr role="row" class="{{cls.next()}}" data-toggle="modal" data-target="#sampleModal" data-ppr-id="{{activity.id}}">
+                            <tr role="row" class="{{cls.next()}} activity_row" data-toggle="modal" data-target="#sampleModal" data-ppr-id="{{activity.id}}">
                                 <td class="sorting_1" data-toggle="modal" data-target ="#sampleModal">{{activity.name}}</td><!-- event name-->
                                 <td>{{activity.dateevent}}</td><!-- date of event-->
                                 <td>{{activity.dayslate}}</td><!-- days until late-->

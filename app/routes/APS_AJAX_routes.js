@@ -1,3 +1,5 @@
+'use strict';
+
 var express = require('express');
 var router = express.Router();
 
@@ -11,6 +13,6 @@ module.exports = function(app , controllers){
 	router.post('/APS/ajax/UpdateGOSMActivityComment', controllers.APS_AJAX_controller.updateGOSMActivityComment);
 	router.get('/APS/ajax/UpdateGOSMActivityComment', controllers.APS_AJAX_controller.updateGOSMActivityComment);
 
-	router.post('/APS/ajax/getProjectProposaActivityDetails', controllers.APS_AJAX_controller.getProjectProposaActivityDetails);
+	router.post('/APS/ajax/getProjectProposaActivityDetails', controllers.APS_AJAX_controller.getProjectProposalActivityDetails);
 	return router; 
 };

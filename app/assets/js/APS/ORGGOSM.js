@@ -22,7 +22,7 @@
         function setActivityModal(activityID) {
             currentActivity = activityID;
             $.ajax({
-                type: 'GET',
+                type: 'POST',
                 url: '/APS/ajax/GetGOSMActivityDetails',
                 data: {
                     _csrf: csrfToken,
@@ -84,7 +84,7 @@
                 comments: modal_comments.val()
             };
             $.ajax({
-                type: 'GET',
+                type: 'POST',
                 url: '/APS/ajax/UpdateGOSMActivityComment',
                 data: param,
                 success: function(data, textStatus, jqXHR) {

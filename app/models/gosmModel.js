@@ -22,32 +22,30 @@ module.exports = function(db, queryFiles) {
     const query_getSubmissionYears = queryFiles.gosm_getSubmissionYears;
     const query_getAll = queryFiles.gosm_getAll;
 
-    
-
-
-    const dbHelper = require('../utility/databaseHelper')(db);
-    const queryExec = dbHelper.queryExec;
+    const dbHelper = require('../utility/databaseHelper');
     const attachFields = dbHelper.attachFields;
 
     return {
-        getAllActivityTypes: function(connection=db) {
+        getAllActivityTypes: function(connection = db) {
             return connection.many(getAllActivityTypesSQL);
         }, //getAllActivityTypes()
+
         getAllActivityNature: function() {
             return db.many(getAllActivityNatureSQL);
         },
-        insertProposedActivity: function(param, connection=db) {
+        insertProposedActivity: function(param, connection = db) {
             return connection.one(insertProposedActivitySQL, param);
         },
-        insertActivityProjectHead: function(param, connection=db) {
+        insertActivityProjectHead: function(param, connection = db) {
             return db.none(insertActivityProjectHeadSQL, connection);
         },
-        getSchoolYear: function(connection=db) {
+        getSchoolYear: function(connection = db) {
             return connection.one(getSchoolYearSQL);
         },
         getGOSMActivities: function(param) {
             return db.any(getGOSMActivitiesSQL, param);
         },
+        
         //TODO: Delete function
         getSubmissionYears: function() {
             return db.any(query_getSubmissionYears);
@@ -64,15 +62,15 @@ module.exports = function(db, queryFiles) {
         updateActivity: function(param) {
             return db.one(updateActivitySQL, param);
         },
-        submitGOSM: function(param){
-        	return db.none(submitGOSMSQL, param);
+        submitGOSM: function(param) {
+            return db.none(submitGOSMSQL, param);
         },
 
-        getOrgGOSM: function(param, connection=db) {
+        getOrgGOSM: function(param, connection = db) {
             return connection.oneOrNone(getOrgGOSMSQL, param);
         },
 
-        getActivitiesFromID: (GOSMID, fields, connection=db) => {
+        getActivitiesFromID: (GOSMID, fields, connection = db) => {
             let query = squel.select()
                 .from('GOSMActivity')
                 .where('GOSM = ${GOSMID}');
@@ -80,7 +78,9 @@ module.exports = function(db, queryFiles) {
             attachFields(query, fields);
             query = query.toString();
             logger.debug(`Executing query: ${query}`, log_options);
-            return connection.any(query, {GOSMID: GOSMID});
+            return connection.any(query, {
+                GOSMID: GOSMID
+            });
         },
 
         /**
@@ -89,24 +89,26 @@ module.exports = function(db, queryFiles) {
             activityNature = an
             activityType = at
         */
-        getActivityDetails: function(id, fields, connection=db) {
+        getActivityDetails: function(id, fields, connection = db) {
             let query = squel.select()
                 .from('GOSMActivity', 'ga')
-                .left_join('ActivityNature', 'an', 'ga.activityNature = an.id')
-                .left_join('ActivityType', 'at', 'ga.activityType = at.id')
+                    .left_join('ActivityNature', 'an', 'ga.activityNature = an.id')
+                    .left_join('ActivityType', 'at', 'ga.activityType = at.id')
                 .where('ga.id = ${activityID}');
 
             attachFields(query, fields);
 
             query = query.toString();
             logger.debug(`Executing query: ${query}`, log_options);
-            return connection.oneOrNone(query, {activityID: id}); 
+            return connection.oneOrNone(query, {
+                activityID: id
+            });
         },
 
         /**
             
         */
-        getActivityProjectHeads: function(id, fields, connection=db) {
+        getActivityProjectHeads: function(id, fields, connection = db) {
             let query = squel.select()
                 .from('GOSMActivityProjectHead', 'ph')
                 .left_join('Account', 'a', 'ph.idNumber = a.idNumber')
@@ -115,10 +117,12 @@ module.exports = function(db, queryFiles) {
 
             query = query.toString();
             logger.debug(`Executing query: ${query}`, log_options);
-            return connection.any(query, {activityID: id});
+            return connection.any(query, {
+                activityID: id
+            });
         },
 
-        updateGOSMStatus: function(id, statusID, comments, connection) {
+        updateGOSMStatus: function(id, statusID, comments, connection = db) {
             let query = squel.update()
                 .table('GOSM')
                 .set('status', '${statusID}')
@@ -129,30 +133,34 @@ module.exports = function(db, queryFiles) {
                 statusID: statusID
             };
             if (typeof comments === 'string') {
-                query.set('comments', '${comments}', {dontQuote: true});
+                query.set('comments', '${comments}', {
+                    dontQuote: true
+                });
                 param.comments = comments;
             }
 
             query = query.toString();
             logger.debug(`Executing query: ${query} with parameters ${JSON.stringify(param)}`, log_options);
-            return queryExec('none', query, param, connection);
+            return connection.none(query, param);
         },
 
-        updateActivityComment: function(id, comments, connection) {
+        updateActivityComment: function(id, comments, connection = db) {
             let query = squel.update()
                 .table('GOSMActivity')
-                .set('comments', '${comments}', {dontQuote: true})
+                .set('comments', '${comments}', {
+                    dontQuote: true
+                })
                 .where('id = ${id}');
 
             query = query.toString();
             logger.debug(`Executing query: ${query}`, log_options);
-            return queryExec('none', query, {
+            return connection.none(query, {
                 id: id,
                 comments: comments
-            }, connection);
+            });
         },
 
-        getGOSM: function(id, fields, connection=db) {
+        getGOSM: function(id, fields, connection = db) {
             let query = squel.select()
                 .from('GOSM', 'g')
                 .where('id = ${id}');
@@ -160,7 +168,9 @@ module.exports = function(db, queryFiles) {
 
             query = query.toString();
             logger.debug(`Executing query: ${query}`, log_options);
-            return connection.one(query, {id: id});
+            return connection.one(query, {
+                id: id
+            });
         }
     };
 };

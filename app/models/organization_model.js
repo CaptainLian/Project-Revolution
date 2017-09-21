@@ -1,4 +1,6 @@
+'use strict';
 const squel = require('squel').useFlavour('postgres');
+const dbHelper = require('../utility/databaseHelper');
 
 module.exports = function(database, queryFiles){
 	return {	
@@ -6,15 +8,7 @@ module.exports = function(database, queryFiles){
 			const query = squel.select()
 			.from('StudentOrganization')
 			.where('id = ${id}');
-
-			if(typeof fields === 'string'){
-				query.field(fields);
-			}else if(Array.isArray(fields)){
-				for(const field of fields){
-					query.field(field);
-				}	
-			}
-			
+			dbHelper.attachFields(id, fields);			
 			return database.one(query.toString(), {id: id});
 		}
 	};

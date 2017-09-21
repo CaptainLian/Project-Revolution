@@ -2,7 +2,7 @@
 
 const logger = global.logger;
 const log_options = {
-    from: 'ProjectProposal-ProjectProposalModel'
+    from: 'ProjectProposal-Model'
 };
 
 const squel = require('squel').useFlavour('postgres');
@@ -14,10 +14,9 @@ module.exports = function(db, queryFiles) {
     const insertProjectProposalProjectedIncomeSQL = queryFiles.insertProjectProposalProjectedIncome;
     const insertProjectProposalExpensesSQL = queryFiles.insertProjectProposalExpenses;
 
-    let dbHelper = require('../utility/databaseHelper')(db);
+    let dbHelper = require('../utility/databaseHelper');
 
     const ProjectProposalModel = function(db, attachFields) {
-        logger.debug('Constructing ProjectProposal-ProjectProposalModel');
         this._db = db;
         this._attachFields = attachFields;
     };
@@ -32,7 +31,7 @@ module.exports = function(db, queryFiles) {
             .with('PPR',
                 squel.select()
                 .from('ProjectProposal', 'ppr')
-                .where('ppr.id = {$id}'))
+                .where('ppr.id = ${id}'))
             .with('GOSMA',
                 squel.select()
                 .from('GOSMActivity', 'ga')
@@ -41,12 +40,14 @@ module.exports = function(db, queryFiles) {
                     .field('GOSMActivity')
                     .from('PPR')))
             .from('PPR', 'pp')
-            .left_join('GOSMA', 'ga', 'pp.GOSMActivity = ga.id');
+                .left_join('GOSMA', 'ga', 'pp.GOSMActivity = ga.id')
+                .left_join('ActivityType', 'at', 'ga.activityType = at.id')
+                .left_join('ActivityNature', 'an', 'ga.activityNature = an.id');
 
         this._attachFields(query, fields);
 
         query = query.toString();
-        logger.debug(`Query: ${query}`, log_options);
+        logger.debug(`Executing Query: ${query}`, log_options);
 
         return connection.oneOrNone(query, {
             id: id
@@ -71,8 +72,8 @@ module.exports = function(db, queryFiles) {
             .from('GOSMActivity')
             .where('id IN ?',
                 squel.select()
-                .field('DISTINCT GOSMActivity')
-                .from('PPR')))
+                .from('PPR')
+                .field('DISTINCT GOSMActivity')))
 
         .with('GOSM',
             squel.select()
@@ -81,16 +82,16 @@ module.exports = function(db, queryFiles) {
             .field('g.studentOrganization')
             .where('g.id IN ?',
                 squel.select()
-                .field('GOSM')
-                .from('GOSMA')))
+                .from('GOSMA')
+                .field('GOSM')))
 
         .with('ORG',
             squel.select()
             .from('StudentOrganization', 'so')
             .where('so.id IN ?',
                 squel.select()
-                .field('g.studentOrganization')
-                .from('GOSM', 'g')))
+                .from('GOSM', 'g')
+                .field('g.studentOrganization')))
 
         .from('PPR', 'pp')
             .left_join('GOSMA', 'ga', 'pp.GOSMActivity = ga.id')
@@ -103,6 +104,25 @@ module.exports = function(db, queryFiles) {
         return connection.any(query);
     };
 
+    ProjectProposalModel.prototype.getProjectProposalProgramDesign = function(id, fields, connection = this._db){
+        let query = squel.select()
+        .from('ProjectProposalProgramDesign', 'pppd')
+        .where('projectProposal = ${id}');
+        this._attachFields(query, fields);
+
+        query = query.toString();
+        return connection.any(query, {id: id});
+    };
+
+    ProjectProposalModel.prototype.getProjectProposalExpenses = function(id, fields, connection = this._db){
+        
+    };
+
+    /*
+
+        
+    
+    */
     ProjectProposalModel.prototype.insertProjectProposal = function(param, connection = this._db) {
         //TODO: implementation, test
         return connection.one(insertProjectProposalSQL, param);
