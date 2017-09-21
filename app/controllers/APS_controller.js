@@ -174,7 +174,7 @@ module.exports = function(database, models, queryFiles) {
                         termID: data.id,
                         studentOrganization: 1 //to be replaced by session variable
                     };
-
+                    //TODO Flatten
                     gosmModel.getOrgGOSM(orgGOSMParam)
                         .then(data => {
 
@@ -320,74 +320,78 @@ module.exports = function(database, models, queryFiles) {
             var projectProposalParam = {};
 
             database.tx(t => {
-                return projectProposalModel.insertProjectProposal({}, t)
-                    .then(data => {
-                        const projectProposalID = data.projectProposal;
-                        t.task(t => {
-                            const queries = [];
+                    return projectProposalModel.insertProjectProposal({}, t)
+                        .then(data => {
+                            const projectProposalID = data.projectProposal;
+                            t.task(t => {
+                                const queries = [];
 
-                            /* 
+                                /* 
 
-                                PPR Program Design
+                                    PPR Program Design
 
-                            */
-                            for (const program of sched) {
-                                for (let index = 0; index < program.length; index++) {
-                                    const item = program[index];
-                                    queries[queries.length] = projectProposalModel.insertProjectProposalDesign({
+                                */
+                                for (let index0 = sched.length + 1; --index0;) {
+                                    const program = sched[sched.length - index0];
+                                    for (let index1 = program.length + 1; --index1;) {
+                                        const i = program.length - index1;
+                                        const item = data[i];
+                                        queries[queries.length] = projectProposalModel.insertProjectProposalDesign({
+                                            projectProposal: projectProposalID,
+                                            dayID: i,
+                                            date: item.date,
+                                            startTime: item.start,
+                                            endTime: item.end,
+                                            activity: item.actName,
+                                            activityDescription: item.actDesc,
+                                            personInCharge: item.pic
+                                        }, t);
+                                    }
+                                }
+
+                                // insert finances
+
+
+                                /* 
+
+                                    Revenue
+
+                                */
+                                for (let index = funds.revenue.length + 1; --index;) {
+                                    const item = funds.revenue[funds.revenue.length - index];
+                                    queries[queries.length] = projectProposalModel.insertProjectProposalProjectedIncome({
                                         projectProposal: projectProposalID,
-                                        dayID: index,
-                                        date: item.date,
-                                        startTime: item.start,
-                                        endTime: item.end,
-                                        activity: item.actName,
-                                        activityDescription: item.actDesc,
-                                        personInCharge: item.pic
+                                        material: item.item,
+                                        quantity: item.quan,
+                                        sellingPrice: item.price
                                     }, t);
                                 }
-                            }
 
-                            // insert finances
+                                /*
 
+                                    Expense
 
-                            /* 
+                                */
+                                for (let index = funds.expense.length + 1; --index;) {
+                                    const item = funds.expense[funds.expense.length - index];
+                                    queries[queries.length] = projectProposalModel.insertProjectProposalExpenses({
+                                        projectProposal: projectProposalID,
+                                        material: item.item,
+                                        quantity: item.quan,
+                                        unitCost: item.price
+                                    }, t);
+                                }
 
-                                Revenue
-
-                            */
-                            for (const item of funds.revenue) {
-                                queries[queries.length] = projectProposalModel.insertProjectProposalProjectedIncome({
-                                    projectProposal: projectProposalID,
-                                    material: item.item,
-                                    quantity: item.quan,
-                                    sellingPrice: item.price
-                                }, t);
-                            }
-
-                            /*
-
-                                Expense
-
-                            */
-                            for (const item of funds.expense) {
-                                queries[queries.length] = projectProposalModel.insertProjectProposalExpenses({
-                                    projectProposal: projectProposalID,
-                                    material: item.item,
-                                    quantity: item.quan,
-                                    unitCost: item.price
-                                }, t);
-                            }
-
-                            return t.batch(queries);
+                                return t.batch(queries);
+                            });
                         });
-                    });
-            })
-            .then(data => {
-                logger.debug('', log_options);
-            })
-            .catch(err => {
-                throw err;
-            });
+                })
+                .then(data => {
+                    logger.debug('', log_options);
+                })
+                .catch(err => {
+                    throw err;
+                });
         },
 
         deleteActivity: (req, res) => {
@@ -448,9 +452,7 @@ module.exports = function(database, models, queryFiles) {
                         organizationModel.getOrganizationInformation(organizationID, 'name', t),
                         gosmModel.getActivitiesFromID(GOSMID, [
                             'id',
-                            'strategies', 
-                            ["to_char(targetDateStart, 'Mon DD, YYYY')", 'targetDateStart'
-                            ]
+                            'strategies', ["to_char(targetDateStart, 'Mon DD, YYYY')", 'targetDateStart']
                         ], t),
                         gosmModel.getGOSM(GOSMID, 'status', t)
                     ]);
