@@ -1,5 +1,3 @@
-const debug = require('debug')('Login: ');
-
 //query builder
 const squel = require('squel');
 
@@ -11,8 +9,9 @@ const selfsigned = require('selfsigned');
 const crypto2 = require('crypto2');
 
 const logger = global.logger;
-
-const log_options = {from: 'Account'};
+const log_options = {
+    from: 'Account'
+};
 
 module.exports = function(database, models, queryFiles) {
 
@@ -23,7 +22,9 @@ module.exports = function(database, models, queryFiles) {
         viewLogin: (req, res) => {
             const csrfToken = req.csrfToken();
             logger.debug(`login CSRFToken: ${csrfToken}`, log_options);
-            res.render('System/LoginMain', {csrfToken: csrfToken});
+            res.render('System/LoginMain', {
+                csrfToken: csrfToken
+            });
         },
 
         logout: (req, res) => {
@@ -45,7 +46,10 @@ module.exports = function(database, models, queryFiles) {
                 .field('idNumber')
                 .field('email')
                 .field('password')
-                .field('salt');
+                .field('salt')
+                .field('Firstname')
+                .field('Lastname')
+                .field('Middlename');
 
             let valid = true;
             if (isNaN(credential)) {
@@ -60,32 +64,40 @@ module.exports = function(database, models, queryFiles) {
 
             if (valid) {
                 database.one(query.toString(), {
-                    credential: input.credential
-                })
-                .then(account => {
-                    logger.debug(`Account found: ${JSON.stringify(account)}`, log_options);
-                    if (account.password === bcrypt.hashSync(input.password, account.salt)) {
-                        logger.debug('Enter!!', log_options);
-                        req.session.user = account.idnumber;
-                        req.session.valid = true;
-                        req.session.save();
-                        res.send({
-                            valid: true,
-                            route: '/'
-                        });
-                    } else {
-                        logger.debug('Incorrect password');
+                        credential: input.credential
+                    })
+                    .then(account => {
+                        logger.debug(`Account found: ${JSON.stringify(account)}`, log_options);
+                        if (account.password === bcrypt.hashSync(input.password, account.salt)) {
+                            logger.debug('Enter!!', log_options);
+                            req.session.user = {
+                                idNumber: account.idnumber,
+                                name: {
+                                    first: account.firstname,
+                                    middle: account.middlename,
+                                    last: account.lastname
+                                }
+                            };
+
+                            req.session.valid = true;
+                            req.session.save();
+                            res.send({
+                                valid: true,
+                                route: '/'
+                            });
+                        } else {
+                            logger.debug('Incorrect password');
+                            res.send({
+                                valid: false
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        logger.debug('Account not exist');
                         res.send({
                             valid: false
                         });
-                    }
-                })
-                .catch(error => {
-                    logger.debug('Account not exist');
-                    res.send({
-                        valid: false
                     });
-                });
             } else {
                 logger.debug('Aguy input');
                 res.send({
@@ -98,10 +110,11 @@ module.exports = function(database, models, queryFiles) {
             // //KEY GENERATION
             // console.log("REQUEST");
             // console.log(req.session.user);
-
-            var fullname = req.session.user.firstname + " " + req.session.user.middlename + " " + req.session.user.lastname;
-            var email = req.session.user.email;
-            var details = [{
+            //database.one('SELECT * FROM Account WHERE idNumber = ${idNumber}', {idNumber: req.session.user.idNumber});
+            console.log(req.session);
+            let fullname = req.session.user.name.first + " " + req.session.user.name.middle + " " + req.session.user.name.last;
+            let email = req.session.user.email;
+            let details = [{
                 "name": fullname,
                 "value": email
             }];
@@ -117,6 +130,7 @@ module.exports = function(database, models, queryFiles) {
             });
             console.log("GENERATED KEYS");
             console.log(keys.private);
+            console.log(keys.public);
 
             //SIGN DOCUMENT
             var sampleDocument = {

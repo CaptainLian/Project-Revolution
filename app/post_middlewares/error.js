@@ -31,13 +31,14 @@ module.exports = function(app, database, models, queryFiles) {
         name: 'Error 500',
         description: 'Generalized error logging',
         action: function(err, req, res, next) {
+            let {message, stack} = err;
+
             // render the error page
-            console.log(err);
-            logger.error(err.toString());
+            logger.error(`${message}\n${stack}`);
             res.status(err.status || 500);
             res.render('error', {
-                message: err.message,
-                error: err
+                message: message,
+                stack: stack
             });
         }
     }];

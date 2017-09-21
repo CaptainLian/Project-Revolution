@@ -297,6 +297,7 @@ CREATE TABLE ProjectProposal (
     accumulatedDepositoryFunds NUMERIC(16, 4),
     organizationFundOtherSource NUMERIC(16, 4),
     facultyAdviser INTEGER REFERENCES Account(idNumber),
+    comments TEXT,
     financeSignatory INTEGER REFERENCES Account(idNumber),
     preparedBy INTEGER REFERENCES Account(idNumber),
     dateCreated TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,

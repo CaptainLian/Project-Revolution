@@ -3,7 +3,7 @@ const log_options = {from:'AJAX-APS', color:'\x1b[35m'};
 
 module.exports = function(database, models, queryFiles){
 	const gosmModel = models.gosmModel;
-
+	const projectProposalModel = models.projectProposal_model;
 	return {
 		getGOSMActivityDetails: function(req, res){
 			const activityID = parseInt(req.query.activityID ? req.query.activityID : req.body.activityID);
@@ -87,6 +87,21 @@ module.exports = function(database, models, queryFiles){
 				res.send({valid: true, success: false});
 				throw error;
 			});
+		},
+
+		getProjectProposaActivityDetails: (req, res) => {
+			const PPRID = req.body.activityID ? req.body.activityID : req.query.activityID;
+			
+			projectProposalModel.getActivityProjectProposalDetails(PPRID)
+			.then(data => {
+				res.send({valid: true, success: true});
+			})
+			.catch(err => {
+				throw err;
+			});
+			
+			res.send({valid: true, success: false});
+			
 		}
 	};
 };
