@@ -17,30 +17,17 @@ module.exports = function(database, models, queryFiles) {
                 csrfToken: req.csrfToken()
             });
         },
+
         viewCreateGOSM: (req, res) => {
 
             console.log('VIEW CREATE GOSM CONTROLLER');
-
-            // gosmModel.getSchoolYear()
-            // .then(data => {
-            //  var orgGOSMParam = {
-            //          termID: data.id,
-            //          studentOrganization: 1 //to be replaced by session variable
-
-            //      };
-            //  return gosmModel.getOrgGOSM(orgGOSMParam);
-            // })
-            // .then(data => {
-            //  if (data)
-            // });
             gosmModel.getSchoolYear()
                 .then(data => {
                     console.log(data.endyear);
-
-
                     var orgGOSMParam = {
                         termID: data.id,
-                        studentOrganization: 1 //to be replaced by session variable
+                        //TODO replace with session variable
+                        studentOrganization: 1
 
                     };
 
@@ -74,16 +61,16 @@ module.exports = function(database, models, queryFiles) {
                                                         });
                                                     })
                                                     .catch(error => {
-                                                        console.log(error);
                                                         res.send('ERROR');
+                                                        throw error;
                                                     });
                                             })
                                             .catch(error => {
-
+                                                throw error;
                                             });
                                     })
                                     .catch(error => {
-                                        console.log(error);
+                                         throw error;
                                     });
                             } else {
                                 console.log("ELSE");
@@ -113,11 +100,8 @@ module.exports = function(database, models, queryFiles) {
                             }
                         })
                         .catch(error => {
-                            console.log(error);
+                            throw error;
                         });
-
-
-
                 });
         },
 
@@ -209,8 +193,8 @@ module.exports = function(database, models, queryFiles) {
 
                                         console.log(personInCharge.length);
 
-                                        for (var i = 0; i < personInCharge.length; i++) {
-
+                                        for (let index = personInCharge.length + 1; --index;){
+                                            const item =  personInCharge[personInCharge.length - index];
                                             console.log("Inside the loop");
                                             console.log(personInCharge[i]);
 
@@ -270,7 +254,6 @@ module.exports = function(database, models, queryFiles) {
             var natureType = req.body['nature-type'];
             var personInCharge = [];
             personInCharge = req.body['personInCharge[]'];
-
 
             if (!Array.isArray(personInCharge)) {
                 personInCharge = [personInCharge];
@@ -372,7 +355,7 @@ module.exports = function(database, models, queryFiles) {
                                     Expense
 
                                 */
-                                for (let index = funds.expense.length + 1; --index;) {
+                                for (let index = funds.expense.length; index--;) {
                                     const item = funds.expense[funds.expense.length - index];
                                     queries[queries.length] = projectProposalModel.insertProjectProposalExpenses({
                                         projectProposal: projectProposalID,

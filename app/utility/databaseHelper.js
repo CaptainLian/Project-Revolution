@@ -13,7 +13,11 @@ DatabaseHelper.prototype.attachFields = function(query, fields) {
         query.field(fields);
     } else if (Array.isArray(fields)) {
         //[], ['aguy', ['field', 'name']]
-        for (const field of fields) {
+        for(let index = fields.length ; index--;){
+
+            const field = fields[index];
+            logger.debug(`${index}`);
+            logger.debug(`${JSON.stringify(field)}`);
             if (Array.isArray(field)) {
                 query.field(field[0], field[1]);
             } else {

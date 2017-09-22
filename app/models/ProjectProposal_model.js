@@ -115,7 +115,13 @@ module.exports = function(db, queryFiles) {
     };
 
     ProjectProposalModel.prototype.getProjectProposalExpenses = function(id, fields, connection = this._db){
-        
+        let query = squel.select()
+        .from('ProjectProposalExpenses', 'ppe')
+        .where('projectProposal = ${id}');
+        this._attachFields(query, fields);
+
+        query = query.toString();
+        return connection.any(query, {id: id});
     };
 
     /*

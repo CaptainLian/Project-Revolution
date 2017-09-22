@@ -66,7 +66,7 @@
             .click(function() {
                 const row = $(this);
                 const PPRID = row.data('ppr-id');
-
+                console.log(`PPRID: ${PPRID}`);
                 $.ajax({
                     type: 'POST',
                     url: '/APS/AJAX/getProjectProposaActivityDetails',

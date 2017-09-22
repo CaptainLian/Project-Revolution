@@ -127,7 +127,8 @@ module.exports = function(database, models, queryFiles) {
                             'pp.context',
                             'ga.objectives'
                         ], t),
-                        projectProposalModel.getProjectProposalProgramDesign(PPRID, undefined, t)
+                        projectProposalModel.getProjectProposalProgramDesign(PPRID, undefined, t),
+                        projectProposalModel.getProjectProposalExpenses(PPRID, undefined, t)
                     ]);
                 })
                 .then(data => {
