@@ -60,7 +60,7 @@
         swal({
           title: "Pend Activity",
           text: "Write your reason for pending the activity:",
-          type: "input",
+          type: "info",
           showCancelButton: true,
           closeOnConfirm: false,
           inputPlaceholder: "Write something"

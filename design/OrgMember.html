@@ -22,9 +22,10 @@
     <!-- animation CSS -->
     <link href="css/animate.css" rel="stylesheet">
     <!--alerts CSS -->
-    <link href="../plugins/bower_components/sweetalert/sweetalert.css" rel="stylesheet" type="text/css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.css" rel="stylesheet" type="text/css">
     <!-- Custom CSS -->
-    
+    <link href="../plugins/bower_components/custom-select/custom-select.css" rel="stylesheet" type="text/css" />
+    <link href="../plugins/bower_components/bootstrap-select/bootstrap-select.min.css" rel="stylesheet" />
     <link href="css/style.css" rel="stylesheet">
     <link href="css/custom.css" rel="stylesheet">
     <!-- color CSS -->
@@ -51,6 +52,10 @@
             z-index:2 
 
         }
+        .sweet-alert fieldset {
+            
+            display: none;
+        }
         .tabs-style-linebox nav a:hover{
             color: #00c292; 
             text-decoration-color:#00c292 !important;
@@ -67,6 +72,7 @@
             background: #00c292;
             text-decoration-color:#00c292 !important;
         }
+        .custom-class:focus { overflow: hidden; }
     </style>
 </head>
 
@@ -217,13 +223,8 @@
                     <!-- /.col-lg-12 -->
                 </div>
                 <!-- /row -->
-                <div class="row " >
-                    <div class="col-md-12 " >
-                        
-                    </div>
-                    
-                </div>
-                <div class="row white-box">
+                
+                <div id="doc" class="row white-box">
                     <div class="col-md-4 col-xs-12">
                         <div class="white-box">
                             <div class="text-center"> <h1>Activity jkljlkjlkjTitle Shiite</h1> </div>
@@ -297,9 +298,10 @@
                                 </nav>
                                 <div class="content-wrap text-center">
                                     <section id="section-linebox-1">
-                                        
+                                      
                                         <div class="white-box text-left">
-                                            <h4 class="text-left">Objectives</h4>
+
+                                            <h4 class="text-left">I. Objectives</h4>
                                             <hr>
                                             <ul class="  text-left">
                                                 <li>To generate funds for the expenses of the No Tech Camp</li>
@@ -325,7 +327,7 @@
                                                     <p class="text-muted">London</p>
                                                 </div>
                                             </div> -->
-                                            <h4 class="m-t-30 text-left">Brief Context</h4>
+                                            <h4 class="m-t-30 text-left">II. Brief Context</h4>
                                             <hr>
 
                                             <p class="m-t-30">
@@ -351,6 +353,8 @@
                                     </section>
                                     <section id="section-linebox-2 text-left">
                                         <div class="white-box">
+                                             <h4 class="m-t-30 text-left">III. Program Design</h4>
+                                            <hr>
                                             <div class="text-center">
                                                 <h3>January 1, 2017</h3>
                                             </div>
@@ -414,7 +418,7 @@
                                     
                                     <section id="section-linebox-3">
                                         <div class="white-box">
-                                            <h4 class="text-left">Source of Funds</h4>
+                                            <h4 class="text-left">IV. Source of Funds</h4>
                                             <hr>
                                             <br/>
                                             <div class="row">
@@ -453,7 +457,7 @@
                                                 
                                             </div>
                                             <br/>
-                                            <h4 class="text-left">Organizational Funds</h4>
+                                            <h4 class="text-left">V. Organizational Funds</h4>
                                             <hr>
                                             <br/>
                                             <div class="row">
@@ -510,7 +514,7 @@
                                                 
                                             </div>
                                             <br/>
-                                            <h4 class="text-left">Revenue and Expense Table</h4>
+                                            <h4 class="text-left">VI. Revenue and Expense Table</h4>
                                             <hr>
                                             <br/>
                                                                             
@@ -651,7 +655,10 @@
                                     </section>
                                     
                                     <section id="section-linebox-5">
+                                     <h4 class="text-left">VII. Attachments</h4>
+                                            <hr>
                                         <div class="white-box">
+
                                             <h4 class="text-left">VRT</h4>
                                             <hr>
                                             <br/>
@@ -714,9 +721,10 @@
     <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
     
-    <!-- <script src="../plugins/bower_components/sweetalert/jquery.sweet-alert.custom.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/nestable2/1.5.0/jquery.nestable.min.js"></script>
-
+    <script src="../plugins/bower_components/custom-select/custom-select.min.js" type="text/javascript"></script>
+    <script src="../plugins/bower_components/bootstrap-select/bootstrap-select.min.js" type="text/javascript"></script>
     <script type="text/javascript">
     (function() {
 
@@ -726,57 +734,116 @@
 
     })();
     $("#approve").click(function(){
-
+        swal({   
+            title: "Are you sure?",                                           
+            showCancelButton: true,   
+            reverseButtons:true,
+            confirmButtonColor: "#00C292",   
+            confirmButtonText: "Yes",   
+            cancelButtonText: "No", 
+            focusConfirm:false,
+            focusCancel:false
+             
+        }).then(function(data){
+            console.log(data);
+            console.log("ASD")
+            $('#doc').removeClass("bounceInRight animated").addClass("bounceInRight   animated").one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+                $(this).removeClass("bounceInRight animated");
+            });
+        });
     });
     $("#defer").click(function(){
+        var question = '<div class="row">'+
+                            '<div class="col-md-12 text-left m-b-20">'+
+                                '<br/>Select the sections that should be change, then explain why.<br/>'+
+                            '</div>'+
+                            '<div class="form-group col-md-12">'+
+                                '<label class="col-md-12 text-left"><strong>Sections to be Edited:</strong></label>'+
+                                '<div class="col-md-12">'+
+                                    '<select class="col-md-12" multiple=""s id="inlineFormCustomSelect">'+
+                                        
+                                        '<option value="1">I. Objectives</option>'+
+                                        '<option value="2">II. Brief Context</option>'+
+                                        '<option value="3">III. Program Design</option>'+
+                                        '<option value="4">IV. Source of Funds</option>'+
+                                        '<option value="5">V. Organizational Funds</option>'+
+                                        '<option value="6">VI. Revenue and Expense Table</option>'+
+                                        '<option value="7">VII. Attachements</option>'+
+                                    '</select>'+
+                                '</div>'+
+                                
+                            '</div>'+
+                            '<div class="form-group col-md-12">'+
+                                '<label class="col-md-12 text-left"><strong>Explanation</strong></label>'+
+                                '<div class="col-md-12">'+
+                                    '<textarea class="form-control" rows="5"></textarea>'+
+                                '</div>'+
+                            '</div>'+
+                        '</div>';
+        
+        
+        swal({   
+            title: "Defer",   
+            text:"Select the sections that should be change, then explain why.",
+            html:question,
+            focusConfirm:false,
+            focusCancel:false,
+            reverseButtons:true,
+            allowOutsideClick: false,
+            onOpen:function(ele){
+                $(ele).find("select").select2();
+                console.log("INIT SELECT");
+            },
+           
+            showCancelButton: true,   
+            confirmButtonColor: "#FEC107",   
+            confirmButtonText: "Defer",   
+            cancelButtonText: "Cancel",   
+             
+        }).then(function(data){
+            console.log(data);
+            console.log("ASD")
 
+        });
     });
+    
     $("#reject").click(function(){
-        // swal({   
-        //     title: "Are you sure?",   
-        //     input:'text',
-        //     text: "The owner will be able to resubmit this activity again.",   
+        var question = '<div class="row">'+
+                            '<div class="col-md-12 text-left  m-b-20" style="padding-left:16px">'+
+                                '<br/>State the reason for rejection.<br/>'+
+                            '</div>'+
+                            
+                            '<div class="form-group col-md-12">'+
+                                
+                                '<div class="col-md-12">'+
+                                    '<textarea class="form-control" rows="5"></textarea>'+
+                                '</div>'+
+                            '</div>'+
+                        '</div>';
+        swal({   
+            title: "Reject",   
+            
+            html:question,
+            focusConfirm:false,
+            focusCancel:false,
+            reverseButtons:true,
+            allowOutsideClick: false,
+            showCancelButton: true,   
+            confirmButtonColor: "#FB9678",   
+            confirmButtonText: "Submit",   
+            cancelButtonText: "Cancel",   
+           
+        }).then(function(data){
+            console.log(data);
+            console.log("REJECT");
+            $('#doc').removeClass("bounceInLeft animated").addClass("bounceInLeft   animated").one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+                $(this).removeClass("bounceInLeft animated");
+            });
 
-        //     type: "warning",   
-        //     showCancelButton: true,   
-        //     confirmButtonColor: "#DD6B55",   
-        //     confirmButtonText: "Yes, delete it!",   
-        //     cancelButtonText: "No, cancel please!",   
-        //     closeOnConfirm: false,   
-        //     closeOnCancel: false 
-        // }, function(isConfirm){   
-        //     if (isConfirm) {     
-        //         swal("Rejected!", "success");   
-        //     } else {     
-        //         swal("Cancelled", "The activity is safe :)", "error");   
-        //     } 
-        // });
-        swal({
-          title: 'Submit email to run ajax request',
-          input: 'email',
-          showCancelButton: true,
-          confirmButtonText: 'Submit',
-          showLoaderOnConfirm: true,
-          preConfirm: function (email) {
-            return new Promise(function (resolve, reject) {
-              setTimeout(function() {
-                if (email === 'taken@example.com') {
-                  reject('This email is already taken.')
-                } else {
-                  resolve()
-                }
-              }, 2000)
-            })
-          },
-          allowOutsideClick: false
-        }).then(function (email) {
-          swal({
-            type: 'success',
-            title: 'Ajax request finished!',
-            html: 'Submitted email: ' + email
-          })
-        })
+        });
+
     });
+    
     </script>
     <!--Style Switcher -->
     <script src="../plugins/bower_components/styleswitcher/jQuery.style.switcher.js"></script>
