@@ -742,7 +742,21 @@
             confirmButtonText: "Yes",   
             cancelButtonText: "No", 
             focusConfirm:false,
-            focusCancel:false
+            focusCancel:false,
+            showLoaderOnConfirm: true,
+            preConfirm: function (data) {
+                console.log(data);
+                console.log("DATA");
+                return new Promise(function (resolve, reject) {
+                  setTimeout(function() {
+                    if (data === 'taken@example.com') {
+                      reject('This email is already taken.')
+                    } else {
+                      resolve()
+                    }
+                  }, 2000)
+                })
+            }
              
         }).then(function(data){
             console.log(data);
@@ -760,7 +774,7 @@
                             '<div class="form-group col-md-12">'+
                                 '<label class="col-md-12 text-left"><strong>Sections to be Edited:</strong></label>'+
                                 '<div class="col-md-12">'+
-                                    '<select class="col-md-12" multiple=""s id="inlineFormCustomSelect">'+
+                                    '<select class="col-md-12" multiple=""s id="select-sec">'+
                                         
                                         '<option value="1">I. Objectives</option>'+
                                         '<option value="2">II. Brief Context</option>'+
@@ -788,8 +802,22 @@
             html:question,
             focusConfirm:false,
             focusCancel:false,
+            showLoaderOnConfirm: true,
             reverseButtons:true,
             allowOutsideClick: false,
+            preConfirm: function (data) {
+                console.log($("#select-sec").val());
+                console.log("DATA");
+                return new Promise(function (resolve, reject) {
+                  setTimeout(function() {
+                    if (data === 'taken@example.com') {
+                      reject('This email is already taken.')
+                    } else {
+                      resolve()
+                    }
+                  }, 2000)
+                })
+            },
             onOpen:function(ele){
                 $(ele).find("select").select2();
                 console.log("INIT SELECT");
@@ -824,6 +852,7 @@
             title: "Reject",   
             
             html:question,
+            showLoaderOnConfirm: true,
             focusConfirm:false,
             focusCancel:false,
             reverseButtons:true,
@@ -831,7 +860,18 @@
             showCancelButton: true,   
             confirmButtonColor: "#FB9678",   
             confirmButtonText: "Submit",   
-            cancelButtonText: "Cancel",   
+            cancelButtonText: "Cancel",
+            preConfirm: function (email) {
+                return new Promise(function (resolve, reject) {
+                  setTimeout(function() {
+                    if (email === 'taken@example.com') {
+                      reject('This email is already taken.')
+                    } else {
+                      resolve()
+                    }
+                  }, 2000)
+                })
+            } 
            
         }).then(function(data){
             console.log(data);
