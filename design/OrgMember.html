@@ -39,6 +39,34 @@
         .remove:{
             color: yellow
         }
+        .fixed {
+            width: 500px;
+            position: fixed;
+            bottom: 0; 
+            right: 0;
+            /*transform: translate(-50%,0);*/
+
+            margin: 0px;
+            padding: 0px;
+            z-index:2 
+
+        }
+        .tabs-style-linebox nav a:hover{
+            color: #00c292; 
+            text-decoration-color:#00c292 !important;
+        }
+        a:focus::after, 
+        .tabs-style-linebox nav a:hover::after, 
+        .tabs-style-linebox nav li.tab-current a::after{
+            background: #00c292;
+            text-decoration-color:#00c292 !important;
+        }
+        .tabs-style-linebox nav a:focus::after, 
+        .tabs-style-linebox nav a:hover::after, 
+        .tabs-style-linebox nav li.tab-current a::after{
+            background: #00c292;
+            text-decoration-color:#00c292 !important;
+        }
     </style>
 </head>
 
@@ -189,68 +217,461 @@
                     <!-- /.col-lg-12 -->
                 </div>
                 <!-- /row -->
-                <div class="row">
-                    <div class="col-sm-12">
+                <div class="row " >
+                    <div class="col-md-12 " >
+                        
+                    </div>
+                    
+                </div>
+                <div class="row white-box">
+                    <div class="col-md-4 col-xs-12">
                         <div class="white-box">
-                            <h3 class="box-title m-b-0">Organizations</h3>
-                            <p class="text-muted m-b-30">A table showing the list of organizations</p>
-                            <div class="table-responsive">
+                            <div class="text-center"> <h1>Activity jkljlkjlkjTitle Shiite</h1> </div>
+                            <p class="text-center">La Salle Computer Society</p>
+                            <div class="user-btm-box">
+                                <!-- .row -->
+                               
+                                <div class="row text-center ">
+                                    <div class="col-md-6 b-r"><strong>Type</strong>
+                                        <p>Recreation</p>
+                                    </div>
+                                    <div class="col-md-6"><strong>Nature</strong>
+                                        <p>Special Interest</p>
+                                    </div>
+                                </div>
+                                <!-- /.row -->
+                                <hr>
+                                <!-- .row -->
+                                <div class="row text-center m-t-10">
+                                    <div class="col-md-6 b-r"><strong>Venue</strong>
+                                        <p>Gokongwei Building</p>
+                                    </div>
+                                    <div class="col-md-6"><strong>ENMP / EMP</strong>
+                                        <p>50 / 20</p>
+                                    </div>
+                                </div>
+                                <!-- /.row -->
+                                <hr>
+                                <!-- .row -->
+                                <div class="row text-center m-t-10">
+                                    <div class="col-md-12">
+                                        <p><strong>Project Heads</strong></p>
 
-                                <table id="myTable" class="table table-hover" role="grid" aria-describedby="myTable_info">
-                                    <thead>
-                                        <tr role="row">
-                                            <th class="sorting text-left" width="25%" >Name</th>
-                                            <th class="sorting text-left" width="21%" >Position</th>
-                                            <th class="sorting text-left" width="10%">Degree</th>
-                                            <th class="sorting text-left" width="20">Number </th>
-                                            <th class="sorting text-left" width="15">Email</th>
-                                            <th class="sorting text-center" width="9%">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody> 
-                                        <tr>
-                                                <td>Neil Capistrano</td><!-- date of event-->
-                                                <td>Chairperson</td><!-- days until late-->
-                                                <td class="">BSIT</td>
-                                                <td class="">09390290165</td>
-                                                <td class="">neil_capistrano@dlsu.edu.ph</td>
-                                                <td class="text-center text-nowrap">                                                   
-                                                    <a  data-toggle="tooltip" data-original-title="Edit"> 
-                                                        <i  class="fa fa-pencil text-inverse m-r-10"></i> 
-                                                    </a>
-                                                    <a class="remove"  data-toggle="tooltip" data-original-title="Close"> 
-                                                        <i class="fa fa-close text-danger"></i> 
-                                                    </a>
-                                                </td>  
-                                        </tr>
-                                        <tr>
-                                                <td>Neil Capistrano</td><!-- date of event-->
-                                                <td>Chairperson</td><!-- days until late-->
-                                                <td class="">BSIT</td>
-                                                <td class="">09390290165</td>
-                                                <td class="">neil_capistrano@dlsu.edu.ph</td>
-                                                <td class="text-center text-nowrap">                                                   
-                                                    <a  data-toggle="tooltip" data-original-title="Edit"> 
-                                                        <i  class="fa fa-pencil text-inverse m-r-10"></i> 
-                                                    </a>
-                                                    <a class="remove"  data-toggle="tooltip" data-original-title="Close"> 
-                                                        <i class="fa fa-close text-danger"></i> 
-                                                    </a>
-                                                </td>  
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                        <p>Neil Capistrano</p>
+                                        <p>09390290166</p>
+                                        <p>Dominique Dagunton</p>
+                                        <p>09290430145</p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row button-box" style="position: absolute;bottom: 0">
+                                     
+                                    <div class="col-lg-4 col-sm-4 col-xs-12 ">
+                                        <button id="reject" class="btn btn-block btn-danger">Reject</button>
+                                    </div>
+                                    <div class="col-lg-4 col-sm-4 col-xs-12 ">
+                                        <button id="defer" class="btn btn-block  btn-warning">Defer</button>
+                                    </div>
+                                    <div class="col-lg-4 col-sm-4 col-xs-12 ">
+                                        <button id="approve" class="btn btn-block  btn-success">Approve</button>
+                                    </div>
+                                    
+                                </div>
+                                    
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-12">
-                        
-                    </div>
-                    <div class="col-sm-12">
-                        
-                    </div>
+                    <div class="col-md-8 col-xs-12" style="border-left: rgba(120,130,140,13) solid 1px">
+                        <div class="white-box"  style="padding: 25px 0px 0px 0px">
+                            
+                            <div class="sttabs tabs-style-linebox ">
+                                <nav>
+                                    <ul>
+                                        <li><a href="#section-linebox-1"><span>Details</span></a></li>
+                                        <li><a href="#section-linebox-2"><span>Schedule</span></a></li>
+                                        <li><a href="#section-linebox-3"><span>Funding</span></a></li>
+                                        
+                                        <li><a href="#section-linebox-5"><span>Attachment</span></a></li>
+                                        
+                                    </ul>
+                                </nav>
+                                <div class="content-wrap text-center">
+                                    <section id="section-linebox-1">
+                                        
+                                        <div class="white-box text-left">
+                                            <h4 class="text-left">Objectives</h4>
+                                            <hr>
+                                            <ul class="  text-left">
+                                                <li>To generate funds for the expenses of the No Tech Camp</li>
+                                                <li>To raise funds for the activities of the organization</li>
+                                                <li>To advertise the No Tech Camp event </li>
+                                                
+                                            </ul>
+                                            <!-- <div class="row">
+                                                <div class="col-md-3 col-xs-6 b-r"> <strong>Full Name</strong>
+                                                    <br>
+                                                    <p class="text-muted">Johnathan Deo</p>
+                                                </div>
+                                                <div class="col-md-3 col-xs-6 b-r"> <strong>Mobile</strong>
+                                                    <br>
+                                                    <p class="text-muted">(123) 456 7890</p>
+                                                </div>
+                                                <div class="col-md-3 col-xs-6 b-r"> <strong>Email</strong>
+                                                    <br>
+                                                    <p class="text-muted">johnathan@admin.com</p>
+                                                </div>
+                                                <div class="col-md-3 col-xs-6"> <strong>Location</strong>
+                                                    <br>
+                                                    <p class="text-muted">London</p>
+                                                </div>
+                                            </div> -->
+                                            <h4 class="m-t-30 text-left">Brief Context</h4>
+                                            <hr>
 
+                                            <p class="m-t-30">
+                                              Being part of the La Salle Computer Society, our main goal is to guide our fellow college mates and 
+                                              offer our best service to them. We help the students reach out to the corporate world by opening up 
+                                              avenues for opportunities for them to reach their full potential through the programs and activities 
+                                              that we provide. The problem we usually encounter is the limited funds for the organization that limits us 
+                                              in creating bigger and better events for the college. The funds that will be collected from this 
+                                              project will be used for future activities and projects that will better serve the students.  </p>
+                                            <p class="m-t-30">
+                                                The solution that we came up with is the ticket selling for the No Tech camp. Through this project,
+                                                 we can generate funds that will support our projects in order for our organization to reach our main goal.
+                                                  We feel that in order for us to provide our college mates better 
+                                                service, we must have sufficient funds that will support us all throughout the new school year.
+                                            </p>
+                                            <p class="m-t-30">
+                                                We came up with this project because we thought that this would be an effective way to raise our funds. 
+                                                We are sure that this event will allow Computer Studies students to bond and meet new people. 
+                                                In that, we will commit a lot of time and effort to make this project successful and as effective as possible.
+                                            </p>
+                                            
+                                        </div>
+                                    </section>
+                                    <section id="section-linebox-2 text-left">
+                                        <div class="white-box">
+                                            <div class="text-center">
+                                                <h3>January 1, 2017</h3>
+                                            </div>
+                                            <table class="table  text-left table-striped">
+                                                <thead>
+                                                    <th>Time </th>
+                                                    
+                                                    <th>Activity</th>
+                                                    <th>Description</th>
+                                                    <th>Person-In-Charge</th>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td >8:00AM-9:00AM</td>
+                                                        
+                                                        <td >Call time</td>
+                                                        <td >Students are called to assemble and board the bus.</td>
+                                                        <td >Juan De La Cruz</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td >9:00AM-11:00AM</td>
+                                                        
+                                                        <td >Travel time</td>
+                                                        <td >Travel time from DLSU to STC</td>
+                                                        <td >Juan De La Cruz</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <br/>
+                                            <div class="text-center">
+                                                <h3>January 2, 2017</h3>
+                                            </div>
+                                            <table class="table  text-left table-striped">
+                                                <thead>
+                                                    <th>Time </th>
+                                                    
+                                                    <th>Activity</th>
+                                                    <th>Description</th>
+                                                    <th>Person-In-Charge</th>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td >8:00AM-9:00AM</td>
+                                                        
+                                                        <td >Call time</td>
+                                                        <td >Students are called to assemble and board the bus.</td>
+                                                        <td >Juan De La Cruz</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td >9:00AM-11:00AM</td>
+                                                        
+                                                        <td >Travel time</td>
+                                                        <td >Travel time from DLSU to STC</td>
+                                                        <td >Juan De La Cruz</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <br/>
+                                        </div>
+                                    </section>
+                                    
+                                    <section id="section-linebox-3">
+                                        <div class="white-box">
+                                            <h4 class="text-left">Source of Funds</h4>
+                                            <hr>
+                                            <br/>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="col-md-6 col-xs-12 text-left">
+                                                        <strong>Organization funds:</strong>
+                                                    </div>
+                                                    <div class="col-md-6 col-xs-12">
+                                                        1000000
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="col-md-6 col-xs-12 text-left">
+                                                        <strong>Participants Fee:</strong>
+                                                    </div>
+                                                    <div class="col-md-6 col-xs-12">
+                                                        1000000
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="col-md-6 col-xs-12 text-left">
+                                                        <strong>Others:</strong>
+                                                    </div>
+                                                    <div class="col-md-6 col-xs-12">
+                                                        1000000
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="col-md-6 col-xs-12 text-right">
+                                                        <strong>Total:</strong>
+                                                    </div>
+                                                    <div class="col-md-6 col-xs-12">
+                                                        1000000
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+                                            <br/>
+                                            <h4 class="text-left">Organizational Funds</h4>
+                                            <hr>
+                                            <br/>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="col-md-6 col-xs-12 text-left">
+                                                        <strong>Operational Funds:</strong>
+                                                    </div>
+                                                    <div class="col-md-6 col-xs-12">
+                                                        1000000
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="col-md-6 col-xs-12 text-left">
+                                                        <strong>Depository Funds:</strong>
+                                                    </div>
+                                                    <div class="col-md-6 col-xs-12">
+                                                        1000000
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="col-md-6 col-xs-12 text-left">
+                                                        <strong>Others:</strong>
+                                                    </div>
+                                                    <div class="col-md-6 col-xs-12">
+                                                        1000000
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="col-md-6 col-xs-12 text-right">
+                                                        <strong>Total Cash for Disbursement:</strong>
+                                                    </div>
+                                                    <div class="col-md-6 col-xs-12">
+                                                        1000000
+                                                    </div>
+                                                </div>
+                                                <div> &nbsp</div>
+                                                <div class="col-md-12">
+                                                    <div class="col-md-6 col-xs-12 text-left">
+                                                        <strong>Total Projected Expenses:</strong>
+                                                    </div>
+                                                    <div class="col-md-6 col-xs-12">
+                                                        1000000
+                                                    </div>
+                                                </div>
+                                                 <div class="col-md-12">
+                                                    <div class="col-md-6 col-xs-12 text-right">
+                                                        <strong>Remaining Balance:</strong>
+                                                    </div>
+                                                    <div class="col-md-6 col-xs-12">
+                                                        1000000
+                                                    </div>
+                                                </div>
+
+                                                
+                                            </div>
+                                            <br/>
+                                            <h4 class="text-left">Revenue and Expense Table</h4>
+                                            <hr>
+                                            <br/>
+                                                                            
+                                            <table class="table bg">
+                                                <thead>
+                                                   
+                                                    <tr">
+                                                        <th class="text-center"  style="border-top: white solid 0px "  >Material</th>
+                                                        <th class="text-center" style="border-top: white solid 0px ">Quantity</th>
+                                                        <th class="text-center" style="border-top: white solid 0px ">Selling Price</th>
+                                                        <th class="text-right" style="border-top: white solid 0px ">&nbsp</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            Paper
+                                                        </td>
+                                                        <td>
+                                                            100 pcs.
+                                                        </td>
+                                                        <td>
+                                                            300
+                                                        </td>
+                                                        <td  class="text-right">
+                                                            300
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            Paper
+                                                        </td>
+                                                        <td>
+                                                            100 pcs.
+                                                        </td>
+                                                        <td>
+                                                            300
+                                                        </td>
+                                                        <td  class="text-right">
+                                                            300
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            Paper
+                                                        </td>
+                                                        <td>
+                                                            100 pcs.
+                                                        </td>
+                                                        <td>
+                                                            300
+                                                        </td>
+                                                        <td  class="text-right">
+                                                            300
+                                                        </td>
+                                                    </tr>
+                                                    
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <td class="text-right text-success" colspan="3"><strong>Total Revenue</strong></td>
+                                                        <td  class="text-right">300</td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                            <br/>
+                                            <table class="table bg">
+                                                <thead>
+                                                   
+                                                    <tr">
+                                                        <th class="text-center"  style="border-top: white solid 0px "  >Material</th>
+                                                        <th class="text-center" style="border-top: white solid 0px ">Quantity</th>
+                                                        <th class="text-center" style="border-top: white solid 0px ">Unit Cost</th>
+                                                        <th class="text-right" style="border-top: white solid 0px ">&nbsp</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            Paper
+                                                        </td>
+                                                        <td>
+                                                            100 pcs.
+                                                        </td>
+                                                        <td>
+                                                            300
+                                                        </td>
+                                                        <td  class="text-right">
+                                                            300
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            Paper
+                                                        </td>
+                                                        <td>
+                                                            100 pcs.
+                                                        </td>
+                                                        <td>
+                                                            300
+                                                        </td>
+                                                        <td  class="text-right">
+                                                            300
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            Paper
+                                                        </td>
+                                                        <td>
+                                                            100 pcs.
+                                                        </td>
+                                                        <td>
+                                                            300
+                                                        </td>
+                                                        <td  class="text-right">
+                                                            300
+                                                        </td>
+                                                    </tr>
+                                                    
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <td class="text-right text-danger" colspan="3"><strong>Total Expense</strong></td>
+                                                        <td  class="text-right">300</td>
+                                                    </tr>
+                                                     <tr>
+                                                        <td class="text-right text-success" colspan="3"  style="border-top: white solid 0px "><strong>Total Income </strong></td>
+                                                        <td  class="text-right" style="border-top: white solid 0px ">0</td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                            <br/>
+                                           
+
+
+                                        </div>
+                                    </section>
+                                    
+                                    <section id="section-linebox-5">
+                                        <div class="white-box">
+                                            <h4 class="text-left">VRT</h4>
+                                            <hr>
+                                            <br/>
+                                            <iframe ></iframe>
+                                        </div>
+                                         <div class="white-box">
+                                            <h4 class="text-left">Cash Disbursement</h4>
+                                            <hr>
+                                            <br/>
+                                            <iframe ></iframe>
+                                        </div>
+                                    </section>
+                                    
+                                </div>
+                                <!-- /content -->
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                <!-- /.ro
                 <!-- /.row -->
                 <!-- .right-sidebar -->
 
@@ -263,147 +684,6 @@
         <!-- /#page-wrapper -->
     </div>
 
-    <div id="largeModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
-        <div class="modal-dialog modal-lg" style="margin-top:180px">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" id="myLargeModalLabel">Add Member</h4> </div>
-                <div class="modal-body">
-                    <form class="form-horizontal">                        
-                        <div class="form-group row">
-                            <label class="col-sm-2 control-label col-form-label">Full Name</label>
-                            <div class="col-sm-3">
-                                <input type="text" class="form-control" id="lastName" placeholder="Last Name">
-                            </div>
-                            <div class="col-sm-5">
-                                <input type="text" class="form-control" id="givenName" placeholder="Given Name">
-                            </div>
-                            <div class="col-sm-2">
-                                <input type="text" class="form-control" id="middleName" placeholder="Initial">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="idNumber" class="col-sm-2 control-label col-form-label">ID Number</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="idNumber" placeholder="ID Number">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="inputEmail3" class="col-sm-2 control-label col-form-label">DLSU Email</label>
-                            <div class="col-sm-10">
-                                <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="degree" class="col-sm-2 control-label col-form-label">Degree Program</label>
-                            <div class="col-sm-10">
-                                <input type="email" class="form-control" id="degree" placeholder="Degree">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="inputEmail3" class="col-sm-2 control-label col-form-label">Contact Number</label>
-                            <div class="col-sm-10">
-                                <div class="input-group">
-                                    <span class="input-group-addon" id="basic-addon1">+63</span>
-                                    <input class="form-control" placeholder="Phone Number" aria-describedby="basic-addon1" type="text">
-                                </div>
-                            </div>
-                        </div>                                                
-                        <!-- <div class="form-group">
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-info waves-effect waves-light m-t-10">Sign in</button>
-                            </div>
-                        </div> -->
-                    </form>
-                    
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-info waves-effect waves-light m-t-10">Submit</button>
-                </div>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
-
-    <div id="position-modal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
-        <div class="modal-dialog modal-lg" style="margin-top:200px">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" id="myLargeModalLabel">Large modal</h4> </div>
-                <div class="modal-body">
-                    
-                    <div class="form-horizontal" style="vertical-align: middle;">
-                        <div class="form-group row">
-                            <label for="pos" class="col-sm-2 control-label col-form-label">Position</label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" id="pos">
-                            </div>
-                            <div class="col-md-2" style="margin-top: 7.5px" >
-                                <span class="fa fa-plus text-success" id="add-position" style="vertical-align: middle;"></span>
-                            </div>
-                        </div>
-
-                      
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="white-box" style="border-color: #fff 1px">
-                                
-                                <div class="myadmin-dd dd" id="nestable">
-                                    <ol class="dd-list">
-                                        <li class="dd-item" data-id="1">
-                                            <div class="dd-handle"> Item 1 <span class="remove-pos fa fa-times" style="float: right"></span> </div>
-
-                                        </li>
-                                        <li class="dd-item dd-collapsed" data-id="2">
-                                            <div class="dd-handle"> Item 2 </div>
-                                            <ol class="dd-list">
-                                                <li class="dd-item" data-id="3">
-                                                    <div class="dd-handle"> Item 3 </div>
-                                                </li>
-                                                <li class="dd-item" data-id="4">
-                                                    <div class="dd-handle"> Item 4 </div>
-                                                </li>
-                                                <li class="dd-item" data-id="5">
-                                                    <div class="dd-handle"> Item 5 </div>
-                                                    <ol class="dd-list">
-                                                        <li class="dd-item" data-id="6">
-                                                            <div class="dd-handle"> Item 6 </div>
-                                                        </li>
-                                                        <li class="dd-item" data-id="7">
-                                                            <div class="dd-handle"> Item 7 </div>
-                                                        </li>
-                                                        <li class="dd-item" data-id="8">
-                                                            <div class="dd-handle"> Item 8 </div>
-                                                        </li>
-                                                    </ol>
-                                                </li>
-                                                <li class="dd-item" data-id="9">
-                                                    <div class="dd-handle"> Item 9 </div>
-                                                </li>
-                                                <li class="dd-item" data-id="10">
-                                                    <div class="dd-handle"> Item 10 </div>
-                                                </li>
-                                            </ol>
-                                        </li>
-                                    </ol>
-                                </div>
-                            </div>
-                        </div>
-                        
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" id="sub-pos" class="btn btn-info waves-effect text-left" data-dismiss="modal">Submit</button>
-                </div>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
 
 
     
@@ -434,82 +714,9 @@
     <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
     
-    <script src="../plugins/bower_components/sweetalert/jquery.sweet-alert.custom.js"></script>
+    <!-- <script src="../plugins/bower_components/sweetalert/jquery.sweet-alert.custom.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/nestable2/1.5.0/jquery.nestable.min.js"></script>
-    <script>
-        $("#sub-pos").click(function(){
-            var json = ($("#nestable").nestable('serialize'));
-            $.ajax({
-                type:'POST',
-                url:'',
-                data:{ pos:json},
-                success: function(data){
 
-                }
-            })
-        });
-        var nest = $('#nestable').nestable({
-          
-
-        });
-        $('.dd span.remove-pos').on('mousedown', function (event) {
-          event.preventDefault(); return false; 
-        });
-        $(document).on('click','span.remove-pos',function(){
-            
-            $(this).closest('li').remove();
-            console.log("Na click");
-        });
-
-        $("#pos").keypress(function(e){
-            if(e.which == 13){
-                $("#add-position").trigger('click');
-            }
-        });
-        $("#add-position").click(function(){
-
-            var value  = $("#pos").val();
-            // console.log("ASD");1
-            // $('#nestable').nestable('add', {"id":value});   
-            console.log("VALUE   - - "+value);
-            var item = '<li class="dd-item" data-id="'+ value +'">'+
-                            '<div class="dd-handle">'+ value +' <span class="remove-pos fa fa-times" style="float: right"></span> </div>'+
-                        '</li>';
-            $("#pos").val('');
-            $("#nestable").append(item);
-            $('.dd span.remove-pos').on('mousedown', function (event) {
-              event.preventDefault(); return false; 
-            });
-            $(document).on('click','span.remove-pos',function(){
-                
-                $(this).closest('li').remove();
-                console.log("Na click");
-            });
-                
-        });
-        
-            
-        
-        
-        $('#myTable').DataTable( {
-            dom: 'Bfrtip',
-            buttons: [
-                {
-                    text: 'Add Member',
-                    action: function ( e, dt, node, config ) {
-                        $("#largeModal").modal('show');
-                    }
-                },
-                {
-                    text: 'Position',
-                    action: function ( e, dt, node, config ) {
-                        $("#position-modal").modal('show');
-                    }
-                }
-            ]
-        } );
-        
-    </script>
     <script type="text/javascript">
     (function() {
 
@@ -518,6 +725,58 @@
         });
 
     })();
+    $("#approve").click(function(){
+
+    });
+    $("#defer").click(function(){
+
+    });
+    $("#reject").click(function(){
+        // swal({   
+        //     title: "Are you sure?",   
+        //     input:'text',
+        //     text: "The owner will be able to resubmit this activity again.",   
+
+        //     type: "warning",   
+        //     showCancelButton: true,   
+        //     confirmButtonColor: "#DD6B55",   
+        //     confirmButtonText: "Yes, delete it!",   
+        //     cancelButtonText: "No, cancel please!",   
+        //     closeOnConfirm: false,   
+        //     closeOnCancel: false 
+        // }, function(isConfirm){   
+        //     if (isConfirm) {     
+        //         swal("Rejected!", "success");   
+        //     } else {     
+        //         swal("Cancelled", "The activity is safe :)", "error");   
+        //     } 
+        // });
+        swal({
+          title: 'Submit email to run ajax request',
+          input: 'email',
+          showCancelButton: true,
+          confirmButtonText: 'Submit',
+          showLoaderOnConfirm: true,
+          preConfirm: function (email) {
+            return new Promise(function (resolve, reject) {
+              setTimeout(function() {
+                if (email === 'taken@example.com') {
+                  reject('This email is already taken.')
+                } else {
+                  resolve()
+                }
+              }, 2000)
+            })
+          },
+          allowOutsideClick: false
+        }).then(function (email) {
+          swal({
+            type: 'success',
+            title: 'Ajax request finished!',
+            html: 'Submitted email: ' + email
+          })
+        })
+    });
     </script>
     <!--Style Switcher -->
     <script src="../plugins/bower_components/styleswitcher/jQuery.style.switcher.js"></script>
