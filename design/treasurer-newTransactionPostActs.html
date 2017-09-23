@@ -223,8 +223,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         <div class="form-group m-b-40">
                                             <select class="form-control select2" id ="transaction">
                                                 <option selected="true" disabled="disabled" >Select</option>
-                                                    <option value="1">Cash Advance</option>
-                                                    <option value="2">Direct Payment (Pre-acts)</option>
+                                                    <option value="1">Book Transfer</option>
+                                                    <option value="2">Petty Cash Replenishment</option>
+                                                    <option value="3">Reimbursement</option>
+                                                    <option value="4">Liquidation</option>
+                                                    <option value="5">Fund Raising Activity</option>
+                                                    <option value="6">No Expense</option>
                                             </select>
                                             <span class="highlight"></span> <span class="bar"></span>
                                             <label for="input6">Transaction</label>
@@ -237,7 +241,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </div>
                 </div>
                 <!-- /.row -->
-                <!-- Cash Advance .row -->
+                <!-- Book transfer .row -->
                 <div class="row transactions" id="CA">
                     <div class="col-sm-12">
                         <div class="white-box">
@@ -319,7 +323,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                                                 </div>
                                                                                             </div>
                                                                                             <!--/span-->
-                                                                                        </div>                                                                                </div>
+                                                                                        </div>
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="panel panel-default">
@@ -352,7 +357,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                                 </div>
                                                                             </div>
                                                                             <div class="panel panel-default">
-                                                                                <div class="panel-heading">REQUESTING ORG:
+                                                                                <div class="panel-heading">PAYABLE TO:
                                                                                     <div class="panel-action"><a href="#" data-perform="panel-collapse"><i class="fa fa-plus"></i></a></div>
                                                                                 </div>
                                                                                 <div class="panel-wrapper collapse" aria-expanded="false" style="">
@@ -362,9 +367,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                                         <div class="form-group">
                                                                                             <div class="row"></div>
                                                                                             <label class="col-md-12">PAYABLE TO:</label>
-                                                                                            <div class="col-md-12 margin-5">
-                                                                                                <p><strong>Amelia Galang</strong><br>VP Finance</p>
-                                                                                            </div>
+                                                                                                <form class="floating-labels margin-5">
+                                                                                                    <div class="form-group m-b-40">
+                                                                                                        <select class="form-control select2" id ="transaction">
+                                                                                                            <option selected="true" disabled="disabled" >Select</option>
+                                                                                                                <option value="1">Organization</option>
+                                                                                                                <option value="2">Establishment</option>
+                                                                                                        </select>
+                                                                                                        <span class="highlight"></span> <span class="bar"></span>
+                                                                                                        
+                                                                                                        <span class="help-block"><small>Select an establishment/organization.</small></span>
+                                                                                                    </div>
+                                                                                                </form>
 
                                                                                             <label class="col-md-12">CHARGE TO:</label>
                                                                                             <div class="col-md-12 margin-5">
@@ -407,7 +421,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="panel panel-success">
-                                                        <div class="panel-heading">CASH ADVANCE MEMO</div>
+                                                        <div class="panel-heading">BOOK TRANSFER MEMO</div>
                                                         <div class="panel-wrapper collapse in" aria-expanded="true">
                                                             <div class="panel-body">
                                                                 <form class="form-horizontal" role="form">
@@ -572,397 +586,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </div>
                 </div>
                 <!-- /.row -->
-
-                <!-- Direct Payment Pre Acts .row -->
-                <div class="row transactions" id="DPPre">
-                    <div class="col-sm-12">
-                        <div class="white-box">
-                            <h3 class="box-title m-b-0">Direct Payment</h3>
-                            <p class="text-muted m-b-30 font-13">Withdraw cash from the Depository Fund before the activity. It is to be used for projected expenses of the activity.</p>
-                            <div id="DPPAWizard" class="wizard">
-                                <ul class="wizard-steps text-center" role="tablist">
-                                    <li class="active" role="tab">
-                                        <h4><span><i class="ti-agenda"></i></span></h4><!-- prs -->
-                                    </li>
-                                    <li role="tab">
-                                        <h4><span><i class="ti-credit-card"></i></span></h4><!-- CA MEMO -->
-                                    </li>
-                                    <li role="tab">
-                                        <h4><span><i class="ti-notepad"></i></span></h4><!-- Informal Quotation -->
-                                    </li>
-                                    <li role="tab">
-                                        <h4><span><i class="ti-file"></i></span></h4><!-- Attachments -->
-                                    </li>
-                                </ul>
-                                <form id="DPPAvalidation" class="form-horizontal" action="keep.php" method="post">
-                                    <div class="wizard-content">
-                                        <div class="wizard-pane active" role="tabpanel">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="panel panel-success">
-                                                        <div class="panel-heading">PAYMENT REQUISITION SLIP</div>
-                                                        <div class="panel-wrapper collapse in" aria-expanded="true">
-                                                            <div class="panel-body">
-                                                                <form class="form-horizontal" role="form">
-                                                                    <div class="form-body">
-                                                                        <div><!--CA PANELS-->
-                                                                            <div class="panel panel-default">
-                                                                                <div class="panel-heading ">ACCOUNT INFORMATION:
-                                                                                    <div class="panel-action"><a href="#" data-perform="panel-collapse"><i class="fa fa-plus"></i></a></div>
-                                                                                </div>
-                                                                                <div class="panel-wrapper collapse" aria-expanded="false" style="">
-                                                                                    <div class="panel-body">
-                                                                                        <div class="row">
-                                                                                            <div class="col-md-6">
-                                                                                                <div class="form-group">
-                                                                                                    <label class="control-label col-md-3">LOCAL NO:</label>
-                                                                                                    <div class="col-md-9">
-                                                                                                        <p class="form-control-static"> 744 </p>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <!--/span-->
-                                                                                            <div class="col-md-6">
-                                                                                                <div class="form-group">
-                                                                                                    <label class="control-label col-md-3">THRU:</label>
-                                                                                                    <div class="col-md-9">
-                                                                                                        <p class="form-control-static">NAME OF SLIFE DIRECTOR</p>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <!--/span-->
-                                                                                        </div>
-                                                                                        <div class="row">
-                                                                                            <div class="col-md-6">
-                                                                                                <div class="form-group">
-                                                                                                    <label class="control-label col-md-3">TO:</label>
-                                                                                                    <div class="col-md-9">
-                                                                                                        <p class="form-control-static"> ACCOUNTING OFFICE </p>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <!--/span-->
-                                                                                            <div class="col-md-6">
-                                                                                                <div class="form-group">
-                                                                                                    <label class="control-label col-md-3">FROM:</label>
-                                                                                                    <div class="col-md-9">
-                                                                                                        <p class="form-control-static">DOMINIQUE E. DAGUNTON</p>
-                                                                                                        <p class="form-control-static">11426403</p>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <!--/span-->
-                                                                                        </div>                                                                                </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="panel panel-default">
-                                                                                <div class="panel-heading">AMOUNT:
-                                                                                    <div class="panel-action"><a href="#" data-perform="panel-collapse"><i class="fa fa-plus"></i></a></div>
-                                                                                </div>
-                                                                                <div class="panel-wrapper collapse" aria-expanded="false" style="">
-                                                                                    <div class="panel-body">
-                                                                                        <div class="row">
-                                                                                            <div class="col-md-6">
-                                                                                                <div class="form-group">
-                                                                                                    <label class="control-label col-md-3">IN WORDS:</label>
-                                                                                                    <div class="col-md-9">
-                                                                                                        <p class="form-control-static font-light">THREE THOUSAND PESOS</p>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <!--/span-->
-                                                                                            <div class="col-md-6">
-                                                                                                <div class="form-group">
-                                                                                                    <label class="control-label col-md-3">IN FIGURES:</label>
-                                                                                                    <div class="col-md-9">
-                                                                                                        <p class="form-control-static">P 3000.00</p>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <!--/span-->
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="panel panel-default">
-                                                                                <div class="panel-heading">REQUESTING ORG:
-                                                                                    <div class="panel-action"><a href="#" data-perform="panel-collapse"><i class="fa fa-plus"></i></a></div>
-                                                                                </div>
-                                                                                <div class="panel-wrapper collapse" aria-expanded="false" style="">
-                                                                                    <div class="panel-body">
-                                                                                <div class="row">
-                                                                                    <div class="col-md-6">
-                                                                                        <div class="form-group">
-                                                                                            <div class="row"></div>
-                                                                                            <label class="col-md-12">PAYABLE TO:</label>
-                                                                                            <div class="col-md-12 margin-5">
-                                                                                                <p><strong>Amelia Galang</strong><br>VP Finance</p>
-                                                                                            </div>
-
-                                                                                            <label class="col-md-12">CHARGE TO:</label>
-                                                                                            <div class="col-md-12 margin-5">
-                                                                                                <p><strong>La Salle Computer Society</strong><br>99999</p>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-xs-3 control-label">Payment Requisition Slip Number</label>
-                                                <div class="col-xs-5">
-                                                    <input type="text" class="form-control" name="prs" />
-                                                    <span class="help-block"><small>Input the 6-digit code on the top right of your PRS form.</small></span>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-xs-3 control-label">Reason</label>
-                                                <div class="col-xs-5">
-                                                    <textarea type="text" class="form-control" name="reason" placeholder="Ex: To be used for the expenses in the Annual Recruitment Week 2016-2017"></textarea>
-                                                    <span class="help-block"><small>Type your reason for requesting the transaction.</small></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="wizard-pane" role="tabpanel">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="panel panel-success">
-                                                        <div class="panel-heading">DIRECT PAYMENT MEMO</div>
-                                                        <div class="panel-wrapper collapse in" aria-expanded="true">
-                                                            <div class="panel-body">
-                                                                <form class="form-horizontal" role="form">
-                                                                    <div class="form-body">
-                                                                        <h3 class="box-title">SUMMARY OF EXPENSES TO BE INCURRED</h3>
-                                                                        <hr class="m-t-0 m-b-40">
-                                                                        <div class="table-responsive">
-                                                                            <table class="table table-bordered">
-                                                                                <thead>
-                                                                                    <tr>
-                                                                                        
-                                                                                        <th>Particulars</th>
-                                                                                        <th>Amount</th>
-                                                                                        
-                                                                                    </tr>
-                                                                                </thead>
-                                                                                <tbody>
-                                                                                    <tr>
-                                                                                        <td>ITEM FROM PPR EXPENSES</td>
-                                                                                        <td>AMOUNT OF ITEM</td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td>ITEM FROM PPR EXPENSES</td>
-                                                                                        <td>AMOUNT OF ITEM</td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td class="text-right"><strong>TOTAL</strong></td>
-                                                                                        <td id="totalAmount" value="2000">total AMOUNT OF ITEM</td>
-                                                                                    </tr>
-                                                                                </tbody>
-                                                                            </table>
-                                                                        </div>
-                                                                    </div>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!--IF TOTAL EXPENSE >=2000 SHOW THIS DIV -->
-                                            <div class="form-group" id="justification">
-                                                <label class="col-xs-3 control-label">Justification</label>
-                                                <div class="col-xs-5">
-                                                    <input type="text" class="form-control" name="justification" />
-                                                    <span class="help-block"><small>Write your justification for not using Direct Payment.</small></span>
-                                                </div>
-                                            </div>
-
-                                        </div>
-
-                                        <div class="wizard-pane" role="tabpanel">
-                                            <div class="form-group">
-                                                <label class="col-xs-3 control-label">INFORMAL QUOTATION</label>
-                                            </div>
-                                            <table id="DPPATable" class="table editable-table table-bordered table-striped m-b-0">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Item Name</th>
-                                                        <th>Contact Person</th>
-                                                        <th>Contact No.</th>
-                                                        <th>Unit Price</th>
-                                                        <th>Quantity</th>
-                                                        <th class="readonly">subTotal</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>Car</td>
-                                                        <td>100</td>
-                                                        <td>200</td>
-                                                        <td>0</td>
-                                                        <td>0</td>
-                                                        <td>0</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Bike</td>
-                                                        <td>330</td>
-                                                        <td>240</td>
-                                                        <td>1</td>
-                                                        <td>0</td>
-                                                        <td>0</td>                                                    </tr>
-                                                    <tr>
-                                                        <td>Plane</td>
-                                                        <td>430</td>
-                                                        <td>540</td>
-                                                        <td>3</td>
-                                                        <td>0</td>
-                                                        <td>0</td>                                                      </tr>
-                                                    <tr>
-                                                        <td>Yacht</td>
-                                                        <td>100</td>
-                                                        <td>200</td>
-                                                        <td>0</td>
-                                                        <td>0</td>
-                                                        <td>0</td>                                                      </tr>
-                                                    <tr>
-                                                        <td>Segway</td>
-                                                        <td>330</td>
-                                                        <td>240</td>
-                                                        <td>1</td>
-                                                        <td>0</td>
-                                                        <td>0</td>                                                      </tr>
-                                                </tbody>
-                                                <tfoot>
-                                                    <tr>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td class="text-right"><strong>TOTAL</strong></td>
-                                                        <td></td>
-                                                        
-                                                    </tr>
-                                                    
-                                            </table>
-                                        </div>
-                                        <!-- if with Food/Accomodation expense, show this tab-->
-                                        <div class="wizard-pane" role="tabpanel">
-                                            <div class="form-group">
-                                                <hr>
-                                                <h3>Food/Accomodation Expense</h3>
-                                                <div id="DirectPaymentListofParticipants">
-                                                    <label class="col-sm-12" >List of Participants</label>
-                                                    <div class="col-sm-12">
-                                                        <div class="fileinput fileinput-new input-group" data-provides="fileinput">
-                                                            <div class="form-control" data-trigger="fileinput">
-                                                                <i class="glyphicon glyphicon-file fileinput-exists"></i>
-                                                                <span class="fileinput-filename"></span>
-                                                            </div>
-                                                            <span class="input-group-addon btn btn-default btn-file"> 
-                                                            <span class="fileinput-new">Select file</span>
-                                                            <span class="fileinput-exists">Change</span>
-                                                            <input type="file" name="...">
-                                                            </span>
-                                                            <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a> </div>
-                                                    </div>
-                                                </div>
-
-                                                <div id="DPVTExpense">
-                                                    <hr>
-                                                    <h3>Venue and Transportation Expense</h3>
-                                                    <div class="row">
-                                                        <div id="DirectPaymentFRF" class="col-md-6">
-                                                            <label class="col-sm-12" >Final Review Form</label>
-                                                            <div class="col-sm-12">
-                                                                <div class="fileinput fileinput-new input-group" data-provides="fileinput">
-                                                                    <div class="form-control" data-trigger="fileinput">
-                                                                        <i class="glyphicon glyphicon-file fileinput-exists"></i>
-                                                                        <span class="fileinput-filename"></span>
-                                                                    </div>
-                                                                    <span class="input-group-addon btn btn-default btn-file"> 
-                                                                    <span class="fileinput-new">Select file</span>
-                                                                    <span class="fileinput-exists">Change</span>
-                                                                    <input type="file" name="...">
-                                                                    </span>
-                                                                    <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a> </div>
-                                                            </div>
-                                                        </div>
-                                                        <div id="DirectPaymentMOA" class="col-md-6">
-                                                            <label class="col-sm-12" >Memorandum of Agreement</label>
-                                                            <div class="col-sm-12">
-                                                                <div class="fileinput fileinput-new input-group" data-provides="fileinput">
-                                                                    <div class="form-control" data-trigger="fileinput">
-                                                                        <i class="glyphicon glyphicon-file fileinput-exists"></i>
-                                                                        <span class="fileinput-filename"></span>
-                                                                    </div>
-                                                                    <span class="input-group-addon btn btn-default btn-file"> 
-                                                                    <span class="fileinput-new">Select file</span>
-                                                                    <span class="fileinput-exists">Change</span>
-                                                                    <input type="file" name="...">
-                                                                    </span>
-                                                                    <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a> </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div id="DPHonorarium">
-                                                    <hr>
-                                                    <h3>Honorarium</h3>
-                                                    <div class="row">
-                                                        <div id="DPFRFdiv" class="col-md-6">
-                                                            <label class="col-sm-12">Final Review Form</label>
-                                                            <div class="col-sm-12">
-                                                                <div class="fileinput fileinput-new input-group" data-provides="fileinput">
-                                                                    <div class="form-control" data-trigger="fileinput">
-                                                                        <i class="glyphicon glyphicon-file fileinput-exists"></i>
-                                                                        <span class="fileinput-filename"></span>
-                                                                    </div>
-                                                                    <span class="input-group-addon btn btn-default btn-file"> 
-                                                                    <span class="fileinput-new">Select file</span>
-                                                                    <span class="fileinput-exists">Change</span>
-                                                                    <input type="file" name="DPFRF">
-                                                                    </span>
-                                                                    <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a> </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <label class="col-sm-12" >Terms of Reference</label>
-                                                            <div class="col-sm-12">
-                                                                <div class="fileinput fileinput-new input-group" data-provides="fileinput">
-                                                                    <div class="form-control" data-trigger="fileinput">
-                                                                        <i class="glyphicon glyphicon-file fileinput-exists"></i>
-                                                                        <span class="fileinput-filename"></span>
-                                                                    </div>
-                                                                    <span class="input-group-addon btn btn-default btn-file"> 
-                                                                    <span class="fileinput-new">Select file</span>
-                                                                    <span class="fileinput-exists">Change</span>
-                                                                    <input type="file" name="...">
-                                                                    </span>
-                                                                    <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a> </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.row -->
-                <!-- .row -->
-
             </div>
             <!-- /.container-fluid -->
             <footer class="footer text-center"> 2017 &copy; Elite Admin brought to you by themedesigner.in </footer>
@@ -1005,7 +628,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- FormValidation plugin and the class supports validating Bootstrap form -->
     <script src="../plugins/bower_components/jquery-wizard-master/libs/formvalidation/formValidation.min.js"></script>
     <script src="../plugins/bower_components/jquery-wizard-master/libs/formvalidation/bootstrap.min.js"></script>
-    <script src="js/newTransaction.js"></script>
+    <script src="js/postActsTransaction.js"></script>
     <!-- Editable -->
     <script src="../plugins/bower_components/jquery-datatables-editable/jquery.dataTables.js"></script>
     <script src="../plugins/bower_components/datatables/dataTables.bootstrap.js"></script>
