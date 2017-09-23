@@ -49,9 +49,9 @@ module.exports = function(db, queryFiles) {
         query = query.toString();
         logger.debug(`Executing Query: ${query}`, log_options);
 
-        return connection.oneOrNone(query, {
-            id: id
-        });
+        let param = Object.create(null);
+        param.id = id;
+        return connection.oneOrNone(query, param);
     };
 
     /*  
@@ -111,6 +111,8 @@ module.exports = function(db, queryFiles) {
         this._attachFields(query, fields);
 
         query = query.toString();
+        let param = Object.create(null);
+        param.id = id;
         return connection.any(query, {id: id});
     };
 
@@ -121,7 +123,9 @@ module.exports = function(db, queryFiles) {
         this._attachFields(query, fields);
 
         query = query.toString();
-        return connection.any(query, {id: id});
+        let param = Object.create(null);
+        param.id = id;
+        return connection.any(query, param);
     };
 
     /*

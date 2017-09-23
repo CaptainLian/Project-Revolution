@@ -19,6 +19,7 @@
     "express": "^4.15.4",
     "express-nunjucks": "^2.2.3",
     "express-session": "^1.15.5",
+    "node-forge": "^0.7.1",
     "nunjucks": "^3.0.1",
     "pg": "^7.3.0",
     "pg-minify": "^0.5.3",

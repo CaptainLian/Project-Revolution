@@ -298,8 +298,7 @@ module.exports = function(database, models, queryFiles) {
 
             // console.log(sched.time[1].start);
             // req.body.context
-
-            console.log(req.body);
+            logger.debug(`${JSON.stringify(req.body)}`, log_options);
             var projectProposalParam = {};
 
             database.tx(t => {

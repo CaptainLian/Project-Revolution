@@ -29,7 +29,6 @@ module.exports = function(db, queryFiles) {
         getAllActivityTypes: function(connection = db) {
             return connection.many(getAllActivityTypesSQL);
         }, //getAllActivityTypes()
-
         getAllActivityNature: function() {
             return db.many(getAllActivityNatureSQL);
         },
@@ -42,10 +41,11 @@ module.exports = function(db, queryFiles) {
         getSchoolYear: function(connection = db) {
             return connection.one(getSchoolYearSQL);
         },
+
         getGOSMActivities: function(param) {
             return db.any(getGOSMActivitiesSQL, param);
         },
-        
+
         //TODO: Delete function
         getSubmissionYears: function() {
             return db.any(query_getSubmissionYears);
@@ -78,9 +78,15 @@ module.exports = function(db, queryFiles) {
             attachFields(query, fields);
             query = query.toString();
             logger.debug(`Executing query: ${query}`, log_options);
-            return connection.any(query, {
-                GOSMID: GOSMID
-            });
+
+            /* 
+                let param = { 
+                    GOSMID: GOSMID
+                };
+            */
+            let param = Object.create(null);
+            param.GOSMID = GOSMID;
+            return connection.any(query, param);
         },
 
         /**
@@ -92,17 +98,23 @@ module.exports = function(db, queryFiles) {
         getActivityDetails: function(id, fields, connection = db) {
             let query = squel.select()
                 .from('GOSMActivity', 'ga')
-                    .left_join('ActivityNature', 'an', 'ga.activityNature = an.id')
-                    .left_join('ActivityType', 'at', 'ga.activityType = at.id')
+                .left_join('ActivityNature', 'an', 'ga.activityNature = an.id')
+                .left_join('ActivityType', 'at', 'ga.activityType = at.id')
                 .where('ga.id = ${activityID}');
 
             attachFields(query, fields);
 
             query = query.toString();
             logger.debug(`Executing query: ${query}`, log_options);
-            return connection.oneOrNone(query, {
-                activityID: id
-            });
+
+            /*
+                let param = {
+                    activityID: id
+                };
+            */
+            let param = Object.create(null);
+            param.activityID = id;
+            return connection.oneOrNone(query, param);
         },
 
         /**
@@ -111,15 +123,20 @@ module.exports = function(db, queryFiles) {
         getActivityProjectHeads: function(id, fields, connection = db) {
             let query = squel.select()
                 .from('GOSMActivityProjectHead', 'ph')
-                .left_join('Account', 'a', 'ph.idNumber = a.idNumber')
+                    .left_join('Account', 'a', 'ph.idNumber = a.idNumber')
                 .where('ph.activityid = ${activityID}');
             attachFields(query, fields);
 
             query = query.toString();
             logger.debug(`Executing query: ${query}`, log_options);
-            return connection.any(query, {
-                activityID: id
-            });
+            /*
+                let param = {
+                    activityID: id
+                };
+            */
+            let param = Object.create(null);
+            param.activityID = id;
+            return connection.any(query, param);
         },
 
         updateGOSMStatus: function(id, statusID, comments, connection = db) {
@@ -128,10 +145,17 @@ module.exports = function(db, queryFiles) {
                 .set('status', '${statusID}')
                 .where('id = ${id}');
 
-            let param = {
-                id: id,
-                statusID: statusID
-            };
+            /*
+                let param = {
+                    id: id,
+                    statusID: statusID,
+                    comment: (optional)
+                };
+            */
+            let param = Object.create(null);
+            param.id = id;
+            param.statusID = statusID;
+
             if (typeof comments === 'string') {
                 query.set('comments', '${comments}', {
                     dontQuote: true
@@ -154,10 +178,17 @@ module.exports = function(db, queryFiles) {
 
             query = query.toString();
             logger.debug(`Executing query: ${query}`, log_options);
-            return connection.none(query, {
-                id: id,
-                comments: comments
-            });
+
+            /*
+                let param = {
+                    id: id,
+                    comments: comments
+                };
+            */
+            let param = Object.create(null);
+            param.id = id;
+            param.comments = comments;
+            return connection.none(query, param);
         },
 
         getGOSM: function(id, fields, connection = db) {
@@ -168,9 +199,15 @@ module.exports = function(db, queryFiles) {
 
             query = query.toString();
             logger.debug(`Executing query: ${query}`, log_options);
-            return connection.one(query, {
-                id: id
-            });
+            
+            /*
+                let param = {
+                    id: id
+                };
+            */
+            let param = Object.create(null);
+            param.id = id;
+            return connection.one(query, param);
         }
     };
 };

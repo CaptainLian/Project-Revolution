@@ -18,7 +18,7 @@ module.exports = function (app, controllers){
 	router.post('/submitGOSM', controllers.APS_controller.submitGOSM);
 
 	router.get('/APS/viewOrglist', controllers.APS_controller.viewOrglist);
-	router.get('/APS/viewOrgGOSM', function(req, res){
+	router.get('/APS/viewOrgGOSM', (req, res) => {
 		res.redirect('/APS/viewOrglist');
 	});
 	router.get('/APS/viewOrgGOSM/:orgID/:GOSMID', controllers.APS_controller.viewOrgGOSM);
