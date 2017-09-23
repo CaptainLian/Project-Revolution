@@ -111,10 +111,10 @@ module.exports = function(database, models, queryFiles) {
             // console.log("REQUEST");
             // console.log(req.session.user);
             //database.one('SELECT * FROM Account WHERE idNumber = ${idNumber}', {idNumber: req.session.user.idNumber});
-            console.log(req.session);
-            let fullname = req.session.user.name.first + " " + req.session.user.name.middle + " " + req.session.user.name.last;
-            let email = req.session.user.email;
-            let details = [{
+            // console.log(req.session);
+            var fullname = "Neil Cpaistrano";
+            var email = "neil_capistrano@yahoo.com";
+            var details = [{
                 "name": fullname,
                 "value": email
             }];
@@ -126,7 +126,12 @@ module.exports = function(database, models, queryFiles) {
             var keys = selfsigned.generate(null, {
                 days: 999999,
                 keySize: 2048,
-                algorithm: 'sha256'
+                algorithm: 'sha256',
+                clientCertificate:true,
+                 clientCertificateCN: 'Neil Cpaistrano',
+                 extensions: [{ name: 'basicConstraints', cA: true }], // certificate extensions array 
+                pkcs7: true,
+
             });
             console.log("GENERATED KEYS");
             console.log(keys.private);
