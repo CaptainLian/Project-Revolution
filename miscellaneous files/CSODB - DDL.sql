@@ -85,7 +85,8 @@ CREATE TABLE StudentOrganization (
     acronym VARCHAR(20) UNIQUE,
     description TEXT,
     funds NUMERIC(16, 4) DEFAULT 0.0,
-    
+    facultyAdviser INTEGER REFERENCES Account(idNumber),
+
     PRIMARY KEY (id)
 );
 
@@ -284,7 +285,6 @@ DROP TABLE IF EXISTS ProjectProposal CASCADE;
 CREATE TABLE ProjectProposal (
     id SERIAL UNIQUE,
     GOSMActivity INTEGER REFERENCES GOSMActivity(id),
-    sequence INTEGER DEFAULT -1,
     status INTEGER NOT NULL REFERENCES ProjectProposalStatus(id) DEFAULT 1,
     ENP INTEGER,
     ENMP INTEGER,
@@ -296,16 +296,13 @@ CREATE TABLE ProjectProposal (
     accumulatedOperationalFunds NUMERIC(16, 4),
     accumulatedDepositoryFunds NUMERIC(16, 4),
     organizationFundOtherSource NUMERIC(16, 4),
-    facultyAdviser INTEGER REFERENCES Account(idNumber),
     comments TEXT,
-    financeSignatory INTEGER REFERENCES Account(idNumber),
     preparedBy INTEGER REFERENCES Account(idNumber),
     dateCreated TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     dateSubmitted TIMESTAMP WITH TIME ZONE, 
     dateStatusModified TIMESTAMP WITH TIME ZONE,
-    statusModifier INTEGER REFERENCES Account(idNumber),
 
-    PRIMARY KEY (GOSMActivity, sequence)
+    PRIMARY KEY (GOSMActivity)
 );
 CREATE OR REPLACE FUNCTION trigger_before_update_ProjectProposal()
 RETURNS trigger AS
@@ -326,20 +323,6 @@ CREATE TRIGGER before_update_ProjectProposal
     FOR EACH ROW WHEN (OLD.status <> NEW.status)
     EXECUTE PROCEDURE trigger_before_update_ProjectProposal();
 
-CREATE OR REPLACE FUNCTION trigger_before_insert_ProjectProposal()
-RETURNS trigger AS
-$trigger_before_insert_ProjectProposal$
-    BEGIN
-        SELECT COALESCE(MAX(sequence) + 1, 1) INTO STRICT NEW.sequence
-          FROM ProjectProposal
-         WHERE GOSMActivity = NEW.GOSMActivity;
-        return NEW;
-    END;
-$trigger_before_insert_ProjectProposal$ LANGUAGE plpgsql;
-CREATE TRIGGER before_insert_ProjectProposal
-    BEFORE INSERT ON ProjectProposal
-    FOR EACH ROW
-    EXECUTE PROCEDURE trigger_before_insert_ProjectProposal();
 
 DROP TABLE IF EXISTS ProjectProposalProgramDesign CASCADE;
 CREATE TABLE ProjectProposalProgramDesign (
@@ -370,6 +353,16 @@ CREATE TRIGGER before_insert_ProjectProposal
     BEFORE INSERT ON ProjectProposalProgramDesign
     FOR EACH ROW
     EXECUTE PROCEDURE trigger_before_insert_ProjectProposalProgramDesign();
+
+DROP TABLE IF EXISTS ProjectProposalProgramDesignPersonInCharge CASCADE;
+CREATE TABLE ProjectProposalProgramDesignPersonInCharge (
+    id SERIAL UNIQUE,
+    programDesign INTEGER REFERENCES ProjectProposalProgramDesign(id),
+    projectHead INTEGER REFERENCES Account(idNumber),
+
+    PRIMARY KEY (programDesign, projectHead)
+);
+
 
 
 DROP TABLE IF EXISTS ProjectProposalProjectedIncome CASCADE;
@@ -448,31 +441,56 @@ CREATE TRIGGER before_insert_ProjectProposal
     FOR EACH ROW
     EXECUTE PROCEDURE trigger_before_insert_ProjectProposalSourceFunds();
 
+DROP TABLE ProjectProposalAttachment CASCADE;
+CREATE TABLE ProjectProposalAttachment (
+    id SERIAL UNIQUE,
+    projectProposal REFERENCES ProjectProposal(id),
+    sequence INTEGER DEFAULT -1,
+    directory TEXT NOT NULL,
+);
+CREATE OR REPLACE FUNCTION trigger_before_insert_ProjectProposalAttachment()
+RETURNS trigger AS
+$trigger_before_insert_ProjectProposalAttachment$
+    BEGIN
+        SELECT COALESCE(MAX(sequence) + 1, 1) INTO STRICT NEW.sequence
+          FROM ProjectProposalAttachment
+         WHERE projectProposal = NEW.projectProposal;
+        return NEW;
+    END;
+$trigger_before_insert_ProjectProposalAttachment$ LANGUAGE plpgsql;
+CREATE TRIGGER before_insert_ProjectProposal
+    BEFORE INSERT ON ProjectProposalSourceFunds
+    FOR EACH ROW
+    EXECUTE PROCEDURE trigger_before_insert_ProjectProposalAttachment();
+
+DROP TABLE ProjectProposalSignatory CASCADE;
+CREATE TABLE ProjectProposalSignatory (
+    projectProposal INTEGER REFERENCES ProjectProposal(id),
+    signatory INTEGER REFERENCES Account(idNumber),
+    documentHash BYTEA,
+    digitalSignature BYTEA,
+    dateSigned TIMESTAMP WITH TIME ZONE
+);
+
+DROP TABLE CONSTANT CASCADE;
+CREATE TABLE CONSTANT (
+    name VARCHAR(25) PRIMARY KEY,
+);
+DROP TABLE TEXT_CONSTAT CASCADE;
+CREATE TABLE CONSTANT (
+    value TEXT NOT NUll,
+
+    PRIMARY KEY(name)
+) INHERITS (CONSTANT);
+
+DROP TABLE JSON_CONSTANT CASCADE;
+CREATE TABLE JSON_CONSTANT (
+    value JSONB NOT NULL,
+    
+    PRIMARY KEY(name)
+) INHERITS (CONSTANT);
+
     /* End Project Proposal */
-    /* SPECIAL APPROVAL SLIP */
-DROP TABLE IF EXISTS SpecialApprovalType CASCADE;
-CREATE TABLE SpecialApprovalType (
-    id INTEGER,
-    description VARCHAR(45),
-
-    PRIMARY KEY (id)
-);
-DROP TABLE IF EXISTS SpecialApproval CASCADE;
-CREATE TABLE SpecialApproval (
-    id SERIAL,
-    dateSubmmited TIMESTAMP WITH TIME ZONE,
-    submissionType INTEGER NOT NULL REFERENCES SpecialApprovalType(id),
-    requestingOrganization INTEGER NOT NULL REFERENCES StudentOrganization(id),
-    activityTitle VARCHAR(45),
-    justification TEXT,
-    submittedBy INTEGER NOT NULL REFERENCES Account(idNumber),
-    president INTEGER NOT NULL REFERENCES Account(idNumber),
-    datePresidentSigned TIMESTAMP WITH TIME ZONE,
-    approvalSignatory INTEGER NOT NULL REFERENCES Account(idNumber),
-    dateApprovalSignatorySigned TIMESTAMP WITH TIME ZONE,
-
-    PRIMARY KEY (id)
-);
     /* END SPECIAL APPROVAL SLIP */
 -- END FORMS
 -- COMMIT;

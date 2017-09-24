@@ -291,13 +291,13 @@ module.exports = function(database, models, queryFiles) {
 
         inputActivityRequirements: (req, res) => {
             let sched = JSON.parse(req.body.sched);
-
             let exp = JSON.parse(req.body.exp);
             let funds = JSON.parse(req.body.funds);
-            // var sched = sched[0];
 
+            // var sched = sched[0];
             // console.log(sched.time[1].start);
             // req.body.context
+            
             logger.debug(`${JSON.stringify(req.body)}`, log_options);
             var projectProposalParam = {};
 
@@ -332,8 +332,6 @@ module.exports = function(database, models, queryFiles) {
                                 }
 
                                 // insert finances
-
-
                                 /* 
 
                                     Revenue
