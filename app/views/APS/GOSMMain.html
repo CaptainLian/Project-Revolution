@@ -1,4 +1,4 @@
-{% extends "../template/APS/GOSM.html" %}
+    {% extends "../template/APS/GOSM.html" %}
 
 
 {%block styles%}
@@ -538,13 +538,13 @@
     function clear(){
          $("#strategy").val('');
             $("#goals").val('');
-            var objectives = $("input[name='objectives[]']")
-                  .map(function(){return $(this).val();}).get();
+            $(".temp").children().remove();
             $("textarea").val('');
             $("#measures").val('');
             $("#targetDateStart").val('');
             $("#targetDateEnd").val('');
             $("#objectives").val('');
+            $('input[name="isRelatedToOrganization"]').prop('checked', false);
             // var activityType = $("#activity-type").val();
             // var othersDescription = $("#othersDescription").val();
             // var natureType =  $("#nature-type").val();
@@ -856,7 +856,8 @@
             success:function(data){
                 console.log(data);  
                 if(data == "1"){
-                 trR    .remove();
+
+                    trR.remove();
                     $(".myadmin-alert").hide();
                     $("#alerttopright-success-delete").fadeToggle(350);
 
@@ -939,6 +940,7 @@
                     // Change Name
                     $("#strategy-name").html(strategy);
                     //Hide Current Toast
+                    clear();
                     $(".myadmin-alert").hide();
                     $("html, body").animate({ scrollTop: 0 }, "slow"); 
                     $("#alerttopright-success").fadeToggle(350);
