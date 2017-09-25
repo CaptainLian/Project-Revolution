@@ -22,7 +22,7 @@ module.exports = function(database, models, queryFiles){
 			Promise.all([organizationModel.getActivitiesWithPPR(dbParam), organizationModel.getActivitiesWithoutPPR(dbParam)])
 				.then(data=>{
 					console.log(data);
-					res.render('Org/viewProject', {
+					res.render('Org/viewProjectMain', {
 						actWithPPR: data[0],
 						actWithoutPPR: data[1]
 					});

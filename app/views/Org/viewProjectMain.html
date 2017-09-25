@@ -1,0 +1,183 @@
+{% extends "../template/Org/viewProject.html" %}
+
+
+{%block styles%}
+	<link href="css/custom.css" rel="stylesheet">
+{%endblock%}
+
+{%block header%}
+	{%include "../section/header.html"%}
+{%endblock%}
+
+{%block sidebar%}
+	{%include "../section/sidebar/cso-aps.html"%}
+{%endblock%}
+
+
+{%block content%}
+<div class="row">
+    <div class="col-sm-4">
+        <div class="white-box">
+            <h3 class="box-title">Activities with PPR</h3>
+            <ul class="list-inline two-part">
+                <li><i class="icon-people text-info"></i></li>
+
+                <li class="text-right"><span class="counter">{{actWithPPR.activities}}</span></li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="white-box">
+            <h3 class="box-title">Activities without PPR</h3>
+            <ul class="list-inline two-part">
+                <li><i class="icon-people text-info"></i></li>
+                
+                <li class="text-right"><span class="counter">{{actWithoutPPR.activities}}</span></li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="white-box">
+            <h3 class="box-title">Score</h3>
+            <ul class="list-inline two-part">
+                <li><i class="icon-star text-info"></i></li>
+                <li class="text-right text-warning"><span class="counter">90 %</span></li>
+            </ul>
+            
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="white-box">
+            <h3 class="box-title">Total Projected Cost</h3>
+            <h1 class="counter text-center">1,250,000</h1>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="white-box">
+            <h3 class="box-title">Total Projected Budget</h3>
+            <h1 class="counter text-center">1,250,000</h1>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <div class="white-box">                          
+            <h3 class="box-title">Activity Information</h3>
+            <div class="table-responsive">
+
+                <table id="myTable" class="table table-hover" role="grid" aria-describedby="myTable_info">
+                    <thead>
+                        <tr role="row">
+                            <th sortabe="false" width="20%" class=" text-center sorting">Progress</th>
+                            <th sortabe="false" width="60%" class="sorting text-center">Project Details</th>
+                            <th sortabe="false" width="20%" class="sorting text-center">Current Signatory</th>
+                        </tr>
+                    </thead>
+                    <tbody> 
+                        <tr role="row">
+                            <td class="text-center">
+                                <div class="chart easy-pie-chart-1" data-percent="75">
+                                    <span class="percent">8/100</span> 
+                                </div>
+                            </td>
+                            <td>
+                                <p><strong>Project Name:</strong> CSO Management System</p>
+                                <hr>
+                                <p><strong>Start Date:</strong> Jan 01, 1997</p>
+                                <hr>
+                                <p><strong>End Date:</strong> Jan 01, 1997</p>
+                                
+                            </td>
+                            <td style="vertical-align: middle;">
+                                President
+                            </td>
+                        </tr>
+                         <tr role="row">
+                            <td class="text-center">
+                                <div class="chart easy-pie-chart-1" data-percent="75">
+                                    <span class="percent">8/100</span> 
+                                </div>
+                            </td>
+                            <td>
+                                <p><strong>Project Name:</strong> CSO Management System</p>
+                                <hr>
+                                <p><strong>Start Date:</strong> Jan 01, 1997</p>
+                                <hr>
+                                <p><strong>End Date:</strong> Jan 01, 1997</p>
+                                
+                            </td>
+                            <td style="vertical-align: middle;">
+                                President
+                            </td>
+                        </tr>
+                        <tr role="row">
+                            <td class="text-center">
+                                <div class="chart easy-pie-chart-1" data-percent="75">
+                                    <span class="percent">8/100</span> 
+                                </div>
+                            </td>
+                            <td>
+                                <p><strong>Project Name:</strong> CSO Management System</p>
+                                <hr>
+                                <p><strong>Start Date:</strong> Jan 01, 1997</p>
+                                <hr>
+                                <p><strong>End Date:</strong> Jan 01, 1997</p>
+                                
+                            </td>
+                            <td style="vertical-align: middle;">
+                                President
+                            </td>
+                        </tr>
+                        <tr role="row">
+                            <td class="text-center">
+                                <div class="chart easy-pie-chart-1" data-percent="75">
+                                    <span class="percent">8/100</span> 
+                                </div>
+                            </td>
+                            <td>
+                                <p><strong>Project Name:</strong> CSO Management System</p>
+                                <hr>
+                                <p><strong>Start Date:</strong> Jan 01, 1997</p>
+                                <hr>
+                                <p><strong>End Date:</strong> Jan 01, 1997</p>
+                                
+                            </td>
+                            <td style="vertical-align: middle;">
+                                President
+                            </td>
+                        </tr>
+                        <tr role="row">
+                            <td class="text-center">
+                                <div class="chart easy-pie-chart-1" data-percent="75">
+                                    <span class="percent">8/100</span> 
+                                </div>
+                            </td>
+                            <td>
+                                <p><strong>Project Name:</strong> CSO Management System</p>
+                                <hr>
+                                <p><strong>Start Date:</strong> Jan 01, 1997</p>
+                                <hr>
+                                <p><strong>End Date:</strong> Jan 01, 1997</p>
+                                
+                            </td>
+                            <td style="vertical-align: middle;">
+                                President
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        
+    </div>
+    <div class="col-sm-12">
+        
+    </div>
+</div>
+{%endblock%}
+
+{%block scripts%}
+    {%include "../section/ajax/ajaxCSRF.html"%}
+   
+{%endblock%}
