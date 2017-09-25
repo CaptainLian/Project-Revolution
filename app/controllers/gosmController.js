@@ -5,7 +5,7 @@ module.exports = function(database, models, queryFiles){
 	return {
 		viewCreateGOSM: (req, res) => {
 		//if president
-			res.render('APS/GOSMMain');
+			return res.render('APS/GOSMMain');
 			//next();
 		}
 	};

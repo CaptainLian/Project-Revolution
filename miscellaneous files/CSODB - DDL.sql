@@ -304,6 +304,16 @@ CREATE TABLE ProjectProposal (
 
     PRIMARY KEY (GOSMActivity)
 );
+CREATE OR REPLACE FUNCTION trigger_before_insert_ProjectProposal()
+RETURNS trigger AS 
+$tamad_na_ako$
+    RETURN NEW;
+$tamad_na_ako$ LANGUAGE plpgsql;
+CREATE TRIGGER before_insert_ProjectProposal
+    AFTER INSERT ON ProjectProposal
+    FOR EACH ROW
+    EXECUTE PROCEDURE trigger_before_insert_ProjectProposal();
+
 CREATE OR REPLACE FUNCTION trigger_before_update_ProjectProposal()
 RETURNS trigger AS
 $trigger_before_update_ProjectProposal$

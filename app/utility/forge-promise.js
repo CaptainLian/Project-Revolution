@@ -13,6 +13,26 @@ module.exports.forge = forge;
  */
 module.exports.pki = Object.create(null);
 
+module.exports.pki.privateKeyToPem = (privateKey) => {
+	return new Promise((onResolve, onReject) => {
+		try{
+			return onResolve(forge.pki.privateKeyToPem(privateKey));
+		}catch(err){
+			return onReject(err);
+		}
+	});
+};
+
+module.exports.pki.publicKeyToPem = (publicKey) => {
+	return new Promise((onResolve, onReject) => {
+		try{
+			return onResolve(forge.pki.publicKeyToPem(publicKey));
+		}catch(err){
+			return onReject(err);
+		}
+	});
+};
+
 /**
  * [rsa description]
  * @type {Object}
@@ -35,4 +55,3 @@ module.exports.pki.rsa.generateKeyPair = (parameters) => {
 		});
 	});
 };
-

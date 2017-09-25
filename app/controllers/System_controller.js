@@ -1,11 +1,17 @@
 //query builder
 const squel = require('squel');
 
-//password hashing
+/**
+ * Used for password hashing
+ * @type {bcryptjs}
+ */
 const bcrypt = require('bcryptjs');
 
-//Document Signature
-const crypto2 = require('crypto2');
+/**
+ * Used for encryptions, key-pair generation, document signing and verification
+ * @type {forge-promise}
+ */
+const forgePromise = require('../utility/forge-promise');
 
 const logger = global.logger;
 const log_options = {
@@ -68,38 +74,53 @@ module.exports = function(database, models, queryFiles) {
                     .then(account => {
                         logger.debug(`Account found: ${JSON.stringify(account)}`, log_options);
                         if (account.password === bcrypt.hashSync(input.password, account.salt)) {
-                            logger.debug('Enter!!', log_options);
-                            req.session.user = {
-                                idNumber: account.idnumber,
-                                name: {
-                                    first: account.firstname,
-                                    middle: account.middlename,
-                                    last: account.lastname
-                                }
-                            };
 
+                            logger.debug('Enter!!', log_options);
+
+                            /**
+                             * Session
+                             * {
+                             *     user: {
+                             *         idNumber
+                             *         name: {
+                             *             first
+                             *             middle
+                             *             last
+                             *         }
+                             *     }
+                             * }
+                             * @type Object
+                             */
+                            let user = Object.create(null);
+                            user.idNumber = account.idnumber;
+                            user.name = Object.create(null);
+                            user.name.first = account.firstname;
+                            user.name.middle = account.middlename;
+                            user.name.last = account.lastname;
                             req.session.valid = true;
+
                             req.session.save();
-                            res.send({
+
+                            return res.send({
                                 valid: true,
                                 route: '/'
                             });
                         } else {
                             logger.debug('Incorrect password');
-                            res.send({
+                            return res.send({
                                 valid: false
                             });
                         }
                     })
                     .catch(() => {
                         logger.debug('Account not exist');
-                        res.send({
+                        return res.send({
                             valid: false
                         });
                     });
             } else {
                 logger.debug('Aguy input');
-                res.send({
+                return res.send({
                     valid: false
                 });
             }
@@ -113,9 +134,7 @@ module.exports = function(database, models, queryFiles) {
             logger.debug(req.session, log_options);
             //let fullname = req.session.user.name.first + " " + req.session.user.name.middle + " " + req.session.user.name.last;
 
-            accountModel.getAccountDetails(11445955, [
-                    'privateKey'
-                ])
+            accountModel.getAccountDetails(11445955, 'privateKey')
                 .then(data => {
                     let sampleDocument = {
                         Length: 500,
@@ -124,19 +143,75 @@ module.exports = function(database, models, queryFiles) {
                     };
                     sampleDocument = JSON.stringify(sampleDocument);
 
-                    let messageDigest = forge.md.sha512.create()
-                    .update(sampleDocument)
-                    .digest();
+                    let messageDigest = forge.md.sha512.create();
+                    messageDigest.update(sampleDocument);
 
-                    const privateKey = forge.pki.privateKeyFromPem(data.privateKey);
+                    const privateKey = forge.pki.privateKeyFromPem(data.privatekey);
 
                     const signature = privateKey.sign(messageDigest);
 
+                    console.log(signature);
+                    res.send(typeof signature);
                 });
         },
 
+        /**
+         * Accepts
+         * POST only
+         *     req.body: {
+         *         idNumber Integer,
+         *         email String,
+         *         type Integer,
+         *         password String, 
+         *         firstname String,
+         *         middlename String,
+         *         lastname String,
+         *         contactNumber String
+         *     }
+         * @method
+         * @param   {[type]} req [description]
+         * @param   {[type]} res [description]
+         * @returns {[type]}     [description]
+         */
         createAccount: (req, res) => {
-            
+            const input = req.body;
+
+            forgePromise.pki.rsa.generateKeyPair({
+                    bits: global.config.webserver.encryption.bits,
+                    workers: global.config.webserver.encryption.web_workers_amount
+                })
+                .then(pair => {
+                    return Promise.all([
+                        forgePromise.pki.publicKeyToPem(pair.publicKey),
+                        forgePromise.pki.privateKeyToPem(pair.privateKey)
+                    ]);
+                }).then(keys => {
+                    const publicKeyPEM = keys[0];
+                    const privateKeyPEM = keys[1];
+
+                    return accountModel.insertAccount(
+                        input.idNumber,
+                        input.email,
+                        input.type,
+                        input.password,
+                        input.firstname,
+                        input.middlename,
+                        input.lastname,
+                        input.contactNumber,
+                        publicKeyPEM,
+                        privateKeyPEM
+                    );
+                }).then(() => {
+                    return res.send({
+                        success: true,
+                        valid: true
+                    });
+                }).catch(err => {
+                    return res.send({
+                        success: false,
+                        valid: true
+                    });
+                });
         }
     };
 };

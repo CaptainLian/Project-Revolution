@@ -21,7 +21,7 @@ module.exports = function(database, queryFiles) {
     class AccountModel {
 
         constructor(database, insertSQL) {
-            const dbHelper = require('../utlity/databaseHelper');
+            const dbHelper = require('../utility/databaseHelper');
 
             this._database = database;
             this._insertSQL = insertSQL;
