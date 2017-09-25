@@ -39,7 +39,9 @@ module.exports = function(database, models, queryFiles) {
 
 
                     var orgGOSMParam = {
+                    
                         termID: data.id,
+                        //TODO
                         studentOrganization: 1 //to be replaced by session variable
 
                     };
@@ -172,6 +174,7 @@ module.exports = function(database, models, queryFiles) {
 
                     var orgGOSMParam = {
                         termID: data.id,
+                        //TODO
                         studentOrganization: 1 //to be replaced by session variable
                     };
 
@@ -179,7 +182,7 @@ module.exports = function(database, models, queryFiles) {
                         .then(data => {
 
                             var dbParam = {
-                                GOSM: data.id, //to be replaced by session variable
+                                GOSM: data.id,
                                 goals: goals,
                                 objectives: objectives,
                                 strategies: strategy,
