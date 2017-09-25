@@ -2,51 +2,39 @@ jQuery(document).ready(function($) {
     $('.transactions').hide();
 	$('#transaction').on('change', function() {
 	    /*
-	    <option value="1">Cash Advance</option> id = CA
-	    <option value="2">Direct Payment (Pre-acts)</option> id = DPPre
-	    <option value="3">Direct Payment (Post-acts)</option> id = DPPost
-	    <option value="4">Reimbursement</option> id = RB
-	    <option value="5">Petty Cash Replenishment</option> id = PCR
-	    <option value="6">Book Transfer</option> id = BT
-	    <option value="7">Liquidation(With deposit)</option> id = LD
-	    <option value="8">Liquidation(With reimbursement)</option> id = LR
+            <option value="1">Book Transfer</option>
+            <option value="2">Petty Cash Replenishment</option>
+            <option value="3">Reimbursement</option>
+            <option value="4">Liquidation</option>
+            <option value="5">Fund Raising Activity</option>
+            <option value="6">No Expense</option>
 	    */
 	    var val = $(this).val();
 	    switch (val) {
-	        case '1'://cash advance
+	        case '1'://BOOK TRANSFER
 	           $('.transactions').hide();
-	           $('#CA').show();
-               //$('#CashAdvanceMechanicsofCompetition').show(); if activity has cash prize
-               //$('#CashAdvanceListofParticipants').show(); if activity has food/accomodation expense
+	           $('#BT').show();
 	           console.log(val);
 	            break;
 	        case '2':
 	            $('.transactions').hide();
-	            $('#DPPre').show();
+	            $('#PCR').show();
 	            break;
 	        case '3':
 	            $('.transactions').hide();
-	            $('#DPPost').show();
+	            $('#RM').show();
 	            break;
 	        case '4':
 	            $('.transactions').hide();
-	            $('#RB').show();
+	            $('#LQ').show();
 	            break;
 	        case '5':
 	            $('.transactions').hide();
-	            $('#PCR').show();
+	            $('#FRA').show();
 	            break;
 	        case '6':
 	            $('.transactions').hide();
-	            $('#BT').show();
-	            break;
-	        case '7':
-	            $('.transactions').hide();
-	            $('#LD').show();
-	            break;
-	        case '8':
-	            $('.transactions').hide();
-	            $('#LR').show();
+	            $('#NE').show();
 	            break;
 	        default:
 	            $('.transactions').hide();

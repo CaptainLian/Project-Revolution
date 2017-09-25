@@ -242,11 +242,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </div>
                 <!-- /.row -->
                 <!-- Book transfer .row -->
-                <div class="row transactions" id="CA">
+                <div class="row transactions" id="BT">
                     <div class="col-sm-12">
                         <div class="white-box">
-                            <h3 class="box-title m-b-0">Cash Advance</h3>
-                            <p class="text-muted m-b-30 font-13">Withdraw cash from the Depository Fund before the activity. It is to be used for projected expenses of the activity.</p>
+                            <h3 class="box-title m-b-0">Book Transfer</h3>
+                            <p class="text-muted m-b-30 font-13">It is a process done when an organization availed of the 
+service/s of establishment/s and office/s operating inside the campus. This is 
+the transfer of funds from one account to another within the university. </p>
                             <div id="transactionWizard" class="wizard">
                                 <ul class="wizard-steps text-center" role="tablist">
                                     <li class="active" role="tab">
@@ -259,7 +261,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         <h4><span><i class="ti-notepad"></i></span></h4><!-- Informal Quotation -->
                                     </li>
                                     <!--
-                                        cash advance attachments
+                                        COMMENT:
+                                        BOOK TRANSFER ATTACHMENTS
                                     -->
                                     <li class="attachments" role="tab">
                                         <h4><span><i class="ti-file"></i></span></h4><!-- List of participants -->
@@ -476,7 +479,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             <table id="mainTable" class="table editable-table table-bordered table-striped m-b-0">
                                                 <thead>
                                                     <tr>
-                                                        <th>Item Name</th>
+                                                        <th data-editable='false'>Item Name</th>
                                                         <th>Contact Person</th>
                                                         <th>Contact No.</th>
                                                         <th>Unit Price</th>
@@ -486,54 +489,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                 </thead>
                                                 <tbody>
                                                     <tr>
-                                                        <td>Car</td>
+                                                        <th>Car</th>
                                                         <td>100</td>
                                                         <td>200</td>
                                                         <td>0</td>
                                                         <td>0</td>
-                                                        <td>0</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Bike</td>
-                                                        <td>330</td>
-                                                        <td>240</td>
-                                                        <td>1</td>
-                                                        <td>0</td>
-                                                        <td>0</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Plane</td>
-                                                        <td>430</td>
-                                                        <td>540</td>
-                                                        <td>3</td>
-                                                        <td>0</td>
-                                                        <td>0</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Yacht</td>
-                                                        <td>100</td>
-                                                        <td>200</td>
-                                                        <td>0</td>
-                                                        <td>0</td>
-                                                        <td>0</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Segway</td>
-                                                        <td>330</td>
-                                                        <td>240</td>
-                                                        <td>1</td>
-                                                        <td>0</td>
-                                                        <td>0</td>
+                                                        <th>0</th>
                                                     </tr>
                                                 </tbody>
                                                 <tfoot>
                                                     <tr>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td class="text-right"><strong>TOTAL</strong></td>
-                                                        <td></td>
+                                                        <th></th>
+                                                        <th></th>
+                                                        <th></th>
+                                                        <th></th>
+                                                        <th class="text-right"><strong>TOTAL</strong></th>
+                                                        <th></th>
                                                     </tr>
                                             </table>
                                         </div>
@@ -658,7 +629,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <script>
         $('#mainTable').editableTableWidget().numericInputExample().find('td:first').focus();
-        $('#DPPATable').editableTableWidget().numericInputExample().find('td:first').focus();
+        //$('#mainTable').editableTableWidget({ editor: $(''), preventColumns: [ 2, 3 ] });
     </script>
 
     <script type="text/javascript">
