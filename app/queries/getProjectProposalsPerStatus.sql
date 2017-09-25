@@ -1,0 +1,4 @@
+SELECT COUNT(ID) AS num
+		FROM PROJECTPROPOSAL
+       WHERE GOSMACTIVITY=${gosm}
+         AND STATUS=${status};

@@ -7,6 +7,8 @@ module.exports = function (app, controllers){
 
 	router.post('/getActivityDetails', controllers.APS_controller.getActivityDetails);
 
+	router.get('/getActivityChecking', controllers.APS_controller.getActivityChecking);
+
 	router.get('/activityRequirements', controllers.APS_controller.createActivityRequirements);
 	router.post('/activityRequirements', controllers.APS_controller.inputActivityRequirements);
 

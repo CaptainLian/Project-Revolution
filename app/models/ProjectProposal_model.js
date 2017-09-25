@@ -13,6 +13,8 @@ module.exports = function(db, queryFiles) {
     const insertProjectProposalProgramDesignSQL = queryFiles.insertProjectProposalProgramDesign;
     const insertProjectProposalProjectedIncomeSQL = queryFiles.insertProjectProposalProjectedIncome;
     const insertProjectProposalExpensesSQL = queryFiles.insertProjectProposalExpenses;
+    const getProjectProposalsSQL = queryFiles.getProjectProposals;
+    const getProjectProposalsPerStatusSQL = queryFiles.getProjectProposalsPerStatus;
 
     let dbHelper = require('../utility/databaseHelper')(db);
 
@@ -121,6 +123,16 @@ module.exports = function(db, queryFiles) {
     ProjectProposalModel.prototype.insertProjectProposalExpenses = function(param, connection = this._db) {
         //TODO: implementation, test
         return connection.none(insertProjectProposalExpensesSQL, param);
+    };
+
+    ProjectProposalModel.prototype.getProjectProposals = function(param, connection = this._db) {
+        //TODO: implementation, test
+        return connection.one(getProjectProposalsSQL, param);
+    };
+
+    ProjectProposalModel.prototype.getProjectProposalsPerStatus = function(param, connection = this._db) {
+        //TODO: implementation, test
+        return connection.one(getProjectProposalsPerStatusSQL, param);
     };
 
     return new ProjectProposalModel(db, dbHelper.attachFields);

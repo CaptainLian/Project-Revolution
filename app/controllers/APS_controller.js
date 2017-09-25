@@ -484,6 +484,50 @@ module.exports = function(database, models, queryFiles) {
             });
         },
 
+        getActivityChecking: (req, res) =>{
+
+            var dbParam = {
+                //TODO
+                gosm: 1
+            };
+
+            var dbParam2 = {
+                gosm: 1,
+                status: 5
+            };
+
+            var dbParam3 = {
+                gosm: 1,
+                status: 4
+            };
+
+            var dbParam4 = {
+                gosm: 1,
+                status: 3
+            };
+
+            Promise.all([
+                projectProposalModel.getProjectProposals(dbParam), 
+                projectProposalModel.getProjectProposalsPerStatus(dbParam2),
+                projectProposalModel.getProjectProposalsPerStatus(dbParam3), 
+                projectProposalModel.getProjectProposalsPerStatus(dbParam4)
+            ])
+                .then(data=>{
+                    console.log(data);
+                    res.render("APS/ActivityCheckingMain", {
+                        csrfToken: req.csrfToken(),
+                        allProjects: data[0],
+                        deniedProjects: data[1],
+                        pendingProjects: data[2],
+                        successProjects: data[3]
+                    });
+                })
+                .catch(error=>{
+                    console.log(error);
+                });
+
+        },
+
         viewActivityList: (req, res) => {
             projectProposalModel.getAllActivityProjectProposal([
                     'ga.id',
