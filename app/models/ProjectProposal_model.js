@@ -123,33 +123,35 @@ module.exports = function(db, queryFiles) {
         this._attachFields(query, fields);
 
         query = query.toString();
+        
+        /**
+         * { 
+         *     id: id    
+         * }
+         * @type {Object}
+         */
         let param = Object.create(null);
         param.id = id;
         return connection.any(query, param);
     };
 
-    /*
-
-        
-    
-    */
     ProjectProposalModel.prototype.insertProjectProposal = function(param, connection = this._db) {
-        //TODO: implementation, test
+        //TODO: test
         return connection.one(insertProjectProposalSQL, param);
     };
 
     ProjectProposalModel.prototype.insertProjectProposalDesign = function(param, connection = this._db) {
-        //TODO: implementation, test 
+        //TODO: test 
         return connection.none(insertProjectProposalProgramDesignSQL, param);
     };
 
     ProjectProposalModel.prototype.insertProjectProposalProjectedIncome = function(param, connection = this._db) {
-        //TODO: implementation, test
+        //TODO: test
         return connection.none(insertProjectProposalProjectedIncomeSQL, param);
     };
 
     ProjectProposalModel.prototype.insertProjectProposalExpenses = function(param, connection = this._db) {
-        //TODO: implementation, test
+        //TODO: test
         return connection.none(insertProjectProposalExpensesSQL, param);
     };
 

@@ -1,9 +1,6 @@
 'use strict';
 
-let DatabaseHelper = function() {
-    this._log_options = Object.create(null);
-    this._log_options.from = 'database-helper';
-};
+let databaseHelper = Object.create(null);
 
 /**
  * 
@@ -11,8 +8,7 @@ let DatabaseHelper = function() {
  * @param  {[String, Array] (Optional)}
  * @return {squel query}
  */
-DatabaseHelper.prototype.attachFields = function(query, fields) {
-    global.logger.debug(`Attaching Fields to query: ${JSON.stringify(fields)}`, this._log_options);
+databaseHelper.attachFields = (query, fields) => {
     if (typeof fields === 'string') {
         query.field(fields);
     } else if (Array.isArray(fields)) {
@@ -29,4 +25,24 @@ DatabaseHelper.prototype.attachFields = function(query, fields) {
     return query;
 };
 
-module.exports = new DatabaseHelper();
+/**
+ * Attaches specified returning field/s to the specified query
+ * @param  {squel (postgres)} query     [description]
+ * @param  {[String, Array(String)] (Optional)} returning [description]
+ * @return {Boolean}           true if any fields were attached, false otherwise
+ */
+databaseHelper.attachReturning = (query, returning) =>{
+    if(typeof returning === 'string'){
+        query.returning(returning);
+        return true;
+    } else if(Array.isArray(returning)){
+        for(let index = returning.index; index--; ){
+            query.returning(returning[index]);
+        }
+        return true;
+    }
+
+    return false;
+};
+
+module.exports = databaseHelper;

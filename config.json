@@ -39,6 +39,12 @@
 				"secure": false,
 				"maxAge":3600000
 			}
+		},
+		"security": {
+			"encryption": {
+				"bits": 1024,
+				"web_workers_amount": -1
+			}
 		}
 	},	
 	"database": {

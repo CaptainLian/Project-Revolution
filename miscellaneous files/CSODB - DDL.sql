@@ -326,6 +326,7 @@ CREATE TRIGGER before_update_ProjectProposal
 
 DROP TABLE IF EXISTS ProjectProposalProgramDesign CASCADE;
 CREATE TABLE ProjectProposalProgramDesign (
+    id SERIAL UNIQUE,
     projectProposal INTEGER REFERENCES ProjectProposal(id),
     dayID INTEGER,
     date DATE,
@@ -349,7 +350,7 @@ $trigger_before_insert_ProjectProposalProgramDesign$
         return NEW;
     END;
 $trigger_before_insert_ProjectProposalProgramDesign$ LANGUAGE plpgsql;
-CREATE TRIGGER before_insert_ProjectProposal
+CREATE TRIGGER before_insert_ProjectProposalProgramDesign
     BEFORE INSERT ON ProjectProposalProgramDesign
     FOR EACH ROW
     EXECUTE PROCEDURE trigger_before_insert_ProjectProposalProgramDesign();
@@ -436,17 +437,17 @@ $trigger_before_insert_ProjectProposalSourceFunds$
         return NEW;
     END;
 $trigger_before_insert_ProjectProposalSourceFunds$ LANGUAGE plpgsql;
-CREATE TRIGGER before_insert_ProjectProposal
+CREATE TRIGGER before_insert_ProjectProposalSourceFunds
     BEFORE INSERT ON ProjectProposalSourceFunds
     FOR EACH ROW
     EXECUTE PROCEDURE trigger_before_insert_ProjectProposalSourceFunds();
 
-DROP TABLE ProjectProposalAttachment CASCADE;
+DROP TABLE IF EXISTS ProjectProposalAttachment CASCADE;
 CREATE TABLE ProjectProposalAttachment (
     id SERIAL UNIQUE,
-    projectProposal REFERENCES ProjectProposal(id),
+    projectProposal INTEGER REFERENCES ProjectProposal(id),
     sequence INTEGER DEFAULT -1,
-    directory TEXT NOT NULL,
+    directory TEXT NOT NULL
 );
 CREATE OR REPLACE FUNCTION trigger_before_insert_ProjectProposalAttachment()
 RETURNS trigger AS
@@ -463,7 +464,7 @@ CREATE TRIGGER before_insert_ProjectProposal
     FOR EACH ROW
     EXECUTE PROCEDURE trigger_before_insert_ProjectProposalAttachment();
 
-DROP TABLE ProjectProposalSignatory CASCADE;
+DROP TABLE IF EXISTS ProjectProposalSignatory CASCADE;
 CREATE TABLE ProjectProposalSignatory (
     projectProposal INTEGER REFERENCES ProjectProposal(id),
     signatory INTEGER REFERENCES Account(idNumber),
@@ -472,18 +473,18 @@ CREATE TABLE ProjectProposalSignatory (
     dateSigned TIMESTAMP WITH TIME ZONE
 );
 
-DROP TABLE CONSTANT CASCADE;
+DROP TABLE IF EXISTS CONSTANT CASCADE;
 CREATE TABLE CONSTANT (
-    name VARCHAR(25) PRIMARY KEY,
+    name VARCHAR(25) PRIMARY KEY
 );
-DROP TABLE TEXT_CONSTAT CASCADE;
-CREATE TABLE CONSTANT (
+DROP TABLE IF EXISTS TEXT_CONSTANT CASCADE;
+CREATE TABLE TEXT_CONSTANT (
     value TEXT NOT NUll,
 
     PRIMARY KEY(name)
 ) INHERITS (CONSTANT);
 
-DROP TABLE JSON_CONSTANT CASCADE;
+DROP TABLE IF EXISTS JSON_CONSTANT CASCADE;
 CREATE TABLE JSON_CONSTANT (
     value JSONB NOT NULL,
     
@@ -496,6 +497,7 @@ CREATE TABLE JSON_CONSTANT (
 -- COMMIT;
 
     /* SESSION TABLE */
+DROP TABLE IF EXISTS session CASCADE;
 CREATE TABLE IF NOT EXISTS session (
     "sid" varchar NOT NULL COLLATE "default",
     "sess" json NOT NULL,

@@ -5,7 +5,6 @@ const squel = require('squel');
 const bcrypt = require('bcryptjs');
 
 //Document Signature
-const selfsigned = require('selfsigned');
 const crypto2 = require('crypto2');
 
 const logger = global.logger;
@@ -13,10 +12,10 @@ const log_options = {
     from: 'Account'
 };
 
-module.exports = function(database, models, queryFiles) {
+const forge = require('node-forge');
 
+module.exports = function(database, models, queryFiles) {
     const accountModel = models.Account_model;
-    const systemModel = models.System_model;
     return {
 
         viewLogin: (req, res) => {
@@ -92,7 +91,7 @@ module.exports = function(database, models, queryFiles) {
                             });
                         }
                     })
-                    .catch(error => {
+                    .catch(() => {
                         logger.debug('Account not exist');
                         res.send({
                             valid: false
@@ -111,54 +110,33 @@ module.exports = function(database, models, queryFiles) {
             // console.log("REQUEST");
             // console.log(req.session.user);
             //database.one('SELECT * FROM Account WHERE idNumber = ${idNumber}', {idNumber: req.session.user.idNumber});
-            console.log(req.session);
-            let fullname = req.session.user.name.first + " " + req.session.user.name.middle + " " + req.session.user.name.last;
-            let email = req.session.user.email;
-            let details = [{
-                "name": fullname,
-                "value": email
-            }];
+            logger.debug(req.session, log_options);
+            //let fullname = req.session.user.name.first + " " + req.session.user.name.middle + " " + req.session.user.name.last;
 
-            // ATTRIBUTE ERROR . NULL CAN BE CHANGE TO ATTRS
-            // var pems = selfsigned.generate(null, { days: 365 });
-            // console.log(pems)
-            //GENERATE KEYS
-            var keys = selfsigned.generate(null, {
-                days: 999999,
-                keySize: 2048,
-                algorithm: 'sha256'
-            });
-            console.log("GENERATED KEYS");
-            console.log(keys.private);
-            console.log(keys.public);
+            accountModel.getAccountDetails(11445955, [
+                    'privateKey'
+                ])
+                .then(data => {
+                    let sampleDocument = {
+                        Length: 500,
+                        size: 5100,
+                        comments: 'Ganda, laki ng saging'
+                    };
+                    sampleDocument = JSON.stringify(sampleDocument);
 
-            //SIGN DOCUMENT
-            var sampleDocument = {
-                "Form Name": "PPR",
-                Contents: "NEIL IS NICE"
-            };
+                    let messageDigest = forge.md.sha512.create()
+                    .update(sampleDocument)
+                    .digest();
 
+                    const privateKey = forge.pki.privateKeyFromPem(data.privateKey);
 
-            console.log("SAMPLE DOCUMENT");
-            console.log(sampleDocument);
+                    const signature = privateKey.sign(messageDigest);
 
-            // THE JSON OBJECT OR FORM IS HASH
-            crypto2.hash(JSON.stringify(sampleDocument), (err, hash) => {
-                console.log("SAMPLE HASH");
-                console.log(hash);
-
-                //CRYPTO . SHA256 is USED to
-                crypto2.sign(hash, keys.private, (err, signature) => {
-                    console.log("SAMPLE SIGNATURE");
-                    console.log(signature);
-
-                    crypto2.verify(hash, keys.public, signature, (err, signature) => {
-                        console.log("VERIFY SIGNATURE");
-                        console.log(signature);
-
-                    });
                 });
-            });
+        },
+
+        createAccount: (req, res) => {
+            
         }
     };
 };
