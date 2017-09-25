@@ -445,7 +445,7 @@
                         </div>
                     </section>
                     
-                    <section id="section-linebox-5">
+                    <section id="section-linebox-5" style="display: block;visibility:hidden;">
                      <h4 class="text-left">VII. Attachments</h4>
                             <hr>
                         <div class="white-box">
@@ -453,19 +453,22 @@
                             <h4 class="text-left">VRT</h4>
                             <hr>
                             <br/>
-                              <iframe src = "/ViewerJS/#../document/ch1.odp" id="vrt" width='400' height='300' allowfullscreen webkitallowfullscreen></iframe>
+                            <div >
+                                
+                            </div>
+                              <iframe src = "/ViewerJS/#../document/ch1.odp"  width='400' height='300' allowfullscreen webkitallowfullscreen></iframe>
                           
                         </div>
-                         <div class="white-box">
+                         <div class="white-box"  >
                             <h4 class="text-left">Cash Disbursement</h4>
                             <hr>
                             <br/>
-                            <iframe src = "/ViewerJS/#../document/sample.odt" width='400' height='300' allowfullscreen webkitallowfullscreen></iframe>
+                            <iframe src = "/ViewerJS/#../document/ch1.odp"  width='400' height='300' allowfullscreen webkitallowfullscreen></iframe>
                         </div>
                     </section>
                     
                 </div>
-                  
+                
                 <!-- /content -->
             </div>
         </div>
@@ -479,10 +482,29 @@
 
 
     <script type="text/javascript">
+        $('#section-linebox-5').css('visibility',"hidden");
+        $('#section-linebox-5').css('height',0);
+        $('#section-linebox-5').css('width',0);
+        $(".sttabs li").click(function(){
+            var page = $(this).find("a").attr("href");
+            console.log(page);
+            page = page.replace("#section-linebox-","");
+            console.log(page);
+            if(page == "5"){
+                console.log("REFRESH");
+
+                $('#section-linebox-5').css('visibility',"visible");
+                $('#section-linebox-5').css('height',"100%");
+                $('#section-linebox-5').css('width',"100%");                
+            }else{
+                $('#section-linebox-5').css('visibility',"hidden");
+                $('#section-linebox-5').css('height',0);
+                $('#section-linebox-5').css('width',0);
+            }
+        });
         
         $("#approve").click(function(){
-            var iframe = document.getElementById('vrt');
-        iframe.src = iframe.src;
+
         swal({   
             title: "Are you sure?",                                           
             showCancelButton: true,   
