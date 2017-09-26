@@ -33,29 +33,7 @@
     <!-- Page Styles -->
 {%endblock%}
 
-{%block defer_script%}
-	<!-- jQuery -->
-    <script type="text/javascript" src="/plugins/bower_components/jquery/dist/jquery.min.js" defer="defer"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script type="text/javascript" src="/bootstrap/dist/js/tether.min.js" defer="defer"></script>
-    <script type="text/javascript" src="/bootstrap/dist/js/bootstrap.min.js" defer="defer"></script>
-    <script type="text/javascript" src="/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js" defer="defer"></script>
-    <!-- Menu Plugin JavaScript -->
-    <script type="text/javascript" src="/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js" defer="defer"></script>
-    <!--slimscroll JavaScript -->
-    <script type="text/javascript" src="/js/jquery.slimscroll.js" defer="defer"></script>
-    <!--Wave Effects -->
-    <script type="text/javascript" src="/js/waves.js" defer="defer"></script>
-    <!-- Custom Theme JavaScript -->
-    <script type="text/javascript" src="/js/custom.min.js" defer="defer"></script>
-    <script type="text/javascript" src="/js/cbpFWTabs.js" defer="defer"></script> <!-- tabs-->
-    <script type="text/javascript" src="/plugins/bower_components/datatables/jquery.dataTables.min.js" defer="defer"></script>
-    <!-- Sweet-Alert  -->
-    <script type="text/javascript" src="/plugins/bower_components/sweetalert/sweetalert.min.js" defer="defer"></script>
-
-    <!-- Page-Scripts -->
-{%endblock%}
-
+ 
 {%block body%}
 	<!-- Top Navigation -->
 	{%block header%}
@@ -109,6 +87,50 @@
 {%endblock%}
 
 {%block script%}
+<!-- jQuery -->
+    <script type="text/javascript" src="/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script type="text/javascript" src="/bootstrap/dist/js/tether.min.js"></script>
+    <script type="text/javascript" src="/bootstrap/dist/js/bootstrap.min.js" ></script>
+    <script type="text/javascript" src="/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js" ></script>
+    <!-- Menu Plugin JavaScript -->
+    <script type="text/javascript" src="/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js"></script>
+    <!--slimscroll JavaScript -->
+    <script type="text/javascript" src="/js/jquery.slimscroll.js"></script>
+    <!--Wave Effects -->
+    <script type="text/javascript" src="/js/waves.js" ></script>
+    <!-- Custom Theme JavaScript -->
+    <script type="text/javascript" src="/js/custom.min.js" ></script>
+    <script type="text/javascript" src="/js/cbpFWTabs.js" ></script> <!-- tabs-->
+    <script type="text/javascript" src="/plugins/bower_components/datatables/jquery.dataTables.min.js"></script>
+    <!-- Sweet-Alert  -->
+    <script type="text/javascript" src="/plugins/bower_components/sweetalert/sweetalert.min.js"></script>
+    <script type="text/javascript">
+    
+        $(document).ready(function () {
+            
+            $("td").click(function(){
+                console.log("asd1");
+                 setTimeout(function(){
+                    console.log("asd2");
+                    if($("#sampleModal").hasClass("show")){
+                        console.log("asd");
+                        $('iframe').each(function() {
+                        this.contentWindow.location.reload(true);
+                        });
+                    }
+                },3000);
+            });
+        });
+        
+        // if($("#sampleModal").hasClass("in")){
+        //     console.log("asd");
+        //     $('iframe').each(function() {
+        //       this.contentWindow.location.reload(true);
+        //     });
+        // }
+    </script>
+    <!-- Page-Scripts -->
 {%endblock%}
 
 {% macro breadcrumb_item(name='', class='') %}
