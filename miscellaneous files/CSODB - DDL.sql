@@ -4,92 +4,6 @@ DROP EXTENSION IF EXISTS "pgcrypto" CASCADE;
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
-DROP TABLE IF EXISTS SchoolYear CASCADE;
-CREATE TABLE SchoolYear (
-    id SERIAL UNIQUE,
-    startYear INTEGER,
-    endYear INTEGER,
-
-    PRIMARY KEY (startYear, endYear),
-    CONSTRAINT start_end_year_value CHECK(startYear < endYear)
-);
-DROP TABLE IF EXISTS Term CASCADE;
-CREATE TABLE Term (
-    id SERIAL UNIQUE,
-    schoolYearID INTEGER REFERENCES SchoolYear(id),
-    number INTEGER,
-    dateStart DATE NOT NULL,
-    dateEnd DATE NOT NULL,
-
-
-    PRIMARY KEY (schoolYearID, number),
-    CONSTRAINT number_min_value CHECK(number >= 1),
-    CONSTRAINT number_max_value CHECK(number <= 3),
-    CONSTRAINT date_start_end_value CHECK (dateStart <= dateEnd)
-);
-
-
-DROP TABLE IF EXISTS College CASCADE;
-CREATE TABLE College (
-    shortAcronym CHAR(3),
-    fullAcronym VARCHAR(20),
-    name VARCHAR(60),
-
-    PRIMARY KEY (shortAcronym)
-);
-
-DROP TABLE IF EXISTS ActivityType CASCADE;
-CREATE TABLE ActivityType (
-    id INTEGER,
-    name VARCHAR(45) NOT NULL,
-
-    PRIMARY KEY(id)
-);
-
-DROP TABLE IF EXISTS ActivityNature CASCADE;
-CREATE TABLE ActivityNature (
-    id INTEGER,
-    name VARCHAR(45) NOT NULL,
-
-    PRIMARY KEY(id)
-);
-
-/* Organizations */
-DROP SEQUENCE IF EXISTS organization_id_sequence;
-CREATE SEQUENCE organization_id_sequence INCREMENT BY 1
-MINVALUE 0 NO MAXVALUE START WITH 0 NO CYCLE;
-
-DROP TABLE IF EXISTS OrganizationNature CASCADE;
-CREATE TABLE OrganizationNature (
-    id INTEGER,
-    name VARCHAR(45) NOT NULL,
-    acronym VARCHAR(10),
-
-    PRIMARY KEY(id)
-);
-DROP TABLE IF EXISTS OrganizationCluster CASCADE;
-CREATE TABLE OrganizationCluster (
-    id INTEGER,
-    name VARCHAR(128) NOT NULL,
-    acronym VARCHAR(20),
-
-    PRIMARY KEY(id)
-);
-DROP TABLE IF EXISTS StudentOrganization CASCADE;
-CREATE TABLE StudentOrganization (
-    id SERIAL,
-    name VARCHAR(128),
-    cluster INTEGER REFERENCES OrganizationCluster(id),
-    nature INTEGER REFERENCES OrganizationNature(id),
-    college CHAR(3) REFERENCES College(shortAcronym),
-    acronym VARCHAR(20) UNIQUE,
-    description TEXT,
-    funds NUMERIC(16, 4) DEFAULT 0.0,
-    facultyAdviser INTEGER REFERENCES Account(idNumber),
-
-    PRIMARY KEY (id)
-);
-
 DROP TABLE IF EXISTS AccountType CASCADE;
 CREATE TABLE AccountType (
     id INTEGER,
@@ -115,10 +29,164 @@ CREATE TABLE Account (
 
     PRIMARY KEY (email)
 );
+
+DROP TABLE IF EXISTS SchoolYear CASCADE;
+CREATE TABLE SchoolYear (
+    id SERIAL UNIQUE,
+    startYear INTEGER,
+    endYear INTEGER,
+
+    PRIMARY KEY (startYear, endYear),
+    CONSTRAINT start_end_year_value CHECK(startYear < endYear)
+);
+DROP TABLE IF EXISTS Term CASCADE;
+CREATE TABLE Term (
+    id SERIAL UNIQUE,
+    schoolYearID INTEGER REFERENCES SchoolYear(id),
+    number INTEGER,
+    dateStart DATE NOT NULL,
+    dateEnd DATE NOT NULL,
+
+
+    PRIMARY KEY (schoolYearID, number),
+    CONSTRAINT number_min_value CHECK(number >= 1),
+    CONSTRAINT number_max_value CHECK(number <= 3),
+    CONSTRAINT date_start_end_value CHECK (dateStart <= dateEnd)
+);
+
+DROP TABLE IF EXISTS College CASCADE;
+CREATE TABLE College (
+    shortAcronym CHAR(3),
+    fullAcronym VARCHAR(20),
+    name VARCHAR(60),
+
+    PRIMARY KEY (shortAcronym)
+);
+
+DROP TABLE IF EXISTS ActivityType CASCADE;
+CREATE TABLE ActivityType (
+    id INTEGER,
+    name VARCHAR(45) NOT NULL,
+
+    PRIMARY KEY(id)
+);
+
+/* Activity Requirements */
+DROP TABLE IF EXISTS ActivityRequirement CASCADE;
+CREATE TABLE ActivityRequirement (
+    id SERIAL UNIQUE,
+    activityType INTEGER,
+    sequence INTEGER DEFAULT -1,
+    name VARCHAR(100) NOT NULL,
+
+    PRIMARY KEY (activityType, sequence)
+);
+CREATE OR REPLACE FUNCTION trigger_before_insert_ActivityRequirement()
+RETURNS trigger AS
+$trigger$
+    BEGIN
+        SELECT COALESCE(MAX(sequence) + 1, 1) INTO STRICT NEW.sequence
+          FROM ActivityRequirement
+         WHERE activityType = NEW.activityType;
+        return NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER before_insert_ActivityRequirement
+    BEFORE INSERT ON ActivityRequirement
+    FOR EACH ROW
+    EXECUTE PROCEDURE trigger_before_insert_ActivityRequirement();
+
+
+DROP TABLE IF EXISTS PreActivityRequirement CASCADE;
+CREATE TABLE PreActivityRequirement (
+    PRIMARY KEY (activityType, sequence)
+) INHERITS (ActivityRequirement);
+CREATE OR REPLACE FUNCTION trigger_before_insert_PreActivityRequirement()
+RETURNS trigger AS
+$trigger$
+    BEGIN
+        SELECT COALESCE(MAX(sequence) + 1, 1) INTO STRICT NEW.sequence
+          FROM PreActivityRequirement
+         WHERE activityType = NEW.activityType;
+        return NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER before_insert_PreActivityRequirement
+    BEFORE INSERT ON PreActivityRequirement
+    FOR EACH ROW
+    EXECUTE PROCEDURE trigger_before_insert_PreActivityRequirement();
+
+
+DROP TABLE IF EXISTS PostActivityRequirement CASCADE;
+CREATE TABLE PostActivityRequirement (
+    PRIMARY KEY (activityType, sequence)
+) INHERITS (ActivityRequirement);
+CREATE OR REPLACE FUNCTION trigger_before_insert_PostActivityRequirement()
+RETURNS trigger AS
+$trigger$
+    BEGIN
+        SELECT COALESCE(MAX(sequence) + 1, 1) INTO STRICT NEW.sequence
+          FROM PostActivityRequirement
+         WHERE activityType = NEW.activityType;
+        return NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER before_insert_PostActivityRequirement
+    BEFORE INSERT ON PostActivityRequirement
+    FOR EACH ROW
+    EXECUTE PROCEDURE trigger_before_insert_PostActivityRequirement();
+/* Activity Requirements End */
+
+DROP TABLE IF EXISTS ActivityNature CASCADE;
+CREATE TABLE ActivityNature (
+    id INTEGER,
+    name VARCHAR(45) NOT NULL,
+
+    PRIMARY KEY(id)
+);
+
+/* Organizations */
+/*
+DROP SEQUENCE IF EXISTS organization_id_sequence;
+CREATE SEQUENCE organization_id_sequence INCREMENT BY 1
+MINVALUE 0 NO MAXVALUE START WITH 0 NO CYCLE;
+*/
+DROP TABLE IF EXISTS OrganizationNature CASCADE;
+CREATE TABLE OrganizationNature (
+    id INTEGER,
+    name VARCHAR(45) NOT NULL,
+    acronym VARCHAR(10),
+
+    PRIMARY KEY(id)
+);
+
+DROP TABLE IF EXISTS OrganizationCluster CASCADE;
+CREATE TABLE OrganizationCluster (
+    id INTEGER,
+    name VARCHAR(128) NOT NULL,
+    acronym VARCHAR(20),
+
+    PRIMARY KEY(id)
+);
+DROP TABLE IF EXISTS StudentOrganization CASCADE;
+CREATE TABLE StudentOrganization (
+    id SERIAL,
+    name VARCHAR(128),
+    cluster INTEGER REFERENCES OrganizationCluster(id),
+    nature INTEGER REFERENCES OrganizationNature(id),
+    college CHAR(3) REFERENCES College(shortAcronym),
+    acronym VARCHAR(20) UNIQUE,
+    description TEXT,
+    funds NUMERIC(16, 4) DEFAULT 0.0,
+    facultyAdviser INTEGER REFERENCES Account(idNumber),
+
+    PRIMARY KEY (id)
+);
+
     /* Account Table Triggers */
 CREATE OR REPLACE FUNCTION trigger_before_insert_Account()
 RETURNS trigger AS
-$trigger_before_insert_Account$
+$trigger$
     BEGIN
         SELECT gen_salt('bf') INTO NEW.salt;
         SELECT crypt(NEW.password, NEW.salt) INTO NEW.password;
@@ -127,7 +195,7 @@ $trigger_before_insert_Account$
         NEW.dateModified = NEW.dateCreated;
         return NEW;
     END;
-$trigger_before_insert_Account$ LANGUAGE plpgsql;
+$trigger$ LANGUAGE plpgsql;
 CREATE TRIGGER before_insert_Account
     BEFORE INSERT ON Account
     FOR EACH ROW
@@ -135,55 +203,49 @@ CREATE TRIGGER before_insert_Account
 
 CREATE OR REPLACE FUNCTION trigger_before_update_Account()
 RETURNS trigger AS
-$trigger_before_update_Account$
+$trigger$
     BEGIN
         SELECT gen_salt('bf') INTO NEW.salt;
         SELECT crypt(NEW.password, NEW.salt) INTO NEW.password;
         NEW.dateModified = CURRENT_TIMESTAMP;
         return NEW;
     END;
-$trigger_before_update_Account$ LANGUAGE plpgsql;
+$trigger$ LANGUAGE plpgsql;
 CREATE TRIGGER before_update_Account
     BEFORE UPDATE ON Account
     FOR EACH ROW WHEN (crypt(NEW.password, OLD.salt) <> OLD.password)
     EXECUTE PROCEDURE trigger_before_update_Account();
     /* Account Table Triggers End */
-
+    
+    /* Organization Structure */
 DROP TABLE IF EXISTS OrganizationPosition CASCADE;
 CREATE TABLE OrganizationPosition (
-    id SERIAL UNIQUE,
-    organization INTEGER REFERENCES StudentOrganization(id),
-    sequence INTEGER NOT NULL DEFAULT -1,
-    rank INTEGER,
-    uniquePosition BOOLEAN NOT NULL DEFAULT FALSE,
-    masterPosition INTEGER,
+    id SERIAL,
+    name VARCHAR(100),
 
-    PRIMARY KEY(organization, sequence),
-    CONSTRAINT rank_nonnegative_only CHECK(rank >= 0)
+    PRIMARY KEY(id)
 );
-CREATE OR REPLACE FUNCTION trigger_before_insert_OrganizationPosition()
-RETURNS trigger AS
-$trigger_before_insert_OrganizationPosition$
-    BEGIN
-        SELECT COALESCE(MAX(id) + 1, 1) INTO STRICT NEW.sequence
-          FROM GOSMActivity
-         WHERE GOSM = NEW.GOSM;
-        return NEW;
-    END;
-$trigger_before_insert_OrganizationPosition$ LANGUAGE plpgsql;
-CREATE TRIGGER before_insert_OrganizationPosition
-    BEFORE INSERT ON OrganizationPosition
-    FOR EACH ROW
-    EXECUTE PROCEDURE trigger_before_insert_OrganizationPosition();
+DROP TABLE IF EXISTS OrganiationStructure CASCADE;
+CREATE TABLE OrganiationStructure (
+    id SERIAL UNIQUE,
+    organization INTEGER REFERENCES StudentOrganization (id),
+    position INTEGER REFERENCES OrganizationPosition (id),
+    rank INTEGER,
+    uniquePosition BOOLEAN NOT NULL,
+    masterPosition INTEGER REFERENCES OrganiationStructure (id),
 
+    PRIMARY KEY (organization, position)
+);
 DROP TABLE IF EXISTS OrganizationOfficer CASCADE;
 CREATE TABLE OrganizationOfficer (
-    idNumber INTEGER REFERENCES Account(idNumber),
-    position INTEGER REFERENCES OrganizationPosition(id),
-    dateAssigned TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    idNumber INTEGER,
+    position INTEGER,
+    yearID INTEGER,
+    dateAssigned TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
 
-    PRIMARY KEY(idNumber, position)
+    PRIMARY KEY (idNumber, position, yearID)
 );
+    /* Organization Structure End */
 -- FORMS
     /* GOSM RELATED*/
 DROP TABLE IF EXISTS GOSMStatus CASCADE;
@@ -210,7 +272,7 @@ CREATE TABLE GOSM (
 );
 CREATE OR REPLACE FUNCTION trigger_before_update_GOSM()
 RETURNS trigger AS
-$trigger_before_update_GOSM$
+$trigger$
     BEGIN
         CASE NEW.status
             WHEN 2 /* Initial Submission */ THEN
@@ -220,7 +282,7 @@ $trigger_before_update_GOSM$
         END CASE;
         RETURN NEW;
     END;
-$trigger_before_update_GOSM$ LANGUAGE plpgsql;
+$trigger$ LANGUAGE plpgsql;
 CREATE TRIGGER before_update_GGOSM
     BEFORE UPDATE ON GOSM
     FOR EACH ROW WHEN (OLD.status <> NEW.status)
@@ -250,14 +312,14 @@ CREATE TABLE GOSMActivity (
 );
 CREATE OR REPLACE FUNCTION trigger_before_insert_GOSMActivity()
 RETURNS trigger AS
-$trigger_before_insert_GOSMActivity$
+$trigger$
     BEGIN
         SELECT COALESCE(MAX(id) + 1, 1) INTO STRICT NEW.sequence
           FROM GOSMActivity
          WHERE GOSM = NEW.GOSM;
         return NEW;
     END;
-$trigger_before_insert_GOSMActivity$ LANGUAGE plpgsql;
+$trigger$ LANGUAGE plpgsql;
 CREATE TRIGGER before_insert_GOSMActivity
     BEFORE INSERT ON GOSMActivity
     FOR EACH ROW
@@ -306,9 +368,11 @@ CREATE TABLE ProjectProposal (
 );
 CREATE OR REPLACE FUNCTION trigger_before_insert_ProjectProposal()
 RETURNS trigger AS 
-$tamad_na_ako$
-    RETURN NEW;
-$tamad_na_ako$ LANGUAGE plpgsql;
+$trigger$
+    BEGIN
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
 CREATE TRIGGER before_insert_ProjectProposal
     AFTER INSERT ON ProjectProposal
     FOR EACH ROW
@@ -316,7 +380,7 @@ CREATE TRIGGER before_insert_ProjectProposal
 
 CREATE OR REPLACE FUNCTION trigger_before_update_ProjectProposal()
 RETURNS trigger AS
-$trigger_before_update_ProjectProposal$
+$trigger$
     BEGIN
         CASE NEW.status
             WHEN 2 /* Initial Submission */ THEN
@@ -327,7 +391,7 @@ $trigger_before_update_ProjectProposal$
 
         RETURN NEW;
     END;
-$trigger_before_update_ProjectProposal$ LANGUAGE plpgsql;
+$trigger$ LANGUAGE plpgsql;
 CREATE TRIGGER before_update_ProjectProposal
     BEFORE UPDATE ON ProjectProposal
     FOR EACH ROW WHEN (OLD.status <> NEW.status)
@@ -352,14 +416,14 @@ CREATE TABLE ProjectProposalProgramDesign (
 );
 CREATE OR REPLACE FUNCTION trigger_before_insert_ProjectProposalProgramDesign()
 RETURNS trigger AS
-$trigger_before_insert_ProjectProposalProgramDesign$
+$trigger$
     BEGIN
         SELECT COALESCE(MAX(sequence) + 1, 1) INTO STRICT NEW.sequence
           FROM ProjectProposalProgramDesign
          WHERE projectProposal = NEW.projectProposal;
         return NEW;
     END;
-$trigger_before_insert_ProjectProposalProgramDesign$ LANGUAGE plpgsql;
+$trigger$ LANGUAGE plpgsql;
 CREATE TRIGGER before_insert_ProjectProposalProgramDesign
     BEFORE INSERT ON ProjectProposalProgramDesign
     FOR EACH ROW
@@ -388,14 +452,14 @@ CREATE TABLE ProjectProposalProjectedIncome (
 );
 CREATE OR REPLACE FUNCTION trigger_before_insert_ProjectProposalProjectedIncome()
 RETURNS trigger AS
-$trigger_before_insert_ProjectProposalProjectedIncome$
+$trigger$
     BEGIN
         SELECT COALESCE(MAX(sequence) + 1, 1) INTO STRICT NEW.sequence
           FROM ProjectProposalProjectedIncome
          WHERE projectProposal = NEW.projectProposal;
         return NEW;
     END;
-$trigger_before_insert_ProjectProposalProjectedIncome$ LANGUAGE plpgsql;
+$trigger$ LANGUAGE plpgsql;
 CREATE TRIGGER before_insert_ProjectProposalProjectedIncome
     BEFORE INSERT ON ProjectProposalProjectedIncome
     FOR EACH ROW
@@ -414,14 +478,14 @@ CREATE TABLE ProjectProposalExpenses (
 );
 CREATE OR REPLACE FUNCTION trigger_before_insert_ProjectProposalExpenses()
 RETURNS trigger AS
-$trigger_before_insert_ProjectProposalExpenses$
+$trigger$
     BEGIN
         SELECT COALESCE(MAX(sequence) + 1, 1) INTO STRICT NEW.sequence
           FROM ProjectProposalExpenses
          WHERE projectProposal = NEW.projectProposal;
         return NEW;
     END;
-$trigger_before_insert_ProjectProposalExpenses$ LANGUAGE plpgsql;
+$trigger$ LANGUAGE plpgsql;
 CREATE TRIGGER before_insert_ProjectProposalExpenses
     BEFORE INSERT ON ProjectProposalExpenses
     FOR EACH ROW
@@ -439,14 +503,14 @@ CREATE TABLE ProjectProposalSourceFunds (
 );
 CREATE OR REPLACE FUNCTION trigger_before_insert_ProjectProposalSourceFunds()
 RETURNS trigger AS
-$trigger_before_insert_ProjectProposalSourceFunds$
+$trigger$
     BEGIN
         SELECT COALESCE(MAX(sequence) + 1, 1) INTO STRICT NEW.sequence
           FROM ProjectProposalSourceFunds
          WHERE projectProposal = NEW.projectProposal;
         return NEW;
     END;
-$trigger_before_insert_ProjectProposalSourceFunds$ LANGUAGE plpgsql;
+$trigger$ LANGUAGE plpgsql;
 CREATE TRIGGER before_insert_ProjectProposalSourceFunds
     BEFORE INSERT ON ProjectProposalSourceFunds
     FOR EACH ROW
@@ -461,14 +525,14 @@ CREATE TABLE ProjectProposalAttachment (
 );
 CREATE OR REPLACE FUNCTION trigger_before_insert_ProjectProposalAttachment()
 RETURNS trigger AS
-$trigger_before_insert_ProjectProposalAttachment$
+$trigger$
     BEGIN
         SELECT COALESCE(MAX(sequence) + 1, 1) INTO STRICT NEW.sequence
           FROM ProjectProposalAttachment
          WHERE projectProposal = NEW.projectProposal;
         return NEW;
     END;
-$trigger_before_insert_ProjectProposalAttachment$ LANGUAGE plpgsql;
+$trigger$ LANGUAGE plpgsql;
 CREATE TRIGGER before_insert_ProjectProposal
     BEFORE INSERT ON ProjectProposalSourceFunds
     FOR EACH ROW
@@ -482,6 +546,21 @@ CREATE TABLE ProjectProposalSignatory (
     digitalSignature BYTEA,
     dateSigned TIMESTAMP WITH TIME ZONE
 );
+    /* End Project Proposal */
+    /* END SPECIAL APPROVAL SLIP */
+-- END FORMS
+-- COMMIT;
+
+    /* SESSION TABLE */
+DROP TABLE IF EXISTS session CASCADE;
+CREATE TABLE IF NOT EXISTS session (
+    "sid" varchar NOT NULL COLLATE "default",
+    "sess" json NOT NULL,
+    "expire" timestamp(6) NOT NULL,
+
+    PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE
+)
+WITH (OIDS=FALSE);
 
 DROP TABLE IF EXISTS CONSTANT CASCADE;
 CREATE TABLE CONSTANT (
@@ -500,19 +579,3 @@ CREATE TABLE JSON_CONSTANT (
     
     PRIMARY KEY(name)
 ) INHERITS (CONSTANT);
-
-    /* End Project Proposal */
-    /* END SPECIAL APPROVAL SLIP */
--- END FORMS
--- COMMIT;
-
-    /* SESSION TABLE */
-DROP TABLE IF EXISTS session CASCADE;
-CREATE TABLE IF NOT EXISTS session (
-    "sid" varchar NOT NULL COLLATE "default",
-    "sess" json NOT NULL,
-    "expire" timestamp(6) NOT NULL,
-
-    PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE
-)
-WITH (OIDS=FALSE);

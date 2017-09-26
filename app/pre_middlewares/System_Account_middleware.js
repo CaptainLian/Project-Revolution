@@ -14,7 +14,7 @@ module.exports = function(app, database, models, queryFiles) {
             route: '*',
             action: function(req, res, next) {
                 const session = req.session;
-                if (session.user === undefined && req._parsedUrl.pathname !== '/') {
+                if (typeof session.user === 'undefined' && req._parsedUrl.pathname !== '/') {
                     logger.debug('User Not Logged-in!', log_options);
                     res.status(405);
                     res.render("System/403");
@@ -22,7 +22,7 @@ module.exports = function(app, database, models, queryFiles) {
                     logger.debug('Passed!', log_options);
                     logger.debug(`Logged-in user: ${session.user}`, log_options);
                     logger.debug(`Session: ${JSON.stringify(session)}`, log_options);
-                    next();
+                    return next();
                 }
             }
         }];
