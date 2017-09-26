@@ -15,7 +15,6 @@ module.exports = function(db, queryFiles) {
     const insertProjectProposalExpensesSQL = queryFiles.insertProjectProposalExpenses;
     const getProjectProposalsSQL = queryFiles.getProjectProposals;
     const getProjectProposalsPerStatusSQL = queryFiles.getProjectProposalsPerStatus;
-    const getSubmittedProjectProposalsSQL = queryFiles.getSubmittedProjectProposals;
     const getProjectProposalExpensesSQL = queryFiles.getProjectProposalExpenses;
     const getProjectProposalProjectedIncomeSQL = queryFiles.getProjectProposalProjectedIncome;
     const getProjectProposalProgramDesignSQL = queryFiles.getProjectProposalProgramDesign;
@@ -200,11 +199,6 @@ module.exports = function(db, queryFiles) {
     ProjectProposalModel.prototype.getProjectProposalsPerStatus = function(param, connection = this._db) {
         //TODO: implementation, test
         return connection.one(getProjectProposalsPerStatusSQL, param);
-    };
-
-    ProjectProposalModel.prototype.getSubmittedProjectProposals = function(connection = this._db) {
-        //TODO: implementation, test
-        return connection.oneOrNone(getSubmittedProjectProposalsSQL);
     };
 
     ProjectProposalModel.prototype.getProjectProposalExpenses = function(param, connection = this._db) {

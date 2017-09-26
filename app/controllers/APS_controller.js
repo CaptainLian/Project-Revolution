@@ -533,7 +533,15 @@ module.exports = function(database, models, queryFiles) {
 
         activityChecking: (req, res)=>{
 
-            projectProposalModel.getSubmittedProjectProposals()
+            projectProposalModel.getActivityProjectProposalDetails(1, [
+                            ['at.name', 'type'],
+                            'an.name AS nature',
+                            'ga.strategies AS strategies',
+                            'so.name AS orgname',
+                            'pp.venue AS venue',
+                            'pp.enmp AS enmp',
+                            'pp.enp AS enp'
+                        ])
                 .then(data =>{
                     var dbParam = {
                         projectProposal: data.id
