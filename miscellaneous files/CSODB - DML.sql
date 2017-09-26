@@ -1,4 +1,17 @@
 TRUNCATE TABLE College CASCADE;
+TRUNCATE TABLE OrganizationNature CASCADE;
+TRUNCATE TABLE OrganizationCluster CASCADE;
+TRUNCATE TABLE StudentOrganization CASCADE;
+TRUNCATE AccountType CASCADE;
+TRUNCATE TABLE ActivityType CASCADE;
+TRUNCATE TABLE ActivityNature CASCADE;
+TRUNCATE TABLE GOSMStatus CASCADE;
+TRUNCATE TABLE ProjectProposalStatus CASCADE;
+TRUNCATE TABLE Account CASCADE;
+TRUNCATE TABLE SchoolYear CASCADE;
+TRUNCATE TABLE TERM CASCADE;
+TRUNCATE TABLE GOSM CASCADE;
+
 INSERT INTO College (shortAcronym, fullAcronym, name)
              VALUES ('CED', 'BAGCED', 'Br. Andrew Gonzalez FSC College of Education');
 INSERT INTO College (shortAcronym, fullAcronym, name)
@@ -17,7 +30,7 @@ INSERT INTO College (shortAcronym, fullAcronym, name)
              VALUES ('SOE', null, 'School of Economics');
 
 /* Organization Data */
-TRUNCATE TABLE OrganizationNature CASCADE;
+
 INSERT INTO OrganizationNature (id, name, acronym)
                       VALUES (1, 'Special Interest', 'SPIN');
 INSERT INTO OrganizationNature (id, name, acronym)
@@ -26,7 +39,7 @@ INSERT INTO OrganizationNature (id, name, acronym)
                       VALUES (3, 'Socio-civic and Religious', 'SCORE');
 INSERT INTO OrganizationNature (id, name, acronym)
                       VALUES (4, 'Professional Organization Group', 'PROG');
-TRUNCATE TABLE OrganizationCluster CASCADE;
+
 INSERT INTO OrganizationCluster (id, name, acronym)
                          VALUES (1, 'Alliance of Science Organizations', 'ASO');
 INSERT INTO OrganizationCluster (id, name, acronym)
@@ -38,7 +51,7 @@ INSERT INTO OrganizationCluster (id, name, acronym)
 INSERT INTO OrganizationCluster (id, name, acronym)
                          VALUES (5, 'Alliance of Professional Organizations of Business and Economics', 'PROBE');
 
-TRUNCATE TABLE StudentOrganization CASCADE;
+
 INSERT INTO StudentOrganization (id, acronym, name, description)
                  VALUES (0, 'CSO', 'Council of Student Organizations', NULL);
 
@@ -123,6 +136,7 @@ INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
                  VALUES (38, 'YES', 'Young Entrepreneurs Society', 5, NULL);
 
+
 INSERT INTO AccountType (id, name)
                  VALUES (0, 'System Administrator');
 INSERT INTO AccountType (id, name)
@@ -132,7 +146,7 @@ INSERT INTO AccountType (id, name)
 INSERT INTO AccountType (id, name)
                  VALUES (3, 'Organization Officer');
 
-TRUNCATE TABLE ActivityType CASCADE;
+
 INSERT INTO ActivityType (id, name)
                   VALUES (1, 'Academic Contest');
 INSERT INTO ActivityType (id, name)
@@ -153,7 +167,8 @@ INSERT INTO ActivityType (id, name)
                   VALUES (9, 'Recreation');
 INSERT INTO ActivityType (id, name)
                   VALUES (10, 'Others');
-TRUNCATE TABLE ActivityNature CASCADE;
+
+
 INSERT INTO ActivityNature (id, name)
                     VALUES (1, 'Academic');
 INSERT INTO ActivityNature (id, name)
@@ -173,7 +188,7 @@ INSERT INTO ActivityNature (id, name)
 INSERT INTO ActivityNature (id, name)
                     VALUES (9, 'Outreach');
 
-TRUNCATE TABLE GOSMStatus CASCADE;
+
 INSERT INTO GOSMStatus (id, name)
                 VALUES (1, 'Created');
 INSERT INTO GOSMStatus (id, name)
@@ -185,7 +200,7 @@ INSERT INTO GOSMStatus (id, name)
 INSERT INTO GOSMStatus (id, name)
                 VALUES (5, 'Denied');
 
-TRUNCATE TABLE ProjectProposalStatus CASCADE;
+
 INSERT INTO ProjectProposalStatus (id, name)
                            VALUES (1, 'Created');
 INSERT INTO ProjectProposalStatus (id, name)
@@ -197,7 +212,7 @@ INSERT INTO ProjectProposalStatus (id, name)
 INSERT INTO ProjectProposalStatus (id, name)
                            VALUES (5, 'Denied');
 
-TRUNCATE TABLE Account CASCADE;
+
 INSERT INTO Account (email, idNumber, password, firstname, middlename, lastname, contactNumber)
              VALUES ('juliano_laguio@dlsu.edu.ph', 11445955, '1234', 'Lian', 'Blanco', 'Laguio', '+63 9228474849');
 INSERT INTO Account (email, idNumber, password, firstname, lastname, contactNumber)
@@ -208,8 +223,7 @@ INSERT INTO Account (email, idNumber, password, firstname, lastname, contactNumb
              VALUES ('neil_capistrano@dlsu.edu.ph', 11445952, '1234', 'Neil', 'Capistrano', '+63 9228474849');
 
 /* 2015 - 2016 */
-TRUNCATE TABLE SchoolYear CASCADE;
-TRUNCATE TABLE TERM CASCADE;
+
 INSERT INTO SchoolYear(id, startYear, endYear)
                VALUES (1, 2015, 2016);
 INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
@@ -239,7 +253,7 @@ INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
 INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
           VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2017 AND endYear = 2018), 3, '2018-05-24', '2018-08-28');
 
-TRUNCATE TABLE GOSM CASCADE;
+
 INSERT INTO GOSM (termID, studentOrganization)
            VALUES ((SELECT id
                       FROM TERM

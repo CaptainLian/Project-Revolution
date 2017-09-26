@@ -34,23 +34,52 @@ module.exports = function(db, queryFiles) {
         ProjectProposal = pp 
         GOSMActivity = ga
     */
+   /**
+    * Tables that can be currently accessed in this query for fields
+    * ProjectProposal ppr
+    * GosmActivity ga
+    * ActivityType at
+    * ActivityNature an
+    * studentOrganization so
+    *  
+    * @method  getActivityProjectProposalDetails
+    * @param   {Integer}                                     id            [description]
+    * @param   {[String, Array] (Optional)}                  fields        [description]
+    * @param   {[pg-connection, pg-task, pg-transaction]}    connection    [description]
+    * @returns {Promise}                                                   [description]
+    */
     ProjectProposalModel.prototype.getActivityProjectProposalDetails = function(id, fields, connection = this._db) {
         let query = squel.select()
             .with('PPR',
                 squel.select()
                 .from('ProjectProposal', 'ppr')
                 .where('ppr.id = ${id}'))
-            .with('GOSMA',
+
+            .with('gosm_activity',
                 squel.select()
                 .from('GOSMActivity', 'ga')
                 .where('ga.id = ?',
                     squel.select()
                     .field('GOSMActivity')
                     .from('PPR')))
+
+            .with('student_organization', 
+                squel.select()
+                .from('StudentOrganization', 'o')
+                .where('o.id = ?', 
+                    squel.select()
+                    .from('GOSM', 'g')
+                    .field('studentOrganization')
+                    .where('g.id = ?', 
+                        squel.select()
+                        .from('GOSMA', 'ga')
+                        .field('GOSM'))))
+
             .from('PPR', 'pp')
-                .left_join('GOSMA', 'ga', 'pp.GOSMActivity = ga.id')
+                .left_join('gosm_activity', 'ga', 'pp.GOSMActivity = ga.id')
                 .left_join('ActivityType', 'at', 'ga.activityType = at.id')
-                .left_join('ActivityNature', 'an', 'ga.activityNature = an.id');
+                .left_join('ActivityNature', 'an', 'ga.activityNature = an.id')
+                .left_join('student_organization', 'so', 'TRUE');
 
         this._attachFields(query, fields);
 
