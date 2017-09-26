@@ -72,7 +72,7 @@ module.exports = function(db, queryFiles) {
                     .field('studentOrganization')
                     .where('g.id = ?', 
                         squel.select()
-                        .from('GOSMA', 'ga')
+                        .from('gosm_activity', 'ga')
                         .field('GOSM'))))
 
             .from('PPR', 'pp')
