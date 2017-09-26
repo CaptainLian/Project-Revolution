@@ -219,5 +219,18 @@ module.exports = function(db, queryFiles) {
         return connection.any(getProjectProposalProgramDesignSQL, param);
     };
 
+    ProjectProposalModel.prototype.getProjectProposalProjectHeads = function(id, fields, connection = this._db){
+        /**
+         * {
+         *     id: id
+         * }
+         * @type {Object}
+         */
+        let param = Object.create(null);
+        param.id = id;
+        
+        return connection.any(queryFiles.getProjectProposlProjectHeads, param);
+    };
+
     return new ProjectProposalModel(db, dbHelper.attachFields);
 };
