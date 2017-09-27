@@ -39,19 +39,7 @@
     <style type="text/css">
         .remove:{
             color: yellow
-        }
-        .fixed {
-            width: 500px;
-            position: fixed;
-            bottom: 0; 
-            right: 0;
-            /*transform: translate(-50%,0);*/
-
-            margin: 0px;
-            padding: 0px;
-            z-index:2 
-
-        }
+        }       
         .sweet-alert fieldset {
             
             display: none;
@@ -760,10 +748,13 @@
              
         }).then(function(data){
             console.log(data);
-            console.log("ASD")
-            $('#doc').removeClass("bounceInRight animated").addClass("bounceInRight   animated").one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-                $(this).removeClass("bounceInRight animated");
+            console.log("ASD");
+            $("html, body").animate({ scrollTop: 0 },function(){
+                $('#doc').removeClass("bounceInRight animated").addClass("bounceInRight   animated").one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+                    $(this).removeClass("bounceInRight animated");
+                });    
             });
+            
         });
     });
     $("#defer").click(function(){
@@ -830,8 +821,14 @@
              
         }).then(function(data){
             console.log(data);
-            console.log("ASD")
-
+            console.log("ASD");
+            $("html, body").animate({ scrollTop: 0 },function(){
+                $('#doc').removeClass("bounceOutUp animated").addClass("bounceOutUp   animated").one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+                    $(this).removeClass("bounceOutUp animated");
+                });    
+            });
+            
+            
         });
     });
     
@@ -876,9 +873,12 @@
         }).then(function(data){
             console.log(data);
             console.log("REJECT");
-            $('#doc').removeClass("bounceInLeft animated").addClass("bounceInLeft   animated").one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-                $(this).removeClass("bounceInLeft animated");
+            $("html, body").animate({ scrollTop: 0 },function(){
+                $('#doc').removeClass("rotateOutUpLeft animated").addClass("rotateOutUpLeft   animated").one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+                    $(this).removeClass("rotateOutUpLeft animated");
+                });
             });
+            
 
         });
 
