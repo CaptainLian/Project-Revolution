@@ -338,7 +338,10 @@ module.exports = function(database, models, queryFiles) {
             // req.body.context
             
             logger.debug(`${JSON.stringify(req.body)}`, log_options);
-            var projectProposalParam = {};
+            var projectProposalParam = {
+                //TODO
+                gosm
+            };
 
             database.tx(t => {
                     return projectProposalModel.insertProjectProposal({}, t)
@@ -540,7 +543,9 @@ module.exports = function(database, models, queryFiles) {
                             'so.name AS orgname',
                             'pp.venue AS venue',
                             'pp.enmp AS enmp',
-                            'pp.enp AS enp'
+                            'pp.enp AS enp',
+                            'ga.objectives AS objectives',
+                            'pp.context AS context'
                         ])
                 .then(data =>{
                     var dbParam = {
@@ -550,14 +555,16 @@ module.exports = function(database, models, queryFiles) {
                     Promise.all([
                         projectProposalModel.getProjectProposalExpenses(dbParam),
                         projectProposalModel.getProjectProposalProjectedIncome(dbParam),
-                        projectProposalModel.getProjectProposalProgramDesign(dbParam)
+                        projectProposalModel.getProjectProposalProgramDesign(dbParam),
+                        projectProposalModel.getProjectProposalProjectHeads(dbParam)
                     ])
                         .then(data1=>{
                             res.render('APS/activityCheckingMain', {
                                 projectProposal: data,
                                 expenses: data1[0],
                                 projectedIncome: data1[1],
-                                programDesign: data1[2]
+                                programDesign: data1[2],
+                                projectHeads: data1[3]
                             }); 
                         })
                         .catch(error=>{

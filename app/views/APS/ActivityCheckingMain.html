@@ -49,10 +49,12 @@
                     <div class="col-md-12">
                         <p><strong>Project Heads</strong></p>
 
-                        <p>Neil Capistrano</p>
-                        <p>09390290166</p>
-                        <p>Dominique Dagunton</p>
-                        <p>09290430145</p>
+
+                        {% for head in projectHeads %}
+                            <p>{{head.name}}</p>
+                            <p>{{head.contactnumber}}</p>
+                        {% endfor %}
+
                     </div>
                 </div>
                 <hr>
@@ -95,9 +97,14 @@
                             <h4 class="text-left">I. Objectives</h4>
                             <hr>
                             <ul class="  text-left">
-                                <li>To generate funds for the expenses of the No Tech Camp</li>
-                                <li>To raise funds for the activities of the organization</li>
-                                <li>To advertise the No Tech Camp event </li>
+
+                            
+
+                                {% for objective in projectProposal.objectives %}
+
+
+                                    <li>{{objective}}</li>
+                                {% endfor %}
                                 
                             </ul>
                             <!-- <div class="row">
@@ -121,24 +128,12 @@
                             <h4 class="m-t-30 text-left">II. Brief Context</h4>
                             <hr>
 
+
+
                             <p class="m-t-30">
-                              Being part of the La Salle Computer Society, our main goal is to guide our fellow college mates and 
-                              offer our best service to them. We help the students reach out to the corporate world by opening up 
-                              avenues for opportunities for them to reach their full potential through the programs and activities 
-                              that we provide. The problem we usually encounter is the limited funds for the organization that limits us 
-                              in creating bigger and better events for the college. The funds that will be collected from this 
-                              project will be used for future activities and projects that will better serve the students.  </p>
-                            <p class="m-t-30">
-                                The solution that we came up with is the ticket selling for the No Tech camp. Through this project,
-                                 we can generate funds that will support our projects in order for our organization to reach our main goal.
-                                  We feel that in order for us to provide our college mates better 
-                                service, we must have sufficient funds that will support us all throughout the new school year.
+                            {{projectProposal.context}}
                             </p>
-                            <p class="m-t-30">
-                                We came up with this project because we thought that this would be an effective way to raise our funds. 
-                                We are sure that this event will allow Computer Studies students to bond and meet new people. 
-                                In that, we will commit a lot of time and effort to make this project successful and as effective as possible.
-                            </p>
+                            
                             
                         </div>
                     </section>

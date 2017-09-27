@@ -223,7 +223,7 @@ module.exports = function(db, queryFiles) {
         let param = Object.create(null);
         param.id = id;
         
-        return connection.any(queryFiles.getProjectProposlProjectHeads, param);
+        return connection.any(queryFiles.getProjectProposalProjectHeads, param);
     };
 
     return new ProjectProposalModel(db, dbHelper.attachFields);
