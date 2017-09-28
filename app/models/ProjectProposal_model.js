@@ -13,14 +13,7 @@ module.exports = function(db, queryFiles) {
     const insertProjectProposalProgramDesignSQL = queryFiles.insertProjectProposalProgramDesign;
     const insertProjectProposalProjectedIncomeSQL = queryFiles.insertProjectProposalProjectedIncome;
     const insertProjectProposalExpensesSQL = queryFiles.insertProjectProposalExpenses;
-    const getProjectProposalsSQL = queryFiles.getProjectProposals;
     const getProjectProposalsPerStatusSQL = queryFiles.getProjectProposalsPerStatus;
-    const getSubmittedProjectProposalsSQL = queryFiles.getSubmittedProjectProposals;
-    const getProjectProposalExpensesSQL = queryFiles.getProjectProposalExpenses;
-    const getProjectProposalProjectedIncomeSQL = queryFiles.getProjectProposalProjectedIncome;
-    const getProjectProposalProgramDesignSQL = queryFiles.getProjectProposalProgramDesign;
-
-
 
     let dbHelper = require('../utility/databaseHelper');
 
