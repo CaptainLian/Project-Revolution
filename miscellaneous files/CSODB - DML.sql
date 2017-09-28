@@ -2,7 +2,7 @@ TRUNCATE TABLE College CASCADE;
 TRUNCATE TABLE OrganizationNature CASCADE;
 TRUNCATE TABLE OrganizationCluster CASCADE;
 TRUNCATE TABLE StudentOrganization CASCADE;
-TRUNCATE AccountType CASCADE;
+TRUNCATE TABLE AccountType CASCADE;
 TRUNCATE TABLE ActivityType CASCADE;
 TRUNCATE TABLE ActivityNature CASCADE;
 TRUNCATE TABLE GOSMStatus CASCADE;
@@ -11,6 +11,37 @@ TRUNCATE TABLE Account CASCADE;
 TRUNCATE TABLE SchoolYear CASCADE;
 TRUNCATE TABLE TERM CASCADE;
 TRUNCATE TABLE GOSM CASCADE;
+
+/* REFERENCE TABLES DATA */
+/* 2015 - 2016 */
+INSERT INTO SchoolYear(id, startYear, endYear)
+               VALUES (1, 2015, 2016);
+INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
+          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2015 AND endYear = 2016), 1, '2015-08-24', '2015-12-08');
+INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
+          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2015 AND endYear = 2016), 2, '2016-01-06', '2016-04-16');
+INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
+          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2015 AND endYear = 2016), 3, '2016-05-23', '2016-08-27');
+
+/* 2016 - 2017 */
+INSERT INTO SchoolYear(id, startYear, endYear)
+               VALUES (2, 2016, 2017);
+INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
+          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2016 AND endYear = 2017), 1, '2016-09-12', '2016-12-17');
+INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
+          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2016 AND endYear = 2017), 2, '2016-01-04', '2016-04-11');
+INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
+          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2016 AND endYear = 2017), 3, '2017-05-15', '2017-08-19');
+
+/* 2017 - 2018 */
+INSERT INTO SchoolYear(id, startYear, endYear)
+               VALUES (3, 2017, 2018);
+INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
+          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2017 AND endYear = 2018), 1, '2017-09-11', '2017-12-16');
+INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
+          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2017 AND endYear = 2018), 2, '2018-01-08', '2018-04-21');
+INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
+          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2017 AND endYear = 2018), 3, '2018-05-24', '2018-08-28');
 
 INSERT INTO College (shortAcronym, fullAcronym, name)
              VALUES ('CED', 'BAGCED', 'Br. Andrew Gonzalez FSC College of Education');
@@ -30,7 +61,6 @@ INSERT INTO College (shortAcronym, fullAcronym, name)
              VALUES ('SOE', null, 'School of Economics');
 
 /* Organization Data */
-
 INSERT INTO OrganizationNature (id, name, acronym)
                       VALUES (1, 'Special Interest', 'SPIN');
 INSERT INTO OrganizationNature (id, name, acronym)
@@ -50,7 +80,6 @@ INSERT INTO OrganizationCluster (id, name, acronym)
                          VALUES (4, 'Engineering Alliance Geared Towards Excellence', 'ENGAGE');
 INSERT INTO OrganizationCluster (id, name, acronym)
                          VALUES (5, 'Alliance of Professional Organizations of Business and Economics', 'PROBE');
-
 
 INSERT INTO StudentOrganization (id, acronym, name, description)
                  VALUES (0, 'CSO', 'Council of Student Organizations', NULL);
@@ -136,16 +165,19 @@ INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
                  VALUES (38, 'YES', 'Young Entrepreneurs Society', 5, NULL);
 
+INSERT INTO AccountType (id, name)
+                 VALUES (0, 'Student Account');
+INSERT INTO AccountType (id, name)
+                 VALUES (1, 'Faculty Adviser Account');
+INSERT INTO AccountType (id, name)
+                 VALUES (2, 'SLIFE Account');
+INSERT INTO AccountType (id, name)
+                 VALUES (3, 'Accounting Account');
 
-INSERT INTO AccountType (id, name)
-                 VALUES (0, 'System Administrator');
-INSERT INTO AccountType (id, name)
-                 VALUES (1, 'SLIFE Officer');
-INSERT INTO AccountType (id, name)
-                 VALUES (2, 'CSO Officer');
-INSERT INTO AccountType (id, name)
-                 VALUES (3, 'Organization Officer');
-
+/* Organization structure for student accounts */
+ALTER SEQUENCE organiationstructure_id_seq
+START WITH (SELECT COALESCE(MAX(id) + 1, 0) FROM OrganizationStructure)
+RESTART;
 
 INSERT INTO ActivityType (id, name)
                   VALUES (1, 'Academic Contest');
@@ -168,7 +200,6 @@ INSERT INTO ActivityType (id, name)
 INSERT INTO ActivityType (id, name)
                   VALUES (10, 'Others');
 
-
 INSERT INTO ActivityNature (id, name)
                     VALUES (1, 'Academic');
 INSERT INTO ActivityNature (id, name)
@@ -188,7 +219,6 @@ INSERT INTO ActivityNature (id, name)
 INSERT INTO ActivityNature (id, name)
                     VALUES (9, 'Outreach');
 
-
 INSERT INTO GOSMStatus (id, name)
                 VALUES (1, 'Created');
 INSERT INTO GOSMStatus (id, name)
@@ -200,7 +230,6 @@ INSERT INTO GOSMStatus (id, name)
 INSERT INTO GOSMStatus (id, name)
                 VALUES (5, 'Denied');
 
-
 INSERT INTO ProjectProposalStatus (id, name)
                            VALUES (1, 'Created');
 INSERT INTO ProjectProposalStatus (id, name)
@@ -211,8 +240,7 @@ INSERT INTO ProjectProposalStatus (id, name)
                            VALUES (4, 'Pending');
 INSERT INTO ProjectProposalStatus (id, name)
                            VALUES (5, 'Denied');
-
-
+/* Sample Data */
 INSERT INTO Account (email, idNumber, password, firstname, middlename, lastname, contactNumber)
              VALUES ('juliano_laguio@dlsu.edu.ph', 11445955, '1234', 'Lian', 'Blanco', 'Laguio', '+63 9228474849');
 INSERT INTO Account (email, idNumber, password, firstname, lastname, contactNumber)
@@ -221,37 +249,6 @@ INSERT INTO Account (email, idNumber, password, firstname, lastname, contactNumb
              VALUES ('dominique_dagunton@dlsu.edu.ph', 11445953, '1234', 'Dominique', 'Dagunton', '+63 9228474849');
 INSERT INTO Account (email, idNumber, password, firstname, lastname, contactNumber)
              VALUES ('neil_capistrano@dlsu.edu.ph', 11445952, '1234', 'Neil', 'Capistrano', '+63 9228474849');
-
-/* 2015 - 2016 */
-
-INSERT INTO SchoolYear(id, startYear, endYear)
-               VALUES (1, 2015, 2016);
-INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
-          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2015 AND endYear = 2016), 1, '2015-08-24', '2015-12-08');
-INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
-          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2015 AND endYear = 2016), 2, '2016-01-06', '2016-04-16');
-INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
-          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2015 AND endYear = 2016), 3, '2016-05-23', '2016-08-27');
-
-/* 2016 - 2017 */
-INSERT INTO SchoolYear(id, startYear, endYear)
-               VALUES (2, 2016, 2017);
-INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
-          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2016 AND endYear = 2017), 1, '2016-09-12', '2016-12-17');
-INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
-          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2016 AND endYear = 2017), 2, '2016-01-04', '2016-04-11');
-INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
-          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2016 AND endYear = 2017), 3, '2017-05-15', '2017-08-19');
-
-/* 2017 - 2018 */
-INSERT INTO SchoolYear(id, startYear, endYear)
-               VALUES (3, 2017, 2018);
-INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
-          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2017 AND endYear = 2018), 1, '2017-09-11', '2017-12-16');
-INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
-          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2017 AND endYear = 2018), 2, '2018-01-08', '2018-04-21');
-INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
-          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2017 AND endYear = 2018), 3, '2018-05-24', '2018-08-28');
 
 
 INSERT INTO GOSM (termID, studentOrganization)

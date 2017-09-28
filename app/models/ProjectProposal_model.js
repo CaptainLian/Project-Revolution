@@ -192,31 +192,9 @@ module.exports = function(db, queryFiles) {
         return connection.none(insertProjectProposalExpensesSQL, param);
     };
 
-    ProjectProposalModel.prototype.getProjectProposals = function(param, connection = this._db) {
-        //TODO: implementation, test
-        return connection.one(getProjectProposalsSQL, param);
-    };
-
     ProjectProposalModel.prototype.getProjectProposalsPerStatus = function(param, connection = this._db) {
         //TODO: implementation, test
         return connection.one(getProjectProposalsPerStatusSQL, param);
-    };
-
-    ProjectProposalModel.prototype.getSubmittedProjectProposals = function(connection = this._db) {
-        //TODO: implementation, test
-        return connection.oneOrNone(getSubmittedProjectProposalsSQL);
-    };
-
-    ProjectProposalModel.prototype.getProjectProposalExpenses = function(param, connection = this._db) {
-        return connection.any(getProjectProposalExpensesSQL, param);
-    };
-
-    ProjectProposalModel.prototype.getProjectProposalProjectedIncome = function(param, connection = this._db) {
-        return connection.any(getProjectProposalProjectedIncomeSQL, param);
-    };
-
-    ProjectProposalModel.prototype.getProjectProposalProgramDesign = function(param, connection = this._db) {
-        return connection.any(getProjectProposalProgramDesignSQL, param);
     };
 
     ProjectProposalModel.prototype.getProjectProposalProjectHeads = function(id, fields, connection = this._db){
