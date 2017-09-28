@@ -17,6 +17,7 @@
     <link href="../../../cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
     <!-- Menu CSS -->
     <link href="../plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../plugins/bower_components/jquery-datatables-editable/datatables.css" />
     <!-- animation CSS -->
     <link href="css/animate.css" rel="stylesheet">
     <!--alerts CSS -->
@@ -28,7 +29,7 @@
     <!-- color CSS -->
     <link href="css/colors/default.css" id="theme" rel="stylesheet">
     <style type="text/css">
-        td{
+        #test td{
             border-top: 0px white !important;
             border-bottom: 0px white !important;
         }
@@ -456,18 +457,150 @@
                                 <div class="content-wrap ">
                                     <section id="section-line-1">
                                         <div class="row" >
-                                            <div class="col-sm-6 col-xs-12">
-                                                <h3 class="box-title m-t-40">Memo</h3>
+                                            <div class="col-sm-12">
+                                                <h3 class="box-title m-t-40">Payment Requisition Slip</h3>
                                                 <hr>
                                                 <div class="row">
                                                     <div class="col-md-12 ">
-                                                        <div class="form-group">
-                                                            <label>Name of Establishment</label>
-                                                            <input class="form-control" type="text">
+                                                        <div class="form-group row">
+                                                            <label class="col-md-3">Name of Establishment</label>
+                                                            <input class="form-control col-md-9" type="text">
                                                         </div>
                                                     </div>
+                                                    <div class="col-md-12 ">
+                                                        <div class="form-group row">
+                                                            <label class="col-md-3">Amount</label>
+                                                            <input class="form-control col-md-9" >
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="col-md-12 ">
+                                                        <div class="form-group row">
+                                                            <label class="col-md-3">Payment By</label>                                                            
+                                                            <div class="radio-list col-md-9">
+                                                                <label class="radio-inline p-0">
+                                                                    <div class="radio radio-info">
+                                                                        <input name="radio" id="radio1" value="option1" type="radio">
+                                                                        <label for="radio1">Payment By Check</label>
+                                                                    </div>
+                                                                </label>
+                                                                <label class="radio-inline">
+                                                                    <div class="radio radio-info">
+                                                                        <input name="radio" id="radio2" value="option2" type="radio">
+                                                                        <label for="radio2">Payment By Book Transfer    </label>
+                                                                    </div>
+                                                                </label>
+                                                            </div>                    
+                                                            
+                                                            
+                                                        </div>
+                                                    </div>
+                                                    
                                                 </div>
                                                 
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <h3 class="box-title m-t-40">Direct Payment Memo && LOE</h3>
+                                                <hr>
+                                                <div class="row">
+                                                    <div class="col-md-12 ">
+                                                         <table id="mainTable2" class="table editable-table table-bordered color-bordered-table success-bordered-table m-b-0">
+                                                            <thead class="table-less">                                                                
+                                                                <tr>
+                                                                    <th width="35%">Establishment</th>
+                                                                    <th width="35%">Particulars</th>
+                                                                    <th width="5%">File</th>
+                                                                    <th width="20%">Amount</th>
+                                                                    <th width="5%"></th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                               <tr>
+                                                                    <td>Jbee</td>
+                                                                    <td>Token</td>
+                                                                    <th><input type="file"  class="upload" name=""></th>
+                                                                    <td class="amount">1</td>
+                                                                    <th  class="text-center text-danger"><i class="fa fa-times remove-time"></i></th>
+                                                                   
+                                                               </tr>                                        
+                                                               <tr>
+                                                                    <td>Jbee</td>
+                                                                    <td>Token</td>
+                                                                    <th><input type="file"  class="upload" name=""></th>
+                                                                    <td class="amount">1</td>
+                                                                    <th  class="text-center text-danger"><i class="fa fa-times remove-time"></i></th>
+                                                               </tr>                                        
+                                                               <tr>
+                                                                    <td>Jbee</td>
+                                                                    <td>Token</td>
+                                                                    <th><input type="file"  class="upload" name=""></th>
+                                                                    <td class="amount">1</td>
+                                                                    <th  class="text-center text-danger"><i class="fa fa-times remove-time"></i></th>
+                                                                   
+                                                               </tr>                                        
+                                                                
+                                                               
+                                                            </tbody>
+                                                            <tfoot>
+                                                                <tr>
+                                                                    <th class="text-right" colspan="2"><strong>Total Expenses to be Incurred<a class="table-less"></a></strong></th>
+                                                                    
+                                                                    <th class="dp-amount" colspan=""></th>
+                                                                </tr>
+                                                                </thead>
+                                                        </table>
+                                                        <div class="p-20 text-center">
+                                                            <button  type="button" id="insert-particular" class="btn btn-success table-less">Insert Particulars</button>
+                                                        </div>
+                                                    </div>                                                                                                       
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <h3 class="box-title m-t-40">Upload</h3>
+                                                <hr>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-12">Formal Quotation</label>
+                                                            <div class="col-sm-12">
+                                                                <label class="custom-file">
+                                                                    <input id="file" class="custom-file-input" type="file">
+                                                                    <span class="custom-file-control"></span>
+                                                                </label>
+                                                            </div>
+                                                        </div>    
+                                                        
+                                                    </div>
+
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-12">General Attendance List Sheet</label>
+                                                            <div class="col-sm-12">
+                                                                <label class="custom-file">
+                                                                    <input id="file" class="custom-file-input" type="file">
+                                                                    <span class="custom-file-control"></span>
+                                                                </label>
+                                                            </div>
+                                                        </div>    
+                                                        
+                                                    </div>
+
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-12">ROF</label>
+                                                            <div class="col-sm-12">
+                                                                <label class="custom-file">
+                                                                    <input id="file" class="custom-file-input" type="file">
+                                                                    <span class="custom-file-control"></span>
+                                                                </label>
+                                                            </div>
+                                                        </div>    
+                                                        
+                                                    </div>
+
+                                                </div>
                                             </div>
                                             
                                             
@@ -522,55 +655,35 @@
     <!-- Sweet-Alert  -->
     <script src="../plugins/bower_components/sweetalert/sweetalert.min.js"></script>
     <script src="../plugins/bower_components/sweetalert/jquery.sweet-alert.custom.js"></script>
-    <script>
-    $(document).ready(function() {
-        //window.location.href("facebook.com");
-        $('#myTable').DataTable();
-        $(document).ready(function() {
-           // location.replace("https://www.facebook.com");
-            var table = $('#example').DataTable({
-                "columnDefs": [{
-                    "visible": false,
-                    "targets": 2
-                }],
-                "order": [
-                    [2, 'asc']
-                ],
-                "displayLength": 25,
-                "drawCallback": function(settings) {
-                    var api = this.api();
-                    var rows = api.rows({
-                        page: 'current'
-                    }).nodes();
-                    var last = null;
+    <script src="../plugins/bower_components/jquery-datatables-editable/jquery.dataTables.js"></script>
+    <script src="../plugins/bower_components/datatables/dataTables.bootstrap.js"></script>
+    <script src="../plugins/bower_components/tiny-editable/mindmup-editabletable.js"></script>
+    <script src="../plugins/bower_components/tiny-editable/numeric-input-example.js"></script>
+    <script type="text/javascript">
+    function calculate(){
+        var total = 0;
+        $(".amount").each(function(){
+            total = total + parseFloat($(this).text());
+        });
+        console.log("TOTAL"+total);
+        $(".dp-amount").html(total);
+    }
 
-                    api.column(2, {
-                        page: 'current'
-                    }).data().each(function(group, i) {
-                        if (last !== group) {
-                            $(rows).eq(i).before(
-                                '<tr class="group"><td colspan="5">' + group + '</td></tr>'
-                            );
+    $(document).bind('custom',function(){
+        $(".fa-times").on('click',function(){
 
-                            last = group;
-                        }
-                    });
-                }
-            });
-
-            // Order by the grouping
-            $('#example tbody').on('click', 'tr.group', function() {
-                var currentOrder = table.order()[0];
-                if (currentOrder[0] === 2 && currentOrder[1] === 'asc') {
-                    table.order([2, 'desc']).draw();
-                } else {
-                    table.order([2, 'asc']).draw();
-                }
-            });
+            $(this).closest("tr").remove();
+            $('#mainTable2').editableTableWidget().numericInputExample();
+            calculate();
+        });
+        $("#mainTable2 tbody td").on('change',function(){
+            calculate();
         });
     });
-    </script>
-    <script type="text/javascript">
+
+
+
+    $('#mainTable2').editableTableWidget().numericInputExample();
     (function() {
 
         [].slice.call(document.querySelectorAll('.sttabs')).forEach(function(el) {
@@ -578,6 +691,21 @@
         });
 
     })();
+
+    var td =    '<tr>'+
+                   '<td> </td>'+
+                   '<th><input type="file"  class="upload" name=""></th>'+
+                   '<td class="amount"></td>'+       
+                   '<th class="text-center text-danger"><i class="fa fa-times remove-time"></i></th>'+
+               '</tr>';
+    $("#insert-particular").click(function(){
+        $("#mainTable2 tbody").append(td);
+        $('#mainTable2').editableTableWidget().numericInputExample();
+        calculate();
+        $(document).trigger("custom");
+    });
+
+    $(document).trigger("custom");
     </script>
     <!--Style Switcher -->
     <script src="../plugins/bower_components/styleswitcher/jQuery.style.switcher.js"></script>
