@@ -1,4 +1,5 @@
 {% extends './APS_master.html' %}
+{% import '../template/tags_macro.html' as tag%}
 {%block meta%}
     {{super()}}
     <meta data-name="GOSM" data-id="{{GOSMID}}" />
@@ -15,13 +16,14 @@
 
 {%block defer_script%}
     {{super()}}
-    <script type="text/javascript" src="/js/APS/ORGGOSM.js" defer="defer"></script>
+    {{tag.javascript_item(src='/js/APS/ORGGOSM.js', defer=true)}}
 {%endblock%}
 
 {%block breadcrumb%}
     {{breadcrumb_item('Organization Submissions List')}}
     {{breadcrumb_item('Organization GOSM', 'active')}}
 {%endblock%}
+
 {%block content%}
     <div class="row">
         <div class="col-sm-12">
@@ -29,7 +31,6 @@
                 <h3 class="box-title m-b-0">GOSM of {{organizationName}}</h3>
 
                 <div class="table-responsive">
-
                     <table id="myTable" class="table table-hover" role="grid" aria-describedby="myTable_info">
                         <thead>
                             <tr role="row">
@@ -57,14 +58,14 @@
                         <button id="btn_deny" class="btn btn-danger btn-rounded sa-deny btnGosm" alt="alert">Deny</button>
                     </div>
                     {% endif %}
-                </div>
+                </div><!-- ./table-responsive -->
             </div>
         </div>
+        
         <div class="col-sm-12">
-
         </div>
-        <div class="col-sm-12">
 
+        <div class="col-sm-12">
         </div>
     </div>
 {%endblock%}

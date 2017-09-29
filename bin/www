@@ -15,6 +15,9 @@ const formatter = function(options){
     case 'warning':
       colour =  '\x1b[43m';
       break;
+    case 'warn':
+      colour =  '\x1b[43m';
+      break;
     case 'info':
       colour =  '\x1b[44m';
       break;
@@ -27,7 +30,7 @@ const formatter = function(options){
   from = typeof options.meta.color === 'string' ? `${options.meta.color}${from}\x1b[0m` : `\x1b[42m${from}`;
   let pre = typeof options.meta.pre === 'string' ? `${options.meta.pre}` : '';
   return `${colour}[${dateFormat(Date.now(), 'yyyy-mmm-dd hh:mm:ss TT')}][${options.level.toUpperCase()}]${from}${pre}\x1b[0m: ${options.message ? options.message : ''}`;
-}
+};
 
 const winston = require('winston');
 const logger = new (winston.Logger)({
@@ -55,6 +58,7 @@ const logger = new (winston.Logger)({
   levels: {
     error: 0,
     warning: 1,
+    warn: 1,
     info: 2,
     debug: 3
   }

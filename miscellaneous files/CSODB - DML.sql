@@ -174,11 +174,6 @@ INSERT INTO AccountType (id, name)
 INSERT INTO AccountType (id, name)
                  VALUES (3, 'Accounting Account');
 
-/* Organization structure for student accounts */
-ALTER SEQUENCE organiationstructure_id_seq
-START WITH (SELECT COALESCE(MAX(id) + 1, 0) FROM OrganizationStructure)
-RESTART;
-
 INSERT INTO ActivityType (id, name)
                   VALUES (1, 'Academic Contest');
 INSERT INTO ActivityType (id, name)

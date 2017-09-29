@@ -36,20 +36,21 @@ module.exports = function(database, queryFiles) {
         }
 
         /**
-         * [createAccount description]
-         * @param  {Integer} idNumber      [description]
-         * @param  {String} email         [description]
-         * @param  {Integer} type          [description]
-         * @param  {String} password      [description]
-         * @param  {String} firstname     [description]
-         * @param  {String} middlename    [description]
-         * @param  {String} lastname      [description]
-         * @param  {String} contactNumber [description]
-         * @param  {String} publicKey     [description]
-         * @param  {String} privateKey    [description]
-         * @param  {[String, Array(String)] (Optional)} returning     [description]
-         * @param  {[pg-task, pg-connection, pg-transaction] (Optional)} connection    [description]
-         * @return {Pg-Promise}               [description]
+         * [insertAccount description]
+         * @method  insertAccount
+         * @param  {Integer}         idNumber      [description]
+         * @param  {String}          email         [description]
+         * @param  {Integer}         type          [description]
+         * @param  {String}          password      [description]
+         * @param  {String}          firstname     [description]
+         * @param  {String}          middlename    [description]
+         * @param  {String}          lastname      [description]
+         * @param  {String}          contactNumber [description]
+         * @param  {String}          publicKey     [description]
+         * @param  {String}          privateKey    [description]
+         * @param  {[String, Array(String)] (Optional)}                           returning     [description]
+         * @param  {[pg-task, pg-connection, pg-transaction] (Optional)}          connection    [description]
+         * @returns {Promise} [description]
          */
         insertAccount(idNumber, email, type, password, firstname, middlename, lastname, contactNumber, publicKey, privateKey, returning, connection = this._database) {
             let param = Object.create(null);
@@ -84,6 +85,14 @@ module.exports = function(database, queryFiles) {
             return connection.none(this._insertSQL, param);
         }
 
+        /**
+         *  
+         * @method  getAccountDetails
+         * @param   {Integer}          idNumber   [description]
+         * @param   {[Array, String(String)] (Optional)}                             fields     [description]
+         * @param   {[pg-connection, pg-task, pg-transaction] (Optional)}          connection [description]
+         * @returns {Promise}  [description]
+         */
         getAccountDetails(idNumber, fields, connection = this._database) {
             let param = Object.create(null);
             param.idNumber = idNumber;

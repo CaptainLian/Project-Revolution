@@ -13,9 +13,9 @@ CREATE TABLE AccountType (
 );
 DROP TABLE IF EXISTS Account CASCADE;
 CREATE TABLE Account (
-    email VARCHAR(255),
+    idNumber INTEGER,
+    email VARCHAR(255) NULL UNIQUE,
     type INTEGER REFERENCES AccountType(id),
-    idNumber INTEGER NULL UNIQUE,
     password CHAR(60) NOT NULL,
     salt CHAR(29),
     firstname VARCHAR(45),
@@ -27,8 +27,53 @@ CREATE TABLE Account (
     dateCreated TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     dateModified TIMESTAMP WITH TIME ZONE,
 
-    PRIMARY KEY (email)
+    PRIMARY KEY (idNumber)
 );
+    /* Account Table Triggers */
+CREATE OR REPLACE FUNCTION trigger_before_insert_Account()
+RETURNS trigger AS
+$trigger$
+    BEGIN
+        SELECT gen_salt('bf') INTO NEW.salt;
+        SELECT crypt(NEW.password, NEW.salt) INTO NEW.password;
+
+        NEW.dateCreated = CURRENT_TIMESTAMP;
+        NEW.dateModified = NEW.dateCreated;
+        return NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER before_insert_Account
+    BEFORE INSERT ON Account
+    FOR EACH ROW
+    EXECUTE PROCEDURE trigger_before_insert_Account();
+
+CREATE OR REPLACE FUNCTION trigger_before_update_Account()
+RETURNS trigger AS
+$trigger$
+    BEGIN
+        SELECT gen_salt('bf') INTO NEW.salt;
+        SELECT crypt(NEW.password, NEW.salt) INTO NEW.password;
+        NEW.dateModified = CURRENT_TIMESTAMP;
+        return NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER before_update_Account
+    BEFORE UPDATE ON Account
+    FOR EACH ROW WHEN (crypt(NEW.password, OLD.salt) <> OLD.password)
+    EXECUTE PROCEDURE trigger_before_update_Account();
+
+CREATE OR REPLACE FUNCTION trigger_before_update_Account2()
+RETURNS trigger AS
+$trigger$
+    BEGIN
+        NEW.dateModified = CURRENT_TIMESTAMP;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER before_update_Account2
+BEFORE UPDATE ON Account
+    FOR EACH ROW
+    EXECUTE PROCEDURE trigger_before_update_Account2();
+    /* Account Table Triggers End */
 
 DROP TABLE IF EXISTS SchoolYear CASCADE;
 CREATE TABLE SchoolYear (
@@ -183,40 +228,6 @@ CREATE TABLE StudentOrganization (
     PRIMARY KEY (id)
 );
 
-    /* Account Table Triggers */
-CREATE OR REPLACE FUNCTION trigger_before_insert_Account()
-RETURNS trigger AS
-$trigger$
-    BEGIN
-        SELECT gen_salt('bf') INTO NEW.salt;
-        SELECT crypt(NEW.password, NEW.salt) INTO NEW.password;
-
-        NEW.dateCreated = CURRENT_TIMESTAMP;
-        NEW.dateModified = NEW.dateCreated;
-        return NEW;
-    END;
-$trigger$ LANGUAGE plpgsql;
-CREATE TRIGGER before_insert_Account
-    BEFORE INSERT ON Account
-    FOR EACH ROW
-    EXECUTE PROCEDURE trigger_before_insert_Account();
-
-CREATE OR REPLACE FUNCTION trigger_before_update_Account()
-RETURNS trigger AS
-$trigger$
-    BEGIN
-        SELECT gen_salt('bf') INTO NEW.salt;
-        SELECT crypt(NEW.password, NEW.salt) INTO NEW.password;
-        NEW.dateModified = CURRENT_TIMESTAMP;
-        return NEW;
-    END;
-$trigger$ LANGUAGE plpgsql;
-CREATE TRIGGER before_update_Account
-    BEFORE UPDATE ON Account
-    FOR EACH ROW WHEN (crypt(NEW.password, OLD.salt) <> OLD.password)
-    EXECUTE PROCEDURE trigger_before_update_Account();
-    /* Account Table Triggers End */
-    
     /* Organization Structure */
 DROP TABLE IF EXISTS OrganizationPosition CASCADE;
 CREATE TABLE OrganizationPosition (
@@ -409,7 +420,7 @@ CREATE TABLE ProjectProposalProgramDesign (
     endTime TIME WITH TIME ZONE,
     activity TEXT,
     activityDescription TEXT,
-    personInCharge VARCHAR(60)[],
+    personInCharge INTEGER REFERENCES Account(idNumber),
 
     PRIMARY KEY (projectProposal, dayID, sequence),
     CHECK(startTime < endTime)
@@ -579,3 +590,41 @@ CREATE TABLE JSON_CONSTANT (
     
     PRIMARY KEY(name)
 ) INHERITS (CONSTANT);
+
+/* 
+    Helpful functions 
+*/
+CREATE OR REPLACE FUNCTION getCurrentTermID()  
+RETURNS INTEGER AS 
+$function$
+    DECLARE
+        termID INTEGER;
+    BEGIN
+        SELECT id INTO termID
+          FROM Term
+         WHERE CURRENT_DATE >= dateStart
+           AND CURRENT_DATE <= dateEnd;
+
+        RETURN termID;
+    END;
+$function$ STABLE LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION getCurrentYearID()  
+RETURNS INTEGER AS 
+$function$
+    DECLARE
+        yearID INTEGER;
+    BEGIN
+        SELECT id INTO yearID
+        FROM SchoolYear
+        WHERE id = (SELECT id 
+                      FROM Term
+                     WHERE CURRENT_DATE >= dateStart
+                       AND CURRENT_DATE <= dateEnd);
+
+        RETURN termID;
+    END;
+$function$ STABLE LANGUAGE plpgsql;
+/* 
+    Helpful functions end 
+*/
