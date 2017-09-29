@@ -1,0 +1,784 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"matc",
+				"match_brackets_angle"
+			],
+			[
+				"acti",
+				"activityID"
+			],
+			[
+				"startDate",
+				"startDateSplit"
+			],
+			[
+				"log",
+				"logger"
+			],
+			[
+				"qu",
+				"queryFiles"
+			],
+			[
+				"Proj",
+				"ProjectHeads"
+			],
+			[
+				"Projec",
+				"ProjectProposalModel"
+			],
+			[
+				"Activity",
+				"ActivityNature"
+			],
+			[
+				"Activ",
+				"ActivityRequirement"
+			],
+			[
+				"activi",
+				"activityType"
+			],
+			[
+				"Acti",
+				"ActivityRequirements"
+			],
+			[
+				"Orga",
+				"OrganzationOfficer"
+			],
+			[
+				"Stude",
+				"StudentOrganization"
+			],
+			[
+				"_attac",
+				"_attachFields"
+			],
+			[
+				"acc",
+				"accountModel"
+			],
+			[
+				"crea",
+				"create"
+			],
+			[
+				"return",
+				"returning"
+			],
+			[
+				"prototyp",
+				"prototype"
+			],
+			[
+				"onReje",
+				"onReject"
+			],
+			[
+				"console",
+				"console.log"
+			],
+			[
+				"pri",
+				"privateKey"
+			],
+			[
+				"forge",
+				"forgePromise"
+			],
+			[
+				"Project",
+				"ProjectProposal"
+			],
+			[
+				"query",
+				"querySelectorAll\t( selectors: DOMString ): NodeList Document"
+			],
+			[
+				"databaes",
+				"databaseHelper"
+			],
+			[
+				"database",
+				"databaseHelper"
+			],
+			[
+				"JSON",
+				"JSON.stringify"
+			],
+			[
+				"le",
+				"length"
+			],
+			[
+				"projectPr",
+				"insertProjectProposalSQL"
+			],
+			[
+				"projectPro",
+				"projectProposalID"
+			],
+			[
+				"PRoj",
+				"ProjectProposalModel"
+			],
+			[
+				"Pro",
+				"ProjectProposalModel"
+			],
+			[
+				"project",
+				"projectProposalModel"
+			],
+			[
+				"APS",
+				"APS_AJAX_controller"
+			],
+			[
+				"organ",
+				"organizationName"
+			],
+			[
+				"sq",
+				"squel"
+			],
+			[
+				"target",
+				"targetDateStart"
+			],
+			[
+				"GOSMA",
+				"GOSMActivity"
+			],
+			[
+				"Gosm",
+				"GOSMActivity"
+			],
+			[
+				"Go",
+				"GOSMActivity"
+			],
+			[
+				"left",
+				"left_join"
+			],
+			[
+				"T",
+				"TRUNCATE"
+			],
+			[
+				"GOSM",
+				"GOSMActivity"
+			],
+			[
+				"proto",
+				"prototype"
+			],
+			[
+				"TIMESTA",
+				"TIMESTAMP"
+			],
+			[
+				"Organiza",
+				"OrganizationPosition"
+			],
+			[
+				"getEle",
+				"getElementById\t( elementId: DOMString ): Element Document"
+			],
+			[
+				"status",
+				"statusModifier"
+			],
+			[
+				"TIME",
+				"TIMESTAMP"
+			],
+			[
+				"update",
+				"updateStatus"
+			],
+			[
+				"logo",
+				"log_options"
+			],
+			[
+				"csrf",
+				"csrfToken"
+			],
+			[
+				"insertAc",
+				"insertActivityProjectHeadSQL"
+			],
+			[
+				"insertPro",
+				"insertProposedActivitySQL"
+			],
+			[
+				"getOrg",
+				"getOrgGOSMSQL"
+			],
+			[
+				"getSch",
+				"getSchoolYearSQL"
+			],
+			[
+				"stat",
+				"statusID"
+			],
+			[
+				"activity",
+				"activityID"
+			],
+			[
+				"GOSMa",
+				"GOSMActivityProjectHead"
+			],
+			[
+				"actii",
+				"activity_row"
+			],
+			[
+				"querySelec",
+				"querySelectorAll\t( selectors: DOMString ): NodeList Element"
+			],
+			[
+				"activ",
+				"activity_row"
+			],
+			[
+				"consol",
+				"console_log"
+			],
+			[
+				"conso",
+				"console_log"
+			],
+			[
+				"cons",
+				"console_log"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 357.0,
+		"last_filter": "install",
+		"selected_items":
+		[
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"instal",
+				"Sound: Install soundset"
+			],
+			[
+				"beau",
+				"HTMLBeautify"
+			],
+			[
+				"scrat",
+				"JS Scratch Pad"
+			],
+			[
+				"ja",
+				"Javascript Beautify"
+			],
+			[
+				"b",
+				"Javascript Beautify"
+			],
+			[
+				"Set Pog",
+				"Set Syntax: SQL (PostgreSQL)"
+			],
+			[
+				"html",
+				"SublimeLinter: Choose Mark Style"
+			],
+			[
+				"post",
+				"Set Syntax: SQL (PostgreSQL)"
+			],
+			[
+				"set Syntax: htm",
+				"Set Syntax: HTML"
+			],
+			[
+				"Postg",
+				"Set Syntax: SQL (PostgreSQL)"
+			],
+			[
+				"UI T",
+				"UI: Select Theme"
+			],
+			[
+				"Activ",
+				"Boxy Theme: Activation"
+			],
+			[
+				"theme",
+				"UI: Select Theme"
+			],
+			[
+				"UI",
+				"UI: Select Theme"
+			],
+			[
+				"Theme",
+				"Boxy Theme: Extras"
+			],
+			[
+				"java",
+				"Javascript Beautify"
+			],
+			[
+				"postg",
+				"Set Syntax: SQL (PostgreSQL)"
+			],
+			[
+				"Gutter Theme",
+				"SublimeLinter: Choose Gutter Theme"
+			],
+			[
+				"jav",
+				"Javascript Beautify"
+			],
+			[
+				"git gutt",
+				"GitGutter: Enable/Disable"
+			],
+			[
+				"Set Syntax: Ne",
+				"Set Syntax: JavaScript Next"
+			],
+			[
+				"git com",
+				"Git: Commit"
+			],
+			[
+				"Post",
+				"Set Syntax: SQL (PostgreSQL)"
+			],
+			[
+				"git dif",
+				"Git: Diff All Files"
+			],
+			[
+				"git gu",
+				"Git: Gui"
+			],
+			[
+				"commit",
+				"Git: Quick Commit (repo)"
+			],
+			[
+				"remov",
+				"Package Control: Remove Package"
+			],
+			[
+				"git",
+				"Git: Gui"
+			],
+			[
+				"pack",
+				"Package Control: List Packages"
+			],
+			[
+				"Java",
+				"Javascript Beautify"
+			],
+			[
+				"bea",
+				"Javascript Beautify"
+			],
+			[
+				"Set Syntax: ja",
+				"Set Syntax: JavaScript Next"
+			],
+			[
+				"Bea",
+				"Javascript Beautify"
+			],
+			[
+				"javas",
+				"Set Syntax: JavaScript Next"
+			],
+			[
+				"js",
+				"Set Syntax: JavaScript Next"
+			],
+			[
+				"",
+				"JS Scratch Pad"
+			],
+			[
+				"Set Synax: Java",
+				"Set Syntax: JavaScript Next"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"Set Syntax: EC",
+				"Set Syntax: Ecmascript"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"packa",
+				"Package Control: List Packages"
+			],
+			[
+				"Postgre",
+				"Set Syntax: SQL (PostgreSQL)"
+			],
+			[
+				"HTM",
+				"HTMLBeautify"
+			],
+			[
+				"be",
+				"HTMLBeautify"
+			],
+			[
+				"POSG",
+				"Set Syntax: SQL (PostgreSQL)"
+			],
+			[
+				"set pog",
+				"Set Syntax: SQL (PostgreSQL)"
+			],
+			[
+				"beaut",
+				"HTMLBeautify"
+			],
+			[
+				"pa",
+				"Package Control: Remove Package"
+			],
+			[
+				"linter",
+				"SublimeLinter: Disable Linter"
+			],
+			[
+				"package cont",
+				"Package Control: Install Package"
+			],
+			[
+				"postgre",
+				"Set Syntax: SQL (PostgreSQL)"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"beat",
+				"Javascript Beautify"
+			],
+			[
+				"set pr",
+				"Set Syntax: SQL (PostgreSQL)"
+			],
+			[
+				"BEA",
+				"Javascript Beautify"
+			],
+			[
+				"remo",
+				"Package Control: Remove Package"
+			],
+			[
+				"in",
+				"Install Package Control"
+			]
+		],
+		"width": 462.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/post_middlewares/middleware.js",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app.js",
+		"/C/Users/Lian Laguio/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/C/Users/Lian Laguio/AppData/Roaming/Sublime Text 3/Packages/Default/Preferences.sublime-settings",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/models/gosmModel.js",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/controllers/System_controller.js",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/miscellaneous files/CSODB - DDL.sql",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/miscellaneous files/CSODB - DML.sql",
+		"/C/Users/Lian Laguio/AppData/Roaming/Sublime Text 3/Packages/User/SublimeLinter.sublime-settings",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/routes/Organization_routes.js",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/routes/APS_routes.js",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/views/template/APS/Home.html",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/controllers/Org_controller.js",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/routes/Finance_routes.js",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/routes/Org_routes.js",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/queries/getProjectProposalsCountPerStatus.sql",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/queries/getProjectProposalsPerStatus.sql",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/views/APS/HomeMain.html",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/queries/insertNewGOSM.sql",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/queries/insertActivityProjectHead.sql",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/queries/gosm_getSubmissionYears.sql",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/queries/gosm_getActivityProjectHeadsFromID.sql",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/views/template/tags_macro.html",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/views/APS/OrgGOSMMain.html",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/views/APS/APS_master.html",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/views/APS/OrglistMain.html",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/views/APS/ActivityList.html",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/views/template/master.html",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/views/APS/ActivityRequirementsMain.html",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/views/APS/ActivityCheckingMain.html",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/views/template/CSO_master.html",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/views/APS/section/header.html",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/views/template/sidebar.html",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/views/APS/section/sidebar.html",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/models/organization_model.js",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/controllers/APS_controller.js",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/assets/js/APS/ORGGOSM.js",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/routes/APS_AJAX_routes.js",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/config.json",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/controllers/APS_AJAX_controller.js",
+		"/C/Users/Lian Laguio/Documents/Sandbox Zone/test.txt",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/views/APS/GOSMMain.html",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/views/section/header.html",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/views/template/header.html",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/models/ProjectProposal_model.js",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/queries/getActivitiesWithPPR.sql",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/queries/getActivityDetails.sql",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/queries/getAllActivityNature.sql",
+		"/C/Users/Lian Laguio/Documents/Sandbox Zone/query.js",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/queries/getProjectProposlProjectHeads.sql",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/queries/getSchoolYear.sql",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/models/Account_model.js",
+		"/C/Users/Lian Laguio/Desktop/identify_location.html",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/views/section/sidebar/cso-aps.html",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/views/section/sidebar/cso-finance.html",
+		"/C/Users/Lian Laguio/Desktop/org_processing.py",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/assets/css/APS/ViewOrgGOSM.css",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/assets/js/dashboard4.js",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/assets/js/custom.min.js",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/assets/js/chat.js",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/assets/js/cbpFWTabs.js",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/assets/js/APS/ActivityList.js",
+		"/C/Users/Lian Laguio/Documents/Sandbox Zone/join.js",
+		"/C/Users/Lian Laguio/Documents/FireMap/Fire_Monitoring/Identify_Location.aspx.cs",
+		"/C/Users/Lian Laguio/Documents/FireMap/Fire_Monitoring/Identify_Location.aspx",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/node_modules/squel/dist/squel.js",
+		"/C/Users/Lian Laguio/Desktop/ajax.html",
+		"/C/Users/Lian Laguio/Desktop/aguy.html",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/pre_middlewares/System_Account_middleware.js",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/assets/js/dashboard2.js",
+		"/C/Users/Lian Laguio/Documents/Sandbox Zone/translate.js",
+		"/C/Users/Lian Laguio/Documents/Sandbox Zone/node_modules/number-to-words/numberToWords.js",
+		"/C/Users/Lian Laguio/.eslintrc.json",
+		"/C/Users/Lian Laguio/AppData/Roaming/Sublime Text 3/Packages/User/JavaScript-Completions.sublime-settings",
+		"/C/Users/Lian Laguio/Documents/Sandbox Zone/node_modules/number-to-words/src/index.js",
+		"/C/Users/Lian Laguio/Documents/Sandbox Zone/node_modules/number-to-words/numberToWords.min.js",
+		"/C/Users/Lian Laguio/Documents/Sandbox Zone/node_modules/number-to-words/bower.json",
+		"/C/Users/Lian Laguio/Documents/Sandbox Zone/node_modules/number-to-words/gulpfile.js",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/utility/forge-promise.js",
+		"/C/Users/Lian Laguio/Documents/Sandbox Zone/crypto/crypto.js",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/controllers/gosmController.js",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/routes/System_routes.js",
+		"/C/Users/Lian Laguio/Documents/Sandbox Zone/node_modules/node-forge/dist/forge.all.min.js",
+		"/C/Users/Lian Laguio/Documents/Sandbox Zone/node_modules/node-forge/lib/sha512.js",
+		"/C/Users/Lian Laguio/Documents/Sandbox Zone/node_modules/node-forge/lib/index.js",
+		"/C/Users/Lian Laguio/Documents/Sandbox Zone/node_modules/node-forge/lib/index.all.js",
+		"/C/Users/Lian Laguio/Documents/Sandbox Zone/node_modules/node-forge/lib/forge.js",
+		"/C/Users/Lian Laguio/Documents/Sandbox Zone/node_modules/node-forge/lib/random.js",
+		"/C/Users/Lian Laguio/Documents/Sandbox Zone/node_modules/node-forge/dist/prime.worker.min.js",
+		"/C/Users/Lian Laguio/Documents/Sandbox Zone/node_modules/node-forge/dist/forge.min.js",
+		"/C/Users/Lian Laguio/AppData/Roaming/Sublime Text 3/Packages/DocBlockr/Base File.sublime-settings",
+		"/C/Users/Lian Laguio/AppData/Roaming/Sublime Text 3/Packages/User/Base File.sublime-settings",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/package.json",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/controllers/Finance_controller.js",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/queries/account_insert.sql",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/utility/databaseHelper.js",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/node_modules/csrf/index.js",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/package-lock.json",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/utility/bcrypt-promise.js",
+		"/C/Users/Lian Laguio/Documents/Sandbox Zone/index.js",
+		"/C/Users/Lian Laguio/Documents/Sandbox Zone/float.js",
+		"/C/Users/Lian Laguio/Documents/Sandbox Zone/wait.js",
+		"/C/Users/Lian Laguio/Documents/Sandbox Zone/package.json",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/node_modules/bcryptjs-then/index.js",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/utility/security.js",
+		"/C/Users/Lian Laguio/Documents/Test Zone/loop_scratch.js",
+		"/C/Users/Lian Laguio/Documents/Test Zone/loop.js",
+		"/C/Users/Lian Laguio/Documents/Crypto Zone/crypto.js",
+		"/C/Users/Lian Laguio/Documents/Crypto Zone/node-forge-promise.js",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/node_modules/bcryptjs/dist/bcrypt.js",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/node_modules/bcryptjs/dist/bcrypt.min.js",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/node_modules/bcryptjs/index.js",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/utility/node-forge-promise.js",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/views/section/ajax/ajaxCSRF.html",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/models/System_model.js",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/models/testModel.js",
+		"/C/Users/Lian Laguio/Documents/Test Zone/node_modules/node-forge/lib/rsa.js",
+		"/C/Users/Lian Laguio/Documents/Test Zone/node_modules/node-forge/lib/forge.js",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/controllers/FA_controller.js",
+		"/C/Users/Lian Laguio/Documents/Test Zone/wait.js",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/node_modules/selfsigned/index.js",
+		"/C/Users/Lian Laguio/Documents/Test Zone/node_modules/node-forge/lib/sha512.js",
+		"/C/Users/Lian Laguio/Documents/Test Zone/node_modules/node-forge/lib/debug.js",
+		"/C/Users/Lian Laguio/Documents/Test Zone/node_modules/node-forge/lib/x509.js",
+		"/C/Users/Lian Laguio/Documents/Test Zone/node_modules/node-forge/package.json",
+		"/C/Users/Lian Laguio/Documents/Test Zone/index.js",
+		"/C/Users/Lian Laguio/Documents/Project Revolution/app/routes/FA_routes.js",
+		"/C/Users/Lian Laguio/Documents/Test Zone/test.txt"
+	],
+	"find":
+	{
+		"height": 26.0
+	},
+	"find_in_files":
+	{
+		"height": 104.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": false
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 26.0
+	},
+	"input":
+	{
+		"height": 43.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "config.sublime-project",
+	"replace":
+	{
+		"height": 48.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": false,
+	"side_bar_width": 50.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

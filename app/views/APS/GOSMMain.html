@@ -1,13 +1,10 @@
-    {% extends "../template/APS/GOSM.html" %}
+{% extends "../template/APS/GOSM.html" %}
 
 
 {%block styles%}
 	<link href="css/custom.css" rel="stylesheet">
     <style type="text/css">
-
     </style>
-
-
 {%endblock%}
 
 {%block header%}
@@ -589,7 +586,7 @@
 
         $.ajax({
             type:'POST',
-            url:'/updateActivity',
+            url:'/Organization/AJAX/updateActivity',
             data:{
                 "id":currentID,
                 "strategy":strategy,
@@ -643,7 +640,7 @@
         $("html, body").animate({ scrollTop: 0 }, function(){
             $.ajax({
                 type:'POST',
-                url:'/getActivityDetails',
+                url:'/Organization/AJAX/getActivityDetails',
                 data:{ 
                     "dbid" : trRow,
                 },
@@ -678,30 +675,24 @@
                     console.log(data[0].isrelatedtoorganizationnature);
                     $("input[name='isRelatedToOrganization'][value='"+data[0].isrelatedtoorganizationnature+"']").attr('checked','checked');
                     data = data[0];
-                     data.targetdatestart  = data.targetdatestart.substring(0,10);
-                     console.log(data.targetdatestart);
-                var sdate = data.targetdatestart.split('-');
-                var startday = sdate[1]+'/'+sdate[2]+ '/'+sdate[0];
-                data.targetdateend  = data.targetdateend.substring(0,10);
-                var edate = data.targetdateend.split('-');
-                var endday = edate[1]+'/'+edate[2]+ '/'+edate[0];
+                    data.targetdatestart  = data.targetdatestart.substring(0,10);
+                    console.log(data.targetdatestart);
+                    var sdate = data.targetdatestart.split('-');
+                    var startday = sdate[1]+'/'+sdate[2]+ '/'+sdate[0];
+                    data.targetdateend  = data.targetdateend.substring(0,10);
+                    var edate = data.targetdateend.split('-');
+                    var endday = edate[1]+'/'+edate[2]+ '/'+edate[0];
                     
                     var targetDateStart = $("#targetDateStart").val(startday).trigger('change');
                     var targetDateEnd = $("#targetDateEnd").val(endday).trigger('change');
-
-
                     
                     $("#add-gosm").css("display","none");
                     $("#edit-gosm").css("display","");
                     $("#cancel-gosm").css("display","");
-                    
                 }
-
             });
             $("#home-tab").click();
-
         }); 
-
     });
 
     function clearModal(){
@@ -716,9 +707,8 @@
         $("#modal-is").html('');
         $("#modal-nature").html('');
         $("#modal-type").html('');
-
-
     }
+
     function dType(val){
         if( val == 1){
             return "Academic Contest";
@@ -773,7 +763,7 @@
         console.log("DB-ID = "+ $(this).attr("db-id"));
         $.ajax({
             type:'POST',
-            url:'/getActivityDetails',
+            url:'/Organization/AJAX/getActivityDetails',
 
             data:{ 
                 "dbid" : $(this).attr("db-id"),
@@ -801,15 +791,15 @@
                 $("#modal-starttime").text(startday).trigger('change');
                 $("#modal-endtime").text(endday).trigger('change');
                 var toBeInserted = '';
-                for(     var x = 0; x < pic.length; x++){
+                for(let x = 0; x < pic.length; x++){
                     var i = '<p>'+pic[x].firstname+' '+pic[x].lastname+'</p>';
                     toBeInserted = toBeInserted + i;
                 }
                 $("#modal-pic").html(toBeInserted);
 
                 var toBeInserted2 = '';
-                for(     var x = 0; x < objectives.length; x++){
-                    var i = '<p>'+objectives[x]+'</p>';
+                for(let x = 0; x < objectives.length; x++){
+                    let i = '<p>'+objectives[x]+'</p>';
                     toBeInserted2 = toBeInserted2 + i;
                 }
                 $("#modal-obj").html(toBeInserted2);
@@ -817,41 +807,20 @@
                     $("#modal-is").text("Yes");
                 }else{
                     $("#modal-is").text("No");
-                }
-
-
-
-
-
-                
+                }  
             }
-
         });
     });
             
-
-       
-        
-    
     $(document).on('click','i.fa-close',function(){
-        // var ppr = {
-        //     description:"",
-        //     sched:[
-        //         date:
-        //         time:{
-
-        //         }
-        //     ]
-        // }
-       
         // TO DELETE
         var trR =   $(this).closest("tr");
         console.log("DB-ID"+$(this).attr("db-id"));
         $.ajax({
             type:'POST',
-            url:'/deleteActivity',
+            url:'/Organization/AJAX/deleteActivity',
             data:{ 
-                "dbid" : $(this).attr("db-id"),
+                "dbid" : $(this).attr("db-id")
             },
             success:function(data){
                 console.log(data);  
@@ -895,7 +864,7 @@
 
         $.ajax({
             type:'POST',
-            url:'/createGOSM',
+            url:'Organization/AJAX/createGOSM',
             data:{"strategy":strategy,
                     "goals":goals,
                     "objectives":objectives,
@@ -959,10 +928,12 @@
             }
         });
     });
+
     $("#submit-gosm").click(function(){
         $.ajax({
             type:'POST',
-            url:'/submitGOSM',
+            url:'/Organization/AJAX/submitGOSM',
+            //TODO: edit data, add with session
             data:{'org':1},
             success:function(data){
 

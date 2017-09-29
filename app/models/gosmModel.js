@@ -14,7 +14,6 @@ module.exports = function(db, queryFiles) {
     const getSchoolYearSQL = queryFiles.getSchoolYear;
     const getAllActivityNatureSQL = queryFiles.getAllActivityNature;
     const getGOSMActivitiesSQL = queryFiles.getGOSMActivities;
-    const insertNewGOSMSQL = queryFiles.insertNewGOSM;
     const deleteActivitySQL = queryFiles.deleteActivity;
     const updateActivitySQL = queryFiles.updateActivity;
     const submitGOSMSQL = queryFiles.submitGOSM;
@@ -22,6 +21,8 @@ module.exports = function(db, queryFiles) {
     const query_getSubmissionYears = queryFiles.gosm_getSubmissionYears;
     const query_getAll = queryFiles.gosm_getAll;
 
+    const insertGOSM = queryFiles.gosm_insert;
+    const insertGOSM_Returning = queryFiles.gosm_insert_returning;
     const dbHelper = require('../utility/databaseHelper');
     const attachFields = dbHelper.attachFields;
 
@@ -53,8 +54,23 @@ module.exports = function(db, queryFiles) {
         getAllCurrent: function() {
             return db.any(query_getAll);
         },
-        insertNewGOSM: function(param) {
-            return db.none(insertNewGOSMSQL, param);
+        /**
+         * [insertNewGOSM description]
+         * @method  insertNewGOSM
+         * @param   {Integer}      termID              [description]
+         * @param   {Integer}      studentOrganization [description]
+         * @param   {Boolean}      returning           [description]
+         * @param   {[pg-connection, pg-task, pg-transaction] (Optional)}      connection          [description]
+         * @returns {Promise}                          [description]
+         */
+        insertNewGOSM: function(termID, studentOrganization, returning, connection = db) {
+            let param = Object.create(null);
+            param.termID = termID;
+            param.studentOrganization = studentOrganization;
+            if(returning){
+                return connection.one(insertGOSM_Returning, param);
+            }
+            return connection.none(insertGOSM, param);
         },
         deleteActivity: function(param) {
             return db.none(deleteActivitySQL, param);
