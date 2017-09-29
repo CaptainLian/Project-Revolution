@@ -18,6 +18,7 @@
     <!-- Menu CSS -->
     <link href="../plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../plugins/bower_components/jquery-datatables-editable/datatables.css" />
+    <link href="../plugins/bower_components/dropzone-master/dist/dropzone.css" rel="stylesheet" type="text/css" />
     <!-- animation CSS -->
     <link href="css/animate.css" rel="stylesheet">
     <!--alerts CSS -->
@@ -271,7 +272,7 @@
                 </div>
                 <!-- /row -->
                 <div class="row">
-                    <div class="col-sm-12">
+                    <!-- <div class="col-sm-12">
                         <div class="white-box">
                            <h3 class="box-title m-b-0" >Activity Information</h3>
                            <br/>
@@ -323,7 +324,7 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="col-sm-12">
                         <div class="white-box">
                             
@@ -440,6 +441,76 @@
                                                  
                         </div>
                     </div>
+
+                    <div class="col-sm-12">
+                        <div class="white-box">
+                            <div class="row">
+
+                                <div class="col-md-12 table-responsive">
+                                    <h3 class="box-title m-t-40">V. List of Expense</h3>
+                                    <hr>
+                                    <table id="mainTable2" class="table editable-table table-bordered color-bordered-table success-bordered-table m-b-0">
+                                        <thead class="table-less">                                                                
+                                            <tr>
+                                                <th width="35%">Establishment</th>
+                                                <th width="35%">Particulars</th>
+                                                <th width="5%">File</th>
+                                                <th width="20%">Amount</th>
+                                                <th width="5%"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                           <tr>
+                                                <td>Jbee</td>
+                                                <td>Token</td>
+                                                <th><input type="file"  class="upload" name=""></th>
+                                                <td class="loe-amount">1</td>
+                                                <th  class="text-center text-danger"><i class="fa fa-times remove-time"></i></th>
+                                               
+                                           </tr>                                        
+                                           <tr>
+                                                <td>Jbee</td>
+                                                <td>Token</td>
+                                                <th><input type="file"  class="upload" name=""></th>
+                                                <td class="loe-amount">1</td>
+                                                <th  class="text-center text-danger"><i class="fa fa-times remove-time"></i></th>
+                                           </tr>                                        
+                                           <tr>
+                                                <td>Jbee</td>
+                                                <td>Token</td>
+                                                <th><input type="file"  class="upload" name=""></th>
+                                                <td class="loe-amount">1</td>
+                                                <th  class="text-center text-danger"><i class="fa fa-times remove-time"></i></th>
+                                               
+                                           </tr>                                        
+                                            
+                                           
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th class="text-right" colspan="3"><strong>Total Expenses to be Incurred<a class="table-less"></a></strong></th>
+                                                
+                                                <th class="dp-amount" colspan=""></th>
+                                            </tr>
+                                            </thead>
+                                    </table>
+                                    <div class="p-20 text-center">
+                                        <button  type="button" id="insert-particular" class="btn btn-success table-less">Insert Particulars</button>
+                                    </div>
+                                </div>  
+                                <div class="col-md-12">
+                                    <h3 class="box-title m-t-40">VI. List of Pictures</h3>
+                                    <hr>
+                                    <form action="#" id="lop" class="dropzone">
+                                        <div class="fallback">
+                                            <input name="file" type="file" multiple /> </div>
+                                    </form>
+                                </div>                                                                                                     
+                            </div>
+                            
+                        </div>                                            
+                    </div>
+
                     <div class="col-sm-12">
                         <div class="white-box">                            
                             <br/>
@@ -500,60 +571,8 @@
                                                 
                                             </div>
                                             <div class="col-sm-12">
-                                                <h3 class="box-title m-t-40">Direct Payment Memo && LOE</h3>
-                                                <hr>
-                                                <div class="row">
-                                                    <div class="col-md-12 ">
-                                                         <table id="mainTable2" class="table editable-table table-bordered color-bordered-table success-bordered-table m-b-0">
-                                                            <thead class="table-less">                                                                
-                                                                <tr>
-                                                                    <th width="35%">Establishment</th>
-                                                                    <th width="35%">Particulars</th>
-                                                                    <th width="5%">File</th>
-                                                                    <th width="20%">Amount</th>
-                                                                    <th width="5%"></th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                               <tr>
-                                                                    <td>Jbee</td>
-                                                                    <td>Token</td>
-                                                                    <th><input type="file"  class="upload" name=""></th>
-                                                                    <td class="amount">1</td>
-                                                                    <th  class="text-center text-danger"><i class="fa fa-times remove-time"></i></th>
-                                                                   
-                                                               </tr>                                        
-                                                               <tr>
-                                                                    <td>Jbee</td>
-                                                                    <td>Token</td>
-                                                                    <th><input type="file"  class="upload" name=""></th>
-                                                                    <td class="amount">1</td>
-                                                                    <th  class="text-center text-danger"><i class="fa fa-times remove-time"></i></th>
-                                                               </tr>                                        
-                                                               <tr>
-                                                                    <td>Jbee</td>
-                                                                    <td>Token</td>
-                                                                    <th><input type="file"  class="upload" name=""></th>
-                                                                    <td class="amount">1</td>
-                                                                    <th  class="text-center text-danger"><i class="fa fa-times remove-time"></i></th>
-                                                                   
-                                                               </tr>                                        
-                                                                
-                                                               
-                                                            </tbody>
-                                                            <tfoot>
-                                                                <tr>
-                                                                    <th class="text-right" colspan="2"><strong>Total Expenses to be Incurred<a class="table-less"></a></strong></th>
-                                                                    
-                                                                    <th class="dp-amount" colspan=""></th>
-                                                                </tr>
-                                                                </thead>
-                                                        </table>
-                                                        <div class="p-20 text-center">
-                                                            <button  type="button" id="insert-particular" class="btn btn-success table-less">Insert Particulars</button>
-                                                        </div>
-                                                    </div>                                                                                                       
-                                                </div>
+                                                
+                                                
 
                                             </div>
 
@@ -624,6 +643,7 @@
                         
                     </div>
                     
+                    
                 </div>
                 <!-- /.row -->
                 <!-- .right-sidebar -->
@@ -658,54 +678,134 @@
     <script src="../plugins/bower_components/jquery-datatables-editable/jquery.dataTables.js"></script>
     <script src="../plugins/bower_components/datatables/dataTables.bootstrap.js"></script>
     <script src="../plugins/bower_components/tiny-editable/mindmup-editabletable.js"></script>
+    <script src="../plugins/bower_components/dropzone-master/dist/dropzone.js"></script>
     <script src="../plugins/bower_components/tiny-editable/numeric-input-example.js"></script>
+
+    <!-- LOE SCRIPT -->
     <script type="text/javascript">
-    function calculate(){
-        var total = 0;
-        $(".amount").each(function(){
-            total = total + parseFloat($(this).text());
+        function calculate(){
+            var total = 0;
+            $(".loe-amount").each(function(){
+                total = total + parseFloat($(this).text());
+            });
+            console.log("TOTAL"+total);
+            $(".dp-amount").html(total);
+        }
+        function numeric(input){
+            console.log(isNaN(parseFloat(input)));
+            console.log("INPUT"+input);
+            if(isNaN(parseFloat(input)) || parseFloat(input) <= 0 ) {
+               return false; 
+            }
+            else{
+                return true;
+            }
+
+
+        }
+
+        $(document).bind('custom',function(){
+            $(".fa-times").on('click',function(){
+
+                $(this).closest("tr").remove();
+                 $('#mainTable2').editableTableWidget();
+                calculate();
+            });
+            $("#mainTable2 tbody td").on('change',function(e){
+                console.log("CHANGE");
+                if($(this).hasClass("loe-amount")){
+                    console.log("IF CHANGE");
+                    console.log("INPUT"+ $(this).val());
+                    if(!numeric($(this).html())){
+                        $(this).html("");
+
+                    }
+                }
+                calculate();
+            });
+
+
         });
-        console.log("TOTAL"+total);
-        $(".dp-amount").html(total);
-    }
 
-    $(document).bind('custom',function(){
-        $(".fa-times").on('click',function(){
 
-            $(this).closest("tr").remove();
-            $('#mainTable2').editableTableWidget().numericInputExample();
+
+        $('#mainTable2').editableTableWidget();
+        (function() {
+
+            [].slice.call(document.querySelectorAll('.sttabs')).forEach(function(el) {
+                new CBPFWTabs(el);
+            });
+
+        })();
+
+        var td =    '<tr>'+
+                       '<td class="loe-est"> </td>'+
+                       '<td class="loe-part"> </td>'+
+                       '<th class="loe-file"><input type="file"  class="upload" name=""></th>'+
+                       '<td class="loe-amount"></td>'+       
+                       '<th class="text-center text-danger"><i class="fa fa-times remove-time"></i></th>'+
+                   '</tr>';
+        $("#insert-particular").click(function(){
+            $("#mainTable2 tbody").append(td);
+             $('#mainTable2').editableTableWidget();
             calculate();
-        });
-        $("#mainTable2 tbody td").on('change',function(){
-            calculate();
-        });
-    });
-
-
-
-    $('#mainTable2').editableTableWidget().numericInputExample();
-    (function() {
-
-        [].slice.call(document.querySelectorAll('.sttabs')).forEach(function(el) {
-            new CBPFWTabs(el);
+            $(document).trigger("custom");
         });
 
-    })();
-
-    var td =    '<tr>'+
-                   '<td> </td>'+
-                   '<th><input type="file"  class="upload" name=""></th>'+
-                   '<td class="amount"></td>'+       
-                   '<th class="text-center text-danger"><i class="fa fa-times remove-time"></i></th>'+
-               '</tr>';
-    $("#insert-particular").click(function(){
-        $("#mainTable2 tbody").append(td);
-        $('#mainTable2').editableTableWidget().numericInputExample();
-        calculate();
         $(document).trigger("custom");
-    });
+    </script>
 
-    $(document).trigger("custom");
+    <!-- LOP SCRIPT -->
+    <script type="text/javascript">
+        var id=0;
+        var temp = '<div class="dz-preview dz-file-preview">'+
+                        '<div class="dz-image"><img data-dz-thumbnail /></div>'+
+                        '<div class="dz-details">'+
+                            '<div class="dz-size"><span data-dz-size></span></div>'+
+                            '<div class="dz-filename"><span data-dz-name></span></div>'+
+                        '</div>'+
+                        '<div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>'+
+                        '<div class="dz-error-message"><span data-dz-errormessage></span></div>'+
+                        '<input type="text" placeholder="Title">'+
+                    '</div>';
+        var myDropzone = new Dropzone("#lop", { 
+            url: "#",            
+            acceptedFiles: ".png, .jpg .jpeg jpe",
+            addRemoveLinks: true,
+            init: function(){
+                this.on("success", function(file, data) {
+                    console.log("SUCESS FUNCTION NETER");
+
+                });
+                this.on("removedfile", function(file) {
+                    console.log("FAILE FUNCTION NETER");
+                });
+            },
+            removedfile: function(file) {
+                var name = file.name;        
+                $.ajax({
+                    type: 'POST',
+                    url: 'delete.php',
+                    data: "id="+name,
+                    dataType: 'html'
+                });
+                var _ref;
+                console.log("REMOVE A FILE");
+                return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;        
+            }
+        });      
+        myDropzone.on("addedfile", function(file) {
+          caption = file.caption == undefined ? "" : file.caption;
+          file._captionLabel = Dropzone.createElement("<p>Caption:</p>")
+          file._captionBox = Dropzone.createElement("<textarea class='caption' id='"+file.filename+"' type='text' name='caption' class='dropzone_caption'>"+caption+"</textarea>")
+          file.previewElement.appendChild(file._captionLabel);
+          file.previewElement.appendChild(file._captionBox);
+        });
+        $("#lop").on('focusout', 'input.caption', function() {
+          var filename = $(this).attr('id');
+          var caption = $(this).attr('value');
+          // return $.post("/images/" + filename + "/save_caption?caption=" + caption);
+        });
     </script>
     <!--Style Switcher -->
     <script src="../plugins/bower_components/styleswitcher/jQuery.style.switcher.js"></script>
