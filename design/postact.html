@@ -505,7 +505,33 @@
                                         <div class="fallback">
                                             <input name="file" type="file" multiple /> </div>
                                     </form>
-                                </div>                                                                                                     
+                                </div>
+                                 <div class="col-md-12">
+                                    <h3 class="box-title m-t-40">VII. Finance </h3>
+                                    <hr>
+                                    
+                                </div>     
+                                <div class="col-md-12">
+                                    <h3 class="box-title m-t-40">VII. Upload </h3>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="col-sm-12">General Attendance List Sheet</label>
+                                                <div class="col-sm-12">
+                                                    <label class="custom-file">
+                                                        <input id="file" class="custom-file-input" type="file">
+                                                        <span class="custom-file-control"></span>
+                                                    </label>
+                                                </div>
+                                            </div>    
+                                            
+                                        </div>
+                                    </div>
+
+                        
+                                </div> 
+
                             </div>
                             
                         </div>                                            
@@ -778,10 +804,16 @@
 
                 });
                 this.on("removedfile", function(file) {
-                    console.log("FAILE FUNCTION NETER");
+                    console.log("fa-file-word-o FUNCTION NETER"+file.name);
                 });
             },
+            renameFilename: function (file) {
+                id++;
+                return file.renameFilename = id +'.' + file.split('.').pop();
+            },
             removedfile: function(file) {
+                console.log("fa-file-word-o FUNCTION NETER2");
+                console.log(file);
                 var name = file.name;        
                 $.ajax({
                     type: 'POST',
@@ -790,6 +822,7 @@
                     dataType: 'html'
                 });
                 var _ref;
+
                 console.log("REMOVE A FILE");
                 return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;        
             }
