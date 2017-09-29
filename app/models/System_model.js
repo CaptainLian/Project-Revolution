@@ -44,13 +44,14 @@ class SystemModel {
 	 * Retrieves the current database term
 	 * 
 	 * @param  {[String, Array] (Optional)} fields The fields to be used for the select statement 
-	 * @param  {[pg-database, pg-connection, pg-task] (Optional)} connection to database, optional
-	 * @return {pg-promise} oneOrNone results
+	 * @param  {[pg-database, pg-connection, pg-task] (Optional)} connection to database
+	 * @return {Promise} oneOrNone results
 	 */
 	getCurrentTerm(fields, connection=this._database){
 		let query = this._squel.select()
 		.from('Term')
-		.where('CURRENT_DATE BETWEEN dateStart AND dateEnd');
+		.where('CURRENT_DATE >= dateStart')
+		.where('CURRENT_DATE <= dateEnd');
 		this._attachFields(query, fields);
 
 		query = query.toString();

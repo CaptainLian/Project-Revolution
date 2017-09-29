@@ -1,0 +1,3 @@
+{% macro javascript_item(src, class='', defer=false, async=false) %}
+	<script type="text/javascript" src="{{src}}" {%if (defer)%}defer="defer"{%endif%} {%if (async)%}async="async"{%endif%} class="{{class}}"></script>
+{% endmacro %}

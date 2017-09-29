@@ -29,8 +29,8 @@ module.exports = function(db, queryFiles) {
         getAllActivityTypes: function(connection = db) {
             return connection.many(getAllActivityTypesSQL);
         }, //getAllActivityTypes()
-        getAllActivityNature: function() {
-            return db.many(getAllActivityNatureSQL);
+        getAllActivityNature: function(connection = db) {
+            return connection.many(getAllActivityNatureSQL);
         },
         insertProposedActivity: function(param, connection = db) {
             return connection.one(insertProposedActivitySQL, param);
@@ -42,8 +42,8 @@ module.exports = function(db, queryFiles) {
             return connection.one(getSchoolYearSQL);
         },
 
-        getGOSMActivities: function(param) {
-            return db.any(getGOSMActivitiesSQL, param);
+        getGOSMActivities: function(param, connection = db) {
+            return connection.any(getGOSMActivitiesSQL, param);
         },
 
         //TODO: Delete function

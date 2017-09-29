@@ -5,7 +5,6 @@ var router = express.Router();
 
 module.exports = function (app, controllers){
 	router.get('/createGOSM', controllers.APS_controller.viewCreateGOSM);
-	router.get('/home', controllers.APS_controller.home);
 
 	router.post('/getActivityDetails', controllers.APS_controller.getActivityDetails);
 

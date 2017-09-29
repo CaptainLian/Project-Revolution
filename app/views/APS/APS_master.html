@@ -1,138 +1,14 @@
-{% extends '../template/master.html' %}
-
-{%block meta%}
-	{{super()}}
-{%endblock%}
+{% extends '../template/CSO_master.html' %}
 
 {%block page_title%}CSO - APS{%-endblock%}
 
-{%block style%}
-	<!-- Bootstrap Core CSS -->
-    <link href="/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css" rel="stylesheet">
-    <link href="/plugins/bower_components/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
-    <!-- Menu CSS -->
-    <link href="/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css" rel="stylesheet">
-    <!-- animation CSS -->
-    <link href="/css/animate.css" rel="stylesheet">
-    <!--alerts CSS -->
-    <link href="/plugins/bower_components/sweetalert/sweetalert.css" rel="stylesheet" type="text/css">
-    <!-- Custom CSS -->
-    <link href="/css/style.css" rel="stylesheet">
-    <link href="/css/custom.css" rel="stylesheet">
-    <!-- color CSS -->
-    <link href="/css/colors/default.css" id="theme" rel="stylesheet">
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-    <!-- Page Styles -->
-{%endblock%}
-
- 
 {%block body%}
-	<!-- Top Navigation -->
-	{%block header%}
-		{%include './section/header.html' %}
-	{%endblock%}
-	 <!-- End Top Navigation -->
-
-     <!-- Left navbar-header -->
-	{%block sidebar%}
-		{%include './section/sidebar.html' %}
-	{%endblock%}
-	<!-- Left navbar-header end -->
-
-	<!-- %pre_content -->
-	{%block pre_content%}
-    {%endblock%}
-    <!-- /%pre_content -->
-
-	<!-- Page Content -->
-        <div id="page-wrapper" style="min-height: 363px;">
-            <div class="container-fluid">
-                <div class="row bg-title">
-                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                        <h4 class="page-title">APS Associate</h4>
-                    </div>
-                    <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
-                        
-                        <ol class="breadcrumb">
-	                        {%block breadcrumb%}
-                            <li class="active">ORG GOSM</li>
-	                        {%endblock%}
-                        </ol>
-
-                    </div><!-- /.col-lg-12 -->
-                </div><!-- /row -->
-
-                <!-- %content -->
-                {%block content%}
-                {%endblock%}
-                <!-- /%content -->
-
-            </div><!-- /.container-fluid -->
-            <footer class="footer text-center">{%block footer%}2017 © Elite Admin brought to you by themedesigner.in{%endblock%}</footer>
-        </div>
-        <!-- /#page-wrapper -->
-
-        <!-- %post_content -->
-        {%block post_content%}
-        {%endblock%}
-        <!-- /%post_content -->
+    {{super()}}
 {%endblock%}
 
-{%block script%}
-<!-- jQuery -->
-    <script type="text/javascript" src="/plugins/bower_components/jquery/dist/jquery.min.js"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script type="text/javascript" src="/bootstrap/dist/js/tether.min.js"></script>
-    <script type="text/javascript" src="/bootstrap/dist/js/bootstrap.min.js" ></script>
-    <script type="text/javascript" src="/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js" ></script>
-    <!-- Menu Plugin JavaScript -->
-    <script type="text/javascript" src="/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js"></script>
-    <!--slimscroll JavaScript -->
-    <script type="text/javascript" src="/js/jquery.slimscroll.js"></script>
-    <!--Wave Effects -->
-    <script type="text/javascript" src="/js/waves.js" ></script>
-    <!-- Custom Theme JavaScript -->
-    <script type="text/javascript" src="/js/custom.min.js" ></script>
-    <script type="text/javascript" src="/js/cbpFWTabs.js" ></script> <!-- tabs-->
-    <script type="text/javascript" src="/plugins/bower_components/datatables/jquery.dataTables.min.js"></script>
-    <!-- Sweet-Alert  -->
-    <script type="text/javascript" src="/plugins/bower_components/sweetalert/sweetalert.min.js"></script>
-    <script type="text/javascript">
-    
-        $(document).ready(function () {
-            
-            $("td").click(function(){
-                console.log("asd1");
-                 setTimeout(function(){
-                    console.log("asd2");
-                    if($("#sampleModal").hasClass("show")){
-                        console.log("asd");
-                        $('iframe').each(function() {
-                        this.contentWindow.location.reload(true);
-                        });
-                    }
-                },3000);
-            });
-        });
-        
-        // if($("#sampleModal").hasClass("in")){
-        //     console.log("asd");
-        //     $('iframe').each(function() {
-        //       this.contentWindow.location.reload(true);
-        //     });
-        // }
-    </script>
-    <!-- Page-Scripts -->
+{%block sidebar_content%}
+    {{super()}}
+    {{sidebar_item('Submissions', '/APS/viewActivityList')}}
+    {{sidebar_item('Activity History')}}
+    {{sidebar_item('Org GOSM', '/APS/viewOrglist')}}
 {%endblock%}
-
-{% macro breadcrumb_item(name='', class='') %}
-	<li class="{{class}}">{{name}}</li>
-{% endmacro %}

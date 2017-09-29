@@ -13,20 +13,23 @@ module.exports = function(db, queryFiles) {
     const insertProjectProposalProgramDesignSQL = queryFiles.insertProjectProposalProgramDesign;
     const insertProjectProposalProjectedIncomeSQL = queryFiles.insertProjectProposalProjectedIncome;
     const insertProjectProposalExpensesSQL = queryFiles.insertProjectProposalExpenses;
-    const getProjectProposalsPerStatusSQL = queryFiles.getProjectProposalsPerStatus;
+    const getProjectProposalsPerStatusSQL = queryFiles.getProjectProposalsCountPerStatus;
 
-    let dbHelper = require('../utility/databaseHelper');
-
-    const ProjectProposalModel = function(db, attachFields) {
+    /**
+     * class with properties
+     * {
+     *     _db
+     *     _attachfields
+     * }
+     * @Class ProjectProposalModel
+     * @param  {pg-connection} db [description]
+     */
+    const ProjectProposalModel = function(db) {
         this._db = db;
-        this._attachFields = attachFields;
+        const dbHelper = require('../utility/databaseHelper');
+        this._attachFields = dbHelper.ttachFields;
     };
 
-    /*  
-        Merges the tables
-        ProjectProposal = pp 
-        GOSMActivity = ga
-    */
    /**
     * Tables that can be currently accessed in this query for fields
     * ProjectProposal ppr
@@ -69,7 +72,7 @@ module.exports = function(db, queryFiles) {
                         .field('GOSM'))))
 
             .from('PPR', 'pp')
-                .left_join('gosm_activity', 'ga', 'pp.GOSMActivity = ga.id')
+                .left_join('gosm_activity', 'ga', 'TRUE')
                 .left_join('ActivityType', 'at', 'ga.activityType = at.id')
                 .left_join('ActivityNature', 'an', 'ga.activityNature = an.id')
                 .left_join('student_organization', 'so', 'TRUE');
@@ -88,6 +91,13 @@ module.exports = function(db, queryFiles) {
         Merges the tables
         ProjectProposal = pp 
         GOSMActivity = ga
+    */
+   /**
+    * Retrieves All Project Proposals
+    * @method  getAllActivityProjectProposal
+    * @param   {[String, Array] (Optional)}                  fields     [description]
+    * @param   {[pg-conncetion, pg-transaction, pg-task]}    connection [description]
+    * @returns {Promise}                                     [description]
     */
     ProjectProposalModel.prototype.getAllActivityProjectProposal = function(fields, connection = this._db) {
         let query = squel.select()
@@ -155,9 +165,10 @@ module.exports = function(db, queryFiles) {
         query = query.toString();
         
         /**
-         * { 
+         * conts param = { 
          *     id: id    
          * }
+         * @variable param
          * @type {Object}
          */
         let param = Object.create(null);
@@ -184,17 +195,31 @@ module.exports = function(db, queryFiles) {
         //TODO: test
         return connection.none(insertProjectProposalExpensesSQL, param);
     };
+    
+    ProjectProposalModel.prototype.getProjectProposalsCountPerStatus = function(gosm, status, connection = this._db) {
 
-    ProjectProposalModel.prototype.getProjectProposalsPerStatus = function(param, connection = this._db) {
-        //TODO: implementation, test
+        /**
+         * const param = {
+         *     gosm: gosm,
+         *     status: status
+         * };
+         * @variable param
+         * @type {Object}
+         */
+        let param = Object.create(null);
+        param.gosm = gosm;
+        param.status = status;
+
         return connection.one(getProjectProposalsPerStatusSQL, param);
     };
 
+
     ProjectProposalModel.prototype.getProjectProposalProjectHeads = function(id, fields, connection = this._db){
         /**
-         * {
+         * const param = {
          *     id: id
-         * }
+         * };
+         * @variable param
          * @type {Object}
          */
         let param = Object.create(null);
@@ -203,5 +228,5 @@ module.exports = function(db, queryFiles) {
         return connection.any(queryFiles.getProjectProposlProjectHeads, param);
     };
 
-    return new ProjectProposalModel(db, dbHelper.attachFields);
+    return new ProjectProposalModel(db);
 };

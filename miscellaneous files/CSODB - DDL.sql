@@ -409,7 +409,7 @@ CREATE TABLE ProjectProposalProgramDesign (
     endTime TIME WITH TIME ZONE,
     activity TEXT,
     activityDescription TEXT,
-    personInCharge VARCHAR(60)[],
+    personInCharge INTEGER REFERENCES Account(idNumber),
 
     PRIMARY KEY (projectProposal, dayID, sequence),
     CHECK(startTime < endTime)
@@ -579,3 +579,41 @@ CREATE TABLE JSON_CONSTANT (
     
     PRIMARY KEY(name)
 ) INHERITS (CONSTANT);
+
+/* 
+    Helpful functions 
+*/
+CREATE OR REPLACE FUNCTION getCurrentTermID()  
+RETURNS INTEGER AS 
+$function$
+    DECLARE
+        termID INTEGER;
+    BEGIN
+        SELECT id INTO termID
+          FROM Term
+         WHERE CURRENT_DATE >= dateStart
+           AND CURRENT_DATE <= dateEnd;
+
+        RETURN termID;
+    END;
+$function$ STABLE LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION getCurrentYearID()  
+RETURNS INTEGER AS 
+$function$
+    DECLARE
+        yearID INTEGER;
+    BEGIN
+        SELECT id INTO yearID
+        FROM SchoolYear
+        WHERE id = (SELECT id 
+                      FROM Term
+                     WHERE CURRENT_DATE >= dateStart
+                       AND CURRENT_DATE <= dateEnd);
+
+        RETURN termID;
+    END;
+$function$ STABLE LANGUAGE plpgsql;
+/* 
+    Helpful functions end 
+*/
