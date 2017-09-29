@@ -145,9 +145,25 @@ module.exports = function(database, models, queryFiles) {
 
 
         createActivityRequirements: (req, res) => {
-            res.render("APS/ActivityRequirementsMain", {
-                csrfToken: req.csrfToken()
-            });
+            var dbParam = {
+                //TODO: id should come from a previous page
+                id: 1
+            };
+            
+            Promise.all([gosmModel.getGOSMActivity(dbParam), gosmModel.getGOSMActivityProjectHeads(dbParam)])
+                .then(data=>{
+
+                    res.render("APS/ActivityRequirementsMain", {
+                        gosmActivity: data[0],
+                        projectHeads: data[1],
+                        csrfToken: req.csrfToken()
+                    });
+
+                })
+                .catch(error=>{
+                    console.log(error);
+                });
+           
         },
         inputCreateGOSM: (req, res) => {
 
@@ -334,36 +350,50 @@ module.exports = function(database, models, queryFiles) {
             let funds = JSON.parse(req.body.funds);
 
             // var sched = sched[0];
-            // console.log(sched.time[1].start);
+            // console.log(sched.length);
             // req.body.context
             
-            logger.debug(`${JSON.stringify(req.body)}`, log_options);
+            // logger.debug(`${JSON.stringify(req.body)}`, log_options);
+            
             var projectProposalParam = {
                 //TODO
-                gosm
+                // change gosmactivity value
+                GOSMactivity: 1, // value should come from previous page
+                status: 1,
+                enp: req.body.enp, 
+                enmp: req.body.enmp,
+                venue: req.body.venue,
+                sourceFundOther: exp.others,
+                sourceFundParticipantFee: exp.participant,
+                sourceFundOrganizational: exp.orgFunds,
+                accumulatedOperationalFunds: funds.ope,
+                accumulatedDepositoryFunds: funds.dep,
+                organizationalFundOtherSource: funds.other,
+                preparedBy: req.session.user 
             };
-
             database.tx(t => {
-                    return projectProposalModel.insertProjectProposal({}, t)
+                    return projectProposalModel.insertProjectProposal(projectProposalParam, t)
                         .then(data => {
-                            const projectProposalID = data.projectProposal;
+                            const projectProposalID = data.projectproposal;
+                            logger.debug(`projectProposal: ${projectProposalID}`, log_options);
                             t.task(t => {
                                 const queries = [];
-
                                 /* 
 
                                     PPR Program Design
 
                                 */
                                 for (let index0 = sched.length + 1; --index0;) {
+                                    logger.debug(sched, log_options);
                                     const program = sched[sched.length - index0];
-                                    for (let index1 = program.length + 1; --index1;) {
-                                        const i = program.length - index1;
-                                        const item = data[i];
+                                    for (let index1 = program.time.length + 1; --index1;) {
+                                        logger.debug(index1, log_options);
+                                        const i = program.time.length - index1;
+                                        const item = program.time[i];
                                         queries[queries.length] = projectProposalModel.insertProjectProposalDesign({
                                             projectProposal: projectProposalID,
                                             dayID: i,
-                                            date: item.date,
+                                            date: program.date,
                                             startTime: item.start,
                                             endTime: item.end,
                                             activity: item.actName,
@@ -380,10 +410,11 @@ module.exports = function(database, models, queryFiles) {
 
                                 */
                                 for (let index = funds.revenue.length + 1; --index;) {
+                                    logger.debug(`NAG LOOP`, log_options);
                                     const item = funds.revenue[funds.revenue.length - index];
                                     queries[queries.length] = projectProposalModel.insertProjectProposalProjectedIncome({
                                         projectProposal: projectProposalID,
-                                        material: item.item,
+                                        income: item.item,
                                         quantity: item.quan,
                                         sellingPrice: item.price
                                     }, t);
@@ -394,24 +425,26 @@ module.exports = function(database, models, queryFiles) {
                                     Expense
 
                                 */
-                                for (let index = funds.expense.length; index--;) {
-                                    const item = funds.expense[funds.expense.length - index];
-                                    queries[queries.length] = projectProposalModel.insertProjectProposalExpenses({
-                                        projectProposal: projectProposalID,
-                                        material: item.item,
-                                        quantity: item.quan,
-                                        unitCost: item.price
-                                    }, t);
-                                }
+                                // for (let index = funds.expense.length; index--;) {
+                                //     const item = funds.expense[funds.expense.length - index];
+                                //     queries[queries.length] = projectProposalModel.insertProjectProposalExpenses({
+                                //         projectProposal: projectProposalID,
+                                //         material: item.item,
+                                //         quantity: item.quan,
+                                //         unitCost: item.price
+                                //     }, t);
+                                // }
 
                                 return t.batch(queries);
                             });
                         });
                 })
                 .then(data => {
-                    logger.debug('', log_options);
+                    logger.debug(`${data}`, log_options);
                 })
                 .catch(err => {
+                    logger.warn('CATCH ON PROMISE');
+                    console.log(err);
                     throw err;
                 });
         },
@@ -553,10 +586,10 @@ module.exports = function(database, models, queryFiles) {
                     };
 
                     Promise.all([
-                        projectProposalModel.getProjectProposalExpenses(dbParam),
-                        projectProposalModel.getProjectProposalProjectedIncome(dbParam),
-                        projectProposalModel.getProjectProposalProgramDesign(dbParam),
-                        projectProposalModel.getProjectProposalProjectHeads(dbParam)
+                        projectProposalModel.getProjectProposalExpenses(data.id),
+                        projectProposalModel.getProjectProposalProjectedIncome(data.id),
+                        projectProposalModel.getProjectProposalProgramDesign(data.id),
+                        projectProposalModel.getProjectProposalProjectHeads(data.id)
                     ])
                         .then(data1=>{
                             res.render('APS/activityCheckingMain', {

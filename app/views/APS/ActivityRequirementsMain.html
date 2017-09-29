@@ -34,27 +34,32 @@
                                 
                                 <tr>
                                     <td><strong>Title of Activity:</strong></td>
-                                    <td colspan="3">Recreation</td>
+                                    <td colspan="3">{{gosmActivity.strategies}}</td>
                                     
                                         
                                 </tr>
                                 <tr>
                                     <td> <strong>Nature of Activity:</strong></td>
-                                    <td colspan="3" >Special Interest</td>
+                                    <td colspan="3" >{{gosmActivity.name}}</td>
                                     
                                     
                                 </tr>
                                 <tr>
                                     <td><strong>Date:</strong></td>
-                                    <td colspan="3">September 17, 2017 - September 18, 2017</td>
+                                    <td colspan="3">{{gosmActivity.startdate}} - {{gosmActivity.enddate}}</td>
                                     
                                 </tr>
                                 
                                 <tr>
                                     <td><strong>Project Heads:</strong></td>
                                     <td colspan="3">
-                                        <p>Juan Dela Cruz - 09478569874</p>
-                                        <p>Pedro Aquino - 09478532147</p>
+
+                                        {% for head in projectHeads %}
+                                            
+                                            <p>{{head.firstname}} {{head.lastname}} - {{head.contactnumber}}</p>
+
+                                        {% endfor %}
+
                                     </td>
                                 </tr>
                               

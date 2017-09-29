@@ -14,6 +14,7 @@ module.exports = function(db, queryFiles) {
     const getSchoolYearSQL = queryFiles.getSchoolYear;
     const getAllActivityNatureSQL = queryFiles.getAllActivityNature;
     const getGOSMActivitiesSQL = queryFiles.getGOSMActivities;
+    const getGOSMActivitySQL = queryFiles.getGOSMActivity;
     const insertNewGOSMSQL = queryFiles.insertNewGOSM;
     const deleteActivitySQL = queryFiles.deleteActivity;
     const updateActivitySQL = queryFiles.updateActivity;
@@ -21,6 +22,7 @@ module.exports = function(db, queryFiles) {
     const getOrgGOSMSQL = queryFiles.getOrgGOSM;
     const query_getSubmissionYears = queryFiles.gosm_getSubmissionYears;
     const query_getAll = queryFiles.gosm_getAll;
+    const getGOSMActivityProjectHeadsSQL = queryFiles.getGOSMActivityProjectHeads;
 
     const dbHelper = require('../utility/databaseHelper');
     const attachFields = dbHelper.attachFields;
@@ -44,6 +46,14 @@ module.exports = function(db, queryFiles) {
 
         getGOSMActivities: function(param) {
             return db.any(getGOSMActivitiesSQL, param);
+        },
+
+        getGOSMActivity: function(param) {
+            return db.one(getGOSMActivitySQL, param);
+        },
+
+        getGOSMActivityProjectHeads: function(param) {
+            return db.any(getGOSMActivityProjectHeadsSQL, param);
         },
 
         //TODO: Delete function

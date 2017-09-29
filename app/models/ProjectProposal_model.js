@@ -13,11 +13,8 @@ module.exports = function(db, queryFiles) {
     const insertProjectProposalProgramDesignSQL = queryFiles.insertProjectProposalProgramDesign;
     const insertProjectProposalProjectedIncomeSQL = queryFiles.insertProjectProposalProjectedIncome;
     const insertProjectProposalExpensesSQL = queryFiles.insertProjectProposalExpenses;
-    const getProjectProposalsSQL = queryFiles.getProjectProposals;
     const getProjectProposalsPerStatusSQL = queryFiles.getProjectProposalsPerStatus;
-    const getProjectProposalExpensesSQL = queryFiles.getProjectProposalExpenses;
-    const getProjectProposalProjectedIncomeSQL = queryFiles.getProjectProposalProjectedIncome;
-    const getProjectProposalProgramDesignSQL = queryFiles.getProjectProposalProgramDesign;
+
 
 
 
@@ -171,6 +168,21 @@ module.exports = function(db, queryFiles) {
         return connection.any(query, param);
     };
 
+    ProjectProposalModel.prototype.getProjectProposalProjectedIncome =  function(id, fields, connection = this._db){
+        let query = squel.select()
+        .from('ProjectProposalProjectedIncome', 'pppi')
+        .where('projectProposal = ${id}');
+        this._attachFields(query, fields);
+
+        query = query.toString();
+
+        let param = Object.create(null);
+        param.id = id;
+        return connection.any(query, param);
+
+
+    };
+
     ProjectProposalModel.prototype.insertProjectProposal = function(param, connection = this._db) {
         //TODO: test
         return connection.one(insertProjectProposalSQL, param);
@@ -191,27 +203,13 @@ module.exports = function(db, queryFiles) {
         return connection.none(insertProjectProposalExpensesSQL, param);
     };
 
-    ProjectProposalModel.prototype.getProjectProposals = function(param, connection = this._db) {
-        //TODO: implementation, test
-        return connection.one(getProjectProposalsSQL, param);
-    };
-
     ProjectProposalModel.prototype.getProjectProposalsPerStatus = function(param, connection = this._db) {
         //TODO: implementation, test
         return connection.one(getProjectProposalsPerStatusSQL, param);
     };
 
-    ProjectProposalModel.prototype.getProjectProposalExpenses = function(param, connection = this._db) {
-        return connection.any(getProjectProposalExpensesSQL, param);
-    };
 
-    ProjectProposalModel.prototype.getProjectProposalProjectedIncome = function(param, connection = this._db) {
-        return connection.any(getProjectProposalProjectedIncomeSQL, param);
-    };
-
-    ProjectProposalModel.prototype.getProjectProposalProgramDesign = function(param, connection = this._db) {
-        return connection.any(getProjectProposalProgramDesignSQL, param);
-    };
+  
 
     ProjectProposalModel.prototype.getProjectProposalProjectHeads = function(id, fields, connection = this._db){
         /**

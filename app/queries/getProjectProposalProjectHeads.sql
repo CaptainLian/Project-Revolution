@@ -4,7 +4,7 @@ WITH ProjectHeads AS (
 	FROM GOSMActivityProjectHead
 	WHERE activityID = ( SELECT GOSMActivity
                            FROM ProjectProposal
-                          WHERE id = 1)
+                          WHERE id = ${id})
 ), Accounts AS (
 	SELECT * 
 	 FROM Account
