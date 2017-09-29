@@ -23,7 +23,7 @@ module.exports = function(database, models, queryFiles) {
             // console.log(sched.length);
             // req.body.context
             
-            // logger.debug(`${JSON.stringify(req.body)}`, log_options);
+            logger.debug(`${JSON.stringify(req.body)}`, log_options);
             
             var projectProposalParam = {
                 //TODO
@@ -105,7 +105,7 @@ module.exports = function(database, models, queryFiles) {
                                 //     }, t);
                                 // }
 
-                                return t.batch(queries);
+                                return t.sequence(queries);
                             });
                         });
                 })
@@ -113,7 +113,7 @@ module.exports = function(database, models, queryFiles) {
                     logger.debug(`${data}`, log_options);
                 })
                 .catch(err => {
-                    logger.warn('CATCH ON PROMISE');
+                    logger.warning('CATCH ON PROMISE');
                     console.log(err);
                     throw err;
                 });
