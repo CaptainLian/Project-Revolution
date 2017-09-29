@@ -7,4 +7,5 @@ encryption
 	- bits: Default 1024
 		Must be divisible by 512
 		Minimum value of 1024 (see issue: https://github.com/digitalbazaar/forge/issues/108) 
+			- The system uses SHA512 for digital signitures, this is why the minimum value must be imposed
 	- web_workers_amount: Default -1

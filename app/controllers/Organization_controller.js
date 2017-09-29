@@ -163,7 +163,7 @@ module.exports = function(database, models, queryFiles) {
          */
         inputCreateGOSM: (req, res) => {
             /* Validate input */
-            global.logger.warn('inputCreateGOSM - Input not yet validated!', log_options);
+            global.logger.warning('inputCreateGOSM - Input not yet validated!', log_options);
             global.logger.debug(`JSON.stringify(req.body)`, log_options);
 
             /* Parse input*/
