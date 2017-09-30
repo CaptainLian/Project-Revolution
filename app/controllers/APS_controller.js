@@ -14,6 +14,7 @@ module.exports = function(database, models, queryFiles) {
     return {
     
         //NOTE: WAG MUNA ILIPAT SA ORG CONTROLLER
+        //TODO: Illipat sa org controller
         inputActivityRequirements: (req, res) => {
             let sched = JSON.parse(req.body.sched);
             let exp = JSON.parse(req.body.exp);
