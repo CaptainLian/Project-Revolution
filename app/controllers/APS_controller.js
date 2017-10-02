@@ -1,9 +1,8 @@
 'use strict';
 
 const logger = global.logger;
-const log_options = {
-    from: 'APS-Controller'
-};
+const log_options = Object.create(null);
+log_options.from = 'APS-Controller';
 
 module.exports = function(database, models, queryFiles) {
 
@@ -162,7 +161,7 @@ module.exports = function(database, models, queryFiles) {
                      * };
                      * @type {Object}
                      */
-                    let view = Object.create(null);
+                    let view = {};
                     view.organizationName = data[0].name;
                     view.GOSMActivities = data[1];
                     view.GOSMID = GOSMID;

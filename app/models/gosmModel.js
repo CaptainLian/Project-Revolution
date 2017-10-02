@@ -1,9 +1,9 @@
 'use strict';
 
 const logger = global.logger;
-const log_options = {
-    from: 'GOSM-Model'
-};
+
+const log_options= Object.create(null);
+log_options.from = 'GOSM-Model';
 
 const squel = require('squel').useFlavour('postgres');
 
@@ -73,7 +73,7 @@ module.exports = function(db, queryFiles) {
          * @returns {Promise}                          [description]
          */
         insertNewGOSM: function(termID, studentOrganization, returning, connection = db) {
-            let param = Object.create(null);
+            let param = {};
             param.termID = termID;
             param.studentOrganization = studentOrganization;
             if(returning){
@@ -109,7 +109,7 @@ module.exports = function(db, queryFiles) {
                     GOSMID: GOSMID
                 };
             */
-            let param = Object.create(null);
+            let param = {};
             param.GOSMID = GOSMID;
             return connection.any(query, param);
         },
@@ -137,7 +137,7 @@ module.exports = function(db, queryFiles) {
                     activityID: id
                 };
             */
-            let param = Object.create(null);
+            let param = {};
             param.activityID = id;
             return connection.oneOrNone(query, param);
         },
@@ -159,7 +159,7 @@ module.exports = function(db, queryFiles) {
                     activityID: id
                 };
             */
-            let param = Object.create(null);
+            let param = {};
             param.activityID = id;
             return connection.any(query, param);
         },
@@ -177,7 +177,7 @@ module.exports = function(db, queryFiles) {
                     comment: (optional)
                 };
             */
-            let param = Object.create(null);
+            let param = {};
             param.id = id;
             param.statusID = statusID;
 
@@ -210,7 +210,7 @@ module.exports = function(db, queryFiles) {
                     comments: comments
                 };
             */
-            let param = Object.create(null);
+            let param = {};
             param.id = id;
             param.comments = comments;
             return connection.none(query, param);
@@ -230,7 +230,7 @@ module.exports = function(db, queryFiles) {
                     id: id
                 };
             */
-            let param = Object.create(null);
+            let param = {};
             param.id = id;
             return connection.one(query, param);
         }

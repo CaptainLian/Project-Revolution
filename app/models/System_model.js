@@ -35,9 +35,8 @@ class SystemModel {
 		 * contains the options for logging
 		 * @type {Object}
 		 */
-		this._log_options = {
-		    from: 'SystemModel'
-		};
+		this._log_options = Object.create(null);
+		this._log_options.from = 'SystemModel';
 	}
 
 	/**

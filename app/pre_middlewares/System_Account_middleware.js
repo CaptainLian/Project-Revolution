@@ -28,5 +28,4 @@ module.exports = function(app, database, models, queryFiles) {
         }];
     }
     return [];
-
 };

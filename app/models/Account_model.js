@@ -53,7 +53,7 @@ module.exports = function(database, queryFiles) {
          * @returns {Promise} [description]
          */
         insertAccount(idNumber, email, type, password, firstname, middlename, lastname, contactNumber, publicKey, privateKey, returning, connection = this._database) {
-            let param = Object.create(null);
+            let param = {};
             param.idNumber = idNumber;
             param.email = email;
             param.type = type;
@@ -94,7 +94,7 @@ module.exports = function(database, queryFiles) {
          * @returns {Promise}  [description]
          */
         getAccountDetails(idNumber, fields, connection = this._database) {
-            let param = Object.create(null);
+            let param = {};
             param.idNumber = idNumber;
 
             let query = this._squel.select()

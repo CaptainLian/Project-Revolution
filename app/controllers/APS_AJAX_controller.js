@@ -1,8 +1,8 @@
 const logger = global.logger;
-const log_options = {
-    from: 'AJAX-APS',
-    color: '\x1b[35m'
-};
+
+const log_options = Object.create(null);
+log_options.from = 'AJAX-APS';
+log_options.color = '\x1b[35m';
 
 module.exports = function(database, models, queryFiles) {
     const gosmModel = models.gosmModel;

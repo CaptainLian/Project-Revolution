@@ -1,9 +1,9 @@
 'use strict';
 
 const logger = global.logger;
-const log_options = {
-    from: 'ProjectProposal-Model'
-};
+
+const log_options = Object.create(null);
+log_options.from = 'ProjectProposal-Model';
 
 const squel = require('squel').useFlavour('postgres');
 
@@ -82,7 +82,7 @@ module.exports = function(db, queryFiles) {
         query = query.toString();
         logger.debug(`Executing Query: ${query}`, log_options);
 
-        let param = Object.create(null);
+        let param = {};
         param.id = id;
         return connection.oneOrNone(query, param);
     };
@@ -151,7 +151,7 @@ module.exports = function(db, queryFiles) {
         this._attachFields(query, fields);
 
         query = query.toString();
-        let param = Object.create(null);
+        let param = {};
         param.id = id;
         return connection.any(query, {id: id});
     };
@@ -171,7 +171,7 @@ module.exports = function(db, queryFiles) {
          * @variable param
          * @type {Object}
          */
-        let param = Object.create(null);
+        let param = {};
         param.id = id;
         return connection.any(query, param);
     };
@@ -184,7 +184,7 @@ module.exports = function(db, queryFiles) {
 
         query = query.toString();
 
-        let param = Object.create(null);
+        let param = {};
         param.id = id;
         return connection.any(query, param);
 
@@ -221,7 +221,7 @@ module.exports = function(db, queryFiles) {
          * @variable param
          * @type {Object}
          */
-        let param = Object.create(null);
+        let param = {};
         param.gosm = gosm;
         param.status = status;
 
@@ -236,7 +236,7 @@ module.exports = function(db, queryFiles) {
          * @variable param
          * @type {Object}
          */
-        let param = Object.create(null);
+        let param = {};
         param.id = id;
         
         return connection.any(queryFiles.getProjectProposalProjectHeads, param);

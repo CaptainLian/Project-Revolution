@@ -16,7 +16,7 @@ module.exports = function(database, queryFiles){
 				.where('id = ${id}');
 			dbHelper.attachFields(query, fields);			
 
-			let param = Object.create(null);
+			let param = {};
 			param.id = id;
 
 			query = query.toString();

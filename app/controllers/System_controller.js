@@ -1,5 +1,8 @@
-//query builder
-const squel = require('squel');
+/**
+ * Query builder
+ * @type {Object}
+ */
+const squel = require('squel').useFlavour('postgres');
 
 /**
  * Used for password hashing
@@ -14,11 +17,9 @@ const bcrypt = require('bcryptjs');
 const forgePromise = require('../utility/forge-promise');
 
 const logger = global.logger;
-const log_options = {
-    from: 'Account'
-};
 
-const forge = require('node-forge');
+const log_options = Object.create(null);
+log_options.from = 'Account';
 
 module.exports = function(database, models, queryFiles) {
     const accountModel = models.Account_model;
@@ -91,9 +92,9 @@ module.exports = function(database, models, queryFiles) {
                              * }
                              * @type Object
                              */
-                            let user = Object.create(null);
+                            let user = {};
                             user.idNumber = account.idnumber;
-                            user.name = Object.create(null);
+                            user.name = {};
                             user.name.first = account.firstname;
                             user.name.middle = account.middlename;
                             user.name.last = account.lastname;
@@ -111,8 +112,7 @@ module.exports = function(database, models, queryFiles) {
                                 valid: false
                             });
                         }
-                    })
-                    .catch(() => {
+                    }).catch(() => {
                         logger.debug('Account not exist');
                         return res.send({
                             valid: false
@@ -143,10 +143,10 @@ module.exports = function(database, models, queryFiles) {
                     };
                     sampleDocument = JSON.stringify(sampleDocument);
 
-                    let messageDigest = forge.md.sha512.create();
+                    let messageDigest = forgePromise.forge.md.sha512.create();
                     messageDigest.update(sampleDocument);
 
-                    const privateKey = forge.pki.privateKeyFromPem(data.privatekey);
+                    const privateKey = forgePromise.forge.pki.privateKeyFromPem(data.privatekey);
 
                     const signature = privateKey.sign(messageDigest);
 
