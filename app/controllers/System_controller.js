@@ -16,8 +16,13 @@ const bcrypt = require('bcryptjs');
  */
 const forgePromise = require('../utility/forge-promise');
 
-const logger = global.logger;
-
+/**
+ * Contains data regarding logging
+ * const log_options = {
+ *     from: 'Account'
+ * };
+ * @type {Object}
+ */
 const log_options = Object.create(null);
 log_options.from = 'Account';
 
@@ -27,7 +32,7 @@ module.exports = function(database, models, queryFiles) {
 
         viewLogin: (req, res) => {
             const csrfToken = req.csrfToken();
-            logger.debug(`login CSRFToken: ${csrfToken}`, log_options);
+            global.logger.debug(`login CSRFToken: ${csrfToken}`, log_options);
             res.render('System/LoginMain', {
                 csrfToken: csrfToken
             });
@@ -42,7 +47,7 @@ module.exports = function(database, models, queryFiles) {
 
         checkLogin: (req, res) => {
             let input = req.body;
-            logger.debug(`Login attempt input: ${JSON.stringify(input)}`, log_options);
+            global.logger.debug(`Login attempt input: ${JSON.stringify(input)}`, log_options);
             //parse id number
             let credential = parseInt(input.credential);
             let credentialFloat = parseFloat(input.credential);
@@ -73,13 +78,13 @@ module.exports = function(database, models, queryFiles) {
                         credential: input.credential
                     })
                     .then(account => {
-                        logger.debug(`Account found: ${JSON.stringify(account)}`, log_options);
+                        global.logger.debug(`Account found: ${JSON.stringify(account)}`, log_options);
                         if (account.password === bcrypt.hashSync(input.password, account.salt)) {
 
-                            logger.debug('Enter!!', log_options);
+                            global.logger.debug('Enter!!', log_options);
 
                             /**
-                             * Session
+                             * Session Contents
                              * {
                              *     user: {
                              *         idNumber
@@ -107,19 +112,19 @@ module.exports = function(database, models, queryFiles) {
                                 route: '/'
                             });
                         } else {
-                            logger.debug('Incorrect password');
+                            global.logger.debug('Incorrect password');
                             return res.send({
                                 valid: false
                             });
                         }
                     }).catch(() => {
-                        logger.debug('Account not exist');
+                        global.logger.debug('Account not exist');
                         return res.send({
                             valid: false
                         });
                     });
             } else {
-                logger.debug('Aguy input');
+                global.logger.debug('Aguy input');
                 return res.send({
                     valid: false
                 });
@@ -131,28 +136,28 @@ module.exports = function(database, models, queryFiles) {
             // console.log("REQUEST");
             // console.log(req.session.user);
             //database.one('SELECT * FROM Account WHERE idNumber = ${idNumber}', {idNumber: req.session.user.idNumber});
-            logger.debug(req.session, log_options);
+            global.logger.debug(req.session, log_options);
             //let fullname = req.session.user.name.first + " " + req.session.user.name.middle + " " + req.session.user.name.last;
 
             accountModel.getAccountDetails(11445955, 'privateKey')
-                .then(data => {
-                    let sampleDocument = {
-                        Length: 500,
-                        size: 5100,
-                        comments: 'Ganda, laki ng saging'
-                    };
-                    sampleDocument = JSON.stringify(sampleDocument);
+            .then(data => {
+                let sampleDocument = {
+                    Length: 500,
+                    size: 5100,
+                    comments: 'Ganda, laki ng saging'
+                };
+                sampleDocument = JSON.stringify(sampleDocument);
 
-                    let messageDigest = forgePromise.forge.md.sha512.create();
-                    messageDigest.update(sampleDocument);
+                let messageDigest = forgePromise.forge.md.sha512.create();
+                messageDigest.update(sampleDocument);
 
-                    const privateKey = forgePromise.forge.pki.privateKeyFromPem(data.privatekey);
+                const privateKey = forgePromise.forge.pki.privateKeyFromPem(data.privatekey);
 
-                    const signature = privateKey.sign(messageDigest);
+                const signature = privateKey.sign(messageDigest);
 
-                    console.log(signature);
-                    res.send(typeof signature);
-                });
+                console.log(signature);
+                res.send(typeof signature);
+            });
         },
 
         /**
@@ -169,49 +174,45 @@ module.exports = function(database, models, queryFiles) {
          *         contactNumber String
          *     }
          * @method
-         * @param   {[type]} req [description]
-         * @param   {[type]} res [description]
-         * @returns {[type]}     [description]
          */
         createAccount: (req, res) => {
             const input = req.body;
 
             forgePromise.pki.rsa.generateKeyPair({
-                    bits: global.config.webserver.encryption.bits,
-                    workers: global.config.webserver.encryption.web_workers_amount
-                })
-                .then(pair => {
-                    return Promise.all([
-                        forgePromise.pki.publicKeyToPem(pair.publicKey),
-                        forgePromise.pki.privateKeyToPem(pair.privateKey)
-                    ]);
-                }).then(keys => {
-                    const publicKeyPEM = keys[0];
-                    const privateKeyPEM = keys[1];
+                bits: global.config.webserver.encryption.bits,
+                workers: global.config.webserver.encryption.web_workers_amount
+            }).then(pair => {
+                return Promise.all([
+                    forgePromise.pki.publicKeyToPem(pair.publicKey),
+                    forgePromise.pki.privateKeyToPem(pair.privateKey)
+                ]);
+            }).then(keys => {
+                const publicKeyPEM = keys[0];
+                const privateKeyPEM = keys[1];
 
-                    return accountModel.insertAccount(
-                        input.idNumber,
-                        input.email,
-                        input.type,
-                        input.password,
-                        input.firstname,
-                        input.middlename,
-                        input.lastname,
-                        input.contactNumber,
-                        publicKeyPEM,
-                        privateKeyPEM
-                    );
-                }).then(() => {
-                    return res.send({
-                        success: true,
-                        valid: true
-                    });
-                }).catch(err => {
-                    return res.send({
-                        success: false,
-                        valid: true
-                    });
+                return accountModel.insertAccount(
+                    input.idNumber,
+                    input.email,
+                    input.type,
+                    input.password,
+                    input.firstname,
+                    input.middlename,
+                    input.lastname,
+                    input.contactNumber,
+                    publicKeyPEM,
+                    privateKeyPEM
+                );
+            }).then(() => {
+                return res.send({
+                    success: true,
+                    valid: true
                 });
+            }).catch(err => {
+                return res.send({
+                    success: false,
+                    valid: true
+                });
+            });
         }
     };
 };

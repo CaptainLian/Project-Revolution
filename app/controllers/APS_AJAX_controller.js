@@ -13,10 +13,9 @@ module.exports = function(database, models, queryFiles) {
             
             if (isNaN(activityID)) {
                 logger.debug(`Invalid input`);
-                res.send({
+                return res.send({
                     valid: false
                 });
-                return;
             }
             logger.debug(`Getting Activity Details of id: ${activityID}`, log_options);
 
@@ -133,7 +132,7 @@ module.exports = function(database, models, queryFiles) {
                 })
                 .then(data => {
                     logger.debug(`Data: ${data}`, log_options);
-                    res.send({
+                    return res.send({
                         valid: true,
                         success: true,
                         data: data
