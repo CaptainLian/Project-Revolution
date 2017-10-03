@@ -1,0 +1,1507 @@
+{% extends "../template/APS/ActivityRequirementsFW.html" %}
+
+
+{%block styles%}
+	<link href="/css/custom.css" rel="stylesheet">
+{%endblock%}
+
+{%block header%}
+	{%include "../section/header.html"%}
+{%endblock%}
+
+{%block sidebar%}
+	{%include "../section/sidebar/cso-aps.html"%}
+{%endblock%}
+
+
+{%block content%}
+<div class="row">
+
+  <div class="col-md-12">
+    <div class="panel panel-default white-box">
+        <div class="panel-wrapper collapse in">
+            <div class="panel-body">
+                    <table class="table table-striped">
+                            <thead>
+                                <tr style="display: none">
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                                <tr>
+                                    <td><strong>Title of Activity:</strong></td>
+                                    <td colspan="3">{{gosmActivity.strategies}}</td>
+                                    
+                                        
+                                </tr>
+                                <tr>
+                                    <td> <strong>Nature of Activity:</strong></td>
+                                    <td colspan="3" >{{gosmActivity.name}}</td>
+                                    
+                                    
+                                </tr>
+                                <tr>
+                                    <td><strong>Date:</strong></td>
+                                    <td colspan="3">{{gosmActivity.startdate}} - {{gosmActivity.enddate}}</td>
+                                    
+                                </tr>
+                                
+                                <tr>
+                                    <td><strong>Project Heads:</strong></td>
+                                    <td colspan="3">
+
+                                        {% for head in projectHeads %}
+                                            
+                                            <p>{{head.firstname}} {{head.lastname}} - {{head.contactnumber}}</p>
+
+                                        {% endfor %}
+
+                                    </td>
+                                </tr>
+                              
+                               
+                            </tbody>
+                    </table>
+                  
+                    <section id="section-linetriangle-2" style="min-height:1000px;padding-top:55px">
+                        <div id="exampleBasic" class="wizard">
+                            <ul class="wizard-steps" role="tablist">
+                                <li class="active text-center current" role="tab">
+                                    <h4><span><i class="fa fa-book"></i></span> </h4>
+                                </li>
+                                <li class="text-center" role="tab"><h4><span><i class="fa fa-calendar"></i></span></h4> </li>
+                                <li class="text-center" role="tab"><h4><span><i class="fa fa-money"></i></span></h4> </li>
+                               
+                                <li class="text-center" role="tab"><h4><span><i class="fa fa-upload"></i></span></h4> </li>
+                            </ul>
+                            <div class="wizard-content">
+
+                              <div class="wizard-pane active" role="tabpanel">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group col-md-12 ">
+                                                <h3>Brief Context / Perspective of the Activity</h3>
+                                                <hr>
+                                                <label class="control-label col-md-6">Expected number of Member Participants</label>
+                                                <input id="enmp" class="col-md-6" type="number">                                                                                 
+                                            </div>
+                                            <div class="form-group col-md-12 ">
+                                                <label class="control-label col-md-6">Expected number of Participants</label>
+                                                <input id="emp" class="col-md-6" type="number">                                                                                 
+                                            </div>
+                                            <div class="form-group col-md-12 ">
+                                                <label class="control-label col-md-6">Venue</label>
+                                                 <select  name="venue" class="select col-md-6" id="venue">
+                                                    <option value="11445955">Neil Capistrano</option>
+                                                    <option value="11445954">Dominique Dagunton</option>
+                                                    <option value="11445953">Markus Flores</option>
+                                                    <option value="11445952">Lian Laguio</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+
+                                               
+                                                <p>
+                                                    <strong> Minimum of 3 paragraphs answering the following questions in application of the Lasallian Reflection   Framework:
+                                                    </strong>
+                                                </p>
+                                                <ul >
+                                                    <li>
+                                                        What situation do you see (observation/s) in your organization, university, society, or our world?
+                                                        What certain experiences, problems, or questions do you have in relation to what you see? (May be supported with data or research if there is any or if needed)
+                                                    </li>
+
+                                                    <li>
+                                                        Why is there a problem?
+                                                        What could be the cause and effect?
+                                                        How did you feel about the experience, situation, or problem? And why did you feel that way?
+                                                        What can we discover or realize?
+                                                    </li>
+
+                                                    <li >
+                                                      Out of all the possible projects, activities, and solutions, Why this?
+                                                      As an organization, what will you commit as a response to what you have stated in Part 2?
+                                                    </li>
+
+                                                  </ul>
+
+                                                
+                                                <label class="control-label"></label>
+                                                <input name="prespective" style="height:0px; top:-1000px; position:absolute;display: none" type="text" value="">
+                                                <textarea  class="form-control" rows=20></textarea> 
+                                            </div>
+                                        </div>
+
+                                    </div>
+                              </div>
+
+                              <div class="wizard-pane" role="tabpanel">
+                                    <h3>Comprehensive Program Design</h3>
+                                    <hr>
+                                            
+                                    <div data-example-id="togglable-tabs" class="bs-example bs-example-tabs" style="padding-top: 25px">
+                                        <ul role="tablist" class="nav nav-tabs" id="myTabs">
+                                            <li class="active nav-item" id="t0" role="presentation"><a aria-expanded="true" class="nav-link" aria-controls="home" data-toggle="tab" role="tab" id="tab-0" href="#ctab0">Day 1</a></li>
+                                            <!--    <li class=" nav-item" id="t1" role="presentation"><a aria-expanded="true" class="nav-link" aria-controls="home" data-toggle="tab" role="tab" id="tab-1" href="#ctab1">Day 2</a></li> -->
+                                            <!-- <li role="presentation" class="nav-item panel-success"><a aria-controls="profile" class="nav-link" id="add-tab" href="tab-" role="tab"  aria-expanded="false"></a></li> -->
+                                            <li role="presentation" class="nav-item "><a aria-controls="profile" class="nav-link" id="add-tab" href="#" role="tab"   aria-expanded="false"><i class="text-success fa fa-plus"></i></a></li>
+                                            <!--  <li role="presentation" class="nav-item "><a style="border-color: white white #ddd white" aria-controls="profile" class="nav-link" id="delete-tab" href="#" role="tab"   aria-expanded="false"><i class="text-danger fa fa-times"></i></a></li> -->
+
+                                        </ul>
+                                        <div class="tab-content" id="myTabContent">
+                                            <div aria-labelledby="tab-0" id="ctab0" class="tab-pane fade active in" role="tabpanel">
+                                                 <div class="row">
+                                                    <div class="col-md-4" id="clone-question"  style="padding: 25px;position: relative;  ">
+                                                        <!-- pangcancel ng auto open datepicker -->
+                                                        <input style="height:0px; top:-1000px; position:absolute;display: none" type="text" value="">
+                                                        <label>Date</label>
+                                                        <div class="input-group">
+                                                            <input name="date" readonly="" class="form-control" id="datepicker-autoclose" placeholder="mm/dd/yyyy" type="text">
+                                                            <span class="input-group-addon"><i class="icon-calender"></i></span> 
+                                                        </div>
+                                                        <div>&nbsp</div>
+                                                        <label>Time</label>
+                                                        <div class="input-group clockpicker " data-autoclose="true">
+                                                            <input name="timeStart" type="text" id="start-time" class="form-control" value="00:00" readonly="">
+                                                            <span class=" input-group-addon bg-info b-0 text-white">to</span>
+                                                            <!-- <input type="text" name="end" class="form-control" value="00:00" readonly=""> -->
+
+
+                                                            <input name="timeEnd" type="text" id="end-time" class="form-control" value="00:00" readonly="">
+
+                                                            <!-- <input type="text" name="end" class="form-control" value="00:00" readonly=""> -->
+
+                                                        </div>
+                                                        <div>&nbsp</div>
+                                                        <label>Activity</label>
+                                                        <input name="activity" id="act0"  type="text" class="form-control">
+                                                        <div>&nbsp</div>
+                                                        <label>Description</label>
+                                                        <textarea name="description" id="desc0" class="form-control" rows="2" ></textarea>
+                                                        <div>&nbsp</div>
+                                                        <label>Person in Charge</label>
+                                                        <select name="personInCharge" id="sel0" class="form-control select2">                                                                                    
+                                                            <option value="DE">Delaware</option>
+                                                            <option value="FL">Florida</option>
+                                                            <option value="GA">Georgia</option>
+                                                            <option value="IN">Indiana</option>
+                                                            <option value="ME">Maine</option>
+                                                            <option value="MD">Maryland</option>
+                                                            <option value="MA">Massachusetts</option>
+                                                            <option value="MI">Michigan</option>
+                                                            <option value="NH">New Hampshire</option>
+                                                            <option value="NJ">New Jersey</option>
+                                                            <option value="NY">New York</option>
+                                                            <option value="NC">North Carolina</option>
+                                                            <option value="OH">Ohio</option>
+                                                            <option value="PA">Pennsylvania</option>
+                                                            <option value="RI">Rhode Island</option>
+                                                            <option value="SC">South Carolina</option>
+                                                            <option value="VT">Vermont</option>
+                                                            <option value="VA">Virginia</option>
+                                                            <option value="WV">West Virginia</option>
+
+                                                        </select>
+                                                        <div>&nbsp</div>
+                                                        <div class=" form-group text-center">
+
+                                                         <button type="button" id="insert-button" class="btn btn-success">Insert </button>
+
+                                                     </div>
+                                                    </div>
+                                                 <!--/span-->
+                                                     <div class="col-md-8 " id="clone-table" style="padding-top: 30px">
+                                                        <table id="program-tables" class="table program color-bordered-table success-bordered-table" >
+                                                            <thead>
+                                                                <tr>
+
+                                                                    <th width="21%" >Time</th>
+                                                                    <th width="10%">Duration</th>
+                                                                    <th width="20%">Activity</th>
+                                                                    <th width="21%">Description</th>
+                                                                    <th width="23%">Person in Charge</th>
+                                                                    <th width="5%" data-field="state" data-checkbox="true"></th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr class="no-records-found">
+                                                                    <td ></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                </tr>
+                                                            <!-- 
+                                                            <tr>
+                                                                <td></td>
+                                                                <td>09:00 - 12:00</td>
+                                                                <td>Deshmukh</td>
+                                                                <td>Prohaska</td>
+                                                                <td>@Genelia</td>
+                                                                <td>@Sonu</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td></td>
+                                                               <td>09:00 - 12:00</td>
+                                                                <td>Roshan</td>
+                                                                <td>Rogahn</td>
+                                                                <td>@Hritik</td>
+                                                                <td>@Sonu</td>
+                                                            </tr> -->
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                            <!--/span-->
+                                                </div>
+                                            </div>
+                                                <!-- <div aria-labelledby="tab-1" id="ctab1" class="tab-pane" role="tabpanel">
+                                           asd
+                                       </div> -->
+
+
+                                        </div>
+                                    </div>
+                              </div>
+
+                              <div class="wizard-pane" role="tabpanel">
+                                    <h3>Funding</h3>
+                                    <hr>
+                                    <div class="form-group col-md-12" >
+                                     <input name="expenses" style="height:0px; top:-1000px; position:absolute;display: none" type="text" value="">
+                                      <label class="control-label col-md-3">Expenses</label>
+                                      <div class="col-md-9">
+                                          <div class="radio-list">
+                                                <label>
+                                                  <input  name="optionsRadios2" value="option1" checked="" type="radio"> Yes 
+                                                </label>
+                                                <label>
+                                                  <input name="optionsRadios2" value="option2"  type="radio"> No 
+                                                </label>
+                                          </div>
+                                      </div>
+                                    </div>
+                                    <div class="row col-md-6 exp" style="border-right-color: #aaa !important ;border-right: 1px solid">
+                                        <div class="form-group col-md-12 ">
+                                            <h3 class="text-center">Organizational Funds</h3>
+                                            <hr/>
+                                            <label class="control-label col-md-6">Operational Fund</label>
+                                            <input id="ope-fund"  class="col-md-6" type="text">                                             
+                                        </div>
+                                        <div class="form-group col-md-12 ">
+                                            <label class="control-label col-md-6">Depository Fund ()</label>
+                                            <input id="dep-fund" class="col-md-6" disabled="" type="text">                                                                                 
+                                        </div>
+                                        
+
+                                        <div class="form-group col-md-12 ">
+                                            <label class="control-label col-md-6">Other Sources of Funds</label>
+                                            <input id="other-fund" class="col-md-6" type="text">                                                                                
+                                        </div>
+
+                                        
+                                        <div class="form-group col-md-12   ">
+                                            <hr/>
+                                            <label class="control-label col-md-6">Total Cash for Disbursement:</label>
+                                            <a id="tot-fund" class="col-md-6" type="text">0</a>                                                                                         
+                                        </div>
+
+                                        <div class="form-group col-md-12 ">
+                                            <label class="control-label col-md-6">Total Projected Expenses:</label>
+                                            <a id="proj-exp" class="col-md-6" type="text">0</a>
+                                            
+                                             
+                                        </div>
+
+                                        <div class="form-group col-md-12 ">
+                                            <label class="control-label col-md-6">Remaining Balance:</label>
+                                            <a id="bal-fund" class="col-md-6" type="text">0</a>
+                                        </div>
+                                                
+                                    </div>
+
+                                    <div class="row col-md-6 exp">
+                                        
+                                        <div class="form-group exp col-md-12">
+                                            <h3 class="text-center">Source of Funds</h3>
+                                            <hr>
+                                            <label class="control-label col-md-6">Organizational Funds</label>
+                                            <input name="organizationalFunds" disabled="" id="org-exp" class="col-md-6" type="text">                                                                                 
+                                        </div>
+                                                                       
+                                        <div class="form-group exp col-md-12">
+                                            <label class="control-label col-md-6">Participant's Fee</label>
+                                            <input name="participantsFee" id="par-exp" class="col-md-6" type="text">                                                                                 
+                                        </div>
+                
+
+                                        <div class="form-group exp col-md-12">
+                                            <label class="control-label col-md-6">Others(i.e Sponsorship)</label>
+                                            <input name="others" id="others-exp" class="col-md-6" type="text">                                                                        
+                                        </div>
+
+                                        <div class="form-group col-md-12 exp">
+                                            <hr/>
+                                            <label class="control-label asd col-md-6">Total</label>
+                                            <a class="col-md-6 tot-exp" id="tot-exp">0</a>                                                                                 
+                                        </div>
+
+                                    </div>
+
+<!--                                     <div class="exp">&nbsp</div>
+
+                                    
+
+                                   
+
+
+                                    <div class="exp">&nbsp</div>
+                                    <div class="exp">&nbsp</div>
+
+                                    <div class="exp">&nbsp</div>
+                                    <div class="exp">&nbsp</div>
+                                    <div class="row exp" style="padding-top: 25px">
+                                        <div class="col-md-12">
+                                           
+
+
+                                            <table id="mainTable" class="table editable-table table-bordered color-bordered-table success-bordered-table table-striped m-b-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Material</th>
+                                                        <th>Quantity</th>
+                                                        <th>Unit Cost</th>
+                                                        <th>Total Cost</th>
+                                                        <th width="5%"></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Car</td>
+                                                        <td>100</td>
+                                                    
+                                                        <td>20</td>
+                                                        <th class="total">0</th>
+                                                    </tr>
+                                                  
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th class="text-right" colspan="3"><strong>TOTAL</strong></th>
+                                                        
+                                                        <th class="expense-total" colspan="2"></th>
+                                                    </tr>
+                                                    </thead>
+                                            </table>
+
+                                                
+                                            <div>&nbsp</div>
+                                            <div class=" form-group text-center">
+
+                                                 <button type="button" id="insert-button-expense" class="btn btn-success">Insert </button>
+                                             </div>
+
+                                        </div>
+                                    </div> -->
+
+
+
+<!-- 
+                                                                        <h3>Organizational Funds</h3>
+                                    <input style="height:0px; top:-1000px; position:absolute;display: none" type="text" value="">
+                                    <hr>
+                                         -->
+                                          
+
+                                    
+
+                                    <div>&nbsp</div>
+
+                                   
+
+                                    <div>&nbsp</div>
+
+                                   
+
+                                    <div>&nbsp</div>
+                                    
+
+                                   
+                                    <div>&nbsp</div>
+                                    <div>&nbsp</div>
+                                    <div>&nbsp</div>
+
+                                    
+
+                                    
+
+                                    <div>&nbsp</div>
+                                    <div>&nbsp</div>
+                                    <div>&nbsp</div>
+                                    
+
+                                    
+                                    <div class="row col-md-12">&nbsp</div>
+                                    <div class="row col-md-12">&nbsp</div>
+                                    <div class="row col-md-12">&nbsp</div>
+                                    <div class="row col-md-12">&nbsp</div>
+
+
+                                  
+                                    <table id="mainTable2" class="table editable-table table-bordered color-bordered-table success-bordered-table table-striped m-b-0">
+                                        <thead class="table-less">
+                                            <tr>
+                                                <th colspan="5">Projected Revenue</th>
+                                            </tr>
+                                            <tr>
+                                                <th>Item</th>
+                                                <th>Quantity</th>
+                                                <th>Selling Price</th>
+                                                <th>Total Cost</th>
+                                                <th width="5%"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="rev-row" style="display: none">
+                                                <td>Car</td>
+                                                <td>100</td>
+                                            
+                                                <td>20</td>
+                                                <th class="total">0</th>
+                                            </tr>                                                    
+                                            <tr>
+                                                <th bgcolor="#fb9678" style="color: #fff" colspan="5" ><a class="table-less">Less: </a>Projected Expense</th>
+                                            </tr>
+                                             <tr class="exp-row">
+                                                <th bgcolor="#fb9678" style="color: #fff">Item</th>
+                                                <th bgcolor="#fb9678" style="color: #fff">Quantity</th>
+                                                <th bgcolor="#fb9678" style="color: #fff">Selling Price</th>
+                                                <th bgcolor="#fb9678" style="color: #fff">Total Cost</th>
+                                                <th bgcolor="#fb9678" style="color: #fff" width="5%"></th>
+                                            </tr>
+                                            
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th class="text-right" colspan="3"><strong>Total<a class="table-less"> &nbspIncome</a></strong></th>
+                                                
+                                                <th class="income-tots" colspan="2"></th>
+                                            </tr>
+                                            </thead>
+                                    </table>
+
+
+                                    <div>&nbsp</div>
+                                    <div class=" form-group text-center">
+
+                                         <button  type="button" id="insert-button-income" class="btn btn-success table-less">Insert Revenue</button>
+                                           <button type="button" id="insert-button-expense2" class="btn btn-danger ">Insert Expense </button>
+                                    </div>
+
+                                    <div>&nbsp</div>
+                                    <div>&nbsp</div>
+                                    <div>&nbsp</div>
+
+
+                                   
+                                    
+                              </div>
+
+                             
+                              <div class="wizard-pane" role="tabpanel">
+                                    <h3>Attachments</h3>
+                                    <hr>
+                                    
+
+                                  <div class="form-group">
+                                  <input style="height:0px; top:-1000px; position:absolute;display: none" type="text" value="">
+
+                                      <label class="col-sm-12">File upload</label>
+                                      <!-- <a href="/ViewerJS/#../document/sample.odt"></a> -->
+                                      <div class="col-sm-12">
+                                          <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                              <div class="form-control" data-trigger="fileinput">
+                                                  <i class="glyphicon glyphicon-file fileinput-exists"></i>
+                                                  <span class="fileinput-filename"></span>
+                                              </div>
+                                              <span class="input-group-addon btn btn-default btn-file"> 
+                                              <span class="fileinput-new">Select file</span>
+                                              <span class="fileinput-exists">Change</span>
+                                              <input type="file" name="...">
+                                              </span>
+                                              <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a> </div>
+                                      </div>
+                                      <!-- 
+                                      SAMPLE 
+                                      <iframe src = "/ViewerJS/#../document/ch1.odp" width='400' height='300' allowfullscreen webkitallowfullscreen></iframe>  -->
+                                      
+                                  </div>
+
+                              </div>
+
+                        </div>                                                   
+                    </section>
+              </div>
+        </div>
+    </div>
+  </div>
+</div>
+{%endblock%}
+
+{%block scripts%}
+    {%include "../section/ajax/ajaxCSRF.html"%}
+<script type="text/javascript">
+
+    var revenueLess = 1 ;
+
+    ctr = 0;
+    
+
+    $("#venue").select2();
+    $("textarea").change(function(){
+        $(this).val();
+    });
+    $(".select2").select2();
+    $("div.fixed-table-loading").remove();
+    $("#myTabs ").on('click','i.close-day',function(){
+        var c = $(this).closest("a").attr("href");
+        ctr--;
+        console.log("asd"+ c);
+        $(this).closest("li").remove();
+        $(c).remove();
+        var tabFirst = $('#myTabs a:first');
+            // resetTab();
+            tabFirst.tab('show');
+
+        });
+    $(document).ready(function(){
+        if(revenueLess){
+            $(".table-less").css('display','none');
+            $("#mainTable2").removeClass('success-bordered-table').addClass('danger-bordered-table');
+
+        }
+        $("div.fixed-table-loading").remove();
+        $('#datepicker-autoclose').datepicker({
+            autoclose: true,
+            todayHighlight: true
+        });
+
+
+
+        $("#org-exp").trigger("focus");
+        $("#ope-fund, #dep-fund, #other-fund, #org-exp, #par-exp, #others-exp").val("0");
+        
+
+         // $('.fxsdr').attr('checked', true);
+            // $("tr.no-records-found").remove();.on("focus","input",
+    });
+    $(document).bind("customHtmlGenerated", function(){
+      var idNumber = $("ul#myTabs").find(".active").attr("id").substring(1);
+       $('#datepicker-autoclose'+ctr).datepicker({
+          autoclose: true,
+          todayHighlight: true
+      });
+
+         var clockpicker = $('#start-time'+ctr).clockpicker({
+          donetext: 'Done',
+          autoclose:true,            
+      });
+         console.log("asd");
+         var clockpicker2 = $('#end-time'+ctr).clockpicker({
+          donetext: 'Done',
+          autoclose:true,           
+      });
+      $("#program-tables"+idNumber).on('click','.remove-time',function(){
+          tctr--;
+          var tspace = 
+          '<td ></td>'+
+          '<td></td>'+
+          '<td></td>'+
+          '<td></td>'+
+          '<td></td>'+
+          '<td></td>'
+          ;
+          if(tctr ==0){
+              $(this).closest("tr").attr("class","no-records-found").find("td").html(" ");
+          }else{
+              $(this).closest("tr").remove();         
+          }
+          
+          
+          
+
+      });
+      
+
+       $("#insert-button"+ctr).click(function(){
+        
+            var dateInp =  $("#datepicker-autoclose"+idNumber).val();
+            var startInp = $("#start-time"+idNumber).val();
+            var endInp = $("#end-time"+idNumber).val();
+            if(idNumber == 0 ){
+              dateInp =  $("#datepicker-autoclose").val();
+              startInp = $("#start-time").val();
+              endInp = $("#end-time").val();
+            }
+            
+            var actInp = $("#act"+idNumber).val();
+            var descInp = $("#desc"+idNumber).val();
+            var selInp = $("#sel"+idNumber).val();
+
+
+
+            var trow = " <tr date='"+dateInp+"' start='"+startInp+"' end='"+endInp+"'>"+
+
+                      "<td  style='color:#2b2b2b'>"+startInp+" - "+endInp+"</td>"+
+                      "<td style='color:#2b2b2b'>Roshan</td>"+
+                      "<td style='color:#2b2b2b'>"+actInp+"</td>"+
+                      "<td style='color:#2b2b2b'>"+descInp+"</td>"+
+                      "<td style='color:#2b2b2b'>"+selInp+"</td>"+
+                      '<td ><i class="fa fa-times text-danger  remove-time"></i></td>'+
+                      "</tr>";
+            var ttd=
+             "<td date='"+dateInp+"' start='"+startInp+"' end='"+endInp+"'  style='color:#2b2b2b'>"+startInp+" - "+endInp+"</td>"+
+              "<td style='color:#2b2b2b'>Roshan</td>"+
+              "<td style='color:#2b2b2b'>"+actInp+"</td>"+
+              "<td style='color:#2b2b2b'>"+descInp+"</td>"+
+              "<td style='color:#2b2b2b'>"+selInp+"</td>"+
+            '<td ><i class="fa fa-times text-danger remove-time"></i></td>';
+            console.log("ASD");
+
+            console.log("UNANG IF" + $("#program-tables"+ctr+" tbody tr:first").hasClass("no-records-found"));
+            if($("#program-tables"+$("ul#myTabs").find(".active").attr("id").substring(1)+" tbody tr:first").hasClass("no-records-found")){
+                console.log("PASOK asd")
+                $("#program-tables"+$("ul#myTabs").find(".active").attr("id").substring(1)+" tr.no-records-found").find("td").remove();
+                $("#program-tables"+$("ul#myTabs").find(".active").attr("id").substring(1)+" tr.no-records-found").append(ttd);
+                $("#program-tables"+$("ul#myTabs").find(".active").attr("id").substring(1)+" tbody tr.no-records-found").removeClass("no-records-found");
+            }else{
+                console.log("pasok");
+                console.log("TABLE NUMBER "+$("ul#myTabs").find(".active").attr("id").substring(1));
+                $("#program-tables"+$("ul#myTabs").find(".active").attr("id").substring(1)+" tbody").append(trow);
+            }
+
+            
+
+        });
+        //NEED TO BE FIXED TO ROUND
+        // clockpicker.change(function(){
+        //     console.log("DONW");
+        //     clockpicker.val(round());
+        // });
+        // clockpicker2.change(function(){
+        //     console.log("DONW");
+        //     clockpicker2.val(round2());
+        // });
+        
+    });
+    $("ul li").on('click','a#add-tab',function(e){
+        var div = $("<div class='row'><div style='display:none'></div></div>");
+
+        // var toBeInserted = div.find("div").append(qclon,qtabl);
+
+
+
+        ctr++;
+        e.preventDefault();
+        console.log("ASd");
+
+        var tni = 
+
+
+        '<div class="col-md-4" style="padding: 25px;position: relative;  ">'+               
+        '<input style="height:0px; top:-1000px; position:absolute;display: none" type="text" value="">'+
+        '<label>Date</label>'+
+        '<div class="input-group">'+
+        '<input readonly="" class="form-control" id="datepicker-autoclose'+ctr+'" placeholder="mm/dd/yyyy" type="text">'+
+        '<span class="input-group-addon"><i class="icon-calender"></i></span>'+
+        '</div>'+
+        '<div>&nbsp</div>'+
+        '<label>Time</label>'+
+        '<div class="input-group clockpicker " data-autoclose="true">'+
+        '<input type="text" id="start-time'+ctr+'" class="form-control" value="00:00" readonly="">'+
+        '<span class=" input-group-addon bg-info b-0 text-white">to</span>'+
+        '<input type="text" id="end-time'+ctr+'" class="form-control" value="00:00" readonly="">'+
+        '</div>'+
+        '<div>&nbsp</div>'+
+        '<label>Activity</label>'+
+        '<input type="text" class="form-control" id="act'+ctr+'">'+
+        '<div>&nbsp</div>'+
+        '<label>Description</label>'+
+        '<textarea class="form-control" rows="2" id="desc'+ctr+'"></textarea>'+
+        '<div>&nbsp</div>'+
+        '<label>Person in Charge</label>'+
+        '<select class="form-control select2" id="sel'+ctr+'">'+
+        '<option value="DE">Delaware</option>'                    +
+
+        '</select>'+
+        '<div>&nbsp</div>'+
+        '<div class=" form-group text-center">'+
+
+        '<button type="button" id="insert-button'+ctr+'" class="btn btn-success">Insert </button>'+
+
+        '</div>'+
+        '</div>'+
+
+        '<div class="col-md-8 " style="padding-top: 30px">'+
+        '<table id="program-tables'+ctr+'" class="table program color-bordered-table success-bordered-table"  >'+
+        '<thead>'+
+        '<tr>'+
+
+        '<th width="21%">Time</th>'+
+        '<th width="10%">Duration</th>'+
+        '<th width="20%">Activity</th>'+
+        '<th width="21%">Description</th>'+
+        '<th width="23%">Person in Charge</th>'+
+        '<th width="25%" data-field="state" data-checkbox="true"></th>'+
+        '</tr>'+
+        '</thead>'+
+        '<tbody>'+
+        '<tr class="no-records-found">'+
+        '<td ></td>'+
+        '<td></td>'+
+        '<td></td>'+
+        '<td></td>'+
+        '<td></td>'+
+        '<td></td>'+
+        '</tr>'+
+
+        '</tbody>'+
+        '</table>'+
+        '</div>';
+
+
+        $("#t"+(ctr-1)).after('<li role="presentation" class="nav-item " id="t'+ctr+'"><a aria-controls="profile " class="nav-link" id="tab-'+ctr+'" data-toggle="tab" href="#ctab'+ ctr + '" role="tab"  aria-expanded="true">Day '+ (ctr+1)+'      '+'<i class="fa ti-close close-day" style="font-size:8px;top:5px;right:5px;position:absolute;"></i></a></li>');
+        var cont = $("#ctab"+(ctr-1)).after('<div aria-labelledby="tab-'+ctr+'" id="ctab'+ctr+'" class="tab-pane " role="tabpanel"><div id="temp'+ctr+'" class="row">'+tni+'</div></div>');
+        // cont.find("#temp").append(toBeInserted);
+
+        //NEED TO REINITIALIZE
+
+        
+
+
+        
+        //  var qclon = $("#clone-question").clone(true).appendTo("#temp"+ctr);
+        // var qtabl = $("#clone-table").clone(true).appendTo("#temp"+ctr);
+
+
+        $(".nav-tabs  a[href='#ctab" + (ctr)+ "']").tab("show");
+        $("#tab-0").removeAttr("class","active");
+        $(document).trigger("customHtmlGenerated");
+
+
+    });
+    var clockpicker = $('#start-time').clockpicker({
+        donetext: 'Done',
+        autoclose:true,            
+    });
+    var clockpicker2 = $('#end-time').clockpicker({
+        donetext: 'Done',
+        autoclose:true,           
+    });
+
+    clockpicker.change(function(){
+        console.log("DONW");
+        clockpicker.val(round());
+    });
+    clockpicker2.change(function(){
+        console.log("DONW");
+        clockpicker2.val(round2());
+    });
+
+
+    function round() {
+      var time = clockpicker.val(),
+      arr = time.split(':'),
+      hour = arr[0],
+      min = arr[1],
+      newMin = (Math.floor(parseInt(min) / 5)) * 5;
+
+      return hour + ':' + (newMin > 9 ? '' : '0') + newMin;
+  }
+        // JEJEMON TO TINAMAD NA AKO. AYUSIN KO NEXT TIME
+        function round2() {
+          var time = clockpicker2.val(),
+          arr = time.split(':'),
+          hour = arr[0],
+          min = arr[1],
+          newMin = (Math.floor(parseInt(min) / 5)) * 5;
+
+          return hour + ':' + (newMin > 9 ? '' : '0') + newMin;
+      }
+        // $('#start-time').clockpicker({
+        //     donetext: 'Done',
+        //     autoclose:true,
+
+
+        // });
+        $('#datepicker-autoclose').datepicker({
+            autoclose: true,
+            todayHighlight: true
+        });
+        tctr = 0
+        
+        $("#insert-button").click(function(){
+          var dateInp =  $("#datepicker-autoclose").val();
+          var startInp = $("#start-time").val();
+          var endInp = $("#end-time").val();
+          var actInp = $("#act0").val();
+          var descInp = $("#desc0").val();
+          var selInp = $("#sel0").val();
+          var trow = " <tr date='"+dateInp+"' start='"+startInp+"' end='"+endInp+"'>"+
+
+            "<td  style='color:#2b2b2b'>"+startInp+" - "+endInp+"</td>"+
+            "<td style='color:#2b2b2b'>Roshan</td>"+
+            "<td style='color:#2b2b2b'>"+actInp+"</td>"+
+            "<td style='color:#2b2b2b'>"+descInp+"</td>"+
+            "<td style='color:#2b2b2b'>"+selInp+"</td>"+
+            '<td ><i class="fa fa-times remove-time"></i></td>'+
+            "</tr>";
+            var ttd=
+            "<td date='"+dateInp+"' start='"+startInp+"' end='"+endInp+"'  style='color:#2b2b2b'>"+startInp+" - "+endInp+"</td>"+
+            "<td style='color:#2b2b2b'>Roshan</td>"+
+            "<td style='color:#2b2b2b'>"+actInp+"</td>"+
+            "<td style='color:#2b2b2b'>"+descInp+"</td>"+
+            "<td style='color:#2b2b2b'>"+selInp+"</td>"+
+            '<td ><i class="fa fa-times  remove-time"></i></td>';
+            console.log("ASD");
+             if($("#program-tables tbody tr:first").hasClass("no-records-found")){
+
+                $("#program-tables tr.no-records-found").find("td").remove();
+                $("#program-tables tr.no-records-found").append(ttd);
+                $("#program-tables tr.no-records-found").removeAttr("class","no-records-found");
+            }else{
+                console.log("pasok");
+                $("#program-tables tbody").append(trow);
+            }
+
+            tctr++;
+            console.log(tctr);
+
+        });
+        $("#program-tables").on('click','.remove-time',function(){
+            tctr--;
+            var tspace = 
+            '<td ></td>'+
+            '<td></td>'+
+            '<td></td>'+
+            '<td></td>'+
+            '<td></td>'+
+            '<td></td>'
+            ;
+            if(tctr ==0){
+                $(this).closest("tr").attr("class","no-records-found").find("td").html(" ");
+            }else{
+                $(this).closest("tr").remove();         
+            }
+            
+            
+            
+
+        });
+        $("#insert-button-expense").click(function(){
+            var ttr = '<tr>'+
+                      '<td></td>'+
+                      '<td class="quan"></td>'+
+                      '<td class="cost"></td>'+
+                      '<th class="total"></th>'+
+                      '<th class="text-center" width="5%"><i class="fa fa-times remove-time"></i></th>'+
+                  '</tr>';
+            $("#mainTable tbody").append(ttr);
+
+            $('#mainTable').editableTableWidget().numericInputExample().find('td:first').focus();
+
+            $("#mainTable, #mainTable2").on('click','i.remove-time',function(){
+                $(this).closest("tr").remove();
+
+                // SUBTRACT ROW FROM TOTAL
+                var curr = 0;
+                $("#mainTable tbody tr").each(function(){
+                    
+                    console.log("NEIL");
+                    curr = (parseFloat($(this).find("th.total").html())+ curr);
+                });
+                $(".expense-total").html(curr);
+                $("#proj-exp").html(curr);
+                $("#bal-fund").html(parseFloat($("#tot-fund").html())-parseFloat($("#proj-exp").html()));
+            
+            });
+
+            
+            $("#mainTable tbody td").on('change',function(){
+                // CALCULATE TOTAL PER ROW
+                $("#mainTable tbody tr").each(function(){
+                    console.log("NEIL");
+                    $(this).find("th.total").html(parseFloat($(this).find("td.cost").html())*parseInt($(this).find("td.quan").html()));
+                });
+                //CALCULATE TOTAL
+                var curr = 0;
+                $("#mainTable tbody tr").each(function(){
+                    
+                    console.log("NEIL");
+                    curr = (parseFloat($(this).find("th.total").html())+ curr);
+                });
+                $(".expense-total").html(curr);
+                $("#proj-exp").html(curr);
+                $("#bal-fund").html(parseFloat($("#tot-fund").html())-parseFloat($("#proj-exp").html()));
+            });
+
+            
+            
+        });
+
+        
+        // .find('input').change(function() {
+        //     console.log(this.value);
+        // });
+        // $("#delete-tab").click(function(e){
+        //     e.preventDefault();
+        //     console.log($('.nav-tabs .active').text());
+        //     $(".nav-tabs  a[href='#ctab" + (ctr)+ "']").tab("show");
+        // });
+        (function() {
+
+            [].slice.call(document.querySelectorAll('.sttabs')).forEach(function(el) {
+                new CBPFWTabs(el);
+            });
+
+        })();
+        
+        (function() {
+            $('#exampleBasic').wizard({
+                onFinish: function() {
+                    var sched = [];
+                    $(".program").each(function(){
+                        var ctrRow = 0;
+
+                        var day = {
+                            date:'',
+                            time: [],
+                        };
+
+
+                        $(this).find("tbody").find("tr").each(function(){
+                            var time = {
+                                start:'',
+                                end:'',
+                                actName:'',
+                                actDesc:'',
+                                pic:'',
+
+                            };
+
+                            if(ctrRow == 0){
+
+                            }else{
+                                day.date = $(this).attr("date");
+                                time.start = $(this).attr("start");
+                                time.end = $(this).attr("end");
+                            }
+                            var ctrTD = 0;
+                            $(this).find("td").each(function(){
+                                if(ctrRow == 0 && ctrTD == 0){
+                                    day.date = $(this).attr("date");
+                                    time.start = $(this).attr("start");
+                                    time.end = $(this).attr("end");
+                                }else if (ctrTD == 2){
+                                    time.actName  = $(this).text();
+                                }else if(ctrTD == 3){
+                                    time.actDesc  = $(this).text();
+                                }else if(ctrTD == 4){
+                                    time.pic = $(this).text();
+                                }
+
+
+                                ctrTD++;
+
+                            });
+                            day.time.push(time);
+                           
+                            
+                           
+
+                            ctrRow++
+                        });
+                        sched.push(day);
+
+                    });
+
+                    var revenue = [];
+                    //BREAKDOWN OF REVENUE
+                    $("#mainTable2 tbody tr.inc").each(function(){
+                        var ctr = 0;
+                        var revenueItem = {
+                            item:'',
+                            quan:'',
+                            price:'',
+
+                        }
+                        //PER TD
+                        $(this).find("td").each(function(){
+                            if( ctr == 0){
+                                revenueItem.item = $(this).text();
+                            }else if( ctr == 1 ){
+                                revenueItem.quan = $(this).text();
+                            }else{
+                                revenueItem.price = $(this).text();
+                            }
+                            ctr++;
+                        });
+
+                        revenue.push(revenueItem);
+                    });
+
+                    var expense = [];
+                    //BREAKDOWN OF EXPENSES
+                    $("#mainTable2 tbody tr.exp").each(function(){
+                        var ctr = 0;
+                        var expenseItem = {
+                            item:'',
+                            quan:'',
+                            price:'',
+
+                        }
+                        //PER TD
+                        $(this).find("td").each(function(){
+                            if( ctr == 0){
+                                expenseItem.item = $(this).text();
+                            }else if( ctr == 1 ){
+                                expenseItem.quan = $(this).text();
+                            }else{
+                                expenseItem.price = $(this).text();
+                            }
+                            ctr++;
+                        });
+
+                        expense.push(expenseItem);
+                    });
+
+                    var funds = {
+                        ope: $("#ope-fund").val(),
+                        dep: $("#dep-fund").val(),
+                        other: $("#other-fund").val(),
+                        revenue: revenue,
+                        expense:expense
+                    };
+
+
+
+                    var breakdown = [];
+                    //BREAKDOWN OF EXPENSE. PER TR
+                    $("#mainTable tbody tr").each(function(){
+                        var ctr = 0;
+                        var breakdownItem = {
+                            material:'',
+                            quan:'',
+                            unitCost:'',
+
+                        }
+                        //PER TD
+                        $(this).find("td").each(function(){
+                            if( ctr == 0){
+                                breakdownItem.material = $(this).text();
+                            }else if( ctr == 1 ){
+                                breakdownItem.quan = $(this).text();
+                            }else{
+                                breakdownItem.unitCost = $(this).text();
+                            }
+                            ctr++;
+                        });
+
+                        breakdown.push(breakdownItem);
+                    });
+
+                    var exp = {
+                        orgFunds: $("#org-exp").val(),
+                        participant: $("#par-exp").val(),
+                        others:$("#others-exp").val(),
+                        breakdown: breakdown 
+                    };
+
+                    //funds,exp, sched
+                    console.log("FUNDS");
+                    console.log(funds);
+                    console.log("EXP");
+                    console.log(exp);
+                    console.log("SCHED");
+                    console.log(sched);
+                    var pprData = {
+                        context : $("textarea").val(),
+                        sched:sched,
+                        exp:exp,
+                        funds:funds 
+                    };
+                    console.log("pprData");
+                    console.log(pprData);
+                    $.ajax({
+                        type:'POST',
+                        url:'/Organization/AJAX/activityRequirements',
+                        data: {
+                            enmp: $("#enmp").val(),
+                            enp: $("#emp").val(),
+                            venue: $("#venue").val(),
+                            context : $("textarea").val(),
+                            sched: JSON.stringify(sched),
+                            exp: JSON.stringify(exp),
+                            funds: JSON.stringify(funds)
+                        },
+                        datatype:'json',
+                        success:function(){
+
+                        }
+                    });
+
+                    alert('finish');
+                }
+            });
+            $('#exampleBasic2').wizard({
+                onFinish: function() {
+                    alert('finish');
+                }
+            });
+            $('#exampleValidator').wizard({
+                onInit: function() {
+                    $('#validation').formValidation({
+                        framework: 'bootstrap',
+                        fields: {
+                            username: {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'The username is required'
+                                    },
+                                    stringLength: {
+                                        min: 6,
+                                        max: 30,
+                                        message: 'The username must be more than 6 and less than 30 characters long'
+                                    },
+                                    regexp: {
+                                        regexp: /^[a-zA-Z0-9_\.]+$/,
+                                        message: 'The username can only consist of alphabetical, number, dot and underscore'
+                                    }
+                                }
+                            },
+                            email: {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'The email address is required'
+                                    },
+                                    emailAddress: {
+                                        message: 'The input is not a valid email address'
+                                    }
+                                }
+                            },
+                            password: {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'The password is required'
+                                    },
+                                    different: {
+                                        field: 'username',
+                                        message: 'The password cannot be the same as username'
+                                    }
+                                }
+                            }
+                        }
+                    });
+                },
+                validator: function() {
+                    var fv = $('#validation').data('formValidation');
+                    var $this = $(this);
+                // Validate the container
+                fv.validateContainer($this);
+                var isValidStep = fv.isValidContainer($this);
+                if (isValidStep === false || isValidStep === null) {
+                    return false;
+                }
+                return true;
+            },
+            onFinish: function() {
+                // var breakdownItem = {
+                //     material:'',
+                //     quan:'',
+                //     unitCost:'',
+
+                // }
+
+                // var exp = {
+                //     orgFunds:'',
+                //     participant:'',
+                //     others:'',
+                //     breakdown: [] ;
+                // };
+                //  var time = {
+                //     start:'',
+                //     end:'',
+                //     actName:'',
+                //     actDesc:'',
+                //     pic:'',
+
+                // };
+                /*var day = {
+                    date:'',
+                    time:[time],
+                };*/
+                /*
+                
+                $.post("keep.php", $("#validation").serialize()).done(function() {
+                    alert("hiiii");
+                });
+                $.ajax({
+                    type:'POST',
+                    url:'/inputActivityRequirements',
+                    data:{
+
+                    },
+                    success:function(data){
+
+                    }
+                });
+                */
+            }
+        });
+        $('#accordion').wizard({
+            step: '[data-toggle="collapse"]',
+            buttonsAppendTo: '.panel-collapse',
+            templates: {
+                buttons: function() {
+                    var options = this.options;
+                    return '<div class="panel-footer"><ul class="pager">' + '<li class="previous">' + '<a href="#' + this.id + '" data-wizard="back" role="button">' + options.buttonLabels.back + '</a>' + '</li>' + '<li class="next">' + '<a href="#' + this.id + '" data-wizard="next" role="button">' + options.buttonLabels.next + '</a>' + '<a href="#' + this.id + '" data-wizard="finish" role="button">' + options.buttonLabels.finish + '</a>' + '</li>' + '</ul></div>';
+                }
+            },
+            onBeforeShow: function(step) {
+                step.$pane.collapse('show');
+            },
+            onBeforeHide: function(step) {
+                step.$pane.collapse('hide');
+            },
+            onFinish: function() {
+                
+
+                alert('finish');
+            }
+        });
+    })();
+        
+    $('#mainTable').editableTableWidget().numericInputExample().find('td:first').focus();
+    $('#mainTable2').editableTableWidget().numericInputExample().find('td:first').focus();
+    
+    $("#proj-exp").change(function(){
+        
+    });
+    $("#ope-fund, #dep-fund, #other-fund").focus(function(){
+        $("#tot-fund").html(parseFloat($("#ope-fund").val())+parseFloat($("#dep-fund").val())+parseFloat($("#other-fund").val()));
+        $("#bal-fund").html(parseFloat($("#tot-fund").html())-parseFloat($("#proj-exp").html()));
+    });
+    $("#ope-fund, #dep-fund, #other-fund").change(function(){
+        $("#tot-fund").html(parseFloat($("#ope-fund").val())+parseFloat($("#dep-fund").val())+parseFloat($("#other-fund").val()));
+        $("#bal-fund").html(parseFloat($("#tot-fund").html())-parseFloat($("#proj-exp").html()));
+    });
+    $("#ope-fund, #dep-fund, #other-fund").keypress(function(){
+        $("#tot-fund").html(parseFloat($("#ope-fund").val())+parseFloat($("#dep-fund").val())+parseFloat($("#other-fund").val()));
+        $("#bal-fund").html(parseFloat($("#tot-fund").html())-parseFloat($("#proj-exp").html()));
+    });
+    $("#ope-fund, #dep-fund, #other-fund").keyup(function(){
+        $("#tot-fund").html(parseFloat($("#ope-fund").val())+parseFloat($("#dep-fund").val())+parseFloat($("#other-fund").val()));
+        $("#bal-fund").html(parseFloat($("#tot-fund").html())-parseFloat($("#proj-exp").html()));
+    });
+
+    var tempExp = 0;
+    $("#insert-button-expense2").click(function(){
+        var td =  '<tr class="exp" >'+
+                    '<td></td>'+
+                    '<td class="quan"></td>'+                
+                    '<td class="cost"></td>'+
+                    '<th class="total">0</th>'+
+                    '<th class="text-center"><i class="fa fa-times remove-time"></i></th>'+
+                   '</tr>';
+        $(".exp-row").after(td);
+        $('#mainTable2').editableTableWidget().numericInputExample().find('td:first').focus();
+
+        // REMOVE ROW
+        $("#mainTable, #mainTable2").on('click','i.remove-time',function(){
+            $(this).closest("tr").remove();
+            // TOTAL
+            var inc = 0;
+            $("#mainTable2 tbody tr.inc").each(function(){
+                
+                console.log("NEIL");
+                inc = (parseFloat($(this).find("th.total").html())+ inc);
+            });
+            var exp = 0;
+            $("#mainTable2 tbody tr.exp").each(function(){
+                
+                console.log("NEIL");
+                exp = (parseFloat($(this).find("th.total").html())+ exp);
+            });          
+            var curr = inc - exp;
+            if(revenueLess){
+                curr = curr * -1;
+            }else{
+                tempExp = exp;
+            }
+            $(".income-tots").html(curr); 
+        });
+
+        //CALCULATE ROW
+        $("#mainTable2 tbody td").on('change',function(){
+            // CALCULATE TOTAL PER ROW
+            $("#mainTable2 tbody tr.exp").each(function(){
+                console.log("NEIL");
+                $(this).find("th.total").html(parseFloat($(this).find("td.cost").html())*parseInt($(this).find("td.quan").html()));                
+            });
+
+            // TOTAL
+            var inc = 0;
+            $("#mainTable2 tbody tr.inc").each(function(){
+                
+                console.log("NEIL");
+                inc = (parseFloat($(this).find("th.total").html())+ inc);
+            });
+            var exp = 0;
+            $("#mainTable2 tbody tr.exp").each(function(){
+                
+                console.log("NEIL");
+                exp = (parseFloat($(this).find("th.total").html())+ exp);
+            });  
+
+            var curr = inc - exp;
+            if(revenueLess){
+                curr = curr * -1;
+            }else{
+                tempExp = exp;
+            }
+            $(".income-tots").html(curr); 
+            
+        });
+    });
+
+    $(" #par-exp, #others-exp").on('focus',function(){
+        $("#org-exp").off();
+        $("#org-exp").val(parseFloat($("#tot-exp").text())-(parseFloat($("#par-exp").val())+parseFloat($("#others-exp").val())   ));
+        $("#proj-exp").off();
+        $("#proj-exp").text($("#org-exp").val());
+        $("#proj-exp").on();
+        $("#org-exp").on();
+        $("#org-exp").trigger('change');
+    });
+    $(" #par-exp, #others-exp").on('change',function(){
+        $("#org-exp").off();
+        $("#org-exp").val(parseFloat($("#tot-exp").text())-(parseFloat($("#par-exp").val())+parseFloat($("#others-exp").val())));
+        $("#proj-exp").off();
+        $("#proj-exp").text($("#org-exp").val());
+        $("#proj-exp").on();
+        $("#org-exp").on();
+        $("#org-exp").trigger('change');
+
+    });
+    $("#par-exp, #others-exp").on('keypress',function(){
+        $("#org-exp").off();
+        $("#org-exp").val(parseFloat($("#tot-exp").text())-(parseFloat($("#par-exp").val())+parseFloat($("#others-exp").val())));
+        $("#proj-exp").off();
+        $("#proj-exp").text($("#org-exp").val());
+        $("#proj-exp").on();
+        $("#org-exp").on();
+        $("#org-exp").trigger('change');
+    });
+    $(" #par-exp, #others-exp").on('keyup',function(){
+        $("#org-exp").off();
+        $("#org-exp").val(parseFloat($("#tot-exp").text())-(parseFloat($("#par-exp").val())+parseFloat($("#others-exp").val())));
+        $("#proj-exp").off();
+        $("#proj-exp").text($("#org-exp").val());
+        $("#proj-exp").on();
+        $("#org-exp").on();
+        $("#org-exp").trigger('change');
+    });
+    $("#insert-button-income").click(function(){
+        var td =  '<tr  class="inc">'+
+                    '<td ></td>'+
+                    '<td class="quan"></td>'+                
+                    '<td class="cost"></td>'+
+                    '<th class="total">0</th>'+
+                    '<th class="text-center"><i class="fa fa-times remove-time"></i></th>'+
+                '</tr>';
+        $(".rev-row").after(td);
+        $('#mainTable2').editableTableWidget().numericInputExample().find('td:first').focus();
+
+        //REMOVE ROW
+        $("#mainTable, #mainTable2").on('click','i.remove-time',function(){
+            $(this).closest("tr").remove();
+        });
+
+        
+        //CALCULATE ROW
+        $("#mainTable2 tbody td").on('change',function(){
+            // CALCULATE TOTAL PER ROW
+            $("#mainTable2 tbody tr.inc").each(function(){
+                console.log("NEIL");
+                $(this).find("th.total").html(parseFloat($(this).find("td.cost").html())*parseInt($(this).find("td.quan").html()));
+                 
+            });
+            // TOTAL
+            var inc = 0;
+            $("#mainTable2 tbody tr.inc").each(function(){
+                
+                console.log("NEIL");
+                inc = (parseFloat($(this).find("th.total").html())+ inc);
+            });
+            var exp = 0;
+            $("#mainTable2 tbody tr.exp").each(function(){
+                
+                console.log("NEIL");
+                exp = (parseFloat($(this).find("th.total").html())+ exp);
+            });          
+            var curr = inc - exp;
+            $(".income-tots").html(curr); 
+            
+        });
+    });
+
+
+
+    // $('#editable-datatable').DataTable();
+    // $("button .wizard-next").click(function(){
+    //      $("#datepicker-autoclose").datepicker('hide');
+    // });
+    $("input[name='optionsRadios2']").change(function(){
+      console.log("OPtioNS");
+      console.log($(this).val());
+      if($(this).val() == "option1"){
+        $(".exp").css("display","");
+      }else{
+        $(".exp").css("display","none");
+      }
+      
+    });
+    
+     $('th.income-tots').bind('DOMSubtreeModified',function(e){
+        if(revenueLess){
+            var exp = parseFloat($(this).html());    
+        }else{
+            var exp = tempExp;
+        }
+        
+        $("#proj-exp").text(exp);   
+
+        var orgexp = exp - ($("#par-exp").val() + $("#others-exp").val());
+       
+        $("#org-exp").val(orgexp);    
+
+        
+
+
+        $("a#tot-exp").text(exp);
+
+        $("#ope-fund").trigger('change');
+        // $("#org-exp").trigger('change');
+
+    });
+
+   
+
+    
+</script>
+
+{%endblock%}

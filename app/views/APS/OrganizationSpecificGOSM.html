@@ -1,0 +1,202 @@
+{% extends './APS_master.html' %}
+{% import '../template/tags_macro.html' as tag%}
+
+{%block meta%}
+    {{super()}}
+    <meta data-name="GOSM" data-id="{{GOSMID}}" />
+    <meta data-name="csrf" data-token="{{csrfToken}}" />
+{%endblock%}
+
+{%block page_title%}APS - {{organizationName}} GOSM Submission{%-endblock%}
+
+{%block style%}
+    {{super()}}
+    <!-- Bootstrap Core CSS -->
+    <link href="/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css" rel="stylesheet">
+    <link href="/plugins/bower_components/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <!-- Menu CSS -->
+    <link href="/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css" rel="stylesheet">
+    <!-- animation CSS -->
+    <link href="/css/animate.css" rel="stylesheet">
+    <!--alerts CSS -->
+    <link href="/plugins/bower_components/sweetalert/sweetalert.css" rel="stylesheet" type="text/css">
+    <!-- Custom CSS -->
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/custom.css" rel="stylesheet">
+    <!-- color CSS -->
+    <link href="/css/colors/default.css" id="theme" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Page Styles -->
+    <link href="/css/ViewOrgGOSM.css" rel="stylesheet" />
+    <!-- /Page Styles -->
+{%endblock%}
+
+{%block defer_script%}
+    {{super()}}
+    <!-- jQuery -->
+    <script type="text/javascript" src="/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script type="text/javascript" src="/bootstrap/dist/js/tether.min.js"></script>
+    <script type="text/javascript" src="/bootstrap/dist/js/bootstrap.min.js" ></script>
+    <script type="text/javascript" src="/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js" ></script>
+    <!-- Menu Plugin JavaScript -->
+    <script type="text/javascript" src="/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js"></script>
+    <!--slimscroll JavaScript -->
+    <script type="text/javascript" src="/js/jquery.slimscroll.js"></script>
+    <!--Wave Effects -->
+    <script type="text/javascript" src="/js/waves.js" ></script>
+    <!-- Custom Theme JavaScript -->
+    <script type="text/javascript" src="/js/custom.min.js" ></script>
+    <script type="text/javascript" src="/js/cbpFWTabs.js" ></script> <!-- tabs-->
+    <script type="text/javascript" src="/plugins/bower_components/datatables/jquery.dataTables.min.js"></script>
+    <!-- Sweet-Alert  -->
+    <script type="text/javascript" src="/plugins/bower_components/sweetalert/sweetalert.min.js"></script>
+    <!-- Page-Scripts -->
+    {{tag.javascript_item(src='/js/APS/ORGGOSM.js', defer=true)}}
+    <!-- /Page-Scripts -->
+{%endblock%}
+
+{%block breadcrumb%}
+    {{breadcrumb_item('Organization Submissions List')}}
+    {{breadcrumb_item('Organization GOSM', 'active')}}
+{%endblock%}
+
+{%block content%}
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="white-box">
+                <h3 class="box-title m-b-0">GOSM of {{organizationName}}</h3>
+
+                <div class="table-responsive">
+                    <table id="myTable" class="table table-hover" role="grid" aria-describedby="myTable_info">
+                        <thead>
+                            <tr role="row">
+                                <th class="sorting" tabindex="0" aria-controls="myTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 139px;">Activity Name</th>
+                                <th class="sorting" tabindex="0" aria-controls="myTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 139px;">Activity Date</th>
+                            </tr>
+                        </thead>
+                        
+                        <tbody>
+    						{% set cls = cycler("even", "odd") %}
+                            {% for activity in GOSMActivities %}
+                                <tr class="activity_row {{ cls.next() }}" data-activity-id="{{activity.id}}" role="row" data-toggle="modal" data-target="#sampleModal">
+    	                            <td>{{activity.strategies}}</td><!-- Activity name-->
+    	                            <td>{{activity.targetdatestart}}</td><!-- Activity date -->
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                    {% if showUpdateButtons %}
+                    <div class="text-center">
+                        <h4>Actions</h4>
+                        <button id="btn_approve" class="btnGosm btn btn-success btn-rounded sa-approve" alt="alert">Approve</button>
+                        <button id="btn_pend" class="btn btn-warning btn-rounded sa-pend btnGosm" alt="alert">Pend</button>
+                        <button id="btn_deny" class="btn btn-danger btn-rounded sa-deny btnGosm" alt="alert">Deny</button>
+                    </div>
+                    {% endif %}
+                </div><!-- ./table-responsive -->
+            </div>
+        </div>
+        
+        <div class="col-sm-12">
+        </div>
+
+        <div class="col-sm-12">
+        </div>
+    </div>
+{%endblock%}
+
+{%block post_content%}
+    <!--modals-->
+    <div class="modal fade bs-example-modal-lg" id="sampleModal" tabindex="-1" role="dialog" aria-labelledby="sampleModal" aria-hidden="true" style="display: none;" data-activity-id="">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="">Activity Name</h4>
+                </div>
+                <div class="modal-body">
+                    <section>
+                        <div class="sttabs tabs-style-bar">
+                            <nav>
+                                <ul>
+                                    <li><a href="#section-bar-1" ><span>1. Activity Details</span></a></li>
+                                    <li><a href="#section-bar-2" ><span>2. Add Comment</span></a></li>
+                                </ul>
+                            </nav>
+                            <div class="content-wrap">
+                                <section id="section-bar-1">
+                                    <h3>I. Activity Details</h3>
+                                    <div class="table-responsive">
+                                        <table id="modal_table_activity" class="table table-striped">
+                                            <tbody>
+                                                <tr>
+                                                    <th>
+                                                        Type of Activity:
+                                                    </th>
+                                                    <td colspan="2">
+                                                        <span id="modal_type"></span>
+                                                    </td>
+                                                    <th></th>
+                                                    <td colspan="2"></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>
+                                                        Nature of Activity:
+                                                    </th>
+                                                    <td colspan="2">
+                                                        <span id="modal_nature"></span>
+                                                    </td>
+                                                    <th></th><td colspan="2"></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Date:</th>
+                                                    <td colspan="2"><span id="modal_date"></span></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr class="modal_head_row">
+                                                    <th>Project Heads:</th>
+                                                    <td colspan="6">Juan Dela Cruz - 09478569874</td>
+                                                </tr>
+                                                <tr class="modal_head_row">
+                                                    <th></th>
+                                                    <td colspan="6">Pedro Aquino - 09478532147</td>
+                                                </tr>
+                                                <tr>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </section>
+                                <section id="section-bar-2">
+                                    <div class="form-group">
+                                        <label class="col-md-12">Write a comment for revision</label>
+                                        <div class="col-md-12 text-center">
+                                            <textarea id="modal_txtarea_comments" class="form-control" rows="5"></textarea> <br>
+                                            <button id="modal_btn_add_comment" class="btn btn-info" type="" data-dismiss="modal">Add Comment</button>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div> <!-- /content -->
+                        </div> <!-- /tabs -->
+                    </section>
+                </div>
+                <div class="modal-footer">
+                     <!--
+                        <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                     -->
+                 </div> <!-- /.modal-footer -->
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!--/modals-->
+{%endblock%}
