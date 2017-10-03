@@ -223,12 +223,14 @@ module.exports = function(database, models, queryFiles) {
                             'pp.enmp AS enmp',
                             'pp.enp AS enp',
                             'ga.objectives AS objectives',
-                            'pp.context AS context'
+                            'pp.context AS context',
+                            'pp.id AS id'
                         ])
                 .then(data =>{
                     var dbParam = {
                         projectProposal: data.id
                     };
+
 
                     Promise.all([
                         projectProposalModel.getProjectProposalExpenses(data.id),

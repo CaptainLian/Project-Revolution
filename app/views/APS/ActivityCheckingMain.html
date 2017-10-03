@@ -141,64 +141,39 @@
                         <div class="white-box">
                              <h4 class="m-t-30 text-left">III. Program Design</h4>
                             <hr>
-                            <div class="text-center">
-                                <h3>January 1, 2017</h3>
-                            </div>
-                            <table class="table  text-left table-striped">
-                                <thead>
-                                    <th>Time </th>
-                                    
-                                    <th>Activity</th>
-                                    <th>Description</th>
-                                    <th>Person-In-Charge</th>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td >8:00AM-9:00AM</td>
+                            
+                            {% for program in programDesign.dayID %}
+
+                            {% if () %}
+
+                                 <div class="text-center">
+                                    <h3>{{program.date}}</h3>
+                                </div>
+                                <table class="table  text-left table-striped">
+                                    <thead>
+                                        <th>Time </th>
                                         
-                                        <td >Call time</td>
-                                        <td >Students are called to assemble and board the bus.</td>
-                                        <td >Juan De La Cruz</td>
-                                    </tr>
-                                    <tr>
-                                        <td >9:00AM-11:00AM</td>
-                                        
-                                        <td >Travel time</td>
-                                        <td >Travel time from DLSU to STC</td>
-                                        <td >Juan De La Cruz</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <br/>
-                            <div class="text-center">
-                                <h3>January 2, 2017</h3>
-                            </div>
-                            <table class="table  text-left table-striped">
-                                <thead>
-                                    <th>Time </th>
-                                    
-                                    <th>Activity</th>
-                                    <th>Description</th>
-                                    <th>Person-In-Charge</th>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td >8:00AM-9:00AM</td>
-                                        
-                                        <td >Call time</td>
-                                        <td >Students are called to assemble and board the bus.</td>
-                                        <td >Juan De La Cruz</td>
-                                    </tr>
-                                    <tr>
-                                        <td >9:00AM-11:00AM</td>
-                                        
-                                        <td >Travel time</td>
-                                        <td >Travel time from DLSU to STC</td>
-                                        <td >Juan De La Cruz</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <br/>
+                                        <th>Activity</th>
+                                        <th>Description</th>
+                                        <th>Person-In-Charge</th>
+                                    </thead>
+                                    <tbody>
+                                        {% for activities in programDesign %}
+                                            <tr>
+                                                <td >{{activities.starttime}}-{{program.endtime}}</td>
+                                                
+                                                <td >{{activities.activity}}</td>
+                                                <td >{{activities.activitydescription}}</td>
+                                                <td >{{activities.personincharge}}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                                <br/>
+
+                            {% endfor %}
+  
+                         
                         </div>
                     </section>
                     
