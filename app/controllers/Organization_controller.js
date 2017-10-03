@@ -309,13 +309,12 @@ module.exports = function(database, models, queryFiles) {
                          * @variable param
                          * @type {Object}
                          */
-                        let GOSMParam = Object.create(null);
+                        let GOSMParam = {};
                         GOSMParam.termID = term.id;
                         //TODO Replace with session variable
                         GOSMParam.studentOrganization = 1;
 
                         return gosmModel.getOrgGOSM(GOSMParam, task1)
-
                             .then(GOSM => {
                                 /* GOSM Exists */
                                 if (GOSM) {
@@ -329,15 +328,14 @@ module.exports = function(database, models, queryFiles) {
                                     });
                                 });
                             });
-
                     }).then(GOSM => {
                         return task1.batch([
-                            gosmModel.getGOSMActivities(GOSM, task1),
-                            gosmModel.getAllActivityTypes(task1),
-                            gosmModel.getAllActivityNature(task1)
+                            gosmModel.getGOSMActivities(GOSM, undefined, task1),
+                            gosmModel.getAllActivityTypes(['id', 'name'], task1),
+                            gosmModel.getAllActivityNature(['id', 'name'], task1)
                         ]);
                     });
-                 })  .then(data => {
+                 }).then(data => {
                     return res.render('Org/GOSM', {
                         activityTypes: data[0],
                         activityNature: data[1],

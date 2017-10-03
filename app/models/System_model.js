@@ -53,7 +53,7 @@ class SystemModel {
 		this._attachFields(query, fields);
 
 		query = query.toString();
-		global.logger(`Executing query: ${query}`, this._log_options);
+		global.logger.debug(`Executing query: ${query}`, this._log_options);
 
 		return connection.oneOrNone(query);
 	}
