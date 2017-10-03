@@ -205,8 +205,7 @@ module.exports = function(database, models, queryFiles) {
                     view.csrfToken = req.csrfToken();
                     view.showUpdateButtons = view.GOSMStatus != 1 && view.GOSMStatus != 3;
                     res.render('APS/OrgGOSMMain', view);
-                })
-                .catch(error => {
+                }).catch(error => {
                     throw error;
                 });
 >>>>>>> c8e2c65d2191e3e5b7d683bb2fc1922a52bdb913
