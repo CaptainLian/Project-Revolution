@@ -144,11 +144,9 @@ module.exports = function(database, models, queryFiles) {
             gosmModel.updateActivity(dbParam)
             .then(data => {
                 global.logger.debug(`ID: ${data.id}`, log_options);
-<<<<<<< HEAD
+
                 return res.send(String(data.id));
-=======
-                res.send(data.id + "");
->>>>>>> c8e2c65d2191e3e5b7d683bb2fc1922a52bdb913
+
             }).catch(error => {
                 res.send("0");
                 throw error;
@@ -278,11 +276,6 @@ module.exports = function(database, models, queryFiles) {
         },
 
         createActivityRequirements: (req, res) => {
-<<<<<<< HEAD
-            return res.render("Org/ActivityRequirements", {
-                csrfToken: req.csrfToken()
-            });
-=======
 
             const dbParam = {
                 //TODO change into gosmActivity id
@@ -299,7 +292,6 @@ module.exports = function(database, models, queryFiles) {
                 .catch(error=>{
                     console.log(error);
                 });
->>>>>>> c8e2c65d2191e3e5b7d683bb2fc1922a52bdb913
         },
 
         //TODO Test
@@ -323,19 +315,7 @@ module.exports = function(database, models, queryFiles) {
                         GOSMParam.studentOrganization = 1;
 
                         return gosmModel.getOrgGOSM(GOSMParam, task1)
-<<<<<<< HEAD
-                        .then(GOSM => {
-                            /* GOSM Exists */
-                            if (GOSM) {
-                                return Promise.resolve(GOSM.id);
-                            }
-                            //else
-                            //May be flattened by not using a transaction
-                            return task1.tx(transaction => {
-                                return gosmModel.insertNewGOSM(GOSMParam.termID, GOSMParam.studentOrganization, true, transaction)
-                                .then(data => {
-                                    return Promise.resolve(data.id);
-=======
+
                             .then(GOSM => {
                                 /* GOSM Exists */
                                 if (GOSM) {
@@ -347,10 +327,9 @@ module.exports = function(database, models, queryFiles) {
                                     .then(data => {
                                         return Promise.resolve(data.id);
                                     });
->>>>>>> c8e2c65d2191e3e5b7d683bb2fc1922a52bdb913
                                 });
                             });
-                        });
+
                     }).then(GOSM => {
                         return task1.batch([
                             gosmModel.getGOSMActivities(GOSM, task1),
@@ -358,16 +337,16 @@ module.exports = function(database, models, queryFiles) {
                             gosmModel.getAllActivityNature(task1)
                         ]);
                     });
-            }).then(data => {
-                return res.render('Org/GOSM', {
-                    activityTypes: data[0],
-                    activityNature: data[1],
-                    gosmActivities: data[2],
-                    csrfToken: req.csrfToken()
-                });
-            }).catch(err => {
-                throw err;
-            });
+                 })  .then(data => {
+                    return res.render('Org/GOSM', {
+                        activityTypes: data[0],
+                        activityNature: data[1],
+                        gosmActivities: data[2],
+                        csrfToken: req.csrfToken()
+                    });
+                  }).catch(err => {
+                      throw err;
+                  });
         },
 
         inputActivityRequirements: (req, res) => {
