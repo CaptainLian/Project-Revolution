@@ -1,7 +1,7 @@
-{% macro javascript_item(src, class='', defer=false, async=false) %}
-	<script src="{{src}}" {%if (defer)%}defer="defer"{%endif%} {%if (async)%}async="async"{%endif%} class="{{class}}" type="text/javascript"></script>
+{% macro javascript(src, defer=false, async=false, id='', class='') %}
+	<script src="{{src}}" {%if (defer)%}defer="defer"{%endif%} {%if (async)%}async="async"{%endif%} type="text/javascript" {%if (id)%}id="{{id}}"{%endif%}{%if (class)%}class="{{class}}"{%endif%}></script>
 {% endmacro %}
 
-{% macro style(href, class='') %}
-	<link href="{{href}}" class="{{class}}" type="text/css" rel="stylesheet"/>
+{% macro style(href, id='', class='') %}
+	<link href="{{href}}" type="text/css" rel="stylesheet" {%if (id)%}id="{{id}}"{%endif%}{%if (class)%}class="{{class}}"{%endif%}/>
 {% endmacro %}

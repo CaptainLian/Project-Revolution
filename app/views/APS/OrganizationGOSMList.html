@@ -32,34 +32,35 @@
     <!-- /Page Styles -->
 {%endblock%}
 
-{%block breadcrumb%}
-    {{breadcrumb_item('Organization Submissions List', 'active')}}
-{%endblock%}
-
 {%block defer_script%}
+    {{super()}}
     <!-- jQuery -->
-    {{tag.javascript_item('/plugins/bower_components/jquery/dist/jquery.min.js', '', true)}}
+    {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
     <!-- Bootstrap Core JavaScript -->
-    {{tag.javascript_item('/bootstrap/dist/js/tether.min.js', '', true)}}
-    {{tag.javascript_item('/bootstrap/dist/js/bootstrap.min.js', '', true)}}
-    {{tag.javascript_item('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', '', true)}}
+    {{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
+    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
     <!-- Menu Plugin JavaScript -->
-    {{tag.javascript_item('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', '', true)}}
+    {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
     <!--slimscroll JavaScript -->
-    {{tag.javascript_item('/js/jquery.slimscroll.js', '', true)}}
+    {{tag.javascript('/js/jquery.slimscroll.js', true)}}
     <!--Wave Effects -->
-    {{tag.javascript_item('/js/waves.js', '', true)}}
+    {{tag.javascript('/js/waves.js', true)}}
     <!-- Custom Theme JavaScript -->
-    {{tag.javascript_item('/js/custom.min.js', '', true)}}
-    {{tag.javascript_item('/js/cbpFWTabs.js', '', true)}}
+    {{tag.javascript('/js/custom.min.js', true)}}
+    {{tag.javascript('/js/cbpFWTabs.js', true)}}
     <!-- tabs-->
-    {{tag.javascript_item('/plugins/bower_components/datatables/jquery.dataTables.min.js', '', true)}}
+    {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
     <!-- Sweet-Alert  -->
-    {{tag.javascript_item('/plugins/bower_components/sweetalert/sweetalert.min.js', '', true)}}    
+    {{tag.javascript('/plugins/bower_components/sweetalert/sweetalert.min.js', true)}}    
     <!--Style Switcher -->
-    {{tag.javascript_item('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', '', true)}}
+    {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
     <!-- Page-Scripts -->
     <!-- /Page-Scripts -->
+{%endblock%}
+
+{%block breadcrumb%}
+    {{breadcrumb_item('Organization Submissions List', 'active')}}
 {%endblock%}
 
 {%block content%}

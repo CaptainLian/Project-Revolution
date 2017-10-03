@@ -1,13 +1,63 @@
 {% extends './APS_master.html' %}
+{% import '../template/tags_macro.html' as tag%}
 
 {%block meta%}
     {{super()}}
     <meta data-name="csrf" data-token="{{csrfToken}}" />
 {%endblock%}
 
+{%block style%}
+    {{super()}}
+    <!-- Bootstrap Core CSS -->
+    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
+    {{tag.style('/plugins/bower_components/datatables/jquery.dataTables.min.css')}}
+
+    {{tag.style('/cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css')}}
+    <!-- Menu CSS -->
+    {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
+    <!-- animation CSS -->
+    {{tag.style('/css/animate.css')}}
+    <!--alerts CSS -->
+    {{tag.style('/plugins/bower_components/sweetalert/sweetalert.css')}}
+    <!-- Custom CSS -->
+    {{tag.style('/css/style.css')}}
+    {{tag.style('/css/custom.css')}}
+    <!-- color CSS -->
+    {{tag.style('/css/colors/blue.css')}}
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+{%endblock%}
+
 {%block defer_script%}
     {{super()}}
-    <script type="text/javascript" src="/js/APS/ActivityList.js" defer="defer"></script>
+    <!-- jQuery -->
+    {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
+    <!-- Bootstrap Core JavaScript -->
+    {{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
+    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
+    <!-- Menu Plugin JavaScript -->
+    {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
+    <!--slimscroll JavaScript -->
+    {{tag.javascript('/js/jquery.slimscroll.js', true)}}
+    <!--Wave Effects -->
+    {{tag.javascript('/js/waves.js', true)}}
+    <!-- Custom Theme JavaScript -->
+    {{tag.javascript('/js/custom.min.js', true)}}
+    {{tag.javascript('/js/cbpFWTabs.js', true)}}
+    <!-- tabs-->
+    {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
+    <!-- Sweet-Alert  -->
+    {{tag.javascript('/plugins/bower_components/sweetalert/sweetalert.min.js', true)}}    
+    <!--Style Switcher -->
+    {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
+    {{tag.javascript('/js/APS/ActivityList.js', true)}}
 {%endblock%}
 
 {%block content%}
@@ -27,18 +77,6 @@
                     </thead>
                     
                     <tbody>
-                        <tr role="row" class="odd" >
-                            <td class="sorting_1" data-toggle="modal" data-target ="#sampleModal">Unite: First General Assembly</td><!-- event name-->
-                            <td data-toggle="modal" data-target ="#sampleModal">January 1, 2017</td><!-- date of event-->
-                            <td data-toggle="modal" data-target ="#sampleModal">5</td><!-- days until late-->
-                            <td data-toggle="modal" data-target ="#sampleModal">La Salle Computer Society</td>
-                            <td class="jsgrid-cell jsgrid-control-field jsgrid-align-center" style="width: 50px;">
-                                <button type="button" class="btn btn-success btn-circle waves-effect" alt="alert" id="sa-approve"><i class="fa fa-check"></i> </button>
-                                <button type="button" class="btn btn-warning btn-circle waves-effect" alt="alert" id="sa-pend"><i class="fa fa-pause"></i> </button>
-                                <button type="button" class="btn btn-danger btn-circle waves-effect" alt="alert" id="sa-deny"><i class="fa fa-times"></i> </button>
-                            </td>
-                        </tr>
-
                         {% set cls = cycler("even", "odd") %}
                         {% for activity in proposals %}
                             <tr role="row" class="{{cls.next()}} activity_row" data-toggle="modal" data-target="#sampleModal" data-ppr-id="{{activity.id}}">
@@ -61,7 +99,6 @@
                         {% endfor %}
                     </tbody>
                 </table>
-
             </div>
         </div>
     </div>
