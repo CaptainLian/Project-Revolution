@@ -27,7 +27,7 @@ module.exports = function(db, queryFiles) {
     const ProjectProposalModel = function(db) {
         this._db = db;
         const dbHelper = require('../utility/databaseHelper');
-        this._attachFields = dbHelper.ttachFields;
+        this._attachFields = dbHelper.attachFields;
     };
 
    /**

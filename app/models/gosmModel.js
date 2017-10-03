@@ -21,6 +21,7 @@ module.exports = function(db, queryFiles) {
     const query_getSubmissionYears = queryFiles.gosm_getSubmissionYears;
     const query_getAll = queryFiles.gosm_getAll;
     const getGOSMActivityProjectHeadsSQL = queryFiles.getGOSMActivityProjectHeads;
+    const getGOSMActivitySQL = queryFiles.getGOSMActivity;
 
     const insertGOSM = queryFiles.gosm_insert;
     const insertGOSM_Returning = queryFiles.gosm_insert_returning;
