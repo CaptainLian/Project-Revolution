@@ -1,3 +1,8 @@
 {% macro javascript_item(src, class='', defer=false, async=false) %}
-	<script type="text/javascript" src="{{src}}" {%if (defer)%}defer="defer"{%endif%} {%if (async)%}async="async"{%endif%} class="{{class}}"></script>
+	<script src="{{src}}" {%if (defer)%}defer="defer"{%endif%} {%if (async)%}async="async"{%endif%} class="{{class}}" type="text/javascript"></script>
+{% endmacro %}
+
+{% macro style(src, class='', defer=false, async=false) %}
+	<script type="text/javascript" src="{{src}}" {%if (defer)%}defer="defer"{%endif%} {%if (async)%}async="async"{%endif%} class="{{class}}" ></script>
+	<link href="../../../cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
 {% endmacro %}

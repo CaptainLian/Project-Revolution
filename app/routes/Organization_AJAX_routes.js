@@ -14,7 +14,7 @@ module.exports = function(app , controllers){
 
 	router.post(`${base}/deleteActivity`, controllers.Organization_controller.deleteActivity);
 	router.post(`${base}/updateActivity`, controllers.Organization_controller.updateActivity);
-	router.post(`${base}/activityRequirements` , controllers.APS_controller.inputActivityRequirements);
+	router.post(`${base}/activityRequirements` , controllers.Organization_controller.inputActivityRequirements);
 
 	return router; 
 };

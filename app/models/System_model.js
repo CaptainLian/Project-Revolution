@@ -1,6 +1,5 @@
 'use strict';
 
-
 class SystemModel {
 
 	constructor(database, squel){

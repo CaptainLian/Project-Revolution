@@ -187,8 +187,6 @@ module.exports = function(db, queryFiles) {
         let param = {};
         param.id = id;
         return connection.any(query, param);
-
-
     };
 
     ProjectProposalModel.prototype.insertProjectProposal = function(param, connection = this._db) {
