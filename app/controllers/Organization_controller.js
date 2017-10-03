@@ -9,34 +9,32 @@ module.exports = function(database, models, queryFiles) {
 
     const log_options = {};
     log_options.from = 'Organization-Controller';
-    return {
 
+    return {
         viewHome: (req, res) => {
             database.task(t => {
-                    return t.batch([
-                        //TODO: Replace hardcoded values
-                        projectProposalModel.getProjectProposalsCountPerStatus(1, 5, t),
-                        projectProposalModel.getProjectProposalsCountPerStatus(1, 4, t),
-                        projectProposalModel.getProjectProposalsCountPerStatus(1, 3, t)
-                    ]);
-                })
-                .then(data => {
-                    global.logger.debug(`${JSON.stringify(data)}`, log_options);
-                    res.render('APS/HomeMain', {
-                        csrfToken: req.csrfToken(),
-                        allProjects: data[0],
-                        deniedProjects: data[1],
-                        pendingProjects: data[2],
-                        successProjects: data[3]
-                    });
-                })
-                .catch(error => {
-                    throw error;
+                return t.batch([
+                    //TODO: Replace hardcoded values
+                    projectProposalModel.getProjectProposalsCountPerStatus(1, 5, t),
+                    projectProposalModel.getProjectProposalsCountPerStatus(1, 4, t),
+                    projectProposalModel.getProjectProposalsCountPerStatus(1, 3, t)
+                ]);
+            }).then(data => {
+                global.logger.debug(`${JSON.stringify(data)}`, log_options);
+                res.render('APS/HomeMain', {
+                    csrfToken: req.csrfToken(),
+                    allProjects: data[0],
+                    deniedProjects: data[1],
+                    pendingProjects: data[2],
+                    successProjects: data[3]
                 });
+            }).catch(error => {
+                throw error;
+            });
         },
 
         view: (req, res) => {
-            res.render('Org/MemberMain');
+            return res.render('Org/MemberMain');
         },
 
         viewProject: (req, res) => {
@@ -50,7 +48,7 @@ module.exports = function(database, models, queryFiles) {
                     organizationModel.getActivitiesWithoutPPR(param, t)
                 ]);
             }).then(data => {
-                res.render('Org/viewProjectMain', {
+                return res.render('Org/viewProjectMain', {
                     actWithPPR: data[0],
                     actWithoutPPR: data[1]
                 });
@@ -146,7 +144,7 @@ module.exports = function(database, models, queryFiles) {
             gosmModel.updateActivity(dbParam)
             .then(data => {
                 global.logger.debug(`ID: ${data.id}`, log_options);
-                res.send(String(data.id));
+                return res.send(String(data.id));
             }).catch(error => {
                 res.send("0");
                 throw error;
@@ -213,8 +211,8 @@ module.exports = function(database, models, queryFiles) {
                     //TODO: replace with session data
                     param.studentOrganization = 1;
 
-                    return task.tx(t => {
-                        return gosmModel.getOrgGOSM(param, t)
+                    return task.tx(transaction => {
+                        return gosmModel.getOrgGOSM(param, transaction)
                             .then(gosm => {
                                 const dbParam = {
                                     GOSM: gosm.id,
@@ -236,7 +234,7 @@ module.exports = function(database, models, queryFiles) {
                                     throw new Error('Error activity type others empty');
                                 }
 
-                                const insertPromise = gosmModel.insertProposedActivity(dbParam, t);
+                                const insertPromise = gosmModel.insertProposedActivity(dbParam, transaction);
                                 return insertPromise;
                             }).then(activity => {
                                 global.logger.debug(`inserted: ${activity.activityid}, person-in-charge_length: ${personInCharge.length}`, log_options);
@@ -259,24 +257,24 @@ module.exports = function(database, models, queryFiles) {
                                     projectHeadParam.idNumber = parseInt(item);
                                     projectHeadParam.activityID = activity.activityid;
 
-                                    queries[queries.length] = gosmModel.insertActivityProjectHead(projectHeadParam, t);
+                                    queries[queries.length] = gosmModel.insertActivityProjectHead(projectHeadParam, transaction);
                                 }
 
-                                return t.sequence(queries);
+                                return transaction.sequence(queries);
                             });
                     }).then(data => { //task end
                         return Promise.resolve(data[0]);
                     });
                 });
             }).then(activityID => {
-                res.send(String(activityID));
+                return res.send(String(activityID));
             }).catch(err => {
                 throw err;
             });
         },
 
         createActivityRequirements: (req, res) => {
-            res.render("APS/ActivityRequirementsMain", {
+            return res.render("APS/ActivityRequirementsMain", {
                 csrfToken: req.csrfToken()
             });
         },
@@ -302,20 +300,20 @@ module.exports = function(database, models, queryFiles) {
                         GOSMParam.studentOrganization = 1;
 
                         return gosmModel.getOrgGOSM(GOSMParam, task1)
-                            .then(GOSM => {
-                                /* GOSM Exists */
-                                if (GOSM) {
-                                    return Promise.resolve(GOSM.id);
-                                }
-                                //else
-                                //May be flattened by not using a transaction
-                                return task1.tx(transaction => {
-                                    return gosmModel.insertNewGOSM(GOSMParam.termID, GOSMParam.studentOrganization, true, transaction)
-                                    .then(data => {
-                                        return Promise.resolve(data.id);
-                                    });
+                        .then(GOSM => {
+                            /* GOSM Exists */
+                            if (GOSM) {
+                                return Promise.resolve(GOSM.id);
+                            }
+                            //else
+                            //May be flattened by not using a transaction
+                            return task1.tx(transaction => {
+                                return gosmModel.insertNewGOSM(GOSMParam.termID, GOSMParam.studentOrganization, true, transaction)
+                                .then(data => {
+                                    return Promise.resolve(data.id);
                                 });
                             });
+                        });
                     }).then(GOSM => {
                         return task1.batch([
                             gosmModel.getGOSMActivities(GOSM, task1),
@@ -324,12 +322,119 @@ module.exports = function(database, models, queryFiles) {
                         ]);
                     });
             }).then(data => {
-                res.render('APS/GOSMMain', {
+                return res.render('APS/GOSMMain', {
                     activityTypes: data[0],
                     activityNature: data[1],
                     gosmActivities: data[2],
                     csrfToken: req.csrfToken()
                 });
+            }).catch(err => {
+                throw err;
+            });
+        },
+
+        inputActivityRequirements: (req, res) => {
+            let sched = JSON.parse(req.body.sched);
+            let exp = JSON.parse(req.body.exp);
+            let funds = JSON.parse(req.body.funds);
+
+            // var sched = sched[0];
+            // console.log(sched.length);
+            // req.body.context
+
+            global.logger.debug(`${JSON.stringify(req.body)}`, log_options);
+
+            let projectProposalParam = {
+                //TODO change gosmactivity value
+                GOSMactivity: 1,
+                status: 1,
+                enp: req.body.enp,
+                enmp: req.body.enmp,
+                venue: req.body.venue,
+                sourceFundOther: exp.others,
+                sourceFundParticipantFee: exp.participant,
+                sourceFundOrganizational: exp.orgFunds,
+                accumulatedOperationalFunds: funds.ope,
+                accumulatedDepositoryFunds: funds.dep,
+                organizationalFundOtherSource: funds.other,
+                preparedBy: req.session.user
+            };
+
+            database.tx(t /* transaction connection */ => {
+                return projectProposalModel.insertProjectProposal(projectProposalParam, t)
+                    .then(data => {
+                        const projectProposalID = data.projectproposal;
+                        global.logger.debug(`projectProposal: ${projectProposalID}`, log_options);
+                        /* 
+
+                            PPR Program Design
+
+                        */
+                        for (let index0 = sched.length + 1; --index0;) {
+                            global.logger.debug(sched, log_options);
+                            const program = sched[sched.length - index0];
+                            for (let index1 = program.time.length + 1; --index1;) {
+                                global.logger.debug(index1, log_options);
+                                const i = program.time.length - index1;
+                                const item = program.time[i];
+                                projectProposalModel.insertProjectProposalDesign({
+                                    projectProposal: projectProposalID,
+                                    dayID: i,
+                                    date: program.date,
+                                    startTime: item.start,
+                                    endTime: item.end,
+                                    activity: item.actName,
+                                    activityDescription: item.actDesc,
+                                    personInCharge: item.pic
+                                }, t).then(() => {
+
+                                }).catch(err => {
+                                    throw err;
+                                });
+                            }
+                        }
+
+                        /* 
+
+                            Revenue
+
+                        */
+                        for (let index = funds.revenue.length + 1; --index;) {
+                            global.logger.debug(`NAG LOOP`, log_options);
+                            const item = funds.revenue[funds.revenue.length - index];
+                            projectProposalModel.insertProjectProposalProjectedIncome({
+                                projectProposal: projectProposalID,
+                                income: item.item,
+                                quantity: item.quan,
+                                sellingPrice: item.price
+                            }, t).then(() => {
+
+                            }).catch(err => {
+                                throw err;
+                            });
+                        }
+
+                        /*
+
+                            Expense
+
+                        */
+                        for (let index = funds.expense.length; index--;) {
+                            const item = funds.expense[funds.expense.length - index];
+                            projectProposalModel.insertProjectProposalExpenses({
+                                projectProposal: projectProposalID,
+                                material: item.item,
+                                quantity: item.quan,
+                                unitCost: item.price
+                            }, t).then(() => {
+
+                            }).catch(err => {
+                                throw err;
+                            });
+                        }
+                    });
+            }).then(data => {
+                global.logger.debug(`${data}`, log_options);
             }).catch(err => {
                 throw err;
             });

@@ -1,5 +1,6 @@
 {% extends './APS_master.html' %}
 {% import '../template/tags_macro.html' as tag%}
+
 {%block meta%}
     {{super()}}
     <meta data-name="GOSM" data-id="{{GOSMID}}" />
@@ -8,15 +9,59 @@
 
 {%block page_title%}APS - {{organizationName}} GOSM Submission{%-endblock%}
 
-{%block styles%}
+{%block style%}
     {{super()}}
-    <link href="/css/ViewOrgGOSM.css" rel="stylesheet" />
-{%endblock%}
+    <!-- Bootstrap Core CSS -->
+    <link href="/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css" rel="stylesheet">
+    <link href="/plugins/bower_components/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <!-- Menu CSS -->
+    <link href="/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css" rel="stylesheet">
+    <!-- animation CSS -->
+    <link href="/css/animate.css" rel="stylesheet">
+    <!--alerts CSS -->
+    <link href="/plugins/bower_components/sweetalert/sweetalert.css" rel="stylesheet" type="text/css">
+    <!-- Custom CSS -->
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/custom.css" rel="stylesheet">
+    <!-- color CSS -->
+    <link href="/css/colors/default.css" id="theme" rel="stylesheet">
 
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Page Styles -->
+    <link href="/css/ViewOrgGOSM.css" rel="stylesheet" />
+    <!-- /Page Styles -->
+{%endblock%}
 
 {%block defer_script%}
     {{super()}}
+    <!-- jQuery -->
+    <script type="text/javascript" src="/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script type="text/javascript" src="/bootstrap/dist/js/tether.min.js"></script>
+    <script type="text/javascript" src="/bootstrap/dist/js/bootstrap.min.js" ></script>
+    <script type="text/javascript" src="/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js" ></script>
+    <!-- Menu Plugin JavaScript -->
+    <script type="text/javascript" src="/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js"></script>
+    <!--slimscroll JavaScript -->
+    <script type="text/javascript" src="/js/jquery.slimscroll.js"></script>
+    <!--Wave Effects -->
+    <script type="text/javascript" src="/js/waves.js" ></script>
+    <!-- Custom Theme JavaScript -->
+    <script type="text/javascript" src="/js/custom.min.js" ></script>
+    <script type="text/javascript" src="/js/cbpFWTabs.js" ></script> <!-- tabs-->
+    <script type="text/javascript" src="/plugins/bower_components/datatables/jquery.dataTables.min.js"></script>
+    <!-- Sweet-Alert  -->
+    <script type="text/javascript" src="/plugins/bower_components/sweetalert/sweetalert.min.js"></script>
+    <!-- Page-Scripts -->
     {{tag.javascript_item(src='/js/APS/ORGGOSM.js', defer=true)}}
+    <!-- /Page-Scripts -->
 {%endblock%}
 
 {%block breadcrumb%}
