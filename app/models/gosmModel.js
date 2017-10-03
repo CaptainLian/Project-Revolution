@@ -1,7 +1,5 @@
 'use strict';
 
-const logger = global.logger;
-
 const log_options= Object.create(null);
 log_options.from = 'GOSM-Model';
 
@@ -29,12 +27,26 @@ module.exports = function(db, queryFiles) {
     const attachFields = dbHelper.attachFields;
 
     return {
-        getAllActivityTypes: function(connection = db) {
-            return connection.many(getAllActivityTypesSQL);
+        getAllActivityTypes: function(fields, connection = db) {
+            let query = squel.select()
+            .from('ActivityType');
+            attachFields(query, fields);
+
+            query = query.toString();
+            global.logger.debug(`Executing query: ${query}`, log_options);
+            return connection.many(query);
         }, //getAllActivityTypes()
-        getAllActivityNature: function(connection = db) {
-            return connection.many(getAllActivityNatureSQL);
+
+        getAllActivityNature: function(fields, connection = db) {
+            let query = squel.select()
+            .from('ActivityNature');
+            attachFields(query, fields);
+
+            query = query.toString();
+            global.logger.debug(`Executing query: ${query}`, log_options);
+            return connection.many(query);
         },
+
         insertProposedActivity: function(param, connection = db) {
             return connection.one(insertProposedActivitySQL, param);
         },
@@ -45,8 +57,18 @@ module.exports = function(db, queryFiles) {
             return connection.one(getSchoolYearSQL);
         },
 
-        getGOSMActivities: function(param, connection = db) {
-            return connection.any(getGOSMActivitiesSQL, param);
+        getGOSMActivities: function(GOSMID, fields, connection = db) {
+            let query= squel.select()
+            .from('GOSMActivity')
+            .where('GOSM = ${GOSMID}');
+            attachFields(query, fields);
+
+            let param = {};
+            param.GOSMID = GOSMID;
+
+            query = query.toString();
+            global.logger.debug(`Executing query: ${query}`, log_options);
+            return connection.any(query, param);
         },
 
         getGOSMActivity: function(param) {
@@ -103,7 +125,7 @@ module.exports = function(db, queryFiles) {
 
             attachFields(query, fields);
             query = query.toString();
-            logger.debug(`Executing query: ${query}`, log_options);
+            global.logger.debug(`Executing query: ${query}`, log_options);
 
             /* 
                 let param = { 
@@ -131,7 +153,7 @@ module.exports = function(db, queryFiles) {
             attachFields(query, fields);
 
             query = query.toString();
-            logger.debug(`Executing query: ${query}`, log_options);
+            global.logger.debug(`Executing query: ${query}`, log_options);
 
             /*
                 let param = {
@@ -154,7 +176,7 @@ module.exports = function(db, queryFiles) {
             attachFields(query, fields);
 
             query = query.toString();
-            logger.debug(`Executing query: ${query}`, log_options);
+            global.logger.debug(`Executing query: ${query}`, log_options);
             /*
                 let param = {
                     activityID: id
@@ -190,7 +212,7 @@ module.exports = function(db, queryFiles) {
             }
 
             query = query.toString();
-            logger.debug(`Executing query: ${query} with parameters ${JSON.stringify(param)}`, log_options);
+            global.logger.debug(`Executing query: ${query} with parameters ${JSON.stringify(param)}`, log_options);
             return connection.none(query, param);
         },
 
@@ -203,7 +225,7 @@ module.exports = function(db, queryFiles) {
                 .where('id = ${id}');
 
             query = query.toString();
-            logger.debug(`Executing query: ${query}`, log_options);
+            global.logger.debug(`Executing query: ${query}`, log_options);
 
             /*
                 let param = {
@@ -224,7 +246,7 @@ module.exports = function(db, queryFiles) {
             attachFields(query, fields);
 
             query = query.toString();
-            logger.debug(`Executing query: ${query}`, log_options);
+            global.logger.debug(`Executing query: ${query}`, log_options);
             
             /*
                 let param = {
