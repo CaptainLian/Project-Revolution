@@ -6,12 +6,9 @@ log_options.from = 'GOSM-Model';
 const squel = require('squel').useFlavour('postgres');
 
 module.exports = function(db, queryFiles) {
-    const getAllActivityTypesSQL = queryFiles.getAllActivityTypes;
     const insertProposedActivitySQL = queryFiles.insertProposedActivity;
     const insertActivityProjectHeadSQL = queryFiles.insertActivityProjectHead;
     const getSchoolYearSQL = queryFiles.getSchoolYear;
-    const getAllActivityNatureSQL = queryFiles.getAllActivityNature;
-    const getGOSMActivitiesSQL = queryFiles.getGOSMActivities;
     const deleteActivitySQL = queryFiles.deleteActivity;
     const updateActivitySQL = queryFiles.updateActivity;
     const submitGOSMSQL = queryFiles.submitGOSM;
