@@ -7,7 +7,7 @@ module.exports = function(database, models, queryFiles) {
     const projectProposalModel = models.ProjectProposal_model;
     const gosmModel = models.gosmModel;
 
-    const log_options = {};
+    const log_options = Object.create(null);
     log_options.from = 'Organization-Controller';
     return {
 
@@ -42,7 +42,7 @@ module.exports = function(database, models, queryFiles) {
         viewProject: (req, res) => {
             database.task(t => {
                 //TODO: Calculate hardcoded value
-                let param = {};
+                let param = Object.create(null);
                 param.gosm = 1;
 
                 return t.batch([
@@ -67,7 +67,7 @@ module.exports = function(database, models, queryFiles) {
              *  };
              * @type {Object}
              */
-            let dbParam = {};
+            let dbParam = Object.create(null);
             dbParam.studentorganization = 1;
 
             gosmModel.submitGOSM(dbParam)
@@ -78,13 +78,13 @@ module.exports = function(database, models, queryFiles) {
         },
 
         deleteActivity: (req, res) => {
-            let dbParam = {};
+            let dbParam = Object.create(null);
             dbParam.id = req.body.dbid;
 
             global.logger.debug(`Deleting activity: ${req.body.dbid}`, log_options);
             gosmModel.deleteActivity(dbParam)
             .then(data => {
-                return res.send("1");
+                res.send("1");
             }).catch(error => {
                 res.send('0');
                 throw error;
@@ -146,7 +146,7 @@ module.exports = function(database, models, queryFiles) {
             gosmModel.updateActivity(dbParam)
             .then(data => {
                 global.logger.debug(`ID: ${data.id}`, log_options);
-                res.send(String(data.id));
+                res.send(data.id + "");
             }).catch(error => {
                 res.send("0");
                 throw error;
@@ -208,7 +208,7 @@ module.exports = function(database, models, queryFiles) {
                      * }
                      * @type {Object}
                      */
-                    let param = {};
+                    let param = Object.create(null);
                     param.termID = term.id;
                     //TODO: replace with session data
                     param.studentOrganization = 1;
@@ -255,7 +255,7 @@ module.exports = function(database, models, queryFiles) {
                                      * @variable projectHeadParam
                                      * @type {Object}
                                      */
-                                    const projectHeadParam = {};
+                                    const projectHeadParam = Object.create(null);
                                     projectHeadParam.idNumber = parseInt(item);
                                     projectHeadParam.activityID = activity.activityid;
 
@@ -276,9 +276,22 @@ module.exports = function(database, models, queryFiles) {
         },
 
         createActivityRequirements: (req, res) => {
-            res.render("APS/ActivityRequirementsMain", {
-                csrfToken: req.csrfToken()
-            });
+
+            const dbParam = {
+                //TODO change into gosmActivity id
+                id: 1
+            };
+            Promise.all([gosmModel.getGOSMActivity(dbParam), gosmModel.getGOSMActivityProjectHeads(dbParam)])
+                .then(data=>{
+                    res.render("APS/ActivityRequirementsMain", {
+                       gosmActivity: data[0],
+                       projectHeads: data[1],
+                       csrfToken: req.csrfToken()
+                    });
+                })
+                .catch(error=>{
+                    console.log(error);
+                });
         },
 
         //TODO Test
@@ -296,7 +309,7 @@ module.exports = function(database, models, queryFiles) {
                          * @variable param
                          * @type {Object}
                          */
-                        let GOSMParam = {};
+                        let GOSMParam = Object.create(null);
                         GOSMParam.termID = term.id;
                         //TODO Replace with session variable
                         GOSMParam.studentOrganization = 1;
@@ -308,7 +321,6 @@ module.exports = function(database, models, queryFiles) {
                                     return Promise.resolve(GOSM.id);
                                 }
                                 //else
-                                //May be flattened by not using a transaction
                                 return task1.tx(transaction => {
                                     return gosmModel.insertNewGOSM(GOSMParam.termID, GOSMParam.studentOrganization, true, transaction)
                                     .then(data => {
