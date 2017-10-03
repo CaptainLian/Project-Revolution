@@ -275,23 +275,7 @@
                     <!-- /.col-lg-12 -->
                 </div>
                 <!-- /row -->
-                <div class=" panel panel-info">
-                            <div class="panel panel-primary">
-                            <div class="panel-heading">Panel title</div>
-                            <div class="panel-body">
-                                    <div class="media">
-                                        <div class="media-left">
-                                            <a href="#">
-                                                <img class="media-object" data-src="holder.js/64x64" alt="64x64" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+PGRlZnMvPjxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjE0LjUiIHk9IjMyIiBzdHlsZT0iZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQ7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+NjR4NjQ8L3RleHQ+PC9nPjwvc3ZnPg==" data-holder-rendered="true" style="width: 64px; height: 64px;">
-                                            </a>
-                                        </div>
-                                        <div class="media-body">
-                                            <h4 class="media-heading">Media heading</h4> Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+             
                 <div class="row">
                     <!-- <div class="col-sm-12">
                         <div class="white-box">
@@ -362,9 +346,9 @@
                                     <div class="form-group row">
                                         <label class="col-md-3">ANMP / ANP</label>
                                         <div class="input-group col-md-9" style="padding-left: 0px;padding-right: : 0px">
-                                            <input class="form-control" type="" name="" placeholder="ANMP">
+                                            <input class="form-control" type="" name="" placeholder="Actual Number of Member Participants (e.g. 10)">
                                             <span class="input-group-addon bg-info b-0 text-white" > / </span>
-                                            <input class="form-control" type="" name="" placeholder="ANP">
+                                            <input class="form-control" type="" name="" placeholder="Actual Number of Member Participants (e.g. 10)">
                                             
                                         </div>
                                     </div>                                                                
@@ -374,7 +358,7 @@
                             <hr/>
                                 <div class="row">
                                     <div class="col-md-12">
-                                       <p class="text-success"> Briefly describe how EACH objective was met and how it has contributed in the observation/situation you intend to address</p>
+                                       <p><strong> Briefly describe how EACH objective was met and how it has contributed in the observation/situation you intend to address</strong></p>
                                     </div>
                                     <div class="col-md-12 ">
                                         
@@ -401,7 +385,7 @@
                             <hr/>
                             <div class="row">
                                     <div class="col-md-12">
-                                       <p class="text-info"> There must be at least three (3) answers in each category; each entry under what went wrong must have a corresponding recommendation.</p>
+                                       <p class=""><strong> There must be at least three (3) answers in each category; each entry under what went wrong must have a corresponding recommendation.</strong></p>
                                     </div>
                                     <div class="col-md-12 ">
                                         
@@ -432,7 +416,7 @@
                             <hr/>   
                             <div class="row">
                                 <div class="col-md-12">
-                                   <p class="text-info">Kindly answer the questions briefly</p>
+                                   <p><strong>Kindly answer the questions briefly</strong></p>
                                 </div>
                                 <div class="col-md-12 ">
                                     
@@ -466,9 +450,91 @@
                     <div class="col-sm-12">
                         <div class="white-box">
                             <div class="row">
+                                <div class="col-md-12">
+                                    <h3 class="box-title m-t-40">V. Upload</h3>
+                                    <hr>
+                                   <!--  <form action="#" id="lop" class="dropzone">
+                                        <div class="fallback">
+                                            <input name="file" type="file" multiple /> </div>
+                                    </form> -->
+                                    <div class="row" >
+                                        <div class="col-md-12">
+                                            <div class="col-md-4  text-left m-b-10">
+                                                <label  style="">General Attendance List Sheet</label>    
+                                            </div>
+                                            <div class="col-md-8  text-center m-b-10 " >
+                                                <input  type="file" accept=".pdf, .odt, .odp, .ods" name="gals" style="padding-left: 10px" >    
+                                            </div>
+                                           
+                                        </div>
+                                         <div class="col-md-12" >
+                                            <div class="col-md-4  text-left m-b-10">
+                                                <label  style="">Event Pictures</label>    
+                                            </div>
+                                            <div class="col-md-8 text-center m-b-10" style="padding:10px;border:1px solid #fff">
+                                                 <div class="row m-b-10" id="upload">
+                                                    <div class="col-lg-12">
+                                                        &nbsp
+                                                        
+                                                    </div>
+                                                    <div class="pic-group col-md-12">
+                                                        <div class="col-md-6 m-b-10 col-sm-12" style="overflow:hidden;"  >
+                                                        <input style="" type="file" accept=".jpeg, .jpe, .jpg,.png" name="pictures[]" >    
+                                                        </div>
+                                                        <div class="col-md-5 col-sm-12 m-b-10">
+                                                            <input style="" type="text" placeholder="e.g. Post-group picture of Activity" name="pictureCaption[]" style="width: 100%" >                                                                
+                                                        </div>    
+                                                        <div class="col-md-1 col-sm-12 m-b-10">
+                                                            &nbsp
+                                                        </div>    
+                                                    </div>
+                                                    
+                                                   
+                                                    
+
+                                                    
+                                                </div>
+                                                 <div class="row">
+                                                    <div class="col-md-12 text-center ">
+                                                        <br/>
+                                                        <button  type="button" id="insert-pictures" class="btn btn-success table-less">Add Picture</button>                                            
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+
+
+                                    </div>
+
+                                   
+
+                                </div>
+
+                                 <!-- <div class="col-md-12">
+                                    <h3 class="box-title m-t-40">VI. Upload </h3>
+                                    <hr>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="col-md-4  text-left">
+                                                <label  style="">1. General Attendance List Sheet</label>    
+                                            </div>
+                                            <div class="col-md-8">
+                                                <input style="" type="file" accept=".pdf, .odt, .odp, .ods" name="...">    
+                                            </div>
+                                            
+                                            
+                                            
+                                        </div>
+                                    </div>
+
+                        
+                                </div>  -->
 
                                 <div class="col-md-12 table-responsive">
-                                    <h3 class="box-title m-t-40">V. List of Expense</h3>
+                                    <h3 class="box-title m-t-40">VI. List of Expense</h3>
                                     <hr>
                                     <table id="mainTable2" class="table editable-table table-bordered color-bordered-table success-bordered-table m-b-0">
                                         <thead class="table-less">                                                                
@@ -519,14 +585,7 @@
                                         <button  type="button" id="insert-particular" class="btn btn-success table-less">Insert Particulars</button>
                                     </div>
                                 </div>  
-                                <div class="col-md-12">
-                                    <h3 class="box-title m-t-40">VI. List of Pictures</h3>
-                                    <hr>
-                                    <form action="#" id="lop" class="dropzone">
-                                        <div class="fallback">
-                                            <input name="file" type="file" multiple /> </div>
-                                    </form>
-                                </div>
+                                
                                  <div class="col-md-12">
                                     <h3 class="box-title m-t-40">VII. Finance </h3>
                                     <hr>
@@ -611,26 +670,7 @@
                                    
                                     
                                 </div>     
-                                <div class="col-md-12">
-                                    <h3 class="box-title m-t-40">VII. Upload </h3>
-                                    <hr>
-                                    <br>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="col-md-4  text-left">
-                                                <label  style="">1. General Attendance List Sheet</label>    
-                                            </div>
-                                            <div class="col-md-8">
-                                                <input style="" type="file" accept=".pdf, .odt, .odp, .ods" name="...">    
-                                            </div>
-                                            
-                                            
-                                            
-                                        </div>
-                                    </div>
-
-                        
-                                </div> 
+                               
 
                             </div>
                             
@@ -976,6 +1016,7 @@
     <!-- FormValidation plugin and the class supports validating Bootstrap form -->
     <script src="../plugins/bower_components/jquery-wizard-master/libs/formvalidation/formValidation.min.js"></script>
     <script src="../plugins/bower_components/jquery-wizard-master/libs/formvalidation/bootstrap.min.js"></script>
+    <script src="../plugins/bower_components/lobipanel/dist/js/lobipanel.min.js"></script>
     <script>
    
         $('.panel').lobiPanel({
@@ -985,8 +1026,6 @@
         });
    
     </script>
-    <script src="../plugins/bower_components/lobipanel/dist/js/lobipanel.min.js"></script>
-
 
     <!-- LOE SCRIPT -->
     <script type="text/javascript">
@@ -1013,7 +1052,7 @@
 
         $(document).bind('custom',function(){
             $(".fa-times").on('click',function(){
-
+                $('.tooltip').remove();
                 $(this).closest("tr").remove();
                  $('#mainTable2').editableTableWidget();
                 calculate();
@@ -1050,11 +1089,12 @@
                        '<td class="loe-part"> </td>'+
                        '<th class="loe-file"><input type="file"  class="upload" name=""></th>'+
                        '<td class="loe-amount"></td>'+       
-                       '<th class="text-center text-danger"><i class="fa fa-times remove-time"></i></th>'+
+                       '<th class="text-center text-danger"><i class="fa fa-times remove-time"  data-toggle="tooltip" data-title="Remove"></i></th>'+
                    '</tr>';
         $("#insert-particular").click(function(){
             $("#mainTable2 tbody").append(td);
              $('#mainTable2').editableTableWidget();
+             $('[data-toggle="tooltip"]').tooltip(); 
             calculate();
             $(document).trigger("custom");
         });
@@ -1062,8 +1102,34 @@
         $(document).trigger("custom");
     </script>
 
-    <!-- LOP SCRIPT -->
+    <!-- LOP SCRIPT NEW -->
     <script type="text/javascript">
+        var fields ='<div class="pic-group col-md-12">' +
+                        '<div class="col-md-6 m-b-10 col-sm-12" style="overflow:hidden;"  >'+
+                            '<input style="" type="file" accept=".jpeg, .jpe, .jpg,.png" name="pictures[]" >'+
+                        '</div>'+
+                        '<div class="col-md-5 col-sm-12 m-b-10">'+
+                            '<input style="" type="text" placeholder="e.g. Post-group picture of Activity" name="pictureCaption[]" style="box-sizing: border-box;width: 100%" >'+
+                            
+                        '</div>'+
+                        '<div class="col-md-1 col-sm-12 "  style="margin-top:2px;vertical-align:middle">'+
+                        '<span class="fa fa-times text-danger remove-pic" data-toggle="tooltip" data-title="Remove" ></span>'+
+                        '</div>'+
+                    '</div>';
+        $("#insert-pictures").click(function(){
+            console.log("asd");
+            $("#upload").append(fields);
+            $('[data-toggle="tooltip"]').tooltip(); 
+        });
+        $("#upload").on('click','.remove-pic ',function(){
+            console.log("asd");
+            $('.tooltip').remove();
+            $(this).closest(".pic-group").remove();
+        })
+
+    </script>
+    <!-- LOP SCRIPT -->
+    <!-- <script type="text/javascript">
         var id=0;
         var temp = '<div class="dz-preview dz-file-preview">'+
                         '<div class="dz-image"><img data-dz-thumbnail /></div>'+
@@ -1121,7 +1187,7 @@
           var caption = $(this).attr('value');
           // return $.post("/images/" + filename + "/save_caption?caption=" + caption);
         });
-    </script>
+    </script> -->
     <!--Style Switcher -->
     <script src="../plugins/bower_components/styleswitcher/jQuery.style.switcher.js"></script>
 
