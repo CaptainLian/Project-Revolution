@@ -21,7 +21,7 @@ module.exports = function(database, models, queryFiles) {
                 ]);
             }).then(data => {
                 global.logger.debug(`${JSON.stringify(data)}`, log_options);
-                res.render('APS/HomeMain', {
+                res.render('Org/Home', {
                     csrfToken: req.csrfToken(),
                     allProjects: data[0],
                     deniedProjects: data[1],
@@ -34,7 +34,7 @@ module.exports = function(database, models, queryFiles) {
         },
 
         view: (req, res) => {
-            return res.render('Org/MemberMain');
+            return res.render('Org/Member');
         },
 
         viewProject: (req, res) => {
@@ -274,7 +274,7 @@ module.exports = function(database, models, queryFiles) {
         },
 
         createActivityRequirements: (req, res) => {
-            return res.render("APS/ActivityRequirementsMain", {
+            return res.render("Org/ActivityRequirements", {
                 csrfToken: req.csrfToken()
             });
         },
@@ -322,7 +322,7 @@ module.exports = function(database, models, queryFiles) {
                         ]);
                     });
             }).then(data => {
-                return res.render('APS/GOSMMain', {
+                return res.render('Org/GOSM', {
                     activityTypes: data[0],
                     activityNature: data[1],
                     gosmActivities: data[2],

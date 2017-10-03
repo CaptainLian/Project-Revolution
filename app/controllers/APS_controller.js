@@ -15,7 +15,7 @@ module.exports = function(database, models, queryFiles) {
             gosmModel.getAllCurrent()
             .then(GOSMList => {
                 logger.debug(`Displaying GOSM list: ${JSON.stringify(GOSMList)}`, log_options);
-                return res.render('APS/OrglistMain', {
+                return res.render('APS/OrganizationGOSMList', {
                     GOSMList: GOSMList,
                     csrfToken: req.csrfToken()
                 });
@@ -58,7 +58,7 @@ module.exports = function(database, models, queryFiles) {
                 view.GOSMStatus = data[2].status;
                 view.csrfToken = req.csrfToken();
                 view.showUpdateButtons = view.GOSMStatus != 1 && view.GOSMStatus != 3;
-                return res.render('APS/OrgGOSMMain', view);
+                return res.render('APS/OrganizationSpecificGOSM', view);
             }).catch(error => {
                 throw error;
             });
@@ -70,7 +70,10 @@ module.exports = function(database, models, queryFiles) {
             database.task(t => {
                 return t.batch([
                     gosmModel.getActivityDetails(req.body.dbid, undefined, t),
-                    gosmModel.getActivityProjectHeads(req.body.dbid, ['firstname', 'lastname', 'a.idNumber'], t)
+                    gosmModel.getActivityProjectHeads(req.body.dbid, [
+                        'firstname', 
+                        'lastname', 
+                        'a.idNumber'], t)
                 ]);
             }).then(data => {
                 return res.send(data);
@@ -121,7 +124,7 @@ module.exports = function(database, models, queryFiles) {
                     ]);
                 });
             }).then(data => {
-                return res.render('APS/activityCheckingMain', {
+                return res.render('APS/activityChecking', {
                     projectProposal: data[0],
                     expenses: data[1],
                     projectedIncome: data[2],
