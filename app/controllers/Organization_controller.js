@@ -283,7 +283,7 @@ module.exports = function(database, models, queryFiles) {
             };
             Promise.all([gosmModel.getGOSMActivity(dbParam), gosmModel.getGOSMActivityProjectHeads(dbParam)])
                 .then(data=>{
-                    res.render("APS/ActivityRequirementsMain", {
+                    res.render("Org/ActivityRequirementsMain", {
                        gosmActivity: data[0],
                        projectHeads: data[1],
                        csrfToken: req.csrfToken()

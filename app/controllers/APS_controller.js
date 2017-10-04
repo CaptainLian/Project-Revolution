@@ -118,7 +118,13 @@ module.exports = function(database, models, queryFiles) {
                     'pp.enp AS enp',
                     'ga.objectives AS objectives',
                     'pp.context AS context',
-                    'pp.id AS id'
+                    'pp.id AS id',
+                    'pp.sourcefundother AS sourcefundother',
+                    'pp.sourcefundparticipantfee AS sourcefundparticipantfee',
+                    'pp.sourcefundorganizational AS sourcefundorganizational',
+                    'pp.accumulatedoperationalfunds AS accumulatedoperationalfunds',
+                    'pp.accumulateddepositoryfunds AS accumulateddepositoryfunds',
+                    'pp.organizationfundothersource AS organizationfundothersource'
                 ], task).then(data => {
                     return task.batch([
                         Promise.resolve(data),

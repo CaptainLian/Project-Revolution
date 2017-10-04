@@ -275,7 +275,7 @@
                                         <strong>Organization funds:</strong>
                                     </div>
                                     <div class="col-md-6 col-xs-12">
-                                        1000000
+                                        {{projectProposal.sourcefundorganizational}}
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -283,7 +283,7 @@
                                         <strong>Participants Fee:</strong>
                                     </div>
                                     <div class="col-md-6 col-xs-12">
-                                        1000000
+                                        {{projectProposal.sourcefundparticipantfee}}
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -291,7 +291,7 @@
                                         <strong>Others:</strong>
                                     </div>
                                     <div class="col-md-6 col-xs-12">
-                                        1000000
+                                        {{projectProposal.sourcefundother}}
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -299,7 +299,7 @@
                                         <strong>Total:</strong>
                                     </div>
                                     <div class="col-md-6 col-xs-12">
-                                        1000000
+                                        {{(projectProposal.sourcefundorganizational | float)+(projectProposal.sourcefundparticipantfee | float)+(projectProposal.sourcefundother | float)}}
                                     </div>
                                 </div>
                                 
@@ -314,7 +314,7 @@
                                         <strong>Operational Funds:</strong>
                                     </div>
                                     <div class="col-md-6 col-xs-12">
-                                        1000000
+                                        {{projectProposal.accumulatedoperationalfunds}}
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -322,7 +322,7 @@
                                         <strong>Depository Funds:</strong>
                                     </div>
                                     <div class="col-md-6 col-xs-12">
-                                        1000000
+                                        {{projectProposal.accumulateddepositoryfunds}}
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -330,7 +330,7 @@
                                         <strong>Others:</strong>
                                     </div>
                                     <div class="col-md-6 col-xs-12">
-                                        1000000
+                                        {{projectProposal.organizationfundothersource}}
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -338,7 +338,7 @@
                                         <strong>Total Cash for Disbursement:</strong>
                                     </div>
                                     <div class="col-md-6 col-xs-12">
-                                        1000000
+                                        {{(projectProposal.accumulatedoperationalfunds | float)+(projectProposal.accumulateddepositoryfunds | float)+(projectProposal.organizationfundothersource)}}
                                     </div>
                                 </div>
                                 <div> &nbsp</div>
