@@ -2,12 +2,9 @@
 
 {%block page_title%}CSO - APS{%-endblock%}
 
-{%block body%}
-    {{super()}}
-{%endblock%}
-
 {%block sidebar_content%}
     {{super()}}
+    
     {{sidebar_item('Submissions', '/APS/viewActivityList')}}
     {{sidebar_item('Activity History')}}
     {{sidebar_item('Org GOSM', '/APS/viewOrglist')}}

@@ -4,7 +4,7 @@ var express = require('express');
 var router = express.Router();
 
 module.exports = function (app, controllers){
-	router.get('/activityChecking',controllers.APS_controller.activityChecking);
+	router.get('/APS/activityChecking',controllers.APS_controller.activityChecking);
 	router.get('/APS/viewOrglist', controllers.APS_controller.viewOrglist);
 	router.get('/APS/viewOrgGOSM', (req, res) => {
 		res.redirect('/APS/viewOrglist');

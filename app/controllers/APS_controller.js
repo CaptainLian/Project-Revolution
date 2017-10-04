@@ -134,7 +134,8 @@ module.exports = function(database, models, queryFiles) {
                     expenses: data[1],
                     projectedIncome: data[2],
                     programDesign: data[3],
-                    projectHeads: data[4]
+                    projectHeads: data[4],
+                    csrfToken: req.csrfToken()
                 });
             }).catch(err => {
                 throw err;
