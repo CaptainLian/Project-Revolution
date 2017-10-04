@@ -75,54 +75,53 @@ module.exports = function(database, models, queryFiles) {
 
             if (valid) {
                 database.one(query.toString(), {
-                        credential: input.credential
-                    })
-                    .then(account => {
-                        global.logger.debug(`Account found: ${JSON.stringify(account)}`, log_options);
-                        if (account.password === bcrypt.hashSync(input.password, account.salt)) {
+                    credential: input.credential
+                }).then(account => {
+                    global.logger.debug(`Account found: ${JSON.stringify(account)}`, log_options);
+                    if (account.password === bcrypt.hashSync(input.password, account.salt)) {
 
-                            global.logger.debug('Enter!!', log_options);
+                        global.logger.debug('Enter!!', log_options);
 
-                            /**
-                             * Session Contents
-                             * {
-                             *     user: {
-                             *         idNumber
-                             *         name: {
-                             *             first
-                             *             middle
-                             *             last
-                             *         }
-                             *     }
-                             * }
-                             * @type Object
-                             */
-                            let user = {};
-                            user.idNumber = account.idnumber;
-                            user.name = {};
-                            user.name.first = account.firstname;
-                            user.name.middle = account.middlename;
-                            user.name.last = account.lastname;
-                            req.session.valid = true;
+                        /**
+                         * Session Contents
+                         * {
+                         *     user: {
+                         *         idNumber
+                         *         name: {
+                         *             first
+                         *             middle
+                         *             last
+                         *         }
+                         *     }
+                         * }
+                         * @type Object
+                         */
+                        let user = {};
+                        user.idNumber = account.idnumber;
+                        user.name = {};
+                        user.name.first = account.firstname;
+                        user.name.middle = account.middlename;
+                        user.name.last = account.lastname;
+                        req.session.valid = true;
 
-                            req.session.save();
+                        req.session.save();
 
-                            return res.send({
-                                valid: true,
-                                route: '/'
-                            });
-                        } else {
-                            global.logger.debug('Incorrect password');
-                            return res.send({
-                                valid: false
-                            });
-                        }
-                    }).catch(() => {
-                        global.logger.debug('Account not exist');
+                        return res.send({
+                            valid: true,
+                            route: '/'
+                        });
+                    } else {
+                        global.logger.debug('Incorrect password');
                         return res.send({
                             valid: false
                         });
+                    }
+                }).catch(() => {
+                    global.logger.debug('Account not exist');
+                    return res.send({
+                        valid: false
                     });
+                });
             } else {
                 global.logger.debug('Aguy input');
                 return res.send({

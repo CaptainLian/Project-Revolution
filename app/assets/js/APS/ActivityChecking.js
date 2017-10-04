@@ -1,7 +1,13 @@
+(function() {
+    [].slice.call(document.querySelectorAll('.sttabs')).forEach(function(el) {
+        new CBPFWTabs(el);
+    });
+
+})();
+
 $('#section-linebox-5').css('visibility', "hidden");
 $('#section-linebox-5').css('height', 0);
 $('#section-linebox-5').css('width', 0);
-
 $(".sttabs li").click(function() {
     var page = $(this).find("a").attr("href");
     console.log(page);
@@ -9,6 +15,7 @@ $(".sttabs li").click(function() {
     console.log(page);
     if (page == "5") {
         console.log("REFRESH");
+
         $('#section-linebox-5').css('visibility', "visible");
         $('#section-linebox-5').css('height', "100%");
         $('#section-linebox-5').css('width', "100%");
@@ -37,12 +44,12 @@ $("#approve").click(function() {
             return new Promise(function(resolve, reject) {
                 setTimeout(function() {
                     if (data === 'taken@example.com') {
-                        reject('This email is already taken.');
+                        reject('This email is already taken.')
                     } else {
-                        resolve();
+                        resolve()
                     }
-                }, 2000);
-            });
+                }, 2000)
+            })
         }
 
     }).then(function(data) {
@@ -60,30 +67,34 @@ $("#approve").click(function() {
 });
 $("#defer").click(function() {
     var question = '<div class="row">' +
-                        '<div class="col-md-12 text-left m-b-20">' +
-                            '<br/>Select the sections that should be change, then explain why.<br/>' +
-                        '</div>' +
-                        '<div class="form-group col-md-12">' +
-                            '<label class="col-md-12 text-left"><strong>Sections to be Edited:</strong></label>' +
-                            '<div class="col-md-12">' +
-                                '<select class="col-md-12" multiple=""s id="select-sec">' +
-                                    '<option value="1">I. Objectives</option>' +
-                                    '<option value="2">II. Brief Context</option>' +
-                                    '<option value="3">III. Program Design</option>' +
-                                    '<option value="4">IV. Source of Funds</option>' +
-                                    '<option value="5">V. Organizational Funds</option>' +
-                                    '<option value="6">VI. Revenue and Expense Table</option>' +
-                                    '<option value="7">VII. Attachements</option>' +
-                                '</select>' +
-                            '</div>' +
-                        '</div>' +
-                        '<div class="form-group col-md-12">' +
-                            '<label class="col-md-12 text-left"><strong>Explanation</strong></label>' +
-                                '<div class="col-md-12">' +
-                                    '<textarea class="form-control" rows="5"></textarea>' +
-                                '</div>' +
-                            '</div>' +
-                        '</div>';
+        '<div class="col-md-12 text-left m-b-20">' +
+        '<br/>Select the sections that should be change, then explain why.<br/>' +
+        '</div>' +
+        '<div class="form-group col-md-12">' +
+        '<label class="col-md-12 text-left"><strong>Sections to be Edited:</strong></label>' +
+        '<div class="col-md-12">' +
+        '<select class="col-md-12" multiple=""s id="select-sec">' +
+
+        '<option value="1">I. Objectives</option>' +
+        '<option value="2">II. Brief Context</option>' +
+        '<option value="3">III. Program Design</option>' +
+        '<option value="4">IV. Source of Funds</option>' +
+        '<option value="5">V. Organizational Funds</option>' +
+        '<option value="6">VI. Revenue and Expense Table</option>' +
+        '<option value="7">VII. Attachements</option>' +
+        '</select>' +
+        '</div>' +
+
+        '</div>' +
+        '<div class="form-group col-md-12">' +
+        '<label class="col-md-12 text-left"><strong>Explanation</strong></label>' +
+        '<div class="col-md-12">' +
+        '<textarea class="form-control" rows="5"></textarea>' +
+        '</div>' +
+        '</div>' +
+        '</div>';
+
+
     swal({
         title: "Defer",
         text: "Select the sections that should be change, then explain why.",
@@ -99,12 +110,12 @@ $("#defer").click(function() {
             return new Promise(function(resolve, reject) {
                 setTimeout(function() {
                     if (data === 'taken@example.com') {
-                        reject('This email is already taken.');
+                        reject('This email is already taken.')
                     } else {
-                        resolve();
+                        resolve()
                     }
-                }, 2000);
-            });
+                }, 2000)
+            })
         },
         onOpen: function(ele) {
             $(ele).find("select").select2();
@@ -114,7 +125,7 @@ $("#defer").click(function() {
         showCancelButton: true,
         confirmButtonColor: "#FEC107",
         confirmButtonText: "Defer",
-        cancelButtonText: "Cancel"
+        cancelButtonText: "Cancel",
 
     }).then(function(data) {
         console.log(data);
@@ -133,15 +144,17 @@ $("#defer").click(function() {
 
 $("#reject").click(function() {
     var question = '<div class="row">' +
-                        '<div class="col-md-12 text-left  m-b-20" style="padding-left:16px">' +
-                            '<br/>State the reason for rejection.<br/>' +
-                        '</div>' +
-                        '<div class="form-group col-md-12">' +
-                            '<div class="col-md-12">' +
-                                '<textarea class="form-control" rows="5"></textarea>' +
-                            '</div>' +
-                        '</div>' +
-                    '</div>';
+        '<div class="col-md-12 text-left  m-b-20" style="padding-left:16px">' +
+        '<br/>State the reason for rejection.<br/>' +
+        '</div>' +
+
+        '<div class="form-group col-md-12">' +
+
+        '<div class="col-md-12">' +
+        '<textarea class="form-control" rows="5"></textarea>' +
+        '</div>' +
+        '</div>' +
+        '</div>';
     swal({
         title: "Reject",
 
@@ -159,12 +172,12 @@ $("#reject").click(function() {
             return new Promise(function(resolve, reject) {
                 setTimeout(function() {
                     if (email === 'taken@example.com') {
-                        reject('This email is already taken.');
+                        reject('This email is already taken.')
                     } else {
-                        resolve();
+                        resolve()
                     }
-                }, 2000);
-            });
+                }, 2000)
+            })
         }
 
     }).then(function(data) {
