@@ -277,21 +277,24 @@ module.exports = function(database, models, queryFiles) {
 
         createActivityRequirements: (req, res) => {
 
-            const dbParam = {
-                //TODO change into gosmActivity id
-                id: 1
-            };
-            Promise.all([gosmModel.getGOSMActivity(dbParam), gosmModel.getGOSMActivityProjectHeads(dbParam)])
-                .then(data=>{
-                    res.render("APS/ActivityRequirementsMain", {
-                       gosmActivity: data[0],
-                       projectHeads: data[1],
-                       csrfToken: req.csrfToken()
-                    });
-                })
-                .catch(error=>{
-                    console.log(error);
+            const dbParam = {};
+            //TODO CHANGE ID
+            dbParam. id = 1;
+
+            database.task(task => {
+                return task.batch([
+                    gosmModel.getGOSMActivity(dbParam), 
+                    gosmModel.getGOSMActivityProjectHeads(dbParam)
+                ]);
+            }).then(data => {
+               return res.render("Org/ActivityRequirements", {
+                    gosmActivity: data[0],
+                    projectHeads: data[1],
+                    csrfToken: req.csrfToken()
                 });
+            }).catch(err => {
+                throw err;
+            });
         },
 
         //TODO Test
@@ -315,19 +318,23 @@ module.exports = function(database, models, queryFiles) {
                         GOSMParam.studentOrganization = 1;
 
                         return gosmModel.getOrgGOSM(GOSMParam, task1)
-                            .then(GOSM => {
-                                /* GOSM Exists */
-                                if (GOSM) {
-                                    return Promise.resolve(GOSM.id);
-                                }
-                                //else
-                                return task1.tx(transaction => {
-                                    return gosmModel.insertNewGOSM(GOSMParam.termID, GOSMParam.studentOrganization, true, transaction)
-                                    .then(data => {
-                                        return Promise.resolve(data.id);
-                                    });
+                        .then(GOSM => {
+                            /* GOSM Exists */
+                            if (GOSM) {
+                                return Promise.resolve(GOSM.id);
+                            }
+                            //else
+                            return task1.tx(transaction => {
+                                return gosmModel.insertNewGOSM(GOSMParam.termID, GOSMParam.studentOrganization, true, transaction)
+                                .then(data => {
+                                    return Promise.resolve(data.id);
+                                }).catch(err => {
+                                    throw err;
                                 });
                             });
+                        }).catch(err => {
+                            throw err;
+                        });
                     }).then(GOSM => {
                         return task1.batch([
                             gosmModel.getGOSMActivities(GOSM, undefined, task1),
@@ -375,78 +382,80 @@ module.exports = function(database, models, queryFiles) {
             };
 
             database.tx(t /* transaction connection */ => {
-                return projectProposalModel.insertProjectProposal(projectProposalParam, t)
-                    .then(data => {
-                        const projectProposalID = data.projectproposal;
-                        global.logger.debug(`projectProposal: ${projectProposalID}`, log_options);
-                        /* 
+            return projectProposalModel.insertProjectProposal(projectProposalParam, t)
+                .then(data => {
+                    const projectProposalID = data.projectproposal;
+                    global.logger.debug(`projectProposal: ${projectProposalID}`, log_options);
+                    /* 
 
-                            PPR Program Design
+                        PPR Program Design
 
-                        */
-                        for (let index0 = sched.length + 1; --index0;) {
-                            global.logger.debug(sched, log_options);
-                            const program = sched[sched.length - index0];
-                            for (let index1 = program.time.length + 1; --index1;) {
-                                global.logger.debug(index1, log_options);
-                                const i = program.time.length - index1;
-                                const item = program.time[i];
-                                projectProposalModel.insertProjectProposalDesign({
-                                    projectProposal: projectProposalID,
-                                    dayID: i,
-                                    date: program.date,
-                                    startTime: item.start,
-                                    endTime: item.end,
-                                    activity: item.actName,
-                                    activityDescription: item.actDesc,
-                                    personInCharge: item.pic
-                                }, t).then(() => {
-
-                                }).catch(err => {
-                                    throw err;
-                                });
-                            }
-                        }
-
-                        /* 
-
-                            Revenue
-
-                        */
-                        for (let index = funds.revenue.length + 1; --index;) {
-                            global.logger.debug(`NAG LOOP`, log_options);
-                            const item = funds.revenue[funds.revenue.length - index];
-                            projectProposalModel.insertProjectProposalProjectedIncome({
+                    */
+                    for (let index0 = sched.length + 1; --index0;) {
+                        global.logger.debug(sched, log_options);
+                        const program = sched[sched.length - index0];
+                        for (let index1 = program.time.length + 1; --index1;) {
+                            global.logger.debug(index1, log_options);
+                            const i = program.time.length - index1;
+                            const item = program.time[i];
+                            projectProposalModel.insertProjectProposalDesign({
                                 projectProposal: projectProposalID,
-                                income: item.item,
-                                quantity: item.quan,
-                                sellingPrice: item.price
+                                dayID: i,
+                                date: program.date,
+                                startTime: item.start,
+                                endTime: item.end,
+                                activity: item.actName,
+                                activityDescription: item.actDesc,
+                                personInCharge: item.pic
                             }, t).then(() => {
 
                             }).catch(err => {
                                 throw err;
                             });
                         }
+                    }
 
-                        /*
+                    /* 
 
-                            Expense
+                        Revenue
 
-                        */
-                        for (let index = funds.expense.length; index--;) {
-                            const item = funds.expense[funds.expense.length - index];
-                            projectProposalModel.insertProjectProposalExpenses({
-                                projectProposal: projectProposalID,
-                                material: item.item,
-                                quantity: item.quan,
-                                unitCost: item.price
-                            }, t).then(() => {
+                    */
+                    for (let index = funds.revenue.length + 1; --index;) {
+                        global.logger.debug(`NAG LOOP`, log_options);
+                        const item = funds.revenue[funds.revenue.length - index];
+                        projectProposalModel.insertProjectProposalProjectedIncome({
+                            projectProposal: projectProposalID,
+                            income: item.item,
+                            quantity: item.quan,
+                            sellingPrice: item.price
+                        }, t).then(() => {
 
-                            }).catch(err => {
-                                throw err;
-                            });
-                        }
-                    });
+                        }).catch(err => {
+                            throw err;
+                        });
+                    }
+
+                    /*
+
+                        Expense
+
+                    */
+                    for (let index = funds.expense.length; index--;) {
+                        const item = funds.expense[funds.expense.length - index];
+                        projectProposalModel.insertProjectProposalExpenses({
+                            projectProposal: projectProposalID,
+                            material: item.item,
+                            quantity: item.quan,
+                            unitCost: item.price
+                        }, t).then(() => {
+
+                        }).catch(err => {
+                            throw err;
+                        });
+                    }
+                }).catch(err => {
+                    throw err;
+                });
             }).then(data => {
                 global.logger.debug(`${data}`, log_options);
             }).catch(err => {

@@ -1,6 +1,11 @@
 {% extends './APS_master.html' %}
 {% import '../template/tags_macro.html' as tag %}
 
+{%block meta%}
+    {{super()}}
+    <meta data-name="csrf" data-token="{{csrfToken}" />
+{%endblock5}
+
 {%block style%}
     {{super()}}
     <!-- Bootstrap Core CSS -->
@@ -89,8 +94,11 @@
     {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/nestable2/1.5.0/jquery.nestable.min.js', true)}}
     {{tag.javascript('/plugins/bower_components/custom-select/custom-select.min.js', true)}}
     {{tag.javascript('/plugins/bower_components/bootstrap-select/bootstrap-select.min.js', true)}}
+
+    <!-- Page Scripts -->
     {{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
     {{tag.javascript('/js/APS/ActivityChecking.js', true)}}
+    <!-- /Page Scripts -->
 {%endblock%}
 
 {%block body_preloader%}

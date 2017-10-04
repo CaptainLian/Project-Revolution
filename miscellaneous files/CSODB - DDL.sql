@@ -24,9 +24,9 @@ CREATE TABLE Account (
     contactNumber VARCHAR(16),
     privatekey TEXT,
     publickey TEXT,
+    path_profilePicture TEXT,
     dateCreated TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    dateModified TIMESTAMP WITH TIME ZONE,
-
+    dateModified TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (idNumber)
 );
     /* Account Table Triggers */

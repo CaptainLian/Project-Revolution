@@ -86,8 +86,8 @@
     {{super()}}
 {%endblock%}
 
-{% macro breadcrumb_item(name='', class='') %}
-    <li class="{{class}}">{{name}}</li>
+{% macro breadcrumb_item(name='', class) %}
+    <li {%if (class)%}class="{{class}}"{%endif%}>{{name}}</li>
 {% endmacro %}
 
 {% macro sidebar_item(name='', link='javascript:void(0);') %}
