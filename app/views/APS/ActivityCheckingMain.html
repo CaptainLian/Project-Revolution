@@ -13,6 +13,7 @@
 	{%include "../section/sidebar/cso-aps.html"%}
 {%endblock%}
 
+
 {%block content%}
 <div id="doc" class="row white-box">
     <div class="col-md-4 col-xs-12">
@@ -143,7 +144,7 @@
                             
                             {% for program in programDesign.dayID %}
 
-                            {% if (true) %}
+                            {% if () %}
 
                                  <div class="text-center">
                                     <h3>{{program.date}}</h3>
@@ -169,7 +170,7 @@
                                     </tbody>
                                 </table>
                                 <br/>
-                            {%endif%}
+
                             {% endfor %}
   
                          
@@ -447,6 +448,9 @@
 
 {%block scripts%}
     {%include "../section/ajax/ajaxCSRF.html"%}
+
+
+
     <script type="text/javascript">
         $('#section-linebox-5').css('visibility',"hidden");
         $('#section-linebox-5').css('height',0);

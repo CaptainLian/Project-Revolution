@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
+
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -143,21 +145,19 @@
     <script src="/plugins/bower_components/custom-select/custom-select.min.js" type="text/javascript"></script>
     <script src="/plugins/bower_components/bootstrap-select/bootstrap-select.min.js" type="text/javascript"></script>
     <script type="text/javascript">
-    (function() {
+        (function() {
 
-        [].slice.call(document.querySelectorAll('.sttabs')).forEach(function(el) {
-            new CBPFWTabs(el);
-        });
+            [].slice.call(document.querySelectorAll('.sttabs')).forEach(function(el) {
+                new CBPFWTabs(el);
+            });
 
-    })();
-    
+        })();
+        
     </script>
     {%block scripts%}
     {%endblock%}
     <!--Style Switcher -->
     <script src="/plugins/bower_components/styleswitcher/jQuery.style.switcher.js"></script>
-
-
 </body>
 
 
