@@ -103,6 +103,17 @@ module.exports = function(database, queryFiles) {
             this._attachFields(query, fields);
             return connection.one(query.toString(), param);
         }
+
+        /**
+         * Calculates which dashboard/s or home pagesthe given account can view
+         * 
+         * @method  getAccountHome
+         * @param   {[type]}       idNumber [description]
+         * @returns {[type]}                [description]
+         */
+        getAccountHome(idNumber){
+            //TODO implementation
+        }
     }
 
     return new AccountModel(database, queryFiles.account_insert);

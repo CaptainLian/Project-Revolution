@@ -21,7 +21,7 @@ module.exports = function(database, models, queryFiles) {
                 ]);
             }).then(data => {
                 global.logger.debug(`${JSON.stringify(data)}`, log_options);
-                res.render('Org/Home', {
+                return res.render('Org/Home', {
                     csrfToken: req.csrfToken(),
                     allProjects: data[0],
                     deniedProjects: data[1],
@@ -82,7 +82,7 @@ module.exports = function(database, models, queryFiles) {
             global.logger.debug(`Deleting activity: ${req.body.dbid}`, log_options);
             gosmModel.deleteActivity(dbParam)
             .then(data => {
-                res.send("1");
+                return res.send("1");
             }).catch(error => {
                 res.send('0');
                 throw error;

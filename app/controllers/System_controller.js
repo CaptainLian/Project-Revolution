@@ -79,7 +79,7 @@ module.exports = function(database, models, queryFiles) {
                 }).then(account => {
                     global.logger.debug(`Account found: ${JSON.stringify(account)}`, log_options);
                     if (account.password === bcrypt.hashSync(input.password, account.salt)) {
-
+                        
                         global.logger.debug('Enter!!', log_options);
 
                         /**

@@ -431,7 +431,8 @@ $trigger$
     BEGIN
         SELECT COALESCE(MAX(sequence) + 1, 1) INTO STRICT NEW.sequence
           FROM ProjectProposalProgramDesign
-         WHERE projectProposal = NEW.projectProposal;
+         WHERE projectProposal = NEW.projectProposal
+           AND dayID = NEW.dayID;
         return NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
