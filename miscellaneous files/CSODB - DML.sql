@@ -61,29 +61,6 @@ INSERT INTO College (shortAcronym, fullAcronym, name)
              VALUES ('SOE', null, 'School of Economics');
 
 /* Organization Data */
-INSERT INTO OrganizationNature (id, name, acronym)
-                      VALUES (1, 'Special Interest', 'SPIN');
-INSERT INTO OrganizationNature (id, name, acronym)
-                      VALUES (2, 'Professional Organization', 'PROF');
-INSERT INTO OrganizationNature (id, name, acronym)
-                      VALUES (3, 'Socio-civic and Religious', 'SCORE');
-INSERT INTO OrganizationNature (id, name, acronym)
-                      VALUES (4, 'Professional Organization Group', 'PROG');
-
-INSERT INTO OrganizationCluster (id, name, acronym)
-                         VALUES (1, 'Alliance of Science Organizations', 'ASO');
-INSERT INTO OrganizationCluster (id, name, acronym)
-                         VALUES (2, 'Alliance of Special Interest and Socio-Civic Organizations', 'ASPIRE');
-INSERT INTO OrganizationCluster (id, name, acronym)
-                         VALUES (3, 'College of Liberal Arts Professional Organizations', 'CAP12');
-INSERT INTO OrganizationCluster (id, name, acronym)
-                         VALUES (4, 'Engineering Alliance Geared Towards Excellence', 'ENGAGE');
-INSERT INTO OrganizationCluster (id, name, acronym)
-                         VALUES (5, 'Alliance of Professional Organizations of Business and Economics', 'PROBE');
-
-INSERT INTO StudentOrganization (id, acronym, name, description)
-                 VALUES (0, 'CSO', 'Council of Student Organizations', NULL);
-
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
                  VALUES (1, 'Chemsoc', 'Chemistry Society', 1, NULL);
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
@@ -165,15 +142,6 @@ INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
                  VALUES (38, 'YES', 'Young Entrepreneurs Society', 5, NULL);
 
-INSERT INTO AccountType (id, name)
-                 VALUES (0, 'Student Account');
-INSERT INTO AccountType (id, name)
-                 VALUES (1, 'Faculty Adviser Account');
-INSERT INTO AccountType (id, name)
-                 VALUES (2, 'SLIFE Account');
-INSERT INTO AccountType (id, name)
-                 VALUES (3, 'Accounting Account');
-
 INSERT INTO ActivityType (id, name)
                   VALUES (1, 'Academic Contest');
 INSERT INTO ActivityType (id, name)
@@ -214,27 +182,6 @@ INSERT INTO ActivityNature (id, name)
 INSERT INTO ActivityNature (id, name)
                     VALUES (9, 'Outreach');
 
-INSERT INTO GOSMStatus (id, name)
-                VALUES (1, 'Created');
-INSERT INTO GOSMStatus (id, name)
-                VALUES (2, 'Initial Submission');
-INSERT INTO GOSMStatus (id, name)
-                VALUES (3, 'Approved');
-INSERT INTO GOSMStatus (id, name)
-                VALUES (4, 'Pending');
-INSERT INTO GOSMStatus (id, name)
-                VALUES (5, 'Denied');
-
-INSERT INTO ProjectProposalStatus (id, name)
-                           VALUES (1, 'Created');
-INSERT INTO ProjectProposalStatus (id, name)
-                           VALUES (2, 'Initial Submission');
-INSERT INTO ProjectProposalStatus (id, name)
-                           VALUES (3, 'Approved');
-INSERT INTO ProjectProposalStatus (id, name)
-                           VALUES (4, 'Pending');
-INSERT INTO ProjectProposalStatus (id, name)
-                           VALUES (5, 'Denied');
 /* Sample Data */
 INSERT INTO Account (email, idNumber, password, firstname, middlename, lastname, contactNumber)
              VALUES ('juliano_laguio@dlsu.edu.ph', 11445955, '1234', 'Lian', 'Blanco', 'Laguio', '+63 9228474849');

@@ -11,6 +11,15 @@ CREATE TABLE AccountType (
 
     PRIMARY KEY (id)
 );
+INSERT INTO AccountType (id, name)
+                 VALUES (0, 'Student Account');
+INSERT INTO AccountType (id, name)
+                 VALUES (1, 'Faculty Adviser Account');
+INSERT INTO AccountType (id, name)
+                 VALUES (2, 'SLIFE Account');
+INSERT INTO AccountType (id, name)
+                 VALUES (3, 'Accounting Account');
+
 DROP TABLE IF EXISTS Account CASCADE;
 CREATE TABLE Account (
     idNumber INTEGER,
@@ -110,7 +119,7 @@ CREATE TABLE College (
 
 DROP TABLE IF EXISTS ActivityType CASCADE;
 CREATE TABLE ActivityType (
-    id INTEGER,
+    id SMALLINT,
     name VARCHAR(45) NOT NULL,
 
     PRIMARY KEY(id)
@@ -120,7 +129,7 @@ CREATE TABLE ActivityType (
 DROP TABLE IF EXISTS ActivityRequirement CASCADE;
 CREATE TABLE ActivityRequirement (
     id SERIAL UNIQUE,
-    activityType INTEGER,
+    activityType SMALLINT,
     sequence INTEGER DEFAULT -1,
     name VARCHAR(100) NOT NULL,
 
@@ -184,7 +193,7 @@ CREATE TRIGGER before_insert_PostActivityRequirement
 
 DROP TABLE IF EXISTS ActivityNature CASCADE;
 CREATE TABLE ActivityNature (
-    id INTEGER,
+    id SMALLINT,
     name VARCHAR(45) NOT NULL,
 
     PRIMARY KEY(id)
@@ -198,27 +207,46 @@ MINVALUE 0 NO MAXVALUE START WITH 0 NO CYCLE;
 */
 DROP TABLE IF EXISTS OrganizationNature CASCADE;
 CREATE TABLE OrganizationNature (
-    id INTEGER,
+    id SMALLINT,
     name VARCHAR(45) NOT NULL,
     acronym VARCHAR(10),
 
     PRIMARY KEY(id)
 );
+INSERT INTO OrganizationNature (id, name, acronym)
+                      VALUES (1, 'Special Interest', 'SPIN');
+INSERT INTO OrganizationNature (id, name, acronym)
+                      VALUES (2, 'Professional Organization', 'PROF');
+INSERT INTO OrganizationNature (id, name, acronym)
+                      VALUES (3, 'Socio-civic and Religious', 'SCORE');
+INSERT INTO OrganizationNature (id, name, acronym)
+                      VALUES (4, 'Professional Organization Group', 'PROG');
 
 DROP TABLE IF EXISTS OrganizationCluster CASCADE;
 CREATE TABLE OrganizationCluster (
-    id INTEGER,
+    id SMALLINT,
     name VARCHAR(128) NOT NULL,
     acronym VARCHAR(20),
 
     PRIMARY KEY(id)
 );
+INSERT INTO OrganizationCluster (id, name, acronym)
+                         VALUES (1, 'Alliance of Science Organizations', 'ASO');
+INSERT INTO OrganizationCluster (id, name, acronym)
+                         VALUES (2, 'Alliance of Special Interest and Socio-Civic Organizations', 'ASPIRE');
+INSERT INTO OrganizationCluster (id, name, acronym)
+                         VALUES (3, 'College of Liberal Arts Professional Organizations', 'CAP12');
+INSERT INTO OrganizationCluster (id, name, acronym)
+                         VALUES (4, 'Engineering Alliance Geared Towards Excellence', 'ENGAGE');
+INSERT INTO OrganizationCluster (id, name, acronym)
+                         VALUES (5, 'Alliance of Professional Organizations of Business and Economics', 'PROBE');
+
 DROP TABLE IF EXISTS StudentOrganization CASCADE;
 CREATE TABLE StudentOrganization (
     id SERIAL,
     name VARCHAR(128),
-    cluster INTEGER REFERENCES OrganizationCluster(id),
-    nature INTEGER REFERENCES OrganizationNature(id),
+    cluster SMALLINT REFERENCES OrganizationCluster(id),
+    nature SMALLINT REFERENCES OrganizationNature(id),
     college CHAR(3) REFERENCES College(shortAcronym),
     acronym VARCHAR(20) UNIQUE,
     description TEXT,
@@ -227,51 +255,91 @@ CREATE TABLE StudentOrganization (
 
     PRIMARY KEY (id)
 );
-
     /* Organization Structure */
-DROP TABLE IF EXISTS OrganizationPosition CASCADE;
-CREATE TABLE OrganizationPosition (
-    id SERIAL,
-    name VARCHAR(100),
+DROP TABLE IF EXISTS OrganizationRole CASCADE;
+CREATE TABLE OrganizationRole (
+	id SERIAL UNIQUE,
+	organization INTEGER REFERENCES StudentOrganization(id),
+	sequence INTEGER,
+	name VARCHAR(100),
+	rank INTEGER,
+	uniquePosition BOOLEAN NOT NULL DEFAULT FALSE,
+	masterRole INTEGER REFERENCES OrganizationRole(id),
 
-    PRIMARY KEY(id)
+	PRIMARY KEY (organization, sequence)
 );
-DROP TABLE IF EXISTS OrganiationStructure CASCADE;
-CREATE TABLE OrganiationStructure (
-    id SERIAL UNIQUE,
-    organization INTEGER REFERENCES StudentOrganization (id),
-    position INTEGER REFERENCES OrganizationPosition (id),
-    rank INTEGER,
-    uniquePosition BOOLEAN NOT NULL,
-    masterPosition INTEGER REFERENCES OrganiationStructure (id),
+CREATE OR REPLACE FUNCTION trigger_before_insert_OrganizationRole()
+RETURNS trigger AS
+$trigger$
+    BEGIN
+        SELECT COALESCE(MAX(id) + 1, 1) INTO STRICT NEW.sequence
+          FROM OrganizationRole
+         WHERE organization = NEW.organization;
+        return NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER before_insert_OrganizationRole
+    BEFORE INSERT ON OrganizationRole
+    FOR EACH ROW
+    EXECUTE PROCEDURE trigger_before_insert_OrganizationRole();
 
-    PRIMARY KEY (organization, position)
-);
 DROP TABLE IF EXISTS OrganizationOfficer CASCADE;
 CREATE TABLE OrganizationOfficer (
-    idNumber INTEGER,
-    position INTEGER,
-    yearID INTEGER,
-    dateAssigned TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+	idNumber INTEGER REFERENCES Account(idNumber),
+	role INTEGER REFERENCES OrganizationRole(id),
+	yearID INTEGER,
+	dateAssigned TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
 
-    PRIMARY KEY (idNumber, position, yearID)
+	PRIMARY KEY(idNumber, role, yearID)
 );
+
     /* Organization Structure End */
+	/* Access Control*/
+DROP TABLE IF EXISTS Functionality CASCADE;
+CREATE TABLE Functionality (
+	id SMALLINT,
+	name VARCHAR (200)
+);
+INSERT INTO Functionality (id, name)
+                   VALUES ();
+
+DROP TABLE IF EXISTS OrganizationAccessControl CASCADE;
+CREATE TABLE OrganizationAccessControl (
+	role INTEGER,
+	functionality SMALLINT,
+	isAllowed BOOLEAN DEFAULT FALSE,
+
+	PRIMARY KEY (role, functionality) 
+);
+	/* Access Control end */
+	
 -- FORMS
     /* GOSM RELATED*/
 DROP TABLE IF EXISTS GOSMStatus CASCADE;
 CREATE TABLE GOSMStatus (
-    id INTEGER,
+    id SMALLINT,
     name VARCHAR(45),
 
     PRIMARY KEY (id)
 );
+/* Data */
+INSERT INTO GOSMStatus (id, name)
+                VALUES (1, 'Created');
+INSERT INTO GOSMStatus (id, name)
+                VALUES (2, 'Initial Submission');
+INSERT INTO GOSMStatus (id, name)
+                VALUES (3, 'Approved');
+INSERT INTO GOSMStatus (id, name)
+                VALUES (4, 'Pending');
+INSERT INTO GOSMStatus (id, name)
+                VALUES (5, 'Denied');
+
 DROP TABLE IF EXISTS GOSM CASCADE;
 CREATE TABLE GOSM (
     id SERIAL UNIQUE,
     termID INTEGER,
     studentOrganization INTEGER REFERENCES StudentOrganization(id),
-    status INTEGER NOT NULL REFERENCES GOSMStatus(id) DEFAULT 1,
+    status SMALLINT NOT NULL REFERENCES GOSMStatus(id) DEFAULT 1,
     dateCreated TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     dateSubmitted TIMESTAMP WITH TIME ZONE,
     dateStatusModified TIMESTAMP WITH TIME ZONE, 
@@ -311,8 +379,8 @@ CREATE TABLE GOSMActivity (
     measures VARCHAR(255) NOT NULL,
     targetDateStart DATE,
     targetDateEnd DATE,
-    activityNature INTEGER REFERENCES ActivityNature(id),
-    activityType INTEGER REFERENCES ActivityType(id),
+    activityNature SMALLINT REFERENCES ActivityNature(id),
+    activityType SMALLINT REFERENCES ActivityType(id),
     activityTypeOtherDescription VARCHAR(45),
     isRelatedToOrganizationNature BOOLEAN NOT NULL,
     budget NUMERIC(16, 4) NOT NULL DEFAULT 0.0,
@@ -348,17 +416,27 @@ CREATE TABLE GOSMActivityProjectHead (
     /* Project Proposal */
 DROP TABLE IF EXISTS ProjectProposalStatus CASCADE;
 CREATE TABLE ProjectProposalStatus (
-    id INTEGER,
+    id SMALLINT,
     name VARCHAR(45),
 
     PRIMARY KEY (id)
 );
-
+INSERT INTO ProjectProposalStatus (id, name)
+                           VALUES (1, 'Created');
+INSERT INTO ProjectProposalStatus (id, name)
+                           VALUES (2, 'Initial Submission');
+INSERT INTO ProjectProposalStatus (id, name)
+                           VALUES (3, 'Approved');
+INSERT INTO ProjectProposalStatus (id, name)
+                           VALUES (4, 'Pending');
+INSERT INTO ProjectProposalStatus (id, name)
+                           VALUES (5, 'Denied');
+                           
 DROP TABLE IF EXISTS ProjectProposal CASCADE;
 CREATE TABLE ProjectProposal (
     id SERIAL UNIQUE,
     GOSMActivity INTEGER REFERENCES GOSMActivity(id),
-    status INTEGER NOT NULL REFERENCES ProjectProposalStatus(id) DEFAULT 1,
+    status SMALLINT NOT NULL REFERENCES ProjectProposalStatus(id) DEFAULT 1,
     ENP INTEGER,
     ENMP INTEGER,
     venue VARCHAR(100),
@@ -545,8 +623,8 @@ $trigger$
         return NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
-CREATE TRIGGER before_insert_ProjectProposal
-    BEFORE INSERT ON ProjectProposalSourceFunds
+CREATE TRIGGER before_insert_ProjectProposalAttachment
+    BEFORE INSERT ON ProjectProposalAttachment
     FOR EACH ROW
     EXECUTE PROCEDURE trigger_before_insert_ProjectProposalAttachment();
 
@@ -629,3 +707,62 @@ $function$ STABLE LANGUAGE plpgsql;
 /* 
     Helpful functions end 
 */
+INSERT INTO StudentOrganization (id, acronym, name, description)
+                         VALUES (0, 'CSO', 'Council of Student Organizations', NULL);
+-- 1
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
+                      VALUES (           0, 'Chairperson', TRUE, NULL);
+-- 2
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
+                      VALUES (           0, 'Executive Vice Chairperson for Internals', TRUE, 1);
+-- 3
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
+                      VALUES (           0, 'Executive Vice Chairperson for Externals', TRUE, 1);
+-- 4
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
+                      VALUES (           0, 'Executive Vice Chairperson for Activities and Documentation', TRUE, 1);
+-- 5
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
+                      VALUES (           0, 'Executive Vice Chairperson for Finance', TRUE, 1);
+
+-- 6
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
+                      VALUES (           0, 'Vice Chairperson for Activity Documentations and Management', TRUE, 4);
+-- 7
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
+                      VALUES (           0, 'Associate Vice Chairperson for Activity Documentations and Management', FALSE, 6);
+
+-- 8
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
+                      VALUES (           0, 'Vice Chairperson for Activity Monitoring Team', TRUE, 4);
+-- 9
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
+                      VALUES (           0, 'Associate Vice Chairperson for Activity Monitoring Team', FALSE, 8);
+
+-- 10
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
+                      VALUES (           0, 'Vice Chairperson for Activity Processing and Screening', TRUE, 4);
+-- 11
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
+                      VALUES (           0, 'Associate Vice Chairperson for Activity Processing and Screening', FALSE, 8);
+
+-- 12
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
+                      VALUES (           0, 'Vice Chairperson for Finance', TRUE, 5);
+-- 13
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
+                      VALUES (           0, 'Associate Vice Chairperson for Finance', FALSE, 12);
+
+-- 14
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
+                      VALUES (           0, 'Vice Chairperson for Publicity and Productions', TRUE, 4);
+-- 15
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
+                      VALUES (           0, 'Associate Vice Chairperson for Publicity and Productions', FALSE, 14);
+
+-- 16
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
+                      VALUES (           0, 'Vice Chairperson for Organizational Research and Analysis', TRUE, 4);
+-- 17
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
+                      VALUES (           0, 'Associate Vice Chairperson for Organizational Research and Analysis', FALSE, 16);
