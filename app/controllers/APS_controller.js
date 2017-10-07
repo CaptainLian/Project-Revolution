@@ -133,8 +133,8 @@ module.exports = function(database, models, queryFiles) {
                         projectProposalModel.getProjectProposalProgramDesign(data.id, [
                             'pppd.dayid AS dayid',
                             "to_char(pppd.date, 'Mon DD, YYYY') AS date",
-                            'pppd.starttime AS starttime',
-                            'pppd.endtime AS endtime',
+                            "to_char(pppd.starttime + CURRENT_DATE, 'HH:MI AM') AS starttime",
+                            "to_char(pppd.endtime + CURRENT_DATE, 'HH:MI PM') AS endtime",
                             'pppd.activity AS activity',
                             'pppd.activitydescription AS activitydescription',
                             'pppd.personincharge AS personincharge'
