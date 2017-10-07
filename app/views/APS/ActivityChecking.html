@@ -377,54 +377,31 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            Paper
-                                        </td>
-                                        <td>
-                                            100 pcs.
-                                        </td>
-                                        <td>
-                                            300
-                                        </td>
-                                        <td  class="text-right">
-                                            300
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Paper
-                                        </td>
-                                        <td>
-                                            100 pcs.
-                                        </td>
-                                        <td>
-                                            300
-                                        </td>
-                                        <td  class="text-right">
-                                            300
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Paper
-                                        </td>
-                                        <td>
-                                            100 pcs.
-                                        </td>
-                                        <td>
-                                            300
-                                        </td>
-                                        <td  class="text-right">
-                                            300
-                                        </td>
-                                    </tr>
+                                    {% set totalrevenue = 0 %}
+                                    {% for income in projectedIncome %}
+                                        <tr>
+                                            <td>
+                                                {{income.item}}
+                                            </td>
+                                            <td>
+                                                {{income.quantity}}
+                                            </td>
+                                            <td>
+                                                {{income.sellingprice | round(2)}}
+                                            </td>
+                                            <td  class="text-right">
+                                                {% set price = ((income.quantity)*(income.sellingprice | round(2))) %}
+                                                {{price | round(2)}}
+                                                {% set totalrevenue = totalrevenue + (price | round(2)) %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
                                     
                                 </tbody>
                                 <tfoot>
                                     <tr>
                                         <td class="text-right text-success" colspan="3"><strong>Total Revenue</strong></td>
-                                        <td  class="text-right">300</td>
+                                        <td  class="text-right">{{totalrevenue | round(2)}}</td>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -440,58 +417,38 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    {% set totalexpense = 0 %}
+                                    {% for expense in expenses %}
                                     <tr>
                                         <td>
-                                            Paper
+                                            {{expense.material}}
                                         </td>
                                         <td>
-                                            100 pcs.
+                                            {{expense.quantity}}
                                         </td>
                                         <td>
-                                            300
+                                            {{expense.unitcost | round(2)}}
                                         </td>
                                         <td  class="text-right">
-                                            300
+                                            {% set price = ((expense.quantity)*(expense.unitcost | round(2))) %}
+                                            {{price | round(2)}}
+                                            {% set totalexpense = totalexpense + (price | round(2)) %}
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>
-                                            Paper
-                                        </td>
-                                        <td>
-                                            100 pcs.
-                                        </td>
-                                        <td>
-                                            300
-                                        </td>
-                                        <td  class="text-right">
-                                            300
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Paper
-                                        </td>
-                                        <td>
-                                            100 pcs.
-                                        </td>
-                                        <td>
-                                            300
-                                        </td>
-                                        <td  class="text-right">
-                                            300
-                                        </td>
-                                    </tr>
+                                   {% endfor %}
                                     
                                 </tbody>
                                 <tfoot>
                                     <tr>
                                         <td class="text-right text-danger" colspan="3"><strong>Total Expense</strong></td>
-                                        <td  class="text-right">300</td>
+                                        <td  class="text-right">{{totalexpense | round(2)}}</td>
                                     </tr>
                                      <tr>
                                         <td class="text-right text-success" colspan="3"  style="border-top: white solid 0px "><strong>Total Income </strong></td>
-                                        <td  class="text-right" style="border-top: white solid 0px ">0</td>
+                                        <td  class="text-right" style="border-top: white solid 0px ">
+                                            {% set totalincome =  ((totalrevenue | round(2)) - (totalexpense | round(2))) %}
+                                            {{totalincome | round(2)}}
+                                        </td>
                                     </tr>
                                 </tfoot>
                             </table>
