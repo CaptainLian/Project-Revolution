@@ -276,7 +276,7 @@
                         <nav>
                             <ul>
                                 <li><a href="#section-linebox-5"><span>Evaluation</span></a></li>
-                                <li><a href="#section-linebox-4"><span>Feedback</span></a></li>
+                                <li id="fb"><a href="#section-linebox-4"><span>Feedback</span></a></li>
                                
                                 
                             </ul>
@@ -544,6 +544,18 @@
                                                     <input name="radio" id="v-3" value="option1" type="radio">
                                                     <label for="v-3" style="font-weight: 300"><strong>5</strong> - The President or his/her representative  gave a clear overview of  the organization's plans and directions; Reported  the organization's standing  on the past term; Open forum was interactive and informative</label>
                                             </div>
+                                        </div>
+                                    </div>
+
+                                      <div class="form-actions">
+                                        <div class="row">
+                                           
+                                            <div class="col-md-12 text-center">
+                                                <button id="feedback" type="button" class="btn btn-info"> Go to Feedback</button>
+                                               
+                                            </div>
+                                           
+                                           
                                         </div>
                                     </div>
 
@@ -881,8 +893,19 @@
                                             </div>
                                         </div>
                                     </div>
-
+                                    <div class="form-actions">
+                                        <div class="row">
+                                           
+                                            <div class="col-md-12 text-center">
+                                                <button type="submit" class="btn btn-success"> <i class="fa fa-pencil"></i> Submit</button>
+                                               
+                                            </div>
+                                           
+                                           
+                                        </div>
+                                    </div>
                                 </div>
+
                             </section>
                            
                         </div>
@@ -923,52 +946,12 @@
     <script src="../plugins/bower_components/sweetalert/sweetalert.min.js"></script>
     <script src="../plugins/bower_components/sweetalert/jquery.sweet-alert.custom.js"></script>
     <script>
-    $(document).ready(function() {
-        //window.location.href("facebook.com");
-        $('#myTable').DataTable();
-        $(document).ready(function() {
-           // location.replace("https://www.facebook.com");
-            var table = $('#example').DataTable({
-                "columnDefs": [{
-                    "visible": false,
-                    "targets": 2
-                }],
-                "order": [
-                    [2, 'asc']
-                ],
-                "displayLength": 25,
-                "drawCallback": function(settings) {
-                    var api = this.api();
-                    var rows = api.rows({
-                        page: 'current'
-                    }).nodes();
-                    var last = null;
+        $("#feedback").click(function(){
+            $("html, body").animate({ scrollTop: 0 }, "slow",function(){
+                 $("#fb").click();
+            }); 
 
-                    api.column(2, {
-                        page: 'current'
-                    }).data().each(function(group, i) {
-                        if (last !== group) {
-                            $(rows).eq(i).before(
-                                '<tr class="group"><td colspan="5">' + group + '</td></tr>'
-                            );
-
-                            last = group;
-                        }
-                    });
-                }
-            });
-
-            // Order by the grouping
-            $('#example tbody').on('click', 'tr.group', function() {
-                var currentOrder = table.order()[0];
-                if (currentOrder[0] === 2 && currentOrder[1] === 'asc') {
-                    table.order([2, 'desc']).draw();
-                } else {
-                    table.order([2, 'asc']).draw();
-                }
-            });
         });
-    });
     </script>
     <script type="text/javascript">
     (function() {
