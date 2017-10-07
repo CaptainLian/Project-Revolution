@@ -189,6 +189,19 @@ module.exports = function(db, queryFiles) {
         return connection.any(query, param);
     };
 
+    ProjectProposalModel.prototype.getProjectProposalAttachment = function(id, fields, connection = this._db){
+        let query = squel.select()
+        .from('ProjectProposalAttachment', 'ppa')
+        .where('projectProposal = ${id}');
+        this._attachFields(query, fields);
+
+        query = query.toString();
+
+        let param = {};
+        param.id = id;
+        return connection.any(query, param);
+    };
+
     ProjectProposalModel.prototype.insertProjectProposal = function(param, connection = this._db) {
         //TODO: test
         return connection.one(insertProjectProposalSQL, param);

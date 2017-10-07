@@ -466,23 +466,17 @@
                     <section id="section-linebox-5" style="display: block;visibility:hidden;">
                      <h4 class="text-left">VII. Attachments</h4>
                             <hr>
-                        <div class="white-box">
-
-                            <h4 class="text-left">VRT</h4>
-                            <hr>
-                            <br/>
-                            <div >
-                                
-                            </div>
-                              <iframe src = "/ViewerJS/#../document/ch1.odp"  width='400' height='300' allowfullscreen webkitallowfullscreen></iframe>
-                          
-                        </div>
+                        
+                        {% for att in attachment %}
+                        
                          <div class="white-box"  >
                             <h4 class="text-left">Cash Disbursement</h4>
                             <hr>
                             <br/>
-                            <iframe src = "/ViewerJS/#../document/ch1.odp"  width='400' height='300' allowfullscreen webkitallowfullscreen></iframe>
+                            <iframe src = "/ViewerJS/#..{{att.directory}}"  width='400' height='300' allowfullscreen webkitallowfullscreen></iframe>
                         </div>
+
+                        {% endfor %}
                     </section>
                     
                 </div>

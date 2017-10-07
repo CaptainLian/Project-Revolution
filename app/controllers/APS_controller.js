@@ -139,7 +139,8 @@ module.exports = function(database, models, queryFiles) {
                             'pppd.activitydescription AS activitydescription',
                             'pppd.personincharge AS personincharge'
                         ]),
-                        projectProposalModel.getProjectProposalProjectHeads(data.id)
+                        projectProposalModel.getProjectProposalProjectHeads(data.id),
+                        projectProposalModel.getProjectProposalAttachment(data.id)
                     ]);
                 });
             }).then(data => {
@@ -150,6 +151,7 @@ module.exports = function(database, models, queryFiles) {
                     projectedIncome: data[2],
                     programDesign: data[3],
                     projectHeads: data[4],
+                    attachment: data[5],
                     csrfToken: req.csrfToken()
                 });
             }).catch(err => {
