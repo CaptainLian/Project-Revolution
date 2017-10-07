@@ -130,11 +130,20 @@ module.exports = function(database, models, queryFiles) {
                         Promise.resolve(data),
                         projectProposalModel.getProjectProposalExpenses(data.id),
                         projectProposalModel.getProjectProposalProjectedIncome(data.id),
-                        projectProposalModel.getProjectProposalProgramDesign(data.id),
+                        projectProposalModel.getProjectProposalProgramDesign(data.id, [
+                            'pppd.dayid AS dayid',
+                            "to_char(pppd.date, 'Mon DD, YYYY') AS date",
+                            'pppd.starttime AS starttime',
+                            'pppd.endtime AS endtime',
+                            'pppd.activity AS activity',
+                            'pppd.activitydescription AS activitydescription',
+                            'pppd.personincharge AS personincharge'
+                        ]),
                         projectProposalModel.getProjectProposalProjectHeads(data.id)
                     ]);
                 });
             }).then(data => {
+                global.logger.debug(`${JSON.stringify(data[3])}`, log_options);
                 return res.render('APS/activityChecking', {
                     projectProposal: data[0],
                     expenses: data[1],

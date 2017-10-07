@@ -3,8 +3,8 @@
 
 {%block meta%}
     {{super()}}
-    <meta data-name="csrf" data-token="{{csrfToken}" />
-{%endblock5}
+    <meta data-name="csrf" data-token="{{csrfToken}}" />
+{%endblock%}
 
 {%block style%}
     {{super()}}
@@ -236,38 +236,33 @@
                         <div class="white-box">
                              <h4 class="m-t-30 text-left">III. Program Design</h4>
                             <hr>
-                            
-                            {% for program in programDesign.dayID %}
+                           
 
-                            {% if (true) %}
-
+                            {% for date, programs in programDesign | groupby('date') %}
                                  <div class="text-center">
-                                    <h3>{{program.date}}</h3>
-                                </div>
-                                <table class="table  text-left table-striped">
-                                    <thead>
-                                        <th>Time </th>
-                                        
-                                        <th>Activity</th>
-                                        <th>Description</th>
-                                        <th>Person-In-Charge</th>
-                                    </thead>
-                                    <tbody>
-                                        {% for activities in programDesign %}
+                                        <h3>{{date}}</h3>
+                                    </div>
+                                    <table class="table  text-left table-striped">
+                                        <thead>
+                                            <th>Time </th>
+                                            
+                                            <th>Activity</th>
+                                            <th>Description</th>
+                                            <th>Person-In-Charge</th>
+                                        </thead>
+                                        <tbody>
+                                        {%for program in programs%}
                                             <tr>
-                                                <td >{{activities.starttime}}-{{program.endtime}}</td>
-                                                
-                                                <td >{{activities.activity}}</td>
-                                                <td >{{activities.activitydescription}}</td>
-                                                <td >{{activities.personincharge}}</td>
+                                                <td >{{program.starttime}}-{{program.endtime}}</td>
+                                                <td >{{program.activity}} and {{endday+1}} day {{day}}</td>
+                                                <td >{{program.activitydescription}}</td>
+                                                <td >{{program.personincharge}}</td>
                                             </tr>
                                         {% endfor %}
-                                    </tbody>
-                                </table>
-                                <br/>
-                            {%endif%}
+                                        </tbody>
+                                    </table>
+                                    <br/>
                             {% endfor %}
-  
                          
                         </div>
                     </section>
