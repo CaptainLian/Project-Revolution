@@ -53,7 +53,7 @@ module.exports = function(database, models, queryFiles) {
                  * };
                  * @type {Object}
                  */
-                let view = {};
+                let view = Object.create(null);
                 view.organizationName = data[0].name;
                 view.GOSMActivities = data[1];
                 view.GOSMID = GOSMID;

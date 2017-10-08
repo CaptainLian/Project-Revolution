@@ -6,19 +6,17 @@ CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
 DROP TABLE IF EXISTS AccountType CASCADE;
 CREATE TABLE AccountType (
-    id INTEGER,
+    id SMALLINT,
     name VARCHAR(45),
 
     PRIMARY KEY (id)
 );
-INSERT INTO AccountType (id, name)
-                 VALUES (0, 'Student Account');
-INSERT INTO AccountType (id, name)
-                 VALUES (1, 'Faculty Adviser Account');
-INSERT INTO AccountType (id, name)
-                 VALUES (2, 'SLIFE Account');
-INSERT INTO AccountType (id, name)
-                 VALUES (3, 'Accounting Account');
+INSERT INTO AccountType(id, name)
+VALUES (0, 'Admin'),
+       (1, 'Student Account'),
+       (2, 'Faculty Adviser Account'),
+       (3, 'SLIFE Account'),
+       (4, 'Accounting Account');
 
 DROP TABLE IF EXISTS Account CASCADE;
 CREATE TABLE Account (
@@ -124,71 +122,49 @@ CREATE TABLE ActivityType (
 
     PRIMARY KEY(id)
 );
+INSERT INTO ActivityType (id, name)
+VALUES (0, 'Competition'), 
+       (1, 'Distribution'), 
+       (2, 'General Assembly'), 
+       (3, 'Seminar/Workshop'), 
+       (4, 'Publicity/Awareness Campaign'), 
+       (5, 'Meetings'), 
+       (6, 'Spiritual Activity'), 
+       (7, 'Recruitment/Audition'), 
+       (8, 'Recreation'), 
+       (9, 'Others');
 
 /* Activity Requirements */
-DROP TABLE IF EXISTS ActivityRequirement CASCADE;
-CREATE TABLE ActivityRequirement (
-    id SERIAL UNIQUE,
-    activityType SMALLINT,
-    sequence INTEGER DEFAULT -1,
-    name VARCHAR(100) NOT NULL,
+DROP TABLE IF EXISTS DocumentAttachmentRequirement CASCADE;
+CREATE TABLE DocumentAttachmentRequirement (
+    id SMALLINT,
+    name VARCHAR(45),
 
-    PRIMARY KEY (activityType, sequence)
+    PRIMARY KEY(id)
 );
-CREATE OR REPLACE FUNCTION trigger_before_insert_ActivityRequirement()
-RETURNS trigger AS
-$trigger$
-    BEGIN
-        SELECT COALESCE(MAX(sequence) + 1, 1) INTO STRICT NEW.sequence
-          FROM ActivityRequirement
-         WHERE activityType = NEW.activityType;
-        return NEW;
-    END;
-$trigger$ LANGUAGE plpgsql;
-CREATE TRIGGER before_insert_ActivityRequirement
-    BEFORE INSERT ON ActivityRequirement
-    FOR EACH ROW
-    EXECUTE PROCEDURE trigger_before_insert_ActivityRequirement();
 
+DROP TABLE IF EXISTS ActivityAttachmentRequirement CASCADE;
+CREATE TABLE ActivityAttachmentRequirement (
+    id SERIAL,
+    activity INTEGER REFERENCES ActivityType(id),
+    attachment SMALLINT REFERENCES DocumentAttachmentRequirement(id),
 
-DROP TABLE IF EXISTS PreActivityRequirement CASCADE;
-CREATE TABLE PreActivityRequirement (
-    PRIMARY KEY (activityType, sequence)
-) INHERITS (ActivityRequirement);
-CREATE OR REPLACE FUNCTION trigger_before_insert_PreActivityRequirement()
-RETURNS trigger AS
-$trigger$
-    BEGIN
-        SELECT COALESCE(MAX(sequence) + 1, 1) INTO STRICT NEW.sequence
-          FROM PreActivityRequirement
-         WHERE activityType = NEW.activityType;
-        return NEW;
-    END;
-$trigger$ LANGUAGE plpgsql;
-CREATE TRIGGER before_insert_PreActivityRequirement
-    BEFORE INSERT ON PreActivityRequirement
-    FOR EACH ROW
-    EXECUTE PROCEDURE trigger_before_insert_PreActivityRequirement();
+    PRIMARY KEY (activity, attachment)
+);
+DROP TABLE IF EXISTS PreActivityAttachmentRequirement CASCADE;
+CREATE TABLE PreActivityAttachmentRequirement (
 
+    PRIMARY KEY (activity, attachment),
+    CONSTRAINT PreActivityAttachmentRequirement_ActivityType_fkey FOREIGN KEY (activity) REFERENCES ActivityType(id),
+    CONSTRAINT PreActivityAttachmentRequirement_DocumentAttachmentRequirement_fkey FOREIGN KEY (attachment) REFERENCES DocumentAttachmentRequirement(id)
+) INHERITS (ActivityAttachmentRequirement);
+DROP TABLE IF EXISTS PostActivityAttachmentRequirement CASCADE;
+CREATE TABLE PostActivityAttachmentRequirement (
 
-DROP TABLE IF EXISTS PostActivityRequirement CASCADE;
-CREATE TABLE PostActivityRequirement (
-    PRIMARY KEY (activityType, sequence)
-) INHERITS (ActivityRequirement);
-CREATE OR REPLACE FUNCTION trigger_before_insert_PostActivityRequirement()
-RETURNS trigger AS
-$trigger$
-    BEGIN
-        SELECT COALESCE(MAX(sequence) + 1, 1) INTO STRICT NEW.sequence
-          FROM PostActivityRequirement
-         WHERE activityType = NEW.activityType;
-        return NEW;
-    END;
-$trigger$ LANGUAGE plpgsql;
-CREATE TRIGGER before_insert_PostActivityRequirement
-    BEFORE INSERT ON PostActivityRequirement
-    FOR EACH ROW
-    EXECUTE PROCEDURE trigger_before_insert_PostActivityRequirement();
+    PRIMARY KEY (activity, attachment),
+    CONSTRAINT PostActivityAttachmentRequirement_ActivityType_fkey FOREIGN KEY (activity) REFERENCES ActivityType(id),
+    CONSTRAINT PostActivityAttachmentRequirement_DocumentAttachmentRequirement_fkey FOREIGN KEY (attachment) REFERENCES DocumentAttachmentRequirement(id)
+) INHERITS (ActivityAttachmentRequirement);
 /* Activity Requirements End */
 
 DROP TABLE IF EXISTS ActivityNature CASCADE;
@@ -300,8 +276,7 @@ CREATE TABLE Functionality (
 	id SMALLINT,
 	name VARCHAR (200)
 );
-INSERT INTO Functionality (id, name)
-                   VALUES ();
+
 
 DROP TABLE IF EXISTS OrganizationAccessControl CASCADE;
 CREATE TABLE OrganizationAccessControl (
