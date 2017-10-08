@@ -96,9 +96,9 @@ module.exports = function(database, models, queryFiles) {
                          * }
                          * @type Object
                          */
-                        let user = {};
+                        let user = Object.create(null);
                         user.idNumber = account.idnumber;
-                        user.name = {};
+                        user.name = Object.create(null);
                         user.name.first = account.firstname;
                         user.name.middle = account.middlename;
                         user.name.last = account.lastname;

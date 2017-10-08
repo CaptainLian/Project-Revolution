@@ -82,7 +82,7 @@ module.exports = function(db, queryFiles) {
         query = query.toString();
         logger.debug(`Executing Query: ${query}`, log_options);
 
-        let param = {};
+        let param = Object.create(null);
         param.id = id;
         return connection.oneOrNone(query, param);
     };
@@ -151,7 +151,7 @@ module.exports = function(db, queryFiles) {
         this._attachFields(query, fields);
 
         query = query.toString();
-        let param = {};
+        let param = Object.create(null);
         param.id = id;
         return connection.any(query, {id: id});
     };
@@ -171,7 +171,7 @@ module.exports = function(db, queryFiles) {
          * @variable param
          * @type {Object}
          */
-        let param = {};
+        let param = Object.create(null);
         param.id = id;
         return connection.any(query, param);
     };
@@ -184,7 +184,7 @@ module.exports = function(db, queryFiles) {
 
         query = query.toString();
 
-        let param = {};
+        let param = Object.create(null);
         param.id = id;
         return connection.any(query, param);
     };
@@ -219,7 +219,7 @@ module.exports = function(db, queryFiles) {
          * @variable param
          * @type {Object}
          */
-        let param = {};
+        let param = Object.create(null);
         param.gosm = gosm;
         param.status = status;
 
@@ -234,7 +234,7 @@ module.exports = function(db, queryFiles) {
          * @variable param
          * @type {Object}
          */
-        let param = {};
+        let param = Object.create(null);
         param.id = id;
         
         return connection.any(queryFiles.getProjectProposalProjectHeads, param);

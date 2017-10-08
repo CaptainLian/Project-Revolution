@@ -60,7 +60,7 @@ module.exports = function(db, queryFiles) {
             .where('GOSM = ${GOSMID}');
             attachFields(query, fields);
 
-            let param = {};
+            let param = Object.create(null);
             param.GOSMID = GOSMID;
 
             query = query.toString();
@@ -93,7 +93,7 @@ module.exports = function(db, queryFiles) {
          * @returns {Promise}                          [description]
          */
         insertNewGOSM: function(termID, studentOrganization, returning, connection = db) {
-            let param = {};
+            let param = Object.create(null);
             param.termID = termID;
             param.studentOrganization = studentOrganization;
             if(returning){
@@ -129,7 +129,7 @@ module.exports = function(db, queryFiles) {
                     GOSMID: GOSMID
                 };
             */
-            let param = {};
+            let param = Object.create(null);
             param.GOSMID = GOSMID;
             return connection.any(query, param);
         },
@@ -157,7 +157,7 @@ module.exports = function(db, queryFiles) {
                     activityID: id
                 };
             */
-            let param = {};
+            let param = Object.create(null);
             param.activityID = id;
             return connection.oneOrNone(query, param);
         },
@@ -179,7 +179,7 @@ module.exports = function(db, queryFiles) {
                     activityID: id
                 };
             */
-            let param = {};
+            let param = Object.create(null);
             param.activityID = id;
             return connection.any(query, param);
         },
@@ -197,7 +197,7 @@ module.exports = function(db, queryFiles) {
                     comment: (optional)
                 };
             */
-            let param = {};
+            let param = Object.create(null);
             param.id = id;
             param.statusID = statusID;
 
@@ -230,7 +230,7 @@ module.exports = function(db, queryFiles) {
                     comments: comments
                 };
             */
-            let param = {};
+            let param = Object.create(null);
             param.id = id;
             param.comments = comments;
             return connection.none(query, param);
@@ -250,7 +250,7 @@ module.exports = function(db, queryFiles) {
                     id: id
                 };
             */
-            let param = {};
+            let param = Object.create(null);
             param.id = id;
             return connection.one(query, param);
         }
