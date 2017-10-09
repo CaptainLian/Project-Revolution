@@ -156,20 +156,20 @@ VALUES (0, 'Mechanics'),
 DROP TABLE IF EXISTS ActivityAttachmentRequirement CASCADE;
 CREATE TABLE ActivityAttachmentRequirement (
     id SERIAL,
-    activity INTEGER REFERENCES ActivityType(id),
+    activityType INTEGER REFERENCES ActivityType(id),
     attachment SMALLINT REFERENCES DocumentAttachmentRequirement(id),
     optional BOOLEAN NOT NULL DEFAULT FALSE,
 
-    PRIMARY KEY (activity, attachment)
+    PRIMARY KEY (activityType, attachment)
 );
 DROP TABLE IF EXISTS PreActivityAttachmentRequirement CASCADE;
 CREATE TABLE PreActivityAttachmentRequirement (
 
-    PRIMARY KEY (activity, attachment),
-    CONSTRAINT PreActivityAttachmentRequirement_ActivityType_fkey FOREIGN KEY (activity) REFERENCES ActivityType(id),
+    PRIMARY KEY (activityType, attachment),
+    CONSTRAINT PreActivityAttachmentRequirement_ActivityType_fkey FOREIGN KEY (activityType) REFERENCES ActivityType(id),
     CONSTRAINT PreActivityAttachmentRequirement_DocumentAttachmentRequirement_fkey FOREIGN KEY (attachment) REFERENCES DocumentAttachmentRequirement(id)
 ) INHERITS (ActivityAttachmentRequirement);
-INSERT INTO PreActivityAttachmentRequirement (activity, attachment, optional)
+INSERT INTO PreActivityAttachmentRequirement (activityType, attachment, optional)
 VALUES (0, 0, FALSE), 
        (0, 1, FALSE), 
        (1, 2, FALSE), 
@@ -190,8 +190,8 @@ VALUES (0, 0, FALSE),
 DROP TABLE IF EXISTS PostActivityAttachmentRequirement CASCADE;
 CREATE TABLE PostActivityAttachmentRequirement (
 
-    PRIMARY KEY (activity, attachment),
-    CONSTRAINT PostActivityAttachmentRequirement_ActivityType_fkey FOREIGN KEY (activity) REFERENCES ActivityType(id),
+    PRIMARY KEY (activityType, attachment),
+    CONSTRAINT PostActivityAttachmentRequirement_ActivityType_fkey FOREIGN KEY (activityType) REFERENCES ActivityType(id),
     CONSTRAINT PostActivityAttachmentRequirement_DocumentAttachmentRequirement_fkey FOREIGN KEY (attachment) REFERENCES DocumentAttachmentRequirement(id)
 ) INHERITS (ActivityAttachmentRequirement);
 /* Activity Requirements End */
@@ -271,7 +271,7 @@ CREATE TABLE OrganizationRole (
 	name VARCHAR(100),
 	rank INTEGER,
 	uniquePosition BOOLEAN NOT NULL DEFAULT FALSE,
-	masterRole INTEGER REFERENCES OrganizationRole(id),
+	masterRole INTEGER REFERENCES OrganizationRole(id) ON DELETE CASCADE,
 
 	PRIMARY KEY (organization, sequence)
 );
@@ -345,6 +345,52 @@ INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
 -- 17
 INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
                       VALUES (           0, 'Associate Vice Chairperson for Organizational Research and Analysis', FALSE, 16);
+
+/* Organization Default Structure */
+CREATE OR REPLACE FUNCTION trigger_after_insert_StudentOrganization()
+RETURNS trigger AS
+$trigger$
+    DECLARE
+        presidentRoleID INTEGER;
+        executiveSecretariatRoleID INTEGER;
+
+        -- Internal Executive Vice President
+        ievpRoleID INTEGER;
+    BEGIN
+        INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
+                             VALUES (NEW.id, 'President', TRUE, NULL) 
+        RETURNING id INTO presidentRoleID;
+
+        INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
+                             VALUES (NEW.id, 'Executive Secretariat', TRUE, presidentRoleID) 
+        RETURNING id INTO executiveSecretariatRoleID;
+
+        INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
+                             VALUES (NEW.id, 'External Executive Vice President', TRUE, presidentRoleID);
+
+        INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
+                             VALUES (NEW.id, 'Internal Executive Vice President', TRUE, presidentRoleID) 
+        RETURNING id INTO ievpRoleID;
+
+        INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
+                             VALUES (NEW.id, 'Vice President of Documentations', TRUE, executiveSecretariatRoleID);
+
+        INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
+                             VALUES (NEW.id, 'Associate Vice President of Documentations', FALSE, executiveSecretariatRoleID);
+
+        INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
+                             VALUES (NEW.id, 'Vice President of Finance', TRUE, ievpRoleID);
+
+        INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
+                             VALUES (NEW.id, 'Associate Vice President of Finance', FALSE, ievpRoleID);
+
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER before_after_insert_StudentOrganization
+    AFTER INSERT ON StudentOrganization
+    FOR EACH ROW
+    EXECUTE PROCEDURE trigger_after_insert_StudentOrganization();
 
 DROP TABLE IF EXISTS OrganizationOfficer CASCADE;
 CREATE TABLE OrganizationOfficer (
@@ -671,9 +717,12 @@ CREATE TRIGGER before_insert_ProjectProposalSourceFunds
 DROP TABLE IF EXISTS ProjectProposalAttachment CASCADE;
 CREATE TABLE ProjectProposalAttachment (
     id SERIAL UNIQUE,
-    projectProposal INTEGER REFERENCES ProjectProposal(id),
-    sequence INTEGER DEFAULT -1,
-    directory TEXT NOT NULL
+    projectProposal INTEGER NOT NULL REFERENCES ProjectProposal(id),
+    requirement SMALLINT NOT NULL REFERENCES DocumentAttachmentRequirement(id),
+    sequence INTEGER NOT NULL DEFAULT -1,
+    directory TEXT NOT NULL,
+
+    PRIMARY KEY (projectProposal, requirement, sequence)
 );
 CREATE OR REPLACE FUNCTION trigger_before_insert_ProjectProposalAttachment()
 RETURNS trigger AS

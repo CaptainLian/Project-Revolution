@@ -1,17 +1,3 @@
-TRUNCATE TABLE College CASCADE;
-TRUNCATE TABLE OrganizationNature CASCADE;
-TRUNCATE TABLE OrganizationCluster CASCADE;
-TRUNCATE TABLE StudentOrganization CASCADE;
-TRUNCATE TABLE AccountType CASCADE;
-TRUNCATE TABLE ActivityType CASCADE;
-TRUNCATE TABLE ActivityNature CASCADE;
-TRUNCATE TABLE GOSMStatus CASCADE;
-TRUNCATE TABLE ProjectProposalStatus CASCADE;
-TRUNCATE TABLE Account CASCADE;
-TRUNCATE TABLE SchoolYear CASCADE;
-TRUNCATE TABLE TERM CASCADE;
-TRUNCATE TABLE GOSM CASCADE;
-
 /* REFERENCE TABLES DATA */
 /* 2015 - 2016 */
 INSERT INTO SchoolYear(id, startYear, endYear)
@@ -142,27 +128,6 @@ INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
                  VALUES (38, 'YES', 'Young Entrepreneurs Society', 5, NULL);
 
-INSERT INTO ActivityType (id, name)
-                  VALUES (1, 'Academic Contest');
-INSERT INTO ActivityType (id, name)
-                  VALUES (2, 'Distribution');
-INSERT INTO ActivityType (id, name)
-                  VALUES (3, 'General Assembly');
-INSERT INTO ActivityType (id, name)
-                  VALUES (4, 'Seminar/Workshops');
-INSERT INTO ActivityType (id, name)
-                  VALUES (5, 'Publicity/Awareness Campaign');
-INSERT INTO ActivityType (id, name)
-                  VALUES (6, 'Meetings');
-INSERT INTO ActivityType (id, name)
-                  VALUES (7, 'Spiritual Activity');
-INSERT INTO ActivityType (id, name)
-                  VALUES (8, 'Recruitment/Audition');
-INSERT INTO ActivityType (id, name)
-                  VALUES (9, 'Recreation');
-INSERT INTO ActivityType (id, name)
-                  VALUES (10, 'Others');
-
 INSERT INTO ActivityNature (id, name)
                     VALUES (1, 'Academic');
 INSERT INTO ActivityNature (id, name)
@@ -201,23 +166,23 @@ UPDATE GOSM
    SET status = 2
  WHERE id = 1;
 
-TRUNCATE TABLE GOSMActivity CASCADE;
+
 INSERT INTO GOSMActivity (gosm, goals, objectives, strategies, description, measures, targetDateStart, targetDateEnd, ActivityNature, ActivityType, isRelatedToOrganizationNature, budget)
                     VALUES (1, 'Goal Mo to', '{"Objectives", "Mo", "To"}', 'Strategies Mo to', 'Descibe kita', 'Measure mo to :)', '2017-9-6', '2017-9-6', 1, 2, false, 999.99);
-TRUNCATE ProjectProposal CASCADE;
+
 INSERT INTO ProjectProposal (GOSMActivity, ENP, ENMP, venue, context, sourceFundOther, sourceFundParticipantFee, sourceFundOrganizational, accumulatedOperationalFunds, accumulatedDepositoryFunds, comments)
                      VALUES (1, 1, 1, 'Venue ito', 'Context kita', 69.69, 69.69, 69.69, 69.69, 69.69, 'Comments ko toh');
 UPDATE ProjectProposal
 SET status = 2
 WHERE id = 1;
 
-TRUNCATE ProjectProposalExpenses CASCADE;
+
 INSERT INTO ProjectProposalExpenses (projectProposal, material, quantity, unitCost)
                               VALUES(1, 'Boyfriend Material 1', 7, 60.0000);
 INSERT INTO ProjectProposalExpenses (projectProposal, material, quantity, unitCost)
                               VALUES(1, 'Boyfriend Material 2', 80, 60.0000);
                               
-TRUNCATE TABLE GOSMActivityProjectHead CASCADE;
+
 INSERT INTO GOSMActivityProjectHead (idNumber, activityID)
                              VALUES (11445955, 1);
 INSERT INTO GOSMActivityProjectHead (idNumber, activityID)
