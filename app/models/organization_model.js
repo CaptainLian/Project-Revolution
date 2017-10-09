@@ -58,13 +58,78 @@ module.exports = function(database, queryFiles){
 		param.organizationID = organizationID;
 
 
-		connection.many('SELECT id, name, masterRole FROM OrganizationRole WHERE organization = {organizationID}', param)
+		return connection.many('SELECT id, name, masterRole FROM OrganizationRole WHERE organization = ${organizationID} ORDER BY id ASC;', param)
 		.then(data => {
-			
+			let organizationStructure = Object.create(null);
+
+			let lookup = Object.create(null);
+			for(let index = data.length + 1, length = data.length; --index;){
+				const element = data[length - index];
+				lookup[element.id] = element;
+			}
+
+			let keys = Object.keys(lookup);
+			for(let index = keys.length + 1, length = keys.length; --index;){
+				const role = lookup[keys[length - index]];
+
+				//If role has a master, which may have masters of its own...
+				if(role.masterrole){
+					/* Time to path find... */
+
+
+					/**
+					 * The array of objects to explore
+					 * @type {Array}
+					 */
+					let exploration = [];
+
+					/* populate the exploration */
+					let masterKeys = Object.keys(organizationStructure);
+					for(let masterIndex = masterKeys.length; masterIndex--;){
+						const masterRole = organizationStructure[masterKeys[masterIndex]];
+
+						exploration[exploration.length] = masterRole;
+					}
+
+					/* start exploring */
+					while(exploration.length > 0){
+						const current = exploration.shift();
+
+						/* if this is not the goal*/
+						if(current.id !== role.masterrole){
+							/* populate the exploration to continue exploring */
+							if(current.under){
+								let subKeys = Object.keys(current.under);
+								for(let subIndex = subKeys.length; subIndex--;){
+									const subRole = current.under[subKeys[subIndex]];
+									exploration[exploration.length] = subRole;
+								}
+							}
+
+						/* this is the goal */
+						}else{
+							if(typeof current.under !== 'undefined'){
+								current.under[role.id] = role;
+							}else{
+								current.under =  Object.create(null);
+								current.under[role.id] = role;
+							}
+							
+							break;
+						}
+					}
+				/* role is independent */
+				}else{
+					let masterRole = Object.create(null);
+					masterRole.id = role.id;
+					masterRole.name = role.name;
+					masterRole.under = Object.create(null);
+					organizationStructure[role.id] = masterRole;
+				}
+			}
+
+			return Promise.resolve(organizationStructure);
 		});
-
-
-
 	};
 
 	return OrganizationModel;
