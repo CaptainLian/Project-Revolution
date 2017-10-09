@@ -279,7 +279,7 @@ module.exports = function(database, models, queryFiles) {
 
             const dbParam = {};
             //TODO CHANGE ID
-            dbParam. id = 4;
+            dbParam. id = 1;
 
             database.task(task => {
                 return task.batch([
@@ -367,7 +367,7 @@ module.exports = function(database, models, queryFiles) {
 
             let projectProposalParam = {
                 //TODO change gosmactivity value
-                GOSMactivity: 4,
+                GOSMactivity: 1,
                 status: 1,
                 enp: req.body.enp,
                 enmp: req.body.enmp,
