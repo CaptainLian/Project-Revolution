@@ -142,12 +142,23 @@ CREATE TABLE DocumentAttachmentRequirement (
 
     PRIMARY KEY(id)
 );
+INSERT INTO DocumentAttachmentRequirement (id, name)
+VALUES (0, 'Mechanics'),
+       (1, 'Letter for use of Different Venues in Campus'),
+       (2, 'Sample Design'),
+       (3, 'Venue Reservation Ticket'),
+       (4, 'Credentials of Speaker'),
+       (5, 'Sample Publicity'),
+       (6, 'Agenda'),
+       (7, 'LSPO Form'),
+       (8, 'Sample Application Form');
 
 DROP TABLE IF EXISTS ActivityAttachmentRequirement CASCADE;
 CREATE TABLE ActivityAttachmentRequirement (
     id SERIAL,
     activity INTEGER REFERENCES ActivityType(id),
     attachment SMALLINT REFERENCES DocumentAttachmentRequirement(id),
+    optional BOOLEAN NOT NULL DEFAULT FALSE,
 
     PRIMARY KEY (activity, attachment)
 );
@@ -158,6 +169,24 @@ CREATE TABLE PreActivityAttachmentRequirement (
     CONSTRAINT PreActivityAttachmentRequirement_ActivityType_fkey FOREIGN KEY (activity) REFERENCES ActivityType(id),
     CONSTRAINT PreActivityAttachmentRequirement_DocumentAttachmentRequirement_fkey FOREIGN KEY (attachment) REFERENCES DocumentAttachmentRequirement(id)
 ) INHERITS (ActivityAttachmentRequirement);
+INSERT INTO PreActivityAttachmentRequirement (activity, attachment, optional)
+VALUES (0, 0, FALSE), 
+       (0, 1, FALSE), 
+       (1, 2, FALSE), 
+       (2, 3, FALSE), 
+       (3, 4, FALSE), 
+       (4, 3, FALSE), 
+       (4, 5, FALSE), 
+       (5, 3, FALSE), 
+       (5, 6, FALSE), 
+       (6, 3, FALSE), 
+       (6, 7, TRUE), 
+       (7, 3, FALSE), 
+       (7, 8, FALSE), 
+       (7, 0, FALSE), 
+       (8, 3, FALSE), 
+       (9, 3, FALSE);
+
 DROP TABLE IF EXISTS PostActivityAttachmentRequirement CASCADE;
 CREATE TABLE PostActivityAttachmentRequirement (
 
@@ -231,6 +260,8 @@ CREATE TABLE StudentOrganization (
 
     PRIMARY KEY (id)
 );
+INSERT INTO StudentOrganization (id, acronym, name, description)
+                         VALUES (0, 'CSO', 'Council of Student Organizations', NULL); 
     /* Organization Structure */
 DROP TABLE IF EXISTS OrganizationRole CASCADE;
 CREATE TABLE OrganizationRole (
@@ -258,6 +289,62 @@ CREATE TRIGGER before_insert_OrganizationRole
     BEFORE INSERT ON OrganizationRole
     FOR EACH ROW
     EXECUTE PROCEDURE trigger_before_insert_OrganizationRole();
+-- 1
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
+                      VALUES (           0, 'Chairperson', TRUE, NULL);
+-- 2
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
+                      VALUES (           0, 'Executive Vice Chairperson for Internals', TRUE, 1);
+-- 3
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
+                      VALUES (           0, 'Executive Vice Chairperson for Externals', TRUE, 1);
+-- 4
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
+                      VALUES (           0, 'Executive Vice Chairperson for Activities and Documentation', TRUE, 1);
+-- 5
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
+                      VALUES (           0, 'Executive Vice Chairperson for Finance', TRUE, 1);
+-- 6
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
+                      VALUES (           0, 'Vice Chairperson for Activity Documentations and Management', TRUE, 4);
+-- 7
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
+                      VALUES (           0, 'Associate Vice Chairperson for Activity Documentations and Management', FALSE, 6);
+
+-- 8
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
+                      VALUES (           0, 'Vice Chairperson for Activity Monitoring Team', TRUE, 4);
+-- 9
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
+                      VALUES (           0, 'Associate Vice Chairperson for Activity Monitoring Team', FALSE, 8);
+
+-- 10
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
+                      VALUES (           0, 'Vice Chairperson for Activity Processing and Screening', TRUE, 4);
+-- 11
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
+                      VALUES (           0, 'Associate Vice Chairperson for Activity Processing and Screening', FALSE, 8);
+
+-- 12
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
+                      VALUES (           0, 'Vice Chairperson for Finance', TRUE, 5);
+-- 13
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
+                      VALUES (           0, 'Associate Vice Chairperson for Finance', FALSE, 12);
+
+-- 14
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
+                      VALUES (           0, 'Vice Chairperson for Publicity and Productions', TRUE, 4);
+-- 15
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
+                      VALUES (           0, 'Associate Vice Chairperson for Publicity and Productions', FALSE, 14);
+
+-- 16
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
+                      VALUES (           0, 'Vice Chairperson for Organizational Research and Analysis', TRUE, 4);
+-- 17
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
+                      VALUES (           0, 'Associate Vice Chairperson for Organizational Research and Analysis', FALSE, 16);
 
 DROP TABLE IF EXISTS OrganizationOfficer CASCADE;
 CREATE TABLE OrganizationOfficer (
@@ -476,7 +563,7 @@ CREATE TABLE ProjectProposalProgramDesign (
     personInCharge INTEGER REFERENCES Account(idNumber),
 
     PRIMARY KEY (projectProposal, dayID, sequence),
-    CHECK(startTime < endTime)
+    CHECK(startTime <= endTime)
 );
 CREATE OR REPLACE FUNCTION trigger_before_insert_ProjectProposalProgramDesign()
 RETURNS trigger AS
@@ -682,62 +769,3 @@ $function$ STABLE LANGUAGE plpgsql;
 /* 
     Helpful functions end 
 */
-INSERT INTO StudentOrganization (id, acronym, name, description)
-                         VALUES (0, 'CSO', 'Council of Student Organizations', NULL);
--- 1
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Chairperson', TRUE, NULL);
--- 2
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Executive Vice Chairperson for Internals', TRUE, 1);
--- 3
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Executive Vice Chairperson for Externals', TRUE, 1);
--- 4
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Executive Vice Chairperson for Activities and Documentation', TRUE, 1);
--- 5
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Executive Vice Chairperson for Finance', TRUE, 1);
-
--- 6
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Vice Chairperson for Activity Documentations and Management', TRUE, 4);
--- 7
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Associate Vice Chairperson for Activity Documentations and Management', FALSE, 6);
-
--- 8
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Vice Chairperson for Activity Monitoring Team', TRUE, 4);
--- 9
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Associate Vice Chairperson for Activity Monitoring Team', FALSE, 8);
-
--- 10
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Vice Chairperson for Activity Processing and Screening', TRUE, 4);
--- 11
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Associate Vice Chairperson for Activity Processing and Screening', FALSE, 8);
-
--- 12
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Vice Chairperson for Finance', TRUE, 5);
--- 13
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Associate Vice Chairperson for Finance', FALSE, 12);
-
--- 14
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Vice Chairperson for Publicity and Productions', TRUE, 4);
--- 15
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Associate Vice Chairperson for Publicity and Productions', FALSE, 14);
-
--- 16
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Vice Chairperson for Organizational Research and Analysis', TRUE, 4);
--- 17
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Associate Vice Chairperson for Organizational Research and Analysis', FALSE, 16);

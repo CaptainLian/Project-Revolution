@@ -75,15 +75,13 @@ module.exports = function(database, queryFiles){
 				//If role has a master, which may have masters of its own...
 				if(role.masterrole){
 					/* Time to path find... */
-
-
 					/**
 					 * The array of objects to explore
 					 * @type {Array}
 					 */
 					let exploration = [];
 
-					/* populate the exploration */
+					/* pre-populate the exploration */
 					let masterKeys = Object.keys(organizationStructure);
 					for(let masterIndex = masterKeys.length; masterIndex--;){
 						const masterRole = organizationStructure[masterKeys[masterIndex]];
@@ -98,6 +96,7 @@ module.exports = function(database, queryFiles){
 						/* if this is not the goal*/
 						if(current.id !== role.masterrole){
 							/* populate the exploration to continue exploring */
+							/* if the current exploration has sub-positions */
 							if(current.under){
 								let subKeys = Object.keys(current.under);
 								for(let subIndex = subKeys.length; subIndex--;){
