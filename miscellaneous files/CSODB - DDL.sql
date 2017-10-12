@@ -219,13 +219,10 @@ CREATE TABLE OrganizationNature (
     PRIMARY KEY(id)
 );
 INSERT INTO OrganizationNature (id, name, acronym)
-                      VALUES (1, 'Special Interest', 'SPIN');
-INSERT INTO OrganizationNature (id, name, acronym)
-                      VALUES (2, 'Professional Organization', 'PROF');
-INSERT INTO OrganizationNature (id, name, acronym)
-                      VALUES (3, 'Socio-civic and Religious', 'SCORE');
-INSERT INTO OrganizationNature (id, name, acronym)
-                      VALUES (4, 'Professional Organization Group', 'PROG');
+                      VALUES (1, 'Special Interest', 'SPIN'),
+                             (2, 'Professional Organization', 'PROF'),
+                             (3, 'Socio-civic and Religious', 'SCORE'),
+                             (4, 'Professional Organization Group', 'PROG');
 
 DROP TABLE IF EXISTS OrganizationCluster CASCADE;
 CREATE TABLE OrganizationCluster (
@@ -236,15 +233,11 @@ CREATE TABLE OrganizationCluster (
     PRIMARY KEY(id)
 );
 INSERT INTO OrganizationCluster (id, name, acronym)
-                         VALUES (1, 'Alliance of Science Organizations', 'ASO');
-INSERT INTO OrganizationCluster (id, name, acronym)
-                         VALUES (2, 'Alliance of Special Interest and Socio-Civic Organizations', 'ASPIRE');
-INSERT INTO OrganizationCluster (id, name, acronym)
-                         VALUES (3, 'College of Liberal Arts Professional Organizations', 'CAP12');
-INSERT INTO OrganizationCluster (id, name, acronym)
-                         VALUES (4, 'Engineering Alliance Geared Towards Excellence', 'ENGAGE');
-INSERT INTO OrganizationCluster (id, name, acronym)
-                         VALUES (5, 'Alliance of Professional Organizations of Business and Economics', 'PROBE');
+                         VALUES (1, 'Alliance of Science Organizations', 'ASO'),
+                                (2, 'Alliance of Special Interest and Socio-Civic Organizations', 'ASPIRE'),
+                                (3, 'College of Liberal Arts Professional Organizations', 'CAP12'),
+                                (4, 'Engineering Alliance Geared Towards Excellence', 'ENGAGE'),
+                                (5, 'Alliance of Professional Organizations of Business and Economics', 'PROBE');
 
 DROP TABLE IF EXISTS OrganizationStatus CASCADE;
 CREATE TABLE OrganizationStatus (
@@ -377,34 +370,26 @@ $trigger$
     DECLARE
         presidentRoleID INTEGER;
         executiveSecretariatRoleID INTEGER;
-
         -- Internal Executive Vice President
         ievpRoleID INTEGER;
     BEGIN
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
                              VALUES (NEW.id, 'President', TRUE, NULL) 
         RETURNING id INTO presidentRoleID;
-
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
                              VALUES (NEW.id, 'Executive Secretariat', TRUE, presidentRoleID) 
         RETURNING id INTO executiveSecretariatRoleID;
-
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
                              VALUES (NEW.id, 'External Executive Vice President', TRUE, presidentRoleID);
-
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
                              VALUES (NEW.id, 'Internal Executive Vice President', TRUE, presidentRoleID) 
         RETURNING id INTO ievpRoleID;
-
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
                              VALUES (NEW.id, 'Vice President of Documentations', TRUE, executiveSecretariatRoleID);
-
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
                              VALUES (NEW.id, 'Associate Vice President of Documentations', FALSE, executiveSecretariatRoleID);
-
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
                              VALUES (NEW.id, 'Vice President of Finance', TRUE, ievpRoleID);
-
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
                              VALUES (NEW.id, 'Associate Vice President of Finance', FALSE, ievpRoleID);
 
@@ -564,7 +549,7 @@ CREATE TABLE OrganizationAccessControl (
 );
 INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                VALUES -- Assign Evaluator for Publicity Material
-                                      (  18,             22,     TRUE)
+                                      (  18,             22,     TRUE),
                                       -- Evaluate Publicity Material
                                       (  15,            10,      TRUE),
                                       (  16,            10,      TRUE),
@@ -574,7 +559,7 @@ INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       (  20,            28,      TRUE),
                                       -- View Organization Members
                                       (  21,            18,      TRUE),
-                                      (  22,            18,      TRUE),
+                                      (  22,            18,      TRUE);
                                       -- 
                                       /*
                                       (  20,            10,      TRUE),
@@ -622,15 +607,11 @@ CREATE TABLE GOSMStatus (
 );
 /* Data */
 INSERT INTO GOSMStatus (id, name)
-                VALUES (1, 'Created');
-INSERT INTO GOSMStatus (id, name)
-                VALUES (2, 'Initial Submission');
-INSERT INTO GOSMStatus (id, name)
-                VALUES (3, 'Approved');
-INSERT INTO GOSMStatus (id, name)
-                VALUES (4, 'Pending');
-INSERT INTO GOSMStatus (id, name)
-                VALUES (5, 'Denied');
+                VALUES (1, 'Created'),
+                       (2, 'Initial Submission'),
+                       (3, 'Approved'),
+                       (4, 'Pending'),
+                       (5, 'Denied');
 
 DROP TABLE IF EXISTS GOSM CASCADE;
 CREATE TABLE GOSM (
@@ -720,16 +701,12 @@ CREATE TABLE ProjectProposalStatus (
     PRIMARY KEY (id)
 );
 INSERT INTO ProjectProposalStatus (id, name)
-                           VALUES (1, 'Created');
-INSERT INTO ProjectProposalStatus (id, name)
-                           VALUES (2, 'Initial Submission');
-INSERT INTO ProjectProposalStatus (id, name)
-                           VALUES (3, 'Approved');
-INSERT INTO ProjectProposalStatus (id, name)
-                           VALUES (4, 'Pending');
-INSERT INTO ProjectProposalStatus (id, name)
-                           VALUES (5, 'Denied');
-                           
+                           VALUES (1, 'Created'),
+                                  (2, 'Initial Submission'),
+                                  (3, 'Approved'),
+                                  (4, 'Pending'),
+                                  (5, 'Denied');
+
 DROP TABLE IF EXISTS ProjectProposal CASCADE;
 CREATE TABLE ProjectProposal (
     id SERIAL UNIQUE,
@@ -946,10 +923,46 @@ CREATE TABLE ProjectProposalSignatory (
     signatory INTEGER REFERENCES Account(idNumber),
     documentHash BYTEA,
     digitalSignature BYTEA,
-    dateSigned TIMESTAMP WITH TIME ZONE
+    dateSigned TIMESTAMP WITH TIME ZONE,
+
+    PRIMARY KEY (projectProposal, signatory)
 );
     /* End Project Proposal */
     /* END SPECIAL APPROVAL SLIP */
+
+    /* AMTActivityEvaluation */
+DROP TABLE IF EXISTS AMTActivityEvaluation CASCADE;
+CREATE TABLE AMTActivityEvaluation (
+  activity INTEGER REFERENCES ProjectProposal (GOSMActivity),
+  venue SMALLINT NOT NULL,
+  equipment SMALLINT NOT NULL,
+  materials SMALLINT NOT NULL,
+  registration SMALLINT NOT NULL,
+  timeEnd SMALLINT NOT NULL,
+  hosts SMALLINT NOT NULL,
+  presentation SMALLINT NOT NULL,
+  activities SMALLINT NOT NULL,
+  organizationStandingPresentation SMALLINT NOT NULL,
+  actualStartTime TIME WITH TIME ZONE NOT NULL,
+  actualEndTime TIME WITH TIME ZONE NOT NULL,
+  ANP INTEGER NOT NULL,
+  person1EA SMALLINT NOT NULL,
+  person1LOA SMALLINT NOT NULL,
+  person1IITSKOA SMALLINT NOT NULL,
+  person1IOMWM SMALLINT NOT NULL,
+  person2EA SMALLINT NOT NULL,
+  person2LOA SMALLINT NOT NULL,
+  person2IITSKOA SMALLINT NOT NULL,
+  person2IOMWM SMALLINT NOT NULL,
+  comments1 TEXT NOT NULL,
+  comments2 TEXT NOT NULL,
+  comments3 TEXT NOT NULL,
+  suggestions1 TEXT NOT NULL,
+  suggestions2 TEXT NOT NULL,
+  suggestions3 TEXT NOT NULL,
+
+  PRIMARY KEY (activity)
+);
 -- END FORMS
 -- COMMIT;
 
