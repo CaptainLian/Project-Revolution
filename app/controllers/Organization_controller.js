@@ -45,12 +45,23 @@ module.exports = function(database, models, queryFiles) {
 
                 return t.batch([
                     organizationModel.getActivitiesWithPPR(param, t),
-                    organizationModel.getActivitiesWithoutPPR(param, t)
+                    organizationModel.getActivitiesWithoutPPR(param, t),
+                    projectProposalModel.getPPRProjectedCost(param, t),
+                    gosmModel.getGOSMActivities(param.gosm, [
+                            'budget AS budget',
+                            'strategies AS strategies',
+                            "to_char(targetdatestart, 'Mon DD, YYYY') AS startdate",
+                            "to_char(targetdateend, 'Mon DD, YYYY') AS enddate" 
+                        ],
+                        t)
                 ]);
+                //TODO: add signatories and score
             }).then(data => {
                 return res.render('Org/viewProjectMain', {
                     actWithPPR: data[0],
-                    actWithoutPPR: data[1]
+                    actWithoutPPR: data[1],
+                    projectedCost: data[2],
+                    gosmActivity: data[3]
                 });
             }).catch(err => {
                 throw err;
@@ -360,10 +371,10 @@ module.exports = function(database, models, queryFiles) {
             let funds = JSON.parse(req.body.funds);
 
             // var sched = sched[0];
-            // console.log(sched.length);
+            console.log(funds.expense);
             // req.body.context
 
-            global.logger.debug(`${JSON.stringify(req.body)}`, log_options);
+            // global.logger.debug(`${JSON.stringify(req.body)}`, log_options);
 
             let projectProposalParam = {
                 //TODO change gosmactivity value
@@ -382,7 +393,8 @@ module.exports = function(database, models, queryFiles) {
             };
 
             database.tx(t /* transaction connection */ => {
-            return projectProposalModel.insertProjectProposal(projectProposalParam, t)
+                // global.logger.debug(`${JSON.stringify(projectProposalParam)}`);
+                return projectProposalModel.insertProjectProposal(projectProposalParam, t)
                 .then(data => {
                     const projectProposalID = data.projectproposal;
                     global.logger.debug(`projectProposal: ${projectProposalID}`, log_options);
@@ -391,6 +403,7 @@ module.exports = function(database, models, queryFiles) {
                         PPR Program Design
 
                     */
+                    global.logger.debug('Inserting Program Design',log_options);
                     for (let index0 = sched.length + 1; --index0;) {
                         global.logger.debug(sched, log_options);
                         const program = sched[sched.length - index0];
@@ -398,10 +411,12 @@ module.exports = function(database, models, queryFiles) {
                             global.logger.debug(index1, log_options);
                             const i = program.time.length - index1;
                             const item = program.time[i];
+                            var dateSplit = program.date.split("/");
+
                             projectProposalModel.insertProjectProposalDesign({
                                 projectProposal: projectProposalID,
                                 dayID: i,
-                                date: program.date,
+                                date:  "'" + dateSplit[2] + "-" + dateSplit[0] + "-" + dateSplit[1] + "'",
                                 startTime: item.start,
                                 endTime: item.end,
                                 activity: item.actName,
@@ -420,12 +435,18 @@ module.exports = function(database, models, queryFiles) {
                         Revenue
 
                     */
+                    global.logger.debug('Inserting Revenue',log_options);
                     for (let index = funds.revenue.length + 1; --index;) {
                         global.logger.debug(`NAG LOOP`, log_options);
+                        console.log("INDEX IS");
+                        console.log(index);
+                        console.log("LENGTH IS");
+                        console.log(funds.revenue.length);
                         const item = funds.revenue[funds.revenue.length - index];
+                        console.log(item);
                         projectProposalModel.insertProjectProposalProjectedIncome({
                             projectProposal: projectProposalID,
-                            income: item.item,
+                            item: item.item,
                             quantity: item.quan,
                             sellingPrice: item.price
                         }, t).then(() => {
@@ -440,8 +461,14 @@ module.exports = function(database, models, queryFiles) {
                         Expense
 
                     */
-                    for (let index = funds.expense.length; index--;) {
+                    global.logger.debug('Inserting Expenses',log_options);
+                    for (let index = funds.expense.length + 1; --index;) {
+                        console.log("INDEX IS");
+                        console.log(index);
+                        console.log("LENGTH IS");
+                        console.log(funds.expense.length);
                         const item = funds.expense[funds.expense.length - index];
+                        console.log(item);
                         projectProposalModel.insertProjectProposalExpenses({
                             projectProposal: projectProposalID,
                             material: item.item,
@@ -459,6 +486,7 @@ module.exports = function(database, models, queryFiles) {
             }).then(data => {
                 global.logger.debug(`${data}`, log_options);
             }).catch(err => {
+                global.logger.warning(`${JSON.stringify(err)}`, log_options);
                 throw err;
             });
         }

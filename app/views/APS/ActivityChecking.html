@@ -3,8 +3,8 @@
 
 {%block meta%}
     {{super()}}
-    <meta data-name="csrf" data-token="{{csrfToken}" />
-{%endblock5}
+    <meta data-name="csrf" data-token="{{csrfToken}}" />
+{%endblock%}
 
 {%block style%}
     {{super()}}
@@ -236,38 +236,33 @@
                         <div class="white-box">
                              <h4 class="m-t-30 text-left">III. Program Design</h4>
                             <hr>
-                            
-                            {% for program in programDesign.dayID %}
+                           
 
-                            {% if (true) %}
-
+                            {% for date, programs in programDesign | groupby('date') %}
                                  <div class="text-center">
-                                    <h3>{{program.date}}</h3>
-                                </div>
-                                <table class="table  text-left table-striped">
-                                    <thead>
-                                        <th>Time </th>
-                                        
-                                        <th>Activity</th>
-                                        <th>Description</th>
-                                        <th>Person-In-Charge</th>
-                                    </thead>
-                                    <tbody>
-                                        {% for activities in programDesign %}
+                                        <h3>{{date}}</h3>
+                                    </div>
+                                    <table class="table  text-left table-striped">
+                                        <thead>
+                                            <th>Time </th>
+                                            
+                                            <th>Activity</th>
+                                            <th>Description</th>
+                                            <th>Person-In-Charge</th>
+                                        </thead>
+                                        <tbody>
+                                        {%for program in programs%}
                                             <tr>
-                                                <td >{{activities.starttime}}-{{program.endtime}}</td>
-                                                
-                                                <td >{{activities.activity}}</td>
-                                                <td >{{activities.activitydescription}}</td>
-                                                <td >{{activities.personincharge}}</td>
+                                                <td >{{program.starttime}}-{{program.endtime}}</td>
+                                                <td >{{program.activity}}</td>
+                                                <td >{{program.activitydescription}}</td>
+                                                <td >{{program.personincharge}}</td>
                                             </tr>
                                         {% endfor %}
-                                    </tbody>
-                                </table>
-                                <br/>
-                            {%endif%}
+                                        </tbody>
+                                    </table>
+                                    <br/>
                             {% endfor %}
-  
                          
                         </div>
                     </section>
@@ -283,7 +278,7 @@
                                         <strong>Organization funds:</strong>
                                     </div>
                                     <div class="col-md-6 col-xs-12">
-                                        {{projectProposal.sourcefundorganizational}}
+                                        {{projectProposal.sourcefundorganizational | round(2)}}
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -291,7 +286,7 @@
                                         <strong>Participants Fee:</strong>
                                     </div>
                                     <div class="col-md-6 col-xs-12">
-                                        {{projectProposal.sourcefundparticipantfee}}
+                                        {{projectProposal.sourcefundparticipantfee | round(2)}}
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -299,7 +294,7 @@
                                         <strong>Others:</strong>
                                     </div>
                                     <div class="col-md-6 col-xs-12">
-                                        {{projectProposal.sourcefundother}}
+                                        {{projectProposal.sourcefundother | round(2)}}
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -307,7 +302,7 @@
                                         <strong>Total:</strong>
                                     </div>
                                     <div class="col-md-6 col-xs-12">
-                                        {{(projectProposal.sourcefundorganizational | float)+(projectProposal.sourcefundparticipantfee | float)+(projectProposal.sourcefundother | float)}}
+                                        {{(projectProposal.sourcefundorganizational | round(2))+(projectProposal.sourcefundparticipantfee | round(2))+(projectProposal.sourcefundother | round(2))}}
                                     </div>
                                 </div>
                                 
@@ -322,7 +317,7 @@
                                         <strong>Operational Funds:</strong>
                                     </div>
                                     <div class="col-md-6 col-xs-12">
-                                        {{projectProposal.accumulatedoperationalfunds}}
+                                        {{projectProposal.accumulatedoperationalfunds | round(2)}}
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -330,7 +325,7 @@
                                         <strong>Depository Funds:</strong>
                                     </div>
                                     <div class="col-md-6 col-xs-12">
-                                        {{projectProposal.accumulateddepositoryfunds}}
+                                        {{projectProposal.accumulateddepositoryfunds | round(2)}}
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -338,7 +333,7 @@
                                         <strong>Others:</strong>
                                     </div>
                                     <div class="col-md-6 col-xs-12">
-                                        {{projectProposal.organizationfundothersource}}
+                                        {{projectProposal.organizationfundothersource | round(2)}}
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -346,7 +341,8 @@
                                         <strong>Total Cash for Disbursement:</strong>
                                     </div>
                                     <div class="col-md-6 col-xs-12">
-                                        {{(projectProposal.accumulatedoperationalfunds | float)+(projectProposal.accumulateddepositoryfunds | float)+(projectProposal.organizationfundothersource)}}
+                                        {% set disbursement = ((projectProposal.accumulatedoperationalfunds | round(2))+(projectProposal.accumulateddepositoryfunds | round(2))+(projectProposal.organizationfundothersource | round(2))) %}
+                                        {{disbursement | round(2)}}
                                     </div>
                                 </div>
                                 <div> &nbsp</div>
@@ -355,7 +351,7 @@
                                         <strong>Total Projected Expenses:</strong>
                                     </div>
                                     <div class="col-md-6 col-xs-12">
-                                        1000000
+                                        {{projectProposal.sourcefundorganizational | round(2)}}
                                     </div>
                                 </div>
                                  <div class="col-md-12">
@@ -363,7 +359,7 @@
                                         <strong>Remaining Balance:</strong>
                                     </div>
                                     <div class="col-md-6 col-xs-12">
-                                        1000000
+                                        {{(disbursement | round(2))-(projectProposal.sourcefundorganizational | round(2))}}
                                     </div>
                                 </div>
 
@@ -470,23 +466,17 @@
                     <section id="section-linebox-5" style="display: block;visibility:hidden;">
                      <h4 class="text-left">VII. Attachments</h4>
                             <hr>
-                        <div class="white-box">
-
-                            <h4 class="text-left">VRT</h4>
-                            <hr>
-                            <br/>
-                            <div >
-                                
-                            </div>
-                              <iframe src = "/ViewerJS/#../document/ch1.odp"  width='400' height='300' allowfullscreen webkitallowfullscreen></iframe>
-                          
-                        </div>
+                        
+                        {% for att in attachment %}
+                        
                          <div class="white-box"  >
                             <h4 class="text-left">Cash Disbursement</h4>
                             <hr>
                             <br/>
-                            <iframe src = "/ViewerJS/#../document/ch1.odp"  width='400' height='300' allowfullscreen webkitallowfullscreen></iframe>
+                            <iframe src = "/ViewerJS/#..{{att.directory}}"  width='400' height='300' allowfullscreen webkitallowfullscreen></iframe>
                         </div>
+
+                        {% endfor %}
                     </section>
                     
                 </div>

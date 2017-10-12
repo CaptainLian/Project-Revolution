@@ -130,17 +130,28 @@ module.exports = function(database, models, queryFiles) {
                         Promise.resolve(data),
                         projectProposalModel.getProjectProposalExpenses(data.id),
                         projectProposalModel.getProjectProposalProjectedIncome(data.id),
-                        projectProposalModel.getProjectProposalProgramDesign(data.id),
-                        projectProposalModel.getProjectProposalProjectHeads(data.id)
+                        projectProposalModel.getProjectProposalProgramDesign(data.id, [
+                            'pppd.dayid AS dayid',
+                            "to_char(pppd.date, 'Mon DD, YYYY') AS date",
+                            "to_char(pppd.starttime + CURRENT_DATE, 'HH:MI AM') AS starttime",
+                            "to_char(pppd.endtime + CURRENT_DATE, 'HH:MI PM') AS endtime",
+                            'pppd.activity AS activity',
+                            'pppd.activitydescription AS activitydescription',
+                            'pppd.personincharge AS personincharge'
+                        ]),
+                        projectProposalModel.getProjectProposalProjectHeads(data.id),
+                        projectProposalModel.getProjectProposalAttachment(data.id)
                     ]);
                 });
             }).then(data => {
+                global.logger.debug(`${JSON.stringify(data[3])}`, log_options);
                 return res.render('APS/activityChecking', {
                     projectProposal: data[0],
                     expenses: data[1],
                     projectedIncome: data[2],
                     programDesign: data[3],
                     projectHeads: data[4],
+                    attachment: data[5],
                     csrfToken: req.csrfToken()
                 });
             }).catch(err => {

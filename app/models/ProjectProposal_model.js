@@ -14,6 +14,7 @@ module.exports = function(db, queryFiles) {
     const insertProjectProposalProjectedIncomeSQL = queryFiles.insertProjectProposalProjectedIncome;
     const insertProjectProposalExpensesSQL = queryFiles.insertProjectProposalExpenses;
     const getProjectProposalsPerStatusSQL = queryFiles.getProjectProposalsCountPerStatus;
+    const getPPRProjectedCostSQL = queryFiles.getPPRProjectedCost;
 
     /**
      * class with properties
@@ -187,6 +188,23 @@ module.exports = function(db, queryFiles) {
         let param = Object.create(null);
         param.id = id;
         return connection.any(query, param);
+    };
+
+    ProjectProposalModel.prototype.getProjectProposalAttachment = function(id, fields, connection = this._db){
+        let query = squel.select()
+        .from('ProjectProposalAttachment', 'ppa')
+        .where('projectProposal = ${id}');
+        this._attachFields(query, fields);
+
+        query = query.toString();
+
+        let param = {};
+        param.id = id;
+        return connection.any(query, param);
+    };
+
+    ProjectProposalModel.prototype.getPPRProjectedCost = function(param, connection = this._db) {
+        return connection.oneOrNone(getPPRProjectedCostSQL, param);
     };
 
     ProjectProposalModel.prototype.insertProjectProposal = function(param, connection = this._db) {
