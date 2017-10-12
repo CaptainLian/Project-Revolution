@@ -1,3 +1,6 @@
+ROLLBACK;
+
+START TRANSACTION;
 /* REFERENCE TABLES DATA */
 /* 2015 - 2016 */
 INSERT INTO SchoolYear(id, startYear, endYear)
@@ -187,3 +190,15 @@ INSERT INTO GOSMActivityProjectHead (idNumber, activityID)
                              VALUES (11445955, 1);
 INSERT INTO GOSMActivityProjectHead (idNumber, activityID)
                              VALUES (11445952, 1);
+
+INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
+                               VALUES (1, 6, TRUE);
+INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
+                               VALUES ( 18, 6, TRUE);
+
+INSERT INTO OrganizationOfficer (idNumber, role, yearID)
+                         VALUES (11445955,    1,     1);
+
+INSERT INTO OrganizationOfficer (idNumber, role, yearID)
+                         VALUES (11445955,    18,     1);
+COMMIT;

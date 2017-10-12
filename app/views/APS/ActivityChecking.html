@@ -56,7 +56,6 @@
         }
         .custom-class:focus { overflow: hidden; }
     </style>
-
 {%endblock%}
 
 {%block defer_script%}
@@ -247,7 +246,6 @@
                                 <table class="table  text-left table-striped">
                                     <thead>
                                         <th>Time </th>
-                                        
                                         <th>Activity</th>
                                         <th>Description</th>
                                         <th>Person-In-Charge</th>
@@ -255,11 +253,10 @@
                                     <tbody>
                                         {% for activities in programDesign %}
                                             <tr>
-                                                <td >{{activities.starttime}}-{{program.endtime}}</td>
-                                                
-                                                <td >{{activities.activity}}</td>
-                                                <td >{{activities.activitydescription}}</td>
-                                                <td >{{activities.personincharge}}</td>
+                                                <td>{{activities.starttime}} - {{program.endtime}}</td>
+                                                <td>{{activities.activity}}</td>
+                                                <td>{{activities.activitydescription}}</td>
+                                                <td>{{activities.personincharge}}</td>
                                             </tr>
                                         {% endfor %}
                                     </tbody>
@@ -267,8 +264,6 @@
                                 <br/>
                             {%endif%}
                             {% endfor %}
-  
-                         
                         </div>
                     </section>
                     

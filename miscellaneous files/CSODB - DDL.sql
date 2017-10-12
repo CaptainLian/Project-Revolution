@@ -22,7 +22,7 @@ DROP TABLE IF EXISTS Account CASCADE;
 CREATE TABLE Account (
     idNumber INTEGER,
     email VARCHAR(255) NULL UNIQUE,
-    type INTEGER REFERENCES AccountType(id),
+    type SMALLINT REFERENCES AccountType(id),
     password CHAR(60) NOT NULL,
     salt CHAR(29),
     firstname VARCHAR(45),
@@ -246,6 +246,16 @@ INSERT INTO OrganizationCluster (id, name, acronym)
 INSERT INTO OrganizationCluster (id, name, acronym)
                          VALUES (5, 'Alliance of Professional Organizations of Business and Economics', 'PROBE');
 
+DROP TABLE IF EXISTS OrganizationStatus CASCADE;
+CREATE TABLE OrganizationStatus (
+  id SMALLINT,
+  name VARCHAR(45) NOT NULL,
+
+  PRIMARY KEY (id)
+);
+INSERT INTO OrganizationStatus (id, name)
+                        VALUES ( 0, 'Active'),
+                               ( 1, 'Dissolved');
 DROP TABLE IF EXISTS StudentOrganization CASCADE;
 CREATE TABLE StudentOrganization (
     id SERIAL,
@@ -253,6 +263,7 @@ CREATE TABLE StudentOrganization (
     cluster SMALLINT REFERENCES OrganizationCluster(id),
     nature SMALLINT REFERENCES OrganizationNature(id),
     college CHAR(3) REFERENCES College(shortAcronym),
+    status SMALLINT NOT NULL DEFAULT 0 REFERENCES OrganizationStatus (id),
     acronym VARCHAR(20) UNIQUE,
     description TEXT,
     funds NUMERIC(16, 4) DEFAULT 0.0,
@@ -306,45 +317,58 @@ INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
                       VALUES (           0, 'Executive Vice Chairperson for Finance', TRUE, 1);
 -- 6
 INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Vice Chairperson for Activity Documentations and Management', TRUE, 4);
+                      VALUES (           0, 'Vice Chairperson for Activity Documentations and Management', TRUE, 3);
 -- 7
 INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
                       VALUES (           0, 'Associate Vice Chairperson for Activity Documentations and Management', FALSE, 6);
-
--- 8
+-- 8                      
 INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Vice Chairperson for Activity Monitoring Team', TRUE, 4);
+                      VALUES (           0, 'Associate for Activity Documentations and Management', FALSE, 7);
 -- 9
 INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Associate Vice Chairperson for Activity Monitoring Team', FALSE, 8);
-
+                      VALUES (           0, 'Vice Chairperson for Activity Monitoring Team', TRUE, 3);
 -- 10
 INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Vice Chairperson for Activity Processing and Screening', TRUE, 4);
+                      VALUES (           0, 'Associate Vice Chairperson for Activity Monitoring Team', FALSE, 10);
 -- 11
 INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Associate Vice Chairperson for Activity Processing and Screening', FALSE, 8);
-
+                      VALUES (           0, 'Associate for Activity Monitoring Team', FALSE, 11);
 -- 12
 INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Vice Chairperson for Finance', TRUE, 5);
+                      VALUES (           0, 'Vice Chairperson for Activity Processing and Screening', TRUE, 3);
 -- 13
 INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Associate Vice Chairperson for Finance', FALSE, 12);
-
+                      VALUES (           0, 'Associate Vice Chairperson for Activity Processing and Screening', FALSE, 12);
 -- 14
 INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Vice Chairperson for Publicity and Productions', TRUE, 4);
+                      VALUES (           0, 'Associate Activity Processing and Screening', FALSE, 13);
 -- 15
 INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Associate Vice Chairperson for Publicity and Productions', FALSE, 14);
-
+                      VALUES (           0, 'Vice Chairperson for Finance', TRUE, 3);
 -- 16
 INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Vice Chairperson for Organizational Research and Analysis', TRUE, 4);
+                      VALUES (           0, 'Associate Vice Chairperson for Finance', FALSE, 15);
 -- 17
 INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Associate Vice Chairperson for Organizational Research and Analysis', FALSE, 16);
+                      VALUES (           0, 'Associate for Finance', FALSE, 16);
+-- 18
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
+                      VALUES (           0, 'Vice Chairperson for Publicity and Productions', TRUE, 3);
+-- 19
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
+                      VALUES (           0, 'Associate Vice Chairperson for Publicity and Productions', FALSE, 18);
+-- 20
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
+                      VALUES (           0, 'Associate for Publicity and Productions', FALSE, 19);
+-- 21
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
+                      VALUES (           0, 'Vice Chairperson for Organizational Research and Analysis', TRUE, 3);
+-- 22
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
+                      VALUES (           0, 'Associate Vice Chairperson for Organizational Research and Analysis', FALSE, 22);
+-- 23
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
+                      VALUES (           0, 'Associate for Organizational Research and Analysis', FALSE, 23);
 
 /* Organization Default Structure */
 CREATE OR REPLACE FUNCTION trigger_after_insert_StudentOrganization()
@@ -404,21 +428,178 @@ CREATE TABLE OrganizationOfficer (
 
     /* Organization Structure End */
 	/* Access Control*/
+DROP TABLE IF EXISTS FunctionalityDomain CASCADE;
+CREATE TABLE FunctionalityDomain (
+  id SMALLINT,
+  name VARCHAR(45),
+
+  PRIMARY KEY (id)
+);
+INSERT INTO FunctionalityDomain (id, name)
+                         VALUES (0, 'Admin'),
+                                (1, 'CSO'),
+                                (2, 'Organization'),
+                                (3, 'Faculty Adviser'),
+                                (4, 'SLIFE'),
+                                (5, 'Accouning');
+
+DROP TABLE IF EXISTS FunctionalityCategory CASCADE;
+CREATE TABLE FunctionalityCategory (
+  id SMALLINT,
+  name VARCHAR(45),
+  domain SMALLINT REFERENCES FunctionalityDomain (id),
+
+  PRIMARY KEY (id)
+);
+INSERT INTO FunctionalityCategory (id, name, domain)
+                           VALUES (0,  'Website Configuration', 0),
+                                  (1,  'Organization Structure Management', 0),
+                                  (2,  'Account Management', 0),
+                                  (3,  'Manage Organizations List', 0),
+                                  -- CSO
+                                  (4,  'Activity Processing', 1),
+                                  (5,  'Finance', 1),
+                                  (6,  'Publicity and Publications', 1),
+                                  (7,  'Activity Monitoring', 1),
+                                  (8,  'Activity Documentation', 1),
+                                  (9,  'Organizational Research', 1),
+                                  -- Student Organization
+                                  (10,  'Publicity/Creatives/Publications', 2),
+                                  (11, 'Activity Processiong & Documentations', 2),
+                                  (12, 'Submit Financial Documents', 2),
+                                  (13, 'Cancel Financial Documents', 2),
+                                  (14, 'Organization Management', 2);
+
 DROP TABLE IF EXISTS Functionality CASCADE;
 CREATE TABLE Functionality (
 	id SMALLINT,
-	name VARCHAR (200)
-);
+	name VARCHAR (100), 
+  category SMALLINT REFERENCES FunctionalityCategory (id),
 
+  PRIMARY KEY (id)
+);
+INSERT INTO Functionality (id, name, category)
+                   VALUES (0, 'Time Setting', 0),
+ 
+                          (1, 'Create Position', 1),
+                          (2, 'Edit Position', 1),
+                          (3, 'Assign Position', 1),
+                          (4, 'Delete Position', 1),
+                          (5, 'View Orgaizational Structure', 1),
+ 
+                          (6, 'Create Organization', 2),
+                          (7, 'Edit Organization', 2),
+                          (8, 'Delete Organization', 2),
+                          (9, 'Assign Evaluator for Publicity Material', 2),
+                          (10, 'Evaluate Publicity Material', 6),
+                          (11, 'View Publicity Material', 6),
+
+                          -- APS
+                          -- Approve, pend, deny
+                          (12, 'Evaluate GOSM Activity', 4),
+                          -- Approve, pend, deny
+                          (13, 'Evaluate Project Proposal', 4),
+
+                          (14, 'Set Organization Treasury Funds', 5),
+                          (15, 'Evaluate Financial Documents', 5),
+                          (16, 'View Financial Documents', 5),
+                          (17, 'View Financial Documents Log', 5),
+
+                          (18, 'View Organization Members', 9),
+                          (19, 'View Organizational Struture', 9),
+                          (20, 'Survey Results', 9),
+                          (21, 'Activity Research Form', 9),
+ 
+                          (22, 'Assign Evaluator for Activity', 7),
+                          (23, 'Evaluate During-Activity', 7),
+                          (24, 'View During-Activities to be Evaluated', 7),
+                          
+                          (25, 'Evaluate Post-Activity', 8),
+
+                          (26, 'Submit Publicity Material', 9),
+                          (27, 'Resubmit Publicity Material', 9),
+                          (28, 'View Publicity Material', 9),
+                          
+                          -- Organization Side
+                          (29, 'Submit GOSM', 10),
+                          (30, 'Resubmit GOSM', 10),
+                          (31, 'View GOSM', 10),
+                          (32, 'Submit Project Proposal', 10),
+                          (33, 'Resubmit Project Proposal', 10),
+                          (34, 'View Project Proposal', 10),
+                          (35, 'Submit Post-Activity Documents', 10),
+                          (36, 'View Post-Activity Documents', 10),
+ 
+                          (37, 'Request Cash Advance', 12),
+                          (38, 'Request Direct Payment', 12),
+                          (39, 'Request Book Transfer', 12),
+                          (40, 'Request Petty Cash Replenishment', 12),
+                          (41, 'Request Reimbursement', 12),
+                          (42, 'Request for Petty Cash Turnover', 12),
+                          (43, 'Request for Turnover of funds', 12),
+                          (44, 'Request for Financial Documents', 12),
+                          (45, 'Submit gas expense', 12),
+
+                          (46, 'Cancel Request Cash Advance', 1),
+                          (47, 'Cancel Request Direct Payment', 1),
+                          (48, 'Cancel Book Transfer', 1),
+                          (49, 'Cancel Request Petty Cash Replenishment', 1),
+                          (50, 'Cancel Request Reimbursement', 1),
+                          (51, 'Request for Cancellation of check', 1),
+                          (52, 'Request for Change of Payee', 1),
+                          (53, 'Request for Establishment of Petty Cash', 1),
+ 
+                          (54, 'Create Position', 13),
+                          (55, 'Edit Position', 13),
+                          (56, 'Assign Position', 13),
+                          (57, 'Delete Position', 13);
 
 DROP TABLE IF EXISTS OrganizationAccessControl CASCADE;
 CREATE TABLE OrganizationAccessControl (
-	role INTEGER,
-	functionality SMALLINT,
-	isAllowed BOOLEAN DEFAULT FALSE,
+	role INTEGER REFERENCES OrganizationRole (id),
+	functionality SMALLINT REFERENCES Functionality (id),
+	isAllowed BOOLEAN NOT NULL DEFAULT FALSE,
 
 	PRIMARY KEY (role, functionality) 
 );
+INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
+                               VALUES  
+                                      -- Assign Evaluator for Publicity Material
+
+                                      -- Evaluate Publicity Material
+                                      (  15,             10, TRUE),
+                                      (  16,             10, TRUE),
+
+                                      (  14,            32, TRUE),
+                                      (  15,            32, TRUE),
+                                      (  16,            22, TRUE),
+                                      (  17,            22, TRUE),
+                                      (  16,            24, TRUE),
+                                      (  17,            24, TRUE),
+                                      (  16,            25, TRUE),
+                                      (   9,            27, TRUE),
+                                      (   8,            28, TRUE),
+                                      (   9,            28, TRUE),
+                                      (  18,             5, TRUE),
+                                      (  10,            12, TRUE),
+                                      (  11,            12, TRUE),
+                                      (   5,             1, TRUE),
+                                      (   5,             2, TRUE),
+                                      (   5,             3, TRUE),
+                                      (   5,             4, TRUE),
+                                      (   5,             5, TRUE),
+                                      (   5,             6, TRUE),
+                                      (   5,             7, TRUE),
+                                      (   5,             8, TRUE),
+                                      (   5,             9, TRUE),
+                                      (   5,            10, TRUE),
+                                      (   5,            11, TRUE),
+                                      (   5,            12, TRUE),
+                                      (   5,            13, TRUE),
+                                      (   5,            14, TRUE),
+                                      (   5,            15, TRUE),
+                                      (   5,            16, TRUE),
+                                      (   5,            17, TRUE);
 	/* Access Control end */
 	
 -- FORMS
@@ -663,7 +844,18 @@ CREATE TRIGGER before_insert_ProjectProposalProjectedIncome
     FOR EACH ROW
     EXECUTE PROCEDURE trigger_before_insert_ProjectProposalProjectedIncome();
 
+DROP TABLE IF EXISTS ExpenseType CASCADE;
+CREATE TABLE ExpenseType (
+    id SMALLINT,
+    name VARCHAR(45) NOT NULL,
 
+    PRIMARY KEY(id)
+);
+INSERT INTO ExpenseType (id, name)
+                 VALUES (0, 'Others'),
+                        (1, 'Food/Accomodation'),
+                        (2, 'Venue & Transportation'),
+                        (3, 'Honorarium');
 DROP TABLE IF EXISTS ProjectProposalExpenses CASCADE;
 CREATE TABLE ProjectProposalExpenses (
     projectProposal INTEGER REFERENCES ProjectProposal(id),
@@ -815,6 +1007,23 @@ $function$
         RETURN termID;
     END;
 $function$ STABLE LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION getAccountRoles(idNumber INTEGER)  
+RETURNS INTEGER AS 
+$function$
+    DECLARE
+        accountType SMALLINT;
+    BEGIN
+        SELECT type INTO accountType
+          FROM Account a
+         WHERE a.idNumber = idNumber;
+
+         CASE accountType
+          WHEN 1 THEN 
+         END CASE ;
+    END;
+$function$ STABLE LANGUAGE plpgsql;
+
 /* 
     Helpful functions end 
 */
