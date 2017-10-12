@@ -49,13 +49,19 @@
     <div class="col-md-6">
         <div class="white-box">
             <h3 class="box-title">Total Projected Cost</h3>
-            <h1 class="counter text-center">1,250,000</h1>
+            <h1 class="counter text-center">{{projectedCost.projectedcost | round(2)}}</h1>
         </div>
     </div>
     <div class="col-md-6">
         <div class="white-box">
             <h3 class="box-title">Total Projected Budget</h3>
-            <h1 class="counter text-center">1,250,000</h1>
+            <h1 class="counter text-center">
+                {% set budget = 0 %}
+                {% for activity in gosmActivity %}
+                    {% set budget = (budget | round(2)) + (activity.budget | round(2)) %}
+                {% endfor %}
+                {{budget | round(2)}}
+            </h1>
         </div>
     </div>
     <div class="col-sm-12">
@@ -72,96 +78,28 @@
                         </tr>
                     </thead>
                     <tbody> 
-                        <tr role="row">
-                            <td class="text-center">
-                                <div class="chart easy-pie-chart-1" data-percent="75">
-                                    <span class="percent">8/100</span> 
-                                </div>
-                            </td>
-                            <td>
-                                <p><strong>Project Name:</strong> CSO Management System</p>
-                                <hr>
-                                <p><strong>Start Date:</strong> Jan 01, 1997</p>
-                                <hr>
-                                <p><strong>End Date:</strong> Jan 01, 1997</p>
-                                
-                            </td>
-                            <td style="vertical-align: middle;">
-                                President
-                            </td>
-                        </tr>
-                         <tr role="row">
-                            <td class="text-center">
-                                <div class="chart easy-pie-chart-1" data-percent="75">
-                                    <span class="percent">8/100</span> 
-                                </div>
-                            </td>
-                            <td>
-                                <p><strong>Project Name:</strong> CSO Management System</p>
-                                <hr>
-                                <p><strong>Start Date:</strong> Jan 01, 1997</p>
-                                <hr>
-                                <p><strong>End Date:</strong> Jan 01, 1997</p>
-                                
-                            </td>
-                            <td style="vertical-align: middle;">
-                                President
-                            </td>
-                        </tr>
-                        <tr role="row">
-                            <td class="text-center">
-                                <div class="chart easy-pie-chart-1" data-percent="75">
-                                    <span class="percent">8/100</span> 
-                                </div>
-                            </td>
-                            <td>
-                                <p><strong>Project Name:</strong> CSO Management System</p>
-                                <hr>
-                                <p><strong>Start Date:</strong> Jan 01, 1997</p>
-                                <hr>
-                                <p><strong>End Date:</strong> Jan 01, 1997</p>
-                                
-                            </td>
-                            <td style="vertical-align: middle;">
-                                President
-                            </td>
-                        </tr>
-                        <tr role="row">
-                            <td class="text-center">
-                                <div class="chart easy-pie-chart-1" data-percent="75">
-                                    <span class="percent">8/100</span> 
-                                </div>
-                            </td>
-                            <td>
-                                <p><strong>Project Name:</strong> CSO Management System</p>
-                                <hr>
-                                <p><strong>Start Date:</strong> Jan 01, 1997</p>
-                                <hr>
-                                <p><strong>End Date:</strong> Jan 01, 1997</p>
-                                
-                            </td>
-                            <td style="vertical-align: middle;">
-                                President
-                            </td>
-                        </tr>
-                        <tr role="row">
-                            <td class="text-center">
-                                <div class="chart easy-pie-chart-1" data-percent="75">
-                                    <span class="percent">8/100</span> 
-                                </div>
-                            </td>
-                            <td>
-                                <p><strong>Project Name:</strong> CSO Management System</p>
-                                <hr>
-                                <p><strong>Start Date:</strong> Jan 01, 1997</p>
-                                <hr>
-                                <p><strong>End Date:</strong> Jan 01, 1997</p>
-                                
-                            </td>
-                            <td style="vertical-align: middle;">
-                                President
-                            </td>
-                        </tr>
+
+                        {% for activity in gosmActivity %}
+                            <tr role="row">
+                                <td class="text-center">
+                                    <div class="chart easy-pie-chart-1" data-percent="75">
+                                        <span class="percent"></span> 
+                                    </div>
+                                </td>
+                                <td>
+                                    <p><strong>Project Name:</strong> {{activity.strategies}}</p>
+                                    <hr>
+                                    <p><strong>Start Date:</strong> {{activity.startdate}}</p>
+                                    <hr>
+                                    <p><strong>End Date:</strong> {{activity.enddate}}</p>
+                                    
+                                </td>
+                                <td style="vertical-align: middle;">
+                                    President
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        
 
                     </tbody>
                 </table>

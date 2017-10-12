@@ -45,12 +45,23 @@ module.exports = function(database, models, queryFiles) {
 
                 return t.batch([
                     organizationModel.getActivitiesWithPPR(param, t),
-                    organizationModel.getActivitiesWithoutPPR(param, t)
+                    organizationModel.getActivitiesWithoutPPR(param, t),
+                    projectProposalModel.getPPRProjectedCost(param, t),
+                    gosmModel.getGOSMActivities(param.gosm, [
+                            'budget AS budget',
+                            'strategies AS strategies',
+                            "to_char(targetdatestart, 'Mon DD, YYYY') AS startdate",
+                            "to_char(targetdateend, 'Mon DD, YYYY') AS enddate" 
+                        ],
+                        t)
                 ]);
+                //TODO: add signatories and score
             }).then(data => {
                 return res.render('Org/viewProjectMain', {
                     actWithPPR: data[0],
-                    actWithoutPPR: data[1]
+                    actWithoutPPR: data[1],
+                    projectedCost: data[2],
+                    gosmActivity: data[3]
                 });
             }).catch(err => {
                 throw err;
