@@ -563,43 +563,52 @@ CREATE TABLE OrganizationAccessControl (
 	PRIMARY KEY (role, functionality) 
 );
 INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
-                               VALUES  
-                                      -- Assign Evaluator for Publicity Material
-
+                               VALUES -- Assign Evaluator for Publicity Material
+                                      (  18,             22,     TRUE)
                                       -- Evaluate Publicity Material
-                                      (  15,             10, TRUE),
-                                      (  16,             10, TRUE),
-
-                                      (  14,            32, TRUE),
-                                      (  15,            32, TRUE),
-                                      (  16,            22, TRUE),
-                                      (  17,            22, TRUE),
-                                      (  16,            24, TRUE),
-                                      (  17,            24, TRUE),
-                                      (  16,            25, TRUE),
-                                      (   9,            27, TRUE),
-                                      (   8,            28, TRUE),
-                                      (   9,            28, TRUE),
-                                      (  18,             5, TRUE),
-                                      (  10,            12, TRUE),
-                                      (  11,            12, TRUE),
-                                      (   5,             1, TRUE),
-                                      (   5,             2, TRUE),
-                                      (   5,             3, TRUE),
-                                      (   5,             4, TRUE),
-                                      (   5,             5, TRUE),
-                                      (   5,             6, TRUE),
-                                      (   5,             7, TRUE),
-                                      (   5,             8, TRUE),
-                                      (   5,             9, TRUE),
-                                      (   5,            10, TRUE),
-                                      (   5,            11, TRUE),
-                                      (   5,            12, TRUE),
-                                      (   5,            13, TRUE),
-                                      (   5,            14, TRUE),
-                                      (   5,            15, TRUE),
-                                      (   5,            16, TRUE),
-                                      (   5,            17, TRUE);
+                                      (  15,            10,      TRUE),
+                                      (  16,            10,      TRUE),
+                                      -- View Publicity Material
+                                      (  18,            28,      TRUE),
+                                      (  19,            28,      TRUE),
+                                      (  20,            28,      TRUE),
+                                      -- View Organization Members
+                                      (  21,            18,      TRUE),
+                                      (  22,            18,      TRUE),
+                                      -- 
+                                      /*
+                                      (  20,            10,      TRUE),
+                                      (  20,            10,      TRUE),
+                                      (  21,            10,      TRUE),
+                                      (  21,            10,      TRUE),
+                                      (  16,            10,      TRUE),
+                                      (  16,            10,      TRUE),
+                                      (  16,            10,      TRUE),
+                                      (  16,            10,      TRUE),
+                                      (  16,            10,      TRUE),
+                                      (  16,            10,      TRUE),
+                                      (  16,            10,      TRUE),
+                                      (  16,            10,      TRUE),
+                                      (  16,            10,      TRUE),
+                                      (  16,            10,      TRUE),
+                                      (  16,            10,      TRUE),
+                                      (  16,            10,      TRUE),
+                                      (  16,            10,      TRUE),
+                                      (  16,            10,      TRUE),
+                                      (  16,            10,      TRUE),
+                                      (  16,            10,      TRUE),
+                                      (  16,            10,      TRUE),
+                                      (  16,            10,      TRUE),
+                                      (  16,            10,      TRUE),
+                                      (  16,            10,      TRUE),
+                                      (  16,            10,      TRUE),
+                                      (  16,            10,      TRUE),
+                                      (  16,            10,      TRUE),
+                                      (  16,            10,      TRUE),
+                                      (  16,            10,      TRUE),
+                                      (  16,            10,      TRUE),
+                                      (  16,            10,      TRUE);
+                                      */
 	/* Access Control end */
 	
 -- FORMS
