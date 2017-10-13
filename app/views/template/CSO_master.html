@@ -29,7 +29,8 @@
                                 <span class="input-group-btn">
                                     <button class="btn btn-default" type="button"> <i class="fa fa-search"></i> </button>
                                 </span>
-                            </div><!-- /input-group -->
+                            </div>
+                            <!-- /input-group -->
                         </li>
                         {%block sidebar_content%}
                         {%endblock%}
@@ -90,9 +91,9 @@
     <li {%if (class)%}class="{{class}}"{%endif%}>{{name}}</li>
 {% endmacro %}
 
-{% macro sidebar_item(name='', link='javascript:void(0);') %}
+{% macro sidebar_item(name='', link='javascript:void(0);', classes='') %}
     <li>
-        <a href="{{link}}" class="waves-effect">
+        <a href="{{link}}" class="waves-effect {{classes}}">
             <i class="linea-icon linea-basic fa-fw text-danger" data-icon="7"></i>
             <span class="hide-menu sideBarText">{{name}}</span>
         </a>

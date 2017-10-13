@@ -11,6 +11,6 @@ module.exports = function(app , controllers){
 	router.get(`${base}/createGOSM`, controllers.Organization_controller.viewCreateGOSM);
 	router.get(`${base}/activityRequirements`, controllers.Organization_controller.createActivityRequirements);
 	
-
+	
 	return router; 
 };
