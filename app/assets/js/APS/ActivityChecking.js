@@ -1,32 +1,36 @@
-(function() {
-    [].slice.call(document.querySelectorAll('.sttabs')).forEach(function(el) {
-        new CBPFWTabs(el);
+
+
+$(document).bind('customGenerated',function(){
+    (function() {
+        [].slice.call(document.querySelectorAll('.sttabs')).forEach(function(el) {
+            new CBPFWTabs(el);
+        });
+
+    })();
+
+    $('#section-linebox-5').css('visibility', "hidden");
+    $('#section-linebox-5').css('height', 0);
+    $('#section-linebox-5').css('width', 0);
+    $(document).on('click','.sttabs li',function() {
+        var page = $(this).find("a").attr("href");
+        console.log(page);
+        page = page.replace("#section-linebox-", "");
+        console.log(page);
+        if (page == "5") {
+            console.log("REFRESH");
+
+            $('#section-linebox-5').css('visibility', "visible");
+            $('#section-linebox-5').css('height', "100%");
+            $('#section-linebox-5').css('width', "100%");
+        } else {
+            $('#section-linebox-5').css('visibility', "hidden");
+            $('#section-linebox-5').css('height', 0);
+            $('#section-linebox-5').css('width', 0);
+        }
     });
-
-})();
-
-$('#section-linebox-5').css('visibility', "hidden");
-$('#section-linebox-5').css('height', 0);
-$('#section-linebox-5').css('width', 0);
-$(".sttabs li").click(function() {
-    var page = $(this).find("a").attr("href");
-    console.log(page);
-    page = page.replace("#section-linebox-", "");
-    console.log(page);
-    if (page == "5") {
-        console.log("REFRESH");
-
-        $('#section-linebox-5').css('visibility', "visible");
-        $('#section-linebox-5').css('height', "100%");
-        $('#section-linebox-5').css('width', "100%");
-    } else {
-        $('#section-linebox-5').css('visibility', "hidden");
-        $('#section-linebox-5').css('height', 0);
-        $('#section-linebox-5').css('width', 0);
-    }
 });
-
-$("#approve").click(function() {
+$(document).trigger("customGenerated");
+$(document).on('click','#approve',function() {
 
     swal({
         title: "Are you sure?",
@@ -53,19 +57,33 @@ $("#approve").click(function() {
         }
 
     }).then(function(data) {
-        console.log(data);
+      
         console.log("ASD");
         $("html, body").animate({
             scrollTop: 0
         }, function() {
-            $('#doc').removeClass("bounceInRight animated").addClass("bounceInRight   animated").one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-                $(this).removeClass("bounceInRight animated");
-            });
+            $('#doc').removeClass("bounceInRight animated").addClass("bounceInRight   animated").one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {               
+                 $(this).removeClass("bounceInRight animated");              
+            });           
         });
 
+    }).then(function(){
+          $.ajax({
+                type:'POST',
+                url:'/APS/ajax/activityChecking',
+                data:1,
+              
+                success:function(data){
+                  
+                    var doc = $(data).find("#doc");
+                    
+                    $("#doc").replaceWith(doc);
+                    $(document).trigger("customGenerated");
+                }
+            });
     });
 });
-$("#defer").click(function() {
+$(document).on('click','#defer',function() {
     var question = '<div class="row">' +
         '<div class="col-md-12 text-left m-b-20">' +
         '<br/>Select the sections that should be change, then explain why.<br/>' +
@@ -139,10 +157,24 @@ $("#defer").click(function() {
         });
 
 
+    }).then(function(){
+          $.ajax({
+                type:'POST',
+                url:'/APS/ajax/activityChecking',
+                data:1,
+              
+                success:function(data){
+                  
+                    var doc = $(data).find("#doc");
+                    
+                    $("#doc").replaceWith(doc);
+                    $(document).trigger("customGenerated");
+                }
+            });
     });
 });
 
-$("#reject").click(function() {
+$(document).on('click','#reject',function() {
     var question = '<div class="row">' +
         '<div class="col-md-12 text-left  m-b-20" style="padding-left:16px">' +
         '<br/>State the reason for rejection.<br/>' +
@@ -190,5 +222,19 @@ $("#reject").click(function() {
                 $(this).removeClass("rotateOutUpLeft animated");
             });
         });
+    }).then(function(){
+          $.ajax({
+                type:'POST',
+                url:'/APS/ajax/activityChecking',
+                data:1,
+              
+                success:function(data){
+                  
+                    var doc = $(data).find("#doc");
+                    
+                    $("#doc").replaceWith(doc);
+                    $(document).trigger("customGenerated");
+                }
+            });
     });
 });

@@ -145,7 +145,7 @@ module.exports = function(database, models, queryFiles) {
                 });
             }).then(data => {
                 global.logger.debug(`${JSON.stringify(data[3])}`, log_options);
-                return res.render('APS/activityChecking', {
+                return res.render('APS/ActivityChecking', {
                     projectProposal: data[0],
                     expenses: data[1],
                     projectedIncome: data[2],

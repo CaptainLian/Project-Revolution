@@ -138,6 +138,59 @@ module.exports = function(database, models, queryFiles) {
                 });
                 throw err;
             });
+        },
+        activityChecking: (req, res) => {
+            database.task(task => {
+                //TODO replace 1, hard coded vaue
+                return projectProposalModel.getActivityProjectProposalDetails(2, [
+                    ['at.name', 'type'],
+                    'an.name AS nature',
+                    'ga.strategies AS strategies',
+                    'so.name AS orgname',
+                    'pp.venue AS venue',
+                    'pp.enmp AS enmp',
+                    'pp.enp AS enp',
+                    'ga.objectives AS objectives',
+                    'pp.context AS context',
+                    'pp.id AS id',
+                    'pp.sourcefundother AS sourcefundother',
+                    'pp.sourcefundparticipantfee AS sourcefundparticipantfee',
+                    'pp.sourcefundorganizational AS sourcefundorganizational',
+                    'pp.accumulatedoperationalfunds AS accumulatedoperationalfunds',
+                    'pp.accumulateddepositoryfunds AS accumulateddepositoryfunds',
+                    'pp.organizationfundothersource AS organizationfundothersource'
+                ], task).then(data => {
+                    return task.batch([
+                        Promise.resolve(data),
+                        projectProposalModel.getProjectProposalExpenses(data.id),
+                        projectProposalModel.getProjectProposalProjectedIncome(data.id),
+                        projectProposalModel.getProjectProposalProgramDesign(data.id, [
+                            'pppd.dayid AS dayid',
+                            "to_char(pppd.date, 'Mon DD, YYYY') AS date",
+                            "to_char(pppd.starttime + CURRENT_DATE, 'HH:MI AM') AS starttime",
+                            "to_char(pppd.endtime + CURRENT_DATE, 'HH:MI PM') AS endtime",
+                            'pppd.activity AS activity',
+                            'pppd.activitydescription AS activitydescription',
+                            'pppd.personincharge AS personincharge'
+                        ]),
+                        projectProposalModel.getProjectProposalProjectHeads(data.id),
+                        projectProposalModel.getProjectProposalAttachment(data.id)
+                    ]);
+                });
+            }).then(data => {
+                global.logger.debug(`${JSON.stringify(data[3])}`, log_options);
+                return res.render('APS/ActivityChecking', {
+                    projectProposal: data[0],
+                    expenses: data[1],
+                    projectedIncome: data[2],
+                    programDesign: data[3],
+                    projectHeads: data[4],
+                    attachment: data[5],
+                    csrfToken: req.csrfToken()
+                });
+            }).catch(err => {
+                throw err;
+            });
         }
     };
 };

@@ -378,7 +378,7 @@ module.exports = function(database, models, queryFiles) {
 
             let projectProposalParam = {
                 //TODO change gosmactivity value
-                GOSMactivity: 1,
+                GOSMactivity: 2,
                 status: 1,
                 enp: req.body.enp,
                 enmp: req.body.enmp,

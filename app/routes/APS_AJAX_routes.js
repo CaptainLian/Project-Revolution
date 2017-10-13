@@ -9,7 +9,7 @@ module.exports = function(app , controllers){
 	router.post(`${base}/UpdateGOSM`, controllers.APS_AJAX_controller.updateGOSM);
 	router.post(`/APS/ajax/UpdateGOSMActivityComment`, controllers.APS_AJAX_controller.updateGOSMActivityComment);
 	router.post(`/APS/ajax/getProjectProposaActivityDetails`, controllers.APS_AJAX_controller.getProjectProposalActivityDetails);
-	
+	router.post(`/APS/ajax/activityChecking`, controllers.APS_AJAX_controller.activityChecking);
 	if(global.config.debug.enabled){
 		router.get('/APS/ajax/GetGOSMActivityDetails', controllers.APS_AJAX_controller.getGOSMActivityDetails);
 		router.get('/APS/ajax/UpdateGOSM', controllers.APS_AJAX_controller.updateGOSM);
