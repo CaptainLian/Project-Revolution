@@ -110,13 +110,25 @@
 
 {%block content%}
 <div id="doc" class="row white-box">
-    <div class="col-md-4 col-xs-12">
-        <div class="white-box">
+    <div class="col-md-4 col-xs-12 ">
+        <div class="white-box ">
             <div class="text-center"> <h1>{{projectProposal.strategies}}</h1> </div>
             <p class="text-center">{{projectProposal.orgname}}</p>
-            <div class="user-btm-box">
+            <div class="">
                 <!-- .row -->
-               
+                <div class="row button-box text-center m-b-30 " >
+                     
+                    <div class="col-lg-4 col-sm-4 col-xs-12 text-center">
+                        <button id="reject" class="btn btn-block btn-danger">Reject</button>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 col-xs-12 text-center">
+                        <button id="defer" class="btn btn-block  btn-warning">Pend</button>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 col-xs-12 text-center">
+                        <button id="approve" class="btn btn-block   btn-success">Approve</button>
+                    </div>
+                    
+                </div>
                 <div class="row text-center ">
                     <div class="col-md-6 b-r"><strong>Type</strong>
                         <p>{{projectProposal.type}}</p>
@@ -152,19 +164,7 @@
                     </div>
                 </div>
                 <hr>
-                <div class="row button-box" style="position: absolute;bottom: 0">
-                     
-                    <div class="col-lg-4 col-sm-4 col-xs-12 ">
-                        <button id="reject" class="btn btn-block btn-danger">Reject</button>
-                    </div>
-                    <div class="col-lg-4 col-sm-4 col-xs-12 ">
-                        <button id="defer" class="btn btn-block  btn-warning">Pend</button>
-                    </div>
-                    <div class="col-lg-4 col-sm-4 col-xs-12 ">
-                        <button id="approve" class="btn btn-block   btn-success">Approve</button>
-                    </div>
-                    
-                </div>
+               
                     
             </div>
         </div>
