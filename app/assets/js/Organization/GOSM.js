@@ -1,3 +1,9 @@
+(function() {
+    [].slice.call(document.querySelectorAll('.sttabs')).forEach(function(el) {
+        new CBPFWTabs(el);
+    });
+})();
+    
 var con = $(document.createElement('div')).addClass("dy-obj");
 var cObj = 0;
 $("#objectives-add").click(function() {
