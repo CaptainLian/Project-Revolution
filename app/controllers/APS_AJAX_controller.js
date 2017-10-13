@@ -139,6 +139,7 @@ module.exports = function(database, models, queryFiles) {
                 throw err;
             });
         },
+        //CHANGE QUERY
         activityChecking: (req, res) => {
             database.task(task => {
                 //TODO replace 1, hard coded vaue
