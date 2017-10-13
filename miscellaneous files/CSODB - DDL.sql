@@ -549,7 +549,7 @@ CREATE TABLE OrganizationAccessControl (
 );
 INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                VALUES -- Assign Evaluator for Publicity Material
-                                      (  18,             22,     TRUE),
+                                      (  18,            22,      TRUE),
                                       -- Evaluate Publicity Material
                                       (  15,            10,      TRUE),
                                       (  16,            10,      TRUE),
@@ -559,41 +559,64 @@ INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       (  20,            28,      TRUE),
                                       -- View Organization Members
                                       (  21,            18,      TRUE),
-                                      (  22,            18,      TRUE);
-                                      -- 
-                                      /*
-                                      (  20,            10,      TRUE),
-                                      (  20,            10,      TRUE),
-                                      (  21,            10,      TRUE),
-                                      (  21,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE);
-                                      */
+                                      (  22,            18,      TRUE),
+                                      -- Survey Results
+                                      (  21,            20,      TRUE),
+                                      (  22,            20,      TRUE),
+                                      -- Activity Research Form
+                                      (  21,            21,      TRUE),
+                                      (  22,            21,      TRUE),
+                                      -- Evaluate During-Activity
+                                      (  11,            25,      TRUE),
+                                      (  22,            25,      TRUE),
+                                      (  23,            25,      TRUE),
+                                      -- View Activities to be Evaluated
+                                      (   9,            24,      TRUE),
+                                      (  10,            24,      TRUE),
+                                      (  11,            24,      TRUE),
+                                      -- Set Organization Treasury Funds
+                                      (   6,            14,      TRUE),
+                                      -- Evaluate Project Proposal 
+                                      (  12,            13,      TRUE),
+                                      (  13,            13,      TRUE),
+                                      (  14,            13,      TRUE),
+                                      -- View Organization Structure
+                                      (   1,            19,      TRUE),
+                                      (   2,            19,      TRUE),
+                                      (   3,            19,      TRUE),
+                                      (   4,            19,      TRUE),
+                                      (   5,            19,      TRUE),
+                                      (   6,            19,      TRUE),
+                                      (   7,            19,      TRUE),
+                                      (   8,            19,      TRUE),
+                                      (   9,            19,      TRUE),
+                                      (  10,            19,      TRUE),
+                                      (  11,            19,      TRUE),
+                                      (  12,            19,      TRUE),
+                                      (  13,            19,      TRUE),
+                                      (  14,            19,      TRUE),
+                                      (  15,            19,      TRUE),
+                                      (  16,            19,      TRUE),
+                                      (  17,            19,      TRUE),
+                                      (  18,            19,      TRUE),
+                                      (  19,            19,      TRUE),
+                                      (  20,            19,      TRUE),
+                                      (  21,            19,      TRUE),
+                                      (  22,            19,      TRUE),
+                                      (  23,            19,      TRUE),
+                                      -- View Financial Documents
+                                      (  12,            16,      TRUE),
+                                      (  13,            16,      TRUE),
+                                      (  14,            16,      TRUE),
+                                      (   5,            16,      TRUE),
+                                      (  15,            16,      TRUE),
+                                      (  16,            16,      TRUE),
+                                      (  17,            16,      TRUE),
+                                      (   6,            16,      TRUE),
+                                      (   7,            16,      TRUE),
+                                      (   8,            16,      TRUE),
+                                      -- View Financial Documents Log
+                                      (  15,            17,      TRUE);
 	/* Access Control end */
 	
 -- FORMS
@@ -605,7 +628,6 @@ CREATE TABLE GOSMStatus (
 
     PRIMARY KEY (id)
 );
-/* Data */
 INSERT INTO GOSMStatus (id, name)
                 VALUES (1, 'Created'),
                        (2, 'Initial Submission'),
