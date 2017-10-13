@@ -7,7 +7,7 @@ module.exports = function(database, models, queryFiles){
 		.then(data => {
 			return res.send(data);
 		}).catch(err => {
-			console.log(err);
+			return console.log(err);
 		});
 	};
 	

@@ -41,6 +41,8 @@ module.exports = function(database, queryFiles){
 
 	/**
 	 * Retrives AND parses the input into an organization chart object
+	 * This is a computationally EXPENSIVE operation, please use it sparringly
+	 * NOTE: optimization can be done by caching results to an object
 	 * @method
 	 * @param  {Integer} organizationID [description]
 	 * @param  {Boolean} promisify      [description]

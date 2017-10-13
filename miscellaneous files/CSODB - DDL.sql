@@ -99,12 +99,39 @@ CREATE TABLE Term (
     dateStart DATE NOT NULL,
     dateEnd DATE NOT NULL,
 
-
     PRIMARY KEY (schoolYearID, number),
     CONSTRAINT number_min_value CHECK(number >= 1),
     CONSTRAINT number_max_value CHECK(number <= 3),
     CONSTRAINT date_start_end_value CHECK (dateStart <= dateEnd)
 );
+/* REFERENCE TABLES DATA */
+/* 2015 - 2016 */
+INSERT INTO SchoolYear(id, startYear, endYear)
+               VALUES (1, 2015, 2016);
+INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
+          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2015 AND endYear = 2016), 1, '2015-08-24', '2015-12-08');
+INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
+          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2015 AND endYear = 2016), 2, '2016-01-06', '2016-04-16');
+INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
+          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2015 AND endYear = 2016), 3, '2016-05-23', '2016-08-27');
+/* 2016 - 2017 */
+INSERT INTO SchoolYear(id, startYear, endYear)
+               VALUES (2, 2016, 2017);
+INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
+          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2016 AND endYear = 2017), 1, '2016-09-12', '2016-12-17');
+INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
+          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2016 AND endYear = 2017), 2, '2016-01-04', '2016-04-11');
+INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
+          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2016 AND endYear = 2017), 3, '2017-05-15', '2017-08-19');
+/* 2017 - 2018 */
+INSERT INTO SchoolYear(id, startYear, endYear)
+               VALUES (3, 2017, 2018);
+INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
+          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2017 AND endYear = 2018), 1, '2017-09-11', '2017-12-16');
+INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
+          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2017 AND endYear = 2018), 2, '2018-01-08', '2018-04-21');
+INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
+          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2017 AND endYear = 2018), 3, '2018-05-24', '2018-08-28');
 
 DROP TABLE IF EXISTS College CASCADE;
 CREATE TABLE College (
@@ -219,7 +246,7 @@ CREATE TABLE OrganizationNature (
     PRIMARY KEY(id)
 );
 INSERT INTO OrganizationNature (id, name, acronym)
-                      VALUES (1, 'Special Interest', 'SPIN'),
+                         VALUES (1, 'Special Interest', 'SPIN'),
                              (2, 'Professional Organization', 'PROF'),
                              (3, 'Socio-civic and Religious', 'SCORE'),
                              (4, 'Professional Organization Group', 'PROG');
@@ -376,18 +403,22 @@ $trigger$
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
                              VALUES (NEW.id, 'President', TRUE, NULL) 
         RETURNING id INTO presidentRoleID;
+
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
                              VALUES (NEW.id, 'Executive Secretariat', TRUE, presidentRoleID) 
         RETURNING id INTO executiveSecretariatRoleID;
+
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
                              VALUES (NEW.id, 'External Executive Vice President', TRUE, presidentRoleID);
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
                              VALUES (NEW.id, 'Internal Executive Vice President', TRUE, presidentRoleID) 
         RETURNING id INTO ievpRoleID;
+
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
-                             VALUES (NEW.id, 'Vice President of Documentations', TRUE, executiveSecretariatRoleID);
+                             VALUES (NEW.id, 'Vice President of Documentations', TRUE, executiveSecretariatRoleID);    
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
                              VALUES (NEW.id, 'Associate Vice President of Documentations', FALSE, executiveSecretariatRoleID);
+        
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
                              VALUES (NEW.id, 'Vice President of Finance', TRUE, ievpRoleID);
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
@@ -616,7 +647,13 @@ INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       (   7,            16,      TRUE),
                                       (   8,            16,      TRUE),
                                       -- View Financial Documents Log
-                                      (  15,            17,      TRUE);
+                                      (  15,            17,      TRUE),
+                                      -- Evaluate GOSM Activity
+                                      (   1,            12,      TRUE),
+                                      (   2,            12,      TRUE),
+                                      (   3,            12,      TRUE),
+                                      (   4,            12,      TRUE),
+                                      (   5,            12,      TRUE);
 	/* Access Control end */
 	
 -- FORMS
@@ -1041,30 +1078,12 @@ $function$
     DECLARE
         yearID INTEGER;
     BEGIN
-        SELECT id INTO yearID
-        FROM SchoolYear
-        WHERE id = (SELECT id 
-                      FROM Term
-                     WHERE CURRENT_DATE >= dateStart
-                       AND CURRENT_DATE <= dateEnd);
+        SELECT schoolYearID INTO yearID
+          FROM Term
+         WHERE CURRENT_DATE >= dateStart
+           AND CURRENT_DATE <= dateEnd;
 
-        RETURN termID;
-    END;
-$function$ STABLE LANGUAGE plpgsql;
-
-CREATE OR REPLACE FUNCTION getAccountRoles(idNumber INTEGER)  
-RETURNS INTEGER AS 
-$function$
-    DECLARE
-        accountType SMALLINT;
-    BEGIN
-        SELECT type INTO accountType
-          FROM Account a
-         WHERE a.idNumber = idNumber;
-
-         CASE accountType
-          WHEN 1 THEN 
-         END CASE ;
+        RETURN yearID;
     END;
 $function$ STABLE LANGUAGE plpgsql;
 
