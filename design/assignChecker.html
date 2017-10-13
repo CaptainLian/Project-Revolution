@@ -32,7 +32,13 @@
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+
 <![endif]-->
+    <style type="text/css">
+        #myTable2{
+            table-layout: fixed; 
+        }
+    </style>
 </head>
 
 <body class="fix-sidebar">
@@ -269,34 +275,41 @@
                             <h3 class="box-title m-b-0">Activity Submissions</h3>
                             <p class="text-muted m-b-30">A table showing the list of activity submissions</p>
                             <ul class="nav nav-tabs" role="tablist">
-                                <li role="presentation"  class=" nav-item"><a id="home2" href="#home" class="nav-link" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true"><span class="visible-xs"><i class="ti-home"></i></span><span class="hidden-xs"> My Activity</span></a></li>
+                                <li role="presentation"  class=" nav-item"><a id="home2" href="#home" class="nav-link acitve" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true"><span class="visible-xs"><i class="ti-home"></i></span><span class="hidden-xs"> My Activity</span></a></li>
                                 <li role="presentation" class="nav-item"><a href="#profile" class="nav-link" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false"><span class="visible-xs"><i class="ti-user"></i></span> <span class="hidden-xs">Available Activity</span></a></li>
                                 
                                 
                             </ul>
                             <!-- Tab panes -->
                             <div class="tab-content">
-                                <div role="tabpanel" class="tab-pane    " id="home">
+                                <div role="tabpanel" class="tab-pane" id="home">
                                     <div class="col-md-12">
-                                        <div class="table-responsive">
+                                        <div class="">
 
-                                            <table id="myTable" class="table table-hover" >
+                                            <table id="myTable" class="table table-hover table-responsive" >
                                                 <thead>
                                                     <tr role="row">
-                                                        <th width="40%">Activity Name</th>
-                                                        <th width="40%">Date</th>                                        
-                                                                                            
-                                                        <th width="20%" class="text-center">Actions</th>
+                                                        <th >Activity Name</th>
+                                                        <th >Venue</th>                                                                                                                                
+                                                        <th >Date</th>  
+                                                        <th>Time</th>                                                                                                                                
+                                                        <th class="text-center">Actions</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody> 
-                                                <tr>
+                                                    <tr>
                                                         <td class="text">Unite: First General Assembly</td><!-- event name-->
-                                                        <td>January 1, 2017 12:00 - 17:00</td><!-- date of event-->                                            
+                                                        <td>Henry Sy.</td><!-- date of event-->                                                           
+                                                        <td>January 1, 2017 </td><!-- date of event-->
+                                                         <td>
+                                                            <i class="fa fa-clock-o"></i>
+                                                            12:00 - 17:00
+                                                        </td>   
+                                                       
                                                         <td class="text-center "  style="vertical-align: middle;">
                                                             <span data-toggle="tooltip" data-title="Assign users" class="fa fa-user"></span>
                                                         </td>
-                                                </tr>
+                                                    </tr>
                                                 </tbody>
                                             </table>
 
@@ -306,22 +319,28 @@
                                 </div>
                                 <div role="tabpanel" class="tab-pane " id="profile">
                                      <div class="col-md-12">
-                                        <div class="table-responsive">
+                                        <div class="xtable-responsive">
 
-                                            <table id="myTable2" class="table table-hover" >
-                                                <thead>
+                                            <table id="myTable2" style="" class="table table-hover table-responsive" >
+                                                 <thead>
                                                     <tr role="row">
-                                                        <th style="width: 45%">Activity Name</th>
-                                                        <th style="width: 30%">Venue</th>                                                                                                                                
-                                                        <th style="width: 20%">Date</th>                                                                                                                                
-                                                        <th style="width: 5%" class="text-center">Actions</th>
+                                                        <th >Activity Name</th>
+                                                        <th >Venue</th>                                                                                                                                
+                                                        <th >Date</th>  
+                                                        <th >Time</th>                                                                                                                                
+                                                        <th  class="text-center">Actions</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody> 
                                                     <tr>
-                                                        <td class="text">Unite: First General Assembly</td><!-- event name-->
-                                                        <td>JHenry Sy.</td><!-- date of event-->                                            
-                                                        <td>January 1, 2017 12:00 - 17:00</td><!-- date of event-->                                            
+                                                        <td class="text">Unite:ddddddddddddddddddddddddddddddd First General Assembly</td><!-- event name-->
+                                                        <td>Henry Sy.</td><!-- date of event-->                                                           
+                                                        <td>January 1, 2017 </td><!-- date of event-->
+                                                        <td>
+                                                            <i class="fa fa-clock-o"></i>
+                                                            12:00 - 17:00
+                                                        </td>                 
+                                                       
                                                         <td class="text-center "  style="vertical-align: middle;">
                                                             <span data-toggle="tooltip" data-title="Assign users" class="fa fa-user"></span>
                                                         </td>
@@ -394,11 +413,41 @@
         $("tale").on('click','.fa-user',function(){
 
         });
+
         $(document).ready(function(){
             $("#home2").click();
 
-        $('#myTable').dataTable();
-        $('#myTable2').dataTable();
+            var table = $('#myTable').dataTable({
+                 
+                  "columns": [
+                    { "width": "35%" },
+                    { "width": "25%" },
+                    { "width": "20%" },
+                    { "width": "15%" },
+                    { "width": "5%" },
+                  ]
+            });
+            var table2 = $('#myTable2').dataTable( {
+                 
+                  "columns": [
+                    { "width": "35%" },
+                    { "width": "25%" },
+                    { "width": "20%" },
+                    { "width": "15%" },
+                    { "width": "5%" },
+                  ]
+            });
+             table2.fnAdjustColumnSizing();
+            table.fnAdjustColumnSizing();
+
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+                if(e.target.hash =="#profile"){
+                    console.log("asd");
+                   
+                }
+                table2.fnAdjustColumnSizing();
+                table.fnAdjustColumnSizing();
+            });
 
         })
        
@@ -420,5 +469,4 @@
 </body>
 
 
-<!-- Mirrored from eliteadmin.themedesigner.in/demos/eliteadmin-material/data-table.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 27 Jul 2017 11:04:53 GMT -->
 </html>
