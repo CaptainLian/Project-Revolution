@@ -354,10 +354,12 @@ module.exports = function(database, models, queryFiles) {
                         ]);
                     });
                  }).then(data => {
+                    global.logger.debug(`${JSON.stringify(data)}`, log_options);
+                    global.logger.debug(`${JSON.stringify(data[2])}`, log_options);
                     return res.render('Org/GOSM', {
-                        activityTypes: data[0],
-                        activityNature: data[1],
-                        gosmActivities: data[2],
+                        activityTypes: data[1],
+                        activityNature: data[2],
+                        gosmActivities: data[0],
                         csrfToken: req.csrfToken()
                     });
                   }).catch(err => {

@@ -9,7 +9,6 @@
 {%block style%}
     {{super()}}
 
-    {{tag.style('')}}
     <!-- Bootstrap Core CSS -->
     {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
     {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
@@ -74,7 +73,7 @@
     {{- tag.javascript('/js/jasny-bootstrap.js', true)}}
     <!--Style Switcher -->
     {{- tag.javascript('/plugins/bower_components/custom-select/custom-select.min.js', true)}}
-    {{- tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}t>
+    {{- tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
 
     {{- tag.javascript('/plugins/bower_components/lobipanel/dist/js/lobipanel.min.js', true)}}
     {{- tag.javascript('/plugins/bower_components/toast-master/js/jquery.toast.js', true)}}
@@ -281,7 +280,6 @@
                     </table>
                 </div>
                 <div class="panel-footer"> 
-
                     <div class="row">
                         <div class=" col-md-12" style="text-align: center">
                             <button type="submit" id="submit-gosm" class="btn btn-success">Submit to CSO</button>                                               
