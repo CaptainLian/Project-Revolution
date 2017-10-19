@@ -22,7 +22,8 @@
     <!--alerts CSS -->
     <link href="../plugins/bower_components/sweetalert/sweetalert.css" rel="stylesheet" type="text/css">
     <!-- Custom CSS -->
-    
+    <link href="../plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../plugins/bower_components/bootstrap-daterangepicker/daterangepicker.css" />
     <link href="css/style.css" rel="stylesheet">
     <link href="css/custom.css" rel="stylesheet">
     <!-- color CSS -->
@@ -34,9 +35,10 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 
 <![endif]-->
+    <!-- IMPORTANT -->
     <style type="text/css">
-        #myTable2{
-            table-layout: fixed; 
+        .sttabs nav a span{
+            display: block
         }
     </style>
 </head>
@@ -269,109 +271,87 @@
                     <!-- /.col-lg-12 -->
                 </div>
                 <!-- /row -->
+               
                 <div class="row">
-                    <div class="col-sm-12">
-                        <div class="white-box">
-                            <h3 class="box-title m-b-0">Activity Submissions</h3>
-                            <p class="text-muted m-b-30">A table showing the list of activity submissions</p>
-                            <ul class="nav nav-tabs" role="tablist">
-                                <li role="presentation"  class=" nav-item"><a id="home2" href="#home" class="nav-link acitve" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true"><span class="visible-xs"><i class="ti-home"></i></span><span class="hidden-xs"> My Activity</span></a></li>
-                                <li role="presentation" class="nav-item"><a href="#profile" class="nav-link" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false"><span class="visible-xs"><i class="ti-user"></i></span> <span class="hidden-xs">Available Activity</span></a></li>
-                                
-                                
-                            </ul>
-                            <!-- Tab panes -->
-                            <div class="tab-content">
-                                <div role="tabpanel" class="tab-pane" id="home">
-                                    <div class="col-md-12">
-                                        <div class="">
-
-                                            <table id="myTable" class="table table-hover table-responsive" >
-                                                <thead>
-                                                    <tr role="row">
-                                                        <th >Activity Name</th>
-                                                        <th >Venue</th>                                                                                                                                
-                                                        <th >Date</th>  
-                                                        <th>Time</th>                                                                                                                                
-                                                        <th class="text-center">Actions</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody> 
-                                                    <tr>
-                                                        <td class="text">Unite: First General Assembly</td><!-- event name-->
-                                                        <td>Henry Sy.</td><!-- date of event-->                                                           
-                                                        <td>January 1, 2017 </td><!-- date of event-->
-                                                         <td>
-                                                            <i class="fa fa-clock-o"></i>
-                                                            12:00 - 17:00
-                                                        </td>   
-                                                       
-                                                        <td class="text-center "  style="vertical-align: middle;">
-                                                            <span data-toggle="tooltip" data-title="Assign users" class="fa fa-user"></span>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-
+                    <div class="col-md-12">
+                        <div class="panel panel-info">                                                    
+                            <div class="panel-body">
+                                <form action="#">
+                                    <div class="form-body">
+                                        <h3 class="box-title">Time </h3>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-md-7">
+                                                <div class="form-group row">
+                                                    <label class="col-md-4 control-label">First Term</label>
+                                                    <div class="col-md-8 input-daterange input-group" id="date-range">
+                                                        <input readonly="" class="form-control" name="start" type="text"> 
+                                                        <span class="input-group-addon bg-info b-0 text-white">to</span>
+                                                        <input readonly="" class="form-control" name="end" type="text"> 
+                                                    </div>    
+                                                </div>
+                                            </div>
+                                            <!--/span-->
+                                           
+                                            <!--/span-->
                                         </div>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </div>
-                                <div role="tabpanel" class="tab-pane " id="profile">
-                                     <div class="col-md-12">
-                                        <div class="xtable-responsive">
-
-                                            <table id="myTable2" style="" class="table table-hover table-responsive" >
-                                                 <thead>
-                                                    <tr role="row">
-                                                        <th >Activity Name</th>
-                                                        <th >Venue</th>                                                                                                                                
-                                                        <th >Date</th>  
-                                                        <th >Time</th>                                                                                                                                
-                                                        <th  class="text-center">Actions</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody> 
-                                                    <tr>
-                                                        <td class="text">Unite:ddddddddddddddddddddddddddddddd First General Assembly</td><!-- event name-->
-                                                        <td>Henry Sy.</td><!-- date of event-->                                                           
-                                                        <td>January 1, 2017 </td><!-- date of event-->
-                                                        <td>
-                                                            <i class="fa fa-clock-o"></i>
-                                                            12:00 - 17:00
-                                                        </td>                 
-                                                       
-                                                        <td class="text-center "  style="vertical-align: middle;">
-                                                            <span data-toggle="tooltip" data-title="Assign users" class="fa fa-user"></span>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-
+                                        <div class="row">
+                                            <div class="col-md-7">
+                                                <div class="form-group row">
+                                                    <label class="col-md-4 control-label">Second Term</label>
+                                                    <div class="col-md-8 input-daterange input-group" id="date-range2">
+                                                        <input readonly="" class="form-control" name="start" type="text"> 
+                                                        <span class="input-group-addon bg-info b-0 text-white">to</span>
+                                                        <input readonly="" class="form-control" name="end" type="text"> 
+                                                    </div>    
+                                                </div>
+                                            </div>
+                                            <!--/span-->
+                                           
+                                            <!--/span-->
                                         </div>
+                                          <div class="row">
+                                            <div class="col-md-7">
+                                                <div class="form-group row">
+                                                    <label class="col-md-4 control-label">Third Term</label>
+                                                    <div class="col-md-8 input-daterange input-group" id="date-range3">
+                                                        <input readonly="" class="form-control" name="start" type="text"> 
+                                                        <span class="input-group-addon bg-info b-0 text-white">to</span>
+                                                        <input readonly="" class="form-control" name="end" type="text"> 
+                                                    </div>    
+                                                </div>
+                                            </div>
+                                            <!--/span-->
+                                           
+                                            <!--/span-->
+                                        </div>
+                                         <h3 class="box-title">Password </h3>
+                                        <hr>
+                                        <!--/row-->
+                                        <div class="row">
+                                            <div class="col-md-7">
+                                                <div class="form-group row">
+                                                    <label class="col-md-4 control-label">Password Expiration</label>
+                                                    <div class="col-md-8 input-group">
+                                                        <input class="form-control" placeholder="" aria-describedby="basic-addon2" type="number" min='0'>
+                                                        <span class="input-group-addon" id="basic-addon2">Months</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/span-->
+                                         
+                                            <!--/span-->
+                                        </div>
+                                        
                                     </div>
-                                    <div class="clearfix"></div>
-                                </div>
-                                <div role="tabpanel" class="tab-pane" id="messages">
-                                    <div class="col-md-6">
-                                        <h3>Come on you have a lot message</h3>
-                                        <h4>you can use it with the small code</h4>
+                                    <br/>
+                                    <div class="text-center form-actions">
+                                        <button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Save</button>
+                                        <button type="button" class="btn btn-default">Cancel</button>
                                     </div>
-                                    <div class="col-md-5 pull-right">
-                                        <p>Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a.</p>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </div>
-                                
-                            </div>
-                            
+                                </form>
+                            </div>                            
                         </div>
-                    </div>
-                    <div class="col-sm-12">
-                        
-                    </div>
-                    <div class="col-sm-12">
-                        
                     </div>
                 </div>
                 <!-- /.row -->
@@ -380,8 +360,9 @@
             </div>
             <!-- /.container-fluid -->
             <footer class="footer text-center"> 2017 © Elite Admin brought to you by themedesigner.in </footer>
- 
- 
+            <!--modals-->
+           
+            <!--/modals-->
         </div>
         <!-- /#page-wrapper -->
     </div>
@@ -406,67 +387,38 @@
     <script src="../plugins/bower_components/sweetalert/sweetalert.min.js"></script>
     <script src="../plugins/bower_components/sweetalert/jquery.sweet-alert.custom.js"></script>
 
-    <!-- TABLE MODAL -->
+    <script src="../plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+    <script src="../plugins/bower_components/bootstrap-daterangepicker/daterangepicker.js" type="text/javascript"></script>
     <script>
-    
-    
-        $("tale").on('click','.fa-user',function(){
-
-        });
-
-        $(document).ready(function(){
-            $("#home2").click();
-
-            var table = $('#myTable').dataTable({
-                 
-                  "columns": [
-                    { "width": "35%" },
-                    { "width": "25%" },
-                    { "width": "20%" },
-                    { "width": "15%" },
-                    { "width": "5%" },
-                  ]
-            });
-            var table2 = $('#myTable2').dataTable( {
-                 
-                  "columns": [
-                    { "width": "35%" },
-                    { "width": "25%" },
-                    { "width": "20%" },
-                    { "width": "15%" },
-                    { "width": "5%" },
-                  ]
-            });
-             table2.fnAdjustColumnSizing();
-            table.fnAdjustColumnSizing();
-
-            $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
-                if(e.target.hash =="#profile"){
-                    console.log("asd");
-                   
-                }
-                table2.fnAdjustColumnSizing();
-                table.fnAdjustColumnSizing();
-            });
-
-        })
-       
-    
-    </script>
-    <script type="text/javascript">
-    (function() {
-
-        [].slice.call(document.querySelectorAll('.sttabs')).forEach(function(el) {
-            new CBPFWTabs(el);
-        });
-
-    })();
+    jQuery('#date-range, #date-range2, #date-range3').datepicker({
+        toggleActive: true
+    });
+  
+    // Daterange picker
+    // $('.input-daterange').daterangepicker({
+    //     buttonClasses: ['btn', 'btn-sm'],
+    //     applyClass: 'btn-danger',
+    //     cancelClass: 'btn-inverse'
+    // });
+   
+    // $('.input-daterange').daterangepicker({
+    //     format: 'MM/DD/YYYY',
+    //     minDate: '06/01/2015',
+    //     maxDate: '06/30/2015',
+    //     buttonClasses: ['btn', 'btn-sm'],
+    //     applyClass: 'btn-danger',
+    //     cancelClass: 'btn-inverse',
+    //     dateLimit: {
+    //         days: 6
+    //     }
+    // });
     </script>
     <!--Style Switcher -->
     <script src="../plugins/bower_components/styleswitcher/jQuery.style.switcher.js"></script>
 
 
 </body>
+
 
 
 </html>
