@@ -4,10 +4,10 @@
  * Query Files Used:
  *     account_insert.sql
  */
-module.exports = function(database, queryFiles) {
+module.exports = function(configuration, modules, database, queryFiles) {
 
     /**
-     * Private: 
+     * Private:
      *     _database
      *     _insertSQL
            _squel
@@ -81,12 +81,12 @@ module.exports = function(database, queryFiles) {
                 this._attachReturning(query, returning);
 
                 return connection.one(query.toString(), param);
-            } 
+            }
             return connection.none(this._insertSQL, param);
         }
 
         /**
-         *  
+         *
          * @method  getAccountDetails
          * @param   {Integer}          idNumber   [description]
          * @param   {[Array, String(String)] (Optional)}                             fields     [description]
@@ -106,7 +106,7 @@ module.exports = function(database, queryFiles) {
 
         /**
          * Calculates which dashboard/s or home pagesthe given account can view
-         * 
+         *
          * @method  getAccountHome
          * @param   {[type]}       idNumber [description]
          * @returns {[type]}                [description]

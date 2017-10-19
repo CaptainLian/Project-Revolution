@@ -26,13 +26,14 @@ const forgePromise = require('../utility/forge-promise');
 const log_options = Object.create(null);
 log_options.from = 'Account';
 
-module.exports = function(database, models, queryFiles) {
+module.exports = function(configuration, modules, models, database, queryFiless) {
     const accountModel = models.Account_model;
+    const logger = modules.logger;
     return {
 
         viewLogin: (req, res) => {
             const csrfToken = req.csrfToken();
-            global.logger.debug(`login CSRFToken: ${csrfToken}`, log_options);
+             logger.debug(`login CSRFToken: ${csrfToken}`, log_options);
             res.render('System/LoginMain', {
                 csrfToken: csrfToken
             });
@@ -47,7 +48,7 @@ module.exports = function(database, models, queryFiles) {
 
         checkLogin: (req, res) => {
             let input = req.body;
-            global.logger.debug(`Login attempt input: ${JSON.stringify(input)}`, log_options);
+             logger.debug(`Login attempt input: ${JSON.stringify(input)}`, log_options);
             //parse id number
             let credential = parseInt(input.credential);
             let credentialFloat = parseFloat(input.credential);
@@ -77,10 +78,10 @@ module.exports = function(database, models, queryFiles) {
                 database.one(query.toString(), {
                     credential: input.credential
                 }).then(account => {
-                    global.logger.debug(`Account found: ${JSON.stringify(account)}`, log_options);
+                     logger.debug(`Account found: ${JSON.stringify(account)}`, log_options);
                     if (account.password === bcrypt.hashSync(input.password, account.salt)) {
-                        
-                        global.logger.debug('Enter!!', log_options);
+
+                         logger.debug('Enter!!', log_options);
 
                         /**
                          * Session Contents
@@ -111,19 +112,19 @@ module.exports = function(database, models, queryFiles) {
                             route: '/'
                         });
                     } else {
-                        global.logger.debug('Incorrect password');
+                         logger.debug('Incorrect password');
                         return res.send({
                             valid: false
                         });
                     }
                 }).catch(() => {
-                    global.logger.debug('Account not exist');
+                     logger.debug('Account not exist');
                     return res.send({
                         valid: false
                     });
                 });
             } else {
-                global.logger.debug('Aguy input');
+                 logger.debug('Aguy input');
                 return res.send({
                     valid: false
                 });
@@ -135,7 +136,7 @@ module.exports = function(database, models, queryFiles) {
             // console.log("REQUEST");
             // console.log(req.session.user);
             //database.one('SELECT * FROM Account WHERE idNumber = ${idNumber}', {idNumber: req.session.user.idNumber});
-            global.logger.debug(req.session, log_options);
+             logger.debug(req.session, log_options);
             //let fullname = req.session.user.name.first + " " + req.session.user.name.middle + " " + req.session.user.name.last;
 
             accountModel.getAccountDetails(11445955, 'privateKey')
@@ -166,7 +167,7 @@ module.exports = function(database, models, queryFiles) {
          *         idNumber Integer,
          *         email String,
          *         type Integer,
-         *         password String, 
+         *         password String,
          *         firstname String,
          *         middlename String,
          *         lastname String,
@@ -178,8 +179,8 @@ module.exports = function(database, models, queryFiles) {
             const input = req.body;
 
             forgePromise.pki.rsa.generateKeyPair({
-                bits: global.config.webserver.encryption.bits,
-                workers: global.config.webserver.encryption.web_workers_amount
+                bits:  configuration.webserver.encryption.bits,
+                workers:  configuration.webserver.encryption.web_workers_amount
             }).then(pair => {
                 return Promise.all([
                     forgePromise.pki.publicKeyToPem(pair.publicKey),

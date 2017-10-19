@@ -1,5 +1,5 @@
 'use strict';
-module.exports = function(database, models, queryFiles){
+module.exports = function(configuration, modules, models, database, queryFiles){
 	let AMTController = Object.create(null);
 
 	AMTController.viewActivityEvaluation = (req, res) => {
@@ -8,6 +8,6 @@ module.exports = function(database, models, queryFiles){
 
 		return res.render('AMT/ActivityEvaluation', renderData);
 	};
-	
+
 	return AMTController;
 };

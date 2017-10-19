@@ -1,6 +1,6 @@
 const dateFormat = require('dateformat');
 
 //TODO: Implementation
-module.exports = function(database, models, queryFiles){
+module.exports = function(configuration, modules, models, database, queryFiles){
 	return {};
 };

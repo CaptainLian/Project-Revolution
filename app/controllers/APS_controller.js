@@ -1,11 +1,11 @@
 'use strict';
 
-const logger = global.logger;
 const log_options = {
     from: 'APS-Controller'
 };
 
-module.exports = function(database, models, queryFiles) {
+module.exports = function(configuration, modules, models, database, queryFiles) {
+    const logger = modules.logger;
 
     const gosmModel = models.gosmModel;
     const organizationModel = models.organization_model;
@@ -74,8 +74,8 @@ module.exports = function(database, models, queryFiles) {
                 return t.batch([
                     gosmModel.getActivityDetails(req.body.dbid, undefined, t),
                     gosmModel.getActivityProjectHeads(req.body.dbid, [
-                        'firstname', 
-                        'lastname', 
+                        'firstname',
+                        'lastname',
                         'a.idNumber'], t)
                 ]);
             }).then(data => {

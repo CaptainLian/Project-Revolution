@@ -1,9 +1,5 @@
 'use strict';
-
-var express = require('express');
-var router = express.Router();
-
-module.exports = function(app , controllers){
+module.exports = function(configuration, modules, router, controllers){
 	const systemController = controllers.System_controller;
 
 	router.get('/', systemController.viewLogin);
@@ -12,7 +8,7 @@ module.exports = function(app , controllers){
 	router.get('/logout', systemController.logout);
 	router.post('/logout', systemController.logout);
 
-	if(global.config.debug.enabled){
+	if(configuration.debug.enabled){
 		router.get('/documentSign', systemController.documentSign);
 
 		router.get('/test/view', (req, res) => {
@@ -21,6 +17,4 @@ module.exports = function(app , controllers){
 			});
 		});
 	}
-	
-	return router;
 };

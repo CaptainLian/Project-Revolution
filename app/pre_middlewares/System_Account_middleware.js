@@ -5,13 +5,14 @@ const logger = global.logger;
 const log_options = {
     from: 'Authenticate'
 };
-
-module.exports = function(app, database, models, queryFiles) {
-    if ((global.config.debug.enabled && global.config.debug.enable_login_check) || !global.config.debug.enabled) {
+//configuration, mainApplication, modules, database, queryFiles, models
+module.exports = function(configuration, application, modules, database, queryFiles, models) {
+    if ((configuration.debug.enabled && configuration.debug.enable_login_check) || !configuration.debug.enabled) {
         return [{
             name: 'Authenticate',
             description: 'Check if user is logged in',
             route: '*',
+            priority: configuration.load_priority.NORMAL,
             action: function(req, res, next) {
                 const session = req.session;
                 if (typeof session.user === 'undefined' && req._parsedUrl.pathname !== '/') {

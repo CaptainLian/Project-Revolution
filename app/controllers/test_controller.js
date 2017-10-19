@@ -1,5 +1,5 @@
 'use strict';
-module.exports = function(database, models, queryFiles){
+module.exports = function(configuration, modules, models, database, queryFiles){
 	let testController = Object.create(null);
 
 	testController.test = (req, res) => {
@@ -10,6 +10,6 @@ module.exports = function(database, models, queryFiles){
 			return console.log(err);
 		});
 	};
-	
+
 	return testController;
 };

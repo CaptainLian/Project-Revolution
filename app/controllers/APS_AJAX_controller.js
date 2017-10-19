@@ -1,16 +1,17 @@
-const logger = global.logger;
 
 const log_options = Object.create(null);
 log_options.from = 'AJAX-APS';
 log_options.color = '\x1b[35m';
 
-module.exports = function(database, models, queryFiles) {
+module.exports = function(configuration, modules, models, database, queryFiles) {
+    const logger = modules.logger;
     const gosmModel = models.gosmModel;
     const projectProposalModel = models.ProjectProposal_model;
+    
     return {
         getGOSMActivityDetails: function(req, res) {
             const activityID = parseInt(req.query.activityID ? req.query.activityID : req.body.activityID);
-            
+
             if (isNaN(activityID)) {
                 logger.debug(`Invalid input`);
                 return res.send({

@@ -9,7 +9,7 @@ class SystemModel {
 		 * @type {pg-connection}
 		 */
 		this._database = database;
-		
+
 		/**
 		 * The query builder to be used
 		 * Defaults to require('squel').useFlavour('postgres')
@@ -40,8 +40,8 @@ class SystemModel {
 
 	/**
 	 * Retrieves the current database term
-	 * 
-	 * @param  {[String, Array] (Optional)} fields The fields to be used for the select statement 
+	 *
+	 * @param  {[String, Array] (Optional)} fields The fields to be used for the select statement
 	 * @param  {[pg-database, pg-connection, pg-task] (Optional)} connection to database
 	 * @return {Promise} oneOrNone results
 	 */
@@ -62,8 +62,8 @@ class SystemModel {
 	 * Retrieves the current database term with year joined
 	 * Joins 2 tables Term (t) And SchoolYear (sy)
 	 * The tables joined determines which field must be prefixed with the aliases to retrieve that information
-	 * 
-	 * @param  {[String, Array] (Optional)} fields The fields to be used for the select statement 
+	 *
+	 * @param  {[String, Array] (Optional)} fields The fields to be used for the select statement
 	 * @param  {[pg-database, pg-connection, pg-task] (Optional)} connection
 	 * @return {pg-promise} oneOrNone results
 	 */
@@ -86,6 +86,6 @@ class SystemModel {
  * @param  {Array[QueryFiles] queryFiles [description]
  * @return SystemModel            [description]
  */
-module.exports = function(database, queryFiles){
+module.exports = function(configuration, modules, database, queryFiles){
 	return new SystemModel(database);
 };

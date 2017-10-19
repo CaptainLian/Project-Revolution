@@ -1,12 +1,12 @@
 'use strict';
 
-module.exports = function(database, models, queryFiles) {
+module.exports = function(configuration, modules, models, database, queryFiles) {
 
     const systemModel = models.System_model;
     const organizationModel = models.organization_model;
     const projectProposalModel = models.ProjectProposal_model;
     const gosmModel = models.gosmModel;
-
+    const logger = modules.logger;
     const log_options = Object.create(null);
     log_options.from = 'Organization-Controller';
 
@@ -20,7 +20,7 @@ module.exports = function(database, models, queryFiles) {
                     projectProposalModel.getProjectProposalsCountPerStatus(1, 3, t)
                 ]);
             }).then(data => {
-                global.logger.debug(`${JSON.stringify(data)}`, log_options);
+                 logger.debug(`${JSON.stringify(data)}`, log_options);
                 return res.render('Org/Home', {
                     csrfToken: req.csrfToken(),
                     allProjects: data[0],
@@ -51,7 +51,7 @@ module.exports = function(database, models, queryFiles) {
                             'budget AS budget',
                             'strategies AS strategies',
                             "to_char(targetdatestart, 'Mon DD, YYYY') AS startdate",
-                            "to_char(targetdateend, 'Mon DD, YYYY') AS enddate" 
+                            "to_char(targetdateend, 'Mon DD, YYYY') AS enddate"
                         ],
                         t)
                 ]);
@@ -72,7 +72,7 @@ module.exports = function(database, models, queryFiles) {
             //TODO: Session get student organization
             /**
              * let dbParam = {
-             *      studentorganization: 
+             *      studentorganization:
              *  };
              * @type {Object}
              */
@@ -90,7 +90,7 @@ module.exports = function(database, models, queryFiles) {
             let dbParam = Object.create(null);
             dbParam.id = req.body.dbid;
 
-            global.logger.debug(`Deleting activity: ${req.body.dbid}`, log_options);
+             logger.debug(`Deleting activity: ${req.body.dbid}`, log_options);
             gosmModel.deleteActivity(dbParam)
             .then(data => {
                 return res.send("1");
@@ -154,7 +154,7 @@ module.exports = function(database, models, queryFiles) {
 
             gosmModel.updateActivity(dbParam)
             .then(data => {
-                global.logger.debug(`ID: ${data.id}`, log_options);
+                 logger.debug(`ID: ${data.id}`, log_options);
 
                 return res.send(String(data.id));
 
@@ -174,8 +174,8 @@ module.exports = function(database, models, queryFiles) {
          */
         inputCreateGOSM: (req, res) => {
             /* Validate input */
-            global.logger.warning('inputCreateGOSM - Input not yet validated!', log_options);
-            global.logger.debug(`JSON.stringify(req.body)`, log_options);
+             logger.warning('inputCreateGOSM - Input not yet validated!', log_options);
+             logger.debug(`JSON.stringify(req.body)`, log_options);
 
             /* Parse input*/
             let strategy = req.body.strategy;
@@ -210,7 +210,7 @@ module.exports = function(database, models, queryFiles) {
             database.task(task => {
                 return systemModel.getCurrentTerm('id', task)
                 .then(term => {
-                    global.logger.debug(`Current termID: ${term.id}`, log_options);
+                     logger.debug(`Current termID: ${term.id}`, log_options);
 
                     /**
                      * const param = {
@@ -250,7 +250,7 @@ module.exports = function(database, models, queryFiles) {
                                 const insertPromise = gosmModel.insertProposedActivity(dbParam, transaction);
                                 return insertPromise;
                             }).then(activity => {
-                                global.logger.debug(`inserted: ${activity.activityid}, person-in-charge_length: ${personInCharge.length}`, log_options);
+                                 logger.debug(`inserted: ${activity.activityid}, person-in-charge_length: ${personInCharge.length}`, log_options);
                                 const queries = [Promise.resolve(activity.activityID)];
 
                                 for (let index = personInCharge.length + 1; --index;) {
@@ -294,7 +294,7 @@ module.exports = function(database, models, queryFiles) {
 
             database.task(task => {
                 return task.batch([
-                    gosmModel.getGOSMActivity(dbParam), 
+                    gosmModel.getGOSMActivity(dbParam),
                     gosmModel.getGOSMActivityProjectHeads(dbParam)
                 ]);
             }).then(data => {
@@ -310,7 +310,7 @@ module.exports = function(database, models, queryFiles) {
 
         //TODO Test
         viewCreateGOSM: (req, res) => {
-            global.logger.debug('VIEW CREATE GOSM CONTROLLER', log_options);
+             logger.debug('VIEW CREATE GOSM CONTROLLER', log_options);
 
             database.task(task1 => {
                 return systemModel.getCurrentTerm('id', task1)
@@ -350,8 +350,8 @@ module.exports = function(database, models, queryFiles) {
                     ]);
                 });
              }).then(data => {
-                global.logger.debug(`${JSON.stringify(data)}`, log_options);
-                global.logger.debug(`${JSON.stringify(data[2])}`, log_options);
+                 logger.debug(`${JSON.stringify(data)}`, log_options);
+                 logger.debug(`${JSON.stringify(data[2])}`, log_options);
                 return res.render('Org/GOSM', {
                     activityTypes: data[1],
                     activityNature: data[2],
@@ -372,7 +372,7 @@ module.exports = function(database, models, queryFiles) {
             console.log(funds.expense);
             // req.body.context
 
-            // global.logger.debug(`${JSON.stringify(req.body)}`, log_options);
+            //  logger.debug(`${JSON.stringify(req.body)}`, log_options);
 
             let projectProposalParam = {
                 //TODO change gosmactivity value
@@ -391,22 +391,22 @@ module.exports = function(database, models, queryFiles) {
             };
 
             database.tx(t /* transaction connection */ => {
-                // global.logger.debug(`${JSON.stringify(projectProposalParam)}`);
+                //  logger.debug(`${JSON.stringify(projectProposalParam)}`);
                 return projectProposalModel.insertProjectProposal(projectProposalParam, t)
                 .then(data => {
                     const projectProposalID = data.projectproposal;
-                    global.logger.debug(`projectProposal: ${projectProposalID}`, log_options);
-                    /* 
+                     logger.debug(`projectProposal: ${projectProposalID}`, log_options);
+                    /*
 
                         PPR Program Design
 
                     */
-                    global.logger.debug('Inserting Program Design',log_options);
+                     logger.debug('Inserting Program Design',log_options);
                     for (let index0 = sched.length + 1; --index0;) {
-                        global.logger.debug(sched, log_options);
+                         logger.debug(sched, log_options);
                         const program = sched[sched.length - index0];
                         for (let index1 = program.time.length + 1; --index1;) {
-                            global.logger.debug(index1, log_options);
+                             logger.debug(index1, log_options);
                             const i = program.time.length - index1;
                             const item = program.time[i];
                             var dateSplit = program.date.split("/");
@@ -428,14 +428,14 @@ module.exports = function(database, models, queryFiles) {
                         }
                     }
 
-                    /* 
+                    /*
 
                         Revenue
 
                     */
-                    global.logger.debug('Inserting Revenue',log_options);
+                     logger.debug('Inserting Revenue',log_options);
                     for (let index = funds.revenue.length + 1; --index;) {
-                        global.logger.debug(`NAG LOOP`, log_options);
+                         logger.debug(`NAG LOOP`, log_options);
                         console.log("INDEX IS");
                         console.log(index);
                         console.log("LENGTH IS");
@@ -459,7 +459,7 @@ module.exports = function(database, models, queryFiles) {
                         Expense
 
                     */
-                    global.logger.debug('Inserting Expenses',log_options);
+                     logger.debug('Inserting Expenses',log_options);
                     for (let index = funds.expense.length + 1; --index;) {
                         console.log("INDEX IS");
                         console.log(index);
@@ -482,9 +482,9 @@ module.exports = function(database, models, queryFiles) {
                     throw err;
                 });
             }).then(data => {
-                global.logger.debug(`${data}`, log_options);
+                 logger.debug(`${data}`, log_options);
             }).catch(err => {
-                global.logger.warning(`${JSON.stringify(err)}`, log_options);
+                 logger.warning(`${JSON.stringify(err)}`, log_options);
                 throw err;
             });
         }
