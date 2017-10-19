@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "bluebird": "^3.5.1",
     "body-parser": "^1.18.0",
     "connect-pg-simple": "^4.2.1",
     "cookie-parser": "^1.4.3",
@@ -26,7 +27,6 @@
     "pg-promise": "^6.5.2",
     "require-dir": "^0.3.2",
     "squel": "^5.11.1",
-    "winston": "^2.3.1",
-    "node-forge": "^0.7.1"
+    "winston": "^2.3.1"
   }
 }

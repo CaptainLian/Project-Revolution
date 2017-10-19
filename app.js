@@ -85,6 +85,7 @@ app.use(
     resave: session_config.resave,
     saveUninitialized: session_config.saveUninitialized,
     unset: session_config.unset,
+    //TODO: replace with auto generated secret
     secret: 'this is a place holder secret, would be replaced by an auto generated secret',
     cookie: {
       httpOnly: session_config.cookie.httpOnly,

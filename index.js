@@ -65,6 +65,8 @@ const logger = new (winston.Logger)({
   }
 });
 
+
+
 global.logger = logger;
 /**
  * Loading of configuration is done here

@@ -1,4 +1,6 @@
-{
+const path = require('path');
+
+const configuration = {
     "debug": {
         "enabled": true,
         "enable_login_check": false
@@ -37,7 +39,9 @@
                 "path": "/",
                 "sameSite": "strict",
                 "secure": false,
-                "maxAge": 3600000
+                "maxAge": 3600000,
+                //TODO: Replace secret with auto generated one
+                "secret": "this is a place holder secret, would be replaced by an auto generated secret"
             }
         },
         "encryption": {
@@ -60,4 +64,15 @@
             "path": "./app/models"
         }
     }
-}
+};
+
+configuration.webserver.controllers.path = path.resolve(configuration.webserver.controllers.path);
+configuration.webserver.pre_middlewares.path = path.resolve(configuration.webserver.controllers.path);
+configuration.webserver.post_middlewares.path = path.resolve(configuration.webserver.controllers.path);
+configuration.webserver.assets.path = path.resolve(configuration.webserver.controllers.path);
+configuration.webserver.views.path = path.resolve(configuration.webserver.controllers.path);
+
+configuration.database.query_files.path = path.resolve(configuration.database.query_files.path);
+configuration.database.models.path = path.resolve(configuration.database.models.path);
+
+module.exports = configuration;

@@ -314,57 +314,53 @@ module.exports = function(database, models, queryFiles) {
 
             database.task(task1 => {
                 return systemModel.getCurrentTerm('id', task1)
-                    .then(term => {
-                        /**
-                         * let param = {
-                         *      termID: data.id,
-                         *      studentOrganization
-                         * };
-                         * @variable param
-                         * @type {Object}
-                         */
-                        let GOSMParam = {};
-                        GOSMParam.termID = term.id;
-                        //TODO Replace with session variable
-                        GOSMParam.studentOrganization = 1;
+                .then(term => {
+                    /**
+                     * let param = {
+                     *      termID: data.id,
+                     *      studentOrganization
+                     * };
+                     * @variable param
+                     * @type {Object}
+                     */
+                    let GOSMParam = {};
+                    GOSMParam.termID = term.id;
+                    //TODO Replace with session variable
+                    GOSMParam.studentOrganization = 1;
 
-                        return gosmModel.getOrgGOSM(GOSMParam, task1)
-                        .then(GOSM => {
-                            /* GOSM Exists */
-                            if (GOSM) {
-                                return Promise.resolve(GOSM.id);
-                            }
-                            //else
-                            return task1.tx(transaction => {
-                                return gosmModel.insertNewGOSM(GOSMParam.termID, GOSMParam.studentOrganization, true, transaction)
-                                .then(data => {
-                                    return Promise.resolve(data.id);
-                                }).catch(err => {
-                                    throw err;
-                                });
-                            });
-                        }).catch(err => {
-                            throw err;
+                    return gosmModel.getOrgGOSM(GOSMParam, task1)
+                    .then(GOSM => {
+                        /* GOSM Exists */
+                        if (GOSM) {
+                            return Promise.resolve(GOSM.id);
+                        }
+                        //else
+                        return gosmModel.insertNewGOSM(GOSMParam.termID, GOSMParam.studentOrganization, true, task1)
+                        .then(data => {
+                            return Promise.resolve(data.id);
                         });
-                    }).then(GOSM => {
-                        return task1.batch([
-                            gosmModel.getGOSMActivities(GOSM, undefined, task1),
-                            gosmModel.getAllActivityTypes(['id', 'name'], task1),
-                            gosmModel.getAllActivityNature(['id', 'name'], task1)
-                        ]);
+                    }).catch(err => {
+                        throw err;
                     });
-                 }).then(data => {
-                    global.logger.debug(`${JSON.stringify(data)}`, log_options);
-                    global.logger.debug(`${JSON.stringify(data[2])}`, log_options);
-                    return res.render('Org/GOSM', {
-                        activityTypes: data[1],
-                        activityNature: data[2],
-                        gosmActivities: data[0],
-                        csrfToken: req.csrfToken()
-                    });
-                  }).catch(err => {
-                      throw err;
-                  });
+                }).then(GOSM => {
+                    return task1.batch([
+                        gosmModel.getGOSMActivities(GOSM, undefined, task1),
+                        gosmModel.getAllActivityTypes(['id', 'name'], task1),
+                        gosmModel.getAllActivityNature(['id', 'name'], task1)
+                    ]);
+                });
+             }).then(data => {
+                global.logger.debug(`${JSON.stringify(data)}`, log_options);
+                global.logger.debug(`${JSON.stringify(data[2])}`, log_options);
+                return res.render('Org/GOSM', {
+                    activityTypes: data[1],
+                    activityNature: data[2],
+                    gosmActivities: data[0],
+                    csrfToken: req.csrfToken()
+                });
+              }).catch(err => {
+                  throw err;
+              });
         },
 
         inputActivityRequirements: (req, res) => {
