@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function(database, queryFiles){	
+module.exports = function(configuration, modules, database, queryFiles){	
 	const ActivityMonitoringModel = Object.create(null);
 
 	const insertAMTActivityEvaluationSQL = queryFiles.insertAMTActivityEvaluation;

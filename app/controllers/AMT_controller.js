@@ -24,7 +24,10 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			materials: req.body.material,
 			registration: req.body.registration,
 			timeend: 1,
+			activityexecutiona: req.body.activityExecution,
+			activityexecutionb: req.body.activityExecution2,
 			hosts: req.body.host,
+			facilitators: req.body.facilitators,
 			presentation: req.body.presentation,
 			activities: req.body.activities,
 			organizationstandingpresentation: req.body.organizationStanding,
@@ -42,12 +45,18 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			comments1: req.body.comment1,
 			comments2: req.body.comment2,
 			comments3: req.body.comment3,
-			suggestion1: req.body.suggestion1,
-			suggestion2: req.body.suggestion2,
-			suggestion3: req.body.suggestion3
+			suggestions1: req.body.suggestion1,
+			suggestions2: req.body.suggestion2,
+			suggestions3: req.body.suggestion3
 		};
 
-		amtModel.insertAMTActivityEvaluation(dbParam);
+		amtModel.insertAMTActivityEvaluation(dbParam)
+			.then(data=>{
+
+			})
+			.catch(error=>{
+				console.log(error);
+			});
 
 
 	};
