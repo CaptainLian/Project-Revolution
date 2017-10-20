@@ -3,6 +3,11 @@
 
 {%block styles%}
 	<link href="/css/custom.css" rel="stylesheet">
+    <style type="text/css">
+      /*  td{
+            word-wrap:break-word
+        }*/
+    </style>
 {%endblock%}
 
 {%block header%}
@@ -104,15 +109,15 @@
                                             </div>
                                             <div class="form-group">
 
-                                               
-                                                <p>
-                                                    <strong> Minimum of 3 paragraphs answering the following questions in application of the Lasallian Reflection   Framework:
-                                                    </strong>
-                                                </p>
+                                               <input name="prespective" style="height:0px; top:-1000px; position:absolute;display: none" type="text" value="">
+                                                
+                                                
                                                 <ul >
                                                     <li>
                                                         What situation do you see (observation/s) in your organization, university, society, or our world?
                                                         What certain experiences, problems, or questions do you have in relation to what you see? (May be supported with data or research if there is any or if needed)
+
+                                                        <textarea  class="form-control m-t-5" rows=5></textarea> 
                                                     </li>
 
                                                     <li>
@@ -120,19 +125,20 @@
                                                         What could be the cause and effect?
                                                         How did you feel about the experience, situation, or problem? And why did you feel that way?
                                                         What can we discover or realize?
+                                                        <textarea  class="form-control m-t-5" rows=5></textarea> 
                                                     </li>
 
                                                     <li >
                                                       Out of all the possible projects, activities, and solutions, Why this?
                                                       As an organization, what will you commit as a response to what you have stated in Part 2?
+                                                      <textarea  class="form-control m-t-5" rows=5></textarea> 
                                                     </li>
 
                                                   </ul>
 
                                                 
-                                                <label class="control-label"></label>
-                                                <input name="prespective" style="height:0px; top:-1000px; position:absolute;display: none" type="text" value="">
-                                                <textarea  class="form-control" rows=20></textarea> 
+                                                
+                                                
                                             </div>
                                         </div>
 
@@ -155,10 +161,11 @@
                                         <div class="tab-content" id="myTabContent">
                                             <div aria-labelledby="tab-0" id="ctab0" class="tab-pane fade active in" role="tabpanel">
                                                  <div class="row">
-                                                    <div class="col-md-4" id="clone-question"  style="padding: 25px;position: relative;  ">
+                                                    <div class="col-md-12" id="clone-question"  style="padding: 25px;position: relative;  ">
                                                         <!-- pangcancel ng auto open datepicker -->
                                                         <input style="height:0px; top:-1000px; position:absolute;display: none" type="text" value="">
-                                                        <label>Date</label>
+                                                        <div class="col-md-6">
+                                                            <label>Date</label>
                                                         <div class="input-group">
                                                             <input name="date" readonly="" class="form-control" id="datepicker-autoclose" placeholder="mm/dd/yyyy" type="text">
                                                             <span class="input-group-addon"><i class="icon-calender"></i></span> 
@@ -177,84 +184,74 @@
 
                                                         </div>
                                                         <div>&nbsp</div>
-                                                        <label>Activity</label>
-                                                        <input name="activity" id="act0"  type="text" class="form-control">
-                                                        <div>&nbsp</div>
-                                                        <label>Description</label>
-                                                        <textarea name="description" id="desc0" class="form-control" rows="2" ></textarea>
-                                                        <div>&nbsp</div>
-                                                        <label>Person in Charge</label>
-                                                        <select name="personInCharge" id="sel0" class="form-control select2">                                                                                    
-                                                            <option value="11445955">Delaware</option>
-                                                            <option value="11445955">Florida</option>
-                                                            <option value="11445955">Georgia</option>
-                                                            <option value="11445955">Indiana</option>
-                                                            <option value="11445955">Maine</option>
-                                                            <option value="11445955">Maryland</option>
-                                                            <option value="11445955">Massachusetts</option>
-                                                            <option value="11445955">Michigan</option>
-                                                            <option value="11445955">New Hampshire</option>
-                                                            <option value="11445955">New Jersey</option>
-                                                            <option value="11445955">New York</option>
-                                                            <option value="11445955">North Carolina</option>
-                                                            <option value="11445955">Ohio</option>
-                                                            <option value="11445955">Pennsylvania</option>
-                                                            <option value="11445955">Rhode Island</option>
-                                                            <option value="11445955">South Carolina</option>
-                                                            <option value="11445955">Vermont</option>
-                                                            <option value="11445955">Virginia</option>
-                                                            <option value="11445955">West Virginia</option>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label>Activity</label>
+                                                            <input name="activity" id="act0"  type="text" class="form-control">
+                                                            <div>&nbsp</div>
+                                                            <label>Description</label>
+                                                            <textarea name="description" id="desc0" class="form-control" rows="2" ></textarea>
+                                                            <div>&nbsp</div>
+                                                            <label>Person in Charge</label>
+                                                            <select name="personInCharge" id="sel0" class="form-control select2">                                                                                    
+                                                                <option value="11445955">Delaware</option>
+                                                                <option value="11445955">Florida</option>
+                                                                <option value="11445955">Georgia</option>
+                                                               
 
-                                                        </select>
-                                                        <div>&nbsp</div>
-                                                        <div class=" form-group text-center">
-
+                                                            </select>
+                                                            <div>&nbsp</div>
+                                                           
+                                                        </div>
+                                                    <div class=" form-group text-center">
                                                          <button type="button" id="insert-button" class="btn btn-success">Insert </button>
 
                                                      </div>
                                                     </div>
                                                  <!--/span-->
-                                                     <div class="col-md-8 " id="clone-table" style="padding-top: 30px">
-                                                        <table id="program-tables" class="table program color-bordered-table success-bordered-table" >
-                                                            <thead>
-                                                                <tr>
+                                                     <div class="col-md-12 " id="clone-table" style="padding-top: 30px">
+                                                        <div class=" table-reponsive"  style="overflow-x:auto;">
+                                                            <table id="program-tables" class=" table program color-bordered-table success-bordered-table" >
+                                                                <thead>
+                                                                    <tr>
 
-                                                                    <th width="21%" >Time</th>
-                                                                    <th width="10%">Duration</th>
-                                                                    <th width="20%">Activity</th>
-                                                                    <th width="21%">Description</th>
-                                                                    <th width="23%">Person in Charge</th>
-                                                                    <th width="5%" data-field="state" data-checkbox="true"></th>
+                                                                        <th width="21%" >Time</th>
+                                                                       <!--  <th width="10%">Duration</th> -->
+                                                                        <th width="20%">Activity</th>
+                                                                        <th width="21%">Description</th>
+                                                                        <th width="23%">Person in Charge</th>
+                                                                        <th width="5%" data-field="state" data-checkbox="true"></th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr class="no-records-found">
+                                                                        <td ></td>
+                                                                       <!--  <td></td> -->
+                                                                        <td></td>
+                                                                        <td></td>
+                                                                        <td></td>
+                                                                        <td></td>
+                                                                    </tr>
+                                                                <!-- 
+                                                                <tr>
+                                                                    <td></td>
+                                                                    <td>09:00 - 12:00</td>
+                                                                    <td>Deshmukh</td>
+                                                                    <td>Prohaska</td>
+                                                                    <td>@Genelia</td>
+                                                                    <td>@Sonu</td>
                                                                 </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr class="no-records-found">
-                                                                    <td ></td>
+                                                                <tr>
                                                                     <td></td>
-                                                                    <td></td>
-                                                                    <td></td>
-                                                                    <td></td>
-                                                                    <td></td>
-                                                                </tr>
-                                                            <!-- 
-                                                            <tr>
-                                                                <td></td>
-                                                                <td>09:00 - 12:00</td>
-                                                                <td>Deshmukh</td>
-                                                                <td>Prohaska</td>
-                                                                <td>@Genelia</td>
-                                                                <td>@Sonu</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td></td>
-                                                               <td>09:00 - 12:00</td>
-                                                                <td>Roshan</td>
-                                                                <td>Rogahn</td>
-                                                                <td>@Hritik</td>
-                                                                <td>@Sonu</td>
-                                                            </tr> -->
-                                                            </tbody>
-                                                        </table>
+                                                                   <td>09:00 - 12:00</td>
+                                                                    <td>Roshan</td>
+                                                                    <td>Rogahn</td>
+                                                                    <td>@Hritik</td>
+                                                                    <td>@Sonu</td>
+                                                                </tr> -->
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
                                                     </div>
                                             <!--/span-->
                                                 </div>
@@ -657,7 +654,7 @@
             var trow = " <tr date='"+dateInp+"' start='"+startInp+"' end='"+endInp+"'>"+
 
                       "<td  style='color:#2b2b2b'>"+startInp+" - "+endInp+"</td>"+
-                      "<td style='color:#2b2b2b'>Roshan</td>"+
+                      // "<td style='color:#2b2b2b'>Roshan</td>"+
                       "<td style='color:#2b2b2b'>"+actInp+"</td>"+
                       "<td style='color:#2b2b2b'>"+descInp+"</td>"+
                       "<td style='color:#2b2b2b'>"+selInp+"</td>"+
@@ -665,7 +662,7 @@
                       "</tr>";
             var ttd=
              "<td date='"+dateInp+"' start='"+startInp+"' end='"+endInp+"'  style='color:#2b2b2b'>"+startInp+" - "+endInp+"</td>"+
-              "<td style='color:#2b2b2b'>Roshan</td>"+
+              // "<td style='color:#2b2b2b'>Roshan</td>"+
               "<td style='color:#2b2b2b'>"+actInp+"</td>"+
               "<td style='color:#2b2b2b'>"+descInp+"</td>"+
               "<td style='color:#2b2b2b'>"+selInp+"</td>"+
@@ -712,9 +709,9 @@
         var tni = 
 
 
-        '<div class="col-md-4" style="padding: 25px;position: relative;  ">'+               
+        '<div class="col-md-12" style="padding: 25px;position: relative;  ">'+               
         '<input style="height:0px; top:-1000px; position:absolute;display: none" type="text" value="">'+
-        '<label>Date</label>'+
+        '  <div class="col-md-6"><label>Date</label>'+
         '<div class="input-group">'+
         '<input readonly="" class="form-control" id="datepicker-autoclose'+ctr+'" placeholder="mm/dd/yyyy" type="text">'+
         '<span class="input-group-addon"><i class="icon-calender"></i></span>'+
@@ -726,8 +723,8 @@
         '<span class=" input-group-addon bg-info b-0 text-white">to</span>'+
         '<input type="text" id="end-time'+ctr+'" class="form-control" value="00:00" readonly="">'+
         '</div>'+
-        '<div>&nbsp</div>'+
-        '<label>Activity</label>'+
+        '<div>&nbsp</div></div>'+
+        '  <div class="col-md-6"><label>Activity</label>'+
         '<input type="text" class="form-control" id="act'+ctr+'">'+
         '<div>&nbsp</div>'+
         '<label>Description</label>'+
@@ -738,7 +735,7 @@
         '<option value="11445955">Delaware</option>'                    +
 
         '</select>'+
-        '<div>&nbsp</div>'+
+        '<div>&nbsp</div></div>'+
         '<div class=" form-group text-center">'+
 
         '<button type="button" id="insert-button'+ctr+'" class="btn btn-success">Insert </button>'+
@@ -746,7 +743,7 @@
         '</div>'+
         '</div>'+
 
-        '<div class="col-md-8 " style="padding-top: 30px">'+
+        '<div class="col-md-12 " style="padding-top: 30px">'+
         '<table id="program-tables'+ctr+'" class="table program color-bordered-table success-bordered-table"  >'+
         '<thead>'+
         '<tr>'+
@@ -854,7 +851,7 @@
           var trow = " <tr date='"+dateInp+"' start='"+startInp+"' end='"+endInp+"'>"+
 
             "<td  style='color:#2b2b2b'>"+startInp+" - "+endInp+"</td>"+
-            "<td style='color:#2b2b2b'>Roshan</td>"+
+            // "<td style='color:#2b2b2b'>Roshan</td>"+
             "<td style='color:#2b2b2b'>"+actInp+"</td>"+
             "<td style='color:#2b2b2b'>"+descInp+"</td>"+
             "<td style='color:#2b2b2b'>"+selInp+"</td>"+
@@ -862,7 +859,7 @@
             "</tr>";
             var ttd=
             "<td date='"+dateInp+"' start='"+startInp+"' end='"+endInp+"'  style='color:#2b2b2b'>"+startInp+" - "+endInp+"</td>"+
-            "<td style='color:#2b2b2b'>Roshan</td>"+
+            // "<td style='color:#2b2b2b'>Roshan</td>"+
             "<td style='color:#2b2b2b'>"+actInp+"</td>"+
             "<td style='color:#2b2b2b'>"+descInp+"</td>"+
             "<td style='color:#2b2b2b'>"+selInp+"</td>"+
