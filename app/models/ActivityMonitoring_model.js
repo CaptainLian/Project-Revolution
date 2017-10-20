@@ -5,7 +5,7 @@ module.exports = function(database, queryFiles){
 
 	const insertAMTActivityEvaluationSQL = queryFiles.insertAMTActivityEvaluation;
 	
-	ActivityMonitoringModel.insertAMTActivityEvaluation = function(param, connection = this._db) {
+	ActivityMonitoringModel.insertAMTActivityEvaluation = function(param, connection = database) {
         
         return connection.none(insertAMTActivityEvaluationSQL, param);
     };
