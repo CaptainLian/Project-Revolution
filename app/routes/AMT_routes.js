@@ -7,5 +7,7 @@ module.exports = function(app , controllers){
 
 	router.get(`${base}/EvaluateActivity`, controllers.AMT_controller.viewActivityEvaluation);
 
+	router.post(`${base}/EvaluateActivity`, controllers.AMT_controller.submitActivityEvaluation);
+
 	return router; 
 };
