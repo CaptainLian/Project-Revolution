@@ -4,6 +4,14 @@ DROP EXTENSION IF EXISTS "pgcrypto" CASCADE;
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
+CREATE OR REPLACE FUNCTION trigger_auto_reject()
+RETURNS trigger AS
+$trigger$
+    BEGIN
+        RETURN OLD;
+    END;
+$trigger$ LANGUAGE plpgsql;
+
 DROP TABLE IF EXISTS AccountType CASCADE;
 CREATE TABLE AccountType (
     id SMALLINT,
@@ -84,13 +92,26 @@ BEFORE UPDATE ON Account
 
 DROP TABLE IF EXISTS SchoolYear CASCADE;
 CREATE TABLE SchoolYear (
-    id SERIAL UNIQUE,
+    id INTEGER UNIQUE,
     startYear INTEGER,
     endYear INTEGER,
 
     PRIMARY KEY (startYear, endYear),
     CONSTRAINT start_end_year_value CHECK(startYear < endYear)
 );
+CREATE OR REPLACE FUNCTION trigger_before_insert_SchoolYear()
+RETURNS trigger AS
+$trigger$
+    BEGIN
+        NEW.id := (NEW.startYear*10000) + NEW.endYear;
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER before_insert_SchoolYear
+    BEFORE INSERT ON SchoolYear
+    FOR EACH ROW
+    EXECUTE PROCEDURE trigger_before_insert_SchoolYear();
+
 DROP TABLE IF EXISTS Term CASCADE;
 CREATE TABLE Term (
     id SERIAL UNIQUE,
@@ -104,10 +125,23 @@ CREATE TABLE Term (
     CONSTRAINT number_max_value CHECK(number <= 3),
     CONSTRAINT date_start_end_value CHECK (dateStart <= dateEnd)
 );
+CREATE OR REPLACE FUNCTION trigger_before_insert_Term()
+RETURNS trigger AS
+$trigger$
+    BEGIN
+        NEW.id := (NEW.schoolYearID*10) + NEW.number;
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER before_insert_Term
+    BEFORE INSERT ON Term
+    FOR EACH ROW
+    EXECUTE PROCEDURE trigger_before_insert_Term();
+
 /* REFERENCE TABLES DATA */
 /* 2015 - 2016 */
-INSERT INTO SchoolYear(id, startYear, endYear)
-               VALUES (1, 2015, 2016);
+INSERT INTO SchoolYear(startYear, endYear)
+               VALUES (2015, 2016);
 INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
           VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2015 AND endYear = 2016), 1, '2015-08-24', '2015-12-08');
 INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
@@ -141,7 +175,23 @@ CREATE TABLE College (
 
     PRIMARY KEY (shortAcronym)
 );
-
+INSERT INTO College (shortAcronym, fullAcronym, name)
+             VALUES ('CED', 'BAGCED', 'Br. Andrew Gonzalez FSC College of Education');
+INSERT INTO College (shortAcronym, fullAcronym, name)
+             VALUES ('CCS', NULL, 'College of Computer Studies');
+INSERT INTO College (shortAcronym, fullAcronym, name)
+             VALUES ('COL', NULL, 'College of Law');
+INSERT INTO College (shortAcronym, fullAcronym, name)
+             VALUES ('CLA', NULL, 'College of Liberal Arts');
+INSERT INTO College (shortAcronym, fullAcronym, name)
+             VALUES ('COS', null, 'College of Science');
+INSERT INTO College (shortAcronym, fullAcronym, name)
+             VALUES ('COE', 'GCOE', 'Gokongwei College of Engineering');
+INSERT INTO College (shortAcronym, fullAcronym, name)
+             VALUES ('COB', 'RVRCOB', 'Ramon V. del Rosario College of Business');
+INSERT INTO College (shortAcronym, fullAcronym, name)
+             VALUES ('SOE', null, 'School of Economics');
+             
 DROP TABLE IF EXISTS ActivityType CASCADE;
 CREATE TABLE ActivityType (
     id SMALLINT,
@@ -247,9 +297,9 @@ CREATE TABLE OrganizationNature (
 );
 INSERT INTO OrganizationNature (id, name, acronym)
                          VALUES (1, 'Special Interest', 'SPIN'),
-                             (2, 'Professional Organization', 'PROF'),
-                             (3, 'Socio-civic and Religious', 'SCORE'),
-                             (4, 'Professional Organization Group', 'PROG');
+                                (2, 'Professional Organization', 'PROF'),
+                                (3, 'Socio-civic and Religious', 'SCORE'),
+                                (4, 'Professional Organization Group', 'PROG');
 
 DROP TABLE IF EXISTS OrganizationCluster CASCADE;
 CREATE TABLE OrganizationCluster (
@@ -266,16 +316,6 @@ INSERT INTO OrganizationCluster (id, name, acronym)
                                 (4, 'Engineering Alliance Geared Towards Excellence', 'ENGAGE'),
                                 (5, 'Alliance of Professional Organizations of Business and Economics', 'PROBE');
 
-DROP TABLE IF EXISTS OrganizationStatus CASCADE;
-CREATE TABLE OrganizationStatus (
-  id SMALLINT,
-  name VARCHAR(45) NOT NULL,
-
-  PRIMARY KEY (id)
-);
-INSERT INTO OrganizationStatus (id, name)
-                        VALUES ( 0, 'Active'),
-                               ( 1, 'Dissolved');
 DROP TABLE IF EXISTS StudentOrganization CASCADE;
 CREATE TABLE StudentOrganization (
     id SERIAL,
@@ -283,7 +323,6 @@ CREATE TABLE StudentOrganization (
     cluster SMALLINT REFERENCES OrganizationCluster(id),
     nature SMALLINT REFERENCES OrganizationNature(id),
     college CHAR(3) REFERENCES College(shortAcronym),
-    status SMALLINT NOT NULL DEFAULT 0 REFERENCES OrganizationStatus (id),
     acronym VARCHAR(20) UNIQUE,
     description TEXT,
     funds NUMERIC(16, 4) DEFAULT 0.0,
@@ -291,6 +330,27 @@ CREATE TABLE StudentOrganization (
 
     PRIMARY KEY (id)
 );
+CREATE OR REPLACE FUNCTION trigger_before_insert_StudentOrganization()
+RETURNS trigger AS
+$trigger$
+    DECLARE
+      newSequence INTEGER;
+    BEGIN
+        IF NEW.nature IS NOT NULL THEN
+          NEW.id = NEW.nature*1000;
+        END IF;
+
+        SELECT COALESCE(MAX(id/1000) + 1, 1) INTO newSequence
+          FROM StudentOrganization;
+
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER before_insert_StudentOrganization
+    BEFORE INSERT ON StudentOrganization
+    FOR EACH ROW
+    EXECUTE PROCEDURE trigger_before_insert_StudentOrganization();
+
 INSERT INTO StudentOrganization (id, acronym, name, description)
                          VALUES (0, 'CSO', 'Council of Student Organizations', NULL); 
     /* Organization Structure */
@@ -687,6 +747,24 @@ CREATE TABLE GOSM (
 
     PRIMARY KEY (termID, studentOrganization)
 );
+CREATE OR REPLACE FUNCTION trigger_before_insert_GOSM()
+RETURNS trigger AS
+$trigger$
+    DECLARE 
+      newSequence INTEGER;
+    BEGIN
+        NEW.id := NEW.studentOrganization*100000;
+        SELECT COALESCE(MAX(id/100000) + 1, 1) INTO newSequence
+          FROM GOSM;
+        NEW.id := NEW.id + newSequence;
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER before_insert_GGOSM
+    BEFORE INSERT ON GOSM
+    FOR EACH ROW
+    EXECUTE PROCEDURE trigger_before_insert_GOSM();
+
 CREATE OR REPLACE FUNCTION trigger_before_update_GOSM()
 RETURNS trigger AS
 $trigger$

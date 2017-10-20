@@ -2,23 +2,6 @@ ROLLBACK;
 
 START TRANSACTION;
 
-INSERT INTO College (shortAcronym, fullAcronym, name)
-             VALUES ('CED', 'BAGCED', 'Br. Andrew Gonzalez FSC College of Education');
-INSERT INTO College (shortAcronym, fullAcronym, name)
-             VALUES ('CCS', NULL, 'College of Computer Studies');
-INSERT INTO College (shortAcronym, fullAcronym, name)
-             VALUES ('COL', NULL, 'College of Law');
-INSERT INTO College (shortAcronym, fullAcronym, name)
-             VALUES ('CLA', NULL, 'College of Liberal Arts');
-INSERT INTO College (shortAcronym, fullAcronym, name)
-             VALUES ('COS', null, 'College of Science');
-INSERT INTO College (shortAcronym, fullAcronym, name)
-             VALUES ('COE', 'GCOE', 'Gokongwei College of Engineering');
-INSERT INTO College (shortAcronym, fullAcronym, name)
-             VALUES ('COB', 'RVRCOB', 'Ramon V. del Rosario College of Business');
-INSERT INTO College (shortAcronym, fullAcronym, name)
-             VALUES ('SOE', null, 'School of Economics');
-
 /* Organization Data */
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
                  VALUES (1, 'Chemsoc', 'Chemistry Society', 1, NULL);
@@ -139,11 +122,11 @@ INSERT INTO GOSM (termID, studentOrganization)
                      WHERE CURRENT_DATE BETWEEN dateStart AND dateEnd), 2 );
 UPDATE GOSM
    SET status = 2
- WHERE id = 1;
+ WHERE id = 200001;
 
 
 INSERT INTO GOSMActivity (gosm, goals, objectives, strategies, description, measures, targetDateStart, targetDateEnd, ActivityNature, ActivityType, isRelatedToOrganizationNature, budget)
-                    VALUES (1, 'Goal Mo to', '{"Objectives", "Mo", "To"}', 'Strategies Mo to', 'Descibe kita', 'Measure mo to :)', '2017-9-6', '2017-9-6', 1, 2, false, 999.99);
+                    VALUES (200001, 'Goal Mo to', '{"Objectives", "Mo", "To"}', 'Strategies Mo to', 'Descibe kita', 'Measure mo to :)', '2017-9-6', '2017-9-6', 1, 2, false, 999.99);
 
 INSERT INTO ProjectProposal (GOSMActivity, ENP, ENMP, venue, context, sourceFundOther, sourceFundParticipantFee, sourceFundOrganizational, accumulatedOperationalFunds, accumulatedDepositoryFunds, comments)
                      VALUES (1, 1, 1, 'Venue ito', 'Context kita', 69.69, 69.69, 69.69, 69.69, 69.69, 'Comments ko toh');
