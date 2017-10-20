@@ -1,5 +1,5 @@
 //const dateFormat = require('dateformat');
 
-module.exports = function(database, models, queryFiles){
+module.exports = function(configuration, modules, models, database, queryFiles){
 	return {};
 };

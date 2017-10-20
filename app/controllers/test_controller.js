@@ -1,5 +1,5 @@
 'use strict';
-module.exports = function(database, models, queryFiles){
+module.exports = function(configuration, modules, models, database, queryFiles){
 	let testController = Object.create(null);
 
 	testController.test = (req, res) => {
@@ -7,9 +7,9 @@ module.exports = function(database, models, queryFiles){
 		.then(data => {
 			return res.send(data);
 		}).catch(err => {
-			console.log(err);
+			return console.log(err);
 		});
 	};
-	
+
 	return testController;
 };

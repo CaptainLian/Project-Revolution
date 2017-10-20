@@ -1,8 +1,6 @@
 'use strict';
 
-module.exports = function(app , controllers){
-	const express = require('express');
-	const router = express.Router();
+module.exports = function(configuration, modules, router, controllers){
 	const base = '/Organization';
 
 	router.get(`${base}/home`, controllers.Organization_controller.viewHome);
@@ -10,7 +8,4 @@ module.exports = function(app , controllers){
 	router.get('/viewProject', controllers.Organization_controller.viewProject);
 	router.get(`${base}/createGOSM`, controllers.Organization_controller.viewCreateGOSM);
 	router.get(`${base}/activityRequirements`, controllers.Organization_controller.createActivityRequirements);
-	
-	
-	return router; 
 };

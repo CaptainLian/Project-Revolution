@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+
 /**
 * Setup of logger
 */
@@ -15,6 +16,7 @@ const formatter = function(options){
     case 'warning':
       colour =  '\x1b[43m';
       break;
+    case 'warning':
     case 'warn':
       colour =  '\x1b[43m';
       break;
@@ -64,37 +66,36 @@ const logger = new (winston.Logger)({
   }
 });
 
-global.logger = logger;
 /**
  * Loading of configuration is done here
  */
 console.log('Loading Server Configuration');
-const config = require('../config.json');
-global.config = {};
-
-for (var key in config){
-  console.log(`\tAdding global.config.key: ${key}`);
-  var object = config[key];
-  global.config[key] = {};
-  for(var oKey in object){
-    global.config[key][oKey] = object[oKey];
-  }
-}
+const configuration = Object.create(null);
+(() => {
+    const pre_config = require('./config.js');
+    for (const key in pre_config){
+      console.log(`\tAdding global.config.key: ${key}`);
+      var object = pre_config[key];
+      configuration[key] = Object.create(null);
+      for(const oKey in object){
+        configuration[key][oKey] = object[oKey];
+      }
+    }
+})();
 console.log('Server Configuration Loaded\n');
 
 /**
  * Module dependencies.
  */
 
-var app = require('../app');
-var debug = require('debug')('myapp:server');
+const app = require('./application')(configuration, logger);
 var http = require('http');
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(process.env.PORT || configuration.webserver.port);
 app.set('port', port);
 
 /**
@@ -168,5 +169,4 @@ function onListening() {
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-  debug('Listening on ' + bind);
 }
