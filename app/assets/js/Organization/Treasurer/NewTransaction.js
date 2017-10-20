@@ -119,3 +119,25 @@ jQuery(document).ready(function($) {
         });
     })();
 });
+
+(function() {
+    [].slice.call(document.querySelectorAll('.sttabs')).forEach(function(el) {
+        new CBPFWTabs(el);
+    });
+})();
+
+jQuery(document).ready(function() {
+
+    // For select 2
+
+    $(".select2").select2();
+    $('.selectpicker').selectpicker();
+
+});
+
+
+$('#mainTable').editableTableWidget().numericInputExample().find('td:first').focus();
+$('#DPPATable').editableTableWidget().numericInputExample().find('td:first').focus();
+
+$('.dropify').dropify();
+
