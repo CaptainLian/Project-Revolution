@@ -417,7 +417,12 @@
 
     <!-- TABLE MODAL -->
     <script>
-    
+        $('body').on('mouseenter', '.tableContent', function () {
+            if ($(this).attr('data-toggle') != 'tooltip')
+            {
+                 $('[data-toggle="tooltip"]').tooltip();
+            }
+        });
     
         $(document).ready(function(){
             // IMPORTANT
@@ -502,7 +507,7 @@
                         
                 //     }
                 // });
-                table.row($(this).parent('tr')).remove().draw();
+                table.row($(this).closest('tr')).remove().draw();
 
                 var actions  =      '<a activity-id="1" href="#" data-toggle="tooltip" data-title="Evaluate Activity"> '+
                                         '<i  class="fa  fa-clipboard m-r-10 text-inverse "></i> '+
