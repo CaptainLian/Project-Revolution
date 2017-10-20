@@ -5,7 +5,7 @@ log_options.from = 'GOSM-Model';
 
 const squel = require('squel').useFlavour('postgres');
 
-module.exports = function(db, queryFiles) {
+module.exports = function(configuration, modules, db, queryFiles) {
     const insertProposedActivitySQL = queryFiles.insertProposedActivity;
     const insertActivityProjectHeadSQL = queryFiles.insertActivityProjectHead;
     const getSchoolYearSQL = queryFiles.getSchoolYear;
@@ -23,6 +23,7 @@ module.exports = function(db, queryFiles) {
     const dbHelper = require('../utility/databaseHelper');
     const attachFields = dbHelper.attachFields;
 
+    const logger = modules.logger;
     return {
         getAllActivityTypes: function(fields, connection = db) {
             let query = squel.select()
@@ -30,7 +31,7 @@ module.exports = function(db, queryFiles) {
             attachFields(query, fields);
 
             query = query.toString();
-            global.logger.debug(`Executing query: ${query}`, log_options);
+             logger.debug(`Executing query: ${query}`, log_options);
             return connection.many(query);
         }, //getAllActivityTypes()
 
@@ -40,7 +41,7 @@ module.exports = function(db, queryFiles) {
             attachFields(query, fields);
 
             query = query.toString();
-            global.logger.debug(`Executing query: ${query}`, log_options);
+             logger.debug(`Executing query: ${query}`, log_options);
             return connection.many(query);
         },
 
@@ -64,7 +65,7 @@ module.exports = function(db, queryFiles) {
             param.GOSMID = GOSMID;
 
             query = query.toString();
-            global.logger.debug(`Executing query: ${query}`, log_options);
+             logger.debug(`Executing query: ${query}`, log_options);
             return connection.any(query, param);
         },
 
@@ -122,10 +123,10 @@ module.exports = function(db, queryFiles) {
 
             attachFields(query, fields);
             query = query.toString();
-            global.logger.debug(`Executing query: ${query}`, log_options);
+             logger.debug(`Executing query: ${query}`, log_options);
 
-            /* 
-                let param = { 
+            /*
+                let param = {
                     GOSMID: GOSMID
                 };
             */
@@ -150,7 +151,7 @@ module.exports = function(db, queryFiles) {
             attachFields(query, fields);
 
             query = query.toString();
-            global.logger.debug(`Executing query: ${query}`, log_options);
+             logger.debug(`Executing query: ${query}`, log_options);
 
             /*
                 let param = {
@@ -163,7 +164,7 @@ module.exports = function(db, queryFiles) {
         },
 
         /**
-            
+
         */
         getActivityProjectHeads: function(id, fields, connection = db) {
             let query = squel.select()
@@ -173,7 +174,7 @@ module.exports = function(db, queryFiles) {
             attachFields(query, fields);
 
             query = query.toString();
-            global.logger.debug(`Executing query: ${query}`, log_options);
+             logger.debug(`Executing query: ${query}`, log_options);
             /*
                 let param = {
                     activityID: id
@@ -209,7 +210,7 @@ module.exports = function(db, queryFiles) {
             }
 
             query = query.toString();
-            global.logger.debug(`Executing query: ${query} with parameters ${JSON.stringify(param)}`, log_options);
+             logger.debug(`Executing query: ${query} with parameters ${JSON.stringify(param)}`, log_options);
             return connection.none(query, param);
         },
 
@@ -222,7 +223,7 @@ module.exports = function(db, queryFiles) {
                 .where('id = ${id}');
 
             query = query.toString();
-            global.logger.debug(`Executing query: ${query}`, log_options);
+             logger.debug(`Executing query: ${query}`, log_options);
 
             /*
                 let param = {
@@ -243,8 +244,8 @@ module.exports = function(db, queryFiles) {
             attachFields(query, fields);
 
             query = query.toString();
-            global.logger.debug(`Executing query: ${query}`, log_options);
-            
+             logger.debug(`Executing query: ${query}`, log_options);
+
             /*
                 let param = {
                     id: id

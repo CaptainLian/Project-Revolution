@@ -2,14 +2,14 @@
 
 class SystemModel {
 
-	constructor(database, squel){
+	constructor(database, logger, squel){
 		//PROPERTY database
 		/**
 		 * The default database connection to be used
 		 * @type {pg-connection}
 		 */
 		this._database = database;
-		
+
 		/**
 		 * The query builder to be used
 		 * Defaults to require('squel').useFlavour('postgres')
@@ -36,12 +36,13 @@ class SystemModel {
 		 */
 		this._log_options = Object.create(null);
 		this._log_options.from = 'SystemModel';
+		this._logger = logger;
 	}
 
 	/**
 	 * Retrieves the current database term
-	 * 
-	 * @param  {[String, Array] (Optional)} fields The fields to be used for the select statement 
+	 *
+	 * @param  {[String, Array] (Optional)} fields The fields to be used for the select statement
 	 * @param  {[pg-database, pg-connection, pg-task] (Optional)} connection to database
 	 * @return {Promise} oneOrNone results
 	 */
@@ -53,7 +54,7 @@ class SystemModel {
 		this._attachFields(query, fields);
 
 		query = query.toString();
-		global.logger.debug(`Executing query: ${query}`, this._log_options);
+		this._logger.debug(`Executing query: ${query}`, this._log_options);
 
 		return connection.oneOrNone(query);
 	}
@@ -62,8 +63,8 @@ class SystemModel {
 	 * Retrieves the current database term with year joined
 	 * Joins 2 tables Term (t) And SchoolYear (sy)
 	 * The tables joined determines which field must be prefixed with the aliases to retrieve that information
-	 * 
-	 * @param  {[String, Array] (Optional)} fields The fields to be used for the select statement 
+	 *
+	 * @param  {[String, Array] (Optional)} fields The fields to be used for the select statement
 	 * @param  {[pg-database, pg-connection, pg-task] (Optional)} connection
 	 * @return {pg-promise} oneOrNone results
 	 */
@@ -75,7 +76,7 @@ class SystemModel {
 		this._attachFields(query, fields);
 
 		query = query.toString();
-		global.logger(`Executing query: ${query}`, this._log_options);
+		this._logger.debug(`Executing query: ${query}`, this._log_options);
 
 		return connection.oneOrNone(query);
 	}
@@ -86,6 +87,6 @@ class SystemModel {
  * @param  {Array[QueryFiles] queryFiles [description]
  * @return SystemModel            [description]
  */
-module.exports = function(database, queryFiles){
-	return new SystemModel(database);
+module.exports = function(configuration, modules, database, queryFiles){
+	return new SystemModel(database, modules.logger);
 };

@@ -4,6 +4,14 @@ DROP EXTENSION IF EXISTS "pgcrypto" CASCADE;
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
+CREATE OR REPLACE FUNCTION trigger_auto_reject()
+RETURNS trigger AS
+$trigger$
+    BEGIN
+        RETURN OLD;
+    END;
+$trigger$ LANGUAGE plpgsql;
+
 DROP TABLE IF EXISTS AccountType CASCADE;
 CREATE TABLE AccountType (
     id SMALLINT,
@@ -84,13 +92,26 @@ BEFORE UPDATE ON Account
 
 DROP TABLE IF EXISTS SchoolYear CASCADE;
 CREATE TABLE SchoolYear (
-    id SERIAL UNIQUE,
+    id INTEGER UNIQUE,
     startYear INTEGER,
     endYear INTEGER,
 
     PRIMARY KEY (startYear, endYear),
     CONSTRAINT start_end_year_value CHECK(startYear < endYear)
 );
+CREATE OR REPLACE FUNCTION trigger_before_insert_SchoolYear()
+RETURNS trigger AS
+$trigger$
+    BEGIN
+        NEW.id := (NEW.startYear*10000) + NEW.endYear;
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER before_insert_SchoolYear
+    BEFORE INSERT ON SchoolYear
+    FOR EACH ROW
+    EXECUTE PROCEDURE trigger_before_insert_SchoolYear();
+
 DROP TABLE IF EXISTS Term CASCADE;
 CREATE TABLE Term (
     id SERIAL UNIQUE,
@@ -99,12 +120,52 @@ CREATE TABLE Term (
     dateStart DATE NOT NULL,
     dateEnd DATE NOT NULL,
 
-
     PRIMARY KEY (schoolYearID, number),
     CONSTRAINT number_min_value CHECK(number >= 1),
     CONSTRAINT number_max_value CHECK(number <= 3),
     CONSTRAINT date_start_end_value CHECK (dateStart <= dateEnd)
 );
+CREATE OR REPLACE FUNCTION trigger_before_insert_Term()
+RETURNS trigger AS
+$trigger$
+    BEGIN
+        NEW.id := (NEW.schoolYearID*10) + NEW.number;
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER before_insert_Term
+    BEFORE INSERT ON Term
+    FOR EACH ROW
+    EXECUTE PROCEDURE trigger_before_insert_Term();
+
+/* REFERENCE TABLES DATA */
+/* 2015 - 2016 */
+INSERT INTO SchoolYear(startYear, endYear)
+               VALUES (2015, 2016);
+INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
+          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2015 AND endYear = 2016), 1, '2015-08-24', '2015-12-08');
+INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
+          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2015 AND endYear = 2016), 2, '2016-01-06', '2016-04-16');
+INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
+          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2015 AND endYear = 2016), 3, '2016-05-23', '2016-08-27');
+/* 2016 - 2017 */
+INSERT INTO SchoolYear(id, startYear, endYear)
+               VALUES (2, 2016, 2017);
+INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
+          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2016 AND endYear = 2017), 1, '2016-09-12', '2016-12-17');
+INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
+          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2016 AND endYear = 2017), 2, '2016-01-04', '2016-04-11');
+INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
+          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2016 AND endYear = 2017), 3, '2017-05-15', '2017-08-19');
+/* 2017 - 2018 */
+INSERT INTO SchoolYear(id, startYear, endYear)
+               VALUES (3, 2017, 2018);
+INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
+          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2017 AND endYear = 2018), 1, '2017-09-11', '2017-12-16');
+INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
+          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2017 AND endYear = 2018), 2, '2018-01-08', '2018-04-21');
+INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
+          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2017 AND endYear = 2018), 3, '2018-05-24', '2018-08-28');
 
 DROP TABLE IF EXISTS College CASCADE;
 CREATE TABLE College (
@@ -114,7 +175,23 @@ CREATE TABLE College (
 
     PRIMARY KEY (shortAcronym)
 );
-
+INSERT INTO College (shortAcronym, fullAcronym, name)
+             VALUES ('CED', 'BAGCED', 'Br. Andrew Gonzalez FSC College of Education');
+INSERT INTO College (shortAcronym, fullAcronym, name)
+             VALUES ('CCS', NULL, 'College of Computer Studies');
+INSERT INTO College (shortAcronym, fullAcronym, name)
+             VALUES ('COL', NULL, 'College of Law');
+INSERT INTO College (shortAcronym, fullAcronym, name)
+             VALUES ('CLA', NULL, 'College of Liberal Arts');
+INSERT INTO College (shortAcronym, fullAcronym, name)
+             VALUES ('COS', null, 'College of Science');
+INSERT INTO College (shortAcronym, fullAcronym, name)
+             VALUES ('COE', 'GCOE', 'Gokongwei College of Engineering');
+INSERT INTO College (shortAcronym, fullAcronym, name)
+             VALUES ('COB', 'RVRCOB', 'Ramon V. del Rosario College of Business');
+INSERT INTO College (shortAcronym, fullAcronym, name)
+             VALUES ('SOE', null, 'School of Economics');
+             
 DROP TABLE IF EXISTS ActivityType CASCADE;
 CREATE TABLE ActivityType (
     id SMALLINT,
@@ -219,10 +296,10 @@ CREATE TABLE OrganizationNature (
     PRIMARY KEY(id)
 );
 INSERT INTO OrganizationNature (id, name, acronym)
-                      VALUES (1, 'Special Interest', 'SPIN'),
-                             (2, 'Professional Organization', 'PROF'),
-                             (3, 'Socio-civic and Religious', 'SCORE'),
-                             (4, 'Professional Organization Group', 'PROG');
+                         VALUES (1, 'Special Interest', 'SPIN'),
+                                (2, 'Professional Organization', 'PROF'),
+                                (3, 'Socio-civic and Religious', 'SCORE'),
+                                (4, 'Professional Organization Group', 'PROG');
 
 DROP TABLE IF EXISTS OrganizationCluster CASCADE;
 CREATE TABLE OrganizationCluster (
@@ -239,16 +316,6 @@ INSERT INTO OrganizationCluster (id, name, acronym)
                                 (4, 'Engineering Alliance Geared Towards Excellence', 'ENGAGE'),
                                 (5, 'Alliance of Professional Organizations of Business and Economics', 'PROBE');
 
-DROP TABLE IF EXISTS OrganizationStatus CASCADE;
-CREATE TABLE OrganizationStatus (
-  id SMALLINT,
-  name VARCHAR(45) NOT NULL,
-
-  PRIMARY KEY (id)
-);
-INSERT INTO OrganizationStatus (id, name)
-                        VALUES ( 0, 'Active'),
-                               ( 1, 'Dissolved');
 DROP TABLE IF EXISTS StudentOrganization CASCADE;
 CREATE TABLE StudentOrganization (
     id SERIAL,
@@ -256,7 +323,6 @@ CREATE TABLE StudentOrganization (
     cluster SMALLINT REFERENCES OrganizationCluster(id),
     nature SMALLINT REFERENCES OrganizationNature(id),
     college CHAR(3) REFERENCES College(shortAcronym),
-    status SMALLINT NOT NULL DEFAULT 0 REFERENCES OrganizationStatus (id),
     acronym VARCHAR(20) UNIQUE,
     description TEXT,
     funds NUMERIC(16, 4) DEFAULT 0.0,
@@ -264,6 +330,27 @@ CREATE TABLE StudentOrganization (
 
     PRIMARY KEY (id)
 );
+CREATE OR REPLACE FUNCTION trigger_before_insert_StudentOrganization()
+RETURNS trigger AS
+$trigger$
+    DECLARE
+      newSequence INTEGER;
+    BEGIN
+        IF NEW.nature IS NOT NULL THEN
+          NEW.id = NEW.nature*1000;
+        END IF;
+
+        SELECT COALESCE(MAX(id/1000) + 1, 1) INTO newSequence
+          FROM StudentOrganization;
+
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER before_insert_StudentOrganization
+    BEFORE INSERT ON StudentOrganization
+    FOR EACH ROW
+    EXECUTE PROCEDURE trigger_before_insert_StudentOrganization();
+
 INSERT INTO StudentOrganization (id, acronym, name, description)
                          VALUES (0, 'CSO', 'Council of Student Organizations', NULL); 
     /* Organization Structure */
@@ -376,18 +463,22 @@ $trigger$
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
                              VALUES (NEW.id, 'President', TRUE, NULL) 
         RETURNING id INTO presidentRoleID;
+
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
                              VALUES (NEW.id, 'Executive Secretariat', TRUE, presidentRoleID) 
         RETURNING id INTO executiveSecretariatRoleID;
+
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
                              VALUES (NEW.id, 'External Executive Vice President', TRUE, presidentRoleID);
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
                              VALUES (NEW.id, 'Internal Executive Vice President', TRUE, presidentRoleID) 
         RETURNING id INTO ievpRoleID;
+
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
-                             VALUES (NEW.id, 'Vice President of Documentations', TRUE, executiveSecretariatRoleID);
+                             VALUES (NEW.id, 'Vice President of Documentations', TRUE, executiveSecretariatRoleID);    
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
                              VALUES (NEW.id, 'Associate Vice President of Documentations', FALSE, executiveSecretariatRoleID);
+        
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
                              VALUES (NEW.id, 'Vice President of Finance', TRUE, ievpRoleID);
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
@@ -549,7 +640,7 @@ CREATE TABLE OrganizationAccessControl (
 );
 INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                VALUES -- Assign Evaluator for Publicity Material
-                                      (  18,             22,     TRUE),
+                                      (  18,            22,      TRUE),
                                       -- Evaluate Publicity Material
                                       (  15,            10,      TRUE),
                                       (  16,            10,      TRUE),
@@ -559,41 +650,70 @@ INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       (  20,            28,      TRUE),
                                       -- View Organization Members
                                       (  21,            18,      TRUE),
-                                      (  22,            18,      TRUE);
-                                      -- 
-                                      /*
-                                      (  20,            10,      TRUE),
-                                      (  20,            10,      TRUE),
-                                      (  21,            10,      TRUE),
-                                      (  21,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      (  16,            10,      TRUE);
-                                      */
+                                      (  22,            18,      TRUE),
+                                      -- Survey Results
+                                      (  21,            20,      TRUE),
+                                      (  22,            20,      TRUE),
+                                      -- Activity Research Form
+                                      (  21,            21,      TRUE),
+                                      (  22,            21,      TRUE),
+                                      -- Evaluate During-Activity
+                                      (  11,            25,      TRUE),
+                                      (  22,            25,      TRUE),
+                                      (  23,            25,      TRUE),
+                                      -- View Activities to be Evaluated
+                                      (   9,            24,      TRUE),
+                                      (  10,            24,      TRUE),
+                                      (  11,            24,      TRUE),
+                                      -- Set Organization Treasury Funds
+                                      (   6,            14,      TRUE),
+                                      -- Evaluate Project Proposal 
+                                      (  12,            13,      TRUE),
+                                      (  13,            13,      TRUE),
+                                      (  14,            13,      TRUE),
+                                      -- View Organization Structure
+                                      (   1,            19,      TRUE),
+                                      (   2,            19,      TRUE),
+                                      (   3,            19,      TRUE),
+                                      (   4,            19,      TRUE),
+                                      (   5,            19,      TRUE),
+                                      (   6,            19,      TRUE),
+                                      (   7,            19,      TRUE),
+                                      (   8,            19,      TRUE),
+                                      (   9,            19,      TRUE),
+                                      (  10,            19,      TRUE),
+                                      (  11,            19,      TRUE),
+                                      (  12,            19,      TRUE),
+                                      (  13,            19,      TRUE),
+                                      (  14,            19,      TRUE),
+                                      (  15,            19,      TRUE),
+                                      (  16,            19,      TRUE),
+                                      (  17,            19,      TRUE),
+                                      (  18,            19,      TRUE),
+                                      (  19,            19,      TRUE),
+                                      (  20,            19,      TRUE),
+                                      (  21,            19,      TRUE),
+                                      (  22,            19,      TRUE),
+                                      (  23,            19,      TRUE),
+                                      -- View Financial Documents
+                                      (  12,            16,      TRUE),
+                                      (  13,            16,      TRUE),
+                                      (  14,            16,      TRUE),
+                                      (   5,            16,      TRUE),
+                                      (  15,            16,      TRUE),
+                                      (  16,            16,      TRUE),
+                                      (  17,            16,      TRUE),
+                                      (   6,            16,      TRUE),
+                                      (   7,            16,      TRUE),
+                                      (   8,            16,      TRUE),
+                                      -- View Financial Documents Log
+                                      (  15,            17,      TRUE),
+                                      -- Evaluate GOSM Activity
+                                      (   1,            12,      TRUE),
+                                      (   2,            12,      TRUE),
+                                      (   3,            12,      TRUE),
+                                      (   4,            12,      TRUE),
+                                      (   5,            12,      TRUE);
 	/* Access Control end */
 	
 -- FORMS
@@ -605,7 +725,6 @@ CREATE TABLE GOSMStatus (
 
     PRIMARY KEY (id)
 );
-/* Data */
 INSERT INTO GOSMStatus (id, name)
                 VALUES (1, 'Created'),
                        (2, 'Initial Submission'),
@@ -628,6 +747,24 @@ CREATE TABLE GOSM (
 
     PRIMARY KEY (termID, studentOrganization)
 );
+CREATE OR REPLACE FUNCTION trigger_before_insert_GOSM()
+RETURNS trigger AS
+$trigger$
+    DECLARE 
+      newSequence INTEGER;
+    BEGIN
+        NEW.id := NEW.studentOrganization*100000;
+        SELECT COALESCE(MAX(id/100000) + 1, 1) INTO newSequence
+          FROM GOSM;
+        NEW.id := NEW.id + newSequence;
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER before_insert_GGOSM
+    BEFORE INSERT ON GOSM
+    FOR EACH ROW
+    EXECUTE PROCEDURE trigger_before_insert_GOSM();
+
 CREATE OR REPLACE FUNCTION trigger_before_update_GOSM()
 RETURNS trigger AS
 $trigger$
@@ -1019,30 +1156,12 @@ $function$
     DECLARE
         yearID INTEGER;
     BEGIN
-        SELECT id INTO yearID
-        FROM SchoolYear
-        WHERE id = (SELECT id 
-                      FROM Term
-                     WHERE CURRENT_DATE >= dateStart
-                       AND CURRENT_DATE <= dateEnd);
+        SELECT schoolYearID INTO yearID
+          FROM Term
+         WHERE CURRENT_DATE >= dateStart
+           AND CURRENT_DATE <= dateEnd;
 
-        RETURN termID;
-    END;
-$function$ STABLE LANGUAGE plpgsql;
-
-CREATE OR REPLACE FUNCTION getAccountRoles(idNumber INTEGER)  
-RETURNS INTEGER AS 
-$function$
-    DECLARE
-        accountType SMALLINT;
-    BEGIN
-        SELECT type INTO accountType
-          FROM Account a
-         WHERE a.idNumber = idNumber;
-
-         CASE accountType
-          WHEN 1 THEN 
-         END CASE ;
+        RETURN yearID;
     END;
 $function$ STABLE LANGUAGE plpgsql;
 

@@ -1,13 +1,12 @@
 'use strict';
 
-const logger = global.logger;
 
 const log_options = Object.create(null);
 log_options.from = 'ProjectProposal-Model';
 
 const squel = require('squel').useFlavour('postgres');
 
-module.exports = function(db, queryFiles) {
+module.exports = function(configuration, modules, db, queryFiles) {
 
     const insertProjectProposalSQL = queryFiles.insertProjectProposal;
     const insertProjectProposalProgramDesignSQL = queryFiles.insertProjectProposalProgramDesign;
@@ -16,6 +15,7 @@ module.exports = function(db, queryFiles) {
     const getProjectProposalsPerStatusSQL = queryFiles.getProjectProposalsCountPerStatus;
     const getPPRProjectedCostSQL = queryFiles.getPPRProjectedCost;
 
+    const logger =  modules.logger;
     /**
      * class with properties
      * {
@@ -38,7 +38,7 @@ module.exports = function(db, queryFiles) {
     * ActivityType at
     * ActivityNature an
     * studentOrganization so
-    *  
+    *
     * @method  getActivityProjectProposalDetails
     * @param   {Integer}                                     id            [description]
     * @param   {[String, Array] (Optional)}                  fields        [description]
@@ -60,14 +60,14 @@ module.exports = function(db, queryFiles) {
                     .field('GOSMActivity')
                     .from('PPR')))
 
-            .with('student_organization', 
+            .with('student_organization',
                 squel.select()
                 .from('StudentOrganization', 'o')
-                .where('o.id = ?', 
+                .where('o.id = ?',
                     squel.select()
                     .from('GOSM', 'g')
                     .field('studentOrganization')
-                    .where('g.id = ?', 
+                    .where('g.id = ?',
                         squel.select()
                         .from('gosm_activity', 'ga')
                         .field('GOSM'))))
@@ -88,9 +88,9 @@ module.exports = function(db, queryFiles) {
         return connection.oneOrNone(query, param);
     };
 
-    /*  
+    /*
         Merges the tables
-        ProjectProposal = pp 
+        ProjectProposal = pp
         GOSMActivity = ga
     */
    /**
@@ -164,10 +164,10 @@ module.exports = function(db, queryFiles) {
         this._attachFields(query, fields);
 
         query = query.toString();
-        
+
         /**
-         * conts param = { 
-         *     id: id    
+         * conts param = {
+         *     id: id
          * }
          * @variable param
          * @type {Object}
@@ -213,7 +213,7 @@ module.exports = function(db, queryFiles) {
     };
 
     ProjectProposalModel.prototype.insertProjectProposalDesign = function(param, connection = this._db) {
-        //TODO: test 
+        //TODO: test
         return connection.none(insertProjectProposalProgramDesignSQL, param);
     };
 
@@ -226,7 +226,7 @@ module.exports = function(db, queryFiles) {
         //TODO: test
         return connection.none(insertProjectProposalExpensesSQL, param);
     };
-    
+
     ProjectProposalModel.prototype.getProjectProposalsCountPerStatus = function(gosm, status, connection = this._db) {
 
         /**
@@ -243,7 +243,7 @@ module.exports = function(db, queryFiles) {
 
         return connection.one(getProjectProposalsPerStatusSQL, param);
     };
-    
+
     ProjectProposalModel.prototype.getProjectProposalProjectHeads = function(id, fields, connection = this._db){
         /**
          * const param = {
@@ -254,7 +254,7 @@ module.exports = function(db, queryFiles) {
          */
         let param = Object.create(null);
         param.id = id;
-        
+
         return connection.any(queryFiles.getProjectProposalProjectHeads, param);
     };
 

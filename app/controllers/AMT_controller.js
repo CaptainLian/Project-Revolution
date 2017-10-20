@@ -1,5 +1,5 @@
 'use strict';
-module.exports = function(database, models, queryFiles){
+module.exports = function(configuration, modules, models, database, queryFiles){
 	let AMTController = Object.create(null);
 
 	const amtModel = models.ActivityMonitoring_model;
