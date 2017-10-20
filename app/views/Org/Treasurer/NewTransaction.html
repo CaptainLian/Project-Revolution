@@ -33,8 +33,9 @@
     {{- tag.style('/css/colors/blue.css')}}
 
     <!-- FormValidation -->
-    {{- tag.style('/plugins/bower_components/jquery-wizard-master/libs/formvalidation/formValidation.min.css')}}
+    
     {{- tag.style('/css/custom.css')}}
+    {{- tag.style('/plugins/bower_components/jquery-wizard-master/libs/formvalidation/formValidation.min.css')}}
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -49,7 +50,7 @@
 
     <!-- jQuery -->
     {{- tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
-    <!-- Bootstrap Core JavaScript -->
+    <!-- Bootstrap Core JavaScript -->/jquery-wizard-master/dist/jquery-wizard.min.js
     {{- tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
     {{- tag.javascript('/bootstrap/dist/js/bootstrap-3.3.7.min.js', true)}}
     {{- tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
@@ -77,12 +78,12 @@
 
     <!-- FormValidation plugin and the class supports validating Bootstrap form -->
     {{- tag.javascript('/plugins/bower_components/jquery-wizard-master/libs/formvalidation/formValidation.min.js', true)}}
-    {{- tag.javascript('/plugins/bower_components/jquery-wizard-master/libs/formvalidation/bootstrap.min.js', true)}}>
+    {{- tag.javascript('/plugins/bower_components/jquery-wizard-master/libs/formvalidation/bootstrap.min.js', true)}}
     <!-- Editable -->
     {{- tag.javascript('/plugins/bower_components/jquery-datatables-editable/jquery.dataTables.js', true)}}
     {{- tag.javascript('/plugins/bower_components/datatables/dataTables.bootstrap.js', true)}}
     {{- tag.javascript('/plugins/bower_components/tiny-editable/mindmup-editabletable.js', true)}}
-    {{- tag.javascript('/plugins/bower_components/tiny-editable/numeric-input-example.js', true)}}>
+    {{- tag.javascript('/plugins/bower_components/tiny-editable/numeric-input-example.js', true)}}
     <!-- jQuery file upload -->
     {{- tag.javascript('/plugins/bower_components/dropify/dist/js/dropify.min.js', true)}}
     <!-- Page Scripts -->
