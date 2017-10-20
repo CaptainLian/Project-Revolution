@@ -6,5 +6,9 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		return res.render('Org/Treasurer/NewTransaction');
 	};
 
+    TreasurerController.newTransactionOthers = (req, res) => {
+		return res.render('Org/Treasurer/NewTransactionOthers');
+	};
+    
 	return TreasurerController;
 };
