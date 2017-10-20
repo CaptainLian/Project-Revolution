@@ -70,6 +70,8 @@
 {%endblock%}
 
 {%block content%}
+<form action="/AMT/EvaluateActivity" method="POST">
+<input type="hidden" name="_csrf" value="{{csrfToken}}">
 <div class="row">
 	<div class="sttabs tabs-style-linebox">
 		<nav>
@@ -88,15 +90,15 @@
 						<label class="control-label col-md-3" style="color:#2b2b2b"> Venue</label>
 						<div class="col-md-9">
 							<div class=" col-md-12 radio radio-info">
-								<input name="radio" id="v-1" value="option1" type="radio">
+								<input name="venue" id="v-1" value="1" type="radio">
 								<label for="v-1" style="font-weight: 300"><strong>1</strong> - Inappropriate for the activity, too big/small for attendees</label>
 							</div>
 							<div class=" col-md-12 radio radio-info">
-								<input name="radio" id="v-2" value="option1" type="radio">
+								<input name="venue" id="v-2" value="3" type="radio">
 								<label for="v-2" style="font-weight: 300"><strong>3</strong> - Appropriate for ANP, but ANP has exceeded/lacking for ENP</label>
 							</div>
 							<div class=" col-md-12 radio radio-info">
-								<input name="radio" id="v-3" value="option1" type="radio">
+								<input name="venue" id="v-3" value="5" type="radio">
 								<label for="v-3" style="font-weight: 300"><strong>5</strong> -Appropriate for the activity, and all attendees were accomodated</label>
 							</div>
 						</div>
@@ -105,16 +107,16 @@
 						<label class="control-label col-md-3" style="color:#2b2b2b"> Equipment</label>
 						<div class="col-md-9">
 							<div class=" col-md-12 radio radio-info">
-								<input name="radio" id="v-1" value="option1" type="radio">
-								<label for="v-1" style="font-weight: 300"><strong>1</strong> - Equipment were not functioning/present</label>
+								<input name="equipment" id="e-1" value="1" type="radio">
+								<label for="e-1" style="font-weight: 300"><strong>1</strong> - Equipment were not functioning/present</label>
 							</div>
 							<div class=" col-md-12 radio radio-info">
-								<input name="radio" id="v-2" value="option1" type="radio">
-								<label for="v-2" style="font-weight: 300"><strong>3</strong> - Equipment were present but faulty</label>
+								<input name="equipment" id="e-2" value="3" type="radio">
+								<label for="e-2" style="font-weight: 300"><strong>3</strong> - Equipment were present but faulty</label>
 							</div>
 							<div class=" col-md-12 radio radio-info">
-								<input name="radio" id="v-3" value="option1" type="radio">
-								<label for="v-3" style="font-weight: 300"><strong>5</strong> - Equipment were present and well-functioning</label>
+								<input name="equipment" id="e-3" value="5" type="radio">
+								<label for="e-3" style="font-weight: 300"><strong>5</strong> - Equipment were present and well-functioning</label>
 							</div>
 						</div>
 					</div>
@@ -122,16 +124,16 @@
 						<label class="control-label col-md-3" style="color:#2b2b2b"> Materials</label>
 						<div class="col-md-9">
 							<div class=" col-md-12 radio radio-info">
-								<input name="radio" id="v-1" value="option1" type="radio">
-								<label for="v-1" style="font-weight: 300"><strong>1</strong> - Materials were not present</label>
+								<input name="material" id="m-1" value="1" type="radio">
+								<label for="m-1" style="font-weight: 300"><strong>1</strong> - Materials were not present</label>
 							</div>
 							<div class=" col-md-12 radio radio-info">
-								<input name="radio" id="v-2" value="option1" type="radio">
-								<label for="v-2" style="font-weight: 300"><strong>3</strong> - Materials were unprepared, and lacking</label>
+								<input name="material" id="m-2" value="3" type="radio">
+								<label for="m-2" style="font-weight: 300"><strong>3</strong> - Materials were unprepared, and lacking</label>
 							</div>
 							<div class=" col-md-12 radio radio-info">
-								<input name="radio" id="v-3" value="option1" type="radio">
-								<label for="v-3" style="font-weight: 300"><strong>5</strong> - Materials were well-prepared on time, and functioning</label>
+								<input name="material" id="m-3" value="5" type="radio">
+								<label for="m-3" style="font-weight: 300"><strong>5</strong> - Materials were well-prepared on time, and functioning</label>
 							</div>
 						</div>
 					</div>
@@ -139,72 +141,31 @@
 						<label class="control-label col-md-3" style="color:#2b2b2b"> Registration</label>
 						<div class="col-md-9">
 							<div class=" col-md-12 radio radio-info">
-								<input name="radio" id="v-1" value="option1" type="radio">
-								<label for="v-1" style="font-weight: 300"><strong>1</strong> - The registration process was poorly done</label>
+								<input name="registration" id="r-1" value="1" type="radio">
+								<label for="r-1" style="font-weight: 300"><strong>1</strong> - The registration process was poorly done</label>
 							</div>
 							<div class=" col-md-12 radio radio-info">
-								<input name="radio" id="v-2" value="option1" type="radio">
-								<label for="v-2" style="font-weight: 300"><strong>3</strong> - The registration process was smooth, and did not cause delay to the event</label>
+								<input name="registration" id="r-2" value="3" type="radio">
+								<label for="r-2" style="font-weight: 300"><strong>3</strong> - The registration process was smooth, and did not cause delay to the event</label>
 							</div>
 							
 						</div>
 					</div>
+					
 					<div class="form-group">
-						<label class="control-label col-md-3" style="color:#2b2b2b"> Time Start</label>
+						<label class="control-label col-md-3" style="color:#2b2b2b"> Activity Execution 1</label>
 						<div class="col-md-9">
 							<div class=" col-md-12 radio radio-info">
-								<input name="radio" id="v-1" value="option1" type="radio">
-								<label for="v-1" style="font-weight: 300"><strong>1</strong> - 20 minutes onwards</label>
+								<input name="activityExecution" id="ae-1" value="1" type="radio">
+								<label for="ae-1" style="font-weight: 300"><strong>1</strong> - Equipment were not functioning/present</label>
 							</div>
 							<div class=" col-md-12 radio radio-info">
-								<input name="radio" id="v-1" value="option1" type="radio">
-								<label for="v-1" style="font-weight: 300"><strong>3</strong> - 15 minutes late</label>
+								<input name="activityExecution" id="ae-2" value="3" type="radio">
+								<label for="ae-2" style="font-weight: 300"><strong>3</strong> - Equipment were present but faulty</label>
 							</div>
 							<div class=" col-md-12 radio radio-info">
-								<input name="radio" id="v-1" value="option1" type="radio">
-								<label for="v-1" style="font-weight: 300"><strong>3</strong> - 10 minutes late</label>
-							</div>
-							<div class=" col-md-12 radio radio-info">
-								<input name="radio" id="v-2" value="option1" type="radio">
-								<label for="v-2" style="font-weight: 300"><strong>4</strong> - 5 minutes late</label>
-							</div>
-							<div class=" col-md-12 radio radio-info">
-								<input name="radio" id="v-3" value="option1" type="radio">
-								<label for="v-3" style="font-weight: 300"><strong>5</strong> - Early, or at least on time</label>
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-md-3" style="color:#2b2b2b"> Time End</label>
-						<div class="col-md-9">
-							<div class=" col-md-12 radio radio-info">
-								<input name="radio" id="v-1" value="option1" type="radio">
-								<label for="v-1" style="font-weight: 300"><strong>1</strong> - Equipment were not functioning/present</label>
-							</div>
-							<div class=" col-md-12 radio radio-info">
-								<input name="radio" id="v-2" value="option1" type="radio">
-								<label for="v-2" style="font-weight: 300"><strong>3</strong> - Equipment were present but faulty</label>
-							</div>
-							<div class=" col-md-12 radio radio-info">
-								<input name="radio" id="v-3" value="option1" type="radio">
-								<label for="v-3" style="font-weight: 300"><strong>5</strong> - Equipment were present and well-functioning</label>
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-md-3" style="color:#2b2b2b"> Equipment</label>
-						<div class="col-md-9">
-							<div class=" col-md-12 radio radio-info">
-								<input name="radio" id="v-1" value="option1" type="radio">
-								<label for="v-1" style="font-weight: 300"><strong>1</strong> - Equipment were not functioning/present</label>
-							</div>
-							<div class=" col-md-12 radio radio-info">
-								<input name="radio" id="v-2" value="option1" type="radio">
-								<label for="v-2" style="font-weight: 300"><strong>3</strong> - Equipment were present but faulty</label>
-							</div>
-							<div class=" col-md-12 radio radio-info">
-								<input name="radio" id="v-3" value="option1" type="radio">
-								<label for="v-3" style="font-weight: 300"><strong>5</strong> - Equipment were present and well-functioning</label>
+								<input name="activityExecution" id="ae-3" value="5" type="radio">
+								<label for="ae-3" style="font-weight: 300"><strong>5</strong> - Equipment were present and well-functioning</label>
 							</div>
 						</div>
 					</div>
@@ -212,108 +173,111 @@
 						<label class="control-label col-md-3" style="color:#2b2b2b"> Host/s</label>
 						<div class="col-md-9">
 							<div class=" col-md-12 radio radio-info">
-								<input name="radio" id="v-1" value="option1" type="radio">
-								<label for="v-1" style="font-weight: 300"><strong>1</strong> - Not able to regulate activity flow; Not accomodating to audience; Monotonous and dragging</label>
+								<input name="host" id="h-1" value="1" type="radio">
+								<label for="h-1" style="font-weight: 300"><strong>1</strong> - Not able to regulate activity flow; Not accomodating to audience; Monotonous and dragging</label>
 							</div>
 							<div class=" col-md-12 radio radio-info">
-								<input name="radio" id="v-2" value="option1" type="radio">
-								<label for="v-2" style="font-weight: 300"><strong>3</strong> - Slightly able to regulate activity flow; Lacks energy</label>
+								<input name="host" id="h-2" value="3" type="radio">
+								<label for="h-2" style="font-weight: 300"><strong>3</strong> - Slightly able to regulate activity flow; Lacks energy</label>
 							</div>
 							<div class=" col-md-12 radio radio-info">
-								<input name="radio" id="v-3" value="option1" type="radio">
-								<label for="v-3" style="font-weight: 300"><strong>5</strong> - Able to regulate flow; Able to address the audience and questions; Lively</label>
+								<input name="host" id="h-3" value="5" type="radio">
+								<label for="h-3" style="font-weight: 300"><strong>5</strong> - Able to regulate flow; Able to address the audience and questions; Lively</label>
 							</div>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-md-3" style="color:#2b2b2b"> Equipment</label>
+						<label class="control-label col-md-3" style="color:#2b2b2b"> Activity Execution 2</label>
 						<div class="col-md-9">
 							<div class=" col-md-12 radio radio-info">
-								<input name="radio" id="v-1" value="option1" type="radio">
-								<label for="v-1" style="font-weight: 300"><strong>1</strong> - Equipment were not functioning/present</label>
+								<input name="activityExecution2" id="aex-1" value="1" type="radio">
+								<label for="aex-1" style="font-weight: 300"><strong>1</strong> - Equipment were not functioning/present</label>
 							</div>
 							<div class=" col-md-12 radio radio-info">
-								<input name="radio" id="v-2" value="option1" type="radio">
-								<label for="v-2" style="font-weight: 300"><strong>3</strong> - Equipment were present but faulty</label>
+								<input name="activityExecution2" id="aex-2" value="3" type="radio">
+								<label for="aex-2" style="font-weight: 300"><strong>3</strong> - Equipment were present but faulty</label>
 							</div>
 							<div class=" col-md-12 radio radio-info">
-								<input name="radio" id="v-3" value="option1" type="radio">
-								<label for="v-3" style="font-weight: 300"><strong>5</strong> - Equipment were present and well-functioning</label>
+								<input name="activityExecution2" id="aex-3" value="5" type="radio">
+								<label for="aex-3" style="font-weight: 300"><strong>5</strong> - Equipment were present and well-functioning</label>
 							</div>
 						</div>
 					</div>
+					
+					<div class="form-group">
+						<label class="control-label col-md-3" style="color:#2b2b2b"> Facilitators/ Ushers</label>
+						<div class="col-md-9">
+							<div class=" col-md-12 radio radio-info">
+								<input name="facilitators" id="f-1" value="1" type="radio">
+								<label for="f-1" style="font-weight: 300"><strong>1</strong> - No visual aids nor any form of presentation used</label>
+							</div>
+							<div class=" col-md-12 radio radio-info">
+								<input name="facilitators" id="f-2" value="2" type="radio">
+								<label for="f-2" style="font-weight: 300"><strong>2</strong> - Visual aids were poorly used; information were poor</label>
+							</div>
+							<div class=" col-md-12 radio radio-info">
+								<input name="facilitators" id="f-3" value="3" type="radio">
+								<label for="f-3" style="font-weight: 300"><strong>3</strong> - Visual aids were poorly used; insufficient information, but organized</label>
+							</div>
+							<div class=" col-md-12 radio radio-info">
+								<input name="facilitators" id="f-4" value="4" type="radio">
+								<label for="f-4" style="font-weight: 300"><strong>4</strong> - Visual aids were used; Information were organized</label>
+							</div>
+							<div class=" col-md-12 radio radio-info">
+								<input name="facilitators" id="f-5" value="5" type="radio">
+								<label for="f-5" style="font-weight: 300"><strong>5</strong> - Creative use of presentation and visual aids; Information were well organized</label>
+							</div>
+						</div>
+					</div>
+
 					<div class="form-group">
 						<label class="control-label col-md-3" style="color:#2b2b2b"> Presentation</label>
 						<div class="col-md-9">
 							<div class=" col-md-12 radio radio-info">
-								<input name="radio" id="v-1" value="option1" type="radio">
-								<label for="v-1" style="font-weight: 300"><strong>1</strong> - No visual aids nor any form of presentation used</label>
+								<input name="presentation" id="p-1" value="1" type="radio">
+								<label for="p-1" style="font-weight: 300"><strong>1</strong> - No visual aids nor any form of presentation used</label>
 							</div>
 							<div class=" col-md-12 radio radio-info">
-								<input name="radio" id="v-1" value="option1" type="radio">
-								<label for="v-1" style="font-weight: 300"><strong>2</strong> - Visual aids were poorly used; information were poor</label>
+								<input name="presentation" id="p-2" value="2" type="radio">
+								<label for="p-2" style="font-weight: 300"><strong>2</strong> - Visual aids were poorly used; information were poor</label>
 							</div>
 							<div class=" col-md-12 radio radio-info">
-								<input name="radio" id="v-2" value="option1" type="radio">
-								<label for="v-2" style="font-weight: 300"><strong>3</strong> - Visual aids were poorly used; insufficient information, but organized</label>
+								<input name="presentation" id="p-3" value="3" type="radio">
+								<label for="p-3" style="font-weight: 300"><strong>3</strong> - Visual aids were poorly used; insufficient information, but organized</label>
 							</div>
 							<div class=" col-md-12 radio radio-info">
-								<input name="radio" id="v-1" value="option1" type="radio">
-								<label for="v-1" style="font-weight: 300"><strong>4</strong> - Visual aids were used; Information were organized</label>
+								<input name="presentation" id="p-4" value="4" type="radio">
+								<label for="p-4" style="font-weight: 300"><strong>4</strong> - Visual aids were used; Information were organized</label>
 							</div>
 							<div class=" col-md-12 radio radio-info">
-								<input name="radio" id="v-3" value="option1" type="radio">
-								<label for="v-3" style="font-weight: 300"><strong>5</strong> - Creative use of presentation and visual aids; Information were well organized</label>
+								<input name="presentation" id="p-5" value="5" type="radio">
+								<label for="p-5" style="font-weight: 300"><strong>5</strong> - Creative use of presentation and visual aids; Information were well organized</label>
 							</div>
 						</div>
 					</div>
-					<div class="form-group">
-						<label class="control-label col-md-3" style="color:#2b2b2b"> Presentation</label>
-						<div class="col-md-9">
-							<div class=" col-md-12 radio radio-info">
-								<input name="radio" id="v-1" value="option1" type="radio">
-								<label for="v-1" style="font-weight: 300"><strong>1</strong> - No visual aids nor any form of presentation used</label>
-							</div>
-							<div class=" col-md-12 radio radio-info">
-								<input name="radio" id="v-1" value="option1" type="radio">
-								<label for="v-1" style="font-weight: 300"><strong>2</strong> - Visual aids were poorly used; information were poor</label>
-							</div>
-							<div class=" col-md-12 radio radio-info">
-								<input name="radio" id="v-2" value="option1" type="radio">
-								<label for="v-2" style="font-weight: 300"><strong>3</strong> - Visual aids were poorly used; insufficient information, but organized</label>
-							</div>
-							<div class=" col-md-12 radio radio-info">
-								<input name="radio" id="v-1" value="option1" type="radio">
-								<label for="v-1" style="font-weight: 300"><strong>4</strong> - Visual aids were used; Information were organized</label>
-							</div>
-							<div class=" col-md-12 radio radio-info">
-								<input name="radio" id="v-3" value="option1" type="radio">
-								<label for="v-3" style="font-weight: 300"><strong>5</strong> - Creative use of presentation and visual aids; Information were well organized</label>
-							</div>
-						</div>
-					</div>
+					
 					<div class="form-group">
 						<label class="control-label col-md-3" style="color:#2b2b2b"> Activities</label>
 						<div class="col-md-9">
 							<div class=" col-md-12 radio radio-info">
-								<input name="radio" id="v-1" value="option1" type="radio">
-								<label for="v-1" style="font-weight: 300"><strong>1</strong> - There were no activities and ice breakers; Poor member interaction</label>
+								<input name="activities" id="a-1" value="1" type="radio">
+								<label for="a-1" style="font-weight: 300"><strong>1</strong> - There were no activities and ice breakers; Poor member interaction</label>
 							</div>
 							<div class=" col-md-12 radio radio-info">
-								<input name="radio" id="v-1" value="option1" type="radio">
-								<label for="v-1" style="font-weight: 300"><strong>2</strong> - Activities and ice breakers were poorly handled; Minimal member interaction</label>
+								<input name="activities" id="a-2" value="2" type="radio">
+								<label for="a-2" style="font-weight: 300"><strong>2</strong> - Activities and ice breakers were poorly handled; Minimal member interaction</label>
 							</div>
 							<div class=" col-md-12 radio radio-info">
-								<input name="radio" id="v-2" value="option1" type="radio">
-								<label for="v-2" style="font-weight: 300"><strong>3</strong> - There was an effort to achieve good ice breakers, but lacking</label>
+								<input name="activities" id="a-3" value="3" type="radio">
+								<label for="a-3" style="font-weight: 300"><strong>3</strong> - There was an effort to achieve good ice breakers, but lacking</label>
 							</div>
 							<div class=" col-md-12 radio radio-info">
-								<input name="radio" id="v-1" value="option1" type="radio">
-								<label for="v-1" style="font-weight: 300"><strong>4</strong> - Activities and ice breakers were present; member participation was ensured</label>
+								<input name="activities" id="a-4" value="4" type="radio">
+								<label for="a-4" style="font-weight: 300"><strong>4</strong> - Activities and ice breakers were present; member participation was ensured</label>
 							</div>
 							<div class=" col-md-12 radio radio-info">
-								<input name="radio" id="v-3" value="option1" type="radio">
-								<label for="v-3" style="font-weight: 300"><strong>5</strong> - Creative means were used to engage members; activities maximized member participation</label>
+								<input name="activities" id="a-5" value="5" type="radio">
+								<label for="a-5" style="font-weight: 300"><strong>5</strong> - Creative means were used to engage members; activities maximized member participation</label>
 							</div>
 						</div>
 					</div>
@@ -321,24 +285,24 @@
 						<label class="control-label col-md-3" style="color:#2b2b2b"> Organization Standing Presentation</label>
 						<div class="col-md-9">
 							<div class=" col-md-12 radio radio-info">
-								<input name="radio" id="v-1" value="option1" type="radio">
-								<label for="v-1" style="font-weight: 300"><strong>1</strong> - There were no overview of plans; no report on organization's standing; nor an open forum</label>
+								<input name="organizationStanding" id="o-1" value="1" type="radio">
+								<label for="o-1" style="font-weight: 300"><strong>1</strong> - There were no overview of plans; no report on organization's standing; nor an open forum</label>
 							</div>
 							<div class=" col-md-12 radio radio-info">
-								<input name="radio" id="v-1" value="option1" type="radio">
-								<label for="v-1" style="font-weight: 300"><strong>2</strong> - The President or his/her representative gave an overview  of the organization's plan but lacking ; no open forum was present </label>
+								<input name="organizationStanding" id="o-2" value="2" type="radio">
+								<label for="o-2" style="font-weight: 300"><strong>2</strong> - The President or his/her representative gave an overview  of the organization's plan but lacking ; no open forum was present </label>
 							</div>
 							<div class=" col-md-12 radio radio-info">
-								<input name="radio" id="v-2" value="option1" type="radio">
-								<label for="v-2" style="font-weight: 300"><strong>3</strong> - The President or his/her representative gave an overview  of the organization's plan; no open forum  was present </label>
+								<input name="organizationStanding" id="o-3" value="3" type="radio">
+								<label for="o-3" style="font-weight: 300"><strong>3</strong> - The President or his/her representative gave an overview  of the organization's plan; no open forum  was present </label>
 							</div>
 							<div class=" col-md-12 radio radio-info">
-								<input name="radio" id="v-1" value="option1" type="radio">
-								<label for="v-1" style="font-weight: 300"><strong>4</strong> -The President or his/her representative  gave an overview of the organization's plans; and the open forum was present</label>
+								<input name="organizationStanding" id="o-4" value="4" type="radio">
+								<label for="o-4" style="font-weight: 300"><strong>4</strong> -The President or his/her representative  gave an overview of the organization's plans; and the open forum was present</label>
 							</div>
 							<div class=" col-md-12 radio radio-info">
-								<input name="radio" id="v-3" value="option1" type="radio">
-								<label for="v-3" style="font-weight: 300"><strong>5</strong> - The President or his/her representative  gave a clear overview of  the organization's plans and directions; Reported  the organization's standing  on the past term; Open forum was interactive and informative</label>
+								<input name="organizationStanding" id="o-5" value="5" type="radio">
+								<label for="o-5" style="font-weight: 300"><strong>5</strong> - The President or his/her representative  gave a clear overview of  the organization's plans and directions; Reported  the organization's standing  on the past term; Open forum was interactive and informative</label>
 							</div>
 						</div>
 					</div>
@@ -386,69 +350,69 @@
 							<label class="control-label col-md-4" style="color:#2b2b2b"> Participant #2</label>
 						</div>
 						<div class="row m-5">
-							<label class="control-label col-md-3" style="color:#2b2b2b"> Early Anouncement</label>
+							<label class="control-label col-md-3" style="color:#2b2b2b"> Early Announcement</label>
 							<div class="offset-md-1 col-md-8  ">
 								<div class="col-md-6 radio-list ">
 									<label class="radio-inline p-0">
 										<div class="radio radio-info">
-											<input name="radio" id="radio1" value="option1" type="radio">
-											<label for="radio1">1</label>
+											<input name="announcement" id="ann-1" value="1" type="radio">
+											<label for="ann-1">1</label>
 										</div>
 									</label>
 									<label class="radio-inline p-0">
 										<div class="radio radio-info">
-											<input name="radio" id="radio1" value="option1" type="radio">
-											<label for="radio1">2</label>
+											<input name="announcement" id="ann-2" value="2" type="radio">
+											<label for="ann-2">2</label>
 										</div>
 									</label>
 									<label class="radio-inline p-0">
 										<div class="radio radio-info">
-											<input name="radio" id="radio1" value="option1" type="radio">
-											<label for="radio1">3</label>
+											<input name="announcement" id="ann-3" value="3" type="radio">
+											<label for="ann-3">3</label>
 										</div>
 									</label>
 									<label class="radio-inline p-0">
 										<div class="radio radio-info">
-											<input name="radio" id="radio1" value="option1" type="radio">
-											<label for="radio1">4</label>
+											<input name="announcement" id="ann-4" value="4" type="radio">
+											<label for="ann-4">4</label>
 										</div>
 									</label>
 									<label class="radio-inline p-0">
 										<div class="radio radio-info">
-											<input name="radio" id="radio1" value="option1" type="radio">
-											<label for="radio1">5</label>
+											<input name="announcement" id="ann-5" value="5" type="radio">
+											<label for="ann-5">5</label>
 										</div>
 									</label>
 								</div>
 								<div class="col-md-6 radio-list ">
 									<label class="radio-inline p-0">
 										<div class="radio radio-info">
-											<input name="radio" id="radio1" value="option1" type="radio">
-											<label for="radio1">1</label>
+											<input name="announcement2" id="ann-6" value="1" type="radio">
+											<label for="ann-6">1</label>
 										</div>
 									</label>
 									<label class="radio-inline p-0">
 										<div class="radio radio-info">
-											<input name="radio" id="radio1" value="option1" type="radio">
-											<label for="radio1">2</label>
+											<input name="announcement2" id="ann-7" value="2" type="radio">
+											<label for="ann-7">2</label>
 										</div>
 									</label>
 									<label class="radio-inline p-0">
 										<div class="radio radio-info">
-											<input name="radio" id="radio1" value="option1" type="radio">
+											<input name="announcement2" id="ann-8" value="3" type="radio">
 											<label for="radio1">3</label>
 										</div>
 									</label>
 									<label class="radio-inline p-0">
 										<div class="radio radio-info">
-											<input name="radio" id="radio1" value="option1" type="radio">
-											<label for="radio1">4</label>
+											<input name="announcement2" id="ann-9" value="4" type="radio">
+											<label for="ann-9">4</label>
 										</div>
 									</label>
 									<label class="radio-inline p-0">
 										<div class="radio radio-info">
-											<input name="radio" id="radio1" value="option1" type="radio">
-											<label for="radio1">5</label>
+											<input name="announcement2" id="ann-10" value="5" type="radio">
+											<label for="ann-10">5</label>
 										</div>
 									</label>
 								</div>
@@ -461,64 +425,64 @@
 								<div class="col-md-6 radio-list ">
 									<label class="radio-inline p-0">
 										<div class="radio radio-info">
-											<input name="radio" id="radio1" value="option1" type="radio">
-											<label for="radio1">1</label>
+											<input name="learnings" id="l-1" value="1" type="radio">
+											<label for="l-1">1</label>
 										</div>
 									</label>
 									<label class="radio-inline p-0">
 										<div class="radio radio-info">
-											<input name="radio" id="radio1" value="option1" type="radio">
-											<label for="radio1">2</label>
+											<input name="learnings" id="l-2" value="2" type="radio">
+											<label for="l-2">2</label>
 										</div>
 									</label>
 									<label class="radio-inline p-0">
 										<div class="radio radio-info">
-											<input name="radio" id="radio1" value="option1" type="radio">
-											<label for="radio1">3</label>
+											<input name="learnings" id="l-3" value="3" type="radio">
+											<label for="l-3">3</label>
 										</div>
 									</label>
 									<label class="radio-inline p-0">
 										<div class="radio radio-info">
-											<input name="radio" id="radio1" value="option1" type="radio">
-											<label for="radio1">4</label>
+											<input name="learnings" id="l-4" value="4" type="radio">
+											<label for="l-4">4</label>
 										</div>
 									</label>
 									<label class="radio-inline p-0">
 										<div class="radio radio-info">
-											<input name="radio" id="radio1" value="option1" type="radio">
-											<label for="radio1">5</label>
+											<input name="learnings" id="l-5" value="5" type="radio">
+											<label for="l-5">5</label>
 										</div>
 									</label>
 								</div>
 								<div class="col-md-6 radio-list ">
 									<label class="radio-inline p-0">
 										<div class="radio radio-info">
-											<input name="radio" id="radio1" value="option1" type="radio">
-											<label for="radio1">1</label>
+											<input name="learnings2" id="l-6" value="1" type="radio">
+											<label for="l-6">1</label>
 										</div>
 									</label>
 									<label class="radio-inline p-0">
 										<div class="radio radio-info">
-											<input name="radio" id="radio1" value="option1" type="radio">
-											<label for="radio1">2</label>
+											<input name="learnings2" id="l-7" value="2" type="radio">
+											<label for="l-7">2</label>
 										</div>
 									</label>
 									<label class="radio-inline p-0">
 										<div class="radio radio-info">
-											<input name="radio" id="radio1" value="option1" type="radio">
-											<label for="radio1">3</label>
+											<input name="learnings2" id="l-8" value="3" type="radio">
+											<label for="l-8">3</label>
 										</div>
 									</label>
 									<label class="radio-inline p-0">
 										<div class="radio radio-info">
-											<input name="radio" id="radio1" value="option1" type="radio">
-											<label for="radio1">4</label>
+											<input name="learnings2" id="l-9" value="4" type="radio">
+											<label for="l-9">4</label>
 										</div>
 									</label>
 									<label class="radio-inline p-0">
 										<div class="radio radio-info">
-											<input name="radio" id="radio1" value="option1" type="radio">
-											<label for="radio1">5</label>
+											<input name="learnings2" id="l-10" value="5" type="radio">
+											<label for="l-10">5</label>
 										</div>
 									</label>
 								</div>
@@ -531,64 +495,64 @@
 								<div class="col-md-6 radio-list ">
 									<label class="radio-inline p-0">
 										<div class="radio radio-info">
-											<input name="radio" id="radio1" value="option1" type="radio">
-											<label for="radio1">1</label>
+											<input name="interest" id="i-1" value="1" type="radio">
+											<label for="i-1">1</label>
 										</div>
 									</label>
 									<label class="radio-inline p-0">
 										<div class="radio radio-info">
-											<input name="radio" id="radio1" value="option1" type="radio">
-											<label for="radio1">2</label>
+											<input name="interest" id="i-2" value="2" type="radio">
+											<label for="i-2">2</label>
 										</div>
 									</label>
 									<label class="radio-inline p-0">
 										<div class="radio radio-info">
-											<input name="radio" id="radio1" value="option1" type="radio">
-											<label for="radio1">3</label>
+											<input name="interest" id="i-3" value="3" type="radio">
+											<label for="i-3">3</label>
 										</div>
 									</label>
 									<label class="radio-inline p-0">
 										<div class="radio radio-info">
-											<input name="radio" id="radio1" value="option1" type="radio">
-											<label for="radio1">4</label>
+											<input name="interest" id="i-4" value="4" type="radio">
+											<label for="i-4">4</label>
 										</div>
 									</label>
 									<label class="radio-inline p-0">
 										<div class="radio radio-info">
-											<input name="radio" id="radio1" value="option1" type="radio">
-											<label for="radio1">5</label>
+											<input name="interest" id="i-5" value="5" type="radio">
+											<label for="i-5">5</label>
 										</div>
 									</label>
 								</div>
 								<div class="col-md-6 radio-list ">
 									<label class="radio-inline p-0">
 										<div class="radio radio-info">
-											<input name="radio" id="radio1" value="option1" type="radio">
-											<label for="radio1">1</label>
+											<input name="interest2" id="i-6" value="1" type="radio">
+											<label for="i-6">1</label>
 										</div>
 									</label>
 									<label class="radio-inline p-0">
 										<div class="radio radio-info">
-											<input name="radio" id="radio1" value="option1" type="radio">
-											<label for="radio1">2</label>
+											<input name="interest2" id="i-7" value="2" type="radio">
+											<label for="i-7">2</label>
 										</div>
 									</label>
 									<label class="radio-inline p-0">
 										<div class="radio radio-info">
-											<input name="radio" id="radio1" value="option1" type="radio">
-											<label for="radio1">3</label>
+											<input name="interest2" id="i-8" value="3" type="radio">
+											<label for="i-8">3</label>
 										</div>
 									</label>
 									<label class="radio-inline p-0">
 										<div class="radio radio-info">
-											<input name="radio" id="radio1" value="option1" type="radio">
-											<label for="radio1">4</label>
+											<input name="interest2" id="i-9" value="4" type="radio">
+											<label for="i-9">4</label>
 										</div>
 									</label>
 									<label class="radio-inline p-0">
 										<div class="radio radio-info">
-											<input name="radio" id="radio1" value="option1" type="radio">
-											<label for="radio1">5</label>
+											<input name="interest2" id="i-10" value="5" type="radio">
+											<label for="i-10">5</label>
 										</div>
 									</label>
 								</div>
@@ -601,64 +565,64 @@
 								<div class="col-md-6 radio-list ">
 									<label class="radio-inline p-0">
 										<div class="radio radio-info">
-											<input name="radio" id="radio1" value="option1" type="radio">
-											<label for="radio1">1</label>
+											<input name="interaction" id="int-1" value="1" type="radio">
+											<label for="int-1">1</label>
 										</div>
 									</label>
 									<label class="radio-inline p-0">
 										<div class="radio radio-info">
-											<input name="radio" id="radio1" value="option1" type="radio">
-											<label for="radio1">2</label>
+											<input name="interaction" id="int-2" value="2" type="radio">
+											<label for="int-2">2</label>
 										</div>
 									</label>
 									<label class="radio-inline p-0">
 										<div class="radio radio-info">
-											<input name="radio" id="radio1" value="option1" type="radio">
-											<label for="radio1">3</label>
+											<input name="interaction" id="int-3" value="3" type="radio">
+											<label for="int-3">3</label>
 										</div>
 									</label>
 									<label class="radio-inline p-0">
 										<div class="radio radio-info">
-											<input name="radio" id="radio1" value="option1" type="radio">
-											<label for="radio1">4</label>
+											<input name="interaction" id="int-4" value="4" type="radio">
+											<label for="int-4">4</label>
 										</div>
 									</label>
 									<label class="radio-inline p-0">
 										<div class="radio radio-info">
-											<input name="radio" id="radio1" value="option1" type="radio">
-											<label for="radio1">5</label>
+											<input name="interaction" id="int-5" value="5" type="radio">
+											<label for="int-5">5</label>
 										</div>
 									</label>
 								</div>
 								<div class="col-md-6 radio-list ">
 									<label class="radio-inline p-0">
 										<div class="radio radio-info">
-											<input name="radio" id="radio1" value="option1" type="radio">
-											<label for="radio1">1</label>
+											<input name="interaction2" id="int-6" value="1" type="radio">
+											<label for="int-6">1</label>
 										</div>
 									</label>
 									<label class="radio-inline p-0">
 										<div class="radio radio-info">
-											<input name="radio" id="radio1" value="option1" type="radio">
-											<label for="radio1">2</label>
+											<input name="interaction2" id="int-7" value="2" type="radio">
+											<label for="int-7">2</label>
 										</div>
 									</label>
 									<label class="radio-inline p-0">
 										<div class="radio radio-info">
-											<input name="radio" id="radio1" value="option1" type="radio">
-											<label for="radio1">3</label>
+											<input name="interaction2" id="int-8" value="3" type="radio">
+											<label for="int-8">3</label>
 										</div>
 									</label>
 									<label class="radio-inline p-0">
 										<div class="radio radio-info">
-											<input name="radio" id="radio1" value="option1" type="radio">
-											<label for="radio1">4</label>
+											<input name="interaction2" id="int-9" value="4" type="radio">
+											<label for="int-9">4</label>
 										</div>
 									</label>
 									<label class="radio-inline p-0">
 										<div class="radio radio-info">
-											<input name="radio" id="radio1" value="option1" type="radio">
-											<label for="radio1">5</label>
+											<input name="interaction2" id="int-10" value="5" type="radio">
+											<label for="int-10">5</label>
 										</div>
 									</label>
 								</div>
@@ -672,15 +636,15 @@
 						<div class="row">
 							<div class="col-md-6 text-center">
 								<label class="col-md-12 m-b-5" style="color:#2b2b2b">Comments</label>
-								<textarea class="col-md-12 m-b-5"></textarea>
-								<textarea class="col-md-12 m-b-5"></textarea>
-								<textarea class="col-md-12 m-b-5"></textarea>
+								<textarea name="comment1" class="col-md-12 m-b-5"></textarea>
+								<textarea name="comment2" class="col-md-12 m-b-5"></textarea>
+								<textarea name="comment3" class="col-md-12 m-b-5"></textarea>
 							</div>
 							<div class="col-md-6 text-center">
 								<label class="col-md-12  m-b-5" style="color:#2b2b2b">Suggestion</label>
-								<textarea class="col-md-12  m-b-5"></textarea>
-								<textarea class="col-md-12  m-b-5"></textarea>
-								<textarea class="col-md-12  m-b-5   "></textarea>
+								<textarea name="suggestion1" class="col-md-12  m-b-5"></textarea>
+								<textarea name="suggestion2" class="col-md-12  m-b-5"></textarea>
+								<textarea name="suggestion3" class="col-md-12  m-b-5"></textarea>
 							</div>
 						</div>
 					</div>
@@ -703,4 +667,5 @@
 	</div>
 </div>
 <!-- /.row -->
+</form>
 {%endblock%}

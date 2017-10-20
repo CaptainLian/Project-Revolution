@@ -6,6 +6,7 @@ module.exports = function(configuration, modules, router, controllers, models, d
 	router.post(`${base}/UpdateGOSM`, controllers.APS_AJAX_controller.updateGOSM);
 	router.post(`${base}/UpdateGOSMActivityComment`, controllers.APS_AJAX_controller.updateGOSMActivityComment);
 	router.post(`${base}/getProjectProposaActivityDetails`, controllers.APS_AJAX_controller.getProjectProposalActivityDetails);
+	router.post(`/APS/ajax/activityChecking`, controllers.APS_AJAX_controller.activityChecking);
 
 	if(configuration.debug.enabled){
 		router.get('/APS/ajax/GetGOSMActivityDetails', controllers.APS_AJAX_controller.getGOSMActivityDetails);
