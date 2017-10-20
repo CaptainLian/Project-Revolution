@@ -1,29 +1,29 @@
 jQuery(document).ready(function($) {
-     $('.transactions').hide();
-	$('#transaction').on('change', function() {
-	    /*
+    $('.transactions').hide();
+    $('#transaction').on('change', function() {
+        /*
 
-	    */
-	    var val = $(this).val();
-	    switch (val) {
-	        case '1'://cash advance
-	           $('.transactions').hide();
-	           $('#CC').show();
-	           console.log(val);
-	            break;
-	        case '2':
-	            $('.transactions').hide();
-	            $('#CP').show();
-	            break;
-	        case '3':
-	            $('.transactions').hide();
-	            $('#PCF').show();
-	            break;
-	        default:
-	            $('.transactions').hide();
-	            break;
-	    }
-	});
+        */
+        var val = $(this).val();
+        switch (val) {
+            case '1': //cash advance
+                $('.transactions').hide();
+                $('#CC').show();
+                console.log(val);
+                break;
+            case '2':
+                $('.transactions').hide();
+                $('#CP').show();
+                break;
+            case '3':
+                $('.transactions').hide();
+                $('#PCF').show();
+                break;
+            default:
+                $('.transactions').hide();
+                break;
+        }
+    });
     //Cancellation of Check
     (function() {
         $('#transactionWizard').wizard({
@@ -36,28 +36,28 @@ jQuery(document).ready(function($) {
                                 notEmpty: {
                                     message: 'The payment requisition number is required'
                                 },
-                                stringLength :{
-                                	min: 6,
+                                stringLength: {
+                                    min: 6,
                                     max: 6,
                                     message: 'The prs number must be 6 digits long'
                                 },
                                 regexp: {
-									regexp:/[0-9]/,
-									message:'The prs number must only contain digits'
+                                    regexp: /[0-9]/,
+                                    message: 'The prs number must only contain digits'
                                 }
                             }
                         },
-                        reason:{
-                        	validators:{
-                        		notEmpty:{
-                        			message:'this field is required.'
-                        		}
-                        	}
+                        reason: {
+                            validators: {
+                                notEmpty: {
+                                    message: 'this field is required.'
+                                }
+                            }
                         },
-                        check:{
-                            validators:{
-                                notEmpty:{
-                                    message:'this field is required.'
+                        check: {
+                            validators: {
+                                notEmpty: {
+                                    message: 'this field is required.'
                                 }
                             }
                         }
@@ -113,36 +113,36 @@ jQuery(document).ready(function($) {
                                 notEmpty: {
                                     message: 'The payment requisition number is required'
                                 },
-                                stringLength :{
+                                stringLength: {
                                     min: 6,
                                     max: 6,
                                     message: 'The prs number must be 6 digits long'
                                 },
                                 regexp: {
-                                    regexp:/[0-9]/,
-                                    message:'The prs number must only contain digits'
+                                    regexp: /[0-9]/,
+                                    message: 'The prs number must only contain digits'
                                 }
                             }
                         },
-                        PRStoRevise:{
-                            validators:{
-                                notEmpty:{
-                                    message:'this field is required.'
+                        PRStoRevise: {
+                            validators: {
+                                notEmpty: {
+                                    message: 'this field is required.'
                                 }
                             }
                         },
-                        CPreason:{
-                            validators:{
-                                notEmpty:{
-                                    message:'this field is required.'
+                        CPreason: {
+                            validators: {
+                                notEmpty: {
+                                    message: 'this field is required.'
                                 }
 
                             }
                         },
-                        payeeName:{
-                            validators:{
-                                notEmpty:{
-                                    message:'this field is required.'
+                        payeeName: {
+                            validators: {
+                                notEmpty: {
+                                    message: 'this field is required.'
                                 }
                             }
                         }
@@ -198,36 +198,36 @@ jQuery(document).ready(function($) {
                                 notEmpty: {
                                     message: 'The payment requisition number is required'
                                 },
-                                stringLength :{
+                                stringLength: {
                                     min: 6,
                                     max: 6,
                                     message: 'The prs number must be 6 digits long'
                                 },
                                 regexp: {
-                                    regexp:/[0-9]/,
-                                    message:'The prs number must only contain digits'
+                                    regexp: /[0-9]/,
+                                    message: 'The prs number must only contain digits'
                                 }
                             }
                         },
-                        PRStoRevise:{
-                            validators:{
-                                notEmpty:{
-                                    message:'this field is required.'
+                        PRStoRevise: {
+                            validators: {
+                                notEmpty: {
+                                    message: 'this field is required.'
                                 }
                             }
                         },
-                        CPreason:{
-                            validators:{
-                                notEmpty:{
-                                    message:'this field is required.'
+                        CPreason: {
+                            validators: {
+                                notEmpty: {
+                                    message: 'this field is required.'
                                 }
 
                             }
                         },
-                        payeeName:{
-                            validators:{
-                                notEmpty:{
-                                    message:'this field is required.'
+                        payeeName: {
+                            validators: {
+                                notEmpty: {
+                                    message: 'this field is required.'
                                 }
                             }
                         }
@@ -280,12 +280,9 @@ jQuery(document).ready(function($) {
 })();
 
 jQuery(document).ready(function() {
-
     // For select 2
-
     $(".select2").select2();
     $('.selectpicker').selectpicker();
-
 });
 
 
