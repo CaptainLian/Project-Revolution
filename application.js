@@ -13,7 +13,8 @@ module.exports = (configuration, logger) => {
     const modules = Object.create(null);
     modules.express = express;
     modules.logger = logger;
-
+    modules.Promise = require('bluebird');
+    
     /**
      * Application components helper modules
      */

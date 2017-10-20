@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = (configuration, mainApplication, express) => {
+module.exports = (configuration, mainApplication, modules) => {
 	let coreWares = [];
 	return coreWares;
 };

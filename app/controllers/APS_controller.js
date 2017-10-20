@@ -125,7 +125,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     'pp.accumulatedoperationalfunds AS accumulatedoperationalfunds',
                     'pp.accumulateddepositoryfunds AS accumulateddepositoryfunds',
                     'pp.organizationfundothersource AS organizationfundothersource'
-                ], task).then(data => {
+                ], task)
+                .then(data => {
                     return task.batch([
                         Promise.resolve(data),
                         projectProposalModel.getProjectProposalExpenses(data.id),

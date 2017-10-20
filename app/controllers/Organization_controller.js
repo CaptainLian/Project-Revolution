@@ -1,4 +1,5 @@
 'use strict';
+var Promise = require('bluebird');
 
 module.exports = function(configuration, modules, models, database, queryFiles) {
 
@@ -313,6 +314,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
              logger.debug('VIEW CREATE GOSM CONTROLLER', log_options);
 
             database.task(task1 => {
+                logger.debug('Starting database task', log_options);
                 return systemModel.getCurrentTerm('id', task1)
                 .then(term => {
                     /**
@@ -323,7 +325,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                      * @variable param
                      * @type {Object}
                      */
-                    let GOSMParam = {};
+                    let GOSMParam = Object.create(null);
                     GOSMParam.termID = term.id;
                     //TODO Replace with session variable
                     GOSMParam.studentOrganization = 1;
@@ -343,6 +345,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         throw err;
                     });
                 }).then(GOSM => {
+                    logger.debug('Starting batch queries', log_options);
                     return task1.batch([
                         gosmModel.getGOSMActivities(GOSM, undefined, task1),
                         gosmModel.getAllActivityTypes(['id', 'name'], task1),
@@ -350,8 +353,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     ]);
                 });
              }).then(data => {
-                 logger.debug(`${JSON.stringify(data)}`, log_options);
-                 logger.debug(`${JSON.stringify(data[2])}`, log_options);
+                logger.debug(`${JSON.stringify(data)}`, log_options);
+                logger.debug(`${JSON.stringify(data[2])}`, log_options);
                 return res.render('Org/GOSM', {
                     activityTypes: data[1],
                     activityNature: data[2],

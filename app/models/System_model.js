@@ -2,7 +2,7 @@
 
 class SystemModel {
 
-	constructor(database, squel){
+	constructor(database, logger, squel){
 		//PROPERTY database
 		/**
 		 * The default database connection to be used
@@ -36,6 +36,7 @@ class SystemModel {
 		 */
 		this._log_options = Object.create(null);
 		this._log_options.from = 'SystemModel';
+		this._logger = logger;
 	}
 
 	/**
@@ -53,7 +54,7 @@ class SystemModel {
 		this._attachFields(query, fields);
 
 		query = query.toString();
-		global.logger.debug(`Executing query: ${query}`, this._log_options);
+		this._logger.debug(`Executing query: ${query}`, this._log_options);
 
 		return connection.oneOrNone(query);
 	}
@@ -75,7 +76,7 @@ class SystemModel {
 		this._attachFields(query, fields);
 
 		query = query.toString();
-		global.logger(`Executing query: ${query}`, this._log_options);
+		this._logger.debug(`Executing query: ${query}`, this._log_options);
 
 		return connection.oneOrNone(query);
 	}
@@ -87,5 +88,5 @@ class SystemModel {
  * @return SystemModel            [description]
  */
 module.exports = function(configuration, modules, database, queryFiles){
-	return new SystemModel(database);
+	return new SystemModel(database, modules.logger);
 };
