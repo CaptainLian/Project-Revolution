@@ -4,9 +4,7 @@
 {%block styles%}
 	<link href="/css/custom.css" rel="stylesheet">
     <style type="text/css">
-      /*  td{
-            word-wrap:break-word
-        }*/
+       /**/
     </style>
 {%endblock%}
 
@@ -89,6 +87,7 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group col-md-12 ">
+                                            
                                                 <label class="control-label col-md-6">Venue</label>
                                                  <select  name="venue" class="select col-md-6" id="venue">
                                                     <option value="11445955">Neil Capistrano</option>
@@ -151,6 +150,7 @@
                                             <div aria-labelledby="tab-0" id="ctab0" class="tab-pane fade active in" role="tabpanel">
                                                  <div class="row">
                                                     <div class="col-md-12" id="clone-question"  style="padding: 25px;position: relative;  ">
+                                                        
                                                         <!-- pangcancel ng auto open datepicker -->
                                                         <input style="height:0px; top:-1000px; position:absolute;display: none" type="text" value="">
                                                         <div class="col-md-6">
@@ -207,7 +207,7 @@
                                                     </div>
                                                  <!--/span-->
                                                      <div class="col-md-12 " id="clone-table" style="padding-top: 30px">
-                                                        <div class=" table-reponsive"  style="overflow-x:auto;">
+                                                        <div class="table-responsive"  style="overflow-x:auto;">
                                                             <table id="program-tables" class=" table program color-bordered-table success-bordered-table" >
                                                                 <thead>
                                                                     <tr>
@@ -225,7 +225,7 @@
                                                                         <td ></td>
                                                                        <!--  <td></td> -->
                                                                         <td></td>
-                                                                        <td></td>
+                                                                        <td class="descri"></td>
                                                                         <td></td>
                                                                         <td></td>
                                                                     </tr>
@@ -548,7 +548,8 @@
 {%block scripts%}
     {%include "../section/ajax/ajaxCSRF.html"%}
 <script type="text/javascript">
-
+    $(".wizard-back").clone().appendTo(".buttons");
+    console.log($(".buttons").html());
     var revenueLess = 0 ;
 
     ctr = 0;
@@ -613,7 +614,7 @@
           var tspace = 
           '<td ></td>'+
           '<td></td>'+
-          '<td></td>'+
+          '<td class="descri"></td>'+
           '<td></td>'+
           '<td></td>'+
           '<td></td>'
@@ -652,7 +653,7 @@
                       "<td  style='color:#2b2b2b'>"+startInp+" - "+endInp+"</td>"+
                       // "<td style='color:#2b2b2b'>Roshan</td>"+
                       "<td style='color:#2b2b2b'>"+actInp+"</td>"+
-                      "<td style='color:#2b2b2b'>"+descInp+"</td>"+
+                      "<td  class='descri' style='color:#2b2b2b'>"+descInp+"</td>"+
                       "<td style='color:#2b2b2b'>"+selInp+"</td>"+
                       '<td ><i class="fa fa-times text-danger  remove-time"></i></td>'+
                       "</tr>";
@@ -660,7 +661,7 @@
              "<td date='"+dateInp+"' start='"+startInp+"' end='"+endInp+"'  style='color:#2b2b2b'>"+startInp+" - "+endInp+"</td>"+
               // "<td style='color:#2b2b2b'>Roshan</td>"+
               "<td style='color:#2b2b2b'>"+actInp+"</td>"+
-              "<td style='color:#2b2b2b'>"+descInp+"</td>"+
+              "<td  class='descri' style='color:#2b2b2b'>"+descInp+"</td>"+
               "<td style='color:#2b2b2b'>"+selInp+"</td>"+
             '<td ><i class="fa fa-times text-danger remove-time"></i></td>';
             console.log("ASD");
@@ -757,7 +758,7 @@
         
         '<td></td>'+
         '<td></td>'+
-        '<td></td>'+
+        '<td class="descri"></td>'+
         '<td></td>'+
         '<td></td>'+
         '</tr>'+
@@ -849,7 +850,7 @@
             "<td  style='color:#2b2b2b'>"+startInp+" - "+endInp+"</td>"+
             // "<td style='color:#2b2b2b'>Roshan</td>"+
             "<td style='color:#2b2b2b'>"+actInp+"</td>"+
-            "<td style='color:#2b2b2b'>"+descInp+"</td>"+
+            "<td  class='descri' style='color:#2b2b2b'>"+descInp+"</td>"+
             "<td style='color:#2b2b2b'>"+selInp+"</td>"+
             '<td ><i class="fa fa-times remove-time"></i></td>'+
             "</tr>";
@@ -857,7 +858,7 @@
             "<td date='"+dateInp+"' start='"+startInp+"' end='"+endInp+"'  style='color:#2b2b2b'>"+startInp+" - "+endInp+"</td>"+
             // "<td style='color:#2b2b2b'>Roshan</td>"+
             "<td style='color:#2b2b2b'>"+actInp+"</td>"+
-            "<td style='color:#2b2b2b'>"+descInp+"</td>"+
+            "<td  class='descri' style='color:#2b2b2b'>"+descInp+"</td>"+
             "<td style='color:#2b2b2b'>"+selInp+"</td>"+
             '<td ><i class="fa fa-times  remove-time"></i></td>';
             console.log("ASD");
@@ -880,7 +881,7 @@
             var tspace = 
             '<td ></td>'+
             '<td></td>'+
-            '<td></td>'+
+            '<td  class="descri"></td>'+
             '<td></td>'+
             '<td></td>'+
             '<td></td>'
