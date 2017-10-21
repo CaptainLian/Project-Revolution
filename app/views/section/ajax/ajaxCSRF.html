@@ -1,7 +1,7 @@
 <script type="text/javascript">
-$.ajaxSetup({
-    beforeSend: function(xhr) {
-        xhr.setRequestHeader('X-CSRF-TOKEN', '{{csrfToken}}');
-    }
-});	
+	$.ajaxSetup({
+	    beforeSend: function(xhr) {
+	        xhr.setRequestHeader('X-CSRF-TOKEN', '{{csrfToken}}');
+	    }
+	});	
 </script>

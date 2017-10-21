@@ -22,3 +22,6 @@
 .tr .denied{
 	background-color: rgba(251,58,58,.8);
 }
+ .sttabs nav a span{
+    display: block
+}

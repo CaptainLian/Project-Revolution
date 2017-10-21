@@ -27,7 +27,7 @@ databaseHelper.attachFields = (query, fields) => {
 
 /**
  * Attaches specified returning field/s to the specified query
- * @param  {squel (postgres)} query     [description]
+ * @param  {squel (postgres flavour)} query     [description]
  * @param  {[String, Array(String)] (Optional)} returning [description]
  * @return {Boolean}           true if any fields were attached, false otherwise
  */

@@ -1,5 +1,8 @@
-//query builder
-const squel = require('squel');
+/**
+ * Query builder
+ * @type {Object}
+ */
+const squel = require('squel').useFlavour('postgres');
 
 /**
  * Used for password hashing
@@ -13,20 +16,24 @@ const bcrypt = require('bcryptjs');
  */
 const forgePromise = require('../utility/forge-promise');
 
-const logger = global.logger;
-const log_options = {
-    from: 'Account'
-};
+/**
+ * Contains data regarding logging
+ * const log_options = {
+ *     from: 'Account'
+ * };
+ * @type {Object}
+ */
+const log_options = Object.create(null);
+log_options.from = 'Account';
 
-const forge = require('node-forge');
-
-module.exports = function(database, models, queryFiles) {
+module.exports = function(configuration, modules, models, database, queryFiless) {
     const accountModel = models.Account_model;
+    const logger = modules.logger;
     return {
 
         viewLogin: (req, res) => {
             const csrfToken = req.csrfToken();
-            logger.debug(`login CSRFToken: ${csrfToken}`, log_options);
+             logger.debug(`login CSRFToken: ${csrfToken}`, log_options);
             res.render('System/LoginMain', {
                 csrfToken: csrfToken
             });
@@ -41,7 +48,7 @@ module.exports = function(database, models, queryFiles) {
 
         checkLogin: (req, res) => {
             let input = req.body;
-            logger.debug(`Login attempt input: ${JSON.stringify(input)}`, log_options);
+             logger.debug(`Login attempt input: ${JSON.stringify(input)}`, log_options);
             //parse id number
             let credential = parseInt(input.credential);
             let credentialFloat = parseFloat(input.credential);
@@ -69,57 +76,55 @@ module.exports = function(database, models, queryFiles) {
 
             if (valid) {
                 database.one(query.toString(), {
-                        credential: input.credential
-                    })
-                    .then(account => {
-                        logger.debug(`Account found: ${JSON.stringify(account)}`, log_options);
-                        if (account.password === bcrypt.hashSync(input.password, account.salt)) {
+                    credential: input.credential
+                }).then(account => {
+                     logger.debug(`Account found: ${JSON.stringify(account)}`, log_options);
+                    if (account.password === bcrypt.hashSync(input.password, account.salt)) {
 
-                            logger.debug('Enter!!', log_options);
+                         logger.debug('Enter!!', log_options);
 
-                            /**
-                             * Session
-                             * {
-                             *     user: {
-                             *         idNumber
-                             *         name: {
-                             *             first
-                             *             middle
-                             *             last
-                             *         }
-                             *     }
-                             * }
-                             * @type Object
-                             */
-                            let user = Object.create(null);
-                            user.idNumber = account.idnumber;
-                            user.name = Object.create(null);
-                            user.name.first = account.firstname;
-                            user.name.middle = account.middlename;
-                            user.name.last = account.lastname;
-                            req.session.valid = true;
+                        /**
+                         * Session Contents
+                         * {
+                         *     user: {
+                         *         idNumber
+                         *         name: {
+                         *             first
+                         *             middle
+                         *             last
+                         *         }
+                         *     }
+                         * }
+                         * @type Object
+                         */
+                        let user = Object.create(null);
+                        user.idNumber = account.idnumber;
+                        user.name = Object.create(null);
+                        user.name.first = account.firstname;
+                        user.name.middle = account.middlename;
+                        user.name.last = account.lastname;
+                        req.session.valid = true;
 
-                            req.session.save();
+                        req.session.save();
 
-                            return res.send({
-                                valid: true,
-                                route: '/'
-                            });
-                        } else {
-                            logger.debug('Incorrect password');
-                            return res.send({
-                                valid: false
-                            });
-                        }
-                    })
-                    .catch(() => {
-                        logger.debug('Account not exist');
+                        return res.send({
+                            valid: true,
+                            route: '/'
+                        });
+                    } else {
+                         logger.debug('Incorrect password');
                         return res.send({
                             valid: false
                         });
+                    }
+                }).catch(() => {
+                     logger.debug('Account not exist');
+                    return res.send({
+                        valid: false
                     });
+                });
             } else {
-                logger.debug('Aguy input');
+                 logger.debug('Aguy input');
                 return res.send({
                     valid: false
                 });
@@ -131,28 +136,28 @@ module.exports = function(database, models, queryFiles) {
             // console.log("REQUEST");
             // console.log(req.session.user);
             //database.one('SELECT * FROM Account WHERE idNumber = ${idNumber}', {idNumber: req.session.user.idNumber});
-            logger.debug(req.session, log_options);
+             logger.debug(req.session, log_options);
             //let fullname = req.session.user.name.first + " " + req.session.user.name.middle + " " + req.session.user.name.last;
 
             accountModel.getAccountDetails(11445955, 'privateKey')
-                .then(data => {
-                    let sampleDocument = {
-                        Length: 500,
-                        size: 5100,
-                        comments: 'Ganda, laki ng saging'
-                    };
-                    sampleDocument = JSON.stringify(sampleDocument);
+            .then(data => {
+                let sampleDocument = {
+                    Length: 500,
+                    size: 5100,
+                    comments: 'Ganda, laki ng saging'
+                };
+                sampleDocument = JSON.stringify(sampleDocument);
 
-                    let messageDigest = forge.md.sha512.create();
-                    messageDigest.update(sampleDocument);
+                let messageDigest = forgePromise.forge.md.sha512.create();
+                messageDigest.update(sampleDocument);
 
-                    const privateKey = forge.pki.privateKeyFromPem(data.privatekey);
+                const privateKey = forgePromise.forge.pki.privateKeyFromPem(data.privatekey);
 
-                    const signature = privateKey.sign(messageDigest);
+                const signature = privateKey.sign(messageDigest);
 
-                    console.log(signature);
-                    res.send(typeof signature);
-                });
+                console.log(signature);
+                res.send(typeof signature);
+            });
         },
 
         /**
@@ -162,56 +167,52 @@ module.exports = function(database, models, queryFiles) {
          *         idNumber Integer,
          *         email String,
          *         type Integer,
-         *         password String, 
+         *         password String,
          *         firstname String,
          *         middlename String,
          *         lastname String,
          *         contactNumber String
          *     }
          * @method
-         * @param   {[type]} req [description]
-         * @param   {[type]} res [description]
-         * @returns {[type]}     [description]
          */
         createAccount: (req, res) => {
             const input = req.body;
 
             forgePromise.pki.rsa.generateKeyPair({
-                    bits: global.config.webserver.encryption.bits,
-                    workers: global.config.webserver.encryption.web_workers_amount
-                })
-                .then(pair => {
-                    return Promise.all([
-                        forgePromise.pki.publicKeyToPem(pair.publicKey),
-                        forgePromise.pki.privateKeyToPem(pair.privateKey)
-                    ]);
-                }).then(keys => {
-                    const publicKeyPEM = keys[0];
-                    const privateKeyPEM = keys[1];
+                bits:  configuration.webserver.encryption.bits,
+                workers:  configuration.webserver.encryption.web_workers_amount
+            }).then(pair => {
+                return Promise.all([
+                    forgePromise.pki.publicKeyToPem(pair.publicKey),
+                    forgePromise.pki.privateKeyToPem(pair.privateKey)
+                ]);
+            }).then(keys => {
+                const publicKeyPEM = keys[0];
+                const privateKeyPEM = keys[1];
 
-                    return accountModel.insertAccount(
-                        input.idNumber,
-                        input.email,
-                        input.type,
-                        input.password,
-                        input.firstname,
-                        input.middlename,
-                        input.lastname,
-                        input.contactNumber,
-                        publicKeyPEM,
-                        privateKeyPEM
-                    );
-                }).then(() => {
-                    return res.send({
-                        success: true,
-                        valid: true
-                    });
-                }).catch(err => {
-                    return res.send({
-                        success: false,
-                        valid: true
-                    });
+                return accountModel.insertAccount(
+                    input.idNumber,
+                    input.email,
+                    input.type,
+                    input.password,
+                    input.firstname,
+                    input.middlename,
+                    input.lastname,
+                    input.contactNumber,
+                    publicKeyPEM,
+                    privateKeyPEM
+                );
+            }).then(() => {
+                return res.send({
+                    success: true,
+                    valid: true
                 });
+            }).catch(err => {
+                return res.send({
+                    success: false,
+                    valid: true
+                });
+            });
         }
     };
 };

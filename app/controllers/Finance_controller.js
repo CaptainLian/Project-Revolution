@@ -1,17 +1,17 @@
-module.exports = function(database, models, queryFiles){
-	
+module.exports = function(configuration, modules, models, database, queryFiles){
+
 	return {
 		viewDashboard: (req, res) => {
-		
-			res.render('Finance/DashboardMain');
+
+			return res.render('Finance/DashboardMain');
 			//next();
 		},
 		createTransaction: (req, res) => {
-		
-			res.render('Finance/TransactionMain');
+
+			return res.render('Finance/TransactionMain');
 			//next();
 		}
-		
-		
+
+
 	};
 };

@@ -1,4 +1,5 @@
-module.exports = function(database, models, queryFiles){
+'use strict';
+module.exports = function(configuration, modules, models, database, queryFiles){
 	return {
 
 	};

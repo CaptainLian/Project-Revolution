@@ -1,55 +1,54 @@
-const logger = global.logger;
-const log_options = {
-    from: 'AJAX-APS',
-    color: '\x1b[35m'
-};
 
-module.exports = function(database, models, queryFiles) {
+const log_options = Object.create(null);
+log_options.from = 'AJAX-APS';
+log_options.color = '\x1b[35m';
+
+module.exports = function(configuration, modules, models, database, queryFiles) {
+    const logger = modules.logger;
     const gosmModel = models.gosmModel;
     const projectProposalModel = models.ProjectProposal_model;
+    
     return {
         getGOSMActivityDetails: function(req, res) {
             const activityID = parseInt(req.query.activityID ? req.query.activityID : req.body.activityID);
-            
+
             if (isNaN(activityID)) {
                 logger.debug(`Invalid input`);
-                res.send({
+                return res.send({
                     valid: false
                 });
-                return;
             }
             logger.debug(`Getting Activity Details of id: ${activityID}`, log_options);
 
             database.task(t => {
-                    return t.batch([
-                        gosmModel.getActivityDetails(
-                            activityID, [
-                                ['ga.comments'],
-                                ['at.name', 'type'],
-                                ['an.name', 'nature'],
-                                ["to_char(ga.targetDateStart, 'Mon DD, YYYY')", 'startDate'],
-                                ["to_char(ga.targetDateEnd, 'Mon DD, YYYY')", 'endDate']
-                            ],
-                            t),
-                        gosmModel.getActivityProjectHeads(activityID, ['a.idNumber',
-                            "firstname || ' ' || lastname AS name",
-                            'contactNumber'
-                        ], t)
-                    ]);
-                })
-                .then(data => {
-                    logger.debug(`activity: ${JSON.stringify(data)}`, log_options);
-                    res.send({
-                        valid: true,
-                        activityDetails: data[0],
-                        projectHeads: data[1]
-                    });
-                }).catch(error => {
-                    logger.error(error, log_options);
-                    res.send({
-                        valid: false
-                    });
+                return t.batch([
+                    gosmModel.getActivityDetails(
+                        activityID, [
+                            ['ga.comments'],
+                            ['at.name', 'type'],
+                            ['an.name', 'nature'],
+                            ["to_char(ga.targetDateStart, 'Mon DD, YYYY')", 'startDate'],
+                            ["to_char(ga.targetDateEnd, 'Mon DD, YYYY')", 'endDate']
+                        ],
+                        t),
+                    gosmModel.getActivityProjectHeads(activityID, ['a.idNumber',
+                        "firstname || ' ' || lastname AS name",
+                        'contactNumber'
+                    ], t)
+                ]);
+            }).then(data => {
+                logger.debug(`activity: ${JSON.stringify(data)}`, log_options);
+                return res.send({
+                    valid: true,
+                    activityDetails: data[0],
+                    projectHeads: data[1]
                 });
+            }).catch(error => {
+                res.send({
+                    valid: false
+                });
+                throw error;
+            });
         },
 
         updateGOSM: (req, res) => {
@@ -59,27 +58,25 @@ module.exports = function(database, models, queryFiles) {
 
             if (isNaN(GOSMID) || isNaN(statusID)) {
                 logger.debug(`Invalid input: GOSMID = ${GOSMID}, statusID = ${statusID}`, log_options);
-                res.send({
+                return res.send({
                     valid: false
                 });
-                return;
             }
 
             gosmModel.updateGOSMStatus(GOSMID, statusID, comments)
-                .then(status => {
-                    logger.debug(`query result: $(status)`, log_options);
-                    res.send({
-                        valid: true,
-                        success: true
-                    });
-                })
-                .catch(error => {
-                    res.send({
-                        valid: true,
-                        success: false
-                    });
-                    throw error;
+            .then(status => {
+                logger.debug(`query result: $(status)`, log_options);
+                return res.send({
+                    valid: true,
+                    success: true
                 });
+            }).catch(error => {
+                res.send({
+                    valid: true,
+                    success: false
+                });
+                throw error;
+            });
         },
 
         updateGOSMActivityComment: (req, res) => {
@@ -88,28 +85,26 @@ module.exports = function(database, models, queryFiles) {
 
             if (isNaN(activityID) || typeof comments !== 'string') {
                 logger.warning(`Invalid input: activityID: ${activityID}, comments: ${comments}`, log_options);
-                res.send({
+                return res.send({
                     valid: false
                 });
-                return;
             }
 
             logger.debug(`Valid input received: activityID: ${activityID}, comments: ${comments}`, log_options);
             gosmModel.updateActivityComment(activityID, comments)
-                .then(data => {
-                    logger.debug('Success!', log_options);
-                    res.send({
-                        valid: true,
-                        success: true
-                    });
-                })
-                .catch(error => {
-                    res.send({
-                        valid: true,
-                        success: false
-                    });
-                    throw error;
+            .then(data => {
+                logger.debug('Success!', log_options);
+                res.send({
+                    valid: true,
+                    success: true
                 });
+            }).catch(error => {
+                res.send({
+                    valid: true,
+                    success: false
+                });
+                throw error;
+            });
         },
 
         getProjectProposalActivityDetails: (req, res) => {
@@ -117,35 +112,103 @@ module.exports = function(database, models, queryFiles) {
             logger.debug(`PPR ID: ${PPRID}`, log_options);
 
             database.task(t => {
-                    return t.batch([
-                        projectProposalModel.getActivityProjectProposalDetails(PPRID, [
-                            'at.name AS activityType',
-                            'an.name AS activityNature',
-                            "to_char(ga.targetDateStart, 'Mon DD, YYYY') || ' - ' || to_char(ga.targetDateEnd, 'Mon DD, YYYY') AS activityDate",
-                            'pp.venue',
-                            'pp.ENP',
-                            'pp.context',
-                            'ga.objectives'
-                        ], t),
-                        projectProposalModel.getProjectProposalProgramDesign(PPRID, undefined, t),
-                        projectProposalModel.getProjectProposalExpenses(PPRID, undefined, t)
-                    ]);
-                })
-                .then(data => {
-                    logger.debug(`Data: ${data}`, log_options);
-                    res.send({
-                        valid: true,
-                        success: true,
-                        data: data
-                    });
-                })
-                .catch(err => {
-                    res.send({
-                        valid: true,
-                        success: false
-                    });
-                    throw err;
+                return t.batch([
+                    projectProposalModel.getActivityProjectProposalDetails(PPRID, [
+                        'at.name AS activityType',
+                        'an.name AS activityNature',
+                        "to_char(ga.targetDateStart, 'Mon DD, YYYY') || ' - ' || to_char(ga.targetDateEnd, 'Mon DD, YYYY') AS activityDate",
+                        'pp.venue',
+                        'pp.ENP',
+                        'pp.context',
+                        'ga.objectives'
+                    ], t),
+                    projectProposalModel.getProjectProposalProgramDesign(PPRID, undefined, t),
+                    projectProposalModel.getProjectProposalExpenses(PPRID, undefined, t)
+                ]);
+            }).then(data => {
+                logger.debug(`Data: ${data}`, log_options);
+                return res.send({
+                    valid: true,
+                    success: true,
+                    data: data
                 });
+            }).catch(err => {
+                res.send({
+                    valid: true,
+                    success: false
+                });
+                throw err;
+            });
+        },
+        //CHANGE QUERY
+        activityChecking: (req, res) => {
+
+            var activityId; 
+            database.task(task => {
+
+                let promises = [];
+
+                console.log(req.body);
+
+                const dbParam = {
+                    status: req.body.method,
+                    comments: req.body.comment,
+                    // TODO: add section to database
+                    //section: req.body.section,
+                    id: req.body.id
+                };
+
+                projectProposalModel.updatePPRStatus(dbParam, task)
+                .then(() => {
+
+                });
+   
+                    return projectProposalModel.getNextActivityForApproval(task)
+                .then(data => {
+                    activityId = data.id;
+                    console.log(activityId);
+                    
+                    return task.batch([
+                        Promise.resolve(data),
+                        projectProposalModel.getProjectProposalExpenses(data.id, task),
+                        projectProposalModel.getProjectProposalProjectedIncome(data.id, task),
+                        projectProposalModel.getProjectProposalProgramDesign(data.id, [
+                            'pppd.dayid AS dayid',
+                            "to_char(pppd.date, 'Mon DD, YYYY') AS date",
+                            "to_char(pppd.starttime + CURRENT_DATE, 'HH:MI AM') AS starttime",
+                            "to_char(pppd.endtime + CURRENT_DATE, 'HH:MI PM') AS endtime",
+                            'pppd.activity AS activity',
+                            'pppd.activitydescription AS activitydescription',
+                            'pppd.personincharge AS personincharge'
+                        ], task),
+                        projectProposalModel.getProjectProposalProjectHeads(data.id, task),
+                        projectProposalModel.getProjectProposalAttachment(data.id, task)
+                    ]);
+
+
+                });
+      
+            }).then(data => {
+                console.log("actvityID");
+                console.log(data);
+                console.log(activityId);
+
+               logger.debug(`${JSON.stringify(data[3])}`, log_options);
+                return res.render('APS/ActivityChecking', {
+                    projectProposal: data[0],
+                    expenses: data[1],
+                    // TODO: Change activity value
+                    activity: activityId,
+                    projectedIncome: data[2],
+                    programDesign: data[3],
+                    projectHeads: data[4],
+                    attachment: data[5],
+                    csrfToken: req.csrfToken()
+                });
+            }).catch(err => {
+                console.log('NAG ERROR');
+                throw err;
+            });
         }
     };
 };

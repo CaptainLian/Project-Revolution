@@ -1,0 +1,109 @@
+{% extends './APS_master.html' %}
+{% import '../template/tags_macro.html' as tag%}
+
+{%block page_title%}APS - GOSM Submissions{%-endblock%}
+
+{%block style%}
+    {{super()}}
+    <!-- Bootstrap Core CSS -->
+    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
+    {{tag.style('/plugins/bower_components/datatables/jquery.dataTables.min.css')}}
+    <!-- Menu CSS -->
+    {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
+    <!-- animation CSS -->
+    {{tag.style('/css/animate.css')}}
+    <!--alerts CSS -->
+    {{tag.style('/plugins/bower_components/sweetalert/sweetalert.css')}}
+    <!-- Custom CSS -->
+    {{tag.style('/css/style.css')}}
+    {{tag.style('/css/custom.css')}}
+    <!-- color CSS -->
+    {{tag.style('/css/colors/default.css')}}
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Page Styles -->
+    <!-- /Page Styles -->
+{%endblock%}
+
+{%block defer_script%}
+    {{super()}}
+    <!-- jQuery -->
+    {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
+    <!-- Bootstrap Core JavaScript -->
+    {{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
+    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
+    <!-- Menu Plugin JavaScript -->
+    {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
+    <!--slimscroll JavaScript -->
+    {{tag.javascript('/js/jquery.slimscroll.js', true)}}
+    <!--Wave Effects -->
+    {{tag.javascript('/js/waves.js', true)}}
+    <!-- Custom Theme JavaScript -->
+    {{tag.javascript('/js/custom.min.js', true)}}
+    {{tag.javascript('/js/cbpFWTabs.js', true)}}
+    <!-- tabs-->
+    {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
+    <!-- Sweet-Alert  -->
+    {{tag.javascript('/plugins/bower_components/sweetalert/sweetalert.min.js', true)}}    
+    <!--Style Switcher -->
+    {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
+{%endblock%}
+
+{%block breadcrumb%}
+    {{breadcrumb_item('Organization Submissions List', 'active')}}
+{%endblock%}
+
+{%block content%}
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="white-box">
+                <h3 class="box-title m-b-0">Organizations</h3>
+                <p class="text-muted m-b-30">A table showing the list of organizations</p>
+                <div class="table-responsive">
+
+                    <table id="myTable" class="table table-hover" role="grid" aria-describedby="myTable_info">
+                        <thead>
+                            <tr role="row">
+                                <th class="sorting" tabindex="0" aria-controls="myTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 139px;">Organization Name</th>
+                                <th class="sorting" tabindex="0" aria-controls="myTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 139px;">Date Submitted</th>
+                                <th class="sorting " tabindex="0" aria-controls="myTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 129px;">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for gosm in GOSMList %}
+                                <tr role="row" class="odd denied" onclick="window.location='/APS/viewOrgGOSM/{{gosm.organizationid}}/{{gosm.gosmid}}';">
+                                    <td>{{gosm.organization}}</td>
+                                    <td>{{gosm.datesubmitted}}</td>
+                                    <td>
+                                    {% set status = gosm.status.toUpperCase() %}
+                                    {% if (status === 'APPROVED' ) %}
+                                        <span class="label label-success m-l-5">{{gosm.status}}</span>
+                                    {% elif (status === 'PENDING') %}
+                                        <span class="label label-warning m-l-5">{{gosm.status}}</span>
+                                    {% elif (status === 'DENIED') %}
+                                        <span class="label label-danger m-l-5">{{gosm.status}}</span>
+                                    {% else %}
+                                        <span class="label label-info m-l-5">{{gosm.status}}</span>
+                                    {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12">
+        </div>
+        <div class="col-sm-12">
+        </div>
+    </div>
+{%endblock%}

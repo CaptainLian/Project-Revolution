@@ -1,89 +1,8 @@
-TRUNCATE TABLE College CASCADE;
-TRUNCATE TABLE OrganizationNature CASCADE;
-TRUNCATE TABLE OrganizationCluster CASCADE;
-TRUNCATE TABLE StudentOrganization CASCADE;
-TRUNCATE TABLE AccountType CASCADE;
-TRUNCATE TABLE ActivityType CASCADE;
-TRUNCATE TABLE ActivityNature CASCADE;
-TRUNCATE TABLE GOSMStatus CASCADE;
-TRUNCATE TABLE ProjectProposalStatus CASCADE;
-TRUNCATE TABLE Account CASCADE;
-TRUNCATE TABLE SchoolYear CASCADE;
-TRUNCATE TABLE TERM CASCADE;
-TRUNCATE TABLE GOSM CASCADE;
+ROLLBACK;
 
-/* REFERENCE TABLES DATA */
-/* 2015 - 2016 */
-INSERT INTO SchoolYear(id, startYear, endYear)
-               VALUES (1, 2015, 2016);
-INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
-          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2015 AND endYear = 2016), 1, '2015-08-24', '2015-12-08');
-INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
-          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2015 AND endYear = 2016), 2, '2016-01-06', '2016-04-16');
-INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
-          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2015 AND endYear = 2016), 3, '2016-05-23', '2016-08-27');
-
-/* 2016 - 2017 */
-INSERT INTO SchoolYear(id, startYear, endYear)
-               VALUES (2, 2016, 2017);
-INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
-          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2016 AND endYear = 2017), 1, '2016-09-12', '2016-12-17');
-INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
-          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2016 AND endYear = 2017), 2, '2016-01-04', '2016-04-11');
-INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
-          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2016 AND endYear = 2017), 3, '2017-05-15', '2017-08-19');
-
-/* 2017 - 2018 */
-INSERT INTO SchoolYear(id, startYear, endYear)
-               VALUES (3, 2017, 2018);
-INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
-          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2017 AND endYear = 2018), 1, '2017-09-11', '2017-12-16');
-INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
-          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2017 AND endYear = 2018), 2, '2018-01-08', '2018-04-21');
-INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
-          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2017 AND endYear = 2018), 3, '2018-05-24', '2018-08-28');
-
-INSERT INTO College (shortAcronym, fullAcronym, name)
-             VALUES ('CED', 'BAGCED', 'Br. Andrew Gonzalez FSC College of Education');
-INSERT INTO College (shortAcronym, fullAcronym, name)
-             VALUES ('CCS', NULL, 'College of Computer Studies');
-INSERT INTO College (shortAcronym, fullAcronym, name)
-             VALUES ('COL', NULL, 'College of Law');
-INSERT INTO College (shortAcronym, fullAcronym, name)
-             VALUES ('CLA', NULL, 'College of Liberal Arts');
-INSERT INTO College (shortAcronym, fullAcronym, name)
-             VALUES ('COS', null, 'College of Science');
-INSERT INTO College (shortAcronym, fullAcronym, name)
-             VALUES ('COE', 'GCOE', 'Gokongwei College of Engineering');
-INSERT INTO College (shortAcronym, fullAcronym, name)
-             VALUES ('COB', 'RVRCOB', 'Ramon V. del Rosario College of Business');
-INSERT INTO College (shortAcronym, fullAcronym, name)
-             VALUES ('SOE', null, 'School of Economics');
+START TRANSACTION;
 
 /* Organization Data */
-INSERT INTO OrganizationNature (id, name, acronym)
-                      VALUES (1, 'Special Interest', 'SPIN');
-INSERT INTO OrganizationNature (id, name, acronym)
-                      VALUES (2, 'Professional Organization', 'PROF');
-INSERT INTO OrganizationNature (id, name, acronym)
-                      VALUES (3, 'Socio-civic and Religious', 'SCORE');
-INSERT INTO OrganizationNature (id, name, acronym)
-                      VALUES (4, 'Professional Organization Group', 'PROG');
-
-INSERT INTO OrganizationCluster (id, name, acronym)
-                         VALUES (1, 'Alliance of Science Organizations', 'ASO');
-INSERT INTO OrganizationCluster (id, name, acronym)
-                         VALUES (2, 'Alliance of Special Interest and Socio-Civic Organizations', 'ASPIRE');
-INSERT INTO OrganizationCluster (id, name, acronym)
-                         VALUES (3, 'College of Liberal Arts Professional Organizations', 'CAP12');
-INSERT INTO OrganizationCluster (id, name, acronym)
-                         VALUES (4, 'Engineering Alliance Geared Towards Excellence', 'ENGAGE');
-INSERT INTO OrganizationCluster (id, name, acronym)
-                         VALUES (5, 'Alliance of Professional Organizations of Business and Economics', 'PROBE');
-
-INSERT INTO StudentOrganization (id, acronym, name, description)
-                 VALUES (0, 'CSO', 'Council of Student Organizations', NULL);
-
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
                  VALUES (1, 'Chemsoc', 'Chemistry Society', 1, NULL);
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
@@ -165,36 +84,6 @@ INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
                  VALUES (38, 'YES', 'Young Entrepreneurs Society', 5, NULL);
 
-INSERT INTO AccountType (id, name)
-                 VALUES (0, 'Student Account');
-INSERT INTO AccountType (id, name)
-                 VALUES (1, 'Faculty Adviser Account');
-INSERT INTO AccountType (id, name)
-                 VALUES (2, 'SLIFE Account');
-INSERT INTO AccountType (id, name)
-                 VALUES (3, 'Accounting Account');
-
-INSERT INTO ActivityType (id, name)
-                  VALUES (1, 'Academic Contest');
-INSERT INTO ActivityType (id, name)
-                  VALUES (2, 'Distribution');
-INSERT INTO ActivityType (id, name)
-                  VALUES (3, 'General Assembly');
-INSERT INTO ActivityType (id, name)
-                  VALUES (4, 'Seminar/Workshops');
-INSERT INTO ActivityType (id, name)
-                  VALUES (5, 'Publicity/Awareness Campaign');
-INSERT INTO ActivityType (id, name)
-                  VALUES (6, 'Meetings');
-INSERT INTO ActivityType (id, name)
-                  VALUES (7, 'Spiritual Activity');
-INSERT INTO ActivityType (id, name)
-                  VALUES (8, 'Recruitment/Audition');
-INSERT INTO ActivityType (id, name)
-                  VALUES (9, 'Recreation');
-INSERT INTO ActivityType (id, name)
-                  VALUES (10, 'Others');
-
 INSERT INTO ActivityNature (id, name)
                     VALUES (1, 'Academic');
 INSERT INTO ActivityNature (id, name)
@@ -214,30 +103,11 @@ INSERT INTO ActivityNature (id, name)
 INSERT INTO ActivityNature (id, name)
                     VALUES (9, 'Outreach');
 
-INSERT INTO GOSMStatus (id, name)
-                VALUES (1, 'Created');
-INSERT INTO GOSMStatus (id, name)
-                VALUES (2, 'Initial Submission');
-INSERT INTO GOSMStatus (id, name)
-                VALUES (3, 'Approved');
-INSERT INTO GOSMStatus (id, name)
-                VALUES (4, 'Pending');
-INSERT INTO GOSMStatus (id, name)
-                VALUES (5, 'Denied');
-
-INSERT INTO ProjectProposalStatus (id, name)
-                           VALUES (1, 'Created');
-INSERT INTO ProjectProposalStatus (id, name)
-                           VALUES (2, 'Initial Submission');
-INSERT INTO ProjectProposalStatus (id, name)
-                           VALUES (3, 'Approved');
-INSERT INTO ProjectProposalStatus (id, name)
-                           VALUES (4, 'Pending');
-INSERT INTO ProjectProposalStatus (id, name)
-                           VALUES (5, 'Denied');
 /* Sample Data */
 INSERT INTO Account (email, idNumber, password, firstname, middlename, lastname, contactNumber)
              VALUES ('juliano_laguio@dlsu.edu.ph', 11445955, '1234', 'Lian', 'Blanco', 'Laguio', '+63 9228474849');
+INSERT INTO OrganizationOfficer (idNumber, role, yearID)
+                         VALUES (11445955,   3, getCurrentYearID());
 INSERT INTO Account (email, idNumber, password, firstname, lastname, contactNumber)
              VALUES ('markus_flores@dlsu.edu.ph', 11445954, '1234', 'Markus', 'Flores', '+63 9228474849');
 INSERT INTO Account (email, idNumber, password, firstname, lastname, contactNumber)
@@ -252,26 +122,27 @@ INSERT INTO GOSM (termID, studentOrganization)
                      WHERE CURRENT_DATE BETWEEN dateStart AND dateEnd), 2 );
 UPDATE GOSM
    SET status = 2
- WHERE id = 1;
+ WHERE id = 200001;
 
-TRUNCATE TABLE GOSMActivity CASCADE;
+
 INSERT INTO GOSMActivity (gosm, goals, objectives, strategies, description, measures, targetDateStart, targetDateEnd, ActivityNature, ActivityType, isRelatedToOrganizationNature, budget)
-                    VALUES (1, 'Goal Mo to', '{"Objectives", "Mo", "To"}', 'Strategies Mo to', 'Descibe kita', 'Measure mo to :)', '2017-9-6', '2017-9-6', 1, 2, false, 999.99);
-TRUNCATE ProjectProposal CASCADE;
+                    VALUES (200001, 'Goal Mo to', '{"Objectives", "Mo", "To"}', 'Strategies Mo to', 'Descibe kita', 'Measure mo to :)', '2017-9-6', '2017-9-6', 1, 2, false, 999.99);
+
 INSERT INTO ProjectProposal (GOSMActivity, ENP, ENMP, venue, context, sourceFundOther, sourceFundParticipantFee, sourceFundOrganizational, accumulatedOperationalFunds, accumulatedDepositoryFunds, comments)
                      VALUES (1, 1, 1, 'Venue ito', 'Context kita', 69.69, 69.69, 69.69, 69.69, 69.69, 'Comments ko toh');
 UPDATE ProjectProposal
 SET status = 2
 WHERE id = 1;
 
-TRUNCATE ProjectProposalExpenses CASCADE;
+
 INSERT INTO ProjectProposalExpenses (projectProposal, material, quantity, unitCost)
                               VALUES(1, 'Boyfriend Material 1', 7, 60.0000);
 INSERT INTO ProjectProposalExpenses (projectProposal, material, quantity, unitCost)
                               VALUES(1, 'Boyfriend Material 2', 80, 60.0000);
                               
-TRUNCATE TABLE GOSMActivityProjectHead CASCADE;
+
 INSERT INTO GOSMActivityProjectHead (idNumber, activityID)
                              VALUES (11445955, 1);
 INSERT INTO GOSMActivityProjectHead (idNumber, activityID)
                              VALUES (11445952, 1);
+COMMIT;

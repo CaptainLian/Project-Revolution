@@ -1,14 +1,6 @@
 'use strict';
-
-var express = require('express');
-var router = express.Router();
-
-module.exports = function (app, controllers){
-	
-
-	router.get('/activityChecking',controllers.APS_controller.activityChecking);
-
-
+module.exports = function (configuration, modules, router, controllers, models, database, queryFiles){
+	router.get('/APS/activityChecking',controllers.APS_controller.activityChecking);
 	router.get('/APS/viewOrglist', controllers.APS_controller.viewOrglist);
 	router.get('/APS/viewOrgGOSM', (req, res) => {
 		res.redirect('/APS/viewOrglist');
@@ -16,6 +8,4 @@ module.exports = function (app, controllers){
 	router.get('/APS/viewOrgGOSM/:orgID/:GOSMID', controllers.APS_controller.viewOrgGOSM);
 
 	router.get('/APS/ActivityList', controllers.APS_controller.viewActivityList);
-
-	return router;
 };

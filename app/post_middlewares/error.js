@@ -1,14 +1,12 @@
-var express = require('express');
-var app = express();
-
-const logger = global.logger;
 const log_options = {
     from: 'Error_postware'
 };
 
-module.exports = function(app, database, models, queryFiles) {
+module.exports = function(configuration, application, modules, database, queryFiles, models) {
+    const logger = modules.logger;
     return [{
         name: 'Bad CSRF Token',
+        priority: configuration.load_priority.NORMAL,
         action: function(err, req, res, next) {
             if (err.code === 'EBADCSRFTOKEN') {
                 logger.warning(`Bad CSRF token: ${req.session.csrfSecret}`, log_options);
@@ -21,6 +19,7 @@ module.exports = function(app, database, models, queryFiles) {
     }, {
         name: 'Error 404',
         description: 'For unset/unknown URLs',
+        priority: configuration.load_priority.NORMAL,
         action: function(req, res, next) {
             logger.warning(`Error 404 original URL: ${req.originalUrl}, url: ${req.url}`, log_options);
             var err = new Error('Not Found');
@@ -30,6 +29,7 @@ module.exports = function(app, database, models, queryFiles) {
     }, {
         name: 'Error 500',
         description: 'Generalized error logging',
+        priority: configuration.load_priority.NORMAL,
         action: function(err, req, res, next) {
             let {message, stack} = err;
 

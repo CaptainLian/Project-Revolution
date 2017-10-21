@@ -1,19 +1,14 @@
 'use strict';
 
-const logger = global.logger;
-const log_options = {
-    from: 'GOSM-Model'
-};
+const log_options= Object.create(null);
+log_options.from = 'GOSM-Model';
 
 const squel = require('squel').useFlavour('postgres');
 
-module.exports = function(db, queryFiles) {
-    const getAllActivityTypesSQL = queryFiles.getAllActivityTypes;
+module.exports = function(configuration, modules, db, queryFiles) {
     const insertProposedActivitySQL = queryFiles.insertProposedActivity;
     const insertActivityProjectHeadSQL = queryFiles.insertActivityProjectHead;
     const getSchoolYearSQL = queryFiles.getSchoolYear;
-    const getAllActivityNatureSQL = queryFiles.getAllActivityNature;
-    const getGOSMActivitiesSQL = queryFiles.getGOSMActivities;
     const deleteActivitySQL = queryFiles.deleteActivity;
     const updateActivitySQL = queryFiles.updateActivity;
     const submitGOSMSQL = queryFiles.submitGOSM;
@@ -21,19 +16,35 @@ module.exports = function(db, queryFiles) {
     const query_getSubmissionYears = queryFiles.gosm_getSubmissionYears;
     const query_getAll = queryFiles.gosm_getAll;
     const getGOSMActivityProjectHeadsSQL = queryFiles.getGOSMActivityProjectHeads;
+    const getGOSMActivitySQL = queryFiles.getGOSMActivity;
 
     const insertGOSM = queryFiles.gosm_insert;
     const insertGOSM_Returning = queryFiles.gosm_insert_returning;
     const dbHelper = require('../utility/databaseHelper');
     const attachFields = dbHelper.attachFields;
 
+    const logger = modules.logger;
     return {
-        getAllActivityTypes: function(connection = db) {
-            return connection.many(getAllActivityTypesSQL);
+        getAllActivityTypes: function(fields, connection = db) {
+            let query = squel.select()
+            .from('ActivityType');
+            attachFields(query, fields);
+
+            query = query.toString();
+             logger.debug(`Executing query: ${query}`, log_options);
+            return connection.many(query);
         }, //getAllActivityTypes()
-        getAllActivityNature: function(connection = db) {
-            return connection.many(getAllActivityNatureSQL);
+
+        getAllActivityNature: function(fields, connection = db) {
+            let query = squel.select()
+            .from('ActivityNature');
+            attachFields(query, fields);
+
+            query = query.toString();
+             logger.debug(`Executing query: ${query}`, log_options);
+            return connection.many(query);
         },
+
         insertProposedActivity: function(param, connection = db) {
             return connection.one(insertProposedActivitySQL, param);
         },
@@ -44,8 +55,18 @@ module.exports = function(db, queryFiles) {
             return connection.one(getSchoolYearSQL);
         },
 
-        getGOSMActivities: function(param, connection = db) {
-            return connection.any(getGOSMActivitiesSQL, param);
+        getGOSMActivities: function(GOSMID, fields, connection = db) {
+            let query= squel.select()
+            .from('GOSMActivity')
+            .where('GOSM = ${GOSMID}');
+            attachFields(query, fields);
+
+            let param = Object.create(null);
+            param.GOSMID = GOSMID;
+
+            query = query.toString();
+             logger.debug(`Executing query: ${query}`, log_options);
+            return connection.any(query, param);
         },
 
         getGOSMActivity: function(param) {
@@ -102,10 +123,10 @@ module.exports = function(db, queryFiles) {
 
             attachFields(query, fields);
             query = query.toString();
-            logger.debug(`Executing query: ${query}`, log_options);
+             logger.debug(`Executing query: ${query}`, log_options);
 
-            /* 
-                let param = { 
+            /*
+                let param = {
                     GOSMID: GOSMID
                 };
             */
@@ -130,7 +151,7 @@ module.exports = function(db, queryFiles) {
             attachFields(query, fields);
 
             query = query.toString();
-            logger.debug(`Executing query: ${query}`, log_options);
+             logger.debug(`Executing query: ${query}`, log_options);
 
             /*
                 let param = {
@@ -143,7 +164,7 @@ module.exports = function(db, queryFiles) {
         },
 
         /**
-            
+
         */
         getActivityProjectHeads: function(id, fields, connection = db) {
             let query = squel.select()
@@ -153,7 +174,7 @@ module.exports = function(db, queryFiles) {
             attachFields(query, fields);
 
             query = query.toString();
-            logger.debug(`Executing query: ${query}`, log_options);
+             logger.debug(`Executing query: ${query}`, log_options);
             /*
                 let param = {
                     activityID: id
@@ -189,7 +210,7 @@ module.exports = function(db, queryFiles) {
             }
 
             query = query.toString();
-            logger.debug(`Executing query: ${query} with parameters ${JSON.stringify(param)}`, log_options);
+             logger.debug(`Executing query: ${query} with parameters ${JSON.stringify(param)}`, log_options);
             return connection.none(query, param);
         },
 
@@ -202,7 +223,7 @@ module.exports = function(db, queryFiles) {
                 .where('id = ${id}');
 
             query = query.toString();
-            logger.debug(`Executing query: ${query}`, log_options);
+             logger.debug(`Executing query: ${query}`, log_options);
 
             /*
                 let param = {
@@ -223,8 +244,8 @@ module.exports = function(db, queryFiles) {
             attachFields(query, fields);
 
             query = query.toString();
-            logger.debug(`Executing query: ${query}`, log_options);
-            
+             logger.debug(`Executing query: ${query}`, log_options);
+
             /*
                 let param = {
                     id: id

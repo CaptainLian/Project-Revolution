@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 
 
-module.exports = function (app, database, models, queryFiles){
+module.exports = function (configuration, application, modules, database, queryFiles, models){
 	return [
 	/*
 		{
@@ -10,10 +10,10 @@ module.exports = function (app, database, models, queryFiles){
 			description: '',
 			action: function (req, res, next){
 				next();
-			} 
+			}
 		},
 
-		
+
 		{
 			name: '',
 			description: '',

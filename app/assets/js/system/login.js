@@ -41,7 +41,7 @@ $(".error").click(function() {
     }else{
         $.ajax({
             type: 'POST',
-            url: '/',
+            url: '/system/AJAX/checkLogin',
             data: {
                 credential: credential,
                 password: password,
