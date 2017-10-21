@@ -14,8 +14,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const insertProjectProposalExpensesSQL = queryFiles.insertProjectProposalExpenses;
     const getProjectProposalsPerStatusSQL = queryFiles.getProjectProposalsCountPerStatus;
     const getPPRProjectedCostSQL = queryFiles.getPPRProjectedCost;
-
-    const logger =  modules.logger;
+    
     /**
      * class with properties
      * {
@@ -25,10 +24,12 @@ module.exports = function(configuration, modules, db, queryFiles) {
      * @Class ProjectProposalModel
      * @param  {pg-connection} db [description]
      */
-    const ProjectProposalModel = function(db) {
+    const ProjectProposalModel = function(db, modules) {
         this._db = db;
         const dbHelper = require('../utility/databaseHelper');
         this._attachFields = dbHelper.attachFields;
+
+        this._logger = modules.logger;
     };
 
    /**
@@ -81,7 +82,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
         this._attachFields(query, fields);
 
         query = query.toString();
-        logger.debug(`Executing Query: ${query}`, log_options);
+        this._logger.debug(`Executing Query: ${query}`, log_options);
 
         let param = Object.create(null);
         param.id = id;
@@ -141,7 +142,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
         this._attachFields(query, fields);
 
         query = query.toString();
-        logger.debug(`Query: ${query}`, log_options);
+        this._logger.debug(`Query: ${query}`, log_options);
         return connection.any(query);
     };
 
@@ -258,5 +259,5 @@ module.exports = function(configuration, modules, db, queryFiles) {
         return connection.any(queryFiles.getProjectProposalProjectHeads, param);
     };
 
-    return new ProjectProposalModel(db);
+    return new ProjectProposalModel(db, modules);
 };

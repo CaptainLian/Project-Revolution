@@ -8,4 +8,6 @@ module.exports = function(configuration, modules, router, controllers){
 	router.get('/viewProject', controllers.Organization_controller.viewProject);
 	router.get(`${base}/createGOSM`, controllers.Organization_controller.viewCreateGOSM);
 	router.get(`${base}/activityRequirements`, controllers.Organization_controller.createActivityRequirements);
+	router.get(`${base}/Treasurer/NewTransaction`, controllers.Treasurer_controller.newTransaction);
+	router.get(`${base}/Treasurer/NewTransactionOthers`, controllers.Treasurer_controller.newTransaction);
 };
