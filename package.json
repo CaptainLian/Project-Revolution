@@ -9,24 +9,23 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "bluebird": "^3.5.1",
-    "body-parser": "^1.18.0",
+    "body-parser": "^1.18.2",
     "connect-pg-simple": "^4.2.1",
     "cookie-parser": "^1.4.3",
     "crypto2": "^0.3.2",
     "csurf": "^1.9.0",
-    "dateformat": "^2.0.0",
-    "debug": "^3.0.1",
-    "express": "^4.15.4",
+    "dateformat": "^3.0.2",
+    "express": "^4.16.2",
     "express-nunjucks": "^2.2.3",
-    "express-session": "^1.15.5",
+    "express-session": "^1.15.6",
     "node-forge": "^0.7.1",
     "nunjucks": "^3.0.1",
     "pg": "^7.3.0",
     "pg-minify": "^0.5.3",
     "pg-pool": "^2.0.3",
-    "pg-promise": "^6.5.2",
+    "pg-promise": "^7.0.2",
     "require-dir": "^0.3.2",
-    "squel": "^5.11.1",
-    "winston": "^2.3.1"
+    "squel": "^5.12.0",
+    "winston": "^2.4.0"
   }
 }
