@@ -8,7 +8,15 @@ CREATE OR REPLACE FUNCTION trigger_auto_reject()
 RETURNS trigger AS
 $trigger$
     BEGIN
-        RETURN OLD;
+        RETURN NULL;
+    END;
+$trigger$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION trigger_auto_reject()
+RETURNS trigger AS
+$trigger$
+    BEGIN
+        RETURN NULL;
     END;
 $trigger$ LANGUAGE plpgsql;
 
@@ -336,12 +344,16 @@ $trigger$
     DECLARE
       newSequence INTEGER;
     BEGIN
+        NEW.id = 0;
+
         IF NEW.nature IS NOT NULL THEN
           NEW.id = NEW.nature*1000;
         END IF;
 
-        SELECT COALESCE(MAX(id/1000) + 1, 1) INTO newSequence
+        SELECT COALESCE(MAX(id%1000) + 1, 0) INTO newSequence
           FROM StudentOrganization;
+
+        NEW.id = NEW.id + newSequence;
 
         RETURN NEW;
     END;
@@ -351,13 +363,37 @@ CREATE TRIGGER before_insert_StudentOrganization
     FOR EACH ROW
     EXECUTE PROCEDURE trigger_before_insert_StudentOrganization();
 
+CREATE OR REPLACE FUNCTION trigger_after_update_StudentOrganization_nature()
+RETURNS trigger AS
+$trigger$
+    DECLARE 
+      newID INTEGER DEFAULT 0;
+    BEGIN
+      IF NEW.nature IS NOT NULL THEN
+        newID = NEW.nature*1000;
+      END IF;
+
+      newID = newID + (OLD.id%1000);
+      
+      UPDATE StudentOrganization
+         SET id = newID
+       WHERE id = OLD.id;
+      NEW.id = newID;
+      RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER after_update_StudentOrganization_nature
+    AFTER UPDATE ON StudentOrganization
+    FOR EACH ROW WHEN ((OLD.nature <> NEW.nature) OR (OLD.nature IS NULL))
+    EXECUTE PROCEDURE trigger_after_update_StudentOrganization_nature();
+
 INSERT INTO StudentOrganization (id, acronym, name, description)
                          VALUES (0, 'CSO', 'Council of Student Organizations', NULL); 
     /* Organization Structure */
 DROP TABLE IF EXISTS OrganizationRole CASCADE;
 CREATE TABLE OrganizationRole (
 	id SERIAL UNIQUE,
-	organization INTEGER REFERENCES StudentOrganization(id),
+	organization INTEGER REFERENCES StudentOrganization(id) ON UPDATE CASCADE,
 	sequence INTEGER,
 	name VARCHAR(100),
 	rank INTEGER,
@@ -487,7 +523,7 @@ $trigger$
         RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
-CREATE TRIGGER before_after_insert_StudentOrganization
+CREATE TRIGGER after_insert_StudentOrganization
     AFTER INSERT ON StudentOrganization
     FOR EACH ROW
     EXECUTE PROCEDURE trigger_after_insert_StudentOrganization();
@@ -727,7 +763,7 @@ CREATE TABLE GOSMStatus (
 );
 INSERT INTO GOSMStatus (id, name)
                 VALUES (1, 'Created'),
-                       (2, 'Initial Submission'),
+                       (2, 'For Approval'),
                        (3, 'Approved'),
                        (4, 'Pending'),
                        (5, 'Denied');
@@ -736,7 +772,7 @@ DROP TABLE IF EXISTS GOSM CASCADE;
 CREATE TABLE GOSM (
     id SERIAL UNIQUE,
     termID INTEGER,
-    studentOrganization INTEGER REFERENCES StudentOrganization(id),
+    studentOrganization INTEGER REFERENCES StudentOrganization(id) ON UPDATE CASCADE,
     status SMALLINT NOT NULL REFERENCES GOSMStatus(id) DEFAULT 1,
     dateCreated TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     dateSubmitted TIMESTAMP WITH TIME ZONE,
@@ -754,7 +790,7 @@ $trigger$
       newSequence INTEGER;
     BEGIN
         NEW.id := NEW.studentOrganization*100000;
-        SELECT COALESCE(MAX(id/100000) + 1, 1) INTO newSequence
+        SELECT COALESCE(MAX(id%100000) + 1, 1) INTO newSequence
           FROM GOSM;
         NEW.id := NEW.id + newSequence;
         RETURN NEW;
@@ -765,7 +801,7 @@ CREATE TRIGGER before_insert_GGOSM
     FOR EACH ROW
     EXECUTE PROCEDURE trigger_before_insert_GOSM();
 
-CREATE OR REPLACE FUNCTION trigger_before_update_GOSM()
+CREATE OR REPLACE FUNCTION trigger_before_update_GOSM_status()
 RETURNS trigger AS
 $trigger$
     BEGIN
@@ -778,15 +814,35 @@ $trigger$
         RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
-CREATE TRIGGER before_update_GGOSM
+CREATE TRIGGER before_update_GOSM_status
     BEFORE UPDATE ON GOSM
     FOR EACH ROW WHEN (OLD.status <> NEW.status)
-    EXECUTE PROCEDURE trigger_before_update_GOSM();
+    EXECUTE PROCEDURE trigger_before_update_GOSM_status();
+
+CREATE OR REPLACE FUNCTION trigger_after_update_GOSM_studentOrganization()
+RETURNS trigger AS
+$trigger$
+    DECLARE 
+      newID INTEGER DEFAULT 0;
+    BEGIN
+        newID = NEW.studentOrganization*100000 + (OLD.id%100000);
+
+        UPDATE GOSM
+           SET id = newID
+        WHERE id = OLD.id;
+        NEW.id = newID;
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER after_update_GOSM_studentOrganization
+    AFTER UPDATE ON GOSM
+    FOR EACH ROW WHEN (OLD.studentOrganization <> NEW.studentOrganization)
+    EXECUTE PROCEDURE trigger_after_update_GOSM_studentOrganization();
 
 DROP TABLE IF EXISTS GOSMActivity CASCADE;
 CREATE TABLE GOSMActivity (
     id SERIAL UNIQUE,
-    GOSM INTEGER REFERENCES GOSM(id),
+    GOSM INTEGER REFERENCES GOSM(id) ON UPDATE CASCADE,
     sequence INTEGER NOT NULL DEFAULT -1,
     goals VARCHAR(255) NOT NULL,
     objectives VARCHAR(255)[] NOT NULL,
@@ -867,17 +923,18 @@ CREATE TABLE ProjectProposal (
 
     PRIMARY KEY (GOSMActivity)
 );
-CREATE OR REPLACE FUNCTION trigger_before_insert_ProjectProposal()
+CREATE OR REPLACE FUNCTION trigger_after_insert_ProjectProposal()
 RETURNS trigger AS 
 $trigger$
     BEGIN
+        
         RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
-CREATE TRIGGER before_insert_ProjectProposal
+CREATE TRIGGER after_insert_ProjectProposal
     AFTER INSERT ON ProjectProposal
     FOR EACH ROW
-    EXECUTE PROCEDURE trigger_before_insert_ProjectProposal();
+    EXECUTE PROCEDURE trigger_after_insert_ProjectProposal();
 
 CREATE OR REPLACE FUNCTION trigger_before_update_ProjectProposal()
 RETURNS trigger AS
@@ -976,9 +1033,12 @@ CREATE TABLE ExpenseType (
 );
 INSERT INTO ExpenseType (id, name)
                  VALUES (0, 'Others'),
-                        (1, 'Food/Accomodation'),
+                        (1, 'Food & Accomodation'),
                         (2, 'Venue & Transportation'),
-                        (3, 'Honorarium');
+                        (3, 'Honorarium'),
+                        (4, 'Cash Prize'),
+                        (5, 'Corruption Expense');
+
 DROP TABLE IF EXISTS ProjectProposalExpenses CASCADE;
 CREATE TABLE ProjectProposalExpenses (
     projectProposal INTEGER REFERENCES ProjectProposal(id),
@@ -986,6 +1046,7 @@ CREATE TABLE ProjectProposalExpenses (
     material VARCHAR(45) NOT NULL,
     quantity INTEGER NOT NULL,
     unitCost NUMERIC(16, 4) NOT NULL,
+    type SMALLINT NOT NULL REFERENCES ExpenseType(id) DEFAULT 0,
 
     PRIMARY KEY (projectProposal, sequence)
 );
