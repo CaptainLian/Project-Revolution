@@ -42,7 +42,7 @@ module.exports = function(configuration, modules, models, database, queryFiless)
         logout: (req, res) => {
             req.session.user = undefined;
             req.session.destroy(function(err) {
-                res.redirect("/");
+                return res.redirect("/");
             });
         },
 
@@ -156,7 +156,7 @@ module.exports = function(configuration, modules, models, database, queryFiless)
                 const signature = privateKey.sign(messageDigest);
 
                 console.log(signature);
-                res.send(typeof signature);
+                return res.send(typeof signature);
             });
         },
 

@@ -8,7 +8,15 @@ CREATE OR REPLACE FUNCTION trigger_auto_reject()
 RETURNS trigger AS
 $trigger$
     BEGIN
-        RETURN OLD;
+        RETURN NULL;
+    END;
+$trigger$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION trigger_auto_reject()
+RETURNS trigger AS
+$trigger$
+    BEGIN
+        RETURN NULL;
     END;
 $trigger$ LANGUAGE plpgsql;
 
@@ -191,7 +199,7 @@ INSERT INTO College (shortAcronym, fullAcronym, name)
              VALUES ('COB', 'RVRCOB', 'Ramon V. del Rosario College of Business');
 INSERT INTO College (shortAcronym, fullAcronym, name)
              VALUES ('SOE', null, 'School of Economics');
-             
+
 DROP TABLE IF EXISTS ActivityType CASCADE;
 CREATE TABLE ActivityType (
     id SMALLINT,
@@ -200,15 +208,15 @@ CREATE TABLE ActivityType (
     PRIMARY KEY(id)
 );
 INSERT INTO ActivityType (id, name)
-VALUES (0, 'Competition'), 
-       (1, 'Distribution'), 
-       (2, 'General Assembly'), 
-       (3, 'Seminar/Workshop'), 
-       (4, 'Publicity/Awareness Campaign'), 
-       (5, 'Meetings'), 
-       (6, 'Spiritual Activity'), 
-       (7, 'Recruitment/Audition'), 
-       (8, 'Recreation'), 
+VALUES (0, 'Competition'),
+       (1, 'Distribution'),
+       (2, 'General Assembly'),
+       (3, 'Seminar/Workshop'),
+       (4, 'Publicity/Awareness Campaign'),
+       (5, 'Meetings'),
+       (6, 'Spiritual Activity'),
+       (7, 'Recruitment/Audition'),
+       (8, 'Recreation'),
        (9, 'Others');
 
 /* Activity Requirements */
@@ -247,21 +255,21 @@ CREATE TABLE PreActivityAttachmentRequirement (
     CONSTRAINT PreActivityAttachmentRequirement_DocumentAttachmentRequirement_fkey FOREIGN KEY (attachment) REFERENCES DocumentAttachmentRequirement(id)
 ) INHERITS (ActivityAttachmentRequirement);
 INSERT INTO PreActivityAttachmentRequirement (activityType, attachment, optional)
-VALUES (0, 0, FALSE), 
-       (0, 1, FALSE), 
-       (1, 2, FALSE), 
-       (2, 3, FALSE), 
-       (3, 4, FALSE), 
-       (4, 3, FALSE), 
-       (4, 5, FALSE), 
-       (5, 3, FALSE), 
-       (5, 6, FALSE), 
-       (6, 3, FALSE), 
-       (6, 7, TRUE), 
-       (7, 3, FALSE), 
-       (7, 8, FALSE), 
-       (7, 0, FALSE), 
-       (8, 3, FALSE), 
+VALUES (0, 0, FALSE),
+       (0, 1, FALSE),
+       (1, 2, FALSE),
+       (2, 3, FALSE),
+       (3, 4, FALSE),
+       (4, 3, FALSE),
+       (4, 5, FALSE),
+       (5, 3, FALSE),
+       (5, 6, FALSE),
+       (6, 3, FALSE),
+       (6, 7, TRUE),
+       (7, 3, FALSE),
+       (7, 8, FALSE),
+       (7, 0, FALSE),
+       (8, 3, FALSE),
        (9, 3, FALSE);
 
 DROP TABLE IF EXISTS PostActivityAttachmentRequirement CASCADE;
@@ -336,12 +344,16 @@ $trigger$
     DECLARE
       newSequence INTEGER;
     BEGIN
+        NEW.id = 0;
+
         IF NEW.nature IS NOT NULL THEN
           NEW.id = NEW.nature*1000;
         END IF;
 
-        SELECT COALESCE(MAX(id/1000) + 1, 1) INTO newSequence
+        SELECT COALESCE(MAX(id%1000) + 1, 0) INTO newSequence
           FROM StudentOrganization;
+
+        NEW.id = NEW.id + newSequence;
 
         RETURN NEW;
     END;
@@ -351,13 +363,37 @@ CREATE TRIGGER before_insert_StudentOrganization
     FOR EACH ROW
     EXECUTE PROCEDURE trigger_before_insert_StudentOrganization();
 
+CREATE OR REPLACE FUNCTION trigger_after_update_StudentOrganization_nature()
+RETURNS trigger AS
+$trigger$
+    DECLARE 
+      newID INTEGER DEFAULT 0;
+    BEGIN
+      IF NEW.nature IS NOT NULL THEN
+        newID = NEW.nature*1000;
+      END IF;
+
+      newID = newID + (OLD.id%1000);
+      
+      UPDATE StudentOrganization
+         SET id = newID
+       WHERE id = OLD.id;
+      NEW.id = newID;
+      RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER after_update_StudentOrganization_nature
+    AFTER UPDATE ON StudentOrganization
+    FOR EACH ROW WHEN ((OLD.nature <> NEW.nature) OR (OLD.nature IS NULL))
+    EXECUTE PROCEDURE trigger_after_update_StudentOrganization_nature();
+
 INSERT INTO StudentOrganization (id, acronym, name, description)
-                         VALUES (0, 'CSO', 'Council of Student Organizations', NULL); 
+                         VALUES (0, 'CSO', 'Council of Student Organizations', NULL);
     /* Organization Structure */
 DROP TABLE IF EXISTS OrganizationRole CASCADE;
 CREATE TABLE OrganizationRole (
 	id SERIAL UNIQUE,
-	organization INTEGER REFERENCES StudentOrganization(id),
+	organization INTEGER REFERENCES StudentOrganization(id) ON UPDATE CASCADE,
 	sequence INTEGER,
 	name VARCHAR(100),
 	rank INTEGER,
@@ -401,7 +437,7 @@ INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
 -- 7
 INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
                       VALUES (           0, 'Associate Vice Chairperson for Activity Documentations and Management', FALSE, 6);
--- 8                      
+-- 8
 INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
                       VALUES (           0, 'Associate for Activity Documentations and Management', FALSE, 7);
 -- 9
@@ -461,24 +497,24 @@ $trigger$
         ievpRoleID INTEGER;
     BEGIN
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
-                             VALUES (NEW.id, 'President', TRUE, NULL) 
+                             VALUES (NEW.id, 'President', TRUE, NULL)
         RETURNING id INTO presidentRoleID;
 
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
-                             VALUES (NEW.id, 'Executive Secretariat', TRUE, presidentRoleID) 
+                             VALUES (NEW.id, 'Executive Secretariat', TRUE, presidentRoleID)
         RETURNING id INTO executiveSecretariatRoleID;
 
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
                              VALUES (NEW.id, 'External Executive Vice President', TRUE, presidentRoleID);
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
-                             VALUES (NEW.id, 'Internal Executive Vice President', TRUE, presidentRoleID) 
+                             VALUES (NEW.id, 'Internal Executive Vice President', TRUE, presidentRoleID)
         RETURNING id INTO ievpRoleID;
 
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
-                             VALUES (NEW.id, 'Vice President of Documentations', TRUE, executiveSecretariatRoleID);    
+                             VALUES (NEW.id, 'Vice President of Documentations', TRUE, executiveSecretariatRoleID);
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
                              VALUES (NEW.id, 'Associate Vice President of Documentations', FALSE, executiveSecretariatRoleID);
-        
+
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
                              VALUES (NEW.id, 'Vice President of Finance', TRUE, ievpRoleID);
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
@@ -487,7 +523,7 @@ $trigger$
         RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
-CREATE TRIGGER before_after_insert_StudentOrganization
+CREATE TRIGGER after_insert_StudentOrganization
     AFTER INSERT ON StudentOrganization
     FOR EACH ROW
     EXECUTE PROCEDURE trigger_after_insert_StudentOrganization();
@@ -549,20 +585,20 @@ INSERT INTO FunctionalityCategory (id, name, domain)
 DROP TABLE IF EXISTS Functionality CASCADE;
 CREATE TABLE Functionality (
 	id SMALLINT,
-	name VARCHAR (100), 
+	name VARCHAR (100),
   category SMALLINT REFERENCES FunctionalityCategory (id),
 
   PRIMARY KEY (id)
 );
 INSERT INTO Functionality (id, name, category)
                    VALUES (0, 'Time Setting', 0),
- 
+
                           (1, 'Create Position', 1),
                           (2, 'Edit Position', 1),
                           (3, 'Assign Position', 1),
                           (4, 'Delete Position', 1),
                           (5, 'View Orgaizational Structure', 1),
- 
+
                           (6, 'Create Organization', 2),
                           (7, 'Edit Organization', 2),
                           (8, 'Delete Organization', 2),
@@ -585,17 +621,17 @@ INSERT INTO Functionality (id, name, category)
                           (19, 'View Organizational Struture', 9),
                           (20, 'Survey Results', 9),
                           (21, 'Activity Research Form', 9),
- 
+
                           (22, 'Assign Evaluator for Activity', 7),
                           (23, 'Evaluate During-Activity', 7),
                           (24, 'View During-Activities to be Evaluated', 7),
-                          
+
                           (25, 'Evaluate Post-Activity', 8),
 
                           (26, 'Submit Publicity Material', 9),
                           (27, 'Resubmit Publicity Material', 9),
                           (28, 'View Publicity Material', 9),
-                          
+
                           -- Organization Side
                           (29, 'Submit GOSM', 10),
                           (30, 'Resubmit GOSM', 10),
@@ -605,7 +641,7 @@ INSERT INTO Functionality (id, name, category)
                           (34, 'View Project Proposal', 10),
                           (35, 'Submit Post-Activity Documents', 10),
                           (36, 'View Post-Activity Documents', 10),
- 
+
                           (37, 'Request Cash Advance', 12),
                           (38, 'Request Direct Payment', 12),
                           (39, 'Request Book Transfer', 12),
@@ -624,7 +660,7 @@ INSERT INTO Functionality (id, name, category)
                           (51, 'Request for Cancellation of check', 1),
                           (52, 'Request for Change of Payee', 1),
                           (53, 'Request for Establishment of Petty Cash', 1),
- 
+
                           (54, 'Create Position', 13),
                           (55, 'Edit Position', 13),
                           (56, 'Assign Position', 13),
@@ -636,7 +672,7 @@ CREATE TABLE OrganizationAccessControl (
 	functionality SMALLINT REFERENCES Functionality (id),
 	isAllowed BOOLEAN NOT NULL DEFAULT FALSE,
 
-	PRIMARY KEY (role, functionality) 
+	PRIMARY KEY (role, functionality)
 );
 INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                VALUES -- Assign Evaluator for Publicity Material
@@ -667,7 +703,7 @@ INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       (  11,            24,      TRUE),
                                       -- Set Organization Treasury Funds
                                       (   6,            14,      TRUE),
-                                      -- Evaluate Project Proposal 
+                                      -- Evaluate Project Proposal
                                       (  12,            13,      TRUE),
                                       (  13,            13,      TRUE),
                                       (  14,            13,      TRUE),
@@ -715,7 +751,7 @@ INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       (   4,            12,      TRUE),
                                       (   5,            12,      TRUE);
 	/* Access Control end */
-	
+
 -- FORMS
     /* GOSM RELATED*/
 DROP TABLE IF EXISTS GOSMStatus CASCADE;
@@ -727,7 +763,7 @@ CREATE TABLE GOSMStatus (
 );
 INSERT INTO GOSMStatus (id, name)
                 VALUES (1, 'Created'),
-                       (2, 'Initial Submission'),
+                       (2, 'For Approval'),
                        (3, 'Approved'),
                        (4, 'Pending'),
                        (5, 'Denied');
@@ -736,11 +772,11 @@ DROP TABLE IF EXISTS GOSM CASCADE;
 CREATE TABLE GOSM (
     id SERIAL UNIQUE,
     termID INTEGER,
-    studentOrganization INTEGER REFERENCES StudentOrganization(id),
+    studentOrganization INTEGER REFERENCES StudentOrganization(id) ON UPDATE CASCADE,
     status SMALLINT NOT NULL REFERENCES GOSMStatus(id) DEFAULT 1,
     dateCreated TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     dateSubmitted TIMESTAMP WITH TIME ZONE,
-    dateStatusModified TIMESTAMP WITH TIME ZONE, 
+    dateStatusModified TIMESTAMP WITH TIME ZONE,
     preparedBy INTEGER REFERENCES Account(idNumber),
     statusModifier INTEGER REFERENCES Account(idNumber),
     comments TEXT,
@@ -750,11 +786,11 @@ CREATE TABLE GOSM (
 CREATE OR REPLACE FUNCTION trigger_before_insert_GOSM()
 RETURNS trigger AS
 $trigger$
-    DECLARE 
+    DECLARE
       newSequence INTEGER;
     BEGIN
         NEW.id := NEW.studentOrganization*100000;
-        SELECT COALESCE(MAX(id/100000) + 1, 1) INTO newSequence
+        SELECT COALESCE(MAX(id%100000) + 1, 1) INTO newSequence
           FROM GOSM;
         NEW.id := NEW.id + newSequence;
         RETURN NEW;
@@ -765,7 +801,7 @@ CREATE TRIGGER before_insert_GGOSM
     FOR EACH ROW
     EXECUTE PROCEDURE trigger_before_insert_GOSM();
 
-CREATE OR REPLACE FUNCTION trigger_before_update_GOSM()
+CREATE OR REPLACE FUNCTION trigger_before_update_GOSM_status()
 RETURNS trigger AS
 $trigger$
     BEGIN
@@ -778,15 +814,35 @@ $trigger$
         RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
-CREATE TRIGGER before_update_GGOSM
+CREATE TRIGGER before_update_GOSM_status
     BEFORE UPDATE ON GOSM
     FOR EACH ROW WHEN (OLD.status <> NEW.status)
-    EXECUTE PROCEDURE trigger_before_update_GOSM();
+    EXECUTE PROCEDURE trigger_before_update_GOSM_status();
+
+CREATE OR REPLACE FUNCTION trigger_after_update_GOSM_studentOrganization()
+RETURNS trigger AS
+$trigger$
+    DECLARE 
+      newID INTEGER DEFAULT 0;
+    BEGIN
+        newID = NEW.studentOrganization*100000 + (OLD.id%100000);
+
+        UPDATE GOSM
+           SET id = newID
+        WHERE id = OLD.id;
+        NEW.id = newID;
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER after_update_GOSM_studentOrganization
+    AFTER UPDATE ON GOSM
+    FOR EACH ROW WHEN (OLD.studentOrganization <> NEW.studentOrganization)
+    EXECUTE PROCEDURE trigger_after_update_GOSM_studentOrganization();
 
 DROP TABLE IF EXISTS GOSMActivity CASCADE;
 CREATE TABLE GOSMActivity (
     id SERIAL UNIQUE,
-    GOSM INTEGER REFERENCES GOSM(id),
+    GOSM INTEGER REFERENCES GOSM(id) ON UPDATE CASCADE,
     sequence INTEGER NOT NULL DEFAULT -1,
     goals VARCHAR(255) NOT NULL,
     objectives VARCHAR(255)[] NOT NULL,
@@ -862,22 +918,23 @@ CREATE TABLE ProjectProposal (
     comments TEXT,
     preparedBy INTEGER REFERENCES Account(idNumber),
     dateCreated TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    dateSubmitted TIMESTAMP WITH TIME ZONE, 
+    dateSubmitted TIMESTAMP WITH TIME ZONE,
     dateStatusModified TIMESTAMP WITH TIME ZONE,
 
     PRIMARY KEY (GOSMActivity)
 );
-CREATE OR REPLACE FUNCTION trigger_before_insert_ProjectProposal()
+CREATE OR REPLACE FUNCTION trigger_after_insert_ProjectProposal()
 RETURNS trigger AS 
 $trigger$
     BEGIN
+        
         RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
-CREATE TRIGGER before_insert_ProjectProposal
+CREATE TRIGGER after_insert_ProjectProposal
     AFTER INSERT ON ProjectProposal
     FOR EACH ROW
-    EXECUTE PROCEDURE trigger_before_insert_ProjectProposal();
+    EXECUTE PROCEDURE trigger_after_insert_ProjectProposal();
 
 CREATE OR REPLACE FUNCTION trigger_before_update_ProjectProposal()
 RETURNS trigger AS
@@ -976,9 +1033,12 @@ CREATE TABLE ExpenseType (
 );
 INSERT INTO ExpenseType (id, name)
                  VALUES (0, 'Others'),
-                        (1, 'Food/Accomodation'),
+                        (1, 'Food & Accomodation'),
                         (2, 'Venue & Transportation'),
-                        (3, 'Honorarium');
+                        (3, 'Honorarium'),
+                        (4, 'Cash Prize'),
+                        (5, 'Corruption Expense');
+
 DROP TABLE IF EXISTS ProjectProposalExpenses CASCADE;
 CREATE TABLE ProjectProposalExpenses (
     projectProposal INTEGER REFERENCES ProjectProposal(id),
@@ -986,6 +1046,7 @@ CREATE TABLE ProjectProposalExpenses (
     material VARCHAR(45) NOT NULL,
     quantity INTEGER NOT NULL,
     unitCost NUMERIC(16, 4) NOT NULL,
+    type SMALLINT NOT NULL REFERENCES ExpenseType(id) DEFAULT 0,
 
     PRIMARY KEY (projectProposal, sequence)
 );
@@ -1117,29 +1178,11 @@ CREATE TABLE IF NOT EXISTS session (
 )
 WITH (OIDS=FALSE);
 
-DROP TABLE IF EXISTS CONSTANT CASCADE;
-CREATE TABLE CONSTANT (
-    name VARCHAR(25) PRIMARY KEY
-);
-DROP TABLE IF EXISTS TEXT_CONSTANT CASCADE;
-CREATE TABLE TEXT_CONSTANT (
-    value TEXT NOT NUll,
-
-    PRIMARY KEY(name)
-) INHERITS (CONSTANT);
-
-DROP TABLE IF EXISTS JSON_CONSTANT CASCADE;
-CREATE TABLE JSON_CONSTANT (
-    value JSONB NOT NULL,
-    
-    PRIMARY KEY(name)
-) INHERITS (CONSTANT);
-
-/* 
-    Helpful functions 
+/*
+    Helpful functions
 */
-CREATE OR REPLACE FUNCTION getCurrentTermID()  
-RETURNS INTEGER AS 
+CREATE OR REPLACE FUNCTION getCurrentTermID()
+RETURNS INTEGER AS
 $function$
     DECLARE
         termID INTEGER;
@@ -1153,8 +1196,8 @@ $function$
     END;
 $function$ STABLE LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION getCurrentYearID()  
-RETURNS INTEGER AS 
+CREATE OR REPLACE FUNCTION getCurrentYearID()
+RETURNS INTEGER AS
 $function$
     DECLARE
         yearID INTEGER;
@@ -1168,6 +1211,6 @@ $function$
     END;
 $function$ STABLE LANGUAGE plpgsql;
 
-/* 
-    Helpful functions end 
+/*
+    Helpful functions end
 */
