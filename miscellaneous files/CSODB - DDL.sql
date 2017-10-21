@@ -20,6 +20,58 @@ $trigger$
     END;
 $trigger$ LANGUAGE plpgsql;
 
+/*
+    Helpful functions
+*/
+CREATE OR REPLACE FUNCTION system_get_current_term_id()
+RETURNS INTEGER AS
+$function$
+    DECLARE
+        termID INTEGER;
+    BEGIN
+        SELECT id INTO termID
+          FROM Term
+         WHERE CURRENT_DATE >= dateStart
+           AND CURRENT_DATE <= dateEnd;
+
+        RETURN termID;
+    END;
+$function$ STABLE LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION system_get_current_year_id()
+RETURNS INTEGER AS
+$function$
+    DECLARE
+        yearID INTEGER;
+    BEGIN
+        SELECT schoolYearID INTO yearID
+          FROM Term
+         WHERE CURRENT_DATE >= dateStart
+           AND CURRENT_DATE <= dateEnd;
+
+        RETURN yearID;
+    END;
+$function$ STABLE LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION organization_get_highest_role_id(organization INTEGER)
+RETURNS INTEGER AS
+$function$
+    DECLARE
+        roleID INTEGER;
+    BEGIN
+        SELECT id INTO roleID
+          FROM OrganizationRole
+         WHERE masterRole IS NULL
+         ORDER BY sequence ASC
+         LIMIT 1;
+
+        RETURN roleID;
+    END;
+$function$ STABLE LANGUAGE plpgsql;
+/*
+    Helpful functions end
+*/
+
 DROP TABLE IF EXISTS AccountType CASCADE;
 CREATE TABLE AccountType (
     id SMALLINT,
@@ -366,7 +418,7 @@ CREATE TRIGGER before_insert_StudentOrganization
 CREATE OR REPLACE FUNCTION trigger_after_update_StudentOrganization_nature()
 RETURNS trigger AS
 $trigger$
-    DECLARE 
+    DECLARE
       newID INTEGER DEFAULT 0;
     BEGIN
       IF NEW.nature IS NOT NULL THEN
@@ -374,7 +426,7 @@ $trigger$
       END IF;
 
       newID = newID + (OLD.id%1000);
-      
+
       UPDATE StudentOrganization
          SET id = newID
        WHERE id = OLD.id;
@@ -389,6 +441,17 @@ CREATE TRIGGER after_update_StudentOrganization_nature
 
 INSERT INTO StudentOrganization (id, acronym, name, description)
                          VALUES (0, 'CSO', 'Council of Student Organizations', NULL);
+
+
+DROP TABLE IF EXISTS OrganizationFacultyAdviser CASCADE;
+CREATE TABLE OrganizationFacultyAdviser (
+    id SERIAL NOT NULL UNIQUE,
+    organization INTEGER REFERENCES StudentOrganization(id),
+    adviser INTEGER REFERENCES Account(idNumber),
+	yearID INTEGER REFERENCES SchoolYear(id),
+
+	PRIMARY KEY(organization, adviser, yearID)
+);
     /* Organization Structure */
 DROP TABLE IF EXISTS OrganizationRole CASCADE;
 CREATE TABLE OrganizationRole (
@@ -822,7 +885,7 @@ CREATE TRIGGER before_update_GOSM_status
 CREATE OR REPLACE FUNCTION trigger_after_update_GOSM_studentOrganization()
 RETURNS trigger AS
 $trigger$
-    DECLARE 
+    DECLARE
       newID INTEGER DEFAULT 0;
     BEGIN
         newID = NEW.studentOrganization*100000 + (OLD.id%100000);
@@ -886,6 +949,40 @@ CREATE TABLE GOSMActivityProjectHead (
     /* END GOSM */
 
     /* Project Proposal */
+DROP TABLE IF EXISTS VenueSize CASCADE;
+CREATE TABLE VenueSize (
+	id SMALLINT,
+	name VARCHAR(45) NOT NULL,
+
+	PRIMARY KEY(id)
+);
+DROP TABLE IF EXISTS RateType CASCADE;
+CREATE TABLE RateType (
+	id SMALLINT,
+	name VARCHAR(45),
+
+	PRIMARY KEY(id)
+);
+DROP TABLE IF EXISTS Building CASCADE;
+CREATE TABLE Building (
+	id SMALLINT,
+	name VARCHAR(45) NOT NULL,
+
+	PRIMARY KEY(id)
+);
+DROP TABLE IF EXISTS ActivityVenue CASCADE;
+CREATE TABLE ActivityVenue (
+	id INTEGER,
+	name VARCHAR (60),
+	capacity INTEGER,
+	size SMALLINT REFERENCES VenueSize(id),
+	rate NUMERIC(16, 4),
+	rateType SMALLINT REFERENCES RateType(id),
+	building SMALLINT REFERENCES Building(id),
+
+	PRIMARY KEY (id)
+);
+
 DROP TABLE IF EXISTS ProjectProposalStatus CASCADE;
 CREATE TABLE ProjectProposalStatus (
     id SMALLINT,
@@ -895,7 +992,7 @@ CREATE TABLE ProjectProposalStatus (
 );
 INSERT INTO ProjectProposalStatus (id, name)
                            VALUES (1, 'Created'),
-                                  (2, 'Initial Submission'),
+                                  (2, 'For approval'),
                                   (3, 'Approved'),
                                   (4, 'Pending'),
                                   (5, 'Denied');
@@ -904,10 +1001,10 @@ DROP TABLE IF EXISTS ProjectProposal CASCADE;
 CREATE TABLE ProjectProposal (
     id SERIAL UNIQUE,
     GOSMActivity INTEGER REFERENCES GOSMActivity(id),
-    status SMALLINT NOT NULL REFERENCES ProjectProposalStatus(id) DEFAULT 1,
+    status INTEGER NOT NULL REFERENCES ProjectProposalStatus(id) DEFAULT 1,
     ENP INTEGER,
     ENMP INTEGER,
-    venue VARCHAR(100),
+    venue INTEGER REFERENCES ActivityVenue(id),
     context TEXT,
     sourceFundOther NUMERIC(16, 4),
     sourceFundParticipantFee NUMERIC(16, 4),
@@ -923,19 +1020,6 @@ CREATE TABLE ProjectProposal (
 
     PRIMARY KEY (GOSMActivity)
 );
-CREATE OR REPLACE FUNCTION trigger_after_insert_ProjectProposal()
-RETURNS trigger AS 
-$trigger$
-    BEGIN
-        
-        RETURN NEW;
-    END;
-$trigger$ LANGUAGE plpgsql;
-CREATE TRIGGER after_insert_ProjectProposal
-    AFTER INSERT ON ProjectProposal
-    FOR EACH ROW
-    EXECUTE PROCEDURE trigger_after_insert_ProjectProposal();
-
 CREATE OR REPLACE FUNCTION trigger_before_update_ProjectProposal()
 RETURNS trigger AS
 $trigger$
@@ -1041,6 +1125,7 @@ INSERT INTO ExpenseType (id, name)
 
 DROP TABLE IF EXISTS ProjectProposalExpenses CASCADE;
 CREATE TABLE ProjectProposalExpenses (
+    id SERIAL NOT NULL UNIQUE,
     projectProposal INTEGER REFERENCES ProjectProposal(id),
     sequence INTEGER,
     material VARCHAR(45) NOT NULL,
@@ -1115,19 +1200,112 @@ CREATE TRIGGER before_insert_ProjectProposalAttachment
     FOR EACH ROW
     EXECUTE PROCEDURE trigger_before_insert_ProjectProposalAttachment();
 
+DROP TABLE IF EXISTS SignatoryType CASCADE;
+CREATE TABLE SignatoryType (
+	id SMALLINT,
+	name VARCHAR(45) NOT NULL,
+
+	PRIMARY KEY (id)
+);
+INSERT INTO SignatoryType (id, name)
+                   VALUES ( 0, 'Project Head'),
+                   		  ( 1, 'Treasurer/Finance Officer'),
+                   		  ( 2, 'Immediate Superior'),
+                   		  ( 3, 'President'),
+                   		  ( 4, 'Faculty Adviser'),
+                          ( 5, 'Documentation Officer');
+
 DROP TABLE IF EXISTS ProjectProposalSignatory CASCADE;
 CREATE TABLE ProjectProposalSignatory (
-    projectProposal INTEGER REFERENCES ProjectProposal(id),
-    signatory INTEGER REFERENCES Account(idNumber),
-    documentHash BYTEA,
-    digitalSignature BYTEA,
-    dateSigned TIMESTAMP WITH TIME ZONE,
+	GOSMActivity INTEGER REFERENCES ProjectProposal(GOSMActivity),
+    sequence INTEGER DEFAULT -1,
+	signatory INTEGER,
+	type SMALLINT NOT NULL REFERENCES SignatoryType(id),
+	document JSONB,
+	digitalSignature TEXT,
+	dateSigned TIMESTAMP WITH TIME ZONE,
 
-    PRIMARY KEY (projectProposal, signatory)
+	PRIMARY KEY(GOSMActivity, sequence)
 );
+CREATE OR REPLACE FUNCTION trigger_before_insert_ProjectProposalSignatory_sequence()
+RETURNS trigger AS
+$trigger$
+    BEGIN
+        SELECT COALESCE(MAX(sequence) + 1, 0) INTO NEW.sequence
+          FROM ProjectProposalSignatory
+         WHERE GOSMActivity = NEW.GOSMActivity;
+
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER before_insert_ProjectProposalSignatory_sequence
+    BEFORE INSERT ON ProjectProposalSignatory
+    FOR EACH ROW
+    EXECUTE PROCEDURE trigger_before_insert_ProjectProposalSignatory_sequence();
+
+CREATE OR REPLACE FUNCTION trigger_after_insert_ProjectProposal_signatories()
+RETURNS trigger AS
+$trigger$
+    DECLARE
+        organizationPresident INTEGER;
+    BEGIN
+        -- ALL PROJECT HEADS
+        INSERT INTO ProjectProposalSignatory (GOSMActivity, signatory, type)
+             SELECT NEW.GOSMActivity, idNumber, 0
+               FROM GOSMActivityProjectHead
+              WHERE activityID = NEW.GOSMActivity;
+
+        -- TREASURER
+        INSERT INTO ProjectProposalSignatory (GOSMActivity, type)
+             VALUES (NEW.GOSMActivity, 1);
+
+        -- Immediate Superior of who prepared the PPR
+        INSERT INTO ProjectProposalSignatory (GOSMActivity, type)
+             VALUES (NEW.GOSMActivity, 1);
+
+         -- Organization President
+        INSERT INTO ProjectProposalSignatory (GOSMActivity, type)
+             VALUES (NEW.GOSMActivity, 2);
+
+        -- Organization President
+        INSERT INTO ProjectProposalSignatory (GOSMActivity, type)
+             VALUES (NEW.GOSMActivity, 3);
+
+        -- Faculty Adviser
+        INSERT INTO ProjectProposalSignatory (GOSMActivity, type)
+             VALUES (NEW.GOSMActivity, 4);
+
+         -- Documentation Officer
+        INSERT INTO ProjectProposalSignatory (GOSMActivity, type)
+             VALUES (NEW.GOSMActivity, 5);
+
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER after_insert_ProjectProposal_signatories
+    AFTER INSERT ON ProjectProposal
+    FOR EACH ROW
+    EXECUTE PROCEDURE trigger_after_insert_ProjectProposal_signatories();
     /* End Project Proposal */
     /* END SPECIAL APPROVAL SLIP */
+/* Organization Treasurer */
+DROP TABLE IF EXISTS ActivityTransaction CASCADE;
+CREATE TABLE ActivityTransaction (
+    GOSMActivity INTEGER,
+    PRS INTEGER,
+    reason TEXT,
 
+    PRIMARY KEY (GOSMActivity)
+);
+CREATE TABLE InformationQuotation (
+    GOSMActivity INTEGER REFERENCES ActivityTransaction(GOSMActivity),
+    expense INTEGER REFERENCES ProjectProposalExpenses(id),
+    contactPerson VARCHAR(60),
+    contactDetails VARCHAR(45),
+
+    PRIMARY KEY(GOSMActivity, expense)
+);
+/* Organization Treasurer */
     /* AMTActivityEvaluation */
 DROP TABLE IF EXISTS AMTActivityEvaluation CASCADE;
 CREATE TABLE AMTActivityEvaluation (
@@ -1177,40 +1355,3 @@ CREATE TABLE IF NOT EXISTS session (
     PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE
 )
 WITH (OIDS=FALSE);
-
-/*
-    Helpful functions
-*/
-CREATE OR REPLACE FUNCTION getCurrentTermID()
-RETURNS INTEGER AS
-$function$
-    DECLARE
-        termID INTEGER;
-    BEGIN
-        SELECT id INTO termID
-          FROM Term
-         WHERE CURRENT_DATE >= dateStart
-           AND CURRENT_DATE <= dateEnd;
-
-        RETURN termID;
-    END;
-$function$ STABLE LANGUAGE plpgsql;
-
-CREATE OR REPLACE FUNCTION getCurrentYearID()
-RETURNS INTEGER AS
-$function$
-    DECLARE
-        yearID INTEGER;
-    BEGIN
-        SELECT schoolYearID INTO yearID
-          FROM Term
-         WHERE CURRENT_DATE >= dateStart
-           AND CURRENT_DATE <= dateEnd;
-
-        RETURN yearID;
-    END;
-$function$ STABLE LANGUAGE plpgsql;
-
-/*
-    Helpful functions end
-*/
