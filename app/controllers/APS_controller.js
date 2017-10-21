@@ -106,27 +106,14 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
 
         activityChecking: (req, res) => {
+            var activityId;
             database.task(task => {
-                //TODO replace 1, hard coded vaue
-                return projectProposalModel.getActivityProjectProposalDetails(1, [
-                    ['at.name', 'type'],
-                    'an.name AS nature',
-                    'ga.strategies AS strategies',
-                    'so.name AS orgname',
-                    'pp.venue AS venue',
-                    'pp.enmp AS enmp',
-                    'pp.enp AS enp',
-                    'ga.objectives AS objectives',
-                    'pp.context AS context',
-                    'pp.id AS id',
-                    'pp.sourcefundother AS sourcefundother',
-                    'pp.sourcefundparticipantfee AS sourcefundparticipantfee',
-                    'pp.sourcefundorganizational AS sourcefundorganizational',
-                    'pp.accumulatedoperationalfunds AS accumulatedoperationalfunds',
-                    'pp.accumulateddepositoryfunds AS accumulateddepositoryfunds',
-                    'pp.organizationfundothersource AS organizationfundothersource'
-                ], task)
+                
+                return projectProposalModel.getNextActivityForApproval(task)
                 .then(data => {
+                    activityId = data.id;
+                    console.log(activityId);
+                    
                     return task.batch([
                         Promise.resolve(data),
                         projectProposalModel.getProjectProposalExpenses(data.id),
@@ -143,12 +130,16 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         projectProposalModel.getProjectProposalProjectHeads(data.id),
                         projectProposalModel.getProjectProposalAttachment(data.id)
                     ]);
+
+
                 });
             }).then(data => {
                 logger.debug(`${JSON.stringify(data[3])}`, log_options);
                 return res.render('APS/ActivityChecking', {
                     projectProposal: data[0],
                     expenses: data[1],
+                    //TODO: change value of activity
+                    activity: activityId,
                     projectedIncome: data[2],
                     programDesign: data[3],
                     projectHeads: data[4],

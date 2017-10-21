@@ -71,7 +71,10 @@ $(document).on('click','#approve',function() {
           $.ajax({
                 type:'POST',
                 url:'/APS/ajax/activityChecking',
-                data:1,
+                data:{
+                    id:$("#doc").attr("ct"), 
+                    method:3
+                },
               
                 success:function(data){
                   
@@ -107,14 +110,14 @@ $(document).on('click','#defer',function() {
         '<div class="form-group col-md-12">' +
         '<label class="col-md-12 text-left"><strong>Explanation</strong></label>' +
         '<div class="col-md-12">' +
-        '<textarea class="form-control" rows="5"></textarea>' +
+        '<textarea id="comment" class="form-control" rows="5"></textarea>' +
         '</div>' +
         '</div>' +
         '</div>';
 
 
     swal({
-        title: "Defer",
+        title: "Pend",
         text: "Select the sections that should be change, then explain why.",
         html: question,
         focusConfirm: false,
@@ -142,11 +145,11 @@ $(document).on('click','#defer',function() {
 
         showCancelButton: true,
         confirmButtonColor: "#FEC107",
-        confirmButtonText: "Defer",
+        confirmButtonText: "Pend",
         cancelButtonText: "Cancel",
 
     }).then(function(data) {
-        console.log(data);
+          
         console.log("ASD");
         $("html, body").animate({
             scrollTop: 0
@@ -157,12 +160,17 @@ $(document).on('click','#defer',function() {
         });
 
 
-    }).then(function(){
+    }).then(function(data){
+       
           $.ajax({
                 type:'POST',
                 url:'/APS/ajax/activityChecking',
-                data:1,
-              
+                data:{
+                    id:$("#doc").attr("ct"), 
+                    method:4,
+                    comment:$("#comment").val(),
+                    section:$("#select-sec").val()
+                },              
                 success:function(data){
                   
                     var doc = $(data).find("#doc");
@@ -183,7 +191,7 @@ $(document).on('click','#reject',function() {
         '<div class="form-group col-md-12">' +
 
         '<div class="col-md-12">' +
-        '<textarea class="form-control" rows="5"></textarea>' +
+        '<textarea id="reject-comment" class="form-control" rows="5"></textarea>' +
         '</div>' +
         '</div>' +
         '</div>';
@@ -226,7 +234,12 @@ $(document).on('click','#reject',function() {
           $.ajax({
                 type:'POST',
                 url:'/APS/ajax/activityChecking',
-                data:1,
+                data:{
+                    id:$("#doc").attr("ct"), 
+                    method:5,
+                    comment:$("#reject-comment").val()
+                   
+                },     
               
                 success:function(data){
                   
