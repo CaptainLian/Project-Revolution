@@ -89,16 +89,6 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group col-md-12 ">
-                                                <h3>Brief Context / Perspective of the Activity</h3>
-                                                <hr>
-                                                <label class="control-label col-md-6">Expected number of Member Participants</label>
-                                                <input id="enmp" class="col-md-6" type="number">                                                                                 
-                                            </div>
-                                            <div class="form-group col-md-12 ">
-                                                <label class="control-label col-md-6">Expected number of Participants</label>
-                                                <input id="emp" class="col-md-6" type="number">                                                                                 
-                                            </div>
-                                            <div class="form-group col-md-12 ">
                                                 <label class="control-label col-md-6">Venue</label>
                                                  <select  name="venue" class="select col-md-6" id="venue">
                                                     <option value="11445955">Neil Capistrano</option>
@@ -106,48 +96,47 @@
                                                     <option value="11445953">Markus Flores</option>
                                                     <option value="11445952">Lian Laguio</option>
                                                 </select>
+                                                
                                             </div>
-                                            <div class="form-group">
+                                           
+                                            <div class="form-group col-md-12 ">
+                                                <label class="control-label col-md-6">Expected number of Participants</label>
+                                                <input id="emp" class="col-md-6" type="number">                                                                                 
+                                            </div>
 
-                                               <input name="prespective" style="height:0px; top:-1000px; position:absolute;display: none" type="text" value="">
-                                                
-                                                
-                                                <ol >
-                                                    <li>
-                                                        What situation do you see (observation/s) in your organization, university, society, or our world?
-                                                        What certain experiences, problems, or questions do you have in relation to what you see? (May be supported with data or research if there is any or if needed)
+                                             <div class="form-group col-md-12 ">
+                                              
+                                                <label class="control-label col-md-6">Expected number of Member Participants</label>
+                                                <input id="enmp" class="col-md-6" type="number">                                                                                 
+                                            </div>
 
-                                                        <textarea  class="form-control m-t-5" rows=5></textarea> 
-                                                    </li>
 
-                                                    <li>
-                                                        Why is there a problem?
+
+                                             <div class="form-group col-md-12 ">
+                                                <label class="control-label col-md-12">What situation do you see (observation/s) in your organization, university, society, or our world?
+                                                        What certain experiences, problems, or questions do you have in relation to what you see? (May be supported with data or research if there is any or if needed)</label>
+                                                   <textarea  class="form-control m-t-5 col-md-12" rows=5></textarea> 
+                                            </div>
+                                            <div class="form-group col-md-12 ">
+                                                <label class="control-label col-md-12">  Why is there a problem?
                                                         What could be the cause and effect?
                                                         How did you feel about the experience, situation, or problem? And why did you feel that way?
-                                                        What can we discover or realize?
-                                                        <textarea  class="form-control m-t-5" rows=5></textarea> 
-                                                    </li>
-
-                                                    <li >
-                                                      Out of all the possible projects, activities, and solutions, Why this?
-                                                      As an organization, what will you commit as a response to what you have stated in Part 2?
-                                                      <textarea  class="form-control m-t-5" rows=5></textarea> 
-                                                    </li>
-
-                                                  </ol>
-
-                                                
-                                                
-                                                
+                                                        What can we discover or realize?</label>
+                                                   <textarea  class="form-control m-t-5 col-md-12" rows=5></textarea> 
                                             </div>
+                                            <div class="form-group col-md-12 ">
+                                                <label class="control-label col-md-12"> Out of all the possible projects, activities, and solutions, Why this?
+                                                      As an organization, what will you commit as a response to what you have stated in Part 2?</label>
+                                                   <textarea  class="form-control m-t-5 col-md-12" rows=5></textarea> 
+                                            </div>
+                                           
                                         </div>
 
                                     </div>
                               </div>
 
                               <div class="wizard-pane" role="tabpanel">
-                                    <h3>Comprehensive Program Design</h3>
-                                    <hr>
+                                     
                                             
                                     <div data-example-id="togglable-tabs" class="bs-example bs-example-tabs" style="padding-top: 25px">
                                         <ul role="tablist" class="nav nav-tabs" id="myTabs">
@@ -183,7 +172,10 @@
                                                             <!-- <input type="text" name="end" class="form-control" value="00:00" readonly=""> -->
 
                                                         </div>
-                                                        <div>&nbsp</div>
+                                                        <div>
+                                                            &nbsp
+                                                            
+                                                        </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <label>Activity</label>
@@ -200,10 +192,15 @@
                                                                
 
                                                             </select>
-                                                            <div>&nbsp</div>
+                                                            <div>
+                                                             &nbsp
+                                                           
+                                                            </div>
                                                            
                                                         </div>
-                                                    <div class=" form-group text-center">
+
+                                                    <div class="m-t-5 form-group text-center">
+
                                                          <button type="button" id="insert-button" class="btn btn-success">Insert </button>
 
                                                      </div>
@@ -266,8 +263,7 @@
                               </div>
 
                               <div class="wizard-pane" role="tabpanel">
-                                    <h3>Funding</h3>
-                                    <hr>
+                                     
                                     <div class="form-group col-md-12" >
                                      <input name="expenses" style="height:0px; top:-1000px; position:absolute;display: none" type="text" value="">
                                       <label class="control-label col-md-3">Expenses</label>
@@ -1466,9 +1462,9 @@
       console.log("OPtioNS");
       console.log($(this).val());
       if($(this).val() == "option1"){
-        $(".exp,.table, .button-table").css("display","");
+        $(".exp, #mainTable2, .button-table").css("display","");
       }else{
-        $(".exp,.table , .button-table").css("display","none");
+        $(".exp, #mainTable2 , .button-table").css("display","none");
       }
       
     });
