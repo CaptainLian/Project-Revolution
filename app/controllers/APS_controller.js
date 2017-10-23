@@ -1,11 +1,11 @@
 'use strict';
 
-const log_options = {
-    from: 'APS-Controller'
-};
 
 module.exports = function(configuration, modules, models, database, queryFiles) {
     const logger = modules.logger;
+
+    const log_options = Object.create(null);
+    log_options.from = 'APS-Controller';
 
     const gosmModel = models.gosmModel;
     const organizationModel = models.organization_model;

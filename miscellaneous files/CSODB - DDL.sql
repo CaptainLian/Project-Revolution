@@ -340,6 +340,24 @@ CREATE TABLE ActivityNature (
 
     PRIMARY KEY(id)
 );
+INSERT INTO ActivityNature (id, name)
+                    VALUES (1, 'Academic');
+INSERT INTO ActivityNature (id, name)
+                    VALUES (2, 'Special Interest');
+INSERT INTO ActivityNature (id, name)
+                    VALUES (3, 'Departmental Initiative');
+INSERT INTO ActivityNature (id, name)
+                    VALUES (4, 'Fundraising');
+INSERT INTO ActivityNature (id, name)
+                    VALUES (5, 'Community Development');
+INSERT INTO ActivityNature (id, name)
+                    VALUES (6, 'Organizational Development');
+INSERT INTO ActivityNature (id, name)
+                    VALUES (7, 'Issue Advocacy');
+INSERT INTO ActivityNature (id, name)
+                    VALUES (8, 'Lasallian Formation/Spiritual Growth');
+INSERT INTO ActivityNature (id, name)
+                    VALUES (9, 'Outreach');
 
 /* Organizations */
 /*
@@ -387,6 +405,7 @@ CREATE TABLE StudentOrganization (
     description TEXT,
     funds NUMERIC(16, 4) DEFAULT 0.0,
     facultyAdviser INTEGER REFERENCES Account(idNumber),
+    picture_path TEXT,
 
     PRIMARY KEY (id)
 );
@@ -455,24 +474,31 @@ CREATE TABLE OrganizationFacultyAdviser (
     /* Organization Structure */
 DROP TABLE IF EXISTS OrganizationRole CASCADE;
 CREATE TABLE OrganizationRole (
-	id SERIAL UNIQUE,
+	id INTEGER UNIQUE DEFAULT - 1,
 	organization INTEGER REFERENCES StudentOrganization(id) ON UPDATE CASCADE,
-	sequence INTEGER,
+	sequence INTEGER DEFAULT -1,
 	name VARCHAR(100),
 	rank INTEGER,
 	uniquePosition BOOLEAN NOT NULL DEFAULT FALSE,
-	masterRole INTEGER REFERENCES OrganizationRole(id) ON DELETE CASCADE,
+	masterRole INTEGER REFERENCES OrganizationRole(id) ON DELETE CASCADE ON UPDATE CASCADE,
 
 	PRIMARY KEY (organization, sequence)
 );
 CREATE OR REPLACE FUNCTION trigger_before_insert_OrganizationRole()
 RETURNS trigger AS
 $trigger$
+    DECLARE
+      newSequence INTEGER DEFAULT 0;
     BEGIN
-        SELECT COALESCE(MAX(id) + 1, 1) INTO STRICT NEW.sequence
-          FROM OrganizationRole
-         WHERE organization = NEW.organization;
-        return NEW;
+      SELECT COALESCE(MAX(id%10000) + 1, 0) INTO newSequence
+        FROM OrganizationRole;
+
+      NEW.id = (NEW.organization%1000)*10000 + newSequence;
+
+      SELECT COALESCE(MAX(sequence) + 1, 1) INTO NEW.sequence
+        FROM OrganizationRole
+      WHERE organization = NEW.organization;
+      return NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
 CREATE TRIGGER before_insert_OrganizationRole
@@ -484,70 +510,70 @@ INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
                       VALUES (           0, 'Chairperson', TRUE, NULL);
 -- 2
 INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Executive Vice Chairperson for Internals', TRUE, 1);
+                      VALUES (           0, 'Executive Vice Chairperson for Internals', TRUE, (SELECT id FROM OrganizationRole WHERE organization = 0 AND sequence = 0));
 -- 3
 INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Executive Vice Chairperson for Externals', TRUE, 1);
+                      VALUES (           0, 'Executive Vice Chairperson for Externals', TRUE, (SELECT id FROM OrganizationRole WHERE organization = 0 AND sequence = 1));
 -- 4
 INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Executive Vice Chairperson for Activities and Documentation', TRUE, 1);
+                      VALUES (           0, 'Executive Vice Chairperson for Activities and Documentation', TRUE, (SELECT id FROM OrganizationRole WHERE organization = 0 AND sequence = 1));
 -- 5
 INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Executive Vice Chairperson for Finance', TRUE, 1);
+                      VALUES (           0, 'Executive Vice Chairperson for Finance', TRUE, (SELECT id FROM OrganizationRole WHERE organization = 0 AND sequence = 1));
 -- 6
 INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Vice Chairperson for Activity Documentations and Management', TRUE, 3);
+                      VALUES (           0, 'Vice Chairperson for Activity Documentations and Management', TRUE, (SELECT id FROM OrganizationRole WHERE organization = 0 AND sequence = 3));
 -- 7
 INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Associate Vice Chairperson for Activity Documentations and Management', FALSE, 6);
+                      VALUES (           0, 'Associate Vice Chairperson for Activity Documentations and Management', FALSE, (SELECT id FROM OrganizationRole WHERE organization = 0 AND sequence = 6));
 -- 8
 INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Associate for Activity Documentations and Management', FALSE, 7);
+                      VALUES (           0, 'Associate for Activity Documentations and Management', FALSE, (SELECT id FROM OrganizationRole WHERE organization = 0 AND sequence = 7));
 -- 9
 INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Vice Chairperson for Activity Monitoring Team', TRUE, 3);
+                      VALUES (           0, 'Vice Chairperson for Activity Monitoring Team', TRUE, (SELECT id FROM OrganizationRole WHERE organization = 0 AND sequence = 3));
 -- 10
 INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Associate Vice Chairperson for Activity Monitoring Team', FALSE, 10);
+                      VALUES (           0, 'Associate Vice Chairperson for Activity Monitoring Team', FALSE, (SELECT id FROM OrganizationRole WHERE organization = 0 AND sequence = 10));
 -- 11
 INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Associate for Activity Monitoring Team', FALSE, 11);
+                      VALUES (           0, 'Associate for Activity Monitoring Team', FALSE, (SELECT id FROM OrganizationRole WHERE organization = 0 AND sequence = 11));
 -- 12
 INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Vice Chairperson for Activity Processing and Screening', TRUE, 3);
+                      VALUES (           0, 'Vice Chairperson for Activity Processing and Screening', TRUE, (SELECT id FROM OrganizationRole WHERE organization = 0 AND sequence = 3));
 -- 13
 INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Associate Vice Chairperson for Activity Processing and Screening', FALSE, 12);
+                      VALUES (           0, 'Associate Vice Chairperson for Activity Processing and Screening', FALSE, (SELECT id FROM OrganizationRole WHERE organization = 0 AND sequence = 13));
 -- 14
 INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Associate Activity Processing and Screening', FALSE, 13);
+                      VALUES (           0, 'Associate Activity Processing and Screening', FALSE, (SELECT id FROM OrganizationRole WHERE organization = 0 AND sequence = 13));
 -- 15
 INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Vice Chairperson for Finance', TRUE, 3);
+                      VALUES (           0, 'Vice Chairperson for Finance', TRUE, (SELECT id FROM OrganizationRole WHERE organization = 0 AND sequence = 3));
 -- 16
 INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Associate Vice Chairperson for Finance', FALSE, 15);
+                      VALUES (           0, 'Associate Vice Chairperson for Finance', FALSE, (SELECT id FROM OrganizationRole WHERE organization = 0 AND sequence = 15));
 -- 17
 INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Associate for Finance', FALSE, 16);
+                      VALUES (           0, 'Associate for Finance', FALSE, (SELECT id FROM OrganizationRole WHERE organization = 0 AND sequence = 16));
 -- 18
 INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Vice Chairperson for Publicity and Productions', TRUE, 3);
+                      VALUES (           0, 'Vice Chairperson for Publicity and Productions', TRUE, (SELECT id FROM OrganizationRole WHERE organization = 0 AND sequence = 3));
 -- 19
 INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Associate Vice Chairperson for Publicity and Productions', FALSE, 18);
+                      VALUES (           0, 'Associate Vice Chairperson for Publicity and Productions', FALSE, (SELECT id FROM OrganizationRole WHERE organization = 0 AND sequence = 18));
 -- 20
 INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Associate for Publicity and Productions', FALSE, 19);
+                      VALUES (           0, 'Associate for Publicity and Productions', FALSE, (SELECT id FROM OrganizationRole WHERE organization = 0 AND sequence = 19));
 -- 21
 INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Vice Chairperson for Organizational Research and Analysis', TRUE, 3);
+                      VALUES (           0, 'Vice Chairperson for Organizational Research and Analysis', TRUE, (SELECT id FROM OrganizationRole WHERE organization = 0 AND sequence = 3));
 -- 22
 INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Associate Vice Chairperson for Organizational Research and Analysis', FALSE, 22);
+                      VALUES (           0, 'Associate Vice Chairperson for Organizational Research and Analysis', FALSE, (SELECT id FROM OrganizationRole WHERE organization = 0 AND sequence = 23));
 -- 23
 INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Associate for Organizational Research and Analysis', FALSE, 23);
+                      VALUES (           0, 'Associate for Organizational Research and Analysis', FALSE, (SELECT id FROM OrganizationRole WHERE organization = 0 AND sequence = 23));
 
 /* Organization Default Structure */
 CREATE OR REPLACE FUNCTION trigger_after_insert_StudentOrganization()
@@ -737,6 +763,7 @@ CREATE TABLE OrganizationAccessControl (
 
 	PRIMARY KEY (role, functionality)
 );
+/*
 INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                VALUES -- Assign Evaluator for Publicity Material
                                       (  18,            22,      TRUE),
@@ -813,6 +840,7 @@ INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       (   3,            12,      TRUE),
                                       (   4,            12,      TRUE),
                                       (   5,            12,      TRUE);
+                                      */
 	/* Access Control end */
 
 -- FORMS
@@ -956,6 +984,11 @@ CREATE TABLE VenueSize (
 
 	PRIMARY KEY(id)
 );
+INSERT INTO VenueSize (id, name)
+               VALUES ( 0, 'Small'),
+                      ( 1, 'Mediume'),
+                      ( 2, 'Large'),
+                      ( 3, 'Lian Sized');
 DROP TABLE IF EXISTS RateType CASCADE;
 CREATE TABLE RateType (
 	id SMALLINT,
@@ -963,6 +996,13 @@ CREATE TABLE RateType (
 
 	PRIMARY KEY(id)
 );
+INSERT INTO RateType (id, name)
+VALUES (0, 'Per hour'),
+       (1, 'Per person'),
+       (2, 'Per use'),
+       (3, 'Per person, per use'),
+       (4, 'Per Dominique');
+
 DROP TABLE IF EXISTS Building CASCADE;
 CREATE TABLE Building (
 	id SMALLINT,
@@ -970,6 +1010,9 @@ CREATE TABLE Building (
 
 	PRIMARY KEY(id)
 );
+INSERT INTO Building (id, name)
+              VALUES (0, 'Markus Building');
+
 DROP TABLE IF EXISTS ActivityVenue CASCADE;
 CREATE TABLE ActivityVenue (
 	id INTEGER,
@@ -982,6 +1025,8 @@ CREATE TABLE ActivityVenue (
 
 	PRIMARY KEY (id)
 );
+INSERT INTO ActivityVenue (id, name, capacity, size, rate, rateType, building)
+                   VALUES ( 0, 'Neil Room', 12,  3, 700.43,       4,        0);
 
 DROP TABLE IF EXISTS ProjectProposalStatus CASCADE;
 CREATE TABLE ProjectProposalStatus (
@@ -1297,7 +1342,8 @@ CREATE TABLE ActivityTransaction (
 
     PRIMARY KEY (GOSMActivity)
 );
-CREATE TABLE InformationQuotation (
+DROP TABLE IF EXISTS InformalQuotation CASCADE;
+CREATE TABLE InformalQuotation (
     GOSMActivity INTEGER REFERENCES ActivityTransaction(GOSMActivity),
     expense INTEGER REFERENCES ProjectProposalExpenses(id),
     contactPerson VARCHAR(60),

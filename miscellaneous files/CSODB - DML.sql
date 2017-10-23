@@ -84,24 +84,6 @@ INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
                  VALUES (38, 'YES', 'Young Entrepreneurs Society', 5, NULL);
 
-INSERT INTO ActivityNature (id, name)
-                    VALUES (1, 'Academic');
-INSERT INTO ActivityNature (id, name)
-                    VALUES (2, 'Special Interest');
-INSERT INTO ActivityNature (id, name)
-                    VALUES (3, 'Departmental Initiative');
-INSERT INTO ActivityNature (id, name)
-                    VALUES (4, 'Fundraising');
-INSERT INTO ActivityNature (id, name)
-                    VALUES (5, 'Community Development');
-INSERT INTO ActivityNature (id, name)
-                    VALUES (6, 'Organizational Development');
-INSERT INTO ActivityNature (id, name)
-                    VALUES (7, 'Issue Advocacy');
-INSERT INTO ActivityNature (id, name)
-                    VALUES (8, 'Lasallian Formation/Spiritual Growth');
-INSERT INTO ActivityNature (id, name)
-                    VALUES (9, 'Outreach');
 
 /* Sample Data */
 INSERT INTO Account (email, idNumber, password, firstname, middlename, lastname, contactNumber, publicKey, privateKey)
@@ -142,7 +124,7 @@ Mwa7xuTtikKf6Y7+O7ayCwL6mOycRQ8qojl4qw6xXDLfvbP2T1i8BYwqmWZFCWKS
 -----END RSA PRIVATE KEY-----');
 
 INSERT INTO OrganizationOfficer (idNumber, role, yearID)
-                         VALUES (11445955,   3, getCurrentYearID());
+                         VALUES (11445955,   3, system_get_current_year_id());
 
 INSERT INTO Account (email, idNumber, password, firstname, lastname, contactNumber, publicKey, privateKey)
              VALUES ('markus_flores@dlsu.edu.ph', 11445954, '1234', 'Markus', 'Flores', '+63 9228474849', '-----BEGIN PUBLIC KEY-----
@@ -259,7 +241,7 @@ BtfxKI72NnSS70p1VAzKACZXwMRR5RRhOz75s1bJ3JK18AMSRc3r
 INSERT INTO GOSM (termID, studentOrganization)
            VALUES ((SELECT id
                       FROM TERM
-                     WHERE CURRENT_DATE BETWEEN dateStart AND dateEnd), 2 );
+                     WHERE CURRENT_DATE BETWEEN dateStart AND dateEnd), 2);
 UPDATE GOSM
    SET status = 2
  WHERE id = 200001;
@@ -269,7 +251,7 @@ INSERT INTO GOSMActivity (gosm, goals, objectives, strategies, description, meas
                     VALUES (200001, 'Goal Mo to', '{"Objectives", "Mo", "To"}', 'Strategies Mo to', 'Descibe kita', 'Measure mo to :)', '2017-9-6', '2017-9-6', 1, 2, false, 999.99);
 
 INSERT INTO ProjectProposal (GOSMActivity, ENP, ENMP, venue, context, sourceFundOther, sourceFundParticipantFee, sourceFundOrganizational, accumulatedOperationalFunds, accumulatedDepositoryFunds, comments)
-                     VALUES (1, 1, 1, 'Venue ito', 'Context kita', 69.69, 69.69, 69.69, 69.69, 69.69, 'Comments ko toh');
+                     VALUES (1, 1, 1, 0, 'Context kita', 69.69, 69.69, 69.69, 69.69, 69.69, 'Comments ko toh');
 UPDATE ProjectProposal
 SET status = 2
 WHERE id = 1;

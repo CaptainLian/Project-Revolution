@@ -99,8 +99,8 @@ module.exports = function(configuration, modules, database, queryFiles) {
         //TODO implementation
     };
 
-    AccountModel.getAccountOrganizations = (idNumber) => {
-
+    AccountModel.getStudentOrganizations = (idNumber) => {
+        
     };
 
     return AccountModel;
