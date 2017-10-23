@@ -125,6 +125,8 @@ Mwa7xuTtikKf6Y7+O7ayCwL6mOycRQ8qojl4qw6xXDLfvbP2T1i8BYwqmWZFCWKS
 
 INSERT INTO OrganizationOfficer (idNumber, role, yearID)
                          VALUES (11445955,   3, system_get_current_year_id());
+INSERT INTO OrganizationOfficer (idNumber, role, yearID)
+                         VALUES (11445955,  10023, system_get_current_year_id());
 
 INSERT INTO Account (email, idNumber, password, firstname, lastname, contactNumber, publicKey, privateKey)
              VALUES ('markus_flores@dlsu.edu.ph', 11445954, '1234', 'Markus', 'Flores', '+63 9228474849', '-----BEGIN PUBLIC KEY-----
@@ -162,6 +164,11 @@ HZK7AoGAPPyGiRs4E/qWlXbOgIpk5ArVyON4zRtHz14I+Iw92+Sx2Z13wdMjMM1m
 N42mDkLiwMrDjLKu9Kql8dSWM9EBptdhmTHJ/lHIZaOHuHV1TS1SvH8InxxHQrFH
 IABnJjph404aO0FT5m14xZDFUFXaKoyadX/emoeglPtg3m/YDVU=
 -----END RSA PRIVATE KEY-----');
+
+INSERT INTO OrganizationOfficer (idNumber, role, yearID)
+                         VALUES (11445954,  30039, system_get_current_year_id());
+INSERT INTO OrganizationOfficer (idNumber, role, yearID)
+                         VALUES (11445954,  20031, system_get_current_year_id());
 
 INSERT INTO Account (email, idNumber, password, firstname, lastname, contactNumber, publicKey, privateKey)
              VALUES ('dominique_dagunton@dlsu.edu.ph', 11445953, '1234', 'Dominique', 'Dagunton', '+63 9228474849', '-----BEGIN PUBLIC KEY-----
