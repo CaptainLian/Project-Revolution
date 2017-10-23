@@ -3,7 +3,7 @@ const path = require('path');
 const configuration = {
     "debug": {
         "enabled": true,
-        "enable_login_check": false
+        "enable_login_check": true
     },
     "webserver": {
         "port": 3000,

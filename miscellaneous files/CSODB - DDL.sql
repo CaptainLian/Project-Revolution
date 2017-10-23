@@ -174,7 +174,7 @@ CREATE TRIGGER before_insert_SchoolYear
 
 DROP TABLE IF EXISTS Term CASCADE;
 CREATE TABLE Term (
-    id SERIAL UNIQUE,
+    id INTEGER UNIQUE,
     schoolYearID INTEGER REFERENCES SchoolYear(id),
     number INTEGER,
     dateStart DATE NOT NULL,
@@ -396,7 +396,7 @@ INSERT INTO OrganizationCluster (id, name, acronym)
 
 DROP TABLE IF EXISTS StudentOrganization CASCADE;
 CREATE TABLE StudentOrganization (
-    id SERIAL,
+    id INTEGER UNIQUE,
     name VARCHAR(128),
     cluster SMALLINT REFERENCES OrganizationCluster(id),
     nature SMALLINT REFERENCES OrganizationNature(id),
@@ -405,55 +405,13 @@ CREATE TABLE StudentOrganization (
     description TEXT,
     funds NUMERIC(16, 4) DEFAULT 0.0,
     facultyAdviser INTEGER REFERENCES Account(idNumber),
-    picture_path TEXT,
+    path_profilePicture TEXT,
 
     PRIMARY KEY (id)
 );
-CREATE OR REPLACE FUNCTION trigger_before_insert_StudentOrganization()
-RETURNS trigger AS
-$trigger$
-    BEGIN
-        NEW.id = 0;
 
-        SELECT COALESCE(MAX(id%1000) + 1, 0) INTO NEW.id
-          FROM StudentOrganization;
-
-        IF NEW.nature IS NOT NULL THEN
-          NEW.id = NEW.id + NEW.nature*1000;
-        END IF;
-
-        RETURN NEW;
-    END;
-$trigger$ LANGUAGE plpgsql;
-CREATE TRIGGER before_insert_StudentOrganization
-    BEFORE INSERT ON StudentOrganization
-    FOR EACH ROW
-    EXECUTE PROCEDURE trigger_before_insert_StudentOrganization();
-
-CREATE OR REPLACE FUNCTION trigger_after_update_StudentOrganization_nature()
-RETURNS trigger AS
-$trigger$
-    BEGIN
-      IF NEW.nature IS NOT NULL THEN
-        NEW.id = NEW.nature*1000;
-      END IF;
-
-      NEW.id = NEW.id + (OLD.id%1000);
-
-      UPDATE StudentOrganization
-         SET id = NEW.id
-       WHERE id = OLD.id;
-
-      RETURN NEW;
-    END;
-$trigger$ LANGUAGE plpgsql;
-CREATE TRIGGER after_update_StudentOrganization_nature
-    AFTER UPDATE ON StudentOrganization
-    FOR EACH ROW WHEN ((OLD.nature <> NEW.nature) OR (OLD.nature IS NULL))
-    EXECUTE PROCEDURE trigger_after_update_StudentOrganization_nature();
-
-INSERT INTO StudentOrganization (id, acronym, name, description)
-                         VALUES (0, 'CSO', 'Council of Student Organizations', NULL);
+INSERT INTO StudentOrganization (id, acronym, name, description, path_profilePicture)
+                         VALUES (0, 'CSO', 'Council of Student Organizations', NULL, '\plugins\inages\cso.png');
 
 
 DROP TABLE IF EXISTS OrganizationFacultyAdviser CASCADE;
@@ -475,6 +433,7 @@ CREATE TABLE OrganizationRole (
 	rank INTEGER,
 	uniquePosition BOOLEAN NOT NULL DEFAULT FALSE,
 	masterRole INTEGER REFERENCES OrganizationRole(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    home_url TEXT,
 
 	PRIMARY KEY (organization, sequence)
 );
@@ -568,47 +527,6 @@ INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
 INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
                       VALUES (           0, 'Associate for Organizational Research and Analysis', FALSE, 22);
 
-/* Organization Default Structure */
-CREATE OR REPLACE FUNCTION trigger_after_insert_StudentOrganization()
-RETURNS trigger AS
-$trigger$
-    DECLARE
-        presidentRoleID INTEGER;
-        executiveSecretariatRoleID INTEGER;
-        -- Internal Executive Vice President
-        ievpRoleID INTEGER;
-    BEGIN
-        INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
-                             VALUES (NEW.id, 'President', TRUE, NULL)
-        RETURNING id INTO presidentRoleID;
-
-        INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
-                             VALUES (NEW.id, 'Executive Secretariat', TRUE, presidentRoleID)
-        RETURNING id INTO executiveSecretariatRoleID;
-
-        INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
-                             VALUES (NEW.id, 'External Executive Vice President', TRUE, presidentRoleID);
-        INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
-                             VALUES (NEW.id, 'Internal Executive Vice President', TRUE, presidentRoleID)
-        RETURNING id INTO ievpRoleID;
-
-        INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
-                             VALUES (NEW.id, 'Vice President of Documentations', TRUE, executiveSecretariatRoleID);
-        INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
-                             VALUES (NEW.id, 'Associate Vice President of Documentations', FALSE, executiveSecretariatRoleID);
-
-        INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
-                             VALUES (NEW.id, 'Vice President of Finance', TRUE, ievpRoleID);
-        INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
-                             VALUES (NEW.id, 'Associate Vice President of Finance', FALSE, ievpRoleID);
-
-        RETURN NEW;
-    END;
-$trigger$ LANGUAGE plpgsql;
-CREATE TRIGGER after_insert_StudentOrganization
-    AFTER INSERT ON StudentOrganization
-    FOR EACH ROW
-    EXECUTE PROCEDURE trigger_after_insert_StudentOrganization();
 
 DROP TABLE IF EXISTS OrganizationOfficer CASCADE;
 CREATE TABLE OrganizationOfficer (
@@ -639,12 +557,49 @@ INSERT INTO FunctionalityDomain (id, name)
 
 DROP TABLE IF EXISTS FunctionalityCategory CASCADE;
 CREATE TABLE FunctionalityCategory (
-  id SMALLINT,
+  id INTEGER,
   name VARCHAR(45),
-  domain SMALLINT REFERENCES FunctionalityDomain (id),
+  domain SMALLINT REFERENCES FunctionalityDomain (id) ON UPDATE CASCADE,
 
   PRIMARY KEY (id)
 );
+CREATE OR REPLACE FUNCTION trigger_before_insert_FunctionalityCategory()
+RETURNS trigger AS
+$trigger$
+    BEGIN
+        SELECT COALESCE(MAX(id%100) + 1, 0) INTO NEW.id
+          FROM FunctionalityCategory;
+
+        IF NEW.domain IS NOT NULL THEN
+            NEW.id = NEW.id + NEW.domain*100;
+        END IF;
+
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER before_insert_FunctionalityCategory
+    BEFORE INSERT ON FunctionalityCategory
+    FOR EACH ROW
+    EXECUTE PROCEDURE trigger_before_insert_FunctionalityCategory();
+
+CREATE OR REPLACE FUNCTION trigger_before_update_FunctionalityCategory()
+RETURNS trigger AS
+$trigger$
+    BEGIN
+        NEW.id = OLD.id%100;
+
+        IF NEW.domain IS NOT NULL THEN
+            NEW.id = NEW.id + NEW.domain*100;
+        END IF;
+
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER before_update_FunctionalityCategory
+    BEFORE UPDATE ON FunctionalityCategory
+    FOR EACH ROW WHEN ((OLD.domain <> NEW.domain) OR (OLD.domain IS NULL))
+    EXECUTE PROCEDURE trigger_before_update_FunctionalityCategory();
+
 INSERT INTO FunctionalityCategory (id, name, domain)
                            VALUES (0,  'Website Configuration', 0),
                                   (1,  'Organization Structure Management', 0),
@@ -666,12 +621,52 @@ INSERT INTO FunctionalityCategory (id, name, domain)
 
 DROP TABLE IF EXISTS Functionality CASCADE;
 CREATE TABLE Functionality (
-	id SMALLINT,
+	id INTEGER,
 	name VARCHAR (100),
-  category SMALLINT REFERENCES FunctionalityCategory (id),
+    category INTEGER REFERENCES FunctionalityCategory (id) ON UPDATE CASCADE,
 
-  PRIMARY KEY (id)
+   PRIMARY KEY (id)
 );
+CREATE OR REPLACE FUNCTION trigger_before_insert_Functionality()
+RETURNS trigger AS
+$trigger$
+    BEGIN
+        SELECT COALESCE(MAX(id%1000) + 1, 0) INTO NEW.id
+          FROM Functionality;
+
+        IF NEW.category IS NOT NULL THEN
+            NEW.id = NEW.id + NEW.category*1000;
+        END IF;
+
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER before_insert_Functionality
+    BEFORE INSERT ON Functionality
+    FOR EACH ROW
+    EXECUTE PROCEDURE trigger_before_insert_Functionality();
+
+CREATE OR REPLACE FUNCTION trigger_before_update_Functionality()
+RETURNS trigger AS
+$trigger$
+    BEGIN
+        NEW.id = OLD.id%1000;
+
+        IF NEW.category IS NOT NULL THEN
+            NEW.id = NEW.id + NEW.category*1000;
+        END IF;
+
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER before_update_Functionality
+    BEFORE UPDATE ON Functionality
+    FOR EACH ROW WHEN ((OLD.category <> NEW.category) OR (OLD.category IS NULL))
+    EXECUTE PROCEDURE trigger_before_update_Functionality();
+
+INSERT INTO Functionality (name, category)
+                   VALUES ('Submit GOSM', 104);
+/*
 INSERT INTO Functionality (id, name, category)
                    VALUES (0, 'Time Setting', 0),
 
@@ -747,15 +742,60 @@ INSERT INTO Functionality (id, name, category)
                           (55, 'Edit Position', 13),
                           (56, 'Assign Position', 13),
                           (57, 'Delete Position', 13);
-
+*/
 DROP TABLE IF EXISTS OrganizationAccessControl CASCADE;
 CREATE TABLE OrganizationAccessControl (
 	role INTEGER REFERENCES OrganizationRole (id),
-	functionality SMALLINT REFERENCES Functionality (id),
+	functionality INTEGER REFERENCES Functionality (id) ON UPDATE CASCADE,
 	isAllowed BOOLEAN NOT NULL DEFAULT FALSE,
 
 	PRIMARY KEY (role, functionality)
 );
+
+/* Organization Default Structure */
+CREATE OR REPLACE FUNCTION trigger_after_insert_StudentOrganization()
+RETURNS trigger AS
+$trigger$
+    DECLARE
+        presidentRoleID INTEGER;
+        executiveSecretariatRoleID INTEGER;
+        -- Internal Executive Vice President
+        ievpRoleID INTEGER;
+    BEGIN
+        INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
+                             VALUES (NEW.id, 'President', TRUE, NULL)
+        RETURNING id INTO presidentRoleID;
+        INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
+                                       VALUES (presidentRoleID, 104000, TRUE);
+
+        INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
+                             VALUES (NEW.id, 'Executive Secretariat', TRUE, presidentRoleID)
+        RETURNING id INTO executiveSecretariatRoleID;
+
+        INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
+                             VALUES (NEW.id, 'External Executive Vice President', TRUE, presidentRoleID);
+        INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
+                             VALUES (NEW.id, 'Internal Executive Vice President', TRUE, presidentRoleID)
+        RETURNING id INTO ievpRoleID;
+
+        INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
+                             VALUES (NEW.id, 'Vice President of Documentations', TRUE, executiveSecretariatRoleID);
+        INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
+                             VALUES (NEW.id, 'Associate Vice President of Documentations', FALSE, executiveSecretariatRoleID);
+
+        INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
+                             VALUES (NEW.id, 'Vice President of Finance', TRUE, ievpRoleID);
+        INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
+                             VALUES (NEW.id, 'Associate Vice President of Finance', FALSE, ievpRoleID);
+
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER after_insert_StudentOrganization
+    AFTER INSERT ON StudentOrganization
+    FOR EACH ROW
+    EXECUTE PROCEDURE trigger_after_insert_StudentOrganization();
+
 /*
 INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                VALUES -- Assign Evaluator for Publicity Material
@@ -854,7 +894,7 @@ INSERT INTO GOSMStatus (id, name)
 
 DROP TABLE IF EXISTS GOSM CASCADE;
 CREATE TABLE GOSM (
-    id SERIAL UNIQUE,
+    id INTEGER UNIQUE,
     termID INTEGER,
     studentOrganization INTEGER REFERENCES StudentOrganization(id) ON UPDATE CASCADE,
     status SMALLINT NOT NULL REFERENCES GOSMStatus(id) DEFAULT 1,

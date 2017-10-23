@@ -33,7 +33,7 @@ module.exports = function(configuration, modules, models, database, queryFiless)
 
         viewLogin: (req, res) => {
             const csrfToken = req.csrfToken();
-             logger.debug(`login CSRFToken: ${csrfToken}`, log_options);
+            logger.debug(`login CSRFToken: ${csrfToken}`, log_options);
             res.render('System/LoginMain', {
                 csrfToken: csrfToken
             });
@@ -48,7 +48,7 @@ module.exports = function(configuration, modules, models, database, queryFiless)
 
         checkLogin: (req, res) => {
             let input = req.body;
-             logger.debug(`Login attempt input: ${JSON.stringify(input)}`, log_options);
+            logger.debug(`Login attempt input: ${JSON.stringify(input)}`, log_options);
             //parse id number
             let credential = parseInt(input.credential);
             let credentialFloat = parseFloat(input.credential);
@@ -61,7 +61,8 @@ module.exports = function(configuration, modules, models, database, queryFiless)
                 .field('salt')
                 .field('Firstname')
                 .field('Lastname')
-                .field('Middlename');
+                .field('Middlename')
+                .field('type');
 
             let valid = true;
             if (isNaN(credential)) {
@@ -78,10 +79,10 @@ module.exports = function(configuration, modules, models, database, queryFiless)
                 database.one(query.toString(), {
                     credential: input.credential
                 }).then(account => {
-                     logger.debug(`Account found: ${JSON.stringify(account)}`, log_options);
+                    logger.debug(`Account found: ${JSON.stringify(account)}`, log_options);
                     if (account.password === bcrypt.hashSync(input.password, account.salt)) {
 
-                         logger.debug('Enter!!', log_options);
+                        logger.debug('Enter!!', log_options);
 
                         /**
                          * Session Contents
@@ -92,7 +93,12 @@ module.exports = function(configuration, modules, models, database, queryFiless)
                          *             first
                          *             middle
                          *             last
-                         *         }
+                         *         },
+                         *         organizationSelected{
+                         *              id,
+                         *
+                         *              path_profilePicture
+                         *         } (Optional)
                          *     }
                          * }
                          * @type Object
@@ -103,28 +109,85 @@ module.exports = function(configuration, modules, models, database, queryFiless)
                         user.name.first = account.firstname;
                         user.name.middle = account.middlename;
                         user.name.last = account.lastname;
+                        user.type = account.type;
+                        req.session.user = user;
                         req.session.valid = true;
 
                         req.session.save();
 
-                        return res.send({
-                            valid: true,
-                            route: '/'
-                        });
+                        logger.debug('Determining user type', log_options);
+                        switch (req.session.user.type) {
+                            // Admin
+                            case 0:
+                            //TODO:
+                                break;
+
+                            // Faculty Adviser Account
+                            case 2:
+                            //TODO:
+                                break;
+                            // SLIFE Account
+                            case 3:
+                            //TODO:
+                                break;
+                            // Accounting Account
+                            case 4:
+                            //TODO:
+                                break;
+
+                            // Student Account
+                            case 1:
+                            logger.debug('Student type account', log_options);
+                                accountModel.getStudentOrganizations(req.session.user.idNumber)
+                                .then(data => {
+                                    logger.debug(`${JSON.stringify(data)}`,log_options);
+                                    if(data.length === 1){
+                                        const [organization] = data;
+                                        req.session.user.organizationSelected = Object.create(null);
+                                        req.session.user.organizationSelected.id = organization.id;
+                                        req.session.user.organizationSelected.path_profilePicture = organization.path_profilepicture;
+                                        req.session.save();
+
+                                        return accountModel.getRoleDetailsInOrganization(req.session.user.idNumber,
+                                            organization.id,
+                                            ['home_url'])
+                                        .then(data => {
+                                            const reply = Object.create(null);
+                                            reply.valid = true;
+                                            reply.route = data.home_url;
+                                            reply.rerouteImmediately = true;
+
+                                            return Promise.resolve(reply);
+                                        });
+                                    }
+
+                                    const reply = Object.create(null);
+                                    reply.valid = true;
+                                    reply.rerouteImmediately = false;
+
+                                    return Promise.resolve(reply);
+                                }).then(data => {
+                                    return res.send(data);
+                                }).catch(err => {
+                                    return logger.warn(`Error: ${err}`);
+                                });
+
+                                break;
+                        }
                     } else {
-                         logger.debug('Incorrect password');
+                        logger.debug('Incorrect password');
                         return res.send({
                             valid: false
                         });
                     }
                 }).catch(() => {
-                     logger.debug('Account not exist');
+                    logger.debug('Account not exist');
                     return res.send({
                         valid: false
                     });
                 });
             } else {
-                 logger.debug('Aguy input');
+                logger.debug('Aguy input');
                 return res.send({
                     valid: false
                 });
@@ -136,28 +199,28 @@ module.exports = function(configuration, modules, models, database, queryFiless)
             // console.log("REQUEST");
             // console.log(req.session.user);
             //database.one('SELECT * FROM Account WHERE idNumber = ${idNumber}', {idNumber: req.session.user.idNumber});
-             logger.debug(req.session, log_options);
+            logger.debug(req.session, log_options);
             //let fullname = req.session.user.name.first + " " + req.session.user.name.middle + " " + req.session.user.name.last;
 
             accountModel.getAccountDetails(11445955, 'privateKey')
-            .then(data => {
-                let sampleDocument = {
-                    Length: 500,
-                    size: 5100,
-                    comments: 'Ganda, laki ng saging'
-                };
-                sampleDocument = JSON.stringify(sampleDocument);
+                .then(data => {
+                    let sampleDocument = {
+                        Length: 500,
+                        size: 5100,
+                        comments: 'Ganda, laki ng saging'
+                    };
+                    sampleDocument = JSON.stringify(sampleDocument);
 
-                let messageDigest = forgePromise.forge.md.sha512.create();
-                messageDigest.update(sampleDocument);
+                    let messageDigest = forgePromise.forge.md.sha512.create();
+                    messageDigest.update(sampleDocument);
 
-                const privateKey = forgePromise.forge.pki.privateKeyFromPem(data.privatekey);
+                    const privateKey = forgePromise.forge.pki.privateKeyFromPem(data.privatekey);
 
-                const signature = privateKey.sign(messageDigest);
+                    const signature = privateKey.sign(messageDigest);
 
-                console.log(signature);
-                return res.send(typeof signature);
-            });
+                    console.log(signature);
+                    return res.send(typeof signature);
+                });
         },
 
         /**
@@ -179,8 +242,8 @@ module.exports = function(configuration, modules, models, database, queryFiless)
             const input = req.body;
 
             forgePromise.pki.rsa.generateKeyPair({
-                bits:  configuration.webserver.encryption.bits,
-                workers:  configuration.webserver.encryption.web_workers_amount
+                bits: configuration.webserver.encryption.bits,
+                workers: configuration.webserver.encryption.web_workers_amount
             }).then(pair => {
                 return Promise.all([
                     forgePromise.pki.publicKeyToPem(pair.publicKey),
