@@ -14,6 +14,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const insertProjectProposalExpensesSQL = queryFiles.insertProjectProposalExpenses;
     const getProjectProposalsPerStatusSQL = queryFiles.getProjectProposalsCountPerStatus;
     const getPPRProjectedCostSQL = queryFiles.getPPRProjectedCost;
+    const getApprovedPPRsSQL = queryFiles.getApprovedPPRs;
     const getNextActivityForApprovalSQL = queryFiles.getNextActivityForApproval;
     const updatePPRStatusSQL = queryFiles.updatePPRStatus;
     
@@ -267,6 +268,10 @@ module.exports = function(configuration, modules, db, queryFiles) {
 
     ProjectProposalModel.prototype.updatePPRStatus = function(param, connection = this._db){
         return connection.none(updatePPRStatusSQL, param);
+    };
+
+    ProjectProposalModel.prototype.getApprovedPPRs = function(connection = this._db){
+        return connection.any(getApprovedPPRsSQL);
     };
 
     return new ProjectProposalModel(db, modules);

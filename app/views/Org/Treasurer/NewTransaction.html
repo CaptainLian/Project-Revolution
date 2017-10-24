@@ -105,10 +105,10 @@
                         <div class="form-group m-b-40">
                             <select class="form-control select2">
                                 <option selected="true" disabled="disabled">Select Transaction</option>
-                                    <option value="VT">Vermont</option>
-                                    <option value="VA">Virginia</option>
-                                    <option value="WV">West Virginia</option>
 
+                                    {% for ppr in pprs %}
+                                        <option value="{{ppr.id}}">{{ppr.strategies}}</option>
+                                    {% endfor %}    
                             </select>
                             <span class="highlight"></span> <span class="bar"></span>
                             <label for="input6">Activity</label>
