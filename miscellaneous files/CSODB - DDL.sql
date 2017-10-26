@@ -1276,6 +1276,18 @@ CREATE TRIGGER before_insert_ProjectProposalAttachment
     FOR EACH ROW
     EXECUTE PROCEDURE trigger_before_insert_ProjectProposalAttachment();
 
+DROP TABLE IF EXISTS SignatoryStatus CASCADE;
+CREATE TABLE SignatoryStatus (
+  id SMALLINT,
+  name VARCHAR(45) NOT NULL,
+
+  PRIMARY KEY(id)
+);
+INSERT INTO SignatoryStatus (id, name)
+                     VALUES ( 0, 'Unsigned'),
+                            ( 1, 'Accept'),
+                            ( 2, 'Pend'),
+                            ( 3, 'Deny');
 DROP TABLE IF EXISTS SignatoryType CASCADE;
 CREATE TABLE SignatoryType (
 	id SMALLINT,
@@ -1296,8 +1308,9 @@ CREATE TABLE ProjectProposalSignatory (
   id SERIAL UNIQUE,
 	GOSMActivity INTEGER REFERENCES ProjectProposal(GOSMActivity),
   sequence INTEGER DEFAULT -1,
-	signatory INTEGER,
+	signatory INTEGER REFERENCES Account(idNumber),
 	type SMALLINT NOT NULL REFERENCES SignatoryType(id),
+  status SMALLINT NOT NULL REFERENCES SignatoryStatus(id) DEFAULT,
 	document JSONB,
 	digitalSignature TEXT,
 	dateSigned TIMESTAMP WITH TIME ZONE,
@@ -1422,6 +1435,31 @@ CREATE TABLE AMTActivityEvaluation (
 );
 -- END FORMS
 -- COMMIT;
+  
+/* 
+    Auditing 
+*/
+DROP TABLE IF EXISTS "AccountEvent" CASCADE;
+CREATE TABLE "AccountEvent" (
+  id SMALLINT,
+  name VARCHAR(45),
+
+  PRIMARY KEY(id)
+); 
+INSERT INTO "AccountEvent" (id, name)
+                    VALUES ( 0, 'Edit'),
+                           ( 1, 'Create'),
+                           ( 2, 'Deactivate'),
+                           ( 3, 'Reactivate');
+
+DROP TABLE IF EXISTS "audit_Account" CASCADE;
+CREATE TABLE "audit_Account" (
+  id SERIAL,
+  responsible INTEGER,
+  affected INTEGER,
+  event SMALLINT,
+  date TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
 
     /* SESSION TABLE */
 DROP TABLE IF EXISTS session CASCADE;
