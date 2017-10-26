@@ -6,7 +6,7 @@ module.exports = function(configuration, application, modules, database, queryFi
     const log_options = Object.create(null);
     log_options.from = 'System-Account_middleware';
 
-    const contains = modules.collections.binarySearchContains;
+    const contains = modules.collections.utilities.binarySearchContains;
 
     if ((configuration.debug.enabled && configuration.security.enable_login_check) || !configuration.debug.enabled) {
 

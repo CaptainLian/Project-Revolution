@@ -8,6 +8,7 @@ module.exports = function(configuration, modules, router, controllers){
 	router.get('/logout', systemController.logout);
 	router.post('/logout', systemController.logout);
 
+	router.get('/System/Account');
 	if(configuration.debug.enabled){
 		router.get('/documentSign', systemController.documentSign);
 
