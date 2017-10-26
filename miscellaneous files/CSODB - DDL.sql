@@ -1285,16 +1285,17 @@ CREATE TABLE SignatoryType (
 );
 INSERT INTO SignatoryType (id, name)
                    VALUES ( 0, 'Project Head'),
-                   		  ( 1, 'Treasurer/Finance Officer'),
-                   		  ( 2, 'Immediate Superior'),
-                   		  ( 3, 'President'),
-                   		  ( 4, 'Faculty Adviser'),
-                          ( 5, 'Documentation Officer');
-
+                   		    ( 1, 'Treasurer/Finance Officer'),
+                   		    ( 2, 'Immediate Superior'),
+                   		    ( 3, 'President'),
+                   		    ( 4, 'Faculty Adviser'),
+                          ( 5, 'Documentation Officer'),
+                          ( 6, 'CSO Officer');
 DROP TABLE IF EXISTS ProjectProposalSignatory CASCADE;
 CREATE TABLE ProjectProposalSignatory (
+  id SERIAL UNIQUE,
 	GOSMActivity INTEGER REFERENCES ProjectProposal(GOSMActivity),
-    sequence INTEGER DEFAULT -1,
+  sequence INTEGER DEFAULT -1,
 	signatory INTEGER,
 	type SMALLINT NOT NULL REFERENCES SignatoryType(id),
 	document JSONB,

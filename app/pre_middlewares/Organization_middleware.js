@@ -12,7 +12,7 @@ module.exports = function(configuration, application, modules, database, queryFi
 
     const OrganizationMiddleware = Object.create(null);
     OrganizationMiddleware.name = 'Organization_path_attacher';
-    OrganizationMiddleware.priority = configuration.load_priority.NORMAL;
+    OrganizationMiddleware.priority = configuration.load_priority.LOWEST;
     OrganizationMiddleware.action = (req, res, next) => {
         if(req.session.user){
             if(req.session.organizationSelected){
@@ -27,9 +27,9 @@ module.exports = function(configuration, application, modules, database, queryFi
                     req.extra_view_data.organizationSelected.path_profilePicture = data.path_profilepicture;
 
                     return accessControlModel.isAllowedAccessFunctionality(
-                            req.session.user.idNumber,
-                            0,
-                            req.session.user.organizationSelected/10000
+                        req.session.user.idNumber,
+                        0,
+                        req.session.user.organizationSelected/10000
                     );
                 }).then(data => {
                     const sidebar = Object.create(null);

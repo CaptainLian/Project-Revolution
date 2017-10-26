@@ -94,6 +94,7 @@ module.exports = function(configuration, modules, models, database, queryFiless)
                          *             middle
                          *             last
                          *         },
+                         *         type
                          *         organizationSelected{
                          *              id,
                          *

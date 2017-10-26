@@ -24,7 +24,8 @@ module.exports = (configuration, mainApplicationm, modules) => {
     connectionOptions.database = configuration.database.database;
     connectionOptions.user = configuration.database.username;
     connectionOptions.password = configuration.database.password;
-
+    connectionOptions.promiseLib = modules.Promise;
+    
     /* Loading Query files */
     logger.info('\tLoading Query Files');
     var QueryFile = pgPromise.QueryFile;

@@ -1,9 +1,14 @@
-const path = require('path');
-
 const configuration = {
-    "debug": {
-        "enabled": true,
+    "security": {
+        "routes_ignore_login_required": [
+            "",
+            "/",
+            "/system/AJAX/checkLogin"
+        ],
         "enable_login_check": true
+    },
+    "debug": {
+        "enabled": true
     },
     "webserver": {
         "port": 3000,
@@ -72,6 +77,11 @@ const configuration = {
         }
     }
 };
+
+const path = require('path');
+
+/* Preprocessing of configuration data */
+configuration.security.routes_ignore_login_required.sort();
 
 configuration.webserver.controllers.path = path.resolve(configuration.webserver.controllers.path);
 configuration.webserver.pre_middlewares.path = path.resolve(configuration.webserver.pre_middlewares.path);
