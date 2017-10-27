@@ -613,7 +613,7 @@ INSERT INTO FunctionalityCategory (id, name, domain)
                                   (8,  'Activity Documentation', 1),
                                   (9,  'Organizational Research', 1),
                                   -- Student Organization
-                                  (10,  'Publicity/Creatives/Publications', 2),
+                                  (10, 'Publicity/Creatives/Publications', 2),
                                   (11, 'Activity Processing & Documentations', 2),
                                   (12, 'Submit Financial Documents', 2),
                                   (13, 'Cancel Financial Documents', 2),
@@ -1310,7 +1310,7 @@ CREATE TABLE ProjectProposalSignatory (
   sequence INTEGER DEFAULT -1,
 	signatory INTEGER REFERENCES Account(idNumber),
 	type SMALLINT NOT NULL REFERENCES SignatoryType(id),
-  status SMALLINT NOT NULL REFERENCES SignatoryStatus(id) DEFAULT,
+  status SMALLINT NOT NULL REFERENCES SignatoryStatus(id) DEFAULT 0,
 	document JSONB,
 	digitalSignature TEXT,
 	dateSigned TIMESTAMP WITH TIME ZONE,
