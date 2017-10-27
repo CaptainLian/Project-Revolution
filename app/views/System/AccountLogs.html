@@ -1,0 +1,336 @@
+{% extends '../template/CSO_master.html'%}
+{% import '../template/tags_macro.html' as tag %}
+
+
+{%block style%}
+	<!-- Bootstrap Core CSS -->
+	{{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
+    {{tag.style('/plugins/bower_components/datatables/jquery.dataTables.min.css')}}
+    {{tag.style('/plugins/bower_components/nestable/nestable.css')}}
+    {{tag.style('https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css')}}
+    {{tag.style('https://cdnjs.cloudflare.com/ajax/libs/nestable2/1.5.0/jquery.nestable.min.CSS')}}
+    <!-- Menu CSS -->
+    {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
+    <!-- animation CSS -->
+    {{tag.style('/css/animate.css')}}
+    <!--alerts CSS -->
+    {{tag.style('/plugins/bower_components/sweetalert/sweetalert.css')}}
+    <!-- Custom CSS -->
+    {{tag.style('/css/style.css')}}
+    {{tag.style('/css/custom.css')}}
+    <!-- color CSS -->
+    {{tag.style('/css/colors/default.css')}}
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+{%endblock%}
+
+{%block defer_script%}
+	<!-- jQuery -->
+	{{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
+    <!-- Bootstrap Core JavaScript -->
+    {{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
+    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
+    <!-- Menu Plugin JavaScript -->
+    {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
+    <!--slimscroll JavaScript -->
+    {{tag.javascript('/js/jquery.slimscroll.js', true)}}
+    <!--Wave Effects -->
+    {{tag.javascript('/js/waves.js', true)}}
+    <!-- Custom Theme JavaScript -->
+    {{tag.javascript('/js/custom.min.js', true)}}
+    <!-- tabs-->
+    {{tag.javascript('/js/cbpFWTabs.js', true)}}
+    {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
+    <!-- Sweet-Alert  -->
+    {{tag.javascript('/plugins/bower_components/sweetalert/sweetalert.min.js', true)}}
+    {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js', true)}}
+    {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js', true)}}
+    {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js', true)}}
+    {{tag.javascript('https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js', true)}}
+    {{tag.javascript('https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js', true)}}
+    {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js', true)}}
+    {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/sweetalert/jquery.sweet-alert.custom.js', true)}}
+    {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/nestable2/1.5.0/jquery.nestable.min.js', true)}}
+    <!-- POSITION -->
+    
+    <!--Style Switcher -->
+    {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
+
+    {{tag.javascript('/js/system/AccountLogs.js', true)}}
+{%endblock%}
+
+{%block content%}
+<!-- /row -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="white-box">
+            <h3 class="box-title m-b-0">Account Logs</h3>
+            <p class="text-muted m-b-30">A table showing the list of account related events</p>
+            <div class="table-responsive">
+                <table id="myTable" class="table table-bordered table-hover" role="grid" aria-describedby="myTable_info">
+                    <thead>
+                        <tr role="row">
+                        	<th class="sorting text-left" width="11%">Date</th>
+                        	<th class="sorting text-left" width="23">Time</th>
+                            <th class="sorting text-left" width="33%" >Name</th>
+                            <th class="sorting text-left" width="28">Action </th>
+                        </tr>
+                    </thead>
+                    <tbody> 
+                        <tr>
+                    		<td class="">Jan 10, 2017</td>
+                    		<td class="">12:30 PM</td>
+                            <td>Neil Capistrano</td>
+                            <td class="">CREATED ID <a class="btn-link" href="#">11425784</a>'s Account</td>
+                        </tr>
+                        <tr>
+                    		<td class="">Jan 10, 2017</td>
+                    		<td class="">12:30 PM</td>
+                            <td>Neil Capistrano</td>
+                    
+                           
+                            <td class="">EDITED NAME of <a class="btn-link" href="#">11425784</a>'s Account</td>
+                               
+                        </tr>
+                        <tr>
+                        		<td class="">Jan 10, 2017</td>
+                        		<td class="">12:30 PM</td>
+                                <td>Neil Capistrano</td>
+                        
+                               
+                                <td class="">DELETED ID <a class="btn-link" href="#">11425784</a>'s Account</td>
+                               
+                        </tr>
+                       
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        
+    </div>
+    <div class="col-sm-12">
+        
+    </div>
+
+</div>
+<!-- /.row -->
+{%endblock%}
+
+{%block post_content%}
+<div id="largeModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg" style="margin-top:180px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myLargeModalLabel">Add Account</h4> </div>
+            <div class="modal-body">
+                <form class="form-horizontal"> 
+                 	<div class="form-group row">
+                        <label for="idNumber" class="col-sm-2 control-label col-form-label">ID Number</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="idNumber" placeholder="ID Number">
+                        </div>
+                    </div>                       
+                    <div class="form-group row">
+                        <label class="col-sm-2 control-label col-form-label">Full Name</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" id="lastName" placeholder="Last Name">
+                        </div>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="givenName" placeholder="Given Name">
+                        </div>
+                        <div class="col-sm-2">
+                            <input type="text" class="form-control" id="middleName" placeholder="Initial">
+                        </div>
+                    </div>
+                   
+                    <div class="form-group row">
+                        <label for="inputEmail3" class="col-sm-2 control-label col-form-label">DLSU Email</label>
+                        <div class="col-sm-10">
+                            <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="inputEmail3" class="col-sm-2 control-label col-form-label">Contact Number</label>
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1">+63</span>
+                                <input class="form-control" placeholder="Phone Number" aria-describedby="basic-addon1" type="text">
+                            </div>
+                        </div>
+                    </div>                                                
+                    <!-- <div class="form-group">
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-info waves-effect waves-light m-t-10">Sign in</button>
+                        </div>
+                    </div> -->
+                </form>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="submit" id="submit" class="btn btn-info waves-effect waves-light m-t-10">Submit</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div id="editModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg" style="margin-top:180px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myLargeModalLabel">Edit Account</h4> </div>
+            <div class="modal-body">
+                <form class="form-horizontal"> 
+                 	<div class="form-group row">
+                        <label for="idNumber" class="col-sm-2 control-label col-form-label">ID Number</label>
+                        <div class="col-sm-10">
+                            <input type="text" disabled="" class="form-control" id="edit-idNumber" placeholder="ID Number">
+                        </div>
+                    </div>                       
+                    <div class="form-group row">
+                        <label class="col-sm-2 control-label col-form-label">Full Name</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" id="edit-lastName" placeholder="Last Name">
+                        </div>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="edit-givenName" placeholder="Given Name">
+                        </div>
+                        <div class="col-sm-2">
+                            <input type="text" class="form-control" id="edit-middleName" placeholder="Initial">
+                        </div>
+                    </div>
+                   
+                    <div class="form-group row">
+                        <label for="inputEmail3" class="col-sm-2 control-label col-form-label">DLSU Email</label>
+                        <div class="col-sm-10">
+                            <input type="email" class="form-control" id="edit-inputEmail3" placeholder="Email">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="inputEmail3" class="col-sm-2 control-label col-form-label">Contact Number</label>
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-addon" id="edit-basic-addon1">+63</span>
+                                <input class="form-control" placeholder="Phone Number" aria-describedby="basic-addon1" type="text">
+                            </div>
+                        </div>
+                    </div>                                                
+                    <!-- <div class="form-group">
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-info waves-effect waves-light m-t-10">Sign in</button>
+                        </div>
+                    </div> -->
+                </form>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="submit" id="edit-submit" class="btn btn-info waves-effect waves-light m-t-10">Submit</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div id="position-modal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg" style="margin-top:200px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myLargeModalLabel">Large modal</h4> </div>
+            <div class="modal-body">
+                
+                <div class="form-horizontal" style="vertical-align: middle;">
+                    <div class="form-group row">
+                        <label for="pos" class="col-sm-2 control-label col-form-label">Position</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="pos">
+                        </div>
+                        <div class="col-md-2" style="margin-top: 7.5px" >
+                            <span class="fa fa-plus text-success" id="add-position" style="vertical-align: middle;"></span>
+                        </div>
+                    </div>
+
+                  
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="white-box" style="border-color: #fff 1px">
+                            
+                            <div class="myadmin-dd dd" id="nestable">
+                                <ol class="dd-list">
+                                    <li class="dd-item" data-id="1">
+                                        <div class="dd-handle"> Item 1 <span class="remove-pos fa fa-times" style="float: right"></span> </div>
+
+                                    </li>
+                                    <li class="dd-item dd-collapsed" data-id="2">
+                                        <div class="dd-handle"> Item 2 </div>
+                                        <ol class="dd-list">
+                                            <li class="dd-item" data-id="3">
+                                                <div class="dd-handle"> Item 3 </div>
+                                            </li>
+                                            <li class="dd-item" data-id="4">
+                                                <div class="dd-handle"> Item 4 </div>
+                                            </li>
+                                            <li class="dd-item" data-id="5">
+                                                <div class="dd-handle"> Item 5 </div>
+                                                <ol class="dd-list">
+                                                    <li class="dd-item" data-id="6">
+                                                        <div class="dd-handle"> Item 6 </div>
+                                                    </li>
+                                                    <li class="dd-item" data-id="7">
+                                                        <div class="dd-handle"> Item 7 </div>
+                                                    </li>
+                                                    <li class="dd-item" data-id="8">
+                                                        <div class="dd-handle"> Item 8 </div>
+                                                    </li>
+                                                </ol>
+                                            </li>
+                                            <li class="dd-item" data-id="9">
+                                                <div class="dd-handle"> Item 9 </div>
+                                            </li>
+                                            <li class="dd-item" data-id="10">
+                                                <div class="dd-handle"> Item 10 </div>
+                                            </li>
+                                        </ol>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="sub-pos" class="btn btn-info waves-effect text-left" data-dismiss="modal">Submit</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+ <div id="right" class="myadmin-alert  alert-success myadmin-alert-top-right">      
+ 	
+	<h4>Account added!</h4>
+	 You have successfully an account for <b id="name"></b>.
+</div>
+ <div id="wrong" class="myadmin-alert  alert-danger myadmin-alert-top-right">      
+ 	
+	<h4>Failed!</h4>
+	 
+</div>
+{%endblock%}

@@ -14,6 +14,7 @@ module.exports = (configuration, logger) => {
     modules.express = express;
     modules.logger = logger;
     modules.Promise = require('bluebird');
+    modules.collections = require('./app/utility/collections.js');
     
     /**
      * Application components helper modules
