@@ -614,7 +614,7 @@ INSERT INTO FunctionalityCategory (id, name, domain)
                                   (9,  'Organizational Research', 1),
                                   -- Student Organization
                                   (10,  'Publicity/Creatives/Publications', 2),
-                                  (11, 'Activity Processiong & Documentations', 2),
+                                  (11, 'Activity Processing & Documentations', 2),
                                   (12, 'Submit Financial Documents', 2),
                                   (13, 'Cancel Financial Documents', 2),
                                   (14, 'Organization Management', 2);
@@ -623,7 +623,7 @@ DROP TABLE IF EXISTS Functionality CASCADE;
 CREATE TABLE Functionality (
 	id INTEGER,
 	name VARCHAR (100),
-    category INTEGER REFERENCES FunctionalityCategory (id) ON UPDATE CASCADE,
+  category INTEGER REFERENCES FunctionalityCategory (id) ON UPDATE CASCADE,
 
    PRIMARY KEY (id)
 );

@@ -29,7 +29,7 @@ module.exports = function(configuration, application, modules, database, queryFi
                     return accessControlModel.isAllowedAccessFunctionality(
                         req.session.user.idNumber,
                         0,
-                        req.session.user.organizationSelected/10000
+                        req.session.user.organizationSelected
                     );
                 }).then(data => {
                     const sidebar = Object.create(null);
