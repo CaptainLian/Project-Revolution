@@ -33,16 +33,19 @@ module.exports = function(configuration, modules, models, database, queryFiless)
     const SystemController = Object.create(null);
 
     SystemController.viewLogin = (req, res) => {
-        const csrfToken = req.csrfToken();
-        logger.debug(`login CSRFToken: ${csrfToken}`, log_options);
-        return res.render('System/LoginMain', {
-            csrfToken: csrfToken
-        });
+        const renderData = Object.create(null);
+        renderData.extra_view_data = req.extra_view_data;
+        renderData.csrfToken = req.csrfToken();
+
+        logger.debug(`login CSRFToken: ${renderData.csrfToken}`, log_options);
+        return res.render('System/LoginMain', renderData);
     };
 
     SystemController.logout = (req, res) => {
         req.session.user = undefined;
         return req.session.destroy((err) => {
+            if(err)
+                throw err;
             return res.redirect("/");
         });
     };
@@ -143,6 +146,18 @@ module.exports = function(configuration, modules, models, database, queryFiless)
                             accountModel.getStudentOrganizations(req.session.user.idNumber)
                             .then(data => {
                                 logger.debug(`${JSON.stringify(data)}`, log_options);
+                                req.session.user.organizationSelected = Object.create(null);
+                                req.session.user.organizationSelected.id = data[0].id;
+                                req.session.user.organizationSelected.path_profilePicture = data[0].path_profilepicture;
+
+
+                                return accountModel.getRoleDetailsInOrganization(
+                                    req.session.user,
+                                    data[0].id,
+                                    'home_url'
+                                ).then(data => {
+                                    
+                                });
                                 if (data.length === 1) {
                                     const [organization] = data;
                                     req.session.user.organizationSelected = Object.create(null);

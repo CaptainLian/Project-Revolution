@@ -6,12 +6,11 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
     TreasurerAJAXController.showNewTransaction = (req, res) =>{
     	database.task(t => {
-
-    		//TODO: replace with chosen activity id
-    		var activityId = 1;
+			//TODO: replace with chosen activity id
+			var activityId = 1;
 
 			return t.batch([
-				projectProposalModel.getProjectProposalExpenses(activityId);
+				projectProposalModel.getProjectProposalExpenses(activityId)
 			]);
 		}).then(data=>{
 

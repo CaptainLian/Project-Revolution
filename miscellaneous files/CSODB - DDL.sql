@@ -396,6 +396,14 @@ INSERT INTO OrganizationCluster (id, name, acronym)
 
 DROP TABLE IF EXISTS StudentOrganization CASCADE;
 CREATE TABLE StudentOrganization (
+    /* 
+      NOTE: UNIMPLEMENTED
+      Transaction ID Format: 
+      NNSSS
+
+      N = nature
+      S = unique sequence
+    */
     id INTEGER UNIQUE,
     name VARCHAR(128),
     cluster SMALLINT REFERENCES OrganizationCluster(id),
@@ -409,10 +417,8 @@ CREATE TABLE StudentOrganization (
 
     PRIMARY KEY (id)
 );
-
 INSERT INTO StudentOrganization (id, acronym, name, description, path_profilePicture)
-                         VALUES (0, 'CSO', 'Council of Student Organizations', NULL, '\plugins\inages\cso.png');
-
+                         VALUES (0, 'CSO', 'Council of Student Organizations', NULL, '\plugins\images\cso.png');
 
 DROP TABLE IF EXISTS OrganizationFacultyAdviser CASCADE;
 CREATE TABLE OrganizationFacultyAdviser (
@@ -426,6 +432,13 @@ CREATE TABLE OrganizationFacultyAdviser (
     /* Organization Structure */
 DROP TABLE IF EXISTS OrganizationRole CASCADE;
 CREATE TABLE OrganizationRole (
+  /* 
+    Transaction ID Format: 
+    OOOSSSS
+
+    O = student organization sequence
+    S = unique sequence
+  */
 	id INTEGER UNIQUE DEFAULT - 1,
 	organization INTEGER REFERENCES StudentOrganization(id) ON UPDATE CASCADE,
 	sequence INTEGER DEFAULT -1,
@@ -557,6 +570,13 @@ INSERT INTO FunctionalityDomain (id, name)
 
 DROP TABLE IF EXISTS FunctionalityCategory CASCADE;
 CREATE TABLE FunctionalityCategory (
+  /* 
+    Transaction ID Format: 
+    DDSS
+
+    D = functionality sequence ID
+    S = unique sequence
+  */
   id INTEGER,
   name VARCHAR(45),
   domain SMALLINT REFERENCES FunctionalityDomain (id) ON UPDATE CASCADE,
@@ -606,21 +626,28 @@ INSERT INTO FunctionalityCategory (id, name, domain)
                                   (2,  'Account Management', 0),
                                   (3,  'Manage Organizations List', 0),
                                   -- CSO
-                                  (4,  'Activity Processing', 1),
-                                  (5,  'Finance', 1),
-                                  (6,  'Publicity and Publications', 1),
-                                  (7,  'Activity Monitoring', 1),
-                                  (8,  'Activity Documentation', 1),
-                                  (9,  'Organizational Research', 1),
+                                  (104,  'Activity Processing', 1),
+                                  (105,  'Finance', 1),
+                                  (106,  'Publicity and Publications', 1),
+                                  (107,  'Activity Monitoring', 1),
+                                  (108,  'Activity Documentation', 1),
+                                  (109,  'Organizational Research', 1),
                                   -- Student Organization
-                                  (10, 'Publicity/Creatives/Publications', 2),
-                                  (11, 'Activity Processing & Documentations', 2),
-                                  (12, 'Submit Financial Documents', 2),
-                                  (13, 'Cancel Financial Documents', 2),
-                                  (14, 'Organization Management', 2);
+                                  (210, 'Publicity/Creatives/Publications', 2),
+                                  (211, 'Activity Processing & Documentations', 2),
+                                  (212, 'Submit Financial Documents', 2),
+                                  (213, 'Cancel Financial Documents', 2),
+                                  (214, 'Organization Management', 2);
 
 DROP TABLE IF EXISTS Functionality CASCADE;
 CREATE TABLE Functionality (
+  /* 
+    Transaction ID Format: 
+    CCCSSS
+
+    C = category ID
+    S = unique sequence
+  */
 	id INTEGER,
 	name VARCHAR (100),
   category INTEGER REFERENCES FunctionalityCategory (id) ON UPDATE CASCADE,
@@ -894,6 +921,13 @@ INSERT INTO GOSMStatus (id, name)
 
 DROP TABLE IF EXISTS GOSM CASCADE;
 CREATE TABLE GOSM (
+    /* 
+      Transaction ID Format: 
+      OOOSSSSS
+
+      O = organization ID
+      S = unique sequence
+    */
     id INTEGER UNIQUE,
     termID INTEGER,
     studentOrganization INTEGER REFERENCES StudentOrganization(id) ON UPDATE CASCADE,
@@ -1458,7 +1492,9 @@ CREATE TABLE "audit_Account" (
   responsible INTEGER,
   affected INTEGER,
   event SMALLINT,
-  date TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+  date TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+
+  PRIMARY KEY (id)
 );
 
     /* SESSION TABLE */

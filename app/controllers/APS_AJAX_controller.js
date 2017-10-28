@@ -193,18 +193,19 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 console.log(data);
                 console.log(activityId);
 
-               logger.debug(`${JSON.stringify(data[3])}`, log_options);
-                return res.render('APS/ActivityChecking', {
-                    projectProposal: data[0],
-                    expenses: data[1],
-                    // TODO: Change activity value
-                    activity: activityId,
-                    projectedIncome: data[2],
-                    programDesign: data[3],
-                    projectHeads: data[4],
-                    attachment: data[5],
-                    csrfToken: req.csrfToken()
-                });
+                logger.debug(`${JSON.stringify(data[3])}`, log_options);
+                const renderData = Object.create(null);
+                renderData.extra_view_data = req.extra_view_data;
+                renderData.projectProposal = data[0];
+                renderData.expenses = data[1];
+                renderData.activity = activityId;
+                renderData.projectedIncome = data[2];                
+                renderData.programDesign = data[3];
+                renderData.projectHeads = data[4];
+                renderData.attachment = data[5];
+                renderData.csrfToken = req.csrfToken();
+
+                return res.render('APS/ActivityChecking', renderData);
             }).catch(err => {
                 console.log('NAG ERROR');
                 throw err;

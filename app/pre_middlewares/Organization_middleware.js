@@ -16,30 +16,14 @@ module.exports = function(configuration, application, modules, database, queryFi
     OrganizationMiddleware.action = (req, res, next) => {
         if(req.session.user){
             if(req.session.organizationSelected){
+                const organization = req.session.organizationSelected;
                 logger.debug('Organization selected detected', log_options);
-                req.extra_view_data.organizationSelected = Object.create(null);
-                organizationModel.getOrganizationInformation(req.session.organizationSelected.id, [
-                    'acronym',
-                    'path_profilePicture'
-                ])
-                .then(data => {
-                    req.extra_view_data.organizationSelected.acronym = data.acronym;
-                    req.extra_view_data.organizationSelected.path_profilePicture = data.path_profilepicture;
 
-                    return accessControlModel.isAllowedAccessFunctionality(
-                        req.session.user.idNumber,
-                        0,
-                        req.session.user.organizationSelected
-                    );
-                }).then(data => {
-                    const sidebar = Object.create(null);
-                    sidebar.name = 'Submit Organization GOSM';
-                    sidebar.link = '/Organization/CreateGOSM';
-                    req.extra_view_data.sidebars[req.extra_view_data.sidebars.length] = sidebar;
-                    return next();
-                }).catch(err => {
-                    return next(err);
-                });
+                req.locals.extra_view_data.organizationSelected = Object.create(null);
+                req.locals.extra_view_data.organizationSelected.acronym = organization.acronym;
+                req.locals.extra_view_data.organizationSelected.path_profilePicture = organization.path_profilepicture;
+
+                return next();
             }
         }
         return next();

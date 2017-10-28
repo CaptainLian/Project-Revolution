@@ -13,6 +13,7 @@ module.exports = function(configuration, application, modules, database, queryFi
     StudentAccountAccessControlMiddleware.name = 'StudentAccount-AccessControl-Middleware';
     StudentAccountAccessControlMiddleware.priority = configuration.load_priority.HIGHEST;
     StudentAccountAccessControlMiddleware.action = (req, res, next) => {
+        logger.debug(`Extra-data contents: ${JSON.stringify(req.extra_data)}`, log_options);
         const user = req.session.user;
 
         if (user && (user.type === 1)) {
@@ -21,6 +22,7 @@ module.exports = function(configuration, application, modules, database, queryFi
                 return accessControlModel.getAccountAccessControl(user.idNumber)
                 .then(data => {
                     const accessControl = Object.create(null);
+                    const accessibleFunctionalitiesList = Object.create(null);
 
                     for (let index = data.length; index--;) {
                         const row = data[index];
@@ -39,9 +41,15 @@ module.exports = function(configuration, application, modules, database, queryFi
 
                             accessControl[organization] = orgData;
                         }
+
+                        if(accessibleFunctionalitiesList[functionalitySequence]){
+                            accessibleFunctionalitiesList[functionalitySequence] = accessibleFunctionalitiesList[functionalitySequence] && isAllowed;
+                        }
                     }
-                    console.log(`User access control: ${JSON.stringify(accessControl)}`);
+                    console.log(`User access control: ${JSON.stringify(accessControl)}`, log_options);
+                    console.log(`Accessible functions list: ${JSON.stringify(accessibleFunctionalitiesList)}`, log_options);
                     req.extra_data.user.accessControl = accessControl;
+                    req.extra_data.user.accessibleFunctionalitiesList = accessibleFunctionalitiesList;
                     return next();
                 }).catch(error => {
                     return next(error);
