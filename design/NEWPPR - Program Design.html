@@ -828,6 +828,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
           todayHighlight: true,
            startDate: day
       });
+        $("#datepicker-autoclose"+ctr).on('change',function(){
+            console.log($(this).closest("div.col-md-12").removeClass("has-warning").addClass("has-success"));
+            $(this).attr("disabled","");
+        });
 
          var clockpicker = $('#start-time'+ctr).clockpicker({
           donetext: 'Done',
@@ -939,8 +943,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
           var error = 0;
         if($.trim(startInp) == $.trim(endInp) ){
-            $("#start-time").closest("div.form-group").addClass("has-error");
-            $("#time-help").append("Start Time and End Time cannot be the same");
+            $("#start-time"+idNumber).closest("div.form-group").addClass("has-error");
+            $("#time-help"+idNumber).append("Start Time and End Time cannot be the same");
             error = 1;
         }
         if($.trim(dateInp) < 1 ){
@@ -1236,6 +1240,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
     });
+
     var clockpicker = $('#start-time').clockpicker({
         donetext: 'Done',
         autoclose:true,            
