@@ -577,10 +577,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                         
                                                         <!-- pangcancel ng auto open datepicker -->
                                                         <input style="height:0px; top:-1000px; position:absolute;display: none" type="text" value="">
-                                                        <div class="col-md-12 has-warning">
+                                                        <div class="col-md-12">
                                                             <label class="form-control-label">Date</label>
                                                             <div class="input-group  ">
-                                                                <input name="date" readonly="" class="form-control" id="datepicker-autoclose" placeholder="mm/dd/yyyy" type="text">
+                                                                <input name="date" readonly="" class="form-control" id="datepicker-autoclose" placeholder="mm/dd/yyyy" type="date">
                                                                 <span class="input-group-addon"><i class="icon-calender"></i></span> 
                                                             </div>
                                                             <div>
@@ -781,7 +781,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         $(this).closest("li").remove();
         // var id = c.substring(1);
         var toRemove = $(c).find("table").find("td:first").attr("date");
-
+        delete sched[toRemove];
         console.log( toRemove);
         $(c).remove();
         var tabFirst = $('#myTabs a:first');
@@ -798,7 +798,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
         $("div.fixed-table-loading").remove();
         $('#datepicker-autoclose').datepicker({
             autoclose: true,
-            todayHighlight: true
+            todayHighlight: true,
+            startDate:new Date()
         });
 
 
@@ -818,9 +819,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
       var idNumber = $("ul#myTabs").find(".active").attr("id").substring(1);
+      var length = sched.length - 1;
+      console.log("DATE "+ Object.keys(sched).slice(-1)[0]);
+      var day = (new Date(new Date(Object.keys(sched).slice(-1)[0]).getTime()+1000*60*60*24).getMonth()+1)+'/'+new Date(new Date(Object.keys(sched).slice(-1)[0]).getTime()+1000*60*60*24).getDate()+'/'+new Date(new Date(Object.keys(sched).slice(-1)[0]).getTime()+1000*60*60*24).getFullYear();
+      console.log( day);
        $('#datepicker-autoclose'+ctr).datepicker({
           autoclose: true,
-          todayHighlight: true
+          todayHighlight: true,
+           startDate: day
       });
 
          var clockpicker = $('#start-time'+ctr).clockpicker({
@@ -868,7 +874,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 $("#description-preview"+idNumber).text(desc);
                 $("#person-preview"+idNumber).text(person);
             }
-              
+            $('body,html').animate({ scrollTop: $('body').height() }, 500);
  
             
             
@@ -915,27 +921,94 @@ scratch. This page gets rid of all links and provides the needed markup only.
       
 
        $("#insert-button"+ctr).click(function(){
-            var dateInp =  $("#datepicker-autoclose"+idNumber).val();
-            var startInp = $("#start-time"+idNumber).val();
-            var endInp = $("#end-time"+idNumber).val();
-            if(idNumber == 0 ){
-              dateInp =  $("#datepicker-autoclose").val();
-              startInp = $("#start-time").val();
-              endInp = $("#end-time").val();
-            }
+           var dateInp =  $("#datepicker-autoclose"+idNumber).val();
+          var startInp = $("#start-time"+idNumber).val();
+          var endInp = $("#end-time"+idNumber).val();
+          var actInp = $("#act"+idNumber).val();
+          var descInp = $("#desc"+idNumber).val();
+          var selInp = $("#sel"+idNumber).val();
+          var obj = {};
+           $("#start-time"+idNumber).closest("div.form-group").removeClass("has-error");
+            $("#time-help"+idNumber).text("");
+            $("#start-time"+idNumber).closest("div.form-group").removeClass("has-error");
+            $("#time-help"+idNumber).text("");
+            $("#act"+idNumber).closest("div.form-group").removeClass("has-error");
+            $("#desc"+idNumber).closest("div.form-group").removeClass("has-error");
+            $("#desc-help"+idNumber).text("");
+            $("#act-help"+idNumber).text("");
+
+          var error = 0;
+        if($.trim(startInp) == $.trim(endInp) ){
+            $("#start-time").closest("div.form-group").addClass("has-error");
+            $("#time-help").append("Start Time and End Time cannot be the same");
+            error = 1;
+        }
+        if($.trim(dateInp) < 1 ){
+            console.log("ERROR");
+            $("#datepicker-autoclose"+idNumber).closest("div.col-md-12").addClass("has-error");
+            $("#datepicker-autoclose-help"+idNumber).text("Cannot accept empty Date");
+            error = 1;
+            $('body,html').animate({ scrollTop: 100 }, 500);
+        }
+         if(Date.parse(dateInp+" " +startInp) > Date.parse(dateInp+" " +endInp) ) {
+            console.log(dateInp+startInp+"ERROR"+dateInp+endInp);
+            $("#start-time"+idNumber).closest("div.form-group").addClass("has-error");
+            $("#time-help"+idNumber).append("End Time cannot be earlier than Start Time. ");
             
-            var actInp = $("#act"+idNumber).val();
-            var descInp = $("#desc"+idNumber).val();
-            var selInp = $("#sel"+idNumber).val();
+            error = 1;
+        }
+        if(dateInp in sched){
+            var length = sched[dateInp].length;
+            console.log("PUMASOK SA IF"+length);
+              if(Date.parse(dateInp+" " +startInp) < Date.parse(dateInp+" " +sched[dateInp][length-1].end) ) {
+                console.log(dateInp+startInp+"ERROR"+dateInp+endInp);
+                $("#start-time"+idNumber).closest("div.form-group").addClass("has-error");
+                $("#time-help"+idNumber).append("Overlapping of time with the previous activity.");
+                
+                error = 1;
+            }    
+        }
+        
 
-            if($.trim(actInp).length < 1){
-                console.log("ERROR");
-            }
-            else{ 
-           
+        if($.trim(actInp) < 1 ){
+            console.log("ERROR");
+            $("#act"+idNumber).closest("div.form-group").addClass("has-error");
+            $("#act-help"+idNumber).text("Cannot accept empty Activity Name");
+            error = 1;
+        }
+       
+        if($.trim(descInp) < 1){
+            $("#desc"+idNumber).closest("div.form-group").addClass("has-error");
+            $("#desc-help"+idNumber).text("Cannot accept empty Activity Description");
+            $("#desc"+idNumber).addClass("has-error");
+            error = 1;   
+        }
+        if(error){
 
-                var obj = {};
-             
+        }else{
+
+             var newEnd  = new Date(dateInp+" "+endInp).getTime() + (new Date(dateInp+" "+endInp).getTime() - new Date(dateInp+" "+startInp).getTime());
+            console.log("NEW END IEM " + new Date(newEnd).getHours()+":"+new Date(newEnd).getMinutes());
+
+            $("#start-time"+idNumber).val(endInp);
+            $("#end-time"+idNumber).val(new Date(newEnd).getHours()+":"+new Date(newEnd).getMinutes());
+          
+            $("#act"+idNumber).val("");
+            $("#desc"+idNumber).val("");
+
+
+
+            $("#datepicker-autoclose"+idNumber).closest("div.col-md-12").remove("has-error");
+            $("#datepicker-autoclose-help"+idNumber).text("");
+            $("#start-time"+idNumber).closest("div.form-group").removeClass("has-error");
+            $("#time-help"+idNumber).text("");
+            $("#start-time"+idNumber).closest("div.form-group").removeClass("has-error");
+            $("#time-help"+idNumber).text("");
+            $("#act"+idNumber).closest("div.form-group").removeClass("has-error");
+            $("#desc"+idNumber).closest("div.form-group").removeClass("has-error");
+            $("#desc-help"+idNumber).text("");
+            $("#act-help"+idNumber).text("");
+
               console.log("BEFORE");
               console.log(dateInp in sched);
               
@@ -1029,83 +1102,118 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         var tni = 
 
+    '<div class="col-md-12"   style="padding: 25px;position: relative;  ">'+
 
-        '<div class="col-md-12" style="padding: 25px;position: relative;  ">'+               
+      
         '<input style="height:0px; top:-1000px; position:absolute;display: none" type="text" value="">'+
-        '  <div class="col-md-6"><label>Date</label>'+
-        '<div class="input-group">'+
-        '<input readonly="" class="form-control" id="datepicker-autoclose'+ctr+'" placeholder="mm/dd/yyyy" type="text">'+
-        '<span class="input-group-addon"><i class="icon-calender"></i></span>'+
+        '<div class="col-md-12 ">'+
+            '<label class="form-control-label">Date</label>'+
+            '<div class="input-group  ">'+
+                '<input name="date" readonly="" class="form-control" id="datepicker-autoclose'+ctr+'" placeholder="mm/dd/yyyy" type="text">'+
+                '<span class="input-group-addon"><i class="icon-calender"></i></span> '+
+            '</div>'+
+            '<div>'+
+                '<span id="datepicker-autoclose-help'+ctr+'" class="help-block"> Date of the Activity could only be set once</span>'+
+            '</div>'+
         '</div>'+
+
+
+
+    '</div>'+    
+    '<div class=" col-xs-12 col-md-6  " id="clone-table" style="padding-top: 30px">'+
+        '<div class="table-responsive"  style="overflow-x:auto;">'+
+            '<table id="program-tables'+ctr+'" style="table-layout: fixed" class=" table program color-bordered-table success-bordered-table" >'+
+                '<thead>'+
+                    '<tr>'+
+
+                        '<th width="25%" class="text-center"  >Time</th>'+
+                        
+                        '<th width="65%"  class="text-center">Activity</th>'+
+
+                        '<th width="10%" data-field="state" data-checkbox="true"></th>'+
+                    '</tr>'+
+                '</thead>'+
+                '<tbody>'+
+                    '<tr class="no-records-found">'+
+                        '<td ></td>'+
+                        
+                        '<td></td>'+
+
+                        '<td></td>'+
+                    '</tr>'+
+
+                '</tbody>'+
+            '</table>'+
+        '</div>'+
+    '</div>'+
+
+    '<div class="col-md-6 " style="margin-top: 50px;">'+
         '<div>&nbsp</div>'+
-        '<label>Time</label>'+
-        '<div class="input-group clockpicker " data-autoclose="true">'+
-        '<input type="text" id="start-time'+ctr+'" class="form-control" value="00:00" readonly="">'+
-        '<span class=" input-group-addon bg-info b-0 text-white">to</span>'+
-        '<input type="text" id="end-time'+ctr+'" class="form-control" value="00:00" readonly="">'+
+        '<div class="form-group">'+
+            '<label class="form-control-label" for="start-time">Time</label>'+
+            '<div class="input-group clockpicker " data-autoclose="true">'+
+                '<input name="timeStart" type="text" id="start-time'+ctr+'" class="form-control" value="00:00" readonly="">'+
+                '<span class=" input-group-addon bg-info b-0 text-white">to</span>'+
+                '<input name="timeEnd" type="text" id="end-time'+ctr+'" class="form-control" value="00:00" readonly="">'+
+            '</div>'+
+            '<div>'+
+                '<span class="help-block" id="time-help'+ctr+'"></span>'+
+            '</div>'+
         '</div>'+
-        '<div>&nbsp</div></div>'+
-        '  <div class="col-md-6"><label>Activity</label>'+
-        '<input type="text" class="form-control" id="act'+ctr+'">'+
+        '<div class="form-group">'+
+            '<label class="form-control-label">Activity</label>'+
+            '<input name="activity" id="act'+ctr+'"  type="text" class="form-control">'+
+            '<div>'+
+                '<span class="help-block" id="act-help'+ctr+'"></span>'+
+            '</div>'+
+        '</div>'+
+        '<div class="form-group">'+
+            '<label class="form-control-label">Description</label>'+
+            '<textarea name="description" id="desc'+ctr+'" class="form-control" rows="2" ></textarea>'+
+            '<div>'+
+                '<span class="help-block" id="desc-help'+ctr+'"></span>'+
+            '</div>'+
+        '</div>'+
+
+        '<div class="form-group">'+
+            '<label class="form-control-label">Person in Charge</label>'+
+            '<select name="personInCharge" id="sel'+ctr+'" class="form-control select2">'+
+                '<option value="11445955">Delaware</option>'+
+                '<option value="11445955">Florida</option>'+
+                '<option value="11445955">Georgia</option>'+    
+            '</select>'+
+            '<div>'+
+                '<span class="help-block" id="time-help'+ctr+'"></span>'+
+            '</div>'+
+        '</div>'+
+
+        '<div class="m-t-5 form-group text-center">'+
+
+            '<button type="button" id="insert-button'+ctr+'" class="btn btn-info">Insert </button>'+
+
+        '</div>'+
+
+    '</div>'+
+    '<div class="col-md-12" style="margin-top:32px;padding:20px;border: 1px solid grey;border-radius: 2px">'+
+        '<h3 class="text-center">Activity Details</h3>'+
+        '<label style=" position: absolute;right: 20px;top:20px">Time</label>'+
+        '<p  style="word-break: break-all; position: absolute;right: 20px;top:40px" class="form-control-static"  id="time-preview'+ctr+'"></p>'+
+
+        '<label >Activity</label>'+
+        '<p  style="word-break: break-all;" class="form-control-static" id="activity-preview'+ctr+'" ></p>'+
         '<div>&nbsp</div>'+
         '<label>Description</label>'+
-        '<textarea class="form-control" rows="2" id="desc'+ctr+'"></textarea>'+
+        '<p style="word-break: break-all;" id="description-preview'+ctr+'"></p>'+
         '<div>&nbsp</div>'+
         '<label>Person in Charge</label>'+
-        '<select class="form-control select2" id="sel'+ctr+'">'+
-        '<option value="11445955">Delaware</option>'                    +
-
-        '</select>'+
-        '<div>&nbsp</div></div>'+
-        '<div class=" form-group text-center">'+
-
-        '<button type="button" id="insert-button'+ctr+'" class="btn btn-info">Insert </button>'+
+        '<p  style="word-break: break-all;" class="form-control-static"  id="person-preview'+ctr+'"></p>'+
+        '<div>'+
+            '&nbsp'+
 
         '</div>'+
-        '</div>'+
 
-        '<div class="col-md-6 " style="padding-top: 30px">'+
-        '<table id="program-tables'+ctr+'" class="table program color-bordered-table success-bordered-table" style="overflow-x:auto;"  >'+
-        '<thead>'+
-        '<tr>'+
+    '</div>';
 
-        '<th width="25%" class="text-center">Time</th>'+
-        
-        '<th width="65%" class="text-center" >Activity</th>'+
-         
-        '<th width="5%" data-field="state" data-checkbox="true"></th>'+
-        '</tr>'+
-        '</thead>'+
-        '<tbody>'+
-        '<tr class="no-records-found">'+
-        
-        '<td></td>'+
-         
-        '<td></td>'+
-        '<td></td>'+
-        '</tr>'+
-
-        '</tbody>'+
-        '</table>'+
-        '</div>'+
-                        '<div class="col-md-6" style="margin-top:32px;padding:20px">'+
-                                                            '<label style=" position: absolute;right: 20px;top:20px">Time</label>'+
-                                                            '<p  style="word-break: break-all; position: absolute;right: 20px;top:40px" class="form-control-static"  id="time-preview'+ctr+'"></p>'+
-                                                           
-                                                            '<label >Activity</label>'+
-                                                            '<p  style="word-break: break-all;" class="form-control-static" id="activity-preview'+ctr+'" ></p>'+
-                                                            '<div>&nbsp</div>'+
-                                                            '<label>Description</label>'+
-                                                             '<p style="word-break: break-all;" id="description-preview'+ctr+'"></p>'+
-                                                            '<div>&nbsp</div>'+
-                                                            '<label>Person in Charge</label>'+
-                                                            '<p  style="word-break: break-all;" class="form-control-static"  id="person-preview'+ctr+'"></p>'+
-                                                            '<div>'
-                                                             
-                                                           
-                                                            '</div>'
-                                                           
-                                                    '</div>';
 
 
         $("#t"+(ctr-1)).after('<li role="presentation" class="nav-item " id="t'+ctr+'"><a aria-controls="profile " class="nav-link" id="tab-'+ctr+'" data-toggle="tab" href="#ctab'+ ctr + '" role="tab"  aria-expanded="true">Day '+ (ctr+1)+'      '+'<i class="fa ti-close close-day" style="font-size:8px;top:5px;right:5px;position:absolute;"></i></a></li>');
@@ -1173,8 +1281,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         // });
         $('#datepicker-autoclose').datepicker({
-            autoclose: true,
-            todayHighlight: true
+            autoclose: true,            
+            todayHighlight: true,
+            startDate:new Date()
         });
         tctr = 0
         
@@ -1202,6 +1311,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
             console.log("ERROR");
             $("#datepicker-autoclose").closest("div.col-md-12").addClass("has-error");
             $("#datepicker-autoclose-help").text("Cannot accept empty Date");
+            $('body,html').animate({ scrollTop: 100 }, 500);
+            error = 1;
+        }
+        if($.trim(startInp) == $.trim(endInp) ){
+            $("#start-time").closest("div.form-group").addClass("has-error");
+            $("#time-help").append("Start Time and End Time cannot be the same");
             error = 1;
         }
          if(Date.parse(dateInp+" " +startInp) > Date.parse(dateInp+" " +endInp) ) {
@@ -1240,6 +1355,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
         if(error){
 
         }else{
+            
+            var newEnd  = new Date(dateInp+" "+endInp).getTime() + (new Date(dateInp+" "+endInp).getTime() - new Date(dateInp+" "+startInp).getTime());
+            console.log("NEW END IEM " + new Date(newEnd).getHours()+":"+new Date(newEnd).getMinutes());
+
+            $("#start-time").val(endInp);
+            $("#end-time").val(new Date(newEnd).getHours()+":"+new Date(newEnd).getMinutes());
+          
+            $("#act0").val("");
+            $("#desc0").val("");
+          
+
+            $("#datepicker-autoclose").closest("div.col-md-12").remove("has-error");
+            $("#datepicker-autoclose-help").text("");
             $("#start-time").closest("div.form-group").removeClass("has-error");
             $("#time-help").text("");
             $("#start-time").closest("div.form-group").removeClass("has-error");
@@ -1394,7 +1522,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 $("#description-preview").text(desc);
                 $("#person-preview").text(person);
             }
-              
+            $('body,html').animate({ scrollTop: $('body').height() }, 500);
  
             
             
