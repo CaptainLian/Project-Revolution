@@ -12,6 +12,47 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     log_options.from = 'Organization-Controller';
 
     return {
+
+        viewSubmitProjectProposalMain: (req, res) => {
+            const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
+
+            return res.render('Org/SubmitProjectProposal_main',renderData);
+        },
+
+        viewSubmitProjectProposalAttachments: (req, res) => {
+            const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
+
+            return res.render('Org/SubmitProjectProposal_attachments',renderData);
+        },
+
+        viewSubmitProjectProposalBriefContext: (req, res) => {
+            const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
+
+            return res.render('Org/SubmitProjectProposal_briefcontext',renderData);
+        },
+
+        viewSubmitProjectProposalExpense: (req, res) => {
+            const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
+
+            return res.render('Org/SubmitProjectProposal_expense', renderData);
+        },
+
+        viewSubmitProjectProposalProgramDesign: (req, res) => {
+            const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
+
+            return res.render('Org/SubmitProjectProposal_programdesign',renderData);
+        },
+
         viewHome: (req, res) => {
             database.task(t => {
                 return t.batch([

@@ -1127,6 +1127,11 @@ CREATE TABLE ProjectProposal (
     dateCreated TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     dateSubmitted TIMESTAMP WITH TIME ZONE,
     dateStatusModified TIMESTAMP WITH TIME ZONE,
+    isAttachmentsComplete BOOLEAN NOT NULL DEFAULT FALSE,
+    isBriefContextComplete BOOLEAN NOT NULL DEFAULT FALSE,
+    isExpenseComplete BOOLEAN NOT NULL DEFAULT FALSE,
+    isProgramComplete BOOLEAN NOT NULL DEFAULT FALSE,
+
 
     PRIMARY KEY (GOSMActivity)
 );
