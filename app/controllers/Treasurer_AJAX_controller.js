@@ -11,7 +11,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
     		var activityId = 1;
 
 			return t.batch([
-				projectProposalModel.getProjectProposalExpenses(activityId);
+				projectProposalModel.getProjectProposalExpenses(activityId)
 			]);
 		}).then(data=>{
 

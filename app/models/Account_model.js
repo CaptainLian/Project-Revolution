@@ -19,6 +19,8 @@ module.exports = function(configuration, modules, database, queryFiles) {
     const query_insert_account = queryFiles.account_insert;
     const query_get_student_studentOrganizations = queryFiles.student_get_studentOrganizations;
 
+    const getAccountLogsSQL = queryFiles.getAccountLogs;
+
     const AccountModel = Object.create(null);
 
     /**
@@ -128,6 +130,10 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
         attachFields(query, fields);
         return connection.one(query.toString(), param);
+    };
+
+    AccountModel.getAccountLogs = (connection = database) =>{
+        return connection.any(getAccountLogsSQL);
     };
 
     return AccountModel;

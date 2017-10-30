@@ -8,7 +8,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 	TreasurerController.newTransaction = (req, res) => {
 		database.task(t => {
 			return t.batch([
-				projectProposalModel.getApprovedPPRs(activityId);
+				projectProposalModel.getApprovedPPRs()
 			]);
 		}).then(data=>{
 			return res.render('Org/Treasurer/NewTransaction', {

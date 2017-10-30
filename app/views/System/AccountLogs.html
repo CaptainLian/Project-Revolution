@@ -96,7 +96,7 @@
                             <td>Neil Capistrano</td>
                     
                            
-                            <td class="">EDITED NAME of <a class="btn-link" href="#">11425784</a>'s Account</td>
+                            <td class="">EDITED NAME of <a class="btn-link" href="#">11425784</a>'s Account from Neil to Markus</td>
                                
                         </tr>
                         <tr>
@@ -108,6 +108,18 @@
                                 <td class="">DELETED ID <a class="btn-link" href="#">11425784</a>'s Account</td>
                                
                         </tr>
+
+                        {% for logs in accountLogs %}
+                            <tr>
+                                <td class="">{{logs.date}}</td>
+                                <td class="">{{logs.date}}</td>
+                                <td>{{logs.firstname}} {{logs.lastname}}</td>
+                        
+                               
+                                <td class="">{% if logs.event==0 %}EDITED ID {% endif %}<a class="btn-link" href="#">11425784</a>'s Account</td>
+                               
+                            </tr>
+                        {% endfor %}
                        
                     </tbody>
                 </table>
