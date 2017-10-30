@@ -359,6 +359,15 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 throw err;
             });
         },
+        viewSettingAcl: (req, res) => {
+            const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
+
+            return res.render('Org/Settings_ACL',renderData);
+           
+           
+        },
 
         //TODO Test
         viewCreateGOSM: (req, res) => {

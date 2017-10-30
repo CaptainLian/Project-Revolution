@@ -1,0 +1,210 @@
+{% extends '../template/CSO_master.html' %}
+{% import '../template/tags_macro.html' as tag %}
+
+{%block page_title%}CSO - ACL Setting{%-endblock%}
+
+{%block style%}
+	{{super()}}
+	<!-- Bootstrap Core CSS -->
+	
+   	<!-- Bootstrap Core CSS -->
+   	{{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
+   	{{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
+   <!-- Menu CSS -->
+   {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
+   {{tag.style('/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css')}}
+   {{tag.style('/plugins/bower_components/jquery-wizard-master/css/wizard.css')}}
+   {{tag.style('/plugins/bower_components/clockpicker/dist/jquery-clockpicker.min.css')}}
+   {{tag.style('/plugins/bower_components/lobipanel/dist/css/lobipanel.min.css')}}
+   {{tag.style('/plugins/bower_components/custom-select/custom-select.css')}}
+   {{tag.style('/plugins/bower_components/bootstrap-daterangepicker/daterangepicker.css')}}
+   
+   <!-- Animation CSS -->
+   {{tag.style('/css/animate.css')}}
+   {{tag.style('/css/styleCustom.css')}}
+   {{tag.style('/css/custom.css')}}
+    <!-- color CSS -->
+    {{tag.style('/css/colors/default.css')}}
+    {{tag.style('https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css')}}
+    {{tag.style('https://cdn.datatables.net/fixedcolumns/3.2.3/css/fixedColumns.dataTables.min.css')}}
+    
+
+	<style type="text/css">
+         th, td {
+          white-space: nowrap; 
+        }
+        div.dataTables_wrapper {
+            width: 1000px;
+            margin: 0 auto;
+        }
+        table.dataTable.table-striped.DTFC_Cloned tbody tr:nth-of-type(odd) {
+            background-color: #F3F3F3;
+        }
+        table.dataTable.table-striped.DTFC_Cloned tbody tr:nth-of-type(even) {
+            background-color: white;
+        }
+    </style>
+{%endblock%}
+
+
+{%block defer_script%}
+	{{super()}}
+
+	{{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/jqueryui/jquery-ui.min.js', true)}}
+	<!-- Bootstrap Core JavaScript -->
+	{{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
+	{{tag.javascript('/bootstrap/dist/js/bootstrap-3.3.7.min.js', true)}}
+	{{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
+	<!-- Menu Plugin JavaScript -->
+	{{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
+	<!--slimscroll JavaScript -->
+	{{tag.javascript('/js/jquery.slimscroll.js', true)}}
+	<!--Wave Effects -->
+	{{tag.javascript('/js/waves.js', true)}}
+	{{tag.javascript('/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.js', true)}}
+	{{tag.javascript('/plugins/bower_components/bootstrap-daterangepicker/daterangepicker.js', true)}}
+	{{tag.javascript('/plugins/bower_components/jquery-wizard-master/dist/jquery-wizard.min.js', true)}}
+	<!-- Custom Theme JavaScript -->
+	{{tag.javascript('/js/custom.min.js', true)}}
+	{{tag.javascript('/js/jasny-bootstrap.js', true)}}
+	<!--Style Switcher -->
+	{{tag.javascript('/plugins/bower_components/custom-select/custom-select.min.js', true)}}
+	{{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
+	<!-- Custom Theme JavaScript -->
+	{{tag.javascript('/plugins/bower_components/bootstrap-table/dist/bootstrap-table.min.js', true)}}
+	{{tag.javascript('/plugins/bower_components/bootstrap-table/dist/bootstrap-table.ints.js', true)}}
+	{{tag.javascript('/plugins/bower_components/lobipanel/dist/js/lobipanel.min.js', true)}}
+	{{tag.javascript('/js/cbpFWTabs.js', true)}}
+	{{tag.javascript('/plugins/bower_components/clockpicker/dist/jquery-clockpicker.min.js', true)}}
+	{{tag.javascript('/plugins/bower_components/jquery-wizard-master/dist/jquery-wizard.min.js', true)}}
+	{{tag.javascript('/plugins/bower_components/jquery-datatables-editable/jquery.dataTables.js', true)}}
+    {{tag.javascript('/plugins/bower_components/datatables/dataTables.bootstrap.js', true)}}
+    {{tag.javascript('/plugins/bower_components/tiny-editable/mindmup-editabletable.js', true)}}
+    {{tag.javascript('/plugins/bower_components/tiny-editable/numeric-input-example.js', true)}}
+	
+    
+
+    {{tag.javascript('https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js', true)}}
+    {{tag.javascript('https://cdn.datatables.net/fixedcolumns/3.2.3/js/dataTables.fixedColumns.min.js', true)}}
+    {{tag.javascript('/js/Organization/Settings_ACL.js', true)}} 
+
+   
+
+{%endblock%}
+
+
+{%block content%}
+ <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-info">                                                    
+                            <div class="panel-body">
+                                <form action="#">
+                                    <div class="form-body">
+                                        <h3 class="box-title">Organization Access Rights </h3>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                  <table id="myTable" width="100%" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th >Position</th>
+                                            <th class="no-sort">Time Settings</th>
+                                            <th class="no-sort">Create Position</th>
+                                            <th class="no-sort">Edit Position</th>
+                                            <th class="no-sort">Delete Position</th>
+                                            <th class="no-sort">View Organization Structure</th>
+
+                                            <th class="no-sort">Create Organization</th>
+                                            <th class="no-sort">Edit Organization</th>
+                                            <th class="no-sort">Delete Organization</th>
+
+                                            <th class="no-sort">Assign Evaluator for Publicity Material</th>
+                                            <th class="no-sort">Evaluate Publicity Material</th>
+                                            <th class="no-sort" >View Publicity Material</th>
+
+                                            <th class="no-sort">Evaluate GOSM Activity</th>
+
+                                             
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>President</td>
+                                            <td class="text-center"><input type="checkbox" name=""></td>
+                                             <td class="text-center"><input type="checkbox" name=""></td>
+                                             <td class="text-center"><input type="checkbox" name=""></td>
+                                             <td class="text-center"><input type="checkbox" name=""></td>
+                                             <td class="text-center"><input type="checkbox" name=""></td>
+
+                                            <td class="text-center"><input type="checkbox" name=""></td>
+                                            <td class="text-center"><input type="checkbox" name=""></td>
+                                             <td class="text-center"><input type="checkbox" name=""></td>
+                                             <td class="text-center"><input type="checkbox" name=""></td>
+                                             <td class="text-center"><input type="checkbox" name=""></td>
+                                             <td class="text-center"><input type="checkbox" name=""></td>
+                                            <td class="text-center"><input type="checkbox" name=""></td>
+                                          
+                                        </tr>
+
+                                         <tr>
+                                            <td> Vice President</td>
+                                            <td class="text-center"><input type="checkbox" name=""></td>
+                                             <td class="text-center"><input type="checkbox" name=""></td>
+                                             <td class="text-center"><input type="checkbox" name=""></td>
+                                             <td class="text-center"><input type="checkbox" name=""></td>
+                                             <td class="text-center"><input type="checkbox" name=""></td>
+
+                                            <td class="text-center"><input type="checkbox" name=""></td>
+                                            <td class="text-center"><input type="checkbox" name=""></td>
+                                             <td class="text-center"><input type="checkbox" name=""></td>
+                                             <td class="text-center"><input type="checkbox" name=""></td>
+                                             <td class="text-center"><input type="checkbox" name=""></td>
+                                              <td class="text-center"><input type="checkbox" name=""></td>      
+                                             <td class="text-center"><input type="checkbox" name=""></td>
+                                          
+                                        </tr>
+                                          <tr>
+                                            <td> VP of External Affairs</td>
+                                            <td class="text-center"><input type="checkbox" name=""></td>
+                                             <td class="text-center"><input type="checkbox" name=""></td>
+                                             <td class="text-center"><input type="checkbox" name=""></td>
+                                             <td class="text-center"><input type="checkbox" name=""></td>
+                                             <td class="text-center"><input type="checkbox" name=""></td>
+
+                                            <td class="text-center"><input type="checkbox" name=""></td>
+                                            <td class="text-center"><input type="checkbox" name=""></td>
+                                             <td class="text-center"><input type="checkbox" name=""></td>
+                                             <td class="text-center"><input type="checkbox" name=""></td>
+                                             <td class="text-center"><input type="checkbox" name=""></td>
+                                              <td class="text-center"><input type="checkbox" name=""></td>      
+                                             <td class="text-center"><input type="checkbox" name=""></td>
+                                          
+                                        </tr>
+                                       
+                                        
+    
+                                    </tbody>
+                                </table>
+                                            </div>
+                                            <!--/span-->
+                                           
+                                            <!--/span-->
+                                        </div>
+                        
+                                        
+                                    </div>
+                                    <br/>
+                                    
+                            </div>    
+                            <div class="panel-footer">
+                                <div class="text-center form-actions">
+                                        <button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Save</button>
+                                        <button type="button" class="btn btn-default">Cancel</button>
+                                    </div>
+                                </form>
+                            </div>                        
+                        </div>
+                    </div>
+                </div>
+{%endblock%}
