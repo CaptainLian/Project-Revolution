@@ -17,12 +17,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         gosmModel.getAllCurrent()
         .then(GOSMList => {
             logger.debug(`Displaying GOSM list: ${JSON.stringify(GOSMList)}`, log_options);
-            return res.render('APS/OrganizationGOSMList', {
-                GOSMList: GOSMList,
-                csrfToken: req.csrfToken()
-            });
-        }).catch(error => {
-            throw error;
+            const renderData = Object.create(null);
+            renderData.GOSMList = GOSMList,
+            renderData.csrfToken = req.csrfToken();
+            renderData.extra_data = req.extra_data;
+            return res.render('APS/OrganizationGOSMList', renderData);
         });
     };
 
@@ -60,6 +59,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             view.GOSMStatus = data[2].status;
             view.csrfToken = req.csrfToken();
             view.showUpdateButtons = view.GOSMStatus != 1 && view.GOSMStatus != 3;
+            view.extra_data.view = req.extra_data.view;
             return res.render('APS/OrganizationSpecificGOSM', view);
         }).catch(error => {
             throw error;
@@ -94,12 +94,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             'so.name AS organizationName'
         ]).then(data => {
             logger.debug(`Data: ${JSON.stringify(data)}`, log_options);
-            return res.render('APS/ActivityList', {
-                csrfToken: req.csrfToken(),
-                proposals: data
-            });
-        }).catch(err => {
-            throw err;
+            const renderData = Object.create(null);
+            renderData.csrfToken = req.csrfToken();
+            renderData.extra_data = req.extra_data;
+            renderData.proposals = data;
+            return res.render('APS/ActivityList', renderData);
         });
     };
 
@@ -133,23 +132,26 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             });
         }).then(data => {
             logger.debug(`${JSON.stringify(data[3])}`, log_options);
-            return res.render('APS/ActivityChecking', {
-                projectProposal: data[0],
-                expenses: data[1],
-                //TODO: change value of activity
-                activity: activityId,
-                projectedIncome: data[2],
-                programDesign: data[3],
-                projectHeads: data[4],
-                attachment: data[5],
-                csrfToken: req.csrfToken()
-            });
+            const renderData = Object.create(null);
+            renderData.csrfToken = req.csrfToken();
+            renderData.extra_data = req.extra_data;
+
+            renderData.projectProposal = data[0];
+            renderData.expenses = data[1];
+            renderData.activity = activityId;
+            renderData.projectedIncome = data[2];
+            renderData.programDesign = data[3];
+            renderData.projectHeads = data[4];
+            renderData.attachment = data[5];
+            return res.render('APS/ActivityChecking', renderData);
         }).catch(err => {
             throw err;
         });
     };
 
     APSController.viewAPSLogs = (req, res) => {
+        const renderData = Object.create(null);
+        renderData.extra_data = req.extra_data;
         return res.render('APS/Logs');
     };
 

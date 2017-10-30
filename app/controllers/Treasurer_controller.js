@@ -8,21 +8,25 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 	TreasurerController.newTransaction = (req, res) => {
 		database.task(t => {
 			return t.batch([
-				projectProposalModel.getApprovedPPRs()
-			]);
-		}).then(data=>{
-			return res.render('Org/Treasurer/NewTransaction', {
-				csrfToken: req.csrfToken(),
-				pprs: data[0]
-			});
 
-		}).catch(error=>{
-			console.log(error);
+			//TODO: replace activity ID
+			projectProposalModel.getApprovedPPRs(0)
+
+			]);
+		}).then(data => {
+			const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
+
+            renderData.pprs = data[0];
+			return res.render('Org/Treasurer/NewTransaction', renderData);
 		});
 	};
 
     TreasurerController.newTransactionOthers = (req, res) => {
-		return res.render('Org/Treasurer/NewTransactionOthers');
+    	const renderData = Object.create(null);
+        renderData.extra_data = req.extra_data;
+		return res.render('Org/Treasurer/NewTransactionOthers', renderData);
 	};
     
 	return TreasurerController;

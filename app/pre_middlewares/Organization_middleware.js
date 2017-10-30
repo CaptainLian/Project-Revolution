@@ -12,38 +12,44 @@ module.exports = function(configuration, application, modules, database, queryFi
 
     const OrganizationMiddleware = Object.create(null);
     OrganizationMiddleware.name = 'Organization_path_attacher';
-    OrganizationMiddleware.priority = configuration.load_priority.LOWEST;
+    OrganizationMiddleware.priority = configuration.load_priority.LOW;
     OrganizationMiddleware.action = (req, res, next) => {
-        if(req.session.user){
-            if(req.session.organizationSelected){
-                logger.debug('Organization selected detected', log_options);
-                req.extra_view_data.organizationSelected = Object.create(null);
-                organizationModel.getOrganizationInformation(req.session.organizationSelected.id, [
-                    'acronym',
-                    'path_profilePicture'
-                ])
-                .then(data => {
-                    req.extra_view_data.organizationSelected.acronym = data.acronym;
-                    req.extra_view_data.organizationSelected.path_profilePicture = data.path_profilepicture;
 
-                    return accessControlModel.isAllowedAccessFunctionality(
-                        req.session.user.idNumber,
-                        0,
-                        req.session.user.organizationSelected
-                    );
-                }).then(data => {
-                    const sidebar = Object.create(null);
-                    sidebar.name = 'Submit Organization GOSM';
-                    sidebar.link = '/Organization/CreateGOSM';
-                    req.extra_view_data.sidebars[req.extra_view_data.sidebars.length] = sidebar;
-                    return next();
-                }).catch(err => {
-                    return next(err);
-                });
-            }
+        const user = req.session.user;
+        if (!user) {
+            return next();
+        }
+
+        const organizationSelected = user.organizationSelected;
+        if (!organizationSelected) {
+            return next();
+        }
+
+        if (req.method !== 'GET') {
+            return next();
+        }
+
+        const organization = req.session.organizationSelected;
+        logger.debug('Organization selected detected', log_options);
+
+        req.extra_data.view.organizationSelected = Object.create(null);
+        req.extra_data.view.organizationSelected.acronym = organizationSelected.acronym;
+        req.extra_data.view.organizationSelected.path_profilePicture = organizationSelected.path_profilepicture;
+
+        const accessibleFunctionalitiesList = req.extra_data.user.accessibleFunctionalitiesList;
+
+        //Can create GOSM?
+        if (accessibleFunctionalitiesList[0]) {
+            logger.debug('User can submit GOSM', log_options);
+            let sidebars = req.extra_data.view.sidebars;
+
+            sidebars[sidebars.length] = {
+                name: 'Submit GOSM',
+                link: '/Organization/createGOSM'
+            };
         }
         return next();
     };
-
     return [OrganizationMiddleware];
+
 };

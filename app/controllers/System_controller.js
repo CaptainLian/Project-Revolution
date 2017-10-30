@@ -1,4 +1,4 @@
-module.exports = function(configuration, modules, models, database, queryFiless) {
+module.exports = function(configuration, modules, models, database, queryFiles) {
     /**
     * Query builder
     * @type {Object}
@@ -25,7 +25,7 @@ module.exports = function(configuration, modules, models, database, queryFiless)
     * @type {Object}
     */
     const log_options = Object.create(null);
-    log_options.from = 'Account';
+    log_options.from = 'System-Controller';
     
     const accountModel = models.Account_model;
     const logger = modules.logger;
@@ -33,16 +33,20 @@ module.exports = function(configuration, modules, models, database, queryFiless)
     const SystemController = Object.create(null);
 
     SystemController.viewLogin = (req, res) => {
-        const csrfToken = req.csrfToken();
-        logger.debug(`login CSRFToken: ${csrfToken}`, log_options);
-        return res.render('System/LoginMain', {
-            csrfToken: csrfToken
-        });
+        logger.debug(`Extra-data contents: ${JSON.stringify(req.extra_data)}`, log_options);
+        const renderData = Object.create(null);
+        renderData.extra_data = req.extra_data;
+        renderData.csrfToken = req.csrfToken();
+
+        logger.debug(`login CSRFToken: ${renderData.csrfToken}`, log_options);
+        return res.render('System/LoginMain', renderData);
     };
 
     SystemController.logout = (req, res) => {
         req.session.user = undefined;
         return req.session.destroy((err) => {
+            if(err)
+                throw err;
             return res.redirect("/");
         });
     };
@@ -143,35 +147,29 @@ module.exports = function(configuration, modules, models, database, queryFiless)
                             accountModel.getStudentOrganizations(req.session.user.idNumber)
                             .then(data => {
                                 logger.debug(`${JSON.stringify(data)}`, log_options);
-                                if (data.length === 1) {
-                                    const [organization] = data;
-                                    req.session.user.organizationSelected = Object.create(null);
-                                    req.session.user.organizationSelected.id = organization.id;
-                                    req.session.user.organizationSelected.path_profilePicture = organization.path_profilepicture;
-                                    req.session.save();
+                                
+                                let organization = data.shift();
+                                logger.debug(`${JSON.stringify(organization)}`);
+                                req.session.user.organizationSelected = Object.create(null);
+                                req.session.user.organizationSelected.id = organization.id;
+                                req.session.user.organizationSelected.path_profilePicture = organization.path_profilepicture || '';
+                                req.session.user.organizationSelected.acronym = data.acronym;
+                                logger.debug(`Getting Role Details in Organization`);
+                                return accountModel.getRoleDetailsInOrganization(
+                                    req.session.user.idNumber,
+                                    organization.id,
+                                    'home_url'
+                                );
+                            }).then(data =>{
+                                const url = data.home_url || '/blank';
 
-                                    return accountModel.getRoleDetailsInOrganization(req.session.user.idNumber, organization.id, ['home_url'])
-                                    .then(data => {
-                                        const reply = Object.create(null);
-                                        reply.valid = true;
-                                        reply.route = data.home_url;
-                                        reply.rerouteImmediately = true;
-
-                                        return Promise.resolve(reply);
-                                    });
-                                }
-
-                                const reply = Object.create(null);
-                                reply.valid = true;
-                                reply.rerouteImmediately = false;
-
-                                return Promise.resolve(reply);
-                            }).then(data => {
-                                return res.send(data);
-                            }).catch(err => {
-                                return logger.warn(`Error: ${err}`);
+                                const reply = {
+                                    url: url,
+                                    reroute: true,
+                                    valid: true
+                                };
+                                return res.send(reply);
                             });
-
                         break;
                     }
                 } else {

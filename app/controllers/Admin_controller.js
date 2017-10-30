@@ -6,18 +6,22 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 	AdminController.viewAccountLogs = (req, res) => {
 
+		const renderData = Object.create(null);
+		renderData.extra_data = req.extra_data;
+
 		accountModel.getAccountLogs()
 		.then(data=>{
 
-			return res.render('System/AccountLogs', {
+			return res.render('System/AccountLogs', renderData, {
 				accountLogs: data,
 				csrfToken: req.csrfToken()
 			});
 		}).catch(error=>{
 			console.log(error);
 		});
+		
+
 	};
-
-
+	
 	return AdminController;
 };

@@ -1,0 +1,278 @@
+{% extends '../template/CSO_master.html' %}
+{% import '../template/tags_macro.html' as tag %}
+
+{%block page_title%}CSO - Evaluate Activity{%-endblock%}
+
+{%block style%}
+	{{super()}}
+    <!-- Bootstrap Core CSS -->
+    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
+    <!-- Menu CSS -->
+    {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
+    <!-- animation CSS -->
+    {{tag.style('/css/animate.css')}}
+    <!--alerts CSS -->
+    {{tag.style('/css/style.css')}}
+	<!-- color CSS -->
+    {{tag.style('/css/colors/blue.css')}}
+    <!-- page CSS -->
+    {{tag.style('/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css')}}
+    {{tag.style('/plugins/bower_components/custom-select/custom-select.css')}}
+    {{tag.style('/plugins/bower_components/switchery/dist/switchery.min.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-select/bootstrap-select.min.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css')}}
+    {{tag.style('/plugins/bower_components/multiselect/css/multi-select.css')}}
+    {{tag.style('/css/custom.css')}}
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+
+	<style type="text/css">
+        td{
+            border-top: 1px solid white !important
+        }
+    </style>
+{%endblock%}
+	
+{%block defer_script%}
+	{{super()}}
+    <!-- jQuery -->
+    {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
+    <!-- Bootstrap Core JavaScript -->
+    {{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
+    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
+    <!-- Menu Plugin JavaScript -->
+    {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
+    <!--slimscroll JavaScript -->
+    {{tag.javascript('/js/jquery.slimscroll.js', true)}}
+    <!--Wave Effects -->
+    {{tag.javascript('/js/waves.js', true)}}
+    {{tag.javascript('/plugins/bower_components/custom-select/custom-select.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-select/bootstrap-select.min.js', true)}}
+    <!-- tabs-->
+    {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
+    <!--Style Switcher -->
+    {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
+
+    {{tag.javascript('/js/custom.min.js', true)}}
+
+    {{tag.javascript('/js/Organization/SubmitProjectProposal_expense.js', true)}}
+{%endblock%}
+
+{%block content%}
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel  panel-info">
+			<div class="panel-heading">
+				Expense
+			</div>
+			<form action="#" class="form-horizontal">
+			<div class="panel-wrapper collapse in" aria-expanded="true">
+				<div class="panel-body">
+					
+						<div class="row col">
+							<div class="col-md-10 offset-md-1">
+								<div class="form-group row">
+									<label for="example-month-input" class="col-md-12 text-center col-form-label">
+										Organizational Funds
+									</label>
+								</div>
+								<div class="form-group row">
+									<label for="example-month-input" class="col-md-5 text-left offset-md-1 col-form-label">
+										Operational Funds
+									</label>
+									<div class="col-md-6">
+										<input class="form-control" disabled="" id="ope-fund" type="text">
+										<span id="ope-help" class="help-block"> As of Oct. 12, 2017 </span>
+									</div>
+								</div>
+								<div class="form-group row">
+									<label for="example-month-input" class="col-md-5 text-left offset-md-1 col-form-label">
+										Depository Funds
+									</label>
+									<div class="col-md-6">
+										<input class="form-control" disabled="" id="dep-fund" type="text">
+										<span id="dep-help" class="help-block"> 
+											Org. Balance as of Oct. 12, 2017
+										</span>
+									</div>
+								</div>
+								<div class="form-group row">
+									<label for="example-month-input" class="col-md-5 text-left offset-md-1 col-form-label">
+										Other Funds
+									</label>
+									<div class="col-md-6">
+										<input class="form-control"  id="oth-fund" type="text">
+										<span id="oth-help" class="help-block"></span>
+									</div>
+								</div>
+								<div class="form-group row text-success">
+									<label for="example-month-input" class="col-md-6 text-right  col-form-label">
+										Total Cash Disbursement
+									</label>
+									<div class="col-md-6">
+										₱<span id="tcd">123123</span>
+									</div>
+								</div>
+								<div class="form-group row">
+									<label for="example-month-input" class="col-md-12 text-center col-form-label">
+										Sources Funds
+									</label>
+								</div>
+								<div class="form-group row">
+									<label for="example-month-input" class="col-md-5 text-left offset-md-1 col-form-label">
+										Organization Funds
+									</label>
+									<div class="col-md-6">
+										<input class="form-control" dir="rtl" id="org-exp" type="text">
+										<span id="org-help" class="help-block"> </span>
+									</div>
+								</div>
+								<div class="form-group row ">
+									<label for="example-month-input" class="col-md-5 text-left offset-md-1 col-form-label">
+										Participant's Fee
+									</label>
+									<div class="col-md-6">
+										<input class="form-control"  dir="rtl" id="pat-exp" type="text">
+										<span id="pat-help" class="help-block">  </span>
+									</div>
+								</div>
+								<div class="form-group row">
+									<label for="example-month-input" class="col-md-5 text-left offset-md-1 col-form-label">
+										Others
+									</label>
+									<div class="col-md-6">
+										<input class="form-control" dir="rtl" id="oth2-exp" type="text">
+										<span id="oth2-help" class="help-block"> </span>
+									</div>
+								</div>
+								<div class="form-group row  text-danger">
+									<label for="example-month-input" class="col-md-6 text-right  col-form-label">
+										Total Projected Expense
+									</label>
+									<div class="col-md-6 text-right">
+										₱<span class="text-right" id="tpe">123123</span>
+									</div>
+								</div>
+								<div class="form-group row text-success">
+									<label for="example-month-input" class="col-md-6 text-right  col-form-label">Remaining Balance</label>
+									<div class="col-md-6">
+										₱<span id="rb">123123</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<hr>
+						<div class="row">
+							<div class="col-md-8">
+								<table id="program-tables" style="table-layout: fixed" class=" table color-bordered-table inverse-bordered-table" >
+									<thead>
+										<tr>
+											<th width="65%" class="text-center"  >Item</th>
+											<!--  <th width="10%">Duration</th> -->
+											<th width="26%" colspan="2"  class="text-center"></th>
+											<th width="10%" class="text-center">#</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr class="fund" id="tot-rev">
+											<td class="text-right"><strong>Total Assets</strong></td>
+											<!--  <td></td> -->
+											<td class="text-right  text-success">₱<span id="trev"></span></td>
+											<td></td>
+											<td></td>
+										</tr>
+									
+										<tr id="tot-exp" class="panel-error">
+											<td  class="text-right"><strong>Total Expenses</strong></td>
+											<td></td>
+											<td class="text-right text-danger">₱<span id="texp"></span></td>
+											<td></td>
+										</tr>
+										<tr class="fund">
+											<td class="text-right"><strong>Total Revenue </strong></td>
+											<td class="text-right text-success">₱<span id="tfin"></span></td>
+											<td></td>
+											<td></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="col-md-4 m-t-40">
+							<div class="form-group ">
+								<label class="form-control-label">
+									Item Name
+								</label>
+								<input id="item" type="text" class="form-control">
+								<div>
+									<span class="help-block" id="item-help"></span>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="form-control-label">Type of Item</label>
+								<select name="personInCharge" id="sel0" class="form-control select2">
+									<option value="0" >Others</option>
+									<option value="1">Food & Accomodation</option>
+									<option value="2">Venue & Transportation</option>
+									<option value="3">Honorarium</option>
+									<option value="4">Cash Prize</option>
+									<option value="5">Corruption Expense</option>
+								</select>
+								<div>
+									<span class="help-block" id="time-help"></span>
+								</div>
+							</div>
+							<div class="form-group ">
+								<label class="form-control-label">Price</label>
+								<div class="input-group">
+									<span class="input-group-addon" id="basic-addon1" step='0.01'>₱</span>
+									<input id="price"  type="text" class="form-control">
+								</div>
+								<div>
+									<span class="help-block" id="price-help"></span>
+								</div>
+							</div>
+							<div class="form-group ">
+								<label class="form-control-label">Quantity</label>
+								<div class="input-group">
+									<input id="quantity" min="1"  type="text" class="form-control">
+									<span class="input-group-addon" id="basic-addon1" step='0.01'>pcs</span>
+								</div>	
+								<div>
+									<span class="help-block" id="quantity-help"></span>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="radio-list text-center">
+									<label class="radio-inline fund">
+										<input name="optionsRadios2" id="rev-opt"  value="Revenue" type="radio">
+										Revenue
+									</label>
+									<label class="radio-inline">
+										<input id="exp" name="optionsRadios2" value="Expense" checked="" type="radio"> 
+										Expense 
+									</label>
+								</div>
+							</div>		
+							<div class="m-t-5 form-group text-center ">
+								<button type="button" id="insert-button" class="btn btn-info">Insert </button>
+							</div>			
+						</div>
+					</div>
+				</div>
+				<div class="panel-footer text-center">
+					<button type="submit" id="save" class="btn btn-success"><i class="fa fa-save"></i>&nbsp;Save</button>
+					<button type="button" class="btn btn-default">Cancel</button>		
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+{%endblock%}
