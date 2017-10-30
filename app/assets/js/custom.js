@@ -126,9 +126,11 @@ $(document).ready(function () {
                 collapseOpts = {};
             }
             wrapper.collapse(collapseOpts).on('hide.bs.collapse', function () {
-                child.removeClass('ti-minus').addClass('ti-plus');
+                child.removeClass('fa-minus').addClass('fa-plus');
+                console.log("removed fa fa-minus");
             }).on('show.bs.collapse', function () {
-                child.removeClass('ti-plus').addClass('ti-minus');
+                child.removeClass('fa-plus').addClass('fa-minus');
+                console.log("removed fa fa-plus");
             });
         });
 

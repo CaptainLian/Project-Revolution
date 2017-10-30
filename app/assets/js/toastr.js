@@ -36,5 +36,20 @@ $(document).ready(function() {
           });
 
      });
+
+      $(".error").click(function(){
+           $.toast({
+            heading: 'Login Failed!',
+            text: 'Invalid username and/or password.',
+            position: 'top-right',
+            loaderBg:'#ff6849',
+            icon: 'error',
+            hideAfter: 3500
+            
+          });
+
+     });
+     
+
 });
           
