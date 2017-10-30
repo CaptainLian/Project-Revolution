@@ -21,8 +21,8 @@
                 </a>
                 <div class="topLeft top-left-part">
                     <a class="logo" href="index.html">
-                        <strong><img class="headerLogo" src="{{extra_view_data.organizationSelected.path_profilePicture}}" alt="home"></strong>
-                        <span>{{extra_view_data.organizationSelected.acronym}}</span>
+                        <strong><img class="headerLogo" src="{{extra_data.view.organizationSelected.path_profilePicture}}" alt="home"></strong>
+                        <span>{{extra_data.view.organizationSelected.acronym}}</span>
                     </a>
                 </div>
                 <ul class="nav navbar-top-links navbar-left hidden-xs">
@@ -212,7 +212,7 @@
                             </div>
                             <!-- /input-group -->
                         </li>
-                        {% for sidebar in extra_view_data.sidebars %}
+                        {% for sidebar in extra_data.view.sidebars %}
                             {{sidebar_item(sidebar.name, sidebar.link)}}
                         {% endfor %}
                         {%block sidebar_content%}

@@ -446,7 +446,7 @@ CREATE TABLE OrganizationRole (
 	rank INTEGER,
 	uniquePosition BOOLEAN NOT NULL DEFAULT FALSE,
 	masterRole INTEGER REFERENCES OrganizationRole(id) ON DELETE CASCADE ON UPDATE CASCADE,
-    home_url TEXT,
+  home_url TEXT,
 
 	PRIMARY KEY (organization, sequence)
 );

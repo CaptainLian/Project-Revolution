@@ -7,7 +7,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 	AMTController.viewActivityEvaluation = (req, res) => {
 		let renderData = Object.create(null);
 		renderData.csrfToken = req.csrfToken();
-		renderData.extra_view_data = req.extra_view_data;
+		renderData = req.extra_data;
 		
 		return res.render('AMT/ActivityEvaluation', renderData);
 	};

@@ -4,7 +4,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 	AdminController.viewAccountLogs = (req, res) => {
 		const renderData = Object.create(null);
-		renderData.extra_view_data = req.extra_view_data;
+		renderData.extra_data = req.extra_data;
 		return res.render('System/AccountLogs', renderData);
 	};
 	

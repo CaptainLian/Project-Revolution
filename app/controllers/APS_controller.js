@@ -20,7 +20,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             const renderData = Object.create(null);
             renderData.GOSMList = GOSMList,
             renderData.csrfToken = req.csrfToken();
-            renderData.extra_view_data = req.extra_view_data;
+            renderData.extra_data = req.extra_data;
             return res.render('APS/OrganizationGOSMList', renderData);
         });
     };
@@ -59,7 +59,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             view.GOSMStatus = data[2].status;
             view.csrfToken = req.csrfToken();
             view.showUpdateButtons = view.GOSMStatus != 1 && view.GOSMStatus != 3;
-            view.extra_view_data = req.extra_view_data;
+            view.extra_data.view = req.extra_data.view;
             return res.render('APS/OrganizationSpecificGOSM', view);
         }).catch(error => {
             throw error;
@@ -96,7 +96,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             logger.debug(`Data: ${JSON.stringify(data)}`, log_options);
             const renderData = Object.create(null);
             renderData.csrfToken = req.csrfToken();
-            renderData.extra_view_data = req.extra_view_data;
+            renderData.extra_data = req.extra_data;
             renderData.proposals = data;
             return res.render('APS/ActivityList', renderData);
         });
@@ -134,7 +134,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             logger.debug(`${JSON.stringify(data[3])}`, log_options);
             const renderData = Object.create(null);
             renderData.csrfToken = req.csrfToken();
-            renderData.extra_view_data = req.extra_view_data;
+            renderData.extra_data = req.extra_data;
 
             renderData.projectProposal = data[0];
             renderData.expenses = data[1];
@@ -150,6 +150,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     };
 
     APSController.viewAPSLogs = (req, res) => {
+        const renderData = Object.create(null);
+        renderData.extra_data = req.extra_data;
         return res.render('APS/Logs');
     };
 

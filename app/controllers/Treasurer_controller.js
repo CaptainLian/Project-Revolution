@@ -11,9 +11,9 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				//TODO: replace activity ID
 				projectProposalModel.getApprovedPPRs(0)
 			]);
-		}).then(data=>{
+		}).then(data => {
 			const renderData = Object.create(null);
-            renderData.extra_view_data = req.extra_view_data;
+            renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
 
             renderData.pprs = data[0];
@@ -23,7 +23,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
     TreasurerController.newTransactionOthers = (req, res) => {
     	const renderData = Object.create(null);
-        renderData.extra_view_data = req.extra_view_data;
+        renderData.extra_data = req.extra_data;
 		return res.render('Org/Treasurer/NewTransactionOthers', renderData);
 	};
     

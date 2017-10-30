@@ -16,7 +16,7 @@ module.exports = function(configuration, application, modules, database, queryFi
         logger.debug(`Extra-data contents: ${JSON.stringify(req.extra_data)}`, log_options);
         const user = req.session.user;
 
-        if (user && (user.type === 1)) {
+        if (user && (user.type === 1) && req.method === 'GET') {
             try {
                 logger.debug(`Logged-in user: ${user.idNumber}, type: student`, log_options);
                 return accessControlModel.getAccountAccessControl(user.idNumber)
@@ -43,11 +43,13 @@ module.exports = function(configuration, application, modules, database, queryFi
                         }
 
                         if(accessibleFunctionalitiesList[functionalitySequence]){
-                            accessibleFunctionalitiesList[functionalitySequence] = accessibleFunctionalitiesList[functionalitySequence] && isAllowed;
+                            accessibleFunctionalitiesList[functionalitySequence] = accessibleFunctionalitiesList[functionalitySequence] || isAllowed;
+                        }else{
+                            accessibleFunctionalitiesList[functionalitySequence] = isAllowed;
                         }
                     }
-                    console.log(`User access control: ${JSON.stringify(accessControl)}`, log_options);
-                    console.log(`Accessible functions list: ${JSON.stringify(accessibleFunctionalitiesList)}`, log_options);
+                    logger.debug(`User access control: ${JSON.stringify(accessControl)}`, log_options);
+                    logger.debug(`Accessible functions list: ${JSON.stringify(accessibleFunctionalitiesList)}`, log_options);
                     req.extra_data.user.accessControl = accessControl;
                     req.extra_data.user.accessibleFunctionalitiesList = accessibleFunctionalitiesList;
                     return next();

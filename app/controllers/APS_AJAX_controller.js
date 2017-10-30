@@ -195,7 +195,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                 logger.debug(`${JSON.stringify(data[3])}`, log_options);
                 const renderData = Object.create(null);
-                renderData.extra_view_data = req.extra_view_data;
+                renderData.extra_data = req.extra_data;
                 renderData.projectProposal = data[0];
                 renderData.expenses = data[1];
                 renderData.activity = activityId;

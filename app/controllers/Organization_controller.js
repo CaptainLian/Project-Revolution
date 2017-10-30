@@ -23,7 +23,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             }).then(data => {
                 logger.debug(`${JSON.stringify(data)}`, log_options);
                 const renderData = Object.create(null);
-                renderData.extra_view_data = req.extra_view_data;
+                renderData.extra_data = req.extra_data;
                 renderData.csrfToken = req.csrfToken();
 
                 renderData.allProjects = data[0];
@@ -39,7 +39,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
         view: (req, res) => {
             const renderData = Object.create(null);
-            renderData.extra_view_data = req.extra_view_data;
+            renderData.extra_data = req.extra_data;
             return res.render('Org/Member', renderData);
         },
 
@@ -64,7 +64,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 //TODO: add signatories and score
             }).then(data => {
                 const renderData = Object.create(null);
-                renderData.extra_view_data = req.extra_view_data;
+                renderData.extra_data = req.extra_data;
 
                 renderData.actWithPPR = data[0];
                 renderData.actWithoutPPR = data[1];
@@ -307,7 +307,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 ]);
             }).then(data => {
                 const renderData = Object.create(null);
-                renderData.extra_view_data = req.extra_view_data;
+                renderData.extra_data = req.extra_data;
                 renderData.csrfToken = req.csrfToken();
 
                 renderData.gosmActivity = data[0];
@@ -366,7 +366,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 logger.debug(`${JSON.stringify(data)}`, log_options);
                 logger.debug(`${JSON.stringify(data[2])}`, log_options);
                 const renderData = Object.create(null);
-                renderData.extra_view_data = req.extra_view_data;
+                renderData.extra_data = req.extra_data;
                 renderData.csrfToken = req.csrfToken();
 
                 renderData.activityTypes = data[1];
