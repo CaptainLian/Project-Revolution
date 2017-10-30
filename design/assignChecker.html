@@ -276,7 +276,7 @@
                             <p class="text-muted m-b-30">A table showing the list of activity submissions</p>
                             <ul class="nav nav-tabs" role="tablist">
                                 <li role="presentation"  class=" nav-item"><a id="home2" href="#home" class="nav-link acitve" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true"><span class="visible-xs"><i class="ti-home"></i></span><span class="hidden-xs"> My Activity</span></a></li>
-                                <li role="presentation" class="nav-item"><a href="#profile" class="nav-link" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false"><span class="visible-xs"><i class="ti-user"></i></span> <span class="hidden-xs">Available Activity</span></a></li>
+                                <li role="presentation" class="nav-item"><a id="home3" href="#profile" class="nav-link" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false"><span class="visible-xs"><i class="ti-user"></i></span> <span class="hidden-xs">Available Activity</span></a></li>
                                 
                                 
                             </ul>
@@ -306,8 +306,14 @@
                                                             12:00 - 17:00
                                                         </td>   
                                                        
-                                                        <td class="text-center "  style="vertical-align: middle;">
-                                                            <span data-toggle="tooltip" data-title="Assign users" class="fa fa-user"></span>
+                                                        <td class="text-center text-nowrap "  style="vertical-align: middle;">
+                                                            <a activity-id="1" href="#" data-toggle="tooltip" data-title="Evaluate Activity"> 
+                                                                <i  class="fa  fa-clipboard m-r-10 text-inverse "></i> 
+                                                            </a>
+                                                           
+                                                             <a activity-id="1" class=""  data-toggle="tooltip" data-title="Remove from My Activity"> 
+                                                                <i  class="fa  fa-times m-r-10 text-inverse remove-activity "></i> 
+                                                            </a>
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -333,7 +339,7 @@
                                                 </thead>
                                                 <tbody> 
                                                     <tr>
-                                                        <td class="text">Unite:ddddddddddddddddddddddddddddddd First General Assembly</td><!-- event name-->
+                                                        <td class="text ">Unite:ddddddddddddddddddddddddddddddd First General Assembly</td><!-- event name-->
                                                         <td>Henry Sy.</td><!-- date of event-->                                                           
                                                         <td>January 1, 2017 </td><!-- date of event-->
                                                         <td>
@@ -342,7 +348,10 @@
                                                         </td>                 
                                                        
                                                         <td class="text-center "  style="vertical-align: middle;">
-                                                            <span data-toggle="tooltip" data-title="Assign users" class="fa fa-user"></span>
+                                                            <a class="evaluate-activity"  activity-id="1" data-toggle="tooltip" data-title="Get this Activity" > 
+                                                                <i  class="fa  fa-file m-r-10 text-inverse "></i> 
+                                                            </a>
+                                                           
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -408,16 +417,22 @@
 
     <!-- TABLE MODAL -->
     <script>
-    
-    
-        $("tale").on('click','.fa-user',function(){
-
+        $('body').on('mouseenter', '.tableContent', function () {
+            if ($(this).attr('data-toggle') != 'tooltip')
+            {
+                 $('[data-toggle="tooltip"]').tooltip();
+            }
         });
-
+    
         $(document).ready(function(){
+            // IMPORTANT
+            $('a[data-toggle="tab"]').on( 'shown.bs.tab', function (e) {
+                $.fn.dataTable.tables( {visible: true, api: true} ).columns.adjust();
+            } );
             $("#home2").click();
+           
 
-            var table = $('#myTable').dataTable({
+            var table = $('#myTable').DataTable({
                  
                   "columns": [
                     { "width": "35%" },
@@ -427,7 +442,7 @@
                     { "width": "5%" },
                   ]
             });
-            var table2 = $('#myTable2').dataTable( {
+            var table2 = $('#myTable2').DataTable( {
                  
                   "columns": [
                     { "width": "35%" },
@@ -437,8 +452,8 @@
                     { "width": "5%" },
                   ]
             });
-             table2.fnAdjustColumnSizing();
-            table.fnAdjustColumnSizing();
+            // table2.fnAdjustColumnSizing();
+            // table.fnAdjustColumnSizing();
 
             $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
                 if(e.target.hash =="#profile"){
@@ -449,20 +464,75 @@
                 table.fnAdjustColumnSizing();
             });
 
-        })
-       
+
+            $(document).on('click','.evaluate-activity', function(){
+                console.log("evaluate-activity");
+                var id = $(this).attr('activity-id');
+                // $.ajax({
+                //     type:'POST',
+                //     url:'',
+                //     data:id,
+                //     success:function(data){
+
+                //     }
+                // });
+                table2.row($(this).parents('tr')).remove().draw();
+
+                var actions  =      '<a activity-id="1" href="#" data-toggle="tooltip" data-title="Evaluate Activity"> '+
+                                        '<i  class="fa  fa-clipboard m-r-10 text-inverse "></i> '+
+                                    '</a>'+                                   
+                                     '<a activity-id="1" class="remove-activity"  data-toggle="tooltip" data-title="Remove from My Activity"> '+
+                                        '<i  class="fa  fa-times m-r-10 text-inverse "></i> '+
+                                    '</a>';
+                
+                                    
+                var row = table.row.add( [
+                                "activityName",
+                                "venue",
+                                "date",
+                                "time",
+                                actions                        
+                            ]).draw().node();
+                $(row).find("td:last").addClass("text-center");
+
+            });
+            $("#myTable").on('click',' tbody td a i.remove-activity', function(){
+                console.log("evaluate-activity");
+                var id = $(this).attr('activity-id');
+                // $.ajax({
+                //     type:'POST',
+                //     url:'',
+                //     data:id,
+                //     success:function(data){
+                        
+                //     }
+                // });
+                table.row($(this).closest('tr')).remove().draw();
+
+                var actions  =      '<a activity-id="1" href="#" data-toggle="tooltip" data-title="Evaluate Activity"> '+
+                                        '<i  class="fa  fa-clipboard m-r-10 text-inverse "></i> '+
+                                    '</a>'+                                   
+                                     '<a activity-id="1" class="remove-activity"  data-toggle="tooltip" data-title="Remove from My Activity"> '+
+                                        '<i  class="fa  fa-times m-r-10 text-inverse "></i> '+
+                                    '</a>';
+                
+                                    
+                var row = table2.row.add( [
+                                "activityName",
+                                "venue",
+                                "date",
+                                "time",
+                                actions                        
+                            ]).draw().node();
+                $(row).find("td:last").addClass("text-center");
+                
+            });
+    })
+      console.log("asd");
+           
     
     </script>
-    <script type="text/javascript">
-    (function() {
-
-        [].slice.call(document.querySelectorAll('.sttabs')).forEach(function(el) {
-            new CBPFWTabs(el);
-        });
-
-    })();
-    </script>
-    <!--Style Switcher -->
+  
     <script src="../plugins/bower_components/styleswitcher/jQuery.style.switcher.js"></script>
 
 
