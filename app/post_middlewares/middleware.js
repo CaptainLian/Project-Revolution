@@ -1,7 +1,3 @@
-var express = require('express');
-var app = express();
-
-
 module.exports = function (configuration, application, modules, database, queryFiles, models){
 	return [
 	/*

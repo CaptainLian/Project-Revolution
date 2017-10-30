@@ -14,6 +14,9 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const insertProjectProposalExpensesSQL = queryFiles.insertProjectProposalExpenses;
     const getProjectProposalsPerStatusSQL = queryFiles.getProjectProposalsCountPerStatus;
     const getPPRProjectedCostSQL = queryFiles.getPPRProjectedCost;
+    const getApprovedPPRsSQL = queryFiles.getApprovedPPRs;
+    const getNextActivityForApprovalSQL = queryFiles.getNextActivityForApproval;
+    const updatePPRStatusSQL = queryFiles.updatePPRStatus;
     
     /**
      * class with properties
@@ -257,6 +260,18 @@ module.exports = function(configuration, modules, db, queryFiles) {
         param.id = id;
 
         return connection.any(queryFiles.getProjectProposalProjectHeads, param);
+    };
+
+    ProjectProposalModel.prototype.getNextActivityForApproval = function(connection = this._db){
+        return connection.oneOrNone(getNextActivityForApprovalSQL);
+    };
+
+    ProjectProposalModel.prototype.updatePPRStatus = function(param, connection = this._db){
+        return connection.none(updatePPRStatusSQL, param);
+    };
+
+    ProjectProposalModel.prototype.getApprovedPPRs = function(connection = this._db){
+        return connection.any(getApprovedPPRsSQL);
     };
 
     return new ProjectProposalModel(db, modules);

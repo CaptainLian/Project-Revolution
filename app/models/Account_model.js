@@ -7,6 +7,8 @@
 module.exports = function(configuration, modules, database, queryFiles) {
     const squel = require('squel').useFlavour('postgres');
 
+
+
     let dbHelper = require('../utility/databaseHelper');
     const attachReturning = dbHelper.attachReturning;
     const attachFields = dbHelper.attachFields;
@@ -15,6 +17,9 @@ module.exports = function(configuration, modules, database, queryFiles) {
     const logger = modules.logger;
 
     const query_insert_account = queryFiles.account_insert;
+    const query_get_student_studentOrganizations = queryFiles.student_get_studentOrganizations;
+
+    const getAccountLogsSQL = queryFiles.getAccountLogs;
 
     const AccountModel = Object.create(null);
 
@@ -99,8 +104,36 @@ module.exports = function(configuration, modules, database, queryFiles) {
         //TODO implementation
     };
 
-    AccountModel.getAccountOrganizations = (idNumber) => {
+    AccountModel.getStudentOrganizations = (idNumber, connection = database) => {
+        const param = Object.create(null);
+        param.idNumber = idNumber;
 
+        return connection.any(query_get_student_studentOrganizations, param);
+    };
+
+    AccountModel.getRoleDetailsInOrganization = (idNumber, organization, fields, connection = database) => {
+        const param = Object.create(null);
+        param.idNumber = idNumber;
+        param.organization = organization;
+
+        let query = squel.select()
+            .with('officership',
+                squel.select()
+                .from('OrganizationOfficer')
+                .where('idNumber = ${idNumber}')
+                .field('role')
+            ).from('OrganizationRole')
+            .where('id IN ?',
+                squel.select()
+                .from('officership')
+            ).where('organization = ${organization}');
+
+        attachFields(query, fields);
+        return connection.one(query.toString(), param);
+    };
+
+    AccountModel.getAccountLogs = (connection = database) =>{
+        return connection.any(getAccountLogsSQL);
     };
 
     return AccountModel;

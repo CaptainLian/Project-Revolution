@@ -1,145 +1,206 @@
-/**
- * Query builder
- * @type {Object}
- */
-const squel = require('squel').useFlavour('postgres');
+module.exports = function(configuration, modules, models, database, queryFiles) {
+    /**
+    * Query builder
+    * @type {Object}
+    */
+    const squel = require('squel').useFlavour('postgres');
 
-/**
- * Used for password hashing
- * @type {bcryptjs}
- */
-const bcrypt = require('bcryptjs');
+    /**
+    * Used for password hashing
+    * @type {bcryptjs}
+    */
+    const bcrypt = require('bcryptjs');
 
-/**
- * Used for encryptions, key-pair generation, document signing and verification
- * @type {forge-promise}
- */
-const forgePromise = require('../utility/forge-promise');
+    /**
+    * Used for encryptions, key-pair generation, document signing and verification
+    * @type {forge-promise}
+    */
+    const forgePromise = require('../utility/forge-promise');
 
-/**
- * Contains data regarding logging
- * const log_options = {
- *     from: 'Account'
- * };
- * @type {Object}
- */
-const log_options = Object.create(null);
-log_options.from = 'Account';
-
-module.exports = function(configuration, modules, models, database, queryFiless) {
+    /**
+    * Contains data regarding logging
+    * const log_options = {
+    *     from: 'Account'
+    * };
+    * @type {Object}
+    */
+    const log_options = Object.create(null);
+    log_options.from = 'System-Controller';
+    
     const accountModel = models.Account_model;
     const logger = modules.logger;
-    return {
 
-        viewLogin: (req, res) => {
-            const csrfToken = req.csrfToken();
-             logger.debug(`login CSRFToken: ${csrfToken}`, log_options);
-            res.render('System/LoginMain', {
-                csrfToken: csrfToken
-            });
-        },
+    const SystemController = Object.create(null);
 
-        logout: (req, res) => {
-            req.session.user = undefined;
-            req.session.destroy(function(err) {
-                res.redirect("/");
-            });
-        },
+    SystemController.viewLogin = (req, res) => {
+        logger.debug(`Extra-data contents: ${JSON.stringify(req.extra_data)}`, log_options);
+        const renderData = Object.create(null);
+        renderData.extra_data = req.extra_data;
+        renderData.csrfToken = req.csrfToken();
 
-        checkLogin: (req, res) => {
-            let input = req.body;
-             logger.debug(`Login attempt input: ${JSON.stringify(input)}`, log_options);
-            //parse id number
-            let credential = parseInt(input.credential);
-            let credentialFloat = parseFloat(input.credential);
+        logger.debug(`login CSRFToken: ${renderData.csrfToken}`, log_options);
+        return res.render('System/LoginMain', renderData);
+    };
 
-            let query = squel.select()
-                .from('Account')
-                .field('idNumber')
-                .field('email')
-                .field('password')
-                .field('salt')
-                .field('Firstname')
-                .field('Lastname')
-                .field('Middlename');
+    SystemController.logout = (req, res) => {
+        req.session.user = undefined;
+        return req.session.destroy((err) => {
+            if(err)
+                throw err;
+            return res.redirect("/");
+        });
+    };
 
-            let valid = true;
-            if (isNaN(credential)) {
-                //this is email. possibly invalid
-                query.where('email=${credential}');
-            } else if (credential != credentialFloat || credential <= 0) {
-                //this is a decimal number or invalid value
-                valid = false;
-            } else {
-                query.where('idNumber=${credential}');
-            }
+    SystemController.checkLogin = (req, res) => {
+        let input = req.body;
+        logger.debug(`Login attempt input: ${JSON.stringify(input)}`, log_options);
+        //parse id number
+        let credential = parseInt(input.credential);
+        let credentialFloat = parseFloat(input.credential);
 
-            if (valid) {
-                database.one(query.toString(), {
-                    credential: input.credential
-                }).then(account => {
-                     logger.debug(`Account found: ${JSON.stringify(account)}`, log_options);
-                    if (account.password === bcrypt.hashSync(input.password, account.salt)) {
+        let query = squel.select()
+            .from('Account')
+            .field('idNumber')
+            .field('email')
+            .field('password')
+            .field('salt')
+            .field('Firstname')
+            .field('Lastname')
+            .field('Middlename')
+            .field('type');
 
-                         logger.debug('Enter!!', log_options);
+        let valid = true;
+        if (isNaN(credential)) {
+            //this is email. possibly invalid
+            query.where('email=${credential}');
+        } else if (credential != credentialFloat || credential <= 0) {
+            //this is a decimal number or invalid value
+            valid = false;
+        } else {
+            query.where('idNumber=${credential}');
+        }
 
-                        /**
-                         * Session Contents
-                         * {
-                         *     user: {
-                         *         idNumber
-                         *         name: {
-                         *             first
-                         *             middle
-                         *             last
-                         *         }
-                         *     }
-                         * }
-                         * @type Object
-                         */
-                        let user = Object.create(null);
-                        user.idNumber = account.idnumber;
-                        user.name = Object.create(null);
-                        user.name.first = account.firstname;
-                        user.name.middle = account.middlename;
-                        user.name.last = account.lastname;
-                        req.session.valid = true;
+        if (valid) {
+            database.one(query.toString(), {
+                credential: input.credential
+            }).then(account => {
+                logger.debug(`Account found: ${JSON.stringify(account)}`, log_options);
+                if (account.password === bcrypt.hashSync(input.password, account.salt)) {
 
-                        req.session.save();
+                    logger.debug('Enter!!', log_options);
 
-                        return res.send({
-                            valid: true,
-                            route: '/'
-                        });
-                    } else {
-                         logger.debug('Incorrect password');
-                        return res.send({
-                            valid: false
-                        });
+                    /**
+                     * Session Contents
+                     * {
+                     *     user: {
+                     *         idNumber
+                     *         name: {
+                     *             first
+                     *             middle
+                     *             last
+                     *         },
+                     *         type
+                     *         organizationSelected{
+                     *              id,
+                     *
+                     *              path_profilePicture
+                     *         } (Optional)
+                     *     }
+                     * }
+                     * @type Object
+                     */
+                    let user = Object.create(null);
+                    user.idNumber = account.idnumber;
+                    user.name = Object.create(null);
+                    user.name.first = account.firstname;
+                    user.name.middle = account.middlename;
+                    user.name.last = account.lastname;
+                    user.type = account.type;
+                    req.session.user = user;
+                    req.session.valid = true;
+
+                    req.session.save();
+
+                    logger.debug('Determining user type', log_options);
+                    switch (req.session.user.type) {
+                        // Admin
+                        case 0:
+                            //TODO:
+                            break;
+
+                            // Faculty Adviser Account
+                        case 2:
+                            //TODO:
+                            break;
+                            // SLIFE Account
+                        case 3:
+                            //TODO:
+                            break;
+                            // Accounting Account
+                        case 4:
+                            //TODO:
+                            break;
+
+                            // Student Account
+                        case 1:
+                            logger.debug('Student type account', log_options);
+                            accountModel.getStudentOrganizations(req.session.user.idNumber)
+                            .then(data => {
+                                logger.debug(`${JSON.stringify(data)}`, log_options);
+                                
+                                let organization = data.shift();
+                                logger.debug(`${JSON.stringify(organization)}`);
+                                req.session.user.organizationSelected = Object.create(null);
+                                req.session.user.organizationSelected.id = organization.id;
+                                req.session.user.organizationSelected.path_profilePicture = organization.path_profilepicture || '';
+                                req.session.user.organizationSelected.acronym = data.acronym;
+                                logger.debug(`Getting Role Details in Organization`);
+                                return accountModel.getRoleDetailsInOrganization(
+                                    req.session.user.idNumber,
+                                    organization.id,
+                                    'home_url'
+                                );
+                            }).then(data =>{
+                                const url = data.home_url || '/blank';
+
+                                const reply = {
+                                    url: url,
+                                    reroute: true,
+                                    valid: true
+                                };
+                                return res.send(reply);
+                            });
+                        break;
                     }
-                }).catch(() => {
-                     logger.debug('Account not exist');
+                } else {
+                    logger.debug('Incorrect password');
                     return res.send({
                         valid: false
                     });
-                });
-            } else {
-                 logger.debug('Aguy input');
+                }
+            }).catch(() => {
+                logger.debug('Account not exist');
                 return res.send({
                     valid: false
                 });
-            }
-        },
+            });
+        } else {
+            logger.debug('Aguy input');
+            return res.send({
+                valid: false
+            });
+        }
+    };
 
-        documentSign: (req, res) => {
-            // //KEY GENERATION
-            // console.log("REQUEST");
-            // console.log(req.session.user);
-            //database.one('SELECT * FROM Account WHERE idNumber = ${idNumber}', {idNumber: req.session.user.idNumber});
-             logger.debug(req.session, log_options);
-            //let fullname = req.session.user.name.first + " " + req.session.user.name.middle + " " + req.session.user.name.last;
+    SystemController.documentSign = (req, res) => {
+        // //KEY GENERATION
+        // console.log("REQUEST");
+        // console.log(req.session.user);
+        //database.one('SELECT * FROM Account WHERE idNumber = ${idNumber}', {idNumber: req.session.user.idNumber});
+        logger.debug(req.session, log_options);
+        //let fullname = req.session.user.name.first + " " + req.session.user.name.middle + " " + req.session.user.name.last;
 
-            accountModel.getAccountDetails(11445955, 'privateKey')
+        accountModel.getAccountDetails(11445955, 'privateKey')
             .then(data => {
                 let sampleDocument = {
                     Length: 500,
@@ -156,63 +217,49 @@ module.exports = function(configuration, modules, models, database, queryFiless)
                 const signature = privateKey.sign(messageDigest);
 
                 console.log(signature);
-                res.send(typeof signature);
+                return res.send(typeof signature);
             });
-        },
-
-        /**
-         * Accepts
-         * POST only
-         *     req.body: {
-         *         idNumber Integer,
-         *         email String,
-         *         type Integer,
-         *         password String,
-         *         firstname String,
-         *         middlename String,
-         *         lastname String,
-         *         contactNumber String
-         *     }
-         * @method
-         */
-        createAccount: (req, res) => {
-            const input = req.body;
-
-            forgePromise.pki.rsa.generateKeyPair({
-                bits:  configuration.webserver.encryption.bits,
-                workers:  configuration.webserver.encryption.web_workers_amount
-            }).then(pair => {
-                return Promise.all([
-                    forgePromise.pki.publicKeyToPem(pair.publicKey),
-                    forgePromise.pki.privateKeyToPem(pair.privateKey)
-                ]);
-            }).then(keys => {
-                const publicKeyPEM = keys[0];
-                const privateKeyPEM = keys[1];
-
-                return accountModel.insertAccount(
-                    input.idNumber,
-                    input.email,
-                    input.type,
-                    input.password,
-                    input.firstname,
-                    input.middlename,
-                    input.lastname,
-                    input.contactNumber,
-                    publicKeyPEM,
-                    privateKeyPEM
-                );
-            }).then(() => {
-                return res.send({
-                    success: true,
-                    valid: true
-                });
-            }).catch(err => {
-                return res.send({
-                    success: false,
-                    valid: true
-                });
-            });
-        }
     };
+
+    SystemController.createAccount = (req, res) => {
+        const input = req.body;
+
+        forgePromise.pki.rsa.generateKeyPair({
+            bits: configuration.webserver.encryption.bits,
+            workers: configuration.webserver.encryption.web_workers_amount
+        }).then(pair => {
+            return Promise.all([
+                forgePromise.pki.publicKeyToPem(pair.publicKey),
+                forgePromise.pki.privateKeyToPem(pair.privateKey)
+            ]);
+        }).then(keys => {
+            const publicKeyPEM = keys[0];
+            const privateKeyPEM = keys[1];
+
+            return accountModel.insertAccount(
+                input.idNumber,
+                input.email,
+                input.type,
+                input.password,
+                input.firstname,
+                input.middlename,
+                input.lastname,
+                input.contactNumber,
+                publicKeyPEM,
+                privateKeyPEM
+            );
+        }).then(() => {
+            return res.send({
+                success: true,
+                valid: true
+            });
+        }).catch(err => {
+            return res.send({
+                success: false,
+                valid: true
+            });
+        });
+    };
+
+    return SystemController;
 };

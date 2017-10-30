@@ -9,5 +9,11 @@ module.exports = function(configuration, modules, router, controllers){
 	router.get(`${base}/createGOSM`, controllers.Organization_controller.viewCreateGOSM);
 	router.get(`${base}/activityRequirements`, controllers.Organization_controller.createActivityRequirements);
 	router.get(`${base}/Treasurer/NewTransaction`, controllers.Treasurer_controller.newTransaction);
-	router.get(`${base}/Treasurer/NewTransactionOthers`, controllers.Treasurer_controller.newTransaction);
+    router.get(`${base}/Treasurer/NewTransactionOthers`, controllers.Treasurer_controller.newTransactionOthers);
+
+    router.get(`${base}/ProjectProposal/Main`, controllers.Organization_controller.viewSubmitProjectProposalMain);
+    router.get(`${base}/ProjectProposal/Attachments`, controllers.Organization_controller.viewSubmitProjectProposalAttachments);
+    router.get(`${base}/ProjectProposal/BriefContext`, controllers.Organization_controller.viewSubmitProjectProposalBriefContext);
+    router.get(`${base}/ProjectProposal/Expense`, controllers.Organization_controller.viewSubmitProjectProposalExpense);
+    router.get(`${base}/ProjectProposal/ProgramDesign`, controllers.Organization_controller.viewSubmitProjectProposalProgramDesign);
 };

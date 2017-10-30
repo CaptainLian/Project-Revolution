@@ -12,6 +12,47 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     log_options.from = 'Organization-Controller';
 
     return {
+
+        viewSubmitProjectProposalMain: (req, res) => {
+            const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
+
+            return res.render('Org/SubmitProjectProposal_main',renderData);
+        },
+
+        viewSubmitProjectProposalAttachments: (req, res) => {
+            const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
+
+            return res.render('Org/SubmitProjectProposal_attachments',renderData);
+        },
+
+        viewSubmitProjectProposalBriefContext: (req, res) => {
+            const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
+
+            return res.render('Org/SubmitProjectProposal_briefcontext',renderData);
+        },
+
+        viewSubmitProjectProposalExpense: (req, res) => {
+            const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
+
+            return res.render('Org/SubmitProjectProposal_expense', renderData);
+        },
+
+        viewSubmitProjectProposalProgramDesign: (req, res) => {
+            const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
+
+            return res.render('Org/SubmitProjectProposal_programdesign',renderData);
+        },
+
         viewHome: (req, res) => {
             database.task(t => {
                 return t.batch([
@@ -21,21 +62,26 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     projectProposalModel.getProjectProposalsCountPerStatus(1, 3, t)
                 ]);
             }).then(data => {
-                 logger.debug(`${JSON.stringify(data)}`, log_options);
-                return res.render('Org/Home', {
-                    csrfToken: req.csrfToken(),
-                    allProjects: data[0],
-                    deniedProjects: data[1],
-                    pendingProjects: data[2],
-                    successProjects: data[3]
-                });
+                logger.debug(`${JSON.stringify(data)}`, log_options);
+                const renderData = Object.create(null);
+                renderData.extra_data = req.extra_data;
+                renderData.csrfToken = req.csrfToken();
+
+                renderData.allProjects = data[0];
+                renderData.deniedProjects = data[1];
+                renderData.pendingProjects = data[2];
+                renderData.successProjects =  data[3];
+
+                return res.render('Org/Home', renderData);
             }).catch(error => {
                 throw error;
             });
         },
 
         view: (req, res) => {
-            return res.render('Org/Member');
+            const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            return res.render('Org/Member', renderData);
         },
 
         viewProject: (req, res) => {
@@ -58,12 +104,14 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 ]);
                 //TODO: add signatories and score
             }).then(data => {
-                return res.render('Org/viewProjectMain', {
-                    actWithPPR: data[0],
-                    actWithoutPPR: data[1],
-                    projectedCost: data[2],
-                    gosmActivity: data[3]
-                });
+                const renderData = Object.create(null);
+                renderData.extra_data = req.extra_data;
+
+                renderData.actWithPPR = data[0];
+                renderData.actWithoutPPR = data[1];
+                renderData.projectedCost = data[2];
+                renderData.gosmActivity = data[3];
+                return res.render('Org/viewProjectMain', renderData);
             }).catch(err => {
                 throw err;
             });
@@ -299,11 +347,14 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     gosmModel.getGOSMActivityProjectHeads(dbParam)
                 ]);
             }).then(data => {
-               return res.render("Org/ActivityRequirements", {
-                    gosmActivity: data[0],
-                    projectHeads: data[1],
-                    csrfToken: req.csrfToken()
-                });
+                const renderData = Object.create(null);
+                renderData.extra_data = req.extra_data;
+                renderData.csrfToken = req.csrfToken();
+
+                renderData.gosmActivity = data[0];
+                renderData.projectHeads = data[1];
+
+                return res.render("Org/ActivityRequirements", renderData);
             }).catch(err => {
                 throw err;
             });
@@ -355,12 +406,15 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
              }).then(data => {
                 logger.debug(`${JSON.stringify(data)}`, log_options);
                 logger.debug(`${JSON.stringify(data[2])}`, log_options);
-                return res.render('Org/GOSM', {
-                    activityTypes: data[1],
-                    activityNature: data[2],
-                    gosmActivities: data[0],
-                    csrfToken: req.csrfToken()
-                });
+                const renderData = Object.create(null);
+                renderData.extra_data = req.extra_data;
+                renderData.csrfToken = req.csrfToken();
+
+                renderData.activityTypes = data[1];
+                renderData.activityNature = data[2];
+                renderData.gosmActivities = data[0];
+
+                return res.render('Org/GOSM', renderData);
               }).catch(err => {
                   throw err;
               });

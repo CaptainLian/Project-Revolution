@@ -14,8 +14,7 @@
     "cookie-parser": "^1.4.3",
     "crypto2": "^0.3.2",
     "csurf": "^1.9.0",
-    "dateformat": "^2.2.0",
-    "debug": "^3.1.0",
+    "dateformat": "^3.0.2",
     "express": "^4.16.2",
     "express-nunjucks": "^2.2.3",
     "express-session": "^1.15.6",
@@ -24,7 +23,7 @@
     "pg": "^7.3.0",
     "pg-minify": "^0.5.3",
     "pg-pool": "^2.0.3",
-    "pg-promise": "^6.10.3",
+    "pg-promise": "^7.0.2",
     "require-dir": "^0.3.2",
     "squel": "^5.12.0",
     "winston": "^2.4.0"

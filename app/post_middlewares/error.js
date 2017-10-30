@@ -14,7 +14,7 @@ module.exports = function(configuration, application, modules, database, queryFi
                 res.render('System/403');
                 return;
             }
-            next(err);
+            return next(err);
         }
     }, {
         name: 'Error 404',
@@ -24,7 +24,7 @@ module.exports = function(configuration, application, modules, database, queryFi
             logger.warning(`Error 404 original URL: ${req.originalUrl}, url: ${req.url}`, log_options);
             var err = new Error('Not Found');
             err.status = 404;
-            res.render('System/404');
+            return res.render('System/404');
         }
     }, {
         name: 'Error 500',
@@ -36,7 +36,7 @@ module.exports = function(configuration, application, modules, database, queryFi
             // render the error page
             logger.error(`${message}\n${stack}`);
             res.status(err.status || 500);
-            res.render('error', {
+            return res.render('error', {
                 message: message,
                 stack: stack
             });

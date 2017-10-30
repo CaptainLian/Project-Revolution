@@ -142,30 +142,36 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         },
         //CHANGE QUERY
         activityChecking: (req, res) => {
+
+            var activityId; 
             database.task(task => {
-                //TODO replace 1, hard coded vaue
-                return projectProposalModel.getActivityProjectProposalDetails(2, [
-                    ['at.name', 'type'],
-                    'an.name AS nature',
-                    'ga.strategies AS strategies',
-                    'so.name AS orgname',
-                    'pp.venue AS venue',
-                    'pp.enmp AS enmp',
-                    'pp.enp AS enp',
-                    'ga.objectives AS objectives',
-                    'pp.context AS context',
-                    'pp.id AS id',
-                    'pp.sourcefundother AS sourcefundother',
-                    'pp.sourcefundparticipantfee AS sourcefundparticipantfee',
-                    'pp.sourcefundorganizational AS sourcefundorganizational',
-                    'pp.accumulatedoperationalfunds AS accumulatedoperationalfunds',
-                    'pp.accumulateddepositoryfunds AS accumulateddepositoryfunds',
-                    'pp.organizationfundothersource AS organizationfundothersource'
-                ], task).then(data => {
+
+                let promises = [];
+
+                console.log(req.body);
+
+                const dbParam = {
+                    status: req.body.method,
+                    comments: req.body.comment,
+                    // TODO: add section to database
+                    //section: req.body.section,
+                    id: req.body.id
+                };
+
+                projectProposalModel.updatePPRStatus(dbParam, task)
+                .then(() => {
+
+                });
+   
+                    return projectProposalModel.getNextActivityForApproval(task)
+                .then(data => {
+                    activityId = data.id;
+                    console.log(activityId);
+                    
                     return task.batch([
                         Promise.resolve(data),
-                        projectProposalModel.getProjectProposalExpenses(data.id),
-                        projectProposalModel.getProjectProposalProjectedIncome(data.id),
+                        projectProposalModel.getProjectProposalExpenses(data.id, task),
+                        projectProposalModel.getProjectProposalProjectedIncome(data.id, task),
                         projectProposalModel.getProjectProposalProgramDesign(data.id, [
                             'pppd.dayid AS dayid',
                             "to_char(pppd.date, 'Mon DD, YYYY') AS date",
@@ -174,23 +180,34 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             'pppd.activity AS activity',
                             'pppd.activitydescription AS activitydescription',
                             'pppd.personincharge AS personincharge'
-                        ]),
-                        projectProposalModel.getProjectProposalProjectHeads(data.id),
-                        projectProposalModel.getProjectProposalAttachment(data.id)
+                        ], task),
+                        projectProposalModel.getProjectProposalProjectHeads(data.id, task),
+                        projectProposalModel.getProjectProposalAttachment(data.id, task)
                     ]);
+
+
                 });
+      
             }).then(data => {
-                global.logger.debug(`${JSON.stringify(data[3])}`, log_options);
-                return res.render('APS/ActivityChecking', {
-                    projectProposal: data[0],
-                    expenses: data[1],
-                    projectedIncome: data[2],
-                    programDesign: data[3],
-                    projectHeads: data[4],
-                    attachment: data[5],
-                    csrfToken: req.csrfToken()
-                });
+                console.log("actvityID");
+                console.log(data);
+                console.log(activityId);
+
+                logger.debug(`${JSON.stringify(data[3])}`, log_options);
+                const renderData = Object.create(null);
+                renderData.extra_data = req.extra_data;
+                renderData.projectProposal = data[0];
+                renderData.expenses = data[1];
+                renderData.activity = activityId;
+                renderData.projectedIncome = data[2];                
+                renderData.programDesign = data[3];
+                renderData.projectHeads = data[4];
+                renderData.attachment = data[5];
+                renderData.csrfToken = req.csrfToken();
+
+                return res.render('APS/ActivityChecking', renderData);
             }).catch(err => {
+                console.log('NAG ERROR');
                 throw err;
             });
         }

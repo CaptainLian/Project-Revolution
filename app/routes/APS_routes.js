@@ -8,4 +8,5 @@ module.exports = function (configuration, modules, router, controllers, models, 
 	router.get('/APS/viewOrgGOSM/:orgID/:GOSMID', controllers.APS_controller.viewOrgGOSM);
 
 	router.get('/APS/ActivityList', controllers.APS_controller.viewActivityList);
+	router.get('/APS/Logs', controllers.APS_controller.viewAPSLogs);
 };
