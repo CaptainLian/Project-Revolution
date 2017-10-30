@@ -20,6 +20,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
             return res.render('Org/SubmitProjectProposal_main',renderData);
         },
+        viewSubmitPostProjectProposalMain: (req, res) => {
+            const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
+
+            return res.render('Org/SubmitPostProjectProposal_main',renderData);
+        },
 
         viewSubmitProjectProposalAttachments: (req, res) => {
             const renderData = Object.create(null);
@@ -35,6 +42,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.csrfToken = req.csrfToken();
 
             return res.render('Org/SubmitProjectProposal_briefcontext',renderData);
+        },
+        viewSubmitPostProjectProposalBriefContext: (req, res) => {
+            const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
+
+            return res.render('Org/SubmitPostProjectProposal_briefcontext',renderData);
         },
 
         viewSubmitProjectProposalExpense: (req, res) => {
