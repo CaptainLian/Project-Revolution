@@ -16,18 +16,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="icon" type="image/png" sizes="16x16" href="../plugins/images/favicon.png">
     <title>Elite Admin Template - The Ultimate Multipurpose admin template</title>
     <!-- Bootstrap Core CSS -->
-    <link href="bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+   <link href="bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="../plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css" rel="stylesheet">
+    <!-- animation CSS -->
+    <link href="css/animate.css" rel="stylesheet">
     <!-- Menu CSS -->
     <link href="../plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css" rel="stylesheet">
-    <!-- Animation CSS -->
+    <!-- page CSS -->
+    <link href="../plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
+    <link href="../plugins/bower_components/custom-select/custom-select.css" rel="stylesheet" type="text/css" />
+    <link href="../plugins/bower_components/switchery/dist/switchery.min.css" rel="stylesheet" />
+    <link href="../plugins/bower_components/bootstrap-select/bootstrap-select.min.css" rel="stylesheet" />
+    <link href="../plugins/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.css" rel="stylesheet" />
+    <link href="../plugins/bower_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css" rel="stylesheet" />
+    <link href="../plugins/bower_components/multiselect/css/multi-select.css" rel="stylesheet" type="text/css" />
+    <!-- animation CSS -->
     <link href="css/animate.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="css/style.css" rel="stylesheet">
-    <!-- color CSS you can use different color css from css/colors folder -->
-    <!-- We have chosen the skin-blue (blue.css) for this starter
-          page. However, you can choose any other skin from folder css / colors .
--->
+    <!-- color CSS -->
     <link href="css/colors/blue.css" id="theme" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -35,11 +42,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
-    <style type="text/css">
-        .panel:hover{
-            background-color: #fff
-        }
-    </style>
 </head>
 
 <body>
@@ -514,126 +516,165 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>
-                <div class="row white-box">
+                <div class="row">
                     <div class="col-md-12">
-                        <div class="">
-                            <div class="col-md-6 col-xs-12">
-                                <h3>Doms</h3>
-                                <hr>
-                                <p>
-                                    <b class="col-md-4 col-xs-2  text-left">Date:</b>  
-                                    Sep 06, 2017 - Sep 06, 2017
-                                </p>
-                                
-                                <p>
-                                   <b class="col-md-4 col-xs-2  text-left">Nature of Activity:</b> 
-                                    Academic
-                                </p>
+                        <div class="panel panel-info">
+                            <div class="panel-heading"> Brief Context</div>
+                            <div class="panel-wrapper collapse in" aria-expanded="true">
+                                <div class="panel-body">
+                                    <form action="#" class="form-horizontal">
+                                        <div class="form-body">
+                                            <h3 class="box-title">Activity Info</h3>
+                                            <hr class="m-t-0 m-b-40">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">ANP</label>
+                                                        <div class="col-md-9">
+                                                            <input type="number" name="" class="form-control">
+                                                            <span class="help-block"> Actual number of Member Participants</span> </div>
+                                                    </div>
+                                                </div>
+                                                <!--/span-->
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">ANMP</label>
+                                                        <div class="col-md-9">
+                                                            <input type="number" name="" class="form-control">
+                                                            <span class="help-block"> Actual number of Member Participants</span> </div>
+                                                    </div>
+                                                </div>
+                                                <!--/span-->
+                                            </div>
 
-                                <p>
-                                    <b class="col-md-12  text-left">Project Heads:</b> 
-                                    <p class="offset-md-4 offset-xs-2">Neil Capistrano</p>
-                                    <p class="offset-md-4 offset-xs-2">Neil Capistrano</p>
-                                </p>
-                                <div>
-                                    
+                                            <!--/row-->
+                                           
+                                            <h3 class="box-title">Explain how each objective was met</h3>
+                                            <hr class="m-t-0 m-b-40">
+                                            <!--/row-->
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4 text-left">To inspire students to be creative in their project designs with the use of Arduino</label>
+                                                        <div class="col-md-8">
+                                                            <textarea style="width: 100%" rows="3"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                               
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4 text-left">To inspire students to be creative in their project designs with the use of Arduino.</label>
+                                                        <div class="col-md-8">
+                                                            <textarea style="width: 100%" rows="3"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                               
+
+                                            </div>
+                                            <!--/row-->
+
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4 text-left">To inspire students to be creative in their project designs with the use of Arduino.</label>
+                                                        <div class="col-md-8">
+                                                            <textarea style="width: 100%" rows="3"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                               
+
+                                            </div>
+
+
+
+                                            <hr class="m-t-0 m-b-40">
+                                            <!--/row-->
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4 text-left">Three things that went well in the activity</label>
+                                                        <div class="col-md-8">
+                                                            <textarea style="width: 100%" rows="3"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                               
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4 text-left"></label>
+                                                        <div class="col-md-8">
+                                                            <textarea style="width: 100%" rows="3"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                               
+
+                                            </div>
+                                            <!--/row-->
+
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4 text-left"></label>
+                                                        <div class="col-md-8">
+                                                            <textarea style="width: 100%" rows="3"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                               
+
+                                            </div>
+
+                                             <hr class="m-t-0 m-b-40">
+                                            <!--/row-->
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4 text-left">What was your greatest learning in executing the activity?</label>
+                                                        <div class="col-md-8">
+                                                            <textarea style="width: 100%" rows="3"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                               
+
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4 text-left">How did this activity, through your leadership, contribute to the development of the participants?</label>
+                                                        <div class="col-md-8">
+                                                            <textarea style="width: 100%" rows="3"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                               
+
+                                            </div>
+                                        </div>
+                                        <div class="form-actions">
+                                            
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="panel-footer text-center">
+                                   
+                                 
+                                                    <button type="submit" class="btn btn-success"> <i class="fa fa-save"></i> &nbspSave</button>
+                                                    <button type="button" class="btn btn-default">Cancel</button>
+                                                
                                 </div>
                             </div>
-                            <div class="col-md-6 text-right">
-                                <h3>Completion Rate: 80%</h3>
-                                <hr>
-                                <p>
-                                    <b class="col-md-10  text-right"> Brief Context:</b>  
-                                    100%
-                                </p>
-                                
-                                <p>
-                                   <b class="col-md-10  text-right"> Program Schedule :</b> 
-                                    0%
-                                </p>
-
-                                <p>
-                                    <b class="col-md-10 text-right">Funding Expense:</b> 
-                                    
-                                    100%
-                                </p>
-
-                                <p>
-                                    <b class="col-md-10 text-right">Attachments:</b> 
-                                    
-                                    100%
-                                </p>
-                               
-                            </div>
-                            <div class="list-group col-md-12">
-                                    <button type="button" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
-                                        <div class="row">
-                                            <div class="col-md-6 text-left">
-                                                 <h5>Brief Context <span class="label label-success">Complete</span></h5>
-                                            </div>
-                                            
-                                           
-                                            <div class="col-md-6 text-right" >
-                                                <i class="fa fa-pencil " style="padding-top: 10px"></i>
-                                            </div>
-                                            
-                                        </div>
-                                    </button>                                                                       
-
-                                    <button type="button" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
-                                        <div class="row">
-                                            <div class="col-md-6 text-left">
-                                                 <h5>Program Schedule <span class="label label-danger">Incomplete</span></h5>
-                                                 
-                                            </div>
-                                            
-                                           
-                                            <div class="col-md-6 text-right" >
-                                                <i class="fa fa-pencil " style="padding-top: 10px"></i>
-                                            </div>
-                                            
-                                        </div>
-                                    </button>
-
-                                    <button type="button" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
-                                        <div class="row">
-                                            <div class="col-md-6 text-left">
-                                                 <h5>Expense <span class="label label-success">Complete</span> </h5>
-
-                                            </div>
-                                            
-                                           
-                                            <div class="col-md-6 text-right" >
-                                                <i class="fa fa-pencil " style="padding-top: 10px"></i>
-                                            </div>
-                                            
-                                        </div>
-                                    </button>
-
-                                     <button type="button" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
-                                        <div class="row">
-                                            <div class="col-md-6 text-left">
-                                                 <h5>Attachments <span class="label label-success">Complete</span> </h5>
-                                            </div>
-                                            
-                                           
-                                            <div class="col-md-6 text-right" >
-                                                <i class="fa fa-pencil " style="padding-top: 10px"></i>
-                                            </div>
-                                            
-                                        </div>
-                                    </button>
-                            </div>
-
-                             
-                            <div class="m-t-40 form-group text-center">
-                                 
-                                <button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Submit</button>
-                                <button type="button" class="btn btn-default">Cancel</button>
-                            
-                            </div>
-                        
-                            
                         </div>
                     </div>
                 </div>
@@ -656,11 +697,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!--slimscroll JavaScript -->
     <script src="js/jquery.slimscroll.js"></script>
     <!--Wave Effects -->
+    <script src="../plugins/bower_components/custom-select/custom-select.min.js" type="text/javascript"></script>
+    <script src="../plugins/bower_components/bootstrap-select/bootstrap-select.min.js" type="text/javascript"></script>
+
     <script src="js/waves.js"></script>
     <!-- Custom Theme JavaScript -->
+
     <script src="js/custom.min.js"></script>
     <!--Style Switcher -->
     <script src="../plugins/bower_components/styleswitcher/jQuery.style.switcher.js"></script>
+
+    <script type="text/javascript">
+        $("select").select2();
+    </script>
 </body>
 
 </html>
