@@ -544,6 +544,14 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                  logger.warning(`${JSON.stringify(err)}`, log_options);
                 throw err;
             });
+        },
+
+        saveContext: (req, res) =>{
+            console.log(req.body);
+        },
+
+        saveDesign: (req, res) =>{
+            console.log(req.body);
         }
     };
 };
