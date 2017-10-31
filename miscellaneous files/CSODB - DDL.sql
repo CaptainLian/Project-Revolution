@@ -12,14 +12,6 @@ $trigger$
     END;
 $trigger$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION trigger_auto_reject()
-RETURNS trigger AS
-$trigger$
-    BEGIN
-        RETURN NULL;
-    END;
-$trigger$ LANGUAGE plpgsql;
-
 /*
     Helpful functions
 */
@@ -691,8 +683,8 @@ CREATE TRIGGER before_update_Functionality
     FOR EACH ROW WHEN ((OLD.category <> NEW.category) OR (OLD.category IS NULL))
     EXECUTE PROCEDURE trigger_before_update_Functionality();
 
-INSERT INTO Functionality (name, category)
-                   VALUES ('Submit GOSM', 104);
+INSERT INTO Functionality (id, name, category)
+                   VALUES (104000, 'Submit GOSM', 104);
 /*
 INSERT INTO Functionality (id, name, category)
                    VALUES (0, 'Time Setting', 0),
@@ -1115,7 +1107,9 @@ CREATE TABLE ProjectProposal (
     ENP INTEGER,
     ENMP INTEGER,
     venue INTEGER REFERENCES ActivityVenue(id),
-    context TEXT,
+    context1 TEXT,
+    context2 TEXT,
+    context3 TEXT,
     sourceFundOther NUMERIC(16, 4),
     sourceFundParticipantFee NUMERIC(16, 4),
     sourceFundOrganizational NUMERIC(16, 4),
@@ -1124,6 +1118,7 @@ CREATE TABLE ProjectProposal (
     organizationFundOtherSource NUMERIC(16, 4),
     comments TEXT,
     preparedBy INTEGER REFERENCES Account(idNumber),
+    facultyAdviser INTEGER REFERENCES Account(idNumber),
     dateCreated TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     dateSubmitted TIMESTAMP WITH TIME ZONE,
     dateStatusModified TIMESTAMP WITH TIME ZONE,
@@ -1350,6 +1345,7 @@ CREATE TABLE ProjectProposalSignatory (
 	signatory INTEGER REFERENCES Account(idNumber),
 	type SMALLINT NOT NULL REFERENCES SignatoryType(id),
   status SMALLINT NOT NULL REFERENCES SignatoryStatus(id) DEFAULT 0,
+  comments TEXT,
 	document JSONB,
 	digitalSignature TEXT,
 	dateSigned TIMESTAMP WITH TIME ZONE,
