@@ -20,4 +20,6 @@ module.exports = function(configuration, modules, router, controllers){
     router.get(`${base}/Setting/ACL`, controllers.Organization_controller.viewSettingAcl);
     router.get(`${base}/PostProjectProposal/Main`, controllers.Organization_controller.viewSubmitPostProjectProposalMain);
     router.get(`${base}/PostProjectProposal/BriefContext`, controllers.Organization_controller.viewSubmitPostProjectProposalBriefContext);
+    router.get(`${base}/PostProjectProposal/Others`, controllers.Organization_controller.viewSubmitPostProjectProposalOthers);
+    router.get(`${base}/PostProjectProposal/FinanceDocument`, controllers.Organization_controller.viewSubmitPostProjectProposalFinanceDocument);
 };

@@ -1,0 +1,379 @@
+{% extends '../template/CSO_master.html' %}
+{% import '../template/tags_macro.html' as tag %}
+
+{%block page_title%}CSO - Submit Post Activity{%-endblock%}
+
+
+{%block style%}
+	{{super()}}
+    <!-- Bootstrap Core CSS -->
+    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
+   	{{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
+    <!-- animation CSS -->
+    {{tag.style('/css/animate.css')}}
+    <!-- Menu CSS -->
+    {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
+    <!-- page CSS -->
+    {{tag.style('/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css')}}
+    {{tag.style('/plugins/bower_components/custom-select/custom-select.css')}}
+    {{tag.style('/plugins/bower_components/switchery/dist/switchery.min.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-select/bootstrap-select.min.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css')}}
+    {{tag.style('/plugins/bower_components/multiselect/css/multi-select.css')}}
+    <!-- animation CSS -->
+    {{tag.style('/css/animate.css')}}
+    <!-- Custom CSS -->
+    {{tag.style('/css/style.css')}}
+    <!-- color CSS -->
+    {{tag.style('/css/colors/blue.css')}}
+    {{tag.style('/css/custom.css')}}
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+{%endblock%}
+	
+{%block defer_script%}
+	{{super()}}
+    <!-- jQuery -->
+    {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
+    <!-- Bootstrap Core JavaScript -->
+    {{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
+    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
+    <!-- Menu Plugin JavaScript -->
+    {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
+    <!--slimscroll JavaScript -->
+    {{tag.javascript('/js/jquery.slimscroll.js', true)}}
+    <!--Wave Effects -->
+    {{tag.javascript('/plugins/bower_components/custom-select/custom-select.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-select/bootstrap-select.min.js', true)}}
+    {{tag.javascript('/js/waves.js', true)}}
+    {{tag.javascript('/js/cbpFWTabs.js', true)}}
+    <!-- Custom Theme JavaScript -->
+     {{tag.javascript('/js/custom.min.js', true)}}
+    <!--Style Switcher -->
+    {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
+
+    {{tag.javascript('/js/Organization/SubmitPostProjectProposal_financedocuments.js', true)}}
+{%endblock%}
+
+{%block content%}
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-info">
+			<div class="panel-heading"> Brief Context</div>
+			<div class="panel-wrapper collapse in" aria-expanded="true">
+				<div class="panel-body">
+					<form action="#" class="form-horizontal">
+						<div class="form-body">
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="white-box">                            
+										<br/>
+										<div class="sttabs tabs-style-line">
+											<nav>
+												<ul>
+													<li><a class="text-center" href="#section-line-1"><span>Direct Payment</span></a></li>
+													<li><a class="text-center" href="#section-line-2"><span>Reimbursement</span></a></li>
+													<li><a class="text-center" href="#section-line-3"><span>Petty Cash</span></a></li>
+													<li><a class="text-center" href="#section-line-4"><span>Book Transfer</span></a></li>
+													<li><a class="text-center" href="#section-line-5"><span>FRA</span></a></li>
+													<li><a class="text-center" href="#section-line-6"><span>Liquidation</span></a></li>
+												</ul>
+											</nav>
+											<div class="content-wrap ">
+												<section id="section-line-1">
+													<div class="row" >
+														<div class="col-sm-12">
+															<h3 class="box-title m-t-40">Payment Requisition Slip</h3>
+															<hr>
+															<div class="row">
+																<div class="col-md-12 ">
+																	<div class="form-group row">
+																		<label class="col-md-3">Name of Establishment</label>
+																		<input class="form-control col-md-9" type="text">
+																	</div>
+																</div>
+																<div class="col-md-12 ">
+																	<div class="form-group row">
+																		<label class="col-md-3">Amount</label>
+																		<input class="form-control col-md-9" >
+																	</div>
+																</div>
+
+																<div class="col-md-12 ">
+																	<div class="form-group row">
+																		<label class="col-md-3">Payment By</label>                                                            
+																		<div class="radio-list col-md-9">
+																			<label class="radio-inline p-0">
+																				<div class="radio radio-info">
+																					<input name="radio" id="radio1" value="option1" type="radio">
+																					<label for="radio1">Cheque</label>
+																				</div>
+																			</label>
+																			<label class="radio-inline">
+																				<div class="radio radio-info">
+																					<input name="radio" id="radio2" value="option2" type="radio">
+																					<label for="radio2">Book Transfer    </label>
+																				</div>
+																			</label>
+																		</div>                    
+
+
+																	</div>
+																</div>
+
+															</div>
+
+														</div>
+														<div class="col-sm-12">
+															<h3 class="box-title m-t-40">Memo </h3>
+															<hr>
+															<br>
+															<div class="col-md-6">
+																<label  style="">Reason for Delayed PRS Processing</label>    
+															</div>
+															<div class="col-md-6">
+																<textarea name="dp-memo" style="width: 100%"></textarea>
+															</div>
+
+														</div>
+														<div class="col-md-12">
+															<h3 class="box-title m-t-40">Upload </h3>
+															<hr>
+															<br>
+															<div class="row">
+																<div class="col-md-12 m-10">
+																	<div class="col-md-4  text-left">
+																		<label  style="">1. General Attendance List Sheet</label>    
+																	</div>
+																	<div class="col-md-8">
+																		<input style="" type="file" accept=".pdf, .odt, .odp, .ods" name="...">    
+																	</div>
+
+
+
+																</div>
+																<div class="col-md-12 m-10">
+																	<div class="col-md-4  text-left">
+																		<label  style="">2. Formal Quotation</label>    
+																	</div>
+																	<div class="col-md-8">
+																		<input style="" type="file" accept=".pdf, .odt, .odp, .ods" name="...">    
+																	</div>
+
+
+
+																</div>
+																<div class="col-md-12 m-10">
+																	<div class="col-md-4  text-left">
+																		<label  style="">3. ROF</label>    
+																	</div>
+																	<div class="col-md-8">
+																		<input style="" type="file" accept=".pdf, .odt, .odp, .ods" name="...">    
+																	</div>
+
+
+
+																</div>
+
+															</div>
+
+
+														</div> 
+
+
+
+													</div>
+												</section>
+												<section id="section-line-2">
+													<div class="row" >
+														<div class="col-sm-12">
+															<h3 class="box-title m-t-40">Payment Requisition Slip</h3>
+															<hr>
+															<div class="row">
+																<div class="col-md-12 ">
+																	<div class="form-group row">
+																		<label class="col-md-3">Name of Establishment</label>
+																		<input class="form-control col-md-9" type="text">
+																	</div>
+																</div>
+																<div class="col-md-12 ">
+																	<div class="form-group row">
+																		<label class="col-md-3">Amount</label>
+																		<input class="form-control col-md-9" >
+																	</div>
+																</div>
+
+																<div class="col-md-12 ">
+																	<div class="form-group row">
+																		<label class="col-md-3">Payment By</label>                                                            
+																		<div class="radio-list col-md-9">
+																			<label class="radio-inline p-0">
+																				<div class="radio radio-info">
+																					<input name="radio" id="radio1" value="option1" type="radio">
+																					<label for="radio1">Payment By Check</label>
+																				</div>
+																			</label>
+																			<label class="radio-inline">
+																				<div class="radio radio-info">
+																					<input name="radio" id="radio2" value="option2" type="radio">
+																					<label for="radio2">Payment By Book Transfer    </label>
+																				</div>
+																			</label>
+																		</div>                    
+
+
+																	</div>
+																</div>
+
+															</div>
+
+														</div>
+														<div class="col-sm-12">
+															<h3 class="box-title m-t-40">Memo </h3>
+															<hr>
+															<br>
+															<div class="col-md-6 m-b-10">
+																<label  style="">1. Food Expense</label>    
+															</div>
+															<div class="col-md-6 m-b-10">
+																<input name="dp-memo" style="width: 100%" type="text">
+															</div>
+															<div class="col-md-6 m-b-10">
+																<label  style="">2. Not Using CA/DP (If RM is greater than P1000)</label>    
+															</div>
+															<div class="col-md-6 m-b-10">
+																<textarea name="dp-memo" style="width: 100%"></textarea>
+															</div>
+															<div class="col-md-6">
+																<label  style="">3. Delayed Processing</label>    
+															</div>
+															<div class="col-md-6">
+																<textarea name="dp-memo" style="width: 100%"></textarea>
+															</div>
+
+														</div>
+														<div class="col-md-12">
+															<h3 class="box-title m-t-40">VII. Upload </h3>
+															<hr>
+															<br>
+															<div class="row">
+																<div class="col-md-12 m-10">
+																	<div class="col-md-4  text-left">
+																		<label  style="">1. Receipts</label>    
+																	</div>
+																	<div class="col-md-8">
+																		<input multiple="" style="" type="file" accept=".pdf, .odt, .odp, .ods" name="...">    
+																	</div>
+
+
+
+																</div>
+
+
+															</div>
+
+
+														</div> 
+
+
+
+													</div>
+												</section>
+												<section id="section-line-3">
+													<h2>Tabbing 3</h2></section>
+													<section id="section-line-4">
+														<div class="row" >
+															<div class="col-sm-12">
+																<h3 class="box-title m-t-40">Payment Requisition Slip</h3>
+																<hr>
+																<div class="row">
+																	<div class="col-md-12 ">
+																		<div class="form-group row">
+																			<label class="col-md-3">Name of Establishment</label>
+																			<input class="form-control col-md-9" type="text">
+																		</div>
+																	</div>
+																	<div class="col-md-12 ">
+																		<div class="form-group row">
+																			<label class="col-md-3">Amount</label>
+																			<input class="form-control col-md-9" >
+																		</div>
+																	</div>
+																	<div class="col-md-12 ">
+																		<div class="form-group row">
+																			<label class="col-md-3">Purpose</label>
+																			<input class="form-control col-md-9" type="text">
+																		</div>
+																	</div>
+
+
+
+																</div>
+
+															</div>
+															<div class="col-sm-12">
+
+
+
+															</div>
+															<div class="col-md-12">
+																<h3 class="box-title m-t-40">VII. Upload </h3>
+																<hr>
+																<br>
+																<div class="row">
+																	<div class="col-md-12 m-10">
+																		<div class="col-md-4  text-left">
+																			<label  style="">1. Billing Statement, Requisition Slip, and Charge Slip</label>    
+																		</div>
+																		<div class="col-md-8">
+																			<input style="" type="file" accept=".pdf, .odt, .odp, .ods" name="...">    
+																		</div>
+
+
+
+																	</div>
+
+																</div>
+
+
+															</div> 
+
+
+
+														</div>
+													</section>
+													<section id="section-line-5">
+														<h2>Tabbing 5</h2>
+													</section>
+													<section id="section-line-6">
+														<h2>Tabbing 5</h2>
+													</section>
+												</div>
+												<!-- /content -->
+											</div>
+
+										</div>                        
+									</div>                                                                                            
+								</div>     
+
+							</div>
+							<div class="form-actions">
+
+							</div>
+						</form>
+					</div>
+					<div class="panel-footer text-center">                                                    
+						<button type="submit" class="btn btn-success"> <i class="fa fa-save"></i> &nbspSave</button>
+						<button type="button" class="btn btn-default">Cancel</button>                                
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{%endblock%}
