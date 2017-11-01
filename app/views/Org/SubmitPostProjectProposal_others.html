@@ -1,0 +1,329 @@
+{% extends '../template/CSO_master.html' %}
+{% import '../template/tags_macro.html' as tag %}
+
+{%block page_title%}CSO - Submit Post Activity{%-endblock%}
+
+{%block style%}
+	{{super()}}
+    <!-- Bootstrap Core CSS -->
+    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
+   	{{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
+    <!-- animation CSS -->
+    {{tag.style('/css/animate.css')}}
+    <!-- Menu CSS -->
+    {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
+    <!-- page CSS -->
+    {{tag.style('/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css')}}
+    {{tag.style('/plugins/bower_components/custom-select/custom-select.css')}}
+    {{tag.style('/plugins/bower_components/switchery/dist/switchery.min.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-select/bootstrap-select.min.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css')}}
+    {{tag.style('/plugins/bower_components/multiselect/css/multi-select.css')}}
+    <!-- animation CSS -->
+    {{tag.style('/css/animate.css')}}
+    <!-- Custom CSS -->
+    {{tag.style('/css/style.css')}}
+    <!-- color CSS -->
+    {{tag.style('/css/colors/blue.css')}}
+    {{tag.style('/css/custom.css')}}
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+	 <style type="text/css">
+        td{
+            border-top: 1px solid white 
+        }
+    </style>
+{%endblock%}
+
+	
+{%block defer_script%}
+	{{super()}}
+    <!-- jQuery -->
+    {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
+    <!-- Bootstrap Core JavaScript -->
+    {{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
+    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
+    <!-- Menu Plugin JavaScript -->
+    {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
+    <!--slimscroll JavaScript -->
+    {{tag.javascript('/js/jquery.slimscroll.js', true)}}
+    <!--Wave Effects -->
+    {{tag.javascript('/plugins/bower_components/custom-select/custom-select.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-select/bootstrap-select.min.js', true)}}
+    {{tag.javascript('/js/waves.js', true)}}
+    <!-- Custom Theme JavaScript -->
+     {{tag.javascript('/js/custom.min.js', true)}}
+    <!--Style Switcher -->
+    {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
+
+    {{tag.javascript('/js/Organization/SubmitPostProjectProposal_others.js', true)}}
+{%endblock%}
+
+{%block content%}
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel  panel-info">
+			<div class="panel-heading">Expense</div>
+			<div class="panel-wrapper collapse in" aria-expanded="true">
+				<div class="panel-body">
+					<form action="/ADM PPR - PART 2.html" class="form-horizontal">
+
+						<div class="row">
+							<div class="col-md-8">
+								<table id="program-tables" style="table-layout: fixed" class=" table color-bordered-table inverse-bordered-table" >
+									<thead>
+										<tr>
+
+											<th width="50%" class="text-center"  >Particular</th>
+											<!--  <th width="10%">Duration</th> -->
+
+											<th width="35%" colspan="2"  class="text-center">Amount</th>
+
+											<th width="15%" class="text-center"></th>
+										</tr>
+									</thead>
+									<tbody>
+
+
+
+
+
+										<tr id="tot-exp" class="panel-error"    >
+											<td  class="text-right" style="border-top: 1px grey solid"><strong>Total Expenses</strong></td>
+
+											<td style="border-top: 1px grey solid"></td>
+											<td class="text-right text-danger" style="border-top: 1px grey solid">₱<span id="texp"></span></td>
+
+											<td style="border-top: 1px grey solid"></td>
+										</tr>
+
+
+
+									</tbody>
+								</table>
+
+							</div>
+							<div id="data" class="col-md-4 m-t-40">
+								<div class="form-group ">
+									<label class="form-control-label">Particular</label>
+									<input id="part"  type="text" name="par[]" class="form-control">
+									<div>
+										<span class="help-block" id="part-help"></span>
+									</div>
+								</div>
+
+								<div class="form-group ">
+									<label class="form-control-label">Establishment</label>
+									<input id="est"  type="text" name="est[]" class="form-control">
+									<div>
+										<span class="help-block" id="est-help"></span>
+									</div>
+								</div>
+
+
+								<div class="form-group ">
+									<label class="form-control-label">Price</label>
+									<div class="input-group">
+										<span class="input-group-addon" id="basic-addon1" step='0.01'>₱</span>
+										<input id="price"  type="text" class="form-control" name="price[]">
+									</div>
+									<div>
+										<span class="help-block" id="price-help"></span>
+									</div>
+								</div>
+
+
+								<div class="form-group">
+									<label class=" ">File upload</label>
+									<div class="">
+										<div class="fileinput fileinput-new input-group" data-provides="fileinput">
+											<div class="form-control" data-trigger="fileinput">
+												<i class="glyphicon glyphicon-file fileinput-exists"></i>
+												<span id="filename" style="text-overflow: ellipsis;" class="fileinput-filename"></span>
+											</div>
+											<span class="input-group-addon btn btn-default btn-file"> 
+												<span class="fileinput-new">Select file</span>
+												<span class="fileinput-exists">Change</span>
+												<input id="file" type="file" name="file[]" accept=".pdf, .odt, .odp, .ods">
+											</span>
+											<a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a> </div>
+										</div>
+										<div>
+											<span class="help-block" id="file-help">Only pdf and opendata format are acceptable</span>
+										</div>
+									</div>
+
+
+
+
+
+									<div class="m-t-5 form-group text-center ">
+
+										<button type="button" id="insert-button" class="btn btn-info">Insert </button>
+
+									</div>
+
+
+								</div>
+							</div>
+
+							<h3 class="box-title m-t-40">Activity Report Attachments</h3>
+							<hr>     
+							<div class="form-group" style="border-bottom: 1px solid white">
+								<div class="row" >
+									<div class="col-md-12">
+										<div class="col-md-3 text-right  text-left m-b-10">
+											<label  style="">General Attendance List Sheet</label>    
+										</div>
+										<div class="col-md-8 offset-md-1  text-center m-b-10 " >
+											<input  type="file" accept=".pdf, .odt, .odp, .ods" name="gals" style="padding-left: 10px" >    
+										</div>
+
+									</div>
+									<div class="col-md-12" >
+										<div class="col-md-3  text-right m-b-10">
+											<label  style="">Event Pictures</label>    
+										</div>
+										<div class="col-md-8 offset-md-1 text-center m-b-10" style="padding:10px;border:1px solid #fff">
+											<div class="row m-b-10" id="upload">
+												<div class="col-md-12">
+													&nbsp
+
+												</div>
+												<div class="pic-group col-md-12">
+													<div class="col-md-5 m-b-10 col-sm-12" style="overflow:hidden;"  >
+														<input style="" type="file" accept=".jpeg, .jpe, .jpg,.png" name="pictures[]" >    
+													</div>
+													<div class="col-md-5 col-sm-12 m-b-10">
+														<input style="" type="text" required="" placeholder="e.g. Post-group picture of Activity" name="pictureCaption[]" style="width: 100%" >                                                                
+													</div>    
+													<div class="col-md-1 col-sm-12 m-b-10">
+														&nbsp
+													</div>    
+												</div>
+
+
+
+
+
+											</div>
+											<div class="row">
+												<div class="col-md-12 text-center ">
+													<br/>
+													<button  type="button" id="insert-pictures" class="btn btn-info table-less">Add Picture</button>                                            
+												</div>
+
+											</div>
+										</div>
+
+									</div>
+
+
+								</div>
+							</div>
+
+							<h3 class="box-title m-t-40">Other Finance Document</h3>
+							<hr>   
+							<div class="row">
+								<div class="col-md-12 ">
+									<div class="form-group row">
+
+										<label class="col-md-3 text-right"></label>
+										<div class="col-md-9">
+											<div class="col-md-3">
+												<div class="form-group" style="border: 1px solid white">
+													<div class="checkbox">
+														<input id="f-r" type="checkbox">
+														<label for="f-r">Reimbursement</label>
+														<div class="help-block with-errors"></div>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-3">
+												<div class="form-group" style="border: 1px solid white">
+													<div class="checkbox">
+														<input id="f-pc" type="checkbox">
+														<label for="f-pc">Petty Cash</label>
+														<div class="help-block with-errors"></div>
+													</div>
+												</div>
+											</div>
+
+
+										</div>
+										<div class="col-md-9 offset-md-3">
+											<div class="col-md-3">
+												<div class="form-group" style="border: 1px solid white">
+													<div class="checkbox">
+														<input id="f-bt" type="checkbox">
+														<label for="f-bt">Book Transfer</label>
+														<div class="help-block with-errors"></div>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-3">
+												<div class="form-group" style="border: 1px solid white">
+													<div class="checkbox">
+														<input id="f-fra" type="checkbox">
+														<label for="f-fra">FRA</label>
+														<div class="help-block with-errors"></div>
+													</div>
+												</div>
+											</div>
+
+
+										</div>  
+										<div class="col-md-9 offset-md-3">
+											<div class="col-md-3">
+												<div class="form-group" style="border: 1px solid white">
+													<div class="checkbox">
+														<input id="f-lqa" type="checkbox">
+														<label for="f-lqa">Liquidation (Deposit)</label>
+														<div class="help-block with-errors"></div>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-4">
+												<div class="form-group" style="border: 1px solid white">
+													<div class="checkbox">
+														<input id="f-lqb" type="checkbox">
+														<label for="f-lqb">Liquidation (Reimbursement)</label>
+														<div class="help-block with-errors"></div>
+													</div>
+												</div>
+											</div>
+
+
+										</div>                                                              
+
+
+
+									</div>
+								</div>
+
+							</div>  
+
+						</div>
+						<div class="panel-footer text-center">
+
+
+							<button type="submit" id="save" class="btn btn-success"> 
+								<i class="fa fa-save"></i> &nbspSave
+							</button>
+							<button type="button" class="btn btn-default">Cancel</button>
+
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+{%endblock%}
+
+

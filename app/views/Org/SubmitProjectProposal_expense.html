@@ -66,6 +66,9 @@
 {%endblock%}
 
 {%block content%}
+<form action="/Organization/projectproposal/SaveExpense" method="POST">
+<input type="hidden" name="_csrf" value="{{csrfToken}}">
+
 <div class="row">
 	<div class="col-md-12">
 		<div class="panel  panel-info">
@@ -276,4 +279,5 @@
 		</div>
 	</div>
 </div>
+</form>
 {%endblock%}

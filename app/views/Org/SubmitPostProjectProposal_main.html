@@ -1,0 +1,171 @@
+{% extends '../template/CSO_master.html' %}
+{% import '../template/tags_macro.html' as tag %}
+
+{%block page_title%}CSO - Post Activity{%-endblock%}
+
+{%block sidebar_content%}
+    {{super()}}
+      <!-- Bootstrap Core CSS -->
+    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
+   	{{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
+    <!-- animation CSS -->
+    {{tag.style('/css/animate.css')}}
+    <!-- Menu CSS -->
+    {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
+    <!-- page CSS -->
+    {{tag.style('/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css')}}
+    {{tag.style('/plugins/bower_components/custom-select/custom-select.css')}}
+    {{tag.style('/plugins/bower_components/switchery/dist/switchery.min.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-select/bootstrap-select.min.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css')}}
+    {{tag.style('/plugins/bower_components/multiselect/css/multi-select.css')}}
+    <!-- animation CSS -->
+    {{tag.style('/css/animate.css')}}
+    <!-- Custom CSS -->
+    {{tag.style('/css/style.css')}}
+    <!-- color CSS -->
+    {{tag.style('/css/colors/blue.css')}}
+    {{tag.style('/css/custom.css')}}
+    <style type="text/css">
+    	<style type="text/css">
+        	.panel:hover{
+            	background-color: #fff
+        }
+    </style>
+    </style>
+{%endblock%}
+
+{%block defer_script%}
+	{{super()}}
+    <!-- jQuery -->
+    {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
+    <!-- Bootstrap Core JavaScript -->
+    {{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
+    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
+    <!-- Menu Plugin JavaScript -->
+    {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
+    <!--slimscroll JavaScript -->
+    {{tag.javascript('/js/jquery.slimscroll.js', true)}}
+    <!--Wave Effects -->
+    {{tag.javascript('/plugins/bower_components/custom-select/custom-select.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-select/bootstrap-select.min.js', true)}}
+    {{tag.javascript('/js/waves.js', true)}}
+    <!-- Custom Theme JavaScript -->
+     {{tag.javascript('/js/custom.min.js', true)}}
+    <!--Style Switcher -->
+    {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
+
+   
+{%endblock%}
+
+{%block content%}
+<div class="row white-box">
+	<div class="col-md-12">
+		<div class="">
+			<div class="col-md-6 col-xs-12">
+				<h3>Doms</h3>
+				<hr>
+				<p>
+					<b class="col-md-4 col-xs-2  text-left">Date:</b>  
+					Sep 06, 2017 - Sep 06, 2017
+				</p>
+				
+				<p>
+					<b class="col-md-4 col-xs-2  text-left">Nature of Activity:</b> 
+					Academic
+				</p>
+
+				<p>
+					<b class="col-md-12  text-left">Project Heads:</b> 
+					<p class="offset-md-4 offset-xs-2">Neil Capistrano</p>
+					<p class="offset-md-4 offset-xs-2">Neil Capistrano</p>
+				</p>
+				<div>
+					
+				</div>
+			</div>
+			<div class="col-md-6 text-right">
+				<h3>Completion Rate: 80%</h3>
+				<hr>
+				<p>
+					<b class="col-md-10  text-right"> Brief Context:</b>  
+					100%
+				</p>
+				
+				<p>
+					<b class="col-md-10  text-right"> Program Schedule :</b> 
+					0%
+				</p>
+
+				<p>
+					<b class="col-md-10 text-right">Funding Expense:</b> 
+					
+					100%
+				</p>
+
+				
+			</div>
+			<div class="list-group col-md-12">
+				<button type="button" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
+					<div class="row">
+						<div class="col-md-6 text-left">
+							<h5>Brief Context <span class="label label-success">Complete</span></h5>
+						</div>
+						
+						
+						<div class="col-md-6 text-right" >
+							<i class="fa fa-pencil " style="padding-top: 10px"></i>
+						</div>
+						
+					</div>
+				</button>                                                                       
+
+				<button type="button" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
+					<div class="row">
+						<div class="col-md-6 text-left">
+							<h5>Program Schedule <span class="label label-danger">Incomplete</span></h5>
+							
+						</div>
+						
+						
+						<div class="col-md-6 text-right" >
+							<i class="fa fa-pencil " style="padding-top: 10px"></i>
+						</div>
+						
+					</div>
+				</button>
+
+				<button type="button" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
+					<div class="row">
+						<div class="col-md-6 text-left">
+							<h5>Finance <span class="label label-success">Complete</span> </h5>
+
+						</div>
+						
+						
+						<div class="col-md-6 text-right" >
+							<i class="fa fa-pencil " style="padding-top: 10px"></i>
+						</div>
+						
+					</div>
+				</button>
+
+				
+				
+			</div>
+
+			
+			<div class="m-t-40 col-md-12 text-center">
+				
+				<button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Submit</button>
+				<button type="button" class="btn btn-default">Cancel</button>
+				
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+{%endblock%}

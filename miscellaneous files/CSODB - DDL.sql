@@ -1418,22 +1418,40 @@ CREATE TRIGGER after_insert_ProjectProposal_signatories
     /* End Project Proposal */
     /* END SPECIAL APPROVAL SLIP */
 /* Organization Treasurer */
+DROP TABLE IF EXISTS TransactionType CASCADE;
+CREATE TABLE TransactionType (
+  id INTEGER,
+  name VARCHAR(45),
+
+  PRIMARY KEY(id)
+);
+DROP TABLE IF EXISTS TransactionStatus CASCADE;
+CREATE TABLE TransactionStatus (
+  id INTEGER,
+  name VARCHAR(45),
+
+  PRIMARY KEY(id)
+);
 DROP TABLE IF EXISTS ActivityTransaction CASCADE;
 CREATE TABLE ActivityTransaction (
+    id SERIAL UNIQUE,
     GOSMActivity INTEGER,
+    sequence INTEGER DEFAULT -1,
+    type INTEGER REFERENCES TransactionType(id),
     PRS INTEGER,
     reason TEXT,
+    status INTEGER REFERENCES TransactionStatus(id),
 
-    PRIMARY KEY (GOSMActivity)
+    PRIMARY KEY (GOSMActivity, sequence)
 );
 DROP TABLE IF EXISTS InformalQuotation CASCADE;
 CREATE TABLE InformalQuotation (
-    GOSMActivity INTEGER REFERENCES ActivityTransaction(GOSMActivity),
     expense INTEGER REFERENCES ProjectProposalExpenses(id),
+    ActivityTransaction INTEGER REFERENCES ActivityTransaction(id),
     contactPerson VARCHAR(60),
     contactDetails VARCHAR(45),
 
-    PRIMARY KEY(GOSMActivity, expense)
+    PRIMARY KEY(expense)
 );
 /* Organization Treasurer */
     /* AMTActivityEvaluation */
@@ -1498,6 +1516,7 @@ CREATE TABLE "audit_Account" (
   affected INTEGER,
   event SMALLINT,
   date TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  modifiedValues JSONB,
 
   PRIMARY KEY (id)
 );
