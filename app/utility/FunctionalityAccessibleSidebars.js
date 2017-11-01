@@ -1,18 +1,24 @@
 'use strict';
+
+const FUNCTIONALITY_SEQUENCES = require('./CONSTANTS_functionalitySequence.json');
+
 /**
- * Exports an object containing the functionality sequence as a key
+ * An object containing the functionality sequence as a key
  * and the value as an array which contains objects that describe sidebars
  * the functionality has and should display
  * @type {Object}
  */
-const functionalitySidebars = {
-    //Create GOSM Sidebar
-    0: [{
-        name: 'Submit GOSM',
-        link: '/Organization/createGOSM'
-    }]
-};
+const functionalitySidebars = {};
 
+functionalitySidebars[FUNCTIONALITY_SEQUENCES.CreateGOSM] = [{
+    name: 'Submit GOSM',
+    link: '/Organization/createGOSM'
+}];
+
+functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateGOSM] = [{
+    name: 'View GOSM Submissions',
+    link: '/APS/viewOrglist'
+}];
 
 const accessibleRoutes = [];
 

@@ -82,7 +82,7 @@ DROP TABLE IF EXISTS Account CASCADE;
 CREATE TABLE Account (
     idNumber INTEGER,
     email VARCHAR(255) NULL UNIQUE,
-    type SMALLINT REFERENCES AccountType(id),
+    type SMALLINT REFERENCES AccountType(id) DEFAULT 1,
     password CHAR(60) NOT NULL,
     salt CHAR(29),
     firstname VARCHAR(45),
@@ -684,7 +684,9 @@ CREATE TRIGGER before_update_Functionality
     EXECUTE PROCEDURE trigger_before_update_Functionality();
 
 INSERT INTO Functionality (id, name, category)
-                   VALUES (104000, 'Submit GOSM', 104);
+                   VALUES (211000, 'Submit GOSM'  , 211),
+                          (211001, 'Resubmit GOSM', 211),
+                          (104002, 'Evaluate GOSM', 104);
 /*
 INSERT INTO Functionality (id, name, category)
                    VALUES (0, 'Time Setting', 0),
@@ -770,6 +772,14 @@ CREATE TABLE OrganizationAccessControl (
 
 	PRIMARY KEY (role, functionality)
 );
+/* CSO Defaults */
+INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
+                               VALUES -- Evaluate GOSM Activity
+                                      (   1,        104002,      TRUE),
+                                      (   2,        104002,      TRUE),
+                                      (   3,        104002,      TRUE),
+                                      (   4,        104002,      TRUE),
+                                      (   5,        104002,      TRUE);
 
 /* Organization Default Structure */
 CREATE OR REPLACE FUNCTION trigger_after_insert_StudentOrganization()
@@ -785,7 +795,7 @@ $trigger$
                              VALUES (NEW.id, 'President', TRUE, NULL)
         RETURNING id INTO presidentRoleID;
         INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
-                                       VALUES (presidentRoleID, 104000, TRUE);
+                                       VALUES (presidentRoleID, 211000, TRUE);
 
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
                              VALUES (NEW.id, 'Executive Secretariat', TRUE, presidentRoleID)

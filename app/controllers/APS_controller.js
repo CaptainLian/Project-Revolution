@@ -59,7 +59,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             view.GOSMStatus = data[2].status;
             view.csrfToken = req.csrfToken();
             view.showUpdateButtons = view.GOSMStatus != 1 && view.GOSMStatus != 3;
-            view.extra_data.view = req.extra_data.view;
+            view.extra_data = req.extra_data;
             return res.render('APS/OrganizationSpecificGOSM', view);
         }).catch(error => {
             throw error;
@@ -105,12 +105,12 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     APSController.activityChecking = (req, res) => {
         var activityId;
         database.task(task => {
-            
+
             return projectProposalModel.getNextActivityForApproval(task)
             .then(data => {
                 activityId = data.id;
                 console.log(activityId);
-                
+
                 return task.batch([
                     Promise.resolve(data),
                     projectProposalModel.getProjectProposalExpenses(data.id),

@@ -149,7 +149,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                 logger.debug(`${JSON.stringify(data)}`, log_options);
 
                                 let organization = data.shift();
-                                logger.debug(`${JSON.stringify(organization)}`);
+                                logger.debug(`${JSON.stringify(organization)}`, log_options);
                                 req.session.user.organizationSelected = Object.create(null);
                                 req.session.user.organizationSelected.id = organization.id;
                                 req.session.user.organizationSelected.path_profilePicture = organization.path_profilepicture || '';

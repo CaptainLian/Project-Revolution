@@ -30,8 +30,7 @@ module.exports = function(configuration, application, modules, database, queryFi
         if (req.method !== 'GET') {
             return next();
         }
-
-        const organization = req.session.organizationSelected;
+        
         logger.debug('Organization selected detected', log_options);
 
         req.extra_data.view.organizationSelected = Object.create(null);
