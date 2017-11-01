@@ -153,7 +153,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         },
 
         submitGOSM: (req, res) => {
-            //TODO: Session get student organization
+            logger.debug('submitGOSM()', log_options);
+            logger.debug('Submitting GOSM', log_options);
             /**
              * let dbParam = {
              *      studentorganization:
@@ -161,12 +162,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
              * @type {Object}
              */
             let dbParam = Object.create(null);
-            dbParam.studentorganization = 1;
+            dbParam.studentorganization = req.session.user.organizationSelected.id;
 
             gosmModel.submitGOSM(dbParam)
-            .then(() => {})
-            .catch(error => {
-                throw error;
+            .then(() => {
+                logger.debug('GOSM Submitted', log_options);
             });
         },
 
@@ -290,7 +290,6 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             let isRelatedToOrganization = req.body.isRelatedToOrganization;
             let budget = req.body.budget;
 
-            let activityID = -1;
             systemModel.getCurrentTerm('id')
             .then(term => {
                 logger.debug(`Current termID: ${term.id}`, log_options);
@@ -331,9 +330,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                    logger.debug('Inserting GOSM Activity', log_options);
                    return gosmModel.insertProposedActivity(dbParam, transaction)
                    .then(activity => {
-                       activityID = activity.activityid;
                        logger.debug(`ActivityID: ${activity.activityid}, person-in-charge_length: ${personInCharge.length}`, log_options);
-                       const queries = [];
 
                        for (let index = personInCharge.length + 1; --index;) {
                            const item = personInCharge[personInCharge.length - index];
@@ -352,14 +349,17 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                            projectHeadParam.idNumber = parseInt(item);
                            projectHeadParam.activityID = parseInt(activity.activityid);
 
-                           queries[queries.length] = gosmModel.insertActivityProjectHead(projectHeadParam, transaction);
+                           gosmModel.insertActivityProjectHead(projectHeadParam, transaction)
+                           .then(data => {
+
+                           });
                        }
                        logger.debug('Inserting project heads', log_options);
-                       return transaction.sequence(queries);
+                       return Promise.resolve(activity.activityid);
                    });
                });
            }).then(data => {
-               return res.send(String(activityID));
+               return res.send(String(data));
            });
         },
 
