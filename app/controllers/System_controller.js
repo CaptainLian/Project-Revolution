@@ -26,7 +26,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     */
     const log_options = Object.create(null);
     log_options.from = 'System-Controller';
-    
+
     const accountModel = models.Account_model;
     const logger = modules.logger;
 
@@ -125,35 +125,36 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     switch (req.session.user.type) {
                         // Admin
                         case 0:
-                            //TODO:
+                            //TODO: implementation
                             break;
 
-                            // Faculty Adviser Account
+                        // Faculty Adviser Account
                         case 2:
-                            //TODO:
+                            //TODO: implementation
                             break;
-                            // SLIFE Account
+                        // SLIFE Account
                         case 3:
-                            //TODO:
+                            //TODO: implementation
                             break;
-                            // Accounting Account
+                        // Accounting Account
                         case 4:
-                            //TODO:
+                            //TODO: implementation
                             break;
 
-                            // Student Account
+                        // Student Account
                         case 1:
                             logger.debug('Student type account', log_options);
                             accountModel.getStudentOrganizations(req.session.user.idNumber)
                             .then(data => {
                                 logger.debug(`${JSON.stringify(data)}`, log_options);
-                                
+
                                 let organization = data.shift();
                                 logger.debug(`${JSON.stringify(organization)}`);
                                 req.session.user.organizationSelected = Object.create(null);
                                 req.session.user.organizationSelected.id = organization.id;
                                 req.session.user.organizationSelected.path_profilePicture = organization.path_profilepicture || '';
                                 req.session.user.organizationSelected.acronym = data.acronym;
+                                req.session.save();
                                 logger.debug(`Getting Role Details in Organization`);
                                 return accountModel.getRoleDetailsInOrganization(
                                     req.session.user.idNumber,

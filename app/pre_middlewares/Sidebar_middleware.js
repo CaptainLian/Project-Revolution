@@ -1,19 +1,21 @@
 'use strict';
 //configuration, mainApplication, modules, database, queryFiles, models
 module.exports = function(configuration, application, modules, database, queryFiles, models) {
-    const Promise = modules.Promise;
-    const organizationModel = models.organization_model;
-    const accessControlModel = models.AccessControl_model;
 
     const logger = modules.logger;
     const log_options = {
-        from: 'Organization-Middleware'
+        from: 'Functionality_Sidebars-Middleware'
     };
 
-    const OrganizationMiddleware = Object.create(null);
-    OrganizationMiddleware.name = 'Organization_path_attacher';
-    OrganizationMiddleware.priority = configuration.load_priority.LOW;
-    OrganizationMiddleware.action = (req, res, next) => {
+    const accessibleSidebars = require('../utility/FunctionalityAccessibleSidebars.js').functionalitySidebars;
+
+    logger.debug(`Accessible Sidebars definition: ${JSON.stringify(accessibleSidebars)}`, log_options);
+
+
+    const SidebarMiddleware = Object.create(null);
+    SidebarMiddleware.name = 'Organization_path_attacher';
+    SidebarMiddleware.priority = configuration.load_priority.LOW;
+    SidebarMiddleware.action = (req, res, next) => {
 
         const user = req.session.user;
         if (!user) {
@@ -37,19 +39,20 @@ module.exports = function(configuration, application, modules, database, queryFi
         req.extra_data.view.organizationSelected.path_profilePicture = organizationSelected.path_profilepicture;
 
         const accessibleFunctionalitiesList = req.extra_data.user.accessibleFunctionalitiesList;
+        const sidebars = req.extra_data.view.sidebars;
 
-        //Can create GOSM?
-        if (accessibleFunctionalitiesList[0]) {
-            logger.debug('User can submit GOSM', log_options);
-            let sidebars = req.extra_data.view.sidebars;
-
-            sidebars[sidebars.length] = {
-                name: 'Submit GOSM',
-                link: '/Organization/createGOSM'
-            };
+        for(const functionality in accessibleFunctionalitiesList){
+            logger.debug(`functionality: ${functionality}`, log_options);
+            if(accessibleFunctionalitiesList[functionality]){
+                logger.debug(`\tsidebars: ${JSON.stringify(accessibleSidebars[functionality])}`, log_options);
+                for(const sidebar of accessibleSidebars[functionality]){
+                    sidebars[sidebars.length] = sidebar;
+                }
+            }
         }
+
         return next();
     };
-    return [OrganizationMiddleware];
+    return [SidebarMiddleware];
 
 };

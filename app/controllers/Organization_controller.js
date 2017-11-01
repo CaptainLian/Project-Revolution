@@ -1,5 +1,5 @@
 'use strict';
-var Promise = require('bluebird');
+const Promise = require('bluebird');
 
 module.exports = function(configuration, modules, models, database, queryFiles) {
 
@@ -248,7 +248,6 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             });
         },
 
-        //TODO: Test
         /**
          * Inserts Activities to GOSM
          * @method
@@ -257,9 +256,10 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
          * @returns {[type]}     [description]
          */
         inputCreateGOSM: (req, res) => {
+            logger.debug('inputCreateGOSM(): ',log_options);
             /* Validate input */
-             logger.warning('inputCreateGOSM - Input not yet validated!', log_options);
-             logger.debug(`JSON.stringify(req.body)`, log_options);
+            logger.warning('inputCreateGOSM - Input not yet validated!', log_options);
+            logger.debug(`${JSON.stringify(req.body)}`, log_options);
 
             /* Parse input*/
             let strategy = req.body.strategy;
@@ -290,84 +290,77 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             let isRelatedToOrganization = req.body.isRelatedToOrganization;
             let budget = req.body.budget;
 
-            /* Process input */
-            database.task(task => {
-                return systemModel.getCurrentTerm('id', task)
-                .then(term => {
-                     logger.debug(`Current termID: ${term.id}`, log_options);
+            let activityID = -1;
+            systemModel.getCurrentTerm('id')
+            .then(term => {
+                logger.debug(`Current termID: ${term.id}`, log_options);
 
-                    /**
-                     * const param = {
-                     *      termID: term.id,
-                     *      studentOrganization
-                     * }
-                     * @type {Object}
-                     */
-                    let param = Object.create(null);
-                    param.termID = term.id;
-                    //TODO: replace with session data
-                    param.studentOrganization = 1;
+               /**
+                * const param = {
+                *      termID: term.id,
+                *      studentOrganization
+                * }
+                * @type {Object}
+                */
+               let param = Object.create(null);
+               param.termID = term.id;
+               param.studentOrganization = req.session.user.organizationSelected.id;
+               return gosmModel.getOrgGOSM(param);
+           }).then(gosm => {
+               logger.debug('starting transaction', log_options);
+               return database.tx(transaction => {
+                   const dbParam = {
+                       GOSM: gosm.id,
+                       goals: goals,
+                       objectives: objectives,
+                       strategies: strategy,
+                       description: description,
+                       measures: measures,
+                       targetDateStart: `${startDateSplit[2]}-${startDateSplit[0]}-${startDateSplit[1]}`,
+                       targetDateEnd: `${endDateSplit[2]}-${endDateSplit[0]}-${endDateSplit[1]}`,
+                       activityNature: natureType,
+                       activityType: activityType,
+                       activityTypeOtherDescription: others,
+                       isRelatedToOrganizationNature: isRelatedToOrganization,
+                       budget: budget
+                   };
 
-                    return task.tx(transaction => {
-                        return gosmModel.getOrgGOSM(param, transaction)
-                            .then(gosm => {
-                                const dbParam = {
-                                    GOSM: gosm.id,
-                                    goals: goals,
-                                    objectives: objectives,
-                                    strategies: strategy,
-                                    description: description,
-                                    measures: measures,
-                                    targetDateStart: `${startDateSplit[2]}-${startDateSplit[0]}-${startDateSplit[1]}`,
-                                    targetDateEnd: `${endDateSplit[2]}-${endDateSplit[0]}-${endDateSplit[1]}`,
-                                    activityNature: natureType,
-                                    activityType: activityType,
-                                    activityTypeOtherDescription: others,
-                                    isRelatedToOrganizationNature: isRelatedToOrganization,
-                                    budget: budget
-                                };
+                   if (activityType == 10 && others == null) {
+                       throw new Error('Error activity type others empty');
+                   }
+                   logger.debug('Inserting GOSM Activity', log_options);
+                   return gosmModel.insertProposedActivity(dbParam, transaction)
+                   .then(activity => {
+                       activityID = activity.activityid;
+                       logger.debug(`ActivityID: ${activity.activityid}, person-in-charge_length: ${personInCharge.length}`, log_options);
+                       const queries = [];
 
-                                if (activityType == 10 && others == null) {
-                                    throw new Error('Error activity type others empty');
-                                }
+                       for (let index = personInCharge.length + 1; --index;) {
+                           const item = personInCharge[personInCharge.length - index];
+                           console.log("Inside the loop");
+                           console.log(item);
 
-                                const insertPromise = gosmModel.insertProposedActivity(dbParam, transaction);
-                                return insertPromise;
-                            }).then(activity => {
-                                 logger.debug(`inserted: ${activity.activityid}, person-in-charge_length: ${personInCharge.length}`, log_options);
-                                const queries = [Promise.resolve(activity.activityID)];
+                           /**
+                            * const projectHeadParam = {
+                            *      idNumber: parseInt(item),
+                            *      activityID: activity.activityid
+                            *  };
+                            * @variable projectHeadParam
+                            * @type {Object}
+                            */
+                           const projectHeadParam = Object.create(null);
+                           projectHeadParam.idNumber = parseInt(item);
+                           projectHeadParam.activityID = parseInt(activity.activityid);
 
-                                for (let index = personInCharge.length + 1; --index;) {
-                                    const item = personInCharge[personInCharge.length - index];
-                                    console.log("Inside the loop");
-                                    console.log(item);
-
-                                    /**
-                                     * const projectHeadParam = {
-                                     *      idNumber: parseInt(item),
-                                     *      activityID: activity.activityid
-                                     *  };
-                                     * @variable projectHeadParam
-                                     * @type {Object}
-                                     */
-                                    const projectHeadParam = Object.create(null);
-                                    projectHeadParam.idNumber = parseInt(item);
-                                    projectHeadParam.activityID = activity.activityid;
-
-                                    queries[queries.length] = gosmModel.insertActivityProjectHead(projectHeadParam, transaction);
-                                }
-
-                                return transaction.sequence(queries);
-                            });
-                    }).then(data => { //task end
-                        return Promise.resolve(data[0]);
-                    });
-                });
-            }).then(activityID => {
-                return res.send(String(activityID));
-            }).catch(err => {
-                throw err;
-            });
+                           queries[queries.length] = gosmModel.insertActivityProjectHead(projectHeadParam, transaction);
+                       }
+                       logger.debug('Inserting project heads', log_options);
+                       return transaction.sequence(queries);
+                   });
+               });
+           }).then(data => {
+               return res.send(String(activityID));
+           });
         },
 
         createActivityRequirements: (req, res) => {
@@ -400,8 +393,6 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.csrfToken = req.csrfToken();
 
             return res.render('Org/Settings_ACL',renderData);
-           
-           
         },
 
         //TODO Test
@@ -413,17 +404,15 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 return systemModel.getCurrentTerm('id', task1)
                 .then(term => {
                     /**
-                     * let param = {
-                     *      termID: data.id,
+                     * const param = {
+                     *      termID: term.id,
                      *      studentOrganization
-                     * };
-                     * @variable param
+                     * }
                      * @type {Object}
                      */
                     let GOSMParam = Object.create(null);
                     GOSMParam.termID = term.id;
-                    //TODO Replace with session variable
-                    GOSMParam.studentOrganization = 1;
+                    GOSMParam.studentOrganization = req.session.user.organizationSelected.id;
 
                     return gosmModel.getOrgGOSM(GOSMParam, task1)
                     .then(GOSM => {
