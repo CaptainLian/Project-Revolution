@@ -1,4 +1,4 @@
-{% extends './APS_master.html' %}
+{% extends '../template/CSO_master.html' %}
 {% import '../template/tags_macro.html' as tag%}
 
 {%block page_title%}APS - GOSM Submissions{%-endblock%}
@@ -52,7 +52,7 @@
     <!-- tabs-->
     {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
     <!-- Sweet-Alert  -->
-    {{tag.javascript('/plugins/bower_components/sweetalert/sweetalert.min.js', true)}}    
+    {{tag.javascript('/plugins/bower_components/sweetalert/sweetalert.min.js', true)}}
     <!--Style Switcher -->
     {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
 {%endblock%}
