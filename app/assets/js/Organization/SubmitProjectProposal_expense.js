@@ -37,8 +37,8 @@ function exp() {
 $("#sel0").select2();
 $("#sel0").select2("val", '0');
 
-
-
+$("#exp").prop("checked",true);
+var idCounter = 0;
 $("#insert-button").click(function() {
         $("#price-help").text("");
         $("#price").closest("div.form-group").removeClass("has-error");
@@ -50,12 +50,13 @@ $("#insert-button").click(function() {
     var typeOfItem = $("#sel0").val();
     var price = ($("#price").val());
     var quantity = ($("#quantity").val());
-    var kind = $("input[name='optionsRadios2']:checked").val();
+    var kind = $("input[name='optionsRadios2[]']:checked").val();
     console.log("asd");
     console.log(itemName);
     console.log(typeOfItem);
     console.log(price);
     console.log(quantity);
+    console.log("KIND" + kind);
     var err = 0
     if ($.trim(itemName) < 1) {
         $("#item-help").text("Item Name cannot be empty!");
@@ -105,7 +106,17 @@ $("#insert-button").click(function() {
         $("#quantity").closest("div.form-group").removeClass("has-error");
         $("#item-help").text("");
         $("#item").closest("div.form-group").removeClass("has-error");
-        empty();
+        var clone = $("#clone").children().clone();
+         clone.find("#item").prop("id",idCounter);
+         clone.find("#sel0").prop("id",idCounter);
+         clone.find("#price").prop("id",idCounter);
+         clone.find("#quantity").prop("id",idCounter);
+         // clone.find("#clone").prop("id",idCounter);
+         idCounter++;
+
+         clone.css("display","none").insertBefore("tr#tot-rev");
+         empty();
+       
         if (kind == "Expense") {
             var tde =
                 '<tr type="exp" id=' + key + '>' +
@@ -138,6 +149,7 @@ $("#insert-button").click(function() {
                 kind: kind
             };
             item["exp"][key] = obj;
+            $("#exp").prop("checked",true);
             $("#texp").text(exp().toLocaleString());
             $("#tfin").text((rev() - exp()).toLocaleString());
 
@@ -167,6 +179,7 @@ $("#insert-button").click(function() {
                 '<i class="fa fa-times text-danger  remove-time"></i>' +
                 '</td>' +
                 '</tr>';
+            $("#rev-opt").prop("checked",true);
             $(tda).insertBefore("tr#tot-rev");
             obj = {
                 item: itemName,
@@ -176,10 +189,12 @@ $("#insert-button").click(function() {
                 kind: kind
             };
             item["rev"][key] = obj;
+
             $("#trev").text(rev().toLocaleString());
             $("#tfin").text((rev() - exp()).toLocaleString());
 
         }
+       
         console.log(item);
         key++;
 
@@ -271,23 +286,23 @@ $("#save").click(function(e) {
     }
 
 
-    if ($.trim($("#oth-fund").val()) < 1) {
+    if ($.trim($("#oth-fund").val()) < 0) {
         $("#oth-help").text("Others should not be Empty!");
         $("#oth-fund").closest("div.form-group").addClass("has-error");
         err = 1;
     }
 
-    if ($.trim($("#org-exp").val()) < 1) {
+    if ($.trim($("#org-exp").val()) < 0) {
         $("#org-help").text("Organization Funds should not be Empty!");
         $("#org-exp").closest("div.form-group").addClass("has-error");
         err = 1;
     }
-    if ($.trim($("#pat-exp").val()) < 1) {
+    if ($.trim($("#pat-exp").val()) < 0) {
         $("#pat-help").text("Participant's fee should not be Empty!");
         $("#pat-exp").closest("div.form-group").addClass("has-error");
         err = 1;
     }
-    if ($.trim($("#oth2-exp").val()) < 1) {
+    if ($.trim($("#oth2-exp").val()) < 0) {
         $("#oth2-help").text("Others should not be Empty!");
         $("#oth2-exp").closest("div.form-group").addClass("has-error");
         err = 1;
