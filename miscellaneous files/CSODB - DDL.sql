@@ -686,7 +686,8 @@ CREATE TRIGGER before_update_Functionality
 INSERT INTO Functionality (id, name, category)
                    VALUES (211000, 'Submit GOSM'  , 211),
                           (211001, 'Resubmit GOSM', 211),
-                          (104002, 'Evaluate GOSM', 104);
+                          (104002, 'Evaluate GOSM', 104),
+                          (104003, 'Evaluate Project Proposal', 104);
 /*
 INSERT INTO Functionality (id, name, category)
                    VALUES (0, 'Time Setting', 0),
@@ -775,11 +776,15 @@ CREATE TABLE OrganizationAccessControl (
 /* CSO Defaults */
 INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                VALUES -- Evaluate GOSM Activity
-                                      (   1,        104002,      TRUE),
-                                      (   2,        104002,      TRUE),
-                                      (   3,        104002,      TRUE),
-                                      (   4,        104002,      TRUE),
-                                      (   5,        104002,      TRUE);
+                                      (    1,        104002,      TRUE),
+                                      (    2,        104002,      TRUE),
+                                      (    3,        104002,      TRUE),
+                                      (    4,        104002,      TRUE),
+                                      (    5,        104002,      TRUE),
+                                      -- Evaluate Project Proposal
+                                      (   12,        104003,      TRUE),
+                                      (   13,        104003,      TRUE),
+                                      (   14,        104003,      TRUE);
 
 /* Organization Default Structure */
 CREATE OR REPLACE FUNCTION trigger_after_insert_StudentOrganization()
