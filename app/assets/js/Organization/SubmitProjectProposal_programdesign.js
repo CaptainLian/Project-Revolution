@@ -235,7 +235,7 @@ $(document).bind("customHtmlGenerated", function() {
             console.log("NEW END IEM " + new Date(newEnd).getHours() + ":" + new Date(newEnd).getMinutes());
 
             $("#start-time" + idNumber).val(endInp);
-            $("#end-time" + idNumber).val(new Date(newEnd).getHours() + ":" + new Date(newEnd).getMinutes());
+            $("#end-time" + idNumber).val(('0'+new Date(newEnd).getHours()).slice(-2) + ":" + ("0"+new Date(newEnd).getMinutes()).slice(-2));
 
             $("#act" + idNumber).val("");
             $("#desc" + idNumber).val("");
@@ -293,7 +293,7 @@ $(document).bind("customHtmlGenerated", function() {
 
                 "<td  class='text-center' style='color:#2b2b2b'>" + startInp + " - " + endInp + "</td>" +
                 // "<td style='color:#2b2b2b'>Roshan</td>"+
-                "<td style='color:#2b2b2b'>" + actInp + "</td>" +
+                "<td class='text-center' style='color:#2b2b2b'>" + actInp + "</td>" +
                 // "<td  class='descri' style='color:#2b2b2b'>"+descInp+"</td>"+
                 // "<td style='color:#2b2b2b'>"+selInp+"</td>"+
                 '<td > <i class="fa fa-comment-o view-details "></i>  <i data-toggle="tooltip" data-tittle="Remove" class="fa fa-times text-danger  remove-time"></i></td>' +
@@ -301,7 +301,7 @@ $(document).bind("customHtmlGenerated", function() {
             var ttd =
                 "<td  class='text-center' date='" + dateInp + "' start='" + startInp + "' end='" + endInp + "'  style='color:#2b2b2b'>" + startInp + " - " + endInp + "</td>" +
                 // "<td style='color:#2b2b2b'>Roshan</td>"+
-                "<td style='color:#2b2b2b'>" + actInp + "</td>" +
+                "<td class='text-center' style='color:#2b2b2b'>" + actInp + "</td>" +
                 // "<td  class='descri' style='color:#2b2b2b'>"+descInp+"</td>"+
                 // "<td style='color:#2b2b2b'>"+selInp+"</td>"+
                 '<td > <i class="fa fa-comment-o  view-details  "></i>  <i data-toggle="tooltip" data-tittle="Remove" class="fa fa-times text-danger  remove-time"></i></td>' +
@@ -604,10 +604,10 @@ $("#insert-button").click(function() {
     } else {
 
         var newEnd = new Date(dateInp + " " + endInp).getTime() + (new Date(dateInp + " " + endInp).getTime() - new Date(dateInp + " " + startInp).getTime());
-        console.log("NEW END IEM " + new Date(newEnd).getHours() + ":" + new Date(newEnd).getMinutes());
+        $("#end-time").val(('0'+new Date(newEnd).getHours()).slice(-2) + ":" + ("0"+new Date(newEnd).getMinutes()).slice(-2));
 
         $("#start-time").val(endInp);
-        $("#end-time").val(new Date(newEnd).getHours() + ":" + new Date(newEnd).getMinutes());
+        // $("#end-time").val(new Date(newEnd).getHours() + ":" + new Date(newEnd).getMinutes());
 
         $("#act0").val("");
         $("#desc0").val("");
@@ -664,7 +664,7 @@ $("#insert-button").click(function() {
 
             "<td class='text-center'  style='color:#2b2b2b'>" + startInp + " - " + endInp + "</td>" +
             // "<td style='color:#2b2b2b'>Roshan</td>"+
-            "<td style='color:#2b2b2b'>" + actInp + "</td>" +
+            "<td class='text-center' style='color:#2b2b2b'>" + actInp + "</td>" +
             // "<td  class='descri' style='color:#2b2b2b'>"+descInp+"</td>"+
             // "<td style='color:#2b2b2b'>"+selInp+"</td>"+
             '<td > <i class="fa fa-comment-o view-details "></i>  <i data-toggle="tooltip" data-tittle="Remove" class="fa fa-times text-danger  remove-time"></i></td>' +
@@ -672,7 +672,7 @@ $("#insert-button").click(function() {
         var ttd =
             "<td  class='text-center' date='" + dateInp + "' start='" + startInp + "' end='" + endInp + "'  style='color:#2b2b2b'>" + startInp + " - " + endInp + "</td>" +
             // "<td style='color:#2b2b2b'>Roshan</td>"+
-            "<td style='color:#2b2b2b'>" + actInp + "</td>" +
+            "<td class='text-center' style='color:#2b2b2b'>" + actInp + "</td>" +
             // "<td  class='descri' style='color:#2b2b2b'>"+descInp+"</td>"+
             // "<td style='color:#2b2b2b'>"+selInp+"</td>"+
             '<td > <i class="fa fa-comment-o view-details" ></i>  <i data-toggle="tooltip" data-tittle="Remove" class="fa fa-times text-danger  remove-time"></i></td>' +
