@@ -1,5 +1,6 @@
 {
     "CreateGOSM": 0,
     "ResubmitGOSM": 1,
-    "EvaluateGOSM": 2
+    "EvaluateGOSM": 2,
+    "EvaluateProjectProposal": 3
 }

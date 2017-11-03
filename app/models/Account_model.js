@@ -16,13 +16,10 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
     const logger = modules.logger;
 
-    const query_insert_account = queryFiles.account_insert;
-    const query_get_student_studentOrganizations = queryFiles.student_get_studentOrganizations;
-
-    const getAccountLogsSQL = queryFiles.getAccountLogs;
-
     const AccountModel = Object.create(null);
 
+
+    const query_insert_account = queryFiles.account_insert;
     /**
      * [insertAccount description]
      * @method  insertAccount
@@ -104,6 +101,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
         //TODO implementation
     };
 
+    const query_get_student_studentOrganizations = queryFiles.student_get_studentOrganizations;
     AccountModel.getStudentOrganizations = (idNumber, connection = database) => {
         const param = Object.create(null);
         param.idNumber = idNumber;
@@ -132,8 +130,17 @@ module.exports = function(configuration, modules, database, queryFiles) {
         return connection.one(query.toString(), param);
     };
 
+    const getAccountLogsSQL = queryFiles.getAccountLogs;
     AccountModel.getAccountLogs = (connection = database) =>{
         return connection.any(getAccountLogsSQL);
+    };
+
+    const hasGOSMActivityWithoutPPRSQL = queryFiles.account_has_gosmactivity_without_ppr;
+    AccountModel.hasGOSMActivityWithoutPPR = (idNumber, organizationID, connection = database) => {
+        const param = Object.create(null);
+        param.idNumber = idNumber;
+        param.organizationID = organizationID;
+        return connection.one(hasGOSMActivityWithoutPPRSQL, param);
     };
 
     return AccountModel;

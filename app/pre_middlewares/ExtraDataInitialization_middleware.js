@@ -21,6 +21,9 @@ module.exports = function(configuration, application, modules, database, queryFi
         req.extra_data.user = Object.create(null);
         logger.debug('User data initialized', log_options);
 
+        req.extra_data.system = Object.create(null);
+        logger.debug('System data initialized', log_options);
+        
         return next();
     };
 

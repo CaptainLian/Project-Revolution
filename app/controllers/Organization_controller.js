@@ -13,6 +13,15 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
     return {
 
+        //Create ProjectProposal
+        viewGOSMActivityListProjectProposal: (req, res) => {
+            const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
+
+            return res.render('Org/ActivityToImplement', renderData);
+        },
+
         viewSubmitProjectProposalMain: (req, res) => {
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
@@ -174,7 +183,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             let dbParam = Object.create(null);
             dbParam.id = req.body.dbid;
 
-             logger.debug(`Deleting activity: ${req.body.dbid}`, log_options);
+            logger.debug(`Deleting activity: ${req.body.dbid}`, log_options);
             gosmModel.deleteActivity(dbParam)
             .then(data => {
                 return res.send("1");

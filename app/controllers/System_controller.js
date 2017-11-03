@@ -179,8 +179,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         valid: false
                     });
                 }
-            }).catch(() => {
-                logger.debug('Account not exist');
+            }).catch(err => {
+                logger.debug(`Account not exists? err: ${err}`);
                 return res.send({
                     valid: false
                 });
