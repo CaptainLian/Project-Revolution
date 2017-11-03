@@ -40,6 +40,12 @@ $("#sel0").select2("val", '0');
 
 
 $("#insert-button").click(function() {
+        $("#price-help").text("");
+        $("#price").closest("div.form-group").removeClass("has-error");
+        $("#quantity-help").text("");
+        $("#quantity").closest("div.form-group").removeClass("has-error");
+        $("#item-help").text("");
+        $("#item").closest("div.form-group").removeClass("has-error");
     var itemName = $("#item").val();
     var typeOfItem = $("#sel0").val();
     var price = ($("#price").val());
@@ -222,7 +228,19 @@ $("#ope-fund, #dep-fund, #oth-fund, #org-exp, #pat-exp, #oth2-exp").keyup(functi
     $("#rb").text((fund() - exp2()).toLocaleString())
 });
 $("#ope-fund").trigger("keyup");
-$("#save").click(function() {
+$("#save").click(function(e) {
+        e.preventDefault();
+        console.log("asd");
+        $("#tpe2").text("");
+        $("#tpe2").closest("div.form-group").removeClass("has-error");
+        $("#oth-help").text("");
+        $("#oth-fund").closest("div.form-group").removeClass("has-error");
+        $("#org-help").text("");
+        $("#org-exp").closest("div.form-group").removeClass("has-error");
+        $("#pat-help").text("");
+        $("#pat-exp").closest("div.form-group").removeClass("has-error");
+        $("#oth2-help").text("");
+        $("#oth2-exp").closest("div.form-group").removeClass("has-error");
     var err = 0;
     if (isNaN($("#ope-fund").val())) {
 
@@ -252,11 +270,41 @@ $("#save").click(function() {
         err = 1;
     }
 
+
+    if ($.trim($("#oth-fund").val()) < 1) {
+        $("#oth-help").text("Others should not be Empty!");
+        $("#oth-fund").closest("div.form-group").addClass("has-error");
+        err = 1;
+    }
+
+    if ($.trim($("#org-exp").val()) < 1) {
+        $("#org-help").text("Organization Funds should not be Empty!");
+        $("#org-exp").closest("div.form-group").addClass("has-error");
+        err = 1;
+    }
+    if ($.trim($("#pat-exp").val()) < 1) {
+        $("#pat-help").text("Participant's fee should not be Empty!");
+        $("#pat-exp").closest("div.form-group").addClass("has-error");
+        err = 1;
+    }
+    if ($.trim($("#oth2-exp").val()) < 1) {
+        $("#oth2-help").text("Others should not be Empty!");
+        $("#oth2-exp").closest("div.form-group").addClass("has-error");
+        err = 1;
+    }
+    if(parseFloat($("#texp").text()) != parseFloat($("#tpe").text())){
+        $("#tpe2").text("Projected Expense and the expense breakdown should be equal!");
+        $("#tpe2").closest("div.form-group").addClass("has-error");
+        err = 1;   
+    }
+
     if (err) {
         $('body,html').animate({
             scrollTop: 150
         }, 500);
     } else {
+        $("#tpe2").text("");
+        $("#tpe2").closest("div.form-group").removeClass("has-error");
         $("#oth-help").text("");
         $("#oth-fund").closest("div.form-group").removeClass("has-error");
         $("#org-help").text("");
@@ -265,5 +313,7 @@ $("#save").click(function() {
         $("#pat-exp").closest("div.form-group").removeClass("has-error");
         $("#oth2-help").text("");
         $("#oth2-exp").closest("div.form-group").removeClass("has-error");
+        $("#form-id").submit();
     }
+    console.log("ASd");
 });
