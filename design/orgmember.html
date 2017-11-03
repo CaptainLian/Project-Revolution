@@ -196,24 +196,24 @@
                                 <table id="myTable" class="table table-hover" role="grid" aria-describedby="myTable_info">
                                     <thead>
                                         <tr role="row">
-                                        	<th class="sorting text-left" width="15%">ID #</th>
-                                        	<th class="sorting text-left" width="19">Email</th>
-                                            <th class="sorting text-left" width="29%" >Name</th>
+                                        	<th class="sorting text-center" width="15%">ID #</th>
+                                        	
+                                            <th class="sorting text-center" width="50%" >Name</th>
                                         
                                             
-                                            <th class="sorting text-left" width="24">Number </th>
+                                            <th class="sorting text-center" width="20%">Status </th>
                                             
-                                            <th class="sorting text-center" width="13%">Actions</th>
+                                            <th class="sorting text-center" width="15%">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody> 
                                         <tr>
-                                        		<td class="">11425784</td>
-                                        		<td class="">neil_capistrano@dlsu.edu.ph</td>
-                                                <td>Neil Capistrano</td>
+                                        		<td class="text-center ">11425784</td>
+                                        		<td class="text-center ">neil_capistrano@dlsu.edu.ph</td>
+                                                
                                         
                                                
-                                                <td class="">09390290165</td>
+                                                <td class="text-center "><span class="label label-success">Active</span></td>
                                                 
                                                 <td class="text-center text-nowrap">                                                   
                                                     <a  data-toggle="tooltip" data-original-title="Edit"> 
@@ -651,6 +651,7 @@
 	            ]
 	        } );
 	    $("#submit").click(function(){
+            console.log("asd");
 	    	var lastName = $("#lastName").val();
 	    	var middleName = $("#middleName").val();
 	    	var givenName = $("#givenName").val();
