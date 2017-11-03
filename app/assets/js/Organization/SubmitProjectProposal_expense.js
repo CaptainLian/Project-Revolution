@@ -106,12 +106,12 @@ $("#insert-button").click(function() {
         $("#quantity").closest("div.form-group").removeClass("has-error");
         $("#item-help").text("");
         $("#item").closest("div.form-group").removeClass("has-error");
-        var clone = $("#clone").children().clone();
-         clone.find("#item").prop("id",idCounter);
-         clone.find("#sel0").prop("id",idCounter);
-         clone.find("#price").prop("id",idCounter);
-         clone.find("#quantity").prop("id",idCounter);
-         // clone.find("#clone").prop("id",idCounter);
+        var clone = $("#clone").clone();
+         clone.find("#item").prop("id",idCounter+1);
+         clone.find("#sel0").prop("id",idCounter+2);
+         clone.find("#price").prop("id",idCounter+3);
+         clone.find("#quantity").prop("id",idCounter+4);
+         clone.prop("id",idCounter);
          idCounter++;
 
          clone.css("display","none").insertBefore("tr#tot-rev");
@@ -137,7 +137,7 @@ $("#insert-button").click(function() {
                 '</span> ' +
                 '</span>' +
                 '</span> ' +
-                '<i class="fa fa-times text-danger  remove-time"></i>' +
+                '<i data-id="'+(idCounter-1)+'"" class="fa fa-times text-danger  remove-time"></i>' +
                 '</td>' +
                 '</tr>';
             $(tde).insertBefore("tr#tot-exp");
@@ -176,7 +176,7 @@ $("#insert-button").click(function() {
                 '</span> ' +
                 '</span>' +
                 '</span> ' +
-                '<i class="fa fa-times text-danger  remove-time"></i>' +
+                '<i data-id="'+(idCounter-1)+'"" class="fa fa-times text-danger  remove-time"></i>' +
                 '</td>' +
                 '</tr>';
             $("#rev-opt").prop("checked",true);
@@ -206,7 +206,8 @@ $("#insert-button").click(function() {
         var tr = $(this).closest("tr");
         var type = tr.attr("type");
         var key = tr.attr("id");
-
+        var keyDiv = $(this).attr("data-id");
+        $("#"+keyDiv).remove();
         delete item[type][key];
         tr.remove();
         $("#texp").text(exp().toLocaleString());
