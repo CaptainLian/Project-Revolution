@@ -672,6 +672,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
          },
 
         saveExpenses: (req, res) =>{
+            console.log("HERE");
             console.log(req.body);
         },
 
