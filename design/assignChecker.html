@@ -417,13 +417,18 @@
 
     <!-- TABLE MODAL -->
     <script>
-        $('body').on('mouseenter', '.tableContent', function () {
-            if ($(this).attr('data-toggle') != 'tooltip')
-            {
-                 $('[data-toggle="tooltip"]').tooltip();
-            }
+        // $('body').on('mouseenter', '.tableContent', function () {
+        //     if ($(this).attr('data-toggle') != 'tooltip')
+        //     {
+        //          $('[data-toggle="tooltip"]').tooltip();
+        //     }
+        // });
+        
+        $(document).bind('tooltipTrigger',function(){
+            console.log('Na trigger');
+            $('[data-toggle="tooltip"]').tooltip();
         });
-    
+        $(document).trigger("test");
         $(document).ready(function(){
             // IMPORTANT
             $('a[data-toggle="tab"]').on( 'shown.bs.tab', function (e) {
@@ -460,8 +465,8 @@
                     console.log("asd");
                    
                 }
-                table2.fnAdjustColumnSizing();
-                table.fnAdjustColumnSizing();
+                // table2.fnAdjustColumnSizing();
+                // table.fnAdjustColumnSizing();
             });
 
 
@@ -476,8 +481,13 @@
 
                 //     }
                 // });
+                // $('.tooltip').hide();
+                $('[data-toggle="tooltip"]').tooltip('hide');
                 table2.row($(this).parents('tr')).remove().draw();
 
+
+                // $('.tooltip').hide();
+                // $('[data-toggle="tooltip"]').tooltip('hide');
                 var actions  =      '<a activity-id="1" href="#" data-toggle="tooltip" data-title="Evaluate Activity"> '+
                                         '<i  class="fa  fa-clipboard m-r-10 text-inverse "></i> '+
                                     '</a>'+                                   
@@ -494,9 +504,15 @@
                                 actions                        
                             ]).draw().node();
                 $(row).find("td:last").addClass("text-center");
+                $(document).trigger("tooltipTrigger");
+                
+
+                // $('.tooltip').hide();
+                // $('[data-toggle="tooltip"]').tooltip('hide');
+
 
             });
-            $("#myTable").on('click',' tbody td a i.remove-activity', function(){
+            $(document).on('click',' .remove-activity', function(){
                 console.log("evaluate-activity");
                 var id = $(this).attr('activity-id');
                 // $.ajax({
@@ -507,16 +523,18 @@
                         
                 //     }
                 // });
+
+                // $('.tooltip').hide();
+                $('[data-toggle="tooltip"]').tooltip('hide');
                 table.row($(this).closest('tr')).remove().draw();
 
-                var actions  =      '<a activity-id="1" href="#" data-toggle="tooltip" data-title="Evaluate Activity"> '+
-                                        '<i  class="fa  fa-clipboard m-r-10 text-inverse "></i> '+
-                                    '</a>'+                                   
-                                     '<a activity-id="1" class="remove-activity"  data-toggle="tooltip" data-title="Remove from My Activity"> '+
-                                        '<i  class="fa  fa-times m-r-10 text-inverse "></i> '+
-                                    '</a>';
+                var actions  = '<a class="evaluate-activity"  activity-id="1" data-toggle="tooltip" data-title="Get this Activity" >' +
+                                    '<i  class="fa  fa-file m-r-10 text-inverse "></i> '+
+                                '</a>';
                 
-                                    
+                // $('.tooltip').hide();
+                // table.find(".tooltip").hide();
+                // table2.find(".tooltip").hide();
                 var row = table2.row.add( [
                                 "activityName",
                                 "venue",
@@ -525,6 +543,10 @@
                                 actions                        
                             ]).draw().node();
                 $(row).find("td:last").addClass("text-center");
+                $(document).trigger("tooltipTrigger");
+                // $('.tooltip').hide();
+                // $('[data-toggle="tooltip"]').tooltip('hide');
+                
                 
             });
     })
