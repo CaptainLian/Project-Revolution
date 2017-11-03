@@ -388,9 +388,9 @@ INSERT INTO OrganizationCluster (id, name, acronym)
 
 DROP TABLE IF EXISTS StudentOrganization CASCADE;
 CREATE TABLE StudentOrganization (
-    /* 
+    /*
       NOTE: UNIMPLEMENTED
-      Transaction ID Format: 
+      Transaction ID Format:
       NNSSS
 
       N = nature
@@ -424,8 +424,8 @@ CREATE TABLE OrganizationFacultyAdviser (
     /* Organization Structure */
 DROP TABLE IF EXISTS OrganizationRole CASCADE;
 CREATE TABLE OrganizationRole (
-  /* 
-    Transaction ID Format: 
+  /*
+    Transaction ID Format:
     OOOSSSS
 
     O = student organization sequence
@@ -562,8 +562,8 @@ INSERT INTO FunctionalityDomain (id, name)
 
 DROP TABLE IF EXISTS FunctionalityCategory CASCADE;
 CREATE TABLE FunctionalityCategory (
-  /* 
-    Transaction ID Format: 
+  /*
+    Transaction ID Format:
     DDSS
 
     D = functionality sequence ID
@@ -633,8 +633,8 @@ INSERT INTO FunctionalityCategory (id, name, domain)
 
 DROP TABLE IF EXISTS Functionality CASCADE;
 CREATE TABLE Functionality (
-  /* 
-    Transaction ID Format: 
+  /*
+    Transaction ID Format:
     CCCSSS
 
     C = category ID
@@ -684,10 +684,12 @@ CREATE TRIGGER before_update_Functionality
     EXECUTE PROCEDURE trigger_before_update_Functionality();
 
 INSERT INTO Functionality (id, name, category)
-                   VALUES (211000, 'Submit GOSM'  , 211),
-                          (211001, 'Resubmit GOSM', 211),
-                          (104002, 'Evaluate GOSM', 104),
-                          (104003, 'Evaluate Project Proposal', 104);
+                   VALUES (211000, 'Submit GOSM'              , 211),
+                          (211001, 'Resubmit GOSM'            , 211),
+                          (104002, 'Evaluate GOSM'            , 104),
+                          (104003, 'Evaluate Project Proposal', 104),
+                          (108004, 'Evaluate Post-Activity'   , 108),
+                          (106005, 'View Publicity Material'  , 106);
 /*
 INSERT INTO Functionality (id, name, category)
                    VALUES (0, 'Time Setting', 0),
@@ -784,7 +786,12 @@ INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       -- Evaluate Project Proposal
                                       (   12,        104003,      TRUE),
                                       (   13,        104003,      TRUE),
-                                      (   14,        104003,      TRUE);
+                                      (   14,        104003,      TRUE),
+                                      -- Evaluate Post-Activity
+                                      (    1,        108004,      TRUE),
+                                      (    9,        108004,      TRUE),
+                                      (   10,        108004,      TRUE);
+
 
 /* Organization Default Structure */
 CREATE OR REPLACE FUNCTION trigger_after_insert_StudentOrganization()
@@ -928,8 +935,8 @@ INSERT INTO GOSMStatus (id, name)
 
 DROP TABLE IF EXISTS GOSM CASCADE;
 CREATE TABLE GOSM (
-    /* 
-      Transaction ID Format: 
+    /*
+      Transaction ID Format:
       OOOSSSSS
 
       O = organization ID
@@ -1427,7 +1434,7 @@ CREATE TRIGGER after_insert_ProjectProposal_signatories
     FOR EACH ROW
     EXECUTE PROCEDURE trigger_after_insert_ProjectProposal_signatories();
     /* End Project Proposal */
-    
+
 /* Organization Treasurer */
 DROP TABLE IF EXISTS TransactionType CASCADE;
 CREATE TABLE TransactionType (
@@ -1466,6 +1473,18 @@ CREATE TABLE InformalQuotation (
 );
 /* Organization Treasurer */
     /* AMTActivityEvaluation */
+DROP TABLE IF EXISTS AMTActivityEvaluationStatus CASCADE;
+CREATE TABLE AMTActivityEvaluationStatus (
+    id INTEGER,
+    name VARCHAR(45) NOT NULL,
+
+    PRIMARY KEY(id)
+);
+INSERT INTO AMTActivityEvaluationStatus (id, name)
+                           VALUES ( 0, 'Unassigned Evaluation'),
+                                  ( 1, 'Pending Evaluation'),
+                                  ( 3, 'Evaluated');
+
 DROP TABLE IF EXISTS AMTActivityEvaluation CASCADE;
 CREATE TABLE AMTActivityEvaluation (
   activity INTEGER REFERENCES ProjectProposal (GOSMActivity),
@@ -1498,14 +1517,18 @@ CREATE TABLE AMTActivityEvaluation (
   suggestions1 TEXT NOT NULL,
   suggestions2 TEXT NOT NULL,
   suggestions3 TEXT NOT NULL,
+  evaluator INTEGER REFERENCES Account(idNumber),
+  status INTEGER REFERENCES AMTActivityEvaluationStatus(id),
+  dateReserved TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  dateEvaluated TIMESTAMP WITH TIME ZONE,
 
   PRIMARY KEY (activity)
 );
 -- END FORMS
 -- COMMIT;
-  
-/* 
-    Auditing 
+
+/*
+    Auditing
 */
 DROP TABLE IF EXISTS "AccountEvent" CASCADE;
 CREATE TABLE "AccountEvent" (
@@ -1513,7 +1536,7 @@ CREATE TABLE "AccountEvent" (
   name VARCHAR(45),
 
   PRIMARY KEY(id)
-); 
+);
 INSERT INTO "AccountEvent" (id, name)
                     VALUES ( 0, 'Edit'),
                            ( 1, 'Create'),

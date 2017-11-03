@@ -2,5 +2,7 @@
     "CreateGOSM": 0,
     "ResubmitGOSM": 1,
     "EvaluateGOSM": 2,
-    "EvaluateProjectProposal": 3
+    "EvaluateProjectProposal": 3,
+    "EvaluatePostActivity": 4,
+    "ViewPublicityMaterial": 5
 }

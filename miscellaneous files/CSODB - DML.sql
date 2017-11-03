@@ -125,6 +125,8 @@ Mwa7xuTtikKf6Y7+O7ayCwL6mOycRQ8qojl4qw6xXDLfvbP2T1i8BYwqmWZFCWKS
 
 INSERT INTO OrganizationOfficer (idNumber, role, yearID)
                          VALUES (11445955,  10023, system_get_current_year_id());
+INSERT INTO OrganizationOfficer (idNumber, role, yearID)
+                         VALUES (11445955,   10, system_get_current_year_id());
 
 INSERT INTO Account (email, idNumber, password, firstname, lastname, contactNumber, publicKey, privateKey, type)
              VALUES ('markus_flores@dlsu.edu.ph', 11445954, '1234', 'Markus', 'Flores', '+63 9228474849', '-----BEGIN PUBLIC KEY-----
