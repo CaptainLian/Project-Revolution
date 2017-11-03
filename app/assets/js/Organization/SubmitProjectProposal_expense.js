@@ -211,17 +211,17 @@ function exp2() {
     var result = 0;
     var ope = parseFloat($("#org-exp").val());
     var dep = parseFloat($("#pat-exp").val());
-    var oth = parseFloat($("#oth-exp").val());
+    var oth = parseFloat($("#oth2-exp").val());
     return result = result + ope + dep + oth;
 }
 
 
-$("#ope-fund, #dep-fund, #oth-fund, #org-exp, #pat-exp, #oth-exp").keydown(function() {
+$("#ope-fund, #dep-fund, #oth-fund, #org-exp, #pat-exp, #oth2-exp").keyup(function() {
     $("#tcd").text(fund().toLocaleString());
     $("#tpe").text(exp2().toLocaleString());
     $("#rb").text((fund() - exp2()).toLocaleString())
 });
-
+$("#ope-fund").trigger("keyup");
 $("#save").click(function() {
     var err = 0;
     if (isNaN($("#ope-fund").val())) {
