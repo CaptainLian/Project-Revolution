@@ -1427,7 +1427,7 @@ CREATE TRIGGER after_insert_ProjectProposal_signatories
     FOR EACH ROW
     EXECUTE PROCEDURE trigger_after_insert_ProjectProposal_signatories();
     /* End Project Proposal */
-    /* END SPECIAL APPROVAL SLIP */
+    
 /* Organization Treasurer */
 DROP TABLE IF EXISTS TransactionType CASCADE;
 CREATE TABLE TransactionType (
