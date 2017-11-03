@@ -581,11 +581,95 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
         saveContext: (req, res) =>{
             console.log(req.body);
+
+            // TODO: change id, to come from selected activity
+            var dbParam = {
+                id: 1,
+                enp: req.body.enp,
+                enmp: req.body.enmp,
+                venue: req.body.venue,
+                adviser: req.body.adviser,
+                context1: req.body.context1,
+                context2: req.body.context2,
+                context3: req.body.context3,
+                isBriefContextComplete: true
+            };
+
+            if(!(req.body.enp).trim() || 
+                !(req.body.enmp).trim() || 
+                !(req.body.venue).trim() ||
+                !(req.body.adviser).trim() ||
+                !(req.body.context1).trim() ||
+                !(req.body.context2).trim() ||
+                !(req.body.context3).trim()){
+
+                dbParam.isBriefContextComplete = false;
+                
+            }
+
+            console.log(dbParam);
+
+            projectProposalModel.updatePPRBriefContext(dbParam);
+
         },
 
         saveDesign: (req, res) =>{
             console.log(req.body);
-        },
+            console.log("L");
+            var sched = JSON.parse(req.body.sched);
+            var keys =  Object.keys(sched);
+            console.log(keys);
+
+            // TODO: change id, to come from selected activity            
+            var dbParam = {
+                projectproposal: 1
+            }
+
+            projectProposalModel.deleteProgramDesign(dbParam);
+
+            var index = 0;
+            for (var item in sched){
+                console.log(sched[item].length);
+
+                for (var i = 0; i < sched[item].length; i++){
+
+                    console.log(sched[item][i]);
+
+                    // TODO: change id, to come from the selected activity
+                    var dbParam = {
+                        projectProposal: 1,
+                        dayID: index,
+                        date: item,
+                        startTime: sched[item][i].start,
+                        endTime: sched[item][i].end,
+                        activity: sched[item][i].act,
+                        activityDescription: sched[item][i].desc,
+                        personInCharge: sched[item][i].person
+                    };
+
+                    projectProposalModel.insertProjectProposalDesign(dbParam)
+                    .then(data=>{
+
+                    }).catch(error=>{
+                        console.log(error);
+                    });
+
+                    
+                }
+                index++;
+            }
+
+            if (index == 0){
+
+                // TODO: change id, to come from the selected activity
+                var dbParam = {
+                    id: 1
+                };
+
+                projectProposalModel.updateIsProgramDesignComplete(dbParam);
+            }
+
+         },
 
         saveExpenses: (req, res) =>{
             console.log(req.body);

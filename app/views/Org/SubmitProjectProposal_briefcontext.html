@@ -77,7 +77,7 @@
 										<div class="form-group">
 											<label class="control-label col-md-3">ENP</label>
 											<div class="col-md-9">
-												<input type="number" name="ENP" class="form-control">
+												<input type="number" min="0" name="enp" class="form-control">
 												<span class="help-block"> Expected number of Participants</span>
 											</div>
 										</div>
@@ -87,7 +87,7 @@
 										<div class="form-group">
 											<label class="control-label col-md-3">ENMP</label>
 											<div class="col-md-9">
-												<input type="number" name="ENMP" class="form-control">
+												<input type="number" name="enmp" min="0" class="form-control">
 												<span class="help-block"> Expected number of Member Participants</span>
 											</div>
 										</div>
@@ -116,8 +116,8 @@
 											<label class="control-label col-md-3">Faculty Adviser</label>
 											<div class="col-md-9">
 												<select class="form-control" name="adviser">
-													<option value="">Male</option>
-													<option value="">Female</option>
+													<option value="1">Male</option>
+													<option value="2">Female</option>
 												</select> 
 												<span class="help-block"></span>
 											</div>

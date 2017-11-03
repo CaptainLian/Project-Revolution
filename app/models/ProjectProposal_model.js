@@ -17,6 +17,8 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const getApprovedPPRsSQL = queryFiles.getApprovedPPRs;
     const getNextActivityForApprovalSQL = queryFiles.getNextActivityForApproval;
     const updatePPRStatusSQL = queryFiles.updatePPRStatus;
+    const updateIsProgramDesignCompleteSQL = queryFiles.updateIsProgramDesignComplete;
+    const deleteProgramDesignSQL = queryFiles.deleteProgramDesign;
     
     /**
      * class with properties
@@ -216,6 +218,10 @@ module.exports = function(configuration, modules, db, queryFiles) {
         return connection.none(updatePPRBriefContextSQL, param);
     };
 
+    ProjectProposalModel.prototype.updateIsProgramDesignComplete = function(param, connection = this._db) {
+        return connection.none(updateIsProgramDesignCompleteSQL, param);
+    };
+
     ProjectProposalModel.prototype.insertProjectProposalDesign = function(param, connection = this._db) {
         //TODO: test
         return connection.none(insertProjectProposalProgramDesignSQL, param);
@@ -272,6 +278,10 @@ module.exports = function(configuration, modules, db, queryFiles) {
 
     ProjectProposalModel.prototype.getApprovedPPRs = function(connection = this._db){
         return connection.any(getApprovedPPRsSQL);
+    };
+
+    ProjectProposalModel.prototype.deleteProgramDesign = function(param, connection = this._db){
+        return connection.none(deleteProgramDesignSQL, param);
     };
 
     return new ProjectProposalModel(db, modules);
