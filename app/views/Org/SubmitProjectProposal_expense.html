@@ -66,13 +66,16 @@
 {%endblock%}
 
 {%block content%}
+<form action="/Organization/projectproposal/SaveExpenses" id="form-id" method="POST">
+<input type="hidden" name="_csrf" value="{{csrfToken}}">
+
 <div class="row">
 	<div class="col-md-12">
 		<div class="panel  panel-info">
 			<div class="panel-heading">
 				Expense
 			</div>
-			<form action="#" class="form-horizontal">
+			
 			<div class="panel-wrapper collapse in" aria-expanded="true">
 				<div class="panel-body">
 					
@@ -88,7 +91,7 @@
 										Operational Funds
 									</label>
 									<div class="col-md-6">
-										<input class="form-control" disabled="" id="ope-fund" type="text">
+										<input class="form-control" disabled="" value="0" id="ope-fund" type="text">
 										<span id="ope-help" class="help-block"> As of Oct. 12, 2017 </span>
 									</div>
 								</div>
@@ -97,7 +100,7 @@
 										Depository Funds
 									</label>
 									<div class="col-md-6">
-										<input class="form-control" disabled="" id="dep-fund" type="text">
+										<input class="form-control" disabled="" value="0" id="dep-fund" type="text">
 										<span id="dep-help" class="help-block"> 
 											Org. Balance as of Oct. 12, 2017
 										</span>
@@ -108,7 +111,7 @@
 										Other Funds
 									</label>
 									<div class="col-md-6">
-										<input class="form-control"  id="oth-fund" type="text">
+										<input class="form-control"  value="0" id="oth-fund" type="text">
 										<span id="oth-help" class="help-block"></span>
 									</div>
 								</div>
@@ -117,29 +120,29 @@
 										Total Cash Disbursement
 									</label>
 									<div class="col-md-6">
-										₱<span id="tcd">123123</span>
+										₱<span id="tcd"></span>
 									</div>
 								</div>
 								<div class="form-group row">
-									<label for="example-month-input" class="col-md-12 text-center col-form-label">
+									<label for="example-month-input"  class="col-md-12 text-center col-form-label">
 										Sources Funds
 									</label>
 								</div>
 								<div class="form-group row">
-									<label for="example-month-input" class="col-md-5 text-left offset-md-1 col-form-label">
+									<label for="example-month-input"  class="col-md-5 text-left offset-md-1 col-form-label">
 										Organization Funds
 									</label>
 									<div class="col-md-6">
-										<input class="form-control" dir="rtl" id="org-exp" type="text">
+										<input class="form-control" value="0" dir="rtl" id="org-exp" type="text">
 										<span id="org-help" class="help-block"> </span>
 									</div>
 								</div>
 								<div class="form-group row ">
-									<label for="example-month-input" class="col-md-5 text-left offset-md-1 col-form-label">
+									<label for="example-month-input"  class="col-md-5 text-left offset-md-1 col-form-label">
 										Participant's Fee
 									</label>
 									<div class="col-md-6">
-										<input class="form-control"  dir="rtl" id="pat-exp" type="text">
+										<input class="form-control" value="0"  dir="rtl" id="pat-exp" type="text">
 										<span id="pat-help" class="help-block">  </span>
 									</div>
 								</div>
@@ -148,7 +151,7 @@
 										Others
 									</label>
 									<div class="col-md-6">
-										<input class="form-control" dir="rtl" id="oth2-exp" type="text">
+										<input class="form-control " value="0" dir="rtl" id="oth2-exp" type="text">
 										<span id="oth2-help" class="help-block"> </span>
 									</div>
 								</div>
@@ -157,13 +160,16 @@
 										Total Projected Expense
 									</label>
 									<div class="col-md-6 text-right">
-										₱<span class="text-right" id="tpe">123123</span>
+										₱<span class="text-right" id="tpe"></span>
+									</div>
+									<div class="col-md-6 offset-md-6 text-right">
+										<span class="text-right" id="tpe2"></span>
 									</div>
 								</div>
 								<div class="form-group row text-success">
 									<label for="example-month-input" class="col-md-6 text-right  col-form-label">Remaining Balance</label>
 									<div class="col-md-6">
-										₱<span id="rb">123123</span>
+										₱<span id="rb"></span>
 									</div>
 								</div>
 							</div>
@@ -204,20 +210,19 @@
 									</tbody>
 								</table>
 							</div>
-						</div>
-						<div class="col-md-4 m-t-40">
+							<div id="clone" class="col-md-4 m-t-40">
 							<div class="form-group ">
 								<label class="form-control-label">
 									Item Name
 								</label>
-								<input id="item" type="text" class="form-control">
+								<input id="item" name="item[]" type="text" class="form-control">
 								<div>
 									<span class="help-block" id="item-help"></span>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="form-control-label">Type of Item</label>
-								<select name="personInCharge" id="sel0" class="form-control select2">
+								<select name="typeOfItem[]" id="sel0" class="form-control select2">
 									<option value="0" >Others</option>
 									<option value="1">Food & Accomodation</option>
 									<option value="2">Venue & Transportation</option>
@@ -233,7 +238,7 @@
 								<label class="form-control-label">Price</label>
 								<div class="input-group">
 									<span class="input-group-addon" id="basic-addon1" step='0.01'>₱</span>
-									<input id="price"  type="text" class="form-control">
+									<input id="price"  type="text" name="price[]" class="form-control">
 								</div>
 								<div>
 									<span class="help-block" id="price-help"></span>
@@ -242,8 +247,8 @@
 							<div class="form-group ">
 								<label class="form-control-label">Quantity</label>
 								<div class="input-group">
-									<input id="quantity" min="1"  type="text" class="form-control">
-									<span class="input-group-addon" id="basic-addon1" step='0.01'>pcs</span>
+									<input id="quantity" min="1" name="quantity[]"  type="text" class="form-control">
+									<span class="input-group-addon"  id="basic-addon1" step='0.01'>pcs</span>
 								</div>	
 								<div>
 									<span class="help-block" id="quantity-help"></span>
@@ -252,11 +257,11 @@
 							<div class="form-group">
 								<div class="radio-list text-center">
 									<label class="radio-inline fund">
-										<input name="optionsRadios2" id="rev-opt"  value="Revenue" type="radio">
+										<input name="optionsRadios2[]" id="rev-opt"  value="Revenue" type="radio">
 										Revenue
 									</label>
-									<label class="radio-inline">
-										<input id="exp" name="optionsRadios2" value="Expense" checked="" type="radio"> 
+									<label class="radio-inline expense">
+										<input id="exp" name="optionsRadios2[]" value="Expense" checked="" type="radio"> 
 										Expense 
 									</label>
 								</div>
@@ -265,14 +270,17 @@
 								<button type="button" id="insert-button" class="btn btn-info">Insert </button>
 							</div>			
 						</div>
+						</div>
+						
 					</div>
 				</div>
 				<div class="panel-footer text-center">
 					<button type="submit" id="save" class="btn btn-success"><i class="fa fa-save"></i>&nbsp;Save</button>
 					<button type="button" class="btn btn-default">Cancel</button>		
 				</div>
-			</form>
+			
 		</div>
 	</div>
 </div>
+</form>
 {%endblock%}

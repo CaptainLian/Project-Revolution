@@ -3,6 +3,12 @@
 
 {%block page_title%}CSO - Evaluate Activity{%-endblock%}
 
+
+{%block meta%}
+    {{super()}}
+    <meta data-name="csrf" data-token="{{csrfToken}}" />
+{%endblock%}
+
 {%block style%}
 	{{super()}}
 	<!-- Bootstrap Core CSS -->
@@ -109,11 +115,16 @@
     {{tag.javascript('/plugins/bower_components/datatables/dataTables.bootstrap.js', true)}}
     {{tag.javascript('/plugins/bower_components/tiny-editable/mindmup-editabletable.js', true)}}
     {{tag.javascript('/plugins/bower_components/tiny-editable/numeric-input-example.js', true)}}
-	
+
+
+	{{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
     {{tag.javascript('/js/Organization/SubmitProjectProposal_programdesign.js', true)}}
 {%endblock%}
 
 {%block content%}
+
+<input type="hidden" name="_csrf" value="{{csrfToken}}">
+
 <div class="row">
 	<div class="col-md-12">
 		<div class="panel panel-info">
@@ -263,8 +274,8 @@
 					</div>
 				</div>
 				<div class="panel-footer text-center">
-					<button type="submit" class="btn btn-success"> <i class="fa fa-save"></i>&nbsp;Save</button>
-					<button type="button" class="btn btn-default">Cancel</button>			
+					<button type="submit" id="submit-but" class="btn btn-success"> <i class="fa fa-save"></i>&nbsp;Save</button>
+					<button type="button" id="cancel-but" class="btn btn-default">Cancel</button>			
 				</div>
 			</div>
 		</div>

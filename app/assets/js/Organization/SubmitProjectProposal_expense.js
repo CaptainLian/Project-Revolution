@@ -1,6 +1,7 @@
 //START 
 $(".fund").css("display", "none");
 $("#rev-opt").remove();
+$(".expense").css("display","none");
 //END KPAG FUNDRAISING
 var item = {};
 item["rev"] = {};
@@ -36,19 +37,26 @@ function exp() {
 $("#sel0").select2();
 $("#sel0").select2("val", '0');
 
-
-
+$("#exp").prop("checked",true);
+var idCounter = 0;
 $("#insert-button").click(function() {
+        $("#price-help").text("");
+        $("#price").closest("div.form-group").removeClass("has-error");
+        $("#quantity-help").text("");
+        $("#quantity").closest("div.form-group").removeClass("has-error");
+        $("#item-help").text("");
+        $("#item").closest("div.form-group").removeClass("has-error");
     var itemName = $("#item").val();
     var typeOfItem = $("#sel0").val();
     var price = ($("#price").val());
     var quantity = ($("#quantity").val());
-    var kind = $("input[name='optionsRadios2']:checked").val();
+    var kind = $("input[name='optionsRadios2[]']:checked").val();
     console.log("asd");
     console.log(itemName);
     console.log(typeOfItem);
     console.log(price);
     console.log(quantity);
+    console.log("KIND" + kind);
     var err = 0
     if ($.trim(itemName) < 1) {
         $("#item-help").text("Item Name cannot be empty!");
@@ -98,7 +106,17 @@ $("#insert-button").click(function() {
         $("#quantity").closest("div.form-group").removeClass("has-error");
         $("#item-help").text("");
         $("#item").closest("div.form-group").removeClass("has-error");
-        empty();
+        var clone = $("#clone").clone();
+         clone.find("#item").prop("id",idCounter+1);
+         clone.find("#sel0").prop("id",idCounter+2);
+         clone.find("#price").prop("id",idCounter+3);
+         clone.find("#quantity").prop("id",idCounter+4);
+         clone.prop("id",idCounter);
+         idCounter++;
+
+         clone.css("display","none").insertBefore("tr#tot-rev");
+         empty();
+       
         if (kind == "Expense") {
             var tde =
                 '<tr type="exp" id=' + key + '>' +
@@ -119,7 +137,7 @@ $("#insert-button").click(function() {
                 '</span> ' +
                 '</span>' +
                 '</span> ' +
-                '<i class="fa fa-times text-danger  remove-time"></i>' +
+                '<i data-id="'+(idCounter-1)+'"" class="fa fa-times text-danger  remove-time"></i>' +
                 '</td>' +
                 '</tr>';
             $(tde).insertBefore("tr#tot-exp");
@@ -131,6 +149,7 @@ $("#insert-button").click(function() {
                 kind: kind
             };
             item["exp"][key] = obj;
+            $("#exp").prop("checked",true);
             $("#texp").text(exp().toLocaleString());
             $("#tfin").text((rev() - exp()).toLocaleString());
 
@@ -157,9 +176,10 @@ $("#insert-button").click(function() {
                 '</span> ' +
                 '</span>' +
                 '</span> ' +
-                '<i class="fa fa-times text-danger  remove-time"></i>' +
+                '<i data-id="'+(idCounter-1)+'"" class="fa fa-times text-danger  remove-time"></i>' +
                 '</td>' +
                 '</tr>';
+            $("#rev-opt").prop("checked",true);
             $(tda).insertBefore("tr#tot-rev");
             obj = {
                 item: itemName,
@@ -169,10 +189,12 @@ $("#insert-button").click(function() {
                 kind: kind
             };
             item["rev"][key] = obj;
+
             $("#trev").text(rev().toLocaleString());
             $("#tfin").text((rev() - exp()).toLocaleString());
 
         }
+       
         console.log(item);
         key++;
 
@@ -184,7 +206,8 @@ $("#insert-button").click(function() {
         var tr = $(this).closest("tr");
         var type = tr.attr("type");
         var key = tr.attr("id");
-
+        var keyDiv = $(this).attr("data-id");
+        $("#"+keyDiv).remove();
         delete item[type][key];
         tr.remove();
         $("#texp").text(exp().toLocaleString());
@@ -210,18 +233,30 @@ function exp2() {
     var result = 0;
     var ope = parseFloat($("#org-exp").val());
     var dep = parseFloat($("#pat-exp").val());
-    var oth = parseFloat($("#oth-exp").val());
+    var oth = parseFloat($("#oth2-exp").val());
     return result = result + ope + dep + oth;
 }
 
 
-$("#ope-fund, #dep-fund, #oth-fund, #org-exp, #pat-exp, #oth-exp").keydown(function() {
+$("#ope-fund, #dep-fund, #oth-fund, #org-exp, #pat-exp, #oth2-exp").keyup(function() {
     $("#tcd").text(fund().toLocaleString());
     $("#tpe").text(exp2().toLocaleString());
     $("#rb").text((fund() - exp2()).toLocaleString())
 });
-
-$("#save").click(function() {
+$("#ope-fund").trigger("keyup");
+$("#save").click(function(e) {
+        e.preventDefault();
+        console.log("asd");
+        $("#tpe2").text("");
+        $("#tpe2").closest("div.form-group").removeClass("has-error");
+        $("#oth-help").text("");
+        $("#oth-fund").closest("div.form-group").removeClass("has-error");
+        $("#org-help").text("");
+        $("#org-exp").closest("div.form-group").removeClass("has-error");
+        $("#pat-help").text("");
+        $("#pat-exp").closest("div.form-group").removeClass("has-error");
+        $("#oth2-help").text("");
+        $("#oth2-exp").closest("div.form-group").removeClass("has-error");
     var err = 0;
     if (isNaN($("#ope-fund").val())) {
 
@@ -251,11 +286,41 @@ $("#save").click(function() {
         err = 1;
     }
 
+
+    if ($.trim($("#oth-fund").val()) < 0) {
+        $("#oth-help").text("Others should not be Empty!");
+        $("#oth-fund").closest("div.form-group").addClass("has-error");
+        err = 1;
+    }
+
+    if ($.trim($("#org-exp").val()) < 0) {
+        $("#org-help").text("Organization Funds should not be Empty!");
+        $("#org-exp").closest("div.form-group").addClass("has-error");
+        err = 1;
+    }
+    if ($.trim($("#pat-exp").val()) < 0) {
+        $("#pat-help").text("Participant's fee should not be Empty!");
+        $("#pat-exp").closest("div.form-group").addClass("has-error");
+        err = 1;
+    }
+    if ($.trim($("#oth2-exp").val()) < 0) {
+        $("#oth2-help").text("Others should not be Empty!");
+        $("#oth2-exp").closest("div.form-group").addClass("has-error");
+        err = 1;
+    }
+    if(parseFloat($("#texp").text()) != parseFloat($("#tpe").text())){
+        $("#tpe2").text("Projected Expense and the expense breakdown should be equal!");
+        $("#tpe2").closest("div.form-group").addClass("has-error");
+        err = 1;   
+    }
+
     if (err) {
         $('body,html').animate({
             scrollTop: 150
         }, 500);
     } else {
+        $("#tpe2").text("");
+        $("#tpe2").closest("div.form-group").removeClass("has-error");
         $("#oth-help").text("");
         $("#oth-fund").closest("div.form-group").removeClass("has-error");
         $("#org-help").text("");
@@ -264,5 +329,7 @@ $("#save").click(function() {
         $("#pat-exp").closest("div.form-group").removeClass("has-error");
         $("#oth2-help").text("");
         $("#oth2-exp").closest("div.form-group").removeClass("has-error");
+        $("#form-id").submit();
     }
+    console.log("ASd");
 });
