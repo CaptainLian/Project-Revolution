@@ -1,0 +1,2 @@
+DELETE FROM PROJECTPROPOSALPROGRAMDESIGN
+ WHERE projectproposal=${projectproposal};

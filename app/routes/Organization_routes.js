@@ -17,9 +17,16 @@ module.exports = function(configuration, modules, router, controllers){
     router.get(`${base}/ProjectProposal/Expense`, controllers.Organization_controller.viewSubmitProjectProposalExpense);
     router.get(`${base}/ProjectProposal/ProgramDesign`, controllers.Organization_controller.viewSubmitProjectProposalProgramDesign);
 
+
+    router.post(`${base}/projectproposal/SaveContext`, controllers.Organization_controller.saveContext);
+    router.post(`${base}/projectproposal/SaveDesign`, controllers.Organization_controller.saveDesign);
+    router.post(`${base}/projectproposal/SaveExpenses`, controllers.Organization_controller.saveExpenses);
+    router.post(`${base}/projectproposal/SaveAttachments`, controllers.Organization_controller.saveAttachments);
+
     router.get(`${base}/Setting/ACL`, controllers.Organization_controller.viewSettingAcl);
     router.get(`${base}/PostProjectProposal/Main`, controllers.Organization_controller.viewSubmitPostProjectProposalMain);
     router.get(`${base}/PostProjectProposal/BriefContext`, controllers.Organization_controller.viewSubmitPostProjectProposalBriefContext);
     router.get(`${base}/PostProjectProposal/Others`, controllers.Organization_controller.viewSubmitPostProjectProposalOthers);
     router.get(`${base}/PostProjectProposal/FinanceDocument`, controllers.Organization_controller.viewSubmitPostProjectProposalFinanceDocument);
+
 };

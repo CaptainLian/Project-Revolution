@@ -781,3 +781,19 @@ $("#program-tables").on('click', '.view-details', function() {
 
 
 var tempExp = 0;
+
+
+$("#submit-but").click(function(){
+    $.ajax({
+        type:'POST',
+        url:'/Organization/projectproposal/SaveDesign',
+        data:{"sched":JSON.stringify(sched)},
+        success:function(){
+            window.location.href="/organization/projectproposal/main";
+        }
+    })
+})
+$("#cancel-but").click(function(){
+    window.location.href="/organization/projectproposal/main";
+        
+})

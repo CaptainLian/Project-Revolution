@@ -205,6 +205,9 @@ pqQBSqfr7cM32loIRyhuDd+9eM1fqtumG8LI3FRm5HtZuZr5Eds7ywIXGB6ugP6M
 6V4EL/W4vAfjCvu1dmH45Vx3MgJPhtinyaT4yqiMLv8N/YBKkyU=
 -----END RSA PRIVATE KEY-----', 1);
 
+INSERT INTO OrganizationOfficer (idNumber, role, yearID)
+                         VALUES (11445953,    1, system_get_current_year_id());
+
 INSERT INTO Account (email, idNumber, password, firstname, lastname, contactNumber, publicKey, privateKey, type)
              VALUES ('neil_capistrano@dlsu.edu.ph', 11445952, '1234', 'Neil', 'Capistrano', '+63 9228474849', '-----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArdjmjQSvYOuZD4w1J3oD
@@ -255,8 +258,8 @@ UPDATE GOSM
 INSERT INTO GOSMActivity (gosm, goals, objectives, strategies, description, measures, targetDateStart, targetDateEnd, ActivityNature, ActivityType, isRelatedToOrganizationNature, budget)
                     VALUES (200001, 'Goal Mo to', '{"Objectives", "Mo", "To"}', 'Strategies Mo to', 'Descibe kita', 'Measure mo to :)', '2017-9-6', '2017-9-6', 1, 2, false, 999.99);
 
-INSERT INTO ProjectProposal (GOSMActivity, ENP, ENMP, venue, context, sourceFundOther, sourceFundParticipantFee, sourceFundOrganizational, accumulatedOperationalFunds, accumulatedDepositoryFunds, comments)
-                     VALUES (1, 1, 1, 0, 'Context kita', 69.69, 69.69, 69.69, 69.69, 69.69, 'Comments ko toh');
+INSERT INTO ProjectProposal (GOSMActivity, ENP, ENMP, venue, context1, context2, context3, sourceFundOther, sourceFundParticipantFee, sourceFundOrganizational, accumulatedOperationalFunds, accumulatedDepositoryFunds, comments)
+                     VALUES ((SELECT id FROM GOSMActivity WHERE gosm = 200001 LIMIT 1), 1, 1, 0, 'Context kita', 'Context parin kita', 'Context ulit kita',69.69, 69.69, 69.69, 69.69, 69.69, 'Comments ko toh');
 UPDATE ProjectProposal
 SET status = 2
 WHERE id = 1;

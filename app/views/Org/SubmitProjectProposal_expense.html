@@ -66,6 +66,9 @@
 {%endblock%}
 
 {%block content%}
+<form action="/Organization/projectproposal/SaveExpense" method="POST">
+<input type="hidden" name="_csrf" value="{{csrfToken}}">
+
 <div class="row">
 	<div class="col-md-12">
 		<div class="panel  panel-info">
@@ -88,7 +91,7 @@
 										Operational Funds
 									</label>
 									<div class="col-md-6">
-										<input class="form-control" disabled="" id="ope-fund" type="text">
+										<input class="form-control" disabled="" value="0" id="ope-fund" type="text">
 										<span id="ope-help" class="help-block"> As of Oct. 12, 2017 </span>
 									</div>
 								</div>
@@ -97,7 +100,7 @@
 										Depository Funds
 									</label>
 									<div class="col-md-6">
-										<input class="form-control" disabled="" id="dep-fund" type="text">
+										<input class="form-control" disabled="" value="0" id="dep-fund" type="text">
 										<span id="dep-help" class="help-block"> 
 											Org. Balance as of Oct. 12, 2017
 										</span>
@@ -204,8 +207,7 @@
 									</tbody>
 								</table>
 							</div>
-						</div>
-						<div class="col-md-4 m-t-40">
+							<div class="col-md-4 m-t-40">
 							<div class="form-group ">
 								<label class="form-control-label">
 									Item Name
@@ -255,7 +257,7 @@
 										<input name="optionsRadios2" id="rev-opt"  value="Revenue" type="radio">
 										Revenue
 									</label>
-									<label class="radio-inline">
+									<label class="radio-inline expense">
 										<input id="exp" name="optionsRadios2" value="Expense" checked="" type="radio"> 
 										Expense 
 									</label>
@@ -265,6 +267,8 @@
 								<button type="button" id="insert-button" class="btn btn-info">Insert </button>
 							</div>			
 						</div>
+						</div>
+						
 					</div>
 				</div>
 				<div class="panel-footer text-center">
@@ -275,4 +279,5 @@
 		</div>
 	</div>
 </div>
+</form>
 {%endblock%}

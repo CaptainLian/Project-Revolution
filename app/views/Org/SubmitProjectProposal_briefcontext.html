@@ -60,6 +60,8 @@
 {%endblock%}
 
 {%block content%}
+<form action="/Organization/projectproposal/SaveContext" method="POST">
+<input type="hidden" name="_csrf" value="{{csrfToken}}">
 <div class="row">
 	<div class="col-md-12">
 		<div class="panel panel-info">
@@ -75,8 +77,8 @@
 										<div class="form-group">
 											<label class="control-label col-md-3">ENP</label>
 											<div class="col-md-9">
-												<input type="number" name="" class="form-control">
-												<span class="help-block"> Expected number of Member Participants</span>
+												<input type="number" min="0" name="enp" class="form-control">
+												<span class="help-block"> Expected number of Participants</span>
 											</div>
 										</div>
 									</div>
@@ -85,19 +87,19 @@
 										<div class="form-group">
 											<label class="control-label col-md-3">ENMP</label>
 											<div class="col-md-9">
-												<input type="number" name="" class="form-control">
+												<input type="number" name="enmp" min="0" class="form-control">
 												<span class="help-block"> Expected number of Member Participants</span>
 											</div>
 										</div>
 									</div>
 									<!--/span-->
 								</div>
-								<div class="row">
+								<div class="row m-t-10">
 									<div class="col-md-6">
 										<div class="form-group">
 											<label class="control-label col-md-3">Venue</label>
 											<div class="col-md-9">
-												<select class="form-control" data-placeholder="Choose a Category" tabindex="1">
+												<select class="form-control" name="venue" data-placeholder="Choose a Category" tabindex="1">
 													<option value="Category 1">Category 1</option>
 													<option value="Category 2">Category 2</option>
 													<option value="Category 3">Category 5</option>
@@ -108,14 +110,14 @@
 									</div>		
 								</div>
 									<!--/row-->
-								<div class="row">
+								<div class="row m-t-10">
 									<div class="col-md-6">
 										<div class="form-group">
 											<label class="control-label col-md-3">Faculty Adviser</label>
 											<div class="col-md-9">
-												<select class="form-control">
-													<option value="">Male</option>
-													<option value="">Female</option>
+												<select class="form-control" name="adviser">
+													<option value="1">Male</option>
+													<option value="2">Female</option>
 												</select> 
 												<span class="help-block"></span>
 											</div>
@@ -133,7 +135,7 @@
 										<div class="form-group">
 											<label class="control-label col-md-4 text-left">What are the problems you found in society that relates to your activity?</label>
 											<div class="col-md-8">
-												<textarea style="width: 100%" rows="3"></textarea>
+												<textarea style="width: 100%" rows="3" name="context1"></textarea>
 											</div>
 										</div>
 									</div>
@@ -141,9 +143,9 @@
 								<div class="row">
 									<div class="col-md-12">
 										<div class="form-group">
-											<label class="control-label col-md-4 text-left">Why is there a problem?What can we discover and realize?</label>
+											<label class="control-label col-md-4 text-left">Why is there a problem? What can we discover and realize?</label>
 											<div class="col-md-8">
-												<textarea style="width: 100%" rows="3"></textarea>
+												<textarea style="width: 100%" rows="3" name="context2"></textarea>
 											</div>
 										</div>
 									</div>
@@ -154,7 +156,7 @@
 										<div class="form-group">
 											<label class="control-label col-md-4 text-left">What this activity? What will you commit in your response you have stated previously</label>
 											<div class="col-md-8">
-												<textarea style="width: 100%" rows="3"></textarea>
+												<textarea style="width: 100%" rows="3" name="context3"></textarea>
 											</div>
 										</div>
 									</div>
@@ -172,4 +174,5 @@
 		</div>
 	</div>
 </div>
+</form>
 {%endblock%}

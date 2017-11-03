@@ -12,14 +12,6 @@ $trigger$
     END;
 $trigger$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION trigger_auto_reject()
-RETURNS trigger AS
-$trigger$
-    BEGIN
-        RETURN NULL;
-    END;
-$trigger$ LANGUAGE plpgsql;
-
 /*
     Helpful functions
 */
@@ -90,7 +82,7 @@ DROP TABLE IF EXISTS Account CASCADE;
 CREATE TABLE Account (
     idNumber INTEGER,
     email VARCHAR(255) NULL UNIQUE,
-    type SMALLINT REFERENCES AccountType(id),
+    type SMALLINT REFERENCES AccountType(id) DEFAULT 1,
     password CHAR(60) NOT NULL,
     salt CHAR(29),
     firstname VARCHAR(45),
@@ -691,8 +683,10 @@ CREATE TRIGGER before_update_Functionality
     FOR EACH ROW WHEN ((OLD.category <> NEW.category) OR (OLD.category IS NULL))
     EXECUTE PROCEDURE trigger_before_update_Functionality();
 
-INSERT INTO Functionality (name, category)
-                   VALUES ('Submit GOSM', 104);
+INSERT INTO Functionality (id, name, category)
+                   VALUES (211000, 'Submit GOSM'  , 211),
+                          (211001, 'Resubmit GOSM', 211),
+                          (104002, 'Evaluate GOSM', 104);
 /*
 INSERT INTO Functionality (id, name, category)
                    VALUES (0, 'Time Setting', 0),
@@ -778,6 +772,14 @@ CREATE TABLE OrganizationAccessControl (
 
 	PRIMARY KEY (role, functionality)
 );
+/* CSO Defaults */
+INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
+                               VALUES -- Evaluate GOSM Activity
+                                      (   1,        104002,      TRUE),
+                                      (   2,        104002,      TRUE),
+                                      (   3,        104002,      TRUE),
+                                      (   4,        104002,      TRUE),
+                                      (   5,        104002,      TRUE);
 
 /* Organization Default Structure */
 CREATE OR REPLACE FUNCTION trigger_after_insert_StudentOrganization()
@@ -793,7 +795,7 @@ $trigger$
                              VALUES (NEW.id, 'President', TRUE, NULL)
         RETURNING id INTO presidentRoleID;
         INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
-                                       VALUES (presidentRoleID, 104000, TRUE);
+                                       VALUES (presidentRoleID, 211000, TRUE);
 
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
                              VALUES (NEW.id, 'Executive Secretariat', TRUE, presidentRoleID)
@@ -1115,7 +1117,9 @@ CREATE TABLE ProjectProposal (
     ENP INTEGER,
     ENMP INTEGER,
     venue INTEGER REFERENCES ActivityVenue(id),
-    context TEXT,
+    context1 TEXT,
+    context2 TEXT,
+    context3 TEXT,
     sourceFundOther NUMERIC(16, 4),
     sourceFundParticipantFee NUMERIC(16, 4),
     sourceFundOrganizational NUMERIC(16, 4),
@@ -1124,6 +1128,7 @@ CREATE TABLE ProjectProposal (
     organizationFundOtherSource NUMERIC(16, 4),
     comments TEXT,
     preparedBy INTEGER REFERENCES Account(idNumber),
+    facultyAdviser INTEGER REFERENCES Account(idNumber),
     dateCreated TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     dateSubmitted TIMESTAMP WITH TIME ZONE,
     dateStatusModified TIMESTAMP WITH TIME ZONE,
@@ -1350,6 +1355,7 @@ CREATE TABLE ProjectProposalSignatory (
 	signatory INTEGER REFERENCES Account(idNumber),
 	type SMALLINT NOT NULL REFERENCES SignatoryType(id),
   status SMALLINT NOT NULL REFERENCES SignatoryStatus(id) DEFAULT 0,
+  comments TEXT,
 	document JSONB,
 	digitalSignature TEXT,
 	dateSigned TIMESTAMP WITH TIME ZONE,
@@ -1418,22 +1424,40 @@ CREATE TRIGGER after_insert_ProjectProposal_signatories
     /* End Project Proposal */
     /* END SPECIAL APPROVAL SLIP */
 /* Organization Treasurer */
+DROP TABLE IF EXISTS TransactionType CASCADE;
+CREATE TABLE TransactionType (
+  id INTEGER,
+  name VARCHAR(45),
+
+  PRIMARY KEY(id)
+);
+DROP TABLE IF EXISTS TransactionStatus CASCADE;
+CREATE TABLE TransactionStatus (
+  id INTEGER,
+  name VARCHAR(45),
+
+  PRIMARY KEY(id)
+);
 DROP TABLE IF EXISTS ActivityTransaction CASCADE;
 CREATE TABLE ActivityTransaction (
+    id SERIAL UNIQUE,
     GOSMActivity INTEGER,
+    sequence INTEGER DEFAULT -1,
+    type INTEGER REFERENCES TransactionType(id),
     PRS INTEGER,
     reason TEXT,
+    status INTEGER REFERENCES TransactionStatus(id),
 
-    PRIMARY KEY (GOSMActivity)
+    PRIMARY KEY (GOSMActivity, sequence)
 );
 DROP TABLE IF EXISTS InformalQuotation CASCADE;
 CREATE TABLE InformalQuotation (
-    GOSMActivity INTEGER REFERENCES ActivityTransaction(GOSMActivity),
     expense INTEGER REFERENCES ProjectProposalExpenses(id),
+    ActivityTransaction INTEGER REFERENCES ActivityTransaction(id),
     contactPerson VARCHAR(60),
     contactDetails VARCHAR(45),
 
-    PRIMARY KEY(GOSMActivity, expense)
+    PRIMARY KEY(expense)
 );
 /* Organization Treasurer */
     /* AMTActivityEvaluation */
@@ -1498,6 +1522,7 @@ CREATE TABLE "audit_Account" (
   affected INTEGER,
   event SMALLINT,
   date TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  modifiedValues JSONB,
 
   PRIMARY KEY (id)
 );

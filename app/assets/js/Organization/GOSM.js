@@ -3,7 +3,7 @@
         new CBPFWTabs(el);
     });
 })();
-    
+
 var con = $(document.createElement('div')).addClass("dy-obj");
 var cObj = 0;
 $("#objectives-add").click(function() {
@@ -94,7 +94,7 @@ function fillObj(data) {
 }
 
 
-//CLEAR INPUT 
+//CLEAR INPUT
 function clear() {
     $("#strategy").val('');
     $("#goals").val('');
@@ -446,7 +446,7 @@ $("#add-gosm").click(function(e) {
 
     $.ajax({
         type: 'POST',
-        url: 'Organization/AJAX/createGOSM',
+        url: '/Organization/AJAX/createGOSM',
         data: {
             "strategy": strategy,
             "goals": goals,
