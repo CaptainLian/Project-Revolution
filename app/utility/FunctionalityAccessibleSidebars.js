@@ -13,7 +13,8 @@ const functionalitySidebars = Object.create(null);
 //Create GOSM
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.CreateGOSM] = [{
     name: 'Submit GOSM',
-    link: '/Organization/createGOSM'
+    link: '/Organization/createGOSM',
+    icon: 'fa fa-comment-o'
 }];
 
 //Evaluate GOSM

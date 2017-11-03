@@ -12,6 +12,14 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		return res.render('AMT/ActivityEvaluation', renderData);
 	};
 
+	AMTController.viewActivity = (req, res) => {
+		let renderData = Object.create(null);
+		renderData.csrfToken = req.csrfToken();
+		renderData = req.extra_data;
+		
+		return res.render('AMT/ActivityAssignment', renderData);
+	};
+
 	AMTController.submitActivityEvaluation = (req, res) =>{
 		console.log(req.body);
 		console.log(req.body.start);
