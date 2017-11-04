@@ -6,21 +6,18 @@ module.exports = function(configuration, modules, models, database, queryFiles){
             renderData.extra_data = req.extra_data;
 			renderData.csrfToken = req.csrfToken();
 			return res.render('Orgres/ManageAccount', renderData);
-			//next();
 		},
 		viewManageOrg: (req, res) => {
 			const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
 			return res.render('Orgres/ManageOrg', renderData);
-			//next();
 		},
 		viewManageTime: (req, res) => {
 			const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
 			return res.render('Orgres/ManageTime', renderData);
-			//next();
 		},
 		submitTime: (req, res) => {
 			const renderData = Object.create(null);
@@ -31,11 +28,14 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 
 			return res.render('Orgres/ManageTime', renderData);
-			//next();
+		},
+
+		viewSubmitResarchActivityForm: (req, res) => {
+			const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+
+			return res.render('Orgres/SubmitActivityReearchForm', renderData);
 		}
-
-
-
 
 	};
 };

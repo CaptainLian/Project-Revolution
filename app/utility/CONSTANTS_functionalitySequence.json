@@ -3,6 +3,7 @@
     "ResubmitGOSM": 1,
     "EvaluateGOSM": 2,
     "EvaluateProjectProposal": 3,
-    "EvaluatePostActivity": 4,
-    "ViewPublicityMaterial": 5
+    "EvaluateActivity_AMT": 4,
+    "ViewPublicityMaterial": 5,
+    "EvaluateActivity_OrgRes": 6
 }

@@ -29,9 +29,9 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateProjectProposal] = [{
     link: '/APS/activityChecking'
 }];
 
-//Evaluate Post-Activity
-functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluatePostActivity] = [{
-    name: 'Evaluate Activity',
+//Evaluate Activity (AMT)
+functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateActivity_AMT] = [{
+    name: 'Evaluate Activity (AMT)',
     link: '/AMT/AssignActivity'
 }];
 
@@ -39,6 +39,12 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluatePostActivity] = [{
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.ViewPublicityMaterial] = [{
     name: 'View Activity Publicities',
     link: '/PNP/ViewPubs'
+}];
+
+//Evaluate Activity (OrgRes)
+functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateActivity_OrgRes] = [{
+    name: 'Submit Activity Research Form',
+    link: '/ORGRES/SubmitActivityReearchForm'
 }];
 
 const accessibleRoutes = [];

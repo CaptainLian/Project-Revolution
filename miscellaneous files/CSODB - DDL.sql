@@ -76,7 +76,10 @@ VALUES (0, 'Admin'),
        (1, 'Student Account'),
        (2, 'Faculty Adviser Account'),
        (3, 'SLIFE Account'),
-       (4, 'Accounting Account');
+       (4, 'Accounting Account'),
+       (5, 'DLSU President'),
+       (6, 'VP LA Mission'),
+       (7, 'Dean Student Affairs');
 
 DROP TABLE IF EXISTS Account CASCADE;
 CREATE TABLE Account (
@@ -141,6 +144,31 @@ BEFORE UPDATE ON Account
     FOR EACH ROW
     EXECUTE PROCEDURE trigger_before_update_Account2();
     /* Account Table Triggers End */
+DROP TABLE IF EXISTS "AccountNotification" CASCADE;
+CREATE TABLE "AccountNotification" (
+  id SERIAL NOT NULL UNIQUE,
+  account INTEGER REFERENCES Account(idNumber),
+  sequence INTEGER NOT NULL DEFAULT -1,
+  date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  message TEXT,
+
+  PRIMARY KEY (account, sequence)
+);
+CREATE OR REPLACE FUNCTION "trigger_before_insert_AccountNotification"()
+RETURNS trigger AS
+$trigger$
+    BEGIN
+        SELECT COALESCE(MAX(sequence) + 1,0) INTO NEW.sequence
+          FROM AccountNotification
+         WHERE account = NEW.account;
+
+         return NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER "before_insert_AccountNotification"
+    BEFORE INSERT ON "AccountNotification"
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_before_insert_AccountNotification"();
 
 DROP TABLE IF EXISTS SchoolYear CASCADE;
 CREATE TABLE SchoolYear (
@@ -684,12 +712,13 @@ CREATE TRIGGER before_update_Functionality
     EXECUTE PROCEDURE trigger_before_update_Functionality();
 
 INSERT INTO Functionality (id, name, category)
-                   VALUES (211000, 'Submit GOSM'              , 211),
-                          (211001, 'Resubmit GOSM'            , 211),
-                          (104002, 'Evaluate GOSM'            , 104),
-                          (104003, 'Evaluate Project Proposal', 104),
-                          (108004, 'Evaluate Post-Activity'   , 108),
-                          (106005, 'View Publicity Material'  , 106);
+                   VALUES (211000, 'Submit GOSM'                  , 211),
+                          (211001, 'Resubmit GOSM'                , 211),
+                          (104002, 'Evaluate GOSM'                , 104),
+                          (104003, 'Evaluate Project Proposal'    , 104),
+                          (108004, 'Evaluate Activity (AMT)'      , 108),
+                          (106005, 'View Publicity Material'      , 106),
+                          (109006, 'Submit Activity Research Form (ARF)', 109); -- Evaluate Activity
 /*
 INSERT INTO Functionality (id, name, category)
                    VALUES (0, 'Time Setting', 0),
@@ -778,19 +807,23 @@ CREATE TABLE OrganizationAccessControl (
 /* CSO Defaults */
 INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                VALUES -- Evaluate GOSM Activity
+                                      (    0,        104002,      TRUE),
                                       (    1,        104002,      TRUE),
                                       (    2,        104002,      TRUE),
                                       (    3,        104002,      TRUE),
                                       (    4,        104002,      TRUE),
-                                      (    5,        104002,      TRUE),
                                       -- Evaluate Project Proposal
+                                      (   11,        104003,      TRUE),
                                       (   12,        104003,      TRUE),
                                       (   13,        104003,      TRUE),
-                                      (   14,        104003,      TRUE),
-                                      -- Evaluate Post-Activity
-                                      (    1,        108004,      TRUE),
+                                      -- Evaluate Activity (AMT)
+                                      (    0,        108004,      TRUE),
                                       (    9,        108004,      TRUE),
-                                      (   10,        108004,      TRUE);
+                                      (   10,        108004,      TRUE),
+                                      -- Submit Activity Research Form (ARF)/ Evaluate Activity (OrgRes)
+                                      (   20,        109006,      TRUE),
+                                      (   21,        109006,      TRUE),
+                                      (   22,        109006,      TRUE);
 
 
 /* Organization Default Structure */
@@ -1436,34 +1469,50 @@ CREATE TRIGGER after_insert_ProjectProposal_signatories
     /* End Project Proposal */
 
 /* Organization Treasurer */
-DROP TABLE IF EXISTS TransactionType CASCADE;
-CREATE TABLE TransactionType (
+DROP TABLE IF EXISTS "TransactionType" CASCADE;
+CREATE TABLE "TransactionType" (
   id INTEGER,
   name VARCHAR(45),
 
   PRIMARY KEY(id)
 );
-DROP TABLE IF EXISTS TransactionStatus CASCADE;
-CREATE TABLE TransactionStatus (
+DROP TABLE IF EXISTS "TransactionStatus" CASCADE;
+CREATE TABLE "TransactionStatus" (
   id INTEGER,
   name VARCHAR(45),
 
   PRIMARY KEY(id)
 );
-DROP TABLE IF EXISTS ActivityTransaction CASCADE;
-CREATE TABLE ActivityTransaction (
-    id SERIAL UNIQUE,
-    GOSMActivity INTEGER,
-    sequence INTEGER DEFAULT -1,
-    type INTEGER REFERENCES TransactionType(id),
-    PRS INTEGER,
-    reason TEXT,
-    status INTEGER REFERENCES TransactionStatus(id),
+DROP TABLE IF EXISTS "ActivityTransaction" CASCADE;
+CREATE TABLE "ActivityTransaction" (
+    "id" SERIAL UNIQUE,
+    "GOSMActivity" INTEGER REFERENCES ProjectProposal(GOSMActivity),
+    "sequence" INTEGER DEFAULT -1,
+    "type" INTEGER REFERENCES "TransactionType"("id"),
+    "PRS" INTEGER,
+    "reason" TEXT,
+    "status" INTEGER REFERENCES "TransactionStatus"("id"),
 
-    PRIMARY KEY (GOSMActivity, sequence)
+    PRIMARY KEY ("GOSMActivity", "sequence")
 );
-DROP TABLE IF EXISTS InformalQuotation CASCADE;
-CREATE TABLE InformalQuotation (
+CREATE OR REPLACE FUNCTION "trigger_before_insert_ActivityTransaction"()
+RETURNS trigger AS
+$trigger$
+    BEGIN
+        SELECT COALESCE(MAX(sequence) + 1, 0) INTO NEW.sequence
+         FROM "ActivityTransaction"
+        WHERE "GOSMActivity" = NEW."GOSMActivity";
+
+        return NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER "before_insert_ActivityTransaction"
+    BEFORE INSERT ON "ActivityTransaction"
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_before_insert_ActivityTransaction"();
+
+DROP TABLE IF EXISTS "InformalQuotation" CASCADE;
+CREATE TABLE "InformalQuotation" (
     expense INTEGER REFERENCES ProjectProposalExpenses(id),
     ActivityTransaction INTEGER REFERENCES ActivityTransaction(id),
     contactPerson VARCHAR(60),
@@ -1526,7 +1575,22 @@ CREATE TABLE AMTActivityEvaluation (
 );
 -- END FORMS
 -- COMMIT;
+  /* OrgRes */
+DROP TABLE IF EXISTS "ActivityResearchForm" CASCADE;
+CREATE TABLE "ActivityResearchForm" (
+  "GOSMActivity" INTEGER REFERENCES ProjectProposal(GOSMActivity),
+  "IUTPOTA" SMALLINT NOT NULL,
+  "TASMI" SMALLINT NOT NULL,
+  "IFIDTA" SMALLINT NOT NULL,
+  "TAWWP" SMALLINT NOT NULL,
+  "TOUMTGTTA" SMALLINT NOT NULL,
+  "WWWITA" TEXT,
+  "FAC" TEXT,
+  "EFFA" TEXT,
+  "dateSubmitted" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
+  PRIMARY KEY("GOSMActivity")
+);
 /*
     Auditing
 */
