@@ -4,19 +4,21 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		viewManageAccount: (req, res) => {
 			const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
-
+			renderData.csrfToken = req.csrfToken();
 			return res.render('Orgres/ManageAccount', renderData);
 			//next();
 		},
 		viewManageOrg: (req, res) => {
 			const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
 			return res.render('Orgres/ManageOrg', renderData);
 			//next();
 		},
 		viewManageTime: (req, res) => {
 			const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
 			return res.render('Orgres/ManageTime', renderData);
 			//next();
 		},
