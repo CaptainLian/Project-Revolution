@@ -1,6 +1,9 @@
 {% extends './APS_master.html' %}
 {% import '../template/tags_macro.html' as tag%}
 
+{%block page_title%}APS - List of Activites{%-endblock%}
+
+
 {%block meta%}
     {{super()}}
     <meta data-name="csrf" data-token="{{csrfToken}}" />
@@ -57,7 +60,7 @@
     <!-- tabs-->
     {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
     <!-- Sweet-Alert  -->
-    {{tag.javascript('/plugins/bower_components/sweetalert/sweetalert.min.js', true)}}    
+    {{tag.javascript('/plugins/bower_components/sweetalert/sweetalert.min.js', true)}}
     <!--Style Switcher -->
     {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
     <!-- Page Scripts -->
@@ -80,7 +83,7 @@
                         <th class="sorting" tabindex="0" aria-controls="myTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 139px;">Organization Name</th>
                         <th class="sorting" tabindex="0" aria-controls="myTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 129px;">Actions</th>
                     </thead>
-                    
+
                     <tbody>
                         {% set cls = cycler("even", "odd") %}
                         {% for activity in proposals %}
@@ -91,10 +94,10 @@
                                 <td>{{activity.organizationname}}</td>
                                 <td class="jsgrid-cell jsgrid-control-field jsgrid-align-center" style="width: 50px;">
                                     <button type="button" class="btn btn-success btn-circle waves-effect" alt="alert" id="sa-approve">
-                                        <i class="fa fa-check"></i> 
+                                        <i class="fa fa-check"></i>
                                     </button>
                                     <button type="button" class="btn btn-warning btn-circle waves-effect" alt="alert" id="sa-pend">
-                                        <i class="fa fa-pause"></i> 
+                                        <i class="fa fa-pause"></i>
                                     </button>
                                     <button type="button" class="btn btn-danger btn-circle waves-effect" alt="alert" id="sa-deny">
                                         <i class="fa fa-times"></i>
@@ -108,10 +111,10 @@
         </div>
     </div>
     <div class="col-sm-12">
-        
+
     </div>
     <div class="col-sm-12">
-        
+
     </div>
 </div>
 {%endblock%}
@@ -229,7 +232,7 @@
                                     </tbody>
                                 </table>
                             </section>
-                            
+
                             <section id="section-bar-3">
                                 <h3>V. Breakdown of Expenses</h3>
                                 <table class="table table-striped">
@@ -342,7 +345,7 @@
                             <p>Juan Dela Cruz - Position(Immediate Superior)</p>
                             <p>Pedro Calungsod - Position(Project head)</p>
                         </section>
-                        
+
                         <section id="section-bar-4">
                             <h4>Prepared by:</h4> <p>Juan Dela Cruz - Position</p>
                             <h4>Noted by:</h4>
@@ -352,8 +355,8 @@
                             <p>Juan Dela Cruz - VP Documentations</p>
                             <p>Juan Dela Cruz - VP Finance</p>
                             <p>Juan Dela Cruz - Faculty Adviser</p>
-                            
-                            
+
+
                         </section>
                         <section id="section-bar-5">
                             <h3>Pre-Activity Requirements:</h3>

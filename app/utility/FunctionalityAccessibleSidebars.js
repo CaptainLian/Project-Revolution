@@ -28,8 +28,20 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateProjectProposal] = [{
     name: 'Evaluate Project Proposals',
     link: '/APS/activityChecking'
 }];
-const accessibleRoutes = [];
 
+//Evaluate Post-Activity
+functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluatePostActivity] = [{
+    name: 'Evaluate Activity',
+    link: '/AMT/AssignActivity'
+}];
+
+//View pubs
+functionalitySidebars[FUNCTIONALITY_SEQUENCES.ViewPublicityMaterial] = [{
+    name: 'View Activity Publicities',
+    link: '/PNP/ViewPubs'
+}];
+
+const accessibleRoutes = [];
 for(const functionality in functionalitySidebars){
     for(const sidebar of functionalitySidebars[functionality]){
         //push to array
@@ -37,7 +49,6 @@ for(const functionality in functionalitySidebars){
     }
 }
 accessibleRoutes.sort();
-
 
 module.exports = Object.create(null);
 module.exports.functionalitySidebars = functionalitySidebars;
