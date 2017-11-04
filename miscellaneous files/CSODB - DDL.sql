@@ -1194,6 +1194,8 @@ $trigger$
                 NEW.dateSubmitted := CURRENT_TIMESTAMP;
             WHEN 3, 4, 5 /* Approved, Pending, Denied */ THEN
                 NEW.dateStatusModified := CURRENT_TIMESTAMP;
+            ELSE 
+              RETURN NEW;
         END CASE;
 
         RETURN NEW;
