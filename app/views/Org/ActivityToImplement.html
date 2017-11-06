@@ -84,31 +84,30 @@
 
                     </thead>
                     <tbody> 
-                        <tr>
-                            <td><a href="javascript:void(0)" class="btn-link">General Assembly</a></td>      
-                            <td>July 21, 2017</td>      
-                            
-                            <td><span class="label label-success">Complete</span></td>      
-                        </tr>
-                         <tr>
-                            <td><a href="javascript:void(0)" class="btn-link">General Assembly</a></td>      
-                            <td>July 21, 2017</td>      
-                            
-                            <td><span class="label label-warning">On going</span></td>      
-                        </tr>
-                         <tr>
-                            <td><a href="javascript:void(0)" class="btn-link">General Assembly</a></td>      
-                            <td>July 21, 2017</td>      
-                            
-                            <td><span class="label label-info">Propose</span></td>      
-                        </tr>
 
-                        <tr>
-                            <td><a href="javascript:void(0)" class="btn-link">General Assembly</a></td>      
-                            <td>July 21, 2017</td>      
+                        {% for activity in activities %}
+                            {% if activity.status == 0 %}
+
+                                <tr>
+                                    <td><a href="/Organization/ProjectProposal/Main/{{activity.id}}/{{activity.status}}" class="btn-link">{{activity.strategies}}</a></td>      
+                                    <td>{{activity.startdate}}</td>      
+                                    
+                                    <td><span class="label label-info">Unprocessed</span></td>      
+                                </tr>
                             
-                            <td><span class="label label-danger">Failed</span></td>      
-                        </tr>
+                            {% elif activity.status == 1 %}
+
+                                <tr>
+                                    <td><a href="/Organization/ProjectProposal/Main/{{activity.id}}/{{activity.status}}" class="btn-link">{{activity.strategies}}</a></td>      
+                                    <td>{{activity.startdate}}</td>      
+                                    
+                                    <td><span class="label label-warning">In Progress</span></td>      
+                                </tr>
+
+                            {% endif %}
+                             
+
+                        {% endfor %}
                     </tbody>
                 </table>
 

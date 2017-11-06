@@ -9,13 +9,16 @@ const squel = require('squel').useFlavour('postgres');
 module.exports = function(configuration, modules, db, queryFiles) {
 
     const updatePPRBriefContextSQL = queryFiles.updatePPRBriefContext;
+    const insertProjectProposalSQL = queryFiles.insertProjectProposal;
     const insertProjectProposalProgramDesignSQL = queryFiles.insertProjectProposalProgramDesign;
     const insertProjectProposalProjectedIncomeSQL = queryFiles.insertProjectProposalProjectedIncome;
     const insertProjectProposalExpensesSQL = queryFiles.insertProjectProposalExpenses;
+    const getProjectProposalSQL = queryFiles.getProjectProposal;
     const getProjectProposalsPerStatusSQL = queryFiles.getProjectProposalsCountPerStatus;
     const getPPRProjectedCostSQL = queryFiles.getPPRProjectedCost;
     const getApprovedPPRsSQL = queryFiles.getApprovedPPRs;
     const getNextActivityForApprovalSQL = queryFiles.getNextActivityForApproval;
+    const getGOSMActivitiesToImplementSQL = queryFiles.getGOSMActivitiesToImplement;
     const updatePPRStatusSQL = queryFiles.updatePPRStatus;
     const updateIsProgramDesignCompleteSQL = queryFiles.updateIsProgramDesignComplete;
     const deleteProgramDesignSQL = queryFiles.deleteProgramDesign;
@@ -213,9 +216,21 @@ module.exports = function(configuration, modules, db, queryFiles) {
         return connection.oneOrNone(getPPRProjectedCostSQL, param);
     };
 
+    ProjectProposalModel.prototype.getGOSMActivitiesToImplement = function(param, connection = this._db) {
+        return connection.any(getGOSMActivitiesToImplementSQL, param);
+    };
+
+    ProjectProposalModel.prototype.getProjectProposal = function(param, connection = this._db) {
+        return connection.one(getProjectProposalSQL, param);
+    };
+
     ProjectProposalModel.prototype.updatePPRBriefContext = function(param, connection = this._db) {
         //TODO: test
         return connection.none(updatePPRBriefContextSQL, param);
+    };
+
+    ProjectProposalModel.prototype.insertProjectProposal  = function(param, connection = this._db){
+        return connection.one(insertProjectProposalSQL, param);
     };
 
     ProjectProposalModel.prototype.updateIsProgramDesignComplete = function(param, connection = this._db) {

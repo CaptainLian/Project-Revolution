@@ -12,7 +12,7 @@ module.exports = function(configuration, modules, router, controllers){
     router.get(`${base}/Treasurer/NewTransactionOthers`, controllers.Treasurer_controller.newTransactionOthers);
 
     router.get(`${base}/ProjectProposal/GOSMList`, controllers.Organization_controller.viewGOSMActivityListProjectProposal);
-    router.get(`${base}/ProjectProposal/Main`, controllers.Organization_controller.viewSubmitProjectProposalMain);
+    router.get(`${base}/ProjectProposal/Main/:id/:status`, controllers.Organization_controller.viewSubmitProjectProposalMain);
     router.get(`${base}/ProjectProposal/Attachments`, controllers.Organization_controller.viewSubmitProjectProposalAttachments);
     router.get(`${base}/ProjectProposal/BriefContext`, controllers.Organization_controller.viewSubmitProjectProposalBriefContext);
     router.get(`${base}/ProjectProposal/Expense`, controllers.Organization_controller.viewSubmitProjectProposalExpense);

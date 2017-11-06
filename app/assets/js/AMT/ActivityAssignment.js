@@ -3,8 +3,36 @@ $(document).bind('tooltipTrigger',function(){
     console.log('Na trigger');
     $('[data-toggle="tooltip"]').tooltip();
 });
+
+
 $(document).trigger("test");
+//GREEN
+// $.toast({
+//             heading: 'Welcome to my Elite admin',
+//             text: 'Use the predefined ones, or specify a custom position object.',
+//             position: 'top-right',
+//             loaderBg:'#ff6849',
+//             icon: 'success',
+//             hideAfter: 3500
+            
+//           });
+//RED
+ // $(".tst4").click(function(){
+ //           $.toast({
+ //            heading: 'Welcome to my Elite admin',
+ //            text: 'Use the predefined ones, or specify a custom position object.',
+ //            position: 'top-right',
+ //            loaderBg:'#ff6849',
+ //            icon: 'error',
+ //            hideAfter: 3500
+            
+ //          });
+
+ //     });
+
 $(document).ready(function(){
+         
+
     // IMPORTANT
     $('a[data-toggle="tab"]').on( 'shown.bs.tab', function (e) {
         $.fn.dataTable.tables( {visible: true, api: true} ).columns.adjust();
@@ -99,6 +127,8 @@ $(document).ready(function(){
         //     }
         // });
 
+       
+     
         // $('.tooltip').hide();
         $('[data-toggle="tooltip"]').tooltip('hide');
         table.row($(this).closest('tr')).remove().draw();

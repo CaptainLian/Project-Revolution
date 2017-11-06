@@ -59,54 +59,129 @@
 	<div class="col-md-12">
 		<div class="">
 			<div class="col-md-6 col-xs-12">
-				<h3>Doms</h3>
+				<h3>{{gosmActivity.strategies}}</h3>
 				<hr>
 				<p>
 					<b class="col-md-4 col-xs-2  text-left">Date:</b>
-					Sep 06, 2017 - Sep 06, 2017
+					{{gosmActivity.startdate}} - {{gosmActivity.enddate}}
 				</p>
 				
 				<p>
 					<b class="col-md-4 col-xs-2  text-left">Nature of Activity:</b>
-					Academic
+					{{gosmActivity.name}}
 				</p>
 				<p>
 					<b class="col-md-12  text-left">Project Heads:</b>
-					<p class="offset-md-4 offset-xs-2">Neil Capistrano</p>
-					<p class="offset-md-4 offset-xs-2">Neil Capistrano</p>
+
+					{% for head in projectHeads %}
+						
+						<p class="offset-md-4 offset-xs-2">{{head.firstname}} {{head.lastname}}</p>
+
+					{% endfor %}
+
 				</p>
 				<div>
 				</div>
 			</div>
 			<div class="col-md-6 text-right">
-				<h3>Completion Rate: 80%</h3>
+				{% set completionRate = 0 %}
+
+				{% if projectProposal.isattachmentscomplete %}
+
+					{% set completionRate = completionRate + 25 %}
+
+				{% endif %}
+
+				{% if projectProposal.isbriefcontextcomplete %}
+
+					{% set completionRate = completionRate + 25 %}
+
+				{% endif %}
+
+				{% if projectProposal.isexpensecomplete %}
+
+					{% set completionRate = completionRate + 25 %}
+
+				{% endif %}
+
+				{% if projectProposal.isprogramdesigncomplete %}
+
+					{% set completionRate = completionRate + 25 %}
+
+				{% endif %}
+
+				<h3>Completion Rate: {{completionRate}}%</h3>
 				<hr>
 				<p>
 					<b class="col-md-10  text-right"> Brief Context:</b>
+					{% if projectProposal.isbriefcontextcomplete %}
+
 					100%
+
+					{% else %}
+
+					0%
+
+					{% endif %}
 				</p>
 				
 				<p>
 					<b class="col-md-10  text-right"> Program Schedule :</b>
+					{% if projectProposal.isprogramdesigncomplete %}
+
+					100%
+
+					{% else %}
+
 					0%
+
+					{% endif %}
 				</p>
 				<p>
 					<b class="col-md-10 text-right">Funding Expense:</b>
 					
+					{% if projectProposal.isexpensecomplete %}
+
 					100%
+
+					{% else %}
+
+					0%
+
+					{% endif %}
 				</p>
 				<p>
 					<b class="col-md-10 text-right">Attachments:</b>
 					
+					{% if projectProposal.isattachmentscomplete %}
+
 					100%
+
+					{% else %}
+
+					0%
+
+					{% endif %}
 				</p>
-				
+				 
 			</div>
 			<div class="list-group col-md-12">
-				<button type="button" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
+				<button type="button" onclick="(function () {window.location.href='/Organization/ProjectProposal/BriefContext'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
 				<div class="row">
 					<div class="col-md-6 text-left">
-						<h5>Brief Context <span class="label label-success">Complete</span></h5>
+
+						{% if projectProposal.isbriefcontextcomplete %}
+
+							<h5>Brief Context <span class="label label-success">Complete</span></h5>
+
+
+						{% else %}
+
+							<h5>Brief Context <span class="label label-danger">Incomplete</span></h5>
+
+
+						{% endif %}
+
 					</div>
 					
 					
@@ -116,10 +191,21 @@
 					
 				</div>
 				</button>
-				<button type="button" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
+				<button type="button" onclick="(function () {window.location.href='/Organization/ProjectProposal/ProgramDesign'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
 				<div class="row">
 					<div class="col-md-6 text-left">
-						<h5>Program Schedule <span class="label label-danger">Incomplete</span></h5>
+
+						{% if projectProposal.isprogramdesigncomplete %}
+
+							<h5>Program Schedule <span class="label label-success">Complete</span></h5>
+
+
+						{% else %}
+
+							<h5>Program Schedule <span class="label label-danger">Incomplete</span></h5>
+
+
+						{% endif %}
 						
 					</div>
 					
@@ -130,10 +216,22 @@
 					
 				</div>
 				</button>
-				<button type="button" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
+				<button type="button" onclick="(function () {window.location.href='/Organization/ProjectProposal/Expense'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
 				<div class="row">
 					<div class="col-md-6 text-left">
-						<h5>Funding Expense <span class="label label-success">Complete</span> </h5>
+
+						{% if projectProposal.isexpensecomplete %}
+
+							<h5>Funding Expense <span class="label label-success">Complete</span></h5>
+
+
+						{% else %}
+
+							<h5>Funding Expense <span class="label label-danger">Incomplete</span></h5>
+
+
+						{% endif %}
+
 					</div>
 					
 					
@@ -143,10 +241,22 @@
 					
 				</div>
 				</button>
-				<button type="button" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
+				<button type="button" onclick="(function () {window.location.href='/Organization/ProjectProposal/Attachments'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
 					<div class="row">
 						<div class="col-md-6 text-left">
-							<h5>Attachments <span class="label label-success">Complete</span> </h5>
+
+							{% if projectProposal.isattachmentscomplete %}
+
+								<h5>Attachments <span class="label label-success">Complete</span></h5>
+
+
+							{% else %}
+
+								<h5>Attachments <span class="label label-danger">Incomplete</span></h5>
+
+
+							{% endif %}
+
 						</div>
 						
 						
