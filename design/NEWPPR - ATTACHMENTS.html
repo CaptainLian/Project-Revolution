@@ -42,11 +42,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
-    <style type="text/css">
-        td{
-            border-top: 1px solid white !important
-        }
-    </style>
 </head>
 
 <body>
@@ -523,224 +518,53 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="panel  panel-info">
-                            <div class="panel-heading">Expense</div>
+                        <div class="panel panel-info">
+                            <div class="panel-heading"> Attachments</div>
                             <div class="panel-wrapper collapse in" aria-expanded="true">
                                 <div class="panel-body">
                                     <form action="#" class="form-horizontal">
-                                        <div class="row col">
-                                            <div class="col-md-10 offset-md-1">
-                                                <div class="form-group row">
-                                                    <label for="example-month-input" class="col-md-12 text-center col-form-label">Organizational Funds</label>
-                                                
+                                        <div class="form-body">
+                                            
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group row">
+                                                            <label class="col-sm-2">File</label>
+                                                            <div class="col-sm-10">
+                                                                <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                                    <div class="form-control" data-trigger="fileinput">
+                                                                        <i class="glyphicon glyphicon-file fileinput-exists"></i>
+                                                                        <span class="fileinput-filename"></span>
+                                                                    </div>
+                                                                    <span class="input-group-addon btn btn-default btn-file"> 
+                                                                    <span class="fileinput-new">Select file</span>
+                                                                    <span class="fileinput-exists">Change</span>
+                                                                    <input type="hidden"><input name="..." type="file">
+                                                                    </span>
+                                                                    <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a> </div>
+                                                            </div>
+                                                        </div>
                                                 </div>
-                                                 
-                                                <div class="form-group row">
-                                                    <label for="example-month-input" class="col-md-5 text-left offset-md-1 col-form-label">Operational Funds</label>
-                                                    <div class="col-md-6">
-                                                        <input class="form-control" disabled="" id="ope-fund" type="text">
-
-                                                        <span id="ope-help" class="help-block"> As of Oct. 12, 2017 </span>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label for="example-month-input" class="col-md-5 text-left offset-md-1 col-form-label">Depository Funds</label>
-                                                    <div class="col-md-6">
-                                                        <input class="form-control" disabled="" id="dep-fund" type="text">
-                                                        <span id="dep-help" class="help-block"> Org. Balance as of Oct. 12, 2017 </span>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label for="example-month-input" class="col-md-5 text-left offset-md-1 col-form-label">Other  Funds</label>
-                                                    <div class="col-md-6">
-                                                        <input class="form-control"  id="oth-fund" type="text">
-                                                        <span id="oth-help" class="help-block"> </span>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row text-success">
-                                                    <label for="example-month-input" class="col-md-6 text-right  col-form-label">Total Cash Disbursement</label>
-                                                    <div class="col-md-6">
-                                                        ₱<span id="tcd">123123</span>
-                                                    </div>
-                                                </div>
-
-
-
-                                                <div class="form-group row">
-                                                    <label for="example-month-input" class="col-md-12 text-center col-form-label">Sources Funds</label>
-                                                
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label for="example-month-input" class="col-md-5 text-left offset-md-1 col-form-label">Organization Funds</label>
-                                                    <div class="col-md-6">
-                                                        <input class="form-control" dir="rtl" id="org-exp" type="text">
-                                                        <span id="org-help" class="help-block"> </span>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row ">
-                                                    <label for="example-month-input" class="col-md-5 text-left offset-md-1 col-form-label">Participant's Fee</label>
-                                                    <div class="col-md-6">
-                                                        <input class="form-control"  dir="rtl" id="pat-exp" type="text">
-                                                        <span id="pat-help" class="help-block">  </span>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label for="example-month-input" class="col-md-5 text-left offset-md-1 col-form-label">Others</label>
-                                                    <div class="col-md-6">
-                                                        <input class="form-control" dir="rtl" id="oth2-exp" type="text">
-                                                        <span id="oth2-help" class="help-block"> </span>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row  text-danger">
-                                                    <label for="example-month-input" class="col-md-6 text-right  col-form-label">Total Projected Expense</label>
-                                                    <div class="col-md-6 text-right">
-                                                        ₱<span class="text-right" id="tpe">123123</span>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group row text-success">
-                                                    <label for="example-month-input" class="col-md-6 text-right  col-form-label">Remaining Balance</label>
-                                                    <div class="col-md-6">
-                                                        ₱<span  id="rb">123123</span>
-                                                    </div>
-                                                </div>
-
-
-
                                             </div>
 
-
-
+                                              
+                                             
+                                           
+                                            <!--/row-->
+ 
                                         </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-md-8">
-                                                <table id="program-tables" style="table-layout: fixed" class=" table color-bordered-table inverse-bordered-table" >
-                                                    <thead>
-                                                        <tr>
-
-                                                            <th width="65%" class="text-center"  >Item</th>
-                                                           <!--  <th width="10%">Duration</th> -->
-                                                            
-                                                            <th width="26%" colspan="2"  class="text-center"></th>
-                                                             
-                                                            <th width="10%" class="text-center">#</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        
-                                                         
-                                                        <tr class="fund" id="tot-rev">
-                                                            <td  class="text-right"><strong>Total Assets</strong></td>
-                                                           <!--  <td></td> -->
-                                                            <td class="text-right  text-success">₱<span id="trev"></span></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                        </tr>
-                                                         
-
-                                                        <tr id="tot-exp" class="panel-error">
-                                                            <td  class="text-right"><strong>Total Expenses</strong></td>
-                                                           
-                                                           <td></td>
-                                                            <td class="text-right text-danger">₱<span id="texp"></span></td>
-                                                            
-                                                            <td></td>
-                                                        </tr>
-
-                                                        <tr class="fund">
-                                                            <td   class="text-right"><strong>Total Revenue </strong></td>
-                                                           
-                                                            
-                                                            <td class="text-right text-success">₱<span id="tfin"></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                        </tr>
-                                                  
-                                                    </tbody>
-                                                </table>
-
-                                            </div>
-                                            <div class="col-md-4 m-t-40">
-                                                <div class="form-group ">
-                                                    <label class="form-control-label">Item Name</label>
-                                                    <input id="item"  type="text" class="form-control">
-                                                    <div>
-                                                        <span class="help-block" id="item-help"></span>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label class="form-control-label">Type of Item</label>
-                                                    <select name="personInCharge" id="sel0" class="form-control select2">                                                                                    
-                                                        <option value="0" >Others</option>
-                                                        <option value="1">Food & Accomodation</option>
-                                                        <option value="2">Venue & Transportation</option>
-                                                        <option value="3">Honorarium</option>
-                                                        <option value="4">Cash Prize</option>
-                                                        <option value="5">Corruption Expense</option>
-                                                       
-
-                                                    </select>
-                                                    <div>
-                                                        <span class="help-block" id="time-help"></span>
-                                                    </div>
-                                                </div>
-
-                                                 <div class="form-group ">
-                                                    <label class="form-control-label">Price</label>
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon" id="basic-addon1" step='0.01'>₱</span>
-                                                        <input id="price"  type="text" class="form-control">
-                                                    </div>
-                                                    <div>
-                                                        <span class="help-block" id="price-help"></span>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group ">
-                                                    <label class="form-control-label">Quantity</label>
-                                                    <div class="input-group">
-                                                        
-                                                        <input id="quantity" min="1"  type="text" class="form-control">
-                                                        <span class="input-group-addon" id="basic-addon1" step='0.01'>pcs</span>
-                                                    </div>
-                                                    
-                                                    <div>
-                                                        <span class="help-block" id="quantity-help"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="radio-list text-center">
-                                                        <label class="radio-inline fund">
-                                                            <input name="optionsRadios2" id="rev-opt"  value="Revenue" type="radio"> Revenue </label>
-                                                        <label class="radio-inline">
-                                                            <input id="exp" name="optionsRadios2" value="Expense" checked="" type="radio"> Expense </label>
-                                                    </div>
-                                                </div>
-
-                                               
-
-                                                
-
-                                                <div class="m-t-5 form-group text-center ">
-
-                                                    <button type="button" id="insert-button" class="btn btn-info">Insert </button>
-
-                                                </div>
-                                                           
-
-                                            </div>
+                                        <div class="form-actions">
+                                            
                                         </div>
-                                    </form>
+                                   
                                 </div>
                                 <div class="panel-footer text-center">
                                    
                                  
-                                                    <button type="submit" id="save" class="btn btn-success"> <i class="fa fa-save"></i> &nbspSave</button>
+                                                    <button type="submit" class="btn btn-success"> <i class="fa fa-save"></i> &nbspSave</button>
                                                     <button type="button" class="btn btn-default">Cancel</button>
                                                 
                                 </div>
+                                 </form>
                             </div>
                         </div>
                     </div>
@@ -775,272 +599,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="../plugins/bower_components/styleswitcher/jQuery.style.switcher.js"></script>
 
     <script type="text/javascript">
-        //START 
-        $(".fund").css("display","none");
-        $("#rev-opt").remove();
-        //END KPAG FUNDRAISING
-        var item = {};
-        item["rev"]={};
-        item["exp"]={};
-        var key = 0;
-        function empty(){
-            $("#item").val("");
-            
-            $("#sel0").select2("val",'0');
-            ($("#price").val(""));
-            ($("#quantity").val(""));   
-        }
-        function rev(){
-            var result = 0;
-            for(var x = 0; x < Object.keys(item["rev"]).length; x++){
-                console.log(item["rev"][Object.keys(item["rev"])[x]].price + "  WHOl");
-                console.log(Object.keys(item["rev"])[x].quan);
-
-                result+= parseFloat(item["rev"][Object.keys(item["rev"])[x]].price) * parseInt(item["rev"][Object.keys(item["rev"])[x]].quan);
-            }
-            return result;
-        }
-        function exp(){
-            var result = 0;
-            for(var x = 0; x < Object.keys(item["exp"]).length; x++){
-                result+= parseFloat(item["exp"][Object.keys(item["exp"])[x]].price) * parseInt(item["exp"][Object.keys(item["exp"])[x]].quan);   
-            }
-            return result;
-        }
-        $("#sel0").select2();
-        $("#sel0").select2("val",'0');
-
-
-
-        $("#insert-button").click(function(){
-            var itemName = $("#item").val();
-            var typeOfItem = $("#sel0").val();
-            var price = ($("#price").val());
-            var quantity = ($("#quantity").val());
-            var kind = $("input[name='optionsRadios2']:checked").val();
-            console.log("asd");
-            console.log(itemName);
-            console.log(typeOfItem);
-            console.log(price);
-            console.log(quantity);
-            var err = 0
-            if($.trim(itemName) < 1){
-                $("#item-help").text("Item Name cannot be empty!");
-                $("#item").closest("div.form-group").addClass("has-error");
-                err = 1;
-
-            }
-            if($.trim(price) < 1){
-                $("#price-help").text("Item Name cannot be empty!");
-                $("#price").closest("div.form-group").addClass("has-error");
-                err = 1;
-            }
-            if($.trim(quantity) < 1){
-                $("#quantity-help").text("Item Name cannot be empty!");
-                $("#quantity").closest("div.form-group").addClass("has-error");
-                err = 1;
-            }
-            console.log(parseFloat(price) === NaN);
-            if(isNaN(parseFloat(price))){
-                $("#price-help").text("Please input a number!");
-                $("#price").closest("div.form-group").addClass("has-error");
-                err = 1;
-            }
-            if(isNaN(parseFloat(quantity))){
-                $("#quantity-help").text("Please input a number!");
-                $("#quantity").closest("div.form-group").addClass("has-error");
-                err = 1;
-            }
-
-            if(parseFloat(price) < 1){
-                $("#price-help").text("Price cannot be below 0!");
-                $("#price").closest("div.form-group").addClass("has-error");
-                err = 1;
-            }
-            if(parseFloat(quantity) < 1){
-                $("#quantity-help").text("Quantity cannot be below 0!");
-                $("#quantity").closest("div.form-group").addClass("has-error");
-                err = 1;
-            }
-
-            if(err){
-
-            }else{
-                $("#price-help").text("");
-                $("#price").closest("div.form-group").removeClass("has-error");
-                $("#quantity-help").text("");
-                $("#quantity").closest("div.form-group").removeClass("has-error");
-                $("#item-help").text("");
-                $("#item").closest("div.form-group").removeClass("has-error");
-                empty();
-                if(kind == "Expense"){
-                    var tde = 
-                        '<tr type="exp" id='+key+'>'+
-                            '<td >'+itemName+'</td>'+
-                           
-                            '<td></td>'+
-                            '<td class="text-right"><strong>₱</strong>'+((quantity*price).toLocaleString())+'</td>'+
-                            '<td class="text-center">'+
-                                 '<span class="mytooltip tooltip-effect-1">'+
-                                    '<span class="tooltip-item" style="background-color:white;padding:0px"><i class="fa fa-comment-o view-details" ></i>  </span>'+
-                                    '<span class="tooltip-content clearfix">'+
-                                        '<span class="tooltip-text p-10">'+ 
-                                                                             
-                                            '<p>Quantity: '+quantity+' '+'pcs</p>'+
-                                            '<p>Price: ₱ '+price+'</p>'+
-                                            '<p>Type: '+$("#sel0").select2("data").text+'</p>'+
-                                            
-                                        '</span> '+
-                                    '</span>'+
-                                '</span> '+
-                                 '<i class="fa fa-times text-danger  remove-time"></i>'+
-                            '</td>'+
-                        '</tr>';    
-                    $(tde).insertBefore("tr#tot-exp");
-                    obj = {
-                        item:itemName,
-                        quan:quantity,
-                        price:price,
-                        type:typeOfItem,
-                        kind:kind
-                    };
-                    item["exp"][key] = obj;
-                    $("#texp").text(exp().toLocaleString());
-                    $("#tfin").text((rev()-exp()).toLocaleString());
-
-
-
-                }
-                
-                else if(kind == "Revenue"){
-                    var tda = 
-                        '<tr type="rev" id='+key+'>'+
-                            '<td >'+itemName+'</td>'+
-                           
-                            
-                            '<td class="text-right"><strong>₱</strong>'+((quantity*price).toLocaleString())+'</td>'+
-                            '<td></td>'+
-                            '<td class="text-center">'+
-                                 '<span class="mytooltip tooltip-effect-1">'+
-                                    '<span class="tooltip-item" style="background-color:white;padding:0px"><i class="fa fa-comment-o view-details" ></i>  </span>'+
-                                    '<span class="tooltip-content clearfix">'+
-                                        '<span class="tooltip-text p-10">'+ 
-                                                                             
-                                            '<p>Quantity: '+quantity+' '+'pcs</p>'+
-                                            '<p>Price: ₱ '+price+'</p>'+
-                                            '<p>Type: '+$("#sel0").select2("data").text+'</p>'+
-                                            
-                                        '</span> '+
-                                    '</span>'+
-                                '</span> '+
-                                 '<i class="fa fa-times text-danger  remove-time"></i>'+
-                            '</td>'+
-                        '</tr>';    
-                    $(tda).insertBefore("tr#tot-rev");
-                      obj = {
-                        item:itemName,
-                        quan:quantity,
-                        price:price,
-                        type:typeOfItem,
-                        kind:kind
-                    };
-                    item["rev"][key] = obj;
-                    $("#trev").text(rev().toLocaleString());
-                    $("#tfin").text((rev()-exp()).toLocaleString());
-                    
-                }
-                console.log(item);  
-                key++;
-                
-                
-            }
-
-
-            $("table").on("click"," tbody tr td i.remove-time",function(){
-                var tr = $(this).closest("tr");
-                var type = tr.attr("type");
-                var key = tr.attr("id");
-                
-                delete item[type][key];
-                tr.remove();
-                $("#texp").text(exp().toLocaleString());
-                $("#trev").text(rev().toLocaleString());
-                $("#tfin").text((rev()-exp()).toLocaleString());
-                console.log(item);
-                console.log("REMOVE TIME")
-            })
-
-
-
-        });
-    </script>
-    <script type="text/javascript">
-        function fund(){
-            var result = 0;
-            var ope = parseFloat($("#ope-fund").val());
-            var dep = parseFloat($("#dep-fund").val());
-            var oth = parseFloat($("#oth-fund").val());
-            return result = result + ope + dep + oth;
-        }
-
-        function exp2(){
-            var result = 0;
-            var ope = parseFloat($("#org-exp").val());
-            var dep = parseFloat($("#pat-exp").val());
-            var oth = parseFloat($("#oth2-exp").val());
-            return result = result + ope + dep + oth;
-        }
-
-
-        $("#ope-fund, #dep-fund, #oth-fund, #org-exp, #pat-exp, #oth2-exp").keydown(function(){
-            $("#tcd").text(fund().toLocaleString());
-            $("#tpe").text(exp2().toLocaleString());
-            $("#rb").text((fund()-exp2()).toLocaleString())
-        });
-
-        $("#save").click(function(){
-            var err = 0;    
-            if(isNaN($("#ope-fund").val())){
-               
-            }
-            if(isNaN($("#dep-fund").val())){
-
-            }
-            if(isNaN($("#oth-fund").val())){
-                $("#oth-help").text("Others should be number!");
-                $("#oth-fund").closest("div.form-group").addClass("has-error");
-                err = 1;
-            }
-
-            if(isNaN($("#org-exp").val())){
-                $("#org-help").text("Organization Funds should be number!");
-                $("#org-exp").closest("div.form-group").addClass("has-error");
-                err = 1;
-            }
-            if(isNaN($("#pat-exp").val())){
-                $("#pat-help").text("Participant's fee should be number!");
-                $("#pat-exp").closest("div.form-group").addClass("has-error");
-                err = 1;
-            }
-            if(isNaN($("#oth2-exp").val())){
-                $("#oth2-help").text("Others should be number!");
-                $("#oth2-exp").closest("div.form-group").addClass("has-error");
-                err = 1;
-            }
-
-            if(err){
-                $('body,html').animate({ scrollTop: 150 }, 500);
-            }else{
-                 $("#oth-help").text("");
-                $("#oth-fund").closest("div.form-group").removeClass("has-error");
-                $("#org-help").text("");
-                $("#org-exp").closest("div.form-group").removeClass("has-error");
-                 $("#pat-help").text("");
-                $("#pat-exp").closest("div.form-group").removeClass("has-error");
-                $("#oth2-help").text("");
-                $("#oth2-exp").closest("div.form-group").removeClass("has-error");
-            }
-        });
+        $("select").select2();
     </script>
 </body>
 

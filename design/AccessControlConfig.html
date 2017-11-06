@@ -1,52 +1,54 @@
 <!DOCTYPE html>
-<!--
-This is a starter template page. Use this page to start your new project from
-scratch. This page gets rid of all links and provides the needed markup only.
--->
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="../plugins/images/favicon.png">
     <title>Elite Admin Template - The Ultimate Multipurpose admin template</title>
     <!-- Bootstrap Core CSS -->
-   <link href="bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="../plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css" rel="stylesheet">
-    <!-- animation CSS -->
-    <link href="css/animate.css" rel="stylesheet">
-    <!-- Menu CSS -->
+    
+
+
+   <!--  <!-- Menu CSS -->
     <link href="../plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css" rel="stylesheet">
-    <!-- page CSS -->
-    <link href="../plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
-    <link href="../plugins/bower_components/custom-select/custom-select.css" rel="stylesheet" type="text/css" />
-    <link href="../plugins/bower_components/switchery/dist/switchery.min.css" rel="stylesheet" />
-    <link href="../plugins/bower_components/bootstrap-select/bootstrap-select.min.css" rel="stylesheet" />
-    <link href="../plugins/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.css" rel="stylesheet" />
-    <link href="../plugins/bower_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css" rel="stylesheet" />
-    <link href="../plugins/bower_components/multiselect/css/multi-select.css" rel="stylesheet" type="text/css" />
     <!-- animation CSS -->
     <link href="css/animate.css" rel="stylesheet">
     <!-- Custom CSS -->
-    <link href="css/style.css" rel="stylesheet">
+    <!-- <link href="css/style.css" rel="stylesheet"> -->
+      <link href="css/styleCustom.css" rel="stylesheet">
     <!-- color CSS -->
-    <link href="css/colors/blue.css" id="theme" rel="stylesheet">
+    <link href="css/colors/blue.css" id="theme" rel="stylesheet">   
+    <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+    
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedcolumns/3.2.3/css/fixedColumns.dataTables.min.css">
+    <style type="text/css">
+         th, td {
+          white-space: nowrap; 
+        }
+        div.dataTables_wrapper {
+            width: 1000px;
+            margin: 0 auto;
+        }
+        table.dataTable.table-striped.DTFC_Cloned tbody tr:nth-of-type(odd) {
+            background-color: #F3F3F3;
+        }
+        table.dataTable.table-striped.DTFC_Cloned tbody tr:nth-of-type(even) {
+            background-color: white;
+        }
+    </style>
+  
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
-    <style type="text/css">
-        td{
-            border-top: 1px solid white !important
-        }
-    </style>
 </head>
 
 <body>
@@ -58,14 +60,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- Top Navigation -->
         <nav class="navbar navbar-default navbar-static-top m-b-0">
             <div class="navbar-header"> <a class="navbar-toggle hidden-sm hidden-md hidden-lg " href="javascript:void(0)" data-toggle="collapse" data-target=".navbar-collapse"><i class="ti-menu"></i></a>
-                <!-- Logo -->
-                <div class="top-left-part">
-                    <a class="logo" href="index.html">
-                        <!-- Logo icon image, you can use font-icon also --><b><img src="../plugins/images/eliteadmin-logo.png" alt="home" /></b>
-                        <!-- Logo text image you can use text also --><span class="hidden-xs"><img src="../plugins/images/eliteadmin-text.png" alt="home" /></span> </a>
-                </div>
-                <!-- /Logo -->
-                <!-- This is for mobile view search and menu icon -->
+                <div class="top-left-part"><a class="logo" href="index.html"><b><img src="../plugins/images/eliteadmin-logo.png" alt="home" /></b><span class="hidden-xs"><img src="../plugins/images/eliteadmin-text.png" alt="home" /></span></a></div>
                 <ul class="nav navbar-top-links navbar-left hidden-xs">
                     <li><a href="javascript:void(0)" class="open-close hidden-xs waves-effect waves-light"><i class="icon-arrow-left-circle ti-menu"></i></a></li>
                     <li>
@@ -73,7 +68,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <input type="text" placeholder="Search..." class="form-control"> <a href=""><i class="fa fa-search"></i></a> </form>
                     </li>
                 </ul>
-                <!-- This is the message dropdown -->
                 <ul class="nav navbar-top-links navbar-right pull-right">
                     <li class="dropdown"> <a class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#"><i class="icon-envelope"></i>
           <div class="notify"><span class="heartbit"></span><span class="point"></span></div>
@@ -241,28 +235,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <li class="col-sm-12 m-t-40 demo-box">
                                 <div class="row">
                                     <div class="col-sm-2">
-                                        <div class="white-box text-center bg-purple"><a href="http://eliteadmin.themedesigner.in/demos/eliteadmin-inverse/index.html" target="_blank" class="text-white"><i class="linea-icon linea-basic fa-fw" data-icon="v"></i><br/>
-                    Demo 1</a></div>
+                                        <div class="white-box text-center bg-purple"><a href="http://eliteadmin.themedesigner.in/demos/eliteadmin-inverse/index.html" target="_blank" class="text-white"><i class="linea-icon linea-basic fa-fw" data-icon="v"></i><br/>Demo 1</a></div>
                                     </div>
                                     <div class="col-sm-2">
-                                        <div class="white-box text-center bg-success"><a href="http://eliteadmin.themedesigner.in/demos/eliteadmin/index.html" target="_blank" class="text-white"><i class="linea-icon linea-basic fa-fw" data-icon="v"></i><br/>
-                    Demo 2</a></div>
+                                        <div class="white-box text-center bg-success"><a href="http://eliteadmin.themedesigner.in/demos/eliteadmin/index.html" target="_blank" class="text-white"><i class="linea-icon linea-basic fa-fw" data-icon="v"></i><br/>Demo 2</a></div>
                                     </div>
                                     <div class="col-sm-2">
-                                        <div class="white-box text-center bg-info"><a href="http://eliteadmin.themedesigner.in/demos/eliteadmin-ecommerce/index.html" target="_blank" class="text-white"><i class="linea-icon linea-basic fa-fw" data-icon="v"></i><br/>
-                    Demo 3</a></div>
+                                        <div class="white-box text-center bg-info"><a href="http://eliteadmin.themedesigner.in/demos/eliteadmin-ecommerce/index.html" target="_blank" class="text-white"><i class="linea-icon linea-basic fa-fw" data-icon="v"></i><br/>Demo 3</a></div>
                                     </div>
                                     <div class="col-sm-2">
-                                        <div class="white-box text-center bg-inverse"><a href="http://eliteadmin.themedesigner.in/demos/eliteadmin-horizontal-navbar/index3.html" target="_blank" class="text-white"><i class="linea-icon linea-basic fa-fw" data-icon="v"></i><br/>
-                    Demo 4</a></div>
+                                        <div class="white-box text-center bg-inverse"><a href="http://eliteadmin.themedesigner.in/demos/eliteadmin-horizontal-navbar/index3.html" target="_blank" class="text-white"><i class="linea-icon linea-basic fa-fw" data-icon="v"></i><br/>Demo 4</a></div>
                                     </div>
                                     <div class="col-sm-2">
-                                        <div class="white-box text-center bg-warning"><a href="http://eliteadmin.themedesigner.in/demos/eliteadmin-iconbar/index4.html" target="_blank" class="text-white"><i class="linea-icon linea-basic fa-fw" data-icon="v"></i><br/>
-                    Demo 5</a></div>
+                                        <div class="white-box text-center bg-warning"><a href="http://eliteadmin.themedesigner.in/demos/eliteadmin-iconbar/index4.html" target="_blank" class="text-white"><i class="linea-icon linea-basic fa-fw" data-icon="v"></i><br/>Demo 5</a></div>
                                     </div>
                                     <div class="col-sm-2">
-                                        <div class="white-box text-center bg-danger"><a href="https://themeforest.net/item/elite-admin-responsive-web-app-kit-/16750820?ref=suniljoshi" target="_blank" class="text-white"><i class="linea-icon linea-ecommerce fa-fw" data-icon="d"></i><br/>
-                    Buy Now</a></div>
+                                        <div class="white-box text-center bg-danger"><a href="https://themeforest.net/item/elite-admin-responsive-web-app-kit-/16750820?ref=suniljoshi" target="_blank" class="text-white"><i class="linea-icon linea-ecommerce fa-fw" data-icon="d"></i><br/>Buy Now</a></div>
                                     </div>
                                 </div>
                             </li>
@@ -410,7 +398,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </ul>
                     </li>
                     <li class="nav-small-cap">--- Proffessional</li>
-                    <li> <a href="#" class="waves-effect active"><i data-icon="&#xe008;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Sample Pages<span class="fa arrow"></span><span class="label label-rouded label-purple pull-right">30</span></span></a>
+                    <li> <a href="#" class="waves-effect"><i data-icon="&#xe008;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Sample Pages<span class="fa arrow"></span><span class="label label-rouded label-purple pull-right">30</span></span></a>
                         <ul class="nav nav-second-level">
                             <li><a href="starter-page.html">Starter Page</a></li>
                             <li><a href="blank.html">Blank Page</a></li>
@@ -458,7 +446,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <li><a href="extra-charts.html">Extra Charts</a></li>
                         </ul>
                     </li>
-                    <li> <a href="tables.html" class="waves-effect"><i data-icon="O" class="linea-icon linea-software fa-fw"></i> <span class="hide-menu">Tables<span class="fa arrow"></span><span class="label label-rouded label-danger pull-right">7</span></span></a>
+                    <li> <a href="tables.html" class="waves-effect active"><i data-icon="O" class="linea-icon linea-software fa-fw"></i> <span class="hide-menu">Tables<span class="fa arrow"></span><span class="label label-rouded label-danger pull-right">7</span></span></a>
                         <ul class="nav nav-second-level">
                             <li><a href="basic-table.html">Basic Tables</a></li>
                             <li><a href="table-layouts.html">Table Layouts</a></li>
@@ -512,240 +500,184 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <div class="container-fluid">
                 <div class="row bg-title">
                     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                        <h4 class="page-title">Starter Page </h4> </div>
+                        <h4 class="page-title">Data Table</h4> </div>
                     <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12"> <a href="https://themeforest.net/item/elite-admin-the-ultimate-dashboard-web-app-kit-material-design/16750820?ref=suniljoshi" target="_blank" class="btn btn-danger pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">Buy Now</a>
                         <ol class="breadcrumb">
                             <li><a href="#">Dashboard</a></li>
-                            <li class="active">Starter Page</li>
+                            <li><a href="#">Table</a></li>
+                            <li class="active">Data Table</li>
                         </ol>
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>
+                <!-- /row -->
                 <div class="row">
-                    <div class="col-md-12">
-                        <div class="panel  panel-info">
-                            <div class="panel-heading">Expense</div>
-                            <div class="panel-wrapper collapse in" aria-expanded="true">
-                                <div class="panel-body">
-                                    <form action="#" class="form-horizontal">
-                                        <div class="row col">
-                                            <div class="col-md-10 offset-md-1">
-                                                <div class="form-group row">
-                                                    <label for="example-month-input" class="col-md-12 text-center col-form-label">Organizational Funds</label>
-                                                
-                                                </div>
-                                                 
-                                                <div class="form-group row">
-                                                    <label for="example-month-input" class="col-md-5 text-left offset-md-1 col-form-label">Operational Funds</label>
-                                                    <div class="col-md-6">
-                                                        <input class="form-control" disabled="" id="ope-fund" type="text">
+                    <div class="col-sm-12">
+                        <div class="white-box">
+                            <h3 class="box-title m-b-0">Data Table</h3>
+                            <p class="text-muted m-b-30">Data table example</p>
+                            <div class="table-responsive">
+                                <table id="myTable" width="100%" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th >Position</th>
+                                            <th>Time Settings</th>
+                                            <th>Create Position</th>
+                                            <th>Edit Position</th>
+                                            <th>Delete Position</th>
+                                            <th>View Organization Structure</th>
 
-                                                        <span id="ope-help" class="help-block"> As of Oct. 12, 2017 </span>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label for="example-month-input" class="col-md-5 text-left offset-md-1 col-form-label">Depository Funds</label>
-                                                    <div class="col-md-6">
-                                                        <input class="form-control" disabled="" id="dep-fund" type="text">
-                                                        <span id="dep-help" class="help-block"> Org. Balance as of Oct. 12, 2017 </span>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label for="example-month-input" class="col-md-5 text-left offset-md-1 col-form-label">Other  Funds</label>
-                                                    <div class="col-md-6">
-                                                        <input class="form-control"  id="oth-fund" type="text">
-                                                        <span id="oth-help" class="help-block"> </span>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row text-success">
-                                                    <label for="example-month-input" class="col-md-6 text-right  col-form-label">Total Cash Disbursement</label>
-                                                    <div class="col-md-6">
-                                                        ₱<span id="tcd">123123</span>
-                                                    </div>
-                                                </div>
+                                             <th>Create Organization</th>
+                                            <th>Edit Organization</th>
+                                            <th>Delete Organization</th>
 
+                                            <th>Assign Evaluator for Publicity Material</th>
+                                            <th>Evaluate Publicity Material</th>
+                                            <th>View Publicity Material</th>
 
+                                            <th>Evaluate GOSM Activity</th>
 
-                                                <div class="form-group row">
-                                                    <label for="example-month-input" class="col-md-12 text-center col-form-label">Sources Funds</label>
-                                                
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label for="example-month-input" class="col-md-5 text-left offset-md-1 col-form-label">Organization Funds</label>
-                                                    <div class="col-md-6">
-                                                        <input class="form-control" dir="rtl" id="org-exp" type="text">
-                                                        <span id="org-help" class="help-block"> </span>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row ">
-                                                    <label for="example-month-input" class="col-md-5 text-left offset-md-1 col-form-label">Participant's Fee</label>
-                                                    <div class="col-md-6">
-                                                        <input class="form-control"  dir="rtl" id="pat-exp" type="text">
-                                                        <span id="pat-help" class="help-block">  </span>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label for="example-month-input" class="col-md-5 text-left offset-md-1 col-form-label">Others</label>
-                                                    <div class="col-md-6">
-                                                        <input class="form-control" dir="rtl" id="oth2-exp" type="text">
-                                                        <span id="oth2-help" class="help-block"> </span>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row  text-danger">
-                                                    <label for="example-month-input" class="col-md-6 text-right  col-form-label">Total Projected Expense</label>
-                                                    <div class="col-md-6 text-right">
-                                                        ₱<span class="text-right" id="tpe">123123</span>
-                                                    </div>
-                                                </div>
+                                             
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>President</td>
+                                            <td class="text-center"><input type="checkbox" name=""></td>
+                                             <td class="text-center"><input type="checkbox" name=""></td>
+                                             <td class="text-center"><input type="checkbox" name=""></td>
+                                             <td class="text-center"><input type="checkbox" name=""></td>
+                                             <td class="text-center"><input type="checkbox" name=""></td>
 
-                                                <div class="form-group row text-success">
-                                                    <label for="example-month-input" class="col-md-6 text-right  col-form-label">Remaining Balance</label>
-                                                    <div class="col-md-6">
-                                                        ₱<span  id="rb">123123</span>
-                                                    </div>
-                                                </div>
+                                            <td class="text-center"><input type="checkbox" name=""></td>
+                                            <td class="text-center"><input type="checkbox" name=""></td>
+                                             <td class="text-center"><input type="checkbox" name=""></td>
+                                             <td class="text-center"><input type="checkbox" name=""></td>
+                                             <td class="text-center"><input type="checkbox" name=""></td>
+                                             <td class="text-center"><input type="checkbox" name=""></td>
+                                            <td class="text-center"><input type="checkbox" name=""></td>
+                                          
+                                        </tr>
 
+                                         <tr>
+                                            <td> Vice President</td>
+                                            <td class="text-center"><input type="checkbox" name=""></td>
+                                             <td class="text-center"><input type="checkbox" name=""></td>
+                                             <td class="text-center"><input type="checkbox" name=""></td>
+                                             <td class="text-center"><input type="checkbox" name=""></td>
+                                             <td class="text-center"><input type="checkbox" name=""></td>
 
+                                            <td class="text-center"><input type="checkbox" name=""></td>
+                                            <td class="text-center"><input type="checkbox" name=""></td>
+                                             <td class="text-center"><input type="checkbox" name=""></td>
+                                             <td class="text-center"><input type="checkbox" name=""></td>
+                                             <td class="text-center"><input type="checkbox" name=""></td>
+                                              <td class="text-center"><input type="checkbox" name=""></td>      
+                                             <td class="text-center"><input type="checkbox" name=""></td>
+                                          
+                                        </tr>
+                                          <tr>
+                                            <td> VP of External Affairs</td>
+                                            <td class="text-center"><input type="checkbox" name=""></td>
+                                             <td class="text-center"><input type="checkbox" name=""></td>
+                                             <td class="text-center"><input type="checkbox" name=""></td>
+                                             <td class="text-center"><input type="checkbox" name=""></td>
+                                             <td class="text-center"><input type="checkbox" name=""></td>
 
-                                            </div>
-
-
-
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-md-8">
-                                                <table id="program-tables" style="table-layout: fixed" class=" table color-bordered-table inverse-bordered-table" >
-                                                    <thead>
-                                                        <tr>
-
-                                                            <th width="65%" class="text-center"  >Item</th>
-                                                           <!--  <th width="10%">Duration</th> -->
-                                                            
-                                                            <th width="26%" colspan="2"  class="text-center"></th>
-                                                             
-                                                            <th width="10%" class="text-center">#</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        
-                                                         
-                                                        <tr class="fund" id="tot-rev">
-                                                            <td  class="text-right"><strong>Total Assets</strong></td>
-                                                           <!--  <td></td> -->
-                                                            <td class="text-right  text-success">₱<span id="trev"></span></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                        </tr>
-                                                         
-
-                                                        <tr id="tot-exp" class="panel-error">
-                                                            <td  class="text-right"><strong>Total Expenses</strong></td>
-                                                           
-                                                           <td></td>
-                                                            <td class="text-right text-danger">₱<span id="texp"></span></td>
-                                                            
-                                                            <td></td>
-                                                        </tr>
-
-                                                        <tr class="fund">
-                                                            <td   class="text-right"><strong>Total Revenue </strong></td>
-                                                           
-                                                            
-                                                            <td class="text-right text-success">₱<span id="tfin"></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                        </tr>
-                                                  
-                                                    </tbody>
-                                                </table>
-
-                                            </div>
-                                            <div class="col-md-4 m-t-40">
-                                                <div class="form-group ">
-                                                    <label class="form-control-label">Item Name</label>
-                                                    <input id="item"  type="text" class="form-control">
-                                                    <div>
-                                                        <span class="help-block" id="item-help"></span>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label class="form-control-label">Type of Item</label>
-                                                    <select name="personInCharge" id="sel0" class="form-control select2">                                                                                    
-                                                        <option value="0" >Others</option>
-                                                        <option value="1">Food & Accomodation</option>
-                                                        <option value="2">Venue & Transportation</option>
-                                                        <option value="3">Honorarium</option>
-                                                        <option value="4">Cash Prize</option>
-                                                        <option value="5">Corruption Expense</option>
-                                                       
-
-                                                    </select>
-                                                    <div>
-                                                        <span class="help-block" id="time-help"></span>
-                                                    </div>
-                                                </div>
-
-                                                 <div class="form-group ">
-                                                    <label class="form-control-label">Price</label>
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon" id="basic-addon1" step='0.01'>₱</span>
-                                                        <input id="price"  type="text" class="form-control">
-                                                    </div>
-                                                    <div>
-                                                        <span class="help-block" id="price-help"></span>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group ">
-                                                    <label class="form-control-label">Quantity</label>
-                                                    <div class="input-group">
-                                                        
-                                                        <input id="quantity" min="1"  type="text" class="form-control">
-                                                        <span class="input-group-addon" id="basic-addon1" step='0.01'>pcs</span>
-                                                    </div>
-                                                    
-                                                    <div>
-                                                        <span class="help-block" id="quantity-help"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="radio-list text-center">
-                                                        <label class="radio-inline fund">
-                                                            <input name="optionsRadios2" id="rev-opt"  value="Revenue" type="radio"> Revenue </label>
-                                                        <label class="radio-inline">
-                                                            <input id="exp" name="optionsRadios2" value="Expense" checked="" type="radio"> Expense </label>
-                                                    </div>
-                                                </div>
-
-                                               
-
-                                                
-
-                                                <div class="m-t-5 form-group text-center ">
-
-                                                    <button type="button" id="insert-button" class="btn btn-info">Insert </button>
-
-                                                </div>
-                                                           
-
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="panel-footer text-center">
-                                   
-                                 
-                                                    <button type="submit" id="save" class="btn btn-success"> <i class="fa fa-save"></i> &nbspSave</button>
-                                                    <button type="button" class="btn btn-default">Cancel</button>
-                                                
-                                </div>
+                                            <td class="text-center"><input type="checkbox" name=""></td>
+                                            <td class="text-center"><input type="checkbox" name=""></td>
+                                             <td class="text-center"><input type="checkbox" name=""></td>
+                                             <td class="text-center"><input type="checkbox" name=""></td>
+                                             <td class="text-center"><input type="checkbox" name=""></td>
+                                              <td class="text-center"><input type="checkbox" name=""></td>      
+                                             <td class="text-center"><input type="checkbox" name=""></td>
+                                          
+                                        </tr>
+                                       
+                                        
+    
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
+                    
                 </div>
-                
+                <!-- /.row -->
+                <!-- .right-sidebar -->
+                <div class="right-sidebar">
+                    <div class="slimscrollright">
+                        <div class="rpanel-title"> Service Panel <span><i class="ti-close right-side-toggle"></i></span> </div>
+                        <div class="r-panel-body">
+                            <ul>
+                                <li><b>Layout Options</b></li>
+                                <li>
+                                    <div class="checkbox checkbox-info">
+                                        <input id="checkbox1" type="checkbox" class="fxhdr">
+                                        <label for="checkbox1"> Fix Header </label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="checkbox checkbox-warning">
+                                        <input id="checkbox2" type="checkbox" checked="" class="fxsdr">
+                                        <label for="checkbox2"> Fix Sidebar </label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="checkbox checkbox-success">
+                                        <input id="checkbox4" type="checkbox" class="open-close">
+                                        <label for="checkbox4"> Toggle Sidebar </label>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul id="themecolors" class="m-t-20">
+                                <li><b>With Light sidebar</b></li>
+                                <li><a href="javascript:void(0)" theme="default" class="default-theme">1</a></li>
+                                <li><a href="javascript:void(0)" theme="green" class="green-theme">2</a></li>
+                                <li><a href="javascript:void(0)" theme="gray" class="yellow-theme">3</a></li>
+                                <li><a href="javascript:void(0)" theme="blue" class="blue-theme working">4</a></li>
+                                <li><a href="javascript:void(0)" theme="purple" class="purple-theme">5</a></li>
+                                <li><a href="javascript:void(0)" theme="megna" class="megna-theme">6</a></li>
+                                <li><b>With Dark sidebar</b></li>
+                                <br/>
+                                <li><a href="javascript:void(0)" theme="default-dark" class="default-dark-theme">7</a></li>
+                                <li><a href="javascript:void(0)" theme="green-dark" class="green-dark-theme">8</a></li>
+                                <li><a href="javascript:void(0)" theme="gray-dark" class="yellow-dark-theme">9</a></li>
+                                <li><a href="javascript:void(0)" theme="blue-dark" class="blue-dark-theme">10</a></li>
+                                <li><a href="javascript:void(0)" theme="purple-dark" class="purple-dark-theme">11</a></li>
+                                <li><a href="javascript:void(0)" theme="megna-dark" class="megna-dark-theme">12</a></li>
+                            </ul>
+                            <ul class="m-t-20 chatonline">
+                                <li><b>Chat option</b></li>
+                                <li>
+                                    <a href="javascript:void(0)"><img src="../plugins/images/users/varun.jpg" alt="user-img" class="img-circle"> <span>Varun Dhavan <small class="text-success">online</small></span></a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)"><img src="../plugins/images/users/genu.jpg" alt="user-img" class="img-circle"> <span>Genelia Deshmukh <small class="text-warning">Away</small></span></a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)"><img src="../plugins/images/users/ritesh.jpg" alt="user-img" class="img-circle"> <span>Ritesh Deshmukh <small class="text-danger">Busy</small></span></a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)"><img src="../plugins/images/users/arijit.jpg" alt="user-img" class="img-circle"> <span>Arijit Sinh <small class="text-muted">Offline</small></span></a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)"><img src="../plugins/images/users/govinda.jpg" alt="user-img" class="img-circle"> <span>Govinda Star <small class="text-success">online</small></span></a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)"><img src="../plugins/images/users/hritik.jpg" alt="user-img" class="img-circle"> <span>John Abraham<small class="text-success">online</small></span></a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)"><img src="../plugins/images/users/john.jpg" alt="user-img" class="img-circle"> <span>Hritik Roshan<small class="text-success">online</small></span></a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)"><img src="../plugins/images/users/pawandeep.jpg" alt="user-img" class="img-circle"> <span>Pwandeep rajan <small class="text-success">online</small></span></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.right-sidebar -->
             </div>
             <!-- /.container-fluid -->
             <footer class="footer text-center"> 2017 &copy; Elite Admin brought to you by themedesigner.in </footer>
@@ -764,284 +696,37 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!--slimscroll JavaScript -->
     <script src="js/jquery.slimscroll.js"></script>
     <!--Wave Effects -->
-    <script src="../plugins/bower_components/custom-select/custom-select.min.js" type="text/javascript"></script>
-    <script src="../plugins/bower_components/bootstrap-select/bootstrap-select.min.js" type="text/javascript"></script>
-
     <script src="js/waves.js"></script>
     <!-- Custom Theme JavaScript -->
-
     <script src="js/custom.min.js"></script>
+  
+    <!-- start - This is for export functionality only -->
+   
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/fixedcolumns/3.2.3/js/dataTables.fixedColumns.min.js"></script>
+  
+    
+    <!-- end - This is for export functionality only -->
+    <script>
+        var oTable = $('#myTable').DataTable(   {
+        scrollY:        "300px",
+        scrollX:        true,
+        scrollCollapse: true,
+        paging:         false,
+        fixedColumns:   {
+            leftColumns: 1,
+            
+            
+        },
+      
+
+    } );
+
+         
+
+    </script>
     <!--Style Switcher -->
     <script src="../plugins/bower_components/styleswitcher/jQuery.style.switcher.js"></script>
-
-    <script type="text/javascript">
-        //START 
-        $(".fund").css("display","none");
-        $("#rev-opt").remove();
-        //END KPAG FUNDRAISING
-        var item = {};
-        item["rev"]={};
-        item["exp"]={};
-        var key = 0;
-        function empty(){
-            $("#item").val("");
-            
-            $("#sel0").select2("val",'0');
-            ($("#price").val(""));
-            ($("#quantity").val(""));   
-        }
-        function rev(){
-            var result = 0;
-            for(var x = 0; x < Object.keys(item["rev"]).length; x++){
-                console.log(item["rev"][Object.keys(item["rev"])[x]].price + "  WHOl");
-                console.log(Object.keys(item["rev"])[x].quan);
-
-                result+= parseFloat(item["rev"][Object.keys(item["rev"])[x]].price) * parseInt(item["rev"][Object.keys(item["rev"])[x]].quan);
-            }
-            return result;
-        }
-        function exp(){
-            var result = 0;
-            for(var x = 0; x < Object.keys(item["exp"]).length; x++){
-                result+= parseFloat(item["exp"][Object.keys(item["exp"])[x]].price) * parseInt(item["exp"][Object.keys(item["exp"])[x]].quan);   
-            }
-            return result;
-        }
-        $("#sel0").select2();
-        $("#sel0").select2("val",'0');
-
-
-
-        $("#insert-button").click(function(){
-            var itemName = $("#item").val();
-            var typeOfItem = $("#sel0").val();
-            var price = ($("#price").val());
-            var quantity = ($("#quantity").val());
-            var kind = $("input[name='optionsRadios2']:checked").val();
-            console.log("asd");
-            console.log(itemName);
-            console.log(typeOfItem);
-            console.log(price);
-            console.log(quantity);
-            var err = 0
-            if($.trim(itemName) < 1){
-                $("#item-help").text("Item Name cannot be empty!");
-                $("#item").closest("div.form-group").addClass("has-error");
-                err = 1;
-
-            }
-            if($.trim(price) < 1){
-                $("#price-help").text("Item Name cannot be empty!");
-                $("#price").closest("div.form-group").addClass("has-error");
-                err = 1;
-            }
-            if($.trim(quantity) < 1){
-                $("#quantity-help").text("Item Name cannot be empty!");
-                $("#quantity").closest("div.form-group").addClass("has-error");
-                err = 1;
-            }
-            console.log(parseFloat(price) === NaN);
-            if(isNaN(parseFloat(price))){
-                $("#price-help").text("Please input a number!");
-                $("#price").closest("div.form-group").addClass("has-error");
-                err = 1;
-            }
-            if(isNaN(parseFloat(quantity))){
-                $("#quantity-help").text("Please input a number!");
-                $("#quantity").closest("div.form-group").addClass("has-error");
-                err = 1;
-            }
-
-            if(parseFloat(price) < 1){
-                $("#price-help").text("Price cannot be below 0!");
-                $("#price").closest("div.form-group").addClass("has-error");
-                err = 1;
-            }
-            if(parseFloat(quantity) < 1){
-                $("#quantity-help").text("Quantity cannot be below 0!");
-                $("#quantity").closest("div.form-group").addClass("has-error");
-                err = 1;
-            }
-
-            if(err){
-
-            }else{
-                $("#price-help").text("");
-                $("#price").closest("div.form-group").removeClass("has-error");
-                $("#quantity-help").text("");
-                $("#quantity").closest("div.form-group").removeClass("has-error");
-                $("#item-help").text("");
-                $("#item").closest("div.form-group").removeClass("has-error");
-                empty();
-                if(kind == "Expense"){
-                    var tde = 
-                        '<tr type="exp" id='+key+'>'+
-                            '<td >'+itemName+'</td>'+
-                           
-                            '<td></td>'+
-                            '<td class="text-right"><strong>₱</strong>'+((quantity*price).toLocaleString())+'</td>'+
-                            '<td class="text-center">'+
-                                 '<span class="mytooltip tooltip-effect-1">'+
-                                    '<span class="tooltip-item" style="background-color:white;padding:0px"><i class="fa fa-comment-o view-details" ></i>  </span>'+
-                                    '<span class="tooltip-content clearfix">'+
-                                        '<span class="tooltip-text p-10">'+ 
-                                                                             
-                                            '<p>Quantity: '+quantity+' '+'pcs</p>'+
-                                            '<p>Price: ₱ '+price+'</p>'+
-                                            '<p>Type: '+$("#sel0").select2("data").text+'</p>'+
-                                            
-                                        '</span> '+
-                                    '</span>'+
-                                '</span> '+
-                                 '<i class="fa fa-times text-danger  remove-time"></i>'+
-                            '</td>'+
-                        '</tr>';    
-                    $(tde).insertBefore("tr#tot-exp");
-                    obj = {
-                        item:itemName,
-                        quan:quantity,
-                        price:price,
-                        type:typeOfItem,
-                        kind:kind
-                    };
-                    item["exp"][key] = obj;
-                    $("#texp").text(exp().toLocaleString());
-                    $("#tfin").text((rev()-exp()).toLocaleString());
-
-
-
-                }
-                
-                else if(kind == "Revenue"){
-                    var tda = 
-                        '<tr type="rev" id='+key+'>'+
-                            '<td >'+itemName+'</td>'+
-                           
-                            
-                            '<td class="text-right"><strong>₱</strong>'+((quantity*price).toLocaleString())+'</td>'+
-                            '<td></td>'+
-                            '<td class="text-center">'+
-                                 '<span class="mytooltip tooltip-effect-1">'+
-                                    '<span class="tooltip-item" style="background-color:white;padding:0px"><i class="fa fa-comment-o view-details" ></i>  </span>'+
-                                    '<span class="tooltip-content clearfix">'+
-                                        '<span class="tooltip-text p-10">'+ 
-                                                                             
-                                            '<p>Quantity: '+quantity+' '+'pcs</p>'+
-                                            '<p>Price: ₱ '+price+'</p>'+
-                                            '<p>Type: '+$("#sel0").select2("data").text+'</p>'+
-                                            
-                                        '</span> '+
-                                    '</span>'+
-                                '</span> '+
-                                 '<i class="fa fa-times text-danger  remove-time"></i>'+
-                            '</td>'+
-                        '</tr>';    
-                    $(tda).insertBefore("tr#tot-rev");
-                      obj = {
-                        item:itemName,
-                        quan:quantity,
-                        price:price,
-                        type:typeOfItem,
-                        kind:kind
-                    };
-                    item["rev"][key] = obj;
-                    $("#trev").text(rev().toLocaleString());
-                    $("#tfin").text((rev()-exp()).toLocaleString());
-                    
-                }
-                console.log(item);  
-                key++;
-                
-                
-            }
-
-
-            $("table").on("click"," tbody tr td i.remove-time",function(){
-                var tr = $(this).closest("tr");
-                var type = tr.attr("type");
-                var key = tr.attr("id");
-                
-                delete item[type][key];
-                tr.remove();
-                $("#texp").text(exp().toLocaleString());
-                $("#trev").text(rev().toLocaleString());
-                $("#tfin").text((rev()-exp()).toLocaleString());
-                console.log(item);
-                console.log("REMOVE TIME")
-            })
-
-
-
-        });
-    </script>
-    <script type="text/javascript">
-        function fund(){
-            var result = 0;
-            var ope = parseFloat($("#ope-fund").val());
-            var dep = parseFloat($("#dep-fund").val());
-            var oth = parseFloat($("#oth-fund").val());
-            return result = result + ope + dep + oth;
-        }
-
-        function exp2(){
-            var result = 0;
-            var ope = parseFloat($("#org-exp").val());
-            var dep = parseFloat($("#pat-exp").val());
-            var oth = parseFloat($("#oth2-exp").val());
-            return result = result + ope + dep + oth;
-        }
-
-
-        $("#ope-fund, #dep-fund, #oth-fund, #org-exp, #pat-exp, #oth2-exp").keydown(function(){
-            $("#tcd").text(fund().toLocaleString());
-            $("#tpe").text(exp2().toLocaleString());
-            $("#rb").text((fund()-exp2()).toLocaleString())
-        });
-
-        $("#save").click(function(){
-            var err = 0;    
-            if(isNaN($("#ope-fund").val())){
-               
-            }
-            if(isNaN($("#dep-fund").val())){
-
-            }
-            if(isNaN($("#oth-fund").val())){
-                $("#oth-help").text("Others should be number!");
-                $("#oth-fund").closest("div.form-group").addClass("has-error");
-                err = 1;
-            }
-
-            if(isNaN($("#org-exp").val())){
-                $("#org-help").text("Organization Funds should be number!");
-                $("#org-exp").closest("div.form-group").addClass("has-error");
-                err = 1;
-            }
-            if(isNaN($("#pat-exp").val())){
-                $("#pat-help").text("Participant's fee should be number!");
-                $("#pat-exp").closest("div.form-group").addClass("has-error");
-                err = 1;
-            }
-            if(isNaN($("#oth2-exp").val())){
-                $("#oth2-help").text("Others should be number!");
-                $("#oth2-exp").closest("div.form-group").addClass("has-error");
-                err = 1;
-            }
-
-            if(err){
-                $('body,html').animate({ scrollTop: 150 }, 500);
-            }else{
-                 $("#oth-help").text("");
-                $("#oth-fund").closest("div.form-group").removeClass("has-error");
-                $("#org-help").text("");
-                $("#org-exp").closest("div.form-group").removeClass("has-error");
-                 $("#pat-help").text("");
-                $("#pat-exp").closest("div.form-group").removeClass("has-error");
-                $("#oth2-help").text("");
-                $("#oth2-exp").closest("div.form-group").removeClass("has-error");
-            }
-        });
-    </script>
 </body>
 
 </html>

@@ -36,7 +36,10 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
- 
+ 	<style type="text/css">
+ 				
+
+ 	</style>
 </head>
 
 <body class="fix-sidebar">
@@ -196,24 +199,24 @@
                                 <table id="myTable" class="table table-hover" role="grid" aria-describedby="myTable_info">
                                     <thead>
                                         <tr role="row">
-                                        	<th class="sorting text-center" width="15%">ID #</th>
-                                        	
-                                            <th class="sorting text-center" width="50%" >Name</th>
+                                        	<th class="sorting text-center" width="15%">Code</th>
+                                        	<th class="sorting text-center" width="50">Name</th>
+                                            <th class="sorting text-center" width="20%" >Status</th>
                                         
                                             
-                                            <th class="sorting text-center" width="20%">Status </th>
+                                            
                                             
                                             <th class="sorting text-center" width="15%">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody> 
                                         <tr>
-                                        		<td class="text-center ">11425784</td>
-                                        		<td class="text-center ">neil_capistrano@dlsu.edu.ph</td>
-                                                
+                                        		<td class="text-center">LSCS</td>
+                                        		<td class="text-center">La Salle Computer Society</td>
+                                                <td class="text-center"><span class="label label-success">Active</span></td>
                                         
                                                
-                                                <td class="text-center "><span class="label label-success">Active</span></td>
+                                                
                                                 
                                                 <td class="text-center text-nowrap">                                                   
                                                     <a  data-toggle="tooltip" data-original-title="Edit"> 
@@ -255,80 +258,81 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" id="myLargeModalLabel">Add Account</h4> </div>
-                <div class="modal-body">
-                    <form class="form-horizontal"> 
-                     	<div class="form-group row">
-                            <label for="idNumber" class="col-sm-2 control-label col-form-label">ID Number</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="idNumber" placeholder="ID Number">
-                            </div>
-                        </div>                       
-                        <div class="form-group row">
-                            <label class="col-sm-2 control-label col-form-label">Full Name</label>
-                            <div class="col-sm-3">
-                                <input type="text" class="form-control" id="lastName" placeholder="Last Name">
-                            </div>
-                            <div class="col-sm-5">
-                                <input type="text" class="form-control" id="givenName" placeholder="Given Name">
-                            </div>
-                            <div class="col-sm-2">
-                                <input type="text" class="form-control" id="middleName" placeholder="Initial">
-                            </div>
-                        </div>
-                       
-                        <div class="form-group row">
-                            <label for="inputEmail3" class="col-sm-2 control-label col-form-label">DLSU Email</label>
-                            <div class="col-sm-10">
-                                <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
-                            </div>
-                        </div>
+                    <h4 class="modal-title" id="myLargeModalLabel">Add Organization</h4> </div>
+	                <div class="modal-body">
+	                    <form class="form-horizontal"> 
+	                    	 
+	                    	<div class="form-group row">
+	                            <label for="idNumber" class="col-sm-3 control-label col-form-label">Organization Code</label>
+	                            <div class="col-sm-4">
+	                                <input type="text" class="form-control" id="org-name" placeholder="e.g. LSCS">
+	                            </div>
+	                        </div>        
+	                     	<div class="form-group row">
+	                            <label for="idNumber" class="col-sm-3 control-label col-form-label">Organization Name</label>
+	                            <div class="col-sm-9">
+	                                <input type="text" class="form-control" id="org-name" placeholder="e.g. La Salle Computer Society">
+	                            </div>
+	                        </div>                       
+	                        <div class="form-group row">
+	                            <label class="col-sm-3 control-label col-form-label">Description</label>
+	                            <div class="col-sm-9">
+	                                <textarea val="" type="text" rows="3" class="form-control" id="org-desc" placeholder="e.g. Professional organization for College of Computer Studies">
+	                                	
+	                                </textarea>                            
+	                            </div>
+	                        </div>
+	                        <div class="form-group row">
+	                            <label for="inputEmail3" class="col-sm-3 control-label col-form-label">College</label>
+	                            <div class="col-sm-9">
+	                                  <select multiple=""  name="position" placeholder="" class="select" id="college" >
+	                                    <option>College of Computer Studies</option>
+	                                	<option>College of Business</option>
+	                                	<option>College of Liberal Arts</option>
+	                                	<option>College of Science</option>
+	                                    
+	                                </select>
+	                            </div>
+	                           
+	                        </div>
+	                         <div class="form-group row">
+	                            <label for="inputEmail3" class="col-sm-3 control-label col-form-label">Cluster</label>
+	                            <div class="col-sm-9">
+	                                  <select multiple=""  name="position" placeholder="" class="select" id="cluster" >
+	                                    <option>Special Interest</option>
+	                                	<option>Professional Organization</option>
+	                                	<option>Professional Organization Group</option>
+	                                	<option>Socio-Civic and Religious</option>    
+	                                    
+	                                </select>
+	                            </div>
+	                           
+	                        </div>
+	                         <div class="form-group row">
+	                            <label for="inputEmail3" class="col-sm-3 control-label col-form-label">Faculty Adviser</label>
+	                            <div class="col-sm-9">
+	                                  <select multiple=""  name="position" placeholder="" class="select" id="faculty" >
+	                                    <option>Mr. Renate Jose Molano</option>
+	                                	<option>Ms. Michelle Renee D. Ching</option>
+	                                	<option>Mrs. Stefania B Ulit</option>
+	                                	
+	                                    
+	                                </select>
+	                            </div>
+	                           
+	                        </div>
 
-                        <div class="form-group row">
-                            <label for="inputEmail3" class="col-sm-2 control-label col-form-label">Org & Position</label>
-                            <div class="col-sm-10">
-                                  <select multiple=""  name="position" placeholder="" class="select" id="personInCharge" >
-                                    <optgroup label="MooMedia">
-                                        <option>MooMedia - President</option>
-                                        <option>MooMedia - Finance</option>
-                                    </optgroup>
-                                    <optgroup label="LSCS">
-                                        <option>LSCS - President</option>
-                                        <option>LSCS - Finance</option>
-                                    </optgroup>
-                                    <optgroup label="Tapat">
-                                        <option>Tapat - President</option>
-                                        <option>Tapat - Finance</option>
-                                    </optgroup>
-                                    <optgroup label="Santugon">
-                                        <option>Santugon - President</option>
-                                        <option>Santugon - Finance</option>
-                                    </optgroup>
-                                </select>
-                            </div>
-                           
-                        </div>
+	                       
+	                       
 
-                        
+	                        
 
-                        <div class="form-group row">
-                            <label for="inputEmail3" class="col-sm-2 control-label col-form-label">Contact #</label>
-                            <div class="col-sm-10">
-                                <div class="input-group">
-                                    <span class="input-group-addon" id="basic-addon1">+63</span>
-                                    <input class="form-control" placeholder="Phone Number" aria-describedby="basic-addon1" type="text">
-                                </div>
-                            </div>
-                        </div>                                                
-                         
-
-
-                    </form>
-                    
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" id="submit" class="btn btn-info waves-effect waves-light m-t-10">Submit</button>
-                </div>
+	                    </form>
+	                    
+	                </div>
+	                <div class="modal-footer">
+	                    <button type="submit" id="submit" class="btn btn-info waves-effect waves-light m-t-10">Submit</button>
+	                </div>
             </div>
             <!-- /.modal-content -->
         </div>
@@ -339,92 +343,94 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" id="myLargeModalLabel">Edit Account</h4> </div>
-                <div class="modal-body">
-                    <form class="form-horizontal"> 
-                     	<div class="form-group row">
-                            <label for="idNumber" class="col-sm-2 control-label col-form-label">ID Number</label>
-                            <div class="col-sm-10">
-                                <input type="text" disabled="" class="form-control" id="edit-idNumber" placeholder="ID Number">
-                            </div>
-                        </div>                       
-                        <div class="form-group row">
-                            <label class="col-sm-2 control-label col-form-label">Full Name</label>
-                            <div class="col-sm-3">
-                                <input type="text" class="form-control" id="edit-lastName" placeholder="Last Name">
-                            </div>
-                            <div class="col-sm-5">
-                                <input type="text" class="form-control" id="edit-givenName" placeholder="Given Name">
-                            </div>
-                            <div class="col-sm-2">
-                                <input type="text" class="form-control" id="edit-middleName" placeholder="Initial">
-                            </div>
-                        </div>
-                       
-                        <div class="form-group row">
-                            <label for="inputEmail3" class="col-sm-2 control-label col-form-label">DLSU Email</label>
-                            <div class="col-sm-10">
-                                <input type="email" class="form-control" id="edit-inputEmail3" placeholder="Email">
-                            </div>
-                        </div>
+                    <h4 class="modal-title" id="myLargeModalLabel">Edit Organization</h4> </div>
+	                <div class="modal-body">
+	                    <form class="form-horizontal"> 
+	                    	 
+	                    	<div class="form-group row">
+	                            <label for="idNumber" class="col-sm-3 control-label col-form-label">Organization Code</label>
+	                            <div class="col-sm-4">
+	                                <input type="text" class="form-control" id="org-name" placeholder="e.g. LSCS">
+	                            </div>
+	                        </div>        
+	                     	<div class="form-group row">
+	                            <label for="idNumber" class="col-sm-3 control-label col-form-label">Organization Name</label>
+	                            <div class="col-sm-9">
+	                                <input type="text" class="form-control" id="org-name" placeholder="e.g. La Salle Computer Society">
+	                            </div>
+	                        </div>                       
+	                        <div class="form-group row">
+	                            <label class="col-sm-3 control-label col-form-label">Description</label>
+	                            <div class="col-sm-9">
+	                                <textarea val="" type="text" rows="3" class="form-control" id="org-desc" placeholder="e.g. Professional organization for College of Computer Studies">
+	                                	
+	                                </textarea>                            
+	                            </div>
+	                        </div>
+	                        <div class="form-group row">
+	                            <label for="inputEmail3" class="col-sm-3 control-label col-form-label">College</label>
+	                            <div class="col-sm-9">
+	                                  <select multiple=""  name="position" placeholder="" class="select" id="college-edit" >
+	                                    <option>College of Computer Studies</option>
+	                                	<option>College of Business</option>
+	                                	<option>College of Liberal Arts</option>
+	                                	<option>College of Science</option>
+	                                    
+	                                </select>
+	                            </div>
+	                           
+	                        </div>
+	                         <div class="form-group row">
+	                            <label for="inputEmail3" class="col-sm-3 control-label col-form-label">Cluster</label>
+	                            <div class="col-sm-9">
+	                                  <select multiple=""  name="position" placeholder="" class="select" id="cluster-edit" >
+	                                    <option>Special Interest</option>
+	                                	<option>Professional Organization</option>
+	                                	<option>Professional Organization Group</option>
+	                                	<option>Socio-Civic and Religious</option>    
+	                                    
+	                                </select>
+	                            </div>
+	                           
+	                        </div>
+	                        <div class="form-group row">
+	                            <label for="inputEmail3" class="col-sm-3 control-label col-form-label">Faculty Adviser</label>
+	                            <div class="col-sm-9">
+	                                  <select multiple=""  name="position" placeholder="" class="select" id="faculty-edit" >
+	                                    <option>Mr. Renate Jose Molano</option>
+	                                	<option>Ms. Michelle Renee D. Ching</option>
+	                                	<option>Mrs. Stefania B Ulit</option>
+	                                	
+	                                    
+	                                </select>
+	                            </div>
+	                           
+	                        </div>
+	                        <div class="form-group row">
+	                            <label for="inputEmail3" class="col-sm-3 control-label col-form-label">Status</label>
+	                            <div class="col-sm-9">
+	                                <div class="radio-list">
+	                                    <label class="radio-inline">
+	                                        <input name="optionsRadios2" value="option1" type="radio"> Active </label>
+	                                    <label class="radio-inline">
+	                                        <input name="optionsRadios2" value="option2" checked="" type="radio"> Inactive </label>
+	                                </div>
+	                            </div>
+	                        </div>      
 
-                        <div class="form-group row">
-                            <label for="inputEmail3" class="col-sm-2 control-label col-form-label">Org & Position</label>
-                            <div class="col-sm-10">
-                                  <select multiple=""  name="position" placeholder="" class="select" id="personInCharge" >
-                                    <optgroup label="MooMedia">
-                                        <option>MooMedia - President</option>
-                                        <option>MooMedia - Finance</option>
-                                    </optgroup>
-                                    <optgroup label="LSCS">
-                                        <option>LSCS - President</option>
-                                        <option>LSCS - Finance</option>
-                                    </optgroup>
-                                    <optgroup label="Tapat">
-                                        <option>Tapat - President</option>
-                                        <option>Tapat - Finance</option>
-                                    </optgroup>
-                                    <optgroup label="Santugon">
-                                        <option>Santugon - President</option>
-                                        <option>Santugon - Finance</option>
-                                    </optgroup>
-                                </select>
-                            </div>
-                           
-                        </div>
 
-                        <div class="form-group row">
-                            <label for="inputEmail3" class="col-sm-2 control-label col-form-label">Contact Number</label>
-                            <div class="col-sm-10">
-                                <div class="input-group">
-                                    <span class="input-group-addon" id="edit-basic-addon1">+63</span>
-                                    <input class="form-control" placeholder="Phone Number" aria-describedby="basic-addon1" type="text">
-                                </div>
-                            </div>
-                        </div>  
 
-                        <div class="form-group row">
-                            <label for="inputEmail3" class="col-sm-2 control-label col-form-label">Status</label>
-                            <div class="col-sm-10">
-                                <div class="radio-list">
-                                    <label class="radio-inline">
-                                        <input name="optionsRadios2" value="option1" type="radio"> Active </label>
-                                    <label class="radio-inline">
-                                        <input name="optionsRadios2" value="option2" checked="" type="radio"> Inactive </label>
-                                </div>
-                            </div>
-                        </div>                                              
-                        <!-- <div class="form-group">
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-info waves-effect waves-light m-t-10">Sign in</button>
-                            </div>
-                        </div> -->
-                    </form>
-                    
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" id="edit-submit" class="btn btn-info waves-effect waves-light m-t-10">Submit</button>
-                </div>
+	                       
+	                       
+
+	                        
+
+	                    </form>
+	                    
+	                </div>
+	                <div class="modal-footer">
+	                    <button type="submit" id="edit-submit" class="btn btn-info waves-effect waves-light m-t-10">Submit</button>
+	                </div>
             </div>
             <!-- /.modal-content -->
         </div>
@@ -551,7 +557,25 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/nestable2/1.5.0/jquery.nestable.min.js"></script>
     <!-- POSITION -->
     <script>
-        $("select").select2();
+        $("#cluster").select2({
+        	maximumSelectionSize	: 1
+        });
+        $("#college").select2({
+        	maximumSelectionSize	: 1
+        });
+        $("#faculty").select2({
+
+        });
+        $("#cluster-edit").select2({
+        	maximumSelectionSize	: 1
+        });
+        $("#college-edit").select2({
+        	maximumSelectionSize	: 1
+        });
+        $("#faculty-edit").select2({
+
+        });
+        // $("select").select2();
         $("#sub-pos").click(function(){
             var json = ($("#nestable").nestable('serialize'));
             $.ajax({
@@ -637,7 +661,7 @@
 	            dom: 'Bfrtip',
 	            buttons: [
 	                {
-	                    text: 'Add Account',
+	                    text: 'Add Organization',
 	                    action: function ( e, dt, node, config ) {
 	                        $("#largeModal").modal('show');
 	                    }
@@ -648,10 +672,12 @@
 	                //         $("#position-modal").modal('show');
 	                //     }
 	                // }
-	            ]
+	            ],
+	   //          "aoColumnDefs": [
+				// 	{ "bSortable": false, "aTargets": [ "_all" ] }
+				// ]
 	        } );
 	    $("#submit").click(function(){
-            console.log("asd");
 	    	var lastName = $("#lastName").val();
 	    	var middleName = $("#middleName").val();
 	    	var givenName = $("#givenName").val();
