@@ -719,7 +719,7 @@ INSERT INTO Functionality (id, name, category)
                           (108004, 'Evaluate Activity (AMT)'            , 108),
                           (106005, 'View Publicity Material'            , 106),
                           (109006, 'Submit Activity Research Form (ARF)', 109), -- Evaluate Activity
-                          (214007, 'Modify Organizational Structure'    , 214); 
+                          (214007, 'Modify Organizational Structure'    , 214);
 /*
 INSERT INTO Functionality (id, name, category)
                    VALUES (0, 'Time Setting', 0),
@@ -1201,7 +1201,7 @@ $trigger$
                 NEW.dateSubmitted := CURRENT_TIMESTAMP;
             WHEN 3, 4, 5 /* Approved, Pending, Denied */ THEN
                 NEW.dateStatusModified := CURRENT_TIMESTAMP;
-            ELSE 
+            ELSE
               RETURN NEW;
         END CASE;
 
@@ -1395,10 +1395,10 @@ CREATE TABLE SignatoryType (
 );
 INSERT INTO SignatoryType (id, name)
                    VALUES ( 0, 'Project Head'),
-                   		    ( 1, 'Treasurer/Finance Officer'),
-                   		    ( 2, 'Immediate Superior'),
-                   		    ( 3, 'President'),
-                   		    ( 4, 'Faculty Adviser'),
+                   		  ( 1, 'Treasurer/Finance Officer'),
+                   		  ( 2, 'Immediate Superior'),
+                   		  ( 3, 'President'),
+                   		  ( 4, 'Faculty Adviser'),
                           ( 5, 'Documentation Officer'),
                           ( 6, 'CSO Officer');
 DROP TABLE IF EXISTS ProjectProposalSignatory CASCADE;
@@ -1545,41 +1545,41 @@ INSERT INTO AMTActivityEvaluationStatus (id, name)
 
 DROP TABLE IF EXISTS AMTActivityEvaluation CASCADE;
 CREATE TABLE AMTActivityEvaluation (
-  activity INTEGER REFERENCES ProjectProposal (GOSMActivity),
-  venue SMALLINT NOT NULL,
-  equipment SMALLINT NOT NULL,
-  materials SMALLINT NOT NULL,
-  registration SMALLINT NOT NULL,
-  timeEnd SMALLINT NOT NULL,
-  activityExecution SMALLINT NOT NULL,
-  hosts SMALLINT NOT NULL,
-  facilitators SMALLINT NOT NULL,
-  presentation SMALLINT NOT NULL,
-  activities SMALLINT NOT NULL,
-  organizationStandingPresentation SMALLINT NOT NULL,
-  actualStartTime TIME WITH TIME ZONE NOT NULL,
-  actualEndTime TIME WITH TIME ZONE NOT NULL,
-  ANP INTEGER NOT NULL,
-  person1EA SMALLINT NOT NULL,
-  person1LOA SMALLINT NOT NULL,
-  person1IITSKOA SMALLINT NOT NULL,
-  person1IOMWM SMALLINT NOT NULL,
-  person2EA SMALLINT NOT NULL,
-  person2LOA SMALLINT NOT NULL,
-  person2IITSKOA SMALLINT NOT NULL,
-  person2IOMWM SMALLINT NOT NULL,
-  comments1 TEXT NOT NULL,
-  comments2 TEXT NOT NULL,
-  comments3 TEXT NOT NULL,
-  suggestions1 TEXT NOT NULL,
-  suggestions2 TEXT NOT NULL,
-  suggestions3 TEXT NOT NULL,
-  evaluator INTEGER REFERENCES Account(idNumber),
-  status INTEGER REFERENCES AMTActivityEvaluationStatus(id),
-  dateReserved TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-  dateEvaluated TIMESTAMP WITH TIME ZONE,
+    activity INTEGER REFERENCES ProjectProposal (GOSMActivity),
+    venue SMALLINT,
+    equipment SMALLINT,
+    materials SMALLINT,
+    registration SMALLINT,
+    timeEnd SMALLINT,
+    activityExecution SMALLINT,
+    hosts SMALLINT,
+    facilitators SMALLINT,
+    presentation SMALLINT,
+    activities SMALLINT,
+    organizationStandingPresentation SMALLINT,
+    actualStartTime TIME WITH TIME ZONE,
+    actualEndTime TIME WITH TIME ZONE,
+    ANP INTEGER,
+    person1EA SMALLINT,
+    person1LOA SMALLINT,
+    person1IITSKOA SMALLINT,
+    person1IOMWM SMALLINT,
+    person2EA SMALLINT,
+    person2LOA SMALLINT,
+    person2IITSKOA SMALLINT,
+    person2IOMWM SMALLINT,
+    comments1 TEXT,
+    comments2 TEXT,
+    comments3 TEXT,
+    suggestions1 TEXT,
+    suggestions2 TEXT,
+    suggestions3 TEXT,
+    evaluator INTEGER REFERENCES Account(idNumber),
+    status INTEGER REFERENCES AMTActivityEvaluationStatus(id),
+    dateReserved TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    dateEvaluated TIMESTAMP WITH TIME ZONE,
 
-  PRIMARY KEY (activity)
+    PRIMARY KEY (activity)
 );
 -- END FORMS
 -- COMMIT;
@@ -1587,11 +1587,11 @@ CREATE TABLE AMTActivityEvaluation (
 DROP TABLE IF EXISTS "ActivityResearchForm" CASCADE;
 CREATE TABLE "ActivityResearchForm" (
   "GOSMActivity" INTEGER REFERENCES ProjectProposal(GOSMActivity),
-  "IUTPOTA" SMALLINT NOT NULL,
-  "TASMI" SMALLINT NOT NULL,
-  "IFIDTA" SMALLINT NOT NULL,
-  "TAWWP" SMALLINT NOT NULL,
-  "TOUMTGTTA" SMALLINT NOT NULL,
+  "IUTPOTA" SMALLINT,
+  "TASMI" SMALLINT,
+  "IFIDTA" SMALLINT,
+  "TAWWP" SMALLINT,
+  "TOUMTGTTA" SMALLINT,
   "WWWITA" TEXT,
   "FAC" TEXT,
   "EFFA" TEXT,
