@@ -1089,55 +1089,55 @@ CREATE TABLE GOSMActivityProjectHead (
     /* END GOSM */
 
     /* Project Proposal */
-DROP TABLE IF EXISTS VenueSize CASCADE;
-CREATE TABLE VenueSize (
-	id SMALLINT,
-	name VARCHAR(45) NOT NULL,
+DROP TABLE IF EXISTS "VenueSize" CASCADE;
+CREATE TABLE "VenueSize" (
+	"id" SMALLINT,
+	"name" VARCHAR(45) NOT NULL,
 
 	PRIMARY KEY(id)
 );
-INSERT INTO VenueSize (id, name)
+INSERT INTO "VenueSize" ("id", "name")
                VALUES ( 0, 'Small'),
                       ( 1, 'Mediume'),
                       ( 2, 'Large'),
                       ( 3, 'Lian Sized');
-DROP TABLE IF EXISTS RateType CASCADE;
-CREATE TABLE RateType (
-	id SMALLINT,
-	name VARCHAR(45),
+DROP TABLE IF EXISTS "RateType" CASCADE;
+CREATE TABLE "RateType" (
+	"id" SMALLINT,
+	"name" VARCHAR(45),
 
-	PRIMARY KEY(id)
+	PRIMARY KEY("id")
 );
-INSERT INTO RateType (id, name)
+INSERT INTO "RateType" ("id", "name")
 VALUES (0, 'Per hour'),
        (1, 'Per person'),
        (2, 'Per use'),
        (3, 'Per person, per use'),
        (4, 'Per Dominique');
 
-DROP TABLE IF EXISTS Building CASCADE;
-CREATE TABLE Building (
-	id SMALLINT,
-	name VARCHAR(45) NOT NULL,
+DROP TABLE IF EXISTS "Building" CASCADE;
+CREATE TABLE "Building" (
+	"id" SMALLINT,
+	"name" VARCHAR(45) NOT NULL,
 
-	PRIMARY KEY(id)
+	PRIMARY KEY("id")
 );
-INSERT INTO Building (id, name)
+INSERT INTO "Building" ("id", "name")
               VALUES (0, 'Markus Building');
 
-DROP TABLE IF EXISTS ActivityVenue CASCADE;
-CREATE TABLE ActivityVenue (
-	id INTEGER,
-	name VARCHAR (60),
-	capacity INTEGER,
-	size SMALLINT REFERENCES VenueSize(id),
-	rate NUMERIC(16, 4),
-	rateType SMALLINT REFERENCES RateType(id),
-	building SMALLINT REFERENCES Building(id),
+DROP TABLE IF EXISTS "ActivityVenue" CASCADE;
+CREATE TABLE "ActivityVenue" (
+	"id" INTEGER,
+	"name" VARCHAR (60),
+	"capacity" INTEGER,
+	"size" SMALLINT REFERENCES "VenueSize"("id"),
+	"rate" NUMERIC(16, 4),
+	"rateType" SMALLINT REFERENCES "RateType"("id"),
+	"building" SMALLINT REFERENCES "Building"("id"),
 
 	PRIMARY KEY (id)
 );
-INSERT INTO ActivityVenue (id, name, capacity, size, rate, rateType, building)
+INSERT INTO "ActivityVenue" ("id", "name", "capacity", "size", "rate", "rateType", "building")
                    VALUES ( 0, 'Neil Room', 12,  3, 700.43,       4,        0);
 
 DROP TABLE IF EXISTS ProjectProposalStatus CASCADE;
@@ -1161,7 +1161,7 @@ CREATE TABLE ProjectProposal (
     status INTEGER NOT NULL REFERENCES ProjectProposalStatus(id) DEFAULT 1,
     ENP INTEGER,
     ENMP INTEGER,
-    venue INTEGER REFERENCES ActivityVenue(id),
+    "venue" INTEGER REFERENCES "ActivityVenue"("id"),
     context1 TEXT,
     context2 TEXT,
     context3 TEXT,
@@ -1515,12 +1515,12 @@ CREATE TRIGGER "before_insert_ActivityTransaction"
 
 DROP TABLE IF EXISTS "InformalQuotation" CASCADE;
 CREATE TABLE "InformalQuotation" (
-    expense INTEGER REFERENCES ProjectProposalExpenses(id),
-    ActivityTransaction INTEGER REFERENCES ActivityTransaction(id),
-    contactPerson VARCHAR(60),
-    contactDetails VARCHAR(45),
+    "expense" INTEGER REFERENCES ProjectProposalExpenses(id),
+    "ActivityTransaction" INTEGER REFERENCES "ActivityTransaction"("id"),
+    "contactPerson" VARCHAR(60),
+    "contactDetails" VARCHAR(45),
 
-    PRIMARY KEY(expense)
+    PRIMARY KEY("expense")
 );
 /* Organization Treasurer */
     /* AMTActivityEvaluation */
@@ -1593,6 +1593,76 @@ CREATE TABLE "ActivityResearchForm" (
 
   PRIMARY KEY("GOSMActivity")
 );
+
+/* ADM */
+  /* Post Acts */
+DROP TABLE IF EXISTS "PostProjectProposal" CASCADE;
+CREATE TABLE "PostProjectProposal" (
+  "GOSMActivity" INTEGER REFERENCES ProjectProposal(GOSMActivity),
+  "dateCreated" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "objectives" TEXT[],
+  "WATTTWITA" TEXT,
+  "WWYGLIETA" TEXT,
+  "HDTATYLCTTDOTP" TEXT,
+  "WATTWWAWCYDTPTFHA" TEXT,
+  "path_generalAttendanceList" TEXT,
+
+  PRIMARY KEY("GOSMActivity")
+);
+
+DROP TABLE IF EXISTS "PostProjectProposalExpense" CASCADE;
+CREATE TABLE "PostProjectProposalExpense" (
+  "id" SERIAL UNIQUE,
+  "GOSMActivity" INTEGER REFERENCES "PostProjectProposal"("GOSMActivity"),
+  "sequence" INTEGER NOT NULL DEFAULT -1,
+  "particular" VARCHAR(45),
+  "establishment" VARCHAR(45),
+  "path_file" TEXT,
+
+  PRIMARY KEY("GOSMActivity", "sequence")
+);
+CREATE OR REPLACE FUNCTION "trigger_before_insert_PostProjectProposalExpense"()
+RETURNS trigger AS
+$trigger$
+    BEGIN
+        SELECT COALESCE(MAX(sequence) + 1, 0) INTO NEW.sequence
+         FROM "PostProjectProposalExpense"
+        WHERE "GOSMActivity" = NEW."GOSMActivity";
+
+        return NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER "before_insert_PostProjectProposalExpense"
+    BEFORE INSERT ON "PostProjectProposalExpense"
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_before_insert_PostProjectProposalExpense"();
+
+DROP TABLE IF EXISTS "PostProjectProposalEventPicture" CASCADE;
+CREATE TABLE "PostProjectProposalEventPicture" (
+  "id" SERIAL UNIQUE,
+  "GOSMActivity" INTEGER REFERENCES "PostProjectProposal"("GOSMActivity"),
+  "sequence" INTEGER NOT NULL DEFAULT -1,
+  "path_file" TEXT,
+
+  PRIMARY KEY("GOSMActivity", "sequence")
+);
+CREATE OR REPLACE FUNCTION "trigger_before_insert_PostProjectProposalEventPicture"()
+RETURNS trigger AS
+$trigger$
+    BEGIN
+        SELECT COALESCE(MAX(sequence) + 1, 0) INTO NEW.sequence
+         FROM "PostProjectProposalEventPicture"
+        WHERE "GOSMActivity" = NEW."GOSMActivity";
+
+        return NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER "before_insert_PostProjectProposalEventPicture"
+    BEFORE INSERT ON "PostProjectProposalEventPicture"
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_before_insert_PostProjectProposalEventPicture"();
+  /* Post Acts END*/
+/* ADM END */
 /*
     Auditing
 */
