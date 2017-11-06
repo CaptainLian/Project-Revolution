@@ -135,7 +135,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
         return connection.any(getAccountLogsSQL);
     };
 
-    const hasGOSMActivityWithPPRSQL = queryFiles.account_has_gosmactivity_without_ppr;
+    const hasGOSMActivityWithPPRSQL = queryFiles.account_has_gosmactivity_with_ppr;
     AccountModel.hasGOSMActivityWithPPR = (idNumber, organizationID, connection = database) => {
         const param = Object.create(null);
         param.idNumber = idNumber;

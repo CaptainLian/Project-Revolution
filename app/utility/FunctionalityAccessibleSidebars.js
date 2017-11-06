@@ -44,7 +44,16 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.ViewPublicityMaterial] = [{
 //Evaluate Activity (OrgRes)
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateActivity_OrgRes] = [{
     name: 'Submit Activity Research Form',
-    link: '/ORGRES/SubmitActivityReearchForm'
+    link: '/ORGRES/SubmitActivityResearchForm',
+    sublinks: [
+
+    ]
+}];
+
+//Modify Organizational Structure
+functionalitySidebars[FUNCTIONALITY_SEQUENCES.ModifyOrganizationalStructure] = [{
+    name: 'Modify Organizational Structure',
+    link: '/Organization/Setting/ACL'
 }];
 
 const accessibleRoutes = [];
@@ -52,6 +61,11 @@ for(const functionality in functionalitySidebars){
     for(const sidebar of functionalitySidebars[functionality]){
         //push to array
         accessibleRoutes[accessibleRoutes.length] = sidebar.link;
+        if(sidebar.sublinks){
+            for(const link of sidebar.sublinks){
+                accessibleRoutes[accessibleRoutes.length] = link;
+            }
+        }
     }
 }
 accessibleRoutes.sort();

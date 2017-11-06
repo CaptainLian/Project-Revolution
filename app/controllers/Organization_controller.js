@@ -15,19 +15,101 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
         //Create ProjectProposal
         viewGOSMActivityListProjectProposal: (req, res) => {
-            const renderData = Object.create(null);
-            renderData.extra_data = req.extra_data;
-            renderData.csrfToken = req.csrfToken();
 
-            return res.render('Org/ActivityToImplement', renderData);
+            //TODO: session of gosm id??
+            var dbParam = {
+                gosm: 200001
+            }
+
+            projectProposalModel.getGOSMActivitiesToImplement(dbParam)
+            .then(data=>{
+
+                const renderData = Object.create(null);
+                renderData.extra_data = req.extra_data;
+                renderData.csrfToken = req.csrfToken();
+                renderData.activities = data;
+
+                return res.render('Org/ActivityToImplement', renderData);
+            }).catch(error=>{
+                console.log(error);
+            });
+
+            
         },
 
         viewSubmitProjectProposalMain: (req, res) => {
-            const renderData = Object.create(null);
-            renderData.extra_data = req.extra_data;
-            renderData.csrfToken = req.csrfToken();
 
-            return res.render('Org/SubmitProjectProposal_main',renderData);
+            console.log("ITPO");
+            //still no ppr or rejected ppr
+            if (req.params.status == 0){
+
+                console.log("ENTER 0");
+
+                var dbParam = {
+                    gosmactivity: req.params.id
+                };
+
+                projectProposalModel.insertProjectProposal(dbParam)
+                .then(data=>{
+
+                    database.task(task => {
+                        return task.batch([
+                            gosmModel.getGOSMActivity(dbParam),
+                            gosmModel.getGOSMActivityProjectHeads(dbParam)
+                        ]);
+                    }).then(data => {
+                        const renderData = Object.create(null);
+                        renderData.extra_data = req.extra_data;
+                        renderData.csrfToken = req.csrfToken();
+
+                        renderData.gosmActivity = data[0];
+                        renderData.projectHeads = data[1];
+
+                        return res.render('Org/SubmitProjectProposal_main',renderData);
+                    }).catch(err => {
+                        throw err;
+                    });
+
+
+                }).catch(error=>{
+                    console.log(error);
+                });
+
+            } // already started ppr
+            else if (req.params.status == 1){
+
+                console.log("ENTER 1");
+
+                var dbParam = {
+                    gosmactivity: req.params.id
+                };
+
+                database.task(task => {
+                        return task.batch([
+                            gosmModel.getGOSMActivity(dbParam),
+                            gosmModel.getGOSMActivityProjectHeads(dbParam),
+                            projectProposalModel.getProjectProposal(dbParam)
+                        ]);
+                    }).then(data => {
+                        const renderData = Object.create(null);
+                        renderData.extra_data = req.extra_data;
+                        renderData.csrfToken = req.csrfToken();
+
+                        renderData.gosmActivity = data[0];
+                        renderData.projectHeads = data[1];
+                        renderData.projectProposal = data[2];
+
+                        console.log(data[2]);
+
+                        return res.render('Org/SubmitProjectProposal_main',renderData);
+                    }).catch(err => {
+                        console.log(err);
+                        console.log(err.stack);
+                    });
+
+            }
+            
+
         },
         viewSubmitPostProjectProposalMain: (req, res) => {
             const renderData = Object.create(null);
@@ -462,131 +544,6 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
               });
         },
 
-        inputActivityRequirements: (req, res) => {
-            let sched = JSON.parse(req.body.sched);
-            let exp = JSON.parse(req.body.exp);
-            let funds = JSON.parse(req.body.funds);
-
-            // var sched = sched[0];
-            console.log(funds.expense);
-            // req.body.context
-
-            //  logger.debug(`${JSON.stringify(req.body)}`, log_options);
-
-            let projectProposalParam = {
-                //TODO change gosmactivity value
-                GOSMactivity: 2,
-                status: 1,
-                enp: req.body.enp,
-                enmp: req.body.enmp,
-                venue: req.body.venue,
-                sourceFundOther: exp.others,
-                sourceFundParticipantFee: exp.participant,
-                sourceFundOrganizational: exp.orgFunds,
-                accumulatedOperationalFunds: funds.ope,
-                accumulatedDepositoryFunds: funds.dep,
-                organizationalFundOtherSource: funds.other,
-                preparedBy: req.session.user
-            };
-
-            database.tx(t /* transaction connection */ => {
-                //  logger.debug(`${JSON.stringify(projectProposalParam)}`);
-                return projectProposalModel.insertProjectProposal(projectProposalParam, t)
-                .then(data => {
-                    const projectProposalID = data.projectproposal;
-                     logger.debug(`projectProposal: ${projectProposalID}`, log_options);
-                    /*
-
-                        PPR Program Design
-
-                    */
-                     logger.debug('Inserting Program Design',log_options);
-                    for (let index0 = sched.length + 1; --index0;) {
-                         logger.debug(sched, log_options);
-                        const program = sched[sched.length - index0];
-                        for (let index1 = program.time.length + 1; --index1;) {
-                             logger.debug(index1, log_options);
-                            const i = program.time.length - index1;
-                            const item = program.time[i];
-                            var dateSplit = program.date.split("/");
-
-                            projectProposalModel.insertProjectProposalDesign({
-                                projectProposal: projectProposalID,
-                                dayID: i,
-                                date:  "'" + dateSplit[2] + "-" + dateSplit[0] + "-" + dateSplit[1] + "'",
-                                startTime: item.start,
-                                endTime: item.end,
-                                activity: item.actName,
-                                activityDescription: item.actDesc,
-                                personInCharge: item.pic
-                            }, t).then(() => {
-
-                            }).catch(err => {
-                                throw err;
-                            });
-                        }
-                    }
-
-                    /*
-
-                        Revenue
-
-                    */
-                     logger.debug('Inserting Revenue',log_options);
-                    for (let index = funds.revenue.length + 1; --index;) {
-                         logger.debug(`NAG LOOP`, log_options);
-                        console.log("INDEX IS");
-                        console.log(index);
-                        console.log("LENGTH IS");
-                        console.log(funds.revenue.length);
-                        const item = funds.revenue[funds.revenue.length - index];
-                        console.log(item);
-                        projectProposalModel.insertProjectProposalProjectedIncome({
-                            projectProposal: projectProposalID,
-                            item: item.item,
-                            quantity: item.quan,
-                            sellingPrice: item.price
-                        }, t).then(() => {
-
-                        }).catch(err => {
-                            throw err;
-                        });
-                    }
-
-                    /*
-
-                        Expense
-
-                    */
-                     logger.debug('Inserting Expenses',log_options);
-                    for (let index = funds.expense.length + 1; --index;) {
-                        console.log("INDEX IS");
-                        console.log(index);
-                        console.log("LENGTH IS");
-                        console.log(funds.expense.length);
-                        const item = funds.expense[funds.expense.length - index];
-                        console.log(item);
-                        projectProposalModel.insertProjectProposalExpenses({
-                            projectProposal: projectProposalID,
-                            material: item.item,
-                            quantity: item.quan,
-                            unitCost: item.price
-                        }, t).then(() => {
-
-                        }).catch(err => {
-                            throw err;
-                        });
-                    }
-                }).catch(err => {
-                    throw err;
-                });
-            }).then(data => {
-                 logger.debug(`${data}`, log_options);
-            }).catch(err => {
-                 logger.warning(`${JSON.stringify(err)}`, log_options);
-                throw err;
-            });
-        },
 
         saveContext: (req, res) =>{
             console.log(req.body);

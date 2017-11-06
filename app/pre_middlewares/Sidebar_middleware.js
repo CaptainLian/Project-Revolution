@@ -104,7 +104,9 @@ module.exports = function(configuration, application, modules, database, queryFi
                 const sidebars = req.extra_data.view.sidebars;
                 const newSidebar = Object.create(null);
                 newSidebar.name = 'Submit Project Proposal';
-                newSidebar.link = '/blank';
+                newSidebar.link = '/Organization/ProjectProposal/GOSMList';
+
+                sidebars[sidebars.length] = newSidebar;
              }
 
              return accountModel.hasGOSMACtivityWithAMTActivityEvaluation(user.idNumber, organizationSelected.id);
@@ -114,14 +116,16 @@ module.exports = function(configuration, application, modules, database, queryFi
                 const sidebars = req.extra_data.view.sidebars;
                 const newSidebar = Object.create(null);
                 newSidebar.name = 'View AMT Activity Evaluation';
+                //TODO: SET ACTUAL LINK
                 newSidebar.link = '/blank';
              }
+
+             return next();
         }).catch(err => {
             logger.debug(`${JSON.stringify(err)}`, log_options);
             logger.debug(`${err.stack}`, log_options);
+            return next();
         });               
-
-        return next();
     };
     return [
         Sidebar_data_attacher_middleware,
