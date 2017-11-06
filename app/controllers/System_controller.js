@@ -122,56 +122,25 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     req.session.save();
 
                     logger.debug('Determining user type', log_options);
-                    switch (req.session.user.type) {
-                        // Admin
-                        case 0:
-                            //TODO: implementation
-                            break;
+                    if(req.session.user.type === 1){
+                        logger.debug('Student type account', log_options);
+                        accountModel.getStudentOrganizations(req.session.user.idNumber)
+                        .then(data => {
+                            logger.debug(`${JSON.stringify(data)}`, log_options);
 
-                        // Faculty Adviser Account
-                        case 2:
-                            //TODO: implementation
-                            break;
-                        // SLIFE Account
-                        case 3:
-                            //TODO: implementation
-                            break;
-                        // Accounting Account
-                        case 4:
-                            //TODO: implementation
-                            break;
-
-                        // Student Account
-                        case 1:
-                            logger.debug('Student type account', log_options);
-                            accountModel.getStudentOrganizations(req.session.user.idNumber)
-                            .then(data => {
-                                logger.debug(`${JSON.stringify(data)}`, log_options);
-
-                                let organization = data.shift();
-                                logger.debug(`${JSON.stringify(organization)}`, log_options);
-                                req.session.user.organizationSelected = Object.create(null);
-                                req.session.user.organizationSelected.id = organization.id;
-                                req.session.user.organizationSelected.path_profilePicture = organization.path_profilepicture || '';
-                                req.session.user.organizationSelected.acronym = data.acronym;
-                                req.session.save();
-                                logger.debug(`Getting Role Details in Organization`);
-                                return accountModel.getRoleDetailsInOrganization(
-                                    req.session.user.idNumber,
-                                    organization.id,
-                                    'home_url'
-                                );
-                            }).then(data =>{
-                                const url = data.home_url || '/blank';
-
-                                const reply = {
-                                    url: url,
-                                    reroute: true,
-                                    valid: true
-                                };
-                                return res.send(reply);
-                            });
-                        break;
+                            let organization = data.shift();
+                            logger.debug(`${JSON.stringify(organization)}`, log_options);
+                            req.session.user.organizationSelected = Object.create(null);
+                            req.session.user.organizationSelected.id = organization.id;
+                            req.session.user.organizationSelected.path_profilePicture = organization.path_profilepicture || '';
+                            req.session.user.organizationSelected.acronym = data.acronym;
+                            req.session.save();
+                        });
+                        const reply = Object.create(null);
+                        reply. url = '/home';
+                        reply.reroute = true;
+                        reply.valid = true;
+                        return res.send(reply);
                     }
                 } else {
                     logger.debug('Incorrect password');
@@ -190,6 +159,41 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             return res.send({
                 valid: false
             });
+        }
+    };
+
+    SystemController.viewHome = (req, res) => {
+        switch (req.session.user.type) {
+            // Admin
+            case 0:
+                //TODO: implementation
+                break;
+
+            // Faculty Adviser Account
+            case 2:
+                //TODO: implementation
+                break;
+            // SLIFE Account
+            case 3:
+                //TODO: implementation
+                break;
+            // Accounting Account
+            case 4:
+                //TODO: implementation
+                break;
+
+            // Student Account
+            case 1:
+                accountModel.getRoleDetailsInOrganization(
+                    req.session.user.idNumber,
+                    req.session.user.organizationSelected.id,
+                    'home_url'
+                ).then(data => {
+                    return res.redirect(data.home_url || '/blank');
+                });
+                break;
+            default:
+                return res.redirect('/blank');
         }
     };
 

@@ -25,7 +25,7 @@
             <div class="navbarHeader"> 
                 <a class="navbar-toggle hidden-sm hidden-md hidden-lg " href="javascript:void(0)" data-toggle="collapse" data-target=".navbar-collapse"><i class="ti-menu"></i></a>
                 <div class="topLeft top-left-part">
-                    <a class="logo" href="index.html">
+                    <a class="logo" href="/home">
                         <b><img class="headerLogo" src="/plugins/images/cso.png" alt="home"></b>
                         <span class="hidden-xs" style="display: inline;">CSO SYSTEM</span>
                     </a>
@@ -215,6 +215,7 @@
                             </div>
                             <!-- /input-group -->
                         </li>
+                        {{sidebar_item('Home', '/home')}}
                         {% for sidebar in extra_data.view.sidebars %}
                             {{sidebar_item(sidebar.name, sidebar.link, sidebar.icon)}}
                         {% endfor %}

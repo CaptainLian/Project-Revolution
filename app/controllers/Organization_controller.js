@@ -683,6 +683,49 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         saveExpenses: (req, res) =>{
             console.log("HERE");
             console.log(req.body);
+
+
+            // TODO: change id, to come from the selected activity
+            var dbParam = {
+                id: 1,
+                accumulatedOperationalFunds: req.body.ope,
+                accumulatedDepositoryFunds: req.body.dep,
+                organizationFundOtherSource: req.body.otherfunds,
+                sourceFundOrganizational: req.body.org,
+                sourceFundParticipantFee: req.body.par,
+                sourceFundOther: req.body.others,
+                isExpenseComplete: true
+            };
+
+            projectProposalModel.updatePPRExpenses(dbParam);
+
+            // TODO: change id, to come from selected activity            
+            var dbParam2 = {
+                projectproposal: 1
+            };
+            projectProposalModel.deleteExpenses(dbParam2);
+
+            for (var i; i < req.body.item.length-1; i++){
+
+                // TODO: change id, to come from selected activity            
+                var dbParam3 = {
+                    projectProposal: 1,
+                    material: req.body.item[i],
+                    quantity: req.body.quantity[i],
+                    unitCost: req.body.price[i],
+                    type: req.body.typeOfItem[i]
+                };
+
+                projectProposalModel.insertProjectProposalExpenses(dbParam3)
+                .then(data=>{
+
+                }).catch(error=>{
+                    console.log(error);
+                });
+            }
+
+
+
         },
 
         saveAttachments: (req, res) =>{
