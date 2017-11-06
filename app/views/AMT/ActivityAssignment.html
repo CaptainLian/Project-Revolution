@@ -12,6 +12,7 @@
     {{tag.style('/plugins/bower_components/nestable/nestable.css')}}
     {{tag.style('https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css')}}
     {{tag.style('https://cdnjs.cloudflare.com/ajax/libs/nestable2/1.5.0/jquery.nestable.min.CSS')}}
+    {{tag.style('/plugins/bower_components/toast-master/css/jquery.toast.css')}}
 
     <!-- Menu CSS -->
     {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
@@ -21,6 +22,7 @@
     {{tag.style('/plugins/bower_components/sweetalert/sweetalert.css')}}
     <!-- Custom CSS -->
     {{tag.style('/plugins/bower_components/custom-select/custom-select.css')}}
+    
     {{tag.style('/plugins/bower_components/bootstrap-select/bootstrap-select.min.css')}}
     {{tag.style('/css/style.css')}}
     {{tag.style('/css/custom.css')}}
@@ -65,9 +67,12 @@
     {{tag.javascript('/plugins/bower_components/sweetalert/sweetalert.min.js', true)}}    
     <!--Style Switcher -->
     {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
+    {{tag.javascript('/plugins/bower_components/toast-master/js/jquery.toast.js',true)}}
 
     {{tag.javascript('/plugins/bower_components/sweetalert/jquery.sweet-alert.custom.js', true)}}
+
     {{tag.javascript('/js/AMT/ActivityAssignment.js', true)}}
+    {{tag.javascript('/js/custom.min.js', true)}}
 {%endblock%}
 
 {%block content%}
@@ -178,11 +183,6 @@
 
 		</div>
 	</div>
-	<div class="col-sm-12">
-
-	</div>
-	<div class="col-sm-12">
-
-	</div>
+	
 </div>
 {%endblock%}
