@@ -1161,6 +1161,8 @@ CREATE TABLE ProjectProposal (
     status INTEGER NOT NULL REFERENCES ProjectProposalStatus(id) DEFAULT 1,
     ENP INTEGER,
     ENMP INTEGER,
+    actualDateStart DATE,
+    actualDateEnd DATE,
     "venue" INTEGER REFERENCES "ActivityVenue"("id"),
     context1 TEXT,
     context2 TEXT,
@@ -1544,8 +1546,7 @@ CREATE TABLE AMTActivityEvaluation (
   materials SMALLINT NOT NULL,
   registration SMALLINT NOT NULL,
   timeEnd SMALLINT NOT NULL,
-  activityExecutionA SMALLINT NOT NULL,
-  activityExecutionB SMALLINT NOT NULL,
+  activityExecution SMALLINT NOT NULL,
   hosts SMALLINT NOT NULL,
   facilitators SMALLINT NOT NULL,
   presentation SMALLINT NOT NULL,
@@ -1617,6 +1618,7 @@ CREATE TABLE "PostProjectProposalExpense" (
   "sequence" INTEGER NOT NULL DEFAULT -1,
   "particular" VARCHAR(45),
   "establishment" VARCHAR(45),
+  "price" NUMERIC(16, 4),
   "path_file" TEXT,
 
   PRIMARY KEY("GOSMActivity", "sequence")

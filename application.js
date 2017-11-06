@@ -21,6 +21,14 @@ module.exports = (configuration, logger) => {
      */
      const requireDir = require('require-dir');
 
+     /**
+      * Configure the modules
+      */
+     modules.Promise = modules.Promise.config({
+        warnings: true,
+        longStackTraces: configuration.debug.enabled
+     });
+
 	/**
 	 * const priority = {
 	 * 		CORE: 25,
