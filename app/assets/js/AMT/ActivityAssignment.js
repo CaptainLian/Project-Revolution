@@ -45,8 +45,8 @@ $(document).ready(function(){
           "columns": [
             { "width": "35%" },
             { "width": "25%" },
-            { "width": "20%" },
             { "width": "15%" },
+            { "width": "20%" },
             { "width": "5%" },
           ]
     });
@@ -55,8 +55,8 @@ $(document).ready(function(){
           "columns": [
             { "width": "35%" },
             { "width": "25%" },
-            { "width": "20%" },
             { "width": "15%" },
+            { "width": "20%" },
             { "width": "5%" },
           ]
     });

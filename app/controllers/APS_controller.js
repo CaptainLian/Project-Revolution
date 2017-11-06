@@ -28,7 +28,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     APSController.viewOrgGOSM = (req, res) => {
         const organizationID = req.params.orgID;
         const GOSMID = req.params.GOSMID;
-
+        console.log(req);
         logger.debug(`Viewing GOSM of ID: ${GOSMID} of Organization: ${organizationID}`, log_options);
         database.task(t => {
             return t.batch([

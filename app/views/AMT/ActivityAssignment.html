@@ -40,6 +40,9 @@
         #myTable2{
             table-layout: fixed; 
         }
+        td{
+        	word-wrap: break-word;
+        }
     </style>
 {%endblock%}
 
@@ -145,22 +148,25 @@
 									</tr>
 								</thead>
 								<tbody> 
+									{%for activity in data %}
 									<tr>
-										<td class="text ">Unite:ddddddddddddddddddddddddddddddd First General Assembly</td><!-- event name-->
-										<td>Henry Sy.</td><!-- date of event-->                                                           
-										<td>January 1, 2017 </td><!-- date of event-->
+										<td class="text ">{{activity.strategies}}</td><!-- event name-->
+										<td>{{activity.name}}</td><!-- date of event-->                                                           
+										<td>{{activity.date}} </td><!-- date of event-->
 										<td>
 											<i class="fa fa-clock-o"></i>
-											12:00 - 17:00
+											{{activity.time}}
 										</td>                 
 
 										<td class="text-center "  style="vertical-align: middle;">
-											<a class="evaluate-activity"  activity-id="1" data-toggle="tooltip" data-title="Get this Activity" > 
+											<a class="evaluate-activity"  activity-id="{{activity.id}}" data-toggle="tooltip" data-title="Get this Activity" > 
 												<i  class="fa  fa-file m-r-10 text-inverse "></i> 
 											</a>
 
 										</td>
 									</tr>
+									{%endfor%}
+									
 								</tbody>
 							</table>
 

@@ -16,8 +16,15 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		let renderData = Object.create(null);
 		renderData.csrfToken = req.csrfToken();
 		renderData = req.extra_data;
+
+		database.task(t =>{
+			return t.batch([amtModel.getAvailableActivityToCheck()]);
+		}).then(data=>{			
+			renderData.data = data[0];
+			console.log(renderData);
+			return res.render('AMT/ActivityAssignment', renderData);
+		});
 		
-		return res.render('AMT/ActivityAssignment', renderData);
 	};
 
 	AMTController.submitActivityEvaluation = (req, res) =>{

@@ -11,7 +11,11 @@ module.exports = function(configuration, modules, database, queryFiles){
         return connection.none(insertAMTActivityEvaluationSQL, param);
     };
     ActivityMonitoringModel.getAvailableActivityToCheck = function(param, connection = database){
-    	let param = Object.create(null);
+    	 param = Object.create(null);
+    	return connection.any(getAvailableActivityToCheck, param);
+    };
+    ActivityMonitoringModel.getActivityToCheck = function(param, connection = database){
+    	 param = Object.create(null);
     	return connection.any(getAvailableActivityToCheck, param);
     }
 
