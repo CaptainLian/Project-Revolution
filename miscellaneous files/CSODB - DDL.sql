@@ -712,13 +712,14 @@ CREATE TRIGGER before_update_Functionality
     EXECUTE PROCEDURE trigger_before_update_Functionality();
 
 INSERT INTO Functionality (id, name, category)
-                   VALUES (211000, 'Submit GOSM'                  , 211),
-                          (211001, 'Resubmit GOSM'                , 211),
-                          (104002, 'Evaluate GOSM'                , 104),
-                          (104003, 'Evaluate Project Proposal'    , 104),
-                          (108004, 'Evaluate Activity (AMT)'      , 108),
-                          (106005, 'View Publicity Material'      , 106),
-                          (109006, 'Submit Activity Research Form (ARF)', 109); -- Evaluate Activity
+                   VALUES (211000, 'Submit GOSM'                        , 211),
+                          (211001, 'Resubmit GOSM'                      , 211),
+                          (104002, 'Evaluate GOSM'                      , 104),
+                          (104003, 'Evaluate Project Proposal'          , 104),
+                          (108004, 'Evaluate Activity (AMT)'            , 108),
+                          (106005, 'View Publicity Material'            , 106),
+                          (109006, 'Submit Activity Research Form (ARF)', 109), -- Evaluate Activity
+                          (214007, 'Modify Organizational Structure'    , 214); 
 /*
 INSERT INTO Functionality (id, name, category)
                    VALUES (0, 'Time Setting', 0),
@@ -823,7 +824,9 @@ INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       -- Submit Activity Research Form (ARF)/ Evaluate Activity (OrgRes)
                                       (   20,        109006,      TRUE),
                                       (   21,        109006,      TRUE),
-                                      (   22,        109006,      TRUE);
+                                      (   22,        109006,      TRUE),
+                                      -- Modify Organizational Structure
+                                      (    0,        214007,      TRUE);
 
 
 /* Organization Default Structure */
@@ -840,7 +843,9 @@ $trigger$
                              VALUES (NEW.id, 'President', TRUE, NULL)
         RETURNING id INTO presidentRoleID;
         INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
-                                       VALUES (presidentRoleID, 211000, TRUE);
+                                       VALUES (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 0)), TRUE);
+        INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
+                                       VALUES (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 7)), TRUE);
 
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
                              VALUES (NEW.id, 'Executive Secretariat', TRUE, presidentRoleID)
@@ -1214,8 +1219,8 @@ CREATE TABLE ProjectProposalProgramDesign (
     id SERIAL UNIQUE,
     projectProposal INTEGER REFERENCES ProjectProposal(id),
     dayID INTEGER,
-    date DATE,
     sequence INTEGER,
+    date DATE,
     startTime TIME WITH TIME ZONE,
     endTime TIME WITH TIME ZONE,
     activity TEXT,
