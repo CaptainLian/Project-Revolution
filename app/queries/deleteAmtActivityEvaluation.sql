@@ -1,0 +1,3 @@
+DELETE FROM AMTACTIVITYEVALUATION
+      WHERE ACTIVITY = ${activityId}
+        AND EVALUATOR = ${idNumber}

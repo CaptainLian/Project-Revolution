@@ -3,6 +3,11 @@
 
 {%block page_title%}CSO - Activity Assign{%-endblock%}
 
+{%block meta%}
+    {{super()}}
+    <meta data-name="csrf" data-token="{{csrfToken}}" />
+{%endblock%}
+
 {%block style%}
 	{{super()}}
     <!-- Bootstrap Core CSS -->
@@ -74,6 +79,7 @@
 
     {{tag.javascript('/plugins/bower_components/sweetalert/jquery.sweet-alert.custom.js', true)}}
 
+    {{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
     {{tag.javascript('/js/AMT/ActivityAssignment.js', true)}}
     {{tag.javascript('/js/custom.min.js', true)}}
 {%endblock%}
@@ -107,25 +113,28 @@
 									</tr>
 								</thead>
 								<tbody> 
+									{% for activity in myActivity %}
 									<tr>
-										<td class="text">Unite: First General Assembly</td><!-- event name-->
-										<td>Henry Sy.</td><!-- date of event-->                                                           
-										<td>January 1, 2017 </td><!-- date of event-->
+										<td class="text">{{activity.strategies}}</td><!-- event name-->
+										<td>{{activity.name}}</td><!-- date of event-->                                                           
+										<td>{{activity.date}} </td><!-- date of event-->
 										<td>
 											<i class="fa fa-clock-o"></i>
-											12:00 - 17:00
+											{{activity.time}}
 										</td>   
 
 										<td class="text-center text-nowrap "  style="vertical-align: middle;">
-											<a activity-id="1" href="#" data-toggle="tooltip" data-title="Evaluate Activity"> 
+											<a activity-id="{{activity.id}}" href="#" data-toggle="tooltip" data-title="Evaluate Activity"> 
 												<i  class="fa  fa-clipboard m-r-10 text-inverse "></i> 
 											</a>
 
-											<a activity-id="1" class=""  data-toggle="tooltip" data-title="Remove from My Activity"> 
-												<i  class="fa  fa-times m-r-10 text-inverse remove-activity "></i> 
+											<a  activity-id="{{activity.id}}" venue-id="{{activity.venueid}}" class=""  data-toggle="tooltip" data-title="Remove from My Activity"> 
+												<i   activity-id="{{activity.id}}" class="fa  fa-times m-r-10 text-inverse remove-activity "></i> 
 											</a>
 										</td>
 									</tr>
+									{% endfor %}
+									
 								</tbody>
 							</table>
 
@@ -148,7 +157,7 @@
 									</tr>
 								</thead>
 								<tbody> 
-									{%for activity in data %}
+									{%for activity in allActivity %}
 									<tr>
 										<td class="text ">{{activity.strategies}}</td><!-- event name-->
 										<td>{{activity.name}}</td><!-- date of event-->                                                           
@@ -159,7 +168,7 @@
 										</td>                 
 
 										<td class="text-center "  style="vertical-align: middle;">
-											<a class="evaluate-activity"  activity-id="{{activity.id}}" data-toggle="tooltip" data-title="Get this Activity" > 
+											<a class="evaluate-activity"  activity-id="{{activity.id}}" venue-id="{{activity.venueid}}" data-toggle="tooltip" data-title="Get this Activity" > 
 												<i  class="fa  fa-file m-r-10 text-inverse "></i> 
 											</a>
 

@@ -6,25 +6,80 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 	AMTController.viewActivityEvaluation = (req, res) => {
 		let renderData = Object.create(null);
-		renderData.csrfToken = req.csrfToken();
 		renderData = req.extra_data;
+		renderData.csrfToken = req.csrfToken();
+		
 		
 		return res.render('AMT/ActivityEvaluation', renderData);
 	};
-
+	//CHANGE SQL TO CURRENT TERM YEAR ONLY
 	AMTController.viewActivity = (req, res) => {
 		let renderData = Object.create(null);
-		renderData.csrfToken = req.csrfToken();
-		renderData = req.extra_data;
-
+		
+		const dbParam = {			
+			idNumber:req.session.user.idNumber,
+		};
+		
 		database.task(t =>{
-			return t.batch([amtModel.getAvailableActivityToCheck()]);
+			return t.batch([amtModel.getAvailableActivityToCheck(),
+							amtModel.getAmtMyActivity(dbParam)]);
 		}).then(data=>{			
-			renderData.data = data[0];
-			console.log(renderData);
+			renderData = req.extra_data;
+			renderData.csrfToken = req.csrfToken();
+			
+			renderData.allActivity = data[0];
+			renderData.myActivity = data[1];
+			console.log(data);
+			// console.log("renderData");
+			// console.log(renderData);
 			return res.render('AMT/ActivityAssignment', renderData);
 		});
 		
+	};
+
+	AMTController.insertToMyActivityToCheck = (req, res) => {
+		let renderData = Object.create(null);
+		renderData = req.extra_data;
+		renderData.csrfToken = req.csrfToken();
+		
+		console.log("req.session.user2");
+		console.log(req.body);
+		
+		const dbParam = {
+			activity:req.body.id,
+			idNumber:req.session.user.idNumber,
+			venue:req.body.vid,
+		};
+		
+		amtModel.insertToMyActivityToCheck(dbParam)
+		.then(data=>{
+			console.log(data);
+			return res.send("1");
+		}).catch(err=>{
+			return res.send("0");
+		});
+		
+	};
+
+	AMTController.removeToMyActivity = (req, res) => {
+		let renderData = Object.create(null);
+		renderData = req.extra_data;
+		renderData.csrfToken = req.csrfToken();
+		
+		const dbParam = {
+			activityId: req.body.id,
+			idNumber:req.session.user.idNumber,
+		};
+		console.log(dbParam);
+
+		amtModel.deleteToMyActivity(dbParam)
+		.then(data =>{
+			console.log(data);
+			return res.send("1");
+		}).catch(err => {
+			console.log(err);
+			return res.send("0");
+		});
 	};
 
 	AMTController.submitActivityEvaluation = (req, res) =>{

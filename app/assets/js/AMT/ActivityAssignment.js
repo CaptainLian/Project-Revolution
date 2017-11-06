@@ -76,38 +76,73 @@ $(document).ready(function(){
     $(document).on('click','.evaluate-activity', function(){
         console.log("evaluate-activity");
         var id = $(this).attr('activity-id');
-        // $.ajax({
-        //     type:'POST',
-        //     url:'',
-        //     data:id,
-        //     success:function(data){
+        var vid = $(this).attr('venue-id');
+        var d = $(this);
+        var tr = $(this).closest("tr");
+        var actName  = tr.find("td:nth-child(1)").html();
+        var ven = tr.find("td:nth-child(2)").html();
+        var date = tr.find("td:nth-child(3)").html();
+        var time = (tr.find("td:nth-child(4)").html());
+        console.log(tr.find("td:nth-child(1)").html());
+        console.log(tr.find("td:nth-child(2)").html());
+        console.log(tr.find("td:nth-child(3)").html());
+        console.log(tr.find("td:nth-child(4)").text());
+        // var actName = tr.
+        $.ajax({
+            type:'POST',
+            url:'/AMT/getActivity',
+            data:{id:id,vid:vid},
+            success:function(data){
+                if(parseInt(data)){
+                    $('[data-toggle="tooltip"]').tooltip('hide');
+                    table2.row(d.parents('tr')).remove().draw();
 
-        //     }
-        // });
-        // $('.tooltip').hide();
-        $('[data-toggle="tooltip"]').tooltip('hide');
-        table2.row($(this).parents('tr')).remove().draw();
 
-
-        // $('.tooltip').hide();
-        // $('[data-toggle="tooltip"]').tooltip('hide');
-        var actions  =      '<a activity-id="1" href="#" data-toggle="tooltip" data-title="Evaluate Activity"> '+
-                                '<i  class="fa  fa-clipboard m-r-10 text-inverse "></i> '+
-                            '</a>'+                                   
-                             '<a activity-id="1" class="remove-activity"  data-toggle="tooltip" data-title="Remove from My Activity"> '+
-                                '<i  class="fa  fa-times m-r-10 text-inverse "></i> '+
-                            '</a>';
+                    // $('.tooltip').hide();
+                    // $('[data-toggle="tooltip"]').tooltip('hide');
+                    var actions  =      '<a activity-id="'+id+'" href="#" data-toggle="tooltip" data-title="Evaluate Activity"> '+
+                                            '<i  class="fa  fa-clipboard m-r-10 text-inverse "></i> '+
+                                        '</a>'+                                   
+                                         '<a activity-id="'+id+'"  venue-id="'+vid+'"  class="remove-activity"  data-toggle="tooltip" data-title="Remove from My Activity"> '+
+                                            '<i  class="fa  fa-times m-r-10 text-inverse "></i> '+
+                                        '</a>';
+                    
+                                        
+                    var row = table.row.add( [
+                                    actName,
+                                    ven,
+                                    date,
+                                    time,
+                                    actions                        
+                                ]).draw().node();
+                    $(row).find("td:last").addClass("text-center");
+                    $(document).trigger("tooltipTrigger");
+                    $.toast({
+                        heading: 'Success!',
+                        text: 'Successfully added to your My Activity.',
+                        position: 'top-right',
+                        loaderBg:'#ff6849',
+                        icon: 'success',
+                        hideAfter: 3500
+                        
+                      });
+                }else{
+                  $.toast({
+                    heading: 'Failed!',
+                    text: 'It seems like someone was able to get the activity first.',
+                    position: 'top-right',
+                    loaderBg:'#ff6849',
+                    icon: 'error',
+                    hideAfter: 3500
+                    
+                  });
+                  $('[data-toggle="tooltip"]').tooltip('hide');
+                    table2.row(d.parents('tr')).remove().draw();
+                }
+            }
+        });
+       
         
-                            
-        var row = table.row.add( [
-                        "activityName",
-                        "venue",
-                        "date",
-                        "time",
-                        actions                        
-                    ]).draw().node();
-        $(row).find("td:last").addClass("text-center");
-        $(document).trigger("tooltipTrigger");
         
 
         // $('.tooltip').hide();
@@ -116,41 +151,69 @@ $(document).ready(function(){
 
     });
     $(document).on('click',' .remove-activity', function(){
+        var tr = $(this).closest("tr");
+        var actName  = tr.find("td:nth-child(1)").html();
+        var ven = tr.find("td:nth-child(2)").html();
+        var date = tr.find("td:nth-child(3)").html();
+        var time = (tr.find("td:nth-child(4)").html());
         console.log("evaluate-activity");
+        var d = $(this);
         var id = $(this).attr('activity-id');
-        // $.ajax({
-        //     type:'POST',
-        //     url:'',
-        //     data:id,
-        //     success:function(data){
-                
-        //     }
-        // });
+        var vid = $(this).attr('venue-id');
+        $.ajax({
+            type:'POST',
+            url:'/AMT/deleteActivity',
+            data:{id:id},
+            success:function(data){
+                if(parseInt(data)){
+                    $('[data-toggle="tooltip"]').tooltip('hide');
+                    table.row(d.closest('tr')).remove().draw();
+
+                    var actions  = '<a class="evaluate-activity"  activity-id="'+id+'" venue-id="'+vid+'"  data-toggle="tooltip" data-title="Get this Activity" >' +
+                                        '<i  class="fa  fa-file m-r-10 text-inverse "></i> '+
+                                    '</a>';
+                    
+                   
+                    var row = table2.row.add( [
+                                    actName,
+                                    ven,
+                                    date,
+                                    time,
+                                    actions                        
+                                ]).draw().node();
+                    $(row).find("td:last").addClass("text-center");
+                    $(document).trigger("tooltipTrigger");
+                    $.toast({
+                        heading: 'Success!',
+                        text: 'Successfully remove to your My Activity.',
+                        position: 'top-right',
+                        loaderBg:'#ff6849',
+                        icon: 'success',
+                        hideAfter: 3500
+                        
+                      });
+                }else{
+                    $.toast({
+                    heading: 'Failed!',
+                    text: 'There seems to be a problem.',
+                    position: 'top-right',
+                    loaderBg:'#ff6849',
+                    icon: 'error',
+                    hideAfter: 3500
+                    
+                  });
+                  $('[data-toggle="tooltip"]').tooltip('hide');
+                    table2.row(d.parents('tr')).remove().draw();
+                }
+            }
+        });
+        
 
        
      
-        // $('.tooltip').hide();
-        $('[data-toggle="tooltip"]').tooltip('hide');
-        table.row($(this).closest('tr')).remove().draw();
-
-        var actions  = '<a class="evaluate-activity"  activity-id="1" data-toggle="tooltip" data-title="Get this Activity" >' +
-                            '<i  class="fa  fa-file m-r-10 text-inverse "></i> '+
-                        '</a>';
         
-        // $('.tooltip').hide();
-        // table.find(".tooltip").hide();
-        // table2.find(".tooltip").hide();
-        var row = table2.row.add( [
-                        "activityName",
-                        "venue",
-                        "date",
-                        "time",
-                        actions                        
-                    ]).draw().node();
-        $(row).find("td:last").addClass("text-center");
-        $(document).trigger("tooltipTrigger");
-        // $('.tooltip').hide();
-        // $('[data-toggle="tooltip"]').tooltip('hide');
+       
+       
         
         
     });
