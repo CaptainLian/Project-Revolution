@@ -94,17 +94,31 @@ module.exports = function(configuration, application, modules, database, queryFi
             return next();
         }
 
+        logger.debug('Performing sidebar checks', log_options);
         const user = req.session.user;
         const organizationSelected = user.organizationSelected;
-        accountModel.hasGOSMActivityWithoutPPR(user.idNumber, organizationSelected.id)
+        accountModel.hasGOSMActivityWithPPR(user.idNumber, organizationSelected.id)
         .then(activity => {
-            logger.debug(`Has GOSM activity without PPR: ${activity.exists}`, log_options);
-            if(activity.exists){
+            logger.debug(`Has GOSM activity with PPR: ${activity.exists}`, log_options);
+            if(!activity.exists){
                 const sidebars = req.extra_data.view.sidebars;
                 const newSidebar = Object.create(null);
                 newSidebar.name = 'Submit Project Proposal';
                 newSidebar.link = '/blank';
              }
+
+             return accountModel.hasGOSMACtivityWithAMTActivityEvaluation(user.idNumber, organizationSelected.id);
+        }).then(activity => {
+            logger.debug(`Has GOSM activity with AMT Evaluation: ${activity.exists}`, log_options);
+            if(activity.exists){
+                const sidebars = req.extra_data.view.sidebars;
+                const newSidebar = Object.create(null);
+                newSidebar.name = 'View AMT Activity Evaluation';
+                newSidebar.link = '/blank';
+             }
+        }).catch(err => {
+            logger.debug(`${JSON.stringify(err)}`, log_options);
+            logger.debug(`${err.stack}`, log_options);
         });               
 
         return next();
