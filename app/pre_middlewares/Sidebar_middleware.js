@@ -67,14 +67,12 @@ module.exports = function(configuration, application, modules, database, queryFi
         req.extra_data.view.organizationSelected = Object.create(null);
         req.extra_data.view.organizationSelected.acronym = organizationSelected.acronym;
         req.extra_data.view.organizationSelected.path_profilePicture = organizationSelected.path_profilepicture;
-
-        const accessibleFunctionalitiesList = req.extra_data.user.accessibleFunctionalitiesList;
+        
         const sidebars = req.extra_data.view.sidebars;
-
-        for(const functionality in accessibleFunctionalitiesList){
-            logger.debug(`functionality: ${functionality}`, log_options);
-            if(accessibleFunctionalitiesList[functionality]){
-                logger.debug(`\tsidebars: ${JSON.stringify(accessibleSidebars[functionality])}`, log_options);
+        const accessibleFunctionalities = req.extra_data.user.accessControl[organizationSelected.id];
+        for(const functionality in accessibleFunctionalities){
+            const ACL = accessibleFunctionalities[functionality];
+            if(ACL){
                 if(accessibleSidebars[functionality]){
                     for(const sidebar of accessibleSidebars[functionality]){
                         sidebars[sidebars.length] = sidebar;
@@ -100,7 +98,7 @@ module.exports = function(configuration, application, modules, database, queryFi
         accountModel.hasGOSMActivityWithPPR(user.idNumber, organizationSelected.id)
         .then(activity => {
             logger.debug(`Has GOSM activity with PPR: ${activity.exists}`, log_options);
-            if(!activity.exists){
+            if(activity.exists){
                 const sidebars = req.extra_data.view.sidebars;
                 const newSidebar = Object.create(null);
                 newSidebar.name = 'Submit Project Proposal';

@@ -3,7 +3,7 @@ module.exports = function (configuration, modules, router, controllers, models, 
 	router.get('/APS/activityChecking',controllers.APS_controller.activityChecking);
 	router.get('/APS/viewOrglist', controllers.APS_controller.viewOrglist);
 	router.get('/APS/viewOrgGOSM', (req, res) => {
-		res.redirect('/APS/viewOrglist');
+		return res.redirect('/APS/viewOrglist');
 	});
 	router.get('/APS/viewOrgGOSM/:orgID/:GOSMID', controllers.APS_controller.viewOrgGOSM);
 

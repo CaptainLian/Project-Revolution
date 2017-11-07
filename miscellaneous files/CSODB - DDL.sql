@@ -434,8 +434,9 @@ CREATE TABLE StudentOrganization (
     college CHAR(3) REFERENCES College(shortAcronym),
     acronym VARCHAR(20) UNIQUE,
     description TEXT,
-    funds NUMERIC(16, 4) DEFAULT 0.0,
-    facultyAdviser INTEGER REFERENCES Account(idNumber),
+    funds NUMERIC(16, 4) NOT NULL DEFAULT 0.0,
+    operationalFunds NUMERIC(16, 4) NOT NULL DEFAULT 0.0,
+    depositryFunds NUMERIC(16, 4) NOT NULL DEFAULT 0.0, 
     path_profilePicture TEXT,
 
     PRIMARY KEY (id)
@@ -584,7 +585,7 @@ CREATE TABLE FunctionalityDomain (
   PRIMARY KEY (id)
 );
 INSERT INTO FunctionalityDomain (id, name)
-                         VALUES (0, 'Admin'),
+                         VALUES (0, 'Administrative'),
                                 (1, 'CSO'),
                                 (2, 'Organization'),
                                 (3, 'Faculty Adviser'),
@@ -722,7 +723,8 @@ INSERT INTO Functionality (id, name, category)
                           (108004, 'Evaluate Activity (AMT)'            , 108),
                           (106005, 'View Publicity Material'            , 106),
                           (109006, 'Submit Activity Research Form (ARF)', 109), -- Evaluate Activity
-                          (214007, 'Modify Organizational Structure'    , 214);
+                          (214007, 'Modify Organizational Structure'    , 214),
+                          (003008, 'Manage Organizations'               ,   3);
 /*
 INSERT INTO Functionality (id, name, category)
                    VALUES (0, 'Time Setting', 0),
@@ -829,10 +831,16 @@ INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       (   21,        109006,      TRUE),
                                       (   22,        109006,      TRUE),
                                       -- Modify Organizational Structure
-                                      (    0,        214007,      TRUE);
-
-
+                                      (    0,        214007,      TRUE),
+                                      -- Manage Organizations
+                                      (    1,        003008,      TRUE),
+                                      (    2,        003008,      TRUE),
+                                      (    3,        003008,      TRUE),
+                                      (    4,        003008,      TRUE),
+                                      (    5,        003008,      TRUE),
+                                      (   21,        003008,      TRUE);
 /* Organization Default Structure */
+
 CREATE OR REPLACE FUNCTION trigger_after_insert_StudentOrganization()
 RETURNS trigger AS
 $trigger$
@@ -1217,6 +1225,8 @@ CREATE TRIGGER before_update_ProjectProposal
     EXECUTE PROCEDURE trigger_before_update_ProjectProposal();
 
 
+
+
 DROP TABLE IF EXISTS ProjectProposalProgramDesign CASCADE;
 CREATE TABLE ProjectProposalProgramDesign (
     id SERIAL UNIQUE,
@@ -1398,26 +1408,26 @@ CREATE TABLE SignatoryType (
 );
 INSERT INTO SignatoryType (id, name)
                    VALUES ( 0, 'Project Head'),
-                   		  ( 1, 'Treasurer/Finance Officer'),
-                   		  ( 2, 'Immediate Superior'),
-                   		  ( 3, 'President'),
-                   		  ( 4, 'Faculty Adviser'),
+                   		    ( 1, 'Treasurer/Finance Officer'),
+                   		    ( 2, 'Immediate Superior'),
+                   		    ( 3, 'President'),
+                   		    ( 4, 'Faculty Adviser'),
                           ( 5, 'Documentation Officer'),
                           ( 6, 'CSO Officer');
 DROP TABLE IF EXISTS ProjectProposalSignatory CASCADE;
 CREATE TABLE ProjectProposalSignatory (
   id SERIAL UNIQUE,
 	GOSMActivity INTEGER REFERENCES ProjectProposal(GOSMActivity),
+  type SMALLINT NOT NULL REFERENCES SignatoryType(id),
   sequence INTEGER DEFAULT -1,
 	signatory INTEGER REFERENCES Account(idNumber),
-	type SMALLINT NOT NULL REFERENCES SignatoryType(id),
   status SMALLINT NOT NULL REFERENCES SignatoryStatus(id) DEFAULT 0,
   comments TEXT,
 	document JSONB,
 	digitalSignature TEXT,
 	dateSigned TIMESTAMP WITH TIME ZONE,
 
-	PRIMARY KEY(GOSMActivity, sequence)
+	PRIMARY KEY(GOSMActivity, type, sequence)
 );
 CREATE OR REPLACE FUNCTION trigger_before_insert_ProjectProposalSignatory_sequence()
 RETURNS trigger AS
@@ -1425,7 +1435,8 @@ $trigger$
     BEGIN
         SELECT COALESCE(MAX(sequence) + 1, 0) INTO NEW.sequence
           FROM ProjectProposalSignatory
-         WHERE GOSMActivity = NEW.GOSMActivity;
+         WHERE GOSMActivity = NEW.GOSMActivity
+           AND type = NEW.type;
 
         RETURN NEW;
     END;
@@ -1453,13 +1464,9 @@ $trigger$
 
         -- Immediate Superior of who prepared the PPR
         INSERT INTO ProjectProposalSignatory (GOSMActivity, type)
-             VALUES (NEW.GOSMActivity, 1);
-
-         -- Organization President
-        INSERT INTO ProjectProposalSignatory (GOSMActivity, type)
              VALUES (NEW.GOSMActivity, 2);
 
-        -- Organization President
+         -- Organization President
         INSERT INTO ProjectProposalSignatory (GOSMActivity, type)
              VALUES (NEW.GOSMActivity, 3);
 
@@ -1471,6 +1478,10 @@ $trigger$
         INSERT INTO ProjectProposalSignatory (GOSMActivity, type)
              VALUES (NEW.GOSMActivity, 5);
 
+        -- CSO Officer
+        INSERT INTO ProjectProposalSignatory (GOSMActivity, type)
+             VALUES (NEW.GOSMActivity, 6);
+
         RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
@@ -1478,6 +1489,23 @@ CREATE TRIGGER after_insert_ProjectProposal_signatories
     AFTER INSERT ON ProjectProposal
     FOR EACH ROW
     EXECUTE PROCEDURE trigger_after_insert_ProjectProposal_signatories();
+
+CREATE OR REPLACE FUNCTION "trigger_after_update_ProjectProposal"()
+RETURNS trigger AS
+$trigger$
+    BEGIN
+      UPDATE ProjectProposalSignatory
+         SET signatory = NEW.facultyAdviser
+       WHERE GOSMActivity = NEW.GOSMActivity
+         AND type = 4;
+      RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER "after_update_ProjectProposal"
+    AFTER UPDATE ON ProjectProposal
+    FOR EACH ROW WHEN ((OLD.facultyAdviser IS NULL) OR (OLD.facultyAdviser <> NEW.facultyAdviser))
+    EXECUTE PROCEDURE "trigger_after_update_ProjectProposal"();
+
     /* End Project Proposal */
 
 /* Organization Treasurer */

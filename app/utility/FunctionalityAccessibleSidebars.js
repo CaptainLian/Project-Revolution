@@ -56,6 +56,13 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.ModifyOrganizationalStructure] = [
     link: '/Organization/Setting/ACL'
 }];
 
+//Manage Organizations
+functionalitySidebars[FUNCTIONALITY_SEQUENCES.ManageOrganizations] = [{
+    name: 'Manage Organizations',
+    link: '/ORGRES/Manage/Organization'
+}];
+
+
 const accessibleRoutes = [];
 for(const functionality in functionalitySidebars){
     for(const sidebar of functionalitySidebars[functionality]){
