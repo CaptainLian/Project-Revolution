@@ -22,6 +22,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const updatePPRStatusSQL = queryFiles.updatePPRStatus;
     const updateIsProgramDesignCompleteSQL = queryFiles.updateIsProgramDesignComplete;
     const deleteProgramDesignSQL = queryFiles.deleteProgramDesign;
+    const getAllVenuesSQL = queryFiles.getAllVenues;
     
     /**
      * class with properties
@@ -298,6 +299,10 @@ module.exports = function(configuration, modules, db, queryFiles) {
     ProjectProposalModel.prototype.deleteProgramDesign = function(param, connection = this._db){
         return connection.none(deleteProgramDesignSQL, param);
     };
+
+    ProjectProposalModel.prototype.getAllVenues = function(connection = this._db){
+        return connection.any(getAllVenuesSQL)
+    }; 
 
     return new ProjectProposalModel(db, modules);
 };

@@ -77,7 +77,7 @@
 										<div class="form-group">
 											<label class="control-label col-md-3">ENP</label>
 											<div class="col-md-9">
-												<input type="number" min="0" name="enp" class="form-control">
+												<input type="number" min="0" value="{{projectProposal.enp}}" name="enp" class="form-control">
 												<span class="help-block"> Expected number of Participants</span>
 											</div>
 										</div>
@@ -87,7 +87,7 @@
 										<div class="form-group">
 											<label class="control-label col-md-3">ENMP</label>
 											<div class="col-md-9">
-												<input type="number" name="enmp" min="0" class="form-control">
+												<input type="number" name="enmp" min="0" value="{{projectProposal.enmp}}" class="form-control">
 												<span class="help-block"> Expected number of Member Participants</span>
 											</div>
 										</div>
@@ -100,10 +100,20 @@
 											<label class="control-label col-md-3">Venue</label>
 											<div class="col-md-9">
 												<select class="form-control" name="venue" data-placeholder="Choose a Category" tabindex="1">
-													<option value="Category 1">Category 1</option>
-													<option value="Category 2">Category 2</option>
-													<option value="Category 3">Category 5</option>
-													<option value="Category 4">Category 4</option>
+
+												{% for venue in venues %}
+													{% if venue.id == projectProposal.venue %}
+
+														<option value="{{venue.id}}" selected>{{venue.name}}</option>
+
+													{% else %}
+														
+														<option value="{{venue.id}}">{{venue.name}}</option>
+
+													{% endif %}
+
+												{% endfor %}
+
 												</select>
 											</div>
 										</div>
@@ -115,9 +125,13 @@
 										<div class="form-group">
 											<label class="control-label col-md-3">Faculty Adviser</label>
 											<div class="col-md-9">
-												<select class="form-control" name="adviser">
-													<option value="1">Male</option>
-													<option value="2">Female</option>
+												<select class="form-control"  name="adviser">
+
+
+													<option value="11445952">Neil</option>
+													<option value="11445954">Markus</option>
+
+													
 												</select> 
 												<span class="help-block"></span>
 											</div>
@@ -135,7 +149,7 @@
 										<div class="form-group">
 											<label class="control-label col-md-4 text-left">What are the problems you found in society that relates to your activity?</label>
 											<div class="col-md-8">
-												<textarea style="width: 100%" rows="3" name="context1"></textarea>
+												<textarea style="width: 100%" rows="3" name="context1">{{projectProposal.context1}}</textarea>
 											</div>
 										</div>
 									</div>
@@ -145,7 +159,7 @@
 										<div class="form-group">
 											<label class="control-label col-md-4 text-left">Why is there a problem? What can we discover and realize?</label>
 											<div class="col-md-8">
-												<textarea style="width: 100%" rows="3" name="context2"></textarea>
+												<textarea style="width: 100%" rows="3" name="context2">{{projectProposal.context2}}</textarea>
 											</div>
 										</div>
 									</div>
@@ -156,7 +170,7 @@
 										<div class="form-group">
 											<label class="control-label col-md-4 text-left">What this activity? What will you commit in your response you have stated previously</label>
 											<div class="col-md-8">
-												<textarea style="width: 100%" rows="3" name="context3"></textarea>
+												<textarea style="width: 100%" rows="3" name="context3">{{projectProposal.context3}}</textarea>
 											</div>
 										</div>
 									</div>

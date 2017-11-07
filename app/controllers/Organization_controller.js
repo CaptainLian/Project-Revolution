@@ -55,7 +55,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     database.task(task => {
                         return task.batch([
                             gosmModel.getGOSMActivity(dbParam),
-                            gosmModel.getGOSMActivityProjectHeads(dbParam)
+                            gosmModel.getGOSMActivityProjectHeads(dbParam),
+                            projectProposalModel.getProjectProposal(dbParam)
                         ]);
                     }).then(data => {
                         const renderData = Object.create(null);
@@ -64,10 +65,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                         renderData.gosmActivity = data[0];
                         renderData.projectHeads = data[1];
+                        renderData.projectProposal = data[2];
 
                         return res.render('Org/SubmitProjectProposal_main',renderData);
                     }).catch(err => {
-                        throw err;
+                        console.log(err);
                     });
 
 
@@ -128,11 +130,39 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         },
 
         viewSubmitProjectProposalBriefContext: (req, res) => {
-            const renderData = Object.create(null);
-            renderData.extra_data = req.extra_data;
-            renderData.csrfToken = req.csrfToken();
 
-            return res.render('Org/SubmitProjectProposal_briefcontext',renderData);
+            const orgID = req.session.user.organizationSelected.id;
+
+            console.log("OrgID is");
+            console.log(orgID);
+
+            var dbParam = {
+                    gosmactivity: req.params.id
+            };
+
+
+             database.task(task => {
+                        return task.batch([
+                            projectProposalModel.getProjectProposal(dbParam),
+                            projectProposalModel.getAllVenues()
+                        ]);
+                    }).then(data => {
+                       
+                        console.log(data);
+
+                        const renderData = Object.create(null);
+                        renderData.extra_data = req.extra_data;
+                        renderData.csrfToken = req.csrfToken();
+                        renderData.projectProposal = data[0];
+                        renderData.venues = data[1];
+
+                        return res.render('Org/SubmitProjectProposal_briefcontext',renderData);
+
+                    }).catch(error => {
+                        console.log(error);
+                    });
+
+
         },
         viewSubmitPostProjectProposalBriefContext: (req, res) => {
             const renderData = Object.create(null);
