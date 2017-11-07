@@ -30,6 +30,9 @@ $function$
     END;
 $function$ STABLE LANGUAGE plpgsql;
 
+
+
+
 CREATE OR REPLACE FUNCTION system_get_current_year_id()
 RETURNS INTEGER AS
 $function$

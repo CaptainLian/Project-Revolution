@@ -29,7 +29,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			
 			renderData.allActivity = data[0];
 			renderData.myActivity = data[1];
-			console.log(data);
+			console.log(data[0]);
 			// console.log("renderData");
 			// console.log(renderData);
 			return res.render('AMT/ActivityAssignment', renderData);
