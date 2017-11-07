@@ -60,19 +60,22 @@
 {%endblock%}
 
 {%block content%}
+<form action="/Organization/projectproposal/SaveAttachments"  encType="multipart/form-data" method="POST" class="form-horizontal">
+<input type="hidden" name="_csrf" value="{{csrfToken}}">
 <div class="row">
 	<div class="col-md-12">
 	    <div class="panel panel-info">
 	        <div class="panel-heading"> Attachments</div>
 	        	<div class="panel-wrapper collapse in" aria-expanded="true">
 	            	<div class="panel-body">
-	                	<form action="#" class="form-horizontal">
+	                	
 	                    	<div class="form-body">
 	                        	<div class="row">
 	                            	<div class="col-md-12">
 	                                	<div class="form-group row">
 	                                        <label class="col-sm-2">File</label>
 	                                        <div class="col-sm-10">
+	                                        <input name="samplefile" type="file">
 	                                            <div class="fileinput fileinput-new input-group" data-provides="fileinput">
 	                                                <div class="form-control" data-trigger="fileinput">
 	                                                    <i class="glyphicon glyphicon-file fileinput-exists"></i>
@@ -81,7 +84,7 @@
 	                                                <span class="input-group-addon btn btn-default btn-file"> 
 		                                                <span class="fileinput-new">Select file</span>
 		                                                <span class="fileinput-exists">Change</span>
-		                                                <input type="hidden"><input name="..." type="file">
+		                                                <input type="hidden">
 	                                                </span>
 	                                                <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
 	                                            </div>
@@ -94,7 +97,7 @@
 		                    <div class="form-actions">
 		                        
 		                    </div>
-		                </form>
+		                
 	           		</div>
            		 	<div class="panel-footer text-center">
 		                <button type="submit" class="btn btn-success"> <i class="fa fa-save"></i> &nbspSave</button>
@@ -105,4 +108,5 @@
     	</div>
 	</div>
 </div>
+</form>
 {%endblock%}

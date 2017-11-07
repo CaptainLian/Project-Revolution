@@ -1,6 +1,7 @@
 'use strict';
 const Promise = require('bluebird');
 
+
 module.exports = function(configuration, modules, models, database, queryFiles) {
 
     const systemModel = models.System_model;
@@ -716,7 +717,28 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         },
 
         saveAttachments: (req, res) =>{
-            console.log(req.body);
+            console.log("req.files");
+            console.log(req.files.samplefile.mimetype);
+            var dt = ['application/vnd.oasis.opendocument.text',
+                      'application/vnd.oasis.opendocument.spreadsheet',
+                       'application/vnd.oasis.opendocument.presentation',
+                       'application/pdf'];
+            if(dt.includes(req.files.samplefile.mimetype)){
+                console.log("RECOMMENDED");
+                //PUT DATA IN SERVER
+                 req.files.samplefile.mv(__dirname + '/../assets/upload/' + req.files.samplefile.name  , function(err) {
+                     if(err){
+                       console.log(err);
+                     }else{
+                        console.log("uploaded");
+                    }
+                });
+            }else{
+
+            }
+           
+         
+       
         }
     };
 };
