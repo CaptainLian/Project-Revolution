@@ -21,6 +21,7 @@ module.exports = function(configuration, application, modules, database, queryFi
 
         try {
             logger.debug(`Logged-in user: ${user.idNumber}, type: student`, log_options);
+            logger.debug(`\tSelected Organization: ${JSON.stringify(user.organizationSelected)}`, log_options);
             return accessControlModel.getAccountAccessControl(user.idNumber)
             .then(data => {
                 const accessControl = Object.create(null);
@@ -50,8 +51,8 @@ module.exports = function(configuration, application, modules, database, queryFi
                         accessibleFunctionalitiesList[functionalitySequence] = isAllowed;
                     }
                 }
-                logger.debug(`User access control: ${JSON.stringify(accessControl)}`, log_options);
-                logger.debug(`Accessible functions list: ${JSON.stringify(accessibleFunctionalitiesList)}`, log_options);
+                logger.debug(`\tUser access control: ${JSON.stringify(accessControl)}`, log_options);
+                logger.debug(`\tAccessible functions list: ${JSON.stringify(accessibleFunctionalitiesList)}`, log_options);
                 req.extra_data.user.accessControl = accessControl;
                 req.extra_data.user.accessibleFunctionalitiesList = accessibleFunctionalitiesList;
                 return next();

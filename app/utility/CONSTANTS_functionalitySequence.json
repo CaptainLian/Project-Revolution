@@ -6,5 +6,6 @@
     "EvaluateActivity_AMT": 4,
     "ViewPublicityMaterial": 5,
     "EvaluateActivity_OrgRes": 6,
-    "ModifyOrganizationalStructure": 7
+    "ModifyOrganizationalStructure": 7,
+    "ManageOrganizations": 8
 }
