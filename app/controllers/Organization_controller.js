@@ -747,7 +747,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         saveAttachments: (req, res) =>{
             var date = new Date().toJSON();
             console.log(date);
-            
+             var dir3 =__dirname+'/../assets/upload/';
+            //CHECK IF DIRECTOR EXIST
+            if (!fs.existsSync(dir3)){
+                fs.mkdirSync(dir3);
+            }
             var dir =__dirname+'/../assets/upload/preacts/';
             //CHECK IF DIRECTOR EXIST
             if (!fs.existsSync(dir)){
