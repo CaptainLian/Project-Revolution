@@ -1,3 +1,3 @@
 UPDATE PROJECTPROPOSAL
-   SET isProgramDesignComplete=false
+   SET isProgramComplete=false
  WHERE id=${id}
