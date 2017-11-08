@@ -129,6 +129,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             logger.debug(`${JSON.stringify(data)}`, log_options);
 
                             let organization = data.shift();
+                            logger.debug(`organizationSelected: ${JSON.stringify(organization)}`, log_options);
                             logger.debug(`${JSON.stringify(organization)}`, log_options);
                             req.session.user.organizationSelected = Object.create(null);
                             req.session.user.organizationSelected.id = organization.id;
@@ -163,35 +164,37 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     };
 
     SystemController.viewHome = (req, res) => {
+        logger.debug('viewHome()', log_options);
+        logger.debug('Determining user type', log_options);
         switch (req.session.user.type) {
             // Admin
             case 0:
                 //TODO: implementation
-                break;
+                return res.redirect('/blank');
 
             // Faculty Adviser Account
             case 2:
                 //TODO: implementation
-                break;
+                return res.redirect('/blank');
             // SLIFE Account
             case 3:
                 //TODO: implementation
-                break;
+                return res.redirect('/blank');
             // Accounting Account
             case 4:
                 //TODO: implementation
-                break;
+                return res.redirect('/blank');
 
             // Student Account
             case 1:
-                accountModel.getRoleDetailsInOrganization(
+                logger.debug('Student Account', log_options);
+                return accountModel.getRoleDetailsInOrganization(
                     req.session.user.idNumber,
                     req.session.user.organizationSelected.id,
                     'home_url'
                 ).then(data => {
                     return res.redirect(data.home_url || '/blank');
                 });
-                break;
             default:
                 return res.redirect('/blank');
         }

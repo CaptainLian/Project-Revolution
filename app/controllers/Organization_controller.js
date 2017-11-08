@@ -235,10 +235,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             });
         },
 
-        view: (req, res) => {
+
+        viewOfficers: (req, res) => {
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
-            return res.render('Org/Member', renderData);
+            renderData.csrf = req.csrfToken();
+
+            return res.render('Org/Officers', renderData);
         },
 
         viewProject: (req, res) => {

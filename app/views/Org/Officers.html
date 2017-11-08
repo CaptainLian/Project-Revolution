@@ -1,0 +1,157 @@
+{% extends '../template/CSO_master.html' %}
+{% import '../template/tags_macro.html' as tag %}
+
+{%block meta%}
+    {{super()}}
+    <meta data-name="csrf" data-token="{{csrfToken}}" />
+{%endblock%}
+
+{%block page_title%}CSO - Evaluate Activity{%-endblock%}
+
+{%block style%}
+	{{super()}}
+    <!-- Bootstrap Core CSS -->
+    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
+    {{tag.style('/plugins/bower_components/datatables/jquery.dataTables.min.css')}}
+    {{tag.style('/plugins/bower_components/nestable/nestable.css')}}
+    {{tag.style('https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css')}}
+    {{tag.style('https://cdnjs.cloudflare.com/ajax/libs/nestable2/1.5.0/jquery.nestable.min.CSS')}}
+    <!-- Menu CSS -->
+    {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
+    <!-- animation CSS -->
+    {{tag.style('/css/animate.css')}}
+    <!--alerts CSS -->
+    {{tag.style('/css/style.css')}}
+	<!-- color CSS -->
+    {{tag.style('/css/colors/blue.css')}}
+    <!--alerts CSS -->
+    {{tag.style('/plugins/bower_components/sweetalert/sweetalert.css')}}
+    <!-- page CSS -->
+    {{tag.style('/css/custom.css')}}
+    {{tag.style('/css/colors/default.css')}}
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style type="text/css">
+        .remove:{
+            color: yellow
+        }
+    </style>
+{%endblock%}
+	
+{%block defer_script%}
+	{{super()}}
+
+    <!-- jQuery -->
+    {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
+    <!-- Bootstrap Core JavaScript -->
+    {{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
+    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
+    <!-- Menu Plugin JavaScript -->
+    {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
+    <!--slimscroll JavaScript -->
+    {{tag.javascript('/js/jquery.slimscroll.js', true)}}
+    <!--Wave Effects -->
+    {{tag.javascript('/js/waves.js', true)}}
+    <!-- tabs-->
+    {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
+    <!-- Custom Theme JavaScript -->
+    {{tag.javascript('/js/custom.min.js', true)}}
+    {{tag.javascript('/js/cbpFWTabs.js', true)}}
+    <!-- Sweet-Alert  -->
+    {{tag.javascript('/plugins/bower_components/sweetalert/sweetalert.min.js', true)}}
+    {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js', true)}}
+    {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js', true)}}
+    {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js', true)}}
+    {{tag.javascript('https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js', true)}}
+    {{tag.javascript('https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js', true)}}
+    {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js', true)}}
+    {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js', true)}}
+    
+    {{tag.javascript('/plugins/bower_components/sweetalert/jquery.sweet-alert.custom.js', true)}}
+    {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/nestable2/1.5.0/jquery.nestable.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
+
+
+    <!--Style Switcher -->
+    {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
+    {{tag.javascript('/js/Organization/Officers.js', true)}}
+    {{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
+{%endblock%}
+
+{%block body_preloader%}
+	<div class="preloader">
+        <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+        </svg>
+    </div>
+{%endblock%}
+
+{%block content%}
+<div class="row">
+	<div class="col-sm-12">
+		<div class="white-box">
+			<h3 class="box-title m-b-0">Organizations</h3>
+			<p class="text-muted m-b-30">A table showing the list of organizations</p>
+			<div class="table-responsive">
+
+				<table id="myTable" class="table table-hover" role="grid" aria-describedby="myTable_info">
+					<thead>
+						<tr role="row">
+							<th class="sorting text-left" width="25%" >Name</th>
+							<th class="sorting text-left" width="21%" >Position</th>
+							<th class="sorting text-left" width="10%">Degree</th>
+							<th class="sorting text-left" width="20">Number </th>
+							<th class="sorting text-left" width="15">Email</th>
+							<th class="sorting text-center" width="9%">Actions</th>
+						</tr>
+					</thead>
+					<tbody> 
+						<tr>
+							<td>Neil Capistrano</td><!-- date of event-->
+							<td>Chairperson</td><!-- days until late-->
+							<td class="">BSIT</td>
+							<td class="">09390290165</td>
+							<td class="">neil_capistrano@dlsu.edu.ph</td>
+							<td class="text-center text-nowrap">                                                   
+								<a  data-toggle="tooltip" data-original-title="Edit"> 
+									<i  class="fa fa-pencil text-inverse m-r-10"></i> 
+								</a>
+								<a class="remove"  data-toggle="tooltip" data-original-title="Close"> 
+									<i class="fa fa-close text-danger"></i> 
+								</a>
+							</td>  
+						</tr>
+						<tr>
+							<td>Neil Capistrano</td><!-- date of event-->
+							<td>Chairperson</td><!-- days until late-->
+							<td class="">BSIT</td>
+							<td class="">09390290165</td>
+							<td class="">neil_capistrano@dlsu.edu.ph</td>
+							<td class="text-center text-nowrap">                                                   
+								<a  data-toggle="tooltip" data-original-title="Edit"> 
+									<i  class="fa fa-pencil text-inverse m-r-10"></i> 
+								</a>
+								<a class="remove"  data-toggle="tooltip" data-original-title="Close"> 
+									<i class="fa fa-close text-danger"></i> 
+								</a>
+							</td>  
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-12">
+
+	</div>
+	<div class="col-sm-12">
+
+	</div>
+
+</div>
+{%endblock%}

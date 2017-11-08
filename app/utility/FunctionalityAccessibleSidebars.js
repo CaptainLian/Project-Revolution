@@ -62,6 +62,17 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.ManageOrganizations] = [{
     link: '/ORGRES/Manage/Organization'
 }];
 
+//View Project Head Dashboard
+functionalitySidebars[FUNCTIONALITY_SEQUENCES.ViewProjectHeadDashboard] = [{
+    name: 'Project Head Dashboard',
+    link: '/Organization/ProjectHead/home'
+}];
+
+//View APSReport
+functionalitySidebars[FUNCTIONALITY_SEQUENCES.ViewAPSReport] = [{
+    name: 'Project Head Dashboard',
+    link: '/Organization/APSReport'
+}];
 
 const accessibleRoutes = [];
 for(const functionality in functionalitySidebars){

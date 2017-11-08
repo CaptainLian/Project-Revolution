@@ -724,7 +724,9 @@ INSERT INTO Functionality (id, name, category)
                           (106005, 'View Publicity Material'            , 106),
                           (109006, 'Submit Activity Research Form (ARF)', 109), -- Evaluate Activity
                           (214007, 'Modify Organizational Structure'    , 214),
-                          (003008, 'Manage Organizations'               ,   3);
+                          (003008, 'Manage Organizations'               ,   3),
+                          (211009, 'View Project Head Dashboard'        , 211),
+                          (211010, 'View APS Report'                    , 211);
 /*
 INSERT INTO Functionality (id, name, category)
                    VALUES (0, 'Time Setting', 0),
@@ -847,6 +849,11 @@ $trigger$
     DECLARE
         presidentRoleID INTEGER;
         executiveSecretariatRoleID INTEGER;
+        eevpRoleID INTEGER;
+        vpdRoleID INTEGER;
+        avpdRoleID INTEGER;
+        vpfRoleID INTEGER;
+        avpfRoleID INTEGER;
         -- Internal Executive Vice President
         ievpRoleID INTEGER;
     BEGIN
@@ -854,29 +861,60 @@ $trigger$
                              VALUES (NEW.id, 'President', TRUE, NULL)
         RETURNING id INTO presidentRoleID;
         INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
-                                       VALUES (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 0)), TRUE);
-        INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
-                                       VALUES (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 7)), TRUE);
+                                       VALUES (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 0)), TRUE),
+                                              (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 7)), TRUE),
+                                              (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
+                                              (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE);
 
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
                              VALUES (NEW.id, 'Executive Secretariat', TRUE, presidentRoleID)
         RETURNING id INTO executiveSecretariatRoleID;
+        INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
+                                      VALUES (executiveSecretariatRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
+                                             (executiveSecretariatRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE);
 
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
-                             VALUES (NEW.id, 'External Executive Vice President', TRUE, presidentRoleID);
+                             VALUES (NEW.id, 'External Executive Vice President', TRUE, presidentRoleID)
+        RETURNING id INTO eevpRoleID;
+        INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
+                                      VALUES  (eevpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
+                                              (eevpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE);
+
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
                              VALUES (NEW.id, 'Internal Executive Vice President', TRUE, presidentRoleID)
         RETURNING id INTO ievpRoleID;
+        INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
+                                      VALUES  (ievpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
+                                              (ievpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE);
 
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
-                             VALUES (NEW.id, 'Vice President of Documentations', TRUE, executiveSecretariatRoleID);
-        INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
-                             VALUES (NEW.id, 'Associate Vice President of Documentations', FALSE, executiveSecretariatRoleID);
+                             VALUES (NEW.id, 'Vice President of Documentations', TRUE, executiveSecretariatRoleID)
+        RETURNING id INTO vpdRoleID;
+        INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
+                                      VALUES  (vpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
+                                              (vpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE);
+
 
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
-                             VALUES (NEW.id, 'Vice President of Finance', TRUE, ievpRoleID);
-        INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
-                             VALUES (NEW.id, 'Associate Vice President of Finance', FALSE, ievpRoleID);
+                             VALUES (NEW.id, 'Associate Vice President of Documentations', FALSE, executiveSecretariatRoleID)
+        RETURNING id INTO avpdRoleID;
+        INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
+                                      VALUES  (avpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
+                                              (avpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE);
+
+        INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole, home_url)
+                             VALUES (NEW.id, 'Vice President of Finance', TRUE, ievpRoleID, '/Organization/treasurer/dashboard')
+        RETURNING id INTO vpfRoleID;
+        INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
+                                      VALUES  (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
+                                              (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE);
+
+        INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole, home_url)
+                             VALUES (NEW.id, 'Associate Vice President of Finance', FALSE, ievpRoleID, '/Organization/treasurer/dashboard')
+        RETURNING id INTO avpfRoleID;
+        INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
+                                      VALUES  (avpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
+                                              (avpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE);
 
         RETURN NEW;
     END;
