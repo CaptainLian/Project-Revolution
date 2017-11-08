@@ -137,24 +137,26 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             console.log(orgID);
 
             var dbParam = {
-                    gosmactivity: req.params.id
+                    gosmactivity: req.params.id,
+                    orgId: orgID
             };
 
 
              database.task(task => {
                         return task.batch([
                             projectProposalModel.getProjectProposal(dbParam),
-                            projectProposalModel.getAllVenues()
+                            projectProposalModel.getAllVenues(),
+                            projectProposalModel.getOrgFacultyAdvisers(dbParam)
                         ]);
                     }).then(data => {
                        
-                        console.log(data);
-
                         const renderData = Object.create(null);
                         renderData.extra_data = req.extra_data;
                         renderData.csrfToken = req.csrfToken();
                         renderData.projectProposal = data[0];
                         renderData.venues = data[1];
+                        renderData.advisers = data[2];
+                        renderData.gosmactivity = dbParam;
 
                         return res.render('Org/SubmitProjectProposal_briefcontext',renderData);
 
@@ -580,7 +582,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
             // TODO: change id, to come from selected activity
             var dbParam = {
-                id: 1,
+                id: req.params.ppr,
                 enp: req.body.enp,
                 enmp: req.body.enmp,
                 venue: req.body.venue,
@@ -603,9 +605,21 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 
             }
 
+            console.log("TEEEEEKKAAAA")
+            console.log(req.params.id);
+
             console.log(dbParam);
 
-            projectProposalModel.updatePPRBriefContext(dbParam);
+            projectProposalModel.updatePPRBriefContext(dbParam)
+            .then(data=>{
+
+            }).catch(error=>{
+                console.log(error);
+            });
+
+            res.redirect(`/Organization/ProjectProposal/Main/${req.params.id}/1`)
+
+
 
         },
 
