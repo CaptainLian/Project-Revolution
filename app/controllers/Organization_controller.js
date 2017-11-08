@@ -1,5 +1,6 @@
 'use strict';
 const Promise = require('bluebird');
+const fs = require('fs');
 
 
 module.exports = function(configuration, modules, models, database, queryFiles) {
@@ -143,11 +144,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                });
                        
                     }).then(data => {
-                      console.log("DATA1");
-                      console.log(data);
+                        console.log("DATA1");
+                        console.log(data);
                         renderData.attachments = data;
                         console.log("DATA1");
-                      console.log(renderData);
+                        console.log(renderData);
                         return res.render('Org/SubmitProjectProposal_attachments',renderData);
                     }).catch(error => {
                         console.log(error);
@@ -744,27 +745,39 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         },
 
         saveAttachments: (req, res) =>{
+            var date = new Date().toJSON();
+            console.log(date);
+            
+            var dir =__dirname+'/../assets/upload/preacts/';
+            //CHECK IF DIRECTOR EXIST
+            if (!fs.existsSync(dir)){
+                fs.mkdirSync(dir);
+            }
+            var dir2 =__dirname+'/../assets/upload/preacts/'+req.session.user.idNumber+'/';
+            //CHECK IF DIRECTOR EXIST
+            if (!fs.existsSync(dir2)){
+                fs.mkdirSync(dir2);
+            }
+
+
             console.log("req.files");
-            console.log(req.files.samplefile.mimetype);
+            console.log(req.body);
+            console.log(req.session.user.idNumber);
+
             var dt = ['application/vnd.oasis.opendocument.text',
                       'application/vnd.oasis.opendocument.spreadsheet',
                        'application/vnd.oasis.opendocument.presentation',
                        'application/pdf'];
-            if(dt.includes(req.files.samplefile.mimetype)){
-                console.log("RECOMMENDED");
-                //PUT DATA IN SERVER
-                 req.files.samplefile.mv(__dirname + '/../assets/upload/' + req.files.samplefile.name, function(err) {
+            for(var file of req.files['uploadfile[]']){
+                console.log(file);
+                file.mv(dir2 + file.name +' - '+ date, function(err) {
                      if(err){
                        console.log(err);
                      }else{
                         console.log("uploaded");
                     }
                 });
-            }else{
-
-            }
-           
-         
+            }        
        
         }
     };
