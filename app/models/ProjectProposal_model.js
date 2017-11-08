@@ -7,7 +7,8 @@ log_options.from = 'ProjectProposal-Model';
 const squel = require('squel').useFlavour('postgres');
 
 module.exports = function(configuration, modules, db, queryFiles) {
-
+    
+    const insertProjectProposalAttachment = queryFiles.insertProjectProposalAttachment;
     const updatePPRBriefContextSQL = queryFiles.updatePPRBriefContext;
     const insertProjectProposalSQL = queryFiles.insertProjectProposal;
     const insertProjectProposalProgramDesignSQL = queryFiles.insertProjectProposalProgramDesign;
@@ -241,6 +242,12 @@ module.exports = function(configuration, modules, db, queryFiles) {
     ProjectProposalModel.prototype.insertProjectProposalDesign = function(param, connection = this._db) {
         //TODO: test
         return connection.none(insertProjectProposalProgramDesignSQL, param);
+    };
+
+    ProjectProposalModel.prototype.insertProjectProposalAttachment = function(param, connection = this._db) {
+        //TODO: test
+        
+        return connection.none(insertProjectProposalAttachment, param);
     };
 
     ProjectProposalModel.prototype.insertProjectProposalProjectedIncome = function(param, connection = this._db) {

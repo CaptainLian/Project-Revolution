@@ -62,6 +62,7 @@
 {%block content%}
 <form action="/Organization/projectproposal/SaveAttachments"  encType="multipart/form-data" method="POST" class="form-horizontal">
 <input type="hidden" name="_csrf" value="{{csrfToken}}">
+<input type="hidden" name="activityId" value="{{actID}}">
 <div class="row">
 	<div class="col-md-12">
 	    <div class="panel panel-info">
@@ -85,7 +86,7 @@
 		                                                <span class="input-group-addon btn btn-default btn-file"> 
 			                                                <span class="fileinput-new">Select file</span>
 			                                                <span class="fileinput-exists">Change</span>
-			                                                <input type="hidden"><input name="uploadfile[]" type="file">
+			                                                <input type="hidden"><input required="" name="uploadfile[]" type="file">
 		                                                </span>
 		                                                <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
 		                                            </div>

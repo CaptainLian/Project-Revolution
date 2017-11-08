@@ -128,6 +128,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
+            renderData.actID = req.params.id;
             console.log("req.body");
             console.log(req.params.id);
 
@@ -745,19 +746,22 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         },
 
         saveAttachments: (req, res) =>{
+            const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
             var date = new Date().toJSON();
             console.log(date);
-             var dir3 =__dirname+'/../assets/upload/';
+             var dir3 ='./../assets/upload/';
             //CHECK IF DIRECTOR EXIST
             if (!fs.existsSync(dir3)){
                 fs.mkdirSync(dir3);
             }
-            var dir =__dirname+'/../assets/upload/preacts/';
+            var dir ='./../assets/upload/preacts/';
             //CHECK IF DIRECTOR EXIST
             if (!fs.existsSync(dir)){
                 fs.mkdirSync(dir);
             }
-            var dir2 =__dirname+'/../assets/upload/preacts/'+req.session.user.idNumber+'/';
+            var dir2 ='./../assets/upload/preacts/'+req.session.user.idNumber+'/';
             //CHECK IF DIRECTOR EXIST
             if (!fs.existsSync(dir2)){
                 fs.mkdirSync(dir2);
@@ -772,16 +776,104 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                       'application/vnd.oasis.opendocument.spreadsheet',
                        'application/vnd.oasis.opendocument.presentation',
                        'application/pdf'];
-            for(var file of req.files['uploadfile[]']){
-                console.log(file);
-                file.mv(dir2 + file.name +' - '+ date, function(err) {
-                     if(err){
-                       console.log(err);
-                     }else{
-                        console.log("uploaded");
-                    }
-                });
-            }        
+
+
+
+            // for(var file of req.files['uploadfile[]']){
+            //     console.log(file);
+            //     file.mv(dir2 + file.name +' - '+ date, function(err) {
+            //          if(err){
+            //            console.log(err);
+            //          }else{
+            //             console.log("uploaded");
+            //         }
+            //     });
+            // }
+
+            database.task(task => {
+                       
+                        return gosmModel.getGOSMActivityType(req.body.activityId, undefined, task).
+                               then(data =>{
+                                    console.log("DATA");
+                                    console.log(data[0].activitytype);
+                                    return gosmModel.getGOSMActivityAttachmentRequirement(data[0].activitytype,task);
+                                    
+                               });
+                       
+                    }).then(data => {
+                        var ctr = 0;
+                        for(var file of req.files['uploadfile[]']){
+                            console.log(file);
+                            console.log("file");
+                            console.log(data[ctr].id);
+
+                             var db ={
+                                    projectId : req.body.activityId,
+                                    requirement:data[ctr].id,
+                                    dir:dir2 + file.name +' - '+ date,
+
+                                };
+                            console.log("db");
+                            console.log(db);
+                            Promise.all([
+                                        file.mv(dir2 + file.name +' - '+ date),
+                                        projectProposalModel.insertProjectProposalAttachment(db)
+
+                                        ]).then(result=>{
+
+                                        }).catch(err=>{
+                                            console.log(err);
+                                        });
+                            
+                            //UPLOAD FILE
+                            // file.mv(dir2 + file.name +' - '+ date, function(err) {
+                            //      if(err){
+                            //        console.log(err);
+                            //      }else{
+                            //         console.log("uploaded2222222222222");
+                            //         console.log(data.length);
+                            //         console.log(ctr);
+                                   
+                            //     }
+                            // });
+
+                            // //INSERT TO DB
+                            //  if(ctr < data.length){
+                            //     var db ={
+                            //         projectId : req.body.activityId,
+                            //         requirement:data[ctr].id,
+                            //         dir:dir2 + file.name +' - '+ date
+                            //     };
+                            //      console.log("uploaded+++++++++++");
+                            //     console.log(db);
+                            //     projectProposalModel.insertProjectProposalAttachment(db).then(data=>{
+
+                            //     }).catch(err=>{
+                                    
+                            //     });                           
+                            //     console.log("uploaded");
+                            // }
+
+
+                            ctr++
+                        }
+
+
+
+                        // console.log("DATA1");
+                        // console.log(data);
+                        // console.log(data[0].id);
+                        // renderData.attachments = data;
+                        console.log("ACT ID ");
+                        console.log(req.body.activityId);
+
+                        return res.redirect(`/Organization/ProjectProposal/main/${req.body.activityId}/1`);
+                    }).catch(error => {
+                        console.log(error);
+                    });
+
+
+
        
         }
     };
