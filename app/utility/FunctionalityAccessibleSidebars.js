@@ -10,6 +10,18 @@ const FUNCTIONALITY_SEQUENCES = require('./CONSTANTS_functionalitySequence.json'
  */
 const functionalitySidebars = Object.create(null);
 
+//View Project Head Dashboard
+functionalitySidebars[FUNCTIONALITY_SEQUENCES.ViewProjectHeadDashboard] = [{
+    name: 'Project Head Dashboard',
+    link: '/Organization/ProjectHead/home'
+}];
+
+//View APSReport
+functionalitySidebars[FUNCTIONALITY_SEQUENCES.ViewAPSReport] = [{
+    name: 'APS Report',
+    link: '/Organization/APSReport'
+}];
+
 //Create GOSM
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.CreateGOSM] = [{
     name: 'Submit GOSM',
@@ -54,6 +66,9 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateActivity_OrgRes] = [{
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.ModifyOrganizationalStructure] = [{
     name: 'Modify Organizational Structure',
     link: '/Organization/Setting/ACL'
+}, {
+    name: 'Organization Officers',
+    link: '/Organization/Officers'
 }];
 
 //Manage Organizations
@@ -62,17 +77,6 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.ManageOrganizations] = [{
     link: '/ORGRES/Manage/Organization'
 }];
 
-//View Project Head Dashboard
-functionalitySidebars[FUNCTIONALITY_SEQUENCES.ViewProjectHeadDashboard] = [{
-    name: 'Project Head Dashboard',
-    link: '/Organization/ProjectHead/home'
-}];
-
-//View APSReport
-functionalitySidebars[FUNCTIONALITY_SEQUENCES.ViewAPSReport] = [{
-    name: 'Project Head Dashboard',
-    link: '/Organization/APSReport'
-}];
 
 const accessibleRoutes = [];
 for(const functionality in functionalitySidebars){

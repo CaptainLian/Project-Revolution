@@ -6,7 +6,7 @@
     <meta data-name="csrf" data-token="{{csrfToken}}" />
 {%endblock%}
 
-{%block page_title%}CSO - Evaluate Activity{%-endblock%}
+{%block page_title%}Organization - Officers{%-endblock%}
 
 {%block style%}
 	{{super()}}
@@ -79,8 +79,8 @@
 
     <!--Style Switcher -->
     {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
-    {{tag.javascript('/js/Organization/Officers.js', true)}}
     {{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
+    {{tag.javascript('/js/Organization/Officers.js', true)}}
 {%endblock%}
 
 {%block body_preloader%}

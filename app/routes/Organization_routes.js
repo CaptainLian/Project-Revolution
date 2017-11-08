@@ -2,10 +2,10 @@
 
 module.exports = function(configuration, modules, router, controllers){
 	const base = '/Organization';
-	router.get(`${base}/ProjectHead/home`, controllers.Organization_controller.viewHome);
+	router.get(`${base}/ProjectHead/home`, controllers.Organization_controller.viewProjectHeadHome);
 
 	router.get(`${base}/Officers`,controllers.Organization_controller.viewOfficers);
-	router.get(`${base}/APSReport`, controllers.Organization_controller.viewProject);
+	router.get(`${base}/APSReport`, controllers.Organization_controller.viewAPSReport);
 	router.get(`${base}/createGOSM`, controllers.Organization_controller.viewCreateGOSM);
 	router.get(`${base}/activityRequirements`, controllers.Organization_controller.createActivityRequirements);
 	router.get(`${base}/Treasurer/NewTransaction`, controllers.Treasurer_controller.newTransaction);

@@ -210,7 +210,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             return res.render('Org/SubmitProjectProposal_programdesign',renderData);
         },
 
-        viewHome: (req, res) => {
+        viewProjectHeadHome: (req, res) => {
             database.task(t => {
                 return t.batch([
                     //TODO: Replace hardcoded values
@@ -229,7 +229,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.pendingProjects = data[2];
                 renderData.successProjects =  data[3];
 
-                return res.render('Org/Home', renderData);
+                return res.render('Org/ProjectHeadHome', renderData);
             }).catch(error => {
                 throw error;
             });
@@ -244,7 +244,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             return res.render('Org/Officers', renderData);
         },
 
-        viewProject: (req, res) => {
+        viewAPSReport: (req, res) => {
             database.task(t => {
                 //TODO: Calculate hardcoded value
                 let param = Object.create(null);

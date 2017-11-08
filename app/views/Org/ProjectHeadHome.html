@@ -1,0 +1,204 @@
+{% extends '../template/CSO_master.html' %}
+{% import '../template/tags_macro.html' as tag %}
+
+{%block meta%}
+    {{super()}}
+    <meta data-name="csrf" data-token="{{csrfToken}}" />
+{%endblock%}
+
+{%block page_title%}Organization - Project Head{%-endblock%}
+
+{%block style%}
+	{{super()}}
+    
+    <!-- Bootstrap Core CSS -->
+    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
+    <!-- Menu CSS -->
+    {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
+    <!-- animation CSS -->
+    {{tag.style('/css/animate.css')}}
+    <!--alerts CSS -->
+    {{tag.style('/css/style.css')}}
+	<!-- color CSS -->
+    {{tag.style('/css/colors/blue.css')}}
+    <!--alerts CSS -->
+    {{tag.style('/plugins/bower_components/sweetalert/sweetalert.css')}}
+    <!-- page CSS -->
+    {{tag.style('/css/custom.css')}}
+
+    <!-- morris CSS -->
+    {{tag.style('/plugins/bower_components/morrisjs/morris.css')}}
+    {{tag.style('/plugins/bower_components/css-chart/css-chart.css')}}
+    <!--Owl carousel CSS -->
+    {{tag.style('/plugins/bower_components/owl.carousel/owl.carousel.min.css')}}
+    {{tag.style('/plugins/bower_components/owl.carousel/owl.theme.default.css')}}
+
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+{%endblock%}
+	
+{%block defer_script%}
+	{{super()}}    
+
+    <!-- jQuery -->
+    {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
+    <!-- Bootstrap Core JavaScript -->
+    {{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
+    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
+    <!-- Menu Plugin JavaScript -->
+    {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
+    <!--slimscroll JavaScript -->
+    {{tag.javascript('/js/jquery.slimscroll.js', true)}}
+    <!--Wave Effects -->
+    {{tag.javascript('/js/waves.js', true)}}
+    <!-- Custom Theme JavaScript -->
+    {{tag.javascript('/js/custom.min.js', true)}}
+    {{tag.javascript('/js/widget.js', true)}}
+
+    <!--weather icon -->
+    {{tag.javascript('/plugins/bower_components/skycons/skycons.js', true)}}
+    <!--Morris JavaScript -->
+    {{tag.javascript('/plugins/bower_components/raphael/raphael-min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/morrisjs/morris.js', true)}}
+    <!-- jQuery for carousel -->
+    {{tag.javascript('/plugins/bower_components/owl.carousel/owl.carousel.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/owl.carousel/owl.custom.js', true)}}
+    <!-- Sparkline chart JavaScript -->
+    {{tag.javascript('/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/jquery-sparkline/jquery.charts-sparkline.js', true)}}
+    <!--Counter js -->
+    {{tag.javascript('/plugins/bower_components/waypoints/lib/jquery.waypoints.js', true)}}
+    {{tag.javascript('/plugins/bower_components/counterup/jquery.counterup.min.js', true)}}
+
+
+    <!--Style Switcher -->
+    {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
+
+    {{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
+    {{tag.javascript('/js/Organization/ProjectHeadHome.js', true)}}
+{%endblock%}
+
+{%block content%}
+<div class="row">
+    <div class="col-md-3 col-xs-12 col-sm-6">
+        <div class="white-box text-center bg-inverse">
+            <h1 class=" text-white counter">{{allProjects.num}}</h1>
+            <p class="text-white">Projects</p>
+        </div>
+    </div>
+    <div class="col-md-3 col-xs-12 col-sm-6">
+        <div class="white-box text-center bg-danger">
+            <h1 class="text-white counter">{{deniedProjects.num}}</h1>
+            <p class="text-white">Denied</p>
+        </div>
+    </div>
+    <div class="col-md-3 col-xs-12 col-sm-6">
+        <div class="white-box text-center bg-warning">
+            <h1 class="counter text-white">{{pendingProjects.num}}</h1>
+            <p class=" text-white">Pending</p>
+        </div>
+    </div>
+    <div class="col-md-3 col-xs-12 col-sm-6">
+        <div class="white-box text-center bg-success">
+            <h1 class="text-white counter">{{successProjects.num}}</h1>
+            <p class="text-white">Success</p>
+        </div>
+    </div>
+</div>
+<!-- /row -->
+<!--row -->
+<div class="row">
+    <div class="col-md-12 col-lg-8 col-sm-12">
+        <div class="white-box">
+            <h3 class="box-title">Activity
+              <div class="col-md-3 col-sm-3 col-xs-3 pull-right">
+                <select id="project-status" class="form-control pull-right row b-none">
+                  
+                  <option value="den">Denied</option>
+                  <option value="pen">Pending</option>
+                  <option value="app">Approved</option>
+                </select>
+              </div>
+            </h3>
+            
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th width="85%">NAME</th>
+                            <th width="15%" class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="den">                           
+                            <td class="txt-oflo">Elite admin</td>                                          
+                            <td class="text-center">
+                                <a  data-toggle="tooltip" data-original-title="View Comments"> <i db-id="{{activities.id}}" db-startyear="{{activities.startyear}}" db-endyear="{{activities.endyear}}" db-studentorg="{{activities.studentorganization}}" class="fa fa-comment-o text-inverse m-r-10"></i> </a>
+                            </td>
+                        </tr>
+                        <tr class="app">
+                           
+                            <td class="txt-oflo">Project Elixir</td>
+                            <td class="text-center">
+                               &nbsp;
+                            </td>
+                        </tr>
+                        <tr class="pen">
+                           
+                            <td class="txt-oflo">EProject Revolution</td>
+                            <td class="text-center">
+                                <a  data-toggle="tooltip" data-original-title="View Comments"> <i db-id="{{activities.id}}" db-startyear="{{activities.startyear}}" db-endyear="{{activities.endyear}}" db-studentorg="{{activities.studentorganization}}" class="fa fa-comment-o text-inverse m-r-10"></i> </a>
+                            </td>                                          
+                        </tr>
+                        <tr class="app">
+                            <td class="txt-oflo">Project Genesis</td>
+                            <td class="text-center">
+                               &nbsp;
+                            </td>                                            
+                        </tr>
+                        
+                    </tbody>
+                </table> 
+                </div>
+        </div>
+    </div>
+    <div class="col-md-12 col-lg-4 col-sm-12">
+        <div class="white-box">
+            <h3 class="box-title">Comments</h3>
+            <div class="comment-center" style="height: 420px;overflow-y: auto">
+                <!-- PENDING -->
+                <div class="comment-body pending">
+                    <div class="user-img"> <img src="/plugins/images/users/pawandeep.jpg" alt="user" class="img-circle"></div>
+                    <div class="mail-contnet">
+                        <h5>Pavan kumar</h5> <span class="mail-desc">
+                        Donec ac condimentum massa. Etiam pellentesque pretium lacus. Phasellus ultricies dictum suscipit. Aenean commodo dui pellentesque molestie feugiat.
+                        Donec ac condimentum mazxcssa. Etiam pellentesque pretium lacus. Phasellus ultricies dictum suscipit. Aenean commodo dui pellentesque molestie feugiat.
+                        Donec ac condimentum massa. Etiam pellentesque pretium lacus. Phasellus ultricies dictum suscipit. Aenean commodo dui pellentesque molestie feugiat.
+                        Donec ac condimentum mazxcssa. Etiam pellentesque pretium lacus. Phasellus ultricies dictum suscipit. Aenean commodo dui pellentesque molestie feugiat.
+                        Donec ac condimentum massa. Etiam pellentesque pretium lacus. Phasellus ultricies dictum suscipit. Aenean commodo dui pellentesque molestie feugiat.
+                        Donec ac condimentum mazxcssa. Etiam pellentesque pretium lacus. Phasellus ultricies dictum suscipit. Aenean commodo dui pellentesque molestie feugiat.
+
+                        </span> 
+                        <span class="label label-rouded label-warning">PENDING</span>
+                        <a href="javacript:void(0)" class="action"></a>
+                        <span class="time pull-right">April 14, 2017</span>
+                    </div>
+                </div>  
+                <!-- DENIED -->
+                <div class="comment-body denied">
+                    <div class="user-img"> <img src="    /plugins/images/users/pawandeep.jpg" alt="user" class="img-circle"></div>
+                    <div class="mail-contnet">
+                        <h5>Pavan kumar</h5> <span class="mail-desc">Donec ac condimentum massa. Etiam pellentesque pretium lacus. Phasellus ultricies dictum suscipit. Aenean commodo dui pellentesque molestie feugiat.</span> <span class="label label-rouded label-danger">DENIED</span><a href="javacript:void(0)" class="action"></a><span class="time pull-right">April 14, 2017</span></div>
+                </div>        
+
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%}
