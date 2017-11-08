@@ -333,7 +333,7 @@ INSERT INTO PreActivityAttachmentRequirement (activityType, attachment, optional
 VALUES (0, 0, FALSE),
        (0, 1, FALSE),
        (1, 2, FALSE),
-       (2, 3, FALSE),
+       (2, 3, FALSE),        
        (3, 4, FALSE),
        (4, 3, FALSE),
        (4, 5, FALSE),

@@ -119,6 +119,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
 
+
             return res.render('Org/SubmitPostProjectProposal_main',renderData);
         },
 
@@ -126,8 +127,34 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
+            console.log("req.body");
+            console.log(req.params.id);
 
-            return res.render('Org/SubmitProjectProposal_attachments',renderData);
+            
+
+             database.task(task => {
+                       
+                        return gosmModel.getGOSMActivityType(req.params.id, undefined, task).
+                               then(data =>{
+                                    console.log("DATA");
+                                    console.log(data[0].activitytype);
+                                    return gosmModel.getGOSMActivityAttachmentRequirement(data[0].activitytype,task);
+                                    
+                               });
+                       
+                    }).then(data => {
+                      console.log("DATA1");
+                      console.log(data);
+                        renderData.attachments = data;
+                        console.log("DATA1");
+                      console.log(renderData);
+                        return res.render('Org/SubmitProjectProposal_attachments',renderData);
+                    }).catch(error => {
+                        console.log(error);
+                    });
+
+
+          
         },
 
         viewSubmitProjectProposalBriefContext: (req, res) => {
@@ -726,7 +753,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             if(dt.includes(req.files.samplefile.mimetype)){
                 console.log("RECOMMENDED");
                 //PUT DATA IN SERVER
-                 req.files.samplefile.mv(__dirname + '/../assets/upload/' + req.files.samplefile.name  , function(err) {
+                 req.files.samplefile.mv(__dirname + '/../assets/upload/' + req.files.samplefile.name, function(err) {
                      if(err){
                        console.log(err);
                      }else{
