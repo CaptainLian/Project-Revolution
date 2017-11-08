@@ -1,4 +1,3 @@
-INSERT INTO PROJECTPROPOSALATTACHMENT (projectProposal,requirement,directory)
-     VALUES (${projectId},${requirement},${dir}) 
-         ON CONFLICT (projectProposal,requirement) DO UPDATE 
-													     SET directory = ${dir}
+INSERT INTO PROJECTPROPOSALATTACHMENT (projectProposal,requirement,directory,filename,idNumber,filenametoShow)
+     VALUES (${projectId},${requirement},${dir},${filename},${idNumber},${filenametoShow}) 
+        

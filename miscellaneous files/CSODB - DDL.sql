@@ -1368,6 +1368,9 @@ CREATE TABLE ProjectProposalAttachment (
     projectProposal INTEGER NOT NULL REFERENCES ProjectProposal(id),
     requirement SMALLINT NOT NULL REFERENCES DocumentAttachmentRequirement(id),
     sequence INTEGER NOT NULL DEFAULT -1,
+    idNumber INTEGER REFERENCES Account(idNumber),
+    filename TEXT,
+    filenametoShow TEXT,
     directory TEXT NOT NULL,
 
     PRIMARY KEY (projectProposal, requirement, sequence)

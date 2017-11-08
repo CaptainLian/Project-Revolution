@@ -131,25 +131,32 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.actID = req.params.id;
             console.log("req.body");
             console.log(req.params.id);
-
+            var gl = {
+                projectId: req.params.id
+            }
             
 
              database.task(task => {
                        
-                        return gosmModel.getGOSMActivityType(req.params.id, undefined, task).
-                               then(data =>{
-                                    console.log("DATA");
-                                    console.log(data[0].activitytype);
-                                    return gosmModel.getGOSMActivityAttachmentRequirement(data[0].activitytype,task);
-                                    
-                               });
+                        return task.batch([
+                                gosmModel.getGOSMActivityType(req.params.id, undefined, task).
+                                   then(data =>{
+                                        console.log("DATA");
+                                        console.log(data[0].activitytype);
+                                        return gosmModel.getGOSMActivityAttachmentRequirement(data[0].activitytype,task);
+                                        
+                                   }),
+                               projectProposalModel.getLatestProjectProposalAttachment(gl)
+
+                            ]) 
                        
                     }).then(data => {
+                        console.log("DATA");
+                        console.log(data[0]);
+                        renderData.attachments = data[0];
+                        renderData.documents = data[1]
                         console.log("DATA1");
-                        console.log(data);
-                        renderData.attachments = data;
-                        console.log("DATA1");
-                        console.log(renderData);
+                        console.log(data[1]);
                         return res.render('Org/SubmitProjectProposal_attachments',renderData);
                     }).catch(error => {
                         console.log(error);
@@ -751,17 +758,17 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.csrfToken = req.csrfToken();
             var date = new Date().toJSON();
             console.log(date);
-             var dir3 ='./../assets/upload/';
+             var dir3 =__dirname+'/../assets/upload/';
             //CHECK IF DIRECTOR EXIST
             if (!fs.existsSync(dir3)){
                 fs.mkdirSync(dir3);
             }
-            var dir ='./../assets/upload/preacts/';
+            var dir =__dirname+'/../assets/upload/preacts/';
             //CHECK IF DIRECTOR EXIST
             if (!fs.existsSync(dir)){
                 fs.mkdirSync(dir);
             }
-            var dir2 ='./../assets/upload/preacts/'+req.session.user.idNumber+'/';
+            var dir2 = __dirname+'/../assets/upload/preacts/'+req.session.user.idNumber+'/';
             //CHECK IF DIRECTOR EXIST
             if (!fs.existsSync(dir2)){
                 fs.mkdirSync(dir2);
@@ -777,19 +784,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                        'application/vnd.oasis.opendocument.presentation',
                        'application/pdf'];
 
-
-
-            // for(var file of req.files['uploadfile[]']){
-            //     console.log(file);
-            //     file.mv(dir2 + file.name +' - '+ date, function(err) {
-            //          if(err){
-            //            console.log(err);
-            //          }else{
-            //             console.log("uploaded");
-            //         }
-            //     });
-            // }
-
+        
             database.task(task => {
                        
                         return gosmModel.getGOSMActivityType(req.body.activityId, undefined, task).
@@ -802,62 +797,60 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                        
                     }).then(data => {
                         var ctr = 0;
-                        for(var file of req.files['uploadfile[]']){
-                            console.log(file);
-                            console.log("file");
-                            console.log(data[ctr].id);
+                        console.log(req.files['uploadfile[]']);
+                        console.log("TYPE OF ONE UPLOAD");
+                        console.log(typeof req.files['uploadfile[]'][Symbol.iterator]);
+                        if(typeof req.files['uploadfile[]'][Symbol.iterator] == 'function'){
+                            for(var file of req.files['uploadfile[]']){
+                                // console.log(file);
+                                // console.log("file");
+                                // console.log(data[ctr].id);
 
-                             var db ={
-                                    projectId : req.body.activityId,
-                                    requirement:data[ctr].id,
-                                    dir:dir2 + file.name +' - '+ date,
+                                 var db ={
+                                        projectId : req.body.activityId,
+                                        requirement: data[ctr].id,
+                                        dir: dir2 + file.name +' - '+ date,
+                                        idNumber: req.session.user.idNumber,
+                                        filename: date +' - '+ file.name,
+                                        filenametoShow: file.name
 
-                                };
-                            console.log("db");
-                            console.log(db);
-                            Promise.all([
-                                        file.mv(dir2 + file.name +' - '+ date),
-                                        projectProposalModel.insertProjectProposalAttachment(db)
+                                    };
+                                console.log("FILE");
+                                console.log(dir2 + date +' - '+ file.name);
+                                Promise.all([
+                                            file.mv(dir2 + date +' - '+ file.name),
+                                            projectProposalModel.insertProjectProposalAttachment(db)
 
-                                        ]).then(result=>{
+                                            ]).then(result=>{
+                                                console.log(result);
+                                            }).catch(err=>{
+                                                console.log(err);
+                                            });                                                
+                                ctr++
+                            }
+                        }else if(typeof req.files['uploadfile[]'][Symbol.iterator] == 'undefined'){
+                              var file = req.files['uploadfile[]'];
+                              var db ={
+                                        projectId : req.body.activityId,
+                                        requirement: data[ctr].id,
+                                        dir: dir2 + file.name +' - '+ date,
+                                        idNumber: req.session.user.idNumber,
+                                        filename: date +' - '+ file.name,
+                                        filenametoShow: file.name
 
-                                        }).catch(err=>{
-                                            console.log(err);
-                                        });
-                            
-                            //UPLOAD FILE
-                            // file.mv(dir2 + file.name +' - '+ date, function(err) {
-                            //      if(err){
-                            //        console.log(err);
-                            //      }else{
-                            //         console.log("uploaded2222222222222");
-                            //         console.log(data.length);
-                            //         console.log(ctr);
-                                   
-                            //     }
-                            // });
+                                    };
+                                console.log("FILE");
+                                console.log(dir2 + date +' - '+ file.name);
+                                Promise.all([
+                                            file.mv(dir2 + date +' - '+ file.name),
+                                            projectProposalModel.insertProjectProposalAttachment(db)
 
-                            // //INSERT TO DB
-                            //  if(ctr < data.length){
-                            //     var db ={
-                            //         projectId : req.body.activityId,
-                            //         requirement:data[ctr].id,
-                            //         dir:dir2 + file.name +' - '+ date
-                            //     };
-                            //      console.log("uploaded+++++++++++");
-                            //     console.log(db);
-                            //     projectProposalModel.insertProjectProposalAttachment(db).then(data=>{
-
-                            //     }).catch(err=>{
-                                    
-                            //     });                           
-                            //     console.log("uploaded");
-                            // }
-
-
-                            ctr++
+                                            ]).then(result=>{
+                                                console.log(result);
+                                            }).catch(err=>{
+                                                console.log(err);
+                                            });          
                         }
-
 
 
                         // console.log("DATA1");
