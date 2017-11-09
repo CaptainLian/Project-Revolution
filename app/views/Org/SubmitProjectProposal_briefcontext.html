@@ -57,10 +57,11 @@
     {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
 
     {{tag.javascript('/js/Organization/SubmitProjectProposal_briefcontext.js', true)}}
+    
 {%endblock%}
 
 {%block content%}
-<form action="/Organization/projectproposal/SaveContext" method="POST">
+<form action="/Organization/projectproposal/SaveContext/{{gosmactivity.gosmactivity}}/{{projectProposal.id}}" method="POST">
 <input type="hidden" name="_csrf" value="{{csrfToken}}">
 <div class="row">
 	<div class="col-md-12">
@@ -127,9 +128,20 @@
 											<div class="col-md-9">
 												<select class="form-control"  name="adviser">
 
+													{% for adviser in advisers %}
 
-													<option value="11445952">Neil</option>
-													<option value="11445954">Markus</option>
+														{% if adviser.idnumber == projectProposal.facultyadviser %}
+
+																<option value="{{adviser.idnumber}}" selected>{{adviser.firstname}} {{adviser.lastname}}</option>
+
+														{% else %}
+
+															<option value="{{adviser.idnumber}}">{{adviser.firstname}} {{adviser.lastname}}</option>
+
+														{% endif %}
+
+
+													{% endfor %}
 
 													
 												</select> 

@@ -138,24 +138,26 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             console.log(orgID);
 
             var dbParam = {
-                    gosmactivity: req.params.id
+                    gosmactivity: req.params.id,
+                    orgId: orgID
             };
 
 
              database.task(task => {
                         return task.batch([
                             projectProposalModel.getProjectProposal(dbParam),
-                            projectProposalModel.getAllVenues()
+                            projectProposalModel.getAllVenues(),
+                            projectProposalModel.getOrgFacultyAdvisers(dbParam)
                         ]);
                     }).then(data => {
                        
-                        console.log(data);
-
                         const renderData = Object.create(null);
                         renderData.extra_data = req.extra_data;
                         renderData.csrfToken = req.csrfToken();
                         renderData.projectProposal = data[0];
                         renderData.venues = data[1];
+                        renderData.advisers = data[2];
+                        renderData.gosmactivity = dbParam;
 
                         return res.render('Org/SubmitProjectProposal_briefcontext',renderData);
 
@@ -203,11 +205,34 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         },
 
         viewSubmitProjectProposalProgramDesign: (req, res) => {
-            const renderData = Object.create(null);
-            renderData.extra_data = req.extra_data;
-            renderData.csrfToken = req.csrfToken();
 
-            return res.render('Org/SubmitProjectProposal_programdesign',renderData);
+            const orgID = req.session.user.organizationSelected.id;
+
+            console.log("OrgID is");
+            console.log(orgID);
+
+            var dbParam = {
+                    gosmactivity: req.params.id,
+                    orgId: orgID
+            };
+
+            projectProposalModel.getProjectProposal(dbParam)
+            .then(data=>{
+
+                const renderData = Object.create(null);
+                renderData.extra_data = req.extra_data;
+                renderData.csrfToken = req.csrfToken();
+                renderData.gosmactivity = dbParam;
+                renderData.projectProposal = data;
+
+                console.log(renderData.gosmactivity);
+                console.log(renderData.projectProposal);
+
+                return res.render('Org/SubmitProjectProposal_programdesign',renderData);
+            }).catch(error=>{
+
+            });
+
         },
 
         viewProjectHeadHome: (req, res) => {
@@ -582,9 +607,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         saveContext: (req, res) =>{
             console.log(req.body);
 
-            // TODO: change id, to come from selected activity
             var dbParam = {
-                id: 1,
+                id: req.params.ppr,
                 enp: req.body.enp,
                 enmp: req.body.enmp,
                 venue: req.body.venue,
@@ -607,25 +631,42 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 
             }
 
+            console.log(req.params.id);
+
             console.log(dbParam);
 
-            projectProposalModel.updatePPRBriefContext(dbParam);
+            projectProposalModel.updatePPRBriefContext(dbParam)
+            .then(data=>{
+
+            }).catch(error=>{
+                console.log(error);
+            });
+
+            res.redirect(`/Organization/ProjectProposal/Main/${req.params.id}/1`);
+
+
 
         },
 
         saveDesign: (req, res) =>{
+
+
             console.log(req.body);
-            console.log("L");
+            console.log("asda++++++++++++++++++++++++++++++++++L");
             var sched = JSON.parse(req.body.sched);
             var keys =  Object.keys(sched);
             console.log(keys);
 
-            // TODO: change id, to come from selected activity            
             var dbParam = {
-                projectproposal: 1
+                projectproposal: req.body.gid
             }
 
-            projectProposalModel.deleteProgramDesign(dbParam);
+            projectProposalModel.deleteProgramDesign(dbParam)
+            .then(data=>{
+
+            }).catch(error=>{
+                console.log(error);
+            });
 
             var index = 0;
             for (var item in sched){
@@ -635,9 +676,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                     console.log(sched[item][i]);
 
-                    // TODO: change id, to come from the selected activity
                     var dbParam = {
-                        projectProposal: 1,
+                        projectProposal: req.body.pid,
                         dayID: index,
                         date: item,
                         startTime: sched[item][i].start,
@@ -661,13 +701,18 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
             if (index == 0){
 
-                // TODO: change id, to come from the selected activity
                 var dbParam = {
-                    id: 1
+                    id: req.body.pid
                 };
 
-                projectProposalModel.updateIsProgramDesignComplete(dbParam);
+                projectProposalModel.updateIsProgramDesignComplete(dbParam)
+                .then(data=>{
+
+                }).catch(error=>{
+                    console.log(error);
+                });
             }
+
 
          },
 

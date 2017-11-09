@@ -104,7 +104,7 @@
 
 				{% endif %}
 
-				{% if projectProposal.isprogramdesigncomplete %}
+				{% if projectProposal.isprogramcomplete %}
 
 					{% set completionRate = completionRate + 25 %}
 
@@ -127,7 +127,7 @@
 				
 				<p>
 					<b class="col-md-10  text-right"> Program Schedule :</b>
-					{% if projectProposal.isprogramdesigncomplete %}
+					{% if projectProposal.isprogramcomplete %}
 
 					100%
 
@@ -195,7 +195,7 @@
 				<div class="row">
 					<div class="col-md-6 text-left">
 
-						{% if projectProposal.isprogramdesigncomplete %}
+						{% if projectProposal.isprogramcomplete %}
 
 							<h5>Program Schedule <span class="label label-success">Complete</span></h5>
 
