@@ -12,11 +12,11 @@ module.exports = function(configuration, modules, db, queryFiles) {
 
 
 	return {
-		updatePostProjectProposal (param, connection = this._db) {
+		updatePostProjectProposal:function (param, connection = db) {
         	return connection.none(updatePostProjectProposal, param);
     	},
-    	insertPostProjectProposal (param, connection = this._db) {
-        	return connection.none(insertPostProjectProposal, param);
+    	insertPostProjectProposal:function (param, connection = db) {
+        	return connection.one(insertPostProjectProposal, param);
     	},
 	};
 }

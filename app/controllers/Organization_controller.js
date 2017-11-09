@@ -104,7 +104,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         renderData.gosmActivity = data[0];
                         renderData.projectHeads = data[1];
                         renderData.projectProposal = data[2];
-
+                        renderData.gosmid = req.params.id;
                         console.log(data[2]);
 
                         return res.render('Org/SubmitProjectProposal_main',renderData);
@@ -749,7 +749,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
          },
 
         savePPR:(req, res)=>{
-            
+            const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
             console.log("req.body");
             console.log(req.body);
             console.log("req.params");
@@ -757,12 +759,17 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             var dbParam = {
                 gosmId:req.body.gosmid
             }
-            postprojectproposal.insertPostProjectProposal(dbParam)
+            console.log(parseInt(req.body.context) );
+            if(parseInt(req.body.context) && parseInt(req.body.program) && parseInt(req.body.expense) && parseInt(req.body.attachment)){
+                postProjectProposalModel.insertPostProjectProposal(dbParam)
                 .then(data=>{
-                    return res.
+                    return res.render(`/Organization/ProjectProposal/gosmlist`,renderData);
                 }).catch(err=>{
 
                 });
+            }else{
+                return res.redirect(`/Organization/ProjectProposal/gosmlist/1`);
+            }
 
         },
 
