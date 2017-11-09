@@ -20,8 +20,8 @@ module.exports = function(configuration, modules, router, controllers){
 
 
     router.post(`${base}/projectproposal/SaveContext/:id/:ppr`, controllers.Organization_controller.saveContext);
-    router.post(`${base}/projectproposal/SaveDesign/`, controllers.Organization_controller.saveDesign);
-    router.post(`${base}/projectproposal/SaveExpenses`, controllers.Organization_controller.saveExpenses);
+    router.post(`${base}/projectproposal/SaveDesign`, controllers.Organization_controller.saveDesign);
+    router.post(`${base}/projectproposal/SaveExpenses/:id/:ppr`, controllers.Organization_controller.saveExpenses);
     router.post(`${base}/projectproposal/SaveAttachments`, controllers.Organization_controller.saveAttachments);
 
     router.get(`${base}/Setting/ACL`, controllers.Organization_controller.viewSettingAcl);

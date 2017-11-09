@@ -21,7 +21,9 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const getGOSMActivitiesToImplementSQL = queryFiles.getGOSMActivitiesToImplement;
     const updatePPRStatusSQL = queryFiles.updatePPRStatus;
     const updateIsProgramDesignCompleteSQL = queryFiles.updateIsProgramDesignComplete;
+    const updatePPRExpensesSQL = queryFiles.updatePPRExpenses;
     const deleteProgramDesignSQL = queryFiles.deleteProgramDesign;
+    const deleteExpensesSQL = queryFiles.deleteExpenses;
     const getAllVenuesSQL = queryFiles.getAllVenues;
     const getOrgFacultyAdvisersSQL = queryFiles.getOrgFacultyAdvisers;
     
@@ -293,12 +295,20 @@ module.exports = function(configuration, modules, db, queryFiles) {
         return connection.none(updatePPRStatusSQL, param);
     };
 
+    ProjectProposalModel.prototype.updatePPRExpenses = function(param, connection = this._db){
+        return connection.none(updatePPRExpensesSQL, param);
+    };
+
     ProjectProposalModel.prototype.getApprovedPPRs = function(connection = this._db){
         return connection.any(getApprovedPPRsSQL);
     };
 
     ProjectProposalModel.prototype.deleteProgramDesign = function(param, connection = this._db){
         return connection.none(deleteProgramDesignSQL, param);
+    };
+
+    ProjectProposalModel.prototype.deleteExpenses = function(param, connection = this._db){
+        return connection.none(deleteExpensesSQL, param);
     };
 
     ProjectProposalModel.prototype.getAllVenues = function(connection = this._db){

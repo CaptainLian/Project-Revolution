@@ -66,7 +66,7 @@
 {%endblock%}
 
 {%block content%}
-<form action="/Organization/projectproposal/SaveExpenses" id="form-id" method="POST">
+<form action="/Organization/projectproposal/SaveExpenses/{{gosmactivity.gosmactivity}}/{{projectProposal.id}}" id="form-id" method="POST">
 <input type="hidden" name="_csrf" value="{{csrfToken}}">
 
 <div class="row">
@@ -91,7 +91,7 @@
 										Operational Funds
 									</label>
 									<div class="col-md-6">
-										<input class="form-control" readonly="" value="0" name="ope" id="ope-fund" type="text">
+										<input class="form-control" readonly="" name="ope" id="ope-fund" type="text" value="{{projectProposal.accumulatedoperationalfunds | round(2)}}">
 										<span id="ope-help" class="help-block"> As of Oct. 12, 2017 </span>
 									</div>
 								</div>
@@ -100,7 +100,7 @@
 										Depository Funds
 									</label>
 									<div class="col-md-6">
-										<input class="form-control" readonly="" value="0" name="dep" id="dep-fund" type="text">
+										<input class="form-control" readonly="" name="dep" id="dep-fund" type="text" value="{{projectProposal.accumulateddepositoryfunds | round(2)}}">
 										<span id="dep-help" class="help-block"> 
 											Org. Balance as of Oct. 12, 2017
 										</span>
@@ -111,7 +111,7 @@
 										Other Funds
 									</label>
 									<div class="col-md-6">
-										<input class="form-control"  value="0" id="oth-fund" name="otherfunds" type="text">
+										<input class="form-control" id="oth-fund" name="otherfunds" type="text" value="{{projectProposal.organizationfundothersource | round(2)}}">
 										<span id="oth-help" class="help-block"></span>
 									</div>
 								</div>
@@ -133,7 +133,7 @@
 										Organization Funds
 									</label>
 									<div class="col-md-6">
-										<input class="form-control" value="0" dir="rtl" id="org-exp" name="org" type="text">
+										<input class="form-control" dir="rtl" id="org-exp" name="org" type="text" value="{{projectProposal.sourcefundorganizational | round(2)}}">
 										<span id="org-help" class="help-block"> </span>
 									</div>
 								</div>
@@ -142,7 +142,7 @@
 										Participant's Fee
 									</label>
 									<div class="col-md-6">
-										<input class="form-control" value="0"  dir="rtl" id="pat-exp" name="par" type="text">
+										<input class="form-control"  dir="rtl" id="pat-exp" name="par" type="text" value="{{projectProposal.sourcefundparticipantfee | round(2)}}">
 										<span id="pat-help" class="help-block">  </span>
 									</div>
 								</div>
@@ -151,7 +151,7 @@
 										Others
 									</label>
 									<div class="col-md-6">
-										<input class="form-control " value="0" dir="rtl" name="others" id="oth2-exp" type="text">
+										<input class="form-control " dir="rtl" name="others" id="oth2-exp" type="text" value="{{projectProposal.sourcefundother | round(2)}}">
 										<span id="oth2-help" class="help-block"> </span>
 									</div>
 								</div>
