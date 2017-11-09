@@ -1493,6 +1493,12 @@ $trigger$
     DECLARE
         organizationPresident INTEGER;
     BEGIN
+      INSERT INTO ProjectProposalSignatory (GOSMActivity, signatory, type)
+        SELECT NEW.GOSMActivity, idNumber, 0
+         FROM GOSMActivityProjectHead
+        WHERE activityID = NEW.GOSMActivity;
+
+    /*
         -- ALL PROJECT HEADS
         INSERT INTO ProjectProposalSignatory (GOSMActivity, signatory, type)
              SELECT NEW.GOSMActivity, idNumber, 0
@@ -1522,7 +1528,7 @@ $trigger$
         -- CSO Officer
         INSERT INTO ProjectProposalSignatory (GOSMActivity, type)
              VALUES (NEW.GOSMActivity, 6);
-
+*/
         RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
