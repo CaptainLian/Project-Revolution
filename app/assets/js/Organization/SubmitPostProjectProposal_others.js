@@ -71,7 +71,7 @@
                 $("#part").closest("div.form-group").removeClass("has-error");
                 $("#est-help").text("");
                 $("#est").closest("div.form-group").removeClass("has-error");
-                $("#file-help").text("");
+                $("#file-help").text("*Only pdf and opendata format are acceptable");
                 $("#file").closest("div.form-group").removeClass("has-error").removeClass("has-danger");
                 $("#data").clone().attr("id","asd"+key).addClass("price-cal").css("display","none").appendTo("#data");
 
