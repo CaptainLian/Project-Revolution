@@ -124,8 +124,6 @@ Mwa7xuTtikKf6Y7+O7ayCwL6mOycRQ8qojl4qw6xXDLfvbP2T1i8BYwqmWZFCWKS
 -----END RSA PRIVATE KEY-----', 1);
 
 INSERT INTO OrganizationOfficer (idNumber, role, yearID)
-                         VALUES (11445955,  10023, system_get_current_year_id());
-INSERT INTO OrganizationOfficer (idNumber, role, yearID)
                          VALUES (11445955,   10, system_get_current_year_id());
 
 INSERT INTO Account (email, idNumber, password, firstname, lastname, contactNumber, publicKey, privateKey, type)
@@ -286,6 +284,9 @@ BtfxKI72NnSS70p1VAzKACZXwMRR5RRhOz75s1bJ3JK18AMSRc3r
 
 INSERT INTO OrganizationOfficer (idNumber, role, yearID)
                          VALUES (1111111, 10023, system_get_current_year_id());
+
+
+
 INSERT INTO GOSM (termID, studentOrganization)
            VALUES ((SELECT id
                       FROM TERM
