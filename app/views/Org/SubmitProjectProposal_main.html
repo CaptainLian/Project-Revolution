@@ -55,6 +55,9 @@
 {%endblock%}
 
 {%block content%}
+<form method="POST" action="/Organization/ProjectProposal/SavePPR">
+<input type="hidden" name="_csrf" value="{{csrfToken}}">
+<input type="hidden" name="gosmid" value="{{gosmid}}">
 <div class="row white-box">
 	<div class="col-md-12">
 		<div class="">
@@ -173,12 +176,12 @@
 						{% if projectProposal.isbriefcontextcomplete %}
 
 							<h5>Brief Context <span class="label label-success">Complete</span></h5>
-
+							<input type="hidden" name="context" value="{{projectProposal.isbriefcontextcomplete}}">
 
 						{% else %}
 
 							<h5>Brief Context <span class="label label-danger">Incomplete</span></h5>
-
+							<input type="hidden" name="context" value="0">
 
 						{% endif %}
 
@@ -198,12 +201,12 @@
 						{% if projectProposal.isprogramdesigncomplete %}
 
 							<h5>Program Schedule <span class="label label-success">Complete</span></h5>
-
+							<input type="hidden" name="program" value="{{projectProposal.isprogramdesigncomplete}}">
 
 						{% else %}
 
 							<h5>Program Schedule <span class="label label-danger">Incomplete</span></h5>
-
+							<input type="hidden" name="program" value="0">
 
 						{% endif %}
 						
@@ -224,11 +227,11 @@
 
 							<h5>Funding Expense <span class="label label-success">Complete</span></h5>
 
-
+							<input type="hidden" name="expense" value="{{projectProposal.isexpensecomplete}}">
 						{% else %}
 
 							<h5>Funding Expense <span class="label label-danger">Incomplete</span></h5>
-
+							<input type="hidden" name="expense" value="0">
 
 						{% endif %}
 
@@ -248,12 +251,12 @@
 							{% if projectProposal.isattachmentscomplete %}
 
 								<h5>Attachments <span class="label label-success">Complete</span></h5>
-
+								<input type="hidden" name="attachment" value="{{projectProposal.isattachmentscomplete}}">
 
 							{% else %}
 
 								<h5>Attachments <span class="label label-danger">Incomplete</span></h5>
-
+								<input type="hidden" name="attachment" value="0">
 
 							{% endif %}
 
@@ -276,4 +279,5 @@
 		</div>
 	</div>
 </div>
+</form>
 {%endblock%}

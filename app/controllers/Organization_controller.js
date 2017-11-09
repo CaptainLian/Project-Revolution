@@ -8,6 +8,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     const systemModel = models.System_model;
     const organizationModel = models.organization_model;
     const projectProposalModel = models.ProjectProposal_model;
+    const postProjectProposalModel = models.PostProjectProposal_model;
     const gosmModel = models.gosmModel;
     const logger = modules.logger;
     const log_options = Object.create(null);
@@ -68,6 +69,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         renderData.gosmActivity = data[0];
                         renderData.projectHeads = data[1];
                         renderData.projectProposal = data[2];
+                        renderData.gosmid = req.params.id;
 
                         return res.render('Org/SubmitProjectProposal_main',renderData);
                     }).catch(err => {
@@ -678,7 +680,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             // }
             console.log("dbParam")
             console.log(dbParam);
-            projectProposalModel.updatePostProjectProposal(dbParam)
+            postProjectProposalModel.updatePostProjectProposal(dbParam)
                                .then(data=>{
                                     return res.redirect(`Organization/postprojectproposal/main`)
                                }).catch(err=>{
@@ -745,6 +747,24 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             }
 
          },
+
+        savePPR:(req, res)=>{
+            
+            console.log("req.body");
+            console.log(req.body);
+            console.log("req.params");
+            console.log(req.params.id);
+            var dbParam = {
+                gosmId:req.body.gosmid
+            }
+            postprojectproposal.insertPostProjectProposal(dbParam)
+                .then(data=>{
+                    return res.
+                }).catch(err=>{
+
+                });
+
+        },
 
         saveExpenses: (req, res) =>{
             console.log("HERE");

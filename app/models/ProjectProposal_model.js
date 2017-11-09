@@ -8,7 +8,7 @@ const squel = require('squel').useFlavour('postgres');
 
 module.exports = function(configuration, modules, db, queryFiles) {
 
-    const updatePostProjectProposal = queryFiles.updatePostProjectProposal;
+    
     const getLatestProjectProposalAttachment = queryFiles.getLatestProjectProposalAttachment;
     const insertProjectProposalAttachment = queryFiles.insertProjectProposalAttachment;
     const updatePPRBriefContextSQL = queryFiles.updatePPRBriefContext;
@@ -236,9 +236,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
     ProjectProposalModel.prototype.insertProjectProposal  = function(param, connection = this._db){
         return connection.one(insertProjectProposalSQL, param);
     };
-    ProjectProposalModel.prototype.updatePostProjectProposal = function(param, connection = this._db) {
-        return connection.none(updatePostProjectProposal, param);
-    };
+    
 
     ProjectProposalModel.prototype.updateIsProgramDesignComplete = function(param, connection = this._db) {
         return connection.none(updateIsProgramDesignCompleteSQL, param);
