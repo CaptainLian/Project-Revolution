@@ -206,6 +206,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
 
+            console.log("DATA")
+            console.log(req.params);
             return res.render('Org/SubmitPostProjectProposal_briefcontext',renderData);
         },
         viewSubmitPostProjectProposalOthers: (req, res) => {
@@ -644,6 +646,46 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
             projectProposalModel.updatePPRBriefContext(dbParam);
 
+        },
+        postSaveContext: (req, res) =>{
+            console.log(req.body);
+
+            // TODO: change id, to come from selected activity
+            var dbParam = {
+                id: 1,
+                enp: req.body.enp,
+                enmp: req.body.enmp,                
+                well: req.body.wentWell,
+                learning: req.body.learning,
+                develop: req.body.develop,                
+                mistakes: req.body.mistakes,
+                obj:req.body['obj[]'],
+                isBriefContextComplete: true
+            };
+
+            console.log(dbParam)
+
+            // if(!(req.body.enp).trim() || 
+            //     !(req.body.enmp).trim() || 
+            //     !(req.body.well).trim() ||
+            //     !(req.body.develop).trim() ||
+            //     !(req.body.contribute).trim() ||
+            //     !(req.body.mistakes).trim() ||
+            //     !(req.body['obj[]']).trim()){
+
+            //     dbParam.isBriefContextComplete = false;
+                
+            // }
+            console.log("dbParam")
+            console.log(dbParam);
+            projectProposalModel.updatePostProjectProposal(dbParam)
+                               .then(data=>{
+                                    return res.redirect(`Organization/postprojectproposal/main`)
+                               }).catch(err=>{
+                                    return res.send("Error");
+                               });
+            
+            // return res.redirect(`Organization/postprojectproposal/main/${req.bod}`)
         },
 
         saveDesign: (req, res) =>{
