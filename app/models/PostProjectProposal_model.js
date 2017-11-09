@@ -9,6 +9,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
 
 	const insertPostProjectProposal = queryFiles.insertPostProjectProposal;
 	const updatePostProjectProposal = queryFiles.updatePostProjectProposal;
+	const getPostActsToImplement = queryFiles.getPostActsToImplement;
 
 
 	return {
@@ -17,6 +18,9 @@ module.exports = function(configuration, modules, db, queryFiles) {
     	},
     	insertPostProjectProposal:function (param, connection = db) {
         	return connection.one(insertPostProjectProposal, param);
+    	},
+    	getPostActsToImplement:function (param, connection = db) {
+        	return connection.one(getPostActsToImplement, param);
     	},
 	};
 }

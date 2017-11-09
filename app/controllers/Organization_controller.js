@@ -39,6 +39,28 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
             
         },
+        viewGOSMActivityListPostProjectProposal: (req, res) => {
+
+            //TODO: session of gosm id??
+            var dbParam = {
+                idNumber: req.session.user.idNumber
+            };
+            console.log(dbParam);
+            postProjectProposalModel.getPostActsToImplement(dbParam)
+            .then(data=>{
+                console.log(data);
+                // const renderData = Object.create(null);
+                // renderData.extra_data = req.extra_data;
+                // renderData.csrfToken = req.csrfToken();
+                // renderData.activities = data;
+
+                // return res.render('Org/PostActivityToImplement', renderData);
+            }).catch(error=>{
+                console.log(error);
+            });
+
+            
+        },
 
         viewSubmitProjectProposalMain: (req, res) => {
 

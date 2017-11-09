@@ -12,6 +12,7 @@ module.exports = function(configuration, modules, router, controllers){
     router.get(`${base}/Treasurer/NewTransactionOthers`, controllers.Treasurer_controller.newTransactionOthers);
 
     router.get(`${base}/ProjectProposal/GOSMList`, controllers.Organization_controller.viewGOSMActivityListProjectProposal);
+    
     router.get(`${base}/ProjectProposal/Main/:id/:status`, controllers.Organization_controller.viewSubmitProjectProposalMain);
     router.get(`${base}/ProjectProposal/Attachments/:id`, controllers.Organization_controller.viewSubmitProjectProposalAttachments);
     router.get(`${base}/ProjectProposal/BriefContext/:id`, controllers.Organization_controller.viewSubmitProjectProposalBriefContext);
@@ -28,7 +29,7 @@ module.exports = function(configuration, modules, router, controllers){
 
     router.post(`${base}/projectproposal/SaveExpenses`, controllers.Organization_controller.saveExpenses);
     router.post(`${base}/projectproposal/SaveAttachments`, controllers.Organization_controller.saveAttachments);
-
+    router.get(`${base}/PostProjectProposal/GOSMList`, controllers.Organization_controller.viewGOSMActivityListPostProjectProposal);
     router.post(`${base}/postprojectproposal/SaveContext`, controllers.Organization_controller.postSaveContext);    
     // router.post(`${base}/postprojectproposal/SaveExpenses`, controllers.Organization_controller.postSaveExpenses);
     // router.post(`${base}/postprojectproposal/SaveAttachments`, controllers.Organization_controller.postSaveAttachments);
