@@ -333,7 +333,7 @@ INSERT INTO PreActivityAttachmentRequirement (activityType, attachment, optional
 VALUES (0, 0, FALSE),
        (0, 1, FALSE),
        (1, 2, FALSE),
-       (2, 3, FALSE),
+       (2, 3, FALSE),        
        (3, 4, FALSE),
        (4, 3, FALSE),
        (4, 5, FALSE),
@@ -1406,6 +1406,9 @@ CREATE TABLE ProjectProposalAttachment (
     projectProposal INTEGER NOT NULL REFERENCES ProjectProposal(id),
     requirement SMALLINT NOT NULL REFERENCES DocumentAttachmentRequirement(id),
     sequence INTEGER NOT NULL DEFAULT -1,
+    idNumber INTEGER REFERENCES Account(idNumber),
+    filename TEXT,
+    filenametoShow TEXT,
     directory TEXT NOT NULL,
 
     PRIMARY KEY (projectProposal, requirement, sequence)

@@ -109,14 +109,17 @@ var table = $('#myTable').DataTable( {
 // 	{ "bSortable": false, "aTargets": [ "_all" ] }
 // ]
 } );
+var active = '<span class="label label-success">Active</span>';
+var inactive = '<span class="label label-danger">Inactive</span>'
 $("#submit").click(function(){
-	var lastName = $("#lastName").val();
-	var middleName = $("#middleName").val();
-	var givenName = $("#givenName").val();
+	var orgName = $("#org-name").val();
+	var orgCode = $("#org-code").val();
+	var orgDesc = $("#org-desc").val();
+	var college = $("#college").val();
 
-	var idNumber = $("#idNumber").val();
-	var email  = $("#inputEmail3").val();
-	var number = $("#basic-addon1").val();
+	var clutster = $("#cluster").val();
+
+	var faculty = $("#faculty").val();
 
 
 	$.ajax({
@@ -132,39 +135,39 @@ $("#submit").click(function(){
 		},
 		success:function(data){
 			$("#largeModal").modal("hide");
-//data > 0
-if(1){
-	var com = givenName + ' ' + middleName +' '+ lastName;
-	$("#name").val(com);
+			//data > 0
+			if(1){
+				var com = givenName + ' ' + middleName +' '+ lastName;
+				$("#name").val(com);
 
-	$("#right").fadeIn("fast").delay(5000).fadeOut("slow");    
+				$("#right").fadeIn("fast").delay(5000).fadeOut("slow");    
 
-	var actions  =      '<a  data-toggle="tooltip" data-original-title="Edit"> '+
-	'<i  class="fa fa-pencil text-inverse m-r-10"></i> '+
-	'</a>'+
-	'<a class="remove"  data-toggle="tooltip" data-original-title="Remove"> '+
-	'<i class="fa fa-trash-o text-danger"></i> '+
-	'</a>';
-
-
-	var row = table.row.add( [
-		idNumber,
-		email,
-		com,
-		"+639"+number,
-		actions                        
-		]).draw().node();
-	clear();
-	$(row).find("td:last").addClass("text-center");
+				var actions  =      '<a  data-toggle="tooltip" data-original-title="Edit"> '+
+				'<i  class="fa fa-pencil text-inverse m-r-10"></i> '+
+				'</a>'+
+				'<a class="remove"  data-toggle="tooltip" data-original-title="Remove"> '+
+				'<i class="fa fa-trash-o text-danger"></i> '+
+				'</a>';
 
 
-}else{
-	$("#wrong").fadeIn("fast").delay(5000).fadeOut("slow");    
-}
+				var row = table.row.add( [
+					idNumber,
+					email,
+					com,
+					"+639"+number,
+					actions                        
+					]).draw().node();
+				clear();
+				$(row).find("td:last").addClass("text-center");
+
+
+			}else{
+				$("#wrong").fadeIn("fast").delay(5000).fadeOut("slow");    
+			}
 
 
 
-}
+		}
 });	    
 
 
@@ -177,22 +180,22 @@ $("table").on("click",'tbody td a i.fa-pencil',function(){
 	editNode = $(this).closest("tr");
 	console.log(node);
 	$("#editModal").modal("show");	
-//get DATA
-$.ajax({
-	type:'POST',
-	url:'',
-	data:node[0],
-	success:function(data){
-		$("#edit-lastName").val();
-		$("#edit-middleName").val();
-		$("#edit-givenName").val();
+	//get DATA
+	$.ajax({
+		type:'POST',
+		url:'',
+		data:node[0],
+		success:function(data){
+			$("#edit-lastName").val();
+			$("#edit-middleName").val();
+			$("#edit-givenName").val();
 
-		$("#edit-idNumber").val();
-		$("#edit-inputEmail3").val();
-		$("#edit-basic-addon1").val();
-		$("#edit").modal("show");
-	}
-});
+			$("#edit-idNumber").val();
+			$("#edit-inputEmail3").val();
+			$("#edit-basic-addon1").val();
+			$("#edit").modal("show");
+		}
+	});
 
 
 
@@ -200,19 +203,19 @@ $.ajax({
 $("table").on("click",'tbody td a i.fa-trash-o',function(){
 	var id = table.row($(this).closest("tr")).data()[0];
 	var row = $(this).closest("tr");
-//remove
-$.ajax({
-	type:'POST',
-	url:'',
-	data:id,
-	success:function(data){
-		if(1){
-			table.row(row).remove().draw();
-		}else{
+	//remove
+	$.ajax({
+		type:'POST',
+		url:'',
+		data:id,
+		success:function(data){
+			if(1){
+				table.row(row).remove().draw();
+			}else{
 
+			}
 		}
-	}
-});
+	});
 });
 
 $("#edit-submit").click(function(){
@@ -237,39 +240,39 @@ $("#edit-submit").click(function(){
 		},
 		success:function(data){
 			$("#editModal").modal("hide");
-//data > 0
-if(1){
-	var com = givenName + ' ' + middleName +' '+ lastName;
-	$("#name").val(com);
+			//data > 0
+			if(1){
+				var com = givenName + ' ' + middleName +' '+ lastName;
+				$("#name").val(com);
 
-	$("#right").fadeIn("fast").delay(5000).fadeOut("slow");    
+				$("#right").fadeIn("fast").delay(5000).fadeOut("slow");    
 
-	var actions  =      '<a  data-toggle="tooltip" data-original-title="Edit"> '+
-	'<i  class="fa fa-pencil text-inverse m-r-10"></i> '+
-	'</a>'+
-	'<a class="remove"  data-toggle="tooltip" data-original-title="Remove"> '+
-	'<i class="fa fa-trash-o text-danger"></i> '+
-	'</a>';
+				var actions  =      '<a  data-toggle="tooltip" data-original-title="Edit"> '+
+				'<i  class="fa fa-pencil text-inverse m-r-10"></i> '+
+				'</a>'+
+				'<a class="remove"  data-toggle="tooltip" data-original-title="Remove"> '+
+				'<i class="fa fa-trash-o text-danger"></i> '+
+				'</a>';
 
-	table.row(editNode).remove().draw();
-	var row = table.row.add( [
-		idNumber,
-		email,
-		com,
-		number,
-		actions                        
-		]).draw().node();
-	clear();
-	$(row).find("td:last").addClass("text-center");
-
-
-}else{
-	$("#wrong").fadeIn("fast").delay(5000).fadeOut("slow");    
-}
+				table.row(editNode).remove().draw();
+				var row = table.row.add( [
+					idNumber,
+					email,
+					com,
+					number,
+					actions                        
+					]).draw().node();
+				clear();
+				$(row).find("td:last").addClass("text-center");
 
 
+			}else{
+				$("#wrong").fadeIn("fast").delay(5000).fadeOut("slow");    
+			}
 
-}
+
+
+		}
 });	    
 
 

@@ -68,6 +68,34 @@ module.exports = function(configuration, modules, db, queryFiles) {
              logger.debug(`Executing query: ${query}`, log_options);
             return connection.any(query, param);
         },
+        getGOSMActivityType: function(GOSMID, fields = 'activityType', connection = db) {
+            let query= squel.select()
+            .from('GOSMActivity')
+            .where('id = ${GOSMID}');
+            attachFields(query, fields);
+
+            let param = Object.create(null);
+            param.GOSMID = GOSMID;
+
+            query = query.toString();
+             logger.debug(`Executing query: ${query}`, log_options);
+            return connection.any(query, param);
+        },
+
+        getGOSMActivityAttachmentRequirement: function(type, fields = 'activityType', connection = db) {
+            let query= squel.select()
+            .from('ActivityAttachmentRequirement','aar')
+            .left_join('DocumentAttachmentRequirement', 'dar', 'aar.attachment = dar.id')
+            .where('aar.activitytype = ${type}');
+            attachFields(query, fields);
+
+            let param = Object.create(null);
+            param.type = type;
+
+            query = query.toString();
+             logger.debug(`Executing query: ${query}`, log_options);
+            return connection.any(query, param);
+        },
 
         getGOSMActivity: function(param) {
             return db.one(getGOSMActivitySQL, param);
