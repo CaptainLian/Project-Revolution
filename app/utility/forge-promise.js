@@ -1,8 +1,9 @@
+const Promise = require('bluebird');
 const forge = require('node-forge');
 
 /**
  * The forge object to be wrapped
- * 
+ *
  * @type {forge}
  */
 module.exports.forge = forge;
@@ -54,4 +55,20 @@ module.exports.pki.rsa.generateKeyPair = (parameters) => {
 			return onResolve(pair);
 		});
 	});
+};
+
+
+module.exports.md = Object.create(null);
+
+module.exports.md.sha512 = (text) => {
+    const md = forge.md.sha512;
+    return new new Promise((resolve, reject) => {
+        try{
+            const digest = md.create();
+            digest.update(text);
+            return resolve(digest.digest().toHext());
+        }catch(err){
+            return reject(err);
+        }
+    });
 };

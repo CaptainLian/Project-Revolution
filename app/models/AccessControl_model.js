@@ -1,11 +1,25 @@
 'use strict';
 
-module.exports = function(configuration, modules, database, queryFiles){	
+module.exports = function(configuration, modules, database, queryFiles){
+    const query_account_is_allowed_functionality = queryFiles.account_is_allowed_functionality;
+    const query_account_get_organization_functionalities = queryFiles. account_get_account_organization_functionalities;
 	const AccessControlModel = Object.create(null);
 
-	AccessControlModel.getAccountAccessControl = (idNumber, connection = database) => {
+    AccessControlModel.getAccountAccessControl = (idNumber, connection = database) => {
+        const param = Object.create(null);
+        param.idNumber = idNumber;
+        
+        return connection.any(query_account_get_organization_functionalities, param);
+    };
 
-	};
+    AccessControlModel.isAllowedAccessFunctionality = (idNumber, functionalitySequence, organizationSequence, connection = database) => {
+        const param = Object.create(null);
+        param.idNumber = idNumber;
+        param.functionalitySequence = functionalitySequence;
+        param.organizationSequence = organizationSequence;
+        
+        return connection.one(query_account_is_allowed_functionality, param);
+    };
 
 	return AccessControlModel;
 };

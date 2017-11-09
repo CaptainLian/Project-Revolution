@@ -84,27 +84,9 @@ INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
                  VALUES (38, 'YES', 'Young Entrepreneurs Society', 5, NULL);
 
-INSERT INTO ActivityNature (id, name)
-                    VALUES (1, 'Academic');
-INSERT INTO ActivityNature (id, name)
-                    VALUES (2, 'Special Interest');
-INSERT INTO ActivityNature (id, name)
-                    VALUES (3, 'Departmental Initiative');
-INSERT INTO ActivityNature (id, name)
-                    VALUES (4, 'Fundraising');
-INSERT INTO ActivityNature (id, name)
-                    VALUES (5, 'Community Development');
-INSERT INTO ActivityNature (id, name)
-                    VALUES (6, 'Organizational Development');
-INSERT INTO ActivityNature (id, name)
-                    VALUES (7, 'Issue Advocacy');
-INSERT INTO ActivityNature (id, name)
-                    VALUES (8, 'Lasallian Formation/Spiritual Growth');
-INSERT INTO ActivityNature (id, name)
-                    VALUES (9, 'Outreach');
 
 /* Sample Data */
-INSERT INTO Account (email, idNumber, password, firstname, middlename, lastname, contactNumber, publicKey, privateKey)
+INSERT INTO Account (email, idNumber, password, firstname, middlename, lastname, contactNumber, publicKey, privateKey, type)
              VALUES ('juliano_laguio@dlsu.edu.ph', 11445955, '1234', 'Lian', 'Blanco', 'Laguio', '+63 9228474849', '-----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAiVnKCWbYdHNGPDJbn0DN
 4tIqFhWgH7V0s3rTOdG1+996QqI69kck9T3awwDxEM4ayfHKQer1Q7VKsz57q3FJ
@@ -139,12 +121,12 @@ KvgJwHShK6Z0KN6sBrEQGkeXfN4He+N4FowCTTd6WNva2/89JlQWXxUO2RCk6/Is
 +689AoGBAIS5ebhxpnwjEPHraX8sJKovB61RWhZJM2UdWrj8h4xNnYeihmLduuNP
 Mwa7xuTtikKf6Y7+O7ayCwL6mOycRQ8qojl4qw6xXDLfvbP2T1i8BYwqmWZFCWKS
 +UNu/01W+MqxFLaFGAZPnIUCb+XaYfkxU7OhNoU0OXp3X/0Yg9hC
------END RSA PRIVATE KEY-----');
+-----END RSA PRIVATE KEY-----', 1);
 
 INSERT INTO OrganizationOfficer (idNumber, role, yearID)
-                         VALUES (11445955,   3, getCurrentYearID());
+                         VALUES (11445955,   10, system_get_current_year_id());
 
-INSERT INTO Account (email, idNumber, password, firstname, lastname, contactNumber, publicKey, privateKey)
+INSERT INTO Account (email, idNumber, password, firstname, lastname, contactNumber, publicKey, privateKey, type)
              VALUES ('markus_flores@dlsu.edu.ph', 11445954, '1234', 'Markus', 'Flores', '+63 9228474849', '-----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjDWpD8+30QIyCoKBMD1W
 qbwQVisaXbbsrKq0mxl6EBQ+1N/LGlsM4oSYryFHiznNLkN2eThIkA0Xih1ogVCh
@@ -179,9 +161,14 @@ dkYK+WclEJD81X6KUA1HuXvgxsarQG9jmZCu+JR1QTuScpZPcbd9BJPaCztRR32y
 HZK7AoGAPPyGiRs4E/qWlXbOgIpk5ArVyON4zRtHz14I+Iw92+Sx2Z13wdMjMM1m
 N42mDkLiwMrDjLKu9Kql8dSWM9EBptdhmTHJ/lHIZaOHuHV1TS1SvH8InxxHQrFH
 IABnJjph404aO0FT5m14xZDFUFXaKoyadX/emoeglPtg3m/YDVU=
------END RSA PRIVATE KEY-----');
+-----END RSA PRIVATE KEY-----', 1);
 
-INSERT INTO Account (email, idNumber, password, firstname, lastname, contactNumber, publicKey, privateKey)
+INSERT INTO OrganizationOfficer (idNumber, role, yearID)
+                         VALUES (11445954,  30039, system_get_current_year_id());
+INSERT INTO OrganizationOfficer (idNumber, role, yearID)
+                         VALUES (11445954,  20031, system_get_current_year_id());
+
+INSERT INTO Account (email, idNumber, password, firstname, lastname, contactNumber, publicKey, privateKey, type)
              VALUES ('dominique_dagunton@dlsu.edu.ph', 11445953, '1234', 'Dominique', 'Dagunton', '+63 9228474849', '-----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkJXvbAsCxEbsSYi5i53b
 xCt72VnKykxiwIVlb902o1E1342/3LC/j3zOzZke+oTSE8HMe3be8n9FKUpmuMCJ
@@ -216,9 +203,12 @@ TyQcSZFFKcfzfADenoIQZHP0KnVQzMK+coueu+2yz7qcIQiDoPhZvsoBQXEmPl4v
 rHFzAoGAdZFx9nobrNzsRetXuL7pcxtVngiDM+5+9jaeA57VE8id1ggsIr1MlZEb
 pqQBSqfr7cM32loIRyhuDd+9eM1fqtumG8LI3FRm5HtZuZr5Eds7ywIXGB6ugP6M
 6V4EL/W4vAfjCvu1dmH45Vx3MgJPhtinyaT4yqiMLv8N/YBKkyU=
------END RSA PRIVATE KEY-----');
+-----END RSA PRIVATE KEY-----', 1);
 
-INSERT INTO Account (email, idNumber, password, firstname, lastname, contactNumber, publicKey, privateKey)
+INSERT INTO OrganizationOfficer (idNumber, role, yearID)
+                         VALUES (11445953,    1, system_get_current_year_id());
+
+INSERT INTO Account (email, idNumber, password, firstname, lastname, contactNumber, publicKey, privateKey, type)
              VALUES ('neil_capistrano@dlsu.edu.ph', 11445952, '1234', 'Neil', 'Capistrano', '+63 9228474849', '-----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArdjmjQSvYOuZD4w1J3oD
 AZyWknSkIEebVNh5T563AtBoEfkSYfhW+MaumUBkJNt40Cl8Zp/wpy53cFwMHQ/L
@@ -253,13 +243,54 @@ gnU99t5j1naPrW03gMZhVjUlXH19JfLOgvkO3sykAWDkcFZGxv1jJ8BqzUmUihrY
 TytBAoGBAI/ER2xg4RY59hEr0ST9tIwpV/4r6S6bDAiCsFmfMMfU4U7TPocfouMY
 BXKAD/glJ44EL4z82axYP0LA6Abe/pfkc8dwWsEAayYjYV+8qzQ7mtHRKxmLxHTm
 BtfxKI72NnSS70p1VAzKACZXwMRR5RRhOz75s1bJ3JK18AMSRc3r
------END RSA PRIVATE KEY-----');
+-----END RSA PRIVATE KEY-----', 1);
+
+INSERT INTO Account (email, idNumber, password, firstname, lastname, contactNumber, publicKey, privateKey, type)
+             VALUES ('org_pres@dlsu.edu.ph', 1111111, '1234', 'Organization', 'President', '+63 9228474849', '-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArdjmjQSvYOuZD4w1J3oD
+AZyWknSkIEebVNh5T563AtBoEfkSYfhW+MaumUBkJNt40Cl8Zp/wpy53cFwMHQ/L
+vO9VMTogiysoeSLzjdNspEnWapZlcp+XPXRD9TDVwGxKHeF81eAeDpHwV7G42EFo
+IV9HUW47kk0jljqmoRbWfcCD9ryjaz9DGiBoV5lhxpQSF5JhydYgt1B+Z5m602fC
+acZCR7jf817RtmUxbRxHmwUMd73GJwVIgzQkG+HoyUeyRDbtbJJDlJs+NsV5f5xU
+I9dE3OxApAimpcEOKCezzH0vEB498mgLbi9ZQdyyeCJZRnJHmVbyWdSdmc1TiZYQ
+zQIDAQAB
+-----END PUBLIC KEY-----', '-----BEGIN RSA PRIVATE KEY-----
+MIIEowIBAAKCAQEArdjmjQSvYOuZD4w1J3oDAZyWknSkIEebVNh5T563AtBoEfkS
+YfhW+MaumUBkJNt40Cl8Zp/wpy53cFwMHQ/LvO9VMTogiysoeSLzjdNspEnWapZl
+cp+XPXRD9TDVwGxKHeF81eAeDpHwV7G42EFoIV9HUW47kk0jljqmoRbWfcCD9ryj
+az9DGiBoV5lhxpQSF5JhydYgt1B+Z5m602fCacZCR7jf817RtmUxbRxHmwUMd73G
+JwVIgzQkG+HoyUeyRDbtbJJDlJs+NsV5f5xUI9dE3OxApAimpcEOKCezzH0vEB49
+8mgLbi9ZQdyyeCJZRnJHmVbyWdSdmc1TiZYQzQIDAQABAoIBAB1+BG678rywe0Dl
++kZ+LnBhjjG+U/Gd9D4Kk1nshQOXM3CJHpM8PBTsL8aT4+lUykQWJaKLU5opCd4n
+3242tcuRlpRJVigF5FHYmhTfXzjnxdZDOWaeqFumk7jO1hRUyqYTEMh/wtmZ7HoU
+DlWxkubGcSThXH3PVFAyFv6RD0Y50A4em/2ObFeyOavBlmXNwxdXkeWJCtWDlDdU
+ebM6ZKufJwKQ6EJitFPRyKo7XQWTGNJ9TYtX0Hp4w0wFG6OOF6bsZJ3Jh73fJhqE
+mlLrvC1v5wsJUCojXrzBjGl2uMNL01m+AXwKLY23XSP828cZvAfQAR7x4w9XlYzZ
+z87zNwECgYEA+eBhZS9RDJEIxxlc8ubzFiIaHMtYNK4y3XLtj2nTxYRTRkUuZWCZ
+AfqfdwXzOUGDR5/ViEfAUOwKpoqJT5dW1CU7iAQFcI1l8zXt9l/EAvc3IsN36pBV
+rGRdfYDZdxPweRU4skehUcj5WBewl7hWzIRqxEPbaDoBpxCbKeXNqe0CgYEAshuL
+gKLwJkbPqn/383g9WrUTHKxz39G00mTiTWe73uqcaoo13QBmJWxUwLYvGyFeEeWg
+rU1BSYJpC/yi+rd/C/cCIVcX3U+3/NDLPj4NqllW8kbCx76bVUAL/o4W4M1CXnI7
+FLcUbF+bKOwMhMK1JI3OY0Kf0/Zos6jBgXE9pmECgYBWNc8EjQ2mi0d/AcYq2/mU
+clGWC6Y0DsHn22YQ688vv1bH0MiQG4LOxvxLoVboMy0rAf83FKJKiRWnnfZ/6lP/
+v5TJebGywmYhQkMGlMXYzBhOuyfdWszkPIBw84qT5eI6tFKqV8JVqEQ2232G6wev
+aiQ38L17OUAmtrkB/JI3hQKBgH4YHjWeJaMTsuYk3yhR0i4r0DIWrZqh3wCtR8JB
+VLLHKqIK44NpSufnwEEHOmZcwzqsdYr8DOK8Hx7LZ59U1e9kmu97t3uJetrT/3A7
+gnU99t5j1naPrW03gMZhVjUlXH19JfLOgvkO3sykAWDkcFZGxv1jJ8BqzUmUihrY
+TytBAoGBAI/ER2xg4RY59hEr0ST9tIwpV/4r6S6bDAiCsFmfMMfU4U7TPocfouMY
+BXKAD/glJ44EL4z82axYP0LA6Abe/pfkc8dwWsEAayYjYV+8qzQ7mtHRKxmLxHTm
+BtfxKI72NnSS70p1VAzKACZXwMRR5RRhOz75s1bJ3JK18AMSRc3r
+-----END RSA PRIVATE KEY-----', 1);
+
+INSERT INTO OrganizationOfficer (idNumber, role, yearID)
+                         VALUES (1111111, 10023, system_get_current_year_id());
+
 
 
 INSERT INTO GOSM (termID, studentOrganization)
            VALUES ((SELECT id
                       FROM TERM
-                     WHERE CURRENT_DATE BETWEEN dateStart AND dateEnd), 2 );
+                     WHERE CURRENT_DATE BETWEEN dateStart AND dateEnd), 2);
 UPDATE GOSM
    SET status = 2
  WHERE id = 200001;
@@ -268,8 +299,8 @@ UPDATE GOSM
 INSERT INTO GOSMActivity (gosm, goals, objectives, strategies, description, measures, targetDateStart, targetDateEnd, ActivityNature, ActivityType, isRelatedToOrganizationNature, budget)
                     VALUES (200001, 'Goal Mo to', '{"Objectives", "Mo", "To"}', 'Strategies Mo to', 'Descibe kita', 'Measure mo to :)', '2017-9-6', '2017-9-6', 1, 2, false, 999.99);
 
-INSERT INTO ProjectProposal (GOSMActivity, ENP, ENMP, venue, context, sourceFundOther, sourceFundParticipantFee, sourceFundOrganizational, accumulatedOperationalFunds, accumulatedDepositoryFunds, comments)
-                     VALUES (1, 1, 1, 'Venue ito', 'Context kita', 69.69, 69.69, 69.69, 69.69, 69.69, 'Comments ko toh');
+INSERT INTO ProjectProposal (GOSMActivity, ENP, ENMP, venue, context1, context2, context3, sourceFundOther, sourceFundParticipantFee, sourceFundOrganizational, accumulatedOperationalFunds, accumulatedDepositoryFunds, comments)
+                     VALUES ((SELECT id FROM GOSMActivity WHERE gosm = 200001 LIMIT 1), 1, 1, 0, 'Context kita', 'Context parin kita', 'Context ulit kita',69.69, 69.69, 69.69, 69.69, 69.69, 'Comments ko toh');
 UPDATE ProjectProposal
 SET status = 2
 WHERE id = 1;

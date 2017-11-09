@@ -1,6 +1,6 @@
 SELECT AN.NAME AS nature, AT.NAME AS type, GA.STRATEGIES AS strategies, SO.NAME AS orgname, PP.VENUE AS venue,
-	   PP.ENMP AS enmp, PP.ENP AS enp, GA.OBJECTIVES AS objectives, PP.CONTEXT AS context, PP.ID as id, 
-	   PP.SOURCEFUNDOTHER as sourcefundother, PP.SOURCEFUNDPARTICIPANTFEE AS sourcefundparticipantfee, 
+	   PP.ENMP AS enmp, PP.ENP AS enp, GA.OBJECTIVES AS objectives, PP.CONTEXT1 AS context1, PP.CONTEXT2 AS context2,
+	   PP.CONTEXT3 AS context3, PP.ID as id, PP.SOURCEFUNDOTHER as sourcefundother, PP.SOURCEFUNDPARTICIPANTFEE AS sourcefundparticipantfee, 
 	   PP.SOURCEFUNDORGANIZATIONAL, PP.ACCUMULATEDOPERATIONALFUNDS as accumulatedoperationalfunds,
 	   PP.ACCUMULATEDDEPOSITORYFUNDS AS accumulateddepositoryfunds, PP.ORGANIZATIONFUNDOTHERSOURCE AS organizationfundothersource
 FROM ((SELECT * FROM PROJECTPROPOSAL

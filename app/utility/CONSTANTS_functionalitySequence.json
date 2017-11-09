@@ -1,0 +1,13 @@
+{
+    "CreateGOSM": 0,
+    "ResubmitGOSM": 1,
+    "EvaluateGOSM": 2,
+    "EvaluateProjectProposal": 3,
+    "EvaluateActivity_AMT": 4,
+    "ViewPublicityMaterial": 5,
+    "EvaluateActivity_OrgRes": 6,
+    "ModifyOrganizationalStructure": 7,
+    "ManageOrganizations": 8,
+    "ViewProjectHeadDashboard": 9,
+    "ViewAPSReport": 10
+}

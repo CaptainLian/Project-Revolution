@@ -5,20 +5,29 @@ module.exports = (configuration, logger) => {
      * @type {Express-Application}
      */
 	const application = express();
-
+    
     /**
      * Modules used for within the application
      * @type {Object}
      */
     const modules = Object.create(null);
     modules.express = express;
-    modules.logger = logger;
+    modules.logger = logger;    
     modules.Promise = require('bluebird');
-    
+    modules.collections = require('./app/utility/collections.js');
+    modules.attachExtraRenderData = require('./app/utility/attachExtraRenderData.js');
     /**
      * Application components helper modules
      */
      const requireDir = require('require-dir');
+
+     /**
+      * Configure the modules
+      */
+     modules.Promise = modules.Promise.config({
+        warnings: true,
+        longStackTraces: configuration.debug.enabled
+     });
 
 	/**
 	 * const priority = {
@@ -193,7 +202,7 @@ module.exports = (configuration, logger) => {
             return b.priority - a.priority;
         });
 
-        logger.info('\tMounting pre-middlewares');
+        logger.info('\tMounting post-middlewares');
         mountMiddlewares(application, middlewares.post_middlewares, logger);
         logger.info('\tMounting Complete');
     })();
@@ -243,14 +252,13 @@ function mountMiddlewares(application, middlewares, logger){
         if(middleware.description){
             logger.info(`\t\t\tDescription: ${middleware.name}`);
         }
-        logger.info(`\t\tPriority: ${middleware.priority}`);
+        logger.info(`\t\t\tPriority: ${middleware.priority}`);
 
         if(middleware.route){
-            logger.info(`\t\tRoute: ${middleware.route}`);
+            logger.info(`\t\t\tRoute: ${middleware.route}`);
             application.use(middleware.route, middleware.action);
         }else{
             application.use(middleware.action);
         }
-
     }
 }

@@ -1,3 +1,3 @@
-INSERT INTO ProjectProposal (gosmactivity, status, enp, enmp, venue, sourcefundother, sourcefundparticipantfee, sourcefundorganizational, accumulatedoperationalfunds, accumulateddepositoryfunds, organizationfundothersource, preparedby)
-	                 VALUES (${GOSMactivity}, ${status}, ${enp}, ${enmp}, ${venue}, ${sourceFundOther}, ${sourceFundParticipantFee}, ${sourceFundOrganizational}, ${accumulatedOperationalFunds}, ${accumulatedDepositoryFunds}, ${organizationalFundOtherSource}, ${preparedBy})
-RETURNING id AS projectProposal;
+INSERT INTO projectproposal(gosmactivity)
+     VALUES (${gosmactivity})
+RETURNING id;

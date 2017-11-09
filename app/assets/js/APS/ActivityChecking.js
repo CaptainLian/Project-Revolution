@@ -79,9 +79,11 @@ $(document).on('click','#approve',function() {
                 success:function(data){
                   
                     var doc = $(data).find("#doc");
+                    setTimeout(function() {
+                        $("#doc").replaceWith(doc);
+                        $(document).trigger("customGenerated");    
+                    },1000);
                     
-                    $("#doc").replaceWith(doc);
-                    $(document).trigger("customGenerated");
                 }
             });
     });

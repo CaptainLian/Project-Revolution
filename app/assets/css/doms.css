@@ -1,0 +1,73 @@
+#loginlogo{
+	height: 200px;
+}
+#loginButton{
+	background: green;
+	border: green;
+}
+.headerLogo{
+	height:50px;
+}
+.navbarHeader{
+	background: #00c292;
+	float: left;
+}
+.sideBarText{
+	color: #104e12;
+}
+.fix-sidebar .top-left-part{
+	background: #00BA8C;
+	float: left;	
+}
+.tr .denied{
+	background-color: rgba(251,58,58,.8);
+}
+.hiddenTab{
+	display: none;
+}
+.btnGosm{
+	display: inline-block;
+	
+}
+.tab-current-warning{
+	color: #FEC107;
+}
+.tab-current-success{
+	color: #00C292;
+}
+.tab-current-info{
+	color: #03A9F3;
+}
+.cog{
+	cursor: pointer;
+}
+.margin-5{
+	margin-left:5em;
+}
+.margin-2{
+	margin-left:2em;
+}
+.text-gray{
+	color: #686868;
+}
+.panel-default .panel-heading{
+	color: #686868;
+}
+.ribbon{
+	z-index: 1000;
+}
+.custom-modal-title{
+	color: white;
+	font-weight: bold;
+}
+#arf-submit{
+	padding-top: 10px;
+}
+.table-borderless > tbody > tr > td,
+.table-borderless > tbody > tr > th,
+.table-borderless > tfoot > tr > td,
+.table-borderless > tfoot > tr > th,
+.table-borderless > thead > tr > td,
+.table-borderless > thead > tr > th {
+    border: none;
+}

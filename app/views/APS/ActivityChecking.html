@@ -1,6 +1,8 @@
 {% extends './APS_master.html' %}
 {% import '../template/tags_macro.html' as tag %}
 
+{%block page_title%}APS - Activity Checking{%-endblock%}
+
 {%block meta%}
     {{super()}}
     <meta data-name="csrf" data-token="{{csrfToken}}" />
@@ -33,23 +35,23 @@
     <style type="text/css">
         .remove:{
             color: yellow
-        }       
+        }
         .sweet-alert fieldset {
-            
+
             display: none;
         }
         .tabs-style-linebox nav a:hover{
-            color: #00c292; 
+            color: #00c292;
             text-decoration-color:#00c292 !important;
         }
-        a:focus::after, 
-        .tabs-style-linebox nav a:hover::after, 
+        a:focus::after,
+        .tabs-style-linebox nav a:hover::after,
         .tabs-style-linebox nav li.tab-current a::after{
             background: #00c292;
             text-decoration-color:#00c292 !important;
         }
-        .tabs-style-linebox nav a:focus::after, 
-        .tabs-style-linebox nav a:hover::after, 
+        .tabs-style-linebox nav a:focus::after,
+        .tabs-style-linebox nav a:hover::after,
         .tabs-style-linebox nav li.tab-current a::after{
             background: #00c292;
             text-decoration-color:#00c292 !important;
@@ -78,7 +80,7 @@
     <!-- tabs-->
     {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
     <!-- Sweet-Alert  -->
-    {{tag.javascript('/plugins/bower_components/sweetalert/sweetalert.min.js', true)}}    
+    {{tag.javascript('/plugins/bower_components/sweetalert/sweetalert.min.js', true)}}
     <!--Style Switcher -->
     {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
 
@@ -117,7 +119,7 @@
             <div class="">
                 <!-- .row -->
                 <div class="row button-box text-center m-b-30 " >
-                     
+
                     <div class="col-lg-4 col-sm-4 col-xs-12 text-center">
                         <button id="reject" class="btn btn-block btn-danger">Reject</button>
                     </div>
@@ -127,7 +129,7 @@
                     <div class="col-lg-4 col-sm-4 col-xs-12 text-center">
                         <button id="approve" class="btn btn-block   btn-success">Approve</button>
                     </div>
-                    
+
                 </div>
                 <div class="row text-center ">
                     <div class="col-md-6 b-r"><strong>Type</strong>
@@ -164,42 +166,42 @@
                     </div>
                 </div>
                 <hr>
-               
-                    
+
+
             </div>
         </div>
     </div>
     <div class="col-md-8 col-xs-12" style="border-left: rgba(120,130,140,13) solid 1px">
         <div class="white-box"  style="padding: 25px 0px 0px 0px">
-            
+
             <div class="sttabs tabs-style-linebox ">
                 <nav>
                     <ul>
                         <li><a href="#section-linebox-1"><span>Details</span></a></li>
                         <li><a href="#section-linebox-2"><span>Schedule</span></a></li>
                         <li><a href="#section-linebox-3"><span>Funding</span></a></li>
-                        
+
                         <li><a href="#section-linebox-5"><span>Attachment</span></a></li>
-                        
+
                     </ul>
                 </nav>
                 <div class="content-wrap text-center">
                     <section id="section-linebox-1">
-                      
+
                         <div class="white-box text-left">
 
                             <h4 class="text-left">I. Objectives</h4>
                             <hr>
                             <ul class="  text-left">
 
-                            
+
 
                                 {% for objective in projectProposal.objectives %}
 
 
                                     <li>{{objective}}</li>
                                 {% endfor %}
-                                
+
                             </ul>
                             <!-- <div class="row">
                                 <div class="col-md-3 col-xs-6 b-r"> <strong>Full Name</strong>
@@ -225,17 +227,25 @@
 
 
                             <p class="m-t-30">
-                            {{projectProposal.context}}
+                            {{projectProposal.context1}}
                             </p>
-                            
-                            
+
+                            <p class="m-t-30">
+                            {{projectProposal.context2}}
+                            </p>
+
+                            <p class="m-t-30">
+                            {{projectProposal.context2}}
+                            </p>
+
+
                         </div>
                     </section>
                     <section id="section-linebox-2 text-left">
                         <div class="white-box">
                              <h4 class="m-t-30 text-left">III. Program Design</h4>
                             <hr>
-                           
+
 
                             {% for date, programs in programDesign | groupby('date') %}
                                  <div class="text-center">
@@ -244,7 +254,7 @@
                                     <table class="table  text-left table-striped">
                                         <thead>
                                             <th>Time </th>
-                                            
+
                                             <th>Activity</th>
                                             <th>Description</th>
                                             <th>Person-In-Charge</th>
@@ -262,10 +272,10 @@
                                     </table>
                                     <br/>
                             {% endfor %}
-                         
+
                         </div>
                     </section>
-                    
+
                     <section id="section-linebox-3">
                         <div class="white-box">
                             <h4 class="text-left">IV. Source of Funds</h4>
@@ -304,7 +314,7 @@
                                         {{(projectProposal.sourcefundorganizational | round(2))+(projectProposal.sourcefundparticipantfee | round(2))+(projectProposal.sourcefundother | round(2))}}
                                     </div>
                                 </div>
-                                
+
                             </div>
                             <br/>
                             <h4 class="text-left">V. Organizational Funds</h4>
@@ -362,16 +372,16 @@
                                     </div>
                                 </div>
 
-                                
+
                             </div>
                             <br/>
                             <h4 class="text-left">VI. Revenue and Expense Table</h4>
                             <hr>
                             <br/>
-                                                            
+
                             <table class="table bg">
                                 <thead>
-                                   
+
                                     <tr">
                                         <th class="text-center"  style="border-top: white solid 0px "  >Material</th>
                                         <th class="text-center" style="border-top: white solid 0px ">Quantity</th>
@@ -399,7 +409,7 @@
                                             </td>
                                         </tr>
                                     {% endfor %}
-                                    
+
                                 </tbody>
                                 <tfoot>
                                     <tr>
@@ -411,7 +421,7 @@
                             <br/>
                             <table class="table bg">
                                 <thead>
-                                   
+
                                     <tr">
                                         <th class="text-center"  style="border-top: white solid 0px "  >Material</th>
                                         <th class="text-center" style="border-top: white solid 0px ">Quantity</th>
@@ -439,7 +449,7 @@
                                         </td>
                                     </tr>
                                    {% endfor %}
-                                    
+
                                 </tbody>
                                 <tfoot>
                                     <tr>
@@ -456,18 +466,18 @@
                                 </tfoot>
                             </table>
                             <br/>
-                           
+
 
 
                         </div>
                     </section>
-                    
+
                     <section id="section-linebox-5" style="display: block;visibility:hidden;">
                      <h4 class="text-left">VII. Attachments</h4>
                             <hr>
-                        
+
                         {% for att in attachment %}
-                        
+
                          <div class="white-box"  >
                             <h4 class="text-left">Cash Disbursement</h4>
                             <hr>
@@ -477,13 +487,12 @@
 
                         {% endfor %}
                     </section>
-                    
+
                 </div>
-                
+
                 <!-- /content -->
             </div>
         </div>
     </div>
 </div>
 {%endblock%}
-

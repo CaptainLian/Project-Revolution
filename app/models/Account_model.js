@@ -7,6 +7,8 @@
 module.exports = function(configuration, modules, database, queryFiles) {
     const squel = require('squel').useFlavour('postgres');
 
+
+
     let dbHelper = require('../utility/databaseHelper');
     const attachReturning = dbHelper.attachReturning;
     const attachFields = dbHelper.attachFields;
@@ -14,10 +16,10 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
     const logger = modules.logger;
 
-    const query_insert_account = queryFiles.account_insert;
-
     const AccountModel = Object.create(null);
 
+
+    const query_insert_account = queryFiles.account_insert;
     /**
      * [insertAccount description]
      * @method  insertAccount
@@ -99,9 +101,54 @@ module.exports = function(configuration, modules, database, queryFiles) {
         //TODO implementation
     };
 
-    AccountModel.getAccountOrganizations = (idNumber) => {
+    const query_get_student_studentOrganizations = queryFiles.student_get_studentOrganizations;
+    AccountModel.getStudentOrganizations = (idNumber, connection = database) => {
+        const param = Object.create(null);
+        param.idNumber = idNumber;
 
+        return connection.any(query_get_student_studentOrganizations, param);
     };
 
+    AccountModel.getRoleDetailsInOrganization = (idNumber, organization, fields, connection = database) => {
+        const param = Object.create(null);
+        param.idNumber = idNumber;
+        param.organization = organization;
+
+        let query = squel.select()
+            .with('officership',
+                squel.select()
+                .from('OrganizationOfficer')
+                .where('idNumber = ${idNumber}')
+                .field('role')
+            ).from('OrganizationRole')
+            .where('id IN ?',
+                squel.select()
+                .from('officership')
+            ).where('organization = ${organization}');
+
+        attachFields(query, fields);
+        return connection.one(query.toString(), param);
+    };
+
+    const getAccountLogsSQL = queryFiles.getAccountLogs;
+    AccountModel.getAccountLogs = (connection = database) =>{
+        return connection.any(getAccountLogsSQL);
+    };
+
+    const hasGOSMActivityWithPPRSQL = queryFiles.account_has_gosmactivity_with_ppr;
+    AccountModel.hasGOSMActivityWithPPR = (idNumber, organizationID, connection = database) => {
+        const param = Object.create(null);
+        param.idNumber = idNumber;
+        param.organizationID = organizationID;
+        return connection.one(hasGOSMActivityWithPPRSQL, param);
+    };
+
+    const hasGOSMActivityWithAMTActivityEvaluationSQL = queryFiles.account_has_gosmactivity_with_AMTActivityEvaluation;
+    AccountModel.hasGOSMACtivityWithAMTActivityEvaluation = (idNumber, organizationID, connection = database) => {
+        const param = Object.create(null);
+        param.idNumber = idNumber;
+        param.organizationID = organizationID;
+        return connection.one(hasGOSMActivityWithAMTActivityEvaluationSQL, param);
+    };
     return AccountModel;
 };

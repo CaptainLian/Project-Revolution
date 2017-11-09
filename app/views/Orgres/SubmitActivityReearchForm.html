@@ -1,0 +1,263 @@
+{% extends './Orgres_master.html' %}
+{% import '../template/tags_macro.html' as tag %}
+
+
+{%block style%}
+    {{super()}}
+
+    <!-- Bootstrap Core CSS -->
+    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
+    <!-- Wizard CSS -->
+    {{tag.style('/plugins/bower_components/jquery-wizard-master/css/wizard.css')}}
+    <!-- datatables -->
+    {{tag.style('/plugins/bower_components/datatables/jquery.dataTables.min.css')}}
+
+    <!-- Menu CSS -->
+    {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
+    <!-- animation CSS -->
+    {{tag.style('/css/animate.css')}}
+    <!-- Custom CSS -->
+    {{tag.style('/plugins/bower_components/custom-select/custom-select.css')}}
+    {{tag.style('/css/style.css')}}
+    {{tag.style('/css/custom.css')}}
+    <!-- color CSS -->
+    {{tag.style('/css/colors/blue.css')}}
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+{%endblock%}
+
+
+{%block defer_script%}
+    {{super()}}
+    <!-- jQuery -->
+    {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
+    <!-- Bootstrap Core JavaScript -->
+    {{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
+    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
+    <!-- Menu Plugin JavaScript -->
+    {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
+    <!--slimscroll JavaScript -->
+    {{tag.javascript('/js/jquery.slimscroll.js', true)}}
+    <!--Wave Effects -->
+    {{tag.javascript('/js/waves.js', true)}}
+    <!-- Custom Theme JavaScript -->
+    {{tag.javascript('/js/custom.min.js', true)}}
+    {{tag.javascript('/js/cbpFWTabs.js', true)}}
+    <!-- tabs-->
+    {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}  
+    <!--Style Switcher -->
+    {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
+    {{tag.javascript('/plugins/bower_components/switchery/dist/switchery.min.js', true)}}
+
+    {{tag.javascript('/plugins/bower_components/custom-select/custom-select.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-select/bootstrap-select.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/multiselect/js/jquery.multi-select.js', true)}}
+
+    <!-- Page Scripts -->
+    {{tag.javascript('/js/Orgres/SubmitActivityResearchForm.js', true)}}
+    <!-- /Page Scripts -->
+{%endblock%}
+
+
+{%block content%}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="white-box">
+        <!--content-->
+        <!-- .row -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="white-box p-l-20 p-r-20">
+                    <h3 class="box-title text-center">Activity Research Form</h3>
+                    <hr>
+                    <br>
+                    <div class="col-xs-12">
+                            <form class="floating-labels ">
+                                <div class="form-group m-b-40">
+                                    <select class="form-control select2" id="org-select">
+                                        <option selected="true" disabled="disabled">Select an Organization</option>
+                                            <option value="VT">Officer</option>
+                                            <option value="VA">Member</option>
+                                            <option value="WV">Non-member</option>
+                                    </select>
+                                    <span class="highlight"></span> <span class="bar"></span>
+                                    <label for="input6">Position in the Organization</label>
+                                </div>
+                            </form>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <form class="floating-labels ">
+                                <div class="form-group m-b-40">
+                                    <select class="form-control select2" id="org-select">
+                                        <option selected="true" disabled="disabled">Select an Organization</option>
+                                            <option value="VT">La Salle Computer Society</option>
+                                            <option value="VA">Adcreate Society</option>
+                                            <option value="WV">Moo Media</option>
+                                    </select>
+                                    <span class="highlight"></span> <span class="bar"></span>
+                                    <label for="input6">Organization</label>
+                                    <span class="help-block" id="org-help" ><small>Select the organization to be evaluated.</small></span>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-xs-6">
+                            <form class="floating-labels ">
+                                <div class="form-group m-b-40">
+                                    <select class="form-control select2" id ="transaction">
+                                        <option selected="true" disabled="disabled" >Select</option>
+                                            <option value="1">1st General Assembly</option>
+                                            <option value="2">Python Workshop</option>
+                                    </select>
+                                    <span class="highlight"></span> <span class="bar"></span>
+                                    <label for="input6">Activity</label>
+                                    <span class="help-block"><small>Select the Activity to be evaluated.</small></span>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                        <div class="col-xs-12">
+                            <form action="" method="POST" role="form">                                            
+                                <div class="form-group col-xs-12">
+                                    <label class="col-xs-12">1. I understand the purpose of the activity.</label>
+                                    <div class="text-center">
+                                        <label class="">Strongly Disagree </label>&nbsp;
+                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="1">&nbsp;
+                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="2">&nbsp;
+                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="3">&nbsp;
+                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="4">&nbsp;
+                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="5">&nbsp;
+                                        <label class=""> Strongly Agree</label>
+                                    </div>                                                     
+                                </div>
+                                <div class="form-group col-xs-12">
+                                    <label class="col-xs-12">2. The activity served my interests.</label>
+                                    <div class="text-center">
+                                        <label class="">Strongly Disagree </label>&nbsp;
+                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">&nbsp;
+                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">&nbsp;
+                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">&nbsp;
+                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">&nbsp;
+                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">&nbsp;
+                                        <label class=""> Strongly Agree</label>
+                                    </div>                                                     
+                                </div>
+                                <div class="form-group col-xs-12">
+                                    <label class="col-xs-12">3. I felt involved during the activity.</label>
+                                    <div class="text-center">
+                                        <label class="">Strongly Disagree </label>&nbsp;
+                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">&nbsp;
+                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">&nbsp;
+                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">&nbsp;
+                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">&nbsp;
+                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">&nbsp;
+                                        <label class=""> Strongly Agree</label>
+                                    </div>                                                     
+                                </div>
+                                <div class="form-group col-xs-12">
+                                    <label class="col-xs-12">4. The activity was well-publicized.</label>
+                                    <div class="text-center">
+                                        <label class="font-weight-normal">Strongly Disagree </label>&nbsp;
+                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">&nbsp;
+                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">&nbsp;
+                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">&nbsp;
+                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">&nbsp;
+                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">&nbsp;
+                                        <label class=""> Strongly Agree</label>
+                                    </div>                                                     
+                                </div>
+                                <div class="form-group col-xs-12">
+                                    <label class="col-xs-12">5. The organization urged me to go to this activity.</label>
+                                    <div class="text-center">
+                                        <label class="">Strongly Disagree </label>&nbsp;
+                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">&nbsp;
+                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">&nbsp;
+                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">&nbsp;
+                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">&nbsp;
+                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">&nbsp;
+                                        <label class=""> Strongly Agree</label>
+                                    </div>                                                     
+                                </div>
+                                 <div class="form-group col-xs-12">
+                                    <label class="col-xs-12">What went well in the activity</label>
+                                    <div class="text-center">
+                                        <textarea name="" id="input" class="form-control" rows="3" required="required"></textarea>
+                                    </div>                                                     
+                                </div>
+                                <div class="form-group col-xs-12">
+                                    <label class="col-xs-12">Feedbacks and Comments</label>
+                                    <div class="text-center">
+                                        <textarea name="" id="input" class="form-control" rows="3" required="required"></textarea>
+                                    </div>                                                     
+                                </div>
+                                <div class="form-group col-xs-12">
+                                    <label class="col-xs-12">Expectations for future activities</label>
+                                    <div class="text-center">
+                                        <textarea name="" id="input" class="form-control" rows="3" required="required"></textarea>
+                                    </div>                                                     
+                                </div>
+                                        
+                                    <div class="text-center" id="arf-submit"><button type="submit" class="btn btn-primary">Submit</button></div>
+                                    
+                                
+                                
+                            
+                                
+                            </form>
+                        </div>
+                    
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
+        </div>
+    </div>
+</div>
+{%endblock%}
+
+{%block post_content%}
+<!-- Modals-->
+<div class="modal fade" id="settingsModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Settings</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <fieldset class="form-group">
+                        <label for="exampleSelect1">Academic Year</label>
+                        <select class="form-control" id="eexampleSelect11">
+                            <option>2016-2017</option>
+                            <option>2017-2018</option>
+                        </select>
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <label for="exampleSelect1">Term</label>
+                        <select class="form-control" id="eexampleSelect11">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                        </select>
+                    </fieldset>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Modals-->
+{%endblock%}

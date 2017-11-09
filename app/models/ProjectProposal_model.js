@@ -8,14 +8,21 @@ const squel = require('squel').useFlavour('postgres');
 
 module.exports = function(configuration, modules, db, queryFiles) {
 
+    const updatePPRBriefContextSQL = queryFiles.updatePPRBriefContext;
     const insertProjectProposalSQL = queryFiles.insertProjectProposal;
     const insertProjectProposalProgramDesignSQL = queryFiles.insertProjectProposalProgramDesign;
     const insertProjectProposalProjectedIncomeSQL = queryFiles.insertProjectProposalProjectedIncome;
     const insertProjectProposalExpensesSQL = queryFiles.insertProjectProposalExpenses;
+    const getProjectProposalSQL = queryFiles.getProjectProposal;
     const getProjectProposalsPerStatusSQL = queryFiles.getProjectProposalsCountPerStatus;
     const getPPRProjectedCostSQL = queryFiles.getPPRProjectedCost;
+    const getApprovedPPRsSQL = queryFiles.getApprovedPPRs;
     const getNextActivityForApprovalSQL = queryFiles.getNextActivityForApproval;
+    const getGOSMActivitiesToImplementSQL = queryFiles.getGOSMActivitiesToImplement;
     const updatePPRStatusSQL = queryFiles.updatePPRStatus;
+    const updateIsProgramDesignCompleteSQL = queryFiles.updateIsProgramDesignComplete;
+    const deleteProgramDesignSQL = queryFiles.deleteProgramDesign;
+    const getAllVenuesSQL = queryFiles.getAllVenues;
     
     /**
      * class with properties
@@ -210,9 +217,25 @@ module.exports = function(configuration, modules, db, queryFiles) {
         return connection.oneOrNone(getPPRProjectedCostSQL, param);
     };
 
-    ProjectProposalModel.prototype.insertProjectProposal = function(param, connection = this._db) {
+    ProjectProposalModel.prototype.getGOSMActivitiesToImplement = function(param, connection = this._db) {
+        return connection.any(getGOSMActivitiesToImplementSQL, param);
+    };
+
+    ProjectProposalModel.prototype.getProjectProposal = function(param, connection = this._db) {
+        return connection.one(getProjectProposalSQL, param);
+    };
+
+    ProjectProposalModel.prototype.updatePPRBriefContext = function(param, connection = this._db) {
         //TODO: test
+        return connection.none(updatePPRBriefContextSQL, param);
+    };
+
+    ProjectProposalModel.prototype.insertProjectProposal  = function(param, connection = this._db){
         return connection.one(insertProjectProposalSQL, param);
+    };
+
+    ProjectProposalModel.prototype.updateIsProgramDesignComplete = function(param, connection = this._db) {
+        return connection.none(updateIsProgramDesignCompleteSQL, param);
     };
 
     ProjectProposalModel.prototype.insertProjectProposalDesign = function(param, connection = this._db) {
@@ -268,6 +291,18 @@ module.exports = function(configuration, modules, db, queryFiles) {
     ProjectProposalModel.prototype.updatePPRStatus = function(param, connection = this._db){
         return connection.none(updatePPRStatusSQL, param);
     };
+
+    ProjectProposalModel.prototype.getApprovedPPRs = function(connection = this._db){
+        return connection.any(getApprovedPPRsSQL);
+    };
+
+    ProjectProposalModel.prototype.deleteProgramDesign = function(param, connection = this._db){
+        return connection.none(deleteProgramDesignSQL, param);
+    };
+
+    ProjectProposalModel.prototype.getAllVenues = function(connection = this._db){
+        return connection.any(getAllVenuesSQL)
+    }; 
 
     return new ProjectProposalModel(db, modules);
 };

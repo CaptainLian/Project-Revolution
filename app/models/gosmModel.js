@@ -49,7 +49,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
             return connection.one(insertProposedActivitySQL, param);
         },
         insertActivityProjectHead: function(param, connection = db) {
-            return db.none(insertActivityProjectHeadSQL, connection);
+            return connection.none(insertActivityProjectHeadSQL, param);
         },
         getSchoolYear: function(connection = db) {
             return connection.one(getSchoolYearSQL);

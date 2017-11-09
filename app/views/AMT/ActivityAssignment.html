@@ -1,0 +1,203 @@
+{% extends './AMT_master.html' %}
+{% import '../template/tags_macro.html' as tag %}
+
+{%block page_title%}CSO - Activity Assign{%-endblock%}
+
+{%block meta%}
+    {{super()}}
+    <meta data-name="csrf" data-token="{{csrfToken}}" />
+{%endblock%}
+
+{%block style%}
+	{{super()}}
+    <!-- Bootstrap Core CSS -->
+    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
+    {{tag.style('/plugins/bower_components/datatables/jquery.dataTables.min.css')}}
+    {{tag.style('/plugins/bower_components/nestable/nestable.css')}}
+    {{tag.style('https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css')}}
+    {{tag.style('https://cdnjs.cloudflare.com/ajax/libs/nestable2/1.5.0/jquery.nestable.min.CSS')}}
+    {{tag.style('/plugins/bower_components/toast-master/css/jquery.toast.css')}}
+
+    <!-- Menu CSS -->
+    {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
+    <!-- animation CSS -->
+    {{tag.style('/css/animate.css')}}
+    <!--alerts CSS -->
+    {{tag.style('/plugins/bower_components/sweetalert/sweetalert.css')}}
+    <!-- Custom CSS -->
+    {{tag.style('/plugins/bower_components/custom-select/custom-select.css')}}
+    
+    {{tag.style('/plugins/bower_components/bootstrap-select/bootstrap-select.min.css')}}
+    {{tag.style('/css/style.css')}}
+    {{tag.style('/css/custom.css')}}
+	<!-- color CSS -->
+    {{tag.style('/css/colors/default.css')}}
+
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+	<!-- IMPORTANT -->
+	<style type="text/css">
+        #myTable2{
+            table-layout: fixed; 
+        }
+        td{
+        	word-wrap: break-word;
+        }
+    </style>
+{%endblock%}
+
+	
+{%block defer_script%}
+	{{super()}}
+    <!-- jQuery -->
+    {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
+    <!-- Bootstrap Core JavaScript -->
+    {{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
+    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
+    <!-- Menu Plugin JavaScript -->
+    {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
+    <!--slimscroll JavaScript -->
+    {{tag.javascript('/js/jquery.slimscroll.js', true)}}
+    <!--Wave Effects -->
+    {{tag.javascript('/js/waves.js', true)}}
+    <!-- Custom Theme JavaScript -->
+    {{tag.javascript('/js/custom.min.js', true)}}
+    {{tag.javascript('/js/cbpFWTabs.js', true)}}
+    <!-- tabs-->
+    {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
+    <!-- Sweet-Alert  -->
+    {{tag.javascript('/plugins/bower_components/sweetalert/sweetalert.min.js', true)}}    
+    <!--Style Switcher -->
+    {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
+    {{tag.javascript('/plugins/bower_components/toast-master/js/jquery.toast.js',true)}}
+
+    {{tag.javascript('/plugins/bower_components/sweetalert/jquery.sweet-alert.custom.js', true)}}
+
+    {{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
+    {{tag.javascript('/js/AMT/ActivityAssignment.js', true)}}
+    {{tag.javascript('/js/custom.min.js', true)}}
+{%endblock%}
+
+{%block content%}
+<div class="row">
+	<div class="col-sm-12">
+		<div class="white-box">
+			<h3 class="box-title m-b-0">Activity Submissions</h3>
+			<p class="text-muted m-b-30">A table showing the list of activity submissions</p>
+			<ul class="nav nav-tabs" role="tablist">
+				<li role="presentation"  class=" nav-item"><a id="home2" href="#home" class="nav-link acitve" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true"><span class="visible-xs"><i class="ti-home"></i></span><span class="hidden-xs"> My Activity</span></a></li>
+				<li role="presentation" class="nav-item"><a id="home3" href="#profile" class="nav-link" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false"><span class="visible-xs"><i class="ti-user"></i></span> <span class="hidden-xs">Available Activity</span></a></li>
+
+
+			</ul>
+			<!-- Tab panes -->
+			<div class="tab-content">
+				<div role="tabpanel" class="tab-pane" id="home">
+					<div class="col-md-12">
+						<div class="">
+
+							<table id="myTable" class="table table-hover table-responsive" >
+								<thead>
+									<tr role="row">
+										<th >Activity Name</th>
+										<th >Venue</th>                                                                                                                                
+										<th >Date</th>  
+										<th>Time</th>                                                                                                                                
+										<th class="text-center">Actions</th>
+									</tr>
+								</thead>
+								<tbody> 
+									{% for activity in myActivity %}
+									<tr>
+										<td class="text">{{activity.strategies}}</td><!-- event name-->
+										<td>{{activity.name}}</td><!-- date of event-->                                                           
+										<td>{{activity.date}} </td><!-- date of event-->
+										<td>
+											<i class="fa fa-clock-o"></i>
+											{{activity.time}}
+										</td>   
+
+										<td class="text-center text-nowrap "  style="vertical-align: middle;">
+											<a activity-id="{{activity.id}}" href="#" data-toggle="tooltip" data-title="Evaluate Activity"> 
+												<i  class="fa  fa-clipboard m-r-10 text-inverse "></i> 
+											</a>
+
+											<a  activity-id="{{activity.id}}" venue-id="{{activity.venueid}}" class=""  data-toggle="tooltip" data-title="Remove from My Activity"> 
+												<i   activity-id="{{activity.id}}" class="fa  fa-times m-r-10 text-inverse remove-activity "></i> 
+											</a>
+										</td>
+									</tr>
+									{% endfor %}
+									
+								</tbody>
+							</table>
+
+						</div>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+				<div role="tabpanel" class="tab-pane " id="profile">
+					<div class="col-md-12">
+						<div class="xtable-responsive">
+
+							<table id="myTable2" style="" class="table table-hover table-responsive" >
+								<thead>
+									<tr role="row">
+										<th >Activity Name</th>
+										<th >Venue</th>                                                                                                                                
+										<th >Date</th>  
+										<th >Time</th>                                                                                                                                
+										<th  class="text-center">Actions</th>
+									</tr>
+								</thead>
+								<tbody> 
+									{%for activity in allActivity %}
+									<tr>
+										<td class="text ">{{activity.strategies}}</td><!-- event name-->
+										<td>{{activity.name}}</td><!-- date of event-->                                                           
+										<td>{{activity.date}} </td><!-- date of event-->
+										<td>
+											<i class="fa fa-clock-o"></i>
+											{{activity.time}}
+										</td>                 
+
+										<td class="text-center "  style="vertical-align: middle;">
+											<a class="evaluate-activity"  activity-id="{{activity.id}}" venue-id="{{activity.venueid}}" data-toggle="tooltip" data-title="Get this Activity" > 
+												<i  class="fa  fa-file m-r-10 text-inverse "></i> 
+											</a>
+
+										</td>
+									</tr>
+									{%endfor%}
+									
+								</tbody>
+							</table>
+
+						</div>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+				<div role="tabpanel" class="tab-pane" id="messages">
+					<div class="col-md-6">
+						<h3>Come on you have a lot message</h3>
+						<h4>you can use it with the small code</h4>
+					</div>
+					<div class="col-md-5 pull-right">
+						<p>Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a.</p>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+	
+</div>
+{%endblock%}

@@ -1,4 +1,4 @@
-SELECT GA.strategies, AN.name, to_char(GA.targetdatestart, 'Mon DD, YYYY') AS startdate, to_char(GA.targetdateend, 'Mon DD, YYYY') AS enddate 
+SELECT GA.id, GA.strategies, AN.name, to_char(GA.targetdatestart, 'Mon DD, YYYY') AS startdate, to_char(GA.targetdateend, 'Mon DD, YYYY') AS enddate 
 	   FROM GOSMACTIVITY GA JOIN ACTIVITYNATURE AN
 	   						  ON GA.ACTIVITYNATURE=AN.ID
-	  WHERE GA.ID=${id};
+	  WHERE GA.ID=${gosmactivity};
