@@ -1724,7 +1724,9 @@ CREATE TABLE "PostProjectProposalExpense" (
   "particular" VARCHAR(45),
   "establishment" VARCHAR(45),
   "price" NUMERIC(16, 4),
-  "path_file" TEXT,
+  "filename" TEXT,
+  "filenameToShow" TEXT,
+  "idNumber" INTEGER REFERENCES Account(idNumber),
 
   PRIMARY KEY("GOSMActivity", "sequence")
 );

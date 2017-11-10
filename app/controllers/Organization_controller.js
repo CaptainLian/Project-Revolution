@@ -863,15 +863,72 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             // return res.redirect(`Organization/postprojectproposal/main/${req.bod}`)
         },
         postSaveExpenses: (req, res) =>{
-            console.log(req.body);
-            console.log(req.files);
+             const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
+            
+            // var date = new Date().toJSON();
 
-            if(typeof req.files['uploadfile[]'][Symbol.iterator] == 'function'){
+             
+             var dir3 = path.join (__dirname,'..','assets','upload');
 
-            }else{
-
+            //CHECK IF DIRECTOR EXIST
+            if (!fs.existsSync(dir3)){
+                fs.mkdirSync(dir3);
+            }            
+            var dir = path.join (__dirname,'..','assets','upload','postacts');
+            //CHECK IF DIRECTOR EXIST
+            if (!fs.existsSync(dir)){
+                fs.mkdirSync(dir);
+            }
+            
+            var dir2 = path.join (__dirname,'..','assets','upload','postacts',req.session.user.idNumber+"");
+            //CHECK IF DIRECTOR EXIST
+            if (!fs.existsSync(dir2)){
+                fs.mkdirSync(dir2);
             }
 
+            // console.log(req.files);
+            database.tx(t=>{
+                if(typeof req.body['est[]'][Symbol.iterator] == 'function'){
+                    for(var ctr = 0; ctr < req.body['est[]'].length; ctr++){    
+                        
+                        var orignalFileName = req.files['file[]'][ctr].name;
+                        var ftype = path.extname(orignalFileName);
+                        console.log(ftype);
+                        var fname = cuid()+ftype;
+
+                        var dbParam ={
+                            gosmid: req.body.gosmid,
+                            particular:req.body['par[]'][ctr],
+                            establishment:req.body['est[]'][ctr],
+                            price:req.body['price[]'][ctr],
+                            file: fname,
+                            filenameToShow:req.files['file[]'][ctr].name,
+                            idNumber:req.session.user.idNumber
+                        };
+                        var p = path.join(dir2,fname);
+                        Promise.all([
+                                req.files['file[]'][ctr].mv(p),
+                                postProjectProposalModel.insertPostProjectExpense(dbParam,t)
+                            ]).then(result =>{
+
+                            }).catch(err =>{
+                                console.log("========PROMISE=========");
+                                console.log(err);
+                            })
+                    }
+                }else{
+
+                }
+
+            }).then(data=>{
+
+            }).catch(err=>{
+                console.log("========TAST=========");
+                                console.log(err);
+            })
+            
             // TODO: change id, to come from selected activity
          
             // return res.redirect(`Organization/postprojectproposal/main/${req.bod}`)
