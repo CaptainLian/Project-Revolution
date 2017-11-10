@@ -13,12 +13,20 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const getPostProjectProposalMain = queryFiles.getPostProjectProposalMain;
     const getPostBriefContext = queryFiles.getPostBriefContext;
     const insertPostExpense = queryFiles.insertPostExpense;
+    const insertPostProjectProposalGals = queryFiles.insertPostProjectProposalGals;
+    const updatePostProjectProposalFinanceDocumentStatus = queryFiles.updatePostProjectProposalFinanceDocumentStatus;
 
 
 	return {
 		updatePostProjectProposal:function (param, connection = db) {
         	return connection.none(updatePostProjectProposal, param);
     	},
+        updatePostProjectProposalFinanceDocumentStatus:function (param, connection = db) {
+            return connection.none(updatePostProjectProposalFinanceDocumentStatus, param);
+        },
+        insertPostProjectProposalGals:function (param, connection = db) {
+            return connection.none(insertPostProjectProposalGals, param);
+        },
     	insertPostProjectProposal:function (param, connection = db) {
         	return connection.one(insertPostProjectProposal, param);
     	},

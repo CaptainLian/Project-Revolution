@@ -887,9 +887,62 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             if (!fs.existsSync(dir2)){
                 fs.mkdirSync(dir2);
             }
+            var dir4 = path.join (__dirname,'..','assets','upload','images');
+            //CHECK IF DIRECTOR EXIST
+            if (!fs.existsSync(dir4)){
+                fs.mkdirSync(dir4);
+            }
+            var dir5 = path.join (__dirname,'..','assets','upload','images',req.session.user.idNumber+"");
+            //CHECK IF DIRECTOR EXIST
+            if (!fs.existsSync(dir5)){
+                fs.mkdirSync(dir5);
+            }
+
+            //SETTING VALUE OF FINANCE DOCMENT
+            var dp = true;
+            var bt = true;
+            var reim = true;
+            if(typeof req.body.bt == "undefined"){
+                bt = false;
+            }
+
+            if(typeof req.body.dp == "undefined"){
+                dp = false
+            }
+            if(typeof req.body.reim == "undefined"){
+                reim = false
+            }
+
 
             // console.log(req.files);
             database.tx(t=>{
+                //NORMAL THINGS TO INSERT
+                var statParam ={
+                    dp:dp,
+                    bt:bt,
+                    reim:reim
+                };
+                postProjectProposalModel.updatePostProjectProposalFinanceDocumentStatus(statParam,t);
+                var galsFilename = cuid() + path.extname(req.files['gals'].name);
+                var galsFilenameToShow = (req.files['gals'].name);
+                var pg = path.join(dir5,galsFilename);
+                var galsParam ={
+                     gosmid: req.body.gosmid,
+                     filename : galsFilename,
+                     filenameToShow: galsFilenameToShow
+                };
+                Promise.all([
+                    postProjectProposalModel.insertPostProjectProposalGals(galsParam,t),
+                    req.files['gals'].mv(pg)
+                    ]).then(data=>{
+                        console.log("")
+                    }).catch(err=>{
+                        console.log("========PROMISE PICTURE============");
+                        console.log(err)
+
+
+                    });
+                //EXPENSES MAY VARY 
                 if(typeof req.body['est[]'][Symbol.iterator] == 'function'){
                     for(var ctr = 0; ctr < req.body['est[]'].length; ctr++){    
                         
@@ -905,7 +958,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             price:req.body['price[]'][ctr],
                             file: fname,
                             filenameToShow:req.files['file[]'][ctr].name,
-                            idNumber:req.session.user.idNumber
+                            idNumber:req.session.user.idNumber,
+                           
                         };
                         var p = path.join(dir2,fname);
                         Promise.all([
@@ -920,7 +974,38 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     }
                 }else{
 
+                        var orignalFileName = req.files['file[]'].name;
+                        var ftype = path.extname(orignalFileName);
+                        console.log(ftype);
+                        var fname = cuid()+ftype;
+
+                        var dbParam ={
+                            gosmid: req.body.gosmid,
+                            particular:req.body['par[]'],
+                            establishment:req.body['est[]'],
+                            price:req.body['price[]'],
+                            file: fname,
+                            filenameToShow:req.files['file[]'].name,
+                            idNumber:req.session.user.idNumber,
+                           
+                        };
+                        var p = path.join(dir2,fname);
+                        Promise.all([
+                                req.files['file[]'].mv(p),
+                                postProjectProposalModel.insertPostProjectExpense(dbParam,t)
+                            ]).then(result =>{
+
+                            }).catch(err =>{
+                                console.log("========PROMISE=========");
+                                console.log(err);
+                            })
                 }
+
+                if(typeof req.body['est[]'][Symbol.iterator] == 'function'){
+
+                }
+
+                //PICTURES MAY VARY 
 
             }).then(data=>{
 
