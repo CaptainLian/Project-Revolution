@@ -2,6 +2,10 @@
 module.exports = function(configuration, modules, models, database, queryFiles){
 	let AMTController = Object.create(null);
 
+	const logger = modules.logger;
+	const log_options = Object.create(null);
+	log_options.from = 'AMT-Controlller';
+
 	const amtModel = models.ActivityMonitoring_model;
 
 	AMTController.viewActivityEvaluation = (req, res) => {
@@ -12,26 +16,29 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		
 		return res.render('AMT/ActivityEvaluation', renderData);
 	};
-	//CHANGE SQL TO CURRENT TERM YEAR ONLY
+	
+	//TODO: CHANGE SQL TO CURRENT TERM YEAR ONLY
 	AMTController.viewActivity = (req, res) => {
+		logger.debug('viewActivity()', log_options);
+
 		let renderData = Object.create(null);
-		
+		renderData.csrfToken = req.csrfToken();
+		renderData.extra_data = req.extra_data;
+
 		const dbParam = {			
-			idNumber:req.session.user.idNumber,
+			idNumber:req.session.user.idNumber
 		};
 		
 		database.task(t =>{
 			return t.batch([amtModel.getAvailableActivityToCheck(),
 							amtModel.getAmtMyActivity(dbParam)]);
-		}).then(data=>{			
-			renderData = req.extra_data;
-			renderData.csrfToken = req.csrfToken();
-			
+		}).then(data => {
 			renderData.allActivity = data[0];
 			renderData.myActivity = data[1];
-			console.log(data[0]);
-			// console.log("renderData");
-			// console.log(renderData);
+
+			logger.debug(`${JSON.stringify(data[0])}`, log_options);
+			logger.debug(`${JSON.stringify(data[1])}`, log_options);
+
 			return res.render('AMT/ActivityAssignment', renderData);
 		});
 		

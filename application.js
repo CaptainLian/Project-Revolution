@@ -5,14 +5,14 @@ module.exports = (configuration, logger) => {
      * @type {Express-Application}
      */
 	const application = express();
-
+    
     /**
      * Modules used for within the application
      * @type {Object}
      */
     const modules = Object.create(null);
     modules.express = express;
-    modules.logger = logger;
+    modules.logger = logger;    
     modules.Promise = require('bluebird');
     modules.collections = require('./app/utility/collections.js');
     modules.attachExtraRenderData = require('./app/utility/attachExtraRenderData.js');

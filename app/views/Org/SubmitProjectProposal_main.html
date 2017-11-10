@@ -55,6 +55,9 @@
 {%endblock%}
 
 {%block content%}
+<form method="POST" action="/Organization/ProjectProposal/SavePPR">
+<input type="hidden" name="_csrf" value="{{csrfToken}}">
+<input type="hidden" name="gosmid" value="{{gosmid}}">
 <div class="row white-box">
 	<div class="col-md-12">
 		<div class="">
@@ -166,19 +169,19 @@
 				 
 			</div>
 			<div class="list-group col-md-12">
-				<button type="button" onclick="(function () {window.location.href='/Organization/ProjectProposal/BriefContext/{{gosmActivity.id}}'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
+				<a type="button" onclick="(function () {window.location.href='/Organization/ProjectProposal/BriefContext/{{gosmActivity.id}}'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
 				<div class="row">
 					<div class="col-md-6 text-left">
 
 						{% if projectProposal.isbriefcontextcomplete %}
 
 							<h5>Brief Context <span class="label label-success">Complete</span></h5>
-
+							<input type="hidden" name="context" value="{{projectProposal.isbriefcontextcomplete}}">
 
 						{% else %}
 
 							<h5>Brief Context <span class="label label-danger">Incomplete</span></h5>
-
+							<input type="hidden" name="context" value="0">
 
 						{% endif %}
 
@@ -190,20 +193,20 @@
 					</div>
 					
 				</div>
-				</button>
-				<button type="button" onclick="(function () {window.location.href='/Organization/ProjectProposal/ProgramDesign/{{gosmActivity.id}}'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
+				</a>
+				<a type="button" onclick="(function () {window.location.href='/Organization/ProjectProposal/ProgramDesign/{{gosmActivity.id}}'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
 				<div class="row">
 					<div class="col-md-6 text-left">
 
 						{% if projectProposal.isprogramcomplete %}
 
 							<h5>Program Schedule <span class="label label-success">Complete</span></h5>
-
+							<input type="hidden" name="program" value="{{projectProposal.isprogramdesigncomplete}}">
 
 						{% else %}
 
 							<h5>Program Schedule <span class="label label-danger">Incomplete</span></h5>
-
+							<input type="hidden" name="program" value="0">
 
 						{% endif %}
 						
@@ -215,8 +218,8 @@
 					</div>
 					
 				</div>
-				</button>
-				<button type="button" onclick="(function () {window.location.href='/Organization/ProjectProposal/Expense/{{gosmActivity.id}}'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
+				</a>
+				<a type="button" onclick="(function () {window.location.href='/Organization/ProjectProposal/Expense/{{gosmActivity.id}}'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
 				<div class="row">
 					<div class="col-md-6 text-left">
 
@@ -224,11 +227,11 @@
 
 							<h5>Funding Expense <span class="label label-success">Complete</span></h5>
 
-
+							<input type="hidden" name="expense" value="{{projectProposal.isexpensecomplete}}">
 						{% else %}
 
 							<h5>Funding Expense <span class="label label-danger">Incomplete</span></h5>
-
+							<input type="hidden" name="expense" value="0">
 
 						{% endif %}
 
@@ -240,20 +243,20 @@
 					</div>
 					
 				</div>
-				</button>
-				<button type="button" onclick="(function () {window.location.href='/Organization/ProjectProposal/Attachments/{{gosmActivity.id}}'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
+				</a>
+				<a type="button" onclick="(function () {window.location.href='/Organization/ProjectProposal/Attachments/{{gosmActivity.id}}'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
 					<div class="row">
 						<div class="col-md-6 text-left">
 
 							{% if projectProposal.isattachmentscomplete %}
 
 								<h5>Attachments <span class="label label-success">Complete</span></h5>
-
+								<input type="hidden" name="attachment" value="{{projectProposal.isattachmentscomplete}}">
 
 							{% else %}
 
 								<h5>Attachments <span class="label label-danger">Incomplete</span></h5>
-
+								<input type="hidden" name="attachment" value="0">
 
 							{% endif %}
 
@@ -265,7 +268,7 @@
 						</div>
 						
 					</div>
-					</button>
+					</a>
 			</div>
 			
 			<div class=" col-md-12 form-group text-center">
@@ -276,4 +279,5 @@
 		</div>
 	</div>
 </div>
+</form>
 {%endblock%}

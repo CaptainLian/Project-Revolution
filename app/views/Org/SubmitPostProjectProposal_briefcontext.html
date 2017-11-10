@@ -61,13 +61,14 @@
 {%endblock%}
 
 {%block content%}
+<form action="/Organization/PostProjectProposal/SaveContext" method="POST" class="form-horizontal">
  <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-info">
                         <div class="panel-heading"> Brief Context</div>
                         <div class="panel-wrapper collapse in" aria-expanded="true">
                             <div class="panel-body">
-                                <form action="/Organization/PostProjectProposal/Main" method="POST" class="form-horizontal">
+                                
                                     <div class="form-body">
                                     <input type="hidden" name="_csrf" value="{{csrfToken}}">
                                         <h3 class="box-title">Activity Info</h3>
@@ -77,8 +78,8 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-md-3">ANP</label>
                                                     <div class="col-md-9">
-                                                        <input type="number" name="" class="form-control">
-                                                        <span class="help-block"> Actual number of Member Participants</span> </div>
+                                                        <input type="number" name="anp" class="form-control">
+                                                        <span class="help-block"> Actual number of Participants</span> </div>
                                                 </div>
                                             </div>
                                             <!--/span-->
@@ -86,7 +87,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-md-3">ANMP</label>
                                                     <div class="col-md-9">
-                                                        <input type="number" name="" class="form-control">
+                                                        <input type="number" name="anmp" class="form-control">
                                                         <span class="help-block"> Actual number of Member Participants</span> </div>
                                                 </div>
                                             </div>
@@ -103,7 +104,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-md-4 text-left">To inspire students to be creative in their project designs with the use of Arduino</label>
                                                     <div class="col-md-8">
-                                                        <textarea style="width: 100%" rows="3"></textarea>
+                                                        <textarea  name="obj[]" style="width: 100%" rows="3"></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -115,7 +116,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-md-4 text-left">To inspire students to be creative in their project designs with the use of Arduino.</label>
                                                     <div class="col-md-8">
-                                                        <textarea style="width: 100%" rows="3"></textarea>
+                                                        <textarea name="obj[]" style="width: 100%" rows="3"></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -129,7 +130,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-md-4 text-left">To inspire students to be creative in their project designs with the use of Arduino.</label>
                                                     <div class="col-md-8">
-                                                        <textarea style="width: 100%" rows="3"></textarea>
+                                                        <textarea name="obj[]" style="width: 100%" rows="3"></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -146,7 +147,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-md-4 text-left">What are the things that went well in the activity?</label>
                                                     <div class="col-md-8">
-                                                        <textarea style="width: 100%" rows="3"></textarea>
+                                                        <textarea name="wentWell" style="width: 100%" rows="3"></textarea>
                                                         <!-- <span class="help-block"> Put</span> </div> -->
                                                     </div>
                                                 </div>
@@ -163,7 +164,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-md-4 text-left">What was your greatest learning in executing the activity?</label>
                                                     <div class="col-md-8">
-                                                        <textarea style="width: 100%" rows="3"></textarea>
+                                                        <textarea name="learning" style="width: 100%" rows="3"></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -176,7 +177,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-md-4 text-left">How did this activity through your leadership, contribute to the development of the participants?</label>
                                                     <div class="col-md-8">
-                                                        <textarea style="width: 100%" rows="3"></textarea>
+                                                        <textarea name="develop" style="width: 100%" rows="3"></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -186,25 +187,14 @@
 
                                        
 
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label class="control-label col-md-4 text-left">How did this activity through your leadership, contribute to the development of the participants?</label>
-                                                    <div class="col-md-8">
-                                                        <textarea style="width: 100%" rows="3"></textarea>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                           
-
-                                        </div>
+                                       
 
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label class="control-label col-md-4 text-left">What are the things that went wrong, and what can you do to prevent those from happening again? </label>
                                                     <div class="col-md-8">
-                                                        <textarea style="width: 100%" rows="3"></textarea>
+                                                        <textarea name="mistakes" style="width: 100%" rows="3"></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -218,18 +208,19 @@
                                     <div class="form-actions">
                                         
                                     </div>
-                                </form>
+                                
                             </div>
                             <div class="panel-footer text-center">
                                
                              
-                                                <button type="submit" class="btn btn-success"> <i class="fa fa-save"></i> &nbspSave</button>
-                                                <button type="button" class="btn btn-default">Cancel</button>
-                                            
+                                    <button type="submit" class="btn btn-success"> <i class="fa fa-save"></i> &nbspSave</button>
+                                    <button type="button" class="btn btn-default">Cancel</button>
+                                
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+</form>
 {%endblock%}
 

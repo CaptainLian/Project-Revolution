@@ -8,6 +8,9 @@ const squel = require('squel').useFlavour('postgres');
 
 module.exports = function(configuration, modules, db, queryFiles) {
 
+    
+    const getLatestProjectProposalAttachment = queryFiles.getLatestProjectProposalAttachment;
+    const insertProjectProposalAttachment = queryFiles.insertProjectProposalAttachment;
     const updatePPRBriefContextSQL = queryFiles.updatePPRBriefContext;
     const insertProjectProposalSQL = queryFiles.insertProjectProposal;
     const insertProjectProposalProgramDesignSQL = queryFiles.insertProjectProposalProgramDesign;
@@ -236,6 +239,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
     ProjectProposalModel.prototype.insertProjectProposal  = function(param, connection = this._db){
         return connection.one(insertProjectProposalSQL, param);
     };
+    
 
     ProjectProposalModel.prototype.updateIsProgramDesignComplete = function(param, connection = this._db) {
         return connection.none(updateIsProgramDesignCompleteSQL, param);
@@ -244,6 +248,18 @@ module.exports = function(configuration, modules, db, queryFiles) {
     ProjectProposalModel.prototype.insertProjectProposalDesign = function(param, connection = this._db) {
         //TODO: test
         return connection.none(insertProjectProposalProgramDesignSQL, param);
+    };
+
+    ProjectProposalModel.prototype.insertProjectProposalAttachment = function(param, connection = this._db) {
+        //TODO: test
+        
+        return connection.none(insertProjectProposalAttachment, param);
+    };
+
+    ProjectProposalModel.prototype.getLatestProjectProposalAttachment = function(param, connection = this._db) {
+        //TODO: test
+        
+        return connection.any(getLatestProjectProposalAttachment, param);
     };
 
     ProjectProposalModel.prototype.insertProjectProposalProjectedIncome = function(param, connection = this._db) {
