@@ -990,7 +990,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 fs.mkdirSync(dir2);
             }
 
-
+            dir2 = path.normalize(dir2);
             console.log("req.files");
             console.log(req.body);
             console.log(req.session.user.idNumber);
