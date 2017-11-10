@@ -118,6 +118,10 @@
 
 
 	{{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
+	<script type="text/javascript">
+    	var gid = {{gosmactivity.gosmactivity}};
+    	var id = {{projectProposal.id}};
+    </script>
     {{tag.javascript('/js/Organization/SubmitProjectProposal_programdesign.js', true)}}
 {%endblock%}
 
@@ -125,7 +129,7 @@
 
 <input type="hidden" name="_csrf" value="{{csrfToken}}">
 
-<div class="row">
+<div class="row" id="data-route" gid="{{gosmactivity.gosmactivity}}"  pid="{{projectProposal.id}}">
 	<div class="col-md-12">
 		<div class="panel panel-info">
 			<div class="panel-heading"> Program Design</div>
