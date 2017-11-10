@@ -1066,7 +1066,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.csrfToken = req.csrfToken();
             
             // var date = new Date().toJSON();
-            
+
              var dir3 =__dirname+'/../assets/upload/';
              var dir3 = path.join (__dirname,'..','assets','upload');
 
@@ -1110,6 +1110,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                });
                        
                     }).then(data => {
+
+
                         var ctr = 0;
                         console.log(req.files['uploadfile[]']);
                         console.log("TYPE OF ONE UPLOAD");
@@ -1189,9 +1191,18 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         console.log(error);
                     });
 
+                    var dbParam = {
+                            id: req.body.activityId
+                    };
+
+                    projectProposalModel.updateIsAttachmentsComplete(dbParam)
+                    .then(data=>{
+
+                    }).catch(error=>{
+                        console.log(error);
+                    });
 
 
-       
         }
     };
 };
