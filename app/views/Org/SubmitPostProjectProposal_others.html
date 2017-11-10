@@ -66,13 +66,16 @@
 {%endblock%}
 
 {%block content%}
+<form action="/Organization/PostProjectProposal/SaveExpenses" method="POST"  encType="multipart/form-data" class="form-horizontal">
+<input type="hidden" name="_csrf" value="{{csrfToken}}">
+<input type="hidden" name="gosmid" value="{{id}}">
 <div class="row">
 	<div class="col-md-12">
 		<div class="panel  panel-info">
 			<div class="panel-heading">Expense</div>
 			<div class="panel-wrapper collapse in" aria-expanded="true">
 				<div class="panel-body">
-					<form action="/ADM PPR - PART 2.html" class="form-horizontal">
+					
 
 						<div class="row">
 							<div class="col-md-8">
@@ -290,11 +293,12 @@
 							<button type="button" class="btn btn-default">Cancel</button>
 
 						</div>
-					</form>
+					
 				</div>
 			</div>
 		</div>
 	</div>
+</form>
 {%endblock%}
 
 

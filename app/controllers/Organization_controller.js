@@ -34,8 +34,31 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.extra_data = req.extra_data;
                 renderData.csrfToken = req.csrfToken();
                 renderData.activities = data;
-
+                console.log(renderData);
                 return res.render('Org/ActivityToImplement', renderData);
+            }).catch(error=>{
+                console.log(error);
+            });
+
+            
+        },
+        viewGOSMActivityListPostProjectProposal: (req, res) => {
+
+            //TODO: session of gosm id??
+            var dbParam = {
+                idNumber: req.session.user.idNumber
+            };
+            console.log(dbParam);
+            postProjectProposalModel.getPostActsToImplement(dbParam)
+            .then(data=>{
+                console.log(data);
+                const renderData = Object.create(null);
+                renderData.extra_data = req.extra_data;
+                renderData.csrfToken = req.csrfToken();
+
+                renderData.activities = data;
+                console.log(renderData);
+                return res.render('Org/PostActivityToImplement', renderData);
             }).catch(error=>{
                 console.log(error);
             });
@@ -121,12 +144,48 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
         },
         viewSubmitPostProjectProposalMain: (req, res) => {
-            const renderData = Object.create(null);
-            renderData.extra_data = req.extra_data;
-            renderData.csrfToken = req.csrfToken();
+            var dbParam = {
+                idNumber: req.session.user.idNumber,
+                gosmid:req.params.gosmid
+            };
+             var dbParam2 = {                
+                gosmactivity:req.params.gosmid
+            };
+            
+            console.log(dbParam);
+            database.task(task=>{
+                return task.batch([
+                    postProjectProposalModel.getPostProjectProposalMain(dbParam),
+                    gosmModel.getGOSMActivityProjectHeads(dbParam2)
+                    ]);
+            }).then(data =>{
+                const renderData = Object.create(null);
+                renderData.extra_data = req.extra_data;
+                renderData.csrfToken = req.csrfToken();                
+                renderData.activities = data[0];
+                renderData.projectHeads = data[1];
+                console.log(renderData.activities);
+                console.log(renderData.projectHeads);
+                return res.render('Org/SubmitPostProjectProposal_main', renderData);
+            }).catch(err=>{
+                console.log(err);
+            });
+            // postProjectProposalModel.getPostProjectProposalMain(dbParam)
+            // .then(data=>{
+            //     console.log(data);
+            //     const renderData = Object.create(null);
+            //     renderData.extra_data = req.extra_data;
+            //     renderData.csrfToken = req.csrfToken();
+                
+            //     renderData.activities = data;
+            //     console.log(renderData);
+            //     // return res.render('Org/SubmitPostProjectProposal_main', renderData);
+            // }).catch(error=>{
+            //     console.log(error);
+            // });
 
 
-            return res.render('Org/SubmitPostProjectProposal_main',renderData);
+            
         },
 
         viewSubmitProjectProposalAttachments: (req, res) => {
@@ -212,16 +271,32 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
-
+            renderData.id = req.params.gosmid
+            var dbParam = {
+                gosmid:req.params.gosmid
+            }
             console.log("DATA")
             console.log(req.params);
-            return res.render('Org/SubmitPostProjectProposal_briefcontext',renderData);
+            database.task(t=>{
+                return  t.batch([
+                    gosmModel.getObjectives(dbParam),
+                    postProjectProposalModel.getPostBriefContext(dbParam)
+                    ]);
+            }).then(data => {
+                renderData.objectives = data[0].objectives;
+                renderData.save =  data[1];
+                console.log(renderData.save);
+                return res.render('Org/SubmitPostProjectProposal_briefcontext',renderData);
+            }).catch(err => {
+                console.log(err);
+            })
+            
         },
         viewSubmitPostProjectProposalOthers: (req, res) => {
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
-
+            renderData.id = req.params.gosmid;
             return res.render('Org/SubmitPostProjectProposal_others',renderData);
         },
         viewSubmitPostProjectProposalFinanceDocument: (req, res) => {
@@ -746,43 +821,59 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
         },
         postSaveContext: (req, res) =>{
-            console.log(req.body);
+            console.log(req.params);
 
             // TODO: change id, to come from selected activity
+            var obj = req.body['obj[]'].filter(function(e){return e}); 
             var dbParam = {
-                id: 1,
-                enp: req.body.enp,
-                enmp: req.body.enmp,                
+                id: req.body.gosmid,
+                           
                 well: req.body.wentWell,
                 learning: req.body.learning,
                 develop: req.body.develop,                
                 mistakes: req.body.mistakes,
-                obj:req.body['obj[]'],
+                objectives:req.body['obj[]'],
                 isBriefContextComplete: true
             };
 
             console.log(dbParam)
+            console.log(obj.length != (req.body['obj[]']).length
+                )
+            if(  !(req.body.wentWell).trim() ||
+                !(req.body.learning).trim() ||
+                !(req.body.develop).trim() ||
+                !(req.body.learning).trim() ||
+                !(req.body.mistakes).trim() ||
+                obj.length != (req.body['obj[]']).length
+                )
+            {
 
-            // if(!(req.body.enp).trim() || 
-            //     !(req.body.enmp).trim() || 
-            //     !(req.body.well).trim() ||
-            //     !(req.body.develop).trim() ||
-            //     !(req.body.contribute).trim() ||
-            //     !(req.body.mistakes).trim() ||
-            //     !(req.body['obj[]']).trim()){
-
-            //     dbParam.isBriefContextComplete = false;
+                dbParam.isBriefContextComplete = false;
                 
-            // }
+            }
             console.log("dbParam")
             console.log(dbParam);
             postProjectProposalModel.updatePostProjectProposal(dbParam)
                                .then(data=>{
-                                    return res.redirect(`Organization/postprojectproposal/main`)
+                                    return res.redirect(`/Organization/PostProjectProposal/Main/${req.body.gosmid}`)
                                }).catch(err=>{
-                                    return res.send("Error");
+                                    console.log(err);
                                });
             
+            // return res.redirect(`Organization/postprojectproposal/main/${req.bod}`)
+        },
+        postSaveExpenses: (req, res) =>{
+            console.log(req.body);
+            console.log(req.files);
+
+            if(typeof req.files['uploadfile[]'][Symbol.iterator] == 'function'){
+
+            }else{
+
+            }
+
+            // TODO: change id, to come from selected activity
+         
             // return res.redirect(`Organization/postprojectproposal/main/${req.bod}`)
         },
 
@@ -995,6 +1086,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             if (!fs.existsSync(dir2)){
                 fs.mkdirSync(dir2);
             }
+ 
 
             dir2 = path.normalize(dir2);
             console.log("req.files");

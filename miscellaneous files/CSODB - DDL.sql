@@ -495,74 +495,74 @@ CREATE TRIGGER before_insert_OrganizationRole
     EXECUTE PROCEDURE trigger_before_insert_OrganizationRole();
 
 -- 1
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Chairperson', TRUE, NULL);
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
+                      VALUES (           0, 'Chairperson', TRUE, NULL, 0);
 -- 2
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Executive Vice Chairperson for Internals', TRUE, 0);
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
+                      VALUES (           0, 'Executive Vice Chairperson for Internals', TRUE, 0, 10);
 -- 3
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Executive Vice Chairperson for Externals', TRUE, 0);
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
+                      VALUES (           0, 'Executive Vice Chairperson for Externals', TRUE, 0, 10);
 -- 4
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Executive Vice Chairperson for Activities and Documentation', TRUE, 0);
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
+                      VALUES (           0, 'Executive Vice Chairperson for Activities and Documentation', TRUE, 0, 10);
 -- 5
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Executive Vice Chairperson for Finance', TRUE, 0);
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
+                      VALUES (           0, 'Executive Vice Chairperson for Finance', TRUE, 0, 10);
 -- 6
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Vice Chairperson for Activity Documentations and Management', TRUE, 2);
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
+                      VALUES (           0, 'Vice Chairperson for Activity Documentations and Management', TRUE, 2, 20);
 -- 7
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Associate Vice Chairperson for Activity Documentations and Management', FALSE, 5);
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
+                      VALUES (           0, 'Associate Vice Chairperson for Activity Documentations and Management', FALSE, 5, 30);
 -- 8
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Associate for Activity Documentations and Management', FALSE, 6);
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
+                      VALUES (           0, 'Associate for Activity Documentations and Management', FALSE, 6, 40);
 -- 9
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Vice Chairperson for Activity Monitoring Team', TRUE, 2);
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
+                      VALUES (           0, 'Vice Chairperson for Activity Monitoring Team', TRUE, 2, 20);
 -- 10
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Associate Vice Chairperson for Activity Monitoring Team', FALSE, 9);
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
+                      VALUES (           0, 'Associate Vice Chairperson for Activity Monitoring Team', FALSE, 9, 30);
 -- 11
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Associate for Activity Monitoring Team', FALSE, 10);
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
+                      VALUES (           0, 'Associate for Activity Monitoring Team', FALSE, 10, 40);
 -- 12
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Vice Chairperson for Activity Processing and Screening', TRUE, 2);
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
+                      VALUES (           0, 'Vice Chairperson for Activity Processing and Screening', TRUE, 2, 20);
 -- 13
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Associate Vice Chairperson for Activity Processing and Screening', FALSE, 11);
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
+                      VALUES (           0, 'Associate Vice Chairperson for Activity Processing and Screening', FALSE, 11, 30);
 -- 14
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Associate Activity Processing and Screening', FALSE, 12);
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
+                      VALUES (           0, 'Associate Activity Processing and Screening', FALSE, 12, 40);
 -- 15
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Vice Chairperson for Finance', TRUE, 2);
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
+                      VALUES (           0, 'Vice Chairperson for Finance', TRUE, 2, 20);
 -- 16
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Associate Vice Chairperson for Finance', FALSE, 14);
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
+                      VALUES (           0, 'Associate Vice Chairperson for Finance', FALSE, 14, 30);
 -- 17
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Associate for Finance', FALSE, 15);
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
+                      VALUES (           0, 'Associate for Finance', FALSE, 15, 40);
 -- 18
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Vice Chairperson for Publicity and Productions', TRUE, 2);
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
+                      VALUES (           0, 'Vice Chairperson for Publicity and Productions', TRUE, 2, 20);
 -- 19
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Associate Vice Chairperson for Publicity and Productions', FALSE, 17);
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
+                      VALUES (           0, 'Associate Vice Chairperson for Publicity and Productions', FALSE, 17, 30);
 -- 20
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Associate for Publicity and Productions', FALSE, 18);
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
+                      VALUES (           0, 'Associate for Publicity and Productions', FALSE, 18, 40);
 -- 21
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Vice Chairperson for Organizational Research and Analysis', TRUE, 2);
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
+                      VALUES (           0, 'Vice Chairperson for Organizational Research and Analysis', TRUE, 2, 20);
 -- 22
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Associate Vice Chairperson for Organizational Research and Analysis', FALSE, 21);
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
+                      VALUES (           0, 'Associate Vice Chairperson for Organizational Research and Analysis', FALSE, 21, 30);
 -- 23
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole)
-                      VALUES (           0, 'Associate for Organizational Research and Analysis', FALSE, 22);
+INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
+                      VALUES (           0, 'Associate for Organizational Research and Analysis', FALSE, 22, 40);
 
 
 DROP TABLE IF EXISTS OrganizationOfficer CASCADE;
@@ -726,7 +726,13 @@ INSERT INTO Functionality (id, name, category)
                           (214007, 'Modify Organizational Structure'    , 214),
                           (003008, 'Manage Organizations'               ,   3),
                           (211009, 'View Project Head Dashboard'        , 211),
-                          (211010, 'View APS Report'                    , 211);
+                          (211010, 'View APS Report'                    , 211),
+                          -- PPR Signing
+                          (211011, 'Sign Project Proposal as Treasurer'     , 211),
+                          (211012, 'Sign Project Proposal as Documentations', 211),
+                          (104013, 'Sign Project Proposal as APS - AVC'     , 104),
+                          (104014, 'Sign Project Proposal as APS -  VC'     , 104),
+                          (211015, 'Force Sign Project Proposal'            , 211);
 /*
 INSERT INTO Functionality (id, name, category)
                    VALUES (0, 'Time Setting', 0),
@@ -840,7 +846,10 @@ INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       (    3,        003008,      TRUE),
                                       (    4,        003008,      TRUE),
                                       (    5,        003008,      TRUE),
-                                      (   21,        003008,      TRUE);
+                                      (   21,        003008,      TRUE),
+                                      -- SIGN PPR
+                                      (   11,        104014,      TRUE),
+                                      (   12,        104013,      TRUE);
 /* Organization Default Structure */
 
 CREATE OR REPLACE FUNCTION trigger_after_insert_StudentOrganization()
@@ -857,60 +866,64 @@ $trigger$
         -- Internal Executive Vice President
         ievpRoleID INTEGER;
     BEGIN
-        INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
-                             VALUES (NEW.id, 'President', TRUE, NULL)
+        INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole, rank)
+                             VALUES (NEW.id, 'President', TRUE, NULL, 0)
         RETURNING id INTO presidentRoleID;
         INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                        VALUES (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 0)), TRUE),
                                               (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 7)), TRUE),
                                               (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
-                                              (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE);
+                                              (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE),
+                                              (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 15)), TRUE);
 
-        INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
-                             VALUES (NEW.id, 'Executive Secretariat', TRUE, presidentRoleID)
+        INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole, rank)
+                             VALUES (NEW.id, 'Executive Secretariat', TRUE, presidentRoleID, 10)
         RETURNING id INTO executiveSecretariatRoleID;
         INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       VALUES (executiveSecretariatRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
                                              (executiveSecretariatRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE);
 
-        INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
-                             VALUES (NEW.id, 'External Executive Vice President', TRUE, presidentRoleID)
+        INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole, rank)
+                             VALUES (NEW.id, 'External Executive Vice President', TRUE, presidentRoleID, 10)
         RETURNING id INTO eevpRoleID;
         INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       VALUES  (eevpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
                                               (eevpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE);
 
-        INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
-                             VALUES (NEW.id, 'Internal Executive Vice President', TRUE, presidentRoleID)
+        INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole, rank)
+                             VALUES (NEW.id, 'Internal Executive Vice President', TRUE, presidentRoleID, 10)
         RETURNING id INTO ievpRoleID;
         INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       VALUES  (ievpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
                                               (ievpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE);
 
-        INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
-                             VALUES (NEW.id, 'Vice President of Documentations', TRUE, executiveSecretariatRoleID)
+        INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole, rank)
+                             VALUES (NEW.id, 'Vice President of Documentations', TRUE, executiveSecretariatRoleID, 20)
         RETURNING id INTO vpdRoleID;
         INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       VALUES  (vpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
-                                              (vpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE);
+                                              (vpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE),
+                                              -- Sign PPR as Documentation
+                                              (vpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 12)), TRUE);
 
-
-        INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole)
-                             VALUES (NEW.id, 'Associate Vice President of Documentations', FALSE, vpdRoleID)
+        INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole, rank)
+                             VALUES (NEW.id, 'Associate Vice President of Documentations', FALSE, vpdRoleID, 30)
         RETURNING id INTO avpdRoleID;
         INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       VALUES  (avpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
                                               (avpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE);
 
-        INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole, home_url)
-                             VALUES (NEW.id, 'Vice President of Finance', TRUE, ievpRoleID, '/Organization/treasurer/dashboard')
+        INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole, home_url, rank)
+                             VALUES (NEW.id, 'Vice President of Finance', TRUE, ievpRoleID, '/Organization/treasurer/dashboard', 20)
         RETURNING id INTO vpfRoleID;
         INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       VALUES  (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
-                                              (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE);
+                                              (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE),
+                                              -- Sign PPR as Treasurer
+                                              (vpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 11)), TRUE);
 
-        INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole, home_url)
-                             VALUES (NEW.id, 'Associate Vice President of Finance', FALSE, vpfRoleID, '/Organization/treasurer/dashboard')
+        INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole, home_url, rank)
+                             VALUES (NEW.id, 'Associate Vice President of Finance', FALSE, vpfRoleID, '/Organization/treasurer/dashboard', 30)
         RETURNING id INTO avpfRoleID;
         INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       VALUES  (avpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
@@ -925,6 +938,7 @@ CREATE TRIGGER after_insert_StudentOrganization
     EXECUTE PROCEDURE trigger_after_insert_StudentOrganization();
 
 /*
+
 INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                VALUES -- Assign Evaluator for Publicity Material
                                       (  18,            22,      TRUE),
@@ -1439,7 +1453,8 @@ INSERT INTO SignatoryStatus (id, name)
                      VALUES ( 0, 'Unsigned'),
                             ( 1, 'Accept'),
                             ( 2, 'Pend'),
-                            ( 3, 'Deny');
+                            ( 3, 'Deny'),
+                            ( 4, 'Force Signed');
 DROP TABLE IF EXISTS SignatoryType CASCADE;
 CREATE TABLE SignatoryType (
 	id SMALLINT,
@@ -1449,43 +1464,28 @@ CREATE TABLE SignatoryType (
 );
 INSERT INTO SignatoryType (id, name)
                    VALUES ( 0, 'Project Head'),
-                   		    ( 1, 'Treasurer/Finance Officer'),
-                   		    ( 2, 'Immediate Superior'),
-                   		    ( 3, 'President'),
-                   		    ( 4, 'Faculty Adviser'),
-                          ( 5, 'Documentation Officer'),
-                          ( 6, 'CSO Officer');
+                   		    ( 1, 'Treasurer/Finance Officer'), -- VP
+                   		    ( 2, 'Immediate Superior'), -- 1 step higher
+                   		    ( 3, 'President'), 
+                   		    ( 4, 'Faculty Adviser'), --
+                          ( 5, 'Documentation Officer'), -- VP 
+                          ( 6, 'APS - AVC'), -- Pwedeng Madami
+                          ( 7, 'APS -  VC'); -- 
+
 DROP TABLE IF EXISTS ProjectProposalSignatory CASCADE;
 CREATE TABLE ProjectProposalSignatory (
   id SERIAL UNIQUE,
 	GOSMActivity INTEGER REFERENCES ProjectProposal(GOSMActivity),
+  signatory INTEGER REFERENCES Account(idNumber),
   type SMALLINT NOT NULL REFERENCES SignatoryType(id),
-  sequence INTEGER DEFAULT -1,
-	signatory INTEGER REFERENCES Account(idNumber),
   status SMALLINT NOT NULL REFERENCES SignatoryStatus(id) DEFAULT 0,
   comments TEXT,
 	document JSONB,
 	digitalSignature TEXT,
 	dateSigned TIMESTAMP WITH TIME ZONE,
 
-	PRIMARY KEY(GOSMActivity, type, sequence)
+	PRIMARY KEY(GOSMActivity, signatory, type)
 );
-CREATE OR REPLACE FUNCTION trigger_before_insert_ProjectProposalSignatory_sequence()
-RETURNS trigger AS
-$trigger$
-    BEGIN
-        SELECT COALESCE(MAX(sequence) + 1, 0) INTO NEW.sequence
-          FROM ProjectProposalSignatory
-         WHERE GOSMActivity = NEW.GOSMActivity
-           AND type = NEW.type;
-
-        RETURN NEW;
-    END;
-$trigger$ LANGUAGE plpgsql;
-CREATE TRIGGER before_insert_ProjectProposalSignatory_sequence
-    BEFORE INSERT ON ProjectProposalSignatory
-    FOR EACH ROW
-    EXECUTE PROCEDURE trigger_before_insert_ProjectProposalSignatory_sequence();
 
 CREATE OR REPLACE FUNCTION trigger_after_insert_ProjectProposal_signatories()
 RETURNS trigger AS
@@ -1493,6 +1493,13 @@ $trigger$
     DECLARE
         organizationPresident INTEGER;
     BEGIN
+      INSERT INTO ProjectProposalSignatory (GOSMActivity, signatory, type)
+        SELECT NEW.GOSMActivity, idNumber, 0
+         FROM GOSMActivityProjectHead
+        WHERE activityID = NEW.GOSMActivity;
+
+
+    /*
         -- ALL PROJECT HEADS
         INSERT INTO ProjectProposalSignatory (GOSMActivity, signatory, type)
              SELECT NEW.GOSMActivity, idNumber, 0
@@ -1522,7 +1529,7 @@ $trigger$
         -- CSO Officer
         INSERT INTO ProjectProposalSignatory (GOSMActivity, type)
              VALUES (NEW.GOSMActivity, 6);
-
+*/
         RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
@@ -1674,9 +1681,24 @@ CREATE TABLE "ActivityResearchForm" (
 
 /* ADM */
   /* Post Acts */
+DROP TABLE IF EXISTS "PostProjectProposalStatus" CASCADE;
+CREATE TABLE "PostProjectProposalStatus" (
+  id SMALLINT,
+  name VARCHAR(45) NOT NULL,
+
+  PRIMARY KEY(id)
+);
+INSERT INTO "PostProjectProposalStatus" (id, name)
+                                 VALUES ( 0, 'Unopened'),
+                                        ( 1, 'Opened'),
+                                        ( 2, 'In-progress'),
+                                        ( 3, 'Submitted');
+
 DROP TABLE IF EXISTS "PostProjectProposal" CASCADE;
 CREATE TABLE "PostProjectProposal" (
   "GOSMActivity" INTEGER REFERENCES ProjectProposal(GOSMActivity),
+  "preparedBy" INTEGER REFERENCES Account(idNumber),
+  "status" SMALLINT NOT NULL DEFAULT 0 REFERENCES "PostProjectProposalStatus"("id"),
   "dateCreated" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
   "objectives" TEXT[],
   "WATTTWITA" TEXT,
@@ -1684,6 +1706,12 @@ CREATE TABLE "PostProjectProposal" (
   "HDTATYLCTTDOTP" TEXT,
   "WATTWWAWCYDTPTFHA" TEXT,
   "path_generalAttendanceList" TEXT,
+  "isBriefContextCompleted" BOOLEAN NOT NULL DEFAULT FALSE,
+  "isOtherFinanceDocumentsCompleted" BOOLEAN NOT NULL DEFAULT FALSE,
+  "isFinanceDocumentCompleted" BOOLEAN NOT NULL DEFAULT FALSE,
+  "isCheckedDP" BOOLEAN NOT NULL DEFAULT FALSE,
+  "isCheckedR" BOOLEAN NOT NULL DEFAULT FALSE,
+  "isCheckedBT" BOOLEAN NOT NULL DEFAULT FALSE,
 
   PRIMARY KEY("GOSMActivity")
 );
@@ -1740,6 +1768,71 @@ CREATE TRIGGER "before_insert_PostProjectProposalEventPicture"
     BEFORE INSERT ON "PostProjectProposalEventPicture"
     FOR EACH ROW
     EXECUTE PROCEDURE "trigger_before_insert_PostProjectProposalEventPicture"();
+/*
+DROP TABLE IF EXISTS "" CASCADE;
+CREATE TABLE "" (
+
+);
+*/
+DROP TABLE IF EXISTS "PostProjectDirectPaymentPayment" CASCADE;
+CREATE TABLE "PostProjectDirectPaymentPayment" (
+  id INTEGER,
+  name VARCHAR(45),
+
+  PRIMARY KEY (id)
+);
+INSERT INTO "PostProjectDirectPaymentPayment" (id, name)
+                                 VALUES ( 0, 'Cheque'),
+                                        ( 1, 'Book Transfer');
+DROP TABLE IF EXISTS "PostProjectDirectPayment" CASCADE;
+CREATE TABLE "PostProjectDirectPayment" (
+  "GOSMActivity" INTEGER REFERENCES "PostProjectProposal"("GOSMActivity"),
+  "nameOfEstablishment" VARCHAR(60),
+  "amount" NUMERIC(12, 2),
+  "paymentBy" SMALLINT REFERENCES "PostProjectDirectPaymentPayment"("id"),
+  "delayedProcessing" TEXT,
+  "path_formalQuotation" TEXT,
+  "path_ROF" TEXT,
+
+  PRIMARY KEY("GOSMActivity")
+);
+
+DROP TABLE IF EXISTS "PostProjectReimbursementPayment" CASCADE;
+CREATE TABLE "PostProjectReimbursementPayment" (
+  id INTEGER,
+  name VARCHAR(45),
+
+  PRIMARY KEY (id)
+);
+INSERT INTO "PostProjectReimbursementPayment" (id, name)
+                                 VALUES ( 0, 'Payment By Check'),
+                                        ( 1, 'Payment By Book Transfer');
+DROP TABLE IF EXISTS "PostProjectReimbursement" CASCADE;
+CREATE TABLE "PostProjectReimbursement" (
+  "GOSMActivity" INTEGER REFERENCES "PostProjectProposal"("GOSMActivity"),
+  "nameOfEstablishment" VARCHAR(60),
+  "amount" NUMERIC(12, 2),
+  "paymentBy" SMALLINT REFERENCES "PostProjectReimbursementPayment"("id"),
+  "foodExpense" VARCHAR(60),
+  "NUCAODP" TEXT,
+  "delayedProcessing" TEXT,
+  "path_receipts" TEXT,
+
+  PRIMARY KEY("GOSMActivity")
+);
+
+DROP TABLE IF EXISTS "PostProjectBookTransfer" CASCADE;
+CREATE TABLE "PostProjectBookTransfer" (
+  "GOSMActivity" INTEGER REFERENCES "PostProjectProposal"("GOSMActivity"),
+  "nameOfEstablishment" VARCHAR(60),
+  "amount" NUMERIC(12, 2),
+  "purpose" VARCHAR(60),
+  "path_billingStatement" TEXT,
+  "path_requisitionSlip" TEXT,
+  "path_chargeSlip" TEXT,
+
+  PRIMARY KEY ("GOSMActivity")
+);
   /* Post Acts END*/
 /* ADM END */
 /*

@@ -12,6 +12,7 @@ module.exports = function(configuration, modules, router, controllers){
     router.get(`${base}/Treasurer/NewTransactionOthers`, controllers.Treasurer_controller.newTransactionOthers);
 
     router.get(`${base}/ProjectProposal/GOSMList`, controllers.Organization_controller.viewGOSMActivityListProjectProposal);
+    
     router.get(`${base}/ProjectProposal/Main/:id/:status`, controllers.Organization_controller.viewSubmitProjectProposalMain);
     router.get(`${base}/ProjectProposal/Attachments/:id`, controllers.Organization_controller.viewSubmitProjectProposalAttachments);
     router.get(`${base}/ProjectProposal/BriefContext/:id`, controllers.Organization_controller.viewSubmitProjectProposalBriefContext);
@@ -25,15 +26,15 @@ module.exports = function(configuration, modules, router, controllers){
     router.post(`${base}/projectproposal/SaveDesign/`, controllers.Organization_controller.saveDesign);
     router.post(`${base}/projectproposal/SavePPR`, controllers.Organization_controller.savePPR);
     router.post(`${base}/projectproposal/SaveAttachments`, controllers.Organization_controller.saveAttachments);
-
-    router.post(`${base}/postprojectproposal/SaveContext`, controllers.Organization_controller.postSaveContext);    
-    // router.post(`${base}/postprojectproposal/SaveExpenses`, controllers.Organization_controller.postSaveExpenses);
+    router.get(`${base}/PostProjectProposal/GOSMList`, controllers.Organization_controller.viewGOSMActivityListPostProjectProposal);
+    router.post(`${base}/PostProjectProposal/SaveContext`, controllers.Organization_controller.postSaveContext);    
+    router.post(`${base}/PostProjectProposal/SaveExpenses`, controllers.Organization_controller.postSaveExpenses);
     // router.post(`${base}/postprojectproposal/SaveAttachments`, controllers.Organization_controller.postSaveAttachments);
 
     router.get(`${base}/Setting/ACL`, controllers.Organization_controller.viewSettingAcl);
-    router.get(`${base}/PostProjectProposal/Main`, controllers.Organization_controller.viewSubmitPostProjectProposalMain);
-    router.get(`${base}/PostProjectProposal/BriefContext`, controllers.Organization_controller.viewSubmitPostProjectProposalBriefContext);
-    router.get(`${base}/PostProjectProposal/Others`, controllers.Organization_controller.viewSubmitPostProjectProposalOthers);
-    router.get(`${base}/PostProjectProposal/FinanceDocument`, controllers.Organization_controller.viewSubmitPostProjectProposalFinanceDocument);
+    router.get(`${base}/PostProjectProposal/Main/:gosmid`, controllers.Organization_controller.viewSubmitPostProjectProposalMain);
+    router.get(`${base}/PostProjectProposal/BriefContext/:gosmid`, controllers.Organization_controller.viewSubmitPostProjectProposalBriefContext);
+    router.get(`${base}/PostProjectProposal/RequiredDocument/:gosmid`, controllers.Organization_controller.viewSubmitPostProjectProposalOthers);
+    router.get(`${base}/PostProjectProposal/FinanceDocument/:gosmid`, controllers.Organization_controller.viewSubmitPostProjectProposalFinanceDocument);
 
 };
