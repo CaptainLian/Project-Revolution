@@ -303,8 +303,17 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
-
-            return res.render('Org/SubmitPostProjectProposal_financedocuments',renderData);
+            var dbParam = {
+                gosmid : req.params.gosmid
+            }
+            postProjectProposalModel.getPostProjectProposal(dbParam).then(data => {
+                renderData.status = data;
+                console.log(data);
+                return res.render('Org/SubmitPostProjectProposal_financedocuments',renderData);    
+            }).catch(err =>{
+                console.log(err);
+            })
+            
         },
         // viewSubmitPostProjectProposalBriefContext: (req, res) => {
         //     const renderData = Object.create(null);
@@ -943,7 +952,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                     });
                 //EXPENSES MAY VARY 
-                if(typeof req.body['est[]'][Symbol.iterator] == 'function'){
+                if(typeof req.files['file[]'][Symbol.iterator] == 'function'){
                     for(var ctr = 0; ctr < req.body['est[]'].length; ctr++){    
                         
                         var orignalFileName = req.files['file[]'][ctr].name;
@@ -1000,8 +1009,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                 console.log(err);
                             })
                 }
-
-                if(typeof req.body['pictureCaption[]'][Symbol.iterator] == 'function'){
+                console.log(typeof req.files['pictures[]'][Symbol.iterator] );
+                if(typeof req.files['pictures[]'][Symbol.iterator] == 'function'){
                     for(var ctr = 0; ctr < req.body['pictureCaption[]'].length; ctr++){    
                         var orignalFileName = req.files['pictures[]'][ctr].name;
                         var ftype = path.extname(orignalFileName);
@@ -1054,6 +1063,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 //PICTURES MAY VARY 
 
             }).then(data=>{
+                 return res.redirect(`/Organization/PostProjectProposal/Main/${req.body.gosmid}`)
 
             }).catch(err=>{
                 console.log("========TAST=========");

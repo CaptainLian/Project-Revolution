@@ -2052,8 +2052,11 @@ CREATE TABLE "PostProjectDirectPayment" (
   "amount" NUMERIC(12, 2),
   "paymentBy" SMALLINT REFERENCES "PostProjectDirectPaymentPayment"("id"),
   "delayedProcessing" TEXT,
-  "path_formalQuotation" TEXT,
-  "path_ROF" TEXT,
+  "fqfilename" TEXT,
+  "roffilename" TEXT,
+  "fqfilenameToShow" TEXT,
+  "roffilenameToShow" TEXT,
+  "idNumber" INTEGER REFERENCES Account(idNumber),
 
   PRIMARY KEY("GOSMActivity")
 );
@@ -2078,7 +2081,8 @@ CREATE TABLE "PostProjectReimbursement" (
   "NUCAODP" TEXT,
   "delayedProcessing" TEXT,
   "path_receipts" TEXT,
-
+  "idNumber" INTEGER REFERENCES Account(idNumber),
+  
   PRIMARY KEY("GOSMActivity")
 );
 
@@ -2088,9 +2092,9 @@ CREATE TABLE "PostProjectBookTransfer" (
   "nameOfEstablishment" VARCHAR(60),
   "amount" NUMERIC(12, 2),
   "purpose" VARCHAR(60),
-  "path_billingStatement" TEXT,
-  "path_requisitionSlip" TEXT,
-  "path_chargeSlip" TEXT,
+  "bsfilename" TEXT,
+  "bsfilenameToShow" TEXT,
+  "idNumber" INTEGER REFERENCES Account(idNumber),
 
   PRIMARY KEY ("GOSMActivity")
 );
