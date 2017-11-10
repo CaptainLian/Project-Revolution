@@ -1,6 +1,7 @@
 'use strict';
 const Promise = require('bluebird');
 const fs = require('fs');
+var cuid = require('cuid');
 
 
 module.exports = function(configuration, modules, models, database, queryFiles) {
@@ -974,6 +975,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.csrfToken = req.csrfToken();
             
             // var date = new Date().toJSON();
+
              var dir3 =__dirname+'/../assets/upload/';
              var dir3 = path.join (__dirname,'..','assets','upload');
 
@@ -1025,8 +1027,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                 // console.log(file);
                                 // console.log("file");
                                 // console.log(data[ctr].id);
-                                var d = new Date();
-                                var date = Math.round(d.getTime() / 1000);           
+                                
+                                var date = cuid();           
                                 var nFilename = file.name.split('.').pop();
                                 console.log("new File name");
                                 console.log(nFilename);
@@ -1057,9 +1059,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                               var file = req.files['uploadfile[]'];
                               var nFilename = file.name.split('.').pop();
                                 console.log("new File name");
-                                var d = new Date();
-                                var date = Math.round(d.getTime() / 1000);           
-                                console.log(nFilename);
+                                var date = cuid();     
                               var db ={
                                         projectId : req.body.activityId,
                                         requirement: data[ctr].id,
