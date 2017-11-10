@@ -972,8 +972,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
-            var d = new Date();
-            var date = Math.round(d.getTime() / 1000);           
+            
             // var date = new Date().toJSON();
             console.log(date);
              var dir3 =__dirname+'/../assets/upload/';
@@ -1027,6 +1026,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                 // console.log(file);
                                 // console.log("file");
                                 // console.log(data[ctr].id);
+                                var d = new Date();
+                                var date = Math.round(d.getTime() / 1000);           
                                 var nFilename = file.name.split('.').pop();
                                 console.log("new File name");
                                 console.log(nFilename);
@@ -1057,6 +1058,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                               var file = req.files['uploadfile[]'];
                               var nFilename = file.name.split('.').pop();
                                 console.log("new File name");
+                                var d = new Date();
+                                var date = Math.round(d.getTime() / 1000);           
                                 console.log(nFilename);
                               var db ={
                                         projectId : req.body.activityId,
