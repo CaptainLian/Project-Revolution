@@ -12,6 +12,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const deleteActivitySQL = queryFiles.deleteActivity;
     const updateActivitySQL = queryFiles.updateActivity;
     const submitGOSMSQL = queryFiles.submitGOSM;
+    const getObjectives = queryFiles.getObjectives;
     const getOrgGOSMSQL = queryFiles.getOrgGOSM;
     const query_getSubmissionYears = queryFiles.gosm_getSubmissionYears;
     const query_getAll = queryFiles.gosm_getAll;
@@ -53,6 +54,9 @@ module.exports = function(configuration, modules, db, queryFiles) {
         },
         getSchoolYear: function(connection = db) {
             return connection.one(getSchoolYearSQL);
+        },
+        getObjectives: function(param, connection = db) {
+            return connection.one(getObjectives,param);
         },
 
         getGOSMActivities: function(GOSMID, fields, connection = db) {

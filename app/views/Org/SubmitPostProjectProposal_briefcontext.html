@@ -71,6 +71,7 @@
                                 
                                     <div class="form-body">
                                     <input type="hidden" name="_csrf" value="{{csrfToken}}">
+                                    <input type="hidden" name="gosmid" value="{{id}}">
                                         <h3 class="box-title">Activity Info</h3>
                                         <hr class="m-t-0 m-b-40">
                                         <div class="row">
@@ -99,45 +100,22 @@
                                         <h3 class="box-title">Objectives(Explain how each objectives was met)</h3>
                                         <hr class="m-t-0 m-b-40">
                                         <!--/row-->
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label class="control-label col-md-4 text-left">To inspire students to be creative in their project designs with the use of Arduino</label>
-                                                    <div class="col-md-8">
-                                                        <textarea  name="obj[]" style="width: 100%" rows="3"></textarea>
+                                        {%for obj in objectives%}
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4 text-left">{{obj}}</label>
+                                                        <div class="col-md-8">
+                                                            <textarea  name="obj[]" style="width: 100%" rows="3"></textarea>
+                                                        </div>
                                                     </div>
                                                 </div>
+                                               
+
                                             </div>
-                                           
+                                        {%endfor%}
 
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label class="control-label col-md-4 text-left">To inspire students to be creative in their project designs with the use of Arduino.</label>
-                                                    <div class="col-md-8">
-                                                        <textarea name="obj[]" style="width: 100%" rows="3"></textarea>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                           
-
-                                        </div>
-                                        <!--/row-->
-
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label class="control-label col-md-4 text-left">To inspire students to be creative in their project designs with the use of Arduino.</label>
-                                                    <div class="col-md-8">
-                                                        <textarea name="obj[]" style="width: 100%" rows="3"></textarea>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                           
-
-                                        </div>
-
+                                       
 
                                         <h3 class="box-title">Learnings</h3>
                                         <hr class="m-t-0 m-b-40">

@@ -1,0 +1,3 @@
+SELECT *
+  FROM GOSMACTIVITY 
+ WHERE ID = ${gosmid}

@@ -268,10 +268,24 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
-
+            renderData.id = req.params.gosmid
+            var dbParam = {
+                gosmid:req.params.gosmid
+            }
             console.log("DATA")
             console.log(req.params);
-            return res.render('Org/SubmitPostProjectProposal_briefcontext',renderData);
+            database.task(t=>{
+                return  t.batch([
+                    gosmModel.getObjectives(dbParam)
+                    ]);
+            }).then(data => {
+                renderData.objectives = data[0].objectives;
+                console.log(renderData.objectives);
+                return res.render('Org/SubmitPostProjectProposal_briefcontext',renderData);
+            }).catch(err => {
+                console.log(err);
+            })
+            
         },
         viewSubmitPostProjectProposalOthers: (req, res) => {
             const renderData = Object.create(null);
@@ -747,41 +761,43 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
         },
         postSaveContext: (req, res) =>{
-            console.log(req.body);
+            console.log(req.params);
 
             // TODO: change id, to come from selected activity
+            var obj = req.body['obj[]'].filter(function(e){return e}); 
             var dbParam = {
-                id: 1,
-                enp: req.body.enp,
-                enmp: req.body.enmp,                
+                id: req.body.gosmid,
+                           
                 well: req.body.wentWell,
                 learning: req.body.learning,
                 develop: req.body.develop,                
                 mistakes: req.body.mistakes,
-                obj:req.body['obj[]'],
+                objectives:req.body['obj[]'],
                 isBriefContextComplete: true
             };
 
             console.log(dbParam)
+            console.log(obj.length != (req.body['obj[]']).length
+                )
+            if(  !(req.body.wentWell).trim() ||
+                !(req.body.learning).trim() ||
+                !(req.body.develop).trim() ||
+                !(req.body.learning).trim() ||
+                !(req.body.mistakes).trim() ||
+                obj.length != (req.body['obj[]']).length
+                )
+            {
 
-            // if(!(req.body.enp).trim() || 
-            //     !(req.body.enmp).trim() || 
-            //     !(req.body.well).trim() ||
-            //     !(req.body.develop).trim() ||
-            //     !(req.body.contribute).trim() ||
-            //     !(req.body.mistakes).trim() ||
-            //     !(req.body['obj[]']).trim()){
-
-            //     dbParam.isBriefContextComplete = false;
+                dbParam.isBriefContextComplete = false;
                 
-            // }
+            }
             console.log("dbParam")
             console.log(dbParam);
             postProjectProposalModel.updatePostProjectProposal(dbParam)
                                .then(data=>{
-                                    return res.redirect(`Organization/postprojectproposal/main`)
+                                    return res.redirect(`/Organization/PostProjectProposal/Main/${req.body.gosmid}`)
                                }).catch(err=>{
-                                    return res.send("Error");
+                                    console.log(err);
                                });
             
             // return res.redirect(`Organization/postprojectproposal/main/${req.bod}`)

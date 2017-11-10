@@ -1,7 +1,8 @@
-UPDATE POSTPROJECTPROPOSAL
+UPDATE "PostProjectProposal"
    SET OBJECTIVES = ${objectives},
-   	   WATTWWITA = ${well},
-   	   WWYGLIETA = ${learning},
-   	   HDTATYLCTTDOTP = ${develop},
-   	   WATTWWAWCYDTPTFHA = ${mistakes}
- WHERE GOSMACTIVITY = ${id}
+   	   "WATTTWITA" = ${well},
+   	   "WWYGLIETA" = ${learning},
+   	  	"HDTATYLCTTDOTP" = ${develop},
+   	   "WATTWWAWCYDTPTFHA" = ${mistakes},
+   	   "isBriefContextCompleted" = ${isBriefContextComplete}
+ WHERE "GOSMActivity" = ${id}

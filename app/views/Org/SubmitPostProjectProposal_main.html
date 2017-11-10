@@ -151,10 +151,10 @@
 				
 			</div>
 			<div class="list-group col-md-12">
-				<a type="button" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
+				<a type="button" onclick="(function () {window.location.href='/Organization/PostProjectProposal/BriefContext/{{activities.id}}'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
 					<div class="row">
 						<div class="col-md-6 text-left">
-						{% if activities.isBriefContextCompeleted %}
+						{% if activities.isBriefContextCompleted %}
 						<h5>Brief Context <span class="label label-success">Complete</span></h5>
 						{% else%}
 							<h5>Brief Context <span class="label label-danger">Incomplete</span></h5>
@@ -170,7 +170,7 @@
 					</div>
 				</a>                                                                       
 
-				<a type="button" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
+				<a type="button" onclick="(function () {window.location.href='/Organization/PostProjectProposal/Others/{{activities.id}}'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
 					<div class="row">
 						<div class="col-md-6 text-left">
 						{% if activities.isFinanceDocumentCompleted %}
@@ -190,7 +190,7 @@
 					</div>
 				</a>
 
-				<a type="button" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
+				<a type="button" onclick="(function () {window.location.href='/Organization/PostProjectProposal/RequiredDocument/{{activities.id}}'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
 					<div class="row">
 						<div class="col-md-6 text-left">
 							{% if activities.isOtherFinanceDocumentsCompleted %}
