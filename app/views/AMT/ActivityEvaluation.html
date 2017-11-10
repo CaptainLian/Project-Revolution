@@ -19,6 +19,7 @@
     {{tag.style('/css/animate.css')}}
     <!--alerts CSS -->
     {{tag.style('/plugins/bower_components/sweetalert/sweetalert.css')}}
+    {{tag.style('/plugins/bower_components/clockpicker/dist/jquery-clockpicker.min.css')}}
     <!-- Custom CSS -->
     {{tag.style('/plugins/bower_components/custom-select/custom-select.css')}}
     {{tag.style('/plugins/bower_components/bootstrap-select/bootstrap-select.min.css')}}
@@ -59,6 +60,7 @@
     {{tag.javascript('/js/custom.min.js', true)}}
     {{tag.javascript('/js/cbpFWTabs.js', true)}}
     <!-- tabs-->
+    {{tag.javascript('/plugins/bower_components/clockpicker/dist/jquery-clockpicker.min.js', true)}}
     {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
     <!-- Sweet-Alert  -->
     {{tag.javascript('/plugins/bower_components/sweetalert/sweetalert.min.js', true)}}    
@@ -308,12 +310,7 @@
 					</div>
 					<div class="form-actions">
 						<div class="row">
-							
-							<div class="col-md-12 text-center">
-								<button id="feedback" type="button" class="btn btn-info"> Go to Feedback</button>
-								
-							</div>
-							
+						 
 							
 						</div>
 					</div>
@@ -323,29 +320,26 @@
 			</section>
 			<section id="section-linebox-1 white-box">
 				<div class="form-body form-horizontal form-bordered white-box">
-					<div class="form-group">
-						<label class="control-label col-md-3"  style="color:#2b2b2b"> Time Started</label>
+					<div class="form-group row" >
+						<label class="control-label col-md-3 offset-md-1 col"  style="color:#2b2b2b"> Time</label>
+						<div class="input-group clockpicker col-md-6" data-autoclose="true">
+							<input name="timeStart" id="start-time" class="form-control" value="00:00" readonly="" type="text">
+							<span class=" input-group-addon bg-info b-0 text-white">
+								to
+							</span>
+							<input name="timeEnd" id="end-time" class="form-control" value="00:00" readonly="" type="text">
+						</div>
+					</div>
+					 
+					<div class="form-group row">
+						<label class="control-label col-md-3 offset-md-1"  style="color:#2b2b2b"> ANP</label>
 						<div class="input-daterange input-group col-md-6" id="date-range">
 							<input class="form-control" name="start" type="text">
 							
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-md-3"  style="color:#2b2b2b"> Time Ended</label>
-						<div class="input-daterange input-group col-md-6" id="date-range">
-							<input class="form-control" name="start" type="text">
-							
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-md-3"  style="color:#2b2b2b"> ANP</label>
-						<div class="input-daterange input-group col-md-6" id="date-range">
-							<input class="form-control" name="start" type="text">
-							
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="row">
+						<div class="row m-5">
 							<label class=" offset-md-2 control-label col-md-4" style="color:#2b2b2b">Participant #1</label>
 							<label class="control-label col-md-4" style="color:#2b2b2b"> Participant #2</label>
 						</div>
@@ -632,24 +626,25 @@
 						
 						
 					</div>
-					<div class="form-group">
-						<div class="row">
-							<div class="col-md-6 text-center">
-								<label class="col-md-12 m-b-5" style="color:#2b2b2b">Comments</label>
-								<textarea name="comment1" class="col-md-12 m-b-5"></textarea>
-								<textarea name="comment2" class="col-md-12 m-b-5"></textarea>
-								<textarea name="comment3" class="col-md-12 m-b-5"></textarea>
-							</div>
-							<div class="col-md-6 text-center">
-								<label class="col-md-12  m-b-5" style="color:#2b2b2b">Suggestion</label>
-								<textarea name="suggestion1" class="col-md-12  m-b-5"></textarea>
-								<textarea name="suggestion2" class="col-md-12  m-b-5"></textarea>
-								<textarea name="suggestion3" class="col-md-12  m-b-5"></textarea>
-							</div>
+					<div class="form-group row">
+						<label class="control-label col-md-3 offset-md-1"  style="color:#2b2b2b">Comments</label>
+						<div class="input-daterange input-group col-md-6" id="date-range">
+							<textarea name="suggestion1" class="form-control"></textarea>
+							
 						</div>
 					</div>
-					<div class="form-actions">
-						<div class="row">
+					<div class="form-group row">
+						<label class="control-label col-md-3 offset-md-1"  style="color:#2b2b2b">Suggestion</label>
+						<div class="input-daterange input-group col-md-6" id="date-range">
+							<textarea name="suggestion1" class="form-control"></textarea>
+							
+						</div>
+					</div>
+					 
+					 
+					
+					<div class="form-actions ">
+						<div class="row text-center">
 							
 							<div class="col-md-12 text-center">
 								<button type="submit" class="btn btn-success"> <i class="fa fa-pencil"></i> Submit</button>

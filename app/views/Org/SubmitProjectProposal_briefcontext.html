@@ -18,6 +18,7 @@
     {{tag.style('/plugins/bower_components/switchery/dist/switchery.min.css')}}
     {{tag.style('/plugins/bower_components/bootstrap-select/bootstrap-select.min.css')}}
     {{tag.style('/plugins/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.css')}}
+     {{tag.style('/plugins/bower_components/bootstrap-daterangepicker/daterangepicker.css')}}
     {{tag.style('/plugins/bower_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css')}}
     {{tag.style('/plugins/bower_components/multiselect/css/multi-select.css')}}
     <!-- animation CSS -->
@@ -47,6 +48,8 @@
     {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
     <!--slimscroll JavaScript -->
     {{tag.javascript('/js/jquery.slimscroll.js', true)}}
+    {{- tag.javascript('/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.js', true)}}
+    {{- tag.javascript('/plugins/bower_components/bootstrap-daterangepicker/daterangepicker.js', true)}}
     <!--Wave Effects -->
     {{tag.javascript('/plugins/bower_components/custom-select/custom-select.min.js', true)}}
     {{tag.javascript('/plugins/bower_components/bootstrap-select/bootstrap-select.min.js', true)}}
@@ -73,7 +76,22 @@
 							<div class="form-body">
 								<h3 class="box-title">Activity Info</h3>
 								<hr class="m-t-0 m-b-40">
-								<div class="row">
+								<div class="row m-t-10">
+									<div class="col-md-6">
+										 <div class="form-group">
+				                            <label class="control-label col-md-3">Actual Date</label>
+				                            <div class="input-daterange input-group col-md-9" id="date-range">
+				                                <input name="targetDateStart" id="targetDateStart" class="form-control" readonly="" placeholder="mm/dd/yyyy" name="start" type="text">
+				                                <span class="input-group-addon bg-info b-0 text-white">to</span>
+				                                <input name="targetDateEnd" id="targetDateEnd" class="form-control" readonly="" name="end" type="text" placeholder="mm/dd/yyyy">
+
+				                            </div>
+				                             
+				                        </div>
+									</div>		
+								</div>
+
+								<div class="row m-t-10">
 									<div class="col-md-6">
 										<div class="form-group">
 											<label class="control-label col-md-3">ENP</label>
@@ -120,6 +138,7 @@
 										</div>
 									</div>		
 								</div>
+								
 									<!--/row-->
 								<div class="row m-t-10">
 									<div class="col-md-6">
@@ -151,15 +170,40 @@
 									</div>		
 								<!--/span-->
 								</div>
+
+								<div class="row m-t-10">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label class="control-label col-md-3">Expense</label>
+											<div class="col-md-9">
+												<div class="radio-list">
+                                                    <label class="radio-inline p-0">
+                                                        <div class="radio radio-info">
+                                                            <input name="radio" id="radio1" value="option1" type="radio">
+                                                            <label for="radio1">Yes</label>
+                                                        </div>
+                                                    </label>
+                                                    <label class="radio-inline">
+                                                        <div class="radio radio-info">
+                                                            <input name="radio" id="radio2" value="option2" type="radio">
+                                                            <label for="radio2">No </label>
+                                                        </div>
+                                                    </label>
+                                                </div>
+											</div>
+										</div>
+									</div>		
+								<!--/span-->
+								</div>
 								<!--/row-->
 								
 								<h3 class="box-title">Context</h3>
 								<hr class="m-t-0 m-b-40">
 								<!--/row-->
 								<div class="row">
-									<div class="col-md-12">
+									<div class="col-md-12  m-t-20">
 										<div class="form-group">
-											<label class="control-label col-md-4 text-left">What are the problems you found in society that relates to your activity?</label>
+											<label class="control-label col-md-4 m text-left">What are the problems you found in society that relates to your activity?</label>
 											<div class="col-md-8">
 												<textarea style="width: 100%" rows="3" name="context1">{{projectProposal.context1}}</textarea>
 											</div>
@@ -167,7 +211,7 @@
 									</div>
 								</div>
 								<div class="row">
-									<div class="col-md-12">
+									<div class="col-md-12  m-t-20">
 										<div class="form-group">
 											<label class="control-label col-md-4 text-left">Why is there a problem? What can we discover and realize?</label>
 											<div class="col-md-8">
@@ -178,7 +222,7 @@
 								</div>
 								<!--/row-->
 								<div class="row">
-									<div class="col-md-12">
+									<div class="col-md-12  m-t-20">
 										<div class="form-group">
 											<label class="control-label col-md-4 text-left">What this activity? What will you commit in your response you have stated previously</label>
 											<div class="col-md-8">

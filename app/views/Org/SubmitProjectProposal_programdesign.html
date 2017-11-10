@@ -235,9 +235,13 @@
 													Person in Charge
 												</label>
 												<select name="personInCharge" id="sel0" class="form-control select2">
-													<option value="11445955">Delaware</option>
-													<option value="11445955">Florida</option>
-													<option value="11445955">Georgia</option>
+
+												{% for head in projectHeads %}
+
+													<option value="{{head.idnumber}}">{{head.firstname}} {{head.lastname}}</option>
+
+												{% endfor %}
+
 												</select>
 												<div>
 													<span class="help-block" id="time-help"></span>

@@ -2,5 +2,5 @@ INSERT INTO projectproposalprogramdesign (projectproposal, dayid, date, starttim
 	                              VALUES (${projectProposal}, ${dayID}, ${date}, ${startTime}, ${endTime}, ${activity}, ${activityDescription}, ${personInCharge});
 
 UPDATE projectproposal
-   SET isProgramDesignComplete=true
+   SET isProgramComplete=true
  WHERE id=${projectProposal};	                              
