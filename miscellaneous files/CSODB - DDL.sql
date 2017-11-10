@@ -28,9 +28,7 @@ $function$
 
         RETURN termID;
     END;
-$function$ STABLE LANGUAGE plpgsql;
-
-
+$function$ LANGUAGE plpgsql;
 
 
 CREATE OR REPLACE FUNCTION system_get_current_year_id()
@@ -46,9 +44,9 @@ $function$
 
         RETURN yearID;
     END;
-$function$ STABLE LANGUAGE plpgsql;
+$function$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION organization_get_highest_role_id(organization INTEGER)
+CREATE OR REPLACE FUNCTION organization_get_highest_role_id(param_organization INTEGER)
 RETURNS INTEGER AS
 $function$
     DECLARE
@@ -57,12 +55,275 @@ $function$
         SELECT id INTO roleID
           FROM OrganizationRole
          WHERE masterRole IS NULL
-         ORDER BY sequence ASC
+           AND organization = param_organization
+         ORDER BY sequence DESC
          LIMIT 1;
 
         RETURN roleID;
     END;
+$function$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION organization_get_president(organization INTEGER)
+RETURNS INTEGER AS
+$function$
+    DECLARE
+        presidentID INTEGER;
+    BEGIN
+        SELECT oo.idNumber INTO presidentID
+          FROM OrganizationOfficer oo
+         WHERE role = organization_get_highest_role_id(organization)
+         LIMIT 1;
+
+        RETURN presidentID;
+    END;
+$function$ LANGUAGE plpgsql;
+
+    CREATE OR REPLACE FUNCTION organization_get_role_id_above_account(param_IDNumber INTEGER, param_organizationID INTEGER)
+RETURNS INTEGER AS
+$function$
+    DECLARE
+        roleID INTEGER;
+    BEGIN
+        SELECT oro.masterRole INTO roleID
+          FROM OrganizationRole oro
+         WHERE oro.organization = param_organizationID
+           AND oro.id = (SELECT oo.role
+                           FROM OrganizationOfficer oo
+                          WHERE oo.idNumber = param_IDNumber
+                            AND oo.yearID = system_get_current_year_id());
+        RETURN roleID;
+    END;
+$function$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION organization_get_officers_with_role_id(roleID INTEGER)
+RETURNS TABLE (
+    idNumber INTEGER
+) AS
+$function$
+    BEGIN
+        RETURN QUERY SELECT oo.idNumber
+                       FROM OrganizationOfficer oo
+                      WHERE oo.role = roleID
+                        AND oo.yearID = system_get_current_year_id();
+    END;
+$function$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION organization_get_treasurer_signatories(organizationID INTEGER)
+RETURNS TABLE (
+    idNumber INTEGER
+) AS
+$function$
+    BEGIN
+        RETURN QUERY SELECT DISTINCT oo.idNumber
+                       FROM OrganizationOfficer oo
+                      WHERE oo.yearID = system_get_current_year_id()
+                        AND oo.role IN (SELECT DISTINCT oac.role
+                                        FROM OrganizationAccessControl oac
+                                       WHERE oac.functionality%1000 = 11)
+                        AND oo.role/10000 = organizationID;
+    END;
 $function$ STABLE LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION organization_get_documentation_signatories(organizationID INTEGER)
+RETURNS TABLE (
+    idNumber INTEGER
+) AS
+$function$
+    BEGIN
+        RETURN QUERY SELECT DISTINCT oo.idNumber
+                       FROM OrganizationOfficer oo
+                      WHERE oo.yearID = system_get_current_year_id()
+                        AND oo.role IN (SELECT DISTINCT oac.role
+                                        FROM OrganizationAccessControl oac
+                                       WHERE oac.functionality%1000 = 12)
+                        AND oo.role/10000 = organizationID;
+    END;
+$function$ STABLE LANGUAGE plpgsql;
+/*
+(104013, 'Sign Project Proposal Phase - 1'        , 104),
+(104014, 'Sign Project Proposal Phase - 2'        , 104),
+ */
+ CREATE OR REPLACE FUNCTION cso_get_first_phase_signatories()
+ RETURNS TABLE (
+     idNumber INTEGER
+ ) AS
+ $function$
+     BEGIN
+         RETURN QUERY SELECT DISTINCT oo.idNumber
+                        FROM OrganizationOfficer oo
+                       WHERE oo.yearID = system_get_current_year_id()
+                         AND oo.role IN (SELECT DISTINCT oac.role
+                                         FROM OrganizationAccessControl oac
+                                        WHERE oac.functionality%1000 = 13)
+                         AND oo.role/10000 = 0;
+     END;
+ $function$ STABLE LANGUAGE plpgsql;
+
+ CREATE OR REPLACE FUNCTION cso_get_second_phase_signatories()
+ RETURNS TABLE (
+     idNumber INTEGER
+ ) AS
+ $function$
+     BEGIN
+         RETURN QUERY SELECT DISTINCT oo.idNumber
+                        FROM OrganizationOfficer oo
+                       WHERE oo.yearID = system_get_current_year_id()
+                         AND oo.role IN (SELECT DISTINCT oac.role
+                                         FROM OrganizationAccessControl oac
+                                        WHERE oac.functionality%1000 = 14)
+                         AND oo.role/10000 = 0;
+     END;
+ $function$ STABLE LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION "GOSMActivity_get_organization"(GOSMActivityID INTEGER)
+RETURNS INTEGER AS
+$function$
+    DECLARE
+        organizationID INTEGER;
+    BEGIN
+        SELECT studentOrganization INTO organizationID
+          FROM GOSM
+         WHERE id = (SELECT GOSM
+                       FROM GOSMActivity
+                      WHERE id = GOSMActivityID);
+
+        RETURN organizationID;
+    END;
+$function$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION "GOSMActivity_get_current_term_activity_ids"()
+RETURNS TABLE (
+    id INTEGER
+) AS
+$function$
+    BEGIN
+        RETURN QUERY SELECT ga.id
+                       FROM GOSMActivity ga
+                      WHERE GOSM IN (SELECT g.id
+                                       FROM GOSM g
+                                       WHERE termId = system_get_current_term_id());
+    END;
+$function$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION "PPR_get_number_to_sign_per_account"()
+RETURNS TABLE (
+    idNumber INTEGER,
+    "numSign" BIGINT
+) AS
+$function$
+    BEGIN
+        RETURN QUERY SELECT signatory AS idNumber, COUNT(pprs.id) AS "numSign"
+                       FROM ProjectProposalSignatory pprs
+                      WHERE status = 0
+                        AND GOSMActivity IN (SELECT id
+                                             FROM "GOSMActivity_get_current_term_activity_ids"())
+                   GROUP BY pprs.signatory;
+    END;
+$function$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION "PPR_get_organization_next_treasurer_signatory"(organizationID INTEGER)
+RETURNS INTEGER AS
+$function$
+    DECLARE
+        treasurerID INTEGER;
+    BEGIN
+         WITH "OrganizationTreasurerNumSign" AS (
+             SELECT ot.idNumber, COALESCE(n."numSign", 0) AS "numSign"
+               FROM organization_get_treasurer_signatories(organizationID) ot LEFT JOIN "PPR_get_number_to_sign_per_account"() n
+                                                                                     ON ot.idNumber = n.idNumber
+         )
+          SELECT ot.idNumber INTO treasurerID
+            FROM "OrganizationTreasurerNumSign" ot
+        ORDER BY "numSign" ASC, ot.idNumber DESC
+        LIMIT 1;
+
+        RETURN treasurerID;
+    END;
+$function$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION "PPR_get_organization_next_immediate_supervisor_signatory"(preparedBy INTEGER, organizationID INTEGER)
+RETURNS INTEGER AS
+$function$
+    DECLARE
+        immediateSupervisorRoleID INTEGER;
+        immediateSupervisorID INTEGER;
+    BEGIN
+        immediateSupervisorRoleID = "organization_get_role_id_above_account"(preparedBy, organizationID);
+
+         WITH "OrganizationImmediateSupervisorNumSign" AS (
+             SELECT ot.idNumber, COALESCE(n."numSign", 0) AS "numSign"
+               FROM "organization_get_officers_with_role_id"(immediateSupervisorRoleID) ot LEFT JOIN "PPR_get_number_to_sign_per_account"() n
+                                                                                                  ON ot.idNumber = n.idNumber
+         )
+          SELECT ot.idNumber INTO immediateSupervisorID
+            FROM "OrganizationImmediateSupervisorNumSign" ot
+        ORDER BY "numSign" ASC, ot.idNumber DESC
+        LIMIT 1;
+
+        RETURN immediateSupervisorID;
+    END;
+$function$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION "PPR_get_organization_next_documentation_signatory"(organizationID INTEGER)
+RETURNS INTEGER AS
+$function$
+    DECLARE
+        documentationID INTEGER;
+    BEGIN
+         WITH "OrganizationDocumentationNumSign" AS (
+             SELECT ot.idNumber, COALESCE(n."numSign", 0) AS "numSign"
+               FROM organization_get_documentation_signatories(organizationID) ot LEFT JOIN "PPR_get_number_to_sign_per_account"() n
+                                                                                         ON ot.idNumber = n.idNumber
+         )
+         SELECT ot.idNumber INTO documentationID
+           FROM "OrganizationDocumentationNumSign" ot
+         ORDER BY "numSign" ASC, ot.idNumber DESC
+         LIMIT 1;
+
+        RETURN documentationID;
+    END;
+$function$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION "PPR_get_cso_next_first_phase_signatory"()
+RETURNS INTEGER AS
+$function$
+    DECLARE
+        csoOfficerID INTEGER;
+    BEGIN
+         WITH "CSONumSign" AS (
+             SELECT ot.idNumber, COALESCE(n."numSign", 0) AS "numSign"
+               FROM cso_get_first_phase_signatories() ot LEFT JOIN "PPR_get_number_to_sign_per_account"() n
+                                                                ON ot.idNumber = n.idNumber
+         )
+         SELECT ot.idNumber INTO csoOfficerID
+           FROM "CSONumSign" ot
+         ORDER BY "numSign" ASC, ot.idNumber DESC
+         LIMIT 1;
+
+        RETURN csoOfficerID;
+    END;
+$function$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION "PPR_get_cso_next_second_phase_signatory"()
+RETURNS INTEGER AS
+$function$
+    DECLARE
+        csoOfficerID INTEGER;
+    BEGIN
+         WITH "CSONumSign" AS (
+             SELECT ot.idNumber, COALESCE(n."numSign", 0) AS "numSign"
+               FROM cso_get_second_phase_signatories() ot LEFT JOIN "PPR_get_number_to_sign_per_account"() n
+                                                                 ON ot.idNumber = n.idNumber
+         )
+         SELECT ot.idNumber INTO csoOfficerID
+           FROM "CSONumSign" ot
+         ORDER BY "numSign" ASC, ot.idNumber DESC
+         LIMIT 1;
+
+        RETURN csoOfficerID;
+    END;
+$function$ LANGUAGE plpgsql;
+
 /*
     Helpful functions end
 */
@@ -333,7 +594,7 @@ INSERT INTO PreActivityAttachmentRequirement (activityType, attachment, optional
 VALUES (0, 0, FALSE),
        (0, 1, FALSE),
        (1, 2, FALSE),
-       (2, 3, FALSE),        
+       (2, 3, FALSE),
        (3, 4, FALSE),
        (4, 3, FALSE),
        (4, 5, FALSE),
@@ -436,7 +697,7 @@ CREATE TABLE StudentOrganization (
     description TEXT,
     funds NUMERIC(16, 4) NOT NULL DEFAULT 0.0,
     operationalFunds NUMERIC(16, 4) NOT NULL DEFAULT 0.0,
-    depositryFunds NUMERIC(16, 4) NOT NULL DEFAULT 0.0, 
+    depositryFunds NUMERIC(16, 4) NOT NULL DEFAULT 0.0,
     path_profilePicture TEXT,
 
     PRIMARY KEY (id)
@@ -448,10 +709,10 @@ DROP TABLE IF EXISTS OrganizationFacultyAdviser CASCADE;
 CREATE TABLE OrganizationFacultyAdviser (
     id SERIAL NOT NULL UNIQUE,
     organization INTEGER REFERENCES StudentOrganization(id),
-    adviser INTEGER REFERENCES Account(idNumber),
-	yearID INTEGER REFERENCES SchoolYear(id),
+    faculty INTEGER REFERENCES Account(idNumber),
+	yearID INTEGER REFERENCES SchoolYear(id) DEFAULT system_get_current_year_id(),
 
-	PRIMARY KEY(organization, adviser, yearID)
+	PRIMARY KEY(organization, faculty, yearID)
 );
     /* Organization Structure */
 DROP TABLE IF EXISTS OrganizationRole CASCADE;
@@ -716,6 +977,7 @@ CREATE TRIGGER before_update_Functionality
     EXECUTE PROCEDURE trigger_before_update_Functionality();
 
 INSERT INTO Functionality (id, name, category)
+                -- NUMBER ONE RULE IN THIS TABLE, NEVER UPDATE, DELETE, OR CHANGE THE NUMBERS OR THE SYSTEM DIES
                    VALUES (211000, 'Submit GOSM'                        , 211),
                           (211001, 'Resubmit GOSM'                      , 211),
                           (104002, 'Evaluate GOSM'                      , 104),
@@ -730,8 +992,8 @@ INSERT INTO Functionality (id, name, category)
                           -- PPR Signing
                           (211011, 'Sign Project Proposal as Treasurer'     , 211),
                           (211012, 'Sign Project Proposal as Documentations', 211),
-                          (104013, 'Sign Project Proposal as APS - AVC'     , 104),
-                          (104014, 'Sign Project Proposal as APS -  VC'     , 104),
+                          (104013, 'Sign Project Proposal Phase - 1'        , 104),
+                          (104014, 'Sign Project Proposal Phase - 2'        , 104),
                           (211015, 'Force Sign Project Proposal'            , 211);
 /*
 INSERT INTO Functionality (id, name, category)
@@ -848,8 +1110,9 @@ INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       (    5,        003008,      TRUE),
                                       (   21,        003008,      TRUE),
                                       -- SIGN PPR
-                                      (   11,        104014,      TRUE),
-                                      (   12,        104013,      TRUE);
+                                      (   13,        104013,      TRUE),
+                                      (   12,        104014,      TRUE);
+
 /* Organization Default Structure */
 
 CREATE OR REPLACE FUNCTION trigger_after_insert_StudentOrganization()
@@ -920,7 +1183,7 @@ $trigger$
                                       VALUES  (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
                                               (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE),
                                               -- Sign PPR as Treasurer
-                                              (vpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 11)), TRUE);
+                                              (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 11)), TRUE);
 
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole, home_url, rank)
                              VALUES (NEW.id, 'Associate Vice President of Finance', FALSE, vpfRoleID, '/Organization/treasurer/dashboard', 30)
@@ -1243,7 +1506,7 @@ CREATE TABLE ProjectProposal (
     organizationFundOtherSource NUMERIC(16, 4),
     comments TEXT,
     preparedBy INTEGER REFERENCES Account(idNumber),
-    facultyAdviser INTEGER REFERENCES Account(idNumber),
+    facultyAdviser INTEGER NOT NULL REFERENCES Account(idNumber),
     dateCreated TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     dateSubmitted TIMESTAMP WITH TIME ZONE,
     dateStatusModified TIMESTAMP WITH TIME ZONE,
@@ -1464,72 +1727,64 @@ CREATE TABLE SignatoryType (
 );
 INSERT INTO SignatoryType (id, name)
                    VALUES ( 0, 'Project Head'),
-                   		    ( 1, 'Treasurer/Finance Officer'), -- VP
-                   		    ( 2, 'Immediate Superior'), -- 1 step higher
-                   		    ( 3, 'President'), 
-                   		    ( 4, 'Faculty Adviser'), --
-                          ( 5, 'Documentation Officer'), -- VP 
+                   		  ( 1, 'Treasurer/Finance Officer'), -- VP
+                   		  ( 2, 'Immediate Superior'), -- 1 step higher
+                   		  ( 3, 'President'),
+                   		  ( 4, 'Faculty Adviser'), --
+                          ( 5, 'Documentation Officer'), -- VP
                           ( 6, 'APS - AVC'), -- Pwedeng Madami
-                          ( 7, 'APS -  VC'); -- 
+                          ( 7, 'APS -  VC'); --
 
 DROP TABLE IF EXISTS ProjectProposalSignatory CASCADE;
 CREATE TABLE ProjectProposalSignatory (
   id SERIAL UNIQUE,
-	GOSMActivity INTEGER REFERENCES ProjectProposal(GOSMActivity),
+  GOSMActivity INTEGER REFERENCES ProjectProposal(GOSMActivity),
   signatory INTEGER REFERENCES Account(idNumber),
   type SMALLINT NOT NULL REFERENCES SignatoryType(id),
   status SMALLINT NOT NULL REFERENCES SignatoryStatus(id) DEFAULT 0,
   comments TEXT,
-	document JSONB,
-	digitalSignature TEXT,
-	dateSigned TIMESTAMP WITH TIME ZONE,
+  document JSONB,
+  digitalSignature TEXT,
+  dateSigned TIMESTAMP WITH TIME ZONE,
 
-	PRIMARY KEY(GOSMActivity, signatory, type)
+  PRIMARY KEY(GOSMActivity, signatory, type)
 );
 
 CREATE OR REPLACE FUNCTION trigger_after_insert_ProjectProposal_signatories()
 RETURNS trigger AS
 $trigger$
     DECLARE
+        organization INTEGER;
         organizationPresident INTEGER;
     BEGIN
-      INSERT INTO ProjectProposalSignatory (GOSMActivity, signatory, type)
-        SELECT NEW.GOSMActivity, idNumber, 0
-         FROM GOSMActivityProjectHead
-        WHERE activityID = NEW.GOSMActivity;
+        organization = "GOSMActivity_get_organization"(NEW.GOSMActivity);
 
-
-    /*
-        -- ALL PROJECT HEADS
         INSERT INTO ProjectProposalSignatory (GOSMActivity, signatory, type)
-             SELECT NEW.GOSMActivity, idNumber, 0
-               FROM GOSMActivityProjectHead
-              WHERE activityID = NEW.GOSMActivity;
+            SELECT NEW.GOSMActivity, idNumber, 0
+              FROM GOSMActivityProjectHead
+             WHERE activityID = NEW.GOSMActivity;
 
-        -- TREASURER
-        INSERT INTO ProjectProposalSignatory (GOSMActivity, type)
-             VALUES (NEW.GOSMActivity, 1);
+         INSERT INTO ProjectProposalSignatory (GOSMActivity, signatory, type)
+              VALUES (NEW.GOSMActivity, "PPR_get_organization_next_treasurer_signatory"(organization),1);
 
-        -- Immediate Superior of who prepared the PPR
-        INSERT INTO ProjectProposalSignatory (GOSMActivity, type)
-             VALUES (NEW.GOSMActivity, 2);
+        INSERT INTO ProjectProposalSignatory (GOSMActivity, signatory, type)
+             VALUES (NEW.GOSMActivity, "PPR_get_organization_next_immediate_supervisor_signatory"(NEW.preparedBy, organization), 2);
 
-         -- Organization President
-        INSERT INTO ProjectProposalSignatory (GOSMActivity, type)
-             VALUES (NEW.GOSMActivity, 3);
+        INSERT INTO ProjectProposalSignatory (GOSMActivity, signatory, type)
+             VALUES (NEW.GOSMActivity, organization_get_president(organization), 3);
 
-        -- Faculty Adviser
-        INSERT INTO ProjectProposalSignatory (GOSMActivity, type)
-             VALUES (NEW.GOSMActivity, 4);
+        INSERT INTO ProjectProposalSignatory (GOSMActivity, signatory, type)
+             VALUES (NEW.GOSMActivity, NEW.facultyAdviser, 4);
 
-         -- Documentation Officer
-        INSERT INTO ProjectProposalSignatory (GOSMActivity, type)
-             VALUES (NEW.GOSMActivity, 5);
+        INSERT INTO ProjectProposalSignatory (GOSMActivity, signatory, type)
+             VALUES (NEW.GOSMActivity, organization_get_documentation_signatories(organization), 5);
 
-        -- CSO Officer
-        INSERT INTO ProjectProposalSignatory (GOSMActivity, type)
-             VALUES (NEW.GOSMActivity, 6);
-*/
+        INSERT INTO ProjectProposalSignatory (GOSMActivity, signatory, type)
+            VALUES (NEW.GOSMActivity, "PPR_get_cso_next_first_phase_signatory"(), 6);
+
+        INSERT INTO ProjectProposalSignatory (GOSMActivity, signatory, type)
+            VALUES (NEW.GOSMActivity, "PPR_get_cso_next_second_phase_signatory"(), 7);
+
         RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;

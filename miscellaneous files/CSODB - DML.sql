@@ -286,7 +286,7 @@ INSERT INTO OrganizationOfficer (idNumber, role, yearID)
                          VALUES (1111111, 10023, system_get_current_year_id());
 
 INSERT INTO Account (email, idNumber, password, firstname, lastname, contactNumber, publicKey, privateKey, type)
-             VALUES ('org_vp@dlsu.edu.ph', 22222222, '1234', 'Organization', 'VP - Documentation', '+63 9228474849', '-----BEGIN PUBLIC KEY-----
+             VALUES ('org_vp@dlsu.edu.ph', 2222222, '1234', 'Organization', 'VP - Finance', '+63 9228474849', '-----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArdjmjQSvYOuZD4w1J3oD
 AZyWknSkIEebVNh5T563AtBoEfkSYfhW+MaumUBkJNt40Cl8Zp/wpy53cFwMHQ/L
 vO9VMTogiysoeSLzjdNspEnWapZlcp+XPXRD9TDVwGxKHeF81eAeDpHwV7G42EFo
@@ -323,26 +323,224 @@ BtfxKI72NnSS70p1VAzKACZXwMRR5RRhOz75s1bJ3JK18AMSRc3r
 -----END RSA PRIVATE KEY-----', 1);
 
 INSERT INTO OrganizationOfficer (idNumber, role, yearID)
-                         VALUES (22222222, 10023, system_get_current_year_id());
+                         VALUES (2222222, 10029, system_get_current_year_id());
+
+
+INSERT INTO Account (email, idNumber, password, firstname, lastname, contactNumber, publicKey, privateKey, type)
+              VALUES ('org_avp@dlsu.edu.ph', 3333333, '1234', 'Organization', 'AVP - Finance', '+63 9228474849', '-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArdjmjQSvYOuZD4w1J3oD
+AZyWknSkIEebVNh5T563AtBoEfkSYfhW+MaumUBkJNt40Cl8Zp/wpy53cFwMHQ/L
+vO9VMTogiysoeSLzjdNspEnWapZlcp+XPXRD9TDVwGxKHeF81eAeDpHwV7G42EFo
+IV9HUW47kk0jljqmoRbWfcCD9ryjaz9DGiBoV5lhxpQSF5JhydYgt1B+Z5m602fC
+acZCR7jf817RtmUxbRxHmwUMd73GJwVIgzQkG+HoyUeyRDbtbJJDlJs+NsV5f5xU
+I9dE3OxApAimpcEOKCezzH0vEB498mgLbi9ZQdyyeCJZRnJHmVbyWdSdmc1TiZYQ
+zQIDAQAB
+-----END PUBLIC KEY-----', '-----BEGIN RSA PRIVATE KEY-----
+MIIEowIBAAKCAQEArdjmjQSvYOuZD4w1J3oDAZyWknSkIEebVNh5T563AtBoEfkS
+YfhW+MaumUBkJNt40Cl8Zp/wpy53cFwMHQ/LvO9VMTogiysoeSLzjdNspEnWapZl
+cp+XPXRD9TDVwGxKHeF81eAeDpHwV7G42EFoIV9HUW47kk0jljqmoRbWfcCD9ryj
+az9DGiBoV5lhxpQSF5JhydYgt1B+Z5m602fCacZCR7jf817RtmUxbRxHmwUMd73G
+JwVIgzQkG+HoyUeyRDbtbJJDlJs+NsV5f5xUI9dE3OxApAimpcEOKCezzH0vEB49
+8mgLbi9ZQdyyeCJZRnJHmVbyWdSdmc1TiZYQzQIDAQABAoIBAB1+BG678rywe0Dl
++kZ+LnBhjjG+U/Gd9D4Kk1nshQOXM3CJHpM8PBTsL8aT4+lUykQWJaKLU5opCd4n
+3242tcuRlpRJVigF5FHYmhTfXzjnxdZDOWaeqFumk7jO1hRUyqYTEMh/wtmZ7HoU
+DlWxkubGcSThXH3PVFAyFv6RD0Y50A4em/2ObFeyOavBlmXNwxdXkeWJCtWDlDdU
+ebM6ZKufJwKQ6EJitFPRyKo7XQWTGNJ9TYtX0Hp4w0wFG6OOF6bsZJ3Jh73fJhqE
+mlLrvC1v5wsJUCojXrzBjGl2uMNL01m+AXwKLY23XSP828cZvAfQAR7x4w9XlYzZ
+z87zNwECgYEA+eBhZS9RDJEIxxlc8ubzFiIaHMtYNK4y3XLtj2nTxYRTRkUuZWCZ
+AfqfdwXzOUGDR5/ViEfAUOwKpoqJT5dW1CU7iAQFcI1l8zXt9l/EAvc3IsN36pBV
+rGRdfYDZdxPweRU4skehUcj5WBewl7hWzIRqxEPbaDoBpxCbKeXNqe0CgYEAshuL
+gKLwJkbPqn/383g9WrUTHKxz39G00mTiTWe73uqcaoo13QBmJWxUwLYvGyFeEeWg
+rU1BSYJpC/yi+rd/C/cCIVcX3U+3/NDLPj4NqllW8kbCx76bVUAL/o4W4M1CXnI7
+FLcUbF+bKOwMhMK1JI3OY0Kf0/Zos6jBgXE9pmECgYBWNc8EjQ2mi0d/AcYq2/mU
+clGWC6Y0DsHn22YQ688vv1bH0MiQG4LOxvxLoVboMy0rAf83FKJKiRWnnfZ/6lP/
+v5TJebGywmYhQkMGlMXYzBhOuyfdWszkPIBw84qT5eI6tFKqV8JVqEQ2232G6wev
+aiQ38L17OUAmtrkB/JI3hQKBgH4YHjWeJaMTsuYk3yhR0i4r0DIWrZqh3wCtR8JB
+VLLHKqIK44NpSufnwEEHOmZcwzqsdYr8DOK8Hx7LZ59U1e9kmu97t3uJetrT/3A7
+gnU99t5j1naPrW03gMZhVjUlXH19JfLOgvkO3sykAWDkcFZGxv1jJ8BqzUmUihrY
+TytBAoGBAI/ER2xg4RY59hEr0ST9tIwpV/4r6S6bDAiCsFmfMMfU4U7TPocfouMY
+BXKAD/glJ44EL4z82axYP0LA6Abe/pfkc8dwWsEAayYjYV+8qzQ7mtHRKxmLxHTm
+BtfxKI72NnSS70p1VAzKACZXwMRR5RRhOz75s1bJ3JK18AMSRc3r
+-----END RSA PRIVATE KEY-----', 1);
+
+INSERT INTO OrganizationOfficer (idNumber, role, yearID)
+                         VALUES (3333333, 10026, system_get_current_year_id());
+
+INSERT INTO Account (email, idNumber, password, firstname, lastname, contactNumber, publicKey, privateKey, type)
+            VALUES ('faculty_adviser1@dlsu.edu.ph', 4444444, '1234', 'Faculty', 'Adviser', '+63 9228474849', '-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArdjmjQSvYOuZD4w1J3oD
+AZyWknSkIEebVNh5T563AtBoEfkSYfhW+MaumUBkJNt40Cl8Zp/wpy53cFwMHQ/L
+vO9VMTogiysoeSLzjdNspEnWapZlcp+XPXRD9TDVwGxKHeF81eAeDpHwV7G42EFo
+IV9HUW47kk0jljqmoRbWfcCD9ryjaz9DGiBoV5lhxpQSF5JhydYgt1B+Z5m602fC
+acZCR7jf817RtmUxbRxHmwUMd73GJwVIgzQkG+HoyUeyRDbtbJJDlJs+NsV5f5xU
+I9dE3OxApAimpcEOKCezzH0vEB498mgLbi9ZQdyyeCJZRnJHmVbyWdSdmc1TiZYQ
+zQIDAQAB
+-----END PUBLIC KEY-----', '-----BEGIN RSA PRIVATE KEY-----
+MIIEowIBAAKCAQEArdjmjQSvYOuZD4w1J3oDAZyWknSkIEebVNh5T563AtBoEfkS
+YfhW+MaumUBkJNt40Cl8Zp/wpy53cFwMHQ/LvO9VMTogiysoeSLzjdNspEnWapZl
+cp+XPXRD9TDVwGxKHeF81eAeDpHwV7G42EFoIV9HUW47kk0jljqmoRbWfcCD9ryj
+az9DGiBoV5lhxpQSF5JhydYgt1B+Z5m602fCacZCR7jf817RtmUxbRxHmwUMd73G
+JwVIgzQkG+HoyUeyRDbtbJJDlJs+NsV5f5xUI9dE3OxApAimpcEOKCezzH0vEB49
+8mgLbi9ZQdyyeCJZRnJHmVbyWdSdmc1TiZYQzQIDAQABAoIBAB1+BG678rywe0Dl
++kZ+LnBhjjG+U/Gd9D4Kk1nshQOXM3CJHpM8PBTsL8aT4+lUykQWJaKLU5opCd4n
+3242tcuRlpRJVigF5FHYmhTfXzjnxdZDOWaeqFumk7jO1hRUyqYTEMh/wtmZ7HoU
+DlWxkubGcSThXH3PVFAyFv6RD0Y50A4em/2ObFeyOavBlmXNwxdXkeWJCtWDlDdU
+ebM6ZKufJwKQ6EJitFPRyKo7XQWTGNJ9TYtX0Hp4w0wFG6OOF6bsZJ3Jh73fJhqE
+mlLrvC1v5wsJUCojXrzBjGl2uMNL01m+AXwKLY23XSP828cZvAfQAR7x4w9XlYzZ
+z87zNwECgYEA+eBhZS9RDJEIxxlc8ubzFiIaHMtYNK4y3XLtj2nTxYRTRkUuZWCZ
+AfqfdwXzOUGDR5/ViEfAUOwKpoqJT5dW1CU7iAQFcI1l8zXt9l/EAvc3IsN36pBV
+rGRdfYDZdxPweRU4skehUcj5WBewl7hWzIRqxEPbaDoBpxCbKeXNqe0CgYEAshuL
+gKLwJkbPqn/383g9WrUTHKxz39G00mTiTWe73uqcaoo13QBmJWxUwLYvGyFeEeWg
+rU1BSYJpC/yi+rd/C/cCIVcX3U+3/NDLPj4NqllW8kbCx76bVUAL/o4W4M1CXnI7
+FLcUbF+bKOwMhMK1JI3OY0Kf0/Zos6jBgXE9pmECgYBWNc8EjQ2mi0d/AcYq2/mU
+clGWC6Y0DsHn22YQ688vv1bH0MiQG4LOxvxLoVboMy0rAf83FKJKiRWnnfZ/6lP/
+v5TJebGywmYhQkMGlMXYzBhOuyfdWszkPIBw84qT5eI6tFKqV8JVqEQ2232G6wev
+aiQ38L17OUAmtrkB/JI3hQKBgH4YHjWeJaMTsuYk3yhR0i4r0DIWrZqh3wCtR8JB
+VLLHKqIK44NpSufnwEEHOmZcwzqsdYr8DOK8Hx7LZ59U1e9kmu97t3uJetrT/3A7
+gnU99t5j1naPrW03gMZhVjUlXH19JfLOgvkO3sykAWDkcFZGxv1jJ8BqzUmUihrY
+TytBAoGBAI/ER2xg4RY59hEr0ST9tIwpV/4r6S6bDAiCsFmfMMfU4U7TPocfouMY
+BXKAD/glJ44EL4z82axYP0LA6Abe/pfkc8dwWsEAayYjYV+8qzQ7mtHRKxmLxHTm
+BtfxKI72NnSS70p1VAzKACZXwMRR5RRhOz75s1bJ3JK18AMSRc3r
+-----END RSA PRIVATE KEY-----', 2);
+
+INSERT INTO OrganizationFacultyAdviser (organization, faculty, yearID)
+                                VALUES (           1, 4444444, system_get_current_year_id());
+
+INSERT INTO Account (email, idNumber, password, firstname, lastname, contactNumber, publicKey, privateKey, type)
+            VALUES ('docu_vp@dlsu.edu.ph', 5555555, '1234', 'Organization', 'VP - Docu', '+63 9228474849', '-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArdjmjQSvYOuZD4w1J3oD
+AZyWknSkIEebVNh5T563AtBoEfkSYfhW+MaumUBkJNt40Cl8Zp/wpy53cFwMHQ/L
+vO9VMTogiysoeSLzjdNspEnWapZlcp+XPXRD9TDVwGxKHeF81eAeDpHwV7G42EFo
+IV9HUW47kk0jljqmoRbWfcCD9ryjaz9DGiBoV5lhxpQSF5JhydYgt1B+Z5m602fC
+acZCR7jf817RtmUxbRxHmwUMd73GJwVIgzQkG+HoyUeyRDbtbJJDlJs+NsV5f5xU
+I9dE3OxApAimpcEOKCezzH0vEB498mgLbi9ZQdyyeCJZRnJHmVbyWdSdmc1TiZYQ
+zQIDAQAB
+-----END PUBLIC KEY-----', '-----BEGIN RSA PRIVATE KEY-----
+MIIEowIBAAKCAQEArdjmjQSvYOuZD4w1J3oDAZyWknSkIEebVNh5T563AtBoEfkS
+YfhW+MaumUBkJNt40Cl8Zp/wpy53cFwMHQ/LvO9VMTogiysoeSLzjdNspEnWapZl
+cp+XPXRD9TDVwGxKHeF81eAeDpHwV7G42EFoIV9HUW47kk0jljqmoRbWfcCD9ryj
+az9DGiBoV5lhxpQSF5JhydYgt1B+Z5m602fCacZCR7jf817RtmUxbRxHmwUMd73G
+JwVIgzQkG+HoyUeyRDbtbJJDlJs+NsV5f5xUI9dE3OxApAimpcEOKCezzH0vEB49
+8mgLbi9ZQdyyeCJZRnJHmVbyWdSdmc1TiZYQzQIDAQABAoIBAB1+BG678rywe0Dl
++kZ+LnBhjjG+U/Gd9D4Kk1nshQOXM3CJHpM8PBTsL8aT4+lUykQWJaKLU5opCd4n
+3242tcuRlpRJVigF5FHYmhTfXzjnxdZDOWaeqFumk7jO1hRUyqYTEMh/wtmZ7HoU
+DlWxkubGcSThXH3PVFAyFv6RD0Y50A4em/2ObFeyOavBlmXNwxdXkeWJCtWDlDdU
+ebM6ZKufJwKQ6EJitFPRyKo7XQWTGNJ9TYtX0Hp4w0wFG6OOF6bsZJ3Jh73fJhqE
+mlLrvC1v5wsJUCojXrzBjGl2uMNL01m+AXwKLY23XSP828cZvAfQAR7x4w9XlYzZ
+z87zNwECgYEA+eBhZS9RDJEIxxlc8ubzFiIaHMtYNK4y3XLtj2nTxYRTRkUuZWCZ
+AfqfdwXzOUGDR5/ViEfAUOwKpoqJT5dW1CU7iAQFcI1l8zXt9l/EAvc3IsN36pBV
+rGRdfYDZdxPweRU4skehUcj5WBewl7hWzIRqxEPbaDoBpxCbKeXNqe0CgYEAshuL
+gKLwJkbPqn/383g9WrUTHKxz39G00mTiTWe73uqcaoo13QBmJWxUwLYvGyFeEeWg
+rU1BSYJpC/yi+rd/C/cCIVcX3U+3/NDLPj4NqllW8kbCx76bVUAL/o4W4M1CXnI7
+FLcUbF+bKOwMhMK1JI3OY0Kf0/Zos6jBgXE9pmECgYBWNc8EjQ2mi0d/AcYq2/mU
+clGWC6Y0DsHn22YQ688vv1bH0MiQG4LOxvxLoVboMy0rAf83FKJKiRWnnfZ/6lP/
+v5TJebGywmYhQkMGlMXYzBhOuyfdWszkPIBw84qT5eI6tFKqV8JVqEQ2232G6wev
+aiQ38L17OUAmtrkB/JI3hQKBgH4YHjWeJaMTsuYk3yhR0i4r0DIWrZqh3wCtR8JB
+VLLHKqIK44NpSufnwEEHOmZcwzqsdYr8DOK8Hx7LZ59U1e9kmu97t3uJetrT/3A7
+gnU99t5j1naPrW03gMZhVjUlXH19JfLOgvkO3sykAWDkcFZGxv1jJ8BqzUmUihrY
+TytBAoGBAI/ER2xg4RY59hEr0ST9tIwpV/4r6S6bDAiCsFmfMMfU4U7TPocfouMY
+BXKAD/glJ44EL4z82axYP0LA6Abe/pfkc8dwWsEAayYjYV+8qzQ7mtHRKxmLxHTm
+BtfxKI72NnSS70p1VAzKACZXwMRR5RRhOz75s1bJ3JK18AMSRc3r
+-----END RSA PRIVATE KEY-----', 2);
+INSERT INTO OrganizationOfficer (idNumber, role, yearID)
+                         VALUES (5555555, 10027, system_get_current_year_id());
+
+INSERT INTO Account (email, idNumber, password, firstname, lastname, contactNumber, publicKey, privateKey, type)
+         VALUES ('aps_vc@dlsu.edu.ph', 6666666, '1234', 'CSO', 'VC - APS', '+63 9228474849', '-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArdjmjQSvYOuZD4w1J3oD
+AZyWknSkIEebVNh5T563AtBoEfkSYfhW+MaumUBkJNt40Cl8Zp/wpy53cFwMHQ/L
+vO9VMTogiysoeSLzjdNspEnWapZlcp+XPXRD9TDVwGxKHeF81eAeDpHwV7G42EFo
+IV9HUW47kk0jljqmoRbWfcCD9ryjaz9DGiBoV5lhxpQSF5JhydYgt1B+Z5m602fC
+acZCR7jf817RtmUxbRxHmwUMd73GJwVIgzQkG+HoyUeyRDbtbJJDlJs+NsV5f5xU
+I9dE3OxApAimpcEOKCezzH0vEB498mgLbi9ZQdyyeCJZRnJHmVbyWdSdmc1TiZYQ
+zQIDAQAB
+-----END PUBLIC KEY-----', '-----BEGIN RSA PRIVATE KEY-----
+MIIEowIBAAKCAQEArdjmjQSvYOuZD4w1J3oDAZyWknSkIEebVNh5T563AtBoEfkS
+YfhW+MaumUBkJNt40Cl8Zp/wpy53cFwMHQ/LvO9VMTogiysoeSLzjdNspEnWapZl
+cp+XPXRD9TDVwGxKHeF81eAeDpHwV7G42EFoIV9HUW47kk0jljqmoRbWfcCD9ryj
+az9DGiBoV5lhxpQSF5JhydYgt1B+Z5m602fCacZCR7jf817RtmUxbRxHmwUMd73G
+JwVIgzQkG+HoyUeyRDbtbJJDlJs+NsV5f5xUI9dE3OxApAimpcEOKCezzH0vEB49
+8mgLbi9ZQdyyeCJZRnJHmVbyWdSdmc1TiZYQzQIDAQABAoIBAB1+BG678rywe0Dl
++kZ+LnBhjjG+U/Gd9D4Kk1nshQOXM3CJHpM8PBTsL8aT4+lUykQWJaKLU5opCd4n
+3242tcuRlpRJVigF5FHYmhTfXzjnxdZDOWaeqFumk7jO1hRUyqYTEMh/wtmZ7HoU
+DlWxkubGcSThXH3PVFAyFv6RD0Y50A4em/2ObFeyOavBlmXNwxdXkeWJCtWDlDdU
+ebM6ZKufJwKQ6EJitFPRyKo7XQWTGNJ9TYtX0Hp4w0wFG6OOF6bsZJ3Jh73fJhqE
+mlLrvC1v5wsJUCojXrzBjGl2uMNL01m+AXwKLY23XSP828cZvAfQAR7x4w9XlYzZ
+z87zNwECgYEA+eBhZS9RDJEIxxlc8ubzFiIaHMtYNK4y3XLtj2nTxYRTRkUuZWCZ
+AfqfdwXzOUGDR5/ViEfAUOwKpoqJT5dW1CU7iAQFcI1l8zXt9l/EAvc3IsN36pBV
+rGRdfYDZdxPweRU4skehUcj5WBewl7hWzIRqxEPbaDoBpxCbKeXNqe0CgYEAshuL
+gKLwJkbPqn/383g9WrUTHKxz39G00mTiTWe73uqcaoo13QBmJWxUwLYvGyFeEeWg
+rU1BSYJpC/yi+rd/C/cCIVcX3U+3/NDLPj4NqllW8kbCx76bVUAL/o4W4M1CXnI7
+FLcUbF+bKOwMhMK1JI3OY0Kf0/Zos6jBgXE9pmECgYBWNc8EjQ2mi0d/AcYq2/mU
+clGWC6Y0DsHn22YQ688vv1bH0MiQG4LOxvxLoVboMy0rAf83FKJKiRWnnfZ/6lP/
+v5TJebGywmYhQkMGlMXYzBhOuyfdWszkPIBw84qT5eI6tFKqV8JVqEQ2232G6wev
+aiQ38L17OUAmtrkB/JI3hQKBgH4YHjWeJaMTsuYk3yhR0i4r0DIWrZqh3wCtR8JB
+VLLHKqIK44NpSufnwEEHOmZcwzqsdYr8DOK8Hx7LZ59U1e9kmu97t3uJetrT/3A7
+gnU99t5j1naPrW03gMZhVjUlXH19JfLOgvkO3sykAWDkcFZGxv1jJ8BqzUmUihrY
+TytBAoGBAI/ER2xg4RY59hEr0ST9tIwpV/4r6S6bDAiCsFmfMMfU4U7TPocfouMY
+BXKAD/glJ44EL4z82axYP0LA6Abe/pfkc8dwWsEAayYjYV+8qzQ7mtHRKxmLxHTm
+BtfxKI72NnSS70p1VAzKACZXwMRR5RRhOz75s1bJ3JK18AMSRc3r
+-----END RSA PRIVATE KEY-----', 2);
+INSERT INTO OrganizationOfficer (idNumber, role, yearID)
+                         VALUES (6666666, 12, system_get_current_year_id());
+
+INSERT INTO Account (email, idNumber, password, firstname, lastname, contactNumber, publicKey, privateKey, type)
+      VALUES ('aps_avc@dlsu.edu.ph', 7777777, '1234', 'CSO', 'AVC - APS', '+63 9228474849', '-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArdjmjQSvYOuZD4w1J3oD
+AZyWknSkIEebVNh5T563AtBoEfkSYfhW+MaumUBkJNt40Cl8Zp/wpy53cFwMHQ/L
+vO9VMTogiysoeSLzjdNspEnWapZlcp+XPXRD9TDVwGxKHeF81eAeDpHwV7G42EFo
+IV9HUW47kk0jljqmoRbWfcCD9ryjaz9DGiBoV5lhxpQSF5JhydYgt1B+Z5m602fC
+acZCR7jf817RtmUxbRxHmwUMd73GJwVIgzQkG+HoyUeyRDbtbJJDlJs+NsV5f5xU
+I9dE3OxApAimpcEOKCezzH0vEB498mgLbi9ZQdyyeCJZRnJHmVbyWdSdmc1TiZYQ
+zQIDAQAB
+-----END PUBLIC KEY-----', '-----BEGIN RSA PRIVATE KEY-----
+MIIEowIBAAKCAQEArdjmjQSvYOuZD4w1J3oDAZyWknSkIEebVNh5T563AtBoEfkS
+YfhW+MaumUBkJNt40Cl8Zp/wpy53cFwMHQ/LvO9VMTogiysoeSLzjdNspEnWapZl
+cp+XPXRD9TDVwGxKHeF81eAeDpHwV7G42EFoIV9HUW47kk0jljqmoRbWfcCD9ryj
+az9DGiBoV5lhxpQSF5JhydYgt1B+Z5m602fCacZCR7jf817RtmUxbRxHmwUMd73G
+JwVIgzQkG+HoyUeyRDbtbJJDlJs+NsV5f5xUI9dE3OxApAimpcEOKCezzH0vEB49
+8mgLbi9ZQdyyeCJZRnJHmVbyWdSdmc1TiZYQzQIDAQABAoIBAB1+BG678rywe0Dl
++kZ+LnBhjjG+U/Gd9D4Kk1nshQOXM3CJHpM8PBTsL8aT4+lUykQWJaKLU5opCd4n
+3242tcuRlpRJVigF5FHYmhTfXzjnxdZDOWaeqFumk7jO1hRUyqYTEMh/wtmZ7HoU
+DlWxkubGcSThXH3PVFAyFv6RD0Y50A4em/2ObFeyOavBlmXNwxdXkeWJCtWDlDdU
+ebM6ZKufJwKQ6EJitFPRyKo7XQWTGNJ9TYtX0Hp4w0wFG6OOF6bsZJ3Jh73fJhqE
+mlLrvC1v5wsJUCojXrzBjGl2uMNL01m+AXwKLY23XSP828cZvAfQAR7x4w9XlYzZ
+z87zNwECgYEA+eBhZS9RDJEIxxlc8ubzFiIaHMtYNK4y3XLtj2nTxYRTRkUuZWCZ
+AfqfdwXzOUGDR5/ViEfAUOwKpoqJT5dW1CU7iAQFcI1l8zXt9l/EAvc3IsN36pBV
+rGRdfYDZdxPweRU4skehUcj5WBewl7hWzIRqxEPbaDoBpxCbKeXNqe0CgYEAshuL
+gKLwJkbPqn/383g9WrUTHKxz39G00mTiTWe73uqcaoo13QBmJWxUwLYvGyFeEeWg
+rU1BSYJpC/yi+rd/C/cCIVcX3U+3/NDLPj4NqllW8kbCx76bVUAL/o4W4M1CXnI7
+FLcUbF+bKOwMhMK1JI3OY0Kf0/Zos6jBgXE9pmECgYBWNc8EjQ2mi0d/AcYq2/mU
+clGWC6Y0DsHn22YQ688vv1bH0MiQG4LOxvxLoVboMy0rAf83FKJKiRWnnfZ/6lP/
+v5TJebGywmYhQkMGlMXYzBhOuyfdWszkPIBw84qT5eI6tFKqV8JVqEQ2232G6wev
+aiQ38L17OUAmtrkB/JI3hQKBgH4YHjWeJaMTsuYk3yhR0i4r0DIWrZqh3wCtR8JB
+VLLHKqIK44NpSufnwEEHOmZcwzqsdYr8DOK8Hx7LZ59U1e9kmu97t3uJetrT/3A7
+gnU99t5j1naPrW03gMZhVjUlXH19JfLOgvkO3sykAWDkcFZGxv1jJ8BqzUmUihrY
+TytBAoGBAI/ER2xg4RY59hEr0ST9tIwpV/4r6S6bDAiCsFmfMMfU4U7TPocfouMY
+BXKAD/glJ44EL4z82axYP0LA6Abe/pfkc8dwWsEAayYjYV+8qzQ7mtHRKxmLxHTm
+BtfxKI72NnSS70p1VAzKACZXwMRR5RRhOz75s1bJ3JK18AMSRc3r
+-----END RSA PRIVATE KEY-----', 2);
+INSERT INTO OrganizationOfficer (idNumber, role, yearID)
+                      VALUES (7777777, 13, system_get_current_year_id());
 
 INSERT INTO GOSM (termID, studentOrganization)
-           VALUES ((SELECT id
-                      FROM TERM
-                     WHERE CURRENT_DATE BETWEEN dateStart AND dateEnd), 2);
+           VALUES (system_get_current_term_id(), 1);
 UPDATE GOSM
    SET status = 2
- WHERE id = 200001;
+ WHERE id%100000 = 1;
 
 
 INSERT INTO GOSMActivity (gosm, goals, objectives, strategies, description, measures, targetDateStart, targetDateEnd, ActivityNature, ActivityType, isRelatedToOrganizationNature, budget)
-                    VALUES (200001, 'Goal Mo to', '{"Objectives", "Mo", "To"}', 'Strategies Mo to', 'Descibe kita', 'Measure mo to :)', '2017-9-6', '2017-9-6', 1, 2, false, 999.99);
+                    VALUES ((SELECT id FROM GOSM WHERE id%100000 = 1 LIMIT 1), 'Goal Mo to', '{"Objectives", "Mo", "To"}', 'Strategies Mo to', 'Descibe kita', 'Measure mo to :)', '2017-9-6', '2017-9-6', 1, 2, false, 999.99);
+INSERT INTO GOSMActivityProjectHead (idNumber, activityID)
+                             VALUES (3333333, (SELECT id FROM GOSMActivity WHERE gosm%100000 = 1 LIMIT 1));
 
-INSERT INTO ProjectProposal (GOSMActivity, ENP, ENMP, venue, context1, context2, context3, sourceFundOther, sourceFundParticipantFee, sourceFundOrganizational, accumulatedOperationalFunds, accumulatedDepositoryFunds, comments)
-                     VALUES ((SELECT id FROM GOSMActivity WHERE gosm = 200001 LIMIT 1), 1, 1, 0, 'Context kita', 'Context parin kita', 'Context ulit kita',69.69, 69.69, 69.69, 69.69, 69.69, 'Comments ko toh');
+INSERT INTO ProjectProposal (facultyAdviser, preparedBy, GOSMActivity, ENP, ENMP, venue, context1, context2, context3, sourceFundOther, sourceFundParticipantFee, sourceFundOrganizational, accumulatedOperationalFunds, accumulatedDepositoryFunds, comments)
+                     VALUES (4444444, 3333333, (SELECT id FROM GOSMActivity WHERE gosm%100000 = 1 LIMIT 1), 1, 1, 0, 'Context kita', 'Context parin kita', 'Context ulit kita',69.69, 69.69, 69.69, 69.69, 69.69, 'Comments ko toh');
+
 UPDATE ProjectProposal
-SET status = 2
+   SET status = 2
 WHERE id = 1;
-
 
 INSERT INTO ProjectProposalExpenses (projectProposal, material, quantity, unitCost)
                               VALUES(1, 'Boyfriend Material 1', 7, 60.0000);
@@ -350,8 +548,5 @@ INSERT INTO ProjectProposalExpenses (projectProposal, material, quantity, unitCo
                               VALUES(1, 'Boyfriend Material 2', 80, 60.0000);
 
 
-INSERT INTO GOSMActivityProjectHead (idNumber, activityID)
-                             VALUES (11445955, 1);
-INSERT INTO GOSMActivityProjectHead (idNumber, activityID)
-                             VALUES (11445952, 1);
+
 COMMIT;
