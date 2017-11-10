@@ -1001,7 +1001,53 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             })
                 }
 
-                if(typeof req.body['est[]'][Symbol.iterator] == 'function'){
+                if(typeof req.body['pictureCaption[]'][Symbol.iterator] == 'function'){
+                    for(var ctr = 0; ctr < req.body['pictureCaption[]'].length; ctr++){    
+                        var orignalFileName = req.files['pictures[]'][ctr].name;
+                        var ftype = path.extname(orignalFileName);
+                        console.log(ftype);
+                        var fname = cuid()+ftype;
+                        var pictureParam = {
+                            gosmid: req.body.gosmid,
+                            filename : ftype,
+                            filenameToShow:req.files['pictures[]'].name,
+                            idNumber:req.session.user.idNumber,
+                            description: req.body["pictureCaption[]"][ctr]
+                        }
+                        var p = path.join(dir5,fname);
+                        Promise.all([
+                                req.files['pictures[]'][ctr].mv(p),
+                                postProjectProposalModel.insertPostProjectProposalEventPictures(pictureParam,t)
+                            ]).then(result =>{
+
+                            }).catch(err =>{
+                                console.log("========PROMISE=========");
+                                console.log(err);
+                            })
+
+                    }
+                }else{
+                     var orignalFileName = req.files['pictures[]'].name;
+                        var ftype = path.extname(orignalFileName);
+                        console.log(ftype);
+                        var fname = cuid()+ftype;
+                        var pictureParam = {
+                            gosmid: req.body.gosmid,
+                            filename : ftype,
+                            filenameToShow:req.files['pictures[]'].name,
+                            idNumber:req.session.user.idNumber,
+                            description: req.body["pictureCaption[]"]
+                        }
+                        var p = path.join(dir5,fname);
+                        Promise.all([
+                                req.files['pictures[]'].mv(p),
+                                postProjectProposalModel.insertPostProjectProposalEventPictures(pictureParam,t)
+                            ]).then(result =>{
+
+                            }).catch(err =>{
+                                console.log("========PROMISE=========");
+                                console.log(err);
+                            })
 
                 }
 

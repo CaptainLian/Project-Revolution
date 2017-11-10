@@ -2007,7 +2007,10 @@ CREATE TABLE "PostProjectProposalEventPicture" (
   "id" SERIAL UNIQUE,
   "GOSMActivity" INTEGER REFERENCES "PostProjectProposal"("GOSMActivity"),
   "sequence" INTEGER NOT NULL DEFAULT -1,
-  "path_file" TEXT,
+  "filename" TEXT,
+  "filenameToShow" TEXT,
+  "description" TEXT,
+  "idNumber" INTEGER REFERENCES Account(idNumber),
 
   PRIMARY KEY("GOSMActivity", "sequence")
 );

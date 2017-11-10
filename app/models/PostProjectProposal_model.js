@@ -15,6 +15,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const insertPostExpense = queryFiles.insertPostExpense;
     const insertPostProjectProposalGals = queryFiles.insertPostProjectProposalGals;
     const updatePostProjectProposalFinanceDocumentStatus = queryFiles.updatePostProjectProposalFinanceDocumentStatus;
+    const insertPostProjectProposalEventPictures = queryFiles.insertPostProjectProposalEventPictures;
 
 
 	return {
@@ -26,6 +27,9 @@ module.exports = function(configuration, modules, db, queryFiles) {
         },
         insertPostProjectProposalGals:function (param, connection = db) {
             return connection.none(insertPostProjectProposalGals, param);
+        },
+        insertPostProjectProposalEventPictures:function (param, connection = db) {
+            return connection.none(insertPostProjectProposalEventPictures, param);
         },
     	insertPostProjectProposal:function (param, connection = db) {
         	return connection.one(insertPostProjectProposal, param);
