@@ -286,7 +286,7 @@ INSERT INTO OrganizationOfficer (idNumber, role, yearID)
                          VALUES (1111111, 10023, system_get_current_year_id());
 
 INSERT INTO Account (email, idNumber, password, firstname, lastname, contactNumber, publicKey, privateKey, type)
-             VALUES ('org_vp@dlsu.edu.ph', 22222222, '1234', 'Organization', 'VP - Documentation', '+63 9228474849', '-----BEGIN PUBLIC KEY-----
+             VALUES ('org_vp@dlsu.edu.ph', 2222222, '1234', 'Organization', 'VP - Finance', '+63 9228474849', '-----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArdjmjQSvYOuZD4w1J3oD
 AZyWknSkIEebVNh5T563AtBoEfkSYfhW+MaumUBkJNt40Cl8Zp/wpy53cFwMHQ/L
 vO9VMTogiysoeSLzjdNspEnWapZlcp+XPXRD9TDVwGxKHeF81eAeDpHwV7G42EFo
@@ -323,7 +323,7 @@ BtfxKI72NnSS70p1VAzKACZXwMRR5RRhOz75s1bJ3JK18AMSRc3r
 -----END RSA PRIVATE KEY-----', 1);
 
 INSERT INTO OrganizationOfficer (idNumber, role, yearID)
-                         VALUES (22222222, 10023, system_get_current_year_id());
+                         VALUES (2222222, 10029, system_get_current_year_id());
 
 INSERT INTO GOSM (termID, studentOrganization)
            VALUES ((SELECT id

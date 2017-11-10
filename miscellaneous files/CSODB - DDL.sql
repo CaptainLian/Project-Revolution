@@ -31,8 +31,6 @@ $function$
 $function$ STABLE LANGUAGE plpgsql;
 
 
-
-
 CREATE OR REPLACE FUNCTION system_get_current_year_id()
 RETURNS INTEGER AS
 $function$
@@ -48,6 +46,7 @@ $function$
     END;
 $function$ STABLE LANGUAGE plpgsql;
 
+
 CREATE OR REPLACE FUNCTION organization_get_highest_role_id(organization INTEGER)
 RETURNS INTEGER AS
 $function$
@@ -61,6 +60,90 @@ $function$
          LIMIT 1;
 
         RETURN roleID;
+    END;
+$function$ STABLE LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION organization_get_treasurer_signatories(organizationID INTEGER)
+RETURNS TABLE (
+    idNumber INTEGER
+) AS
+$function$
+    BEGIN
+        RETURN QUERY SELECT DISTINCT oo.idNumber
+                       FROM OrganizationOfficer oo
+                      WHERE yearID = system_get_current_year_id()
+                        AND role IN (SELECT DISTINCT role
+                                        FROM OrganizationAccessControl
+                                       WHERE functionality%1000 = 11)
+                        AND role/10000 = organizationID;
+    END;
+$function$ STABLE LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION "GOSMActivity_get_organization"(GOSMActivityID INTEGER)
+RETURNS INTEGER AS
+$function$
+    DECLARE
+        organizationID INTEGER;
+    BEGIN
+        SELECT studentOrganization INTO organizationID
+          FROM GOSM
+         WHERE id = (SELECT GOSM
+                       FROM GOSMActivity
+                      WHERE id = GOSMActivityID);
+
+        RETURN organizationID;
+    END;
+$function$ STABLE LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION "GOSMActivity_get_current_term_activity_ids"()
+RETURNS TABLE (
+    id INTEGER
+) AS
+$function$
+    BEGIN
+        RETURN QUERY SELECT ga.id
+                       FROM GOSMActivity ga
+                      WHERE GOSM IN (SELECT g.id
+                                       FROM GOSM g
+                                       WHERE termId = system_get_current_term_id());
+    END;
+$function$ STABLE LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION "PPR_get_organization_next_treasurer_signatory"(organizationID INTEGER)
+RETURNS INTEGER AS
+$function$
+    DECLARE
+        treasurerID INTEGER;
+    BEGIN
+         WITH "OrganizationTreasurerNumSign" AS (
+             SELECT ot.idNumber, COALESCE(n."numSign", 0) AS "numSign"
+               FROM organization_get_treasurer_signatories(1) ot LEFT JOIN "PPR_get_number_to_sign_per_account"() n
+                                                                        ON ot.idNumber = n.idNumber
+         )
+         SELECT ot.idNumber INTO treasurerID
+           FROM "OrganizationTreasurerNumSign" ot
+          WHERE "numSign" = (SELECT MIN("numSign")
+                               FROM "OrganizationTreasurerNumSign")
+        ORDER BY ot.idNumber DESC
+        LIMIT 1;
+
+        RETURN treasurerID;
+    END;
+$function$ STABLE LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION "PPR_get_number_to_sign_per_account"()
+RETURNS TABLE (
+    idNumber INTEGER,
+    "numSign" BIGINT
+) AS
+$function$
+    BEGIN
+        RETURN QUERY SELECT signatory AS idNumber, COUNT(pprs.id) AS "numSign"
+                       FROM ProjectProposalSignatory pprs
+                      WHERE status = 0
+                        AND GOSMActivity IN (SELECT id
+                                             FROM "GOSMActivity_get_current_term_activity_ids"())
+                   GROUP BY pprs.signatory;
     END;
 $function$ STABLE LANGUAGE plpgsql;
 /*
@@ -333,7 +416,7 @@ INSERT INTO PreActivityAttachmentRequirement (activityType, attachment, optional
 VALUES (0, 0, FALSE),
        (0, 1, FALSE),
        (1, 2, FALSE),
-       (2, 3, FALSE),        
+       (2, 3, FALSE),
        (3, 4, FALSE),
        (4, 3, FALSE),
        (4, 5, FALSE),
@@ -436,7 +519,7 @@ CREATE TABLE StudentOrganization (
     description TEXT,
     funds NUMERIC(16, 4) NOT NULL DEFAULT 0.0,
     operationalFunds NUMERIC(16, 4) NOT NULL DEFAULT 0.0,
-    depositryFunds NUMERIC(16, 4) NOT NULL DEFAULT 0.0, 
+    depositryFunds NUMERIC(16, 4) NOT NULL DEFAULT 0.0,
     path_profilePicture TEXT,
 
     PRIMARY KEY (id)
@@ -920,7 +1003,7 @@ $trigger$
                                       VALUES  (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
                                               (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE),
                                               -- Sign PPR as Treasurer
-                                              (vpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 11)), TRUE);
+                                              (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 11)), TRUE);
 
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole, home_url, rank)
                              VALUES (NEW.id, 'Associate Vice President of Finance', FALSE, vpfRoleID, '/Organization/treasurer/dashboard', 30)
@@ -1464,13 +1547,13 @@ CREATE TABLE SignatoryType (
 );
 INSERT INTO SignatoryType (id, name)
                    VALUES ( 0, 'Project Head'),
-                   		    ( 1, 'Treasurer/Finance Officer'), -- VP
-                   		    ( 2, 'Immediate Superior'), -- 1 step higher
-                   		    ( 3, 'President'), 
-                   		    ( 4, 'Faculty Adviser'), --
-                          ( 5, 'Documentation Officer'), -- VP 
+                   		  ( 1, 'Treasurer/Finance Officer'), -- VP
+                   		  ( 2, 'Immediate Superior'), -- 1 step higher
+                   		  ( 3, 'President'),
+                   		  ( 4, 'Faculty Adviser'), --
+                          ( 5, 'Documentation Officer'), -- VP
                           ( 6, 'APS - AVC'), -- Pwedeng Madami
-                          ( 7, 'APS -  VC'); -- 
+                          ( 7, 'APS -  VC'); --
 
 DROP TABLE IF EXISTS ProjectProposalSignatory CASCADE;
 CREATE TABLE ProjectProposalSignatory (
@@ -1491,24 +1574,23 @@ CREATE OR REPLACE FUNCTION trigger_after_insert_ProjectProposal_signatories()
 RETURNS trigger AS
 $trigger$
     DECLARE
+        organization INTEGER;
         organizationPresident INTEGER;
     BEGIN
-      INSERT INTO ProjectProposalSignatory (GOSMActivity, signatory, type)
-        SELECT NEW.GOSMActivity, idNumber, 0
-         FROM GOSMActivityProjectHead
-        WHERE activityID = NEW.GOSMActivity;
+        organization = "GOSMActivity_get_organization"(NEW.GOSMActivity);
 
+        INSERT INTO ProjectProposalSignatory (GOSMActivity, signatory, type)
+            SELECT NEW.GOSMActivity, idNumber, 0
+              FROM GOSMActivityProjectHead
+             WHERE activityID = NEW.GOSMActivity;
+
+         INSERT INTO ProjectProposalSignatory (GOSMActivity, signatory, type)
+              VALUES (NEW.GOSMActivity, "PPR_get_organization_next_treasurer_signatory"(organization),1);
 
     /*
         -- ALL PROJECT HEADS
-        INSERT INTO ProjectProposalSignatory (GOSMActivity, signatory, type)
-             SELECT NEW.GOSMActivity, idNumber, 0
-               FROM GOSMActivityProjectHead
-              WHERE activityID = NEW.GOSMActivity;
-
         -- TREASURER
-        INSERT INTO ProjectProposalSignatory (GOSMActivity, type)
-             VALUES (NEW.GOSMActivity, 1);
+
 
         -- Immediate Superior of who prepared the PPR
         INSERT INTO ProjectProposalSignatory (GOSMActivity, type)
