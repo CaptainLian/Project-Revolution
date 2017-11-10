@@ -974,7 +974,6 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.csrfToken = req.csrfToken();
             
             // var date = new Date().toJSON();
-            console.log(date);
              var dir3 =__dirname+'/../assets/upload/';
              var dir3 = path.join (__dirname,'..','assets','upload');
 
