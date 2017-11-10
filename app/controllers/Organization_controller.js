@@ -11,6 +11,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     const postProjectProposalModel = models.PostProjectProposal_model;
     const gosmModel = models.gosmModel;
     const logger = modules.logger;
+    const path = require('path');
+
     const log_options = Object.create(null);
     log_options.from = 'Organization-Controller';
 
@@ -312,11 +314,41 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         // },
 
         viewSubmitProjectProposalExpense: (req, res) => {
-            const renderData = Object.create(null);
-            renderData.extra_data = req.extra_data;
-            renderData.csrfToken = req.csrfToken();
 
-            return res.render('Org/SubmitProjectProposal_expense', renderData);
+            const orgID = req.session.user.organizationSelected.id;
+
+            console.log("OrgID is");
+            console.log(orgID);
+
+            var dbParam = {
+                    gosmactivity: req.params.id,
+                    orgId: orgID
+            };
+
+            database.task(task=>{
+                return task.batch([
+                    projectProposalModel.getProjectProposal(dbParam),
+                    projectProposalModel.getProjectProposalExpenses(req.params.id)                    
+                ]);
+            })
+            .then(data=>{
+
+                const renderData = Object.create(null);
+                renderData.extra_data = req.extra_data;
+                renderData.csrfToken = req.csrfToken();
+                renderData.gosmactivity = dbParam;
+                renderData.projectProposal = data[0];
+                renderData.exoenses = data[1];
+
+                console.log(renderData.gosmactivity);
+                console.log(renderData.projectProposal);
+            
+                return res.render('Org/SubmitProjectProposal_expense', renderData);
+            }).catch(error=>{
+                console.log(error);
+            });
+
+
         },
 
         viewSubmitProjectProposalProgramDesign: (req, res) => {
@@ -331,21 +363,38 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     orgId: orgID
             };
 
-            projectProposalModel.getProjectProposal(dbParam)
+
+            database.task(task =>{
+                return task.batch([
+                    projectProposalModel.getProjectProposal(dbParam),
+                    gosmModel.getGOSMActivityProjectHeads(dbParam),
+                    projectProposalModel.getProjectProposalProgramDesign(req.params.id, [
+                        'pppd.dayid AS dayid',
+                        "to_char(pppd.date, 'Mon DD, YYYY') AS date",
+                        "to_char(pppd.starttime + CURRENT_DATE, 'HH:MI') AS starttime",
+                        "to_char(pppd.endtime + CURRENT_DATE, 'HH:MI') AS endtime",
+                        'pppd.activity AS activity',
+                        'pppd.activitydescription AS activitydescription',
+                        'pppd.personincharge AS personincharge'
+                    ])
+                ]);
+            })
             .then(data=>{
 
                 const renderData = Object.create(null);
                 renderData.extra_data = req.extra_data;
                 renderData.csrfToken = req.csrfToken();
                 renderData.gosmactivity = dbParam;
-                renderData.projectProposal = data;
+                renderData.projectProposal = data[0];
+                renderData.projectHeads = data[1];
+                renderData.programDesign = data[2];
 
                 console.log(renderData.gosmactivity);
                 console.log(renderData.projectProposal);
 
                 return res.render('Org/SubmitProjectProposal_programdesign',renderData);
             }).catch(error=>{
-
+                console.log(error);
             });
 
         },
@@ -746,6 +795,14 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 
             }
 
+            if (!(req.body.enp).trim()){
+                dbParam.enp=null;
+            }
+
+            if (!(req.body.enmp).trim()){
+                dbParam.enmp=null;
+            }
+
             console.log(req.params.id);
 
             console.log(dbParam);
@@ -829,8 +886,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             console.log(keys);
 
             var dbParam = {
-                projectproposal: req.body.gid
-            }
+                projectproposal: req.body.pid
+            };
 
             projectProposalModel.deleteProgramDesign(dbParam)
             .then(data=>{
@@ -840,51 +897,85 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             });
 
             var index = 0;
-            for (var item in sched){
-                console.log(sched[item].length);
 
-                for (var i = 0; i < sched[item].length; i++){
+            database.tx(transaction=>{
 
-                    console.log(sched[item][i]);
+                for (var item in sched){
+                    console.log(sched[item].length);
 
-                    var dbParam = {
-                        projectProposal: req.body.pid,
-                        dayID: index,
-                        date: item,
-                        startTime: sched[item][i].start,
-                        endTime: sched[item][i].end,
-                        activity: sched[item][i].act,
-                        activityDescription: sched[item][i].desc,
-                        personInCharge: sched[item][i].person
-                    };
+                    for (var i = 0; i < sched[item].length; i++){
 
-                    projectProposalModel.insertProjectProposalDesign(dbParam)
-                    .then(data=>{
+                        console.log(sched[item][i]);
 
-                    }).catch(error=>{
-                        console.log(error);
-                    });
+                        let dateSplit = item.split("/");
 
-                    
+                        var dbParam = {
+                            projectProposal: req.body.pid,
+                            dayID: index,
+                            date: "'" + dateSplit[2] + "-" + dateSplit[0] + "-" + dateSplit[1] + "'",
+                            startTime: sched[item][i].start,
+                            endTime: sched[item][i].end,
+                            activity: sched[item][i].act,
+                            activityDescription: sched[item][i].desc,
+                            personInCharge: sched[item][i].person
+                        };
+
+                        console.log("DBPARAM");
+                        console.log(dbParam);
+
+
+                        projectProposalModel.insertProjectProposalDesign(dbParam, transaction)
+                        .then(data=>{
+
+                        }).catch(error=>{
+                            console.log(error);
+                        });
+
+                        
+                    }
+                    index++;
                 }
-                index++;
-            }
+
+            });
+
+            console.log("INDEX IS");
+            console.log(index);
 
             if (index == 0){
 
-                var dbParam = {
-                    id: req.body.pid
+                console.log("ENTERS EMPTY");
+
+                var param = {
+                    id: req.body.pid,
+                    status: false
                 };
 
-                projectProposalModel.updateIsProgramDesignComplete(dbParam)
+                projectProposalModel.updateIsProgramDesignComplete(param)
                 .then(data=>{
 
                 }).catch(error=>{
                     console.log(error);
                 });
+            } 
+            else {
+
+                console.log("ENTERS");
+
+                var param = {
+                    id: req.body.pid,
+                    status: true
+                };
+
+                projectProposalModel.updateIsProgramDesignComplete(param)
+                .then(data=>{
+
+                }).catch(error=>{
+                    console.log(error);
+                });
+
             }
 
-
+            return res.send("1");
          },
 
         savePPR:(req, res)=>{
@@ -916,10 +1007,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             console.log("HERE");
             console.log(req.body);
 
-
-            // TODO: change id, to come from the selected activity
             var dbParam = {
-                id: 1,
+                id: req.params.ppr,
                 accumulatedOperationalFunds: req.body.ope,
                 accumulatedDepositoryFunds: req.body.dep,
                 organizationFundOtherSource: req.body.otherfunds,
@@ -929,34 +1018,44 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 isExpenseComplete: true
             };
 
+            console.log(req.body['item[]'].length);
+
             projectProposalModel.updatePPRExpenses(dbParam);
 
-            // TODO: change id, to come from selected activity            
             var dbParam2 = {
-                projectproposal: 1
+                projectproposal: req.params.ppr
             };
+
             projectProposalModel.deleteExpenses(dbParam2);
 
-            for (var i; i < req.body.item.length-1; i++){
+            database.tx(transaction=>{
 
-                // TODO: change id, to come from selected activity            
-                var dbParam3 = {
-                    projectProposal: 1,
-                    material: req.body.item[i],
-                    quantity: req.body.quantity[i],
-                    unitCost: req.body.price[i],
-                    type: req.body.typeOfItem[i]
-                };
+                for (var i = 0; i < req.body['item[]'].length-1; i++){
 
-                projectProposalModel.insertProjectProposalExpenses(dbParam3)
-                .then(data=>{
+                    var dbParam3 = {
+                        projectProposal: req.params.ppr,
+                        material: req.body['item[]'][i],
+                        quantity: req.body['quantity[]'][i],
+                        unitCost: req.body['price[]'][i],
+                        type: req.body['typeOfItem[]'][i]
+                    };
 
-                }).catch(error=>{
-                    console.log(error);
-                });
-            }
+                    console.log("ENTERS LOOP");
+                    console.log(dbParam3);
 
+                    projectProposalModel.insertProjectProposalExpenses(dbParam3, transaction)
+                    .then(data=>{
 
+                    }).catch(error=>{
+                        console.log(error);
+                    });
+                }
+
+            });
+
+            
+
+            res.redirect(`/Organization/ProjectProposal/Main/${req.params.id}/1`);
 
         },
 
@@ -1026,7 +1125,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                 console.log("FILE");
                                 console.log(dir2 + date +' - '+ file.name);
                                 Promise.all([
-                                            file.mv(dir2 + date +' - '+ file.name),
+                                            file.mv(path.normalize(path.join(dir2 , date +' - '+ file.name))),
                                             projectProposalModel.insertProjectProposalAttachment(db)
 
                                             ]).then(result=>{
@@ -1050,7 +1149,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                 console.log("FILE");
                                 console.log(dir2 + date +' - '+ file.name);
                                 Promise.all([
-                                            file.mv(dir2 + date +' - '+ file.name),
+                                            file.mv(path.normalize(path.join(dir2 , date +' - '+ file.name))),
                                             projectProposalModel.insertProjectProposalAttachment(db)
 
                                             ]).then(result=>{
