@@ -11,6 +11,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
 	const updatePostProjectProposal = queryFiles.updatePostProjectProposal;
 	const getPostActsToImplement = queryFiles.getPostActsToImplement;
     const getPostProjectProposalMain = queryFiles.getPostProjectProposalMain;
+    const getPostBriefContext = queryFiles.getPostBriefContext;
 
 
 	return {
@@ -20,6 +21,9 @@ module.exports = function(configuration, modules, db, queryFiles) {
     	insertPostProjectProposal:function (param, connection = db) {
         	return connection.one(insertPostProjectProposal, param);
     	},
+        getPostBriefContext:function (param, connection = db) {
+            return connection.one(getPostBriefContext, param);
+        },
     	getPostActsToImplement:function (param, connection = db) {
         	return connection.any(getPostActsToImplement, param);
     	},

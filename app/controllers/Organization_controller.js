@@ -276,11 +276,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             console.log(req.params);
             database.task(t=>{
                 return  t.batch([
-                    gosmModel.getObjectives(dbParam)
+                    gosmModel.getObjectives(dbParam),
+                    postProjectProposalModel.getPostBriefContext(dbParam)
                     ]);
             }).then(data => {
                 renderData.objectives = data[0].objectives;
-                console.log(renderData.objectives);
+                renderData.save =  data[1];
+                console.log(renderData.save);
                 return res.render('Org/SubmitPostProjectProposal_briefcontext',renderData);
             }).catch(err => {
                 console.log(err);
