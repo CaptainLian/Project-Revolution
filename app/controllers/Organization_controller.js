@@ -975,16 +975,20 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             var date = new Date().toJSON();
             console.log(date);
              var dir3 =__dirname+'/../assets/upload/';
+             var dir3 = path.join (__dirname,'..','assets','upload');
+
             //CHECK IF DIRECTOR EXIST
             if (!fs.existsSync(dir3)){
                 fs.mkdirSync(dir3);
             }
             var dir =__dirname+'/../assets/upload/preacts/';
+            var dir = path.join (__dirname,'..','assets','upload','preacts');
             //CHECK IF DIRECTOR EXIST
             if (!fs.existsSync(dir)){
                 fs.mkdirSync(dir);
             }
             var dir2 = __dirname+'/../assets/upload/preacts/'+req.session.user.idNumber+'/';
+            var dir2 = path.join (__dirname,'..','assets','upload','preacts',req.session.user.idNumber+"");
             //CHECK IF DIRECTOR EXIST
             if (!fs.existsSync(dir2)){
                 fs.mkdirSync(dir2);
@@ -1033,8 +1037,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                     };
                                 console.log("FILE");
                                 console.log(path.normalize(path.join(dir2 , date +' - '+ file.name)));
+                                var p = path.normalize(path.join(dir2 , date +' - '+ file.name));
                                 Promise.all([
-                                            file.mv(path.normalize(path.join(dir2 , date +' - '+ file.name))),
+                                            file.mv(p),
                                             projectProposalModel.insertProjectProposalAttachment(db)
 
                                             ]).then(result=>{
@@ -1056,9 +1061,10 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                                     };
                                 console.log("FILE");
+                                var p = path.normalize(path.join(dir2 , date +' - '+ file.name));
                                 console.log(path.normalize(path.join(dir2 , date +' - '+ file.name)));
                                 Promise.all([
-                                            file.mv(path.normalize(path.join(dir2 , date +' - '+ file.name))),
+                                            file.mv(p),
                                             projectProposalModel.insertProjectProposalAttachment(db)
 
                                             ]).then(result=>{
