@@ -293,7 +293,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
-
+            renderData.id = req.params.gosmid;
             return res.render('Org/SubmitPostProjectProposal_others',renderData);
         },
         viewSubmitPostProjectProposalFinanceDocument: (req, res) => {
@@ -802,6 +802,20 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                     console.log(err);
                                });
             
+            // return res.redirect(`Organization/postprojectproposal/main/${req.bod}`)
+        },
+        postSaveExpenses: (req, res) =>{
+            console.log(req.body);
+            console.log(req.files);
+
+            if(typeof req.files['uploadfile[]'][Symbol.iterator] == 'function'){
+
+            }else{
+
+            }
+
+            // TODO: change id, to come from selected activity
+         
             // return res.redirect(`Organization/postprojectproposal/main/${req.bod}`)
         },
 

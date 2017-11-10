@@ -66,7 +66,7 @@
 {%endblock%}
 
 {%block content%}
-<form action="/Organization/PostProjectProposal/SaveExpenses" class="form-horizontal">
+<form action="/Organization/PostProjectProposal/SaveExpenses" method="POST"  encType="multipart/form-data" class="form-horizontal">
 <input type="hidden" name="_csrf" value="{{csrfToken}}">
 <input type="hidden" name="gosmid" value="{{id}}">
 <div class="row">
