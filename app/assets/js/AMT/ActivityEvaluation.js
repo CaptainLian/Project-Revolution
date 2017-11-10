@@ -13,3 +13,11 @@ $("#feedback").click(function() {
     });
 
 })();
+var clockpicker = $('#start-time').clockpicker({
+    donetext: 'Done',
+    autoclose: true,
+});
+var clockpicker2 = $('#end-time').clockpicker({
+    donetext: 'Done',
+    autoclose: true,
+});
