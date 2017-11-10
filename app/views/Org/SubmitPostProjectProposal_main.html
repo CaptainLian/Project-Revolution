@@ -65,11 +65,15 @@
 	<div class="col-md-12">
 		<div class="">
 			<div class="col-md-6 col-xs-12">
-				<h3>Doms</h3>
+				<h3>{{activities.strategies}}</h3>
 				<hr>
 				<p>
 					<b class="col-md-4 col-xs-2  text-left">Date:</b>  
-					Sep 06, 2017 - Sep 06, 2017
+					{% if activities.datestart != activities.dateend%}
+						{{activities.datestart}} - {{activities.dateend}}
+					{%else%}
+						{{activities.datestart}}
+					{%endif%}
 				</p>
 				
 				<p>
@@ -79,30 +83,69 @@
 
 				<p>
 					<b class="col-md-12  text-left">Project Heads:</b> 
-					<p class="offset-md-4 offset-xs-2">Neil Capistrano</p>
-					<p class="offset-md-4 offset-xs-2">Neil Capistrano</p>
+					{%for ph in projectHeads%}
+						<p class="offset-md-4 offset-xs-2">{{ph.firstname}} {{ph.middlename}} {{ph.lastname}}</p>	
+					{%endfor%}
+					
+					
 				</p>
 				<div>
 					
 				</div>
 			</div>
 			<div class="col-md-6 text-right">
-				<h3>Completion Rate: 80%</h3>
+				<h3>Completion Rate: 
+					{% set completionRate = 0 %}
+
+					{% if activities.isBriefContextCompleted %}
+
+						{% set completionRate = completionRate + 33.3 %}
+
+					{% endif %}
+
+					{% if activities.isFinanceDocumenCompleted %}
+
+						{% set completionRate = completionRate + 33.3 %}
+
+					{% endif %}
+
+					{% if activities.isOtherFinanceDocumentsCompleted %}
+
+						{% set completionRate = completionRate + 33.3 %}
+
+					{% endif %}
+
+				{{completionRate | round(1)}}
+				%</h3>
 				<hr>
 				<p>
 					<b class="col-md-10  text-right"> Brief Context:</b>  
-					100%
+					{% if activities.isBriefContextCompleted %}
+
+						100%
+					{% else%}
+					 	0%
+					{% endif %}
+
 				</p>
 				
 				<p>
-					<b class="col-md-10  text-right"> Program Schedule :</b> 
-					0%
+					<b class="col-md-10  text-right"> Required Document:</b> 
+					{% if activities.isFinanceDocumenCompleted %}
+						100%
+					{% else%}
+						0%
+					{% endif %}
 				</p>
 
 				<p>
-					<b class="col-md-10 text-right">Funding Expense:</b> 
+					<b class="col-md-10 text-right">Finance Document:</b> 
 					
-					100%
+					{% if activities.isOtherFinanceDocumentsCompleted %}
+						100%
+					{% else%}
+						0%
+					{% endif %}
 				</p>
 
 				
@@ -111,7 +154,12 @@
 				<a type="button" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
 					<div class="row">
 						<div class="col-md-6 text-left">
-							<h5>Brief Context <span class="label label-success">Complete</span></h5>
+						{% if activities.isBriefContextCompeleted %}
+						<h5>Brief Context <span class="label label-success">Complete</span></h5>
+						{% else%}
+							<h5>Brief Context <span class="label label-danger">Incomplete</span></h5>
+						{% endif %}
+							
 						</div>
 						
 						
@@ -125,7 +173,12 @@
 				<a type="button" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
 					<div class="row">
 						<div class="col-md-6 text-left">
-							<h5>Program Schedule <span class="label label-danger">Incomplete</span></h5>
+						{% if activities.isFinanceDocumentCompleted %}
+						<h5>Required Document <span class="label label-success">Complete</span></h5>
+						{% else%}
+							<h5>Required Document <span class="label label-danger">Incomplete</span></h5>
+						{% endif %}
+							
 							
 						</div>
 						
@@ -140,7 +193,11 @@
 				<a type="button" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
 					<div class="row">
 						<div class="col-md-6 text-left">
-							<h5>Finance <span class="label label-success">Complete</span> </h5>
+							{% if activities.isOtherFinanceDocumentsCompleted %}
+							<h5>Finance Document <span class="label label-success">Complete</span></h5>
+							{% else%}
+								<h5>Finance Document<span class="label label-danger">Incomplete</span></h5>
+							{% endif %}
 
 						</div>
 						

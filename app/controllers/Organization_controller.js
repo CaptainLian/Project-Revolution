@@ -31,7 +31,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.extra_data = req.extra_data;
                 renderData.csrfToken = req.csrfToken();
                 renderData.activities = data;
-
+                console.log(renderData);
                 return res.render('Org/ActivityToImplement', renderData);
             }).catch(error=>{
                 console.log(error);
@@ -49,12 +49,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             postProjectProposalModel.getPostActsToImplement(dbParam)
             .then(data=>{
                 console.log(data);
-                // const renderData = Object.create(null);
-                // renderData.extra_data = req.extra_data;
-                // renderData.csrfToken = req.csrfToken();
-                // renderData.activities = data;
+                const renderData = Object.create(null);
+                renderData.extra_data = req.extra_data;
+                renderData.csrfToken = req.csrfToken();
 
-                // return res.render('Org/PostActivityToImplement', renderData);
+                renderData.activities = data;
+                console.log(renderData);
+                return res.render('Org/PostActivityToImplement', renderData);
             }).catch(error=>{
                 console.log(error);
             });
@@ -140,12 +141,48 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
         },
         viewSubmitPostProjectProposalMain: (req, res) => {
-            const renderData = Object.create(null);
-            renderData.extra_data = req.extra_data;
-            renderData.csrfToken = req.csrfToken();
+            var dbParam = {
+                idNumber: req.session.user.idNumber,
+                gosmid:req.params.gosmid
+            };
+             var dbParam2 = {                
+                gosmactivity:req.params.gosmid
+            };
+            
+            console.log(dbParam);
+            database.task(task=>{
+                return task.batch([
+                    postProjectProposalModel.getPostProjectProposalMain(dbParam),
+                    gosmModel.getGOSMActivityProjectHeads(dbParam2)
+                    ]);
+            }).then(data =>{
+                const renderData = Object.create(null);
+                renderData.extra_data = req.extra_data;
+                renderData.csrfToken = req.csrfToken();                
+                renderData.activities = data[0];
+                renderData.projectHeads = data[1];
+                console.log(renderData.activities);
+                console.log(renderData.projectHeads);
+                return res.render('Org/SubmitPostProjectProposal_main', renderData);
+            }).catch(err=>{
+                console.log(err);
+            });
+            // postProjectProposalModel.getPostProjectProposalMain(dbParam)
+            // .then(data=>{
+            //     console.log(data);
+            //     const renderData = Object.create(null);
+            //     renderData.extra_data = req.extra_data;
+            //     renderData.csrfToken = req.csrfToken();
+                
+            //     renderData.activities = data;
+            //     console.log(renderData);
+            //     // return res.render('Org/SubmitPostProjectProposal_main', renderData);
+            // }).catch(error=>{
+            //     console.log(error);
+            // });
 
 
-            return res.render('Org/SubmitPostProjectProposal_main',renderData);
+            
         },
 
         viewSubmitProjectProposalAttachments: (req, res) => {

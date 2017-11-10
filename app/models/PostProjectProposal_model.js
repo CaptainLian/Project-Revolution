@@ -10,6 +10,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
 	const insertPostProjectProposal = queryFiles.insertPostProjectProposal;
 	const updatePostProjectProposal = queryFiles.updatePostProjectProposal;
 	const getPostActsToImplement = queryFiles.getPostActsToImplement;
+    const getPostProjectProposalMain = queryFiles.getPostProjectProposalMain;
 
 
 	return {
@@ -20,7 +21,10 @@ module.exports = function(configuration, modules, db, queryFiles) {
         	return connection.one(insertPostProjectProposal, param);
     	},
     	getPostActsToImplement:function (param, connection = db) {
-        	return connection.one(getPostActsToImplement, param);
+        	return connection.any(getPostActsToImplement, param);
     	},
+        getPostProjectProposalMain:function (param, connection = db) {
+            return connection.one(getPostProjectProposalMain, param);
+        },
 	};
 }

@@ -35,9 +35,9 @@ module.exports = function(configuration, modules, router, controllers){
     // router.post(`${base}/postprojectproposal/SaveAttachments`, controllers.Organization_controller.postSaveAttachments);
 
     router.get(`${base}/Setting/ACL`, controllers.Organization_controller.viewSettingAcl);
-    router.get(`${base}/PostProjectProposal/Main`, controllers.Organization_controller.viewSubmitPostProjectProposalMain);
-    router.get(`${base}/PostProjectProposal/BriefContext`, controllers.Organization_controller.viewSubmitPostProjectProposalBriefContext);
-    router.get(`${base}/PostProjectProposal/Others`, controllers.Organization_controller.viewSubmitPostProjectProposalOthers);
-    router.get(`${base}/PostProjectProposal/FinanceDocument`, controllers.Organization_controller.viewSubmitPostProjectProposalFinanceDocument);
+    router.get(`${base}/PostProjectProposal/Main/:gosmid`, controllers.Organization_controller.viewSubmitPostProjectProposalMain);
+    router.get(`${base}/PostProjectProposal/BriefContext/:gosmid`, controllers.Organization_controller.viewSubmitPostProjectProposalBriefContext);
+    router.get(`${base}/PostProjectProposal/Others/:gosmid`, controllers.Organization_controller.viewSubmitPostProjectProposalOthers);
+    router.get(`${base}/PostProjectProposal/FinanceDocument/:gosmid`, controllers.Organization_controller.viewSubmitPostProjectProposalFinanceDocument);
 
 };
