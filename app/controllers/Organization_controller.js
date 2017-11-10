@@ -11,6 +11,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     const postProjectProposalModel = models.PostProjectProposal_model;
     const gosmModel = models.gosmModel;
     const logger = modules.logger;
+    const path = require('path');
+
     const log_options = Object.create(null);
     log_options.from = 'Organization-Controller';
 
@@ -1032,7 +1034,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                 console.log("FILE");
                                 console.log(dir2 + date +' - '+ file.name);
                                 Promise.all([
-                                            file.mv(dir2 + date +' - '+ file.name),
+                                            file.mv(path.join(dir2 , date +' - '+ file.name)),
                                             projectProposalModel.insertProjectProposalAttachment(db)
 
                                             ]).then(result=>{
@@ -1056,7 +1058,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                 console.log("FILE");
                                 console.log(dir2 + date +' - '+ file.name);
                                 Promise.all([
-                                            file.mv(dir2 + date +' - '+ file.name),
+                                            file.mv(path.join(dir2 ,date +' - '+ file.name)),
                                             projectProposalModel.insertProjectProposalAttachment(db)
 
                                             ]).then(result=>{
