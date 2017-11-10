@@ -1032,7 +1032,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                                     };
                                 console.log("FILE");
-                                console.log(dir2 + date +' - '+ file.name);
+                                console.log(path.normalize(path.join(dir2 , date +' - '+ file.name)));
                                 Promise.all([
                                             file.mv(path.normalize(path.join(dir2 , date +' - '+ file.name))),
                                             projectProposalModel.insertProjectProposalAttachment(db)
@@ -1056,7 +1056,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                                     };
                                 console.log("FILE");
-                                console.log(dir2 + date +' - '+ file.name);
+                                console.log(path.normalize(path.join(dir2 , date +' - '+ file.name)));
                                 Promise.all([
                                             file.mv(path.normalize(path.join(dir2 , date +' - '+ file.name))),
                                             projectProposalModel.insertProjectProposalAttachment(db)
