@@ -1027,19 +1027,21 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                 // console.log(file);
                                 // console.log("file");
                                 // console.log(data[ctr].id);
-
+                                var nFilename = file.name.split('.').pop();
+                                console.log("new File name");
+                                console.log(nFilename);
                                  var db ={
                                         projectId : req.body.activityId,
                                         requirement: data[ctr].id,
                                         dir: dir2 + file.name +' - '+ date,
                                         idNumber: req.session.user.idNumber,
-                                        filename: date +' - '+ file.name,
+                                        filename: date +'.'+ nFilename,
                                         filenametoShow: file.name
 
                                     };
                                 console.log("FILE");
-                                console.log(path.normalize(path.join(dir2 , date +' - '+ file.name)));
-                                var p = path.normalize(path.join(dir2 , date +' - '+ file.name));
+                                console.log(path.normalize(path.join(dir2 , date +'.'+ nFilename)));
+                                var p = path.normalize(path.join(dir2 , date +'.'+ nFilename));
                                 Promise.all([
                                             file.mv(p),
                                             projectProposalModel.insertProjectProposalAttachment(db)
@@ -1053,18 +1055,22 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             }
                         }else if(typeof req.files['uploadfile[]'][Symbol.iterator] == 'undefined'){
                               var file = req.files['uploadfile[]'];
+                              var nFilename = file.name.split('.').pop();
+                                console.log("new File name");
+                                console.log(nFilename);
                               var db ={
                                         projectId : req.body.activityId,
                                         requirement: data[ctr].id,
                                         dir: dir2 + file.name +' - '+ date,
                                         idNumber: req.session.user.idNumber,
-                                        filename: date +' - '+ file.name,
+                                        filename: date +'.'+ nFilename,
                                         filenametoShow: file.name
 
                                     };
+                                
                                 console.log("FILE");
-                                var p = path.normalize(path.join(dir2 , date +' - '+ file.name));
-                                console.log(path.normalize(path.join(dir2 , date +' - '+ file.name)));
+                                var p = path.normalize(path.join(dir2 , date +'.'+ nFilename));
+                                console.log(path.normalize(path.join(dir2 , date +'.'+ nFilename)));
                                 Promise.all([
                                             file.mv(p),
                                             projectProposalModel.insertProjectProposalAttachment(db)
