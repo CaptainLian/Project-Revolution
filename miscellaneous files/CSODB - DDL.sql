@@ -2098,7 +2098,8 @@ CREATE TABLE "PostProjectReimbursement" (
   "foodExpense" VARCHAR(60),
   "NUCAODP" TEXT,
   "delayedProcessing" TEXT,
-  "path_receipts" TEXT,
+  "filenames" TEXT[],
+  "filenamesToShow" TEXT[],
   "idNumber" INTEGER REFERENCES Account(idNumber),
   "dateCreated" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
 

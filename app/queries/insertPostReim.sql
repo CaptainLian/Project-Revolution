@@ -1,6 +1,6 @@
 INSERT INTO "PostProjectReimbursementPayment"
   	 	    ("GOSMActivity","nameOfEstablishment","amount","paymentBy","delayedProcessing","NUCAODP"
-  	 		  ,"idNumber")
+  	 		  "filenames","filenamesToShow","idNumber")
   	 VALUES (${gosmid},${est},${amount},${paymentBy},${delayedProcessing},${n}
   	 		  ,${idNumber})
   		 ON CONFLICT ("GOSMActivity") DO 

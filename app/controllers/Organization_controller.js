@@ -1202,6 +1202,105 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
         },
 
+        postSaveAttachments: (req, res) =>{
+            // var date = new Date().toJSON();
+
+             var dir3 =__dirname+'/../assets/upload/';
+             var dir3 = path.join (__dirname,'..','assets','upload');
+
+            //CHECK IF DIRECTOR EXIST
+            if (!fs.existsSync(dir3)){
+                fs.mkdirSync(dir3);
+            }
+            var dir =__dirname+'/../assets/upload/preacts/';
+            var dir = path.join (__dirname,'..','assets','upload','preacts');
+            //CHECK IF DIRECTOR EXIST
+            if (!fs.existsSync(dir)){
+                fs.mkdirSync(dir);
+            }
+            var dir2 = __dirname+'/../assets/upload/preacts/'+req.session.user.idNumber+'/';
+            var dir2 = path.join (__dirname,'..','assets','upload','preacts',req.session.user.idNumber+"");
+            //CHECK IF DIRECTOR EXIST
+            if (!fs.existsSync(dir2)){
+                fs.mkdirSync(dir2);
+            }
+
+
+            console.log(req.body);
+            console.log("=========================== FILES");
+            console.log(req.files);
+           
+          
+        
+           
+
+
+            database.tx(t=>{
+
+
+               //DP
+                var fqName = req.files['fq-dp'].name;
+                var fqcuid = cuid()+path.extname(bsName);
+                var rofName = req.files['rof-dp'].name;
+                var rofcuid = cuid()+path.extname(bsName);
+
+                var dpParam = {
+                    gosmid: req.body.gosmid,
+                    est: req.body.['est-dp'],
+                    amount: req.body['amount-dp'],
+                    paymentBy: req.body['pb-dp']
+                    delayedProcessing: req.body['delayed-dp'],
+                    fq: fqcuid,
+                    fqts: fqName,
+                    rof: rofcuid,
+                    rofts: rofName,
+                    idNumber: req.session.user.idNumber
+
+                };
+                Promise.all([
+                            req.files['fq-dp'].mv(path.join(dir2,fqcuid)),
+                            req.files['rof-dp'].mv(path.join(dir2,rofcuid)),
+                            postProjectProposalModel.insertPostDP(dpParam,t)
+                        ])
+                        .then(data =>{
+
+                        }).catch(data =>{
+                             console.log("==================DP");
+                            console.log(err);
+                        });
+                //BT
+                var bsName = req.files['bs-bt'].name;
+                var bscuid = cuid()+path.extname(bsName);
+                var btParam = {
+                    gosmid : req.body.gosmid,
+                    est : req.body["est-bt"],
+                    amount: req.body["amount-bt"],
+                    purpose: req.body['pur-by'],
+                    bs: bscuid,
+                    bsts: bsName,
+                    idNumber: req.session.user.idNumber
+                };
+                Promise.all([
+                            req.files['bs-bt'].mv(path.join(dir2,bscuid)),
+                            postProjectProposalModel.insertPostDP(dpParam,t)
+                        ])
+                        .then(data =>{
+
+                        }).catch(data =>{
+                            console.log("==================bt");
+                            console.log(err);
+                        });
+
+
+            }).then(data =>{
+
+            }).catch(err =>{
+                console.log("==================TRAC");
+                console.log(err);
+            })
+        },
+
+
         saveExpenses: (req, res) =>{
             console.log("HERE");
             console.log(req.body);
