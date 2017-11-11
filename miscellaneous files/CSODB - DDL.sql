@@ -1539,6 +1539,25 @@ CREATE TRIGGER before_update_ProjectProposal
     FOR EACH ROW WHEN (OLD.status <> NEW.status)
     EXECUTE PROCEDURE trigger_before_update_ProjectProposal();
 
+/* Logging of PPR */
+CREATE OR REPLACE FUNCTION "trigger_after_update_ProjectProposal_auditing"()
+RETURNS trigger AS
+$trigger$
+    DECLARE
+        oldValues TEXT[] DEFAULT '{}';
+        newValues TEXT[] DEFAULT '{}';
+    BEGIN
+        
+
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER "after_update_ProjectProposal_auditing"
+    AFTER UPDATE ON ProjectProposal
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_after_update_ProjectProposal_auditing"();
+/* End of Logging of PPR */
+
 DROP TABLE IF EXISTS ProjectProposalProgramDesign CASCADE;
 CREATE TABLE ProjectProposalProgramDesign (
     id SERIAL UNIQUE,
@@ -1749,7 +1768,8 @@ CREATE TABLE ProjectProposalSignatory (
   PRIMARY KEY(GOSMActivity, signatory, type)
 );
 
-CREATE OR REPLACE FUNCTION trigger_after_insert_ProjectProposal_signatories()
+/* Load balancing of Proposals */
+CREATE OR REPLACE FUNCTION "trigger_after_insert_ProjectProposal_signatories"()
 RETURNS trigger AS
 $trigger$
     DECLARE
@@ -1787,10 +1807,11 @@ $trigger$
         RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
-CREATE TRIGGER after_insert_ProjectProposal_signatories
+CREATE TRIGGER "after_insert_ProjectProposal_signatories"
     AFTER INSERT ON ProjectProposal
     FOR EACH ROW
-    EXECUTE PROCEDURE trigger_after_insert_ProjectProposal_signatories();
+    EXECUTE PROCEDURE "trigger_after_insert_ProjectProposal_signatories"();
+/* End Load balancing of Proposals */
 
 CREATE OR REPLACE FUNCTION "trigger_after_update_ProjectProposal"()
 RETURNS trigger AS
@@ -2069,8 +2090,9 @@ $trigger$
     BEGIN
         SELECT COALESCE(MAX(sequence) + 1, 1) INTO newSequence
           FROM "PostProjectDirectPayment"
+         WHERE "GOSMActivity" = NEW."GOSMActivity"; 
 
-        return NEW;
+        RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
 CREATE TRIGGER "before_insert_PostProjectDirectPayment_sequence"
@@ -2113,8 +2135,9 @@ $trigger$
     BEGIN
         SELECT COALESCE(MAX(sequence) + 1, 1) INTO newSequence
           FROM "PostProjectReimbursement"
+         WHERE "GOSMActivity" = NEW."GOSMActivity"; 
 
-        return NEW;
+        RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
 CREATE TRIGGER "before_insert_PostProjectReimbursement_sequence"
@@ -2144,8 +2167,9 @@ $trigger$
     BEGIN
         SELECT COALESCE(MAX(sequence) + 1, 1) INTO newSequence
           FROM "PostProjectBookTransfer"
-
-        return NEW;
+         WHERE "GOSMActivity" = NEW."GOSMActivity"; 
+        
+        RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
 CREATE TRIGGER "before_insert_PostProjectBookTransfer_sequence"
