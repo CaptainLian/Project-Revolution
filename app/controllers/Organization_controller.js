@@ -308,6 +308,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             }
             postProjectProposalModel.getPostProjectProposal(dbParam).then(data => {
                 renderData.status = data;
+                renderData.id = req.params.gosmid;
                 console.log(data);
                 return res.render('Org/SubmitPostProjectProposal_financedocuments',renderData);    
             }).catch(err =>{
@@ -1233,74 +1234,116 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
           
         
            
-
+            var statFin = {             
+                stat:true,
+                gosmid: req.body.gosmid
+            }
 
             database.tx(t=>{
 
+                if(typeof req.files['fq-dp'] == 'object'){
+                    //DP
+                    var fqName = req.files['fq-dp'].name;
+                    var fqcuid = cuid()+path.extname(fqName);
+                    var rofName = req.files['rof-dp'].name;
+                    var rofcuid = cuid()+path.extname(rofName);
 
-               //DP
-                var fqName = req.files['fq-dp'].name;
-                var fqcuid = cuid()+path.extname(fqName);
-                var rofName = req.files['rof-dp'].name;
-                var rofcuid = cuid()+path.extname(rofName);
+                    var dpParam = {
+                        gosmid: req.body.gosmid,
+                        est: req.body['est-dp'],
+                        amount: req.body['amount-dp'],
+                        paymentBy: req.body['pb-dp'],
+                        delayedProcessing: req.body['delayed-dp'],
+                        fq: fqcuid,
+                        fqts: fqName,
+                        rof: rofcuid,
+                        rofts: rofName,
+                        idNumber: req.session.user.idNumber
 
-                var dpParam = {
-                    gosmid: req.body.gosmid,
-                    est: req.body['est-dp'],
-                    amount: req.body['amount-dp'],
-                    paymentBy: req.body['pb-dp'],
-                    delayedProcessing: req.body['delayed-dp'],
-                    fq: fqcuid,
-                    fqts: fqName,
-                    rof: rofcuid,
-                    rofts: rofName,
-                    idNumber: req.session.user.idNumber
+                    };
+                    if( !(req.body['est-dp']).trim() || 
+                        !(req.body['amount-dp']).trim()|| 
+                        !(req.body['pb-dp']).trim() || 
+                        !(req.body['delayed-dp']).trim() 
 
-                };
-                Promise.all([
-                            req.files['fq-dp'].mv(path.join(dir2,fqcuid)),
-                            req.files['rof-dp'].mv(path.join(dir2,rofcuid)),
-                            postProjectProposalModel.insertPostDP(dpParam,t)
-                        ])
-                        .then(data =>{
+                        ){
+                        statFin.isFinanceDocumentCompleted = false;
+                    }
+                    Promise.all([
+                                req.files['fq-dp'].mv(path.join(dir2,fqcuid)),
+                                req.files['rof-dp'].mv(path.join(dir2,rofcuid)),
+                                postProjectProposalModel.insertPostDP(dpParam,t)
+                            ])
+                            .then(data =>{
 
-                        }).catch(err =>{
-                             console.log("==================DP");
-                            console.log(err);
-                        });
-                //BT
-                var bsName = req.files['bs-bt'].name;
-                var bscuid = cuid()+path.extname(bsName);
-                var btParam = {
-                    gosmid : req.body.gosmid,
-                    est : req.body["est-bt"],
-                    amount: req.body["amount-bt"],
-                    purpose: req.body['pur-bt'],
-                    bs: bscuid,
-                    bsts: bsName,
-                    idNumber: req.session.user.idNumber
-                };
-                Promise.all([
-                            req.files['bs-bt'].mv(path.join(dir2,bscuid)),
-                            postProjectProposalModel.insertPostBT(btParam,t)
-                        ])
-                        .then(data =>{
+                            }).catch(err =>{
+                                 console.log("==================DP");
+                                console.log(err);
+                            });
+                }else{
+                    statFin.isFinanceDocumentCompleted = false;
+                }
 
-                        }).catch(err =>{
-                            console.log("==================bt");
-                            console.log(err);
-                        });
+                if(typeof req.files['bs-bt'] == 'object'){
+                    //BT
+                    var bsName = req.files['bs-bt'].name;
+                    var bscuid = cuid()+path.extname(bsName);
+                    var btParam = {
+                        gosmid : req.body.gosmid,
+                        est : req.body["est-bt"],
+                        amount: req.body["amount-bt"],
+                        purpose: req.body['pur-bt'],
+                        bs: bscuid,
+                        bsts: bsName,
+                        idNumber: req.session.user.idNumber
+                    };
+                     if( !(req.body['est-bt']).trim() || 
+                        !(req.body['amount-bt']).trim() || 
+                        !(req.body['pur-bt']).trim()
+                        ){
+                        statFin.isFinanceDocumentCompleted = false;
+                    }
+                    Promise.all([
+                                req.files['bs-bt'].mv(path.join(dir2,bscuid)),
+                                postProjectProposalModel.insertPostBT(btParam,t)
+                            ])
+                            .then(data =>{
 
-                //REIM
-                var names =[];
-                var nameToShow = [];
-                if(typeof req.files['rec-pr'][Symbol.iterator] == 'function'){
-                    for(var ctr = 0; ctr < req.files['rec-pr'].length; ctr++){
-                        var recName = req.files['rec-pr'][ctr].name;
-                        var reccuid = cuid()+path.extname(bsName); 
+                            }).catch(err =>{
+                                console.log("==================bt");
+                                console.log(err);
+                            });
+
+                }else{
+                    statFin.isFinanceDocumentCompleted = false;
+                }
+
+
+
+                if(req.files['rec-pr'][Symbol.iterator] == 'function' || req.files['rec-pr'][Symbol.iterator] == 'object'){
+                    //REIM
+                    var names =[];
+                    var nameToShow = [];
+                    if(typeof req.files['rec-pr'][Symbol.iterator] == 'function'){
+                        for(var ctr = 0; ctr < req.files['rec-pr'].length; ctr++){
+                            var recName = req.files['rec-pr'][ctr].name;
+                            var reccuid = cuid()+path.extname(bsName); 
+                            names.push(recName)  ;
+                            nameToShow.push(reccuid);
+                            req.files['rec-pr'][ctr].mv(path.join(dir2,reccuid))
+                                .then(data=>{
+
+                                }).catch(err=>{
+                                    console.log("==================REIM");
+                                    console.log(err);
+                                })
+                        }
+                    }else{
+                        var recName = req.files['rec-pr'].name;
+                        var reccuid = cuid()+path.extname(recName); 
                         names.push(recName)  ;
                         nameToShow.push(reccuid);
-                        req.files['rec-pr'][ctr].mv(path.join(dir2,reccuid))
+                        req.files['rec-pr'].mv(path.join(dir2,reccuid))
                             .then(data=>{
 
                             }).catch(err=>{
@@ -1308,33 +1351,40 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                 console.log(err);
                             })
                     }
+                    var rParam = {
+                        gosmid : req.body.gosmid,
+                        est : req.body["est-pr"],
+                        amount: req.body['amount-pr'],
+                        paymentBy : req.body['pb-pr'],
+                        delayedProcessing: req.body['dp-pr'],
+                        n:req.body['n-pr'],
+                        filenames: names,
+                        filenamesToShow: nameToShow,
+                        idNumber: req.session.user.id
+
+                    }
+                    
+                    if( !(req.body['est-pr']).trim() || 
+                        !(req.body['amount-pr']).trim() || 
+                        !(req.body['dp-pr']).trim() || 
+                        !(req.body['n-dp']).trim()
+
+                        ){
+                        statFin.isFinanceDocumentCompleted = false;
+                    }
+
+                    postProjectProposalModel.insertPostReim(rParam,t).catch(err=>{
+                        console.log("=======================REIM");
+                        console.log(err);
+                    });
                 }else{
-                    var recName = req.files['rec-pr'].name;
-                    var reccuid = cuid()+path.extname(recName); 
-                    names.push(recName)  ;
-                    nameToShow.push(reccuid);
-                    req.files['rec-pr'].mv(path.join(dir2,reccuid))
-                        .then(data=>{
-
-                        }).catch(err=>{
-                            console.log("==================REIM");
-                            console.log(err);
-                        })
+                    statFin.isFinanceDocumentCompleted = false;
                 }
-                var rParam = {
-                    gosmid : req.body.gosmid,
-                    est : req.body["est-pr"],
-                    amount: req.body['amount-pr'],
-                    paymentBy : req.body['pb-pr'],
-                    delayedProcessing: req.body['dp-pr'],
-                    n:req.body['n-pr'],
-                    filenames: names,
-                    filenamesToShow: nameToShow,
-                    idNumber: req.session.user.id
-
-                }
-                postProjectProposalModel.insertPostReim(rParam,t)
-
+                
+                postProjectProposalModel.updatePostProjectProposalFinanceDocumentStatus(statFin,t).catch(err=>{
+                        console.log("=======================FINAUPDATE");
+                        console.log(err);
+                    });
 
 
             }).then(data =>{

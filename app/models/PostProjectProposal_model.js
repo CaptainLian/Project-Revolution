@@ -19,6 +19,9 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const updatePostProjectProposalFinanceDocumentStatus = queryFiles.updatePostProjectProposalFinanceDocumentStatus;
     const insertPostProjectProposalEventPictures = queryFiles.insertPostProjectProposalEventPictures;
 
+    const updatePostProjectProposalFinanceCompleteness = queryFiles.updatePostProjectProposalFinanceCompleteness;
+    
+
 
     const insertPostBT = queryFiles.insertPostBT;
     const insertPostReim = queryFiles.insertPostReim;
@@ -38,6 +41,9 @@ module.exports = function(configuration, modules, db, queryFiles) {
 		updatePostProjectProposal:function (param, connection = db) {
         	return connection.none(updatePostProjectProposal, param);
     	},
+        updatePostProjectProposalFinanceCompleteness:function (param, connection = db) {
+            return connection.none(updatePostProjectProposalFinanceCompleteness, param);
+        },
         updatePostProjectProposalFinanceDocumentStatus:function (param, connection = db) {
             return connection.none(updatePostProjectProposalFinanceDocumentStatus, param);
         },
