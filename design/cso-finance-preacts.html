@@ -656,39 +656,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                                     </div>
                                                                                     
                                                                                 </div>
-                                                                                <div id="informal_quotation" class="col-sm-12 scroll-table" style='display: none;'>
-                                                                                    <h3 class="box-title m-t-40">Informal Quotation<span class="badge btn-circle btn-xs btn-success pull-right" data-toggle="tooltip" title="Click on an empty field to add information"><span class="fa fa-question"></span></span></h3>
-                                                                                    <hr>
-                                                                                    <br>
-                                                                                    <table id="mainTable" class="table editable-table table-bordered table-hover m-b-0" >
-                                                                                        <thead>
-                                                                                            <tr>
-                                                                                                <th>Item</th>
-                                                                                                <th>Establishment</th>
-                                                                                                <th>Contact Person</th>
-                                                                                                <th>Contact No.</th>
-                                                                                                <th>Quantity</th>
-                                                                                                <th>Unit Price</th>
-                                                                                                <th>Total</th>
-                                                                                            </tr>
-                                                                                        </thead>
-                                                                                        <tbody id='iq_body'>
-                                                                                            <tr>
-                                                                                                <td></td>
-                                                                                                <td> </td>
-                                                                                                <td> </td>
-                                                                                                <td> </td>
-                                                                                                <td> </td>
-                                                                                                <td> </td>
-                                                                                                <td> </td>
-                                                                                            </tr>
-                                                                                        </tbody>
-                                                                                        <tfoot>
-                                                                                            
-                                                                                        </tfoot>
-                                                                                    </table>
 
-                                                                                </div>
                                                                                 <div class="col-sm-12">
                                                                                     <h3 class="box-title m-t-40">Memo<span class="badge btn-circle btn-xs btn-success pull-right" data-toggle="tooltip" title="huwat!"><span class="fa fa-question"></span></span></h3>
                                                                                     <hr>
@@ -706,12 +674,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                                         </tfoot>
                                                                                     </table>
                                                                                     <br>
+                                                                                    <div class ='col-md-12' id='purpose' style='display: none;'>
+                                                                                        <div class="col-md-12 m-b-10" >
+                                                                                            <label  style="">Purpose: </label>
+                                                                                            <textarea name="dp-memo" style="width: 100%;" placeholder="ex. Cash advance for [Activity name] to be held on [Activity date]" required=""></textarea>   
+                                                                                        </div>
+                                                                                    </div>
                                                                                     <div class ='col-md-12' id='justification_dp' style='display: none;'>
                                                                                         <div class="col-md-12 m-b-10" >
                                                                                             <label  style="">Justification for not using Direct Payment</label>
                                                                                             <textarea name="dp-memo" style="width: 100%;" placeholder="ex. Papers processed late" required=""></textarea>   
                                                                                         </div>
-                                                                                        
                                                                                     </div>
                                                                                     <div class ='col-md-12' id='justification_cp' style='display: none;'>
                                                                                         <div class="col-md-6 m-b-10" >
@@ -726,7 +699,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                                     <h3 class="box-title m-t-40">Required attachments <span class="badge btn-circle btn-xs btn-success pull-right" data-toggle="tooltip" title="click the browse button to upload the following documents"><span class="fa fa-question"></span></span></h3>
                                                                                     <hr>
                                                                                     <br>
-                                                                                    <div class="row">
+                                                                                    
+                                                                                        <div class="col-md-12 m-10" id='iq' style='display: none;'>
+                                                                                            <div class="col-md-4  text-left"  >  
+                                                                                                <label  style="">Informal Quotation</label>    
+                                                                                            </div>
+                                                                                            <div class="col-md-8">
+                                                                                                <input multiple="" style="" type="file" accept=".pdf, .odt, .odp, .ods" name="...">    
+                                                                                            </div>
+                                                                                        </div>
                                                                                         <div class="col-md-12 m-10" id='elop' style='display: none;'>
                                                                                             <div class="col-md-4  text-left" >
                                                                                                 <label  style="">Estimated List of Participants</label>    
@@ -743,7 +724,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                                                 <input multiple="" style="" type="file" accept=".pdf, .odt, .odp, .ods" name="...">    
                                                                                             </div>
                                                                                         </div>
-                                                                                    </div>
+                                                                                    
                                                                                 </div> 
                                                                             </div>
                                                                         </section>
@@ -858,6 +839,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
      var showMechanicsOfCompetition = false;
 
      if(value!=null){
+            $('#purpose').show();
+            $('#iq').show();
       $('#ca_particular :selected').each(function(){
         //get the value of current selected item
         value = $(this).val();
@@ -873,20 +856,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
         sum+=total;
 
         attachments.push(type);
-        //show informal quotation
-        //insert to informal quotation if >2000
-
-        if(amount>=2000){
-            //show informal quotation
-            showInformalQuotation = true;
-
-            $('#iq_body').append('<tr><th>'
-                        +name+'</th><td class="editable"></td><td class="editable"></td><td class="editable"></td><th>'
-
-                        +quantity+'</th><th>'
-                        +"Php "+amount.toLocaleString(undefined, {maximumFractionDigits:2})+'</th><th>'
-                        +"Php "+total.toLocaleString(undefined, {maximumFractionDigits:2})+'</th></tr>');
-        }
 
         //insert the selected element to the memo table
         $('#memo_body').append('<tr><td>'
@@ -919,16 +888,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
           }else{
             $('#informal_quotation').hide();
           }
-        //show mechanics of competition if expense contains cash prize
-         if(showMechanicsOfCompetition){
-
-         }
-         //show list of participants if expense contains food/accomodation expense
-         if(showListOfParticipants){
-
-         }
-
      }else{
+        $('#purpose').hide();
+        $('#iq').hide();
         attachments = [];
         $('#ca_amount').html("");
         $('#memo_body').html("");
