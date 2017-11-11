@@ -29,7 +29,7 @@ module.exports = function(configuration, modules, router, controllers){
     router.get(`${base}/PostProjectProposal/GOSMList`, controllers.Organization_controller.viewGOSMActivityListPostProjectProposal);
     router.post(`${base}/PostProjectProposal/SaveContext`, controllers.Organization_controller.postSaveContext);    
     router.post(`${base}/PostProjectProposal/SaveExpenses`, controllers.Organization_controller.postSaveExpenses);
-    // router.post(`${base}/postprojectproposal/SaveAttachments`, controllers.Organization_controller.postSaveAttachments);
+    router.post(`${base}/PostProjectProposal/SaveAttachments`, controllers.Organization_controller.postSaveAttachments);
 
     router.get(`${base}/Setting/ACL`, controllers.Organization_controller.viewSettingAcl);
     router.get(`${base}/PostProjectProposal/Main/:gosmid`, controllers.Organization_controller.viewSubmitPostProjectProposalMain);
