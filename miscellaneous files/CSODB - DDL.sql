@@ -1800,7 +1800,7 @@ CREATE TRIGGER "after_insert_ProjectProposal_signatories"
     FOR EACH ROW
     EXECUTE PROCEDURE "trigger_after_insert_ProjectProposal_signatories"();
 
-CREATE OR REPLACE FUNCTION "trigger_after_update_ProjectProposal_signatory"()
+CREATE OR REPLACE FUNCTION "trigger_after_update_ProjectProposal_signatory_facultyAdviser"()
 RETURNS trigger AS
 $trigger$
     BEGIN
@@ -1811,10 +1811,27 @@ $trigger$
       RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
-CREATE TRIGGER "after_update_ProjectProposal"
+CREATE TRIGGER "after_update_ProjectProposal_signatory_facultyAdviser"
     AFTER UPDATE ON ProjectProposal
     FOR EACH ROW WHEN ((OLD.facultyAdviser IS NULL) OR (OLD.facultyAdviser <> NEW.facultyAdviser))
-    EXECUTE PROCEDURE "trigger_after_update_ProjectProposal_signatory"();
+    EXECUTE PROCEDURE "trigger_after_update_ProjectProposal_signatory_facultyAdviser"();
+
+CREATE OR REPLACE FUNCTION "trigger_after_update_ProjectProposal_signatory_immediateSuperior"()
+RETURNS trigger AS
+$trigger$
+    BEGIN
+      UPDATE ProjectProposalSignatory
+         SET signatory = "PPR_get_organization_next_immediate_supervisor_signatory"(NEW.preparedBy, "GOSMActivity_get_organization"(NEW.GOSMActivity))
+       WHERE GOSMActivity = NEW.GOSMActivity
+         AND type = 2;
+      RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER "after_update_ProjectProposal_signatory_immediateSuperior"
+    AFTER UPDATE ON ProjectProposal
+    FOR EACH ROW WHEN ((OLD.preparedBy IS NULL) OR (OLD.preparedBy <> NEW.preparedBy))
+    EXECUTE PROCEDURE "trigger_after_update_ProjectProposal_signatory_immediateSuperior"();
+
     /* End Load balancing of Proposals */
   /* End of Project Proposal Signatories */
 /* End of Project Proposal */
@@ -2106,7 +2123,7 @@ CREATE TABLE "PostProjectReimbursement" (
   "idNumber" INTEGER REFERENCES Account(idNumber),
   "dateCreated" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-  PRIMARY KEY("GOSMActivity")
+  PRIMARY KEY("GOSMActivity", "sequence")
 );
 CREATE OR REPLACE FUNCTION "trigger_before_insert_PostProjectReimbursement_sequence"()
 RETURNS trigger AS
@@ -2136,7 +2153,7 @@ CREATE TABLE "PostProjectBookTransfer" (
   "idNumber" INTEGER REFERENCES Account(idNumber),
   "dateCreated" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-  PRIMARY KEY ("GOSMActivity")
+  PRIMARY KEY("GOSMActivity", "sequence")
 );
 CREATE OR REPLACE FUNCTION "trigger_before_insert_PostProjectBookTransfer_sequence"()
 RETURNS trigger AS
