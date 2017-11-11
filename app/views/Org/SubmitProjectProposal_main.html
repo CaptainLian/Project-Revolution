@@ -58,6 +58,7 @@
 <form method="POST" action="/Organization/ProjectProposal/SavePPR">
 <input type="hidden" name="_csrf" value="{{csrfToken}}">
 <input type="hidden" name="gosmid" value="{{gosmid}}">
+<input type="hidden" name="pprid" value="{{projectProposal.id}}">
 <div class="row white-box">
 	<div class="col-md-12">
 		<div class="">
@@ -181,7 +182,7 @@
 						{% else %}
 
 							<h5>Brief Context <span class="label label-danger">Incomplete</span></h5>
-							<input type="hidden" name="context" value="0">
+							<input type="hidden" name="context" value="{{projectProposal.isbriefcontextcomplete}}">
 
 						{% endif %}
 
@@ -201,12 +202,12 @@
 						{% if projectProposal.isprogramcomplete %}
 
 							<h5>Program Schedule <span class="label label-success">Complete</span></h5>
-							<input type="hidden" name="program" value="{{projectProposal.isprogramdesigncomplete}}">
+							<input type="hidden" name="program" value="{{projectProposal.isprogramcomplete}}">
 
 						{% else %}
 
 							<h5>Program Schedule <span class="label label-danger">Incomplete</span></h5>
-							<input type="hidden" name="program" value="0">
+							<input type="hidden" name="program" value="{{projectProposal.isprogramcomplete}}">
 
 						{% endif %}
 						
@@ -231,7 +232,7 @@
 						{% else %}
 
 							<h5>Funding Expense <span class="label label-danger">Incomplete</span></h5>
-							<input type="hidden" name="expense" value="0">
+							<input type="hidden" name="expense" value="{{projectProposal.isexpensecomplete}}">
 
 						{% endif %}
 
@@ -256,7 +257,7 @@
 							{% else %}
 
 								<h5>Attachments <span class="label label-danger">Incomplete</span></h5>
-								<input type="hidden" name="attachment" value="0">
+								<input type="hidden" name="attachment" value="{{projectProposal.isattachmentscomplete}}">
 
 							{% endif %}
 

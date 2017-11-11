@@ -349,7 +349,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.csrfToken = req.csrfToken();
                 renderData.gosmactivity = dbParam;
                 renderData.projectProposal = data[0];
-                renderData.exoenses = data[1];
+                renderData.expenses = data[1];
 
                 console.log(renderData.gosmactivity);
                 console.log(renderData.projectProposal);
@@ -782,22 +782,32 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         saveContext: (req, res) =>{
             console.log(req.body);
 
+            let startDateSplit = req.body.actualDateStart.split("/");
+            let endDateSplit = req.body.endDateStart.split("/");
+
+
             var dbParam = {
+                actualDateStart:  "'" + startDateSplit[2] + "-" + startDateSplit[0] + "-" + startDateSplit[1] + "'",
+                actualDateEnd:  "'" + endDateSplit[2] + "-" + endDateSplit[0] + "-" + endDateSplit[1] + "'",
                 id: req.params.ppr,
                 enp: req.body.enp,
                 enmp: req.body.enmp,
                 venue: req.body.venue,
                 adviser: req.body.adviser,
+                expense: req.body.expense,
                 context1: req.body.context1,
                 context2: req.body.context2,
                 context3: req.body.context3,
                 isBriefContextComplete: true
             };
 
-            if(!(req.body.enp).trim() || 
+            if(!(req.body.actualDateStart).trim() ||
+                !(req.body.actualDateEnd).trim() ||
+                !(req.body.enp).trim() || 
                 !(req.body.enmp).trim() || 
                 !(req.body.venue).trim() ||
                 !(req.body.adviser).trim() ||
+                !(req.body.expense).trim() ||
                 !(req.body.context1).trim() ||
                 !(req.body.context2).trim() ||
                 !(req.body.context3).trim()){
@@ -1187,18 +1197,31 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             console.log("req.params");
             console.log(req.params.id);
             var dbParam = {
-                gosmId:req.body.gosmid
-            }
-            console.log(parseInt(req.body.context) );
-            if(parseInt(req.body.context) && parseInt(req.body.program) && parseInt(req.body.expense) && parseInt(req.body.attachment)){
-                postProjectProposalModel.insertPostProjectProposal(dbParam)
+                id: req.body.pprid,
+                preparedby: req.session.user.idNumber
+            };
+            console.log(req.body.context);
+            if(req.body.context && req.body.program && req.body.expense && req.body.attachment){
+                console.log("IZ HERE");
+
+                projectProposalModel.submitProjectProposal(dbParam)
                 .then(data=>{
-                    return res.render(`/Organization/ProjectProposal/gosmlist`,renderData);
-                }).catch(err=>{
+                return res.redirect(`/Organization/ProjectProposal/gosmlist/`);
+                }).catch(error=>{
 
                 });
+
+                // postProjectProposalModel.insertPostProjectProposal(dbParam)
+                // .then(data=>{
+                //     return res.render(`/Organization/ProjectProposal/gosmlist`,renderData);
+                // }).catch(err=>{
+
+                // });
             }else{
-                return res.redirect(`/Organization/ProjectProposal/gosmlist/1`);
+
+                console.log("IZ HERE INSTEAD");
+
+                return res.redirect(`/Organization/ProjectProposal/gosmlist/`);
             }
 
         },
