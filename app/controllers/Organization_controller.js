@@ -1246,9 +1246,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                 var dpParam = {
                     gosmid: req.body.gosmid,
-                    est: req.body.['est-dp'],
+                    est: req.body['est-dp'],
                     amount: req.body['amount-dp'],
-                    paymentBy: req.body['pb-dp']
+                    paymentBy: req.body['pb-dp'],
                     delayedProcessing: req.body['delayed-dp'],
                     fq: fqcuid,
                     fqts: fqName,
@@ -1290,6 +1290,51 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             console.log("==================bt");
                             console.log(err);
                         });
+
+                //REIM
+                var names =[];
+                var nameToShow = [];
+                if(typeof req.files['rec-pr'][Symbol.iterator] == 'function'){
+                    for(var ctr = 0; ctr < req.files['rec-pr'].length; ctr++){
+                        var recName = req.files['rec-pr'][ctr].name;
+                        var reccuid = cuid()+path.extname(bsName); 
+                        names.push(recName)  ;
+                        nameToShow.push(reccuid);
+                        req.files['rec-pr'][ctr].mv(path.join(dir2,reccuid))
+                            .then(data=>{
+
+                            }).catch(err=>{
+                                console.log("==================REIM");
+                                console.log(err);
+                            })
+                    }
+                }else{
+                    var recName = req.files['rec-pr'].name;
+                    var reccuid = cuid()+path.extname(bsName); 
+                    names.push(recName)  ;
+                    nameToShow.push(reccuid);
+                    req.files['rec-pr'].mv(path.join(dir2,reccuid))
+                        .then(data=>{
+
+                        }).catch(err=>{
+                            console.log("==================REIM");
+                            console.log(err);
+                        })
+                }
+                var rParam = {
+                    gosmid : req.body.gosmid,
+                    est : req.body["est-pr"],
+                    amount: req.body['amount-pr'],
+                    paymentBy : req.body['pb-pr'],
+                    delayedProcessing: req.body['dp-pr'],
+                    n:req.body['n-pr'],
+                    filenames: names,
+                    filenamesToShow: nameToShow,
+                    idNumber: req.session.user.id
+
+                }
+                postProjectProposalModel.insertPostReim(rParam,t)
+
 
 
             }).then(data =>{
