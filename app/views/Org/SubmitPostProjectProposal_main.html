@@ -173,11 +173,11 @@
 				<a type="button" onclick="(function () {window.location.href='/Organization/PostProjectProposal/RequiredDocument/{{activities.id}}'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
 					<div class="row">
 						<div class="col-md-6 text-left">
-						{% if activities.isFinanceDocumentCompleted %}
-						<h5>Required Document <span class="label label-success">Complete</span></h5>
-						{% else%}
-							<h5>Required Document <span class="label label-danger">Incomplete</span></h5>
-						{% endif %}
+							{% if activities.isOtherFinanceDocumentsCompleted %}
+							<h5>Finance Document <span class="label label-success">Complete</span></h5>
+							{% else%}
+								<h5>Finance Document<span class="label label-danger">Incomplete</span></h5>
+							{% endif %}
 							
 							
 						</div>
@@ -193,10 +193,11 @@
 				<a type="button" onclick="(function () {window.location.href='/Organization/PostProjectProposal/FinanceDocument/{{activities.id}}'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
 					<div class="row">
 						<div class="col-md-6 text-left">
-							{% if activities.isOtherFinanceDocumentsCompleted %}
-							<h5>Finance Document <span class="label label-success">Complete</span></h5>
+						
+							{% if activities.isFinanceDocumentCompleted %}
+							<h5>Required Document <span class="label label-success">Complete</span></h5>
 							{% else%}
-								<h5>Finance Document<span class="label label-danger">Incomplete</span></h5>
+								<h5>Required Document <span class="label label-danger">Incomplete</span></h5>
 							{% endif %}
 
 						</div>
