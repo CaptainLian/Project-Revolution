@@ -695,9 +695,9 @@ CREATE TABLE StudentOrganization (
     college CHAR(3) REFERENCES College(shortAcronym),
     acronym VARCHAR(20) UNIQUE,
     description TEXT,
-    funds NUMERIC(16, 4) NOT NULL DEFAULT 0.0,
-    operationalFunds NUMERIC(16, 4) NOT NULL DEFAULT 0.0,
-    depositryFunds NUMERIC(16, 4) NOT NULL DEFAULT 0.0,
+    funds NUMERIC(16, 2) NOT NULL DEFAULT 0.0,
+    operationalFunds NUMERIC(16, 2) NOT NULL DEFAULT 0.0,
+    depositryFunds NUMERIC(16, 2) NOT NULL DEFAULT 0.0,
     path_profilePicture TEXT,
 
     PRIMARY KEY (id)
@@ -1389,7 +1389,7 @@ CREATE TABLE GOSMActivity (
     activityType SMALLINT REFERENCES ActivityType(id),
     activityTypeOtherDescription VARCHAR(45),
     isRelatedToOrganizationNature BOOLEAN NOT NULL,
-    budget NUMERIC(16, 4) NOT NULL DEFAULT 0.0,
+    budget NUMERIC(12, 2) NOT NULL DEFAULT 0.0,
     comments TEXT,
 
     PRIMARY KEY (GOSM, sequence),
@@ -1462,7 +1462,7 @@ CREATE TABLE "ActivityVenue" (
 	"name" VARCHAR (60),
 	"capacity" INTEGER,
 	"size" SMALLINT REFERENCES "VenueSize"("id"),
-	"rate" NUMERIC(16, 4),
+	"rate" NUMERIC(12, 2),
 	"rateType" SMALLINT REFERENCES "RateType"("id"),
 	"building" SMALLINT REFERENCES "Building"("id"),
 
@@ -1498,12 +1498,13 @@ CREATE TABLE ProjectProposal (
     context1 TEXT,
     context2 TEXT,
     context3 TEXT,
-    sourceFundOther NUMERIC(16, 4),
-    sourceFundParticipantFee NUMERIC(16, 4),
-    sourceFundOrganizational NUMERIC(16, 4),
-    accumulatedOperationalFunds NUMERIC(16, 4),
-    accumulatedDepositoryFunds NUMERIC(16, 4),
-    organizationFundOtherSource NUMERIC(16, 4),
+    isExpense BOOLEAN NOT NULL DEFAULT TRUE,
+    sourceFundOther NUMERIC(12, 2),
+    sourceFundParticipantFee NUMERIC(12, 2),
+    sourceFundOrganizational NUMERIC(12, 2),
+    accumulatedOperationalFunds NUMERIC(12, 2),
+    accumulatedDepositoryFunds NUMERIC(12, 2),
+    organizationFundOtherSource NUMERIC(12, 2),
     comments TEXT,
     preparedBy INTEGER REFERENCES Account(idNumber),
     facultyAdviser INTEGER NOT NULL REFERENCES Account(idNumber),
@@ -1514,7 +1515,6 @@ CREATE TABLE ProjectProposal (
     isBriefContextComplete BOOLEAN NOT NULL DEFAULT FALSE,
     isExpenseComplete BOOLEAN NOT NULL DEFAULT FALSE,
     isProgramComplete BOOLEAN NOT NULL DEFAULT FALSE,
-
 
     PRIMARY KEY (GOSMActivity)
 );
@@ -1538,9 +1538,6 @@ CREATE TRIGGER before_update_ProjectProposal
     BEFORE UPDATE ON ProjectProposal
     FOR EACH ROW WHEN (OLD.status <> NEW.status)
     EXECUTE PROCEDURE trigger_before_update_ProjectProposal();
-
-
-
 
 DROP TABLE IF EXISTS ProjectProposalProgramDesign CASCADE;
 CREATE TABLE ProjectProposalProgramDesign (
@@ -1591,7 +1588,7 @@ CREATE TABLE ProjectProposalProjectedIncome (
     sequence INTEGER,
     item VARCHAR(45) NOT NULL,
     quantity INTEGER NOT NULL,
-    sellingPrice NUMERIC(16, 4) NOT NULL,
+    sellingPrice NUMERIC(12, 2) NOT NULL,
 
     PRIMARY KEY (projectProposal, sequence)
 );
@@ -1619,11 +1616,13 @@ CREATE TABLE ExpenseType (
 );
 INSERT INTO ExpenseType (id, name)
                  VALUES (0, 'Others'),
-                        (1, 'Food & Accomodation'),
-                        (2, 'Venue & Transportation'),
-                        (3, 'Honorarium'),
-                        (4, 'Cash Prize'),
-                        (5, 'Corruption Expense');
+                        (1, 'Food Expense'),
+                        (2, 'Accomodation Expense'),
+                        (3, 'Venue Expense'),
+                        (4, 'Transport Expense'),
+                        (5, 'Honorarium'),
+                        (6, 'Cash Prize'),
+                        (7, 'Corruption Expense');
 
 DROP TABLE IF EXISTS ProjectProposalExpenses CASCADE;
 CREATE TABLE ProjectProposalExpenses (
@@ -1632,7 +1631,7 @@ CREATE TABLE ProjectProposalExpenses (
     sequence INTEGER,
     material VARCHAR(45) NOT NULL,
     quantity INTEGER NOT NULL,
-    unitCost NUMERIC(16, 4) NOT NULL,
+    unitCost NUMERIC(12, 2) NOT NULL,
     type SMALLINT NOT NULL REFERENCES ExpenseType(id) DEFAULT 0,
 
     PRIMARY KEY (projectProposal, sequence)
@@ -1658,7 +1657,7 @@ CREATE TABLE ProjectProposalSourceFunds (
     projectProposal INTEGER REFERENCES ProjectProposal(id),
     sequence INTEGER,
     name VARCHAR (45),
-    amount NUMERIC(16, 4),
+    amount NUMERIC(12, 2),
 
     PRIMARY KEY (projectProposal, sequence)
 );
@@ -1960,7 +1959,8 @@ CREATE TABLE "PostProjectProposal" (
   "WWYGLIETA" TEXT,
   "HDTATYLCTTDOTP" TEXT,
   "WATTWWAWCYDTPTFHA" TEXT,
-  "path_generalAttendanceList" TEXT,
+  "galsfilename" TEXT,
+  "galsfilenameToShow" TEXT,
   "isBriefContextCompleted" BOOLEAN NOT NULL DEFAULT FALSE,
   "isOtherFinanceDocumentsCompleted" BOOLEAN NOT NULL DEFAULT FALSE,
   "isFinanceDocumentCompleted" BOOLEAN NOT NULL DEFAULT FALSE,
@@ -1978,8 +1978,10 @@ CREATE TABLE "PostProjectProposalExpense" (
   "sequence" INTEGER NOT NULL DEFAULT -1,
   "particular" VARCHAR(45),
   "establishment" VARCHAR(45),
-  "price" NUMERIC(16, 4),
-  "path_file" TEXT,
+  "price" NUMERIC(12, 2),
+  "filename" TEXT,
+  "filenameToShow" TEXT,
+  "idNumber" INTEGER REFERENCES Account(idNumber),
 
   PRIMARY KEY("GOSMActivity", "sequence")
 );
@@ -2004,7 +2006,10 @@ CREATE TABLE "PostProjectProposalEventPicture" (
   "id" SERIAL UNIQUE,
   "GOSMActivity" INTEGER REFERENCES "PostProjectProposal"("GOSMActivity"),
   "sequence" INTEGER NOT NULL DEFAULT -1,
-  "path_file" TEXT,
+  "filename" TEXT,
+  "filenameToShow" TEXT,
+  "description" TEXT,
+  "idNumber" INTEGER REFERENCES Account(idNumber),
 
   PRIMARY KEY("GOSMActivity", "sequence")
 );
@@ -2042,15 +2047,36 @@ INSERT INTO "PostProjectDirectPaymentPayment" (id, name)
 DROP TABLE IF EXISTS "PostProjectDirectPayment" CASCADE;
 CREATE TABLE "PostProjectDirectPayment" (
   "GOSMActivity" INTEGER REFERENCES "PostProjectProposal"("GOSMActivity"),
+  "sequence" INTEGER DEFAULT -1,
   "nameOfEstablishment" VARCHAR(60),
   "amount" NUMERIC(12, 2),
   "paymentBy" SMALLINT REFERENCES "PostProjectDirectPaymentPayment"("id"),
   "delayedProcessing" TEXT,
-  "path_formalQuotation" TEXT,
-  "path_ROF" TEXT,
+  "fqfilename" TEXT,
+  "roffilename" TEXT,
+  "fqfilenameToShow" TEXT,
+  "roffilenameToShow" TEXT,
+  "idNumber" INTEGER REFERENCES Account(idNumber),
+  "dateCreated" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-  PRIMARY KEY("GOSMActivity")
+  PRIMARY KEY("GOSMActivity", "sequence")
 );
+CREATE OR REPLACE FUNCTION "trigger_before_insert_PostProjectDirectPayment_sequence"()
+RETURNS trigger AS
+$trigger$
+    DECLARE 
+      newSequence INTEGER DEFAULT -1;
+    BEGIN
+        SELECT COALESCE(MAX(sequence) + 1, 1) INTO newSequence
+          FROM "PostProjectDirectPayment"
+
+        return NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER "before_insert_PostProjectDirectPayment_sequence"
+    BEFORE INSERT ON "PostProjectDirectPayment"
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_before_insert_PostProjectDirectPayment_sequence"();
 
 DROP TABLE IF EXISTS "PostProjectReimbursementPayment" CASCADE;
 CREATE TABLE "PostProjectReimbursementPayment" (
@@ -2065,31 +2091,70 @@ INSERT INTO "PostProjectReimbursementPayment" (id, name)
 DROP TABLE IF EXISTS "PostProjectReimbursement" CASCADE;
 CREATE TABLE "PostProjectReimbursement" (
   "GOSMActivity" INTEGER REFERENCES "PostProjectProposal"("GOSMActivity"),
+  "sequence" INTEGER DEFAULT -1,
   "nameOfEstablishment" VARCHAR(60),
   "amount" NUMERIC(12, 2),
   "paymentBy" SMALLINT REFERENCES "PostProjectReimbursementPayment"("id"),
   "foodExpense" VARCHAR(60),
   "NUCAODP" TEXT,
   "delayedProcessing" TEXT,
-  "path_receipts" TEXT,
+  "filenames" TEXT[],
+  "filenamesToShow" TEXT[],
+  "idNumber" INTEGER REFERENCES Account(idNumber),
+  "dateCreated" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
   PRIMARY KEY("GOSMActivity")
 );
+CREATE OR REPLACE FUNCTION "trigger_before_insert_PostProjectReimbursement_sequence"()
+RETURNS trigger AS
+$trigger$
+    DECLARE 
+      newSequence INTEGER DEFAULT -1;
+    BEGIN
+        SELECT COALESCE(MAX(sequence) + 1, 1) INTO newSequence
+          FROM "PostProjectReimbursement"
+
+        return NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER "before_insert_PostProjectReimbursement_sequence"
+    BEFORE INSERT ON "PostProjectReimbursement"
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_before_insert_PostProjectReimbursement_sequence"();
 
 DROP TABLE IF EXISTS "PostProjectBookTransfer" CASCADE;
 CREATE TABLE "PostProjectBookTransfer" (
   "GOSMActivity" INTEGER REFERENCES "PostProjectProposal"("GOSMActivity"),
+  "sequence" INTEGER DEFAULT -1,
   "nameOfEstablishment" VARCHAR(60),
   "amount" NUMERIC(12, 2),
   "purpose" VARCHAR(60),
-  "path_billingStatement" TEXT,
-  "path_requisitionSlip" TEXT,
-  "path_chargeSlip" TEXT,
+  "bsfilename" TEXT,
+  "bsfilenameToShow" TEXT,
+  "idNumber" INTEGER REFERENCES Account(idNumber),
+  "dateCreated" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
   PRIMARY KEY ("GOSMActivity")
 );
+CREATE OR REPLACE FUNCTION "trigger_before_insert_PostProjectBookTransfer_sequence"()
+RETURNS trigger AS
+$trigger$
+    DECLARE 
+      newSequence INTEGER DEFAULT -1;
+    BEGIN
+        SELECT COALESCE(MAX(sequence) + 1, 1) INTO newSequence
+          FROM "PostProjectBookTransfer"
+
+        return NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER "before_insert_PostProjectBookTransfer_sequence"
+    BEFORE INSERT ON "PostProjectBookTransfer"
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_before_insert_PostProjectReimbursement_sequence"();
   /* Post Acts END*/
 /* ADM END */
+
 /*
     Auditing
 */
