@@ -1259,8 +1259,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
            
             var statFin = {             
                 stat:true,
-                gosmid: req.body.gosmid
+                gosmid: parseInt(req.body.gosmid)
             }
+            console.log(typeof req.files['rec-pr']);
 
             database.tx(t=>{
 
@@ -1343,7 +1344,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
 
 
-                if(req.files['rec-pr'][Symbol.iterator] == 'function' || req.files['rec-pr'][Symbol.iterator] == 'object'){
+                if(typeof req.files['rec-pr'] == 'object'){
                     //REIM
                     var names =[];
                     var nameToShow = [];
@@ -1389,22 +1390,30 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     
                     if( !(req.body['est-pr']).trim() || 
                         !(req.body['amount-pr']).trim() || 
-                        !(req.body['dp-pr']).trim() || 
-                        !(req.body['n-dp']).trim()
+                        !(req.body['delayed-pr']).trim() || 
+                        !(req.body['n-pr']).trim()
 
                         ){
                         statFin.isFinanceDocumentCompleted = false;
                     }
+                    console.log(rParam);
+                    postProjectProposalModel.insertPostReim(rParam,t)
+                    .then(data =>{
 
-                    postProjectProposalModel.insertPostReim(rParam,t).catch(err=>{
+                    })
+                    .catch(err=>{
                         console.log("=======================REIM");
                         console.log(err);
                     });
                 }else{
                     statFin.isFinanceDocumentCompleted = false;
                 }
-                
-                postProjectProposalModel.updatePostProjectProposalFinanceCompleteness(statFin,t).catch(err=>{
+                    statFin.isFinanceDocumentCompleted = "false";
+                 postProjectProposalModel.updatePostProjectFinanceCompleteness(statFin,t)
+                    .then(data =>{
+
+                    })
+                    .catch(err=>{
                         console.log("=======================FINAUPDATE");
                         console.log(err);
                     });
