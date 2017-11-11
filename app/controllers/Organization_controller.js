@@ -1240,9 +1240,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                //DP
                 var fqName = req.files['fq-dp'].name;
-                var fqcuid = cuid()+path.extname(bsName);
+                var fqcuid = cuid()+path.extname(fqName);
                 var rofName = req.files['rof-dp'].name;
-                var rofcuid = cuid()+path.extname(bsName);
+                var rofcuid = cuid()+path.extname(rofName);
 
                 var dpParam = {
                     gosmid: req.body.gosmid,
@@ -1264,7 +1264,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         ])
                         .then(data =>{
 
-                        }).catch(data =>{
+                        }).catch(err =>{
                              console.log("==================DP");
                             console.log(err);
                         });
@@ -1275,18 +1275,18 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     gosmid : req.body.gosmid,
                     est : req.body["est-bt"],
                     amount: req.body["amount-bt"],
-                    purpose: req.body['pur-by'],
+                    purpose: req.body['pur-bt'],
                     bs: bscuid,
                     bsts: bsName,
                     idNumber: req.session.user.idNumber
                 };
                 Promise.all([
                             req.files['bs-bt'].mv(path.join(dir2,bscuid)),
-                            postProjectProposalModel.insertPostDP(dpParam,t)
+                            postProjectProposalModel.insertPostBT(btParam,t)
                         ])
                         .then(data =>{
 
-                        }).catch(data =>{
+                        }).catch(err =>{
                             console.log("==================bt");
                             console.log(err);
                         });
@@ -1310,7 +1310,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     }
                 }else{
                     var recName = req.files['rec-pr'].name;
-                    var reccuid = cuid()+path.extname(bsName); 
+                    var reccuid = cuid()+path.extname(recName); 
                     names.push(recName)  ;
                     nameToShow.push(reccuid);
                     req.files['rec-pr'].mv(path.join(dir2,reccuid))
