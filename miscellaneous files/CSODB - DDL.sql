@@ -2061,6 +2061,22 @@ CREATE TABLE "PostProjectDirectPayment" (
 
   PRIMARY KEY("GOSMActivity", "sequence")
 );
+CREATE OR REPLACE FUNCTION "trigger_before_insert_PostProjectDirectPayment_sequence"()
+RETURNS trigger AS
+$trigger$
+    DECLARE 
+      newSequence INTEGER DEFAULT -1;
+    BEGIN
+        SELECT COALESCE(MAX(sequence) + 1, 1) INTO newSequence
+          FROM "PostProjectDirectPayment"
+
+        return NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER "before_insert_PostProjectDirectPayment_sequence"
+    BEFORE INSERT ON "PostProjectDirectPayment"
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_before_insert_PostProjectDirectPayment_sequence"();
 
 DROP TABLE IF EXISTS "PostProjectReimbursementPayment" CASCADE;
 CREATE TABLE "PostProjectReimbursementPayment" (
@@ -2100,8 +2116,8 @@ $trigger$
         return NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
-CREATE TRIGGER before_insert_PostProjectReimbursement_sequence
-    BEFORE INSERT ON PostProjectReimbursement
+CREATE TRIGGER "before_insert_PostProjectReimbursement_sequence"
+    BEFORE INSERT ON "PostProjectReimbursement"
     FOR EACH ROW
     EXECUTE PROCEDURE "trigger_before_insert_PostProjectReimbursement_sequence"();
 
@@ -2119,9 +2135,25 @@ CREATE TABLE "PostProjectBookTransfer" (
 
   PRIMARY KEY ("GOSMActivity")
 );
+CREATE OR REPLACE FUNCTION "trigger_before_insert_PostProjectBookTransfer_sequence"()
+RETURNS trigger AS
+$trigger$
+    DECLARE 
+      newSequence INTEGER DEFAULT -1;
+    BEGIN
+        SELECT COALESCE(MAX(sequence) + 1, 1) INTO newSequence
+          FROM "PostProjectBookTransfer"
 
+        return NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER "before_insert_PostProjectBookTransfer_sequence"
+    BEFORE INSERT ON "PostProjectBookTransfer"
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_before_insert_PostProjectReimbursement_sequence"();
   /* Post Acts END*/
 /* ADM END */
+
 /*
     Auditing
 */
