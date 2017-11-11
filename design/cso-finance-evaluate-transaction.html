@@ -22,6 +22,8 @@
     <link href="css/style.css" rel="stylesheet">
     <!-- color CSS -->
     <link href="css/colors/blue.css" id="theme" rel="stylesheet">
+    <!--alerts CSS -->
+    <link href="../plugins/bower_components/sweetalert/sweetalert.css" rel="stylesheet" type="text/css">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -496,9 +498,9 @@
                             <div class="row">
                                 <div class="col-lg-2 col-md-3  col-sm-4 col-xs-12 inbox-panel">
                                     <div>
-                                        <a href="#" class="btn btn-success btn-block waves-effect waves-light">Approve</a>
-                                        <a href="#" class="btn btn-warning btn-block waves-effect waves-light">Pend</a>
-                                        <a href="#" class="btn btn-danger btn-block waves-effect waves-light">Deny</a>
+                                        <a href="#" class="btn btn-success btn-block waves-effect waves-light ca-approve">Approve</a>
+                                        <a href="#" class="btn btn-warning btn-block waves-effect waves-light ca-pend">Pend</a>
+                                        <a href="#" class="btn btn-danger btn-block waves-effect waves-light ca-deny">Deny</a>
 
                                         <div class="list-group mail-list m-t-20">
                                            
@@ -516,31 +518,41 @@
                                             <h4 class="text-danger m-0">La Salle Computer Society &nbsp;(123457)</h4>
                                             
                                             <span class="media-meta pull-right">September 17, 2017</span>
-                                            <small class="text-muted">Payable to: Dominique Dagunton (114256432), VP Finance</small>
+                                            <small>Payable to: Dominique Dagunton (114256432), VP Finance</small>
                                         </div>
                                     </div>
                                     <div class="col-sm-12">
                                         <h3 class="box-title m-t-40">Payment Requisition Slip</h3>
                                         <hr>
-                                        <br>
-                                        
-                                        <br>
-                                        <div class="col-md-12" id="justification_dp" style="display: block;">
-                                            <div class="col-md-12 m-b-10">
-                                                <label style="">Justification for not using Direct Payment:</label>
-                                                <p>Papers were processed late.</p>  
-                                            </div>
-                                            
-                                        </div>
-                                        <div class="col-md-12" id="justification_cp" style="display: none;">
-                                            <div class="col-md-6 m-b-10">
-                                                <label style="">Justification for using Cash Prize</label>    
-                                            </div>
-                                            <div class="col-md-6 m-b-10">
-                                                <textarea name="dp-memo" style="width: 100%"></textarea>
+                                       
+                                        <div class="col-md-12" id="" style="display: block;">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label style="">Local No:&nbsp;744</label>
+                                                    
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label style="">Thru:&nbsp;Name of SLIFE director</label>
+                                                    
+                                                </div>
                                             </div>
                                         </div>
+                                        <div class="col-md-12" id="" style="display: block;">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label style="">To:&nbsp;Accounting Office</label>
+                                                    
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label style="">From: Dominique Dagunton</label>
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    
                                     </div>
+                                    <br>
+                                    <br>
                                     <div class="col-sm-12">
                                         <h3 class="box-title m-t-40">Cash Advance Memo</h3>
                                         <hr>
@@ -557,12 +569,15 @@
                                             </tfoot>
                                         </table>
                                         <br>
-                                        <div class="col-md-12" id="justification_dp" style="display: block;">
+                                        <div class="col-md-12" id="" style="display: block;">
                                             <div class="col-md-12 m-b-10">
                                                 <label style="">Justification for not using Direct Payment:</label>
                                                 <p>Papers were processed late.</p>  
                                             </div>
-                                            
+                                            <div class="col-md-12 m-b-10">
+                                                <label style="">Purpose:</label>
+                                                <p>Cash Advance for General Assembly to be held on September 30, 2017.</p>  
+                                            </div>
                                         </div>
                                         <div class="col-md-12" id="justification_cp" style="display: none;">
                                             <div class="col-md-6 m-b-10">
@@ -689,6 +704,9 @@
     <script src="js/custom.min.js"></script>
     <!--Style Switcher -->
     <script src="../plugins/bower_components/styleswitcher/jQuery.style.switcher.js"></script>
+    <!-- Sweet-Alert  -->
+    <script src="../plugins/bower_components/sweetalert/sweetalert.min.js"></script>
+    <script src="../plugins/bower_components/sweetalert/jquery.sweet-alert.custom.js"></script>
 </body>
 
 </html>

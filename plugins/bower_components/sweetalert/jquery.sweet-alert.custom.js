@@ -40,8 +40,66 @@
             swal("Deleted!", "Your imaginary file has been deleted.", "success"); 
         });
     });
+    /*
+        FINANCE SWEET ALERT
+    */
+    $('.ca-approve').click(function(){
+        swal({   
+            title: "Approve Cash Advance Request?",   
+            text: "Clicking confirm will approve the financial request for the activity",   
+            type: "warning",   
+            showCancelButton: true,   
+            confirmButtonColor: "#DD6B55",   
+            confirmButtonText: "Confirm",   
+            closeOnConfirm: false 
+        }, function(){   
+            swal("Success!", "The request has been approved", "success"); 
+        });
+    });
+    $('.ca-pend').click(function(){
+        swal({
+          title: "Pend Request",
+          text: "Write your reason for pending the request:",
+          type: "input",
+          showCancelButton: true,
+          closeOnConfirm: false,
+          inputPlaceholder: "Write something"
+        },
+        function(inputValue){
+          if (inputValue === false) return false;
+          
+          if (inputValue === "") {
+            swal.showInputError("You need to write something!");
+            return false
+          }
+          
+          swal("Success!", "You wrote: " + inputValue, "success");
+        });
+    });
+    $('.ca-deny').click(function(){
+        swal({
+          title: "Deny Request",
+          text: "Write your reason for denying the request:",
+          type: "input",
+          showCancelButton: true,
+          closeOnConfirm: false,
+          inputPlaceholder: "Write something"
+        },
+        function(inputValue){
+          if (inputValue === false) return false;
+          
+          if (inputValue === "") {
+            swal.showInputError("You need to write something!");
+            return false
+          }
+          
+          swal("Success!", "You wrote: " + inputValue, "success");
+        });
+    });
+    /*
+        FINANCE SWEET ALERT
+    */
 
-    //Approve Activity
     $('.sa-approve').click(function(){
         swal({   
             title: "Approve Activity?",   
