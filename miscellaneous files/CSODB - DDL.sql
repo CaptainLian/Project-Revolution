@@ -695,9 +695,9 @@ CREATE TABLE StudentOrganization (
     college CHAR(3) REFERENCES College(shortAcronym),
     acronym VARCHAR(20) UNIQUE,
     description TEXT,
-    funds NUMERIC(16, 4) NOT NULL DEFAULT 0.0,
-    operationalFunds NUMERIC(16, 4) NOT NULL DEFAULT 0.0,
-    depositryFunds NUMERIC(16, 4) NOT NULL DEFAULT 0.0,
+    funds NUMERIC(16, 2) NOT NULL DEFAULT 0.0,
+    operationalFunds NUMERIC(16, 2) NOT NULL DEFAULT 0.0,
+    depositryFunds NUMERIC(16, 2) NOT NULL DEFAULT 0.0,
     path_profilePicture TEXT,
 
     PRIMARY KEY (id)
@@ -1389,7 +1389,7 @@ CREATE TABLE GOSMActivity (
     activityType SMALLINT REFERENCES ActivityType(id),
     activityTypeOtherDescription VARCHAR(45),
     isRelatedToOrganizationNature BOOLEAN NOT NULL,
-    budget NUMERIC(16, 4) NOT NULL DEFAULT 0.0,
+    budget NUMERIC(12, 2) NOT NULL DEFAULT 0.0,
     comments TEXT,
 
     PRIMARY KEY (GOSM, sequence),
@@ -1462,7 +1462,7 @@ CREATE TABLE "ActivityVenue" (
 	"name" VARCHAR (60),
 	"capacity" INTEGER,
 	"size" SMALLINT REFERENCES "VenueSize"("id"),
-	"rate" NUMERIC(16, 4),
+	"rate" NUMERIC(12, 2),
 	"rateType" SMALLINT REFERENCES "RateType"("id"),
 	"building" SMALLINT REFERENCES "Building"("id"),
 
@@ -1498,12 +1498,12 @@ CREATE TABLE ProjectProposal (
     context1 TEXT,
     context2 TEXT,
     context3 TEXT,
-    sourceFundOther NUMERIC(16, 4),
-    sourceFundParticipantFee NUMERIC(16, 4),
-    sourceFundOrganizational NUMERIC(16, 4),
-    accumulatedOperationalFunds NUMERIC(16, 4),
-    accumulatedDepositoryFunds NUMERIC(16, 4),
-    organizationFundOtherSource NUMERIC(16, 4),
+    sourceFundOther NUMERIC(12, 2),
+    sourceFundParticipantFee NUMERIC(12, 2),
+    sourceFundOrganizational NUMERIC(12, 2),
+    accumulatedOperationalFunds NUMERIC(12, 2),
+    accumulatedDepositoryFunds NUMERIC(12, 2),
+    organizationFundOtherSource NUMERIC(12, 2),
     comments TEXT,
     preparedBy INTEGER REFERENCES Account(idNumber),
     facultyAdviser INTEGER NOT NULL REFERENCES Account(idNumber),
@@ -1591,7 +1591,7 @@ CREATE TABLE ProjectProposalProjectedIncome (
     sequence INTEGER,
     item VARCHAR(45) NOT NULL,
     quantity INTEGER NOT NULL,
-    sellingPrice NUMERIC(16, 4) NOT NULL,
+    sellingPrice NUMERIC(12, 2) NOT NULL,
 
     PRIMARY KEY (projectProposal, sequence)
 );
@@ -1632,7 +1632,7 @@ CREATE TABLE ProjectProposalExpenses (
     sequence INTEGER,
     material VARCHAR(45) NOT NULL,
     quantity INTEGER NOT NULL,
-    unitCost NUMERIC(16, 4) NOT NULL,
+    unitCost NUMERIC(12, 2) NOT NULL,
     type SMALLINT NOT NULL REFERENCES ExpenseType(id) DEFAULT 0,
 
     PRIMARY KEY (projectProposal, sequence)
@@ -1658,7 +1658,7 @@ CREATE TABLE ProjectProposalSourceFunds (
     projectProposal INTEGER REFERENCES ProjectProposal(id),
     sequence INTEGER,
     name VARCHAR (45),
-    amount NUMERIC(16, 4),
+    amount NUMERIC(12, 2),
 
     PRIMARY KEY (projectProposal, sequence)
 );
@@ -1979,7 +1979,7 @@ CREATE TABLE "PostProjectProposalExpense" (
   "sequence" INTEGER NOT NULL DEFAULT -1,
   "particular" VARCHAR(45),
   "establishment" VARCHAR(45),
-  "price" NUMERIC(16, 4),
+  "price" NUMERIC(12, 2),
   "filename" TEXT,
   "filenameToShow" TEXT,
   "idNumber" INTEGER REFERENCES Account(idNumber),
