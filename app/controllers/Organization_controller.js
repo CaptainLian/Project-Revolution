@@ -1404,7 +1404,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     statFin.isFinanceDocumentCompleted = false;
                 }
                 
-                postProjectProposalModel.updatePostProjectProposalFinanceDocumentStatus(statFin,t).catch(err=>{
+                postProjectProposalModel.updatePostProjectProposalFinanceCompleteness(statFin,t).catch(err=>{
                         console.log("=======================FINAUPDATE");
                         console.log(err);
                     });
