@@ -1960,7 +1960,8 @@ CREATE TABLE "PostProjectProposal" (
   "WWYGLIETA" TEXT,
   "HDTATYLCTTDOTP" TEXT,
   "WATTWWAWCYDTPTFHA" TEXT,
-  "path_generalAttendanceList" TEXT,
+  "galsfilename" TEXT,
+  "galsfilenameToShow" TEXT,
   "isBriefContextCompleted" BOOLEAN NOT NULL DEFAULT FALSE,
   "isOtherFinanceDocumentsCompleted" BOOLEAN NOT NULL DEFAULT FALSE,
   "isFinanceDocumentCompleted" BOOLEAN NOT NULL DEFAULT FALSE,
@@ -1979,7 +1980,9 @@ CREATE TABLE "PostProjectProposalExpense" (
   "particular" VARCHAR(45),
   "establishment" VARCHAR(45),
   "price" NUMERIC(12, 2),
-  "path_file" TEXT,
+  "filename" TEXT,
+  "filenameToShow" TEXT,
+  "idNumber" INTEGER REFERENCES Account(idNumber),
 
   PRIMARY KEY("GOSMActivity", "sequence")
 );
@@ -2004,7 +2007,10 @@ CREATE TABLE "PostProjectProposalEventPicture" (
   "id" SERIAL UNIQUE,
   "GOSMActivity" INTEGER REFERENCES "PostProjectProposal"("GOSMActivity"),
   "sequence" INTEGER NOT NULL DEFAULT -1,
-  "path_file" TEXT,
+  "filename" TEXT,
+  "filenameToShow" TEXT,
+  "description" TEXT,
+  "idNumber" INTEGER REFERENCES Account(idNumber),
 
   PRIMARY KEY("GOSMActivity", "sequence")
 );
@@ -2046,8 +2052,11 @@ CREATE TABLE "PostProjectDirectPayment" (
   "amount" NUMERIC(12, 2),
   "paymentBy" SMALLINT REFERENCES "PostProjectDirectPaymentPayment"("id"),
   "delayedProcessing" TEXT,
-  "path_formalQuotation" TEXT,
-  "path_ROF" TEXT,
+  "fqfilename" TEXT,
+  "roffilename" TEXT,
+  "fqfilenameToShow" TEXT,
+  "roffilenameToShow" TEXT,
+  "idNumber" INTEGER REFERENCES Account(idNumber),
 
   PRIMARY KEY("GOSMActivity")
 );
@@ -2072,7 +2081,8 @@ CREATE TABLE "PostProjectReimbursement" (
   "NUCAODP" TEXT,
   "delayedProcessing" TEXT,
   "path_receipts" TEXT,
-
+  "idNumber" INTEGER REFERENCES Account(idNumber),
+  
   PRIMARY KEY("GOSMActivity")
 );
 
@@ -2082,9 +2092,9 @@ CREATE TABLE "PostProjectBookTransfer" (
   "nameOfEstablishment" VARCHAR(60),
   "amount" NUMERIC(12, 2),
   "purpose" VARCHAR(60),
-  "path_billingStatement" TEXT,
-  "path_requisitionSlip" TEXT,
-  "path_chargeSlip" TEXT,
+  "bsfilename" TEXT,
+  "bsfilenameToShow" TEXT,
+  "idNumber" INTEGER REFERENCES Account(idNumber),
 
   PRIMARY KEY ("GOSMActivity")
 );

@@ -62,13 +62,16 @@
 {%endblock%}
 
 {%block content%}
+<form action="#" class="form-horizontal">
+<input type="hidden" name="_csrf" value="{{csrfToken}}">
+<input type="hidden" name="gosmid" value="{{id}}">
 <div class="row">
 	<div class="col-md-12">
 		<div class="panel panel-info">
 			<div class="panel-heading"> Brief Context</div>
 			<div class="panel-wrapper collapse in" aria-expanded="true">
 				<div class="panel-body">
-					<form action="#" class="form-horizontal">
+					
 						<div class="form-body">
 							<div class="row">
 								<div class="col-sm-12">
@@ -77,14 +80,19 @@
 										<div class="sttabs tabs-style-line">
 											<nav>
 												<ul>
+													{%if status.isCheckedDP %}
 													<li><a class="text-center" href="#section-line-1"><span>Direct Payment</span></a></li>
+													{%endif%}
+													{%if status.isCheckedR %}
 													<li><a class="text-center" href="#section-line-2"><span>Reimbursement</span></a></li>
-													
+													{%endif%}
+													{%if status.isCheckedBT %}
 													<li><a class="text-center" href="#section-line-4"><span>Book Transfer</span></a></li>
-													
+													{%endif%}
 												</ul>
 											</nav>
 											<div class="content-wrap ">
+												{%if status.isCheckedDP %}
 												<section id="section-line-1">
 													<div class="row" >
 														<div class="col-sm-12">
@@ -94,7 +102,7 @@
 																<div class="col-md-12 ">
 																	<div class="form-group row">
 																		<label class="col-md-3">Name of Establishment</label>
-																		<input class="form-control col-md-9" placeholder="e.g. Jollibee" type="text">
+																		<input class="form-control col-md-9" placeholder="e.g. Jollibee" name="est-dp" type="text">
 																	</div>
 																</div>
 																<div class="col-md-12 ">
@@ -104,7 +112,7 @@
 							                                            	<div class="input-group-addon">
 							                                            		₱
 							                                            	</div>
-							                                            	<input class="form-control" id="exampleInputpwd2" placeholder="e.g. 90000" > 
+							                                            	<input name="amount-dp" class="form-control" id="exampleInputpwd2" placeholder="e.g. 90000" > 
 							                                            </div>
 																	</div>
 																</div>
@@ -115,13 +123,13 @@
 																		<div class="radio-list col-md-9">
 																			<label class="radio-inline p-0">
 																				<div class="radio radio-info">
-																					<input name="radio" id="radio1" value="option1" type="radio">
+																					<input name="pb-dp" id="radio1" value="option1" type="radio">
 																					<label for="radio1">Cheque</label>
 																				</div>
 																			</label>
 																			<label class="radio-inline">
 																				<div class="radio radio-info">
-																					<input name="radio" id="radio2" value="option2" type="radio">
+																					<input name="pb-dp" id="radio2" value="option2" type="radio">
 																					<label for="radio2">Book Transfer    </label>
 																				</div>
 																			</label>
@@ -142,7 +150,7 @@
 																<div class="col-md-12 ">
 																	<div class="form-group row">
 																		<label class="col-md-3">Delayed Processing</label>
-																		<textarea name="dp-memo" class="form-control col-md-7" style="width: 100%"></textarea>
+																		<textarea name="delayed-dp" class="form-control col-md-7" style="width: 100%"></textarea>
 																	</div>
 																</div>
 															</div>
@@ -153,23 +161,13 @@
 															<hr>
 															<br>
 															<div class="row">
-																<div class="col-md-12 m-t-40">
-																	<div class="col-md-4 offset-md-2 text-left">
-																		<label  style="">General Attendance List Sheet</label>    
-																	</div>
-																	<div class="col-md-4">
-																		<input class="" style="" type="file" accept=".pdf, .odt, .odp, .ods" name="...">    
-																	</div>
-
-
-
-																</div>
+																 
 																<div class="col-md-12 m-t-40">
 																	<div class="col-md-4 offset-md-2 text-left">
 																		<label  style="">Formal Quotation</label>    
 																	</div>
 																	<div class="col-md-4">
-																		<input style="" type="file" accept=".pdf, .odt, .odp, .ods" name="...">    
+																		<input style="" type="file" accept=".pdf, .odt, .odp, .ods" name="fq-dp">    
 																	</div>
 
 
@@ -177,10 +175,10 @@
 																</div>
 																<div class="col-md-12 m-t-40">
 																	<div class="col-md-4  offset-md-2 text-left">
-																		<label  style="">ROF</label>    
+																		<label  style="">Terms of Reference</label>    
 																	</div>
 																	<div class="col-md-4">
-																		<input style="" type="file" accept=".pdf, .odt, .odp, .ods" name="...">    
+																		<input style="" type="file" accept=".pdf, .odt, .odp, .ods" name="rof-dp">    
 																	</div>
 
 
@@ -196,6 +194,8 @@
 
 													</div>
 												</section>
+												{%endif%}
+												{%if status.isCheckedR %}
 												<section id="section-line-2">
 													<div class="row" >
 														<div class="col-sm-12">
@@ -205,7 +205,7 @@
 																<div class="col-md-12 ">
 																	<div class="form-group row">
 																		<label class="col-md-3">Name of Establishment</label>
-																		<input class="form-control col-md-9" placeholder="e.g. Jollibee" type="text">
+																		<input class="form-control col-md-9" placeholder="e.g. Jollibee" name="est-pr" type="text">
 																	</div>
 																</div>
 																<div class="col-md-12 ">
@@ -215,7 +215,7 @@
 								                                            	<div class="input-group-addon">
 								                                            		₱
 								                                            	</div>
-								                                            	<input class="form-control" id="exampleInputpwd2" placeholder="e.g. 90000" > 
+								                                            	<input name="amount-pr" class="form-control" id="exampleInputpwd2" placeholder="e.g. 90000" > 
 								                                            </div>
 																		</div>
 																	</div>
@@ -226,13 +226,13 @@
 																		<div class="radio-list col-md-9">
 																			<label class="radio-inline p-0">
 																				<div class="radio radio-info">
-																					<input name="radio" id="radio1" value="option1" type="radio">
+																					<input name="pb-pr" id="radio1" value="option1" type="radio">
 																					<label for="radio1">Payment By Check</label>
 																				</div>
 																			</label>
 																			<label class="radio-inline">
 																				<div class="radio radio-info">
-																					<input name="radio" id="radio2" value="option2" type="radio">
+																					<input name="pb-pr" id="radio2" value="option2" type="radio">
 																					<label for="radio2">Payment By Book Transfer    </label>
 																				</div>
 																			</label>
@@ -253,7 +253,7 @@
 																<div class="col-md-12 ">
 																	<div class="form-group row">
 																		<label class="col-md-3">Food Expense</label>
-																		<input class="form-control col-md-7" placeholder="e.g. Jollibee" type="text">
+																		<input name="fe-pr" class="form-control col-md-7" placeholder="e.g. Jollibee" type="text">
 																	</div>
 																</div>
 															</div>
@@ -261,7 +261,7 @@
 																<div class="col-md-12 ">
 																	<div class="form-group row">
 																		<label class="col-md-3">Not Using Cash Advance or Direct Payment</label>
-																		<textarea name="dp-memo" class="form-control col-md-7" style="width: 100%"></textarea>
+																		<textarea name="n-pr" class="form-control col-md-7" style="width: 100%"></textarea>
 																	</div>
 																</div>
 															</div>
@@ -269,7 +269,7 @@
 																<div class="col-md-12 ">
 																	<div class="form-group row">
 																		<label class="col-md-3">Delayed Processing</label>
-																		<textarea name="dp-memo" class="form-control col-md-7" style="width: 100%"></textarea>
+																		<textarea name="delayed-pr" class="form-control col-md-7" style="width: 100%"></textarea>
 																	</div>
 																</div>
 															</div>
@@ -286,7 +286,7 @@
 																		<label  style=""> Receipts</label>    
 																	</div>
 																	<div class="col-md-4">
-																		<input multiple="" style="" type="file" accept=".pdf, .odt, .odp, .ods" name="...">    
+																		<input multiple="" style="" type="file" accept=".pdf, .odt, .odp, .ods" name="rec-pr">    
 																	</div>
 
 
@@ -303,7 +303,8 @@
 
 													</div>
 												</section>
-												
+												{%endif%}
+												{%if status.isCheckedBT %}
 												<section id="section-line-4">
 														<div class="row" >
 															<div class="col-sm-12">
@@ -313,7 +314,7 @@
 																	<div class="col-md-12 ">
 																		<div class="form-group row">
 																			<label class="col-md-3">Name of Establishment</label>
-																			<input class="form-control col-md-9" placeholder="e.g Jollibee" type="text">
+																			<input name="est-bt" class="form-control col-md-9" placeholder="e.g Jollibee" type="text">
 																		</div>
 																	</div>
 																	<div class="col-md-12 ">
@@ -323,14 +324,14 @@
 								                                            	<div class="input-group-addon">
 								                                            		₱
 								                                            	</div>
-								                                            	<input class="form-control" id="exampleInputpwd2" placeholder="e.g. 90000" > 
+								                                            	<input name="amount-bt" class="form-control" id="exampleInputpwd2" placeholder="e.g. 90000" > 
 								                                            </div>
 																		</div>
 																	</div>
 																	<div class="col-md-12 ">
 																		<div class="form-group row">
 																			<label class="col-md-3">Purpose</label>
-																			<input class="form-control col-md-9" placeholder="e.g" type="text">
+																			<input name="pur-bt" class="form-control col-md-9" placeholder="e.g" type="text">
 																		</div>
 																	</div>
 
@@ -354,35 +355,13 @@
 																			<label  style="">Billing Statement</label>    
 																		</div>
 																		<div class="col-md-4">
-																			<input style="" type="file" accept=".pdf, .odt, .odp, .ods" name="...">    
+																			<input style="" type="file" accept=".pdf, .odt, .odp, .ods" name="bs-bt">    
 																		</div>
 
 
 
 																	</div>
-																	<div class="col-md-12 m-t-40">
-																		<div class="col-md-4 offset-md-2 text-left">
-																			<label  style=""> Requisition Slip</label>    
-																		</div>
-																		<div class="col-md-4">
-																			<input style="" type="file" accept=".pdf, .odt, .odp, .ods" name="...">    
-																		</div>
-
-
-
-																	</div>
-
-																	<div class="col-md-12 m-t-40">
-																		<div class="col-md-4 offset-md-2  text-left">
-																			<label  style=""> Charge Slip</label>    
-																		</div>
-																		<div class="col-md-2">
-																			<input style="" type="file" accept=".pdf, .odt, .odp, .ods" name="...">    
-																		</div>
-
-
-
-																	</div>
+																	
 
 
 
@@ -395,6 +374,7 @@
 
 														</div>
 												</section>
+												{%endif%}
 												
 											</div>
 												<!-- /content -->
@@ -408,7 +388,7 @@
 							<div class="form-actions">
 
 							</div>
-						</form>
+						
 					</div>
 					<div class="panel-footer text-center">                                                    
 						<button type="submit" class="btn btn-success"> <i class="fa fa-save"></i> &nbspSave</button>
@@ -418,4 +398,5 @@
 			</div>
 		</div>
 	</div>
+	</form>
 {%endblock%}
