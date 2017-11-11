@@ -1269,7 +1269,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                 var dpParam = {
                     gosmid: req.body.gosmid,
-                    est: req.body.['est-dp'],
+                    est: req.body['est-dp'],
                     amount: req.body['amount-dp'],
                     paymentBy: req.body['pb-dp']
                     delayedProcessing: req.body['delayed-dp'],
