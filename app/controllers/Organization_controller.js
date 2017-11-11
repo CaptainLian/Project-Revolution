@@ -348,7 +348,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.csrfToken = req.csrfToken();
                 renderData.gosmactivity = dbParam;
                 renderData.projectProposal = data[0];
-                renderData.exoenses = data[1];
+                renderData.expenses = data[1];
 
                 console.log(renderData.gosmactivity);
                 console.log(renderData.projectProposal);
@@ -781,22 +781,32 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         saveContext: (req, res) =>{
             console.log(req.body);
 
+            let startDateSplit = req.body.actualDateStart.split("/");
+            let endDateSplit = req.body.endDateStart.split("/");
+
+
             var dbParam = {
+                actualDateStart:  "'" + startDateSplit[2] + "-" + startDateSplit[0] + "-" + startDateSplit[1] + "'",
+                actualDateEnd:  "'" + endDateSplit[2] + "-" + endDateSplit[0] + "-" + endDateSplit[1] + "'",
                 id: req.params.ppr,
                 enp: req.body.enp,
                 enmp: req.body.enmp,
                 venue: req.body.venue,
                 adviser: req.body.adviser,
+                expense: req.body.expense,
                 context1: req.body.context1,
                 context2: req.body.context2,
                 context3: req.body.context3,
                 isBriefContextComplete: true
             };
 
-            if(!(req.body.enp).trim() || 
+            if(!(req.body.actualDateStart).trim() ||
+                !(req.body.actualDateEnd).trim() ||
+                !(req.body.enp).trim() || 
                 !(req.body.enmp).trim() || 
                 !(req.body.venue).trim() ||
                 !(req.body.adviser).trim() ||
+                !(req.body.expense).trim() ||
                 !(req.body.context1).trim() ||
                 !(req.body.context2).trim() ||
                 !(req.body.context3).trim()){
@@ -1186,18 +1196,31 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             console.log("req.params");
             console.log(req.params.id);
             var dbParam = {
-                gosmId:req.body.gosmid
-            }
-            console.log(parseInt(req.body.context) );
-            if(parseInt(req.body.context) && parseInt(req.body.program) && parseInt(req.body.expense) && parseInt(req.body.attachment)){
-                postProjectProposalModel.insertPostProjectProposal(dbParam)
+                id: req.body.pprid,
+                preparedby: req.session.user.idNumber
+            };
+            console.log(req.body.context);
+            if(req.body.context && req.body.program && req.body.expense && req.body.attachment){
+                console.log("IZ HERE");
+
+                projectProposalModel.submitProjectProposal(dbParam)
                 .then(data=>{
-                    return res.render(`/Organization/ProjectProposal/gosmlist`,renderData);
-                }).catch(err=>{
+                return res.redirect(`/Organization/ProjectProposal/gosmlist/`);
+                }).catch(error=>{
 
                 });
+
+                // postProjectProposalModel.insertPostProjectProposal(dbParam)
+                // .then(data=>{
+                //     return res.render(`/Organization/ProjectProposal/gosmlist`,renderData);
+                // }).catch(err=>{
+
+                // });
             }else{
-                return res.redirect(`/Organization/ProjectProposal/gosmlist/1`);
+
+                console.log("IZ HERE INSTEAD");
+
+                return res.redirect(`/Organization/ProjectProposal/gosmlist/`);
             }
 
         },
@@ -1240,15 +1263,15 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                //DP
                 var fqName = req.files['fq-dp'].name;
-                var fqcuid = cuid()+path.extname(bsName);
+                var fqcuid = cuid()+path.extname(fqName);
                 var rofName = req.files['rof-dp'].name;
-                var rofcuid = cuid()+path.extname(bsName);
+                var rofcuid = cuid()+path.extname(rofName);
 
                 var dpParam = {
                     gosmid: req.body.gosmid,
-                    est: req.body.['est-dp'],
+                    est: req.body['est-dp'],
                     amount: req.body['amount-dp'],
-                    paymentBy: req.body['pb-dp']
+                    paymentBy: req.body['pb-dp'],
                     delayedProcessing: req.body['delayed-dp'],
                     fq: fqcuid,
                     fqts: fqName,
@@ -1264,7 +1287,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         ])
                         .then(data =>{
 
-                        }).catch(data =>{
+                        }).catch(err =>{
                              console.log("==================DP");
                             console.log(err);
                         });
@@ -1275,21 +1298,66 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     gosmid : req.body.gosmid,
                     est : req.body["est-bt"],
                     amount: req.body["amount-bt"],
-                    purpose: req.body['pur-by'],
+                    purpose: req.body['pur-bt'],
                     bs: bscuid,
                     bsts: bsName,
                     idNumber: req.session.user.idNumber
                 };
                 Promise.all([
                             req.files['bs-bt'].mv(path.join(dir2,bscuid)),
-                            postProjectProposalModel.insertPostDP(dpParam,t)
+                            postProjectProposalModel.insertPostBT(btParam,t)
                         ])
                         .then(data =>{
 
-                        }).catch(data =>{
+                        }).catch(err =>{
                             console.log("==================bt");
                             console.log(err);
                         });
+
+                //REIM
+                var names =[];
+                var nameToShow = [];
+                if(typeof req.files['rec-pr'][Symbol.iterator] == 'function'){
+                    for(var ctr = 0; ctr < req.files['rec-pr'].length; ctr++){
+                        var recName = req.files['rec-pr'][ctr].name;
+                        var reccuid = cuid()+path.extname(bsName); 
+                        names.push(recName)  ;
+                        nameToShow.push(reccuid);
+                        req.files['rec-pr'][ctr].mv(path.join(dir2,reccuid))
+                            .then(data=>{
+
+                            }).catch(err=>{
+                                console.log("==================REIM");
+                                console.log(err);
+                            })
+                    }
+                }else{
+                    var recName = req.files['rec-pr'].name;
+                    var reccuid = cuid()+path.extname(recName); 
+                    names.push(recName)  ;
+                    nameToShow.push(reccuid);
+                    req.files['rec-pr'].mv(path.join(dir2,reccuid))
+                        .then(data=>{
+
+                        }).catch(err=>{
+                            console.log("==================REIM");
+                            console.log(err);
+                        })
+                }
+                var rParam = {
+                    gosmid : req.body.gosmid,
+                    est : req.body["est-pr"],
+                    amount: req.body['amount-pr'],
+                    paymentBy : req.body['pb-pr'],
+                    delayedProcessing: req.body['dp-pr'],
+                    n:req.body['n-pr'],
+                    filenames: names,
+                    filenamesToShow: nameToShow,
+                    idNumber: req.session.user.id
+
+                }
+                postProjectProposalModel.insertPostReim(rParam,t)
+
 
 
             }).then(data =>{
