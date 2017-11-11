@@ -71,3 +71,13 @@
 .table-borderless > thead > tr > th {
     border: none;
 }
+.question-badge{
+	height:20px;
+	width:20px;
+}
+.scroll-table{ 
+	overflow-x: scroll;
+}
+#informal_quotation th, td{
+	min-width: 200px;
+}
