@@ -1583,8 +1583,6 @@ CREATE TABLE ProjectProposalProgramDesignPersonInCharge (
     PRIMARY KEY (programDesign, projectHead)
 );
 
-
-
 DROP TABLE IF EXISTS ProjectProposalProjectedIncome CASCADE;
 CREATE TABLE ProjectProposalProjectedIncome (
     projectProposal INTEGER REFERENCES ProjectProposal(id),
@@ -1750,7 +1748,7 @@ CREATE TABLE ProjectProposalSignatory (
   digitalSignature TEXT,
   dateSigned TIMESTAMP WITH TIME ZONE,
 
-  PRIMARY KEY(GOSMActivity, signatory, type)
+  CONSTRAINT "pk_ProjectProposalSignatory" PRIMARY KEY(GOSMActivity, signatory, type)
 );
 
     /* Load balancing of Proposals */
@@ -1776,13 +1774,7 @@ $trigger$
 
         INSERT INTO ProjectProposalSignatory (GOSMActivity, signatory, type)
              VALUES (NEW.GOSMActivity, organization_get_president(organization), 3);
-        /*
-        
-        Faculty Adviser inserted by application
-        INSERT INTO ProjectProposalSignatory (GOSMActivity, signatory, type)
-             VALUES (NEW.GOSMActivity, NEW.facultyAdviser, 4);
-        
-        */
+
         INSERT INTO ProjectProposalSignatory (GOSMActivity, signatory, type)
              VALUES (NEW.GOSMActivity, organization_get_documentation_signatories(organization), 5);
 
@@ -1804,10 +1796,11 @@ CREATE OR REPLACE FUNCTION "trigger_after_update_ProjectProposal_signatory_facul
 RETURNS trigger AS
 $trigger$
     BEGIN
-      UPDATE ProjectProposalSignatory
-         SET signatory = NEW.facultyAdviser
-       WHERE GOSMActivity = NEW.GOSMActivity
-         AND type = 4;
+      INSERT INTO ProjectProposalSignatory (GOSMActivity, signatory, type)
+                                    VALUES (NEW.GOSMActivity, NEW.facultyAdviser, 4)
+      ON CONFLICT ON CONSTRAINT "pk_ProjectProposalSignatory"
+      DO UPDATE SET signatory = NEW.facultyAdviser;
+
       RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
@@ -2201,6 +2194,47 @@ CREATE TABLE "audit_Account" (
   PRIMARY KEY (id)
 );
   /* Logging of PPR */
+DROP TABLE IF EXISTS "ProjectProposalEvent" CASCADE;
+CREATE TABLE "ProjectProposalEvent" (
+  "id" SMALLINT,
+  "name" VARCHAR(45),
+
+  PRIMARY KEY("id")
+);
+INSERT INTO "ProjectProposalEvent" ("id", "name")
+                            VALUES (   0, 'Updated Main Project Proposal'),
+                                   (   1, 'Updated Expense'),
+                                   (   2, 'Updated Program Design'),
+                                   (   3, 'Deleted Expense'),
+                                   (   4, 'Deleted Program Design');
+
+DROP TABLE IF EXISTS "audit_ProjectProposal" CASCADE;
+CREATE TABLE "audit_ProjectProposal" (
+  "id" SERIAL UNIQUE, 
+  "GOSMActivity" INTEGER,
+  "sequence" INTEGER DEFAULT -1,
+  "event" SMALLINT NOT NULL REFERENCES "ProjectProposalEvent"("id"),
+  "oldValues" JSONB,
+  "newValues" JSONB,
+  "dateCreated" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+
+  PRIMARY KEY("GOSMActivity", "sequence")
+);
+CREATE OR REPLACE FUNCTION "trigger_before_insert_audit_ProjectProposal_sequence"()
+RETURNS trigger AS
+$trigger$
+    BEGIN
+        SELECT COALESCE(MAX("sequence") + 1, 1) INTO NEW."sequence"
+          FROM "audit_ProjectProposal"
+         WHERE "GOSMActivity" = NEW."GOSMActivity";
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER "before_insert_audit_ProjectProposal_sequence"
+    AFTER UPDATE ON "audit_ProjectProposal"
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_before_insert_audit_ProjectProposal_sequence"();
+
 CREATE OR REPLACE FUNCTION "trigger_after_update_ProjectProposal_auditing"()
 RETURNS trigger AS
 $trigger$
@@ -2209,9 +2243,20 @@ $trigger$
         newValues TEXT[] DEFAULT '{}';
     BEGIN
         oldValues = oldValues || '{"", ""}';
+        oldValues = oldValues || '{"", ""}';
+        oldValues = oldValues || '{"", ""}';
+        oldValues = oldValues || '{"", ""}';
+        oldValues = oldValues || '{"", ""}';
+        oldValues = oldValues || '{"", ""}';
+        oldValues = oldValues || '{"", ""}';
+        oldValues = oldValues || '{"", ""}';
+        oldValues = oldValues || '{"", ""}';
+        oldValues = oldValues || '{"", ""}';
+        oldValues = oldValues || '{"", ""}';
+        oldValues = oldValues || '{"", ""}';
+        oldValues = oldValues || '{"", ""}';
 
-        oldValues = oldValues || '{"", ""}';
-        oldValues = oldValues || '{"", ""}';
+
         RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
