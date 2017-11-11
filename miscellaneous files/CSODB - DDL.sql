@@ -1490,6 +1490,7 @@ CREATE TABLE ProjectProposal (
     id SERIAL UNIQUE,
     GOSMActivity INTEGER REFERENCES GOSMActivity(id),
     status INTEGER NOT NULL REFERENCES ProjectProposalStatus(id) DEFAULT 1,
+    -- Brief Context
     ENP INTEGER,
     ENMP INTEGER,
     actualDateStart DATE,
@@ -1498,6 +1499,7 @@ CREATE TABLE ProjectProposal (
     context1 TEXT,
     context2 TEXT,
     context3 TEXT,
+    -- Revenue/Expense on 
     isExpense BOOLEAN NOT NULL DEFAULT TRUE,
     sourceFundOther NUMERIC(12, 2),
     sourceFundParticipantFee NUMERIC(12, 2),
@@ -1511,6 +1513,7 @@ CREATE TABLE ProjectProposal (
     dateCreated TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     dateSubmitted TIMESTAMP WITH TIME ZONE,
     dateStatusModified TIMESTAMP WITH TIME ZONE,
+    -- status
     isAttachmentsComplete BOOLEAN NOT NULL DEFAULT FALSE,
     isBriefContextComplete BOOLEAN NOT NULL DEFAULT FALSE,
     isExpenseComplete BOOLEAN NOT NULL DEFAULT FALSE,
@@ -1538,25 +1541,6 @@ CREATE TRIGGER before_update_ProjectProposal
     BEFORE UPDATE ON ProjectProposal
     FOR EACH ROW WHEN (OLD.status <> NEW.status)
     EXECUTE PROCEDURE trigger_before_update_ProjectProposal();
-
-/* Logging of PPR */
-CREATE OR REPLACE FUNCTION "trigger_after_update_ProjectProposal_auditing"()
-RETURNS trigger AS
-$trigger$
-    DECLARE
-        oldValues TEXT[] DEFAULT '{}';
-        newValues TEXT[] DEFAULT '{}';
-    BEGIN
-        
-
-        RETURN NEW;
-    END;
-$trigger$ LANGUAGE plpgsql;
-CREATE TRIGGER "after_update_ProjectProposal_auditing"
-    AFTER UPDATE ON ProjectProposal
-    FOR EACH ROW
-    EXECUTE PROCEDURE "trigger_after_update_ProjectProposal_auditing"();
-/* End of Logging of PPR */
 
 DROP TABLE IF EXISTS ProjectProposalProgramDesign CASCADE;
 CREATE TABLE ProjectProposalProgramDesign (
@@ -1813,7 +1797,7 @@ CREATE TRIGGER "after_insert_ProjectProposal_signatories"
     EXECUTE PROCEDURE "trigger_after_insert_ProjectProposal_signatories"();
 /* End Load balancing of Proposals */
 
-CREATE OR REPLACE FUNCTION "trigger_after_update_ProjectProposal"()
+CREATE OR REPLACE FUNCTION "trigger_after_update_ProjectProposal_signatory"()
 RETURNS trigger AS
 $trigger$
     BEGIN
@@ -1827,7 +1811,7 @@ $trigger$ LANGUAGE plpgsql;
 CREATE TRIGGER "after_update_ProjectProposal"
     AFTER UPDATE ON ProjectProposal
     FOR EACH ROW WHEN ((OLD.facultyAdviser IS NULL) OR (OLD.facultyAdviser <> NEW.facultyAdviser))
-    EXECUTE PROCEDURE "trigger_after_update_ProjectProposal"();
+    EXECUTE PROCEDURE "trigger_after_update_ProjectProposal_signatory"();
 
     /* End Project Proposal */
 
@@ -2006,7 +1990,7 @@ CREATE TABLE "PostProjectProposalExpense" (
 
   PRIMARY KEY("GOSMActivity", "sequence")
 );
-CREATE OR REPLACE FUNCTION "trigger_before_insert_PostProjectProposalExpense"()
+CREATE OR REPLACE FUNCTION "trigger_before_insert_PostProjectProposalExpense_sequence"()
 RETURNS trigger AS
 $trigger$
     BEGIN
@@ -2017,10 +2001,10 @@ $trigger$
         return NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
-CREATE TRIGGER "before_insert_PostProjectProposalExpense"
+CREATE TRIGGER "before_insert_PostProjectProposalExpense_sequence"
     BEFORE INSERT ON "PostProjectProposalExpense"
     FOR EACH ROW
-    EXECUTE PROCEDURE "trigger_before_insert_PostProjectProposalExpense"();
+    EXECUTE PROCEDURE "trigger_before_insert_PostProjectProposalExpense_sequence"();
 
 DROP TABLE IF EXISTS "PostProjectProposalEventPicture" CASCADE;
 CREATE TABLE "PostProjectProposalEventPicture" (
@@ -2034,7 +2018,7 @@ CREATE TABLE "PostProjectProposalEventPicture" (
 
   PRIMARY KEY("GOSMActivity", "sequence")
 );
-CREATE OR REPLACE FUNCTION "trigger_before_insert_PostProjectProposalEventPicture"()
+CREATE OR REPLACE FUNCTION "trigger_before_insert_PostProjectProposalEventPicture_sequence"()
 RETURNS trigger AS
 $trigger$
     BEGIN
@@ -2045,16 +2029,11 @@ $trigger$
         return NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
-CREATE TRIGGER "before_insert_PostProjectProposalEventPicture"
+CREATE TRIGGER "before_insert_PostProjectProposalEventPicture_sequence"
     BEFORE INSERT ON "PostProjectProposalEventPicture"
     FOR EACH ROW
-    EXECUTE PROCEDURE "trigger_before_insert_PostProjectProposalEventPicture"();
-/*
-DROP TABLE IF EXISTS "" CASCADE;
-CREATE TABLE "" (
+    EXECUTE PROCEDURE "trigger_before_insert_PostProjectProposalEventPicture_sequence"();
 
-);
-*/
 DROP TABLE IF EXISTS "PostProjectDirectPaymentPayment" CASCADE;
 CREATE TABLE "PostProjectDirectPaymentPayment" (
   id INTEGER,
@@ -2085,10 +2064,8 @@ CREATE TABLE "PostProjectDirectPayment" (
 CREATE OR REPLACE FUNCTION "trigger_before_insert_PostProjectDirectPayment_sequence"()
 RETURNS trigger AS
 $trigger$
-    DECLARE 
-      newSequence INTEGER DEFAULT -1;
     BEGIN
-        SELECT COALESCE(MAX(sequence) + 1, 1) INTO newSequence
+        SELECT COALESCE(MAX(sequence) + 1, 1) INTO NEW.sequence
           FROM "PostProjectDirectPayment"
          WHERE "GOSMActivity" = NEW."GOSMActivity"; 
 
@@ -2130,10 +2107,8 @@ CREATE TABLE "PostProjectReimbursement" (
 CREATE OR REPLACE FUNCTION "trigger_before_insert_PostProjectReimbursement_sequence"()
 RETURNS trigger AS
 $trigger$
-    DECLARE 
-      newSequence INTEGER DEFAULT -1;
     BEGIN
-        SELECT COALESCE(MAX(sequence) + 1, 1) INTO newSequence
+        SELECT COALESCE(MAX(sequence) + 1, 1) INTO NEW.sequence
           FROM "PostProjectReimbursement"
          WHERE "GOSMActivity" = NEW."GOSMActivity"; 
 
@@ -2162,10 +2137,8 @@ CREATE TABLE "PostProjectBookTransfer" (
 CREATE OR REPLACE FUNCTION "trigger_before_insert_PostProjectBookTransfer_sequence"()
 RETURNS trigger AS
 $trigger$
-    DECLARE 
-      newSequence INTEGER DEFAULT -1;
     BEGIN
-        SELECT COALESCE(MAX(sequence) + 1, 1) INTO newSequence
+        SELECT COALESCE(MAX(sequence) + 1, 1) INTO NEW.sequence
           FROM "PostProjectBookTransfer"
          WHERE "GOSMActivity" = NEW."GOSMActivity"; 
         
@@ -2206,8 +2179,29 @@ CREATE TABLE "audit_Account" (
 
   PRIMARY KEY (id)
 );
+  /* Logging of PPR */
+CREATE OR REPLACE FUNCTION "trigger_after_update_ProjectProposal_auditing"()
+RETURNS trigger AS
+$trigger$
+    DECLARE
+        oldValues TEXT[] DEFAULT '{}';
+        newValues TEXT[] DEFAULT '{}';
+    BEGIN
+        oldValues = oldValues || '{"", ""}';
 
-    /* SESSION TABLE */
+        oldValues = oldValues || '{"", ""}';
+        oldValues = oldValues || '{"", ""}';
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER "after_update_ProjectProposal_auditing"
+    AFTER UPDATE ON ProjectProposal
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_after_update_ProjectProposal_auditing"();
+  /* End of Logging of PPR */
+/* End of Auditing */
+
+/* SESSION TABLE */
 DROP TABLE IF EXISTS session CASCADE;
 CREATE TABLE IF NOT EXISTS session (
     "sid" varchar NOT NULL COLLATE "default",
@@ -2217,3 +2211,4 @@ CREATE TABLE IF NOT EXISTS session (
     PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE
 )
 WITH (OIDS=FALSE);
+/* End of SESSION TABLE */
