@@ -1509,7 +1509,7 @@ CREATE TABLE ProjectProposal (
     organizationFundOtherSource NUMERIC(12, 2),
     comments TEXT,
     preparedBy INTEGER REFERENCES Account(idNumber),
-    facultyAdviser INTEGER NOT NULL REFERENCES Account(idNumber),
+    facultyAdviser INTEGER REFERENCES Account(idNumber),
     dateCreated TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     dateSubmitted TIMESTAMP WITH TIME ZONE,
     dateStatusModified TIMESTAMP WITH TIME ZONE,
@@ -1707,6 +1707,7 @@ CREATE TRIGGER before_insert_ProjectProposalAttachment
     FOR EACH ROW
     EXECUTE PROCEDURE trigger_before_insert_ProjectProposalAttachment();
 
+  /* Project Proposal Signatories */
 DROP TABLE IF EXISTS SignatoryStatus CASCADE;
 CREATE TABLE SignatoryStatus (
   id SMALLINT,
@@ -1729,10 +1730,10 @@ CREATE TABLE SignatoryType (
 );
 INSERT INTO SignatoryType (id, name)
                    VALUES ( 0, 'Project Head'),
-                   		  ( 1, 'Treasurer/Finance Officer'), -- VP
-                   		  ( 2, 'Immediate Superior'), -- 1 step higher
-                   		  ( 3, 'President'),
-                   		  ( 4, 'Faculty Adviser'), --
+                          ( 1, 'Treasurer/Finance Officer'), -- VP
+                          ( 2, 'Immediate Superior'), -- 1 step higher
+                          ( 3, 'President'),
+                          ( 4, 'Faculty Adviser'), --
                           ( 5, 'Documentation Officer'), -- VP
                           ( 6, 'APS - AVC'), -- Pwedeng Madami
                           ( 7, 'APS -  VC'); --
@@ -1752,7 +1753,7 @@ CREATE TABLE ProjectProposalSignatory (
   PRIMARY KEY(GOSMActivity, signatory, type)
 );
 
-/* Load balancing of Proposals */
+    /* Load balancing of Proposals */
 CREATE OR REPLACE FUNCTION "trigger_after_insert_ProjectProposal_signatories"()
 RETURNS trigger AS
 $trigger$
@@ -1775,10 +1776,13 @@ $trigger$
 
         INSERT INTO ProjectProposalSignatory (GOSMActivity, signatory, type)
              VALUES (NEW.GOSMActivity, organization_get_president(organization), 3);
-
+        /*
+        
+        Faculty Adviser inserted by application
         INSERT INTO ProjectProposalSignatory (GOSMActivity, signatory, type)
              VALUES (NEW.GOSMActivity, NEW.facultyAdviser, 4);
-
+        
+        */
         INSERT INTO ProjectProposalSignatory (GOSMActivity, signatory, type)
              VALUES (NEW.GOSMActivity, organization_get_documentation_signatories(organization), 5);
 
@@ -1795,9 +1799,8 @@ CREATE TRIGGER "after_insert_ProjectProposal_signatories"
     AFTER INSERT ON ProjectProposal
     FOR EACH ROW
     EXECUTE PROCEDURE "trigger_after_insert_ProjectProposal_signatories"();
-/* End Load balancing of Proposals */
 
-CREATE OR REPLACE FUNCTION "trigger_after_update_ProjectProposal_signatory"()
+CREATE OR REPLACE FUNCTION "trigger_after_update_ProjectProposal_signatory_facultyAdviser"()
 RETURNS trigger AS
 $trigger$
     BEGIN
@@ -1808,12 +1811,30 @@ $trigger$
       RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
-CREATE TRIGGER "after_update_ProjectProposal"
+CREATE TRIGGER "after_update_ProjectProposal_signatory_facultyAdviser"
     AFTER UPDATE ON ProjectProposal
     FOR EACH ROW WHEN ((OLD.facultyAdviser IS NULL) OR (OLD.facultyAdviser <> NEW.facultyAdviser))
-    EXECUTE PROCEDURE "trigger_after_update_ProjectProposal_signatory"();
+    EXECUTE PROCEDURE "trigger_after_update_ProjectProposal_signatory_facultyAdviser"();
 
-    /* End Project Proposal */
+CREATE OR REPLACE FUNCTION "trigger_after_update_ProjectProposal_signatory_immediateSuperior"()
+RETURNS trigger AS
+$trigger$
+    BEGIN
+      UPDATE ProjectProposalSignatory
+         SET signatory = "PPR_get_organization_next_immediate_supervisor_signatory"(NEW.preparedBy, "GOSMActivity_get_organization"(NEW.GOSMActivity))
+       WHERE GOSMActivity = NEW.GOSMActivity
+         AND type = 2;
+      RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER "after_update_ProjectProposal_signatory_immediateSuperior"
+    AFTER UPDATE ON ProjectProposal
+    FOR EACH ROW WHEN ((OLD.preparedBy IS NULL) OR (OLD.preparedBy <> NEW.preparedBy))
+    EXECUTE PROCEDURE "trigger_after_update_ProjectProposal_signatory_immediateSuperior"();
+
+    /* End Load balancing of Proposals */
+  /* End of Project Proposal Signatories */
+/* End of Project Proposal */
 
 /* Organization Treasurer */
 DROP TABLE IF EXISTS "TransactionType" CASCADE;
@@ -2102,7 +2123,7 @@ CREATE TABLE "PostProjectReimbursement" (
   "idNumber" INTEGER REFERENCES Account(idNumber),
   "dateCreated" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-  PRIMARY KEY("GOSMActivity")
+  PRIMARY KEY("GOSMActivity", "sequence")
 );
 CREATE OR REPLACE FUNCTION "trigger_before_insert_PostProjectReimbursement_sequence"()
 RETURNS trigger AS
@@ -2132,7 +2153,7 @@ CREATE TABLE "PostProjectBookTransfer" (
   "idNumber" INTEGER REFERENCES Account(idNumber),
   "dateCreated" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-  PRIMARY KEY ("GOSMActivity")
+  PRIMARY KEY("GOSMActivity", "sequence")
 );
 CREATE OR REPLACE FUNCTION "trigger_before_insert_PostProjectBookTransfer_sequence"()
 RETURNS trigger AS
