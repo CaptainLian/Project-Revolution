@@ -222,7 +222,7 @@ module.exports = function(configuration, application, modules, database, queryFi
         }).catch(err => {
             logger.debug(`${JSON.stringify(err)}`, log_options);
             logger.debug(`${err.stack}`, log_options);
-            return next();
+            return next(err);
         });
     };
 
