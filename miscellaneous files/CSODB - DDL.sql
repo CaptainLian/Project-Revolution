@@ -2215,6 +2215,8 @@ CREATE TABLE "audit_ProjectProposal" (
   "sequence" INTEGER DEFAULT -1,
   "event" SMALLINT NOT NULL REFERENCES "ProjectProposalEvent"("id"),
   "values" JSONB,
+  "oldValues" JSONB,
+  "newValues" JSONB,
   "dateCreated" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
 
   PRIMARY KEY("GOSMActivity", "sequence")
@@ -2238,8 +2240,6 @@ CREATE OR REPLACE FUNCTION "trigger_after_update_ProjectProposal_auditing"()
 RETURNS trigger AS
 $trigger$
     DECLARE
-        komento TEXT;
-        texts TEXT[];
         valueData JSONB DEFAULT '{}'::jsonb;
         oldValues JSONB DEFAULT '{}'::jsonb;
         newValues JSONB DEFAULT '{}'::jsonb;
@@ -2271,7 +2271,7 @@ $trigger$
         oldValues = jsonb_set(oldValues, '{"facultyAdviser"}'::text[], OLD.facultyAdviser::text::jsonb, true);
 
         IF OLD.comments IS NOT NULL THEN
-            -- 
+            --
         END IF;
 
 
@@ -2343,8 +2343,8 @@ $trigger$
         valueData = jsonb_set(valueData, '{"oldValues"}'::text[], oldValues::jsonb, true);
         valueData = jsonb_set(valueData, '{"newValues"}'::text[], newValues::jsonb, true);
 
-        INSERT INTO "audit_ProjectProposal" ("GOSMActivity", "event", "values", "dateCreated")
-                                     VALUES (NEW.GOSMActivity,     0, valueData, CURRENT_TIMESTAMP);
+        INSERT INTO "audit_ProjectProposal" ("GOSMActivity", "event", "values", "dateCreated", "oldValues", "newValues")
+                                     VALUES (NEW.GOSMActivity,     0, valueData, CURRENT_TIMESTAMP, oldValues::jsonb, newValues::jsonb);
         RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
