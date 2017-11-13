@@ -164,9 +164,26 @@ module.exports = function(configuration, modules, models, database, queryFiles){
             	console.log("GREDU DESU");
             	console.log(startgrade);
 
+            	var last = data1.length-1;
+            	console.log("last is");
+            	console.log(last);
+
             	console.log("ENDTIME")
-            	var diff2 = timediff(new Date(data1[0].origdate+" "+data1[0].endtime),new Date(data1[0].origdate+" "+req.body.timeEnd), 'm');
+            	var diff2 = timediff(new Date(data1[last].origdate+" "+data1[0].endtime),new Date(data1[0].origdate+" "+req.body.timeEnd), 'm');
             	console.log(diff2);
+
+            	var endgrade = 0;
+            	if (diff2.minutes <= 0){
+            		endgrade = 5;
+            	}else if(diff2.minutes <= 5){
+            		endgrade = 4;
+            	}else if(diff2.minutes <= 10){
+            		endgrade = 3;
+            	}else if(diff2.minutes <= 15){
+            		endgrade = 2;
+            	}else{
+            		endgrade = 1;
+            	}
 
             	var endtimeapproved = new Date(data1.endtime);
             	var actualendtime = new Date(req.body.timeEnd);
@@ -180,7 +197,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 					materials: req.body.material,
 					registration: req.body.registration,
 					timeStart: startgrade,
-					timeend: 1,
+					timeEnd: endgrade,
 					activityexecution: activityExecution,
 					hosts: req.body.host,
 					facilitators: facilitators,
@@ -205,14 +222,14 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				console.log("DBPARAM");
 				console.log(dbParam);
 
-				// amtModel.updateAMTActivityEvaluation(dbParam)
-				// .then(data=>{
+				amtModel.updateAMTActivityEvaluation(dbParam)
+				.then(data=>{
 
-				// })
-				// .catch(error=>{
-				// 	console.log("ERROR 1");
-				// 	console.log(error);
-				// });
+				})
+				.catch(error=>{
+					console.log("ERROR 1");
+					console.log(error);
+				});
 
             }).catch(error=>{
             	console.log("ERROR 2");
