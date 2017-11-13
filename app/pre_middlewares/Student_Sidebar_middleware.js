@@ -82,7 +82,7 @@ module.exports = function(configuration, application, modules, database, queryFi
     Sidebar_data_attacher_middleware.name = 'Student extra_data sidebar attacher';
     Sidebar_data_attacher_middleware.priority = configuration.load_priority.HIGH;
     Sidebar_data_attacher_middleware.action = (req, res, next) => {
-        
+
         if (!req.extra_data.view) {
             req.extra_data.system.sidebars = Object.create(null);
             req.extra_data.system.sidebars.canAttach = false;
@@ -195,7 +195,7 @@ module.exports = function(configuration, application, modules, database, queryFi
         logger.debug('Performing sidebar checks', log_options);
         const user = req.session.user;
         const organizationSelected = user.organizationSelected;
-        accountModel.hasGOSMActivityWithPPR(user.idNumber, organizationSelected.id)
+        accountModel.hasGOSMActivityWithoutPPR(user.idNumber, organizationSelected.id)
         .then(activity => {
             logger.debug(`Has GOSM activity with PPR: ${activity.exists}`, log_options);
             if (activity.exists) {
@@ -203,7 +203,6 @@ module.exports = function(configuration, application, modules, database, queryFi
                 const newSidebar = Object.create(null);
                 newSidebar.name = 'Submit Project Proposal';
                 newSidebar.link = '/Organization/ProjectProposal/GOSMList';
-
                 sidebars[sidebars.length] = newSidebar;
             }
 
