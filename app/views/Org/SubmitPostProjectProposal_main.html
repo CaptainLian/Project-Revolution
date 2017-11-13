@@ -55,12 +55,18 @@
     <!-- Custom Theme JavaScript -->
      {{tag.javascript('/js/custom.min.js', true)}}
     <!--Style Switcher -->
+    
     {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
+    {{tag.javascript('/js/APS/postProjectProposalMain.js', true)}}
 
    
 {%endblock%}
 
 {%block content%}
+
+<form action="/Organization/PostProjectProposal/Main" method="POST">
+<input type="hidden" name="gosmid" value="{{gosmid}}">
+<input type="hidden" name="_csrf" value="{{csrfToken}}">
 <div class="row white-box">
 	<div class="col-md-12">
 		<div class="">
@@ -115,7 +121,9 @@
 
 					{% endif %}
 
-				{{completionRate | round(1)}}
+					
+
+				{{completionRate | round}}
 				%</h3>
 				<hr>
 				<p>
@@ -156,8 +164,10 @@
 						<div class="col-md-6 text-left">
 						{% if activities.isBriefContextCompleted %}
 						<h5>Brief Context <span class="label label-success">Complete</span></h5>
+						<input type="hidden" name="briefContext" value="1">
 						{% else%}
 							<h5>Brief Context <span class="label label-danger">Incomplete</span></h5>
+							<input type="hidden" name="briefContext" value="0">
 						{% endif %}
 							
 						</div>
@@ -174,9 +184,11 @@
 					<div class="row">
 						<div class="col-md-6 text-left">
 							{% if activities.isOtherFinanceDocumentsCompleted %}
-							<h5>Required Document <span class="label label-success">Complete</span></h5>
+								<h5>Required Document <span class="label label-success">Complete</span></h5>
+								<input type="hidden" name="reqDocu" value="1">
 							{% else%}
 								<h5>Required Document<span class="label label-danger">Incomplete</span></h5>
+								<input type="hidden" name="reqDocu" value="0">
 							{% endif %}
 							
 							
@@ -196,8 +208,10 @@
 						
 							{% if activities.isFinanceDocumentCompleted %}
 							<h5>Finance Document <span class="label label-success">Complete</span></h5>
+							<input type="hidden" name="finDocu" value="1">
 							{% else%}
 								<h5>Finance Document <span class="label label-danger">Incomplete</span></h5>
+								<input type="hidden" name="finDocu" value="0">
 							{% endif %}
 
 						</div>
@@ -217,7 +231,28 @@
 			
 			<div class="m-t-40 col-md-12 text-center">
 				
-				<button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Submit</button>
+					<button type="submit"
+					{% if not activities.isFinanceDocumentCompleted %}
+
+							disabled=''
+					{%elif not activities.isOtherFinanceDocumentsCompleted%}					
+						disabled=''
+					{%elif not activities.isBriefContextCompleted%}					
+					disabled=''
+					
+					{% endif %}
+					
+					 class="btn btn-success
+					{% if not activities.isFinanceDocumentCompleted %}
+
+						disabled
+					{%elif not activities.isOtherFinanceDocumentsCompleted%}					
+					disabled
+					{%elif not activities.isBriefContextCompleted%}					
+					disabled
+					
+					{% endif %}
+				"> <i class="fa fa-check"></i> Submit</button>
 				<button type="button" class="btn btn-default">Cancel</button>
 				
 			</div>

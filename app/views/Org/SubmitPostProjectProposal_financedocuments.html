@@ -82,12 +82,14 @@
 												<ul>
 													{%if status.isCheckedDP %}
 													<li><a class="text-center" href="#section-line-1"><span>Direct Payment</span></a></li>
+													<input type="hidden" name="dp" value="1">
 													{%endif%}
 													{%if status.isCheckedR %}
 													<li><a class="text-center" href="#section-line-2"><span>Reimbursement</span></a></li>
+													<input type="hidden" name="reim" value="1">
 													{%endif%}
 													{%if status.isCheckedBT %}
-													<li><a class="text-center" href="#section-line-4"><span>Book Transfer</span></a></li>
+													<li><a class="text-center" href="#section-line-4"><span>Book Transfer</span></a></li><input type="hidden" name="bt" value="1">
 													{%endif%}
 												</ul>
 											</nav>

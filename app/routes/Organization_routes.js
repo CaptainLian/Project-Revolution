@@ -30,6 +30,7 @@ module.exports = function(configuration, modules, router, controllers){
     router.post(`${base}/PostProjectProposal/SaveContext`, controllers.Organization_controller.postSaveContext);    
     router.post(`${base}/PostProjectProposal/SaveExpenses`, controllers.Organization_controller.postSaveExpenses);
     router.post(`${base}/PostProjectProposal/SaveAttachments`, controllers.Organization_controller.postSaveAttachments);
+    router.post(`${base}/PostProjectProposal/Main`, controllers.Organization_controller.postSaveMain);
 
     router.get(`${base}/Setting/ACL`, controllers.Organization_controller.viewSettingAcl);
     router.get(`${base}/PostProjectProposal/Main/:gosmid`, controllers.Organization_controller.viewSubmitPostProjectProposalMain);

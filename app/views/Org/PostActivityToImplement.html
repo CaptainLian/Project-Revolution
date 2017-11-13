@@ -66,6 +66,11 @@
 {%endblock%}
 
 {%block content%}
+{%if success%}
+<div class="alert alert-success alert-dismissable">
+     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> 
+     Successfully submitted!</div>
+{%endif%}
 <!-- FOR SUCCESS -->
 <!-- <div class="alert alert-info alert-dismissable">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> 
