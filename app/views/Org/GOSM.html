@@ -25,6 +25,7 @@
     {{tag.style('/css/animate.css')}}
     <!-- Custom CSS -->
     {{tag.style('/css/style.css')}}
+    <!-- {{tag.style('/css/styleCustom.css')}} -->
     {{tag.style('/plugins/bower_components/jqueryui/jquery-ui.min.css')}}
     <!-- color CSS you can use different color css from css/colors folder -->
     <!-- We have chosen the skin-blue (blue.css) for this starter
@@ -32,6 +33,7 @@
     -->
 
     {{tag.style('/css/colors/default.css')}}
+    {{tag.style('/css/weeds.css')}}
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -104,6 +106,7 @@
                                 <input name="strategy" id="strategy" type="text" placeholder="Title of your Activity" class="form-control">
 
                             </div>
+                            <div><span class="help-block" id="help-strat"></span></div>
 
                         </div>
                         <div class="form-group">
@@ -111,6 +114,7 @@
                             <div class="col-md-9">
                                 <input name="goals" id="goals" type="text" placeholder="" class="form-control">
                             </div>
+                            <div><span class="help-block" id="help-goals"></span></div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3">Objectives</label>
@@ -119,6 +123,7 @@
                                 <span class="help-block">&nbsp;</span> 
                                 
                             </div>
+                            
 
                                 
                             <div id="div-after-objectives"></div>
@@ -126,7 +131,7 @@
                             <div style="text-align: center" class="col-md-12">
                                 <button id="objectives-add" type="button" class="btn btn-success">&nbsp;&nbsp;&nbsp;+&nbsp;&nbsp;&nbsp;</button>
                             </div>
-
+                            <div><span class="help-block" id="help-obj"></span></div>
 
                         </div>
 
@@ -135,12 +140,15 @@
                             <div class="col-md-9">
                                 <textarea  name="description" id="description" rows=4 class="form-control"></textarea> 
                             </div>
+                            <div><span class="help-block" id="help-desc"></span></div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3">Measures</label>
                             <div class="col-md-9">
                                 <input name="measures" id="measures" type="text" placeholder="" class="form-control">
                             </div>
+
+                            <div><span class="help-block" id="help-measure"></span></div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3">Target Date</label>
@@ -149,10 +157,13 @@
                                 <span class="input-group-addon bg-info b-0 text-white">to</span>
                                 <input name="targetDateEnd" id="targetDateEnd" class="form-control" readonly="" name="end" type="text" placeholder="mm/dd/yyyy">
 
+
                             </div>
                             <div class="col-md-1" style="margin-top: 8px" >
                                 <i class="fa fa-cog fa-spin text-inverse m-r-10" data-toggle="tooltip" title="Click to choose TERM Long or YEAR Long"></i>
                             </div>
+
+                            
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3">Activity Type</label>
@@ -175,6 +186,7 @@
                             <div class="col-md-9 act-others" style="display: none" id="div-others">                                                  
                                 <input name="othersDescription" id="othersDescription" type="text" class="form-control" style="display: none" id="activity-others">
                             </div>
+                            <div><span class="help-block" id="help-actT"></span></div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3">Nature Type</label>
@@ -185,6 +197,7 @@
                                     {% endfor %}
                                 </select>
                             </div>
+                            <div><span class="help-block" id="help-nat"></span></div>
                         </div>
 
                         <div class="form-group">
@@ -198,7 +211,7 @@
                                 </select>
 
                             </div>
-
+                             <div><span class="help-block" id="help-pic"></span></div>
 
 
                         </div>
@@ -213,6 +226,7 @@
                                         <input type="radio"  name="isRelatedToOrganization" value="false" > No </label>
                                 </div>
                             </div>
+                             <div><span class="help-block" id="help-rto"></span></div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3">Budget</label>
@@ -220,6 +234,7 @@
                                 <div class="input-group-addon"><i>₱</i></div>
                                 <input name="budget"  id ="budget" class="form-control">
                             </div>
+                             <div><span class="help-block" id="help-bud"></span></div>
                         </div>
 
                     </div>

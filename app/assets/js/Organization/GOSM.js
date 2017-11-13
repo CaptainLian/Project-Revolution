@@ -3,7 +3,21 @@
         new CBPFWTabs(el);
     });
 })();
-
+function removeError(){
+     $("#help-strat").text("");
+        $("#strategy").closest("div.form-group").removeClass("has-error");
+        $("#help-goals").text("");
+        $("#goals").closest("div.form-group").removeClass("has-error");
+        $("#help-measure").text("");
+        $("#measures").closest("div.form-group").removeClass("has-error");
+        $("#objectives").closest("div.form-group").removeClass("has-error");
+        $("#help-date").text("");
+        $("#targetDateStart").closest("div.form-group").removeClass("has-error");
+        $("#help-rto").text();
+        $("input[name='isRelatedToOrganization']").closest("div.form-group").removeClass("has-error");
+        $("#help-budget").text("");
+        $("#budget").closest("div.form-group").removeClass("has-error");
+}
 var con = $(document.createElement('div')).addClass("dy-obj");
 var cObj = 0;
 $("#objectives-add").click(function() {
@@ -127,7 +141,7 @@ $("#edit").on('click', function() {
 
 });
 $("#edit-gosm").click(function() {
-
+    removeError();
     $("#add-gosm").css("display", "");
     $("#edit-gosm").css("display", "none");
     $("#cancel-gosm").css("display", "none");
@@ -193,7 +207,7 @@ $("#edit-gosm").click(function() {
     });
 });
 $("#cancel-gosm").click(function() {
-
+    removeError();
     $("#add-gosm").css("display", "");
     $("#edit-gosm").css("display", "none");
     $("#cancel-gosm").css("display", "none");
@@ -423,6 +437,7 @@ $(".myadmin-alert .closed").click(function(event) {
 $("#add-gosm").click(function(e) {
     // $("#alerttopright").fadeToggle(350);
     e.preventDefault();
+   removeError();
     var strategy = $("#strategy").val();
     var goals = $("#goals").val();
     var objectives = $("input[name='objectives[]']")
@@ -442,9 +457,77 @@ $("#add-gosm").click(function(e) {
         }).get();
     var isRelatedToOrganization = $("input[name='isRelatedToOrganization']:checked").val();
     var budget = $("#budget").val();
+    var err = 0;
+    if ($.trim(strategy) < 1) {
+        $("#help-strat").text("Strategy cannot be empty!");
+        $("#strategy").closest("div.form-group").addClass("has-error");
+        err = 1;
 
+    }
+    
+    if ($.trim(goals) < 1) {
+        $("#help-goals").text("Goals cannot be empty!");
+        $("#goals").closest("div.form-group").addClass("has-error");
+        err = 1;
 
-    $.ajax({
+    }
+   
+    if ($.trim(measures) < 1) {
+        $("#help-measure").text("Measures cannot be empty!");
+        $("#measures").closest("div.form-group").addClass("has-error");
+        err = 1;
+
+    }
+
+    if (objectives.length == 1 && objectives[0] == "") {
+        // $("#help-obj").text("Objectives cannot be empty!");
+        $("#objectives").closest("div.form-group").addClass("has-error");
+        err = 1;
+
+    }
+    if ($.trim(description) < 1) {
+        $("#help-desc").text("Description cannot be empty!");
+        $("textarea").closest("div.form-group").addClass("has-error");
+        err = 1;
+
+    }
+    
+    if ($.trim(targetDateStart) < 1) {
+        $("#help-date").text("Date cannot be empty!");
+        $("#targetDateStart").closest("div.form-group").addClass("has-error");
+        err = 1;
+
+    }
+     if ($.trim(personInCharge) < 1) {
+        $("#help-pic").text("Person in charge cannot be empty!");
+        $("#personInCharge").closest("div.form-group").addClass("has-error");
+        err = 1;
+
+    }
+    
+     if ($.trim(isRelatedToOrganization) == '') {
+        $("#help-rto").text("Field cannot be empty!");
+        $("input[name='isRelatedToOrganization']").closest("div.form-group").addClass("has-error");
+        err = 1;
+
+    }
+    
+      if ($.trim(budget) < 1) {
+        $("#help-budget").text("Budget cannot be empty!");
+        $("#budget").closest("div.form-group").addClass("has-error");
+        err = 1;
+
+    }
+
+    if(err){
+         $("html, body").animate({
+                    scrollTop: 0
+                }, "fast");
+
+    }else{
+        removeError();
+        
+         $.ajax({
         type: 'POST',
         url: '/Organization/AJAX/createGOSM',
         data: {
@@ -514,6 +597,8 @@ $("#add-gosm").click(function(e) {
             }
         }
     });
+    }
+
 });
 
 $("#submit-gosm").click(function() {
