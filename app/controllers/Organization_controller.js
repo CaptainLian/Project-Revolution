@@ -1252,30 +1252,41 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
             console.log(req.body);
             console.log("=========================== FILES");
-            console.log(req.files);
+            console.log(typeof req.files['rof-dp']);
            
           
         
            
-            var statFin = {             
-                stat:true,
-                gosmid: parseInt(req.body.gosmid)
-            }
-            console.log(typeof req.files['rec-pr']);
+           
+
+            
 
             database.tx(t=>{
+                 var statFin = {             
+                    stat:true,
+                    gosmid: (req.body.gosmid)
+                }
+                var fqName='';
+                var fqcuid='';
+                var rofName = '';
+                var rofcuid ='';
 
-                if(typeof req.files['fq-dp'] == 'object'){
+                if(typeof req.files['fq-dp'] == 'object' || typeof req.files['rof-dp'] == 'object'){
                     //DP
-                    var fqName = req.files['fq-dp'].name;
-                    var fqcuid = cuid()+path.extname(fqName);
-                    var rofName = req.files['rof-dp'].name;
-                    var rofcuid = cuid()+path.extname(rofName);
-
+                   
+                    if(typeof req.files['fq-dp'] == 'object'){
+                        fqName = req.files['fq-dp'].name;
+                        fqcuid = cuid()+path.extname(fqName);    
+                    }
+                   
+                    if(typeof req.files['rof-dp'] == 'object'){
+                        rofName = req.files['rof-dp'].name;
+                        rofcuid = cuid()+path.extname(rofName);
+                    }
                     var dpParam = {
                         gosmid: req.body.gosmid,
                         est: req.body['est-dp'],
-                        amount: req.body['amount-dp'],
+                        amount: 0.0,
                         paymentBy: req.body['pb-dp'],
                         delayedProcessing: req.body['delayed-dp'],
                         fq: fqcuid,
@@ -1285,15 +1296,22 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         idNumber: req.session.user.idNumber
 
                     };
+                    if(req.body['amount-dp'] != ''){
+                        dpParam.amount = req.body['amount-dp'];
+                    }
                     if( !(req.body['est-dp']).trim() || 
                         !(req.body['amount-dp']).trim()|| 
                         !(req.body['pb-dp']).trim() || 
                         !(req.body['delayed-dp']).trim() 
 
                         ){
-                        statFin.isFinanceDocumentCompleted = false;
+                      
+                        statFin.stat = false;
                     }
-                    Promise.all([
+
+                    if(typeof req.files['fq-dp'] == 'object' && typeof req.files['rof-dp'] == 'object'){
+                        console.log(dpParam);
+                         Promise.all([
                                 req.files['fq-dp'].mv(path.join(dir2,fqcuid)),
                                 req.files['rof-dp'].mv(path.join(dir2,rofcuid)),
                                 postProjectProposalModel.insertPostDP(dpParam,t)
@@ -1301,11 +1319,56 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             .then(data =>{
 
                             }).catch(err =>{
-                                 console.log("==================DP");
+                                 console.log("==================DP1");
                                 console.log(err);
                             });
+                    }
+                    else if( typeof req.files['rof-dp'] == 'object'){
+                         Promise.all([
+                        
+                                req.files['rof-dp'].mv(path.join(dir2,rofcuid)),
+                                postProjectProposalModel.insertPostDP(dpParam,t)
+                            ])
+                            .then(data =>{
+
+                            }).catch(err =>{
+                                 console.log("==================DP2");
+                                console.log(err);
+                            });
+                    }
+                    else if(typeof req.files['fq-dp'] == 'object' ){
+                         Promise.all([
+                                req.files['fq-dp'].mv(path.join(dir2,fqcuid)),
+                        
+                                postProjectProposalModel.insertPostDP(dpParam,t)
+                            ])
+                            .then(data =>{
+
+                            }).catch(err =>{
+                                 console.log("==================DP3");
+                                console.log(err);
+                            });
+                    }
+
                 }else{
-                    statFin.isFinanceDocumentCompleted = false;
+                    statFin.stat = false;
+                     var dpParam = {
+                        gosmid: req.body.gosmid,
+                        est: req.body['est-dp'],
+                        amount: 0.0,
+                        paymentBy: req.body['pb-dp'],
+                        delayedProcessing: req.body['delayed-dp'],
+                        fq: fqcuid,
+                        fqts: fqName,
+                        rof: rofcuid,
+                        rofts: rofName,
+                        idNumber: req.session.user.idNumber
+
+                    };
+                    if(req.body['amount-dp'] != ''){
+                        dpParam.amount = req.body['amount-dp'];
+                    }
+                     postProjectProposalModel.insertPostDP(dpParam,t)
                 }
 
                 if(typeof req.files['bs-bt'] == 'object'){
@@ -1325,7 +1388,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         !(req.body['amount-bt']).trim() || 
                         !(req.body['pur-bt']).trim()
                         ){
+                       
                         statFin.isFinanceDocumentCompleted = false;
+                    }
+                    if(req.body['amount-bt'] != ''){
+                        btParam.amount = req.body['amount-bt'];
                     }
                     Promise.all([
                                 req.files['bs-bt'].mv(path.join(dir2,bscuid)),
@@ -1339,7 +1406,22 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             });
 
                 }else{
-                    statFin.isFinanceDocumentCompleted = false;
+                    var bscuid = '';
+                    var bsts = '';
+                    statFin.stat = false;
+                     var btParam = {
+                        gosmid : req.body.gosmid,
+                        est : req.body["est-bt"],
+                        amount: 0.0,
+                        purpose: req.body['pur-bt'],
+                        bs: bscuid,
+                        bsts: bsName,
+                        idNumber: req.session.user.idNumber
+                    };
+                    if(req.body['amount-bt'] != ''){
+                        btParam.amount = req.body['amount-bt'];
+                    }
+                    postProjectProposalModel.insertPostBT(btParam,t)
                 }
 
 
@@ -1351,7 +1433,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     if(typeof req.files['rec-pr'][Symbol.iterator] == 'function'){
                         for(var ctr = 0; ctr < req.files['rec-pr'].length; ctr++){
                             var recName = req.files['rec-pr'][ctr].name;
-                            var reccuid = cuid()+path.extname(bsName); 
+                            var reccuid = cuid()+path.extname(recName); 
                             names.push(recName)  ;
                             nameToShow.push(reccuid);
                             req.files['rec-pr'][ctr].mv(path.join(dir2,reccuid))
@@ -1371,20 +1453,20 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             .then(data=>{
 
                             }).catch(err=>{
-                                console.log("==================REIM");
+                                console.log("==================REIM1");
                                 console.log(err);
                             })
                     }
                     var rParam = {
                         gosmid : req.body.gosmid,
                         est : req.body["est-pr"],
-                        amount: req.body['amount-pr'],
+                        amount: 0.0,
                         paymentBy : req.body['pb-pr'],
-                        delayedProcessing: req.body['dp-pr'],
+                        delayedProcessing: req.body['delayed-pr'],
                         n:req.body['n-pr'],
                         filenames: names,
                         filenamesToShow: nameToShow,
-                        idNumber: req.session.user.id
+                        idNumber: req.session.user.idNumber
 
                     }
                     
@@ -1394,21 +1476,40 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         !(req.body['n-pr']).trim()
 
                         ){
-                        statFin.isFinanceDocumentCompleted = false;
+                        
+                        statFin.stat = false;
                     }
+                    if(req.body['amount-pr'] != '')
+                        rParam.amount = req.body['amount-pr'];
                     console.log(rParam);
                     postProjectProposalModel.insertPostReim(rParam,t)
                     .then(data =>{
 
                     })
                     .catch(err=>{
-                        console.log("=======================REIM");
+                        console.log("=======================REIM2");
                         console.log(err);
                     });
                 }else{
-                    statFin.isFinanceDocumentCompleted = false;
+                    statFin.stat = false;
+                     var rParam = {
+                        gosmid : req.body.gosmid,
+                        est : req.body["est-pr"],
+                        amount: 0.0,
+                        paymentBy : req.body['pb-pr'],
+                        delayedProcessing: req.body['delayed-pr'],
+                        n:req.body['n-pr'],
+                        filenames: names,
+                        filenamesToShow: nameToShow,
+                        idNumber: req.session.user.idNumber
+
+                    }
+                    if(req.body['amount-pr'] != '')
+                        rParam.amount = req.body['amount-pr'];
+                    postProjectProposalModel.insertPostReim(rParam,t)
                 }
-                    statFin.isFinanceDocumentCompleted = "false";
+                console.log(statFin);
+                    
                  postProjectProposalModel.updatePostProjectFinanceCompleteness(statFin,t)
                     .then(data =>{
 
@@ -1420,7 +1521,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
 
             }).then(data =>{
-
+                return res.redirect(`/Organization/PostProjectProposal/Main/${req.body.gosmid}`);
             }).catch(err =>{
                 console.log("==================TRAC");
                 console.log(err);

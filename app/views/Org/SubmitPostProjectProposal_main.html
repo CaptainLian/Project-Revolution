@@ -103,13 +103,13 @@
 
 					{% endif %}
 
-					{% if activities.isFinanceDocumenCompleted %}
+					{% if activities.isOtherFinanceDocumentsCompleted %}
 
 						{% set completionRate = completionRate + 33.3 %}
 
 					{% endif %}
 
-					{% if activities.isOtherFinanceDocumentsCompleted %}
+					{% if activities.isFinanceDocumentCompleted %}
 
 						{% set completionRate = completionRate + 33.3 %}
 
@@ -131,7 +131,7 @@
 				
 				<p>
 					<b class="col-md-10  text-right"> Required Document:</b> 
-					{% if activities.isFinanceDocumenCompleted %}
+					{% if activities.isOtherFinanceDocumentsCompleted %}
 						100%
 					{% else%}
 						0%
@@ -141,7 +141,7 @@
 				<p>
 					<b class="col-md-10 text-right">Finance Document:</b> 
 					
-					{% if activities.isOtherFinanceDocumentsCompleted %}
+					{% if activities.isFinanceDocumentCompleted %}
 						100%
 					{% else%}
 						0%
@@ -174,9 +174,9 @@
 					<div class="row">
 						<div class="col-md-6 text-left">
 							{% if activities.isOtherFinanceDocumentsCompleted %}
-							<h5>Finance Document <span class="label label-success">Complete</span></h5>
+							<h5>Required Document <span class="label label-success">Complete</span></h5>
 							{% else%}
-								<h5>Finance Document<span class="label label-danger">Incomplete</span></h5>
+								<h5>Required Document<span class="label label-danger">Incomplete</span></h5>
 							{% endif %}
 							
 							
@@ -195,9 +195,9 @@
 						<div class="col-md-6 text-left">
 						
 							{% if activities.isFinanceDocumentCompleted %}
-							<h5>Required Document <span class="label label-success">Complete</span></h5>
+							<h5>Finance Document <span class="label label-success">Complete</span></h5>
 							{% else%}
-								<h5>Required Document <span class="label label-danger">Incomplete</span></h5>
+								<h5>Finance Document <span class="label label-danger">Incomplete</span></h5>
 							{% endif %}
 
 						</div>
