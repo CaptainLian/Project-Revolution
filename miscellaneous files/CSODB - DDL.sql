@@ -324,6 +324,21 @@ $function$
     END;
 $function$ LANGUAGE plpgsql;
 
+
+CREATE OR REPLACE FUNCTION "PPR_get_GOSMActivity_id_from_PPRID"(param_PPRID INTEGER)
+RETURNS INTEGER AS
+$function$
+    DECLARE
+        var_GOSMActivity INTEGER;
+    BEGIN
+         SELECT GOSMActivity INTO var_GOSMActivity
+           FROM ProjectProposal
+          WHERE id = param_PPRID;
+
+        RETURN var_GOSMActivity;
+    END;
+$function$ LANGUAGE plpgsql;
+
 /*
     Helpful functions end
 */
@@ -695,9 +710,9 @@ CREATE TABLE StudentOrganization (
     college CHAR(3) REFERENCES College(shortAcronym),
     acronym VARCHAR(20) UNIQUE,
     description TEXT,
-    funds NUMERIC(16, 4) NOT NULL DEFAULT 0.0,
-    operationalFunds NUMERIC(16, 4) NOT NULL DEFAULT 0.0,
-    depositryFunds NUMERIC(16, 4) NOT NULL DEFAULT 0.0,
+    funds NUMERIC(16, 2) NOT NULL DEFAULT 0.0,
+    operationalFunds NUMERIC(16, 2) NOT NULL DEFAULT 0.0,
+    depositryFunds NUMERIC(16, 2) NOT NULL DEFAULT 0.0,
     path_profilePicture TEXT,
 
     PRIMARY KEY (id)
@@ -1389,7 +1404,7 @@ CREATE TABLE GOSMActivity (
     activityType SMALLINT REFERENCES ActivityType(id),
     activityTypeOtherDescription VARCHAR(45),
     isRelatedToOrganizationNature BOOLEAN NOT NULL,
-    budget NUMERIC(16, 4) NOT NULL DEFAULT 0.0,
+    budget NUMERIC(12, 2) NOT NULL DEFAULT 0.0,
     comments TEXT,
 
     PRIMARY KEY (GOSM, sequence),
@@ -1462,7 +1477,7 @@ CREATE TABLE "ActivityVenue" (
 	"name" VARCHAR (60),
 	"capacity" INTEGER,
 	"size" SMALLINT REFERENCES "VenueSize"("id"),
-	"rate" NUMERIC(16, 4),
+	"rate" NUMERIC(12, 2),
 	"rateType" SMALLINT REFERENCES "RateType"("id"),
 	"building" SMALLINT REFERENCES "Building"("id"),
 
@@ -1490,6 +1505,7 @@ CREATE TABLE ProjectProposal (
     id SERIAL UNIQUE,
     GOSMActivity INTEGER REFERENCES GOSMActivity(id),
     status INTEGER NOT NULL REFERENCES ProjectProposalStatus(id) DEFAULT 1,
+    -- Brief Context
     ENP INTEGER,
     ENMP INTEGER,
     actualDateStart DATE,
@@ -1498,23 +1514,25 @@ CREATE TABLE ProjectProposal (
     context1 TEXT,
     context2 TEXT,
     context3 TEXT,
-    sourceFundOther NUMERIC(16, 4),
-    sourceFundParticipantFee NUMERIC(16, 4),
-    sourceFundOrganizational NUMERIC(16, 4),
-    accumulatedOperationalFunds NUMERIC(16, 4),
-    accumulatedDepositoryFunds NUMERIC(16, 4),
-    organizationFundOtherSource NUMERIC(16, 4),
+    -- Revenue/Expense on
+    isExpense BOOLEAN NOT NULL DEFAULT TRUE,
+    sourceFundOther NUMERIC(12, 2),
+    sourceFundParticipantFee NUMERIC(12, 2),
+    sourceFundOrganizational NUMERIC(12, 2),
+    accumulatedOperationalFunds NUMERIC(12, 2),
+    accumulatedDepositoryFunds NUMERIC(12, 2),
+    organizationFundOtherSource NUMERIC(12, 2),
     comments TEXT,
     preparedBy INTEGER REFERENCES Account(idNumber),
-    facultyAdviser INTEGER NOT NULL REFERENCES Account(idNumber),
+    facultyAdviser INTEGER REFERENCES Account(idNumber),
     dateCreated TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     dateSubmitted TIMESTAMP WITH TIME ZONE,
     dateStatusModified TIMESTAMP WITH TIME ZONE,
+    -- status
     isAttachmentsComplete BOOLEAN NOT NULL DEFAULT FALSE,
     isBriefContextComplete BOOLEAN NOT NULL DEFAULT FALSE,
     isExpenseComplete BOOLEAN NOT NULL DEFAULT FALSE,
     isProgramComplete BOOLEAN NOT NULL DEFAULT FALSE,
-
 
     PRIMARY KEY (GOSMActivity)
 );
@@ -1538,9 +1556,6 @@ CREATE TRIGGER before_update_ProjectProposal
     BEFORE UPDATE ON ProjectProposal
     FOR EACH ROW WHEN (OLD.status <> NEW.status)
     EXECUTE PROCEDURE trigger_before_update_ProjectProposal();
-
-
-
 
 DROP TABLE IF EXISTS ProjectProposalProgramDesign CASCADE;
 CREATE TABLE ProjectProposalProgramDesign (
@@ -1583,15 +1598,13 @@ CREATE TABLE ProjectProposalProgramDesignPersonInCharge (
     PRIMARY KEY (programDesign, projectHead)
 );
 
-
-
 DROP TABLE IF EXISTS ProjectProposalProjectedIncome CASCADE;
 CREATE TABLE ProjectProposalProjectedIncome (
     projectProposal INTEGER REFERENCES ProjectProposal(id),
     sequence INTEGER,
     item VARCHAR(45) NOT NULL,
     quantity INTEGER NOT NULL,
-    sellingPrice NUMERIC(16, 4) NOT NULL,
+    sellingPrice NUMERIC(12, 2) NOT NULL,
 
     PRIMARY KEY (projectProposal, sequence)
 );
@@ -1619,11 +1632,13 @@ CREATE TABLE ExpenseType (
 );
 INSERT INTO ExpenseType (id, name)
                  VALUES (0, 'Others'),
-                        (1, 'Food & Accomodation'),
-                        (2, 'Venue & Transportation'),
-                        (3, 'Honorarium'),
-                        (4, 'Cash Prize'),
-                        (5, 'Corruption Expense');
+                        (1, 'Food Expense'),
+                        (2, 'Accomodation Expense'),
+                        (3, 'Venue Expense'),
+                        (4, 'Transport Expense'),
+                        (5, 'Honorarium'),
+                        (6, 'Cash Prize'),
+                        (7, 'Corruption Expense');
 
 DROP TABLE IF EXISTS ProjectProposalExpenses CASCADE;
 CREATE TABLE ProjectProposalExpenses (
@@ -1632,7 +1647,7 @@ CREATE TABLE ProjectProposalExpenses (
     sequence INTEGER,
     material VARCHAR(45) NOT NULL,
     quantity INTEGER NOT NULL,
-    unitCost NUMERIC(16, 4) NOT NULL,
+    unitCost NUMERIC(12, 2) NOT NULL,
     type SMALLINT NOT NULL REFERENCES ExpenseType(id) DEFAULT 0,
 
     PRIMARY KEY (projectProposal, sequence)
@@ -1658,7 +1673,7 @@ CREATE TABLE ProjectProposalSourceFunds (
     projectProposal INTEGER REFERENCES ProjectProposal(id),
     sequence INTEGER,
     name VARCHAR (45),
-    amount NUMERIC(16, 4),
+    amount NUMERIC(12, 2),
 
     PRIMARY KEY (projectProposal, sequence)
 );
@@ -1705,6 +1720,7 @@ CREATE TRIGGER before_insert_ProjectProposalAttachment
     FOR EACH ROW
     EXECUTE PROCEDURE trigger_before_insert_ProjectProposalAttachment();
 
+  /* Project Proposal Signatories */
 DROP TABLE IF EXISTS SignatoryStatus CASCADE;
 CREATE TABLE SignatoryStatus (
   id SMALLINT,
@@ -1727,10 +1743,10 @@ CREATE TABLE SignatoryType (
 );
 INSERT INTO SignatoryType (id, name)
                    VALUES ( 0, 'Project Head'),
-                   		  ( 1, 'Treasurer/Finance Officer'), -- VP
-                   		  ( 2, 'Immediate Superior'), -- 1 step higher
-                   		  ( 3, 'President'),
-                   		  ( 4, 'Faculty Adviser'), --
+                          ( 1, 'Treasurer/Finance Officer'), -- VP
+                          ( 2, 'Immediate Superior'), -- 1 step higher
+                          ( 3, 'President'),
+                          ( 4, 'Faculty Adviser'), --
                           ( 5, 'Documentation Officer'), -- VP
                           ( 6, 'APS - AVC'), -- Pwedeng Madami
                           ( 7, 'APS -  VC'); --
@@ -1747,10 +1763,11 @@ CREATE TABLE ProjectProposalSignatory (
   digitalSignature TEXT,
   dateSigned TIMESTAMP WITH TIME ZONE,
 
-  PRIMARY KEY(GOSMActivity, signatory, type)
+  CONSTRAINT "pk_ProjectProposalSignatory" PRIMARY KEY(GOSMActivity, signatory, type)
 );
 
-CREATE OR REPLACE FUNCTION trigger_after_insert_ProjectProposal_signatories()
+    /* Load balancing of Proposals */
+CREATE OR REPLACE FUNCTION "trigger_after_insert_ProjectProposal_signatories"()
 RETURNS trigger AS
 $trigger$
     DECLARE
@@ -1774,9 +1791,6 @@ $trigger$
              VALUES (NEW.GOSMActivity, organization_get_president(organization), 3);
 
         INSERT INTO ProjectProposalSignatory (GOSMActivity, signatory, type)
-             VALUES (NEW.GOSMActivity, NEW.facultyAdviser, 4);
-
-        INSERT INTO ProjectProposalSignatory (GOSMActivity, signatory, type)
              VALUES (NEW.GOSMActivity, organization_get_documentation_signatories(organization), 5);
 
         INSERT INTO ProjectProposalSignatory (GOSMActivity, signatory, type)
@@ -1788,28 +1802,47 @@ $trigger$
         RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
-CREATE TRIGGER after_insert_ProjectProposal_signatories
+CREATE TRIGGER "after_insert_ProjectProposal_signatories"
     AFTER INSERT ON ProjectProposal
     FOR EACH ROW
-    EXECUTE PROCEDURE trigger_after_insert_ProjectProposal_signatories();
+    EXECUTE PROCEDURE "trigger_after_insert_ProjectProposal_signatories"();
 
-CREATE OR REPLACE FUNCTION "trigger_after_update_ProjectProposal"()
+CREATE OR REPLACE FUNCTION "trigger_after_update_ProjectProposal_signatory_facultyAdviser"()
+RETURNS trigger AS
+$trigger$
+    BEGIN
+      INSERT INTO ProjectProposalSignatory (GOSMActivity, signatory, type)
+                                    VALUES (NEW.GOSMActivity, NEW.facultyAdviser, 4)
+      ON CONFLICT ON CONSTRAINT "pk_ProjectProposalSignatory"
+      DO UPDATE SET signatory = NEW.facultyAdviser;
+
+      RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER "after_update_ProjectProposal_signatory_facultyAdviser"
+    AFTER UPDATE ON ProjectProposal
+    FOR EACH ROW WHEN ((OLD.facultyAdviser IS NULL) OR (OLD.facultyAdviser <> NEW.facultyAdviser))
+    EXECUTE PROCEDURE "trigger_after_update_ProjectProposal_signatory_facultyAdviser"();
+
+CREATE OR REPLACE FUNCTION "trigger_after_update_ProjectProposal_signatory_immediateSuperior"()
 RETURNS trigger AS
 $trigger$
     BEGIN
       UPDATE ProjectProposalSignatory
-         SET signatory = NEW.facultyAdviser
+         SET signatory = "PPR_get_organization_next_immediate_supervisor_signatory"(NEW.preparedBy, "GOSMActivity_get_organization"(NEW.GOSMActivity))
        WHERE GOSMActivity = NEW.GOSMActivity
-         AND type = 4;
+         AND type = 2;
       RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
-CREATE TRIGGER "after_update_ProjectProposal"
+CREATE TRIGGER "after_update_ProjectProposal_signatory_immediateSuperior"
     AFTER UPDATE ON ProjectProposal
-    FOR EACH ROW WHEN ((OLD.facultyAdviser IS NULL) OR (OLD.facultyAdviser <> NEW.facultyAdviser))
-    EXECUTE PROCEDURE "trigger_after_update_ProjectProposal"();
+    FOR EACH ROW WHEN ((OLD.preparedBy IS NULL) OR (OLD.preparedBy <> NEW.preparedBy))
+    EXECUTE PROCEDURE "trigger_after_update_ProjectProposal_signatory_immediateSuperior"();
 
-    /* End Project Proposal */
+    /* End Load balancing of Proposals */
+  /* End of Project Proposal Signatories */
+/* End of Project Proposal */
 
 /* Organization Treasurer */
 DROP TABLE IF EXISTS "TransactionType" CASCADE;
@@ -1891,6 +1924,7 @@ CREATE TABLE AMTActivityEvaluation (
     presentation SMALLINT,
     activities SMALLINT,
     organizationStandingPresentation SMALLINT,
+    timeStart SMALLINT,
     actualStartTime TIME WITH TIME ZONE,
     actualEndTime TIME WITH TIME ZONE,
     ANP INTEGER,
@@ -1960,7 +1994,8 @@ CREATE TABLE "PostProjectProposal" (
   "WWYGLIETA" TEXT,
   "HDTATYLCTTDOTP" TEXT,
   "WATTWWAWCYDTPTFHA" TEXT,
-  "path_generalAttendanceList" TEXT,
+  "galsfilename" TEXT,
+  "galsfilenameToShow" TEXT,
   "isBriefContextCompleted" BOOLEAN NOT NULL DEFAULT FALSE,
   "isOtherFinanceDocumentsCompleted" BOOLEAN NOT NULL DEFAULT FALSE,
   "isFinanceDocumentCompleted" BOOLEAN NOT NULL DEFAULT FALSE,
@@ -1975,60 +2010,78 @@ DROP TABLE IF EXISTS "PostProjectProposalExpense" CASCADE;
 CREATE TABLE "PostProjectProposalExpense" (
   "id" SERIAL UNIQUE,
   "GOSMActivity" INTEGER REFERENCES "PostProjectProposal"("GOSMActivity"),
+  "submissionID" INTEGER DEFAULT -1,
   "sequence" INTEGER NOT NULL DEFAULT -1,
   "particular" VARCHAR(45),
   "establishment" VARCHAR(45),
-  "price" NUMERIC(16, 4),
-  "path_file" TEXT,
+  "price" NUMERIC(12, 2),
+  "filename" TEXT,
+  "filenameToShow" TEXT,
+  "idNumber" INTEGER REFERENCES Account(idNumber),
 
-  PRIMARY KEY("GOSMActivity", "sequence")
+  PRIMARY KEY("GOSMActivity", "submissionID", "sequence")
 );
-CREATE OR REPLACE FUNCTION "trigger_before_insert_PostProjectProposalExpense"()
-RETURNS trigger AS
+CREATE OR REPLACE FUNCTION "trigger_before_insert_PostProjectProposalExpense_sequence"()
+RETURNS TRIGGER AS
 $trigger$
     BEGIN
-        SELECT COALESCE(MAX(sequence) + 1, 0) INTO NEW.sequence
-         FROM "PostProjectProposalExpense"
-        WHERE "GOSMActivity" = NEW."GOSMActivity";
+        IF NEW."submissionID" IS NULL THEN
+            NEW."sequence" = 1;
+            SELECT COALESCE(MAX("submissionID") + 1, 1) INTO NEW."submissionID"
+              FROM "PostProjectProposalExpense"
+             WHERE "GOSMActivity" = NEW."GOSMActivity";
+        ELSE
+            SELECT COALESCE(MAX(sequence) + 1, 1) INTO NEW.sequence
+              FROM "PostProjectProposalExpense"
+             WHERE "GOSMActivity" = NEW."GOSMActivity"
+               AND "submissionID" = NEW."submissionID";
+        END IF;
 
-        return NEW;
+        RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
-CREATE TRIGGER "before_insert_PostProjectProposalExpense"
+CREATE TRIGGER "before_insert_PostProjectProposalExpense_sequence"
     BEFORE INSERT ON "PostProjectProposalExpense"
     FOR EACH ROW
-    EXECUTE PROCEDURE "trigger_before_insert_PostProjectProposalExpense"();
+    EXECUTE PROCEDURE "trigger_before_insert_PostProjectProposalExpense_sequence"();
 
 DROP TABLE IF EXISTS "PostProjectProposalEventPicture" CASCADE;
 CREATE TABLE "PostProjectProposalEventPicture" (
   "id" SERIAL UNIQUE,
   "GOSMActivity" INTEGER REFERENCES "PostProjectProposal"("GOSMActivity"),
+  "submissionID" INTEGER DEFAULT -1,
   "sequence" INTEGER NOT NULL DEFAULT -1,
-  "path_file" TEXT,
+  "filename" TEXT,
+  "filenameToShow" TEXT,
+  "description" TEXT,
+  "idNumber" INTEGER REFERENCES Account(idNumber),
 
   PRIMARY KEY("GOSMActivity", "sequence")
 );
-CREATE OR REPLACE FUNCTION "trigger_before_insert_PostProjectProposalEventPicture"()
-RETURNS trigger AS
+CREATE OR REPLACE FUNCTION "trigger_before_insert_PostProjectProposalEventPicture_sequence"()
+RETURNS TRIGGER AS
 $trigger$
     BEGIN
-        SELECT COALESCE(MAX(sequence) + 1, 0) INTO NEW.sequence
-         FROM "PostProjectProposalEventPicture"
-        WHERE "GOSMActivity" = NEW."GOSMActivity";
+        IF NEW."submissionID" IS NULL THEN
+            NEW."sequence" = 1;
+            SELECT COALESCE(MAX("submissionID") + 1, 1) INTO NEW."submissionID"
+              FROM "PostProjectProposalEventPicture"
+             WHERE "GOSMActivity" = NEW."GOSMActivity";
+        ELSE
+            SELECT COALESCE(MAX(sequence) + 1, 1) INTO NEW.sequence
+              FROM "PostProjectProposalEventPicture"
+             WHERE "GOSMActivity" = NEW."GOSMActivity"
+               AND "submissionID" = NEW."submissionID";
+        END IF;
 
-        return NEW;
+        RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
-CREATE TRIGGER "before_insert_PostProjectProposalEventPicture"
+CREATE TRIGGER "before_insert_PostProjectProposalEventPicture_sequence"
     BEFORE INSERT ON "PostProjectProposalEventPicture"
     FOR EACH ROW
-    EXECUTE PROCEDURE "trigger_before_insert_PostProjectProposalEventPicture"();
-/*
-DROP TABLE IF EXISTS "" CASCADE;
-CREATE TABLE "" (
+    EXECUTE PROCEDURE "trigger_before_insert_PostProjectProposalEventPicture_sequence"();
 
-);
-*/
 DROP TABLE IF EXISTS "PostProjectDirectPaymentPayment" CASCADE;
 CREATE TABLE "PostProjectDirectPaymentPayment" (
   id INTEGER,
@@ -2042,15 +2095,43 @@ INSERT INTO "PostProjectDirectPaymentPayment" (id, name)
 DROP TABLE IF EXISTS "PostProjectDirectPayment" CASCADE;
 CREATE TABLE "PostProjectDirectPayment" (
   "GOSMActivity" INTEGER REFERENCES "PostProjectProposal"("GOSMActivity"),
+  "submissionID" INTEGER DEFAULT - 1,
+  "sequence" INTEGER DEFAULT -1,
   "nameOfEstablishment" VARCHAR(60),
   "amount" NUMERIC(12, 2),
   "paymentBy" SMALLINT REFERENCES "PostProjectDirectPaymentPayment"("id"),
   "delayedProcessing" TEXT,
-  "path_formalQuotation" TEXT,
-  "path_ROF" TEXT,
+  "fqfilename" TEXT,
+  "roffilename" TEXT,
+  "fqfilenameToShow" TEXT,
+  "roffilenameToShow" TEXT,
+  "idNumber" INTEGER REFERENCES Account(idNumber),
+  "dateCreated" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-  PRIMARY KEY("GOSMActivity")
+  PRIMARY KEY("GOSMActivity", "submissionID", "sequence")
 );
+CREATE OR REPLACE FUNCTION "trigger_before_insert_PostProjectDirectPayment_sequence"()
+RETURNS TRIGGER AS
+$trigger$
+    BEGIN
+         IF NEW."submissionID" IS NULL THEN
+             NEW."sequence" = 1;
+             SELECT COALESCE(MAX("submissionID") + 1, 1) INTO NEW."submissionID"
+               FROM "PostProjectDirectPayment"
+              WHERE "GOSMActivity" = NEW."GOSMActivity";
+         ELSE
+             SELECT COALESCE(MAX(sequence) + 1, 1) INTO NEW.sequence
+               FROM "PostProjectDirectPayment"
+              WHERE "GOSMActivity" = NEW."GOSMActivity"
+                AND "submissionID" = NEW."submissionID";
+         END IF;
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER "before_insert_PostProjectDirectPayment_sequence"
+    BEFORE INSERT ON "PostProjectDirectPayment"
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_before_insert_PostProjectDirectPayment_sequence"();
 
 DROP TABLE IF EXISTS "PostProjectReimbursementPayment" CASCADE;
 CREATE TABLE "PostProjectReimbursementPayment" (
@@ -2065,31 +2146,153 @@ INSERT INTO "PostProjectReimbursementPayment" (id, name)
 DROP TABLE IF EXISTS "PostProjectReimbursement" CASCADE;
 CREATE TABLE "PostProjectReimbursement" (
   "GOSMActivity" INTEGER REFERENCES "PostProjectProposal"("GOSMActivity"),
+  "submissionID" INTEGER DEFAULT -1,
+  "sequence" INTEGER DEFAULT -1,
   "nameOfEstablishment" VARCHAR(60),
   "amount" NUMERIC(12, 2),
   "paymentBy" SMALLINT REFERENCES "PostProjectReimbursementPayment"("id"),
   "foodExpense" VARCHAR(60),
   "NUCAODP" TEXT,
   "delayedProcessing" TEXT,
-  "path_receipts" TEXT,
+  "filenames" TEXT[],
+  "filenamesToShow" TEXT[],
+  "idNumber" INTEGER REFERENCES Account(idNumber),
+  "dateCreated" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-  PRIMARY KEY("GOSMActivity")
+  PRIMARY KEY("GOSMActivity", "submissionID", "sequence")
 );
+CREATE OR REPLACE FUNCTION "trigger_before_insert_PostProjectReimbursement_sequence"()
+RETURNS trigger AS
+$trigger$
+    BEGIN
+        IF NEW."submissionID" IS NULL THEN
+            NEW."sequence" = 1;
+            SELECT COALESCE(MAX("submissionID") + 1, 1) INTO NEW."submissionID"
+              FROM "PostProjectReimbursement"
+             WHERE "GOSMActivity" = NEW."GOSMActivity";
+        ELSE
+            SELECT COALESCE(MAX(sequence) + 1, 1) INTO NEW.sequence
+              FROM "PostProjectReimbursement"
+             WHERE "GOSMActivity" = NEW."GOSMActivity"
+               AND "submissionID" = NEW."submissionID";
+        END IF;
+
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER "before_insert_PostProjectReimbursement_sequence"
+    BEFORE INSERT ON "PostProjectReimbursement"
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_before_insert_PostProjectReimbursement_sequence"();
 
 DROP TABLE IF EXISTS "PostProjectBookTransfer" CASCADE;
 CREATE TABLE "PostProjectBookTransfer" (
   "GOSMActivity" INTEGER REFERENCES "PostProjectProposal"("GOSMActivity"),
+  "submissionID" INTEGER DEFAULT -1,
+  "sequence" INTEGER DEFAULT -1,
   "nameOfEstablishment" VARCHAR(60),
   "amount" NUMERIC(12, 2),
   "purpose" VARCHAR(60),
-  "path_billingStatement" TEXT,
-  "path_requisitionSlip" TEXT,
-  "path_chargeSlip" TEXT,
+  "bsfilename" TEXT,
+  "bsfilenameToShow" TEXT,
+  "idNumber" INTEGER REFERENCES Account(idNumber),
+  "dateCreated" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-  PRIMARY KEY ("GOSMActivity")
+  PRIMARY KEY("GOSMActivity", "submissionID", "sequence")
 );
+CREATE OR REPLACE FUNCTION "trigger_before_insert_PostProjectBookTransfer_sequence"()
+RETURNS trigger AS
+$trigger$
+    BEGIN
+        IF NEW."submissionID" IS NULL THEN
+            NEW."sequence" = 1;
+            SELECT COALESCE(MAX("submissionID") + 1, 1) INTO NEW."submissionID"
+              FROM "PostProjectBookTransfer"
+             WHERE "GOSMActivity" = NEW."GOSMActivity";
+        ELSE
+            SELECT COALESCE(MAX(sequence) + 1, 1) INTO NEW.sequence
+              FROM "PostProjectBookTransfer"
+             WHERE "GOSMActivity" = NEW."GOSMActivity"
+               AND "submissionID" = NEW."submissionID";
+        END IF;
+
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER "before_insert_PostProjectBookTransfer_sequence"
+    BEFORE INSERT ON "PostProjectBookTransfer"
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_before_insert_PostProjectReimbursement_sequence"();
   /* Post Acts END*/
 /* ADM END */
+/* Publicity */
+DROP TABLE IF EXISTS "ActivityPublicityModeOfDistribution" CASCADE;
+CREATE TABLE "ActivityPublicityModeOfDistribution"(
+    "id" SMALLINT,
+    "name" VARCHAR(45) NOT NULL,
+
+    PRIMARY KEY("id")
+);
+INSERT INTO "ActivityPublicityModeOfDistribution" ("id", "name")
+                                            -- TODO: Other values
+                                           VALUES (   0, 'Online');
+
+DROP TABLE IF EXISTS "ActivityPublicityStatus" CASCADE;
+CREATE TABLE "ActivityPublicityStatus"(
+    "id" SMALLINT,
+    "name" VARCHAR(45) NOT NULL,
+
+    PRIMARY KEY("id")
+);
+INSERT INTO "ActivityPublicityStatus" ("id", "name")
+                               VALUES (   0, 'For Evaluation'),
+                                      (   1, 'Approved'),
+                                      (   2, 'Pended'),
+                                      (   3, 'Denied');
+
+DROP TABLE IF EXISTS "ActivityPublicity" CASCADE;
+CREATE TABLE "ActivityPublicity" (
+    "id" SERIAL UNIQUE,
+    "GOSMActivity" INTEGER REFERENCES ProjectProposal(GOSMActivity),
+    "submissionID" INTEGER DEFAULT -1,
+    "sequence" INTEGER DEFAULT -1,
+    "modeOfDistribution" SMALLINT REFERENCES "ActivityPublicityModeOfDistribution"("id"),
+    "targetPostingDate" DATE, --me
+    "status" SMALLINT REFERENCES "ActivityPublicityStatus"("id"),
+    "checkedBy" INTEGER REFERENCES Account(idNumber),
+    "dateChecked" DATE,
+    "submittedBy" INTEGER REFERENCES Account(idNumber),
+    "comments" TEXT,
+    "filename" TEXT,
+    "filenameToShow" TEXT,
+
+    PRIMARY KEY("GOSMActivity", "sequence")
+);
+CREATE OR REPLACE FUNCTION "trigger_before_insert_ActivityPublicity_sequence"()
+RETURNS trigger AS
+$trigger$
+    BEGIN
+        IF NEW."submissionID" IS NULL THEN
+            NEW."sequence" = 1;
+            SELECT COALESCE(MAX("submissionID") + 1, 1) INTO NEW."submissionID"
+              FROM "ActivityPublicity"
+             WHERE "GOSMActivity" = NEW."GOSMActivity";
+        ELSE
+            SELECT COALESCE(MAX(sequence) + 1, 1) INTO NEW.sequence
+              FROM "ActivityPublicity"
+             WHERE "GOSMActivity" = NEW."GOSMActivity"
+               AND "submissionID" = NEW."submissionID";
+        END IF;
+
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER "before_insert_ActivityPublicity_sequence"
+    BEFORE INSERT ON "ActivityPublicity"
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_before_insert_ActivityPublicity_sequence"();
+
+/* End of Publicity */
 /*
     Auditing
 */
@@ -2117,8 +2320,667 @@ CREATE TABLE "audit_Account" (
 
   PRIMARY KEY (id)
 );
+  /* Logging of PPR */
+DROP TABLE IF EXISTS "ProjectProposalEvent" CASCADE;
+CREATE TABLE "ProjectProposalEvent" (
+  "id" SMALLINT,
+  "name" VARCHAR(45),
 
-    /* SESSION TABLE */
+  PRIMARY KEY("id")
+);
+INSERT INTO "ProjectProposalEvent" ("id", "name")
+                            VALUES (   0, 'Updated Main Project Proposal'),
+                                   (   1, 'Updated Expense'),
+                                   (   2, 'Updated Program Design'),
+                                   (   3, 'Deleted Expense'),
+                                   (   4, 'Deleted Program Design');
+
+DROP TABLE IF EXISTS "audit_ProjectProposal" CASCADE;
+CREATE TABLE "audit_ProjectProposal" (
+  "id" SERIAL UNIQUE,
+  "GOSMActivity" INTEGER,
+  "sequence" INTEGER DEFAULT -1,
+  "event" SMALLINT NOT NULL REFERENCES "ProjectProposalEvent"("id"),
+  "values" JSONB,
+  "dateCreated" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+
+  PRIMARY KEY("GOSMActivity", "sequence")
+);
+CREATE OR REPLACE FUNCTION "trigger_before_insert_audit_ProjectProposal_sequence"()
+RETURNS trigger AS
+$trigger$
+    BEGIN
+        SELECT COALESCE(MAX("sequence") + 1, 1) INTO NEW."sequence"
+          FROM "audit_ProjectProposal"
+         WHERE "GOSMActivity" = NEW."GOSMActivity";
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER "before_insert_audit_ProjectProposal_sequence"
+    BEFORE INSERT ON "audit_ProjectProposal"
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_before_insert_audit_ProjectProposal_sequence"();
+
+CREATE OR REPLACE FUNCTION "trigger_after_insert_ProjectProposal_Expenses_auditing_insert"()
+RETURNS TRIGGER
+AS $trigger$
+    DECLARE
+        newValues JSONB DEFAULT '{}'::jsonb;
+    BEGIN
+        newValues = jsonb_set(newValues, '{"id"}'::text[], NEW.id::text::jsonb, true);
+        newValues = jsonb_set(newValues, '{"sequence"}'::text[], NEW.sequence::text::jsonb, true);
+
+        IF NEW.material IS NULL THEN
+            newValues = jsonb_set(newValues, '{"material"}'::text[], 'null'::jsonb, true);
+        ELSE
+            newValues = jsonb_set(newValues, '{"material"}'::text[], ('"' || replace(NEW.material, '"', '\"') || '"')::jsonb, true);
+        END IF;
+
+        IF NEW.quantity IS NULL THEN
+            newValues = jsonb_set(newValues, '{"quantity"}'::text[], 'null'::jsonb, true);
+        ELSE
+            newValues = jsonb_set(newValues, '{"quantity"}'::text[], NEW.quantity::text::jsonb, true);
+        END IF;
+
+        IF NEW.unitCost IS NULL THEN
+            newValues = jsonb_set(newValues, '{"unitCost"}'::text[], 'null'::jsonb, true);
+        ELSE
+            newValues = jsonb_set(newValues, '{"unitCost"}'::text[], NEW.unitCost::text::jsonb, true);
+        END IF;
+
+        IF NEW."type" IS NULL THEN
+            newValues = jsonb_set(newValues, '{"type"}'::text[], 'null'::jsonb, true);
+        ELSE
+            newValues = jsonb_set(newValues, '{"type"}'::text[], NEW."type"::text::jsonb, true);
+        END IF;
+
+        INSERT INTO "audit_ProjectProposal" ("GOSMActivity", "event", "values", "dateCreated")
+                                     VALUES ("PPR_get_GOSMActivity_id_from_PPRID"(NEW.projectProposal),  1, jsonb_set('{}'::jsonb, '{"newValues"}'::text[], newValues, true), CURRENT_TIMESTAMP);
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER "insert_ProjectProposal_Expenses_auditing_insert"
+    AFTER INSERT ON ProjectProposalExpenses
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_after_insert_ProjectProposal_Expenses_auditing_insert"();
+CREATE OR REPLACE FUNCTION "trigger_after_delete_ProjectProposal_Expenses_auditing_delete"()
+RETURNS TRIGGER
+AS $trigger$
+    DECLARE
+        oldValues JSONB DEFAULT '{}'::jsonb;
+    BEGIN
+        oldValues = jsonb_set(oldValues, '{"id"}'::text[], OLD.id::text::jsonb, true);
+        oldValues = jsonb_set(oldValues, '{"sequence"}'::text[], OLD.sequence::text::jsonb, true);
+
+        IF OLD.material IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"material"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"material"}'::text[], ('"' || replace(OLD.material, '"', '\"') || '"')::jsonb, true);
+        END IF;
+
+        IF OLD.quantity IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"quantity"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"quantity"}'::text[], OLD.quantity::text::jsonb, true);
+        END IF;
+
+        IF OLD.unitCost IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"unitCost"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"unitCost"}'::text[], OLD.unitCost::text::jsonb, true);
+        END IF;
+
+        IF OLD."type" IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"type"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"type"}'::text[], OLD."type"::text::jsonb, true);
+        END IF;
+
+        INSERT INTO "audit_ProjectProposal" ("GOSMActivity", "event", "values", "dateCreated")
+                                     VALUES ("PPR_get_GOSMActivity_id_from_PPRID"(OLD.projectProposal),  1, jsonb_set('{}'::jsonb, '{"oldValues"}'::text[], oldValues, true), CURRENT_TIMESTAMP);
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER "after_delete_ProjectProposal_Expenses_auditing_delete"
+    AFTER DELETE ON ProjectProposalExpenses
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_after_delete_ProjectProposal_Expenses_auditing_delete"();
+CREATE OR REPLACE FUNCTION "trigger_after_update_ProjectProposal_Expenses_auditing_update"()
+RETURNS TRIGGER
+AS $trigger$
+    DECLARE
+        valueData JSONB DEFAULT '{}'::jsonb;
+        oldValues JSONB DEFAULT '{}'::jsonb;
+        newValues JSONB DEFAULT '{}'::jsonb;
+    BEGIN
+        newValues = jsonb_set(newValues, '{"id"}'::text[], NEW.id::text::jsonb, true);
+        newValues = jsonb_set(newValues, '{"sequence"}'::text[], NEW.sequence::text::jsonb, true);
+        oldValues = jsonb_set(oldValues, '{"id"}'::text[], OLD.id::text::jsonb, true);
+        oldValues = jsonb_set(oldValues, '{"sequence"}'::text[], OLD.sequence::text::jsonb, true);
+
+        /* OLD values */
+        IF OLD.material IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"material"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"material"}'::text[], ('"' || replace(OLD.material, '"', '\"') || '"')::jsonb, true);
+        END IF;
+
+        IF OLD.quantity IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"quantity"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"quantity"}'::text[], OLD.quantity::text::jsonb, true);
+        END IF;
+
+        IF OLD.unitCost IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"unitCost"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"unitCost"}'::text[], OLD.unitCost::text::jsonb, true);
+        END IF;
+
+        IF OLD."type" IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"type"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"type"}'::text[], OLD."type"::text::jsonb, true);
+        END IF;
+
+        /* NEW and MODIFIED values */
+        IF (OLD.material <> NEW.material) OR (OLD.material IS NULL AND NEW.material IS NOT NULL) OR (OLD.material IS NOT NULL AND NEW.material IS NULL) THEN
+            IF NEW.material IS NULL THEN
+                newValues = jsonb_set(newValues, '{"material"}'::text[], 'null'::jsonb, true);
+            ELSE
+                newValues = jsonb_set(newValues, '{"material"}'::text[], ('"' || replace(NEW.material, '"', '\"') || '"')::jsonb, true);
+            END IF;
+        END IF;
+
+        IF (OLD.quantity <> NEW.quantity) OR (OLD.material IS NULL AND NEW.quantity IS NOT NULL) OR (OLD.quantity IS NOT NULL AND NEW.quantity IS NULL) THEN
+            IF NEW.quantity IS NULL THEN
+                newValues = jsonb_set(newValues, '{"quantity"}'::text[], 'null'::jsonb, true);
+            ELSE
+                newValues = jsonb_set(newValues, '{"quantity"}'::text[], NEW.quantity::text::jsonb, true);
+            END IF;
+        END IF;
+
+        IF (OLD.unitCost <> NEW.unitCost) OR (OLD.unitCost IS NULL AND NEW.unitCost IS NOT NULL) OR (OLD.unitCost IS NOT NULL AND NEW.unitCost IS NULL) THEN
+            IF NEW.unitCost IS NULL THEN
+                newValues = jsonb_set(newValues, '{"unitCost"}'::text[], 'null'::jsonb, true);
+            ELSE
+                newValues = jsonb_set(newValues, '{"unitCost"}'::text[], NEW.unitCost::text::jsonb, true);
+            END IF;
+        END IF;
+
+        IF (OLD."type" <> NEW."type") OR (OLD."type" IS NULL AND NEW."type" IS NOT NULL) OR (OLD."type" IS NOT NULL AND NEW."type" IS NULL) THEN
+            IF NEW."type" IS NULL THEN
+                newValues = jsonb_set(newValues, '{"type"}'::text[], 'null'::jsonb, true);
+            ELSE
+                newValues = jsonb_set(newValues, '{"type"}'::text[], NEW."type"::text::jsonb, true);
+            END IF;
+        END IF;
+
+        valueData = jsonb_set(valueData, '{"oldValues"}'::text[], oldValues, true);
+        valueData = jsonb_set(valueData, '{"newValues"}'::text[], newValues, true);
+
+        INSERT INTO "audit_ProjectProposal" ("GOSMActivity", "event", "values", "dateCreated")
+                                     VALUES ("PPR_get_GOSMActivity_id_from_PPRID"(OLD.projectProposal),  1, valueData, CURRENT_TIMESTAMP);
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER "after_update_ProjectProposal_Expenses_auditing_update"
+    AFTER UPDATE ON ProjectProposalExpenses
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_after_update_ProjectProposal_Expenses_auditing_update"();
+
+CREATE OR REPLACE FUNCTION "trigger_after_update_ProjectProposal_auditing"()
+RETURNS TRIGGER AS
+$trigger$
+    DECLARE
+        valueData JSONB DEFAULT '{}'::jsonb;
+        oldValues JSONB DEFAULT '{}'::jsonb;
+        newValues JSONB DEFAULT '{}'::jsonb;
+    BEGIN
+        -- jsonb_set(target jsonb, path text[], new_value jsonb[, create_missing boolean])
+        /* OLD VALUES */
+        IF OLD.status IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"status"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"status"}'::text[], OLD.status::text::jsonb, true);
+        END IF;
+
+        IF OLD.ENP IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"ENP"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"ENP"}'::text[], OLD.ENP::text::jsonb, true);
+        END IF;
+
+
+        IF OLD.ENMP IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"ENMP"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"ENMP"}'::text[], OLD.ENMP::text::jsonb, true);
+        END IF;
+
+        IF OLD.actualDateStart IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"actualDateStart"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"actualDateStart"}'::text[],('"' || to_char(OLD.actualDateStart, 'YYYY-MM-DD') || '"')::jsonb, true);
+        END IF;
+
+        IF OLD.actualDateEnd IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"actualDateEnd"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"actualDateEnd"}'::text[], ('"' || to_char(OLD.actualDateEnd, 'YYYY-MM-DD') || '"')::jsonb, true);
+        END IF;
+
+        IF OLD.sourceFundOther IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"sourceFundOther"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"sourceFundOther"}'::text[], OLD.sourceFundOther::text::jsonb, true);
+        END IF;
+
+        IF OLD.sourceFundParticipantFee IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"sourceFundParticipantFee"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"sourceFundParticipantFee"}'::text[], OLD.sourceFundParticipantFee::text::jsonb, true);
+        END IF;
+
+        IF OLD.sourceFundOrganizational IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"sourceFundOrganizational"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"sourceFundOrganizational"}'::text[], OLD.sourceFundOrganizational::text::jsonb, true);
+        END IF;
+
+        IF OLD.accumulatedOperationalFunds IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"accumulatedOperationalFunds"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"accumulatedOperationalFunds"}'::text[], OLD.accumulatedOperationalFunds::text::jsonb, true);
+        END IF;
+
+        IF OLD.accumulatedDepositoryFunds IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"accumulatedDepositoryFunds"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"accumulatedDepositoryFunds"}'::text[], OLD.accumulatedDepositoryFunds::text::jsonb, true);
+        END IF;
+
+        IF OLD.actualDateEnd IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"organizationFundOtherSource"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"organizationFundOtherSource"}'::text[], OLD.organizationFundOtherSource::text::jsonb, true);
+        END IF;
+
+        IF OLD.preparedBy IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"preparedBy"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"preparedBy"}'::text[], OLD.preparedBy::text::jsonb, true);
+        END IF;
+
+        IF OLD.facultyAdviser IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"facultyAdviser"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"facultyAdviser"}'::text[], OLD.facultyAdviser::text::jsonb, true);
+        END IF;
+
+        IF OLD.comments IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"comments"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"comments"}'::text[], ('"' || replace(OLD.comments::text, '"'::text, '\"'::text) || '"')::jsonb, true);
+        END IF;
+
+        /* NEW and MODIFIED values*/
+        IF (OLD.status <> NEW.status) OR (OLD.status IS NULL AND NEW.status IS NOT NULL) OR (OLD.status IS NOT NULL AND NEW.status IS NULL) THEN
+            IF NEW.status IS NULL THEN
+                newValues = jsonb_set(newValues, '{"status"}'::text[], 'null'::jsonb, true);
+            ELSE
+                newValues = jsonb_set(newValues, '{"status"}'::text[], NEW.status::text::jsonb, true);
+            END IF;
+
+        END IF;
+
+        IF (OLD.ENP <> NEW.ENP) OR (OLD.ENP IS NULL AND NEW.ENP IS NOT NULL) OR (OLD.ENP IS NOT NULL AND NEW.ENP IS NULL) THEN
+            IF NEW.ENP IS NULL THEN
+                newValues = jsonb_set(newValues, '{"ENP"}'::text[], 'null'::jsonb, true);
+            ELSE
+                newValues = jsonb_set(newValues, '{"ENP"}'::text[], NEW.ENP::text::jsonb, true);
+            END IF;
+        END IF;
+
+        IF (OLD.ENMP <> NEW.ENMP) OR (OLD.ENMP IS NULL AND NEW.ENMP IS NOT NULL) OR (OLD.ENMP IS NOT NULL AND NEW.ENMP IS NULL) THEN
+            IF NEW.ENMP IS NULL THEN
+                newValues = jsonb_set(newValues, '{"ENMP"}'::text[], 'null'::jsonb, true);
+            ELSE
+                newValues = jsonb_set(newValues, '{"ENMP"}'::text[], NEW.ENMP::text::jsonb, true);
+            END IF;
+        END IF;
+
+        IF (OLD.actualDateStart <> NEW.actualDateStart) OR (OLD.actualDateStart IS NULL AND NEW.actualDateStart IS NOT NULL) OR (OLD.actualDateStart IS NOT NULL AND NEW.actualDateStart IS NULL) THEN
+            IF NEW.actualDateStart IS NULL THEN
+                newValues = jsonb_set(newValues, '{"actualDateStart"}'::text[], 'null'::jsonb, true);
+            ELSE
+                newValues = jsonb_set(newValues, '{"actualDateStart"}'::text[],('"' || to_char(NEW.actualDateStart, 'YYYY-MM-DD') || '"')::jsonb, true);
+            END IF;
+        END IF;
+
+        IF (OLD.actualDateEnd <> NEW.actualDateEnd) OR (OLD.actualDateEnd IS NULL AND NEW.actualDateEnd IS NOT NULL) OR (OLD.actualDateEnd IS NOT NULL AND NEW.actualDateEnd IS NULL) THEN
+            IF NEW.actualDateEnd IS NULL THEN
+                newValues = jsonb_set(newValues, '{"actualDateEnd"}'::text[], 'null'::jsonb, true);
+            ELSE
+                newValues = jsonb_set(newValues, '{"actualDateEnd"}'::text[],('"' || to_char(NEW.actualDateEnd, 'YYYY-MM-DD') || '"')::jsonb, true);
+            END IF;
+        END IF;
+
+        IF (OLD.sourceFundOther <> NEW.sourceFundOther) OR (OLD.sourceFundOther IS NULL AND NEW.sourceFundOther IS NOT NULL) OR (OLD.sourceFundOther IS NOT NULL AND NEW.sourceFundOther IS NULL) THEN
+            IF NEW.sourceFundOther IS NULL THEN
+                newValues = jsonb_set(newValues, '{"sourceFundOther"}'::text[], 'null'::jsonb, true);
+            ELSE
+                newValues = jsonb_set(newValues, '{"sourceFundOther"}'::text[], NEW.sourceFundOther::text::jsonb, true);
+            END IF;
+        END IF;
+
+        IF (OLD.sourceFundParticipantFee <> NEW.sourceFundParticipantFee) OR (OLD.sourceFundParticipantFee IS NULL AND NEW.sourceFundParticipantFee IS NOT NULL) OR (OLD.sourceFundParticipantFee IS NOT NULL AND NEW.sourceFundParticipantFee IS NULL) THEN
+            IF NEW.sourceFundParticipantFee IS NULL THEN
+                newValues = jsonb_set(newValues, '{"sourceFundParticipantFee"}'::text[], 'null'::jsonb, true);
+            ELSE
+                newValues = jsonb_set(newValues, '{"sourceFundParticipantFee"}'::text[], NEW.sourceFundParticipantFee::text::jsonb, true);
+            END IF;
+        END IF;
+
+        IF (OLD.sourceFundOrganizational <> NEW.sourceFundOrganizational) OR (OLD.sourceFundOrganizational IS NULL AND NEW.sourceFundOrganizational IS NOT NULL) OR (OLD.sourceFundOrganizational IS NOT NULL AND NEW.sourceFundOrganizational IS NULL) THEN
+            IF NEW.sourceFundOrganizational IS NULL THEN
+                newValues = jsonb_set(newValues, '{"sourceFundOrganizational"}'::text[], 'null'::jsonb, true);
+            ELSE
+                newValues = jsonb_set(newValues, '{"sourceFundOrganizational"}'::text[], NEW.sourceFundOrganizational::text::jsonb, true);
+            END IF;
+        END IF;
+
+        IF (OLD.accumulatedOperationalFunds <> NEW.accumulatedOperationalFunds) OR (OLD.accumulatedOperationalFunds IS NULL AND NEW.accumulatedOperationalFunds IS NOT NULL) OR (OLD.accumulatedOperationalFunds IS NOT NULL AND NEW.accumulatedOperationalFunds IS NULL) THEN
+            IF NEW.accumulatedOperationalFunds IS NULL THEN
+                newValues = jsonb_set(newValues, '{"accumulatedOperationalFunds"}'::text[], 'null'::jsonb, true);
+            ELSE
+                newValues = jsonb_set(newValues, '{"accumulatedOperationalFunds"}'::text[], NEW.accumulatedOperationalFunds::text::jsonb, true);
+            END IF;
+        END IF;
+
+        IF (OLD.accumulatedDepositoryFunds <> NEW.accumulatedDepositoryFunds) OR (OLD.accumulatedDepositoryFunds IS NULL AND NEW.accumulatedDepositoryFunds IS NOT NULL) OR (OLD.accumulatedDepositoryFunds IS NOT NULL AND NEW.accumulatedDepositoryFunds IS NULL) THEN
+            IF NEW.status IS NULL THEN
+                newValues = jsonb_set(newValues, '{"accumulatedDepositoryFunds"}'::text[], 'null'::jsonb, true);
+            ELSE
+                newValues = jsonb_set(newValues, '{"accumulatedDepositoryFunds"}'::text[], NEW.accumulatedDepositoryFunds::text::jsonb, true);
+            END IF;
+        END IF;
+
+        IF (OLD.organizationFundOtherSource <> NEW.organizationFundOtherSource) OR (OLD.organizationFundOtherSource IS NULL AND NEW.organizationFundOtherSource IS NOT NULL) OR (OLD.organizationFundOtherSource IS NOT NULL AND NEW.organizationFundOtherSource IS NULL) THEN
+            IF NEW.organizationFundOtherSource IS NULL THEN
+                newValues = jsonb_set(newValues, '{"organizationFundOtherSource"}'::text[], 'null'::jsonb, true);
+            ELSE
+                newValues = jsonb_set(newValues, '{"organizationFundOtherSource"}'::text[], NEW.organizationFundOtherSource::text::jsonb, true);
+            END IF;
+        END IF;
+
+        IF (OLD.preparedBy <> NEW.preparedBy) OR (OLD.preparedBy IS NULL AND NEW.preparedBy IS NOT NULL) OR (OLD.preparedBy IS NOT NULL AND NEW.preparedBy IS NULL) THEN
+            IF NEW.preparedBy IS NULL THEN
+                newValues = jsonb_set(newValues, '{"preparedBy"}'::text[], 'null'::jsonb, true);
+            ELSE
+                newValues = jsonb_set(newValues, '{"preparedBy"}'::text[], NEW.preparedBy::text::jsonb, true);
+            END IF;
+        END IF;
+
+        IF (OLD.facultyAdviser <> NEW.facultyAdviser) OR (OLD.facultyAdviser IS NULL AND NEW.facultyAdviser IS NOT NULL) OR (OLD.facultyAdviser IS NOT NULL AND NEW.facultyAdviser IS NULL) THEN
+            IF NEW.facultyAdviser IS NULL THEN
+                newValues = jsonb_set(newValues, '{"facultyAdviser"}'::text[], 'null'::jsonb, true);
+            ELSE
+                newValues = jsonb_set(newValues, '{"facultyAdviser"}'::text[], NEW.facultyAdviser::text::jsonb, true);
+            END IF;
+        END IF;
+
+        IF (OLD.comments <> NEW.comments) OR (OLD.comments IS NULL AND NEW.comments IS NOT NULL) OR (OLD.comments IS NOT NULL AND NEW.comments IS NULL) THEN
+             IF NEW.comments IS NULL THEN
+                 newValues = jsonb_set(newValues, '{"comments"}'::text[], 'null'::jsonb, true);
+             ELSE
+                 newValues = jsonb_set(newValues, '{"comments"}'::text[], ('"' || replace(NEW.comments::text, '"'::text, '\"'::text) || '"')::jsonb, true);
+             END IF;
+        END IF;
+
+        valueData = jsonb_set(valueData, '{"oldValues"}'::text[], oldValues, true);
+        valueData = jsonb_set(valueData, '{"newValues"}'::text[], newValues, true);
+
+        INSERT INTO "audit_ProjectProposal" ("GOSMActivity", "event", "values", "dateCreated")
+                                     VALUES (NEW.GOSMActivity,     0, valueData, CURRENT_TIMESTAMP);
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER "after_update_ProjectProposal_auditing"
+    AFTER UPDATE ON ProjectProposal
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_after_update_ProjectProposal_auditing"();
+
+CREATE OR REPLACE FUNCTION "trigger_after_insert_ProjectProposal_ProgramDesign_auditing_insert"()
+RETURNS TRIGGER
+AS $trigger$
+    DECLARE
+        newValues JSONB DEFAULT '{}'::jsonb;
+    BEGIN
+        newValues = jsonb_set(newValues, '{"id"}'::text[], NEW.id::text::jsonb, true);
+        newValues = jsonb_set(newValues, '{"dayID"}'::text[], NEW.dayID::text::jsonb, true);
+        newValues = jsonb_set(newValues, '{"sequence"}'::text[], NEW.sequence::text::jsonb, true);
+
+        IF NEW.date IS NULL THEN
+            newValues = jsonb_set(newValues, '{"date"}'::text[], 'null'::jsonb, true);
+        ELSE
+            newValues = jsonb_set(newValues, '{"date"}'::text[], ('"' || NEW.date::text || '"')::jsonb, true);
+        END IF;
+
+        IF NEW.startTime IS NULL THEN
+            newValues = jsonb_set(newValues, '{"startTime"}'::text[], 'null'::jsonb, true);
+        ELSE
+            newValues = jsonb_set(newValues, '{"startTime"}'::text[], ('"' || NEW.startTime::text || '"')::jsonb, true);
+        END IF;
+
+        IF NEW.endTime IS NULL THEN
+            newValues = jsonb_set(newValues, '{"endTime"}'::text[], 'null'::jsonb, true);
+        ELSE
+            newValues = jsonb_set(newValues, '{"endTime"}'::text[], ('"' || NEW.endTime::text || '"')::jsonb, true);
+        END IF;
+
+        IF NEW.activity IS NULL THEN
+            newValues = jsonb_set(newValues, '{"activity"}'::text[], 'null'::jsonb, true);
+        ELSE
+            newValues = jsonb_set(newValues, '{"activity"}'::text[], ('"' || replace(NEW.activity, '"', '\"')::text || '"')::jsonb, true);
+        END IF;
+
+        IF NEW.activityDescription IS NULL THEN
+            newValues = jsonb_set(newValues, '{"activityDescription"}'::text[], 'null'::jsonb, true);
+        ELSE
+            newValues = jsonb_set(newValues, '{"activityDescription"}'::text[], ('"' || replace(NEW.activityDescription, '"', '\"')::text || '"')::jsonb, true);
+        END IF;
+
+        IF NEW.personInCharge IS NULL THEN
+            newValues = jsonb_set(newValues, '{"personInCharge"}'::text[], 'null'::jsonb, true);
+        ELSE
+            newValues = jsonb_set(newValues, '{"personInCharge"}'::text[], NEW.personInCharge::text::jsonb, true);
+        END IF;
+
+        INSERT INTO "audit_ProjectProposal" ("GOSMActivity", "event", "values", "dateCreated")
+                                     VALUES ("PPR_get_GOSMActivity_id_from_PPRID"(NEW.projectProposal),  2, jsonb_set('{}'::jsonb, '{"newValues"}'::text[], newValues, true), CURRENT_TIMESTAMP);
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER "after_insert_ProjectProposal_ProgramDesign_auditing_insert"
+    AFTER INSERT ON ProjectProposalProgramDesign
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_after_insert_ProjectProposal_ProgramDesign_auditing_insert"();
+CREATE OR REPLACE FUNCTION "trigger_after_insert_ProjectProposal_ProgramDesign_auditing_delete"()
+RETURNS TRIGGER
+AS $trigger$
+    DECLARE
+        oldValues JSONB DEFAULT '{}'::jsonb;
+    BEGIN
+        oldValues = jsonb_set(oldValues, '{"id"}'::text[], OLD.id::text::jsonb, true);
+        oldValues = jsonb_set(oldValues, '{"dayID"}'::text[], OLD.dayID::text::jsonb, true);
+        oldValues = jsonb_set(oldValues, '{"sequence"}'::text[], OLD.sequence::text::jsonb, true);
+
+        IF OLD.date IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"date"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"date"}'::text[], ('"' || OLD.date::text || '"')::jsonb, true);
+        END IF;
+
+        IF OLD.startTime IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"startTime"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"startTime"}'::text[], ('"' || OLD.startTime::text || '"')::jsonb, true);
+        END IF;
+
+        IF OLD.endTime IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"endTime"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"endTime"}'::text[], ('"' || OLD.endTime::text || '"')::jsonb, true);
+        END IF;
+
+        IF OLD.activity IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"activity"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"activity"}'::text[], (replace('"' || OLD.activity, '"', '\"')::text || '"')::jsonb, true);
+        END IF;
+
+        IF OLD.activityDescription IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"activityDescription"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"activityDescription"}'::text[], (replace('"' || OLD.activityDescription, '"', '\"')::text || '"')::jsonb, true);
+        END IF;
+
+        IF OLD.personInCharge IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"personInCharge"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"personInCharge"}'::text[], OLD.personInCharge::text::jsonb, true);
+        END IF;
+
+        INSERT INTO "audit_ProjectProposal" ("GOSMActivity", "event", "values", "dateCreated")
+                                     VALUES ("PPR_get_GOSMActivity_id_from_PPRID"(OLD.projectProposal),  1, jsonb_set('{}'::jsonb, '{"oldValues"}'::text[], oldValues, true), CURRENT_TIMESTAMP);
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER "trigger_after_insert_ProjectProposal_ProgramDesign_auditing_delete"
+    AFTER DELETE ON ProjectProposalProgramDesign
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_after_insert_ProjectProposal_ProgramDesign_auditing_delete"();
+CREATE OR REPLACE FUNCTION "trigger_after_update_ProjectProposal_ProgramDesign_auditing_update"()
+RETURNS TRIGGER
+AS $trigger$
+    DECLARE
+        valueData JSONB DEFAULT '{}'::jsonb;
+        oldValues JSONB DEFAULT '{}'::jsonb;
+        newValues JSONB DEFAULT '{}'::jsonb;
+    BEGIN
+        newValues = jsonb_set(newValues, '{"id"}'::text[], NEW.id::text::jsonb, true);
+        newValues = jsonb_set(newValues, '{"dayID"}'::text[], NEW.dayID::text::jsonb, true);
+        newValues = jsonb_set(newValues, '{"sequence"}'::text[], NEW.sequence::text::jsonb, true);
+        oldValues = jsonb_set(oldValues, '{"id"}'::text[], OLD.id::text::jsonb, true);
+        oldValues = jsonb_set(oldValues, '{"dayID"}'::text[], OLD.dayID::text::jsonb, true);
+        oldValues = jsonb_set(oldValues, '{"sequence"}'::text[], OLD.sequence::text::jsonb, true);
+
+        /* OLD values */
+        IF OLD.date IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"date"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"date"}'::text[], ('"' || OLD.date::text || '"')::jsonb, true);
+        END IF;
+
+        IF OLD.startTime IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"startTime"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"startTime"}'::text[], ('"' || OLD.startTime::text || '"')::jsonb, true);
+        END IF;
+
+        IF OLD.endTime IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"endTime"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"endTime"}'::text[], ('"' || OLD.endTime::text || '"')::jsonb, true);
+        END IF;
+
+        IF OLD.activity IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"activity"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"activity"}'::text[], ('"' || replace( OLD.activity, '"', '\"')::text || '"')::jsonb, true);
+        END IF;
+
+        IF OLD.activityDescription IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"activityDescription"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"activityDescription"}'::text[], ('"' || replace( OLD.activityDescription, '"', '\"')::text || '"')::jsonb, true);
+        END IF;
+
+        IF OLD.personInCharge IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"personInCharge"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"personInCharge"}'::text[], OLD.personInCharge::text::jsonb, true);
+        END IF;
+
+        /* NEW and MODIFIED values */
+        IF (OLD.date <> NEW.date) OR (OLD.date IS NULL AND NEW.date IS NOT NULL) OR (OLD.date IS NOT NULL AND NEW.date IS NULL) THEN
+            IF NEW.date IS NULL THEN
+                newValues = jsonb_set(newValues, '{"date"}'::text[], 'null'::jsonb, true);
+            ELSE
+                oldValues = jsonb_set(oldValues, '{"date"}'::text[], ('"' || OLD.date::text || '"')::jsonb, true);
+            END IF;
+        END IF;
+
+        IF (OLD.startTime <> NEW.startTime) OR (OLD.startTime IS NULL AND NEW.startTime IS NOT NULL) OR (OLD.startTime IS NOT NULL AND NEW.startTime IS NULL) THEN
+            IF NEW.startTime IS NULL THEN
+                newValues = jsonb_set(newValues, '{"startTime"}'::text[], 'null'::jsonb, true);
+            ELSE
+                newValues = jsonb_set(newValues, '{"startTime"}'::text[], ('"' || NEW.startTime::text || '"')::jsonb, true);
+            END IF;
+        END IF;
+
+        IF (OLD.endTime <> NEW.endTime) OR (OLD.endTime IS NULL AND NEW.endTime IS NOT NULL) OR (OLD.endTime IS NOT NULL AND NEW.endTime IS NULL) THEN
+            IF NEW.endTime IS NULL THEN
+                newValues = jsonb_set(newValues, '{"endTime"}'::text[], 'null'::jsonb, true);
+            ELSE
+                newValues = jsonb_set(newValues, '{"endTime"}'::text[], ('"' || NEW.endTime::text || '"')::jsonb, true);
+            END IF;
+        END IF;
+
+        IF (OLD.activity <> NEW.activity) OR (OLD.activity IS NULL AND NEW.activity IS NOT NULL) OR (OLD.activity IS NOT NULL AND NEW.activity IS NULL) THEN
+            IF NEW.activity IS NULL THEN
+                newValues = jsonb_set(newValues, '{"activity"}'::text[], 'null'::jsonb, true);
+            ELSE
+                newValues = jsonb_set(newValues, '{"activity"}'::text[], ('"' || replace(NEW.activity, '"', '\"')::text || '"')::jsonb, true);
+            END IF;
+        END IF;
+
+
+        IF (OLD.activityDescription <> NEW.activityDescription) OR (OLD.activityDescription IS NULL AND NEW.activityDescription IS NOT NULL) OR (OLD.activityDescription IS NOT NULL AND NEW.activityDescription IS NULL) THEN
+            IF NEW.activityDescription IS NULL THEN
+                newValues = jsonb_set(newValues, '{"activityDescription"}'::text[], 'null'::jsonb, true);
+            ELSE
+                newValues = jsonb_set(newValues, '{"activityDescription"}'::text[], (replace('"' || NEW.activityDescription, '"', '\"')::text || '"')::jsonb, true);
+            END IF;
+        END IF;
+
+
+        IF (OLD.personInCharge <> NEW.personInCharge) OR (OLD.personInCharge IS NULL AND NEW.personInCharge IS NOT NULL) OR (OLD.personInCharge IS NOT NULL AND NEW.personInCharge IS NULL) THEN
+            IF NEW.personInCharge IS NULL THEN
+                newValues = jsonb_set(newValues, '{"personInCharge"}'::text[], 'null'::jsonb, true);
+            ELSE
+                newValues = jsonb_set(newValues, '{"personInCharge"}'::text[], NEW.personInCharge::text::jsonb, true);
+            END IF;
+        END IF;
+
+        valueData = jsonb_set(valueData, '{"oldValues"}'::text[], oldValues, true);
+        valueData = jsonb_set(valueData, '{"newValues"}'::text[], newValues, true);
+
+        INSERT INTO "audit_ProjectProposal" ("GOSMActivity", "event", "values", "dateCreated")
+                                     VALUES ("PPR_get_GOSMActivity_id_from_PPRID"(OLD.projectProposal),  2, valueData, CURRENT_TIMESTAMP);
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER "after_update_ProjectProposal_ProgramDesign_auditing_update"
+    AFTER UPDATE ON ProjectProposalProgramDesign
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_after_update_ProjectProposal_ProgramDesign_auditing_update"();
+
+  /* End of Logging of PPR */
+/* End of Auditing */
+
+/* SESSION TABLE */
 DROP TABLE IF EXISTS session CASCADE;
 CREATE TABLE IF NOT EXISTS session (
     "sid" varchar NOT NULL COLLATE "default",
@@ -2128,3 +2990,13 @@ CREATE TABLE IF NOT EXISTS session (
     PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE
 )
 WITH (OIDS=FALSE);
+/* End of SESSION TABLE */
+
+/*
+.___________.    ___      .______       __    __  .______        ___           _______. __  ___  __  .______        ___           _______.
+|           |   /   \     |   _  \     |  |  |  | |   _  \      /   \         /       ||  |/  / |  | |   _  \      /   \         /       |
+`---|  |----`  /  ^  \    |  |_)  |    |  |  |  | |  |_)  |    /  ^  \       |   (----`|  '  /  |  | |  |_)  |    /  ^  \       |   (----`
+    |  |      /  /_\  \   |      /     |  |  |  | |   _  <    /  /_\  \       \   \    |    <   |  | |   _  <    /  /_\  \       \   \
+    |  |     /  _____  \  |  |\  \----.|  `--'  | |  |_)  |  /  _____  \  .----)   |   |  .  \  |  | |  |_)  |  /  _____  \  .----)   |
+    |__|    /__/     \__\ | _| `._____| \______/  |______/  /__/     \__\ |_______/    |__|\__\ |__| |______/  /__/     \__\ |_______/
+ */

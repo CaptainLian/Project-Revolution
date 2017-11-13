@@ -1,3 +1,3 @@
-INSERT INTO projectproposal(gosmactivity)
-     VALUES (${gosmactivity})
+INSERT INTO projectproposal(gosmactivity, preparedby)
+     VALUES (${gosmactivity}, ${preparedby})
 RETURNING id;

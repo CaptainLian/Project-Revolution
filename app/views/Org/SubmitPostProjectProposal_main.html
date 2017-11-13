@@ -55,12 +55,18 @@
     <!-- Custom Theme JavaScript -->
      {{tag.javascript('/js/custom.min.js', true)}}
     <!--Style Switcher -->
+    
     {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
+    {{tag.javascript('/js/APS/postProjectProposalMain.js', true)}}
 
    
 {%endblock%}
 
 {%block content%}
+
+<form action="/Organization/PostProjectProposal/Main" method="POST">
+<input type="hidden" name="gosmid" value="{{gosmid}}">
+<input type="hidden" name="_csrf" value="{{csrfToken}}">
 <div class="row white-box">
 	<div class="col-md-12">
 		<div class="">
@@ -103,19 +109,21 @@
 
 					{% endif %}
 
-					{% if activities.isFinanceDocumenCompleted %}
-
-						{% set completionRate = completionRate + 33.3 %}
-
-					{% endif %}
-
 					{% if activities.isOtherFinanceDocumentsCompleted %}
 
 						{% set completionRate = completionRate + 33.3 %}
 
 					{% endif %}
 
-				{{completionRate | round(1)}}
+					{% if activities.isFinanceDocumentCompleted %}
+
+						{% set completionRate = completionRate + 33.3 %}
+
+					{% endif %}
+
+					
+
+				{{completionRate | round}}
 				%</h3>
 				<hr>
 				<p>
@@ -131,7 +139,7 @@
 				
 				<p>
 					<b class="col-md-10  text-right"> Required Document:</b> 
-					{% if activities.isFinanceDocumenCompleted %}
+					{% if activities.isOtherFinanceDocumentsCompleted %}
 						100%
 					{% else%}
 						0%
@@ -141,7 +149,7 @@
 				<p>
 					<b class="col-md-10 text-right">Finance Document:</b> 
 					
-					{% if activities.isOtherFinanceDocumentsCompleted %}
+					{% if activities.isFinanceDocumentCompleted %}
 						100%
 					{% else%}
 						0%
@@ -156,8 +164,10 @@
 						<div class="col-md-6 text-left">
 						{% if activities.isBriefContextCompleted %}
 						<h5>Brief Context <span class="label label-success">Complete</span></h5>
+						<input type="hidden" name="briefContext" value="1">
 						{% else%}
 							<h5>Brief Context <span class="label label-danger">Incomplete</span></h5>
+							<input type="hidden" name="briefContext" value="0">
 						{% endif %}
 							
 						</div>
@@ -173,11 +183,13 @@
 				<a type="button" onclick="(function () {window.location.href='/Organization/PostProjectProposal/RequiredDocument/{{activities.id}}'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
 					<div class="row">
 						<div class="col-md-6 text-left">
-						{% if activities.isFinanceDocumentCompleted %}
-						<h5>Required Document <span class="label label-success">Complete</span></h5>
-						{% else%}
-							<h5>Required Document <span class="label label-danger">Incomplete</span></h5>
-						{% endif %}
+							{% if activities.isOtherFinanceDocumentsCompleted %}
+								<h5>Required Document <span class="label label-success">Complete</span></h5>
+								<input type="hidden" name="reqDocu" value="1">
+							{% else%}
+								<h5>Required Document<span class="label label-danger">Incomplete</span></h5>
+								<input type="hidden" name="reqDocu" value="0">
+							{% endif %}
 							
 							
 						</div>
@@ -193,10 +205,13 @@
 				<a type="button" onclick="(function () {window.location.href='/Organization/PostProjectProposal/FinanceDocument/{{activities.id}}'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
 					<div class="row">
 						<div class="col-md-6 text-left">
-							{% if activities.isOtherFinanceDocumentsCompleted %}
+						
+							{% if activities.isFinanceDocumentCompleted %}
 							<h5>Finance Document <span class="label label-success">Complete</span></h5>
+							<input type="hidden" name="finDocu" value="1">
 							{% else%}
-								<h5>Finance Document<span class="label label-danger">Incomplete</span></h5>
+								<h5>Finance Document <span class="label label-danger">Incomplete</span></h5>
+								<input type="hidden" name="finDocu" value="0">
 							{% endif %}
 
 						</div>
@@ -216,7 +231,28 @@
 			
 			<div class="m-t-40 col-md-12 text-center">
 				
-				<button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Submit</button>
+					<button type="submit"
+					{% if not activities.isFinanceDocumentCompleted %}
+
+							disabled=''
+					{%elif not activities.isOtherFinanceDocumentsCompleted%}					
+						disabled=''
+					{%elif not activities.isBriefContextCompleted%}					
+					disabled=''
+					
+					{% endif %}
+					
+					 class="btn btn-success
+					{% if not activities.isFinanceDocumentCompleted %}
+
+						disabled
+					{%elif not activities.isOtherFinanceDocumentsCompleted%}					
+					disabled
+					{%elif not activities.isBriefContextCompleted%}					
+					disabled
+					
+					{% endif %}
+				"> <i class="fa fa-check"></i> Submit</button>
 				<button type="button" class="btn btn-default">Cancel</button>
 				
 			</div>

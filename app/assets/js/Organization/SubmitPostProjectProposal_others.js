@@ -73,7 +73,11 @@
                 $("#est").closest("div.form-group").removeClass("has-error");
                 $("#file-help").text("*Only pdf and opendata format are acceptable");
                 $("#file").closest("div.form-group").removeClass("has-error").removeClass("has-danger");
-                $("#data").clone().attr("id","asd"+key).addClass("price-cal").css("display","none").appendTo("#data");
+                // $("#price").clone(false).attr("id","asd"+key).addClass("price-cal").css("display","none").appendTo("#data");
+                $("#est").clone(false).attr("id","asd"+key).addClass("price-cal").css("display","none").appendTo("#data");
+                $("#price").clone(false).attr("id","asd"+key).addClass("price-cal").css("display","none").appendTo("#data");
+                $("#part").clone(false).attr("id","asd"+key).addClass("price-cal").css("display","none").appendTo("#data");
+                $("#file").clone(false).attr("id","asd"+key).addClass("price-cal").css("display","none").appendTo("#data");
 
                 empty();
 
@@ -124,7 +128,8 @@
                 tr.remove();                
                 result-=price;
                 $("#texp").text((result).toLocaleString());
-                $("div#asd"+parseInt(keys)).remove();
+                $("input#asd"+parseInt(keys)).remove();
+
                 
             })
 
@@ -150,3 +155,6 @@
             $('.tooltip').remove();
             $(this).closest(".pic-group").remove();
         })
+$("#save").click(function(){
+    empty();
+})

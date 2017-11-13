@@ -97,7 +97,7 @@
 							</div>
 							<div class=" col-md-12 radio radio-info">
 								<input name="venue" id="v-2" value="3" type="radio">
-								<label for="v-2" style="font-weight: 300"><strong>3</strong> - Appropriate for ANP, but ANP has exceeded/lacking for ENP</label>
+								<label for="v-2" style="font-weight: 300"><strong>3</strong> - Appropriate for ENP, but ANP has exceeded/lacking for ENP</label>
 							</div>
 							<div class=" col-md-12 radio radio-info">
 								<input name="venue" id="v-3" value="5" type="radio">
@@ -155,19 +155,32 @@
 					</div>
 					
 					<div class="form-group">
-						<label class="control-label col-md-3" style="color:#2b2b2b"> Activity Execution 1</label>
+						<label class="control-label col-md-3" style="color:#2b2b2b"> Activity Execution</label>
 						<div class="col-md-9">
 							<div class=" col-md-12 radio radio-info">
 								<input name="activityExecution" id="ae-1" value="1" type="radio">
-								<label for="ae-1" style="font-weight: 300"><strong>1</strong> - Equipment were not functioning/present</label>
+								<label for="ae-1" style="font-weight: 300"><strong>1</strong> - Did not follow the program flow</label>
 							</div>
 							<div class=" col-md-12 radio radio-info">
 								<input name="activityExecution" id="ae-2" value="3" type="radio">
-								<label for="ae-2" style="font-weight: 300"><strong>3</strong> - Equipment were present but faulty</label>
+								<label for="ae-2" style="font-weight: 300"><strong>3</strong> - Partially followed the program flow (3-4 mistakes)</label>
 							</div>
 							<div class=" col-md-12 radio radio-info">
 								<input name="activityExecution" id="ae-3" value="5" type="radio">
-								<label for="ae-3" style="font-weight: 300"><strong>5</strong> - Equipment were present and well-functioning</label>
+								<label for="ae-3" style="font-weight: 300"><strong>5</strong> - Followed the program flow (1-2 mistakes)</label>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-md-3" style="color:#2b2b2b"> Activity Execution</label>
+						<div class="col-md-9">
+							<div class=" col-md-12 radio radio-info">
+								<input name="activityExecution2" id="aex-1" value="1" type="radio">
+								<label for="aex-1" style="font-weight: 300"><strong>1</strong> - Average transitions</label>
+							</div>
+							<div class=" col-md-12 radio radio-info">
+								<input name="activityExecution2" id="aex-2" value="2" type="radio">
+								<label for="aex-2" style="font-weight: 300"><strong>2</strong> - Average transitions</label>
 							</div>
 						</div>
 					</div>
@@ -188,46 +201,25 @@
 							</div>
 						</div>
 					</div>
-					<div class="form-group">
-						<label class="control-label col-md-3" style="color:#2b2b2b"> Activity Execution 2</label>
-						<div class="col-md-9">
-							<div class=" col-md-12 radio radio-info">
-								<input name="activityExecution2" id="aex-1" value="1" type="radio">
-								<label for="aex-1" style="font-weight: 300"><strong>1</strong> - Equipment were not functioning/present</label>
-							</div>
-							<div class=" col-md-12 radio radio-info">
-								<input name="activityExecution2" id="aex-2" value="3" type="radio">
-								<label for="aex-2" style="font-weight: 300"><strong>3</strong> - Equipment were present but faulty</label>
-							</div>
-							<div class=" col-md-12 radio radio-info">
-								<input name="activityExecution2" id="aex-3" value="5" type="radio">
-								<label for="aex-3" style="font-weight: 300"><strong>5</strong> - Equipment were present and well-functioning</label>
-							</div>
-						</div>
-					</div>
 					
 					<div class="form-group">
 						<label class="control-label col-md-3" style="color:#2b2b2b"> Facilitators/ Ushers</label>
 						<div class="col-md-9">
-							<div class=" col-md-12 radio radio-info">
-								<input name="facilitators" id="f-1" value="1" type="radio">
-								<label for="f-1" style="font-weight: 300"><strong>1</strong> - No visual aids nor any form of presentation used</label>
+							<div class=" col-md-12 custom-checkbox">
+								<input name="facilitators1" id="f-1" value="1" type="checkbox">
+								<label for="f-1" style="font-weight: 300"><strong>1</strong> - Ushered the audience</label>
 							</div>
-							<div class=" col-md-12 radio radio-info">
-								<input name="facilitators" id="f-2" value="2" type="radio">
-								<label for="f-2" style="font-weight: 300"><strong>2</strong> - Visual aids were poorly used; information were poor</label>
+							<div class=" col-md-12 custom-checkbox">
+								<input name="facilitators2" id="f-2" value="1" type="checkbox">
+								<label for="f-2" style="font-weight: 300"><strong>2</strong> - Approachable</label>
 							</div>
-							<div class=" col-md-12 radio radio-info">
-								<input name="facilitators" id="f-3" value="3" type="radio">
-								<label for="f-3" style="font-weight: 300"><strong>3</strong> - Visual aids were poorly used; insufficient information, but organized</label>
+							<div class=" col-md-12 custom-checkbox">
+								<input name="facilitators3" id="f-3" value="1" type="checkbox">
+								<label for="f-3" style="font-weight: 300"><strong>3</strong> - Assisted the host</label>
 							</div>
-							<div class=" col-md-12 radio radio-info">
-								<input name="facilitators" id="f-4" value="4" type="radio">
-								<label for="f-4" style="font-weight: 300"><strong>4</strong> - Visual aids were used; Information were organized</label>
-							</div>
-							<div class=" col-md-12 radio radio-info">
-								<input name="facilitators" id="f-5" value="5" type="radio">
-								<label for="f-5" style="font-weight: 300"><strong>5</strong> - Creative use of presentation and visual aids; Information were well organized</label>
+							<div class=" col-md-12 custom-checkbox">
+								<input name="facilitators4" id="f-4" value="1" type="checkbox">
+								<label for="f-4" style="font-weight: 300"><strong>4</strong> - Maintained order</label>
 							</div>
 						</div>
 					</div>
@@ -334,7 +326,7 @@
 					<div class="form-group row">
 						<label class="control-label col-md-3 offset-md-1"  style="color:#2b2b2b"> ANP</label>
 						<div class="input-daterange input-group col-md-6" id="date-range">
-							<input class="form-control" name="start" type="text">
+							<input class="form-control" name="anp" type="number" min="0">
 							
 						</div>
 					</div>
@@ -629,14 +621,14 @@
 					<div class="form-group row">
 						<label class="control-label col-md-3 offset-md-1"  style="color:#2b2b2b">Comments</label>
 						<div class="input-daterange input-group col-md-6" id="date-range">
-							<textarea name="suggestion1" class="form-control"></textarea>
+							<textarea name="comments" class="form-control"></textarea>
 							
 						</div>
 					</div>
 					<div class="form-group row">
 						<label class="control-label col-md-3 offset-md-1"  style="color:#2b2b2b">Suggestion</label>
 						<div class="input-daterange input-group col-md-6" id="date-range">
-							<textarea name="suggestion1" class="form-control"></textarea>
+							<textarea name="suggestions" class="form-control"></textarea>
 							
 						</div>
 					</div>

@@ -81,9 +81,9 @@
 										 <div class="form-group">
 				                            <label class="control-label col-md-3">Actual Date</label>
 				                            <div class="input-daterange input-group col-md-9" id="date-range">
-				                                <input name="targetDateStart" id="targetDateStart" class="form-control" readonly="" placeholder="mm/dd/yyyy" name="start" type="text">
+				                                <input name="actualDateStart" id="targetDateStart" class="form-control" readonly="" placeholder="mm/dd/yyyy" name="start" type="text" value="{{projectProposal.actualdatestart}}">
 				                                <span class="input-group-addon bg-info b-0 text-white">to</span>
-				                                <input name="targetDateEnd" id="targetDateEnd" class="form-control" readonly="" name="end" type="text" placeholder="mm/dd/yyyy">
+				                                <input name="actualDateEnd" id="targetDateEnd" class="form-control" readonly="" name="end" type="text" placeholder="mm/dd/yyyy" value="{{projectProposal.actualdateend}}">
 
 				                            </div>
 				                             
@@ -178,16 +178,34 @@
 											<div class="col-md-9">
 												<div class="radio-list">
                                                     <label class="radio-inline p-0">
-                                                        <div class="radio radio-info">
-                                                            <input name="radio" id="radio1" value="option1" type="radio">
-                                                            <label for="radio1">Yes</label>
-                                                        </div>
-                                                    </label>
-                                                    <label class="radio-inline">
-                                                        <div class="radio radio-info">
-                                                            <input name="radio" id="radio2" value="option2" type="radio">
-                                                            <label for="radio2">No </label>
-                                                        </div>
+                                                       {% if projectProposal.isexpense %}
+
+                                                      		<div class="radio radio-info">
+	                                                      		<input name="expense" id="radio1" value="true" type="radio" checked="checked">
+	                                                            <label for="radio1">Yes</label>
+	                                                        </div>
+	                                                    </label>
+	                                                    <label class="radio-inline">
+	                                                        <div class="radio radio-info">
+	                                                            <input name="expense" id="radio2" value="false" type="radio">
+	                                                            <label for="radio2">No </label>
+	                                                        </div>
+
+                                                       	{% else %}
+
+                                                       		<div class="radio radio-info">
+	                                                      		<input name="expense" id="radio1" value="true" type="radio">
+	                                                            <label for="radio1">Yes</label>
+	                                                        </div>
+	                                                    </label>
+	                                                    <label class="radio-inline">
+	                                                        <div class="radio radio-info">
+	                                                            <input name="expense" id="radio2" value="false" type="radio" checked="checked">
+	                                                            <label for="radio2">No </label>
+	                                                        </div>
+
+                                                       	{% endif %}
+                                                            
                                                     </label>
                                                 </div>
 											</div>
