@@ -74,6 +74,9 @@
 {%block content%}
 <form action="/AMT/EvaluateActivity" method="POST">
 <input type="hidden" name="_csrf" value="{{csrfToken}}">
+
+<input type="hidden" name="activity" value="{{activity}}">
+
 <div class="row">
 	<div class="sttabs tabs-style-linebox">
 		<nav>

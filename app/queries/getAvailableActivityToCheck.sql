@@ -8,16 +8,17 @@ SELECT PP.GOSMACTIVITY AS ID, GA.STRATEGIES, AV.NAME, TO_CHAR(PPP.DATE,'Mon DD, 
 
 WHERE ((GA.ACTIVITYTYPE = 2
    OR GA.ACTIVITYNATURE =1) 
-  AND PP.STATUS=3
-  AND GA.ID NOT IN (SELECT ACTIVITY FROM AMTACTIVITYEVALUATION))
-   OR GA.ID IN (SELECT ACTIVITY 
-   				  FROM AMTACTIVITYEVALUATION 
-   				 WHERE STATUS = 0 
-   				   AND (DATERESERVED >= (SELECT DATESTART
-   				   						   FROM TERM
-   				   						  WHERE NOW() >= DATESTART
-   				   						    AND NOW() <= DATEEND ) 
-   				   AND DATERESERVED <= (SELECT DATEEND
-   				   						   FROM TERM
-   				   						  WHERE NOW() >= DATESTART
-   				   						    AND NOW() <= DATEEND )  )  );
+  AND PP.STATUS=3)
+  AND GA.ID  IN (SELECT ACTIVITY
+                      FROM AMTACTIVITYEVALUATION
+                     WHERE STATUS = 0 )
+   AND GA.ID IN (SELECT GOSMACTIVITY 
+   				  FROM PROJECTPROPOSAL 
+   				 WHERE (ACTUALDATESTART >= (SELECT DATESTART
+   				   						                FROM TERM
+   				   						               WHERE NOW() >= DATESTART
+   				   						                 AND NOW() <= DATEEND ) 
+   				   AND ACTUALDATEEND <= (SELECT DATEEND
+   				   						             FROM TERM
+   				   						            WHERE NOW() >= DATESTART
+   				   						              AND NOW() <= DATEEND )  )  );
