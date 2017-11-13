@@ -549,6 +549,9 @@ INSERT INTO ProjectProposalExpenses (projectProposal, material, quantity, unitCo
 INSERT INTO ProjectProposalExpenses (projectProposal, material, quantity, unitCost)
                               VALUES(1, 'Boyfriend Material 3', 80, 60.0000);
 
+INSERT INTO ProjectProposalProgramDesign (projectProposal, dayID, date, startTime, endTime, activity, activityDescription, personInCharge)
+                                  VALUES (1,    1, '2017-10-14', '21:34:03', '23:00:00', 'Aguy', 'Gansa', 3333333);
+
 DELETE FROM ProjectProposalExpenses
 WHERE projectProposal = 1
 AND sequence = 1;

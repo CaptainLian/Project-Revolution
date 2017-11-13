@@ -521,6 +521,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
             gosmModel.submitGOSM(dbParam)
             .then(() => {
+                res.send("1");
                 logger.debug('GOSM Submitted', log_options);
             });
         },
