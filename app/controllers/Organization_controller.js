@@ -156,6 +156,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         renderData.projectProposal = data[2];
                         renderData.gosmid = req.params.id;
                         console.log(data[2]);
+                        console.log("KAHITANONGMESSAGE");
 
                         return res.render('Org/SubmitProjectProposal_main',renderData);
                     }).catch(err => {
@@ -1134,12 +1135,16 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             .then(data=>{
 
             }).catch(error=>{
+                console.log("delete error");
                 console.log(error);
             });
+
 
             var index = 0;
 
             database.tx(transaction=>{
+
+                
 
                 for (var item in sched){
                     console.log(sched[item].length);
@@ -1169,6 +1174,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         .then(data=>{
 
                         }).catch(error=>{
+                            console.log("insertsched error");
                             console.log(error);
                         });
 
@@ -1177,46 +1183,56 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     index++;
                 }
 
+                console.log("INDEX IS");
+                console.log(index);
+
+                if (index == 0){
+
+                    console.log("ENTERS EMPTY");
+
+                    var param = {
+                        id: req.body.pid,
+                        status: false
+                    };
+
+                    console.log(param);
+
+                    projectProposalModel.updateIsProgramDesignComplete(param, transaction)
+                    .then(data=>{
+
+                    }).catch(error=>{
+                        console.log("updateIsProgramDesignComplete")
+                        console.log(error);
+                    });
+                } 
+                else {
+
+                    console.log("ENTERS");
+
+                    var param = {
+                        id: req.body.pid,
+                        status: true
+                    };
+
+                    projectProposalModel.updateIsProgramDesignComplete(param, transaction)
+                    .then(data=>{
+
+                    }).catch(error=>{
+                        console.log(error);
+                    });
+
+                 }
+
+
+
+            }).then(data=>{
+                return res.send("1");
+
+            }).catch(error=>{
+                console.log(error);
             });
 
-            console.log("INDEX IS");
-            console.log(index);
 
-            if (index == 0){
-
-                console.log("ENTERS EMPTY");
-
-                var param = {
-                    id: req.body.pid,
-                    status: false
-                };
-
-                projectProposalModel.updateIsProgramDesignComplete(param)
-                .then(data=>{
-
-                }).catch(error=>{
-                    console.log(error);
-                });
-            } 
-            else {
-
-                console.log("ENTERS");
-
-                var param = {
-                    id: req.body.pid,
-                    status: true
-                };
-
-                projectProposalModel.updateIsProgramDesignComplete(param)
-                .then(data=>{
-
-                }).catch(error=>{
-                    console.log(error);
-                });
-
-            }
-
-            return res.send("1");
          },
 
         savePPR:(req, res)=>{
