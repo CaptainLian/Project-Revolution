@@ -1,8 +1,6 @@
 {% extends './Finance_master.html' %}
 {% import '../template/tags_macro.html' as tag %}
 
- 
-
 {%block style%}
     {{super()}}
     <!-- Bootstrap Core CSS -->
@@ -50,7 +48,7 @@
     <!-- tabs-->
     {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
     <!-- Sweet-Alert  -->
-    {{tag.javascript('/plugins/bower_components/sweetalert/sweetalert.min.js', true)}}    
+    {{tag.javascript('/plugins/bower_components/sweetalert/sweetalert.min.js', true)}}
     <!--Style Switcher -->
     {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
 
@@ -75,7 +73,7 @@
 {%block content%}
 <div class="row">
 	<div class="col-md-12">
-		<div class="panel panel-info">                                                    
+		<div class="panel panel-info">
 			<div class="panel-body">
 				<form action="#">
 					<div class="form-body">
@@ -121,14 +119,14 @@
 					<br/>
 
 
-				</div> 
+				</div>
 				<div class="panel-footer">
 					<div class="text-center form-actions">
 						<button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Save</button>
 						<button type="button" class="btn btn-default">Cancel</button>
 					</div>
 				</form>
-			</div>                           
+			</div>
 		</div>
 	</div>
 </div>

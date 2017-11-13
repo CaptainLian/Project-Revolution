@@ -1,6 +1,7 @@
 'use strict';
 module.exports = function(configuration, modules, models, database, queryFiles){
-	return {
+    const FacultyAdviserController = Object.create(null);
 
-	};
+    
+	return FacultyAdviserController;
 };

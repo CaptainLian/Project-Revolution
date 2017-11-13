@@ -135,16 +135,6 @@ module.exports = function(configuration, modules, database, queryFiles) {
         return connection.any(getAccountLogsSQL);
     };
 
-    //TODO: unused
-    const hasGOSMActivityWithPPRSQL = queryFiles.account_has_gosmactivity_with_ppr;
-    //TODO: unused function
-    AccountModel.hasGOSMActivityWithPPR = (idNumber, organizationID, connection = database) => {
-        const param = Object.create(null);
-        param.idNumber = idNumber;
-        param.organizationID = organizationID;
-        return connection.one(hasGOSMActivityWithPPRSQL, param);
-    };
-
     const hasGOSMActivityWithoutPPRSQL = queryFiles.account_has_GOSMActivtiy_without_PPR;
     AccountModel.hasGOSMActivityWithoutPPR = (idNumber, organizationID, connection = database) => {
         const param = Object.create(null);
@@ -160,5 +150,14 @@ module.exports = function(configuration, modules, database, queryFiles) {
         param.organizationID = organizationID;
         return connection.one(hasGOSMActivityWithAMTActivityEvaluationSQL, param);
     };
+
+    const hasPPRToSignSQL = queryFiles.account_has_PPRs_to_sign;
+    AccountModel.hasPPRToSign = (idNumber, connection = database) => {
+        const param = Object.create(null);
+        param.idNumber = idNumber;
+
+        return connection.one(hasPPRToSignSQL, param);
+    };
+
     return AccountModel;
 };

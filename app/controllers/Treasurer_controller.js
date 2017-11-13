@@ -4,6 +4,13 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
     const projectProposalModel = models.ProjectProposal_model;
 
+    TreasurerController.viewDashboard = (req, res) => {
+    	const renderData = Object.create(null);
+        renderData.extra_data = req.extra_data;
+
+		return res.render('Org/Treasurer/Dashboard', renderData);
+	};
+
 
 	TreasurerController.newTransaction = (req, res) => {
 		database.task(t => {
@@ -28,6 +35,6 @@ module.exports = function(configuration, modules, models, database, queryFiles){
         renderData.extra_data = req.extra_data;
 		return res.render('Org/Treasurer/NewTransactionOthers', renderData);
 	};
-    
+
 	return TreasurerController;
 };

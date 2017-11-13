@@ -1,0 +1,154 @@
+{% extends '../../template/CSO_master.html' %}
+{% import '../../template/tags_macro.html' as tag %}
+
+{%block style%}
+    {{super()}}
+    <!-- Bootstrap Core CSS -->
+    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
+    <!-- Wizard CSS -->
+    {{tag.style('/plugins/bower_components/jquery-wizard-master/css/wizard.css')}}
+    <!-- Menu CSS -->
+    {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
+    <!-- page CSS -->
+    {{tag.style('/plugins/bower_components/custom-select/custom-select.css')}}
+    <!-- Animation CSS -->
+    {{tag.style('/css/animate.css')}}
+    <!-- Custom CSS -->
+    {{tag.style('/css/style.css')}}
+    {{tag.style('/css/custom.css')}}
+    <!-- color CSS you can use different color css from css/colors folder -->
+    <!-- We have chosen the skin-blue (blue.css) for this starter
+          page. However, you can choose any other skin from folder css / colors .
+    -->
+    {{tag.style('/css/colors/blue.css')}}
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+{%endblock%}
+
+{%block defer_script%}
+    {{super()}}
+    <!-- jQuery -->
+    {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
+    <!-- Bootstrap Core JavaScript -->
+    {{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
+    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
+    <!-- Menu Plugin JavaScript -->
+    {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
+    <!--slimscroll JavaScript -->
+    {{tag.javascript('/js/jquery.slimscroll.js', true)}}
+    <!--Wave Effects -->
+    {{tag.javascript('/js/waves.js', true)}}
+    <!-- Custom Theme JavaScript -->
+    {{tag.javascript('/js/custom.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/switchery/dist/switchery.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/custom-select/custom-select.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-select/bootstrap-select.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/multiselect/js/jquery.multi-select.js', true)}}
+    <!--Style Switcher -->
+    {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
+    {{tag.javascript('/js/cbpFWTabs.js', true)}}
+{%endblock%}
+
+{%block content%}
+<div id="page-wrapper">
+    <div class="container-fluid">
+        <div class="row bg-title">
+            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                <h4 class="page-title">ORG TREASURER</h4>
+            </div>
+            <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+                <a href="https://themeforest.net/item/elite-admin-the-ultimate-dashboard-web-app-kit-material-design/16750820?ref=suniljoshi" target="_blank" class="btn btn-danger pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">Buy Now</a>
+                <ol class="breadcrumb">
+                    <li><a href="#">Dashboard</a></li>
+                    <li class="active">Starter Page</li>
+                </ol>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- .row -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="white-box">
+                            <h3 class="box-title">APPROVED TRANSACTIONS</h3>
+                            <ul class="list-inline two-part">
+                                <li><i class="linea-icon linea-aerrow text-success" data-icon="&#xe007;"></i></li>
+                                <li class="text-right text-success"><span class="counter">23</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="white-box">
+                            <h3 class="box-title">PENDING TRANSACTIONS</h3>
+                            <ul class="list-inline two-part">
+                                <li><i class="linea-icon linea-aerrow text-warning"  data-icon="&#xe027;"></i></li>
+                                <li class="text-right text-warning"><span class="counter">169</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="white-box">
+                            <h3 class="box-title">DENIED TRANSACTIONS</h3>
+                            <ul class="list-inline two-part">
+                                <li><i class="linea-icon linea-aerrow text-danger" data-icon="&#xe016;"></i></li>
+                                <li class="text-right text-danger"><span class="">311</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="white-box">
+                            <h3 class="box-title">CANCELLED TRANSACTIONS</h3>
+                            <ul class="list-inline two-part">
+                                <li><i class="linea-icon linea-aerrow text-danger" data-icon="&#xe00e;"></i></li>
+                                <li class="text-right text-danger"><span class="">117</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- cash inflow and outflow-->
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="white-box">
+                            <h3 class="box-title">CASH INFLOW</h3>
+                            <ul class="list-inline two-part">
+                                <li><i class="linea-icon linea-ecommerce text-success" data-icon="p"></i></li>
+                                <li class="text-right text-success"><span class="counter">23</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="white-box">
+                            <h3 class="box-title">CASH OUTFLOW</h3>
+                            <ul class="list-inline two-part">
+                                <li><i class="linea-icon linea-ecommerce text-danger"  data-icon="v"></i></li>
+                                <li class="text-right text-danger"><span class="counter">169</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="white-box">
+                            <h3 class="box-title">ORGANIZATION FUND</h3>
+                            <ul class="list-inline two-part">
+                                <li><i class="linea-icon linea-ecommerce text-info"  data-icon="k"></i></li>
+                                <li class="text-right text-info"><span class="counter">169</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%}
