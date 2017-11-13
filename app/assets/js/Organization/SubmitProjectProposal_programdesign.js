@@ -788,7 +788,8 @@ $("#submit-but").click(function(){
         type:'POST',
         url:'/Organization/projectproposal/SaveDesign',
         data:{"sched":JSON.stringify(sched), gid:$("#data-route").attr("gid"),pid:$("#data-route").attr("pid")},
-        success:function(){
+        success:function(data){
+            if(parseInt(data))
             window.location.href="/organization/projectproposal/main/"+$("#data-route").attr("gid")+'/1';
         }
     })
