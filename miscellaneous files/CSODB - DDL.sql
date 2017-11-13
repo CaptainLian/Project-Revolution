@@ -324,6 +324,21 @@ $function$
     END;
 $function$ LANGUAGE plpgsql;
 
+
+CREATE OR REPLACE FUNCTION "PPR_get_GOSMActivity_id_from_PPRID"(param_PPRID INTEGER)
+RETURNS INTEGER AS
+$function$
+    DECLARE
+        var_GOSMActivity INTEGER;
+    BEGIN
+         SELECT GOSMActivity INTO var_GOSMActivity
+           FROM ProjectProposal
+          WHERE id = param_PPRID;
+
+        RETURN var_GOSMActivity;
+    END;
+$function$ LANGUAGE plpgsql;
+
 /*
     Helpful functions end
 */
@@ -1909,6 +1924,7 @@ CREATE TABLE AMTActivityEvaluation (
     presentation SMALLINT,
     activities SMALLINT,
     organizationStandingPresentation SMALLINT,
+    timeStart SMALLINT,
     actualStartTime TIME WITH TIME ZONE,
     actualEndTime TIME WITH TIME ZONE,
     ANP INTEGER,
@@ -2165,7 +2181,49 @@ CREATE TRIGGER "before_insert_PostProjectBookTransfer_sequence"
     EXECUTE PROCEDURE "trigger_before_insert_PostProjectReimbursement_sequence"();
   /* Post Acts END*/
 /* ADM END */
+/* Publicity */
+DROP TABLE IF EXISTS "ActivityPublicityModeOfDistribution" CASCADE;
+CREATE TABLE "ActivityPublicityModeOfDistribution"(
+    "id" SMALLINT,
+    "name" VARCHAR(45) NOT NULL,
 
+    PRIMARY KEY("id")
+);
+INSERT INTO "ActivityPublicityModeOfDistribution" ("id", "name")
+                                            -- TODO: Other values
+                                           VALUES (   0, 'Online');
+
+DROP TABLE IF EXISTS "ActivityPublicityStatus" CASCADE;
+CREATE TABLE "ActivityPublicityStatus"(
+    "id" SMALLINT,
+    "name" VARCHAR(45) NOT NULL,
+
+    PRIMARY KEY("id")
+);
+INSERT INTO "ActivityPublicityStatus" ("id", "name")
+                               VALUES (   0, 'For Evaluation'),
+                                      (   1, 'Approved'),
+                                      (   2, 'Pended'),
+                                      (   3, 'Denied');
+
+DROP TABLE IF EXISTS "ActivityPublicity" CASCADE;
+CREATE TABLE "ActivityPublicity" (
+    "id" SERIAL UNIQUE,
+    "GOSMActivity" INTEGER REFERENCES ProjectProposal(GOSMActivity),
+    "sequence" INTEGER DEFAULT -1,
+    "modeOfDistribution" SMALLINT REFERENCES "ActivityPublicityModeOfDistribution"("id"),
+    "targetPostingDate" DATE, --me
+    "status" SMALLINT REFERENCES "ActivityPublicityStatus"("id"),
+    "checkedBy" INTEGER REFERENCES Account(idNumber),
+    "dateChecked" DATE,
+    "submittedBy" INTEGER REFERENCES Account(idNumber),
+    "comments" TEXT,
+    "filename" TEXT,
+    "filenameToShow" TEXT,
+
+    PRIMARY KEY("GOSMActivity", "sequence")
+);
+/* End of Publicity */
 /*
     Auditing
 */
@@ -2236,8 +2294,93 @@ CREATE TRIGGER "before_insert_audit_ProjectProposal_sequence"
     FOR EACH ROW
     EXECUTE PROCEDURE "trigger_before_insert_audit_ProjectProposal_sequence"();
 
+CREATE OR REPLACE FUNCTION "trigger_after_insert_ProjectProposal_Expenses_auditing_insert"()
+RETURNS TRIGGER
+AS $trigger$
+    DECLARE
+        newValues JSONB DEFAULT '{}'::jsonb;
+    BEGIN
+        newValues = jsonb_set(newValues, '{"id"}'::text[], NEW.id::text::jsonb, true);
+        newValues = jsonb_set(newValues, '{"sequence"}'::text[], NEW.sequence::text::jsonb, true);
+
+        IF NEW.material IS NULL THEN
+            newValues = jsonb_set(newValues, '{"material"}'::text[], 'null'::jsonb, true);
+        ELSE
+            newValues = jsonb_set(newValues, '{"material"}'::text[], ('"' || replace(NEW.material, '"', '\"') || '"')::jsonb, true);
+        END IF;
+
+        IF NEW.quantity IS NULL THEN
+            newValues = jsonb_set(newValues, '{"quantity"}'::text[], 'null'::jsonb, true);
+        ELSE
+            newValues = jsonb_set(newValues, '{"quantity"}'::text[], NEW.quantity::text::jsonb, true);
+        END IF;
+
+        IF NEW.unitCost IS NULL THEN
+            newValues = jsonb_set(newValues, '{"unitCost"}'::text[], 'null'::jsonb, true);
+        ELSE
+            newValues = jsonb_set(newValues, '{"unitCost"}'::text[], NEW.unitCost::text::jsonb, true);
+        END IF;
+
+        IF NEW."type" IS NULL THEN
+            newValues = jsonb_set(newValues, '{"type"}'::text[], 'null'::jsonb, true);
+        ELSE
+            newValues = jsonb_set(newValues, '{"type"}'::text[], NEW."type"::text::jsonb, true);
+        END IF;
+
+        INSERT INTO "audit_ProjectProposal" ("GOSMActivity", "event", "values", "dateCreated", "newValues")
+                                     VALUES ("PPR_get_GOSMActivity_id_from_PPRID"(NEW.projectProposal),  1, jsonb_set('{}'::jsonb, '{"newValues"}'::text[], newValues, true), CURRENT_TIMESTAMP, newValues);
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER "insert_ProjectProposal_Expenses_auditing_insert"
+    AFTER INSERT ON ProjectProposalExpenses
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_after_insert_ProjectProposal_Expenses_auditing_insert"();
+CREATE OR REPLACE FUNCTION "trigger_after_delete_ProjectProposal_Expenses_auditing_delete"()
+RETURNS TRIGGER
+AS $trigger$
+    DECLARE
+        oldValues JSONB DEFAULT '{}'::jsonb;
+    BEGIN
+        oldValues = jsonb_set(oldValues, '{"id"}'::text[], OLD.id::text::jsonb, true);
+        oldValues = jsonb_set(oldValues, '{"sequence"}'::text[], OLD.sequence::text::jsonb, true);
+
+        IF OLD.material IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"material"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"material"}'::text[], ('"' || replace(OLD.material, '"', '\"') || '"')::jsonb, true);
+        END IF;
+
+        IF OLD.quantity IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"quantity"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"quantity"}'::text[], OLD.quantity::text::jsonb, true);
+        END IF;
+
+        IF OLD.unitCost IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"unitCost"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"unitCost"}'::text[], OLD.unitCost::text::jsonb, true);
+        END IF;
+
+        IF OLD."type" IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"type"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"type"}'::text[], OLD."type"::text::jsonb, true);
+        END IF;
+
+        INSERT INTO "audit_ProjectProposal" ("GOSMActivity", "event", "values", "dateCreated", "newValues")
+                                     VALUES ("PPR_get_GOSMActivity_id_from_PPRID"(OLD.projectProposal),  1, jsonb_set('{}'::jsonb, '{"oldValues"}'::text[], oldValues, true), CURRENT_TIMESTAMP, oldValues);
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER "after_delete_ProjectProposal_Expenses_auditing_delete"
+    AFTER DELETE ON ProjectProposalExpenses
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_after_delete_ProjectProposal_Expenses_auditing_delete"();
+
 CREATE OR REPLACE FUNCTION "trigger_after_update_ProjectProposal_auditing"()
-RETURNS trigger AS
+RETURNS TRIGGER AS
 $trigger$
     DECLARE
         valueData JSONB DEFAULT '{}'::jsonb;
@@ -2245,106 +2388,211 @@ $trigger$
         newValues JSONB DEFAULT '{}'::jsonb;
     BEGIN
         -- jsonb_set(target jsonb, path text[], new_value jsonb[, create_missing boolean])
-        oldValues = jsonb_set(oldValues, '{"status"}'::text[], OLD.status::text::jsonb, true);
-        oldValues = jsonb_set(oldValues, '{"ENP"}'::text[], OLD.ENP::text::jsonb, true);
-        oldValues = jsonb_set(oldValues, '{"ENMP"}'::text[], OLD.ENMP::text::jsonb, true);
+        /* OLD VALUES */
+        IF OLD.status IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"status"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"status"}'::text[], OLD.status::text::jsonb, true);
+        END IF;
+
+        IF OLD.ENP IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"ENP"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"ENP"}'::text[], OLD.ENP::text::jsonb, true);
+        END IF;
+
+
+        IF OLD.ENMP IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"ENMP"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"ENMP"}'::text[], OLD.ENMP::text::jsonb, true);
+        END IF;
 
         IF OLD.actualDateStart IS NULL THEN
-            oldValues = jsonb_set(oldValues, '{"actualDateStart"}'::text[], NULL::jsonb, true);
+            oldValues = jsonb_set(oldValues, '{"actualDateStart"}'::text[], 'null'::jsonb, true);
         ELSE
             oldValues = jsonb_set(oldValues, '{"actualDateStart"}'::text[],('"' || to_char(OLD.actualDateStart, 'YYYY-MM-DD') || '"')::jsonb, true);
         END IF;
 
         IF OLD.actualDateEnd IS NULL THEN
-            oldValues = jsonb_set(oldValues, '{"actualDateEnd"}'::text[], NULL::jsonb, true);
+            oldValues = jsonb_set(oldValues, '{"actualDateEnd"}'::text[], 'null'::jsonb, true);
         ELSE
-            oldValues = jsonb_set(oldValues, '{"actualDateEnd"}'::text[],('"' || to_char(OLD.actualDateEnd, 'YYYY-MM-DD') || '"')::jsonb, true);
+            oldValues = jsonb_set(oldValues, '{"actualDateEnd"}'::text[], ('"' || to_char(OLD.actualDateEnd, 'YYYY-MM-DD') || '"')::jsonb, true);
         END IF;
 
-        oldValues = jsonb_set(oldValues, '{"sourceFundOther"}'::text[], OLD.sourceFundOther::text::jsonb, true);
-        oldValues = jsonb_set(oldValues, '{"sourceFundParticipantFee"}'::text[], OLD.sourceFundParticipantFee::text::jsonb, true);
-        oldValues = jsonb_set(oldValues, '{"sourceFundOrganizational"}'::text[], OLD.sourceFundOrganizational::text::jsonb, true);
-        oldValues = jsonb_set(oldValues, '{"accumulatedOperationalFunds"}'::text[], OLD.accumulatedOperationalFunds::text::jsonb, true);
-        oldValues = jsonb_set(oldValues, '{"accumulatedDepositoryFunds"}'::text[], OLD.accumulatedDepositoryFunds::text::jsonb, true);
-        oldValues = jsonb_set(oldValues, '{"organizationFundOtherSource"}'::text[], OLD.organizationFundOtherSource::text::jsonb, true);
-        oldValues = jsonb_set(oldValues, '{"preparedBy"}'::text[], OLD.preparedBy::text::jsonb, true);
-        oldValues = jsonb_set(oldValues, '{"facultyAdviser"}'::text[], OLD.facultyAdviser::text::jsonb, true);
-
-        IF OLD.comments IS NOT NULL THEN
-            --
+        IF OLD.sourceFundOther IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"sourceFundOther"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"sourceFundOther"}'::text[], OLD.sourceFundOther::text::jsonb, true);
         END IF;
 
-
-        IF OLD.status <> NEW.status THEN
-            newValues = jsonb_set(newValues, '{"status"}'::text[], NEW.status::text::jsonb, true);
+        IF OLD.sourceFundParticipantFee IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"sourceFundParticipantFee"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"sourceFundParticipantFee"}'::text[], OLD.sourceFundParticipantFee::text::jsonb, true);
         END IF;
 
-        IF OLD.ENP <> NEW.ENP THEN
-            newValues = jsonb_set(newValues, '{"ENP"}'::text[], NEW.ENP::text::jsonb, true);
+        IF OLD.sourceFundOrganizational IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"sourceFundOrganizational"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"sourceFundOrganizational"}'::text[], OLD.sourceFundOrganizational::text::jsonb, true);
         END IF;
 
-        IF OLD.ENMP <> NEW.ENMP THEN
-            newValues = jsonb_set(newValues, '{"ENMP"}'::text[], NEW.ENMP::text::jsonb, true);
+        IF OLD.accumulatedOperationalFunds IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"accumulatedOperationalFunds"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"accumulatedOperationalFunds"}'::text[], OLD.accumulatedOperationalFunds::text::jsonb, true);
         END IF;
 
-        IF OLD.actualDateStart <> NEW.actualDateStart THEN
-            IF NEW.actualDateStart IS NULL THEN
-                newValues = jsonb_set(newValues, '{"actualDateStart"}'::text[], NULL::jsonb, true);
+        IF OLD.accumulatedDepositoryFunds IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"accumulatedDepositoryFunds"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"accumulatedDepositoryFunds"}'::text[], OLD.accumulatedDepositoryFunds::text::jsonb, true);
+        END IF;
+
+        IF OLD.actualDateEnd IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"organizationFundOtherSource"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"organizationFundOtherSource"}'::text[], OLD.organizationFundOtherSource::text::jsonb, true);
+        END IF;
+
+        IF OLD.preparedBy IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"preparedBy"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"preparedBy"}'::text[], OLD.preparedBy::text::jsonb, true);
+        END IF;
+
+        IF OLD.facultyAdviser IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"facultyAdviser"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"facultyAdviser"}'::text[], OLD.facultyAdviser::text::jsonb, true);
+        END IF;
+
+        IF OLD.comments IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"comments"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"comments"}'::text[], ('"' || replace(OLD.comments::text, '"'::text, '\"'::text) || '"')::jsonb, true);
+        END IF;
+
+        /* NEW and MODIFIED values*/
+        IF (OLD.status <> NEW.status) OR (OLD.status IS NULL AND NEW.status IS NOT NULL) OR (OLD.status IS NOT NULL AND NEW.status IS NULL) THEN
+            IF NEW.status IS NULL THEN
+                newValues = jsonb_set(newValues, '{"status"}'::text[], 'null'::jsonb, true);
             ELSE
-                newValues = jsonb_set(newValues, '{"actualDateEnd"}'::text[],('"' || to_char(NEW.actualDateStart, 'YYYY-MM-DD') || '"')::jsonb, true);
+                newValues = jsonb_set(newValues, '{"status"}'::text[], NEW.status::text::jsonb, true);
+            END IF;
+
+        END IF;
+
+        IF (OLD.ENP <> NEW.ENP) OR (OLD.ENP IS NULL AND NEW.ENP IS NOT NULL) OR (OLD.ENP IS NOT NULL AND NEW.ENP IS NULL) THEN
+            IF NEW.ENP IS NULL THEN
+                newValues = jsonb_set(newValues, '{"ENP"}'::text[], 'null'::jsonb, true);
+            ELSE
+                newValues = jsonb_set(newValues, '{"ENP"}'::text[], NEW.ENP::text::jsonb, true);
             END IF;
         END IF;
 
-        IF OLD.actualDateEnd <> NEW.actualDateEnd THEN
+        IF (OLD.ENMP <> NEW.ENMP) OR (OLD.ENMP IS NULL AND NEW.ENMP IS NOT NULL) OR (OLD.ENMP IS NOT NULL AND NEW.ENMP IS NULL) THEN
+            IF NEW.ENMP IS NULL THEN
+                newValues = jsonb_set(newValues, '{"ENMP"}'::text[], 'null'::jsonb, true);
+            ELSE
+                newValues = jsonb_set(newValues, '{"ENMP"}'::text[], NEW.ENMP::text::jsonb, true);
+            END IF;
+        END IF;
+
+        IF (OLD.actualDateStart <> NEW.actualDateStart) OR (OLD.actualDateStart IS NULL AND NEW.actualDateStart IS NOT NULL) OR (OLD.actualDateStart IS NOT NULL AND NEW.actualDateStart IS NULL) THEN
+            IF NEW.actualDateStart IS NULL THEN
+                newValues = jsonb_set(newValues, '{"actualDateStart"}'::text[], 'null'::jsonb, true);
+            ELSE
+                newValues = jsonb_set(newValues, '{"actualDateStart"}'::text[],('"' || to_char(NEW.actualDateStart, 'YYYY-MM-DD') || '"')::jsonb, true);
+            END IF;
+        END IF;
+
+        IF (OLD.actualDateEnd <> NEW.actualDateEnd) OR (OLD.actualDateEnd IS NULL AND NEW.actualDateEnd IS NOT NULL) OR (OLD.actualDateEnd IS NOT NULL AND NEW.actualDateEnd IS NULL) THEN
             IF NEW.actualDateEnd IS NULL THEN
-                newValues = jsonb_set(newValues, '{"actualDateEnd"}'::text[], NULL::jsonb, true);
+                newValues = jsonb_set(newValues, '{"actualDateEnd"}'::text[], 'null'::jsonb, true);
             ELSE
                 newValues = jsonb_set(newValues, '{"actualDateEnd"}'::text[],('"' || to_char(NEW.actualDateEnd, 'YYYY-MM-DD') || '"')::jsonb, true);
             END IF;
         END IF;
 
-        IF OLD.sourceFundOther <> NEW.sourceFundOther THEN
-            newValues = jsonb_set(newValues, '{"sourceFundOther"}'::text[], NEW.sourceFundOther::text::jsonb, true);
+        IF (OLD.sourceFundOther <> NEW.sourceFundOther) OR (OLD.sourceFundOther IS NULL AND NEW.sourceFundOther IS NOT NULL) OR (OLD.sourceFundOther IS NOT NULL AND NEW.sourceFundOther IS NULL) THEN
+            IF NEW.sourceFundOther IS NULL THEN
+                newValues = jsonb_set(newValues, '{"sourceFundOther"}'::text[], 'null'::jsonb, true);
+            ELSE
+                newValues = jsonb_set(newValues, '{"sourceFundOther"}'::text[], NEW.sourceFundOther::text::jsonb, true);
+            END IF;
         END IF;
 
-        IF OLD.sourceFundParticipantFee <> NEW.sourceFundParticipantFee THEN
-            newValues = jsonb_set(newValues, '{"sourceFundParticipantFee"}'::text[], NEW.sourceFundParticipantFee::text::jsonb, true);
+        IF (OLD.sourceFundParticipantFee <> NEW.sourceFundParticipantFee) OR (OLD.sourceFundParticipantFee IS NULL AND NEW.sourceFundParticipantFee IS NOT NULL) OR (OLD.sourceFundParticipantFee IS NOT NULL AND NEW.sourceFundParticipantFee IS NULL) THEN
+            IF NEW.sourceFundParticipantFee IS NULL THEN
+                newValues = jsonb_set(newValues, '{"sourceFundParticipantFee"}'::text[], 'null'::jsonb, true);
+            ELSE
+                newValues = jsonb_set(newValues, '{"sourceFundParticipantFee"}'::text[], NEW.sourceFundParticipantFee::text::jsonb, true);
+            END IF;
         END IF;
 
-        IF OLD.sourceFundOrganizational <> NEW.sourceFundOrganizational THEN
-            newValues = jsonb_set(newValues, '{"sourceFundOrganizational"}'::text[], NEW.sourceFundOrganizational::text::jsonb, true);
+        IF (OLD.sourceFundOrganizational <> NEW.sourceFundOrganizational) OR (OLD.sourceFundOrganizational IS NULL AND NEW.sourceFundOrganizational IS NOT NULL) OR (OLD.sourceFundOrganizational IS NOT NULL AND NEW.sourceFundOrganizational IS NULL) THEN
+            IF NEW.sourceFundOrganizational IS NULL THEN
+                newValues = jsonb_set(newValues, '{"sourceFundOrganizational"}'::text[], 'null'::jsonb, true);
+            ELSE
+                newValues = jsonb_set(newValues, '{"sourceFundOrganizational"}'::text[], NEW.sourceFundOrganizational::text::jsonb, true);
+            END IF;
         END IF;
 
-        IF OLD.accumulatedOperationalFunds <> NEW.accumulatedOperationalFunds THEN
-            newValues = jsonb_set(newValues, '{"accumulatedOperationalFunds"}'::text[], NEW.accumulatedOperationalFunds::text::jsonb, true);
+        IF (OLD.accumulatedOperationalFunds <> NEW.accumulatedOperationalFunds) OR (OLD.accumulatedOperationalFunds IS NULL AND NEW.accumulatedOperationalFunds IS NOT NULL) OR (OLD.accumulatedOperationalFunds IS NOT NULL AND NEW.accumulatedOperationalFunds IS NULL) THEN
+            IF NEW.accumulatedOperationalFunds IS NULL THEN
+                newValues = jsonb_set(newValues, '{"accumulatedOperationalFunds"}'::text[], 'null'::jsonb, true);
+            ELSE
+                newValues = jsonb_set(newValues, '{"accumulatedOperationalFunds"}'::text[], NEW.accumulatedOperationalFunds::text::jsonb, true);
+            END IF;
         END IF;
 
-        IF OLD.accumulatedDepositoryFunds <> NEW.accumulatedDepositoryFunds THEN
-            newValues = jsonb_set(newValues, '{"accumulatedDepositoryFunds"}'::text[], NEW.accumulatedDepositoryFunds::text::jsonb, true);
+        IF (OLD.accumulatedDepositoryFunds <> NEW.accumulatedDepositoryFunds) OR (OLD.accumulatedDepositoryFunds IS NULL AND NEW.accumulatedDepositoryFunds IS NOT NULL) OR (OLD.accumulatedDepositoryFunds IS NOT NULL AND NEW.accumulatedDepositoryFunds IS NULL) THEN
+            IF NEW.status IS NULL THEN
+                newValues = jsonb_set(newValues, '{"accumulatedDepositoryFunds"}'::text[], 'null'::jsonb, true);
+            ELSE
+                newValues = jsonb_set(newValues, '{"accumulatedDepositoryFunds"}'::text[], NEW.accumulatedDepositoryFunds::text::jsonb, true);
+            END IF;
         END IF;
 
-        IF OLD.organizationFundOtherSource <> NEW.organizationFundOtherSource THEN
-            newValues = jsonb_set(newValues, '{"organizationFundOtherSource"}'::text[], NEW.organizationFundOtherSource::text::jsonb, true);
+        IF (OLD.organizationFundOtherSource <> NEW.organizationFundOtherSource) OR (OLD.organizationFundOtherSource IS NULL AND NEW.organizationFundOtherSource IS NOT NULL) OR (OLD.organizationFundOtherSource IS NOT NULL AND NEW.organizationFundOtherSource IS NULL) THEN
+            IF NEW.organizationFundOtherSource IS NULL THEN
+                newValues = jsonb_set(newValues, '{"organizationFundOtherSource"}'::text[], 'null'::jsonb, true);
+            ELSE
+                newValues = jsonb_set(newValues, '{"organizationFundOtherSource"}'::text[], NEW.organizationFundOtherSource::text::jsonb, true);
+            END IF;
         END IF;
 
-        IF OLD.preparedBy <> NEW.preparedBy THEN
-            newValues = jsonb_set(newValues, '{"preparedBy"}'::text[], NEW.preparedBy::text::jsonb, true);
+        IF (OLD.preparedBy <> NEW.preparedBy) OR (OLD.preparedBy IS NULL AND NEW.preparedBy IS NOT NULL) OR (OLD.preparedBy IS NOT NULL AND NEW.preparedBy IS NULL) THEN
+            IF NEW.preparedBy IS NULL THEN
+                newValues = jsonb_set(newValues, '{"preparedBy"}'::text[], 'null'::jsonb, true);
+            ELSE
+                newValues = jsonb_set(newValues, '{"preparedBy"}'::text[], NEW.preparedBy::text::jsonb, true);
+            END IF;
         END IF;
 
-        IF OLD.facultyAdviser <> NEW.facultyAdviser THEN
-            newValues = jsonb_set(newValues, '{"facultyAdviser"}'::text[], NEW.facultyAdviser::text::jsonb, true);
+        IF (OLD.facultyAdviser <> NEW.facultyAdviser) OR (OLD.facultyAdviser IS NULL AND NEW.facultyAdviser IS NOT NULL) OR (OLD.facultyAdviser IS NOT NULL AND NEW.facultyAdviser IS NULL) THEN
+            IF NEW.facultyAdviser IS NULL THEN
+                newValues = jsonb_set(newValues, '{"facultyAdviser"}'::text[], 'null'::jsonb, true);
+            ELSE
+                newValues = jsonb_set(newValues, '{"facultyAdviser"}'::text[], NEW.facultyAdviser::text::jsonb, true);
+            END IF;
         END IF;
 
-        IF OLD.comments <> NEW.comments THEN
-            -- WARNING COULD POSSIBLE ERROR WITH " INPUTS
-             -- newValues = jsonb_set(newValues, '{"comments"}'::text, (quote_literal(NEW.comments))::jsonb, true);
+        IF (OLD.comments <> NEW.comments) OR (OLD.comments IS NULL AND NEW.comments IS NOT NULL) OR (OLD.comments IS NOT NULL AND NEW.comments IS NULL) THEN
+             IF NEW.comments IS NULL THEN
+                 newValues = jsonb_set(newValues, '{"comments"}'::text[], 'null'::jsonb, true);
+             ELSE
+                 newValues = jsonb_set(newValues, '{"comments"}'::text[], ('"' || replace(NEW.comments::text, '"'::text, '\"'::text) || '"')::jsonb, true);
+             END IF;
         END IF;
 
-        valueData = jsonb_set(valueData, '{"oldValues"}'::text[], oldValues::jsonb, true);
-        valueData = jsonb_set(valueData, '{"newValues"}'::text[], newValues::jsonb, true);
+        valueData = jsonb_set(valueData, '{"oldValues"}'::text[], oldValues, true);
+        valueData = jsonb_set(valueData, '{"newValues"}'::text[], newValues, true);
 
         INSERT INTO "audit_ProjectProposal" ("GOSMActivity", "event", "values", "dateCreated", "oldValues", "newValues")
-                                     VALUES (NEW.GOSMActivity,     0, valueData, CURRENT_TIMESTAMP, oldValues::jsonb, newValues::jsonb);
+                                     VALUES (NEW.GOSMActivity,     0, valueData, CURRENT_TIMESTAMP, oldValues, newValues);
         RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;

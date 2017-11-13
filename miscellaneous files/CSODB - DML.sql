@@ -546,7 +546,11 @@ INSERT INTO ProjectProposalExpenses (projectProposal, material, quantity, unitCo
                               VALUES(1, 'Boyfriend Material 1', 7, 60.0000);
 INSERT INTO ProjectProposalExpenses (projectProposal, material, quantity, unitCost)
                               VALUES(1, 'Boyfriend Material 2', 80, 60.0000);
+INSERT INTO ProjectProposalExpenses (projectProposal, material, quantity, unitCost)
+                              VALUES(1, 'Boyfriend Material 3', 80, 60.0000);
 
-
+DELETE FROM ProjectProposalExpenses
+WHERE projectProposal = 1
+AND sequence = 1;
 
 COMMIT;

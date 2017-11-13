@@ -22,23 +22,46 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         //Create ProjectProposal
         viewGOSMActivityListProjectProposal: (req, res) => {
 
-            //TODO: session of gosm id??
-            var dbParam = {
-                gosm: 200001
-            }
 
-            projectProposalModel.getGOSMActivitiesToImplement(dbParam)
+            systemModel.getCurrentTerm()
             .then(data=>{
+                var param = {
+                    termID: data.id,
+                    studentOrganization: req.session.user.organizationSelected.id
+                };
+                
+                gosmModel.getOrgGOSM(param)
+                .then(data1=>{
 
-                const renderData = Object.create(null);
-                renderData.extra_data = req.extra_data;
-                renderData.csrfToken = req.csrfToken();
-                renderData.activities = data;
-                console.log(renderData);
-                return res.render('Org/ActivityToImplement', renderData);
+
+                    var dbParam = {
+                        gosm: data1.id
+                    };
+
+                    projectProposalModel.getGOSMActivitiesToImplement(dbParam)
+                    .then(data2=>{
+
+                        const renderData = Object.create(null);
+                        renderData.extra_data = req.extra_data;
+                        renderData.csrfToken = req.csrfToken();
+                        renderData.activities = data2;
+                        console.log(renderData);
+                        return res.render('Org/ActivityToImplement', renderData);
+                    }).catch(error=>{
+                        console.log(error);
+                    });
+
+
+                }).catch(error=>{
+
+                });
+                 
             }).catch(error=>{
-                console.log(error);
+
             });
+            
+
+            
 
             
         },
@@ -79,7 +102,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 console.log("ENTER 0");
 
                 var dbParam = {
-                    gosmactivity: req.params.id
+                    gosmactivity: req.params.id,
+                    preparedby: req.session.user.idNumber
                 };
 
                 projectProposalModel.insertProjectProposal(dbParam)
@@ -136,6 +160,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         renderData.projectProposal = data[2];
                         renderData.gosmid = req.params.id;
                         console.log(data[2]);
+                        console.log("KAHITANONGMESSAGE");
 
                         return res.render('Org/SubmitProjectProposal_main',renderData);
                     }).catch(err => {
@@ -788,7 +813,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             console.log(req.body);
 
             let startDateSplit = req.body.actualDateStart.split("/");
-            let endDateSplit = req.body.endDateStart.split("/");
+            let endDateSplit = req.body.actualDateEnd.split("/");
 
 
             var dbParam = {
@@ -799,7 +824,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 enmp: req.body.enmp,
                 venue: req.body.venue,
                 adviser: req.body.adviser,
-                expense: req.body.expense,
+                isexpense: req.body.expense,
                 context1: req.body.context1,
                 context2: req.body.context2,
                 context3: req.body.context3,
@@ -819,6 +844,14 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                 dbParam.isBriefContextComplete = false;
                 
+            }
+
+            if (!(req.body.actualDateStart).trim()){
+                dbParam.actualDateStart=null;
+            }
+
+            if (!(req.body.actualDateEnd).trim()){
+                dbParam.actualDateEnd=null;
             }
 
             if (!(req.body.enp).trim()){
@@ -1135,12 +1168,16 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             .then(data=>{
 
             }).catch(error=>{
+                console.log("delete error");
                 console.log(error);
             });
+
 
             var index = 0;
 
             database.tx(transaction=>{
+
+                
 
                 for (var item in sched){
                     console.log(sched[item].length);
@@ -1170,6 +1207,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         .then(data=>{
 
                         }).catch(error=>{
+                            console.log("insertsched error");
                             console.log(error);
                         });
 
@@ -1178,46 +1216,56 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     index++;
                 }
 
+                console.log("INDEX IS");
+                console.log(index);
+
+                if (index == 0){
+
+                    console.log("ENTERS EMPTY");
+
+                    var param = {
+                        id: req.body.pid,
+                        status: false
+                    };
+
+                    console.log(param);
+
+                    projectProposalModel.updateIsProgramDesignComplete(param, transaction)
+                    .then(data=>{
+
+                    }).catch(error=>{
+                        console.log("updateIsProgramDesignComplete")
+                        console.log(error);
+                    });
+                } 
+                else {
+
+                    console.log("ENTERS");
+
+                    var param = {
+                        id: req.body.pid,
+                        status: true
+                    };
+
+                    projectProposalModel.updateIsProgramDesignComplete(param, transaction)
+                    .then(data=>{
+
+                    }).catch(error=>{
+                        console.log(error);
+                    });
+
+                 }
+
+
+
+            }).then(data=>{
+                return res.send("1");
+
+            }).catch(error=>{
+                console.log(error);
             });
 
-            console.log("INDEX IS");
-            console.log(index);
 
-            if (index == 0){
-
-                console.log("ENTERS EMPTY");
-
-                var param = {
-                    id: req.body.pid,
-                    status: false
-                };
-
-                projectProposalModel.updateIsProgramDesignComplete(param)
-                .then(data=>{
-
-                }).catch(error=>{
-                    console.log(error);
-                });
-            } 
-            else {
-
-                console.log("ENTERS");
-
-                var param = {
-                    id: req.body.pid,
-                    status: true
-                };
-
-                projectProposalModel.updateIsProgramDesignComplete(param)
-                .then(data=>{
-
-                }).catch(error=>{
-                    console.log(error);
-                });
-
-            }
-
-            return res.send("1");
          },
 
         savePPR:(req, res)=>{
