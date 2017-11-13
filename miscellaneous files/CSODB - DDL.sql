@@ -1924,6 +1924,7 @@ CREATE TABLE AMTActivityEvaluation (
     presentation SMALLINT,
     activities SMALLINT,
     organizationStandingPresentation SMALLINT,
+    timeStart SMALLINT,
     actualStartTime TIME WITH TIME ZONE,
     actualEndTime TIME WITH TIME ZONE,
     ANP INTEGER,
