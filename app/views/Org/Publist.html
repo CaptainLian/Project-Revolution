@@ -15,18 +15,17 @@
     <!-- Menu CSS -->
     {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
     <!-- animation CSS -->
-    
+    {{tag.style('/css/animate.css')}}
     <!--alerts CSS -->
     {{tag.style('/plugins/bower_components/sweetalert/sweetalert.css')}}
     <!-- Custom CSS -->
     {{tag.style('/plugins/bower_components/custom-select/custom-select.css')}}
     {{tag.style('/plugins/bower_components/bootstrap-select/bootstrap-select.min.css')}}
-   
-   {{tag.style('/css/animate.css')}}
+    {{tag.style('/css/style.css')}}
+    {{tag.style('/css/doms.css')}}
     {{tag.style('/css/custom.css')}}
-     {{tag.style('/css/style.css')}}
     <!-- color CSS -->
-    {{tag.style('/css/colors/blue.css')}}
+    {{tag.style('/css/colors/default.css')}}
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -71,7 +70,7 @@
 				<table id="myTable3" class="table table-striped">
 					<thead>
 						<tr>
-							<th class="text-center" width="33%">Submitted Date</th>
+							<th class="text-center" width="33%">Date</th>
 							<th class="text-center" width="33%">Activity Name</th>
 							<th class="text-center" width="33%">Status</th>
 
@@ -80,7 +79,7 @@
 					<tbody>
 						<tr>
 							<td class="text-center">September 15, 2019</td>
-							<td class="text-center"><a href="#" class="btn-lnk">General Assembly</a></td>
+							<td class="text-center"><a gref="#" class="btn-lnk">General Assembly</a></td>
 
 
 							<td class="text-center"><span class="label label-warning">2 Unapproved</span></td>

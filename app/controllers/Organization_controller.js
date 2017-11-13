@@ -7,6 +7,7 @@ var cuid = require('cuid');
 module.exports = function(configuration, modules, models, database, queryFiles) {
 
     const systemModel = models.System_model;
+    const pnpModel = models.PNP_model;
     const organizationModel = models.organization_model;
     const projectProposalModel = models.ProjectProposal_model;
     const postProjectProposalModel = models.PostProjectProposal_model;
@@ -1846,6 +1847,25 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
            
 
-        }
+        },
+        viewPubs: (req, res)=>{
+            const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
+
+            return res.render('Org/Publist',renderData);
+            
+        },
+        insertPubs: (req, res)=>{
+            const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
+
+            return res.render('Org/Publist',renderData);
+            
+        },
+
+
+
     };
 };

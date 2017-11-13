@@ -1,0 +1,1 @@
+insertActivityPublicity.sql

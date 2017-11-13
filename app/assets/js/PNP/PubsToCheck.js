@@ -1,1 +1,1 @@
-$('#myTable').dataTable();
+$("#myTable3").dataTable();
