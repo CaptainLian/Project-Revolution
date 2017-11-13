@@ -24,8 +24,6 @@
     <link href="../plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css" rel="stylesheet">
     <!-- animation CSS -->
     <link href="css/animate.css" rel="stylesheet">
-    <!--alerts CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.css" rel="stylesheet" type="text/css">
     <!-- Popup CSS -->
     <link href="../plugins/bower_components/Magnific-Popup-master/dist/magnific-popup.css" rel="stylesheet">
     <!-- Custom CSS -->
@@ -41,6 +39,8 @@
     <link href="../plugins/bower_components/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
     <!-- color CSS -->
     <link href="css/colors/default.css" id="theme" rel="stylesheet">
+    <!--alerts CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.css" rel="stylesheet" type="text/css">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -312,9 +312,9 @@
 	                                                    <h3 class="box-title">Cover Photo</h3>
 	                                                   <div class="col-md-12 text-center actions" style="display: none;">
 							                                <div class="btn-group" role="group" aria-label="Basic example">
-							                                	<button type="button" class="btn btn-success" data-toggle="tooltip" data-original-title="Approve Publicity Material"><i class="fa fa-check"></i></button>
-							                                	<button type="button" class="btn btn-warning" data-toggle="tooltip" data-original-title="Pend Publicity Material"><i class="fa fa-history"></i></button>
-							                                	<button type="button" class="btn btn-danger" data-toggle="tooltip" data-original-title="Deny Publicity Material"><i class="fa fa-times"></i></button>
+							                                	<button type="button" id="approve" class="btn btn-success " data-toggle="tooltip" data-original-title="Approve Publicity Material"><i class="fa fa-check"></i></button>
+							                                	<button type="button" id="pend" class="btn btn-warning" data-toggle="tooltip" data-original-title="Pend Publicity Material"><i class="fa fa-history"></i></button>
+							                                	<button type="button" id="deny" class="btn btn-danger" data-toggle="tooltip" data-original-title="Deny Publicity Material"><i class="fa fa-times"></i></button>
 							                                </div>
 							                            </div>
 	                                                    <br/>
@@ -322,7 +322,7 @@
 	                                            </div>
 	                                            <!--pended thumbnail-->
 	                                            <div class="col-md-4 el-card-item">
-	                                                <div class="ribbon ribbon-vertical-l ribbon-warning"><i class="fa fa-pause-circle"></i></div>
+	                                                <div class="ribbon ribbon-vertical-l ribbon-warning"><i class="fa fa-history"></i></div>
 	                                                <div class="el-card-avatar el-overlay-1 "> <img src="../plugins/images/users/1.jpg" />
 	                                                    <div class="el-overlay">
 	                                                        <ul class="el-info">
@@ -641,6 +641,7 @@
     <script src="../plugins/bower_components/datatables/jquery.dataTables.min.js"></script>
     <!-- Sweet-Alert  -->
     <script src="../plugins/bower_components/sweetalert/sweetalert.min.js"></script>
+    <script src="../plugins/bower_components/sweetalert/jquery.sweet-alert.custom.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
@@ -674,7 +675,8 @@
     })();
     $("#approve").click(function(){
         swal({   
-            title: "Are you sure?",                                           
+            title: "Approve publicity material?",  
+            text:"Approving the publicity material will allow the organization to use it in their activities.",                                         
             showCancelButton: true,   
             reverseButtons:true,
             confirmButtonColor: "#00C292",   
@@ -684,6 +686,7 @@
             focusCancel:false,
             showLoaderOnConfirm: true,
             preConfirm: function (data) {
+                swal("Success!", "The activity has been approved", "success"); 
                 console.log(data);
                 console.log("DATA");
                 return new Promise(function (resolve, reject) {
@@ -697,31 +700,23 @@
                 })
             }
              
-        }).then(function(data){
-            console.log(data);
-            console.log("ASD")
-            $('#doc').removeClass("bounceInRight animated").addClass("bounceInRight   animated").one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-                $(this).removeClass("bounceInRight animated");
-            });
         });
     });
-    $("#defer").click(function(){
+    $("#pend").click(function(){
         var question = '<div class="row">'+
                             '<div class="col-md-12 text-left m-b-20">'+
-                                '<br/>Select the sections that should be change, then explain why.<br/>'+
+                                '<br/>Select the sections that should be changed, then explain why.<br/>'+
                             '</div>'+
                             '<div class="form-group col-md-12">'+
                                 '<label class="col-md-12 text-left"><strong>Sections to be Edited:</strong></label>'+
                                 '<div class="col-md-12">'+
                                     '<select class="col-md-12" multiple=""s id="select-sec">'+
                                         
-                                        '<option value="1">I. Objectives</option>'+
-                                        '<option value="2">II. Brief Context</option>'+
-                                        '<option value="3">III. Program Design</option>'+
-                                        '<option value="4">IV. Source of Funds</option>'+
-                                        '<option value="5">V. Organizational Funds</option>'+
-                                        '<option value="6">VI. Revenue and Expense Table</option>'+
-                                        '<option value="7">VII. Attachements</option>'+
+                                        '<option value="1">Logos</option>'+
+                                        '<option value="2">Design of the publicity material</option>'+
+                                        '<option value="3">Activity Details</option>'+
+                                        '<option value="4">Publicity Material Contents</option>'+
+                                        
                                     '</select>'+
                                 '</div>'+
                                 
@@ -735,9 +730,9 @@
                         '</div>';
         
         
-        swal({   
-            title: "Defer",   
-            text:"Select the sections that should be change, then explain why.",
+        swal({
+            title: "Pend Publicity Material",   
+            text:"Select the sections that should be changed, then explain why.",
             html:question,
             focusConfirm:false,
             focusCancel:false,
@@ -747,6 +742,7 @@
             preConfirm: function (data) {
                 console.log($("#select-sec").val());
                 console.log("DATA");
+                swal("Success!", "The publicity material has been pended", "success"); 
                 return new Promise(function (resolve, reject) {
                   setTimeout(function() {
                     if (data === 'taken@example.com') {
@@ -756,6 +752,7 @@
                     }
                   }, 2000)
                 })
+
             },
             onOpen:function(ele){
                 $(ele).find("select").select2();
@@ -764,7 +761,7 @@
            
             showCancelButton: true,   
             confirmButtonColor: "#FEC107",   
-            confirmButtonText: "Defer",   
+            confirmButtonText: "Confirm",   
             cancelButtonText: "Cancel",   
              
         }).then(function(data){
@@ -774,21 +771,21 @@
         });
     });
     
-    $("#reject").click(function(){
+    $("#deny").click(function(){
         var question = '<div class="row">'+
                             '<div class="col-md-12 text-left  m-b-20" style="padding-left:16px">'+
-                                '<br/>State the reason for rejection.<br/>'+
+                                '<br/>State the reason for denying the publicity material.<br/>'+
                             '</div>'+
                             
                             '<div class="form-group col-md-12">'+
                                 
                                 '<div class="col-md-12">'+
-                                    '<textarea class="form-control" rows="5"></textarea>'+
+                                    '<textarea class="form-control" rows="3"></textarea>'+
                                 '</div>'+
                             '</div>'+
                         '</div>';
         swal({   
-            title: "Reject",   
+            title: "Deny Publicity Material",   
             
             html:question,
             showLoaderOnConfirm: true,
@@ -801,6 +798,7 @@
             confirmButtonText: "Submit",   
             cancelButtonText: "Cancel",
             preConfirm: function (email) {
+                swal("Success!", "The publicity material has been denied", "success"); 
                 return new Promise(function (resolve, reject) {
                   setTimeout(function() {
                     if (email === 'taken@example.com') {
@@ -812,13 +810,6 @@
                 })
             } 
            
-        }).then(function(data){
-            console.log(data);
-            console.log("REJECT");
-            $('#doc').removeClass("bounceInLeft animated").addClass("bounceInLeft   animated").one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-                $(this).removeClass("bounceInLeft animated");
-            });
-
         });
 
     });
