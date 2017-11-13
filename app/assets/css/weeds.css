@@ -1,0 +1,21 @@
+.sweet-alert fieldset {
+            
+            display: none;
+        }
+        .tabs-style-linebox nav a:hover{
+            color: #00c292; 
+            text-decoration-color:#00c292 !important;
+        }
+        a:focus::after, 
+        .tabs-style-linebox nav a:hover::after, 
+        .tabs-style-linebox nav li.tab-current a::after{
+            background: #00c292;
+            text-decoration-color:#00c292 !important;
+        }
+        .tabs-style-linebox nav a:focus::after, 
+        .tabs-style-linebox nav a:hover::after, 
+        .tabs-style-linebox nav li.tab-current a::after{
+            background: #00c292;
+            text-decoration-color:#00c292 !important;
+        }
+        .custom-class:focus { overflow: hidden; }
