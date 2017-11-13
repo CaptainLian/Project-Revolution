@@ -81,3 +81,7 @@
 #informal_quotation th, td{
 	min-width: 200px;
 }
+#addButton{
+	margin-top: 10px;
+	margin-bottom: 10px;
+}

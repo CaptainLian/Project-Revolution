@@ -32,12 +32,9 @@
     <link href="../plugins/bower_components/bootstrap-select/bootstrap-select.min.css" rel="stylesheet" />
     <link href="css/style.css" rel="stylesheet">
     <link href="css/custom.css" rel="stylesheet">
-    <link href="css/doms.css" rel="stylesheet">
+    
     <!-- Date picker plugins css -->
     <link href="../plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
-    <!-- Daterange picker plugins css -->
-    <link href="../plugins/bower_components/timepicker/bootstrap-timepicker.min.css" rel="stylesheet">
-    <link href="../plugins/bower_components/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
     <!-- color CSS -->
     <link href="css/colors/default.css" id="theme" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -45,45 +42,9 @@
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+
 <![endif]-->
-    <style type="text/css">
-        .remove:{
-            color: yellow
-        }
-        .fixed {
-            width: 500px;
-            position: fixed;
-            bottom: 0; 
-            right: 0;
-            /*transform: translate(-50%,0);*/
-
-            margin: 0px;
-            padding: 0px;
-            z-index:2 
-
-        }
-        .sweet-alert fieldset {
-            
-            display: none;
-        }
-        .tabs-style-linebox nav a:hover{
-            color: #00c292; 
-            text-decoration-color:#00c292 !important;
-        }
-        a:focus::after, 
-        .tabs-style-linebox nav a:hover::after, 
-        .tabs-style-linebox nav li.tab-current a::after{
-            background: #00c292;
-            text-decoration-color:#00c292 !important;
-        }
-        .tabs-style-linebox nav a:focus::after, 
-        .tabs-style-linebox nav a:hover::after, 
-        .tabs-style-linebox nav li.tab-current a::after{
-            background: #00c292;
-            text-decoration-color:#00c292 !important;
-        }
-        .custom-class:focus { overflow: hidden; }
-    </style>
+    <link href="css/doms.css" rel="stylesheet">
 </head>
 
 <body class="fix-sidebar">
@@ -251,30 +212,31 @@
                                     </div>
                                 </form>
                             </div>
-                            <div class="text-center"> <h1>Activity jkljlkjlkjTitle Shiite</h1> </div>
+                            <div class="text-center"> 
+                            <h1>Activity jkljlkjlkjTitle Shiite</h1>
+                            
+                            <button id='addButton' class="btn btn-outline-info btn-sm col-md-12" data-toggle="modal" data-target="#addModal"><i class="fa fa-plus" data-toggle="tooltip" title="add publicity material"></i> &nbsp; Add Publicity Material</button> 
+                            </div>
+
                             <p class="text-center">La Salle Computer Society</p>
                             <div class="user-btm-box">
                                 <!-- .row -->
                                
-                                <div class="row text-center ">
-                                    <div class="col-md-6 b-r"><strong>Type</strong>
-                                        <p>Recreation</p>
+                                <div class=" text-center ">
+                                    <div class="col-md-12"><strong>Date</strong>
+                                        <p>September 17, 2017</p>
                                     </div>
-                                    <div class="col-md-6"><strong>Nature</strong>
-                                        <p>Special Interest</p>
+                                    <div class="col-md-12"><strong>Time</strong>
+                                        <p>6:00 PM - 8:00 PM</p>
+                                    </div>
+                                    <div class="col-md-12 b-r"><strong>Venue</strong>
+                                        <p>Gokongwei Building</p>
                                     </div>
                                 </div>
                                 <!-- /.row -->
                                 <hr>
                                 <!-- .row -->
-                                <div class="row text-center m-t-10">
-                                    <div class="col-md-6 b-r"><strong>Venue</strong>
-                                        <p>Gokongwei Building</p>
-                                    </div>
-                                    <div class="col-md-6"><strong>Date</strong>
-                                        <p>Sept 14, 2017</p>
-                                    </div>
-                                </div>
+    
                                 <!-- /.row -->
                                 <hr>
                                 <!-- .row -->
@@ -297,7 +259,7 @@
                                 <div class="margin-2">
                                     <section class="content-wrap text-center">
 	                                    <div class="row">
-	                                     <h4 class="text-left">Online Publicity Materials<span class="btn btn-info btn-rounded btn-sm margin-2" data-toggle="modal" data-target="#addModal"><i class="fa fa-plus" data-toggle="tooltip" title="add publicity material"></i></span> </h4>
+	                                     <h4 class="text-left">Online Publicity Materials</h4>
 	                                     <div>
 	                                         
 	                                     </div>
@@ -305,10 +267,10 @@
 	                                            <!--approved thumbnail-->
 	                                            <div class="col-md-4 el-card-item">
 	                                                <div class="ribbon ribbon-vertical-l ribbon-success"><i class="fa fa-check-circle"></i></div>
-	                                                <div class="el-card-avatar el-overlay-1 "> <img src="../plugins/images/users/1.jpg" />
+	                                                <div class="el-card-avatar el-overlay-1 "> <img src="../plugins/images/users/d30.jpg" />
 	                                                    <div class="el-overlay">
 	                                                        <ul class="el-info">
-	                                                            <li><a class="btn default btn-outline image-popup-vertical-fit" href="../plugins/images/users/1.jpg"><i class="icon-magnifier"></i></a></li>
+	                                                            <li><a class="btn default btn-outline image-popup-vertical-fit" href="../plugins/images/users/d30.jpg"><i class="icon-magnifier"></i></a></li>
 	                                                            <li><a class="btn default btn-outline" data-toggle="modal" href='#online-1'><i class="icon-link"></i></a></li>
 	                                                        </ul>
 	                                                    </div>
@@ -429,18 +391,18 @@
                                             </div>
                                         </div>    
                                         <div class="date pubmat form-group row">
-                                            <label for="inputEmail3" class="col-sm-4 control-label col-form-label">Posting Date:</label>
+                                            <label for="" class="col-sm-4 control-label col-form-label">Posting Date:</label>
                                             <div class="col-sm-8">
                                                     <div class="input-group ">
-                                                        <input class="form-control" id="datepicker-autoclose" placeholder="mm/dd/yyyy" type="text"> <span class="input-group-addon"><i class="icon-calender"></i></span>
+                                                        <input class="form-control mydatepicker"  placeholder="mm/dd/yyyy" type="text"> <span class="input-group-addon"><i class="icon-calender"></i></span>
                                                     </div>
                                             </div>
                                         </div>
                                         <div class="date form-group row">
-                                            <label for="inputEmail3" class="col-sm-4 control-label col-form-label">Posting Date:</label>
+                                            <label for="" class="col-sm-4 control-label col-form-label">Posting Date:</label>
                                             <div class="col-sm-8">
                                                     <div class="input-group ">
-                                                        <input class="form-control" id="datepicker-autoclose2" placeholder="mm/dd/yyyy" type="text"> <span class="input-group-addon"><i class="icon-calender"></i></span>
+                                                        <input class="form-control mydatepicker" placeholder="mm/dd/yyyy" type="text"> <span class="input-group-addon"><i class="icon-calender"></i></span>
                                                     </div>
                                             </div>
                                         </div>
@@ -755,175 +717,24 @@
         });
 
     })();
-    $("#approve").click(function(){
-        swal({   
-            title: "Are you sure?",                                           
-            showCancelButton: true,   
-            reverseButtons:true,
-            confirmButtonColor: "#00C292",   
-            confirmButtonText: "Yes",   
-            cancelButtonText: "No", 
-            focusConfirm:false,
-            focusCancel:false,
-            showLoaderOnConfirm: true,
-            preConfirm: function (data) {
-                console.log(data);
-                console.log("DATA");
-                return new Promise(function (resolve, reject) {
-                  setTimeout(function() {
-                    if (data === 'taken@example.com') {
-                      reject('This email is already taken.')
-                    } else {
-                      resolve()
-                    }
-                  }, 2000)
-                })
-            }
-             
-        }).then(function(data){
-            console.log(data);
-            console.log("ASD")
-            $('#doc').removeClass("bounceInRight animated").addClass("bounceInRight   animated").one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-                $(this).removeClass("bounceInRight animated");
-            });
-        });
-    });
-    $("#defer").click(function(){
-        var question = '<div class="row">'+
-                            '<div class="col-md-12 text-left m-b-20">'+
-                                '<br/>Select the sections that should be change, then explain why.<br/>'+
-                            '</div>'+
-                            '<div class="form-group col-md-12">'+
-                                '<label class="col-md-12 text-left"><strong>Sections to be Edited:</strong></label>'+
-                                '<div class="col-md-12">'+
-                                    '<select class="col-md-12" multiple=""s id="select-sec">'+
-                                        
-                                        '<option value="1">I. Objectives</option>'+
-                                        '<option value="2">II. Brief Context</option>'+
-                                        '<option value="3">III. Program Design</option>'+
-                                        '<option value="4">IV. Source of Funds</option>'+
-                                        '<option value="5">V. Organizational Funds</option>'+
-                                        '<option value="6">VI. Revenue and Expense Table</option>'+
-                                        '<option value="7">VII. Attachements</option>'+
-                                    '</select>'+
-                                '</div>'+
-                                
-                            '</div>'+
-                            '<div class="form-group col-md-12">'+
-                                '<label class="col-md-12 text-left"><strong>Explanation</strong></label>'+
-                                '<div class="col-md-12">'+
-                                    '<textarea class="form-control" rows="5"></textarea>'+
-                                '</div>'+
-                            '</div>'+
-                        '</div>';
-        
-        
-        swal({   
-            title: "Defer",   
-            text:"Select the sections that should be change, then explain why.",
-            html:question,
-            focusConfirm:false,
-            focusCancel:false,
-            showLoaderOnConfirm: true,
-            reverseButtons:true,
-            allowOutsideClick: false,
-            preConfirm: function (data) {
-                console.log($("#select-sec").val());
-                console.log("DATA");
-                return new Promise(function (resolve, reject) {
-                  setTimeout(function() {
-                    if (data === 'taken@example.com') {
-                      reject('This email is already taken.')
-                    } else {
-                      resolve()
-                    }
-                  }, 2000)
-                })
-            },
-            onOpen:function(ele){
-                $(ele).find("select").select2();
-                console.log("INIT SELECT");
-            },
-           
-            showCancelButton: true,   
-            confirmButtonColor: "#FEC107",   
-            confirmButtonText: "Defer",   
-            cancelButtonText: "Cancel",   
-             
-        }).then(function(data){
-            console.log(data);
-            console.log("ASD")
-
-        });
-    });
-    
-    $("#reject").click(function(){
-        var question = '<div class="row">'+
-                            '<div class="col-md-12 text-left  m-b-20" style="padding-left:16px">'+
-                                '<br/>State the reason for rejection.<br/>'+
-                            '</div>'+
-                            
-                            '<div class="form-group col-md-12">'+
-                                
-                                '<div class="col-md-12">'+
-                                    '<textarea class="form-control" rows="5"></textarea>'+
-                                '</div>'+
-                            '</div>'+
-                        '</div>';
-        swal({   
-            title: "Reject",   
-            
-            html:question,
-            showLoaderOnConfirm: true,
-            focusConfirm:false,
-            focusCancel:false,
-            reverseButtons:true,
-            allowOutsideClick: false,
-            showCancelButton: true,   
-            confirmButtonColor: "#FB9678",   
-            confirmButtonText: "Submit",   
-            cancelButtonText: "Cancel",
-            preConfirm: function (email) {
-                return new Promise(function (resolve, reject) {
-                  setTimeout(function() {
-                    if (email === 'taken@example.com') {
-                      reject('This email is already taken.')
-                    } else {
-                      resolve()
-                    }
-                  }, 2000)
-                })
-            } 
-           
-        }).then(function(data){
-            console.log(data);
-            console.log("REJECT");
-            $('#doc').removeClass("bounceInLeft animated").addClass("bounceInLeft   animated").one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-                $(this).removeClass("bounceInLeft animated");
-            });
-
-        });
-
-    });
     
     </script>
     <script>
-    
-    
-    
     // Date Picker
+
+    
     jQuery('.mydatepicker, #datepicker').datepicker();
+    
     jQuery('#datepicker-autoclose').datepicker({
         autoclose: true,
         todayHighlight: true
     });
+
     jQuery('#datepicker-autoclose2').datepicker({
         autoclose: true,
         todayHighlight: true
     });
-    jQuery('#date-range').datepicker({
-        toggleActive: true
-    });
+
     jQuery('#datepicker-inline').datepicker({
         todayHighlight: true
     });
