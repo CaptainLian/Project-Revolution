@@ -324,6 +324,21 @@ $function$
     END;
 $function$ LANGUAGE plpgsql;
 
+
+CREATE OR REPLACE FUNCTION "PPR_get_GOSMActivity_id_from_PPRID"(param_PPRID INTEGER)
+RETURNS INTEGER AS
+$function$
+    DECLARE
+        var_GOSMActivity INTEGER;
+    BEGIN
+         SELECT GOSMActivity INTO var_GOSMActivity
+           FROM ProjectProposal
+          WHERE id = param_PPRID;
+
+        RETURN var_GOSMActivity;
+    END;
+$function$ LANGUAGE plpgsql;
+
 /*
     Helpful functions end
 */
@@ -2278,8 +2293,93 @@ CREATE TRIGGER "before_insert_audit_ProjectProposal_sequence"
     FOR EACH ROW
     EXECUTE PROCEDURE "trigger_before_insert_audit_ProjectProposal_sequence"();
 
+CREATE OR REPLACE FUNCTION "trigger_after_insert_ProjectProposal_Expenses_auditing_insert"()
+RETURNS TRIGGER
+AS $trigger$
+    DECLARE
+        newValues JSONB DEFAULT '{}'::jsonb;
+    BEGIN
+        newValues = jsonb_set(newValues, '{"id"}'::text[], NEW.id::text::jsonb, true);
+        newValues = jsonb_set(newValues, '{"sequence"}'::text[], NEW.sequence::text::jsonb, true);
+
+        IF NEW.material IS NULL THEN
+            newValues = jsonb_set(newValues, '{"material"}'::text[], 'null'::jsonb, true);
+        ELSE
+            newValues = jsonb_set(newValues, '{"material"}'::text[], ('"' || replace(NEW.material, '"', '\"') || '"')::jsonb, true);
+        END IF;
+
+        IF NEW.quantity IS NULL THEN
+            newValues = jsonb_set(newValues, '{"quantity"}'::text[], 'null'::jsonb, true);
+        ELSE
+            newValues = jsonb_set(newValues, '{"quantity"}'::text[], NEW.quantity::text::jsonb, true);
+        END IF;
+
+        IF NEW.unitCost IS NULL THEN
+            newValues = jsonb_set(newValues, '{"unitCost"}'::text[], 'null'::jsonb, true);
+        ELSE
+            newValues = jsonb_set(newValues, '{"unitCost"}'::text[], NEW.unitCost::text::jsonb, true);
+        END IF;
+
+        IF NEW."type" IS NULL THEN
+            newValues = jsonb_set(newValues, '{"type"}'::text[], 'null'::jsonb, true);
+        ELSE
+            newValues = jsonb_set(newValues, '{"type"}'::text[], NEW."type"::text::jsonb, true);
+        END IF;
+
+        INSERT INTO "audit_ProjectProposal" ("GOSMActivity", "event", "values", "dateCreated", "newValues")
+                                     VALUES ("PPR_get_GOSMActivity_id_from_PPRID"(NEW.projectProposal),  1, jsonb_set('{}'::jsonb, '{"newValues"}'::text[], newValues, true), CURRENT_TIMESTAMP, newValues);
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER "insert_ProjectProposal_Expenses_auditing_insert"
+    AFTER INSERT ON ProjectProposalExpenses
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_after_insert_ProjectProposal_Expenses_auditing_insert"();
+CREATE OR REPLACE FUNCTION "trigger_after_delete_ProjectProposal_Expenses_auditing_delete"()
+RETURNS TRIGGER
+AS $trigger$
+    DECLARE
+        oldValues JSONB DEFAULT '{}'::jsonb;
+    BEGIN
+        oldValues = jsonb_set(oldValues, '{"id"}'::text[], OLD.id::text::jsonb, true);
+        oldValues = jsonb_set(oldValues, '{"sequence"}'::text[], OLD.sequence::text::jsonb, true);
+
+        IF OLD.material IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"material"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"material"}'::text[], ('"' || replace(OLD.material, '"', '\"') || '"')::jsonb, true);
+        END IF;
+
+        IF OLD.quantity IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"quantity"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"quantity"}'::text[], OLD.quantity::text::jsonb, true);
+        END IF;
+
+        IF OLD.unitCost IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"unitCost"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"unitCost"}'::text[], OLD.unitCost::text::jsonb, true);
+        END IF;
+
+        IF OLD."type" IS NULL THEN
+            oldValues = jsonb_set(oldValues, '{"type"}'::text[], 'null'::jsonb, true);
+        ELSE
+            oldValues = jsonb_set(oldValues, '{"type"}'::text[], OLD."type"::text::jsonb, true);
+        END IF;
+
+        INSERT INTO "audit_ProjectProposal" ("GOSMActivity", "event", "values", "dateCreated", "newValues")
+                                     VALUES ("PPR_get_GOSMActivity_id_from_PPRID"(OLD.projectProposal),  1, jsonb_set('{}'::jsonb, '{"oldValues"}'::text[], oldValues, true), CURRENT_TIMESTAMP, oldValues);
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER "after_delete_ProjectProposal_Expenses_auditing_delete"
+    AFTER DELETE ON ProjectProposalExpenses
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_after_delete_ProjectProposal_Expenses_auditing_delete"();
+
 CREATE OR REPLACE FUNCTION "trigger_after_update_ProjectProposal_auditing"()
-RETURNS trigger AS
+RETURNS TRIGGER AS
 $trigger$
     DECLARE
         valueData JSONB DEFAULT '{}'::jsonb;
