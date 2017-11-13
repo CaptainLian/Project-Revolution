@@ -2165,7 +2165,49 @@ CREATE TRIGGER "before_insert_PostProjectBookTransfer_sequence"
     EXECUTE PROCEDURE "trigger_before_insert_PostProjectReimbursement_sequence"();
   /* Post Acts END*/
 /* ADM END */
+/* Publicity */
+DROP TABLE IF EXISTS "ActivityPublicityModeOfDistribution" CASCADE;
+CREATE TABLE "ActivityPublicityModeOfDistribution"(
+    "id" SMALLINT,
+    "name" VARCHAR(45) NOT NULL,
 
+    PRIMARY KEY("id")
+);
+INSERT INTO "ActivityPublicityModeOfDistribution" ("id", "name")
+                                            -- TODO: Other values
+                                           VALUES (   0, 'Online');
+
+DROP TABLE IF EXISTS "ActivityPublicityStatus" CASCADE;
+CREATE TABLE "ActivityPublicityStatus"(
+    "id" SMALLINT,
+    "name" VARCHAR(45) NOT NULL,
+
+    PRIMARY KEY("id")
+);
+INSERT INTO "ActivityPublicityStatus" ("id", "name")
+                               VALUES (   0, 'For Evaluation'),
+                                      (   1, 'Approved'),
+                                      (   2, 'Pended'),
+                                      (   3, 'Denied');
+
+DROP TABLE IF EXISTS "ActivityPublicity" CASCADE;
+CREATE TABLE "ActivityPublicity" (
+    "id" SERIAL UNIQUE,
+    "GOSMActivity" INTEGER REFERENCES ProjectProposal(GOSMActivity),
+    "sequence" INTEGER DEFAULT -1,
+    "modeOfDistribution" SMALLINT REFERENCES "ActivityPublicityModeOfDistribution"("id"),
+    "targetPostingDate" DATE, --me
+    "status" SMALLINT REFERENCES "ActivityPublicityStatus"("id"),
+    "checkedBy" INTEGER REFERENCES Account(idNumber),
+    "dateChecked" DATE,
+    "submittedBy" INTEGER REFERENCES Account(idNumber),
+    "comments" TEXT,
+    "filename" TEXT,
+    "filenameToShow" TEXT,
+
+    PRIMARY KEY("GOSMActivity", "sequence")
+);
+/* End of Publicity */
 /*
     Auditing
 */
