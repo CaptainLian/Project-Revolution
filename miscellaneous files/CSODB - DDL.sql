@@ -587,7 +587,10 @@ VALUES (0, 'Mechanics'),
        (5, 'Sample Publicity'),
        (6, 'Agenda'),
        (7, 'LSPO Form'),
-       (8, 'Sample Application Form');
+       (8, 'Sample Application Form'),
+       (9, 'Informal Quotation'),
+       (10, 'Estimated List of Participants'),
+       (11, 'Mechanics of Competition');
 
 DROP TABLE IF EXISTS ActivityAttachmentRequirement CASCADE;
 CREATE TABLE ActivityAttachmentRequirement (
@@ -1623,6 +1626,7 @@ CREATE TRIGGER before_insert_ProjectProposalProjectedIncome
     FOR EACH ROW
     EXECUTE PROCEDURE trigger_before_insert_ProjectProposalProjectedIncome();
 
+
 DROP TABLE IF EXISTS ExpenseType CASCADE;
 CREATE TABLE ExpenseType (
     id SMALLINT,
@@ -1639,6 +1643,25 @@ INSERT INTO ExpenseType (id, name)
                         (5, 'Honorarium'),
                         (6, 'Cash Prize'),
                         (7, 'Corruption Expense');
+
+DROP TABLE IF EXISTS "ExpenseTypeAttachmentRequirement" CASCADE;
+CREATE TABLE "ExpenseTypeAttachmentRequirement" (
+    "expenseType" SMALLINT REFERENCES ExpenseType(id),
+    "document" SMALLINT REFERENCES DocumentAttachmentRequirement(id),
+
+    PRIMARY KEY("expenseType", "document")
+);
+INSERT INTO "ExpenseTypeAttachmentRequirement" ("expenseType", "document")
+                                             -- Others
+                                        VALUES (0, 9),
+                                             -- Food Expense
+                                               (1,  9),
+                                               (1, 10),
+                                             -- Accomodation Expense
+                                               (2,  9),
+                                               (2, 10),
+                                             -- Cash Prize
+                                               (6,  11);
 
 DROP TABLE IF EXISTS ProjectProposalExpenses CASCADE;
 CREATE TABLE ProjectProposalExpenses (
@@ -1845,56 +1868,124 @@ CREATE TRIGGER "after_update_ProjectProposal_signatory_immediateSuperior"
 /* End of Project Proposal */
 
 /* Organization Treasurer */
-DROP TABLE IF EXISTS "TransactionType" CASCADE;
-CREATE TABLE "TransactionType" (
-  id INTEGER,
-  name VARCHAR(45),
+DROP TABLE IF EXISTS "PreActivityDirectPaymentStatus" CASCADE;
+CREATE TABLE "PreActivityDirectPaymentStatus" (
+  "id" INTEGER,
+  "name" VARCHAR(45),
 
   PRIMARY KEY(id)
 );
-DROP TABLE IF EXISTS "TransactionStatus" CASCADE;
-CREATE TABLE "TransactionStatus" (
-  id INTEGER,
-  name VARCHAR(45),
-
-  PRIMARY KEY(id)
-);
-DROP TABLE IF EXISTS "ActivityTransaction" CASCADE;
-CREATE TABLE "ActivityTransaction" (
+INSERT INTO "PreActivityDirectPaymentStatus" ("id", "name")
+                                      VALUES (0, 'For Approval'),
+                                             (1, 'Approved'),
+                                             (2, 'Pend'),
+                                             (3, 'Denied');
+DROP TABLE IF EXISTS "PreActivityDirectPayment" CASCADE;
+CREATE TABLE "PreActivityDirectPayment" (
     "id" SERIAL UNIQUE,
     "GOSMActivity" INTEGER REFERENCES ProjectProposal(GOSMActivity),
+    "submissionID" INTEGER DEFAULT -1,
     "sequence" INTEGER DEFAULT -1,
-    "type" INTEGER REFERENCES "TransactionType"("id"),
-    "PRS" INTEGER,
-    "reason" TEXT,
-    "status" INTEGER REFERENCES "TransactionStatus"("id"),
+    "submittedBy" INTEGER REFERENCES Account(idNumber),
+    "dateSubmitted" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    "nameOfEstablishment" VARCHAR(60),
+    "amount" NUMERIC(12, 2),
+    "reasonForDelayedPRSProcessing" TEXT,
+    "galsFilename" TEXT,
+    "galsfilenameToShow" TEXT,
+    "fqFilename" TEXT,
+    "fqfilenameToShow" TEXT,
+    "rofFilename" TEXT,
+    "rofFilenameToShow" TEXT,
+    "evaluatedBy" INTEGER REFERENCES Account(idNumber),
+    "comments" TEXT,
+    "dateEvaluated" TIMESTAMP WITH TIME ZONE,
+    "status" SMALLINT REFERENCES "PreActivityDirectPaymentStatus"("id"),
 
-    PRIMARY KEY ("GOSMActivity", "sequence")
+    PRIMARY KEY ("GOSMActivity", "submissionID", "sequence")
 );
-CREATE OR REPLACE FUNCTION "trigger_before_insert_ActivityTransaction"()
-RETURNS trigger AS
+CREATE OR REPLACE FUNCTION "trigger_before_insert_PreActivityDirectPayment_sequence"()
+RETURNS TRIGGER AS
 $trigger$
     BEGIN
-        SELECT COALESCE(MAX(sequence) + 1, 0) INTO NEW.sequence
-         FROM "ActivityTransaction"
-        WHERE "GOSMActivity" = NEW."GOSMActivity";
+        IF NEW.submissionID IS NULL THEN
+            NEW.sequence = 1;
+            SELECT COALESCE(MAX("submissionID") + 1, 1) INTO NEW."submissionID"
+              FROM "PreActivityDirectPayment"
+             WHERE "GOSMActivity" = NEW."GOSMActivity";
+        ELSE
+        SELECT COALESCE(MAX("sequence") + 1, 1) INTO NEW."sequence"
+          FROM "PreActivityDirectPayment"
+         WHERE "GOSMActivity" = NEW."GOSMActivity"
+           AND "submissionID" = NEW.submissionID;
+        END IF;
 
-        return NEW;
+        RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
-CREATE TRIGGER "before_insert_ActivityTransaction"
-    BEFORE INSERT ON "ActivityTransaction"
+CREATE TRIGGER "before_insert_PreActivityDirectPayment_sequence"
+    BEFORE INSERT ON "PreActivityDirectPayment"
     FOR EACH ROW
-    EXECUTE PROCEDURE "trigger_before_insert_ActivityTransaction"();
+    EXECUTE PROCEDURE "trigger_before_insert_PreActivityDirectPayment_sequence"();
 
-DROP TABLE IF EXISTS "InformalQuotation" CASCADE;
-CREATE TABLE "InformalQuotation" (
-    "expense" INTEGER REFERENCES ProjectProposalExpenses(id),
-    "ActivityTransaction" INTEGER REFERENCES "ActivityTransaction"("id"),
-    "contactPerson" VARCHAR(60),
-    "contactDetails" VARCHAR(45),
+DROP TABLE IF EXISTS "PreActivityCashAdvanceStatus" CASCADE;
+CREATE TABLE "PreActivityCashAdvanceStatus" (
+  "id" INTEGER,
+  "name" VARCHAR(45),
 
-    PRIMARY KEY("expense")
+  PRIMARY KEY(id)
+);
+INSERT INTO "PreActivityCashAdvanceStatus" ("id", "name")
+                                      VALUES (0, 'For Approval'),
+                                             (1, 'Approved'),
+                                             (2, 'Pend'),
+                                             (3, 'Denied');
+DROP TABLE IF EXISTS "PreActivityCashAdvance" CASCADE;
+CREATE TABLE "PreActivityCashAdvance" (
+    "id" SERIAL UNIQUE,
+    "GOSMActivity" INTEGER REFERENCES ProjectProposal(GOSMActivity),
+    "submissionID" INTEGER DEFAULT -1,
+    "sequence" INTEGER DEFAULT -1,
+    "submittedBy" INTEGER REFERENCES Account(idNumber),
+    "dateSubmitted" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    "purpose" TEXT,
+    "justification" TEXT,
+    "evaluatedBy" INTEGER REFERENCES Account(idNumber),
+    "status" SMALLINT REFERENCES "PreActivityCashAdvanceStatus"("id"),
+
+    PRIMARY KEY ("GOSMActivity", "submissionID", "sequence")
+);
+CREATE OR REPLACE FUNCTION "trigger_before_insert_PreActivityCashAdvance_sequence"()
+RETURNS TRIGGER AS
+$trigger$
+    BEGIN
+        IF NEW.submissionID IS NULL THEN
+            NEW.sequence = 1;
+            SELECT COALESCE(MAX("submissionID") + 1, 1) INTO NEW."submissionID"
+              FROM "PreActivityCashAdvance"
+             WHERE "GOSMActivity" = NEW."GOSMActivity";
+        ELSE
+        SELECT COALESCE(MAX("sequence") + 1, 1) INTO NEW."sequence"
+          FROM "PreActivityCashAdvance"
+         WHERE "GOSMActivity" = NEW."GOSMActivity"
+           AND "submissionID" = NEW.submissionID;
+        END IF;
+
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER "before_insert_PreActivityCashAdvance_sequence"
+    BEFORE INSERT ON "PreActivityCashAdvance"
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_before_insert_PreActivityCashAdvance_sequence"();
+
+DROP TABLE IF EXISTS "PreActivityCashAdvanceParticular" CASCADE;
+CREATE TABLE "PreActivityCashAdvanceParticular" (
+    "id" SERIAL UNIQUE,
+    "cashAdvance" INTEGER REFERENCES "PreActivityCashAdvance"("id"),
+    "particular" INTEGER REFERENCES ProjectProposalExpenses(id),
+
+    PRIMARY KEY ("cashAdvance", "particular")
 );
 /* Organization Treasurer */
     /* AMTActivityEvaluation */
