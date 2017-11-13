@@ -82,12 +82,14 @@
 												<ul>
 													{%if status.isCheckedDP %}
 													<li><a class="text-center" href="#section-line-1"><span>Direct Payment</span></a></li>
+													<input type="hidden" name="dp" value="1">
 													{%endif%}
 													{%if status.isCheckedR %}
 													<li><a class="text-center" href="#section-line-2"><span>Reimbursement</span></a></li>
+													<input type="hidden" name="reim" value="1">
 													{%endif%}
 													{%if status.isCheckedBT %}
-													<li><a class="text-center" href="#section-line-4"><span>Book Transfer</span></a></li>
+													<li><a class="text-center" href="#section-line-4"><span>Book Transfer</span></a></li><input type="hidden" name="bt" value="1">
 													{%endif%}
 												</ul>
 											</nav>
@@ -123,7 +125,7 @@
 																		<div class="radio-list col-md-9">
 																			<label class="radio-inline p-0">
 																				<div class="radio radio-info">
-																					<input name="pb-dp" id="radio1" value="0" type="radio">
+																					<input name="pb-dp" checked="" id="radio1" value="0" type="radio">
 																					<label for="radio1">Cheque</label>
 																				</div>
 																			</label>
@@ -226,7 +228,7 @@
 																		<div class="radio-list col-md-9">
 																			<label class="radio-inline p-0">
 																				<div class="radio radio-info">
-																					<input name="pb-pr" id="radio12" value="0" type="radio">
+																					<input checked=""  name="pb-pr" id="radio12" value="0" type="radio">
 																					<label for="radio12">Payment By Check</label>
 																				</div>
 																			</label>
