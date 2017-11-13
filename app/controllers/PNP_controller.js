@@ -9,6 +9,14 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		return res.render('PNP/ViewPubs', renderData);
 	};	
+
+	PNPController.viewPubsList = (req, res) => {
+		let renderData = Object.create(null);
+		renderData.csrfToken = req.csrfToken();
+		renderData.extra_data = req.extra_data;
+
+		return res.render('PNP/PubsToCheck', renderData);
+	};	
 	
 	return PNPController;
 };
