@@ -80,6 +80,7 @@
     {{- tag.javascript('/plugins/bower_components/lobipanel/dist/js/lobipanel.min.js', true)}}
     {{- tag.javascript('/plugins/bower_components/toast-master/js/jquery.toast.js', true)}}
     {{tag.javascript('/js/custom.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/blockUI/jquery.blockUI.js', true)}}
     <!-- Page Scripts -->
     {{- tag.javascript('/js/system/AJAX_CSRF.js', true)}}
     {{- tag.javascript('/js/Organization/GOSM.js', true)}}
@@ -94,9 +95,9 @@
             <li id="other-tab"><a href="#section-linebox-2"><span>Added Activites</span></a></li>            
         </ul>
     </nav>
-    <div class="content-wrap text-center">
+    <div class="content-wrap text-center block">
 
-        <section id="section-linebox-1">
+        <section id="section-linebox-1" class="block">
             <div class="white-box">
                 <form class="form-horizontal form-bordered">
                     <div class="form-body">
@@ -258,7 +259,7 @@
 
         </section>
 
-        <section id="section-linebox-2">
+        <section id="section-linebox-2" class="block">
             <div class="panel ">
               
                 <div class="panel-body">

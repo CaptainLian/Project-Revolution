@@ -602,14 +602,33 @@ $("#add-gosm").click(function(e) {
 });
 
 $("#submit-gosm").click(function() {
+    console.log("PUMASOK");
+    $('.sttabs').block({
+            message: '<h3>Please Wait...</h3>',
+            css: {
+                border: '1px solid #fff'
+            }
+        });
     $.ajax({
         type: 'POST',
         url: '/Organization/AJAX/submitGOSM',
-        //TODO: edit data, add with session
         data: {
             'org': 1
         },
         success: function(data) {
+            $('.sttabs').block({
+                        message: '<h3>Success</h3>',
+                        css: {
+                            text-color: 'white',
+                            backgroundColor: '#00C292'
+                        }
+                    });
+             setTimeout(function(){
+                 window.location.href = '/Organization/Projectad/home';
+                  
+             }
+            , 3000);
+            
 
         }
     });
