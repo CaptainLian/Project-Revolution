@@ -22,11 +22,13 @@
     {{tag.style('/plugins/bower_components/custom-select/custom-select.css')}}
     {{tag.style('/plugins/bower_components/bootstrap-select/bootstrap-select.min.css')}}
    
-   {{tag.style('/css/animate.css')}}
-    {{tag.style('/css/custom.css')}}
+   
      {{tag.style('/css/style.css')}}
+     {{tag.style('/css/animate.css')}}
+    {{tag.style('/css/custom.css')}}
     <!-- color CSS -->
     {{tag.style('/css/colors/blue.css')}}
+    {{tag.style('/css/btn_lnk.css')}}
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -71,22 +73,31 @@
 				<table id="myTable3" class="table table-striped">
 					<thead>
 						<tr>
-							<th class="text-center" width="33%">Submitted Date</th>
+							<th class="text-center" width="33%">Event Date</th>
 							<th class="text-center" width="33%">Activity Name</th>
 							<th class="text-center" width="33%">Status</th>
 
 						</tr>
 					</thead>
 					<tbody>
+                        {%for pub in pubs%}
 						<tr>
-							<td class="text-center">September 15, 2019</td>
-							<td class="text-center"><a href="#" class="btn-lnk">General Assembly</a></td>
+							<td class="text-center">{{pub.targetdate}}</td>
+							<td class="text-center"><a href="/PNP/Pubs/{{pub.gosmid}}" class="btn-lnk">{{pub.title}}</a></td>
+                            {% if pub.status === 0 %}
+                                <td class="text-center"><span class="label label-warning">{{number[loop.index0].count}} Unapproved</span></td>
+                            {% elif pub.status === 1 %}
+                                <td class="text-center"><span class="label label-success">Checked</span></td>
+                            {% elif pub.status === 2 %}
+                                <td class="text-center"><span class="label label-warning">Pended</span></td>
 
-
-							<td class="text-center"><span class="label label-warning">2 Unapproved</span></td>
+                            {% elif pub.status === 3 %}
+                                <td class="text-center"><span class="label label-danger">Denied</span></td>
+                            {% endif %}
+							
 
 						</tr>
-
+                        {%endfor %}
 					</tbody>
 				</table>
 			</div>

@@ -1860,8 +1860,34 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
+            //GOSM ID OF PICTURES
+            var gParam = {
+                gosmid : req.body.gosmid
+            };
+            database.task(t1=>{
+                return pnpModel.getSpecificPubSeq(gParam,t)
+                               .then(data=>{
+                                    //FOR INSERT
+                                    // var insertParam = {
+                                    //     gosmid: req.body.gosmid,
+                                    //     sid:,
+                                    //     mod:,
+                                    //     tpd:,
+                                    //     sb: req.session.user.id,
+                                    //     ds:,
+                                    //     status:,
+                                    //     filename:,
+                                    //     filenameToShow:
 
-            return res.render('Org/Publist',renderData);
+                                    // }
+                                    
+                                    // pnpModel.
+
+                               })
+            }).then(result => {
+                return res.render('Org/Publist',renderData);
+            })
+            
             
         },
 

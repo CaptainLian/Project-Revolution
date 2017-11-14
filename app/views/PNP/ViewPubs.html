@@ -108,19 +108,19 @@
     <div class="col-md-4 col-xs-12">
         <div class="white-box">
             <div class="text-center">
-                <h1>Activity jkljlkjlkjTitle Shiite</h1> 
+                <h1>{{activities.strategies}}</h1> 
             </div>
-            <p class="text-center">La Salle Computer Society</p>
+            <p class="text-center">{{activities.orgname}}</p>
             <div class="user-btm-box">
                 <!-- .row -->
                 <div class="row text-center ">
                     <div class="col-md-6 b-r">
                         <strong>Type</strong>
-                        <p>Recreation</p>
+                        <p>{{activities.typename}}</p>
                     </div>
                     <div class="col-md-6">
                         <strong>Nature</strong>
-                        <p>Special Interest</p>
+                        <p>{{activities.natname }}</p>
                     </div>
                 </div>
                 <!-- /.row -->
@@ -129,11 +129,11 @@
                 <div class="row text-center m-t-10">
                     <div class="col-md-6 b-r">
                         <strong>Venue</strong>
-                        <p>Gokongwei Building</p>
+                        <p>{{activities.activityvenue}}</p>
                     </div>
                     <div class="col-md-6">
                         <strong>ENMP / EMP</strong>
-                        <p>50 / 20</p>
+                        <p>{{activities.enmp}} / {{activities.enp}}</p>
                     </div>
                 </div>
                 <!-- /.row -->
@@ -142,10 +142,12 @@
                 <div class="row text-center m-t-10">
                     <div class="col-md-12">
                         <p><strong>Project Heads</strong></p>
-                        <p>Neil Capistrano</p>
-                        <p>09390290166</p>
-                        <p>Dominique Dagunton</p>
-                        <p>09290430145</p>
+                        {% for head in heads%}
+                            <p>{{head.firstname}} {{head.middlename}} {{head.lastrname}}</p>
+                            <p>{{head.contactnumber}}</p>
+                        {%  endfor %}
+                        
+                       
                     </div>
                 </div>
                 <hr>

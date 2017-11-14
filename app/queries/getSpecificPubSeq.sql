@@ -1,3 +1,3 @@
-SELECT max("sequence") as SEQ
+SELECT max("submissionID") as SEQ
   FROM "ActivityPublicity"
  WHERE "GOSMActivity" = ${gosmid}
