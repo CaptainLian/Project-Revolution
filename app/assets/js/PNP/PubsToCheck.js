@@ -1,0 +1,1 @@
+$("#myTable3").dataTable();

@@ -31,6 +31,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const deleteExpensesSQL = queryFiles.deleteExpenses;
     const getAllVenuesSQL = queryFiles.getAllVenues;
     const getOrgFacultyAdvisersSQL = queryFiles.getOrgFacultyAdvisers;
+    const getAllMyActivity = queryFiles.getAllMyActivity;
     
     /**
      * class with properties
@@ -335,6 +336,9 @@ module.exports = function(configuration, modules, db, queryFiles) {
 
     ProjectProposalModel.prototype.deleteExpenses = function(param, connection = this._db){
         return connection.none(deleteExpensesSQL, param);
+    };
+    ProjectProposalModel.prototype.getAllMyActivity = function(param, connection = this._db){
+        return connection.any(getAllMyActivity, param);
     };
 
     ProjectProposalModel.prototype.getAllVenues = function(connection = this._db){
