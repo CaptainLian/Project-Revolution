@@ -11,11 +11,25 @@
     });
 
 })();
-function addRibbon(pub){
-    pub.closest(".el-card-item").find(".ribbon").removeClass("ribbon-warning")
+function addRibbon(pub,stat){
+   if(stat == 1){
+     pub.closest(".el-card-item").find(".ribbon").removeClass("ribbon-warning")
                       .removeClass("ribbon-success").removeClass("ribbon-danger").addClass("ribbon-success").find("i")
                       .removeClass("fa-check-circle").removeClass("fa-pause-circle").removeClass("fa-times-circle")
                       .addClass("fa").addClass("fa-check-circle");
+   }
+   else if(stat == 2){
+     pub.closest(".el-card-item").find(".ribbon").removeClass("ribbon-warning")
+                      .removeClass("ribbon-success").removeClass("ribbon-danger").addClass("ribbon-warning").find("i")
+                      .removeClass("fa-check-circle").removeClass("fa-pause-circle").removeClass("fa-times-circle")
+                      .addClass("fa").addClass("fa-pause-circle");
+   } 
+   else if(stat == 3){
+     pub.closest(".el-card-item").find(".ribbon").removeClass("ribbon-warning")
+                      .removeClass("ribbon-success").removeClass("ribbon-danger").addClass("ribbon-danger").find("i")
+                      .removeClass("fa-check-circle").removeClass("fa-pause-circle").removeClass("fa-times-circle")
+                      .addClass("fa").addClass("fa-times-circle");
+   }
 }
 $(".approve").on('click',function(){
     console.log("APPRVOE");
@@ -44,7 +58,7 @@ $(".approve").on('click',function(){
 
                         },
                         success:function(data){
-                            addRibbon(pub)
+                            addRibbon(pub,1)
                             console.log(data);
                             resolve(data[0]);
                            
@@ -94,46 +108,42 @@ $(".pend").on('click',function(){
         reverseButtons:true,
         allowOutsideClick: false,
         preConfirm: function (data) {
-            console.log($("#select-sec").val());
-            console.log("DATA");
+            console.log(data);
             return new Promise(function (resolve, reject) {
-              setTimeout(function() {
-                if (data === 'taken@example.com') {
-                  reject('This email is already taken.')
-                } else {
-                  resolve()
-                }
-              }, 2000)
+                    $.ajax({
+                        type:'POST',
+                        url:'/PNP/Pubs/checking',
+                        data:{
+                            id:pub.attr("data-id"),
+                            stat:2,
+                            comment:$("textarea").val()
+
+                        },
+                        success:function(data){
+                            addRibbon(pub,2)
+                            console.log(data);
+                            resolve(data[0]);
+                           
+                        }
+                         
+                    });
+            //         resolve(data);
+            // addRibbon(pub);  
+
             })
-        },
-        onOpen:function(ele){
-            $(ele).find("select").select2();
-            console.log("INIT SELECT");
-        },
-       
-        showCancelButton: true,   
-        confirmButtonColor: "#FEC107",   
-        confirmButtonText: "Defer",   
-        cancelButtonText: "Cancel",   
+
+        }
          
     }).then(function(data){
+        console.log("DATA ON APPROVE");
+        console.log(pub.attr("data-id"));
         if(data){
-             swal("Good job!", "You clicked the button!", "success")
-            $.ajax({
-                type:'POST',
-                url:'/PNP/Pubs/checking',
-                data:{
-                    id:pub.attr("data-id"),
-                    stat:2,
-                    comment:$("textarea").val()
-                },
-                sucess:function(data){
-                   swal("Good job!", "You clicked the button!", "success")
-                }
-            })
+            swal("Good job!", "You clicked the button!", "success");    
         }
-
+        
+        
     });
+         
 });
 
 $(".deny").on('click',function(){
@@ -163,35 +173,41 @@ $(".deny").on('click',function(){
         confirmButtonColor: "#FB9678",   
         confirmButtonText: "Submit",   
         cancelButtonText: "Cancel",
-        preConfirm: function (email) {
+        preConfirm: function (data) {
+            console.log(data);
             return new Promise(function (resolve, reject) {
-              setTimeout(function() {
-                if (email === 'taken@example.com') {
-                  reject('This email is already taken.')
-                } else {
-                  resolve()
-                }
-              }, 2000)
-            })
-        } 
-       
-    }).then(function(data){
-        if(data){
-             swal("Good job!", "You clicked the button!", "success")
-            $.ajax({
-                type:'POST',
-                url:'/PNP/Pubs/checking',
-                data:{
-                    id:pub.attr("data-id"),
-                    stat:3,
-                    comment:$("textarea").val()
-                },
-                sucess:function(data){
-                   swal("Good job!", "You clicked the button!", "success")
-                }
-            })
-        }
+                    $.ajax({
+                        type:'POST',
+                        url:'/PNP/Pubs/checking',
+                        data:{
+                            id:pub.attr("data-id"),
+                            stat:3,
+                            comment:$("textarea").val()
 
+                        },
+                        success:function(data){
+                            addRibbon(pub,3)
+                            console.log(data);
+                            resolve(data[0]);
+                           
+                        }
+                         
+                    });
+            //         resolve(data);
+            // addRibbon(pub);  
+
+            })
+
+        }
+         
+    }).then(function(data){
+        console.log("DATA ON APPROVE");
+        console.log(pub.attr("data-id"));
+        if(data){
+            swal("Good job!", "You clicked the button!", "success");    
+        }
+        
+        
     });
 
 });
