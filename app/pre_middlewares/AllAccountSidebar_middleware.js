@@ -11,8 +11,10 @@ module.exports = function(configuration, application, modules, database, queryFi
     AllAcountSidebar.name = 'All Account Sidebar';
     AllAcountSidebar.priority = configuration.load_priority.LOWEST;
     AllAcountSidebar.action = (req, res, next) => {
-        const sidebars = req.extra_data.view.sidebars;
+        if(!req.extra_data.system.sidebars.canAttach)
+            return next();
 
+        const sidebars = req.extra_data.view.sidebars;
         return AccountModel.hasPPRToSign(req.session.user.idNumber)
         .then(PPR => {
             if(PPR.exists){

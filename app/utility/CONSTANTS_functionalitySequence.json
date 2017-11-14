@@ -9,7 +9,8 @@
     "ManageOrganizations": 8,
     "ViewProjectHeadDashboard": 9,
     "ViewAPSReport": 10,
+    
     "ViewPublicityMaterial": 5,
-    "SubmitPublicityMaterial": 17,
-    "EvaluatePublicityMaterial": 18,
+    "SubmitPublicityMaterial": 16,
+    "EvaluatePublicityMaterial": 17
 }

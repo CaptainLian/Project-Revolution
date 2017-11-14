@@ -339,6 +339,19 @@ $function$
     END;
 $function$ LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION "system_get_functionality_id"(param_sequenceID INTEGER)
+RETURNS INTEGER AS
+$function$
+    DECLARE
+        var_FunctionalityID INTEGER;
+    BEGIN
+         SELECT id INTO var_FunctionalityID
+           FROM Functionality
+          WHERE id%100 = param_sequenceID;
+
+        RETURN var_FunctionalityID;
+    END;
+$function$ LANGUAGE plpgsql;
 /*
     Helpful functions end
 */
@@ -619,7 +632,7 @@ VALUES (0, 0, FALSE),
        (5, 3, FALSE),
        (5, 6, FALSE),
        (6, 3, FALSE),
-       (6, 7, TRUE),
+       (6, 7,  TRUE),
        (7, 3, FALSE),
        (7, 8, FALSE),
        (7, 0, FALSE),
@@ -826,13 +839,13 @@ INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, ra
                       VALUES (           0, 'Associate for Finance', FALSE, 15, 40);
 -- 18
 INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
-                      VALUES (           0, 'Vice Chairperson for Publicity and Productions', TRUE, 2, 20);
+                      VALUES (           0, 'Vice Chairperson for Publicity and Productions', TRUE, 3, 20);
 -- 19
 INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
-                      VALUES (           0, 'Associate Vice Chairperson for Publicity and Productions', FALSE, 17, 30);
+                      VALUES (           0, 'Associate Vice Chairperson for Publicity and Productions', FALSE, 18, 30);
 -- 20
 INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
-                      VALUES (           0, 'Associate for Publicity and Productions', FALSE, 18, 40);
+                      VALUES (           0, 'Associate for Publicity and Productions', FALSE, 19, 40);
 -- 21
 INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
                       VALUES (           0, 'Vice Chairperson for Organizational Research and Analysis', TRUE, 2, 20);
@@ -931,12 +944,12 @@ INSERT INTO FunctionalityCategory (id, name, domain)
                                   -- CSO
                                   (104,  'Activity Processing', 1),
                                   (105,  'Finance', 1),
-                                  (106,  'Publicity and Publications', 1),
+                                  (106,  'Publicity and Productions', 1),
                                   (107,  'Activity Monitoring', 1),
                                   (108,  'Activity Documentation', 1),
                                   (109,  'Organizational Research', 1),
                                   -- Student Organization
-                                  (210, 'Publicity/Creatives/Publications', 2),
+                                  (210, 'Publicity/Creatives/Productions', 2),
                                   (211, 'Activity Processing & Documentations', 2),
                                   (212, 'Submit Financial Documents', 2),
                                   (213, 'Cancel Financial Documents', 2),
@@ -1015,84 +1028,8 @@ INSERT INTO Functionality (id, name, category)
                           (211015, 'Force Sign Project Proposal'            , 211),
                           -- Publicity
                           (210016, 'Submit Publicity Material'              , 210),
-                          (106017, 'Evaluate Publicity Material',           , 106);
-/*
-INSERT INTO Functionality (id, name, category)
-                   VALUES (0, 'Time Setting', 0),
+                          (106017, 'Evaluate Publicity Material',             106);
 
-                          (1, 'Create Position', 1),
-                          (2, 'Edit Position', 1),
-                          (3, 'Assign Position', 1),
-                          (4, 'Delete Position', 1),
-                          (5, 'View Orgaizational Structure', 1),
-
-                          (6, 'Create Organization', 2),
-                          (7, 'Edit Organization', 2),
-                          (8, 'Delete Organization', 2),
-                          (9, 'Assign Evaluator for Publicity Material', 2),
-                          (10, 'Evaluate Publicity Material', 6),
-                          (11, 'View Publicity Material', 6),
-
-                          -- APS
-                          -- Approve, pend, deny
-                          (12, 'Evaluate GOSM Activity', 4),
-                          -- Approve, pend, deny
-                          (13, 'Evaluate Project Proposal', 4),
-
-                          (14, 'Set Organization Treasury Funds', 5),
-                          (15, 'Evaluate Financial Documents', 5),
-                          (16, 'View Financial Documents', 5),
-                          (17, 'View Financial Documents Log', 5),
-
-                          (18, 'View Organization Members', 9),
-                          (19, 'View Organizational Struture', 9),
-                          (20, 'Survey Results', 9),
-                          (21, 'Activity Research Form', 9),
-
-                          (22, 'Assign Evaluator for Activity', 7),
-                          (23, 'Evaluate During-Activity', 7),
-                          (24, 'View During-Activities to be Evaluated', 7),
-
-                          (25, 'Evaluate Post-Activity', 8),
-
-                          (26, 'Submit Publicity Material', 9),
-                          (27, 'Resubmit Publicity Material', 9),
-                          (28, 'View Publicity Material', 9),
-
-                          -- Organization Side
-                          (29, 'Submit GOSM', 10),
-                          (30, 'Resubmit GOSM', 10),
-                          (31, 'View GOSM', 10),
-                          (32, 'Submit Project Proposal', 10),
-                          (33, 'Resubmit Project Proposal', 10),
-                          (34, 'View Project Proposal', 10),
-                          (35, 'Submit Post-Activity Documents', 10),
-                          (36, 'View Post-Activity Documents', 10),
-
-                          (37, 'Request Cash Advance', 12),
-                          (38, 'Request Direct Payment', 12),
-                          (39, 'Request Book Transfer', 12),
-                          (40, 'Request Petty Cash Replenishment', 12),
-                          (41, 'Request Reimbursement', 12),
-                          (42, 'Request for Petty Cash Turnover', 12),
-                          (43, 'Request for Turnover of funds', 12),
-                          (44, 'Request for Financial Documents', 12),
-                          (45, 'Submit gas expense', 12),
-
-                          (46, 'Cancel Request Cash Advance', 1),
-                          (47, 'Cancel Request Direct Payment', 1),
-                          (48, 'Cancel Book Transfer', 1),
-                          (49, 'Cancel Request Petty Cash Replenishment', 1),
-                          (50, 'Cancel Request Reimbursement', 1),
-                          (51, 'Request for Cancellation of check', 1),
-                          (52, 'Request for Change of Payee', 1),
-                          (53, 'Request for Establishment of Petty Cash', 1),
-
-                          (54, 'Create Position', 13),
-                          (55, 'Edit Position', 13),
-                          (56, 'Assign Position', 13),
-                          (57, 'Delete Position', 13);
-*/
 DROP TABLE IF EXISTS OrganizationAccessControl CASCADE;
 CREATE TABLE OrganizationAccessControl (
 	role INTEGER REFERENCES OrganizationRole (id),
@@ -1132,7 +1069,11 @@ INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       (   21,        003008,      TRUE),
                                       -- SIGN PPR
                                       (   13,        104013,      TRUE),
-                                      (   12,        104014,      TRUE);
+                                      (   12,        104014,      TRUE),
+                                      -- Evaluate Publicity Material
+                                      (   17,        106017,      TRUE),
+                                      (   18,        106017,      TRUE),
+                                      (   19,        106017,      TRUE);
 
 /* Organization Default Structure */
 
@@ -1220,87 +1161,6 @@ CREATE TRIGGER after_insert_StudentOrganization
     AFTER INSERT ON StudentOrganization
     FOR EACH ROW
     EXECUTE PROCEDURE trigger_after_insert_StudentOrganization();
-
-/*
-
-INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
-                               VALUES -- Assign Evaluator for Publicity Material
-                                      (  18,            22,      TRUE),
-                                      -- Evaluate Publicity Material
-                                      (  15,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      -- View Publicity Material
-                                      (  18,            28,      TRUE),
-                                      (  19,            28,      TRUE),
-                                      (  20,            28,      TRUE),
-                                      -- View Organization Members
-                                      (  21,            18,      TRUE),
-                                      (  22,            18,      TRUE),
-                                      -- Survey Results
-                                      (  21,            20,      TRUE),
-                                      (  22,            20,      TRUE),
-                                      -- Activity Research Form
-                                      (  21,            21,      TRUE),
-                                      (  22,            21,      TRUE),
-                                      -- Evaluate During-Activity
-                                      (  11,            25,      TRUE),
-                                      (  22,            25,      TRUE),
-                                      (  23,            25,      TRUE),
-                                      -- View Activities to be Evaluated
-                                      (   9,            24,      TRUE),
-                                      (  10,            24,      TRUE),
-                                      (  11,            24,      TRUE),
-                                      -- Set Organization Treasury Funds
-                                      (   6,            14,      TRUE),
-                                      -- Evaluate Project Proposal
-                                      (  12,            13,      TRUE),
-                                      (  13,            13,      TRUE),
-                                      (  14,            13,      TRUE),
-                                      -- View Organization Structure
-                                      (   1,            19,      TRUE),
-                                      (   2,            19,      TRUE),
-                                      (   3,            19,      TRUE),
-                                      (   4,            19,      TRUE),
-                                      (   5,            19,      TRUE),
-                                      (   6,            19,      TRUE),
-                                      (   7,            19,      TRUE),
-                                      (   8,            19,      TRUE),
-                                      (   9,            19,      TRUE),
-                                      (  10,            19,      TRUE),
-                                      (  11,            19,      TRUE),
-                                      (  12,            19,      TRUE),
-                                      (  13,            19,      TRUE),
-                                      (  14,            19,      TRUE),
-                                      (  15,            19,      TRUE),
-                                      (  16,            19,      TRUE),
-                                      (  17,            19,      TRUE),
-                                      (  18,            19,      TRUE),
-                                      (  19,            19,      TRUE),
-                                      (  20,            19,      TRUE),
-                                      (  21,            19,      TRUE),
-                                      (  22,            19,      TRUE),
-                                      (  23,            19,      TRUE),
-                                      -- View Financial Documents
-                                      (  12,            16,      TRUE),
-                                      (  13,            16,      TRUE),
-                                      (  14,            16,      TRUE),
-                                      (   5,            16,      TRUE),
-                                      (  15,            16,      TRUE),
-                                      (  16,            16,      TRUE),
-                                      (  17,            16,      TRUE),
-                                      (   6,            16,      TRUE),
-                                      (   7,            16,      TRUE),
-                                      (   8,            16,      TRUE),
-                                      -- View Financial Documents Log
-                                      (  15,            17,      TRUE),
-                                      -- Evaluate GOSM Activity
-                                      (   1,            12,      TRUE),
-                                      (   2,            12,      TRUE),
-                                      (   3,            12,      TRUE),
-                                      (   4,            12,      TRUE),
-                                      (   5,            12,      TRUE);
-                                      */
-	/* Access Control end */
 
 -- FORMS
     /* GOSM RELATED*/
