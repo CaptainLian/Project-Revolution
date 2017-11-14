@@ -3,6 +3,12 @@
 
 {%block page_title%}CSO - View Publicity Materials{%-endblock%}
 
+{%block meta%}
+    {{super()}}
+    <meta data-name="csrf" data-token="{{csrfToken}}" />
+{%endblock%}
+
+
 {%block style%}
     {{super()}}
     <!-- Bootstrap Core CSS -->
@@ -18,7 +24,7 @@
     <!-- animation CSS -->
     {{tag.style('/css/animate.css')}}
     <!--alerts CSS -->
-    {{tag.style('/plugins/bower_components/sweetalert/sweetalert.css')}}
+    {{tag.style('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.css')}}
     <!-- Custom CSS -->
     {{tag.style('/plugins/bower_components/custom-select/custom-select.css')}}
     {{tag.style('/plugins/bower_components/bootstrap-select/bootstrap-select.min.css')}}
@@ -26,7 +32,7 @@
     {{tag.style('/css/doms.css')}}
     {{tag.style('/css/custom.css')}}
     <!-- color CSS -->
-    {{tag.style('/css/colors/default.css')}}
+    {{tag.style('/css/colors.css')}}
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -73,6 +79,8 @@
         }
         .custom-class:focus { overflow: hidden; }
     </style>
+     {{tag.style('/plugins/bower_components/custom-select/custom-select.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-select/bootstrap-select.min.css')}}
 {%endblock%}
     
 {%block defer_script%}
@@ -91,15 +99,24 @@
     {{tag.javascript('/js/waves.js', true)}}
     <!-- Custom Theme JavaScript -->
     {{tag.javascript('/js/custom.min.js', true)}}
+
+       {{tag.javascript('/plugins/bower_components/custom-select/custom-select.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-select/bootstrap-select.min.js', true)}}
+
+
+
     {{tag.javascript('/js/cbpFWTabs.js', true)}}
     <!-- tabs-->
     {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
     <!-- Sweet-Alert  -->
-    {{tag.javascript('/plugins/bower_components/sweetalert/sweetalert.min.js', true)}}    
+     {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js', true)}}
     <!--Style Switcher -->
     {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
 
     {{tag.javascript('/plugins/bower_components/sweetalert/jquery.sweet-alert.custom.js', true)}}
+
+     {{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
+
     {{tag.javascript('/js/PNP/ViewPubs.js', true)}}
 {%endblock%}
 
@@ -165,30 +182,43 @@
                         </div>
                         <div class="white-box el-element-overlay .ribbon-vertical-l">
                             <!--approved thumbnail-->
-                            <div class="col-md-4 el-card-item">
-                                <div class="ribbon ribbon-vertical-l ribbon-success">
-                                    <i class="fa fa-check-circle"></i>
-                                </div>
-                                <div class="el-card-avatar el-overlay-1 "> <img src="/plugins/images/users/1.jpg" />
-                                    <div class="el-overlay">
-                                        <ul class="el-info">
-                                            <li><a class="btn default btn-outline image-popup-vertical-fit" href="/plugins/images/users/1.jpg"><i class="icon-magnifier"></i></a></li>
-                                            <li><a class="btn default btn-outline" data-toggle="modal" href='#online-1'><i class="icon-link"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="el-card-content text-left">
-                                    <h3 class="box-title">Cover Photo</h3>
-                                    <div class="col-md-12 text-center actions" style="display: none;">
-                                        <div class="btn-group" role="group" aria-label="Basic example">
-                                            <button type="button" class="btn btn-success" data-toggle="tooltip" data-original-title="Approve Publicity Material"><i class="fa fa-check"></i></button>
-                                            <button type="button" class="btn btn-warning" data-toggle="tooltip" data-original-title="Pend Publicity Material"><i class="fa fa-history"></i></button>
-                                            <button type="button" class="btn btn-danger" data-toggle="tooltip" data-original-title="Deny Publicity Material"><i class="fa fa-times"></i></button>
+                            {%for pub in pubs%}
+                                <div class="col-md-4 el-card-item">
+                                    {% if pub.status ==1 %}
+                                        <div class="ribbon ribbon-vertical-l ribbon-success">
+                                            <i class="fa fa-check-circle"></i>
+                                        </div>
+                                    {% elif pub.status ==2 %}
+                                        <div class="ribbon ribbon-vertical-l ribbon-warning">
+                                            <i class="fa fa-pause-circle"></i>
+                                        </div>
+                                    {% elif pub.status ==3 %}
+                                        <div class="ribbon ribbon-vertical-l ribbon-danger">
+                                            <i class="fa fa-times-circle"></i>
+                                        </div>
+                                    {% endif %}
+                                    <div class="el-card-avatar el-overlay-1 "> <img src="/pubs/{{pubs.submittedBy}}/{{pubs.filename}}" />
+                                        <div class="el-overlay">
+                                            <ul class="el-info">
+                                                <li><a class="btn default btn-outline image-popup-vertical-fit" href="/pubs/{{pubs.submittedBy}}/{{pubs.filename}}"><i class="icon-magnifier"></i></a></li>
+                                                <li><a class="btn default btn-outline" data-toggle="modal" href='#online-1'><i class="icon-link"></i></a></li>
+                                            </ul>
                                         </div>
                                     </div>
-                                    <br />
+                                    <div class="el-card-content text-left">
+                                        <h3 class="box-title">{{pub.description}}</h3>
+                                        <div class="col-md-12 text-center actions" style="visibility: hidden;">
+                                            <div class="btn-group" role="group" aria-label="Basic example">
+                                                <button type="button" data-id="{{pub.id}}" class="btn btn-success approve" data-toggle="tooltip" data-original-title="Approve Publicity Material"><i class="fa fa-check"></i></button>
+                                                <button type="button" data-id="{{pub.id}}" class="btn btn-warning pend" data-toggle="tooltip" data-original-title="Pend Publicity Material"><i class="fa fa-history"></i></button>
+                                                <button type="button" data-id="{{pub.id}}" class="btn btn-danger deny" data-toggle="tooltip" data-original-title="Deny Publicity Material"><i class="fa fa-times"></i></button>
+                                            </div>
+                                        </div>
+                                        <br />
+                                    </div>
                                 </div>
-                            </div>
+                            {%endfor%}
+                            
                             <!--pended thumbnail-->
                             <div class="col-md-4 el-card-item">
                                 <div class="ribbon ribbon-vertical-l ribbon-warning">

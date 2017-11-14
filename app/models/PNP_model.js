@@ -13,11 +13,15 @@ module.exports = function(configuration, modules, db, queryFiles) {
 	const getPubsNumberToApprove = queryFiles.getPubsNumberToApprove;
 	const getPubsOfActivity = queryFiles.getPubsOfActivity;
 	const getActivityDetailsforPubs = queryFiles.getActivityDetailsforPubs;
+    const updatePublicityStatus = queryFiles.updatePublicityStatus;
 
 
 	return{
 		getUnapprovePubsToCheck:function ( connection = db) {
             return connection.any(getUnapprovePubsToCheck);
+        },
+        updatePublicityStatus:function (param, connection = db) {
+            return connection.none(updatePublicityStatus, param);
         },
         getPubsOfActivity:function (param, connection = db) {
             return connection.any(getPubsOfActivity, param);
