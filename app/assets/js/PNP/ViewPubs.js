@@ -11,9 +11,16 @@
     });
 
 })();
+function addRibbon(pub){
+    pub.closest(".el-card-item").find(".ribbon").removeClass("ribbon-warning")
+                      .removeClass("ribbon-success").removeClass("ribbon-danger").addClass("ribbon-success").find("i")
+                      .removeClass("fa-check-circle").removeClass("fa-pause-circle").removeClass("fa-times-circle")
+                      .addClass("fa").addClass("fa-check-circle");
+}
 $(".approve").on('click',function(){
     console.log("APPRVOE");
     var pub = $(this);
+    
     swal({   
         title: "Are you sure?",                                           
         showCancelButton: true,   
@@ -26,37 +33,39 @@ $(".approve").on('click',function(){
         showLoaderOnConfirm: true,
         preConfirm: function (data) {
             console.log(data);
-            console.log("DATA");
             return new Promise(function (resolve, reject) {
-              setTimeout(function() {
-                if (data === 'taken@example.com') {
-                  reject('This email is already taken.')
-                } else {
-                  resolve()
-                }
-              }, 1500)
+                    $.ajax({
+                        type:'POST',
+                        url:'/PNP/Pubs/checking',
+                        data:{
+                            id:pub.attr("data-id"),
+                            stat:1,
+                            comment:''
+
+                        },
+                        success:function(data){
+                            addRibbon(pub)
+                            console.log(data);
+                            resolve(data[0]);
+                           
+                        }
+                         
+                    });
+            //         resolve(data);
+            // addRibbon(pub);  
+
             })
+
         }
          
     }).then(function(data){
         console.log("DATA ON APPROVE");
         console.log(pub.attr("data-id"));
         if(data){
-             swal("Good job!", "You clicked the button!", "success")
-            $.ajax({
-                type:'POST',
-                url:'/PNP/Pubs/checking',
-                data:{
-                    id:pub.attr("data-id"),
-                    stat:1,
-                    comment:''
-
-                },
-                sucess:function(data){
-                   swal("Good job!", "You clicked the button!", "success")
-                }
-            })
+            swal("Good job!", "You clicked the button!", "success");    
         }
+        
+        
     });
 });
 $(".pend").on('click',function(){

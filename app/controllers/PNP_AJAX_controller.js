@@ -19,7 +19,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		console.log(pubParam);
 		pnpModel.updatePublicityStatus(pubParam)
 				.then(data=>{
-					return res.send("1");			
+					res.jsonp([1]); 
 				})
 				.catch(err=>{
 					console.log(err);
