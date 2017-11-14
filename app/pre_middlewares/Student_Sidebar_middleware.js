@@ -6,7 +6,7 @@ module.exports = function(configuration, application, modules, database, queryFi
 
     const logger = modules.logger;
     const log_options = {
-        from: 'Student-Sidebar-Middleware'
+        from: 'Student-AccessControl-Middleware'
     };
 
     /**
@@ -23,6 +23,7 @@ module.exports = function(configuration, application, modules, database, queryFi
         logger.debug(`Extra-data contents: ${JSON.stringify(req.extra_data)}`, log_options);
         const user = req.session.user;
         if (!user || user.type !== 1 || req.method !== 'GET') {
+            logger.debug(`Not valid user`, log_options);
             return next();
         }
 
@@ -58,10 +59,12 @@ module.exports = function(configuration, application, modules, database, queryFi
                             accessibleFunctionalitiesList[functionalitySequence] = isAllowed;
                         }
                     }
+
                     logger.debug(`\tUser access control: ${JSON.stringify(accessControl)}`, log_options);
                     logger.debug(`\tAccessible functions list: ${JSON.stringify(accessibleFunctionalitiesList)}`, log_options);
                     req.extra_data.user.accessControl = accessControl;
                     req.extra_data.user.accessibleFunctionalitiesList = accessibleFunctionalitiesList;
+
                     return next();
                 }).catch(error => {
                     return next(error);
