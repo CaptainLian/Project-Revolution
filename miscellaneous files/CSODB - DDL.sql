@@ -1012,7 +1012,10 @@ INSERT INTO Functionality (id, name, category)
                           (211012, 'Sign Project Proposal as Documentations', 211),
                           (104013, 'Sign Project Proposal Phase - 1'        , 104),
                           (104014, 'Sign Project Proposal Phase - 2'        , 104),
-                          (211015, 'Force Sign Project Proposal'            , 211);
+                          (211015, 'Force Sign Project Proposal'            , 211),
+                          -- Publicity
+                          (210016, 'Submit Publicity Material'              , 210),
+                          (106017, 'Evaluate Publicity Material',           , 106);
 /*
 INSERT INTO Functionality (id, name, category)
                    VALUES (0, 'Time Setting', 0),

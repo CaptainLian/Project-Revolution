@@ -47,12 +47,6 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateActivity_AMT] = [{
     link: '/AMT/AssignActivity'
 }];
 
-//View pubs
-functionalitySidebars[FUNCTIONALITY_SEQUENCES.ViewPublicityMaterial] = [{
-    name: 'View Activity Publicities',
-    link: '/PNP/ViewPubs'
-}];
-
 //Evaluate Activity (OrgRes)
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateActivity_OrgRes] = [{
     name: 'Submit Activity Research Form',
@@ -71,12 +65,24 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.ModifyOrganizationalStructure] = [
     link: '/Organization/Officers'
 }];
 
-//Manage Organizations
-functionalitySidebars[FUNCTIONALITY_SEQUENCES.ManageOrganizations] = [{
-    name: 'Manage Organizations',
-    link: '/ORGRES/Manage/Organization'
+//View Publicities for Activity
+functionalitySidebars[FUNCTIONALITY_SEQUENCES.ViewPublicityMaterial] = [{
+    name: 'View Activity Publicities',
+    link: '/PNP/ViewPubs'
 }];
 
+//Submit Publicities for Activity
+functionalitySidebars[FUNCTIONALITY_SEQUENCES.SubmitPublicityMaterial] = [{
+    name: 'Submit Activity Publicity',
+    //TODO: actual URL
+    link: '/blank'
+}];
+
+//Evaluate Publicities for Activity
+functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluatePublicityMaterial] = [{
+    name: 'Evaluate Publicity Submissions',
+    link: '/PNP/Pubs/List'
+}];
 
 const accessibleRoutes = [];
 for(const functionality in functionalitySidebars){
