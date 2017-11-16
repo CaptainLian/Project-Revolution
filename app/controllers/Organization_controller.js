@@ -1873,20 +1873,22 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
             var gosmParam = {
-            gosmid : req.params.gosmid
+            gosmid : req.params.gosmid,
+            idNumber:req.session.user.idNumber
             }
             var gosmParam2 = {
                 gosmactivity : req.params.gosmid
             }
             database.task(t=>{
                     return t.batch([
-                            pnpModel.getPubsOfActivity(gosmParam,t),
+                            pnpModel.getMypubs(gosmParam,t),
                             pnpModel.getActivityDetailsforPubs(gosmParam,t),
                             gosmModel.getGOSMActivityProjectHeads(gosmParam2,t)
 
                         ])
                 }).then(pubs=>{
                         console.log(pubs[0]);
+                        console.log("pubs[0]");
                         renderData.pubs = pubs[0];
                         renderData.activities = pubs[1];
                         renderData.heads = pubs[2];
@@ -1956,7 +1958,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                                     }
                                     console.log(insertParam);
-                                        
+                    
+                req.files['pubs'].mv(path.join(dir2,filename))
                   return  pnpModel.insertActivityPublicity(insertParam,t)
                             .catch(err=>{
                                 console.log(err)

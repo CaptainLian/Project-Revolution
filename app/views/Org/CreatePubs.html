@@ -192,10 +192,11 @@
                              
                         </div>
                         <div class="white-box el-element-overlay .ribbon-vertical-l">
-                            <!--approved thumbnail-->
+
                             {%for pub in pubs%}
+
                                 <div class="col-md-4 el-card-item">
-                                    {% if pub.status ==1 %}
+                                    {% if pub.status == 1 %}
                                         <div class="ribbon ribbon-{{pub.id}} ribbon-vertical-l ribbon-success">
                                             <i class="fa fa-check-circle"></i>
                                         </div>
@@ -212,13 +213,9 @@
                                             <i class=""></i>
                                         </div>
                                     {% endif %}
-                                    <div class="el-card-avatar el-overlay-1 "> <img src="/pubs/{{pubs.submittedBy}}/{{pubs.filename}}" />
-                                        <div class="el-overlay">
-                                            <ul class="el-info">
-                                                <li><a class="btn default btn-outline image-popup-vertical-fit" href="/pubs/{{pubs.submittedBy}}/{{pubs.filename}}"><i class="icon-magnifier"></i></a></li>
-                                                <li><a class="btn default btn-outline" data-toggle="modal" href='#online-1'><i class="icon-link"></i></a></li>
-                                            </ul>
-                                        </div>
+                                    <div class="el-card-content el-overlay-1 "> 
+                                        <img src="/upload/pubs/{{pub.submittedBy}}/{{pub.filename}}" />
+                                         
                                     </div>
                                     <div class="el-card-content text-left">
                                         <h3 class="box-title">{{pub.description}}</h3>
