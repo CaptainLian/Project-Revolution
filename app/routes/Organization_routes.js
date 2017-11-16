@@ -44,6 +44,8 @@ module.exports = function(configuration, modules, router, controllers){
 
     //PNP
     router.get(`${base}/Publicity/list`, controllers.Organization_controller.viewPubs);
-    router.get(`${base}/Publicity/Create/:gosmid`, controllers.Organization_controller.viewPubs);
+    router.get(`${base}/Publicity/Create/:gosmid`, controllers.Organization_controller.viewPubsSpecific);
+    router.post(`${base}/Publicity/Insert`, controllers.Organization_controller.insertPubs);    
+
 
 };

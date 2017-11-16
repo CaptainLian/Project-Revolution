@@ -1,1 +1,338 @@
-CreatePubs.html
+{% extends '../template/CSO_master.html' %}
+{% import '../template/tags_macro.html' as tag %}
+
+{%block page_title%}CSO - View Publicity Materials{%-endblock%}
+
+{%block meta%}
+    {{super()}}
+    <meta data-name="csrf" data-token="{{csrfToken}}" />
+{%endblock%}
+
+
+{%block style%}
+    {{super()}}
+    <!-- Bootstrap Core CSS -->
+    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
+    {{tag.style('/plugins/bower_components/datatables/jquery.dataTables.min.css')}}
+    {{tag.style('/plugins/bower_components/nestable/nestable.css')}}
+    {{tag.style('https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css')}}
+    {{tag.style('https://cdnjs.cloudflare.com/ajax/libs/nestable2/1.5.0/jquery.nestable.min.CSS')}}
+
+{{tag.style('/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css')}}
+    <!-- Menu CSS -->
+    {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
+    <!-- animation CSS -->
+    {{tag.style('/css/animate.css')}}
+    <!--alerts CSS -->
+    {{tag.style('/plugins/bower_components/toast-master/css/jquery.toast.css')}}
+    {{tag.style('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.css')}}
+    <!-- Custom CSS -->
+    {{tag.style('/plugins/bower_components/custom-select/custom-select.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-select/bootstrap-select.min.css')}}
+    {{tag.style('/css/style.css')}}
+    {{tag.style('/css/doms.css')}}
+    {{tag.style('/css/custom.css')}}
+    <!-- color CSS -->
+    
+    {{tag.style('/css/colors.css')}}
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- IMPORTANT -->
+    <style type="text/css">
+        .remove:{
+            color: yellow
+        }
+        .fixed {
+            width: 500px;
+            position: fixed;
+            bottom: 0; 
+            right: 0;
+            /*transform: translate(-50%,0);*/
+
+            margin: 0px;
+            padding: 0px;
+            z-index:2 
+
+        }
+        .sweet-alert fieldset {
+            
+            display: none;
+        }
+        .tabs-style-linebox nav a:hover{
+            color: #00c292; 
+            text-decoration-color:#00c292 !important;
+        }
+        a:focus::after, 
+        .tabs-style-linebox nav a:hover::after, 
+        .tabs-style-linebox nav li.tab-current a::after{
+            background: #00c292;
+            text-decoration-color:#00c292 !important;
+        }
+        .tabs-style-linebox nav a:focus::after, 
+        .tabs-style-linebox nav a:hover::after, 
+        .tabs-style-linebox nav li.tab-current a::after{
+            background: #00c292;
+            text-decoration-color:#00c292 !important;
+        }
+        .custom-class:focus { overflow: hidden; }
+    </style>
+     {{tag.style('/plugins/bower_components/custom-select/custom-select.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-select/bootstrap-select.min.css')}}
+{%endblock%}
+    
+{%block defer_script%}
+    {{super()}}
+    <!-- jQuery -->
+    {{tag.javascript('https://code.jquery.com/jquery-3.2.1.min.js', true)}}
+    <!-- Bootstrap Core JavaScript -->
+    {{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
+    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
+    <!-- Menu Plugin JavaScript -->
+    {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
+    <!--slimscroll JavaScript -->
+    {{tag.javascript('/js/jquery.slimscroll.js', true)}}
+    <!--Wave Effects -->
+    {{tag.javascript('/js/waves.js', true)}}
+    <!-- Custom Theme JavaScript -->
+    {{tag.javascript('/js/custom.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.js', true)}}
+
+
+
+       {{tag.javascript('/plugins/bower_components/custom-select/custom-select.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-select/bootstrap-select.min.js', true)}}
+
+
+
+    {{tag.javascript('/js/cbpFWTabs.js', true)}}
+    <!-- tabs-->
+    {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
+    <!-- Sweet-Alert  -->
+     {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js', true)}}
+    <!--Style Switcher -->
+    {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
+
+    {{tag.javascript('/plugins/bower_components/toast-master/js/jquery.toast.js', true)}}
+
+     {{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
+
+    {{tag.javascript('/js/Organization/createPubs.js', true)}}
+{%endblock%}
+
+{%block content%}
+<div id="doc" class="row white-box">
+    <div class="col-md-4 col-xs-12">
+        <div class="white-box">
+            <div class="text-center">
+                <h1>{{activities.strategies}}</h1> 
+            </div>
+            <p class="text-center">{{activities.orgname}}</p>
+            <div class="row" style="margin-top: 10px">
+                <button id='addButton' class="btn btn-outline-info btn-md col-md-8 offset-md-2" data-toggle="modal" data-target="#addModal">
+                    <i class="fa fa-plus" data-toggle="tooltip" title="add publicity material"></i> &nbsp; Add Publicity Material
+                </button> 
+            </div>
+            <div class="user-btm-box">
+                <!-- .row -->
+                <div class="row text-center ">
+                    <div class="col-md-6 b-r">
+                        <strong>Type</strong>
+                        <p>{{activities.typename}}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <strong>Nature</strong>
+                        <p>{{activities.natname }}</p>
+                    </div>
+                </div>
+                <!-- /.row -->
+                <hr>
+                <!-- .row -->
+                <div class="row text-center m-t-10">
+                    <div class="col-md-6 b-r">
+                        <strong>Venue</strong>
+                        <p>{{activities.activityvenue}}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <strong>ENMP / EMP</strong>
+                        <p>{{activities.enmp}} / {{activities.enp}}</p>
+                    </div>
+                </div>
+                <!-- /.row -->
+                <hr>
+                <!-- .row -->
+                <div class="row text-center m-t-10">
+                    <div class="col-md-12">
+                        <p><strong>Project Heads</strong></p>
+                        {% for head in heads%}
+                            <p>{{head.firstname}} {{head.middlename}} {{head.lastrname}}</p>
+                            <p>{{head.contactnumber}}</p>
+                        {%  endfor %}
+                        
+                       
+                    </div>
+                </div>
+                <hr>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8 col-xs-12" style="border-left: rgba(120,130,140,13) solid 1px">
+        <div class="white-box"  style="padding: 25px 0px 0px 0px">
+            <div class="margin-2">
+                <section class="content-wrap text-center">
+                    <div class="row">
+                        <h4 class="text-left">Online Publicity Materials</h4>
+                        <div>
+                             
+                        </div>
+                        <div class="white-box el-element-overlay .ribbon-vertical-l">
+                            <!--approved thumbnail-->
+                            {%for pub in pubs%}
+                                <div class="col-md-4 el-card-item">
+                                    {% if pub.status ==1 %}
+                                        <div class="ribbon ribbon-{{pub.id}} ribbon-vertical-l ribbon-success">
+                                            <i class="fa fa-check-circle"></i>
+                                        </div>
+                                    {% elif pub.status ==2 %}
+                                        <div class="ribbon ribbon-{{pub.id}} ribbon-vertical-l ribbon-warning">
+                                            <i class="fa fa-pause-circle"></i>
+                                        </div>
+                                    {% elif pub.status ==3 %}
+                                        <div class="ribbon ribbon-{{pub.id}} ribbon-vertical-l ribbon-danger">
+                                            <i class="fa fa-times-circle"></i>
+                                        </div>
+                                    {% else %}
+                                        <div class="ribbon ribbon-{{pub.id}} ribbon-vertical-l ">
+                                            <i class=""></i>
+                                        </div>
+                                    {% endif %}
+                                    <div class="el-card-avatar el-overlay-1 "> <img src="/pubs/{{pubs.submittedBy}}/{{pubs.filename}}" />
+                                        <div class="el-overlay">
+                                            <ul class="el-info">
+                                                <li><a class="btn default btn-outline image-popup-vertical-fit" href="/pubs/{{pubs.submittedBy}}/{{pubs.filename}}"><i class="icon-magnifier"></i></a></li>
+                                                <li><a class="btn default btn-outline" data-toggle="modal" href='#online-1'><i class="icon-link"></i></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="el-card-content text-left">
+                                        <h3 class="box-title">{{pub.description}}</h3>
+                                        
+                                        <br />
+                                    </div>
+                                </div>
+                            {%endfor%}
+                            
+                           
+                        </div>
+                    </div>
+                    <div class="row">
+                        <h4 class="text-left">Printed Publicity Materials</h4>
+                             
+                    </div>
+                </section>
+            </div>
+            <!-- /content -->
+        </div>
+    </div>
+</div>
+{%endblock%}
+
+{%block post_content%}
+<form action="/Organization/Publicity/Insert" encType="multipart/form-data"    method="POST"   >
+
+
+ <div class="modal fade" id="addModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header ">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <!--
+                                -->
+                                <h4 class="modal-title custom-modal-title text-center">Add Publicity Material</h4>
+                            </div>
+                            <div class="modal-body">
+                                
+                                 
+                                        <div class="form-group row">
+                                            <label class="control-label col-sm-4">Mode of Distribution:</label>
+                                            <div class="col-sm-8 text-center">
+                                                <div class="radio-list">
+                                                    <label class="radio-inline">
+                                                        <input class="ModeDist" checked="" id="online" name="optionsRadios2" value="0" type="radio"> Online </label>
+                                                    <label class="radio-inline">
+                                                        <input class="ModeDist" id="printed" name="optionsRadios2" value="1" type="radio"> Printed </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="control-label col-sm-4">Title:</label>
+                                            <div class="col-sm-8 text-center">
+                                                <input id="title" class="form-control" type="" name="title"></input>
+                                            </div>
+                                        </div>
+                                        <div id="pubMat" class="date pubmat form-group row" style="display:none">
+                                            <label for="" class="col-sm-4 control-label col-form-label">Pub Material</label>
+                                            <div class="col-sm-8">
+                                                <select name="pub-mat" class="form-control">
+                                                    <option value="0" selected="selected" disabled="">-- Select One --</option>
+                                                    <option value="">Tarpaulin</option>
+                                                    <option value="">Banderitas</option>
+                                                    <option value="">Ticket</option>
+                                                </select>
+                                            </div>
+                                        </div>    
+                                        <div class="date pubmat form-group row">
+                                            <label for="" class="col-sm-4 control-label col-form-label">Posting Date:</label>
+                                            <div class="col-sm-8">
+                                                    <div class="input-group ">
+                                                        <input readonly="" class="form-control mydatepicker" name="posting-date"  placeholder="mm/dd/yyyy" type="text"> <span class="input-group-addon"><i class="icon-calender"></i></span>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group row">
+                                            <label for="inputEmail3" class="col-sm-4 control-label col-form-label">Upload a photo</label>
+                                            <div class="col-sm-8">
+                                                <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                    <div class="form-control" data-trigger="fileinput">
+                                                        <i class="glyphicon glyphicon-file fileinput-exists"></i>
+                                                        <span id="filename" class="fileinput-filename" style="text-overflow: ellipsis;"></span>
+                                                    </div>
+                                                    <span class="input-group-addon btn btn-default btn-file"> 
+                                                    <span class="fileinput-new ">Select file</span>
+                                                    <span class="fileinput-exists">Change</span>
+                                                    <input type="file" name="pubs" id="file">
+                                                    </span>
+                                                    <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        
+                                <input type="hidden" name="_csrf" value="{{csrfToken}}">
+                                <input type="hidden" name="gosmid" value="{{gosmid}}">
+                            </div>
+                            <div class="modal-footer text-center">
+                                <button  class="btn btn-default" type="button" data-dismiss="modal">Close</button>
+                                <button  class="btn btn-info" id="submit" type="submit">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+<!-- /modals -->
+</form>
+{%endblock%}
+
+
+
+    
+
+        
+
+

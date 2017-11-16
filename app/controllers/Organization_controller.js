@@ -1868,7 +1868,65 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             
             
         },
+        viewPubsSpecific: (req, res)=>{
+            const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
+            var gosmParam = {
+            gosmid : req.params.gosmid
+            }
+            var gosmParam2 = {
+                gosmactivity : req.params.gosmid
+            }
+            database.task(t=>{
+                    return t.batch([
+                            pnpModel.getPubsOfActivity(gosmParam,t),
+                            pnpModel.getActivityDetailsforPubs(gosmParam,t),
+                            gosmModel.getGOSMActivityProjectHeads(gosmParam2,t)
+
+                        ])
+                }).then(pubs=>{
+                        console.log(pubs[0]);
+                        renderData.pubs = pubs[0];
+                        renderData.activities = pubs[1];
+                        renderData.heads = pubs[2];
+                        renderData.gosmid = req.params.gosmid
+                          return res.render('Org/CreatePubs',renderData);
+                    }).catch(err=>{
+                        console.log("ERROR VIEW PUB");
+                        console.log(err);   
+                    })
+          
+            
+            
+        },
         insertPubs: (req, res)=>{
+
+             var dir3 =__dirname+'/../assets/upload/';
+             var dir3 = path.join (__dirname,'..','assets','upload');
+
+            //CHECK IF DIRECTOR EXIST
+            if (!fs.existsSync(dir3)){
+                fs.mkdirSync(dir3);
+            }
+            var dir =__dirname+'/../assets/upload/pubs/';
+            var dir = path.join (__dirname,'..','assets','upload','pubs');
+            //CHECK IF DIRECTOR EXIST
+            if (!fs.existsSync(dir)){
+                fs.mkdirSync(dir);
+            }
+            var dir2 = __dirname+'/../assets/upload/pubs/'+req.session.user.idNumber+'/';
+            var dir2 = path.join (__dirname,'..','assets','upload','pubs',req.session.user.idNumber+"");
+            //CHECK IF DIRECTOR EXIST
+            if (!fs.existsSync(dir2)){
+                fs.mkdirSync(dir2);
+            }
+ 
+
+            dir2 = path.normalize(dir2);
+            console.log("req.files");
+            console.log(req.body);
+
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
@@ -1876,30 +1934,44 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             var gParam = {
                 gosmid : req.body.gosmid
             };
-            database.task(t1=>{
-                return pnpModel.getSpecificPubSeq(gParam,t)
-                               .then(data=>{
-                                    //FOR INSERT
-                                    // var insertParam = {
-                                    //     gosmid: req.body.gosmid,
-                                    //     sid:,
-                                    //     mod:,
-                                    //     tpd:,
-                                    //     sb: req.session.user.id,
-                                    //     ds:,
-                                    //     status:,
-                                    //     filename:,
-                                    //     filenameToShow:
+            console.log(req.body);
+            console.log(req.files);
+            pnpModel.getSpecificPubSeq(gParam).then(data=>{
+                 database.task(t=>{
+                
+                var filename = cuid() + path.extname(req.files['pubs'].name);
+                var filenameTS = req.files['pubs'].name;
+                
+                console.log(data)  
+                var insertParam = {
+                                    gosmid: req.body.gosmid,
+                                    sid: data.seq+1,
+                                    mod: req.body.optionRadios2,
+                                        tpd: req.body['posting-date'],
+                                        sb: req.session.user.id,
+                                        // ds:,
+                                        status:0,
+                                        filename: filename,
+                                        filenameToShow: filenameTS
 
-                                    // }
-                                    
-                                    // pnpModel.
-
-                               })
-            }).then(result => {
-                // console.logr()
-                return res.render('Org/Publist',renderData);
-            })
+                                    }
+                                    console.log(insertParam);
+                                        
+                  return  pnpModel.insertActivityPublicity(insertParam,t)
+                            .catch(err=>{
+                                console.log(err)
+                                console.log("err")
+                            })
+                }).then(result => {
+                    // console.logr()
+                    res.json({status:1});
+                }).catch(err=>{
+                    console.log("rrD")
+                    res.json({status:1});
+                    console.log(err)
+                })
+            });
+           
             
             
         },
