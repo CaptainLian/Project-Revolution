@@ -38,5 +38,9 @@ module.exports = function(configuration, modules, db, queryFiles) {
         getSpecificPubSeq:function (param, connection = db) {
             return connection.one(getSpecificPubSeq, param);
         },
+
+
+
+        
 	};
 }

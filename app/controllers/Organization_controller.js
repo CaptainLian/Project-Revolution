@@ -1852,8 +1852,20 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
-
-            return res.render('Org/Publist',renderData);
+            var dbParam = {
+                idNumber: req.session.user.idNumber
+            }
+            projectProposalModel.getPPRToCreatePubsList(dbParam)
+                                .then(data=>{
+                                    console.log("DATA");
+                                    console.log(data);
+                                    renderData.activities = data;
+                                    return res.render('Org/Publist',renderData);
+                                }).catch(err=>{
+                                    console.log("ERROR");
+                                    console.log(err);
+                                })
+            
             
         },
         insertPubs: (req, res)=>{
@@ -1885,6 +1897,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                                })
             }).then(result => {
+                // console.logr()
                 return res.render('Org/Publist',renderData);
             })
             
