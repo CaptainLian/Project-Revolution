@@ -4,7 +4,8 @@ module.exports = function (configuration, modules, router, controllers, models, 
 	router.get('/ORGRES/Manage/Time',controllers.ORGRES_controller.viewManageTime);
 	router.get('/ORGRES/Manage/Organization',controllers.ORGRES_controller.viewManageOrg);
 
-	router.get('/ORGRES/SubmitActivityReearchForm', controllers.ORGRES_controller.viewSubmitResarchActivityForm);
+	router.get('/ORGRES/SubmitActivityResearchForm', controllers.ORGRES_controller.viewSubmitResearchActivityForm);
+	router.post('/ORGRES/SubmitResearchForm', controllers.ORGRES_controller.submitResearchActivityForm);
 	router.post('/orgres/time/submit',controllers.ORGRES_controller.submitTime);
 
 };
