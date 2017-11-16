@@ -12,6 +12,24 @@ $trigger$
     END;
 $trigger$ LANGUAGE plpgsql;
 
+/**
+$1 is the NEW data
+NEW.GOSMActivity should be $1.GOSMActivity when using this function
+*/
+CREATE OR REPLACE FUNCTION "trigger_before_insert_increment_sequence"(/* "param_TableName" TEXT, "param_TableAcronym" TEXT, "param_Where" TEXT*/)
+RETURNS trigger AS
+$trigger$
+    BEGIN
+	EXECUTE format ('SELECT COALESCE(MAX(sequence) + 1, 1)
+	                   FROM %I %I
+	                  WHERE %s', TG_ARGV[0], TG_ARGV[1], TG_ARGV[2])
+          INTO STRICT NEW."sequence"
+	        USING NEW;
+	  
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+
 /*
     Helpful functions
 */
@@ -139,10 +157,7 @@ $function$
                         AND oo.role/10000 = organizationID;
     END;
 $function$ STABLE LANGUAGE plpgsql;
-/*
-(104013, 'Sign Project Proposal Phase - 1'        , 104),
-(104014, 'Sign Project Proposal Phase - 2'        , 104),
- */
+
  CREATE OR REPLACE FUNCTION cso_get_first_phase_signatories()
  RETURNS TABLE (
      idNumber INTEGER
@@ -1624,18 +1639,19 @@ DROP TABLE IF EXISTS SignatoryType CASCADE;
 CREATE TABLE SignatoryType (
 	id SMALLINT,
 	name VARCHAR(45) NOT NULL,
+    "lineup" SMALLINT NOT NULL,
 
 	PRIMARY KEY (id)
 );
-INSERT INTO SignatoryType (id, name)
-                   VALUES ( 0, 'Project Head'),
-                          ( 1, 'Treasurer/Finance Officer'), -- VP
-                          ( 2, 'Immediate Superior'), -- 1 step higher
-                          ( 3, 'President'),
-                          ( 4, 'Faculty Adviser'), --
-                          ( 5, 'Documentation Officer'), -- VP
-                          ( 6, 'APS - AVC'), -- Pwedeng Madami
-                          ( 7, 'APS -  VC'); --
+INSERT INTO SignatoryType (id, name, "lineup")
+                   VALUES ( 0, 'Project Head', 0),
+                          ( 1, 'Finance Officer', 10), -- VP
+                          ( 2, 'Immediate Superior', 20), -- 1 step higher
+                          ( 3, 'President', 30),
+                          ( 4, 'Faculty Adviser', 40), --
+                          ( 5, 'Documentation Officer', 50), -- VP
+                          ( 6, 'APS - AVC', 60), -- Pwedeng Madami
+                          ( 7, 'APS -  VC', 70); --
 
 DROP TABLE IF EXISTS ProjectProposalSignatory CASCADE;
 CREATE TABLE ProjectProposalSignatory (
@@ -1906,9 +1922,23 @@ CREATE TABLE AMTActivityEvaluation (
 -- END FORMS
 -- COMMIT;
   /* OrgRes */
+DROP TABLE IF EXISTS "ARFOrganizationPosition" CASCADE;
+CREATE TABLE "ARFOrganizationPosition" (
+    "id" SMALLINT,
+    "name" VARCHAR(45),
+
+    PRIMARY KEY("id")
+);
+INSERT INTO "ARFOrganizationPosition" ("id", "name")
+                               VALUES (   0, 'Officer'),
+                                      (   1, 'Member'),
+                                      (   2, 'Non-member');
+
 DROP TABLE IF EXISTS "ActivityResearchForm" CASCADE;
 CREATE TABLE "ActivityResearchForm" (
   "GOSMActivity" INTEGER REFERENCES ProjectProposal(GOSMActivity),
+  "sequence" INTEGER,
+  "positionInOrganization" SMALLINT REFERENCES "ARFOrganizationPosition"("id"),
   "IUTPOTA" SMALLINT,
   "TASMI" SMALLINT,
   "IFIDTA" SMALLINT,
@@ -1919,8 +1949,12 @@ CREATE TABLE "ActivityResearchForm" (
   "EFFA" TEXT,
   "dateSubmitted" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-  PRIMARY KEY("GOSMActivity")
+  PRIMARY KEY("GOSMActivity", "sequence")
 );
+CREATE TRIGGER "before_insert_ActivityResearchForm_sequence"
+    BEFORE INSERT ON "ActivityResearchForm"
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_before_insert_increment_sequence"('ActivityResearchForm', 'arf', 'arf."GOSMActivity" = $1."GOSMActivity"');
 
 /* ADM */
   /* Post Acts */
