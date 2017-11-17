@@ -16,8 +16,9 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const updatePublicityStatus = queryFiles.updatePublicityStatus;
     const getMypubs = queryFiles.getMypubs;
     const getPubDetails = queryFiles.getPubDetails;
+    const updatePubsToPend = queryFiles.updatePubsToPend;
 
-
+    
 	return{
 		getUnapprovePubsToCheck:function ( connection = db) {
             return connection.any(getUnapprovePubsToCheck);
@@ -45,6 +46,9 @@ module.exports = function(configuration, modules, db, queryFiles) {
         },
         getSpecificPubSeq:function (param, connection = db) {
             return connection.one(getSpecificPubSeq, param);
+        },
+        updatePubsToPend:function (param, connection = db) {
+            return connection.none(updatePubsToPend, param);
         },
 
 

@@ -1,4 +1,4 @@
- 
+
 
 
  $("#file").on('change',function(){
@@ -25,8 +25,10 @@ $('.mydatepicker, #datepicker').datepicker({
 				    $("#filename2").text(filename);
 				});
 $(document).on('submit','#form-pend',function(e){
-	e.preventDefault();
 	var formData = new FormData($(this)[0]);
+	
+	e.preventDefault();
+	
 	formData.append('_csrf',$('meta[data-name="csrf"]').attr("data-token"));
 	var submit = new Promise(function (resolve, reject) {
 								$.ajax({
@@ -114,9 +116,9 @@ function empty(){
 	$(".mydatepicker").datepicker('update', new Date())
 	$("#file").val("");
 } 
-$("form").submit(function(e){
+$(document).on('submit','#form1',function(e){
 	console.log("ASD");
-var formData = new FormData($(this)[0]);
+	var formData = new FormData($(this)[0]);
   	// formDataSerialized.append('name',"asd");
   	
 	e.preventDefault();

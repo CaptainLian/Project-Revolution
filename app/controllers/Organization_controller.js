@@ -1951,10 +1951,15 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 var filenameTS = req.files['pubs'].name;
                 
                 console.log(data)  
+                if(req.body['optionsRadios2'] != 'null'){
+                    var mod = req.body['optionsRadios2'];
+                }else{
+                    var mod = 0;
+                }
                 var insertParam = {
                                     gosmid: req.body.gosmid,
                                     sid: data.seq+1,
-                                    mod: req.body['optionsRadios2'],
+                                    mod: mod,
                                     tpd: req.body['posting-date'],
                                     sb: req.session.user.idNumber,
                                     ds:req.body.title,
@@ -2010,10 +2015,71 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     })
         },
         reuploadPubs:(req, res)=>{
-            console.log(req.files);
-            console.log(req.body);
-        }
+            var dir3 =__dirname+'/../assets/upload/';
+            var dir3 = path.join (__dirname,'..','assets','upload');
 
+            //CHECK IF DIRECTOR EXIST
+            if (!fs.existsSync(dir3)){
+                fs.mkdirSync(dir3);
+            }
+            var dir =__dirname+'/../assets/upload/pubs/';
+            var dir = path.join (__dirname,'..','assets','upload','pubs');
+            //CHECK IF DIRECTOR EXIST
+            if (!fs.existsSync(dir)){
+                fs.mkdirSync(dir);
+            }
+            var dir2 = __dirname+'/../assets/upload/pubs/'+req.session.user.idNumber+'/';
+            var dir2 = path.join (__dirname,'..','assets','upload','pubs',req.session.user.idNumber+"");
+            //CHECK IF DIRECTOR EXIST
+            if (!fs.existsSync(dir2)){
+                fs.mkdirSync(dir2);
+            }
+ 
+
+            dir2 = path.normalize(dir2);
+            database.task(t=>{
+                var dbParam = {
+                    id: req.body.pubsid
+                }
+                return t.batch([
+                        //GINAGAWA NG UPDATE PUBS TO PEND NISESET NIYA YUNG PUBS SA OLD VERSION NA STATUS
+                         pnpModel.updatePubsToPend(dbParam,t),
+                         pnpModel.getPubDetails(dbParam,t)
+                         ]);
+                
+            }).then(data=>{
+                console.log("DATA DOMS");
+                console.log(data);
+                var filename = cuid() + path.extname(req.files['file'].name);
+                var filenameTS = req.files['file'].name;
+                req.files['file'].mv(path.join(dir2,filename))
+                 var insertParam = {
+                                    gosmid: data[1].GOSMActivity,
+                                    sid: data.seq+1,
+                                    mod: data[1].modeOfDistribution,
+                                    tpd: req.body['posting-date'],
+                                    sb: req.session.user.idNumber,
+                                    ds:data[1].description,
+                                    status:0,
+                                    filename: filename,
+                                    filenameToShow: filenameTS
+
+                                    }
+                console.log("DATA DOMS");
+                console.log(data[1]);
+                pnpModel.insertActivityPublicity(insertParam)
+                        .then(data=>{
+                             res.json({status:1});
+                         }).catch(err=>{
+                             res.json({status:0});
+                             console.log(err);
+                         })
+
+            }).catch(err=>{
+                console.log(err);
+            })
+
+        }
 
 
     };
