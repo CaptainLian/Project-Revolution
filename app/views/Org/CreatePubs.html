@@ -19,13 +19,16 @@
     {{tag.style('https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css')}}
     {{tag.style('https://cdnjs.cloudflare.com/ajax/libs/nestable2/1.5.0/jquery.nestable.min.CSS')}}
 
+    {{tag.style('/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css')}}
     <!-- Menu CSS -->
     {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
     <!-- animation CSS -->
     {{tag.style('/css/animate.css')}}
     <!--alerts CSS -->
+    {{tag.style('/plugins/bower_components/toast-master/css/jquery.toast.css')}}
     {{tag.style('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.css')}}
     <!-- Custom CSS -->
+    
     {{tag.style('/plugins/bower_components/Magnific-Popup-master/dist/magnific-popup.css')}}
     {{tag.style('/plugins/bower_components/custom-select/custom-select.css')}}
     {{tag.style('/plugins/bower_components/bootstrap-select/bootstrap-select.min.css')}}
@@ -33,6 +36,7 @@
     {{tag.style('/css/doms.css')}}
     {{tag.style('/css/custom.css')}}
     <!-- color CSS -->
+    
     {{tag.style('/css/colors.css')}}
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -43,6 +47,7 @@
     <![endif]-->
     <!-- IMPORTANT -->
     <style type="text/css">
+
         .remove:{
             color: yellow
         }
@@ -100,6 +105,9 @@
     {{tag.javascript('/js/waves.js', true)}}
     <!-- Custom Theme JavaScript -->
     {{tag.javascript('/js/custom.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.js', true)}}
+
+
 
        {{tag.javascript('/plugins/bower_components/custom-select/custom-select.min.js', true)}}
     {{tag.javascript('/plugins/bower_components/bootstrap-select/bootstrap-select.min.js', true)}}
@@ -107,21 +115,20 @@
 
 
     {{tag.javascript('/js/cbpFWTabs.js', true)}}
-    <!-- tabs-->
-
+       
+    {{tag.javascript('/plugins/bower_components/Magnific-Popup-master/dist/jquery.magnific-popup.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/Magnific-Popup-master/dist/jquery.magnific-popup-init.js', true)}}
     {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
     <!-- Sweet-Alert  -->
      {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js', true)}}
     <!--Style Switcher -->
     {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
 
-    {{tag.javascript('/plugins/bower_components/sweetalert/jquery.sweet-alert.custom.js', true)}}
+    {{tag.javascript('/plugins/bower_components/toast-master/js/jquery.toast.js', true)}}
 
-{{tag.javascript('/plugins/bower_components/Magnific-Popup-master/dist/jquery.magnific-popup.min.js', true)}}
-    {{tag.javascript('/plugins/bower_components/Magnific-Popup-master/dist/jquery.magnific-popup-init.js', true)}}
      {{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
 
-    {{tag.javascript('/js/PNP/ViewPubs.js', true)}}
+    {{tag.javascript('/js/Organization/createPubs.js', true)}}
 {%endblock%}
 
 {%block content%}
@@ -132,6 +139,11 @@
                 <h1>{{activities.strategies}}</h1> 
             </div>
             <p class="text-center">{{activities.orgname}}</p>
+            <div class="row" style="margin-top: 10px">
+                <button id='addButton' class="btn btn-outline-info btn-md col-md-8 offset-md-2" data-toggle="modal" data-target="#addModal">
+                    <i class="fa fa-plus" data-toggle="tooltip" title="add publicity material"></i> &nbsp; Add Publicity Material
+                </button> 
+            </div>
             <div class="user-btm-box">
                 <!-- .row -->
                 <div class="row text-center ">
@@ -185,11 +197,11 @@
                              
                         </div>
                         <div class="white-box el-element-overlay .ribbon-vertical-l">
-                            <!--approved thumbnail-->
+
                             {%for pub in pubs%}
-                                    
+
                                 <div class="col-md-4 el-card-item">
-                                    {% if pub.status ==1 %}
+                                    {% if pub.status == 1 %}
                                         <div class="ribbon ribbon-{{pub.id}} ribbon-vertical-l ribbon-success">
                                             <i class="fa fa-check-circle"></i>
                                         </div>
@@ -206,34 +218,38 @@
                                             <i class=""></i>
                                         </div>
                                     {% endif %}
-                                    <div class="el-card-avatar el-overlay-1 "> <img src="/upload/pubs/{{pub.submittedBy}}/{{pub.filename}}" />
+                                    <div class="el-card-content el-overlay-1 "> 
+                                        <img src="/upload/pubs/{{pub.submittedBy}}/{{pub.filename}}" />
                                         <div class="el-overlay">
-                                            <ul class="el-info">
-                                                <li><a class="btn default btn-outline image-popup-vertical-fit" href="/upload/pubs/{{pub.submittedBy}}/{{pub.filename}}"><i class="icon-magnifier"></i></a></li>
-                                                <li><a class="btn default btn-outline" data-toggle="modal" href='#online-1'><i class="icon-link"></i></a></li>
-                                            </ul>
-                                        </div>
+                                        <ul class="el-info">
+                                            <li><a class="btn default btn-outline image-popup-vertical-fit" href="/upload/pubs/{{pub.submittedBy}}/{{pub.filename}}"><i class="icon-magnifier"></i></a></li>
+                                            {% if pub.status == 1 %}
+                                            <li><a class="btn default btn-outline modal-desc"  data-id="{{pub.id}}"><i class="icon-link"></i></a></li>
+                                            {% elif pub.status == 3 %}
+                                            <li><a class="btn default btn-outline modal-desc"  data-id="{{pub.id}}"><i class="icon-link"></i></a></li>
+                                            {% elif pub.status == 2 %}
+                                            <li><a class="btn default btn-outline modal-reupload"  data-id="{{pub.id}}"><i class="icon-link"></i></a></li>
+                                            {%endif%}
+
+                                        </ul>
+                                    </div>
+                                         
                                     </div>
                                     <div class="el-card-content text-left">
                                         <h3 class="box-title">{{pub.description}}</h3>
-                                        <div class="col-md-12 text-center actions" style="visibility: hidden;">
-                                            <div class="btn-group" role="group" aria-label="Basic example">
-                                                <button type="button" data-id="{{pub.id}}" class="btn btn-success approve" data-toggle="tooltip" data-original-title="Approve Publicity Material"><i class="fa fa-check"></i></button>
-                                                <button type="button" data-id="{{pub.id}}" class="btn btn-warning pend" data-toggle="tooltip" data-original-title="Pend Publicity Material"><i class="fa fa-history"></i></button>
-                                                <button type="button" data-id="{{pub.id}}" class="btn btn-danger deny" data-toggle="tooltip" data-original-title="Deny Publicity Material"><i class="fa fa-times"></i></button>
-                                            </div>
-                                        </div>
+                                        
                                         <br />
                                     </div>
                                 </div>
                             {%endfor%}
                             
-                            
+                           
+                        </div>
                     </div>
                     <div class="row">
                         <h4 class="text-left">Printed Publicity Materials</h4>
-                            
-                        </div>
+                             
+                    </div>
                 </section>
             </div>
             <!-- /content -->
@@ -243,7 +259,8 @@
 {%endblock%}
 
 {%block post_content%}
-<!-- Sample Modal for online publicity materials-->
+<form action="/Organization/Publicity/Insert" encType="multipart/form-data"    method="POST"   >
+
 <div class="modal fade" id="online-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -292,175 +309,86 @@
         </div>
     </div>
 </div>
-
-<div class="modal fade" id="online-2">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header bg-warning">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <!--
-                    label-success = approved
-                    label-danger = denied
-                    label-warning = pended
-                -->
-                <h4 class="modal-title custom-modal-title">Cover Photo </h4>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group row">
-                            <label class="control-label col-md-4">Mode of Distribution:</label>
-                            <div class="col-md-8">
-                                <p class="control-label">Online</p>
+ <div class="modal fade" id="addModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header ">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <!--
+                                -->
+                                <h4 class="modal-title custom-modal-title text-center">Add Publicity Material</h4>
                             </div>
-                            <label class="control-label col-md-4">Target Posting Date:</label>
-                            <div class="col-md-8">
-                                <p class="control-label">September 21, 2004 </p>
+                            <div class="modal-body">
+                                
+                                 
+                                        <div class="form-group row">
+                                            <label class="control-label col-sm-4">Mode of Distribution:</label>
+                                            <div class="col-sm-8 text-center">
+                                                <div class="radio-list">
+                                                    <label class="radio-inline">
+                                                        <input class="ModeDist" checked="" id="online" name="optionsRadios2" value="0" type="radio"> Online </label>
+                                                    <label class="radio-inline">
+                                                        <input class="ModeDist" id="printed" name="optionsRadios2" value="1" type="radio"> Printed </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="control-label col-sm-4">Title:</label>
+                                            <div class="col-sm-8 text-center">
+                                                <input id="title" class="form-control" type="" name="title"></input>
+                                            </div>
+                                        </div>
+                                        <div id="pubMat" class="date pubmat form-group row" style="display:none">
+                                            <label for="" class="col-sm-4 control-label col-form-label">Pub Material</label>
+                                            <div class="col-sm-8">
+                                                <select name="pub-mat" class="form-control">
+                                                    <option value="0" selected="selected" disabled="">-- Select One --</option>
+                                                    <option value="">Tarpaulin</option>
+                                                    <option value="">Banderitas</option>
+                                                    <option value="">Ticket</option>
+                                                </select>
+                                            </div>
+                                        </div>    
+                                        <div class="date pubmat form-group row">
+                                            <label for="" class="col-sm-4 control-label col-form-label">Posting Date:</label>
+                                            <div class="col-sm-8">
+                                                    <div class="input-group ">
+                                                        <input data-date-format='yyyy-mm-dd' readonly="" class="form-control mydatepicker" name="posting-date"  placeholder="mm/dd/yyyy" type="text"> <span class="input-group-addon"><i class="icon-calender"></i></span>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group row">
+                                            <label for="inputEmail3" class="col-sm-4 control-label col-form-label">Upload a photo</label>
+                                            <div class="col-sm-8">
+                                                <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                    <div class="form-control" data-trigger="fileinput">
+                                                        <i class="glyphicon glyphicon-file fileinput-exists"></i>
+                                                        <span id="filename" class="fileinput-filename" style="text-overflow: ellipsis;"></span>
+                                                    </div>
+                                                    <span class="input-group-addon btn btn-default btn-file"> 
+                                                    <span class="fileinput-new ">Select file</span>
+                                                    <span class="fileinput-exists">Change</span>
+                                                    <input type="file" name="pubs" id="file">
+                                                    </span>
+                                                    <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        
+                                <input type="hidden" name="_csrf" value="{{csrfToken}}">
+                                <input type="hidden" name="gosmid" value="{{gosmid}}">
                             </div>
-                            <label class="control-label col-md-4">Status</label>
-                            <div class="col-md-8">
-                                <p class="control-label">Pended</p>
-                            </div>
-                            <label class="control-label col-md-4">Reason:</label>
-                            <div class="col-md-8">
-                                <p class="control-label">Missing CSO logo</p>
-                            </div>
-                            <label class="control-label col-md-4">Checked by</label>
-                            <div class="col-md-8">
-                                <p class="control-label">Dominique Dagunton</p>
-                            </div>
-                            <label class="control-label col-md-4">Date Checked</label>
-                            <div class="col-md-8">
-                                <p class="control-label">September 17, 2017</p>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                    <label class="col-sm-12">Upload a revision</label>
-                    <div class="col-sm-12">
-                        <div class="fileinput fileinput-new input-group" data-provides="fileinput">
-                            <div class="form-control" data-trigger="fileinput">
-                                <i class="glyphicon glyphicon-file fileinput-exists"></i>
-                                <span class="fileinput-filename"></span>
-                            </div>
-                            <span class="input-group-addon btn btn-default btn-file"> 
-                             <span class="fileinput-new ">Select file</span>
-                            <span class="fileinput-exists">Change</span>
-                            <input type="file" name="...">
-                            </span>
-                            <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a> </div>
-                    </div>
-                </div>
-                    </div>
-                    
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button  class="btn btn-default" type="button" data-dismiss="modal">Close</button>
-                <button  class="btn btn-info" type="button">Resubmit</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="online-3">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header bg-danger">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <!--
-                    label-success = approved
-                    label-danger = denied
-                    label-warning = pended
-                -->
-                <h4 class="modal-title custom-modal-title">Cover Photo</h4>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group row">
-                            <label class="control-label col-md-4">Mode of Distribution:</label>
-                            <div class="col-md-8">
-                                <p class="control-label">Online</p>
-                            </div>
-                            <label class="control-label col-md-4">Target Posting Date:</label>
-                            <div class="col-md-8">
-                                <p class="control-label">September 21, 2004 </p>
-                            </div>
-                            <label class="control-label col-md-4">Status</label>
-                            <div class="col-md-8">
-                                <p class="control-label">Denied</p>
-                            </div>
-                            <label class="control-label col-md-4">Reason:</label>
-                            <div class="col-md-8">
-                                <p class="control-label">Poster contains alcohol</p>
-                            </div>
-                            <label class="control-label col-md-4">Checked by</label>
-                            <div class="col-md-8">
-                                <p class="control-label">Dominique Dagunton</p>
-                            </div>
-                            <label class="control-label col-md-4">Date Checked</label>
-                            <div class="col-md-8">
-                                <p class="control-label">September 17, 2017</p>
+                            <div class="modal-footer text-center">
+                                <button  class="btn btn-default" type="button" data-dismiss="modal">Close</button>
+                                <button  class="btn btn-info" id="submit" type="submit">Submit</button>
                             </div>
                         </div>
-                        
                     </div>
-                    
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Sample Modal for printed publicity materials-->
-<div class="modal fade" id="printed-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title custom-modal-title">Modal title</h4>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group row">
-                            <label class="control-label col-md-4">Mode of Distribution:</label>
-                            <div class="col-md-8">
-                                <p class="control-label">Online</p>
-                            </div>
-                            <label class="control-label col-md-4">Posting Date:</label>
-                            <div class="col-md-8">
-                                <p class="control-label">September 9 - 20, 2017 </p>
-                            </div>
-                            <label class="control-label col-md-4">Status</label>
-                            <div class="col-md-8">
-                                <p class="control-label">Approved</p>
-                            </div>
-                            <label class="control-label col-md-4">Checked by:</label>
-                            <div class="col-md-8">
-                                <p class="control-label">Dominique Dagunton</p>
-                            </div>
-                            <label class="control-label col-md-4">Date Checked:</label>
-                            <div class="col-md-8">
-                                <p class="control-label">September 17, 2017</p>
-                            </div>
-                        </div>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                
-            </div>
-        </div>
-    </div>
-</div>
 <!-- /modals -->
-
+</form>
 {%endblock%}
 
 

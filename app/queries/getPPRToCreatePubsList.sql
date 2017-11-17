@@ -1,0 +1,11 @@
+SELECT TO_CHAR(P.ACTUALDATESTART, 'Mon DD, YYYY') AS ADATE, GA.STRATEGIES, GA.ID, AP."GOSMActivity"
+  FROM GOSMACTIVITY GA JOIN GOSMACTIVITYPROJECTHEAD GAPH
+  						 ON GA.ID = GAPH.ACTIVITYID
+  					   JOIN  PROJECTPROPOSAL P   					   		
+  						 ON P.GOSMACTIVITY = GA.ID
+				  LEFT JOIN (SELECT "GOSMActivity"
+				  	 		   FROM "ActivityPublicity"					  	 		  
+				  	 		  GROUP BY 1) AP
+						 ON P.GOSMACTIVITY = AP."GOSMActivity"  						
+WHERE GAPH.IDNUMBER  = ${idNumber}
+	   	

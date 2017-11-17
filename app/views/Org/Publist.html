@@ -25,15 +25,8 @@
     {{tag.style('/css/doms.css')}}
     {{tag.style('/css/custom.css')}}
     <!-- color CSS -->
-    {{tag.style('/css/colors/default.css')}}
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    <!-- IMPORTANT -->
+    {{tag.style('/css/colors/blue.css')}}
+    {{tag.style('/css/btn_lnk.css')}}
 
 {%endblock%}
 
@@ -77,14 +70,21 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td class="text-center">September 15, 2019</td>
-							<td class="text-center"><a gref="#" class="btn-lnk">General Assembly</a></td>
+                        {%for activity in activities%}
+                            <tr>
+                                <td class="text-center">{{activity.adate}}</td>
+                                <td class="text-center"><a href="/Organization/Publicity/Create/{{activity.id}}" class="btn-lnk">{{activity.strategies}}</a></td>
 
+                                {% if activity["GOSMActivity"] != null%}
+                                    <td class="text-center"><span class="label label-success">Submitted</span></td>
+                                {% elif activity["GOSMActivity"] == null%}
+                                    <td class="text-center"><span class="label label-info">No Pubs Submitted</span></td>
+                                {%endif%}
+                                
 
-							<td class="text-center"><span class="label label-warning">2 Unapproved</span></td>
-
-						</tr>
+                            </tr>
+                        {%endfor%}
+						
 
 					</tbody>
 				</table>

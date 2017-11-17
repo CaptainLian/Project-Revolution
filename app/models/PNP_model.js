@@ -13,17 +13,29 @@ module.exports = function(configuration, modules, db, queryFiles) {
 	const getPubsNumberToApprove = queryFiles.getPubsNumberToApprove;
 	const getPubsOfActivity = queryFiles.getPubsOfActivity;
 	const getActivityDetailsforPubs = queryFiles.getActivityDetailsforPubs;
+    const updatePublicityStatus = queryFiles.updatePublicityStatus;
+    const getMypubs = queryFiles.getMypubs;
+    const getPubDetails = queryFiles.getPubDetails;
 
 
 	return{
 		getUnapprovePubsToCheck:function ( connection = db) {
             return connection.any(getUnapprovePubsToCheck);
         },
+        getMypubs:function (param, connection = db) {
+            return connection.any(getMypubs, param);
+        },
+        updatePublicityStatus:function (param, connection = db) {
+            return connection.none(updatePublicityStatus, param);
+        },
         getPubsOfActivity:function (param, connection = db) {
             return connection.any(getPubsOfActivity, param);
         },
         getActivityDetailsforPubs:function (param, connection = db) {
             return connection.one(getActivityDetailsforPubs, param);
+        },
+        getPubDetails:function (param, connection = db) {
+            return connection.one(getPubDetails, param);
         },
         getPubsNumberToApprove:function ( connection = db) {
             return connection.any(getPubsNumberToApprove);
@@ -34,5 +46,9 @@ module.exports = function(configuration, modules, db, queryFiles) {
         getSpecificPubSeq:function (param, connection = db) {
             return connection.one(getSpecificPubSeq, param);
         },
+
+
+
+        
 	};
 }

@@ -31,7 +31,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 				])
 		}).then(pubs=>{
-				console.log(pubs[2]);
+				console.log(pubs[0]);
 				renderData.pubs = pubs[0];
 				renderData.activities = pubs[1];
 				renderData.heads = pubs[2];
