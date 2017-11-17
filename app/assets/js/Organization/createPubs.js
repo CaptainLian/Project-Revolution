@@ -13,7 +13,8 @@ $("#file").val("");
 
 $('.mydatepicker, #datepicker').datepicker({
 	"setDate": new Date(),
-	startDate:new Date()
+	startDate:new Date(),
+	dateFormat:'yyyy-mm-dd'
 }).datepicker('update', new Date());
 
 function empty(){
