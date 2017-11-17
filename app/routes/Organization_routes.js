@@ -8,11 +8,8 @@ module.exports = function(configuration, modules, router, controllers){
 	router.get(`${base}/APSReport`, controllers.Organization_controller.viewAPSReport);
 	router.get(`${base}/createGOSM`, controllers.Organization_controller.viewCreateGOSM);
 	router.get(`${base}/activityRequirements`, controllers.Organization_controller.createActivityRequirements);
-	router.get(`${base}/Treasurer/NewTransaction`, controllers.Treasurer_controller.newTransaction);
-    router.get(`${base}/Treasurer/NewTransactionOthers`, controllers.Treasurer_controller.newTransactionOthers);
 
     router.get(`${base}/ProjectProposal/GOSMList`, controllers.Organization_controller.viewGOSMActivityListProjectProposal);
-    
     router.get(`${base}/ProjectProposal/Main/:id/:status`, controllers.Organization_controller.viewSubmitProjectProposalMain);
     router.get(`${base}/ProjectProposal/Attachments/:id`, controllers.Organization_controller.viewSubmitProjectProposalAttachments);
     router.get(`${base}/ProjectProposal/BriefContext/:id`, controllers.Organization_controller.viewSubmitProjectProposalBriefContext);

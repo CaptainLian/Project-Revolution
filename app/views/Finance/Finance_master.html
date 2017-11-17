@@ -1,11 +1,7 @@
 {% extends '../template/CSO_master.html' %}
 
-{%block page_title%}Finance{%-endblock%}
+{%block page_title%}Organization - Treasurer{%-endblock%}
 
 {%block sidebar_content%}
     {{super()}}
-    
-    {{sidebar_item('Submissions', '/APS/viewActivityList')}}
-	{{sidebar_item('Activity History')}}
-	{{sidebar_item('Org GOSM', '/APS/viewOrglist')}}
 {%endblock%}

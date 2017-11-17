@@ -4,7 +4,7 @@ SELECT PP.GOSMACTIVITY AS ID, GA.STRATEGIES, AV.NAME, TO_CHAR(PPP.DATE,'Mon DD, 
       					  JOIN "ActivityVenue" AV      					  
                             ON PP.VENUE = AV.ID
     					  JOIN ProjectProposalProgramDesign PPP
-    					  	ON PP.ID = PPP.ID
+    					  	ON PP.ID = PPP.PROJECTPROPOSAL
     			    RIGHT JOIN AMTACTIVITYEVALUATION AAE
     			            ON GA.ID = AAE.ACTIVITY
 

@@ -40,7 +40,7 @@ module.exports = function(configuration, modules, database, queryFiles){
     ActivityMonitoringModel.deleteToMyActivity = function(param, connection = database){
          
         return connection.result(deleteToMyActivity, param);
-    }
+    };
 
 
 

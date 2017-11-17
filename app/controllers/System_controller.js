@@ -137,12 +137,12 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             req.session.user.organizationSelected.acronym = data.acronym;
                             req.session.save();
                         });
-                        const reply = Object.create(null);
-                        reply. url = '/home';
-                        reply.reroute = true;
-                        reply.valid = true;
-                        return res.send(reply);
                     }
+                    const reply = Object.create(null);
+                    reply. url = '/home';
+                    reply.reroute = true;
+                    reply.valid = true;
+                    return res.send(reply);
                 } else {
                     logger.debug('Incorrect password');
                     return res.send({

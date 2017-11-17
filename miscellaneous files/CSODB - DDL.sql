@@ -1,4 +1,4 @@
-DROP EXTENSION IF EXISTS "uuid-ossp" CASCADE;
+﻿DROP EXTENSION IF EXISTS "uuid-ossp" CASCADE;
 DROP EXTENSION IF EXISTS "pgcrypto" CASCADE;
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
@@ -9,6 +9,24 @@ RETURNS trigger AS
 $trigger$
     BEGIN
         RETURN NULL;
+    END;
+$trigger$ LANGUAGE plpgsql;
+
+/**
+$1 is the NEW data
+NEW.GOSMActivity should be $1.GOSMActivity when using this function
+*/
+CREATE OR REPLACE FUNCTION "trigger_before_insert_increment_sequence"(/* "param_TableName" TEXT, "param_TableAcronym" TEXT, "param_Where" TEXT */)
+RETURNS trigger AS
+$trigger$
+    BEGIN
+	EXECUTE format ('SELECT COALESCE(MAX(sequence) + 1, 1)
+	                   FROM %I %I
+	                  WHERE %s', TG_ARGV[0], TG_ARGV[1], TG_ARGV[2])
+          INTO STRICT NEW."sequence"
+	        USING NEW;
+	  
+        RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
 
@@ -339,6 +357,19 @@ $function$
     END;
 $function$ LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION "system_get_functionality_id"(param_sequenceID INTEGER)
+RETURNS INTEGER AS
+$function$
+    DECLARE
+        var_FunctionalityID INTEGER;
+    BEGIN
+         SELECT id INTO var_FunctionalityID
+           FROM Functionality
+          WHERE id%100 = param_sequenceID;
+
+        RETURN var_FunctionalityID;
+    END;
+$function$ LANGUAGE plpgsql;
 /*
     Helpful functions end
 */
@@ -587,7 +618,10 @@ VALUES (0, 'Mechanics'),
        (5, 'Sample Publicity'),
        (6, 'Agenda'),
        (7, 'LSPO Form'),
-       (8, 'Sample Application Form');
+       (8, 'Sample Application Form'),
+       (9, 'Informal Quotation'),
+       (10, 'Estimated List of Participants'),
+       (11, 'Mechanics of Competition');
 
 DROP TABLE IF EXISTS ActivityAttachmentRequirement CASCADE;
 CREATE TABLE ActivityAttachmentRequirement (
@@ -616,7 +650,7 @@ VALUES (0, 0, FALSE),
        (5, 3, FALSE),
        (5, 6, FALSE),
        (6, 3, FALSE),
-       (6, 7, TRUE),
+       (6, 7,  TRUE),
        (7, 3, FALSE),
        (7, 8, FALSE),
        (7, 0, FALSE),
@@ -823,13 +857,13 @@ INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, ra
                       VALUES (           0, 'Associate for Finance', FALSE, 15, 40);
 -- 18
 INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
-                      VALUES (           0, 'Vice Chairperson for Publicity and Productions', TRUE, 2, 20);
+                      VALUES (           0, 'Vice Chairperson for Publicity and Productions', TRUE, 3, 20);
 -- 19
 INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
-                      VALUES (           0, 'Associate Vice Chairperson for Publicity and Productions', FALSE, 17, 30);
+                      VALUES (           0, 'Associate Vice Chairperson for Publicity and Productions', FALSE, 18, 30);
 -- 20
 INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
-                      VALUES (           0, 'Associate for Publicity and Productions', FALSE, 18, 40);
+                      VALUES (           0, 'Associate for Publicity and Productions', FALSE, 19, 40);
 -- 21
 INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
                       VALUES (           0, 'Vice Chairperson for Organizational Research and Analysis', TRUE, 2, 20);
@@ -928,12 +962,12 @@ INSERT INTO FunctionalityCategory (id, name, domain)
                                   -- CSO
                                   (104,  'Activity Processing', 1),
                                   (105,  'Finance', 1),
-                                  (106,  'Publicity and Publications', 1),
+                                  (106,  'Publicity and Productions', 1),
                                   (107,  'Activity Monitoring', 1),
                                   (108,  'Activity Documentation', 1),
                                   (109,  'Organizational Research', 1),
                                   -- Student Organization
-                                  (210, 'Publicity/Creatives/Publications', 2),
+                                  (210, 'Publicity/Creatives/Productions', 2),
                                   (211, 'Activity Processing & Documentations', 2),
                                   (212, 'Submit Financial Documents', 2),
                                   (213, 'Cancel Financial Documents', 2),
@@ -1009,84 +1043,11 @@ INSERT INTO Functionality (id, name, category)
                           (211012, 'Sign Project Proposal as Documentations', 211),
                           (104013, 'Sign Project Proposal Phase - 1'        , 104),
                           (104014, 'Sign Project Proposal Phase - 2'        , 104),
-                          (211015, 'Force Sign Project Proposal'            , 211);
-/*
-INSERT INTO Functionality (id, name, category)
-                   VALUES (0, 'Time Setting', 0),
+                          (211015, 'Force Sign Project Proposal'            , 211),
+                          -- Publicity
+                          (210016, 'Submit Publicity Material'              , 210),
+                          (106017, 'Evaluate Publicity Material',             106);
 
-                          (1, 'Create Position', 1),
-                          (2, 'Edit Position', 1),
-                          (3, 'Assign Position', 1),
-                          (4, 'Delete Position', 1),
-                          (5, 'View Orgaizational Structure', 1),
-
-                          (6, 'Create Organization', 2),
-                          (7, 'Edit Organization', 2),
-                          (8, 'Delete Organization', 2),
-                          (9, 'Assign Evaluator for Publicity Material', 2),
-                          (10, 'Evaluate Publicity Material', 6),
-                          (11, 'View Publicity Material', 6),
-
-                          -- APS
-                          -- Approve, pend, deny
-                          (12, 'Evaluate GOSM Activity', 4),
-                          -- Approve, pend, deny
-                          (13, 'Evaluate Project Proposal', 4),
-
-                          (14, 'Set Organization Treasury Funds', 5),
-                          (15, 'Evaluate Financial Documents', 5),
-                          (16, 'View Financial Documents', 5),
-                          (17, 'View Financial Documents Log', 5),
-
-                          (18, 'View Organization Members', 9),
-                          (19, 'View Organizational Struture', 9),
-                          (20, 'Survey Results', 9),
-                          (21, 'Activity Research Form', 9),
-
-                          (22, 'Assign Evaluator for Activity', 7),
-                          (23, 'Evaluate During-Activity', 7),
-                          (24, 'View During-Activities to be Evaluated', 7),
-
-                          (25, 'Evaluate Post-Activity', 8),
-
-                          (26, 'Submit Publicity Material', 9),
-                          (27, 'Resubmit Publicity Material', 9),
-                          (28, 'View Publicity Material', 9),
-
-                          -- Organization Side
-                          (29, 'Submit GOSM', 10),
-                          (30, 'Resubmit GOSM', 10),
-                          (31, 'View GOSM', 10),
-                          (32, 'Submit Project Proposal', 10),
-                          (33, 'Resubmit Project Proposal', 10),
-                          (34, 'View Project Proposal', 10),
-                          (35, 'Submit Post-Activity Documents', 10),
-                          (36, 'View Post-Activity Documents', 10),
-
-                          (37, 'Request Cash Advance', 12),
-                          (38, 'Request Direct Payment', 12),
-                          (39, 'Request Book Transfer', 12),
-                          (40, 'Request Petty Cash Replenishment', 12),
-                          (41, 'Request Reimbursement', 12),
-                          (42, 'Request for Petty Cash Turnover', 12),
-                          (43, 'Request for Turnover of funds', 12),
-                          (44, 'Request for Financial Documents', 12),
-                          (45, 'Submit gas expense', 12),
-
-                          (46, 'Cancel Request Cash Advance', 1),
-                          (47, 'Cancel Request Direct Payment', 1),
-                          (48, 'Cancel Book Transfer', 1),
-                          (49, 'Cancel Request Petty Cash Replenishment', 1),
-                          (50, 'Cancel Request Reimbursement', 1),
-                          (51, 'Request for Cancellation of check', 1),
-                          (52, 'Request for Change of Payee', 1),
-                          (53, 'Request for Establishment of Petty Cash', 1),
-
-                          (54, 'Create Position', 13),
-                          (55, 'Edit Position', 13),
-                          (56, 'Assign Position', 13),
-                          (57, 'Delete Position', 13);
-*/
 DROP TABLE IF EXISTS OrganizationAccessControl CASCADE;
 CREATE TABLE OrganizationAccessControl (
 	role INTEGER REFERENCES OrganizationRole (id),
@@ -1126,7 +1087,11 @@ INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       (   21,        003008,      TRUE),
                                       -- SIGN PPR
                                       (   13,        104013,      TRUE),
-                                      (   12,        104014,      TRUE);
+                                      (   12,        104014,      TRUE),
+                                      -- Evaluate Publicity Material
+                                      (   17,        106017,      TRUE),
+                                      (   18,        106017,      TRUE),
+                                      (   19,        106017,      TRUE);
 
 /* Organization Default Structure */
 
@@ -1214,87 +1179,6 @@ CREATE TRIGGER after_insert_StudentOrganization
     AFTER INSERT ON StudentOrganization
     FOR EACH ROW
     EXECUTE PROCEDURE trigger_after_insert_StudentOrganization();
-
-/*
-
-INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
-                               VALUES -- Assign Evaluator for Publicity Material
-                                      (  18,            22,      TRUE),
-                                      -- Evaluate Publicity Material
-                                      (  15,            10,      TRUE),
-                                      (  16,            10,      TRUE),
-                                      -- View Publicity Material
-                                      (  18,            28,      TRUE),
-                                      (  19,            28,      TRUE),
-                                      (  20,            28,      TRUE),
-                                      -- View Organization Members
-                                      (  21,            18,      TRUE),
-                                      (  22,            18,      TRUE),
-                                      -- Survey Results
-                                      (  21,            20,      TRUE),
-                                      (  22,            20,      TRUE),
-                                      -- Activity Research Form
-                                      (  21,            21,      TRUE),
-                                      (  22,            21,      TRUE),
-                                      -- Evaluate During-Activity
-                                      (  11,            25,      TRUE),
-                                      (  22,            25,      TRUE),
-                                      (  23,            25,      TRUE),
-                                      -- View Activities to be Evaluated
-                                      (   9,            24,      TRUE),
-                                      (  10,            24,      TRUE),
-                                      (  11,            24,      TRUE),
-                                      -- Set Organization Treasury Funds
-                                      (   6,            14,      TRUE),
-                                      -- Evaluate Project Proposal
-                                      (  12,            13,      TRUE),
-                                      (  13,            13,      TRUE),
-                                      (  14,            13,      TRUE),
-                                      -- View Organization Structure
-                                      (   1,            19,      TRUE),
-                                      (   2,            19,      TRUE),
-                                      (   3,            19,      TRUE),
-                                      (   4,            19,      TRUE),
-                                      (   5,            19,      TRUE),
-                                      (   6,            19,      TRUE),
-                                      (   7,            19,      TRUE),
-                                      (   8,            19,      TRUE),
-                                      (   9,            19,      TRUE),
-                                      (  10,            19,      TRUE),
-                                      (  11,            19,      TRUE),
-                                      (  12,            19,      TRUE),
-                                      (  13,            19,      TRUE),
-                                      (  14,            19,      TRUE),
-                                      (  15,            19,      TRUE),
-                                      (  16,            19,      TRUE),
-                                      (  17,            19,      TRUE),
-                                      (  18,            19,      TRUE),
-                                      (  19,            19,      TRUE),
-                                      (  20,            19,      TRUE),
-                                      (  21,            19,      TRUE),
-                                      (  22,            19,      TRUE),
-                                      (  23,            19,      TRUE),
-                                      -- View Financial Documents
-                                      (  12,            16,      TRUE),
-                                      (  13,            16,      TRUE),
-                                      (  14,            16,      TRUE),
-                                      (   5,            16,      TRUE),
-                                      (  15,            16,      TRUE),
-                                      (  16,            16,      TRUE),
-                                      (  17,            16,      TRUE),
-                                      (   6,            16,      TRUE),
-                                      (   7,            16,      TRUE),
-                                      (   8,            16,      TRUE),
-                                      -- View Financial Documents Log
-                                      (  15,            17,      TRUE),
-                                      -- Evaluate GOSM Activity
-                                      (   1,            12,      TRUE),
-                                      (   2,            12,      TRUE),
-                                      (   3,            12,      TRUE),
-                                      (   4,            12,      TRUE),
-                                      (   5,            12,      TRUE);
-                                      */
-	/* Access Control end */
 
 -- FORMS
     /* GOSM RELATED*/
@@ -1623,6 +1507,7 @@ CREATE TRIGGER before_insert_ProjectProposalProjectedIncome
     FOR EACH ROW
     EXECUTE PROCEDURE trigger_before_insert_ProjectProposalProjectedIncome();
 
+
 DROP TABLE IF EXISTS ExpenseType CASCADE;
 CREATE TABLE ExpenseType (
     id SMALLINT,
@@ -1639,6 +1524,25 @@ INSERT INTO ExpenseType (id, name)
                         (5, 'Honorarium'),
                         (6, 'Cash Prize'),
                         (7, 'Corruption Expense');
+
+DROP TABLE IF EXISTS "ExpenseTypeAttachmentRequirement" CASCADE;
+CREATE TABLE "ExpenseTypeAttachmentRequirement" (
+    "expenseType" SMALLINT REFERENCES ExpenseType(id),
+    "document" SMALLINT REFERENCES DocumentAttachmentRequirement(id),
+
+    PRIMARY KEY("expenseType", "document")
+);
+INSERT INTO "ExpenseTypeAttachmentRequirement" ("expenseType", "document")
+                                             -- Others
+                                        VALUES (0, 9),
+                                             -- Food Expense
+                                               (1,  9),
+                                               (1, 10),
+                                             -- Accomodation Expense
+                                               (2,  9),
+                                               (2, 10),
+                                             -- Cash Prize
+                                               (6,  11);
 
 DROP TABLE IF EXISTS ProjectProposalExpenses CASCADE;
 CREATE TABLE ProjectProposalExpenses (
@@ -1845,56 +1749,124 @@ CREATE TRIGGER "after_update_ProjectProposal_signatory_immediateSuperior"
 /* End of Project Proposal */
 
 /* Organization Treasurer */
-DROP TABLE IF EXISTS "TransactionType" CASCADE;
-CREATE TABLE "TransactionType" (
-  id INTEGER,
-  name VARCHAR(45),
+DROP TABLE IF EXISTS "PreActivityDirectPaymentStatus" CASCADE;
+CREATE TABLE "PreActivityDirectPaymentStatus" (
+  "id" INTEGER,
+  "name" VARCHAR(45),
 
   PRIMARY KEY(id)
 );
-DROP TABLE IF EXISTS "TransactionStatus" CASCADE;
-CREATE TABLE "TransactionStatus" (
-  id INTEGER,
-  name VARCHAR(45),
-
-  PRIMARY KEY(id)
-);
-DROP TABLE IF EXISTS "ActivityTransaction" CASCADE;
-CREATE TABLE "ActivityTransaction" (
+INSERT INTO "PreActivityDirectPaymentStatus" ("id", "name")
+                                      VALUES (0, 'For Approval'),
+                                             (1, 'Approved'),
+                                             (2, 'Pend'),
+                                             (3, 'Denied');
+DROP TABLE IF EXISTS "PreActivityDirectPayment" CASCADE;
+CREATE TABLE "PreActivityDirectPayment" (
     "id" SERIAL UNIQUE,
     "GOSMActivity" INTEGER REFERENCES ProjectProposal(GOSMActivity),
+    "submissionID" INTEGER,
     "sequence" INTEGER DEFAULT -1,
-    "type" INTEGER REFERENCES "TransactionType"("id"),
-    "PRS" INTEGER,
-    "reason" TEXT,
-    "status" INTEGER REFERENCES "TransactionStatus"("id"),
+    "submittedBy" INTEGER REFERENCES Account(idNumber),
+    "dateSubmitted" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    "nameOfEstablishment" VARCHAR(60),
+    "amount" NUMERIC(12, 2),
+    "reasonForDelayedPRSProcessing" TEXT,
+    "galsFilename" TEXT,
+    "galsfilenameToShow" TEXT,
+    "fqFilename" TEXT,
+    "fqfilenameToShow" TEXT,
+    "rofFilename" TEXT,
+    "rofFilenameToShow" TEXT,
+    "evaluatedBy" INTEGER REFERENCES Account(idNumber),
+    "comments" TEXT,
+    "dateEvaluated" TIMESTAMP WITH TIME ZONE,
+    "status" SMALLINT REFERENCES "PreActivityDirectPaymentStatus"("id"),
 
-    PRIMARY KEY ("GOSMActivity", "sequence")
+    PRIMARY KEY ("GOSMActivity", "submissionID", "sequence")
 );
-CREATE OR REPLACE FUNCTION "trigger_before_insert_ActivityTransaction"()
-RETURNS trigger AS
+CREATE OR REPLACE FUNCTION "trigger_before_insert_PreActivityDirectPayment_sequence"()
+RETURNS TRIGGER AS
 $trigger$
     BEGIN
-        SELECT COALESCE(MAX(sequence) + 1, 0) INTO NEW.sequence
-         FROM "ActivityTransaction"
-        WHERE "GOSMActivity" = NEW."GOSMActivity";
+        IF NEW.submissionID IS NULL THEN
+            NEW.sequence = 1;
+            SELECT COALESCE(MAX("submissionID") + 1, 1) INTO NEW."submissionID"
+              FROM "PreActivityDirectPayment"
+             WHERE "GOSMActivity" = NEW."GOSMActivity";
+        ELSE
+            SELECT COALESCE(MAX("sequence") + 1, 1) INTO NEW."sequence"
+              FROM "PreActivityDirectPayment"
+             WHERE "GOSMActivity" = NEW."GOSMActivity"
+               AND "submissionID" = NEW.submissionID;
+        END IF;
 
-        return NEW;
+        RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
-CREATE TRIGGER "before_insert_ActivityTransaction"
-    BEFORE INSERT ON "ActivityTransaction"
+CREATE TRIGGER "before_insert_PreActivityDirectPayment_sequence"
+    BEFORE INSERT ON "PreActivityDirectPayment"
     FOR EACH ROW
-    EXECUTE PROCEDURE "trigger_before_insert_ActivityTransaction"();
+    EXECUTE PROCEDURE "trigger_before_insert_PreActivityDirectPayment_sequence"();
 
-DROP TABLE IF EXISTS "InformalQuotation" CASCADE;
-CREATE TABLE "InformalQuotation" (
-    "expense" INTEGER REFERENCES ProjectProposalExpenses(id),
-    "ActivityTransaction" INTEGER REFERENCES "ActivityTransaction"("id"),
-    "contactPerson" VARCHAR(60),
-    "contactDetails" VARCHAR(45),
+DROP TABLE IF EXISTS "PreActivityCashAdvanceStatus" CASCADE;
+CREATE TABLE "PreActivityCashAdvanceStatus" (
+  "id" INTEGER,
+  "name" VARCHAR(45),
 
-    PRIMARY KEY("expense")
+  PRIMARY KEY(id)
+);
+INSERT INTO "PreActivityCashAdvanceStatus" ("id", "name")
+                                      VALUES (0, 'For Approval'),
+                                             (1, 'Approved'),
+                                             (2, 'Pend'),
+                                             (3, 'Denied');
+DROP TABLE IF EXISTS "PreActivityCashAdvance" CASCADE;
+CREATE TABLE "PreActivityCashAdvance" (
+    "id" SERIAL UNIQUE,
+    "GOSMActivity" INTEGER REFERENCES ProjectProposal(GOSMActivity),
+    "submissionID" INTEGER,
+    "sequence" INTEGER DEFAULT -1,
+    "submittedBy" INTEGER REFERENCES Account(idNumber),
+    "dateSubmitted" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    "purpose" TEXT,
+    "justification" TEXT,
+    "evaluatedBy" INTEGER REFERENCES Account(idNumber),
+    "status" SMALLINT REFERENCES "PreActivityCashAdvanceStatus"("id"),
+
+    PRIMARY KEY ("GOSMActivity", "submissionID", "sequence")
+);
+CREATE OR REPLACE FUNCTION "trigger_before_insert_PreActivityCashAdvance_sequence"()
+RETURNS TRIGGER AS
+$trigger$
+    BEGIN
+        IF NEW.submissionID IS NULL THEN
+            NEW.sequence = 1;
+            SELECT COALESCE(MAX("submissionID") + 1, 1) INTO NEW."submissionID"
+              FROM "PreActivityCashAdvance"
+             WHERE "GOSMActivity" = NEW."GOSMActivity";
+        ELSE
+        SELECT COALESCE(MAX("sequence") + 1, 1) INTO NEW."sequence"
+          FROM "PreActivityCashAdvance"
+         WHERE "GOSMActivity" = NEW."GOSMActivity"
+           AND "submissionID" = NEW.submissionID;
+        END IF;
+
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER "before_insert_PreActivityCashAdvance_sequence"
+    BEFORE INSERT ON "PreActivityCashAdvance"
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_before_insert_PreActivityCashAdvance_sequence"();
+
+DROP TABLE IF EXISTS "PreActivityCashAdvanceParticular" CASCADE;
+CREATE TABLE "PreActivityCashAdvanceParticular" (
+    "id" SERIAL UNIQUE,
+    "cashAdvance" INTEGER REFERENCES "PreActivityCashAdvance"("id"),
+    "particular" INTEGER REFERENCES ProjectProposalExpenses(id),
+
+    PRIMARY KEY ("cashAdvance", "particular")
 );
 /* Organization Treasurer */
     /* AMTActivityEvaluation */
@@ -1952,9 +1924,23 @@ CREATE TABLE AMTActivityEvaluation (
 -- END FORMS
 -- COMMIT;
   /* OrgRes */
+DROP TABLE IF EXISTS "ARFOrganizationPosition" CASCADE; 
+CREATE TABLE "ARFOrganizationPosition" (
+    "id" SMALLINT,
+    "name" VARCHAR(45) NOT NULL,
+
+    PRIMARY KEY("id")
+);
+INSERT INTO "ARFOrganizationPosition" ("id", "name")
+                               VALUES (   0, 'Officer'),
+                                      (   1, 'Member'),
+                                      (   2, 'Non-member');
+
 DROP TABLE IF EXISTS "ActivityResearchForm" CASCADE;
 CREATE TABLE "ActivityResearchForm" (
   "GOSMActivity" INTEGER REFERENCES ProjectProposal(GOSMActivity),
+  "sequence" INTEGER,
+  "positionInOrganization" SMALLINT REFERENCES "ARFOrganizationPosition"("id"),
   "IUTPOTA" SMALLINT,
   "TASMI" SMALLINT,
   "IFIDTA" SMALLINT,
@@ -1965,8 +1951,13 @@ CREATE TABLE "ActivityResearchForm" (
   "EFFA" TEXT,
   "dateSubmitted" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-  PRIMARY KEY("GOSMActivity")
+  PRIMARY KEY("GOSMActivity", "sequence")
 );
+CREATE TRIGGER "before_insert_ActivityResearchForm_sequence"
+    BEFORE INSERT ON "ActivityResearchForm"
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_before_insert_increment_sequence"('ActivityResearchForm', 'arf', '
+."GOSMActivity" = $1."GOSMActivity"');
 
 /* ADM */
   /* Post Acts */
@@ -2010,7 +2001,7 @@ DROP TABLE IF EXISTS "PostProjectProposalExpense" CASCADE;
 CREATE TABLE "PostProjectProposalExpense" (
   "id" SERIAL UNIQUE,
   "GOSMActivity" INTEGER REFERENCES "PostProjectProposal"("GOSMActivity"),
-  "submissionID" INTEGER DEFAULT -1,
+  "submissionID" INTEGER,
   "sequence" INTEGER NOT NULL DEFAULT -1,
   "particular" VARCHAR(45),
   "establishment" VARCHAR(45),
@@ -2049,7 +2040,7 @@ DROP TABLE IF EXISTS "PostProjectProposalEventPicture" CASCADE;
 CREATE TABLE "PostProjectProposalEventPicture" (
   "id" SERIAL UNIQUE,
   "GOSMActivity" INTEGER REFERENCES "PostProjectProposal"("GOSMActivity"),
-  "submissionID" INTEGER DEFAULT -1,
+  "submissionID" INTEGER,
   "sequence" INTEGER NOT NULL DEFAULT -1,
   "filename" TEXT,
   "filenameToShow" TEXT,
@@ -2095,7 +2086,7 @@ INSERT INTO "PostProjectDirectPaymentPayment" (id, name)
 DROP TABLE IF EXISTS "PostProjectDirectPayment" CASCADE;
 CREATE TABLE "PostProjectDirectPayment" (
   "GOSMActivity" INTEGER REFERENCES "PostProjectProposal"("GOSMActivity"),
-  "submissionID" INTEGER DEFAULT - 1,
+  "submissionID" INTEGER,
   "sequence" INTEGER DEFAULT -1,
   "nameOfEstablishment" VARCHAR(60),
   "amount" NUMERIC(12, 2),
@@ -2146,7 +2137,7 @@ INSERT INTO "PostProjectReimbursementPayment" (id, name)
 DROP TABLE IF EXISTS "PostProjectReimbursement" CASCADE;
 CREATE TABLE "PostProjectReimbursement" (
   "GOSMActivity" INTEGER REFERENCES "PostProjectProposal"("GOSMActivity"),
-  "submissionID" INTEGER DEFAULT -1,
+  "submissionID" INTEGER,
   "sequence" INTEGER DEFAULT -1,
   "nameOfEstablishment" VARCHAR(60),
   "amount" NUMERIC(12, 2),
@@ -2188,7 +2179,7 @@ CREATE TRIGGER "before_insert_PostProjectReimbursement_sequence"
 DROP TABLE IF EXISTS "PostProjectBookTransfer" CASCADE;
 CREATE TABLE "PostProjectBookTransfer" (
   "GOSMActivity" INTEGER REFERENCES "PostProjectProposal"("GOSMActivity"),
-  "submissionID" INTEGER DEFAULT -1,
+  "submissionID" INTEGER,
   "sequence" INTEGER DEFAULT -1,
   "nameOfEstablishment" VARCHAR(60),
   "amount" NUMERIC(12, 2),
@@ -2226,6 +2217,14 @@ CREATE TRIGGER "before_insert_PostProjectBookTransfer_sequence"
   /* Post Acts END*/
 /* ADM END */
 /* Publicity */
+DROP TABLE IF EXISTS "ActivityPublicityMaterial" CASCADE;
+CREATE TABLE "ActivityPublicityMaterial"(
+    "id" SMALLINT,
+    "name" VARCHAR(45) NOT NULL,
+
+    PRIMARY KEY("id")
+);
+
 DROP TABLE IF EXISTS "ActivityPublicityModeOfDistribution" CASCADE;
 CREATE TABLE "ActivityPublicityModeOfDistribution"(
     "id" SMALLINT,
@@ -2254,19 +2253,22 @@ DROP TABLE IF EXISTS "ActivityPublicity" CASCADE;
 CREATE TABLE "ActivityPublicity" (
     "id" SERIAL UNIQUE,
     "GOSMActivity" INTEGER REFERENCES ProjectProposal(GOSMActivity),
-    "submissionID" INTEGER DEFAULT -1,
+    "submissionID" INTEGER,
     "sequence" INTEGER DEFAULT -1,
+    "material" SMALLINT REFERENCES "ActivityPublicityMaterial"("id"),
     "modeOfDistribution" SMALLINT REFERENCES "ActivityPublicityModeOfDistribution"("id"),
+    "description" TEXT,
     "targetPostingDate" DATE, --me
+    "submittedBy" INTEGER REFERENCES Account(idNumber),
+    "dateSubmitted" DATE,
     "status" SMALLINT REFERENCES "ActivityPublicityStatus"("id"),
     "checkedBy" INTEGER REFERENCES Account(idNumber),
     "dateChecked" DATE,
-    "submittedBy" INTEGER REFERENCES Account(idNumber),
     "comments" TEXT,
     "filename" TEXT,
     "filenameToShow" TEXT,
 
-    PRIMARY KEY("GOSMActivity", "sequence")
+    PRIMARY KEY("GOSMActivity", "submissionID", "sequence")
 );
 CREATE OR REPLACE FUNCTION "trigger_before_insert_ActivityPublicity_sequence"()
 RETURNS trigger AS
@@ -2278,7 +2280,7 @@ $trigger$
               FROM "ActivityPublicity"
              WHERE "GOSMActivity" = NEW."GOSMActivity";
         ELSE
-            SELECT COALESCE(MAX(sequence) + 1, 1) INTO NEW.sequence
+            SELECT COALESCE(MAX(sequence) + 1, 1) INTO NEW."sequence"
               FROM "ActivityPublicity"
              WHERE "GOSMActivity" = NEW."GOSMActivity"
                AND "submissionID" = NEW."submissionID";

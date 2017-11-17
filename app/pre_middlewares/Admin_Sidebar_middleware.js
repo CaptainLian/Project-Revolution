@@ -20,10 +20,11 @@ module.exports = function(configuration, application, modules, database, queryFi
     AdminSidebarAttacher.priority = configuration.load_priority.LOW;
     AdminSidebarAttacher.action = (req, res, next) => {
         logger.debug(`Attaching admin sidebars` ,log_options);
+        if(!req.extra_data.system.sidebars.canAttach || req.session.user.type !== 0)
+            return next();
 
-        if(req.extra_data.system.sidebars.canAttach && req.session.user.type === 0){
-            req.extra_data.view.sidebars = CONSTANTS_admin_sidebars;
-        }
+        req.extra_data.view.sidebars = CONSTANTS_admin_sidebars;
+
 
         return next();
     };

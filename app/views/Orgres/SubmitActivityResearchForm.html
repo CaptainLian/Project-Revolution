@@ -68,6 +68,10 @@
 
 
 {%block content%}
+<form action="/ORGRES/SubmitResearchForm" id="form-id" method="POST">
+<input type="hidden" name="_csrf" value="{{csrfToken}}">
+
+
 <div class="row">
     <div class="col-sm-12">
         <div class="white-box">
@@ -80,7 +84,7 @@
                     <hr>
                     <br>
                     <div class="col-xs-12">
-                            <form class="floating-labels ">
+                         
                                 <div class="form-group m-b-40">
                                     <select class="form-control select2" id="org-select">
                                         <option selected="true" disabled="disabled">Select an Organization</option>
@@ -91,51 +95,54 @@
                                     <span class="highlight"></span> <span class="bar"></span>
                                     <label for="input6">Position in the Organization</label>
                                 </div>
-                            </form>
+                          
                     </div>
                     <div class="row">
                         <div class="col-xs-6">
-                            <form class="floating-labels ">
+                            
                                 <div class="form-group m-b-40">
                                     <select class="form-control select2" id="org-select">
                                         <option selected="true" disabled="disabled">Select an Organization</option>
-                                            <option value="VT">La Salle Computer Society</option>
-                                            <option value="VA">Adcreate Society</option>
-                                            <option value="WV">Moo Media</option>
+                                            
+                                            {% for organization in organizations %}
+                                                
+                                                <option value="{{organization.id}}">{{organization.name}}</option>
+                                    
+                                            {% endfor %}
                                     </select>
                                     <span class="highlight"></span> <span class="bar"></span>
                                     <label for="input6">Organization</label>
                                     <span class="help-block" id="org-help" ><small>Select the organization to be evaluated.</small></span>
                                 </div>
-                            </form>
                         </div>
                         <div class="col-xs-6">
-                            <form class="floating-labels ">
                                 <div class="form-group m-b-40">
                                     <select class="form-control select2" id ="transaction">
                                         <option selected="true" disabled="disabled" >Select</option>
-                                            <option value="1">1st General Assembly</option>
-                                            <option value="2">Python Workshop</option>
+                                            {% for activity in activities %}
+
+                                                <option value="{{activity.id}}">{{activity.strategies}}</option>
+                                            
+                                            {% endfor %}
+
                                     </select>
                                     <span class="highlight"></span> <span class="bar"></span>
                                     <label for="input6">Activity</label>
                                     <span class="help-block"><small>Select the Activity to be evaluated.</small></span>
                                 </div>
-                            </form>
                         </div>
                     </div>
                     
                         <div class="col-xs-12">
-                            <form action="" method="POST" role="form">                                            
                                 <div class="form-group col-xs-12">
                                     <label class="col-xs-12">1. I understand the purpose of the activity.</label>
                                     <div class="text-center">
                                         <label class="">Strongly Disagree </label>&nbsp;
-                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="1">&nbsp;
-                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="2">&nbsp;
-                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="3">&nbsp;
-                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="4">&nbsp;
-                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="5">&nbsp;
+                                            <input  type="radio" name="radio1" id="inlineRadio1" value="1">&nbsp;
+                                            <input  type="radio" name="radio1" id="inlineRadio1" value="2">&nbsp;
+                                            <input  type="radio" name="radio1" id="inlineRadio1" value="3">&nbsp;
+                                            <input  type="radio" name="radio1" id="inlineRadio1" value="4">&nbsp;
+                                            <input  type="radio" name="radio1" id="inlineRadio1" value="5">&nbsp;
                                         <label class=""> Strongly Agree</label>
                                     </div>                                                     
                                 </div>
@@ -143,11 +150,11 @@
                                     <label class="col-xs-12">2. The activity served my interests.</label>
                                     <div class="text-center">
                                         <label class="">Strongly Disagree </label>&nbsp;
-                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">&nbsp;
-                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">&nbsp;
-                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">&nbsp;
-                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">&nbsp;
-                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">&nbsp;
+                                            <input  type="radio" name="radio2" id="inlineRadio1" value="option1">&nbsp;
+                                            <input  type="radio" name="radio2" id="inlineRadio1" value="option1">&nbsp;
+                                            <input  type="radio" name="radio2" id="inlineRadio1" value="option1">&nbsp;
+                                            <input  type="radio" name="radio2" id="inlineRadio1" value="option1">&nbsp;
+                                            <input  type="radio" name="radio2" id="inlineRadio1" value="option1">&nbsp;
                                         <label class=""> Strongly Agree</label>
                                     </div>                                                     
                                 </div>
@@ -155,11 +162,11 @@
                                     <label class="col-xs-12">3. I felt involved during the activity.</label>
                                     <div class="text-center">
                                         <label class="">Strongly Disagree </label>&nbsp;
-                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">&nbsp;
-                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">&nbsp;
-                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">&nbsp;
-                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">&nbsp;
-                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">&nbsp;
+                                            <input  type="radio" name="radio3" id="inlineRadio1" value="option1">&nbsp;
+                                            <input  type="radio" name="radio3" id="inlineRadio1" value="option1">&nbsp;
+                                            <input  type="radio" name="radio3" id="inlineRadio1" value="option1">&nbsp;
+                                            <input  type="radio" name="radio3" id="inlineRadio1" value="option1">&nbsp;
+                                            <input  type="radio" name="radio3" id="inlineRadio1" value="option1">&nbsp;
                                         <label class=""> Strongly Agree</label>
                                     </div>                                                     
                                 </div>
@@ -167,11 +174,11 @@
                                     <label class="col-xs-12">4. The activity was well-publicized.</label>
                                     <div class="text-center">
                                         <label class="font-weight-normal">Strongly Disagree </label>&nbsp;
-                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">&nbsp;
-                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">&nbsp;
-                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">&nbsp;
-                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">&nbsp;
-                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">&nbsp;
+                                            <input  type="radio" name="radio4" id="inlineRadio1" value="option1">&nbsp;
+                                            <input  type="radio" name="radio4" id="inlineRadio1" value="option1">&nbsp;
+                                            <input  type="radio" name="radio4" id="inlineRadio1" value="option1">&nbsp;
+                                            <input  type="radio" name="radio4" id="inlineRadio1" value="option1">&nbsp;
+                                            <input  type="radio" name="radio4" id="inlineRadio1" value="option1">&nbsp;
                                         <label class=""> Strongly Agree</label>
                                     </div>                                                     
                                 </div>
@@ -179,30 +186,30 @@
                                     <label class="col-xs-12">5. The organization urged me to go to this activity.</label>
                                     <div class="text-center">
                                         <label class="">Strongly Disagree </label>&nbsp;
-                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">&nbsp;
-                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">&nbsp;
-                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">&nbsp;
-                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">&nbsp;
-                                            <input  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">&nbsp;
+                                            <input  type="radio" name="radio5" id="inlineRadio1" value="option1">&nbsp;
+                                            <input  type="radio" name="radio5" id="inlineRadio1" value="option1">&nbsp;
+                                            <input  type="radio" name="radio5" id="inlineRadio1" value="option1">&nbsp;
+                                            <input  type="radio" name="radio5" id="inlineRadio1" value="option1">&nbsp;
+                                            <input  type="radio" name="radio5" id="inlineRadio1" value="option1">&nbsp;
                                         <label class=""> Strongly Agree</label>
                                     </div>                                                     
                                 </div>
                                  <div class="form-group col-xs-12">
                                     <label class="col-xs-12">What went well in the activity</label>
                                     <div class="text-center">
-                                        <textarea name="" id="input" class="form-control" rows="3" required="required"></textarea>
+                                        <textarea name="wentwell" id="input" class="form-control" rows="3" required="required"></textarea>
                                     </div>                                                     
                                 </div>
                                 <div class="form-group col-xs-12">
                                     <label class="col-xs-12">Feedbacks and Comments</label>
                                     <div class="text-center">
-                                        <textarea name="" id="input" class="form-control" rows="3" required="required"></textarea>
+                                        <textarea name="feedback" id="input" class="form-control" rows="3" required="required"></textarea>
                                     </div>                                                     
                                 </div>
                                 <div class="form-group col-xs-12">
                                     <label class="col-xs-12">Expectations for future activities</label>
                                     <div class="text-center">
-                                        <textarea name="" id="input" class="form-control" rows="3" required="required"></textarea>
+                                        <textarea name="expectations" id="input" class="form-control" rows="3" required="required"></textarea>
                                     </div>                                                     
                                 </div>
                                         
@@ -212,7 +219,6 @@
                                 
                             
                                 
-                            </form>
                         </div>
                     
                 </div>
@@ -222,6 +228,7 @@
         </div>
     </div>
 </div>
+</form>
 {%endblock%}
 
 {%block post_content%}
@@ -234,7 +241,6 @@
                 <h4 class="modal-title">Settings</h4>
             </div>
             <div class="modal-body">
-                <form>
                     <fieldset class="form-group">
                         <label for="exampleSelect1">Academic Year</label>
                         <select class="form-control" id="eexampleSelect11">
@@ -250,7 +256,6 @@
                             <option>3</option>
                         </select>
                     </fieldset>
-                </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
