@@ -193,9 +193,7 @@
                 <section class="content-wrap text-center">
                     <div class="row">
                         <h4 class="text-left">Online Publicity Materials</h4>
-                        <div>
-                             
-                        </div>
+                       
                         <div class="white-box el-element-overlay .ribbon-vertical-l">
 
                             {%for pub in pubs%}
@@ -221,18 +219,18 @@
                                     <div class="el-card-content el-overlay-1 "> 
                                         <img src="/upload/pubs/{{pub.submittedBy}}/{{pub.filename}}" />
                                         <div class="el-overlay">
-                                        <ul class="el-info">
-                                            <li><a class="btn default btn-outline image-popup-vertical-fit" href="/upload/pubs/{{pub.submittedBy}}/{{pub.filename}}"><i class="icon-magnifier"></i></a></li>
-                                            {% if pub.status == 1 %}
-                                            <li><a class="btn default btn-outline modal-desc"  data-id="{{pub.id}}"><i class="icon-link"></i></a></li>
-                                            {% elif pub.status == 3 %}
-                                            <li><a class="btn default btn-outline modal-desc"  data-id="{{pub.id}}"><i class="icon-link"></i></a></li>
-                                            {% elif pub.status == 2 %}
-                                            <li><a class="btn default btn-outline modal-reupload"  data-id="{{pub.id}}"><i class="icon-link"></i></a></li>
-                                            {%endif%}
+                                            <ul class="el-info">
+                                                <li><a class="btn default btn-outline image-popup-vertical-fit" href="/upload/pubs/{{pub.submittedBy}}/{{pub.filename}}"><i class="icon-magnifier"></i></a></li>
+                                                {% if pub.status == 1 %}
+                                                <li><a class="btn default btn-outline modal-desc"  data-id="{{pub.id}}"><i class="icon-link"></i></a></li>
+                                                {% elif pub.status == 3 %}
+                                                <li><a class="btn default btn-outline modal-desc"  data-id="{{pub.id}}"><i class="icon-link"></i></a></li>
+                                                {% elif pub.status == 2 %}
+                                                <li><a class="btn default btn-outline modal-reupload"  data-id="{{pub.id}}"><i class="icon-link"></i></a></li>
+                                                {%endif%}
 
-                                        </ul>
-                                    </div>
+                                            </ul>
+                                        </div>
                                          
                                     </div>
                                     <div class="el-card-content text-left">
