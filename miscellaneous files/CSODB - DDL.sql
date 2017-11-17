@@ -158,7 +158,10 @@ $function$
                         AND oo.role/10000 = organizationID;
     END;
 $function$ STABLE LANGUAGE plpgsql;
-
+/*
+(104013, 'Sign Project Proposal Phase - 1'        , 104),
+(104014, 'Sign Project Proposal Phase - 2'        , 104),
+ */
  CREATE OR REPLACE FUNCTION cso_get_first_phase_signatories()
  RETURNS TABLE (
      idNumber INTEGER
@@ -1640,19 +1643,18 @@ DROP TABLE IF EXISTS SignatoryType CASCADE;
 CREATE TABLE SignatoryType (
 	id SMALLINT,
 	name VARCHAR(45) NOT NULL,
-    "lineup" SMALLINT NOT NULL,
 
 	PRIMARY KEY (id)
 );
-INSERT INTO SignatoryType (id, name, "lineup")
-                   VALUES ( 0, 'Project Head', 0),
-                          ( 1, 'Finance Officer', 10), -- VP
-                          ( 2, 'Immediate Superior', 20), -- 1 step higher
-                          ( 3, 'President', 30),
-                          ( 4, 'Faculty Adviser', 40), --
-                          ( 5, 'Documentation Officer', 50), -- VP
-                          ( 6, 'APS - AVC', 60), -- Pwedeng Madami
-                          ( 7, 'APS -  VC', 70); --
+INSERT INTO SignatoryType (id, name)
+                   VALUES ( 0, 'Project Head'),
+                          ( 1, 'Treasurer/Finance Officer'), -- VP
+                          ( 2, 'Immediate Superior'), -- 1 step higher
+                          ( 3, 'President'),
+                          ( 4, 'Faculty Adviser'), --
+                          ( 5, 'Documentation Officer'), -- VP
+                          ( 6, 'APS - AVC'), -- Pwedeng Madami
+                          ( 7, 'APS -  VC'); --
 
 DROP TABLE IF EXISTS ProjectProposalSignatory CASCADE;
 CREATE TABLE ProjectProposalSignatory (
@@ -1923,23 +1925,9 @@ CREATE TABLE AMTActivityEvaluation (
 -- END FORMS
 -- COMMIT;
   /* OrgRes */
-DROP TABLE IF EXISTS "ARFOrganizationPosition" CASCADE;
-CREATE TABLE "ARFOrganizationPosition" (
-    "id" SMALLINT,
-    "name" VARCHAR(45),
-
-    PRIMARY KEY("id")
-);
-INSERT INTO "ARFOrganizationPosition" ("id", "name")
-                               VALUES (   0, 'Officer'),
-                                      (   1, 'Member'),
-                                      (   2, 'Non-member');
-
 DROP TABLE IF EXISTS "ActivityResearchForm" CASCADE;
 CREATE TABLE "ActivityResearchForm" (
   "GOSMActivity" INTEGER REFERENCES ProjectProposal(GOSMActivity),
-  "sequence" INTEGER,
-  "positionInOrganization" SMALLINT REFERENCES "ARFOrganizationPosition"("id"),
   "IUTPOTA" SMALLINT,
   "TASMI" SMALLINT,
   "IFIDTA" SMALLINT,
@@ -1950,7 +1938,7 @@ CREATE TABLE "ActivityResearchForm" (
   "EFFA" TEXT,
   "dateSubmitted" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-  PRIMARY KEY("GOSMActivity", "sequence")
+  PRIMARY KEY("GOSMActivity")
 );
 CREATE TRIGGER "before_insert_ActivityResearchForm_sequence" --Y
     BEFORE INSERT ON "ActivityResearchForm" --Y
@@ -2215,6 +2203,14 @@ CREATE TRIGGER "before_insert_PostProjectBookTransfer_sequence"
   /* Post Acts END*/
 /* ADM END */
 /* Publicity */
+DROP TABLE IF EXISTS "ActivityPublicityMaterial" CASCADE;
+CREATE TABLE "ActivityPublicityMaterial"(
+    "id" SMALLINT,
+    "name" VARCHAR(45) NOT NULL,
+
+    PRIMARY KEY("id")
+);
+
 DROP TABLE IF EXISTS "ActivityPublicityModeOfDistribution" CASCADE;
 CREATE TABLE "ActivityPublicityModeOfDistribution"(
     "id" SMALLINT,
@@ -2245,12 +2241,15 @@ CREATE TABLE "ActivityPublicity" (
     "GOSMActivity" INTEGER REFERENCES ProjectProposal(GOSMActivity),
     "submissionID" INTEGER DEFAULT -1,
     "sequence" INTEGER DEFAULT -1,
+    "material" SMALLINT REFERENCES "ActivityPublicityMaterial"("id"),
     "modeOfDistribution" SMALLINT REFERENCES "ActivityPublicityModeOfDistribution"("id"),
+    "description" TEXT,
     "targetPostingDate" DATE, --me
+    "submittedBy" INTEGER REFERENCES Account(idNumber),
+    "dateSubmitted" DATE,
     "status" SMALLINT REFERENCES "ActivityPublicityStatus"("id"),
     "checkedBy" INTEGER REFERENCES Account(idNumber),
     "dateChecked" DATE,
-    "submittedBy" INTEGER REFERENCES Account(idNumber),
     "comments" TEXT,
     "filename" TEXT,
     "filenameToShow" TEXT,
