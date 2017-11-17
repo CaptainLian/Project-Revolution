@@ -1948,13 +1948,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 var insertParam = {
                                     gosmid: req.body.gosmid,
                                     sid: data.seq+1,
-                                    mod: req.body.optionRadios2,
-                                        tpd: req.body['posting-date'],
-                                        sb: req.session.user.idNumber,
-                                        // ds:,
-                                        status:0,
-                                        filename: filename,
-                                        filenameToShow: filenameTS
+                                    mod: req.body['optionsRadios2'],
+                                    tpd: req.body['posting-date'],
+                                    sb: req.session.user.idNumber,
+                                    ds:req.body.title,
+                                    status:0,
+                                    filename: filename,
+                                    filenameToShow: filenameTS
 
                                     }
                                     console.log(insertParam);
@@ -1978,6 +1978,35 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             
             
         },
+        viewPubDetails: (req, res)=>{
+            const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
+            var dbParam = {
+                id:req.body.id
+            }
+            console.log(dbParam)
+            pnpModel.getPubDetails(dbParam)
+                    .then(data=>{
+                        console.log(data);
+                        renderData.activity = data
+                        console.log("TPYE");
+                        console.log(req.body.type);
+                        if(req.body.type == 1){
+                            console.log("ONE TYPE");
+                            res.render('section/PNP/approveModal',renderData);
+                        }else{
+                            console.log("SECOND TYPE");
+                            res.render('section/PNP/pendModal',renderData);
+                        }
+                    }).catch(err=>{
+                        console.log(err);
+                    })
+        },
+        reuploadPubs:(req, res)=>{
+            console.log(req.files);
+            console.log(req.body);
+        }
 
 
 

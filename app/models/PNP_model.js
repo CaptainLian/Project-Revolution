@@ -15,6 +15,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
 	const getActivityDetailsforPubs = queryFiles.getActivityDetailsforPubs;
     const updatePublicityStatus = queryFiles.updatePublicityStatus;
     const getMypubs = queryFiles.getMypubs;
+    const getPubDetails = queryFiles.getPubDetails;
 
 
 	return{
@@ -32,6 +33,9 @@ module.exports = function(configuration, modules, db, queryFiles) {
         },
         getActivityDetailsforPubs:function (param, connection = db) {
             return connection.one(getActivityDetailsforPubs, param);
+        },
+        getPubDetails:function (param, connection = db) {
+            return connection.one(getPubDetails, param);
         },
         getPubsNumberToApprove:function ( connection = db) {
             return connection.any(getPubsNumberToApprove);

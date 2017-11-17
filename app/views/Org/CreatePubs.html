@@ -47,6 +47,7 @@
     <![endif]-->
     <!-- IMPORTANT -->
     <style type="text/css">
+
         .remove:{
             color: yellow
         }
@@ -222,7 +223,14 @@
                                         <div class="el-overlay">
                                         <ul class="el-info">
                                             <li><a class="btn default btn-outline image-popup-vertical-fit" href="/upload/pubs/{{pub.submittedBy}}/{{pub.filename}}"><i class="icon-magnifier"></i></a></li>
-                                            <li><a class="btn default btn-outline" href="javascript:void(0);"><i class="icon-link"></i></a></li>
+                                            {% if pub.status == 1 %}
+                                            <li><a class="btn default btn-outline modal-desc"  data-id="{{pub.id}}"><i class="icon-link"></i></a></li>
+                                            {% elif pub.status == 3 %}
+                                            <li><a class="btn default btn-outline modal-desc"  data-id="{{pub.id}}"><i class="icon-link"></i></a></li>
+                                            {% elif pub.status == 2 %}
+                                            <li><a class="btn default btn-outline modal-reupload"  data-id="{{pub.id}}"><i class="icon-link"></i></a></li>
+                                            {%endif%}
+
                                         </ul>
                                     </div>
                                          
@@ -253,7 +261,54 @@
 {%block post_content%}
 <form action="/Organization/Publicity/Insert" encType="multipart/form-data"    method="POST"   >
 
-
+<div class="modal fade" id="online-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-success">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <!--
+                    label-success = approved
+                    label-danger = denied
+                    label-warning = pended
+                -->
+                <h4 class="modal-title custom-modal-title">Cover Photo</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group row">
+                            <label class="control-label col-md-4">Mode of Distribution:</label>
+                            <div class="col-md-8">
+                                <p class="control-label">Online</p>
+                            </div>
+                            <label class="control-label col-md-4">Target Posting Date:</label>
+                            <div class="col-md-8">
+                                <p class="control-label">September 21, 2004 </p>
+                            </div>
+                            <label class="control-label col-md-4">Status</label>
+                            <div class="col-md-8">
+                                <p class="control-label">Approved</p>
+                            </div>
+                            <label class="control-label col-md-4">Checked by</label>
+                            <div class="col-md-8">
+                                <p class="control-label">Dominique Dagunton</p>
+                            </div>
+                            <label class="control-label col-md-4">Date Checked</label>
+                            <div class="col-md-8">
+                                <p class="control-label">September 17, 2017</p>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
  <div class="modal fade" id="addModal">
                     <div class="modal-dialog">
                         <div class="modal-content">

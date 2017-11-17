@@ -1,0 +1,84 @@
+<form action="/Organization/PostProjectProposal/SaveContext" id="form-pend" method="POST" class="form-horizontal">
+<!-- <input type="hidden" name="_csrf" value="{{csrfToken}}"> -->
+<input type="hidden" name="gosmid" value="{{activity.id}}">
+<div class="modal-dialog"  style="margin-top: 130px">
+    <div class="modal-content">
+        <div class="modal-header bg-warning">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <!--
+                label-success = approved
+                label-danger = denied
+                label-warning = pended
+            -->
+            <h4 class="modal-title text-white">{{activity.description}}</h4>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group row">
+                        <label class="control-label col-md-4">Mode of Distribution:</label>
+                        <div class="col-md-8">
+                            {%if activity.modeOfDistribution == 0%}
+                                <p class="control-label">Online</p>
+                            {%elif activity.modeOfDistribution == 0%}
+                                <p class="control-label">Printed</p>
+                            {%endif%}            
+                        </div>
+                        <label class="control-label col-md-4">Target Posting Date:</label>
+                        <div class="col-md-8">
+                            <p class="control-label">{{activity.tdate}}</p>
+                        </div>
+                        <label class="control-label col-md-4">Status</label>
+                        <div class="col-md-8">
+                            {%if activity.status == 0%}
+                                <p class="control-label">For Evaluation</p>
+                            {%elif activity.status == 1%}
+                                <p class="control-label">Approved</p>
+                            {%elif activity.status == 2%}
+                                <p class="control-label">Pended</p>
+                            {%elif activity.status == 3%}
+                                <p class="control-label">Denied</p>
+                            {%endif%}     
+                                  
+                        </div>
+                        <label class="control-label col-md-4">Reason:</label>
+                        <div class="col-md-8">
+                            <p class="control-label">{{activity.comments}}</p>
+                        </div>
+                        <label class="control-label col-md-4">Checked by</label>
+                        <div class="col-md-8">
+                            <p class="control-label">Dominique Dagunton</p>
+                        </div>
+                        <label class="control-label col-md-4">Date Checked</label>
+                        <div class="col-md-8">
+                            <p class="control-label">{{activity.ddate}}</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                <label class="col-sm-12">Upload a revision</label>
+                <div class="col-sm-12">
+                    <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                        <div class="form-control" data-trigger="fileinput">
+                            <i class="glyphicon glyphicon-file fileinput-exists"></i>
+                            <span class="fileinput-filename2" id="filename2"></span>
+                        </div>
+                        <span class="input-group-addon btn btn-default btn-file"> 
+                        <span class="fileinput-new ">Select file</span>
+                        <span class="fileinput-exists">Change</span>
+                        <input type="file" id="file2" name="file">
+                        </span>
+                        <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a> </div>
+                </div>
+            </div>
+                </div>
+                
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button  class="btn btn-default" type="button" data-dismiss="modal">Close</button>
+            <button  class="btn btn-info" type="submit">Resubmit</button>
+        </div>
+    </div>
+</div>
+</form>
+                
