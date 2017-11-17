@@ -17,18 +17,19 @@ $1 is the NEW data
 NEW.GOSMActivity should be $1.GOSMActivity when using this function
 */
 CREATE OR REPLACE FUNCTION "trigger_before_insert_increment_sequence"(/* "param_TableName" TEXT, "param_TableAcronym" TEXT, "param_Where" TEXT*/)
-RETURNS trigger AS
+RETURNS trigger AS --Y
 $trigger$
-    BEGIN
-	EXECUTE format ('SELECT COALESCE(MAX(sequence) + 1, 1)
+    BEGIN --Y 
+    -- DO NOT DELETE
+	EXECUTE format ('SELECT COALESCE(MAX(sequence) + 1, 1) --Y
 	                   FROM %I %I
-	                  WHERE %s', TG_ARGV[0], TG_ARGV[1], TG_ARGV[2])
-          INTO STRICT NEW."sequence"
-	        USING NEW;
+	                  WHERE %s', TG_ARGV[0], TG_ARGV[1], TG_ARGV[2]) --Y
+          INTO STRICT NEW."sequence" --Y
+	        USING NEW; --Y
 	  
-        RETURN NEW;
-    END;
-$trigger$ LANGUAGE plpgsql;
+        RETURN NEW; --Y
+    END; --Y
+$trigger$ LANGUAGE plpgsql; --Y
 
 /*
     Helpful functions
@@ -1951,10 +1952,10 @@ CREATE TABLE "ActivityResearchForm" (
 
   PRIMARY KEY("GOSMActivity", "sequence")
 );
-CREATE TRIGGER "before_insert_ActivityResearchForm_sequence"
-    BEFORE INSERT ON "ActivityResearchForm"
-    FOR EACH ROW
-    EXECUTE PROCEDURE "trigger_before_insert_increment_sequence"('ActivityResearchForm', 'arf', 'arf."GOSMActivity" = $1."GOSMActivity"');
+CREATE TRIGGER "before_insert_ActivityResearchForm_sequence" --Y
+    BEFORE INSERT ON "ActivityResearchForm" --Y
+    FOR EACH ROW --YEAH
+    EXECUTE PROCEDURE "trigger_before_insert_increment_sequence"('ActivityResearchForm', 'arf', 'arf."GOSMActivity" = $1."GOSMActivity"'); --Y
 
 /* ADM */
   /* Post Acts */
