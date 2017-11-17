@@ -2224,7 +2224,9 @@ CREATE TABLE "ActivityPublicityMaterial"(
 
     PRIMARY KEY("id")
 );
-
+INSERT INTO "ActivityPublicityMaterial" ("id", "name")
+                                 VALUES (  0 , 'Not applicable'),;
+ -- 0 = not applicaable
 DROP TABLE IF EXISTS "ActivityPublicityModeOfDistribution" CASCADE;
 CREATE TABLE "ActivityPublicityModeOfDistribution"(
     "id" SMALLINT,
@@ -2247,7 +2249,8 @@ INSERT INTO "ActivityPublicityStatus" ("id", "name")
                                VALUES (   0, 'For Evaluation'),
                                       (   1, 'Approved'),
                                       (   2, 'Pended'),
-                                      (   3, 'Denied');
+                                      (   3, 'Denied'),
+                                      (   4, 'Old Version');
 
 DROP TABLE IF EXISTS "ActivityPublicity" CASCADE;
 CREATE TABLE "ActivityPublicity" (
