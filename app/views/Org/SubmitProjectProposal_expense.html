@@ -63,6 +63,16 @@
     {{tag.javascript('/js/custom.min.js', true)}}
 
     {{tag.javascript('/js/Organization/SubmitProjectProposal_expense.js', true)}}
+    <script>
+    {% if revenue == 1 %}
+    	
+	{% else %}
+		$(".fund").css("display", "none");
+		$("#rev-opt").remove();
+		$(".expense").css("display","none");
+	{% endif %}
+    </script>
+	
 {%endblock%}
 
 {%block content%}

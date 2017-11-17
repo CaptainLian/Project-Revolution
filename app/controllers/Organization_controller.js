@@ -381,6 +381,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.gosmactivity = dbParam;
                 renderData.projectProposal = data[0];
                 renderData.expenses = data[1];
+                renderData.revenue = req.params.revenue;
 
                 console.log(renderData.gosmactivity);
                 console.log(renderData.projectProposal);
@@ -786,11 +787,15 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         throw err;
                     });
                 }).then(GOSM => {
+                    var dbParam = {
+                        organization: req.session.user.organizationSelected.id
+                    };
                     logger.debug('Starting batch queries', log_options);
                     return task1.batch([
                         gosmModel.getGOSMActivities(GOSM, undefined, task1),
                         gosmModel.getAllActivityTypes(['id', 'name'], task1),
-                        gosmModel.getAllActivityNature(['id', 'name'], task1)
+                        gosmModel.getAllActivityNature(['id', 'name'], task1),
+                        organizationModel.getStudentsOfOrganization(dbParam)
                     ]);
                 });
              }).then(data => {
@@ -803,6 +808,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.activityTypes = data[1];
                 renderData.activityNature = data[2];
                 renderData.gosmActivities = data[0];
+                renderData.members = data[3];
 
                 return res.render('Org/GOSM', renderData);
               }).catch(err => {

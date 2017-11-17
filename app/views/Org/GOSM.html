@@ -205,10 +205,11 @@
                             <label class="control-label col-md-3">Person in Charge</label>
                             <div class="col-md-9">
                                 <select multiple="multiple" name="personInCharge[]" class="select" id="personInCharge">
-                                    <option value="11445955">Neil Capistrano</option>
-                                    <option value="11445954">Dominique Dagunton</option>
-                                    <option value="11445953">Markus Flores</option>
-                                    <option value="11445952">Lian Laguio</option>
+                                    {% for member in members %}
+
+                                        <option value="{{member.idnumber}}">{{member.firstname}} {{member.lastname}}</option>
+
+                                    {% endfor %}
                                 </select>
 
                             </div>

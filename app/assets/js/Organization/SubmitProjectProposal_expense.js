@@ -1,7 +1,7 @@
-//START 
-$(".fund").css("display", "none");
-$("#rev-opt").remove();
-$(".expense").css("display","none");
+// //START 
+// $(".fund").css("display", "none");
+// $("#rev-opt").remove();
+// $(".expense").css("display","none");
 //END KPAG FUNDRAISING
 var item = {};
 item["rev"] = {};
