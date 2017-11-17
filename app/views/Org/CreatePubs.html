@@ -19,7 +19,7 @@
     {{tag.style('https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css')}}
     {{tag.style('https://cdnjs.cloudflare.com/ajax/libs/nestable2/1.5.0/jquery.nestable.min.CSS')}}
 
-{{tag.style('/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css')}}
     <!-- Menu CSS -->
     {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
     <!-- animation CSS -->
@@ -114,7 +114,9 @@
 
 
     {{tag.javascript('/js/cbpFWTabs.js', true)}}
-    <!-- tabs-->
+       
+    {{tag.javascript('/plugins/bower_components/Magnific-Popup-master/dist/jquery.magnific-popup.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/Magnific-Popup-master/dist/jquery.magnific-popup-init.js', true)}}
     {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
     <!-- Sweet-Alert  -->
      {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js', true)}}
@@ -217,6 +219,12 @@
                                     {% endif %}
                                     <div class="el-card-content el-overlay-1 "> 
                                         <img src="/upload/pubs/{{pub.submittedBy}}/{{pub.filename}}" />
+                                        <div class="el-overlay">
+                                        <ul class="el-info">
+                                            <li><a class="btn default btn-outline image-popup-vertical-fit" href="/upload/pubs/{{pub.submittedBy}}/{{pub.filename}}"><i class="icon-magnifier"></i></a></li>
+                                            <li><a class="btn default btn-outline" href="javascript:void(0);"><i class="icon-link"></i></a></li>
+                                        </ul>
+                                    </div>
                                          
                                     </div>
                                     <div class="el-card-content text-left">
