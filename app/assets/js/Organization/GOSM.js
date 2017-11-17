@@ -619,7 +619,7 @@ $("#submit-gosm").click(function() {
             $('.sttabs').block({
                         message: '<h3>Success</h3>',
                         css: {
-                            text-color: 'white',
+                            'text-color': 'white',
                             backgroundColor: '#00C292'
                         }
                     });
