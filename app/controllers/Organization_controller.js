@@ -1926,7 +1926,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
  
 
             dir2 = path.normalize(dir2);
-            console.log("req.files");
+            console.log("req.files");   
             console.log(req.body);
 
             const renderData = Object.create(null);
@@ -1950,7 +1950,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                     sid: data.seq+1,
                                     mod: req.body.optionRadios2,
                                         tpd: req.body['posting-date'],
-                                        sb: req.session.user.id,
+                                        sb: req.session.user.idNumber,
                                         // ds:,
                                         status:0,
                                         filename: filename,
