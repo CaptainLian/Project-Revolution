@@ -200,6 +200,10 @@
                                         <div class="ribbon ribbon-{{pub.id}} ribbon-vertical-l ribbon-danger">
                                             <i class="fa fa-times-circle"></i>
                                         </div>
+                                     {% elif pub.status ==4 %}
+                                        <div class="ribbon ribbon-{{pub.id}} ribbon-vertical-l ribbon-danger">
+                                            <i class="fa fa-times-circle"></i>
+                                        </div>
                                     {% else %}
                                         <div class="ribbon ribbon-{{pub.id}} ribbon-vertical-l ">
                                             <i class=""></i>
@@ -217,6 +221,8 @@
                                                 <li><a class="btn default btn-outline modal-desc"  data-id="{{pub.id}}"><i class="icon-link"></i></a></li>
                                                 {% elif pub.status == 2 %}
                                                 <li><a class="btn default btn-outline modal-desc"  data-id="{{pub.id}}"><i class="icon-link"></i></a></li>
+                                                {% elif pub.status == 4 %}
+                                                <li><a class="btn default btn-outline modal-desc"  data-id="{{pub.id}}"><i class="icon-link"></i></a></li>
                                                 {%endif%}
                                             </ul>
                                         </div>
@@ -225,9 +231,12 @@
                                         <h3 class="box-title">{{pub.description}}</h3>
                                         <div class="col-md-12 text-center actions" style="visibility: hidden;">
                                             <div class="btn-group" role="group" aria-label="Basic example">
+                                            {% if pub.status == 4 %}
+                                            {% else %}
                                                 <button type="button" data-id="{{pub.id}}" class="btn btn-success approve" data-toggle="tooltip" data-original-title="Approve Publicity Material"><i class="fa fa-check"></i></button>
                                                 <button type="button" data-id="{{pub.id}}" class="btn btn-warning pend" data-toggle="tooltip" data-original-title="Pend Publicity Material"><i class="fa fa-history"></i></button>
                                                 <button type="button" data-id="{{pub.id}}" class="btn btn-danger deny" data-toggle="tooltip" data-original-title="Deny Publicity Material"><i class="fa fa-times"></i></button>
+                                            {%endif%}
                                             </div>
                                         </div>
                                         <br />
