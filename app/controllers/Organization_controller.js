@@ -370,7 +370,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             database.task(task=>{
                 return task.batch([
                     projectProposalModel.getProjectProposal(dbParam),
-                    projectProposalModel.getProjectProposalExpenses(req.params.id)                    
+                    projectProposalModel.getProjectProposalExpenses(req.params.id),
+                    projectProposalModel.getExpenseTypes()                    
                 ]);
             })
             .then(data=>{
@@ -382,6 +383,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.projectProposal = data[0];
                 renderData.expenses = data[1];
                 renderData.revenue = req.params.revenue;
+                renderData.expenseTypes = data[2];
 
                 console.log(renderData.gosmactivity);
                 console.log(renderData.projectProposal);
@@ -876,12 +878,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
             projectProposalModel.updatePPRBriefContext(dbParam)
             .then(data=>{
+                
+                res.redirect(`/Organization/ProjectProposal/Main/${req.params.id}/1`);
 
             }).catch(error=>{
                 console.log(error);
             });
 
-            res.redirect(`/Organization/ProjectProposal/Main/${req.params.id}/1`);
 
 
 
@@ -1645,42 +1648,86 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
             console.log(req.body['item[]'].length);
 
-            projectProposalModel.updatePPRExpenses(dbParam);
 
-            var dbParam2 = {
-                projectproposal: req.params.ppr
-            };
-
-            projectProposalModel.deleteExpenses(dbParam2);
 
             database.tx(transaction=>{
 
-                for (var i = 0; i < req.body['item[]'].length-1; i++){
+                projectProposalModel.updatePPRExpenses(dbParam, transaction)
+                .then(data=>{
 
-                    var dbParam3 = {
-                        projectProposal: req.params.ppr,
-                        material: req.body['item[]'][i],
-                        quantity: req.body['quantity[]'][i],
-                        unitCost: req.body['price[]'][i],
-                        type: req.body['typeOfItem[]'][i]
-                    };
+                }).catch(error=>{
+                    console.log(error);
+                });
 
-                    console.log("ENTERS LOOP");
-                    console.log(dbParam3);
+                var dbParam2 = {
+                    projectproposal: req.params.ppr
+                };
 
-                    projectProposalModel.insertProjectProposalExpenses(dbParam3, transaction)
-                    .then(data=>{
+                projectProposalModel.deleteExpenses(dbParam2, transaction)
+                .then(data=>{
 
-                    }).catch(error=>{
-                        console.log(error);
-                    });
-                }
-
-            });
+                }).catch(error=>{
+                    console.log(error);
+                });
 
             
 
-            res.redirect(`/Organization/ProjectProposal/Main/${req.params.id}/1`);
+                for (var i = 0; i < req.body['item[]'].length-1; i++){
+
+                    if(req.body['optionsRadios2[]'][i] == 'Revenue'){
+
+                        var dbParam3 = {
+                            projectProposal: req.params.ppr,
+                            item: req.body['item[]'][i],
+                            quantity: req.body['quantity[]'][i],
+                            sellingPrice: req.body['price[]'][i]
+                        };
+
+                        console.log("revenue loop");
+                        console.log(dbParam3);
+
+                        projectProposalModel.insertProjectProposalProjectedIncome(dbParam3, transaction)
+                        .then(data=>{
+
+                        }).catch(error=>{
+                            console.log(error);
+                        });
+
+
+                    }
+                    else{
+
+                        var dbParam3 = {
+                            projectProposal: req.params.ppr,
+                            material: req.body['item[]'][i],
+                            quantity: req.body['quantity[]'][i],
+                            unitCost: req.body['price[]'][i],
+                            type: req.body['typeOfItem[]'][i]
+                        };
+
+                        console.log("expense loop");
+                        console.log(dbParam3);
+
+                        projectProposalModel.insertProjectProposalExpenses(dbParam3, transaction)
+                        .then(data=>{
+
+                        }).catch(error=>{
+                            console.log(error);
+                        });
+
+                    }
+
+                    
+                }
+
+            }).then(data=>{
+
+                res.redirect(`/Organization/ProjectProposal/Main/${req.params.id}/1`);
+
+            }).catch(error=>{
+                console.log(error);
+            });
+        
 
         },
 

@@ -33,6 +33,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const getOrgFacultyAdvisersSQL = queryFiles.getOrgFacultyAdvisers;
     const getAllMyActivity = queryFiles.getAllMyActivity;
     const getPPRToCreatePubsList = queryFiles.getPPRToCreatePubsList;
+    const getExpenseTypesSQL = queryFiles.getExpenseTypes;
     
     /**
      * class with properties
@@ -351,6 +352,10 @@ module.exports = function(configuration, modules, db, queryFiles) {
     };
     ProjectProposalModel.prototype.getPPRToCreatePubsList = function(param, connection = this._db){
         return connection.any(getPPRToCreatePubsList, param);
+    };
+
+    ProjectProposalModel.prototype.getExpenseTypes = function(connection = this._db){
+        return connection.many(getExpenseTypesSQL);
     };
 
     return new ProjectProposalModel(db, modules);

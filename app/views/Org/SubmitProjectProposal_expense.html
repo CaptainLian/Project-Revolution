@@ -62,16 +62,15 @@
 
     {{tag.javascript('/js/custom.min.js', true)}}
 
-    {{tag.javascript('/js/Organization/SubmitProjectProposal_expense.js', true)}}
     <script>
-    {% if revenue == 1 %}
-    	
-	{% else %}
-		$(".fund").css("display", "none");
-		$("#rev-opt").remove();
-		$(".expense").css("display","none");
-	{% endif %}
+
+
+
+		
     </script>
+
+    {{tag.javascript('/js/Organization/SubmitProjectProposal_expense.js', true)}}
+    
 	
 {%endblock%}
 
@@ -233,12 +232,11 @@
 							<div class="form-group">
 								<label class="form-control-label">Type of Item</label>
 								<select name="typeOfItem[]" id="sel0" class="form-control select2">
-									<option value="0" >Others</option>
-									<option value="1">Food & Accomodation</option>
-									<option value="2">Venue & Transportation</option>
-									<option value="3">Honorarium</option>
-									<option value="4">Cash Prize</option>
-									<option value="5">Corruption Expense</option>
+									
+									{% for type in expenseTypes %}
+										<option value="{{type.id}}" >{{type.name}}</option>
+									{% endfor %}
+									
 								</select>
 								<div>
 									<span class="help-block" id="time-help"></span>
@@ -271,7 +269,7 @@
 										Revenue
 									</label>
 									<label class="radio-inline expense">
-										<input id="exp" name="optionsRadios2[]" value="Expense" checked="" type="radio"> 
+										<input id="exp" name="optionsRadios2[]" value="Expense" type="radio"> 
 										Expense 
 									</label>
 								</div>

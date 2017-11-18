@@ -106,6 +106,16 @@
 
 					{% set completionRate = completionRate + 25 %}
 
+				{% else %}
+
+					{% if projectProposal.isexpense %}
+
+					{% else %}
+
+						{% set completionRate = completionRate + 25 %}
+
+					{% endif %}
+
 				{% endif %}
 
 				{% if projectProposal.isprogramcomplete %}
@@ -150,7 +160,16 @@
 
 					{% else %}
 
-					0%
+						{% if projectProposal.isexpense %}
+
+						0%
+						
+						{% else %}
+
+						100%
+
+						{% endif %}
+
 
 					{% endif %}
 				</p>
@@ -244,8 +263,19 @@
 							<input type="hidden" name="expense" value="{{projectProposal.isexpensecomplete}}">
 						{% else %}
 
+							{% if projectProposal.isexpense %}
+
 							<h5>Funding Expense <span class="label label-danger">Incomplete</span></h5>
 							<input type="hidden" name="expense" value="{{projectProposal.isexpensecomplete}}">
+
+							{% else %}
+
+							<h5>Funding Expense <span class="label label-success">Complete</span></h5>
+							<input type="hidden" name="expense" value="true">
+
+
+							{% endif %}
+
 
 						{% endif %}
 
