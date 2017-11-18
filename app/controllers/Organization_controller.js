@@ -1938,11 +1938,12 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             };
             console.log(req.body);
             console.log(req.files);
+             var filename = cuid() + path.extname(req.files['pubs'].name);
+                var filenameTS = req.files['pubs'].name;
             pnpModel.getSpecificPubSeq(gParam).then(data=>{
                  database.task(t=>{
                 
-                var filename = cuid() + path.extname(req.files['pubs'].name);
-                var filenameTS = req.files['pubs'].name;
+               
                 
                 console.log(data)  
                 if(req.body['optionsRadios2'] != 'null'){
@@ -1972,7 +1973,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             })
                 }).then(result => {
                     // console.logr()
-                    res.json({status:1});
+                    console.log("result");
+                    console.log(result);
+                    res.json({status:1,path:'/upload/pubs/'+req.session.user.idNumber+'/'+filename,description:req.body.title, id:result.id});
                 }).catch(err=>{
                     console.log("rrD")
                     res.json({status:1});

@@ -42,7 +42,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
             return connection.any(getPubsNumberToApprove);
         },
         insertActivityPublicity:function (param, connection = db) {
-            return connection.any(insertActivityPublicity, param);
+            return connection.one(insertActivityPublicity, param);
         },
         getSpecificPubSeq:function (param, connection = db) {
             return connection.one(getSpecificPubSeq, param);
