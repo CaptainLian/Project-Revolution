@@ -85,3 +85,40 @@
 	margin-top: 10px;
 	margin-bottom: 10px;
 }
+.small-box{
+  float: left;
+  width: 20px;
+  height: 20px;
+  margin: 5px;
+  border: 1px solid rgba(0, 0, 0, .2);
+}
+
+.blue {
+  background: #13b4ff;
+}
+
+.purple {
+  background: #DD76FF;
+}
+
+.violet {
+  background: #6E5FE8;
+}
+.peach{
+	background: #FF9D79;
+}
+.cyan{
+	background: #69B7FF;
+}
+.magenta{
+	background: #E85F83;
+}
+.margin-1{
+	margin-left: 2em;
+}
+.legend{
+	height: 10em;
+  	display: flex;
+  	align-items: center;
+  	justify-content: center
+}
