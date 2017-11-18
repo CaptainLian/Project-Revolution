@@ -20,6 +20,7 @@
     <link href="css/animate.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="css/style.css" rel="stylesheet">
+    <link href="css/doms.css" rel="stylesheet">
     <!-- color CSS -->
     <link href="css/colors/blue.css" id="theme" rel="stylesheet">
     <!--alerts CSS -->
@@ -498,14 +499,12 @@
                             <div class="row">
                                 <div class="col-lg-2 col-md-3  col-sm-4 col-xs-12 inbox-panel">
                                     <div>
-                                        <a href="#" class="btn btn-success btn-block waves-effect waves-light ca-approve">Approve</a>
-                                        <a href="#" class="btn btn-warning btn-block waves-effect waves-light ca-pend">Pend</a>
-                                        <a href="#" class="btn btn-danger btn-block waves-effect waves-light ca-deny">Deny</a>
+                                        <button type="button" id="" href="#" class="ca-approve btn btn-success btn-block waves-effect waves-light fa-approve">Approve</button>
+                                        <button id="" href="#" class="btn btn-warning btn-block waves-effect waves-light ca-pend">Pend</button>
+                                        <button id="" href="#" class="btn btn-danger btn-block waves-effect waves-light ca-deny">Deny</button>
+                                        <button id="" href="#" class="btn btn-info btn-block waves-effect waves-light deny">Go Back</button>
 
-                                        <div class="list-group mail-list m-t-20">
-                                           
-                                            <a href="inbox.html" class="list-group-item active">Go back</a> 
-                                        </div>
+                    
                                         
                                     </div>
                                 </div>
@@ -513,7 +512,7 @@
                                     <div class="media m-b-30 p-t-20">
                                         <h4 class="font-bold m-t-0">Cash Advance for General Assembly to be held on September 30, 2017</h4> 
                                         <hr>
-                                        <a class="pull-left" href="#"> <img class="media-object thumb-sm img-circle" src="../plugins/images/users/pawandeep.jpg" alt=""> </a>
+                                       
                                         <div class="media-body"> <span class="media-meta pull-right">07:23 AM</span>
                                             <h4 class="text-danger m-0">La Salle Computer Society &nbsp;(123457)</h4>
                                             
@@ -688,25 +687,204 @@
         <!-- /#page-wrapper -->
     </div>
     <!-- /#wrapper -->
-    <!-- jQuery -->
+     <!-- jQuery -->
     <script src="../plugins/bower_components/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap Core JavaScript -->
     <script src="bootstrap/dist/js/tether.min.js"></script>
     <script src="bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="../plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js"></script>
+    <!--select2-->
+    <script src="../plugins/bower_components/custom-select/custom-select.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="../plugins/bower_components/multiselect/js/jquery.multi-select.js"></script>
     <!-- Menu Plugin JavaScript -->
     <script src="../plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js"></script>
     <!--slimscroll JavaScript -->
     <script src="js/jquery.slimscroll.js"></script>
     <!--Wave Effects -->
     <script src="js/waves.js"></script>
+    <!-- Magnific popup JavaScript -->
+    <script src="../plugins/bower_components/Magnific-Popup-master/dist/jquery.magnific-popup.min.js"></script>
+    <script src="../plugins/bower_components/Magnific-Popup-master/dist/jquery.magnific-popup-init.js"></script>
     <!-- Custom Theme JavaScript -->
     <script src="js/custom.min.js"></script>
-    <!--Style Switcher -->
-    <script src="../plugins/bower_components/styleswitcher/jQuery.style.switcher.js"></script>
+    <script src="js/cbpFWTabs.js"></script> <!-- tabs-->
+    <script src="js/orgviewproject.js"></script>
+    <script src="../plugins/bower_components/datatables/jquery.dataTables.min.js"></script>
     <!-- Sweet-Alert  -->
     <script src="../plugins/bower_components/sweetalert/sweetalert.min.js"></script>
     <script src="../plugins/bower_components/sweetalert/jquery.sweet-alert.custom.js"></script>
-</body>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+        <!-- Sweet-Alert  -->
+    <script src="../plugins/bower_components/sweetalert/sweetalert.min.js"></script>
+    <script src="../plugins/bower_components/sweetalert/jquery.sweet-alert.custom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/nestable2/1.5.0/jquery.nestable.min.js"></script>
+    <script src="../plugins/bower_components/custom-select/custom-select.min.js" type="text/javascript"></script>
+    <script src="../plugins/bower_components/bootstrap-select/bootstrap-select.min.js" type="text/javascript"></script>
+    <!-- Date Picker Plugin JavaScript -->
+    <script src="../plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+    <!-- Date range Plugin JavaScript -->
+    <script src="../plugins/bower_components/timepicker/bootstrap-timepicker.min.js"></script>
+    <script src="../plugins/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script>
 
+            $(".select2").select2();
+            $('.selectpicker').selectpicker();
+       
+    </script>
+<script>
+$("#approve").click(function(){
+    console.log('approved');
+        swal({   
+            title: "Are you sure?",                                           
+            showCancelButton: true,   
+            reverseButtons:true,
+            confirmButtonColor: "#00C292",   
+            confirmButtonText: "Yes",   
+            cancelButtonText: "No", 
+            focusConfirm:false,
+            focusCancel:false,
+            showLoaderOnConfirm: true,
+            preConfirm: function (data) {
+                console.log(data);
+                console.log("DATA");
+                return new Promise(function (resolve, reject) {
+                  setTimeout(function() {
+                    if (data === 'taken@example.com') {
+                      reject('This email is already taken.')
+                    } else {
+                      resolve()
+                    }
+                  }, 2000)
+                })
+            }
+             
+        }).then(function(data){
+            console.log(data);
+            console.log("ASD")
+            
+        });
+    });
+    $("#pend").click(function(){
+        var question = '<div class="row">'+
+                            '<div class="col-md-12 text-left m-b-20">'+
+                                '<br/>Select the sections that should be changed, then explain why.<br/>'+
+                            '</div>'+
+                            '<div class="form-group col-md-12">'+
+                                '<label class="col-md-12 text-left"><strong>Sections to be Edited:</strong></label>'+
+                                '<div class="col-md-12">'+
+                                    '<select class="col-md-12" multiple=""s id="select-sec">'+
+                                        
+                                        '<option value="1">I. Objectives</option>'+
+                                        '<option value="2">II. Brief Context</option>'+
+                                        '<option value="3">III. Program Design</option>'+
+                                        '<option value="4">IV. Source of Funds</option>'+
+                                        '<option value="5">V. Organizational Funds</option>'+
+                                        '<option value="6">VI. Revenue and Expense Table</option>'+
+                                        '<option value="7">VII. Attachements</option>'+
+                                    '</select>'+
+                                '</div>'+
+                                
+                            '</div>'+
+                            '<div class="form-group col-md-12">'+
+                                '<label class="col-md-12 text-left"><strong>Explanation</strong></label>'+
+                                '<div class="col-md-12">'+
+                                    '<textarea class="form-control" rows="5"></textarea>'+
+                                '</div>'+
+                            '</div>'+
+                        '</div>';
+        
+        
+        swal({   
+            title: "Pend Publicity Material",   
+            text:"Select the sections that should be changed, then explain why.",
+            content:question,
+            focusConfirm:false,
+            focusCancel:false,
+            showLoaderOnConfirm: true,
+            reverseButtons:true,
+            allowOutsideClick: false,
+            preConfirm: function (data) {
+                console.log($("#select-sec").val());
+                console.log("DATA");
+                return new Promise(function (resolve, reject) {
+                  setTimeout(function() {
+                    if (data === 'taken@example.com') {
+                      reject('This email is already taken.')
+                    } else {
+                      resolve()
+                    }
+                  }, 2000)
+                })
+            },
+            onOpen:function(ele){
+                $(ele).find("select").select2();
+                console.log("INIT SELECT");
+            },
+           
+            showCancelButton: true,   
+            confirmButtonColor: "#FEC107",   
+            confirmButtonText: "Defer",   
+            cancelButtonText: "Cancel",   
+             
+        }).then(function(data){
+            console.log(data);
+            console.log("ASD")
+
+        });
+    });
+    
+    $("#deny").click(function(){
+        var question = '<div class="row">'+
+                            '<div class="col-md-12 text-left  m-b-20" style="padding-left:16px">'+
+                                '<br/>State the reason for rejection.<br/>'+
+                            '</div>'+
+                            
+                            '<div class="form-group col-md-12">'+
+                                
+                                '<div class="col-md-12">'+
+                                    '<textarea class="form-control" rows="5"></textarea>'+
+                                '</div>'+
+                            '</div>'+
+                        '</div>';
+        swal({   
+            title: "Reject",   
+            
+            html:question,
+            showLoaderOnConfirm: true,
+            focusConfirm:false,
+            focusCancel:false,
+            reverseButtons:true,
+            allowOutsideClick: false,
+            showCancelButton: true,   
+            confirmButtonColor: "#FB9678",   
+            confirmButtonText: "Submit",   
+            cancelButtonText: "Cancel",
+            preConfirm: function (email) {
+                return new Promise(function (resolve, reject) {
+                  setTimeout(function() {
+                    if (email === 'taken@example.com') {
+                      reject('This email is already taken.')
+                    } else {
+                      resolve();
+                    }
+                  }, 2000)
+                })
+            } 
+           
+        }).then(function(data){
+            console.log(data);
+            console.log("REJECT");
+
+        });
+
+    });
+
+</script>
+</body>
 </html>
