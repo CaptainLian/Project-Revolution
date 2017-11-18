@@ -29,6 +29,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
     const accountModel = models.Account_model;
     const logger = modules.logger;
+    
+    const Promise = modules.Promise;
 
     const SystemController = Object.create(null);
 
@@ -118,39 +120,61 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     user.type = account.type;
                     req.session.user = user;
                     req.session.valid = true;
-
-                    req.session.save();
-
+                    
                     logger.debug('Determining user type', log_options);
+
+                    let step = Promise.resolve(true);
                     if(req.session.user.type === 1){
                         logger.debug('Student type account', log_options);
-                        accountModel.getStudentOrganizations(req.session.user.idNumber)
-                        .then(data => {
+                        step = step.then(() => {
+                            return accountModel.getStudentOrganizations(req.session.user.idNumber);
+                        }).then(data => {
                             logger.debug(`${JSON.stringify(data)}`, log_options);
 
                             let organization = data.shift();
                             logger.debug(`organizationSelected: ${JSON.stringify(organization)}`, log_options);
                             logger.debug(`${JSON.stringify(organization)}`, log_options);
-                            req.session.user.organizationSelected = Object.create(null);
-                            req.session.user.organizationSelected.id = organization.id;
-                            req.session.user.organizationSelected.path_profilePicture = organization.path_profilepicture || '';
-                            req.session.user.organizationSelected.acronym = data.acronym;
-                            req.session.save();
+
+                            let organizationSelected = Object.create(null);
+                            organizationSelected.id = organization.id;
+                            organizationSelected.path_profilePicture = organization.path_profilepicture || '';
+                            organizationSelected.acronym = data.acronym;
+
+                            req.session.user.organizationSelected = organizationSelected;
+
+                            return Promise.resolve(true);
                         });
                     }
-                    const reply = Object.create(null);
-                    reply. url = '/home';
-                    reply.reroute = true;
-                    reply.valid = true;
-                    return res.send(reply);
+
+                    return step.then(() => {
+                        logger.debug('Rerouting user to /home', log_options);
+                        return new Promise((resolve, reject) => {
+                            try {
+                              return req.session.save(err => {
+                                    if(err){
+                                        throw err;
+                                    }
+
+                                    const reply = Object.create(null);
+                                    reply.url = '/home';
+                                    reply.reroute = true;
+                                    reply.valid = true;
+                                    res.send(reply);
+                                    return resolve(true);
+                                });  
+                            } catch(err) {
+                                return reject(err);
+                            }
+                        });
+                    });
                 } else {
-                    logger.debug('Incorrect password');
+                    logger.debug('Incorrect password', log_options);
                     return res.send({
                         valid: false
                     });
                 }
             }).catch(err => {
-                logger.debug(`Account not exists? err: ${err}`);
+                logger.debug(`Account not exists? err: ${err.stack}`, log_options);
                 return res.send({
                     valid: false
                 });
