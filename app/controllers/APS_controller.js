@@ -155,5 +155,19 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         return res.render('APS/Logs');
     };
 
+    APSController.viewPPRListToSign = (req, res) => {
+        const renderData = Object.create(null);
+        renderData.extra_data = req.extra_data;
+
+        return res.render('APS/ProjectProposal_sign_list', renderData);
+    };
+
+    APSController.viewPPRSign = (req, res) => {
+        const renderData = Object.create(null);
+        renderData.extra_data = req.extra_data;
+        
+        return res.render('APS/ProjectProposal_sign', renderData);
+    };
+
     return APSController;
 };
