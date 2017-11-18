@@ -4,6 +4,8 @@
                 <div class="modal-header
                 {%if activity.status == 1%}
                     bg-success
+                 {%elif activity.status == 2%}
+                      bg-warning
                 {%elif activity.status == 3%}
                       bg-danger
                 {%endif%}     
@@ -14,7 +16,12 @@
                         label-danger = denied
                         label-warning = pended
                     -->
+                    {%if activity.status == 0%}
+                    <h4 class="modal-title ">{{activity.description}}</h4>
+                    {%else%}
                     <h4 class="modal-title text-white ">{{activity.description}}</h4>
+                    {%endif%}
+                    
                 </div>
                 <div class="modal-body">
                     <div class="row">

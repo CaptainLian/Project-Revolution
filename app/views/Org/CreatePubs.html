@@ -32,13 +32,13 @@
     {{tag.style('/plugins/bower_components/Magnific-Popup-master/dist/magnific-popup.css')}}
     {{tag.style('/plugins/bower_components/custom-select/custom-select.css')}}
     {{tag.style('/plugins/bower_components/bootstrap-select/bootstrap-select.min.css')}}
-    {{tag.style('/css/style.css')}}
+    
     {{tag.style('/css/doms.css')}}
     {{tag.style('/css/custom.css')}}
     <!-- color CSS -->
     
     {{tag.style('/css/colors.css')}}
-
+{{tag.style('/css/style.css')}}
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -84,6 +84,7 @@
             text-decoration-color:#00c292 !important;
         }
         .custom-class:focus { overflow: hidden; }
+       
     </style>
      {{tag.style('/plugins/bower_components/custom-select/custom-select.css')}}
     {{tag.style('/plugins/bower_components/bootstrap-select/bootstrap-select.min.css')}}
@@ -221,7 +222,9 @@
                                         <div class="el-overlay">
                                             <ul class="el-info">
                                                 <li><a class="btn default btn-outline image-popup-vertical-fit" href="/upload/pubs/{{pub.submittedBy}}/{{pub.filename}}"><i class="icon-magnifier"></i></a></li>
-                                                {% if pub.status == 1 %}
+                                                {% if pub.status == 0 %}
+                                                <li><a class="btn default btn-outline modal-desc"  data-id="{{pub.id}}"><i class="icon-link"></i></a></li>
+                                                {% elif pub.status == 1 %}
                                                 <li><a class="btn default btn-outline modal-desc"  data-id="{{pub.id}}"><i class="icon-link"></i></a></li>
                                                 {% elif pub.status == 3 %}
                                                 <li><a class="btn default btn-outline modal-desc"  data-id="{{pub.id}}"><i class="icon-link"></i></a></li>

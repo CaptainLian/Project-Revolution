@@ -207,7 +207,15 @@
                                         <div class="el-overlay">
                                             <ul class="el-info">
                                                 <li><a class="btn default btn-outline image-popup-vertical-fit" href="/upload/pubs/{{pub.submittedBy}}/{{pub.filename}}"><i class="icon-magnifier"></i></a></li>
-                                                <li><a class="btn default btn-outline" data-toggle="modal" href='#online-1'><i class="icon-link"></i></a></li>
+                                                {% if pub.status == 0 %}
+                                                <li><a class="btn default btn-outline modal-desc"  data-id="{{pub.id}}"><i class="icon-link"></i></a></li>
+                                                {% elif pub.status == 1 %}
+                                                <li><a class="btn default btn-outline modal-desc"  data-id="{{pub.id}}"><i class="icon-link"></i></a></li>
+                                                {% elif pub.status == 3 %}
+                                                <li><a class="btn default btn-outline modal-desc"  data-id="{{pub.id}}"><i class="icon-link"></i></a></li>
+                                                {% elif pub.status == 2 %}
+                                                <li><a class="btn default btn-outline modal-desc"  data-id="{{pub.id}}"><i class="icon-link"></i></a></li>
+                                                {%endif%}
                                             </ul>
                                         </div>
                                     </div>
