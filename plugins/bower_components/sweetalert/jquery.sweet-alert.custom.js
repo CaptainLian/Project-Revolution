@@ -45,7 +45,7 @@
     */
     $('.ca-approve').click(function(){
         swal({   
-            title: "Approve Cash Advance Request?",   
+            title: "Approve Request?",   
             text: "Clicking confirm will approve the financial request for the activity",   
             type: "warning",   
             showCancelButton: true,   
@@ -97,8 +97,67 @@
         });
     });
     /*
-        FINANCE SWEET ALERT
-    */
+         END of FINANCE SWEET ALERT
+    /*
+        START OF PNP SWEET ALERT
+    */ 
+
+    $('.pnp-approve').click(function(){
+        swal({   
+            title: "Approve Publicity Material?",   
+            text: "Clicking confirm will allow the org to use the publicity material.",   
+            type: "warning",   
+            showCancelButton: true,   
+            confirmButtonColor: "#DD6B55",   
+            confirmButtonText: "Confirm",   
+            closeOnConfirm: false 
+        }, function(){   
+            swal("Success!", "The request has been approved", "success"); 
+        });
+    });
+    $('.pnp-pend').click(function(){
+        swal({
+          title: "Pend Publicity Material",
+          text: "Write your reason for pending the publicity material:",
+          type: "input",
+          showCancelButton: true,
+          closeOnConfirm: false,
+          inputPlaceholder: "Write something"
+        },
+        function(inputValue){
+          if (inputValue === false) return false;
+          
+          if (inputValue === "") {
+            swal.showInputError("You need to write something!");
+            return false
+          }
+          
+          swal("Success!", "You wrote: " + inputValue, "success");
+        });
+    });
+    $('.pnp-deny').click(function(){
+        swal({
+          title: "Deny Publicity Material",
+          text: "Write your reason for denying the publicity material:",
+          type: "input",
+          showCancelButton: true,
+          closeOnConfirm: false,
+          inputPlaceholder: "Write something"
+        },
+        function(inputValue){
+          if (inputValue === false) return false;
+          
+          if (inputValue === "") {
+            swal.showInputError("You need to write something!");
+            return false
+          }
+          
+          swal("Success!", "You wrote: " + inputValue, "success");
+        });
+    });
+    /*
+        END OF PNP SWEET ALERT
+    */ 
 
     $('.sa-approve').click(function(){
         swal({   

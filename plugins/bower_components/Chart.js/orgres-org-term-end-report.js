@@ -7,33 +7,33 @@ $( document ).ready(function() {
             value: 300,
             color:"#FF9D79",
             highlight: "#FF9D79",
-            label: "5%",
+            label: "Strongly Agree",
 
         },
-        {
+        {   //magenta
             value: 50,
             color: "#E85F83",
             highlight: "#E85F83",
-            label: "Non-Academic"
+            label: "Neutral"
             
         },
         {
             value: 50,
             color: "#DD76FF",
             highlight: "#DD76FF",
-            label: "Non-Academic"
+            label: "Disagree"
         },
-        {
+        {   //violet
             value: 50,
             color: "#6E5FE8",
             highlight: "#6E5FE8",
-            label: "Non-Academic"
+            label: "Strongly Disagree"
         },
-        {
+        {   //cyan
             value: 50,
             color: "#69B7FF",
             highlight: "#69B7FF",
-            label: "Non-Academic"
+            label: "Agree"
         }
     ];
     
@@ -57,33 +57,33 @@ $( document ).ready(function() {
             value: 300,
             color:"#FF9D79",
             highlight: "#FF9D79",
-            label: "5%",
+            label: "Strongly Agree",
 
         },
-        {
+        {   //magenta
             value: 50,
             color: "#E85F83",
             highlight: "#E85F83",
-            label: "Non-Academic"
+            label: "Neutral"
             
         },
         {
             value: 50,
             color: "#DD76FF",
             highlight: "#DD76FF",
-            label: "Non-Academic"
+            label: "Disagree"
         },
-        {
+        {   //violet
             value: 50,
             color: "#6E5FE8",
             highlight: "#6E5FE8",
-            label: "Non-Academic"
+            label: "Strongly Disagree"
         },
-        {
+        {   //cyan
             value: 50,
             color: "#69B7FF",
             highlight: "#69B7FF",
-            label: "Non-Academic"
+            label: "Agree"
         }
     ];
     
@@ -110,33 +110,33 @@ $( document ).ready(function() {
             value: 300,
             color:"#FF9D79",
             highlight: "#FF9D79",
-            label: "5%",
+            label: "Strongly Agree",
 
         },
-        {
+        {   //magenta
             value: 50,
             color: "#E85F83",
             highlight: "#E85F83",
-            label: "Non-Academic"
+            label: "Neutral"
             
         },
         {
             value: 50,
             color: "#DD76FF",
             highlight: "#DD76FF",
-            label: "Non-Academic"
+            label: "Disagree"
         },
-        {
+        {   //violet
             value: 50,
             color: "#6E5FE8",
             highlight: "#6E5FE8",
-            label: "Non-Academic"
+            label: "Strongly Disagree"
         },
-        {
+        {   //cyan
             value: 50,
             color: "#69B7FF",
             highlight: "#69B7FF",
-            label: "Non-Academic"
+            label: "Agree"
         }
     ];
     
@@ -159,33 +159,33 @@ $( document ).ready(function() {
             value: 300,
             color:"#FF9D79",
             highlight: "#FF9D79",
-            label: "5%",
+            label: "Strongly Agree",
 
         },
-        {
+        {   //magenta
             value: 50,
             color: "#E85F83",
             highlight: "#E85F83",
-            label: "Non-Academic"
+            label: "Neutral"
             
         },
         {
             value: 50,
             color: "#DD76FF",
             highlight: "#DD76FF",
-            label: "Non-Academic"
+            label: "Disagree"
         },
-        {
+        {   //violet
             value: 50,
             color: "#6E5FE8",
             highlight: "#6E5FE8",
-            label: "Non-Academic"
+            label: "Strongly Disagree"
         },
-        {
+        {   //cyan
             value: 50,
             color: "#69B7FF",
             highlight: "#69B7FF",
-            label: "Non-Academic"
+            label: "Agree"
         }
     ];
     
@@ -209,33 +209,33 @@ $( document ).ready(function() {
             value: 300,
             color:"#FF9D79",
             highlight: "#FF9D79",
-            label: "5%",
+            label: "Strongly Agree",
 
         },
-        {
+        {   //magenta
             value: 50,
             color: "#E85F83",
             highlight: "#E85F83",
-            label: "Non-Academic"
+            label: "Neutral"
             
         },
         {
             value: 50,
             color: "#DD76FF",
             highlight: "#DD76FF",
-            label: "Non-Academic"
+            label: "Disagree"
         },
-        {
+        {   //violet
             value: 50,
             color: "#6E5FE8",
             highlight: "#6E5FE8",
-            label: "Non-Academic"
+            label: "Strongly Disagree"
         },
-        {
+        {   //cyan
             value: 50,
             color: "#69B7FF",
             highlight: "#69B7FF",
-            label: "Non-Academic"
+            label: "Agree"
         }
     ];
     
@@ -258,33 +258,33 @@ $( document ).ready(function() {
             value: 300,
             color:"#FF9D79",
             highlight: "#FF9D79",
-            label: "5%",
+            label: "Strongly Agree",
 
         },
-        {
+        {   //magenta
             value: 50,
             color: "#E85F83",
             highlight: "#E85F83",
-            label: "Non-Academic"
+            label: "Neutral"
             
         },
         {
             value: 50,
             color: "#DD76FF",
             highlight: "#DD76FF",
-            label: "Non-Academic"
+            label: "Disagree"
         },
-        {
+        {   //violet
             value: 50,
             color: "#6E5FE8",
             highlight: "#6E5FE8",
-            label: "Non-Academic"
+            label: "Strongly Disagree"
         },
-        {
+        {   //cyan
             value: 50,
             color: "#69B7FF",
             highlight: "#69B7FF",
-            label: "Non-Academic"
+            label: "Agree"
         }
     ];
     
@@ -308,33 +308,33 @@ $( document ).ready(function() {
             value: 300,
             color:"#FF9D79",
             highlight: "#FF9D79",
-            label: "5% of the respondents",
+            label: "Strongly Agree",
 
         },
-        {
+        {   //magenta
             value: 50,
             color: "#E85F83",
             highlight: "#E85F83",
-            label: "Non-Academic"
+            label: "Neutral"
             
         },
         {
             value: 50,
             color: "#DD76FF",
             highlight: "#DD76FF",
-            label: "Non-Academic"
+            label: "Disagree"
         },
-        {
+        {   //violet
             value: 50,
             color: "#6E5FE8",
             highlight: "#6E5FE8",
-            label: "Non-Academic"
+            label: "Strongly Disagree"
         },
-        {
+        {   //cyan
             value: 50,
             color: "#69B7FF",
             highlight: "#69B7FF",
-            label: "Non-Academic"
+            label: "Agree"
         }
     ];
     
