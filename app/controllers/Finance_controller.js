@@ -18,6 +18,12 @@ module.exports = function(configuration, modules, models, database, queryFiles){
             renderData.extra_data = req.extra_data;
 			return res.render('Finance/EvaluateTransaction', renderData);
 			//next();
-		}
+		},
+		createPreacts: (req, res) => {
+			const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+			return res.render('Finance/FinancePreacts', renderData);
+			//next();
+		},
 	};
 };
