@@ -20,12 +20,40 @@ CREATE OR REPLACE FUNCTION "trigger_before_insert_increment_sequence"(/* "param_
 RETURNS trigger AS
 $trigger$
     BEGIN
-	EXECUTE format ('SELECT COALESCE(MAX(sequence) + 1, 1)
-	                   FROM %I %I
-	                  WHERE %s', TG_ARGV[0], TG_ARGV[1], TG_ARGV[2])
-          INTO STRICT NEW."sequence"
-	        USING NEW;
+	    EXECUTE format ('SELECT COALESCE(MAX(sequence) + 1, 1)
+	                       FROM %I %I
+	                      WHERE %s;', TG_ARGV[0], TG_ARGV[1], TG_ARGV[2])
+        INTO STRICT NEW."sequence"
+	    USING NEW;
 	  
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+
+/**
+$1 is the NEW data
+NEW.GOSMActivity should be $1.GOSMActivity when using this function
+*/
+CREATE OR REPLACE FUNCTION "trigger_before_insert_sequence_versioning"(/* "param_TableName" TEXT, "param_TableAcronym" TEXT, "param_Where" TEXT */)
+RETURNS trigger AS
+$trigger$
+    BEGIN
+        IF NEW.submissionID IS NULL THEN
+            NEW.sequence = 1;
+            EXECUTE format('SELECT COALESCE(MAX(submissionID) + 1, 1)
+                          FROM %I %I
+                         WHERE %s', TG_ARGV[0], TG_ARGV[1], TG_ARGV[2])
+            INTO STRICT NEW."submissionID"
+            USING NEW;
+        ELSE
+            EXECUTE format ('SELECT COALESCE(MAX(sequence) + 1, 1)
+                               FROM %I %I
+                              WHERE submissionID = $1."submissionID"
+                                AND (%s);', TG_ARGV[0], TG_ARGV[1], TG_ARGV[2])
+            INTO STRICT NEW."sequence"
+            USING NEW;
+        END IF;
+    
         RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
@@ -2223,7 +2251,12 @@ CREATE TABLE "ActivityPublicityMaterial"(
 
     PRIMARY KEY("id")
 );
-
+INSERT INTO "ActivityPublicityMaterial" ("id", "name")
+                                 VALUES (   0, 'Not applicable'),
+                                        (   1, 'Tarpualine'),
+                                        (   2, 'Banderitas'),
+                                        (   3, 'Ticket');
+ -- 0 = not applicaable
 DROP TABLE IF EXISTS "ActivityPublicityModeOfDistribution" CASCADE;
 CREATE TABLE "ActivityPublicityModeOfDistribution"(
     "id" SMALLINT,
@@ -2232,8 +2265,8 @@ CREATE TABLE "ActivityPublicityModeOfDistribution"(
     PRIMARY KEY("id")
 );
 INSERT INTO "ActivityPublicityModeOfDistribution" ("id", "name")
-                                            -- TODO: Other values
-                                           VALUES (   0, 'Online');
+                                           VALUES (   0, 'Online'),
+                                                  (   1, 'Printed');
 
 DROP TABLE IF EXISTS "ActivityPublicityStatus" CASCADE;
 CREATE TABLE "ActivityPublicityStatus"(
@@ -2246,7 +2279,8 @@ INSERT INTO "ActivityPublicityStatus" ("id", "name")
                                VALUES (   0, 'For Evaluation'),
                                       (   1, 'Approved'),
                                       (   2, 'Pended'),
-                                      (   3, 'Denied');
+                                      (   3, 'Denied'),
+                                      (   4, 'Old Version');
 
 DROP TABLE IF EXISTS "ActivityPublicity" CASCADE;
 CREATE TABLE "ActivityPublicity" (

@@ -1,5 +1,32 @@
 
 
+var objReupload;
+
+function addRibbon(pub,stat){
+   if(stat == 1){
+     pub.closest(".el-card-item").find(".ribbon").removeClass("ribbon-warning")
+                      .removeClass("ribbon-success").removeClass("ribbon-danger").addClass("ribbon-success").find("i")
+                      .removeClass("fa-check-circle").removeClass("fa-pause-circle").removeClass("fa-times-circle")
+                      .addClass("fa").addClass("fa-check-circle");
+   }
+   else if(stat == 2){
+     pub.closest(".el-card-item").find(".ribbon").removeClass("ribbon-warning")
+                      .removeClass("ribbon-success").removeClass("ribbon-danger").addClass("ribbon-warning").find("i")
+                      .removeClass("fa-check-circle").removeClass("fa-pause-circle").removeClass("fa-times-circle")
+                      .addClass("fa").addClass("fa-pause-circle");
+   } 
+   else if(stat == 3){
+     pub.closest(".el-card-item").find(".ribbon").removeClass("ribbon-warning")
+                      .removeClass("ribbon-success").removeClass("ribbon-danger").addClass("ribbon-danger").find("i")
+                      .removeClass("fa-check-circle").removeClass("fa-pause-circle").removeClass("fa-times-circle")
+                      .addClass("fa").addClass("fa-times-circle");
+   }else if(stat == 0){
+     pub.find(".ribbon").removeClass("ribbon-warning")
+                      .removeClass("ribbon-success").removeClass("ribbon-danger").find("i")
+                      .removeClass("fa-check-circle").removeClass("fa-pause-circle").removeClass("fa-times-circle")
+                      
+   }
+}
 
  $("#file").on('change',function(){
     console.log("PUMASOK")
@@ -41,7 +68,7 @@ $(document).on('submit','#form-pend',function(e){
 									enctype: 'multipart/form-data',
 									success:function(data){
 										if(data.status){
-											resolve()
+											resolve(data)
 										}else{
 											reject()
 										}
@@ -50,7 +77,13 @@ $(document).on('submit','#form-pend',function(e){
 			                   
 
 			            }).then(data=>{
-			            	$("#addModal").modal('hide');
+			            	console.log("data");
+			            	$("#online-1").modal('hide');
+			            	console.log(objReupload);
+			            	addRibbon(objReupload,0);
+			            	objReupload.find("img").attr('src',data.path);
+			            	objReupload.find("li:first").find("a").attr("href",data.path);
+			            	objReupload.find("li:last").find("a").attr("data-id",data.id).removeClass("modal-reupload").addClass("modal-desc");
 			            	  $.toast({
 					            heading: 'Successfully added!',
 					            text: 'The pubs was sent for approval',
@@ -60,11 +93,12 @@ $(document).on('submit','#form-pend',function(e){
 					            hideAfter: 3500, 
 					            stack: 6
 					          });
+
 			            })
 
 });
 
-$(".modal-desc").on('click',function(){
+$(document).on('click','.modal-desc',function(){
 	var d = $(this)
 	 new Promise(function (resolve, reject) {
 								$.ajax({
@@ -87,7 +121,9 @@ $(".modal-desc").on('click',function(){
 });
 
 $(".modal-reupload").on('click',function(){
-	var d = $(this)
+	var d = $(this);
+	objReupload =  $(this).closest(".el-card-item");
+
 	 new Promise(function (resolve, reject) {
 								$.ajax({
 									type:'POST',
@@ -103,6 +139,7 @@ $(".modal-reupload").on('click',function(){
 			            	console.log(data);
 			            	$("#online-1").html(data);
 			            	$("#online-1").modal('show');
+
 			            })
 });
 
@@ -110,11 +147,13 @@ $(".modal-reupload").on('click',function(){
 
 function empty(){
 	$("#filename").val("");
+	$("#filename2").val("");
 	$("#title").val("");
 	$("#online").prop('checked',true);
 	$("select").val("0");
 	$(".mydatepicker").datepicker('update', new Date())
 	$("#file").val("");
+	$("#file2").val("");
 } 
 $(document).on('submit','#form1',function(e){
 	console.log("ASD");
@@ -135,7 +174,7 @@ $(document).on('submit','#form1',function(e){
 									enctype: 'multipart/form-data',
 									success:function(data){
 										if(data.status){
-											resolve()
+											resolve(data)
 										}else{
 											reject()
 										}
@@ -154,6 +193,39 @@ $(document).on('submit','#form1',function(e){
 					            hideAfter: 3500, 
 					            stack: 6
 					          });
+					          var pic = '<div class="col-md-4 el-card-item">'+
+									        '<div class="ribbon ribbon-'+data.id+' ribbon-vertical-l ">'+
+									            '<i class=""></i>'+
+									        '</div>    '+
+									    '<div class="el-card-content el-overlay-1 "> '+
+									        '<img src="'+data.path+'" />'+
+									        '<div class="el-overlay">'+
+									            '<ul class="el-info">'+
+									                '<li><a class="btn default btn-outline image-popup-vertical-fit" href="'+data.path+'"><i class="icon-magnifier"></i></a></li>'+
+									                '<li><a class="btn default btn-outline modal-desc"  data-id="'+data.id+'"><i class="icon-link"></i></a></li>'+
+									            '</ul>'+
+									        '</div>'+        
+									    '</div>'+
+									    '<div class="el-card-content text-left">'+
+									        '<h3 class="box-title">'+data.description+'</h3>'
+									        '<br />'+
+									    '</div>'+
+									'</div>';
+								if(data.type == 1){
+									$(".printed-card-item:last").after(pic);
+									
+								}else{
+									$(".online-card-item:last").after(pic);
+								}
+								$('.image-popup-vertical-fit').magnificPopup({
+									type: 'image',
+									closeOnContentClick: true,
+									mainClass: 'mfp-img-mobile',
+									image: {
+										verticalFit: true
+									}
+									
+								});
 			            })
 
 	empty();

@@ -1991,18 +1991,20 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             };
             console.log(req.body);
             console.log(req.files);
+            var filename = cuid() + path.extname(req.files['pubs'].name);
+            var filenameTS = req.files['pubs'].name;
+            if(req.body['optionsRadios2'] != 'null'){
+                var mod = req.body['optionsRadios2'];
+            }else{
+                var mod = 0;
+            }
             pnpModel.getSpecificPubSeq(gParam).then(data=>{
                  database.task(t=>{
                 
-                var filename = cuid() + path.extname(req.files['pubs'].name);
-                var filenameTS = req.files['pubs'].name;
+               
                 
                 console.log(data)  
-                if(req.body['optionsRadios2'] != 'null'){
-                    var mod = req.body['optionsRadios2'];
-                }else{
-                    var mod = 0;
-                }
+                
                 var insertParam = {
                                     gosmid: req.body.gosmid,
                                     sid: data.seq+1,
@@ -2025,7 +2027,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             })
                 }).then(result => {
                     // console.logr()
-                    res.json({status:1});
+                    console.log("result");
+                    console.log(result);
+                    res.json({status:1,path:'/upload/pubs/'+req.session.user.idNumber+'/'+filename,description:req.body.title, id:result.id, type:mod});
                 }).catch(err=>{
                     console.log("rrD")
                     res.json({status:1});
@@ -2104,7 +2108,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                     gosmid: data[1].GOSMActivity,
                                     sid: data.seq+1,
                                     mod: data[1].modeOfDistribution,
-                                    tpd: req.body['posting-date'],
+                                    tpd: data[1].targetPostingDate,
                                     sb: req.session.user.idNumber,
                                     ds:data[1].description,
                                     status:0,
@@ -2112,11 +2116,12 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                     filenameToShow: filenameTS
 
                                     }
+                var d =data;
                 console.log("DATA DOMS");
                 console.log(data[1]);
                 pnpModel.insertActivityPublicity(insertParam)
                         .then(data=>{
-                             res.json({status:1});
+                             res.json({status:1,path:'/upload/pubs/'+req.session.user.idNumber+'/'+filename,description:req.body.title, id:data.id, type:d[1].modeOfDistribution});
                          }).catch(err=>{
                              res.json({status:0});
                              console.log(err);

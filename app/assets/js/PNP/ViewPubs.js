@@ -239,3 +239,24 @@ $(".deny").on('click',function(){
     },function(){
          $(this).find("div.actions").css("visibility","hidden");
     });
+$(".modal-desc").on('click',function(){
+    var d = $(this)
+     new Promise(function (resolve, reject) {
+                                $.ajax({
+                                    type:'POST',
+                                    url:'/Organization/Publicity/modal',
+                                    data:{id:d.attr("data-id"),type:1},                                 
+                                    success:function(data){
+                                        resolve(data);
+                                    }
+                                });
+                               
+
+                        }).then(data=>{
+                            console.log(data);
+                            var modal = $("#online-1").html(data);
+                            $("#online-1").modal('show');
+
+                            
+                        })
+});

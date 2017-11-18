@@ -1,5 +1,5 @@
 SELECT *
-  FROM "ActivityPublicity"
+  FROM "ActivityPublicity" 
  WHERE "GOSMActivity" = ${gosmid}
    -- AND "submissionID" = (SELECT MAX("submissionID")
    -- 	 					   FROM "ActivityPublicity"
