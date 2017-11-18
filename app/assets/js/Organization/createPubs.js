@@ -174,10 +174,19 @@ $(document).on('submit','#form1',function(e){
 									'</div>';
 								if(data.type == 1){
 									$(".printed-card-item:last").after(pic);
+									
 								}else{
 									$(".online-card-item:last").after(pic);
 								}
-								
+								$('.image-popup-vertical-fit').magnificPopup({
+									type: 'image',
+									closeOnContentClick: true,
+									mainClass: 'mfp-img-mobile',
+									image: {
+										verticalFit: true
+									}
+									
+								});
 			            })
 
 	empty();
