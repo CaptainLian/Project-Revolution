@@ -1938,19 +1938,20 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             };
             console.log(req.body);
             console.log(req.files);
-             var filename = cuid() + path.extname(req.files['pubs'].name);
-                var filenameTS = req.files['pubs'].name;
+            var filename = cuid() + path.extname(req.files['pubs'].name);
+            var filenameTS = req.files['pubs'].name;
+            if(req.body['optionsRadios2'] != 'null'){
+                var mod = req.body['optionsRadios2'];
+            }else{
+                var mod = 0;
+            }
             pnpModel.getSpecificPubSeq(gParam).then(data=>{
                  database.task(t=>{
                 
                
                 
                 console.log(data)  
-                if(req.body['optionsRadios2'] != 'null'){
-                    var mod = req.body['optionsRadios2'];
-                }else{
-                    var mod = 0;
-                }
+                
                 var insertParam = {
                                     gosmid: req.body.gosmid,
                                     sid: data.seq+1,
@@ -1975,7 +1976,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     // console.logr()
                     console.log("result");
                     console.log(result);
-                    res.json({status:1,path:'/upload/pubs/'+req.session.user.idNumber+'/'+filename,description:req.body.title, id:result.id});
+                    res.json({status:1,path:'/upload/pubs/'+req.session.user.idNumber+'/'+filename,description:req.body.title, id:result.id, type:mod});
                 }).catch(err=>{
                     console.log("rrD")
                     res.json({status:1});

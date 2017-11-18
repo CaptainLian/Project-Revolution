@@ -172,7 +172,12 @@ $(document).on('submit','#form1',function(e){
 									        '<br />'+
 									    '</div>'+
 									'</div>';
-								$(".el-card-item:last").after(pic);
+								if(data.type == 1){
+									$(".printed-card-item:last").after(pic);
+								}else{
+									$(".online-card-item:last").after(pic);
+								}
+								
 			            })
 
 	empty();

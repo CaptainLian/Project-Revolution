@@ -196,12 +196,12 @@
                         <h4 class="text-left">Online Publicity Materials</h4>
                        
                         <div class="white-box el-element-overlay .ribbon-vertical-l">
-                             <div class="el-card-item">
+                             <div class="el-card-item online-card-item">
                                 </div>
                             {%for pub in pubs%}
 
                                 {%if pub.modeOfDistribution ==0%}
-                                <div class="col-md-4 el-card-item">
+                                <div class="col-md-4 el-card-item online-card-item">
                                     {% if pub.status == 1 %}
                                         <div class="ribbon ribbon-{{pub.id}} ribbon-vertical-l ribbon-success">
                                             <i class="fa fa-check-circle"></i>
@@ -253,12 +253,12 @@
                     <div class="row">
                         <h4 class="text-left">Printed Publicity Materials</h4>
                         <div class="white-box el-element-overlay .ribbon-vertical-l">
-                          <div class="el-card-item">
-                                </div>s
+                          <div class="el-card-item printed-card-item">
+                                </div>
                             {%for pub in pubs%}
                               
                                 {%if pub.modeOfDistribution ==1%}
-                                <div class="col-md-4 el-card-item">
+                                <div class="col-md-4 el-card-item printed-card-item">
                                     {% if pub.status == 1 %}
                                         <div class="ribbon ribbon-{{pub.id}} ribbon-vertical-l ribbon-success">
                                             <i class="fa fa-check-circle"></i>
