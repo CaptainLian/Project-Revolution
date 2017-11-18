@@ -96,7 +96,8 @@ module.exports = function(configuration, modules, db, queryFiles) {
                 .left_join('gosm_activity', 'ga', 'TRUE')
                 .left_join('ActivityType', 'at', 'ga.activityType = at.id')
                 .left_join('ActivityNature', 'an', 'ga.activityNature = an.id')
-                .left_join('student_organization', 'so', 'TRUE');
+                .left_join('student_organization', 'so', 'TRUE')
+                .left_join('ActivityVenue', 'av', 'pp.venue = av.id');
 
         this._attachFields(query, fields);
 
@@ -105,6 +106,64 @@ module.exports = function(configuration, modules, db, queryFiles) {
 
         let param = Object.create(null);
         param.id = id;
+        return connection.oneOrNone(query, param);
+    };
+
+    /**
+    * Tables that can be currently accessed in this query for fields
+    * ProjectProposal ppr
+    * GosmActivity ga
+    * ActivityType at
+    * ActivityNature an
+    * studentOrganization so
+    *
+    * @method  getActivityProjectProposalDetails
+    * @param   {Integer}                                     id            [description]
+    * @param   {[String, Array] (Optional)}                  fields        [description]
+    * @param   {[pg-connection, pg-task, pg-transaction]}    connection    [description]
+    * @returns {Promise}                                                   [description]
+    */
+    ProjectProposalModel.prototype.getActivityProjectProposalDetailsGAID = function(GOSMActivity, fields, connection = this._db) {
+        let query = squel.select()
+            .with('PPR',
+                squel.select()
+                .from('ProjectProposal', 'ppr')
+                .where('ppr.GOSMActivity = ${GOSMActivity}'))
+
+            .with('gosm_activity',
+                squel.select()
+                .from('GOSMActivity', 'ga')
+                .where('ga.id = ?',
+                    squel.select()
+                    .field('GOSMActivity')
+                    .from('PPR')))
+
+            .with('student_organization',
+                squel.select()
+                .from('StudentOrganization', 'o')
+                .where('o.id = ?',
+                    squel.select()
+                    .from('GOSM', 'g')
+                    .field('studentOrganization')
+                    .where('g.id = ?',
+                        squel.select()
+                        .from('gosm_activity', 'ga')
+                        .field('GOSM'))))
+
+            .from('PPR', 'pp')
+                .left_join('gosm_activity', 'ga', 'TRUE')
+                .left_join('ActivityType', 'at', 'ga.activityType = at.id')
+                .left_join('ActivityNature', 'an', 'ga.activityNature = an.id')
+                .left_join('student_organization', 'so', 'TRUE')
+                .left_join('"ActivityVenue"', 'av', 'pp.venue = av.id');
+
+        this._attachFields(query, fields);
+
+        query = query.toString();
+        this._logger.debug(`Executing Query: ${query}`, log_options);
+
+        let param = Object.create(null);
+        param.GOSMActivity = GOSMActivity;
         return connection.oneOrNone(query, param);
     };
 

@@ -24,10 +24,16 @@ WITH "CurrentTermPPR" AS (
      WHERE GOSMActivity IN (SELECT GOSMActivity FROM "CurrentTermPPR")
        AND status = 0
   GROUP BY pps.GOSMActivity
+), "AccountPPRCanSign" AS (
+    -- This is the list of ProjectProposals the user can currently sign
+    SELECT ppcl.GOSMActivity
+      FROM "ProjectProposalCurrentLineup" ppcl INNER JOIN "AccountToSign" ats
+                                                       ON ppcl.GOSMActivity = ats.GOSMActivity
+                                                      AND ppcl.lineup = ats.lineup
 )
-SELECT EXISTS (-- This is the list of ProjectProposals the user can currently sign
-                  SELECT ppcl.GOSMActivity
-                    FROM "ProjectProposalCurrentLineup" ppcl INNER JOIN "AccountToSign" ats
-                                                                     ON ppcl.GOSMActivity = ats.GOSMActivity
-                                                                     AND ppcl.lineup = ats.lineup
-                    LIMIT 1);
+SELECT pp.GOSMActivity, pp.actualDateStart, ga.strategies
+  FROM (SELECT *
+          FROM ProjectProposal 
+         WHERE GOSMActivity IN (SELECT GOSMActivity
+                                  FROM "AccountPPRCanSign")) pp LEFT JOIN GOSMActivity ga
+                                                                       ON pp.GOSMActivity = ga.id;

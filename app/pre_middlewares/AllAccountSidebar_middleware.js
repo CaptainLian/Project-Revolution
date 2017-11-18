@@ -20,8 +20,7 @@ module.exports = function(configuration, application, modules, database, queryFi
             if(PPR.exists){
                 sidebars[sidebars.length] = {
                     name: 'Sign Project Proposal',
-                    //TODO: list of PPR to sign
-                    link: '/blank'
+                    link: '/APS/Signatory/ActivtiyList'
                 };
             }
             return next();

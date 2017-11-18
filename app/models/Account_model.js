@@ -90,17 +90,6 @@ module.exports = function(configuration, modules, database, queryFiles) {
         return connection.one(query.toString(), param);
     };
 
-    /**
-     * Calculates which dashboard/s or home pagesthe given account can view
-     *
-     * @method  getAccountHome
-     * @param   {[type]}       idNumber [description]
-     * @returns {[type]}                [description]
-     */
-    AccountModel.getAccountHome = (idNumber) => {
-        //TODO implementation
-    };
-
     const query_get_student_studentOrganizations = queryFiles.student_get_studentOrganizations;
     AccountModel.getStudentOrganizations = (idNumber, connection = database) => {
         const param = Object.create(null);
@@ -157,6 +146,14 @@ module.exports = function(configuration, modules, database, queryFiles) {
         param.idNumber = idNumber;
 
         return connection.one(hasPPRToSignSQL, param);
+    };
+
+    const getPPRsToSignSQL = queryFiles.account_get_PPRs_to_sign;
+    AccountModel.getPPRToSignList = (idNumber, connection = database) => {
+        const param = Object.create(null);
+        param.idNumber = idNumber;
+
+        return connection.any(getPPRsToSignSQL, param);
     };
 
     return AccountModel;
