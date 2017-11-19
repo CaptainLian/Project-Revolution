@@ -43,6 +43,9 @@ module.exports = function(configuration, modules, router, controllers){
     router.get(`${base}/Publicity/list`, controllers.Organization_controller.viewPubs);
     router.get(`${base}/Publicity/Create/:gosmid`, controllers.Organization_controller.viewPubsSpecific);
     router.post(`${base}/Publicity/Insert`, controllers.Organization_controller.insertPubs);    
-
+    router.post(`${base}/Publicity/modal`, controllers.Organization_controller.viewPubDetails);
+    router.post(`${base}/Publicity/Reupload`, controllers.Organization_controller.reuploadPubs);    
+    
 
 };
+

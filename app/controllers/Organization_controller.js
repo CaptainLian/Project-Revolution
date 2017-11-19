@@ -1938,23 +1938,30 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             };
             console.log(req.body);
             console.log(req.files);
+            var filename = cuid() + path.extname(req.files['pubs'].name);
+            var filenameTS = req.files['pubs'].name;
+            if(req.body['optionsRadios2'] != 'null'){
+                var mod = req.body['optionsRadios2'];
+            }else{
+                var mod = 0;
+            }
             pnpModel.getSpecificPubSeq(gParam).then(data=>{
                  database.task(t=>{
                 
-                var filename = cuid() + path.extname(req.files['pubs'].name);
-                var filenameTS = req.files['pubs'].name;
+               
                 
                 console.log(data)  
+                
                 var insertParam = {
                                     gosmid: req.body.gosmid,
                                     sid: data.seq+1,
-                                    mod: req.body.optionRadios2,
-                                        tpd: req.body['posting-date'],
-                                        sb: req.session.user.idNumber,
-                                        // ds:,
-                                        status:0,
-                                        filename: filename,
-                                        filenameToShow: filenameTS
+                                    mod: mod,
+                                    tpd: req.body['posting-date'],
+                                    sb: req.session.user.idNumber,
+                                    ds:req.body.title,
+                                    status:0,
+                                    filename: filename,
+                                    filenameToShow: filenameTS
 
                                     }
                                     console.log(insertParam);
@@ -1967,7 +1974,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             })
                 }).then(result => {
                     // console.logr()
-                    res.json({status:1});
+                    console.log("result");
+                    console.log(result);
+                    res.json({status:1,path:'/upload/pubs/'+req.session.user.idNumber+'/'+filename,description:req.body.title, id:result.id, type:mod});
                 }).catch(err=>{
                     console.log("rrD")
                     res.json({status:1});
@@ -1978,7 +1987,98 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             
             
         },
+        viewPubDetails: (req, res)=>{
+            const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
+            var dbParam = {
+                id:req.body.id
+            }
+            console.log(dbParam)
+            pnpModel.getPubDetails(dbParam)
+                    .then(data=>{
+                        console.log(data);
+                        renderData.activity = data
+                        console.log("TPYE");
+                        console.log(req.body.type);
+                        if(req.body.type == 1){
+                            console.log("ONE TYPE");
+                            res.render('section/PNP/approveModal',renderData);
+                        }else{
+                            console.log("SECOND TYPE");
+                            res.render('section/PNP/pendModal',renderData);
+                        }
+                    }).catch(err=>{
+                        console.log(err);
+                    })
+        },
+        reuploadPubs:(req, res)=>{
+            var dir3 =__dirname+'/../assets/upload/';
+            var dir3 = path.join (__dirname,'..','assets','upload');
 
+            //CHECK IF DIRECTOR EXIST
+            if (!fs.existsSync(dir3)){
+                fs.mkdirSync(dir3);
+            }
+            var dir =__dirname+'/../assets/upload/pubs/';
+            var dir = path.join (__dirname,'..','assets','upload','pubs');
+            //CHECK IF DIRECTOR EXIST
+            if (!fs.existsSync(dir)){
+                fs.mkdirSync(dir);
+            }
+            var dir2 = __dirname+'/../assets/upload/pubs/'+req.session.user.idNumber+'/';
+            var dir2 = path.join (__dirname,'..','assets','upload','pubs',req.session.user.idNumber+"");
+            //CHECK IF DIRECTOR EXIST
+            if (!fs.existsSync(dir2)){
+                fs.mkdirSync(dir2);
+            }
+ 
+
+            dir2 = path.normalize(dir2);
+            database.task(t=>{
+                var dbParam = {
+                    id: req.body.pubsid
+                }
+                return t.batch([
+                        //GINAGAWA NG UPDATE PUBS TO PEND NISESET NIYA YUNG PUBS SA OLD VERSION NA STATUS
+                         pnpModel.updatePubsToPend(dbParam,t),
+                         pnpModel.getPubDetails(dbParam,t)
+                         ]);
+                
+            }).then(data=>{
+                console.log("DATA DOMS");
+                console.log(data);
+                var filename = cuid() + path.extname(req.files['file'].name);
+                var filenameTS = req.files['file'].name;
+                req.files['file'].mv(path.join(dir2,filename))
+                 var insertParam = {
+                                    gosmid: data[1].GOSMActivity,
+                                    sid: data.seq+1,
+                                    mod: data[1].modeOfDistribution,
+                                    tpd: data[1].targetPostingDate,
+                                    sb: req.session.user.idNumber,
+                                    ds:data[1].description,
+                                    status:0,
+                                    filename: filename,
+                                    filenameToShow: filenameTS
+
+                                    }
+                var d =data;
+                console.log("DATA DOMS");
+                console.log(data[1]);
+                pnpModel.insertActivityPublicity(insertParam)
+                        .then(data=>{
+                             res.json({status:1,path:'/upload/pubs/'+req.session.user.idNumber+'/'+filename,description:req.body.title, id:data.id, type:d[1].modeOfDistribution});
+                         }).catch(err=>{
+                             res.json({status:0});
+                             console.log(err);
+                         })
+
+            }).catch(err=>{
+                console.log(err);
+            })
+
+        }
 
 
     };

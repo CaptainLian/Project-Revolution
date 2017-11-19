@@ -19,7 +19,7 @@
     {{tag.style('https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css')}}
     {{tag.style('https://cdnjs.cloudflare.com/ajax/libs/nestable2/1.5.0/jquery.nestable.min.CSS')}}
 
-{{tag.style('/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css')}}
     <!-- Menu CSS -->
     {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
     <!-- animation CSS -->
@@ -32,13 +32,13 @@
     {{tag.style('/plugins/bower_components/Magnific-Popup-master/dist/magnific-popup.css')}}
     {{tag.style('/plugins/bower_components/custom-select/custom-select.css')}}
     {{tag.style('/plugins/bower_components/bootstrap-select/bootstrap-select.min.css')}}
-    {{tag.style('/css/style.css')}}
+    
     {{tag.style('/css/doms.css')}}
     {{tag.style('/css/custom.css')}}
     <!-- color CSS -->
     
     {{tag.style('/css/colors.css')}}
-
+{{tag.style('/css/style.css')}}
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -47,6 +47,7 @@
     <![endif]-->
     <!-- IMPORTANT -->
     <style type="text/css">
+
         .remove:{
             color: yellow
         }
@@ -83,6 +84,7 @@
             text-decoration-color:#00c292 !important;
         }
         .custom-class:focus { overflow: hidden; }
+       
     </style>
      {{tag.style('/plugins/bower_components/custom-select/custom-select.css')}}
     {{tag.style('/plugins/bower_components/bootstrap-select/bootstrap-select.min.css')}}
@@ -114,7 +116,9 @@
 
 
     {{tag.javascript('/js/cbpFWTabs.js', true)}}
-    <!-- tabs-->
+       
+    {{tag.javascript('/plugins/bower_components/Magnific-Popup-master/dist/jquery.magnific-popup.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/Magnific-Popup-master/dist/jquery.magnific-popup-init.js', true)}}
     {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
     <!-- Sweet-Alert  -->
      {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js', true)}}
@@ -190,14 +194,14 @@
                 <section class="content-wrap text-center">
                     <div class="row">
                         <h4 class="text-left">Online Publicity Materials</h4>
-                        <div>
-                             
-                        </div>
+                       
                         <div class="white-box el-element-overlay .ribbon-vertical-l">
-
+                             <div class="el-card-item online-card-item">
+                                </div>
                             {%for pub in pubs%}
 
-                                <div class="col-md-4 el-card-item">
+                                {%if pub.modeOfDistribution ==0%}
+                                <div class="col-md-4 el-card-item online-card-item">
                                     {% if pub.status == 1 %}
                                         <div class="ribbon ribbon-{{pub.id}} ribbon-vertical-l ribbon-success">
                                             <i class="fa fa-check-circle"></i>
@@ -217,6 +221,21 @@
                                     {% endif %}
                                     <div class="el-card-content el-overlay-1 "> 
                                         <img src="/upload/pubs/{{pub.submittedBy}}/{{pub.filename}}" />
+                                        <div class="el-overlay">
+                                            <ul class="el-info">
+                                                <li><a class="btn default btn-outline image-popup-vertical-fit" href="/upload/pubs/{{pub.submittedBy}}/{{pub.filename}}"><i class="icon-magnifier"></i></a></li>
+                                                {% if pub.status == 0 %}
+                                                <li><a class="btn default btn-outline modal-desc"  data-id="{{pub.id}}"><i class="icon-link"></i></a></li>
+                                                {% elif pub.status == 1 %}
+                                                <li><a class="btn default btn-outline modal-desc"  data-id="{{pub.id}}"><i class="icon-link"></i></a></li>
+                                                {% elif pub.status == 3 %}
+                                                <li><a class="btn default btn-outline modal-desc"  data-id="{{pub.id}}"><i class="icon-link"></i></a></li>
+                                                {% elif pub.status == 2 %}
+                                                <li><a class="btn default btn-outline modal-reupload"  data-id="{{pub.id}}"><i class="icon-link"></i></a></li>
+                                                {%endif%}
+
+                                            </ul>
+                                        </div>
                                          
                                     </div>
                                     <div class="el-card-content text-left">
@@ -225,6 +244,7 @@
                                         <br />
                                     </div>
                                 </div>
+                                {%endif%}
                             {%endfor%}
                             
                            
@@ -232,6 +252,58 @@
                     </div>
                     <div class="row">
                         <h4 class="text-left">Printed Publicity Materials</h4>
+                        <div class="white-box el-element-overlay .ribbon-vertical-l">
+                          <div class="el-card-item printed-card-item">
+                                </div>
+                            {%for pub in pubs%}
+                              
+                                {%if pub.modeOfDistribution ==1%}
+                                <div class="col-md-4 el-card-item printed-card-item">
+                                    {% if pub.status == 1 %}
+                                        <div class="ribbon ribbon-{{pub.id}} ribbon-vertical-l ribbon-success">
+                                            <i class="fa fa-check-circle"></i>
+                                        </div>
+                                    {% elif pub.status ==2 %}
+                                        <div class="ribbon ribbon-{{pub.id}} ribbon-vertical-l ribbon-warning">
+                                            <i class="fa fa-pause-circle"></i>
+                                        </div>
+                                    {% elif pub.status ==3 %}
+                                        <div class="ribbon ribbon-{{pub.id}} ribbon-vertical-l ribbon-danger">
+                                            <i class="fa fa-times-circle"></i>
+                                        </div>
+                                    {% else %}
+                                        <div class="ribbon ribbon-{{pub.id}} ribbon-vertical-l ">
+                                            <i class=""></i>
+                                        </div>
+                                    {% endif %}
+                                    <div class="el-card-content el-overlay-1 "> 
+                                        <img src="/upload/pubs/{{pub.submittedBy}}/{{pub.filename}}" />
+                                        <div class="el-overlay">
+                                            <ul class="el-info">
+                                                <li><a class="btn default btn-outline image-popup-vertical-fit" href="/upload/pubs/{{pub.submittedBy}}/{{pub.filename}}"><i class="icon-magnifier"></i></a></li>
+                                                {% if pub.status == 0 %}
+                                                <li><a class="btn default btn-outline modal-desc"  data-id="{{pub.id}}"><i class="icon-link"></i></a></li>
+                                                {% elif pub.status == 1 %}
+                                                <li><a class="btn default btn-outline modal-desc"  data-id="{{pub.id}}"><i class="icon-link"></i></a></li>
+                                                {% elif pub.status == 3 %}
+                                                <li><a class="btn default btn-outline modal-desc"  data-id="{{pub.id}}"><i class="icon-link"></i></a></li>
+                                                {% elif pub.status == 2 %}
+                                                <li><a class="btn default btn-outline modal-reupload"  data-id="{{pub.id}}"><i class="icon-link"></i></a></li>
+                                                {%endif%}
+
+                                            </ul>
+                                        </div>
+                                         
+                                    </div>
+                                    <div class="el-card-content text-left">
+                                        <h3 class="box-title">{{pub.description}}</h3>
+                                        
+                                        <br />
+                                    </div>
+                                </div>
+                                {%endif%}
+                            {%endfor%}
+                        </div>
                              
                     </div>
                 </section>
@@ -243,9 +315,57 @@
 {%endblock%}
 
 {%block post_content%}
-<form action="/Organization/Publicity/Insert" encType="multipart/form-data"    method="POST"   >
 
 
+<div class="modal fade" id="online-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-success">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <!--
+                    label-success = approved
+                    label-danger = denied
+                    label-warning = pended
+                -->
+                <h4 class="modal-title custom-modal-title">Cover Photo</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group row">
+                            <label class="control-label col-md-4">Mode of Distribution:</label>
+                            <div class="col-md-8">
+                                <p class="control-label">Online</p>
+                            </div>
+                            <label class="control-label col-md-4">Target Posting Date:</label>
+                            <div class="col-md-8">
+                                <p class="control-label">September 21, 2004 </p>
+                            </div>
+                            <label class="control-label col-md-4">Status</label>
+                            <div class="col-md-8">
+                                <p class="control-label">Approved</p>
+                            </div>
+                            <label class="control-label col-md-4">Checked by</label>
+                            <div class="col-md-8">
+                                <p class="control-label">Dominique Dagunton</p>
+                            </div>
+                            <label class="control-label col-md-4">Date Checked</label>
+                            <div class="col-md-8">
+                                <p class="control-label">September 17, 2017</p>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<form action="/Organization/Publicity/Insert" encType="multipart/form-data"    method="POST"  id="form1" >
  <div class="modal fade" id="addModal">
                     <div class="modal-dialog">
                         <div class="modal-content">

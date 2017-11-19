@@ -26,6 +26,7 @@
     <!--alerts CSS -->
     {{tag.style('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.css')}}
     <!-- Custom CSS -->
+    {{tag.style('/plugins/bower_components/Magnific-Popup-master/dist/magnific-popup.css')}}
     {{tag.style('/plugins/bower_components/custom-select/custom-select.css')}}
     {{tag.style('/plugins/bower_components/bootstrap-select/bootstrap-select.min.css')}}
     {{tag.style('/css/style.css')}}
@@ -107,6 +108,7 @@
 
     {{tag.javascript('/js/cbpFWTabs.js', true)}}
     <!-- tabs-->
+
     {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
     <!-- Sweet-Alert  -->
      {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js', true)}}
@@ -115,7 +117,11 @@
 
     {{tag.javascript('/plugins/bower_components/sweetalert/jquery.sweet-alert.custom.js', true)}}
 
-    {{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
+
+{{tag.javascript('/plugins/bower_components/Magnific-Popup-master/dist/jquery.magnific-popup.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/Magnific-Popup-master/dist/jquery.magnific-popup-init.js', true)}}
+     {{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
+
 
     {{tag.javascript('/js/PNP/ViewPubs.js', true)}}
 {%endblock%}
@@ -176,14 +182,78 @@
             <div class="margin-2">
                 <section class="content-wrap text-center">
                     <div class="row">
-                        <h4 class="text-left">Online Publicity Materials</h4>
-                        <div>
-                             
-                        </div>
+                        <h4 class="text-left">Online Publicity Materials</h4>                      
                         <div class="white-box el-element-overlay .ribbon-vertical-l">
                             <!--approved thumbnail-->
                             {%for pub in pubs%}
-                                    
+                                {%if pub.modeOfDistribution ==0%}
+                                <div class="col-md-4 el-card-item">
+                                    {% if pub.status ==1 %}
+                                        <div class="ribbon ribbon-{{pub.id}} ribbon-vertical-l ribbon-success">
+                                            <i class="fa fa-check-circle"></i>
+                                        </div>
+                                    {% elif pub.status ==2 %}
+                                        <div class="ribbon ribbon-{{pub.id}} ribbon-vertical-l ribbon-warning">
+                                            <i class="fa fa-pause-circle"></i>
+                                        </div>
+                                    {% elif pub.status ==3 %}
+                                        <div class="ribbon ribbon-{{pub.id}} ribbon-vertical-l ribbon-danger">
+                                            <i class="fa fa-times-circle"></i>
+                                        </div>
+                                     {% elif pub.status ==4 %}
+                                        <div class="ribbon ribbon-{{pub.id}} ribbon-vertical-l ribbon-danger">
+                                            <i class="fa fa-times-circle"></i>
+                                        </div>
+                                    {% else %}
+                                        <div class="ribbon ribbon-{{pub.id}} ribbon-vertical-l ">
+                                            <i class=""></i>
+                                        </div>
+                                    {% endif %}
+                                    <div class="el-card-avatar el-overlay-1 "> <img src="/upload/pubs/{{pub.submittedBy}}/{{pub.filename}}" />
+                                        <div class="el-overlay">
+                                            <ul class="el-info">
+                                                <li><a class="btn default btn-outline image-popup-vertical-fit" href="/upload/pubs/{{pub.submittedBy}}/{{pub.filename}}"><i class="icon-magnifier"></i></a></li>
+                                                {% if pub.status == 0 %}
+                                                <li><a class="btn default btn-outline modal-desc"  data-id="{{pub.id}}"><i class="icon-link"></i></a></li>
+                                                {% elif pub.status == 1 %}
+                                                <li><a class="btn default btn-outline modal-desc"  data-id="{{pub.id}}"><i class="icon-link"></i></a></li>
+                                                {% elif pub.status == 3 %}
+                                                <li><a class="btn default btn-outline modal-desc"  data-id="{{pub.id}}"><i class="icon-link"></i></a></li>
+                                                {% elif pub.status == 2 %}
+                                                <li><a class="btn default btn-outline modal-desc"  data-id="{{pub.id}}"><i class="icon-link"></i></a></li>
+                                                {% elif pub.status == 4 %}
+                                                <li><a class="btn default btn-outline modal-desc"  data-id="{{pub.id}}"><i class="icon-link"></i></a></li>
+                                                {%endif%}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="el-card-content text-left">
+                                        <h3 class="box-title">{{pub.description}}</h3>
+                                        <div class="col-md-12 text-center actions" style="visibility: hidden;">
+                                            <div class="btn-group" role="group" aria-label="Basic example">
+                                            {% if pub.status == 4 %}
+                                            {% else %}
+                                                <button type="button" data-id="{{pub.id}}" class="btn btn-success approve" data-toggle="tooltip" data-original-title="Approve Publicity Material"><i class="fa fa-check"></i></button>
+                                                <button type="button" data-id="{{pub.id}}" class="btn btn-warning pend" data-toggle="tooltip" data-original-title="Pend Publicity Material"><i class="fa fa-history"></i></button>
+                                                <button type="button" data-id="{{pub.id}}" class="btn btn-danger deny" data-toggle="tooltip" data-original-title="Deny Publicity Material"><i class="fa fa-times"></i></button>
+                                            {%endif%}
+                                            </div>
+                                        </div>
+                                        <br />
+                                    </div>
+                                </div>
+                                {%endif%}
+
+                            {%endfor%}
+                            
+                        </div>
+                    </div>
+                    <div class="row">
+                        <h4 class="text-left">Printed Publicity Materials</h4>
+                             <div class="white-box el-element-overlay .ribbon-vertical-l">
+                            <!--approved thumbnail-->
+                            {%for pub in pubs%}
+                                {%if pub.modeOfDistribution ==1%}
                                 <div class="col-md-4 el-card-item">
                                     {% if pub.status ==1 %}
                                         <div class="ribbon ribbon-{{pub.id}} ribbon-vertical-l ribbon-success">
@@ -206,7 +276,15 @@
                                         <div class="el-overlay">
                                             <ul class="el-info">
                                                 <li><a class="btn default btn-outline image-popup-vertical-fit" href="/upload/pubs/{{pub.submittedBy}}/{{pub.filename}}"><i class="icon-magnifier"></i></a></li>
-                                                <li><a class="btn default btn-outline" data-toggle="modal" href='#online-1'><i class="icon-link"></i></a></li>
+                                                {% if pub.status == 0 %}
+                                                <li><a class="btn default btn-outline modal-desc"  data-id="{{pub.id}}"><i class="icon-link"></i></a></li>
+                                                {% elif pub.status == 1 %}
+                                                <li><a class="btn default btn-outline modal-desc"  data-id="{{pub.id}}"><i class="icon-link"></i></a></li>
+                                                {% elif pub.status == 3 %}
+                                                <li><a class="btn default btn-outline modal-desc"  data-id="{{pub.id}}"><i class="icon-link"></i></a></li>
+                                                {% elif pub.status == 2 %}
+                                                <li><a class="btn default btn-outline modal-desc"  data-id="{{pub.id}}"><i class="icon-link"></i></a></li>
+                                                {%endif%}
                                             </ul>
                                         </div>
                                     </div>
@@ -222,7 +300,13 @@
                                         <br />
                                     </div>
                                 </div>
+                                {%endif%}
+
                             {%endfor%}
+                            
+                        </div>
+                        </div>
+
                 </section>
             </div>
             <!-- /content -->

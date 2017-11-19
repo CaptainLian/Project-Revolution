@@ -1,3 +1,3 @@
-INSERT INTO "ActivityPublicity" ("GOSMActivity","submissionID","modeOfDistribution","targetPostingDate",
-			"submittedBy","dateChecked","status","filename","filenameToShow")
-  	 VALUES (${gosmid},${sid},${mod},${tpd},${sb},now(),${status},${filename},${filenameToShow})
+INSERT INTO "ActivityPublicity" ("GOSMActivity","modeOfDistribution","targetPostingDate",
+			"submittedBy","status","filename","filenameToShow","description")
+  	 VALUES (${gosmid},${mod},${tpd},${sb},${status},${filename},${filenameToShow},${ds}) RETURNING id
