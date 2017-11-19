@@ -565,7 +565,7 @@ INSERT INTO OrganizationOfficer (idNumber, role, yearID)
 INSERT INTO GOSM (termID, studentOrganization)
            VALUES (system_get_current_term_id(), 1);
 UPDATE GOSM
-   SET status = 2
+   SET status = 3
  WHERE id%100000 = 1;
 
 

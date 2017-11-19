@@ -5,7 +5,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
 CREATE OR REPLACE FUNCTION trigger_auto_reject()
-RETURNS trigger AS
+RETURNS TRIGGER AS
 $trigger$
     BEGIN
         RETURN NULL;
@@ -17,7 +17,7 @@ $1 is the NEW data
 NEW.GOSMActivity should be $1.GOSMActivity when using this function
 */
 CREATE OR REPLACE FUNCTION "trigger_before_insert_increment_sequence"(/* "param_TableName" TEXT, "param_TableAcronym" TEXT, "param_Where" TEXT */)
-RETURNS trigger AS
+RETURNS TRIGGER AS
 $trigger$
     BEGIN
 	    EXECUTE format ('SELECT COALESCE(MAX(sequence) + 1, 1)
@@ -35,7 +35,7 @@ $1 is the NEW data
 NEW.GOSMActivity should be $1.GOSMActivity when using this function
 */
 CREATE OR REPLACE FUNCTION "trigger_before_insert_sequence_versioning"(/* "param_TableName" TEXT, "param_TableAcronym" TEXT, "param_Where" TEXT */)
-RETURNS trigger AS
+RETURNS TRIGGER AS
 $trigger$
     BEGIN
         IF NEW.submissionID IS NULL THEN
@@ -1668,20 +1668,21 @@ INSERT INTO SignatoryStatus (id, name)
                             ( 4, 'Force Signed');
 DROP TABLE IF EXISTS SignatoryType CASCADE;
 CREATE TABLE SignatoryType (
-	id SMALLINT,
-	name VARCHAR(45) NOT NULL,
+	"id" SMALLINT,
+	"name" VARCHAR(45) NOT NULL,
+    "lineup" SMALLINT NOT NULL,
 
 	PRIMARY KEY (id)
 );
-INSERT INTO SignatoryType (id, name)
-                   VALUES ( 0, 'Project Head'),
-                          ( 1, 'Treasurer/Finance Officer'), -- VP
-                          ( 2, 'Immediate Superior'), -- 1 step higher
-                          ( 3, 'President'),
-                          ( 4, 'Faculty Adviser'), --
-                          ( 5, 'Documentation Officer'), -- VP
-                          ( 6, 'APS - AVC'), -- Pwedeng Madami
-                          ( 7, 'APS -  VC'); --
+INSERT INTO SignatoryType ("id", "name", "lineup")
+                   VALUES ( 0, 'Project Head', 0),
+                          ( 1, 'Treasurer/Finance Officer', 10), -- VP
+                          ( 2, 'Immediate Superior', 20), -- 1 step higher
+                          ( 3, 'President', 30),
+                          ( 4, 'Faculty Adviser', 40), --
+                          ( 5, 'Documentation Officer', 50), -- VP
+                          ( 6, 'APS - AVC', 60), -- Pwedeng Madami
+                          ( 7, 'APS -  VC', 70); --
 
 DROP TABLE IF EXISTS ProjectProposalSignatory CASCADE;
 CREATE TABLE ProjectProposalSignatory (
@@ -1691,6 +1692,7 @@ CREATE TABLE ProjectProposalSignatory (
   type SMALLINT NOT NULL REFERENCES SignatoryType(id),
   status SMALLINT NOT NULL REFERENCES SignatoryStatus(id) DEFAULT 0,
   comments TEXT,
+  sectionsToEdit VARCHAR(60)[],
   document JSONB,
   digitalSignature TEXT,
   dateSigned TIMESTAMP WITH TIME ZONE,

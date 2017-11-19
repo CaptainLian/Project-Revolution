@@ -1,6 +1,4 @@
-
-
-$(document).bind('customGenerated',function(){
+$(document).bind('customGenerated', function() {
     (function() {
         [].slice.call(document.querySelectorAll('.sttabs')).forEach(function(el) {
             new CBPFWTabs(el);
@@ -11,7 +9,7 @@ $(document).bind('customGenerated',function(){
     $('#section-linebox-5').css('visibility', "hidden");
     $('#section-linebox-5').css('height', 0);
     $('#section-linebox-5').css('width', 0);
-    $(document).on('click','.sttabs li',function() {
+    $(document).on('click', '.sttabs li', function() {
         var page = $(this).find("a").attr("href");
         console.log(page);
         page = page.replace("#section-linebox-", "");
@@ -30,7 +28,7 @@ $(document).bind('customGenerated',function(){
     });
 });
 $(document).trigger("customGenerated");
-$(document).on('click','#approve',function() {
+$(document).on('click', '#approve', function() {
 
     swal({
         title: "Are you sure?",
@@ -57,38 +55,38 @@ $(document).on('click','#approve',function() {
         }
 
     }).then(function(data) {
-      
+
         console.log("ASD");
         $("html, body").animate({
             scrollTop: 0
         }, function() {
-            $('#doc').removeClass("bounceInRight animated").addClass("bounceInRight   animated").one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {               
-                 $(this).removeClass("bounceInRight animated");              
-            });           
+            $('#doc').removeClass("bounceInRight animated").addClass("bounceInRight   animated").one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+                $(this).removeClass("bounceInRight animated");
+            });
         });
 
-    }).then(function(){
-          $.ajax({
-                type:'POST',
-                url:'/APS/ajax/activityChecking',
-                data:{
-                    id:$("#doc").attr("ct"), 
-                    method:3
-                },
-              
-                success:function(data){
-                  
-                    var doc = $(data).find("#doc");
-                    setTimeout(function() {
-                        $("#doc").replaceWith(doc);
-                        $(document).trigger("customGenerated");    
-                    },1000);
-                    
-                }
-            });
+    }).then(function() {
+        $.ajax({
+            type: 'POST',
+            url: '/APS/ajax/activityChecking',
+            data: {
+                id: $("#doc").attr("ct"),
+                method: 3
+            },
+
+            success: function(data) {
+
+                var doc = $(data).find("#doc");
+                setTimeout(function() {
+                    $("#doc").replaceWith(doc);
+                    $(document).trigger("customGenerated");
+                }, 1000);
+
+            }
+        });
     });
 });
-$(document).on('click','#defer',function() {
+$(document).on('click', '#defer', function() {
     var question = '<div class="row">' +
         '<div class="col-md-12 text-left m-b-20">' +
         '<br/>Select the sections that should be change, then explain why.<br/>' +
@@ -151,7 +149,7 @@ $(document).on('click','#defer',function() {
         cancelButtonText: "Cancel",
 
     }).then(function(data) {
-          
+
         console.log("ASD");
         $("html, body").animate({
             scrollTop: 0
@@ -162,29 +160,29 @@ $(document).on('click','#defer',function() {
         });
 
 
-    }).then(function(data){
-       
-          $.ajax({
-                type:'POST',
-                url:'/APS/ajax/activityChecking',
-                data:{
-                    id:$("#doc").attr("ct"), 
-                    method:4,
-                    comment:$("#comment").val(),
-                    section:$("#select-sec").val()
-                },              
-                success:function(data){
-                  
-                    var doc = $(data).find("#doc");
-                    
-                    $("#doc").replaceWith(doc);
-                    $(document).trigger("customGenerated");
-                }
-            });
+    }).then(function(data) {
+
+        $.ajax({
+            type: 'POST',
+            url: '/APS/ajax/activityChecking',
+            data: {
+                id: $("#doc").attr("ct"),
+                method: 4,
+                comment: $("#comment").val(),
+                section: $("#select-sec").val()
+            },
+            success: function(data) {
+
+                var doc = $(data).find("#doc");
+
+                $("#doc").replaceWith(doc);
+                $(document).trigger("customGenerated");
+            }
+        });
     });
 });
 
-$(document).on('click','#reject',function() {
+$(document).on('click', '#reject', function() {
     var question = '<div class="row">' +
         '<div class="col-md-12 text-left  m-b-20" style="padding-left:16px">' +
         '<br/>State the reason for rejection.<br/>' +
@@ -232,24 +230,24 @@ $(document).on('click','#reject',function() {
                 $(this).removeClass("rotateOutUpLeft animated");
             });
         });
-    }).then(function(){
-          $.ajax({
-                type:'POST',
-                url:'/APS/ajax/activityChecking',
-                data:{
-                    id:$("#doc").attr("ct"), 
-                    method:5,
-                    comment:$("#reject-comment").val()
-                   
-                },     
-              
-                success:function(data){
-                  
-                    var doc = $(data).find("#doc");
-                    
-                    $("#doc").replaceWith(doc);
-                    $(document).trigger("customGenerated");
-                }
-            });
+    }).then(function() {
+        $.ajax({
+            type: 'POST',
+            url: '/APS/ajax/activityChecking',
+            data: {
+                id: $("#doc").attr("ct"),
+                method: 5,
+                comment: $("#reject-comment").val()
+
+            },
+
+            success: function(data) {
+
+                var doc = $(data).find("#doc");
+
+                $("#doc").replaceWith(doc);
+                $(document).trigger("customGenerated");
+            }
+        });
     });
 });
