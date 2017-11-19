@@ -1,15 +1,20 @@
-
-const log_options = Object.create(null);
-log_options.from = 'AJAX-APS';
-log_options.color = '\x1b[35m';
-
 module.exports = function(configuration, modules, models, database, queryFiles) {
+    const SIGN = require('../utility/digitalSignature.js').signString;
+    const STRINGIFY = require('json-stable-stringify');
+
+    const PATH_ASSETS = configuration.webserver.assets.path;
+
+    const log_options = Object.create(null);
+    log_options.from = 'AJAX-APS';
+    log_options.color = '\x1b[35m';
+
     const logger = modules.logger;
+
     const gosmModel = models.gosmModel;
+    const accountModel = models.Account_model;
     const projectProposalModel = models.ProjectProposal_model;
 
     const APS_AJAXController = Object.create(null);
-
 
     APS_AJAXController.getGOSMActivityDetails = (req, res) => {
         const activityID = parseInt(req.query.activityID ? req.query.activityID : req.body.activityID);
@@ -209,7 +214,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     };
 
     APS_AJAXController.SignProjectProposal = (req, res) => {
-        logger.debug(req.body, log_options);
+        logger.debug('SignProjectProposal()', log_options);
+
+        const activityID = parseInt(req.body.activityID);
+        const status = parseInt(req.body.status);
+
         /**
          * const reply = {
          *  success: boolean,
@@ -220,10 +229,194 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
          */
         const reply = Object.create(null);
 
-        reply.success = true;
-        reply.valid = true;
-        reply.reroute = '/APS/Signatory/Activtiy/1';
-        return res.send(reply);
+        if(!Number.isInteger(activityID) || ! Number.isInteger(status)){
+            reply.success = false;
+            reply.valid = false;
+            return res.send(reply);
+        }
+
+        let afterProcessing = null;
+        switch (status){
+            case 1: { //Accpet
+                logger.debug('Accept', log_options);
+                afterProcessing = database.task(task => {
+                    return task.batch([
+                        //0
+                        projectProposalModel.getActivityProjectProposalDetailsGAID(activityID, [
+                            'an.name AS nature',
+                            'at.name AS type',
+                            'GA.STRATEGIES AS strategies',
+                            'SO.NAME AS orgname',
+                            'av.name AS venue',
+                            'PP.ENMP AS enmp',
+                            'PP.ENP AS enp',
+                            'GA.OBJECTIVES AS objectives',
+                            'PP.CONTEXT1 AS context1',
+                            'PP.CONTEXT2 AS context2',
+                            'PP.CONTEXT3 AS context3',
+                            'PP.GOSMActivity AS activityID',
+                            'PP.id AS PPRID',
+                            'PP.SOURCEFUNDOTHER as sourcefundother',
+                            'PP.SOURCEFUNDPARTICIPANTFEE AS sourcefundparticipantfee',
+                            'PP.SOURCEFUNDORGANIZATIONAL',
+                            'PP.ACCUMULATEDOPERATIONALFUNDS as accumulatedoperationalfunds',
+                            'PP.ACCUMULATEDDEPOSITORYFUNDS AS accumulateddepositoryfunds',
+                            'PP.ORGANIZATIONFUNDOTHERSOURCE AS organizationfundothersource'
+                        ], task),
+                        //1
+                        projectProposalModel.getProjectProposalExpenses(activityID, [
+                            'ppe.sequence',
+                            'ppe.material',
+                            'ppe.quantity',
+                            'ppe.unitCost',
+                            'et.name AS type'
+                        ], task),
+                        //2
+                        projectProposalModel.getProjectProposalProjectedIncome(activityID, task),
+                        //3
+                        projectProposalModel.getProjectProposalProgramDesign(activityID, [
+                            'pppd.dayid AS dayid',
+                            'pppd.sequence',
+                            "to_char(pppd.date, 'Mon DD, YYYY') AS date",
+                            "to_char(pppd.starttime + CURRENT_DATE, 'HH:MI AM') AS starttime",
+                            "to_char(pppd.endtime + CURRENT_DATE, 'HH:MI PM') AS endtime",
+                            'pppd.activity AS activity',
+                            'pppd.activitydescription AS activitydescription',
+                            'pppd.personincharge'
+                        ], task),
+                        //4
+                        projectProposalModel.getProjectProposalProjectHeads(activityID, undefined, task),
+                        //5
+                        projectProposalModel.getProjectProposalAttachment(activityID, [
+                            'ppa.requirement AS DocumentType',
+                            'ppa.sequence',
+                            'ppa.idNumber',
+                            'ppa.filename AS path',
+                            'ppa.filenameToShow AS filename'
+                        ], task),
+                        //6
+                        accountModel.getAccountDetails(req.session.user.idNumber, [
+                            'a.privateKey'
+                        ], task)
+                    ]);
+                }).then(data => {
+                    const documentObj = Object.create(null);
+
+                    documentObj.ProjectProposalID = data[0].pprid;
+                    documentObj.ActivityID = data[0].activityid;
+                    documentObj.Nature = data[0].nature;
+                    documentObj.Type = data[0].type;
+                    documentObj.Strategies = data[0].strategies
+                    documentObj.Organization = data[0].orgname;
+                    documentObj.Venue = data[0].venue;
+                    documentObj.ENMP = data[0].ENMP;
+                    documentObj.ENP = data[0].ENP;
+                    documentObj.Objectives = data[0].objectives;
+                    documentObj.Context = data[0].context1;
+                    documentObj.SourceFundOther = data[0].sourcefundother;
+                    documentObj.SourceFundParticipantFee = data[0].sourcefundparticipantfee;
+                    documentObj.SourceFundOrganization = data[0].sourcefundorganization;
+                    documentObj.AccumulatedOperationalFunds = data[0].accumulatedoperationalfunds;
+                    documentObj.AccumulatedDepositoryFunds = data[0].accumulateddepositoryfunds;
+                    documentObj.OrganizationFundOtherSource = data[0].organizationfundothersource;
+
+                    documentObj.Expenses = [];
+                    for(const expense of data[1]){
+                        const expenseObj = Object.create(null);
+                        expenseObj.Sequence = expense.sequence;
+                        expenseObj.Material = expense.material;
+                        expenseObj.Quantity = expense.quantity;
+                        expenseObj.UnitCost = expense.unitcost;
+                        expenseObj.Type = expense.type;
+
+                        documentObj.Expenses[documentObj.Expenses.length] = expenseObj;
+                    }
+
+                    documentObj.ProjectedIncome = [];
+                    for(const income of data[2]){
+                        const incomeObj = Object.create(null);
+                        incomeObj.Sequence = income.sequence;
+                        incomeObj.Item = income.item;
+                        incomeObj.Quantity = income.quantity;
+                        incomeObj.SellingPrice = income.sellingprice;
+
+                        documentObj.ProjectedIncome[documentObj.ProjectedIncome.length] = incomeObj;
+                    }
+
+                    documentObj.ProgramDesign = [];
+                    for(const program of data[3]){
+                        const programObj = Object.create(null);
+                        programObj.DayID = program.dayid;
+                        programObj.Sequence = program.sequence;
+                        programObj.Date = program.date;
+                        programObj.StartTime = program.starttime;
+                        programObj.EndTime = program.endtime;
+                        programObj.Activity = program.activity;
+                        programObj.Description = program.activitydescription;
+                        programObj.PersonInCharge = Object.create(null);
+                        programObj.PersonInCharge.IDNumber = program.personincharge;
+
+                        documentObj.ProgramDesign[documentObj.ProgramDesign.length] = programObj;
+                    }
+
+                    documentObj.ProjectHeads = [];
+                    for(const projectHead of data[4]){
+                        const projectHeadObj = Object.create(null);
+                        projectHeadObj.IDNumber = projectHead.idnumber;
+
+                        documentObj.ProjectHeads[documentObj.ProjectHead.length] = projectHeadObj;
+                    }
+
+                    //TODO: Add attachments to documentObj
+
+                    const DOCUMENT_STRING = STRINGIFY(documentObj);
+                    const {signature: DIGITAL_SIGNATURE} = SIGN(DOCUMENT_STRING, data[6].privateKey);
+
+                    logger.debug(`Document: ${DOCUMENT_STRING}\nDigital Signature: ${DIGITAL_SIGNATURE}`, log_options);
+
+                    afterProcessing = accountModel.approvePPR(activityID, req.session.user.idNumber, DOCUMENT_STRING, DIGITAL_SIGNATURE);
+                }).then(data => {
+                    return Promise.resolve(true);
+                });
+            }break;
+
+            case 2: { //Pend
+                const sections = req.body.sectionsToBeEdited;
+                const comments = req.body.comments;
+
+                afterProcessing = accountModel.pendPPR(activityID, req.session.user.idNumber, comments, sections)
+                .then(data => {
+                    return Promise.resolve(true);
+                });
+            }break;
+
+            case 3: { //Deny
+                const comments = req.body.comments;
+
+                afterProcessing = accountModel.denyPPR(activityID, req.session.user.idNumber, comments)
+                .then(data => {
+                    return Promise.resolve(true);
+                });
+            }break;
+
+            default: {
+                const err = new Error('Invalid status');
+                afterProcessing = Promise.reject(err);
+            }
+        }
+
+        return afterProcessing.then(data => {
+            reply.success = true;
+            reply.valid = true;
+            reply.reroute = '/APS/Signatory/Activtiy/1';
+            return res.send(reply);
+        }).catch(err => {
+            logger.warn(`${err.message}\n${err.stack}`, log_options);
+
+            reply.success = false;
+            reply.valid = false;
+            return res.send(reply);
+        });
     };
 
     return APS_AJAXController;

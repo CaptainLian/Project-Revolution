@@ -18,6 +18,11 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
     const AccountModel = Object.create(null);
 
+    /*
+    AccountModel.aguy = (params, connection = database) => {
+
+    }
+    */
 
     const query_insert_account = queryFiles.account_insert;
     /**
@@ -140,7 +145,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
         return connection.one(hasGOSMActivityWithAMTActivityEvaluationSQL, param);
     };
 
-    const hasPPRToSignSQL = queryFiles.account_has_PPRs_to_sign;
+    const hasPPRToSignSQL = queryFiles.account_PPR_has_to_sign;
     AccountModel.hasPPRToSign = (idNumber, connection = database) => {
         const param = Object.create(null);
         param.idNumber = idNumber;
@@ -148,12 +153,44 @@ module.exports = function(configuration, modules, database, queryFiles) {
         return connection.one(hasPPRToSignSQL, param);
     };
 
-    const getPPRsToSignSQL = queryFiles.account_get_PPRs_to_sign;
+    const getPPRsToSignSQL = queryFiles.account_PPR_get_to_sign;
     AccountModel.getPPRToSignList = (idNumber, connection = database) => {
         const param = Object.create(null);
         param.idNumber = idNumber;
 
         return connection.any(getPPRsToSignSQL, param);
+    };
+
+    const approvePPRSQL = queryFiles.account_PPR_approve;
+    AccountModel.approvePPR = (activityID, idNumber, document, digitalSignature, connection = database) => {
+        const param = Object.create(null);
+        param.activityID = activityID;
+        param.idNumber = idNumber;
+        param.document = document;
+        param.digitalSignature = digitalSignature;
+
+        return connection.none(pendPPRSQL, param);
+    };
+
+    const pendPPRSQL = queryFiles.account_PPR_pend;
+    AccountModel.pendPPR = (activityID, idNumber, comments, sections, connection = database) => {
+        const param = Object.create(null);
+        param.activityID = activityID;
+        param.idNumber = idNumber;
+        param.comments = comments;
+        param.sections = sections;
+
+        return connection.none(pendPPRSQL, param);
+    };
+
+    const denyPPRSQL = queryFiles.account_PPR_deny;
+    AccountModel.denyPPR = (activityID, idNumber, comments, connection = database) => {
+        const param = Object.create(null);
+        param.activityID = activityID;
+        param.idNumber = idNumber;
+        param.comments = comments;
+
+        return connection.none(denyPPRSQL, param);
     };
 
     return AccountModel;

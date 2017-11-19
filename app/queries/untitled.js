@@ -1,1 +1,0 @@
-getObjectives.sql

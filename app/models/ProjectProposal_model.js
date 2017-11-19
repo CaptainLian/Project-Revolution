@@ -8,7 +8,7 @@ const squel = require('squel').useFlavour('postgres');
 
 module.exports = function(configuration, modules, db, queryFiles) {
 
-    
+
     const getLatestProjectProposalAttachment = queryFiles.getLatestProjectProposalAttachment;
     const insertProjectProposalAttachment = queryFiles.insertProjectProposalAttachment;
     const updatePPRBriefContextSQL = queryFiles.updatePPRBriefContext;
@@ -33,7 +33,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const getOrgFacultyAdvisersSQL = queryFiles.getOrgFacultyAdvisers;
     const getAllMyActivity = queryFiles.getAllMyActivity;
     const getPPRToCreatePubsList = queryFiles.getPPRToCreatePubsList;
-    
+
     /**
      * class with properties
      * {
@@ -233,12 +233,13 @@ module.exports = function(configuration, modules, db, queryFiles) {
         query = query.toString();
         let param = Object.create(null);
         param.id = id;
-        return connection.any(query, {id: id});
+        return connection.any(query, param);
     };
 
     ProjectProposalModel.prototype.getProjectProposalExpenses = function(id, fields, connection = this._db){
         let query = squel.select()
         .from('ProjectProposalExpenses', 'ppe')
+            .left_join('ExpenseType', 'et', 'ppe.type = et.id')
         .where('projectProposal = ${id}');
         this._attachFields(query, fields);
 
@@ -272,12 +273,13 @@ module.exports = function(configuration, modules, db, queryFiles) {
     ProjectProposalModel.prototype.getProjectProposalAttachment = function(id, fields, connection = this._db){
         let query = squel.select()
         .from('ProjectProposalAttachment', 'ppa')
+            .left_join('DocumentAttachmentRequirement', 'dar', 'ppa.requirement = dar.id')
         .where('projectProposal = ${id}');
         this._attachFields(query, fields);
 
         query = query.toString();
 
-        let param = {};
+        let param = Object.create(null);
         param.id = id;
         return connection.any(query, param);
     };
@@ -302,7 +304,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
     ProjectProposalModel.prototype.insertProjectProposal  = function(param, connection = this._db){
         return connection.one(insertProjectProposalSQL, param);
     };
-    
+
 
     ProjectProposalModel.prototype.updateIsProgramDesignComplete = function(param, connection = this._db) {
         return connection.none(updateIsProgramDesignCompleteSQL, param);
@@ -319,13 +321,13 @@ module.exports = function(configuration, modules, db, queryFiles) {
 
     ProjectProposalModel.prototype.insertProjectProposalAttachment = function(param, connection = this._db) {
         //TODO: test
-        
+
         return connection.none(insertProjectProposalAttachment, param);
     };
 
     ProjectProposalModel.prototype.getLatestProjectProposalAttachment = function(param, connection = this._db) {
         //TODO: test
-        
+
         return connection.any(getLatestProjectProposalAttachment, param);
     };
 

@@ -12,9 +12,7 @@ module.exports.signString = (string, privateKeyString) => {
     const md = digest.digest();
 
     const privateKey = forge.pki.privateKeyFromPem(privateKeyString);
-
     const encrypt = privateKey.sign(digest);
-
 
     const out = Object.create(null);
     out.document = md.toHex();
