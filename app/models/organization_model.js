@@ -7,6 +7,7 @@ module.exports = function(configuration, modules, database, queryFiles){
 	log_options.from = 'Organization-Model';
 	const getActivitiesWithPPRSQL = queryFiles.getActivitiesWithPPR;
 	const getActivitiesWithoutPPRSQL = queryFiles.getActivitiesWithoutPPR;
+	const getStudentsOfOrganizationSQL = queryFiles.getStudentsOfOrganization;
 
     const logger = modules.logger;
 	/**
@@ -37,6 +38,10 @@ module.exports = function(configuration, modules, database, queryFiles){
 
 	OrganizationModel.getActivitiesWithoutPPR = (param, fields, connection = database) => {
 		return connection.one(getActivitiesWithoutPPRSQL, param);
+	};
+
+	OrganizationModel.getStudentsOfOrganization = (param, fields, connection = database) => {
+		return connection.any(getStudentsOfOrganizationSQL, param);
 	};
 
 	/**

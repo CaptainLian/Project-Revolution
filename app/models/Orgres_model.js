@@ -5,6 +5,7 @@ module.exports = function(configuration, modules, database, queryFiles){
 
     const getActivitiesForResearchFormSQL = queryFiles.getActivitiesForResearchForm;
     const getOrganizationsForResearchFormSQL = queryFiles.getOrganizationsForResearchForm;
+    const insertActivityResearchFormSQL = queryFiles.insertActivityResearchForm;
 	
 	OrgresModel.getActivitiesForResearchForm = function(connection = database) {
         
@@ -14,6 +15,10 @@ module.exports = function(configuration, modules, database, queryFiles){
     OrgresModel.getOrganizationsForResearchForm = function(connection = database) {
 
         return connection.any(getOrganizationsForResearchFormSQL);
+    };
+
+    OrgresModel.insertActivityResearchForm = function(param, connection = database) {
+        return connection.none(insertActivityResearchFormSQL, param);
     };
 
 

@@ -106,6 +106,16 @@
 
 					{% set completionRate = completionRate + 25 %}
 
+				{% else %}
+
+					{% if projectProposal.isexpense %}
+
+					{% else %}
+
+						{% set completionRate = completionRate + 25 %}
+
+					{% endif %}
+
 				{% endif %}
 
 				{% if projectProposal.isprogramcomplete %}
@@ -150,7 +160,16 @@
 
 					{% else %}
 
-					0%
+						{% if projectProposal.isexpense %}
+
+						0%
+						
+						{% else %}
+
+						100%
+
+						{% endif %}
+
 
 					{% endif %}
 				</p>
@@ -220,7 +239,20 @@
 					
 				</div>
 				</a>
-				<a type="button" onclick="(function () {window.location.href='/Organization/ProjectProposal/Expense/{{gosmActivity.id}}'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
+
+				{% if projectProposal.isexpense %}
+					{% if gosmActivity.activitynature == 4 %}
+					
+					<a type="button" onclick="(function () {window.location.href='/Organization/ProjectProposal/Expense/{{gosmActivity.id}}/1'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
+					
+					{% else %}
+					<a type="button" onclick="(function () {window.location.href='/Organization/ProjectProposal/Expense/{{gosmActivity.id}}/0'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
+					
+					{% endif %}
+				{% else %}
+				<a type="button" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
+
+				{% endif %}
 				<div class="row">
 					<div class="col-md-6 text-left">
 
@@ -231,8 +263,19 @@
 							<input type="hidden" name="expense" value="{{projectProposal.isexpensecomplete}}">
 						{% else %}
 
+							{% if projectProposal.isexpense %}
+
 							<h5>Funding Expense <span class="label label-danger">Incomplete</span></h5>
 							<input type="hidden" name="expense" value="{{projectProposal.isexpensecomplete}}">
+
+							{% else %}
+
+							<h5>Funding Expense <span class="label label-success">Complete</span></h5>
+							<input type="hidden" name="expense" value="true">
+
+
+							{% endif %}
+
 
 						{% endif %}
 
