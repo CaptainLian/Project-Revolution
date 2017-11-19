@@ -1692,6 +1692,7 @@ CREATE TABLE ProjectProposalSignatory (
   type SMALLINT NOT NULL REFERENCES SignatoryType(id),
   status SMALLINT NOT NULL REFERENCES SignatoryStatus(id) DEFAULT 0,
   comments TEXT,
+  sectionsToEdit VARCHAR(60)[],
   document JSONB,
   digitalSignature TEXT,
   dateSigned TIMESTAMP WITH TIME ZONE,

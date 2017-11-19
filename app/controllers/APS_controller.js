@@ -162,7 +162,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     APSController.viewPPRListToSign = (req, res) => {
         const renderData = Object.create(null);
         renderData.extra_data = req.extra_data;
-        
+
 
         return accountModel.getPPRToSignList(req.session.user.idNumber)
         .then(list => {
@@ -179,30 +179,32 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         if(!Number.isInteger(activityID)){
             return res.redirect('/APS/Signatory/ActivtiyList');
         }
-        
+        //TODO: check if PPR has already been signed by user
+
         const renderData = Object.create(null);
         renderData.extra_data = req.extra_data;
+        renderData.csrfToken = req.csrfToken();
         
         return database.task(task => {
             return task.batch([
                 projectProposalModel.getActivityProjectProposalDetailsGAID(activityID, [
-                    'an.name AS nature', 
+                    'an.name AS nature',
                     'at.name AS type',
-                    'GA.STRATEGIES AS strategies', 
-                    'SO.NAME AS orgname', 
+                    'GA.STRATEGIES AS strategies',
+                    'SO.NAME AS orgname',
                     'av.name AS venue',
-                    'PP.ENMP AS enmp', 
-                    'PP.ENP AS enp', 
-                    'GA.OBJECTIVES AS objectives', 
-                    'PP.CONTEXT1 AS context1', 
+                    'PP.ENMP AS enmp',
+                    'PP.ENP AS enp',
+                    'GA.OBJECTIVES AS objectives',
+                    'PP.CONTEXT1 AS context1',
                     'PP.CONTEXT2 AS context2',
-                    'PP.CONTEXT3 AS context3', 
-                    'PP.ID as id', 
-                    'PP.SOURCEFUNDOTHER as sourcefundother', 
-                    'PP.SOURCEFUNDPARTICIPANTFEE AS sourcefundparticipantfee', 
-                    'PP.SOURCEFUNDORGANIZATIONAL', 
+                    'PP.CONTEXT3 AS context3',
+                    'PP.ID as id',
+                    'PP.SOURCEFUNDOTHER as sourcefundother',
+                    'PP.SOURCEFUNDPARTICIPANTFEE AS sourcefundparticipantfee',
+                    'PP.SOURCEFUNDORGANIZATIONAL',
                     'PP.ACCUMULATEDOPERATIONALFUNDS as accumulatedoperationalfunds',
-                    'PP.ACCUMULATEDDEPOSITORYFUNDS AS accumulateddepositoryfunds', 
+                    'PP.ACCUMULATEDDEPOSITORYFUNDS AS accumulateddepositoryfunds',
                     'PP.ORGANIZATIONFUNDOTHERSOURCE AS organizationfundothersource'
                 ]),
                 projectProposalModel.getProjectProposalExpenses(activityID),

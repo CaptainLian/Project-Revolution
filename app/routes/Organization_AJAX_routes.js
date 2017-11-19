@@ -13,9 +13,8 @@ module.exports = function(configuration, modules, router, controllers){
 	router.post(`${base}/deleteActivity`, controllers.Organization_controller.deleteActivity);
 	router.post(`${base}/updateActivity`, controllers.Organization_controller.updateActivity);
 
-	router.post('${base}/treasurer/ShowNewTransaction', controllers.Treasurer_AJAX_controller.showNewTransaction);
+	router.post(`${base}/treasurer/ShowNewTransaction`, controllers.Treasurer_AJAX_controller.showNewTransaction);
 
 	//PNP
-	
-};
 
+};
