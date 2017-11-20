@@ -364,19 +364,22 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         const projectHeadObj = Object.create(null);
                         projectHeadObj.IDNumber = projectHead.idnumber;
 
-                        documentObj.ProjectHeads[documentObj.ProjectHead.length] = projectHeadObj;
+                        documentObj.ProjectHeads[documentObj.ProjectHeads.length] = projectHeadObj;
                     }
 
                     //TODO: Add attachments to documentObj
 
                     const DOCUMENT_STRING = STRINGIFY(documentObj);
-                    const {signature: DIGITAL_SIGNATURE} = SIGN(DOCUMENT_STRING, data[6].privateKey);
+                    logger.debug(`Private Key: ${data[6].privatekey}`);
+                    const {signature: DIGITAL_SIGNATURE} = SIGN(DOCUMENT_STRING, data[6].privatekey);
 
                     logger.debug(`Document: ${DOCUMENT_STRING}\nDigital Signature: ${DIGITAL_SIGNATURE}`, log_options);
 
                     afterProcessing = accountModel.approvePPR(activityID, req.session.user.idNumber, DOCUMENT_STRING, DIGITAL_SIGNATURE);
                 }).then(data => {
                     return Promise.resolve(true);
+                }).catch(err => {
+                    logger.debug(`${err.message}\n${err.stack}`);
                 });
             }break;
 

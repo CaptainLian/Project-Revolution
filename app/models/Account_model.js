@@ -169,7 +169,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
         param.document = document;
         param.digitalSignature = digitalSignature;
 
-        return connection.none(pendPPRSQL, param);
+        return connection.none(approvePPRSQL, param);
     };
 
     const pendPPRSQL = queryFiles.account_PPR_pend;

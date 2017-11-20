@@ -18,8 +18,8 @@ WITH "SignatoryType" AS (
 UPDATE ProjectProposalSignatory
    SET status = 1,
        document = ${document},
-       digitalSignature = digitalSignature,
-       dateSign = CURRENT_TIMESTAMP
+       digitalSignature = ${digitalSignature},
+       dateSigned = CURRENT_TIMESTAMP
  WHERE GOSMActivity = ${activityID}
    AND signatory = ${idNumber}
    AND type = (SELECT type FROM "SignatoryType");
