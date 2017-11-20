@@ -27,7 +27,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 			//TODO: to be replaced by value from previous page
 			var dbParam = {
-				projectProposal: 2
+				projectProposal: 1
 			};
 
 			financeModel.getParticulars(dbParam)
@@ -39,7 +39,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 	            renderData.csrfToken = req.csrfToken();
 	            renderData.particulars = data;
 	            //TODO: to come from previous page
-	            renderData.gosmactivity = 2;
+	            renderData.gosmactivity = 1;
 				return res.render('Finance/FinancePreacts', renderData);
 				//next();
 
