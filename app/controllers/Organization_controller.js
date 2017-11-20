@@ -363,7 +363,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.gosmactivity = dbParam;
                 renderData.projectProposal = data[0];
                 renderData.expenses = data[1];
-                renderData.revenue = req.params.revenue;
+                // renderData.revenue = req.params.revenue;
+                renderData.revenue = 1;
                 renderData.expenseTypes = data[2];
 
                 console.log(renderData.gosmactivity);

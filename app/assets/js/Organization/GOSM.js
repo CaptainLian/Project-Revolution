@@ -624,7 +624,7 @@ $("#submit-gosm").click(function() {
                         }
                     });
              setTimeout(function(){
-                 window.location.href = '/Organization/Projectad/home';
+                 window.location.href = '/blank';
                   
              }
             , 3000);
