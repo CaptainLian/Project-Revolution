@@ -1,7 +1,7 @@
 //START 
-$(".fund").css("display", "none");
-$("#rev-opt").remove();
-$(".expense").css("display","none");
+// $(".fund").css("display", "none");
+// $("#rev-opt").remove();
+// $(".expense").css("display","none");
 //END KPAG FUNDRAISING
 var item = {};
 item["rev"] = {};
@@ -107,10 +107,31 @@ $("#insert-button").click(function() {
         $("#item-help").text("");
         $("#item").closest("div.form-group").removeClass("has-error");
         var clone = $("#clone").clone();
-         clone.find("#item").prop("id",idCounter+1);
-         clone.find("#sel0").prop("id",idCounter+2);
-         clone.find("#price").prop("id",idCounter+3);
-         clone.find("#quantity").prop("id",idCounter+4);
+        clone.find("#item").prop("id",idCounter+1);
+        clone.find("#sel0").prop("id",idCounter+2);
+        clone.find("#price").prop("id",idCounter+3);
+        clone.find("#quantity").prop("id",idCounter+4);
+        clone.find("#exp").remove();
+        clone.find("#rev-opt").attr('type','text');
+        clone.find(".radio-list").prop("id",idCounter+6);
+        $(".radio-list").find("input[type=radio]").each(function(index) {
+           
+            if( $(this).is(':checked') ){
+               
+                 clone.find("#rev-opt").val($(this).val());
+            }
+        });
+        // clone.find("input[type=radio]").each(function(index) {
+        //     console.log( $(this).is(':checked'));
+        //     console.log( $(this).val());
+        // })
+        // console.log("VALUE NG RADIOBUTTONS");
+        // console.log(clone.find("#rev-opt").val());
+           clone.find("#rev-opt").prop("id",idCounter+5);
+            clone.find(".radio-list").removeClass("radio-list");
+        
+         
+
          clone.prop("id",idCounter);
          idCounter++;
 

@@ -86,11 +86,11 @@
                     <div class="col-xs-12">
                          
                                 <div class="form-group m-b-40">
-                                    <select class="form-control select2" id="org-select">
+                                    <select class="form-control select2" name="position" id="org-select">
                                         <option selected="true" disabled="disabled">Select an Organization</option>
-                                            <option value="VT">Officer</option>
-                                            <option value="VA">Member</option>
-                                            <option value="WV">Non-member</option>
+                                            <option value="0">Officer</option>
+                                            <option value="1">Member</option>
+                                            <option value="2">Non-member</option>
                                     </select>
                                     <span class="highlight"></span> <span class="bar"></span>
                                     <label for="input6">Position in the Organization</label>
@@ -101,7 +101,7 @@
                         <div class="col-xs-6">
                             
                                 <div class="form-group m-b-40">
-                                    <select class="form-control select2" id="org-select">
+                                    <select class="form-control select2" name="organization" id="org-select">
                                         <option selected="true" disabled="disabled">Select an Organization</option>
                                             
                                             {% for organization in organizations %}
@@ -117,7 +117,7 @@
                         </div>
                         <div class="col-xs-6">
                                 <div class="form-group m-b-40">
-                                    <select class="form-control select2" id ="transaction">
+                                    <select class="form-control select2" name="activity" id ="transaction">
                                         <option selected="true" disabled="disabled" >Select</option>
                                             {% for activity in activities %}
 
@@ -150,11 +150,11 @@
                                     <label class="col-xs-12">2. The activity served my interests.</label>
                                     <div class="text-center">
                                         <label class="">Strongly Disagree </label>&nbsp;
-                                            <input  type="radio" name="radio2" id="inlineRadio1" value="option1">&nbsp;
-                                            <input  type="radio" name="radio2" id="inlineRadio1" value="option1">&nbsp;
-                                            <input  type="radio" name="radio2" id="inlineRadio1" value="option1">&nbsp;
-                                            <input  type="radio" name="radio2" id="inlineRadio1" value="option1">&nbsp;
-                                            <input  type="radio" name="radio2" id="inlineRadio1" value="option1">&nbsp;
+                                            <input  type="radio" name="radio2" id="inlineRadio1" value="1">&nbsp;
+                                            <input  type="radio" name="radio2" id="inlineRadio1" value="2">&nbsp;
+                                            <input  type="radio" name="radio2" id="inlineRadio1" value="3">&nbsp;
+                                            <input  type="radio" name="radio2" id="inlineRadio1" value="4">&nbsp;
+                                            <input  type="radio" name="radio2" id="inlineRadio1" value="5">&nbsp;
                                         <label class=""> Strongly Agree</label>
                                     </div>                                                     
                                 </div>
@@ -162,11 +162,11 @@
                                     <label class="col-xs-12">3. I felt involved during the activity.</label>
                                     <div class="text-center">
                                         <label class="">Strongly Disagree </label>&nbsp;
-                                            <input  type="radio" name="radio3" id="inlineRadio1" value="option1">&nbsp;
-                                            <input  type="radio" name="radio3" id="inlineRadio1" value="option1">&nbsp;
-                                            <input  type="radio" name="radio3" id="inlineRadio1" value="option1">&nbsp;
-                                            <input  type="radio" name="radio3" id="inlineRadio1" value="option1">&nbsp;
-                                            <input  type="radio" name="radio3" id="inlineRadio1" value="option1">&nbsp;
+                                            <input  type="radio" name="radio3" id="inlineRadio1" value="1">&nbsp;
+                                            <input  type="radio" name="radio3" id="inlineRadio1" value="2">&nbsp;
+                                            <input  type="radio" name="radio3" id="inlineRadio1" value="3">&nbsp;
+                                            <input  type="radio" name="radio3" id="inlineRadio1" value="4">&nbsp;
+                                            <input  type="radio" name="radio3" id="inlineRadio1" value="5">&nbsp;
                                         <label class=""> Strongly Agree</label>
                                     </div>                                                     
                                 </div>
@@ -174,11 +174,11 @@
                                     <label class="col-xs-12">4. The activity was well-publicized.</label>
                                     <div class="text-center">
                                         <label class="font-weight-normal">Strongly Disagree </label>&nbsp;
-                                            <input  type="radio" name="radio4" id="inlineRadio1" value="option1">&nbsp;
-                                            <input  type="radio" name="radio4" id="inlineRadio1" value="option1">&nbsp;
-                                            <input  type="radio" name="radio4" id="inlineRadio1" value="option1">&nbsp;
-                                            <input  type="radio" name="radio4" id="inlineRadio1" value="option1">&nbsp;
-                                            <input  type="radio" name="radio4" id="inlineRadio1" value="option1">&nbsp;
+                                            <input  type="radio" name="radio4" id="inlineRadio1" value="1">&nbsp;
+                                            <input  type="radio" name="radio4" id="inlineRadio1" value="2">&nbsp;
+                                            <input  type="radio" name="radio4" id="inlineRadio1" value="3">&nbsp;
+                                            <input  type="radio" name="radio4" id="inlineRadio1" value="4">&nbsp;
+                                            <input  type="radio" name="radio4" id="inlineRadio1" value="5">&nbsp;
                                         <label class=""> Strongly Agree</label>
                                     </div>                                                     
                                 </div>
@@ -186,11 +186,11 @@
                                     <label class="col-xs-12">5. The organization urged me to go to this activity.</label>
                                     <div class="text-center">
                                         <label class="">Strongly Disagree </label>&nbsp;
-                                            <input  type="radio" name="radio5" id="inlineRadio1" value="option1">&nbsp;
-                                            <input  type="radio" name="radio5" id="inlineRadio1" value="option1">&nbsp;
-                                            <input  type="radio" name="radio5" id="inlineRadio1" value="option1">&nbsp;
-                                            <input  type="radio" name="radio5" id="inlineRadio1" value="option1">&nbsp;
-                                            <input  type="radio" name="radio5" id="inlineRadio1" value="option1">&nbsp;
+                                            <input  type="radio" name="radio5" id="inlineRadio1" value="1">&nbsp;
+                                            <input  type="radio" name="radio5" id="inlineRadio1" value="2">&nbsp;
+                                            <input  type="radio" name="radio5" id="inlineRadio1" value="3">&nbsp;
+                                            <input  type="radio" name="radio5" id="inlineRadio1" value="4">&nbsp;
+                                            <input  type="radio" name="radio5" id="inlineRadio1" value="5">&nbsp;
                                         <label class=""> Strongly Agree</label>
                                     </div>                                                     
                                 </div>

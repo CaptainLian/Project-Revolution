@@ -60,14 +60,34 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		submitResearchActivityForm: (req, res) =>{
 
 			console.log("enters this");
-			console.log(req.body);
+			console.log(req.body); 
 
-			const renderData = Object.create(null);
-            renderData.extra_data = req.extra_data;
-            renderData.csrfToken = req.csrfToken();
+			var dbParam = {
+				gosmactivity: req.body.activity,
+				positionInOrganization: req.body.position,
+				iutpota: req.body.radio1,
+				tasmi: req.body.radio2,
+				ifidta: req.body.radio3,
+				tawwp: req.body.radio4,
+				toumtgtta: req.body.radio5,
+				wwwita: req.body.wentwell,
+				fac: req.body.feedback,
+				effa: req.body.expectations
+			};
+
+			orgresModel.insertActivityResearchForm(dbParam)
+			.then(data=>{
+				const renderData = Object.create(null);
+	            renderData.extra_data = req.extra_data;
+	            renderData.csrfToken = req.csrfToken();
 
 
-			return res.render('Orgres/SubmitActivityResearchForm', renderData);
+				return res.render('Orgres/SubmitActivityResearchForm', renderData);
+
+			}).catch(error=>{
+				console.log(error);
+			});
+
 			
 		}
 

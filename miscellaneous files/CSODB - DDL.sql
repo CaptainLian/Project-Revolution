@@ -1984,8 +1984,7 @@ CREATE TABLE "ActivityResearchForm" (
 CREATE TRIGGER "before_insert_ActivityResearchForm_sequence"
     BEFORE INSERT ON "ActivityResearchForm"
     FOR EACH ROW
-    EXECUTE PROCEDURE "trigger_before_insert_increment_sequence"('ActivityResearchForm', 'arf', '
-."GOSMActivity" = $1."GOSMActivity"');
+    EXECUTE PROCEDURE "trigger_before_insert_increment_sequence"('ActivityResearchForm', 'arf', 'arf."GOSMActivity" = $1."GOSMActivity"');
 
 /* ADM */
   /* Post Acts */
