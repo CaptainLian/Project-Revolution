@@ -2,7 +2,7 @@
 
 
 module.exports = function(configuration, modules, models, database, queryFiles) {
-    const Promise = module.Promise;
+   // const Promise = module.Promise;
 
     const logger = modules.logger;
 
