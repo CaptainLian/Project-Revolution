@@ -41,8 +41,8 @@ $trigger$
         IF NEW.submissionID IS NULL THEN
             NEW.sequence = 1;
             EXECUTE format('SELECT COALESCE(MAX(submissionID) + 1, 1)
-                          FROM %I %I
-                         WHERE %s', TG_ARGV[0], TG_ARGV[1], TG_ARGV[2])
+                              FROM %I %I
+                             WHERE %s', TG_ARGV[0], TG_ARGV[1], TG_ARGV[2])
             INTO STRICT NEW."submissionID"
             USING NEW;
         ELSE
@@ -1828,7 +1828,7 @@ $trigger$
             SELECT COALESCE(MAX("sequence") + 1, 1) INTO NEW."sequence"
               FROM "PreActivityDirectPayment"
              WHERE "GOSMActivity" = NEW."GOSMActivity"
-               AND "submissionID" = NEW.submissionID;
+               AND "submissionID" = NEW."submissionID";
         END IF;
 
         RETURN NEW;
@@ -1879,7 +1879,7 @@ $trigger$
         SELECT COALESCE(MAX("sequence") + 1, 1) INTO NEW."sequence"
           FROM "PreActivityCashAdvance"
          WHERE "GOSMActivity" = NEW."GOSMActivity"
-           AND "submissionID" = NEW.submissionID;
+           AND "submissionID" = NEW."submissionID";
         END IF;
 
         RETURN NEW;

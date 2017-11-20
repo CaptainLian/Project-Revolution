@@ -149,7 +149,6 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             return res.render('APS/ActivityChecking', renderData);
         }).catch(err => {
             logger.debug(`${err.message}/n${err.stack}`);
-            throw err;
         });
     };
 
