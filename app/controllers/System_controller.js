@@ -123,7 +123,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                     logger.debug('Determining user type', log_options);
 
-                    let step = null;
+                    let step = Promise.resolve(true);
                     if(req.session.user.type === 1){
                         logger.debug('Student type account', log_options);
                         step = accountModel.getStudentOrganizations(req.session.user.idNumber).then(data => {

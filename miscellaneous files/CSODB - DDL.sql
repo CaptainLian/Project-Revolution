@@ -475,6 +475,7 @@ RETURNS trigger AS
 $trigger$
     BEGIN
         NEW.dateModified = CURRENT_TIMESTAMP;
+        RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
 CREATE TRIGGER before_update_Account2

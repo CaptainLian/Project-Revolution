@@ -441,7 +441,7 @@ gnU99t5j1naPrW03gMZhVjUlXH19JfLOgvkO3sykAWDkcFZGxv1jJ8BqzUmUihrY
 TytBAoGBAI/ER2xg4RY59hEr0ST9tIwpV/4r6S6bDAiCsFmfMMfU4U7TPocfouMY
 BXKAD/glJ44EL4z82axYP0LA6Abe/pfkc8dwWsEAayYjYV+8qzQ7mtHRKxmLxHTm
 BtfxKI72NnSS70p1VAzKACZXwMRR5RRhOz75s1bJ3JK18AMSRc3r
------END RSA PRIVATE KEY-----', 2);
+-----END RSA PRIVATE KEY-----', 1);
 INSERT INTO OrganizationOfficer (idNumber, role, yearID)
                          VALUES (5555555, 10027, system_get_current_year_id());
 
