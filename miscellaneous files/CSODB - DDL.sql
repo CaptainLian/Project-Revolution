@@ -22,7 +22,7 @@ $trigger$
     BEGIN
 	    EXECUTE format ('SELECT COALESCE(MAX(sequence) + 1, 1)
 	                       FROM %I %I
-	                      WHERE %s;', TG_ARGV[0], TG_ARGV[1], TG_ARGV[2])
+	                      WHERE (%s);', TG_ARGV[0], TG_ARGV[1], TG_ARGV[2])
         INTO STRICT NEW."sequence"
 	    USING NEW;
 	  
@@ -38,17 +38,17 @@ CREATE OR REPLACE FUNCTION "trigger_before_insert_sequence_versioning"(/* "param
 RETURNS TRIGGER AS
 $trigger$
     BEGIN
-        IF NEW.submissionID IS NULL THEN
+        IF NEW."submissionID" IS NULL THEN
             NEW.sequence = 1;
-            EXECUTE format('SELECT COALESCE(MAX(submissionID) + 1, 1)
+            EXECUTE format('SELECT COALESCE(MAX("submissionID") + 1, 1)
                               FROM %I %I
-                             WHERE %s', TG_ARGV[0], TG_ARGV[1], TG_ARGV[2])
+                             WHERE (%s)', TG_ARGV[0], TG_ARGV[1], TG_ARGV[2])
             INTO STRICT NEW."submissionID"
             USING NEW;
         ELSE
             EXECUTE format ('SELECT COALESCE(MAX(sequence) + 1, 1)
                                FROM %I %I
-                              WHERE submissionID = $1."submissionID"
+                              WHERE "submissionID" = $1."submissionID"
                                 AND (%s);', TG_ARGV[0], TG_ARGV[1], TG_ARGV[2])
             INTO STRICT NEW."sequence"
             USING NEW;
@@ -1745,17 +1745,24 @@ CREATE OR REPLACE FUNCTION "trigger_after_update_ProjectProposal_signatory_facul
 RETURNS trigger AS
 $trigger$
     BEGIN
-      INSERT INTO ProjectProposalSignatory (GOSMActivity, signatory, type)
-                                    VALUES (NEW.GOSMActivity, NEW.facultyAdviser, 4)
-      ON CONFLICT ON CONSTRAINT "pk_ProjectProposalSignatory"
-      DO UPDATE SET signatory = NEW.facultyAdviser;
+      IF NEW.facultyAdviser IS NULL THEN
+        DELETE FROM ProjectProposalSignatory pps
+        WHERE pps.GOSMActivity = NEW.GOSMActivity
+          AND pps.signatory = OLD.facultyAdviser
+          AND pps.type = 4;
+      ELSE
+          INSERT INTO ProjectProposalSignatory (GOSMActivity, signatory, type)
+                                        VALUES (NEW.GOSMActivity, NEW.facultyAdviser, 4)
+          ON CONFLICT ON CONSTRAINT "pk_ProjectProposalSignatory"
+          DO UPDATE SET signatory = NEW.facultyAdviser;
+      END IF;
 
       RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
 CREATE TRIGGER "after_update_ProjectProposal_signatory_facultyAdviser"
     AFTER UPDATE ON ProjectProposal
-    FOR EACH ROW WHEN ((OLD.facultyAdviser IS NULL) OR (OLD.facultyAdviser <> NEW.facultyAdviser))
+    FOR EACH ROW WHEN ((OLD.facultyAdviser IS NULL AND NEW.facultyAdviser IS NOT NULL) OR (OLD.facultyAdviser IS NOT NULL AND NEW.facultyAdviser IS NULL) OR(OLD.facultyAdviser <> NEW.facultyAdviser))
     EXECUTE PROCEDURE "trigger_after_update_ProjectProposal_signatory_facultyAdviser"();
 
 CREATE OR REPLACE FUNCTION "trigger_after_update_ProjectProposal_signatory_immediateSuperior"()
@@ -1819,7 +1826,7 @@ CREATE OR REPLACE FUNCTION "trigger_before_insert_PreActivityDirectPayment_seque
 RETURNS TRIGGER AS
 $trigger$
     BEGIN
-        IF NEW.submissionID IS NULL THEN
+        IF NEW."submissionID" IS NULL THEN
             NEW.sequence = 1;
             SELECT COALESCE(MAX("submissionID") + 1, 1) INTO NEW."submissionID"
               FROM "PreActivityDirectPayment"
@@ -1870,7 +1877,7 @@ CREATE OR REPLACE FUNCTION "trigger_before_insert_PreActivityCashAdvance_sequenc
 RETURNS TRIGGER AS
 $trigger$
     BEGIN
-        IF NEW.submissionID IS NULL THEN
+        IF NEW."submissionID" IS NULL THEN
             NEW.sequence = 1;
             SELECT COALESCE(MAX("submissionID") + 1, 1) INTO NEW."submissionID"
               FROM "PreActivityCashAdvance"
