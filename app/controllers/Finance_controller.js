@@ -25,5 +25,11 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			return res.render('Finance/FinancePreacts', renderData);
 			//next();
 		},
+		createPreactsCashAdvance: (req, res) => {
+			const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+			return res.render('Finance/Preacts_CashAdvance', renderData);
+			//next();
+		},
 	};
 };
