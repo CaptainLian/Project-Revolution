@@ -1,4 +1,4 @@
-﻿DROP EXTENSION IF EXISTS "uuid-ossp" CASCADE;
+DROP EXTENSION IF EXISTS "uuid-ossp" CASCADE;
 DROP EXTENSION IF EXISTS "pgcrypto" CASCADE;
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
@@ -25,7 +25,7 @@ $trigger$
 	                      WHERE (%s);', TG_ARGV[0], TG_ARGV[1], TG_ARGV[2])
         INTO STRICT NEW."sequence"
 	    USING NEW;
-	  
+
         RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
@@ -53,7 +53,7 @@ $trigger$
             INTO STRICT NEW."sequence"
             USING NEW;
         END IF;
-    
+
         RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
@@ -1381,13 +1381,11 @@ CREATE TABLE "Building" (
 
 	PRIMARY KEY("id")
 );
-INSERT INTO "Building" ("id", "name")
-              VALUES (0, 'Markus Building');
 
 DROP TABLE IF EXISTS "ActivityVenue" CASCADE;
 CREATE TABLE "ActivityVenue" (
 	"id" INTEGER,
-	"name" VARCHAR (60),
+	"name" TEXT,
 	"capacity" INTEGER,
 	"size" SMALLINT REFERENCES "VenueSize"("id"),
 	"rate" NUMERIC(12, 2),
@@ -1396,8 +1394,6 @@ CREATE TABLE "ActivityVenue" (
 
 	PRIMARY KEY (id)
 );
-INSERT INTO "ActivityVenue" ("id", "name", "capacity", "size", "rate", "rateType", "building")
-                   VALUES ( 0, 'Neil Room', 12,  3, 700.43,       4,        0);
 
 DROP TABLE IF EXISTS ProjectProposalStatus CASCADE;
 CREATE TABLE ProjectProposalStatus (
@@ -1639,7 +1635,7 @@ CREATE TABLE ProjectProposalAttachment (
     PRIMARY KEY (projectProposal, requirement, sequence)
 );
 CREATE OR REPLACE FUNCTION trigger_before_insert_ProjectProposalAttachment()
-RETURNS trigger AS
+RETURNS TRIGGER AS
 $trigger$
     BEGIN
         SELECT COALESCE(MAX(sequence) + 1, 1) INTO STRICT NEW.sequence
@@ -1700,6 +1696,30 @@ CREATE TABLE ProjectProposalSignatory (
 
   CONSTRAINT "pk_ProjectProposalSignatory" PRIMARY KEY(GOSMActivity, signatory, type)
 );
+CREATE OR REPLACE FUNCTION "trigger_after_update_ProjectProposalSignatory_completion"()
+RETURNS TRIGGER AS
+$trigger$
+    DECLARE
+        numSignNeeded INTEGER;
+    BEGIN
+        SELECT COUNT(pps.id) INTO numSignNeeded
+          FROM ProjectProposalSignatory pps
+         WHERE pps.GOSMActivity = NEW.GOSMActivity
+           AND status <> 1
+           AND status <> 4;
+
+        IF numSignNeeded = 0 THEN
+            INSERT INTO AMTActivityEvaluation (activity, status)
+                                       VALUES (NEW.GOSMActivity, 0);
+        END IF;
+
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER after_update_ProjectProposalSignatory_completion
+    AFTER UPDATE ON ProjectProposalSignatory
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_after_update_ProjectProposalSignatory_completion"();
 
     /* Load balancing of Proposals */
 CREATE OR REPLACE FUNCTION "trigger_after_insert_ProjectProposal_signatories"()
@@ -1906,6 +1926,47 @@ CREATE TABLE "PreActivityCashAdvanceParticular" (
 
     PRIMARY KEY ("cashAdvance", "particular")
 );
+
+DROP TABLE IF EXISTS "FinanceSignatoryType" CASCADE;
+CREATE TABLE "FinanceSignatoryType" (
+    "id" INTEGER,
+    "name" VARCHAR(45) NOT NULL,
+    "lineup" SMALLINT NOT NULL,
+
+    PRIMARY KEY ("id")
+);
+
+DROP TABLE IF EXISTS "PreActivityDirectPaymentSignatory" CASCADE;
+CREATE TABLE "PreActivityDirectPaymentSignatory" (
+    "id" SERIAL UNIQUE,
+    "DirectPayment" INTEGER REFERENCES "PreActivityDirectPayment"("id"),
+    "signatory" INTEGER REFERENCES Account(idNumber),
+    "type" SMALLINT NOT NULL REFERENCES "FinanceSignatoryType"("id"),
+    "status" SMALLINT NOT NULL REFERENCES SignatoryStatus(id) DEFAULT 0,
+    "comments" TEXT,
+    "sectionsToEdit" VARCHAR(60)[],
+    "document" JSONB,
+    "digitalSignature" TEXT,
+    "dateSigned" TIMESTAMP WITH TIME ZONE,
+
+    CONSTRAINT "pk_PreActivityDirectPaymentSignatory" PRIMARY KEY("DirectPayment", "signatory", "type")
+);
+
+DROP TABLE IF EXISTS "PreActivityDirectCashAdvanceSignatory" CASCADE;
+CREATE TABLE "PreActivityDirectCashAdvanceSignatory" (
+    "id" SERIAL UNIQUE,
+    "CashAdvance" INTEGER REFERENCES "PreActivityCashAdvance"("id"),
+    "signatory" INTEGER REFERENCES Account(idNumber),
+    "type" SMALLINT NOT NULL REFERENCES "FinanceSignatoryType"("id"),
+    "status" SMALLINT NOT NULL REFERENCES SignatoryStatus(id) DEFAULT 0,
+    "comments" TEXT,
+    "sectionsToEdit" VARCHAR(60)[],
+    "document" JSONB,
+    "digitalSignature" TEXT,
+    "dateSigned" TIMESTAMP WITH TIME ZONE,
+
+    CONSTRAINT "pk_PreActivityDirectCashAdvanceSignatory" PRIMARY KEY("CashAdvance", "signatory", "type")
+);
 /* Organization Treasurer */
     /* AMTActivityEvaluation */
 DROP TABLE IF EXISTS AMTActivityEvaluationStatus CASCADE;
@@ -1962,7 +2023,7 @@ CREATE TABLE AMTActivityEvaluation (
 -- END FORMS
 -- COMMIT;
   /* OrgRes */
-DROP TABLE IF EXISTS "ARFOrganizationPosition" CASCADE; 
+DROP TABLE IF EXISTS "ARFOrganizationPosition" CASCADE;
 CREATE TABLE "ARFOrganizationPosition" (
     "id" SMALLINT,
     "name" VARCHAR(45) NOT NULL,
