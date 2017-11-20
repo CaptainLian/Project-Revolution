@@ -363,8 +363,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.gosmactivity = dbParam;
                 renderData.projectProposal = data[0];
                 renderData.expenses = data[1];
-                // renderData.revenue = req.params.revenue;
-                renderData.revenue = 1;
+                renderData.revenue = req.params.revenue;
+                // renderData.revenue = 1;
                 renderData.expenseTypes = data[2];
 
                 console.log(renderData.gosmactivity);
@@ -1271,7 +1271,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             console.log(req.params.id);
             var dbParam = {
                 id: req.body.pprid,
-                preparedby: req.session.user.idNumber
+                preparedby: req.session.user.idNumber,
+                gosmid: req.body.gosmid
             };
             console.log(req.body.context);
             if(req.body.context && req.body.program && req.body.expense && req.body.attachment){
@@ -1279,17 +1280,24 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                 projectProposalModel.submitProjectProposal(dbParam)
                 .then(data=>{
-                return res.redirect(`/Organization/ProjectProposal/gosmlist/`);
-                }).catch(error=>{
 
+                    postProjectProposalModel.insertPostProjectProposal(dbParam)
+                    .then(data1=>{
+
+
+                        return res.redirect(`/Organization/ProjectProposal/gosmlist/`);
+                   
+
+                    }).catch(error=>{
+                        console.log("error in insertPostProjectProposal");
+                        console.log(error);
+                    });
+                }).catch(error=>{
+                    console.log("error in submit projectProposal");
+                    console.log(error);
                 });
 
-                // postProjectProposalModel.insertPostProjectProposal(dbParam)
-                // .then(data=>{
-                //     return res.render(`/Organization/ProjectProposal/gosmlist`,renderData);
-                // }).catch(err=>{
-
-                // });
+               
             }else{
 
                 console.log("IZ HERE INSTEAD");
