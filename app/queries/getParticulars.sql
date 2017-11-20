@@ -1,0 +1,6 @@
+SELECT * 
+  FROM PROJECTPROPOSALEXPENSES PPE JOIN EXPENSETYPE ET
+				     				 ON PPE.TYPE=ET.ID
+ WHERE PROJECTPROPOSAL=${projectProposal}
+   AND PPE.ID NOT IN (SELECT particular 
+			FROM "PreActivityCashAdvanceParticular");
