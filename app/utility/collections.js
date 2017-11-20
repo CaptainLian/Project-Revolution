@@ -11,7 +11,7 @@ const utilities = Object.create(null);
  * @param   {Function(a, b)} comparison A function that dicates how 2 values within the array are compared,
  *                                       - function must return a value less than 0 to indicate a < b
  *                                       - function must return 0 if a = b
- *                                       - function must return a value greater than 0 to indicate a > b 
+ *                                       - function must return a value greater than 0 to indicate a > b
  * @returns {Integer}                   The index of the value within the array
  */
 utilities.binarySearch = (array, value, comparator) => {
@@ -47,14 +47,25 @@ utilities.binarySearch = (array, value, comparator) => {
  * @param   {Function(a, b)} comparison A function that dicates how 2 values within the array are compared,
  *                                       - function must return a value less than 0 to indicate a < b
  *                                       - function must return 0 if a = b
- *                                       - function must return a value greater than 0 to indicate a > b 
+ *                                       - function must return a value greater than 0 to indicate a > b
  * @returns {Boolean}                   True if the value exists in the array, false otherwise
  */
 utilities.binarySearchContains = (array, value, comparator) => {
 	return utilities.binarySearch(array, value, comparator) >= 0;
 };
 
+utilities.linearSearch = (array, value) => {
+    for(let index = 0, length = array.length; index<length; ++index){
+        if(array[index] === value){
+            return index;
+        }
+    }
+    return -1;
+};
 
+utilities.linearSearchContains = (array, value) => {
+    return utilities.linearSearch(array, value) >= 0;
+};
 
 collections.utilities = utilities;
 module.exports = collections;

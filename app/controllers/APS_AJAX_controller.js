@@ -411,7 +411,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         return afterProcessing.then(data => {
             reply.success = true;
             reply.valid = true;
-            reply.reroute = '/APS/Signatory/Activtiy/1';
+            reply.reroute = '/APS/Signatory/ActivtiyList';
             return res.send(reply);
         }).catch(err => {
             logger.warn(`${err.message}\n${err.stack}`, log_options);
