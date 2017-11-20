@@ -2,8 +2,6 @@
 
 
 module.exports = function(configuration, modules, models, database, queryFiles) {
-    const Promise = module.Promise;
-
     const logger = modules.logger;
 
     const log_options = Object.create(null);
@@ -183,7 +181,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         const renderData = Object.create(null);
         renderData.extra_data = req.extra_data;
         renderData.csrfToken = req.csrfToken();
-        
+
         return database.task(task => {
             return task.batch([
                 projectProposalModel.getActivityProjectProposalDetailsGAID(activityID, [
