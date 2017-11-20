@@ -122,6 +122,19 @@
   	align-items: center;
   	justify-content: center
 }
+
 .finadd{
+	display: block;
 	margin-bottom: 10px;
+	width:100%;
+}
+
+.dropdown-toggle{
+	overflow: hidden;
+    width: 100%;
+}
+
+.goBack{
+	width:120px;
+	padding-left: 10px;
 }

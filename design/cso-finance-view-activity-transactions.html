@@ -498,10 +498,19 @@
                         <div class="white-box">
                             <div class="row">
                                 <div class="col-lg-2 col-md-3  col-sm-4 col-xs-12 inbox-panel">
-                                    <div>
-                                        <div class="list-group mail-list m-t-20">
-                                        <a type="button" href="#" class="btn btn-success finadd" onclick="window.location = 'cso-finance-preacts.html'">Add</a>
-                                        <a type="button" href="#" class="btn btn-info" onclick="window.location = 'cso-finance-view-activities.html'">Go Back</a></div>
+                                    <div class="">
+                                        <div class="list-group mail-list m-t-20 ">
+                                            <div class="btn-group col-md-12">
+                                                <button aria-expanded="false" data-toggle="dropdown" class="fixedWidth finadd btn btn-info btn-block  waves-effect waves-light" type="button"><i class="fa fa-plus"></i> Add <span class="caret"></span></button>
+                                                    <ul role="menu" class="dropdown-menu">
+                                                        <li><a href="#">Direct Payment</a></li>
+                                                        <li><a href="#">Cash Advance</a></li>
+                                                    </ul>
+
+                                            </div>
+                                            <button type="button" href="#" class="fixedWidth backBtn btn goBack" onclick="window.location = 'cso-finance-view-activities.html'">Go Back</button>
+                                        </div>
+                                        
                                         
                                     </div>
                                 </div>
