@@ -95,7 +95,7 @@
                                 </div>
                                 <div class="col-lg-10 col-md-9 col-sm-8 col-xs-12 mail_listing">
                                     
-                                        <h4 class="font-bold m-t-0 text-success text-center">List of Transactions for General Assembly</h4>
+                                        <h4 class="font-bold m-t-0 text-success text-center">List of Transactions for {{gosmactivity.strategies}}</h4>
                                         
                                     
                                     <div class="col-md-12">
@@ -110,24 +110,54 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr onclick="window.location = 'cso-finance-evaluate-transaction.html'">
-                                            <td>September 15, 2019</td>
-                                            <td>Cash Advance</td>
-                                            <td>Php 10,000.00</td>
-                                            <td><span class="label label-table label-success">Approved</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>September 15, 2019</td>
-                                            <td>Cash Advance</td>
-                                            <td>Php 10,000.00</td>
-                                            <td><span class="label label-table label-warning">Pended</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>September 15, 2019</td>
-                                            <td>Cash Advance</td>
-                                            <td>Php 10,000.00</td>
-                                            <td><span class="label label-table label-danger">Denied</span></td>
-                                        </tr>
+
+                                        {% for transaction in transactions %}
+
+                                            <tr onclick="window.location = 'cso-finance-evaluate-transaction.html'">
+                                                <td>{{transaction.startdate}}</td>
+
+                                                {% if transaction.transaction == 0 %}
+                                                    <td>Direct Payment</td>
+                                                {% else %}
+                                                    <td>Cash Advance</td>
+                                                {% endif %}
+                                                
+                                                <td>Php {{transaction.amount | round(2)}}</td>
+
+                                                {% if transaction.status == 0 %}
+
+                                                    <td><span class="label label-table label-warning">For Approval</span></td>
+
+
+                                                {% endif %}
+
+                                                {% if transaction.status == 1 %}
+                                               
+                                                    <td><span class="label label-table label-success">Approved</span></td>
+
+                                                {% endif %}
+
+                                                {% if transaction.status == 2 %}
+        
+                                                    <td><span class="label label-table label-warning">Pended</span></td>
+
+                                                {% endif %}
+
+                                                {% if transaction.status == 3 %}
+
+                                                    <td><span class="label label-table label-danger">Denied</span></td>
+
+
+                                                {% endif %}
+                                            </tr>
+
+
+                                       
+                                        
+
+                                        {% endfor %}
+                                        
+                                        
                                     </tbody>
                                 </table>
                                     </div>

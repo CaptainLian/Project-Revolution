@@ -2,6 +2,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
     const projectProposalModel = models.ProjectProposal_model;
     const financeModel = models.Finance_model;
+    const gosmModel = models.gosmModel;
 
 
 	return {
@@ -24,16 +25,97 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			//next();
 		},
 		viewFinanceList: (req, res) => {
-			const renderData = Object.create(null);
-            renderData.extra_data = req.extra_data;
-			return res.render('Finance/Finance_list', renderData);
-			//next();
+
+			//is cso
+			if (req.session.user.organizationSelected.id == 0){
+
+				database.task(t =>{
+					return t.batch([financeModel.getActivitiesWithFinancialDocuments(),
+									financeModel.getTransactionTotalPerActivity(),
+									financeModel.getApprovedTransactionTotalPerActivity()]);
+				})
+				.then(data=>{
+
+					const renderData = Object.create(null);
+	            	renderData.extra_data = req.extra_data;
+	            	renderData.isCso = true;
+	            	renderData.activities = data[0];
+	            	renderData.transactionTotal = data[1]
+	            	renderData.approvedTransactionTotal = data[2];
+	            	renderData.orgid = req.session.user.organizationSelected.id;
+					return res.render('Finance/Finance_list', renderData);
+					//next();
+
+				}).catch(error=>{
+					console.log(error);
+				})
+
+
+			}//not cso
+			else{
+				
+				database.task(t =>{
+					return t.batch([financeModel.getActivitiesWithFinancialDocuments(),
+									financeModel.getTransactionTotalPerActivity(),
+									financeModel.getApprovedTransactionTotalPerActivity()]);
+				})
+				.then(data=>{
+
+					const renderData = Object.create(null);
+	            	renderData.extra_data = req.extra_data;
+	            	renderData.isCso = false;
+	            	renderData.activities = data[0];
+	            	renderData.transactionTotal = data[1];
+	            	renderData.approvedTransactionTotal = data[2];
+	            	renderData.orgid = req.session.user.organizationSelected.id;
+					return res.render('Finance/Finance_list', renderData);
+					//next();
+
+				}).catch(error=>{
+					console.log(error);
+				});
+			}
+
+
 		},
 		viewTransaction: (req, res) => {
-			const renderData = Object.create(null);
-            renderData.extra_data = req.extra_data;
-			return res.render('Finance/ViewActivityTransaction', renderData);
-			//next();
+
+			var dbParam = {
+				gosmactivity: req.params.gosmactivity
+			};
+
+			database.task(t =>{
+					return t.batch([financeModel.getActivityTransactions(dbParam),
+									gosmModel.getGOSMActivity(dbParam)]);
+			})
+			.then(data=>{
+
+				const renderData = Object.create(null);
+	            renderData.extra_data = req.extra_data;
+	            renderData.transactions = data[0];
+	            renderData.gosmactivity = data[1];
+
+	            //from cso
+	            if (req.session.user.organizationSelected.id == 0) {
+	            	renderData.isCso = true;
+	            	return res.render('Finance/ViewActivityTransaction', renderData);
+					//next();
+
+	            }//not from cso
+	            else{
+	            	renderData.isCso = false;
+	            	return res.render('Finance/ViewActivityTransaction', renderData);
+					//next();
+	            }
+
+				
+
+			}).catch(error=>{
+				console.log(error);
+			});
+
+
+			
 		},
 		createPreactsCashAdvance: (req, res) => {
 
@@ -68,7 +150,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 			//TODO: gosmactivity to be changed later
 			var dbParam = {
-				gosmactivity: 2,
+				gosmactivity: 1,
 				submittedBy: req.session.user.idNumber,
 				purpose: req.body.purpose,
 				justification: req.body.nodpjustification
