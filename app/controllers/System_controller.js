@@ -29,7 +29,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
     const accountModel = models.Account_model;
     const logger = modules.logger;
-    
+
     const Promise = modules.Promise;
 
     const SystemController = Object.create(null);
@@ -120,15 +120,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     user.type = account.type;
                     req.session.user = user;
                     req.session.valid = true;
-                    
+
                     logger.debug('Determining user type', log_options);
 
                     let step = Promise.resolve(true);
                     if(req.session.user.type === 1){
                         logger.debug('Student type account', log_options);
-                        step = step.then(() => {
-                            return accountModel.getStudentOrganizations(req.session.user.idNumber);
-                        }).then(data => {
+                        step = accountModel.getStudentOrganizations(req.session.user.idNumber).then(data => {
                             logger.debug(`${JSON.stringify(data)}`, log_options);
 
                             let organization = data.shift();
@@ -161,7 +159,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                     reply.valid = true;
                                     res.send(reply);
                                     return resolve(true);
-                                });  
+                                });
                             } catch(err) {
                                 return reject(err);
                             }

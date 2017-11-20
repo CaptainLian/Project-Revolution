@@ -62,24 +62,16 @@
 				<table id="myTable" class="table table-striped">
 					<thead>
 						<tr>
-							<th class="text-center" width="33%">Date</th>
-							<th class="text-center" width="33%">Activity Name</th>
+							<th class="text-left" width="25%">Date</th>
+							<th class="text-left" width="75%">Activity Name</th>
 						</tr>
 					</thead>
 					<tbody>
                         {%for activity in activities%}
-                        <!--
                             <tr>
-                                <td class="text-center">{{activity.adate}}</td>
-                                <td class="text-center"><a href="/Organization/Publicity/Create/{{activity.id}}" class="btn-lnk">{{activity.strategies}}</a></td>
-                                
-                                {% if activity["GOSMActivity"] != null%}
-                                    <td class="text-center"><span class="label label-success">Submitted</span></td>
-                                {% elif activity["GOSMActivity"] == null%}
-                                    <td class="text-center"><span class="label label-info">No Pubs Submitted</span></td>
-                                {%endif%}
+                                <td class="text-left">{{activity.actualdatestart}}</td>
+                                <td class="text-left"><a href="/APS/Signatory/Activtiy/{{activity.gosmactivity}}" class="btn-lnk">{{activity.strategies}}</a></td>
                             </tr>
-                        -->
                         {%endfor%}
 					</tbody>
 				</table>

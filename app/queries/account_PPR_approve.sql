@@ -1,9 +1,9 @@
-﻿WITH "SignatoryType" AS (
+WITH "SignatoryType" AS (
     WITH "AccountSignatories" AS (
         SELECT *
           FROM ProjectProposalSignatory pps
-         WHERE pps.GOSMActivity = 1
-           AND pps.signatory = 1111111
+         WHERE pps.GOSMActivity = ${activityID}
+           AND pps.signatory = ${idNumber}
     )
     SELECT pps.type
       FROM "AccountSignatories" pps LEFT JOIN SignatoryType st
@@ -16,15 +16,10 @@
      LIMIT 1
 )
 UPDATE ProjectProposalSignatory
-   SET status = 2
- WHERE GOSMActivity = 1
-   AND signatory = 3333333
+   SET status = 1,
+       document = ${document},
+       digitalSignature = ${digitalSignature},
+       dateSigned = CURRENT_TIMESTAMP
+ WHERE GOSMActivity = ${activityID}
+   AND signatory = ${idNumber}
    AND type = (SELECT type FROM "SignatoryType");
-/*
-	0 - unsigned
-	1 - accept
-	2- pend
-	3 - deny
-	4 - force signed
-*/
-

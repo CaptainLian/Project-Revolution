@@ -5,7 +5,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
 CREATE OR REPLACE FUNCTION trigger_auto_reject()
-RETURNS trigger AS
+RETURNS TRIGGER AS
 $trigger$
     BEGIN
         RETURN NULL;
@@ -17,12 +17,12 @@ $1 is the NEW data
 NEW.GOSMActivity should be $1.GOSMActivity when using this function
 */
 CREATE OR REPLACE FUNCTION "trigger_before_insert_increment_sequence"(/* "param_TableName" TEXT, "param_TableAcronym" TEXT, "param_Where" TEXT */)
-RETURNS trigger AS
+RETURNS TRIGGER AS
 $trigger$
     BEGIN
 	    EXECUTE format ('SELECT COALESCE(MAX(sequence) + 1, 1)
 	                       FROM %I %I
-	                      WHERE %s;', TG_ARGV[0], TG_ARGV[1], TG_ARGV[2])
+	                      WHERE (%s);', TG_ARGV[0], TG_ARGV[1], TG_ARGV[2])
         INTO STRICT NEW."sequence"
 	    USING NEW;
 	  
@@ -35,20 +35,20 @@ $1 is the NEW data
 NEW.GOSMActivity should be $1.GOSMActivity when using this function
 */
 CREATE OR REPLACE FUNCTION "trigger_before_insert_sequence_versioning"(/* "param_TableName" TEXT, "param_TableAcronym" TEXT, "param_Where" TEXT */)
-RETURNS trigger AS
+RETURNS TRIGGER AS
 $trigger$
     BEGIN
-        IF NEW.submissionID IS NULL THEN
+        IF NEW."submissionID" IS NULL THEN
             NEW.sequence = 1;
-            EXECUTE format('SELECT COALESCE(MAX(submissionID) + 1, 1)
-                          FROM %I %I
-                         WHERE %s', TG_ARGV[0], TG_ARGV[1], TG_ARGV[2])
+            EXECUTE format('SELECT COALESCE(MAX("submissionID") + 1, 1)
+                              FROM %I %I
+                             WHERE (%s)', TG_ARGV[0], TG_ARGV[1], TG_ARGV[2])
             INTO STRICT NEW."submissionID"
             USING NEW;
         ELSE
             EXECUTE format ('SELECT COALESCE(MAX(sequence) + 1, 1)
                                FROM %I %I
-                              WHERE submissionID = $1."submissionID"
+                              WHERE "submissionID" = $1."submissionID"
                                 AND (%s);', TG_ARGV[0], TG_ARGV[1], TG_ARGV[2])
             INTO STRICT NEW."sequence"
             USING NEW;
@@ -475,6 +475,7 @@ RETURNS trigger AS
 $trigger$
     BEGIN
         NEW.dateModified = CURRENT_TIMESTAMP;
+        RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
 CREATE TRIGGER before_update_Account2
@@ -1668,20 +1669,21 @@ INSERT INTO SignatoryStatus (id, name)
                             ( 4, 'Force Signed');
 DROP TABLE IF EXISTS SignatoryType CASCADE;
 CREATE TABLE SignatoryType (
-	id SMALLINT,
-	name VARCHAR(45) NOT NULL,
+	"id" SMALLINT,
+	"name" VARCHAR(45) NOT NULL,
+    "lineup" SMALLINT NOT NULL,
 
 	PRIMARY KEY (id)
 );
-INSERT INTO SignatoryType (id, name)
-                   VALUES ( 0, 'Project Head'),
-                          ( 1, 'Treasurer/Finance Officer'), -- VP
-                          ( 2, 'Immediate Superior'), -- 1 step higher
-                          ( 3, 'President'),
-                          ( 4, 'Faculty Adviser'), --
-                          ( 5, 'Documentation Officer'), -- VP
-                          ( 6, 'APS - AVC'), -- Pwedeng Madami
-                          ( 7, 'APS -  VC'); --
+INSERT INTO SignatoryType ("id", "name", "lineup")
+                   VALUES ( 0, 'Project Head', 0),
+                          ( 1, 'Treasurer/Finance Officer', 10), -- VP
+                          ( 2, 'Immediate Superior', 20), -- 1 step higher
+                          ( 3, 'President', 30),
+                          ( 4, 'Faculty Adviser', 40), --
+                          ( 5, 'Documentation Officer', 50), -- VP
+                          ( 6, 'APS - AVC', 60), -- Pwedeng Madami
+                          ( 7, 'APS -  VC', 70); --
 
 DROP TABLE IF EXISTS ProjectProposalSignatory CASCADE;
 CREATE TABLE ProjectProposalSignatory (
@@ -1691,6 +1693,7 @@ CREATE TABLE ProjectProposalSignatory (
   type SMALLINT NOT NULL REFERENCES SignatoryType(id),
   status SMALLINT NOT NULL REFERENCES SignatoryStatus(id) DEFAULT 0,
   comments TEXT,
+  sectionsToEdit VARCHAR(60)[],
   document JSONB,
   digitalSignature TEXT,
   dateSigned TIMESTAMP WITH TIME ZONE,
@@ -1743,17 +1746,24 @@ CREATE OR REPLACE FUNCTION "trigger_after_update_ProjectProposal_signatory_facul
 RETURNS trigger AS
 $trigger$
     BEGIN
-      INSERT INTO ProjectProposalSignatory (GOSMActivity, signatory, type)
-                                    VALUES (NEW.GOSMActivity, NEW.facultyAdviser, 4)
-      ON CONFLICT ON CONSTRAINT "pk_ProjectProposalSignatory"
-      DO UPDATE SET signatory = NEW.facultyAdviser;
+      IF NEW.facultyAdviser IS NULL THEN
+        DELETE FROM ProjectProposalSignatory pps
+        WHERE pps.GOSMActivity = NEW.GOSMActivity
+          AND pps.signatory = OLD.facultyAdviser
+          AND pps.type = 4;
+      ELSE
+          INSERT INTO ProjectProposalSignatory (GOSMActivity, signatory, type)
+                                        VALUES (NEW.GOSMActivity, NEW.facultyAdviser, 4)
+          ON CONFLICT ON CONSTRAINT "pk_ProjectProposalSignatory"
+          DO UPDATE SET signatory = NEW.facultyAdviser;
+      END IF;
 
       RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
 CREATE TRIGGER "after_update_ProjectProposal_signatory_facultyAdviser"
     AFTER UPDATE ON ProjectProposal
-    FOR EACH ROW WHEN ((OLD.facultyAdviser IS NULL) OR (OLD.facultyAdviser <> NEW.facultyAdviser))
+    FOR EACH ROW WHEN ((OLD.facultyAdviser IS NULL AND NEW.facultyAdviser IS NOT NULL) OR (OLD.facultyAdviser IS NOT NULL AND NEW.facultyAdviser IS NULL) OR(OLD.facultyAdviser <> NEW.facultyAdviser))
     EXECUTE PROCEDURE "trigger_after_update_ProjectProposal_signatory_facultyAdviser"();
 
 CREATE OR REPLACE FUNCTION "trigger_after_update_ProjectProposal_signatory_immediateSuperior"()
@@ -1817,7 +1827,7 @@ CREATE OR REPLACE FUNCTION "trigger_before_insert_PreActivityDirectPayment_seque
 RETURNS TRIGGER AS
 $trigger$
     BEGIN
-        IF NEW.submissionID IS NULL THEN
+        IF NEW."submissionID" IS NULL THEN
             NEW.sequence = 1;
             SELECT COALESCE(MAX("submissionID") + 1, 1) INTO NEW."submissionID"
               FROM "PreActivityDirectPayment"
@@ -1826,7 +1836,7 @@ $trigger$
             SELECT COALESCE(MAX("sequence") + 1, 1) INTO NEW."sequence"
               FROM "PreActivityDirectPayment"
              WHERE "GOSMActivity" = NEW."GOSMActivity"
-               AND "submissionID" = NEW.submissionID;
+               AND "submissionID" = NEW."submissionID";
         END IF;
 
         RETURN NEW;
@@ -1868,7 +1878,7 @@ CREATE OR REPLACE FUNCTION "trigger_before_insert_PreActivityCashAdvance_sequenc
 RETURNS TRIGGER AS
 $trigger$
     BEGIN
-        IF NEW.submissionID IS NULL THEN
+        IF NEW."submissionID" IS NULL THEN
             NEW.sequence = 1;
             SELECT COALESCE(MAX("submissionID") + 1, 1) INTO NEW."submissionID"
               FROM "PreActivityCashAdvance"
@@ -1877,7 +1887,7 @@ $trigger$
         SELECT COALESCE(MAX("sequence") + 1, 1) INTO NEW."sequence"
           FROM "PreActivityCashAdvance"
          WHERE "GOSMActivity" = NEW."GOSMActivity"
-           AND "submissionID" = NEW.submissionID;
+           AND "submissionID" = NEW."submissionID";
         END IF;
 
         RETURN NEW;

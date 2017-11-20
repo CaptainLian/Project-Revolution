@@ -6,12 +6,16 @@ module.exports = function(configuration, modules, router, controllers, models, d
 	router.post(`${base}/UpdateGOSM`, controllers.APS_AJAX_controller.updateGOSM);
 	router.post(`${base}/UpdateGOSMActivityComment`, controllers.APS_AJAX_controller.updateGOSMActivityComment);
 	router.post(`${base}/getProjectProposaActivityDetails`, controllers.APS_AJAX_controller.getProjectProposalActivityDetails);
-	router.post(`/APS/ajax/activityChecking`, controllers.APS_AJAX_controller.activityChecking);
+	router.post(`${base}/activityChecking`, controllers.APS_AJAX_controller.activityChecking);
+
+    router.post(`${base}/SignProjectProposal`, controllers.APS_AJAX_controller.SignProjectProposal);
 
 	if(configuration.debug.enabled){
-		router.get('/APS/ajax/GetGOSMActivityDetails', controllers.APS_AJAX_controller.getGOSMActivityDetails);
-		router.get('/APS/ajax/UpdateGOSM', controllers.APS_AJAX_controller.updateGOSM);
-		router.get('/APS/ajax/UpdateGOSMActivityComment', controllers.APS_AJAX_controller.updateGOSMActivityComment);
-		router.get('/APS/ajax/getProjectProposaActivityDetails', controllers.APS_AJAX_controller.getProjectProposalActivityDetails);
+		router.get(`${base}/GetGOSMActivityDetails`, controllers.APS_AJAX_controller.getGOSMActivityDetails);
+		router.get(`${base}/ajax/UpdateGOSM`, controllers.APS_AJAX_controller.updateGOSM);
+		router.get(`${base}/UpdateGOSMActivityComment`, controllers.APS_AJAX_controller.updateGOSMActivityComment);
+		router.get(`${base}/getProjectProposaActivityDetails`, controllers.APS_AJAX_controller.getProjectProposalActivityDetails);
+
+        router.get(`${base}/SignProjectProposal`, controllers.APS_AJAX_controller.SignProjectProposal);
 	}
 };
