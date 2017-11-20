@@ -12,5 +12,6 @@ module.exports = function(configuration, modules, router, controllers, models, d
 	router.post('/transaction/submitPreacts', controllers.Finance_controller.submitPreacts);
 
 	router.get('/finance/list', controllers.Finance_controller.viewFinanceList);
+	router.get('/finance/list/transaction', controllers.Finance_controller.viewTransaction)
 
 };

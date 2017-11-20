@@ -29,6 +29,12 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			return res.render('Finance/Finance_list', renderData);
 			//next();
 		},
+		viewTransaction: (req, res) => {
+			const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+			return res.render('Finance/ViewActivityTransaction', renderData);
+			//next();
+		},
 		createPreactsCashAdvance: (req, res) => {
 
 			//TODO: to be replaced by value from previous page
