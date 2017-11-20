@@ -847,6 +847,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         //set properties for the object
         var name = $(this).data('item');
+        console.log(name);
         var quantity = Number($(this).data('quantity'));
         var amount = parseFloat($(this).data('amount'));
         var total = quantity*amount;
