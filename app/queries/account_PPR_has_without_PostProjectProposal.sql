@@ -19,4 +19,4 @@ SELECT EXISTS(SELECT *
                                                 FROM "PostProjectProposal" ppp
                                                WHERE ppp."GOSMActivity" IN (SELECT ppr.GOSMActivity
                                                                               FROM "CurrentTermPPR" ppr)
-                                                 AND ppp.status <> 3)) AS exists;
+                                                 AND ppp.status = 3)) AS exists;
