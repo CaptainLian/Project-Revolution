@@ -45,7 +45,4 @@ module.exports = function(configuration, modules, router, controllers){
     router.post(`${base}/Publicity/Insert`, controllers.Organization_controller.insertPubs);    
     router.post(`${base}/Publicity/modal`, controllers.Organization_controller.viewPubDetails);
     router.post(`${base}/Publicity/Reupload`, controllers.Organization_controller.reuploadPubs);    
-    
-
 };
-
