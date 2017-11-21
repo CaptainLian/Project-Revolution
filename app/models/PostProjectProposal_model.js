@@ -61,7 +61,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
             return connection.none(insertPostProjectProposalEventPictures, param);
         },
     	insertPostProjectProposal:function (param, connection = db) {
-        	return connection.one(insertPostProjectProposal, param);
+        	return connection.any(insertPostProjectProposal, param);
     	},
         getPostBriefContext:function (param, connection = db) {
             return connection.one(getPostBriefContext, param);
