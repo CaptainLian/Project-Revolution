@@ -33,6 +33,7 @@ module.exports = function(configuration, modules, router, controllers){
     
 
     //POST PROJECT
+    router.get(`${base}/PostProjectProposal/Completed/:gosmid`, controllers.Organization_controller.viewCompletedPostActs);
     router.get(`${base}/PostProjectProposal/GOSMList`, controllers.Organization_controller.viewGOSMActivityListPostProjectProposal);
     router.get(`${base}/PostProjectProposal/Main/:gosmid`, controllers.Organization_controller.viewSubmitPostProjectProposalMain);
     router.get(`${base}/PostProjectProposal/BriefContext/:gosmid`, controllers.Organization_controller.viewSubmitPostProjectProposalBriefContext);

@@ -28,6 +28,10 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const insertPostReim = queryFiles.insertPostReim;
     const insertPostDP = queryFiles.insertPostDP;
 
+    const getPostActsDetails = queryFiles.getPostActsDetails;
+    const getEventPictureMaxSubmission = queryFiles.getEventPictureMaxSubmission;
+    
+
 
 	return {
         insertPostBT:function (param, connection = db) {
@@ -74,6 +78,12 @@ module.exports = function(configuration, modules, db, queryFiles) {
     	},
         getPostProjectProposalMain:function (param, connection = db) {
             return connection.one(getPostProjectProposalMain, param);
+        },
+        getPostActsDetails:function (param, connection = db) {
+            return connection.one(getPostActsDetails, param);
+        },
+        getEventPictureMaxSubmission:function (param, connection = db) {
+            return connection.any(getEventPictureMaxSubmission, param);
         },
         insertPostProjectExpense:function (param, connection = db) {
             return connection.none(insertPostExpense, param);
