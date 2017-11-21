@@ -981,7 +981,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 reim = false
             }
 
-
+            // var expenseSubmissionID = postProjectProposalModel.getPostExpenseMaxSubmissionID({gosmid: req.body.gosmid});
+            // console.log("expenseSubmissionID")
+            // console.log(expenseSubmissionID)
             // console.log(req.files);
             database.tx(t=>{
 
@@ -991,13 +993,22 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 }
                  postProjectProposalModel.updatePostProjectProposalCompleteness(dbParam3,t); 
 
-                return postProjectProposalModel.getEventPictureMaxSubmission(dbParam3,t).then(data=>{
-                        console.log(data);
+                return t.batch([
+                    postProjectProposalModel.getPostExpenseMaxSubmissionID({gosmid: req.body.gosmid}),
+                    postProjectProposalModel.getEventPictureMaxSubmission(dbParam3,t)])
+                        .then(data=>{
+                        console.log(data[0][0].max);
                         console.log("data")
                         var submissionID = 0;
-                        if(data.max !=null){
-                            submissionID = data.max
+                        if(data[1][0].max !=null){
+                            submissionID = data[1   ][0].max+1
                         }
+                        var expenseID = 0;
+                        if(data[0][0].max !=null){
+                            expenseID = data[0][0].max+1
+                        }
+                        console.log(expenseID);
+                        console.log("data")
 
                                     //NORMAL THINGS TO INSERT
                         var statParam ={
@@ -1052,6 +1063,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                                     var dbParam ={
                                         gosmid: req.body.gosmid,
+                                        submissionID:expenseID,
                                         particular:req.body['par[]'][ctr],
                                         establishment:req.body['est[]'][ctr],
                                         price:req.body['price[]'][ctr],
@@ -1060,7 +1072,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                         idNumber:req.session.user.idNumber,
 
                                     };
-                                    console.log(req.files);
+                                    console.log(dbParam);
                                     console.log("req.files");
                                     var p = path.join(dir2,fname);
                                     Promise.all([
@@ -1082,6 +1094,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                                     var dbParam ={
                                         gosmid: req.body.gosmid,
+                                        submissionID:expenseID,
                                         particular:req.body['par[]'],
                                         establishment:req.body['est[]'],
                                         price:req.body['price[]'],
@@ -1104,6 +1117,12 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         }else{
                             finParam.status = false;
                         }
+
+
+
+
+
+
                         console.log("========TA22222222222=========");
                         console.log(finParam);
                         if(typeof req.files['pictures[]'] == 'object'){
@@ -1117,7 +1136,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                     var pictureParam = {
                                         gosmid: req.body.gosmid,
                                         submissionID:submissionID,
-                                        filename : ftype,
+                                        filename : fname,
                                         filenameToShow:req.files['pictures[]'].name,
                                         idNumber:req.session.user.idNumber,
                                         description: req.body["pictureCaption[]"][ctr]
@@ -1142,7 +1161,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                     var pictureParam = {
                                         gosmid: req.body.gosmid,
                                         submissionID:submissionID,
-                                        filename : ftype,
+                                        filename : fname,
                                         filenameToShow:req.files['pictures[]'].name,
                                         idNumber:req.session.user.idNumber,
                                         description: req.body["pictureCaption[]"]
@@ -2179,7 +2198,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 
                 return t.batch([
                         postProjectProposalModel.getPostActsDetails(dbParam,t),
-                        projectProposalModel.getProjectProposalProjectHeads(3)
+                        postProjectProposalModel.getLatestEventPicture(dbParam,t)
+                        // projectProposalModel.getProjectProposalProjectHeads(3)
                         ]);
             }).then(data=>{
                 console.log(data);
@@ -2187,6 +2207,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 
                 const renderData = Object.create(null);
                 renderData.activity = data[0]
+                renderData.pictures=data[1]
                 renderData.extra_data = req.extra_data;
                 renderData.csrfToken = req.csrfToken();
                 res.render('Org/PostActsCompleted', renderData)
