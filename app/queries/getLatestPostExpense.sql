@@ -1,6 +1,6 @@
 SELECT *
-  FROM "PostProjectProposalEventPicture"
+  FROM "PostProjectProposalExpense"
  WHERE "GOSMActivity" = ${gosmid}
   AND "submissionID" in (SELECT max("submissionID")
-						  FROM "PostProjectProposalEventPicture"
+						  FROM "PostProjectProposalExpense"
 						 WHERE "GOSMActivity" = ${gosmid})

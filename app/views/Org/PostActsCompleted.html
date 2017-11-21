@@ -244,79 +244,53 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            Paper
-                                        </td>
-                                        <td>
-                                            100 pcs.
-                                        </td>
-                                        
-                                        <td  class="text-right">
-                                            300
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Paper
-                                        </td>
-                                        <td>
-                                            100 pcs.
-                                        </td>
-                                        
-                                        <td  class="text-right">
-                                            300
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Paper
-                                        </td>
-                                        <td>
-                                            100 pcs.
-                                        </td>
-                                        
-                                        <td  class="text-right">
-                                            300
-                                        </td>
-                                    </tr>
+                                    {%set amount = 0%}
+                                    {%for exp in expense%}
+                                          <tr>
+                                            <td>
+                                                {{exp.particular}}
+                                            </td>
+                                            <td>
+                                                {{exp.establishment}}
+                                            </td>
+                                            
+                                            <td  class="text-right">
+                                               {{exp.price}}
+                                               {% set amount = ((amount|float) + (exp.price |float)| round(2)) %}
+                                            </td>
+                                        </tr>
+                                    {%endfor%}
+                                  
                                     
                                 </tbody>
                                 <tfoot>
                                     <tr>
                                         <td class="text-right text-success" colspan="2"><strong>Total Expense</strong></td>
-                                        <td  class="text-right">300</td>
+                                        <td  class="text-right">{{amount}}</td>
                                     </tr>
                                 </tfoot>
                             </table>
                             <br/>
                             
+                            
                             <br/>
                             <h4 class="text-left">V. Receipts</h4>
                             <div class="white-box el-element-overlay">
-                                <div class="col-md-4 el-card-item">
-                                    
-                                    <div class="el-card-avatar el-overlay-1 "> <img src="../plugins/images/users/1.jpg" />
-                                        <div class="el-overlay">
-                                            <ul class="el-info">
-                                                <li><a class="btn default btn-outline image-popup-vertical-fit" href="../plugins/images/users/1.jpg"><i class="icon-magnifier"></i></a></li>
-                                                <li><a class="btn default btn-outline " data-toggle="modal" data-target="#modal-id"><i class="icon-bubble"></i></a></li>
-                                            </ul>
+                                {% for exp in expense%}
+                                      <div class="col-md-4 el-card-item">
+                                          
+                                        <div class="el-card-avatar el-overlay-1 "> <img src="../plugins/images/users/1.jpg" />
+                                            <div class="el-overlay">
+                                                <ul class="el-info">
+                                                    <li><a class="btn default btn-outline image-popup-vertical-fit" href="/upload/images/{{pic.idNumber}}/{{pic.filename}}"><i class="icon-magnifier"></i></a></li>
+                                                    <li><a class="btn default btn-outline " data-toggle="modal" data-target="#modal-id"><i class="icon-bubble"></i></a></li>
+                                                </ul>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
+                                    </div>  
+                                {% endfor %}
+                              
 
-                                <div class="col-md-4 el-card-item">
-                                    
-                                    <div class="el-card-avatar el-overlay-1 "> <img src="../plugins/images/users/1.jpg" />
-                                        <div class="el-overlay">
-                                            <ul class="el-info">
-                                                <li><a class="btn default btn-outline image-popup-vertical-fit" href="../plugins/images/users/1.jpg"><i class="icon-magnifier"></i></a></li>
-                                                <li><a class="btn default btn-outline image-popup-vertical-fit" href="../plugins/images/users/1.jpg"><i class="icon-bubble"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
 
                         </div>

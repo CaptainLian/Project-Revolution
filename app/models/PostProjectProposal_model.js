@@ -33,6 +33,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
 
     const getLatestEventPicture = queryFiles.getLatestEventPicture;
     const getPostExpenseMaxSubmissionID = queryFiles.getPostExpenseMaxSubmissionID;
+    const getLatestPostExpense = queryFiles.getLatestPostExpense;
     
 
 
@@ -90,6 +91,9 @@ module.exports = function(configuration, modules, db, queryFiles) {
         },
         getLatestEventPicture:function (param, connection = db) {
             return connection.any(getLatestEventPicture, param);
+        },
+        getLatestPostExpense:function (param, connection = db) {
+            return connection.any(getLatestPostExpense, param);
         },
         getPostExpenseMaxSubmissionID:function (param, connection = db) {
             return connection.any(getPostExpenseMaxSubmissionID, param);

@@ -2198,7 +2198,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 
                 return t.batch([
                         postProjectProposalModel.getPostActsDetails(dbParam,t),
-                        postProjectProposalModel.getLatestEventPicture(dbParam,t)
+                        postProjectProposalModel.getLatestEventPicture(dbParam,t),
+                        postProjectProposalModel.getLatestPostExpense(dbParam,t)
                         // projectProposalModel.getProjectProposalProjectHeads(3)
                         ]);
             }).then(data=>{
@@ -2208,10 +2209,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 const renderData = Object.create(null);
                 renderData.activity = data[0]
                 renderData.pictures=data[1]
+                renderData.expense = data[2];
                 renderData.extra_data = req.extra_data;
                 renderData.csrfToken = req.csrfToken();
                 res.render('Org/PostActsCompleted', renderData)
-            })  
+            }).catch(err=>{
+                console.log(err);
+            })
         }
 
 
