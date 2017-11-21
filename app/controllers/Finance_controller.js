@@ -19,13 +19,52 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			//next();
 		},
 		evaluateTransaction: (req, res) => {
-			
-			const renderData = Object.create(null);
-            renderData.extra_data = req.extra_data;
-            // transactionType: if 0 direct payment; if 1 cash advance
-            renderData.transactionType = req.params.transaction;
-			return res.render('Finance/EvaluateTransaction', renderData);
-			//next();
+
+			// cash advance
+			if (req.params.transaction == 1){
+
+				var param = {
+					id: req.params.id
+				};
+
+				financeModel.getPreActivityCashAdvance(param)
+				.then(data=>{
+
+					var dbParam = {
+						gosmactivity: data.GOSMActivity
+					};
+
+					database.task(t=>{
+						return t.batch([projectProposalModel.getProjectProposal(dbParam),
+										financeModel.getCashAdvanceParticulars(param)]);
+					})
+					.then(data1=>{
+
+						const renderData = Object.create(null);
+			            renderData.extra_data = req.extra_data;
+			            renderData.cashAdvance = data;
+			            renderData.projectproposal = data1[0];
+			            renderData.particulars = data1[1];
+			            // transactionType: if 0 direct payment; if 1 cash advance
+			            renderData.transactionType = req.params.transaction;
+						return res.render('Finance/EvaluateTransaction', renderData);
+						//next();
+
+					}).catch(error=>{
+						console.log(error);
+					});
+
+					
+
+				}).catch(error=>{
+					console.log(error);
+				});
+
+
+			}
+			else{
+
+			}
 		},
 		viewFinanceList: (req, res) => {
 

@@ -10,6 +10,8 @@ module.exports = function(configuration, modules, database, queryFiles){
     const getTransactionTotalPerActivitySQL = queryFiles.getTransactionTotalPerActivity;
     const getApprovedTransactionTotalPerActivitySQL = queryFiles.getApprovedTransactionTotalPerActivity;
     const getActivityTransactionsSQL = queryFiles.getActivityTransactions;
+    const getPreActivityCashAdvanceSQL = queryFiles.getPreActivityCashAdvance;
+    const getCashAdvanceParticularsSQL = queryFiles.getCashAdvanceParticulars;
 
 	
 	FinanceModel.insertPreActivityCashAdvance = function(param, connection = database) {
@@ -40,6 +42,14 @@ module.exports = function(configuration, modules, database, queryFiles){
 
     FinanceModel.getActivityTransactions = function(param, connection = database){
         return connection.any(getActivityTransactionsSQL, param);
+    };
+
+    FinanceModel.getPreActivityCashAdvance = function(param, connection = database){
+        return connection.one(getPreActivityCashAdvanceSQL, param);
+    };
+
+    FinanceModel.getCashAdvanceParticulars = function(param, connection = database){
+        return connection.any(getCashAdvanceParticularsSQL, param);
     };
 
 	return FinanceModel;
