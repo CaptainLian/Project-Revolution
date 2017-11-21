@@ -19,8 +19,11 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			//next();
 		},
 		evaluateTransaction: (req, res) => {
+			
 			const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
+            // transactionType: if 0 direct payment; if 1 cash advance
+            renderData.transactionType = req.params.transaction;
 			return res.render('Finance/EvaluateTransaction', renderData);
 			//next();
 		},
@@ -86,7 +89,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 			database.task(t =>{
 					return t.batch([financeModel.getActivityTransactions(dbParam),
-									gosmModel.getGOSMActivity(dbParam)]);
+									gosmModel.getGOSMActivity(dbParam),
+									projectProposalModel.getProjectProposal(dbParam)]);
 			})
 			.then(data=>{
 
@@ -94,6 +98,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 	            renderData.extra_data = req.extra_data;
 	            renderData.transactions = data[0];
 	            renderData.gosmactivity = data[1];
+	            renderData.projectProposal = data[2]
 
 	            //from cso
 	            if (req.session.user.organizationSelected.id == 0) {
@@ -121,7 +126,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 			//TODO: to be replaced by value from previous page
 			var dbParam = {
-				projectProposal: 1
+				projectProposal: req.params.projectproposal
 			};
 
 			financeModel.getParticulars(dbParam)
@@ -133,7 +138,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 	            renderData.csrfToken = req.csrfToken();
 	            renderData.particulars = data;
 	            //TODO: to come from previous page
-	            renderData.gosmactivity = 1;
+	            renderData.gosmactivity = req.params.gosmactivity;
 				return res.render('Finance/Preacts_CashAdvance', renderData);
 				//next();
 
@@ -178,6 +183,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 	            	financeModel.insertPreActivityCashAdvanceParticular(particularParam)
 	            	.then(data1=>{
+	            		
+	            		res.redirect(`/finance/list/transaction/${req.params.gosmactivity}`);
 
 	            	}).catch(error=>{
 	            		console.log("error in one particular");
@@ -210,6 +217,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 	            	}).then(data2=>{
 
+	            		res.redirect(`/finance/list/transaction/${req.params.gosmactivity}`);
+
 	            	}).catch(error=>{
 	            		console.log("error in transaction");
 	            		console.log(error);
@@ -225,7 +234,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				console.log(error);
 			});
 
-			return  res.send("1");
+
 		},
 		createPreacts: (req, res) => {
 			const renderData = Object.create(null);
