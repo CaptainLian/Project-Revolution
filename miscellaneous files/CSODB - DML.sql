@@ -674,7 +674,16 @@ INSERT INTO ProjectProposalProgramDesign (projectProposal, dayID, date, startTim
                                   VALUES (1,    1, '2017-10-14', '21:34:03', '23:00:00', 'Aguy', 'Gansa', 3333333);
 
 DELETE FROM ProjectProposalExpenses
-WHERE projectProposal = 1
-AND sequence = 1;
+ WHERE projectProposal = 1
+   AND sequence = 1;
+
+
+INSERT INTO GOSMActivity (gosm, goals, objectives, strategies, description, measures, targetDateStart, targetDateEnd, ActivityNature, ActivityType, isRelatedToOrganizationNature, budget)
+                 VALUES ((SELECT id FROM GOSM WHERE id%100000 = 1 LIMIT 1), 'Goal Mo to 3', '{"Objectives 3", "Mo 3", "To 3"}', 'Strategies Mo to 3', 'Descibe kita 3', 'Measure mo to :) 3', '2017-10-13', '2017-10-14', 1, 2, false, 999.99);
+INSERT INTO GOSMActivityProjectHead (idNumber, activityID)
+                          VALUES (3333333, (SELECT id FROM GOSMActivity WHERE gosm%100000 = 1 AND sequence = 3 LIMIT 1));
+         UPDATE ProjectProposal
+   SET status = 3
+WHERE id = 1;
 
 COMMIT;
