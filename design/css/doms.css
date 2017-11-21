@@ -138,3 +138,7 @@
 	width:120px;
 	padding-left: 10px;
 }
+.status{
+	min-width: 100px;
+  	display: inline-block;
+}
