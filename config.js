@@ -5,7 +5,7 @@ const configuration = {
             "/",
             "/system/AJAX/checkLogin"
         ],
-        "enable_login_check": true
+        "enable_login_check": false
     },
     "debug": {
         "enabled": true
