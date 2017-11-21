@@ -133,6 +133,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 ]);
 
 
+            }).catch(err=>{
+
             });
         }).then(data => {
             logger.debug(`${JSON.stringify(data[3])}`, log_options);
@@ -151,6 +153,10 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             console.log("renderData.attachment");
             return res.render('APS/ActivityChecking', renderData);
         }).catch(err => {
+            const renderData = Object.create(null);
+            renderData.csrfToken = req.csrfToken();
+            renderData.extra_data = req.extra_data;
+            res.render('template/APS/NoActivityToCheck', renderData);
             logger.debug(`${err.message}/n${err.stack}`);
         });
     };
