@@ -42,9 +42,11 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 						const renderData = Object.create(null);
 			            renderData.extra_data = req.extra_data;
+	            		renderData.csrfToken = req.csrfToken();
 			            renderData.cashAdvance = data;
 			            renderData.projectproposal = data1[0];
 			            renderData.particulars = data1[1];
+			            renderData.gosmactivity = data.GOSMActivity;
 			            // transactionType: if 0 direct payment; if 1 cash advance
 			            renderData.transactionType = req.params.transaction;
 						return res.render('Finance/EvaluateTransaction', renderData);
@@ -65,6 +67,48 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			else{
 
 			}
+		},
+		approveCashAdvance: (req, res) => {
+
+			console.log("approves cash advance");
+			console.log(req.body.cashAdvanceId);
+
+			var dbParam = {
+				status: 1,
+				id: req.body.cashAdvanceId
+			};
+
+			financeModel.updatePreActivityCashAdvanceStatus(dbParam)
+			.then(data=>{
+
+				console.log("successfully approved");
+				res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
+
+			}).catch(error=>{
+				console.log(error);
+			});
+
+		},
+		pendCashAdvance: (req, res) =>{
+
+			console.log("pend cash advance");
+			console.log(req.body.cashAdvanceId);
+
+			var dbParam = {
+				status: 2,
+				id: req.body.cashAdvanceId
+			};
+
+			financeModel.updatePreActivityCashAdvanceStatus(dbParam)
+			.then(data=>{
+
+				console.log("successfully pended");
+				res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
+
+			}).catch(error=>{
+				console.log(error);
+			});
+
 		},
 		viewFinanceList: (req, res) => {
 
@@ -256,7 +300,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 	            	}).then(data2=>{
 
-	            		res.redirect(`/finance/list/transaction/${req.params.gosmactivity}`);
+	            		res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
 
 	            	}).catch(error=>{
 	            		console.log("error in transaction");
