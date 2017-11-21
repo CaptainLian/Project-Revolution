@@ -111,8 +111,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             return projectProposalModel.getNextActivityForApproval(req.session.user.idNumber, task)
             .then(data => {
                 activityId = data.id;
-                console.log(activityId);
-                console.log("activityId");
+                logger.debug(`Activity ID: ${activityId}`);
+
                 var pa = {
                     projectId:data.id
                 }
@@ -173,13 +173,14 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         const renderData = Object.create(null);
         renderData.extra_data = req.extra_data;
 
-
         return accountModel.getPPRToSignList(req.session.user.idNumber)
         .then(list => {
             logger.debug(`${JSON.stringify(list, '\n')}`, log_options);
 
             renderData.activities = list;
             return res.render('APS/ProjectProposal_sign_list', renderData);
+        }).catch(err => {
+            return logger.warn(`${err.message}\n${err.stack}`, log_options);
         });
     };
 
@@ -229,7 +230,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     'pppd.personincharge AS personincharge'
                 ]),
                 projectProposalModel.getProjectProposalProjectHeads(activityID),
-                projectProposalModel.getProjectProposalAttachment(activityID)
+                projectProposalModel.getLatestProjectProposalAttachment({projectId: activityID}),
+                projectProposalModel.getSignatories(activityID)
             ]);
         }).then(data => {
             renderData.projectProposal = data[0];
@@ -239,9 +241,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.programDesign = data[3];
             renderData.projectHeads = data[4];
             renderData.attachment = data[5];
+            renderData.signatories = data[6];
+
             return res.render('APS/ProjectProposal_sign', renderData);
         }).catch(err => {
-            logger.debug(`${err.message}/n${err.stack}`, log_options);
+            return logger.debug(`${err.message}/n${err.stack}`, log_options);
         });
     };
 

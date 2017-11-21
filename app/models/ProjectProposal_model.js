@@ -34,7 +34,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const getAllMyActivity = queryFiles.getAllMyActivity;
     const getPPRToCreatePubsList = queryFiles.getPPRToCreatePubsList;
     const getExpenseTypesSQL = queryFiles.getExpenseTypes;
-    
+
     /**
      * class with properties
      * {
@@ -420,6 +420,13 @@ module.exports = function(configuration, modules, db, queryFiles) {
 
     ProjectProposalModel.prototype.getExpenseTypes = function(connection = this._db){
         return connection.many(getExpenseTypesSQL);
+    };
+
+    const getSignatoriesSQL = queryFiles.PPR_get_signatories;
+    ProjectProposalModel.prototype.getSignatories = function(activityID, connection = this._db){
+        return connection.many(getSignatoriesSQL, {
+            activityID: activityID
+        });
     };
 
     return new ProjectProposalModel(db, modules);
