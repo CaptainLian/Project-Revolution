@@ -36,6 +36,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
     SystemController.viewLogin = (req, res) => {
         logger.debug(`Extra-data contents: ${JSON.stringify(req.extra_data)}`, log_options);
+
+        if(req.session.user){
+            return  res.redirect('/home');
+        }
+
         const renderData = Object.create(null);
         renderData.extra_data = req.extra_data;
         renderData.csrfToken = req.csrfToken();
