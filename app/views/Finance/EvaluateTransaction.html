@@ -66,7 +66,7 @@
 
     <!-- Page Scripts -->
     {{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
-    <!-- {{tag.javascript('/js/Orgres/ManageAccount.js', true)}} -->
+    {{tag.javascript('/js/fin/EvaluateTransaction.js', true)}}
     <!-- /Page Scripts -->
 {%endblock%}
 
@@ -78,8 +78,8 @@
             <div class="row">
                 <div class="col-lg-2 col-md-3  col-sm-4 col-xs-12 inbox-panel">
                     <div>
-                        <a href="#" class="btn btn-success btn-block waves-effect waves-light ca-approve">Approve</a>
-                        <a href="#" class="btn btn-warning btn-block waves-effect waves-light ca-pend">Pend</a>
+                        <a href="#" id="approve" class="btn btn-success btn-block waves-effect waves-light ">Approve</a>
+                        <a href="#" id="defer" class="btn btn-warning btn-block waves-effect waves-light ca-pend">Pend</a>
                         
                         <!--                       
                         <a href="#" class="btn btn-danger btn-block waves-effect waves-light ca-deny">Deny</a>
