@@ -104,10 +104,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     };
 
     APSController.activityChecking = (req, res) => {
+        logger.debug('activityChecking()', log_options);
         var activityId;
         database.task(task => {
 
-            return projectProposalModel.getNextActivityForApproval(task)
+            return projectProposalModel.getNextActivityForApproval(req.session.user.idNumber, task)
             .then(data => {
                 activityId = data.id;
                 console.log(activityId);
@@ -128,8 +129,6 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     projectProposalModel.getProjectProposalProjectHeads(data.id),
                     projectProposalModel.getProjectProposalAttachment(data.id)
                 ]);
-
-
             });
         }).then(data => {
             logger.debug(`${JSON.stringify(data[3])}`, log_options);
@@ -146,7 +145,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.attachment = data[5];
             return res.render('APS/ActivityChecking', renderData);
         }).catch(err => {
-            logger.debug(`${err.message}/n${err.stack}`);
+            logger.debug(`${err.message}/n${err.stack}`, log_options);
         });
     };
 

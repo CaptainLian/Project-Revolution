@@ -167,7 +167,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             projectProposalModel.updatePPRStatus(dbParam, task)
             .then(() => {});
 
-            return projectProposalModel.getNextActivityForApproval(task)
+            return projectProposalModel.getNextActivityForApproval(req.session.user.idNumber, task)
             .then(data => {
                 activityId = data.id;
                 console.log(activityId);

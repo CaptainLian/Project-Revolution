@@ -29,5 +29,4 @@ SELECT EXISTS (-- This is the list of ProjectProposals the user can currently si
                   SELECT ppcl.GOSMActivity
                     FROM "ProjectProposalCurrentLineup" ppcl INNER JOIN "AccountToSign" ats
                                                                      ON ppcl.GOSMActivity = ats.GOSMActivity
-                                                                     AND ppcl.lineup = ats.lineup
-                    LIMIT 1);
+                                                                     AND ppcl.lineup = ats.lineup);

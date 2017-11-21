@@ -1711,7 +1711,7 @@ $trigger$
            AND status <> 4;
 
         IF numSignNeeded = 0 THEN
-            SELECT ga.nature, ga.type INTO nature, type
+            SELECT ga.activityNature, ga.activityType INTO "nature", "type"
               FROM GOSMActivity ga
              WHERE ga.id = NEW.GOSMActivity;
 

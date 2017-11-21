@@ -373,8 +373,11 @@ module.exports = function(configuration, modules, db, queryFiles) {
         return connection.any(queryFiles.getProjectProposalProjectHeads, param);
     };
 
-    ProjectProposalModel.prototype.getNextActivityForApproval = function(connection = this._db){
-        return connection.oneOrNone(getNextActivityForApprovalSQL);
+    ProjectProposalModel.prototype.getNextActivityForApproval = function(idNumber, connection = this._db){
+        const param = Object.create(null);
+        param.idNumber = idNumber;
+
+        return connection.oneOrNone(getNextActivityForApprovalSQL, param);
     };
 
     ProjectProposalModel.prototype.updatePPRStatus = function(param, connection = this._db){
