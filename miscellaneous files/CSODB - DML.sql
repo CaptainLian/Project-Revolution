@@ -1,4 +1,4 @@
-ROLLBACK;
+﻿ROLLBACK;
 
 START TRANSACTION;
 INSERT INTO public."Building"(
@@ -8,7 +8,6 @@ INSERT INTO public."Building"(
 INSERT INTO public."Building"(
             id, name)
     VALUES (1, 'Br. Gabriel Conon (SPS) Building');
-
 
 INSERT INTO public."Building"(
             id, name)

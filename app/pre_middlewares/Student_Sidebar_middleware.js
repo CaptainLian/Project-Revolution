@@ -201,7 +201,7 @@ module.exports = function(configuration, application, modules, database, queryFi
         accountModel.hasGOSMActivityWithoutPPR(user.idNumber, organizationSelected.id)
         .then(activity => {
             logger.debug(`Has GOSM activity with PPR: ${activity.exists}`, log_options);
-            if (activity.exists) {
+            if (activity.exists && user.organizationSelected.id !== 0) {
                 const sidebars = req.extra_data.view.sidebars;
                 const newSidebar = Object.create(null);
                 newSidebar.name = 'Submit Project Proposal';
@@ -222,8 +222,7 @@ module.exports = function(configuration, application, modules, database, queryFi
 
             return next();
         }).catch(err => {
-            logger.debug(`${JSON.stringify(err)}`, log_options);
-            logger.debug(`${err.stack}`, log_options);
+            logger.debug(`${err.message}\n${err.stack}`, log_options);
             return next(err);
         });
     };

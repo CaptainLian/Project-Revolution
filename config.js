@@ -3,7 +3,8 @@ const configuration = {
         "routes_ignore_login_required": [
             "",
             "/",
-            "/system/AJAX/checkLogin"
+            "/system/AJAX/checkLogin",
+            "/logout"
         ],
         "enable_login_check": false
     },
