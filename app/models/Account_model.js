@@ -129,11 +129,11 @@ module.exports = function(configuration, modules, database, queryFiles) {
         return connection.any(getAccountLogsSQL);
     };
 
-    const hasGOSMActivityWithoutPPRSQL = queryFiles.account_has_GOSMActivtiy_without_PPR;
-    AccountModel.hasGOSMActivityWithoutPPR = (idNumber, organizationID, connection = database) => {
+    const hasGOSMActivityWithoutPPRSQL = queryFiles.account_GOSMActivity_has_without_PPR;
+    AccountModel.hasGOSMActivityWithoutPPR = (idNumber, connection = database) => {
         const param = Object.create(null);
         param.idNumber = idNumber;
-        param.organizationID = organizationID;
+
         return connection.one(hasGOSMActivityWithoutPPRSQL, param);
     };
 
@@ -142,7 +142,24 @@ module.exports = function(configuration, modules, database, queryFiles) {
         const param = Object.create(null);
         param.idNumber = idNumber;
         param.organizationID = organizationID;
+
         return connection.one(hasGOSMActivityWithAMTActivityEvaluationSQL, param);
+    };
+
+    const hasPPRWithoutPostProjectProposal = queryFiles.account_PPR_has_without_PostProjectProposal;
+    AccountModel.hasPPRWithoutPostProjectProposal = (idNumber, connection = database) => {
+        const param = Object.create(null);
+        param.idNumber = idNumber;
+
+        return connection.one(hasPPRWithoutPostProjectProposal, param);
+    };
+
+    const hasPPRApprovedSQL = queryFiles.account_PPR_has_approved;
+    AccountModel.hasPPRApproved = (idNumber, connection = database) => {
+        const param = Object.create(null);
+        param.idNumber = idNumber;
+
+        return connection.one(hasPPRApprovedSQL, param);
     };
 
     const hasPPRToSignSQL = queryFiles.account_PPR_has_to_sign;

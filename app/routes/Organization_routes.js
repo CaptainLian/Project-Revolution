@@ -11,7 +11,7 @@ module.exports = function(configuration, modules, router, controllers){
 
     router.get(`${base}/ProjectProposal/GOSMList`, controllers.Organization_controller.viewGOSMActivityListProjectProposal);
     router.get(`${base}/ProjectProposal/Main/:id/:status`, controllers.Organization_controller.viewSubmitProjectProposalMain);
-    router.get(`${base}/ProjectProposal/Attachments/:id`, controllers.Organization_controller.viewSubmitProjectProposalAttachments);
+    router.get(`${base}/ProjectProposal/Attachments/:id/:gid`, controllers.Organization_controller.viewSubmitProjectProposalAttachments);
     router.get(`${base}/ProjectProposal/BriefContext/:id`, controllers.Organization_controller.viewSubmitProjectProposalBriefContext);
     router.get(`${base}/ProjectProposal/Expense/:id/:revenue`, controllers.Organization_controller.viewSubmitProjectProposalExpense);
     router.get(`${base}/ProjectProposal/ProgramDesign/:id`, controllers.Organization_controller.viewSubmitProjectProposalProgramDesign);
@@ -45,7 +45,4 @@ module.exports = function(configuration, modules, router, controllers){
     router.post(`${base}/Publicity/Insert`, controllers.Organization_controller.insertPubs);    
     router.post(`${base}/Publicity/modal`, controllers.Organization_controller.viewPubDetails);
     router.post(`${base}/Publicity/Reupload`, controllers.Organization_controller.reuploadPubs);    
-    
-
 };
-
