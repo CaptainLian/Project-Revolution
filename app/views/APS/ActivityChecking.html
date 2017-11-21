@@ -479,10 +479,11 @@
                         {% for att in attachment %}
 
                          <div class="white-box"  >
-                            <h4 class="text-left">Cash Disbursement</h4>
+                            <h4 class="text-left">{{att.name}}</h4>
                             <hr>
                             <br/>
-                            <iframe src = "/ViewerJS/#..{{att.directory}}"  width='400' height='300' allowfullscreen webkitallowfullscreen></iframe>
+                            <iframe src = "/ViewerJS/#../upload/preacts/{{att.idnumber}}/{{att.filename}}"  width='400' height='300' allowfullscreen webkitallowfullscreen></iframe>
+                            <!-- <a href="/ViewerJS/#../upload/preacts/{{att.idnumber}}/{{att.filename}}">LINK</a> -->
                         </div>
 
                         {% endfor %}

@@ -171,7 +171,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             .then(data => {
                 activityId = data.id;
                 console.log(activityId);
-
+                 var pa = {
+                    projectId:data.id
+                }
                 return task.batch([
                     Promise.resolve(data),
                     projectProposalModel.getProjectProposalExpenses(data.id, task),
@@ -186,7 +188,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         'pppd.personincharge AS personincharge'
                     ], task),
                     projectProposalModel.getProjectProposalProjectHeads(data.id, task),
-                    projectProposalModel.getProjectProposalAttachment(data.id, task)
+                    projectProposalModel.getLatestProjectProposalAttachment(pa)
                 ]);
             });
         }).then(data => {
@@ -208,8 +210,12 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
             return res.render('APS/ActivityChecking', renderData);
         }).catch(err => {
-            console.log('NAG ERROR');
-            throw err;
+             const renderData = Object.create(null);
+            renderData.csrfToken = req.csrfToken();
+            renderData.extra_data = req.extra_data;
+            res.render('template/APS/NoActivityToCheck', renderData);
+            logger.debug(`${err.message}/n${err.stack}`);
+            // throw err;
         });
     };
 
