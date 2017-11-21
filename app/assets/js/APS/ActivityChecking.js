@@ -55,7 +55,6 @@ $(document).on('click', '#approve', function() {
         }
 
     }).then(function(data) {
-
         console.log("ASD");
         $("html, body").animate({
             scrollTop: 0
@@ -68,20 +67,18 @@ $(document).on('click', '#approve', function() {
     }).then(function() {
         $.ajax({
             type: 'POST',
-            url: '/APS/ajax/activityChecking',
+            url: '/APS/ajax/SignProjectProposal',
             data: {
-                id: $("#doc").attr("ct"),
-                method: 3
+                activityID: $("#doc").attr("ct"),
+                status: 1
             },
 
             success: function(data) {
-
                 var doc = $(data).find("#doc");
                 setTimeout(function() {
                     $("#doc").replaceWith(doc);
                     $(document).trigger("customGenerated");
                 }, 1000);
-
             }
         });
     });
@@ -161,15 +158,14 @@ $(document).on('click', '#defer', function() {
 
 
     }).then(function(data) {
-
         $.ajax({
             type: 'POST',
-            url: '/APS/ajax/activityChecking',
+            url: '/APS/ajax/SignProjectProposal',
             data: {
-                id: $("#doc").attr("ct"),
-                method: 4,
-                comment: $("#comment").val(),
-                section: $("#select-sec").val()
+                activityID: $("#doc").attr("ct"),
+                status: 2,
+                comments: $("#comment").val(),
+                sectionsToBeEdited: $("#select-sec").val()
             },
             success: function(data) {
 
@@ -233,18 +229,15 @@ $(document).on('click', '#reject', function() {
     }).then(function() {
         $.ajax({
             type: 'POST',
-            url: '/APS/ajax/activityChecking',
+            url: '/APS/ajax/SignProjectProposal',
             data: {
-                id: $("#doc").attr("ct"),
-                method: 5,
-                comment: $("#reject-comment").val()
-
+                activityID: $("#doc").attr("ct"),
+                status: 3,
+                comments: $("#reject-comment").val()
             },
 
             success: function(data) {
-
                 var doc = $(data).find("#doc");
-
                 $("#doc").replaceWith(doc);
                 $(document).trigger("customGenerated");
             }

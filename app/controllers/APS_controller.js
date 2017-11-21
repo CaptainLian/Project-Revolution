@@ -185,6 +185,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     };
 
     APSController.viewPPRSign = (req, res) => {
+        logger.debug('viewPPRSign()', log_options);
+
         let activityID = parseInt(req.params.activityID);
 
         if(!Number.isInteger(activityID)){
@@ -197,6 +199,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         renderData.csrfToken = req.csrfToken();
 
         return database.task(task => {
+            logger.debug('Executing batch queries', log_options);
             return task.batch([
                 projectProposalModel.getActivityProjectProposalDetailsGAID(activityID, [
                     'an.name AS nature',
@@ -243,6 +246,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.attachment = data[5];
             renderData.signatories = data[6];
 
+            logger.debug('rendering page', log_options);
             return res.render('APS/ProjectProposal_sign', renderData);
         }).catch(err => {
             return logger.debug(`${err.message}/n${err.stack}`, log_options);

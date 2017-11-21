@@ -152,8 +152,6 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         var activityId;
         database.task(task => {
 
-            let promises = [];
-
             console.log(req.body);
 
             const dbParam = {
