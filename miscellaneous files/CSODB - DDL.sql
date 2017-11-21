@@ -1,4 +1,4 @@
-DROP EXTENSION IF EXISTS "uuid-ossp" CASCADE;
+﻿DROP EXTENSION IF EXISTS "uuid-ossp" CASCADE;
 DROP EXTENSION IF EXISTS "pgcrypto" CASCADE;
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
@@ -1701,6 +1701,8 @@ RETURNS TRIGGER AS
 $trigger$
     DECLARE
         numSignNeeded INTEGER;
+        nature SMALLINT;
+        type SMALLINT;
     BEGIN
         SELECT COUNT(pps.id) INTO numSignNeeded
           FROM ProjectProposalSignatory pps
@@ -1709,8 +1711,18 @@ $trigger$
            AND status <> 4;
 
         IF numSignNeeded = 0 THEN
-            INSERT INTO AMTActivityEvaluation (activity, status)
-                                       VALUES (NEW.GOSMActivity, 0);
+            SELECT ga.nature, ga.type INTO nature, type
+              FROM GOSMActivity ga
+             WHERE ga.id = NEW.GOSMActivity;
+
+             IF nature = 1 OR type = 2 THEN
+                 INSERT INTO AMTActivityEvaluation (activity, status)
+                                            VALUES (NEW.GOSMActivity, 0);
+             END IF;
+
+             UPDATE ProjectProposal
+                SET status = 3
+              WHERE GOSMActivity = NEW.GOSMActivity;
         END IF;
 
         RETURN NEW;
@@ -2466,7 +2478,7 @@ CREATE TRIGGER "before_insert_audit_ProjectProposal_sequence"
     BEFORE INSERT ON "audit_ProjectProposal"
     FOR EACH ROW
     EXECUTE PROCEDURE "trigger_before_insert_audit_ProjectProposal_sequence"();
-
+/*
 CREATE OR REPLACE FUNCTION "trigger_after_insert_ProjectProposal_Expenses_auditing_insert"()
 RETURNS TRIGGER
 AS $trigger$
@@ -2564,7 +2576,7 @@ AS $trigger$
         oldValues = jsonb_set(oldValues, '{"id"}'::text[], OLD.id::text::jsonb, true);
         oldValues = jsonb_set(oldValues, '{"sequence"}'::text[], OLD.sequence::text::jsonb, true);
 
-        /* OLD values */
+        -- OLD values
         IF OLD.material IS NULL THEN
             oldValues = jsonb_set(oldValues, '{"material"}'::text[], 'null'::jsonb, true);
         ELSE
@@ -2589,7 +2601,7 @@ AS $trigger$
             oldValues = jsonb_set(oldValues, '{"type"}'::text[], OLD."type"::text::jsonb, true);
         END IF;
 
-        /* NEW and MODIFIED values */
+        -- NEW and MODIFIED values 
         IF (OLD.material <> NEW.material) OR (OLD.material IS NULL AND NEW.material IS NOT NULL) OR (OLD.material IS NOT NULL AND NEW.material IS NULL) THEN
             IF NEW.material IS NULL THEN
                 newValues = jsonb_set(newValues, '{"material"}'::text[], 'null'::jsonb, true);
@@ -2644,7 +2656,7 @@ $trigger$
         newValues JSONB DEFAULT '{}'::jsonb;
     BEGIN
         -- jsonb_set(target jsonb, path text[], new_value jsonb[, create_missing boolean])
-        /* OLD VALUES */
+        -- OLD VALUES 
         IF OLD.status IS NULL THEN
             oldValues = jsonb_set(oldValues, '{"status"}'::text[], 'null'::jsonb, true);
         ELSE
@@ -2730,7 +2742,7 @@ $trigger$
             oldValues = jsonb_set(oldValues, '{"comments"}'::text[], ('"' || replace(OLD.comments::text, '"'::text, '\"'::text) || '"')::jsonb, true);
         END IF;
 
-        /* NEW and MODIFIED values*/
+        -- NEW and MODIFIED values
         IF (OLD.status <> NEW.status) OR (OLD.status IS NULL AND NEW.status IS NOT NULL) OR (OLD.status IS NOT NULL AND NEW.status IS NULL) THEN
             IF NEW.status IS NULL THEN
                 newValues = jsonb_set(newValues, '{"status"}'::text[], 'null'::jsonb, true);
@@ -2982,7 +2994,7 @@ AS $trigger$
         oldValues = jsonb_set(oldValues, '{"dayID"}'::text[], OLD.dayID::text::jsonb, true);
         oldValues = jsonb_set(oldValues, '{"sequence"}'::text[], OLD.sequence::text::jsonb, true);
 
-        /* OLD values */
+        -- OLD values
         IF OLD.date IS NULL THEN
             oldValues = jsonb_set(oldValues, '{"date"}'::text[], 'null'::jsonb, true);
         ELSE
@@ -3019,7 +3031,7 @@ AS $trigger$
             oldValues = jsonb_set(oldValues, '{"personInCharge"}'::text[], OLD.personInCharge::text::jsonb, true);
         END IF;
 
-        /* NEW and MODIFIED values */
+        -- NEW and MODIFIED values
         IF (OLD.date <> NEW.date) OR (OLD.date IS NULL AND NEW.date IS NOT NULL) OR (OLD.date IS NOT NULL AND NEW.date IS NULL) THEN
             IF NEW.date IS NULL THEN
                 newValues = jsonb_set(newValues, '{"date"}'::text[], 'null'::jsonb, true);
@@ -3082,7 +3094,7 @@ CREATE TRIGGER "after_update_ProjectProposal_ProgramDesign_auditing_update"
     AFTER UPDATE ON ProjectProposalProgramDesign
     FOR EACH ROW
     EXECUTE PROCEDURE "trigger_after_update_ProjectProposal_ProgramDesign_auditing_update"();
-
+*/
   /* End of Logging of PPR */
 /* End of Auditing */
 
