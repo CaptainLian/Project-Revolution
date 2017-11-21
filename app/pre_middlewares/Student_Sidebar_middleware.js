@@ -206,12 +206,14 @@ module.exports = function(configuration, application, modules, database, queryFi
             return task.batch([
                 accountModel.hasGOSMActivityWithoutPPR(user.idNumber),
                 accountModel.hasGOSMACtivityWithAMTActivityEvaluation(user.idNumber),
-                accountModel.hasPPRApproved(user.idNumber)
+                accountModel.hasPPRApproved(user.idNumber),
+                accountModel.hasPPRWithoutPostProjectProposal(user.idNumber)
             ]);
         }).then(data => {
             const [GOSMActivityWithoutPPR,
                 GOSMActivityWithActivityEvaluation,
-                PPRApproved
+                PPRApproved,
+                hasPPRWithoutPostProjectProposal
             ] = data;
 
             logger.debug(`Has GOSM activity without PPR: ${GOSMActivityWithoutPPR.exists}`, log_options);
@@ -231,12 +233,22 @@ module.exports = function(configuration, application, modules, database, queryFi
 
                 sidebars[sidebars.length] = newSidebar;
             }
+
             logger.debug(`Has PPR Approved: ${PPRApproved.exists}`, log_options);
             if(PPRApproved.exists){
                 const newSidebar = Object.create(null);
                 newSidebar.name = 'Submit Activity Publicity';
                 //TODO: SET ACTUAL LINK
                 newSidebar.link = '/Organization/Publicity/list';
+
+                sidebars[sidebars.length] = newSidebar;
+            }
+
+            logger.debug(`Has PPR Approved: ${hasPPRWithoutPostProjectProposal.exists}`, log_options);
+            if(hasPPRWithoutPostProjectProposal.exists){
+                const newSidebar = Object.create(null);
+                newSidebar.name = 'Submit Post Activity';
+                newSidebar.link = '/Organization/PostProjectProposal/GOSMList';
 
                 sidebars[sidebars.length] = newSidebar;
             }

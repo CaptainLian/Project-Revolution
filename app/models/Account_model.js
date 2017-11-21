@@ -146,6 +146,14 @@ module.exports = function(configuration, modules, database, queryFiles) {
         return connection.one(hasGOSMActivityWithAMTActivityEvaluationSQL, param);
     };
 
+    const hasPPRWithoutPostProjectProposal = queryFiles.account_PPR_has_without_PostProjectProposal;
+    AccountModel.hasPPRWithoutPostProjectProposal = (idNumber, connection = database) => {
+        const param = Object.create(null);
+        param.idNumber = idNumber;
+
+        return connection.one(hasPPRWithoutPostProjectProposal, param);
+    };
+
     const hasPPRApprovedSQL = queryFiles.account_PPR_has_approved;
     AccountModel.hasPPRApproved = (idNumber, connection = database) => {
         const param = Object.create(null);
@@ -153,7 +161,6 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
         return connection.one(hasPPRApprovedSQL, param);
     };
-
 
     const hasPPRToSignSQL = queryFiles.account_PPR_has_to_sign;
     AccountModel.hasPPRToSign = (idNumber, connection = database) => {

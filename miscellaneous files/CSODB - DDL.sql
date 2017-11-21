@@ -1098,7 +1098,7 @@ INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       (   12,        104003,      TRUE),
                                       (   13,        104003,      TRUE),
                                       -- Evaluate Activity (AMT)
-                                      (    0,        108004,      TRUE),
+                                      (    8,        108004,      TRUE),
                                       (    9,        108004,      TRUE),
                                       (   10,        108004,      TRUE),
                                       -- Submit Activity Research Form (ARF)/ Evaluate Activity (OrgRes)
