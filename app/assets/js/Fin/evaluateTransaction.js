@@ -1,4 +1,3 @@
-evaluateTransaction.js
 
     (function() {
 
@@ -33,6 +32,9 @@ evaluateTransaction.js
             }
              
         }).then(function(data){
+            if(data){
+                $("#form-id").submit();
+            }
             console.log(data);
             console.log("ASD");
             $("html, body").animate({ scrollTop: 0 },function(){
@@ -104,6 +106,9 @@ evaluateTransaction.js
             cancelButtonText: "Cancel",   
              
         }).then(function(data){
+            if(data){
+                $("#form-id2").submit();
+            }
             console.log(data);
             console.log("ASD");
             $("html, body").animate({ scrollTop: 0 },function(){

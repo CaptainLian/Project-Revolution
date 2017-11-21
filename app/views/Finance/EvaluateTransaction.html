@@ -48,7 +48,7 @@
     <!-- tabs-->
     {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
     <!-- Sweet-Alert  -->
-    {{tag.javascript('/plugins/bower_components/sweetalert/sweetalert.min.js', true)}}
+
     <!--Style Switcher -->
     {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
 
@@ -66,11 +66,31 @@
 
     <!-- Page Scripts -->
     {{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
-    {{tag.javascript('/js/fin/EvaluateTransaction.js', true)}}
+    {{tag.javascript('/js/Fin/evaluateTransaction.js', true)}}
     <!-- /Page Scripts -->
+
+    <!-- Sweet-Alert  -->
+
 {%endblock%}
 
 {%block content%}
+
+{% if transactionType ==1 %}
+
+<form action="/transaction/approveCashAdvance" id="form-id" class="form-horizontal" method="POST">
+<input type="hidden" name="_csrf" value="{{csrfToken}}">
+<input type="hidden" name="cashAdvanceId" value="{{cashAdvance.id}}">
+<input type="hidden" name="transactionType" value="{{transactionType}}">
+<input type="hidden" name="gosmactivity" value="{{gosmactivity}}">
+
+</form>
+
+<form action="/transaction/pendCashAdvance" id="form-id2" class="form-horizontal" method="POST">
+<input type="hidden" name="_csrf" value="{{csrfToken}}">
+<input type="hidden" name="cashAdvanceId" value="{{cashAdvance.id}}">
+<input type="hidden" name="gosmactivity" value="{{gosmactivity}}">
+
+{% endif %}
 <div class="row">
     <!-- Left sidebar -->
     <div class="col-md-12">
@@ -209,4 +229,5 @@
         </div>
     </div>
 </div>
+</form>
 {%endblock%}
