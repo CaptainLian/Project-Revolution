@@ -62,7 +62,8 @@
 {%block content%}
 <form action="/Organization/projectproposal/SaveAttachments"  encType="multipart/form-data" method="POST" class="form-horizontal">
 <input type="hidden" name="_csrf" value="{{csrfToken}}">
-<input type="hidden" name="activityId" value="{{actID}}">
+<input type="hidden" name="activityId" value="{{gid}}">
+<input type="hidden" name="pid" value="{{pid}}">
 <div class="row">
 	<div class="col-md-12">
 	    <div class="panel panel-info">
