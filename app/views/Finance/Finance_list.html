@@ -84,18 +84,145 @@
                                             <th>Activity Name</th>
                                             <th>Transactions</th>
                                             
-                                            <th>Organization</th>
+                                            {% if isCso %}
+                                                <th>Organization</th>
+                                            {% endif %}
+
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr onclick="window.location = 'cso-finance-view-activity-transactions.html'">
-                                            
-                                            <td>September 29, 2017</td>
-                                            <td>General Assembly</td>
-                                            <td>5 transactions &nbsp;<span class="label label-table label-success">3 approved</span></td>
-                                            <td>La Salle Computer Society</td>
-                                            
-                                        </tr>
+
+                                        {% for activity in activities %}
+                                            <tr onclick="window.location = '/finance/list/transaction/{{activity.gosmactivity}}'">
+                                                {% if isCso %}
+
+                                                    <td>{{activity.startdate}}</td>
+                                                    <td>{{activity.strategies}}</td>
+
+                                                        {% set hasTransaction = false %}
+
+
+                                                        {% for total in transactionTotal %}
+
+                                                        {% if activity.gosmactivity == total.gosmactivity %}
+
+                                                            {% set hasTransaction = true %}
+
+                                                            {% if total.transactiontotal == 1 %}
+                                                            
+                                                                <td>{{total.transactiontotal}} transaction &nbsp;
+
+                                                            {% else %}
+    
+                                                                <td>{{total.transactiontotal}} transactions &nbsp;
+
+                                                            {% endif %}
+
+
+                                                        {% endif %}
+
+                                                        {% endfor %}
+
+                                                        {% if hasTransaction %}
+
+                                                            {% set hasApproved = false %}
+
+                                                            {% for approved in approvedTransactionTotal %}
+
+                                                                {% if activity.gosmactivity == approved.gosmactivity %}
+                                                                    
+                                                                    {% set hasApproved = true %}
+
+                                                                    <span class="label label-table label-success">{{approved.approvedtotal}} approved</span></td>
+
+                                                                {% endif %}
+
+                                                            {% endfor %}
+
+                                                            {% if hasApproved %}
+
+                                                            {% else %}
+                                                                </td>
+                                                            {% endif %}
+
+                                                        {% else %}
+
+                                                            <td>0 transactions &nbsp;</td>
+
+                                                        {% endif %}
+
+
+                                                    <td>{{activity.name}}</td>
+                                                
+                                                {% else %}
+
+                                                    {% if activity.organizationid == orgid %}
+
+                                                        <td>{{activity.startdate}}</td>
+                                                        <td>{{activity.strategies}}</td>
+
+                                                        {% set hasTransaction = false %}
+
+
+                                                        {% for total in transactionTotal %}
+
+                                                        {% if activity.gosmactivity == total.gosmactivity %}
+
+                                                            {% set hasTransaction = true %}
+
+                                                            {% if total.transactiontotal == 1 %}
+                                                            
+                                                                <td>{{total.transactiontotal}} transaction &nbsp;
+
+                                                            {% else %}
+    
+                                                                <td>{{total.transactiontotal}} transactions &nbsp;
+
+                                                            {% endif %}
+
+
+                                                        {% endif %}
+
+                                                        {% endfor %}
+
+                                                        {% if hasTransaction %}
+
+                                                            {% set hasApproved = false %}
+
+                                                            {% for approved in approvedTransactionTotal %}
+
+                                                                {% if activity.gosmactivity == approved.gosmactivity %}
+                                                                    
+                                                                    {% set hasApproved = true %}
+
+                                                                    <span class="label label-table label-success">{{approved.approvedtotal}} approved</span></td>
+
+                                                                {% endif %}
+
+                                                            {% endfor %}
+
+                                                            {% if hasApproved %}
+
+                                                            {% else %}
+                                                                </td>
+                                                            {% endif %}
+
+                                                        {% else %}
+
+                                                            <td>0 transactions &nbsp;</td>
+
+                                                        {% endif %}
+
+                                                        
+
+
+
+                                                    {% endif %}
+                                                        
+                                                {% endif %}
+                                                    
+                                            </tr>
+                                        {% endfor %}
                                         
                                     </tbody>
                                 </table>

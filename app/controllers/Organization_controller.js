@@ -152,7 +152,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     renderData.projectHeads = data[1];
                     renderData.projectProposal = data[2];
                     renderData.gosmid = req.params.id;
-                    console.log(data[2]);
+                    console.log(renderData.gosmActivity);
                     console.log("KAHITANONGMESSAGE");
 
                     return res.render('Org/SubmitProjectProposal_main',renderData);
@@ -219,7 +219,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
              database.task(task => {
 
                 return task.batch([
-                        gosmModel.getGOSMActivityType(req.params.id, undefined, task).
+                        gosmModel.getGOSMActivityType(req.params.gid, undefined, task).
                            then(data =>{
                                 console.log("DATA");
                                 console.log(data[0].activitytype);
@@ -235,6 +235,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 console.log(data[0]);
                 renderData.attachments = data[0];
                 renderData.documents = data[1]
+                renderData.gid = req.params.gid
+                renderData.pid = req.params.id
                 console.log("DATA1");
                 console.log(data[1]);
                 return res.render('Org/SubmitProjectProposal_attachments',renderData);
@@ -363,8 +365,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.gosmactivity = dbParam;
                 renderData.projectProposal = data[0];
                 renderData.expenses = data[1];
-                // renderData.revenue = req.params.revenue;
-                renderData.revenue = 1;
+                renderData.revenue = req.params.revenue;
+                // renderData.revenue = 1;
                 renderData.expenseTypes = data[2];
 
                 console.log(renderData.gosmactivity);
@@ -1271,7 +1273,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             console.log(req.params.id);
             var dbParam = {
                 id: req.body.pprid,
-                preparedby: req.session.user.idNumber
+                preparedby: req.session.user.idNumber,
+                gosmid: req.body.gosmid
             };
             console.log(req.body.context);
             if(req.body.context && req.body.program && req.body.expense && req.body.attachment){
@@ -1279,17 +1282,24 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                 projectProposalModel.submitProjectProposal(dbParam)
                 .then(data=>{
-                return res.redirect(`/Organization/ProjectProposal/gosmlist/`);
-                }).catch(error=>{
 
+                    postProjectProposalModel.insertPostProjectProposal(dbParam)
+                    .then(data1=>{
+
+
+                        return res.redirect(`/Organization/ProjectProposal/gosmlist/`);
+                   
+
+                    }).catch(error=>{
+                        console.log("error in insertPostProjectProposal");
+                        console.log(error);
+                    });
+                }).catch(error=>{
+                    console.log("error in submit projectProposal");
+                    console.log(error);
                 });
 
-                // postProjectProposalModel.insertPostProjectProposal(dbParam)
-                // .then(data=>{
-                //     return res.render(`/Organization/ProjectProposal/gosmlist`,renderData);
-                // }).catch(err=>{
-
-                // });
+               
             }else{
 
                 console.log("IZ HERE INSTEAD");
@@ -1780,7 +1790,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                 console.log("new File name");
                                 console.log(nFilename);
                                  var db ={
-                                        projectId : req.body.activityId,
+                                        projectId : req.body.pid,
                                         requirement: data[ctr].id,
                                         dir: dir2 + file.name +' - '+ date,
                                         idNumber: req.session.user.idNumber,
@@ -1808,7 +1818,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                 console.log("new File name");
                                 var date = cuid();
                               var db ={
-                                        projectId : req.body.activityId,
+                                        projectId : req.body.pid,
                                         requirement: data[ctr].id,
                                         dir: dir2 + file.name +' - '+ date,
                                         idNumber: req.session.user.idNumber,
@@ -1845,7 +1855,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     });
 
                     var dbParam = {
-                            id: req.body.activityId
+                            id: req.body.pid
                     };
 
                     projectProposalModel.updateIsAttachmentsComplete(dbParam)

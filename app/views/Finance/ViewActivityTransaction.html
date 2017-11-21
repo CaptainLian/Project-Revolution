@@ -82,8 +82,9 @@
                                             <div class="btn-group col-md-12">
                                                 <button aria-expanded="false" data-toggle="dropdown" class="fixedWidth finadd btn btn-info btn-block  waves-effect waves-light" type="button"><i class="fa fa-plus"></i> Add <span class="caret"></span></button>
                                                     <ul role="menu" class="dropdown-menu">
-                                                        <li><a href="#">Direct Payment</a></li>
-                                                        <li><a href="#">Cash Advance</a></li>
+                                                        <li><a href="/transaction/preacts/directpayment/{{gosmactivity.id}}">Direct Payment</a></li>
+                                                        
+                                                        <li><a href="/transaction/preacts/cashadvance/{{gosmactivity.id}}/{{projectProposal.id}}">Cash Advance</a></li>
                                                     </ul>
 
                                             </div>
@@ -95,7 +96,7 @@
                                 </div>
                                 <div class="col-lg-10 col-md-9 col-sm-8 col-xs-12 mail_listing">
                                     
-                                        <h4 class="font-bold m-t-0 text-success text-center">List of Transactions for General Assembly</h4>
+                                        <h4 class="font-bold m-t-0 text-success text-center">List of Transactions for {{gosmactivity.strategies}}</h4>
                                         
                                     
                                     <div class="col-md-12">
@@ -110,24 +111,64 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr onclick="window.location = 'cso-finance-evaluate-transaction.html'">
-                                            <td>September 15, 2019</td>
-                                            <td>Cash Advance</td>
-                                            <td>Php 10,000.00</td>
-                                            <td><span class="label label-table label-success">Approved</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>September 15, 2019</td>
-                                            <td>Cash Advance</td>
-                                            <td>Php 10,000.00</td>
-                                            <td><span class="label label-table label-warning">Pended</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>September 15, 2019</td>
-                                            <td>Cash Advance</td>
-                                            <td>Php 10,000.00</td>
-                                            <td><span class="label label-table label-danger">Denied</span></td>
-                                        </tr>
+
+                                        {% for transaction in transactions %}
+
+                                            <!-- if direct payment  -->
+                                            {% if transaction.transaction == 0 %}
+
+                                                <tr onclick="window.location = '/transaction/evaluate/0/{{transaction.id}}'">
+
+                                            {% else %} <!-- if cash advance -->
+                                                
+                                                <tr onclick="window.location = '/transaction/evaluate/1/{{transaction.id}}'">
+
+                                            {% endif %}
+
+                                                <td>{{transaction.startdate}}</td>
+
+                                                {% if transaction.transaction == 0 %}
+                                                    <td>Direct Payment</td>
+                                                {% else %}
+                                                    <td>Cash Advance</td>
+                                                {% endif %}
+                                                
+                                                <td>Php {{transaction.amount | round(2)}}</td>
+
+                                                {% if transaction.status == 0 %}
+
+                                                    <td><span class="label label-table label-info">For Approval</span></td>
+
+
+                                                {% endif %}
+
+                                                {% if transaction.status == 1 %}
+                                               
+                                                    <td><span class="label label-table label-success">Approved</span></td>
+
+                                                {% endif %}
+
+                                                {% if transaction.status == 2 %}
+        
+                                                    <td><span class="label label-table label-warning">Pended</span></td>
+
+                                                {% endif %}
+
+                                                {% if transaction.status == 3 %}
+
+                                                    <td><span class="label label-table label-danger">Denied</span></td>
+
+
+                                                {% endif %}
+                                            </tr>
+
+
+                                       
+                                        
+
+                                        {% endfor %}
+                                        
+                                        
                                     </tbody>
                                 </table>
                                     </div>

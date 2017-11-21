@@ -112,7 +112,10 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             .then(data => {
                 activityId = data.id;
                 console.log(activityId);
-
+                console.log("activityId");
+                var pa = {
+                    projectId:data.id
+                }
                 return task.batch([
                     Promise.resolve(data),
                     projectProposalModel.getProjectProposalExpenses(data.id),
@@ -127,8 +130,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         'pppd.personincharge AS personincharge'
                     ]),
                     projectProposalModel.getProjectProposalProjectHeads(data.id),
-                    projectProposalModel.getProjectProposalAttachment(data.id)
+                    projectProposalModel.getLatestProjectProposalAttachment(pa)
                 ]);
+            }).catch(err=>{
+            //     const renderData = Object.create(null);
+            // renderData.csrfToken = req.csrfToken();
+            // renderData.extra_data = req.extra_data;
+            // res.render('template/APS/NoActivityToCheck', renderData);
             });
         }).then(data => {
             logger.debug(`${JSON.stringify(data[3])}`, log_options);
@@ -143,9 +151,15 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.programDesign = data[3];
             renderData.projectHeads = data[4];
             renderData.attachment = data[5];
+            console.log(renderData.attachment);
+            console.log("renderData.attachment");
             return res.render('APS/ActivityChecking', renderData);
         }).catch(err => {
             logger.debug(`${err.message}/n${err.stack}`, log_options);
+            const renderData = Object.create(null);
+            renderData.csrfToken = req.csrfToken();
+            renderData.extra_data = req.extra_data;
+            return res.render('template/APS/NoActivityToCheck', renderData);
         });
     };
 
