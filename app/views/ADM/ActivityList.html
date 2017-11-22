@@ -62,7 +62,7 @@
     {{tag.javascript('/js/cbpFWTabs.js', true)}}
     <!-- tabs-->
     
-   {{tag.javascript('/js/PNP/PubsToCheck.js', true)}}
+  <!--  {{tag.javascript('/js/PNP/PubsToCheck.js', true)}} -->
 {%endblock%}
 
 {%block content%}
@@ -82,10 +82,10 @@
 						</tr>
 					</thead>
 					<tbody>
-                        {%for pub in pubs%}
+                        {%for pa in postacts%}
 						<tr>
-							<td class="text-center">{{pub.targetdate}}</td>
-							<td class="text-center"><a href="/PNP/Pubs/{{pub.gosmid}}" class="btn-lnk">{{pub.title}}</a></td>
+							<td class="text-center">{{pa.actualdatestart}}</td>
+							<td class="text-center"><a href="/PNP/Pubs/{{pub.gosmid}}" class="btn-lnk">{{pa.strategies}}</a></td>
                             {% if pub.status === 0 %}
                                 <td class="text-center"><span class="label label-warning">{{number[loop.index0].count}} Unapproved</span></td>
                             {% elif pub.status === 1 %}

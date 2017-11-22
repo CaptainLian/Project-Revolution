@@ -34,6 +34,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const getLatestEventPicture = queryFiles.getLatestEventPicture;
     const getPostExpenseMaxSubmissionID = queryFiles.getPostExpenseMaxSubmissionID;
     const getLatestPostExpense = queryFiles.getLatestPostExpense;
+    const getPostActsToCheck = queryFiles.getPostActsToCheck;
     
 
 
@@ -52,6 +53,9 @@ module.exports = function(configuration, modules, db, queryFiles) {
     	},
         updatePostProjectProposalCompleteness:function (param, connection = db) {
             return connection.any(updatePostProjectProposalCompleteness, param);
+        },
+        getPostActsToCheck:function (param, connection = db) {
+            return connection.any(getPostActsToCheck, param);
         },
         updatePostProjectRequiredCompleteness:function (param, connection = db) {
             return connection.any(updatePostProjectRequiredCompleteness, param);

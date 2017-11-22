@@ -23,7 +23,14 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		let renderData = Object.create(null);
 		renderData = req.extra_data;
 		renderData.csrfToken = req.csrfToken();
-		
+
+		postProjectProposalModel.getPostActsToCheck()
+				.then(data=>{
+					console.log(data);
+					console.log("data");
+					renderData.postacts = data
+					res.render('ADM/ActivityList', renderData);
+				})
 		
 		
 		
