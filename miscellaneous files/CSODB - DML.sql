@@ -599,6 +599,10 @@ INSERT INTO ProjectProposalExpenses (projectProposal, material, quantity, unitCo
                               VALUES(1, 'Boyfriend Material 2', 80, 60.0000);
 INSERT INTO ProjectProposalExpenses (projectProposal, material, quantity, unitCost)
                               VALUES(1, 'Boyfriend Material 3', 80, 60.0000);
+INSERT INTO ProjectProposalExpenses (projectProposal, material, quantity, unitCost)
+                              VALUES(1, 'Boyfriend Material 4', 7, 15.0000);
+INSERT INTO ProjectProposalExpenses (projectProposal, material, quantity, unitCost)
+                              VALUES(1, 'Boyfriend Material 5', 60, 2.0000);
 
 INSERT INTO ProjectProposalProgramDesign (projectProposal, dayID, date, startTime, endTime, activity, activityDescription, personInCharge)
                                   VALUES (1,    1, '2017-10-14', '21:34:03', '23:00:00', 'Aguy', 'Gansa', 3333333);
