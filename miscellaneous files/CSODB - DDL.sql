@@ -1964,7 +1964,7 @@ CREATE TABLE "FinanceSignatoryType" (
 DROP TABLE IF EXISTS "PreActivityDirectPaymentSignatory" CASCADE;
 CREATE TABLE "PreActivityDirectPaymentSignatory" (
     "id" SERIAL UNIQUE,
-    "DirectPayment" INTEGER REFERENCES "PreActivityDirectPayment"("id"),
+    "directPayment" INTEGER REFERENCES "PreActivityDirectPayment"("id"),
     "signatory" INTEGER REFERENCES Account(idNumber),
     "type" SMALLINT NOT NULL REFERENCES "FinanceSignatoryType"("id"),
     "status" SMALLINT NOT NULL REFERENCES SignatoryStatus(id) DEFAULT 0,
@@ -1974,13 +1974,13 @@ CREATE TABLE "PreActivityDirectPaymentSignatory" (
     "digitalSignature" TEXT,
     "dateSigned" TIMESTAMP WITH TIME ZONE,
 
-    CONSTRAINT "pk_PreActivityDirectPaymentSignatory" PRIMARY KEY("DirectPayment", "signatory", "type")
+    CONSTRAINT "pk_PreActivityDirectPaymentSignatory" PRIMARY KEY("directPayment", "signatory", "type")
 );
 
 DROP TABLE IF EXISTS "PreActivityDirectCashAdvanceSignatory" CASCADE;
 CREATE TABLE "PreActivityDirectCashAdvanceSignatory" (
     "id" SERIAL UNIQUE,
-    "CashAdvance" INTEGER REFERENCES "PreActivityCashAdvance"("id"),
+    "cashAdvance" INTEGER REFERENCES "PreActivityCashAdvance"("id"),
     "signatory" INTEGER REFERENCES Account(idNumber),
     "type" SMALLINT NOT NULL REFERENCES "FinanceSignatoryType"("id"),
     "status" SMALLINT NOT NULL REFERENCES SignatoryStatus(id) DEFAULT 0,
@@ -1990,7 +1990,7 @@ CREATE TABLE "PreActivityDirectCashAdvanceSignatory" (
     "digitalSignature" TEXT,
     "dateSigned" TIMESTAMP WITH TIME ZONE,
 
-    CONSTRAINT "pk_PreActivityDirectCashAdvanceSignatory" PRIMARY KEY("CashAdvance", "signatory", "type")
+    CONSTRAINT "pk_PreActivityDirectCashAdvanceSignatory" PRIMARY KEY("cashAdvance", "signatory", "type")
 );
 /* Organization Treasurer */
     /* AMTActivityEvaluation */
@@ -2120,7 +2120,14 @@ CREATE TABLE "PostProjectProposal" (
   "isCheckedDP" BOOLEAN NOT NULL DEFAULT FALSE,
   "isCheckedR" BOOLEAN NOT NULL DEFAULT FALSE,
   "isCheckedBT" BOOLEAN NOT NULL DEFAULT FALSE,
-
+  "comments" TEXT,
+  "sectionsToBeEdited" VARCHAR(60)[],
+  "document" JSONB,
+  "checkedByStage1" INTEGER,
+  "signatureStage1" TEXT,
+  "checkedByStage2" INTEGER,
+  "signatureStage2" TEXT,
+  
   PRIMARY KEY("GOSMActivity")
 );
 

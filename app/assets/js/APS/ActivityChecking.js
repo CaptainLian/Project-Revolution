@@ -93,13 +93,12 @@ $(document).on('click', '#defer', function() {
         '<div class="col-md-12">' +
         '<select class="col-md-12" multiple=""s id="select-sec">' +
 
-        '<option value="1">I. Objectives</option>' +
-        '<option value="2">II. Brief Context</option>' +
-        '<option value="3">III. Program Design</option>' +
-        '<option value="4">IV. Source of Funds</option>' +
-        '<option value="5">V. Organizational Funds</option>' +
-        '<option value="6">VI. Revenue and Expense Table</option>' +
-        '<option value="7">VII. Attachements</option>' +
+        '<option value="Brief Context">I. Brief Context</option>' +
+        '<option value="Program Design">II. Program Design</option>' +
+        '<option value="Source of Funds">III. Source of Funds</option>' +
+        '<option value="Organizational Funds">IV. Organizational Funds</option>' +
+        '<option value="Revenue and Expense Table">V. Revenue and Expense Table</option>' +
+        '<option value="Attachements">VI. Attachements</option>' +
         '</select>' +
         '</div>' +
 
