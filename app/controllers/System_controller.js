@@ -36,6 +36,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
     SystemController.viewLogin = (req, res) => {
         logger.debug(`Extra-data contents: ${JSON.stringify(req.extra_data)}`, log_options);
+
+        if(req.session.user){
+            return  res.redirect('/home');
+        }
+
         const renderData = Object.create(null);
         renderData.extra_data = req.extra_data;
         renderData.csrfToken = req.csrfToken();
@@ -48,7 +53,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         req.session.user = undefined;
         return req.session.destroy((err) => {
             if(err)
-                throw err;
+                logger.warn(`${err.message}\n${err.stack}`, log_options);
             return res.redirect("/");
         });
     };
@@ -58,7 +63,6 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         logger.debug(`Login attempt input: ${JSON.stringify(input)}`, log_options);
         //parse id number
         let credential = parseInt(input.credential);
-        let credentialFloat = parseFloat(input.credential);
 
         let query = squel.select()
             .from('Account')
@@ -71,118 +75,113 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             .field('Middlename')
             .field('type');
 
-        let valid = true;
         if (isNaN(credential)) {
             //this is email. possibly invalid
             query.where('email=${credential}');
-        } else if (credential != credentialFloat || credential <= 0) {
+        } else if (!Number.isInteger(credential)) {
             //this is a decimal number or invalid value
-            valid = false;
-        } else {
-            query.where('idNumber=${credential}');
-        }
-
-        if (valid) {
-            database.one(query.toString(), {
-                credential: input.credential
-            }).then(account => {
-                logger.debug(`Account found: ${JSON.stringify(account)}`, log_options);
-                if (account.password === bcrypt.hashSync(input.password, account.salt)) {
-
-                    logger.debug('Enter!!', log_options);
-
-                    /**
-                     * Session Contents
-                     * {
-                     *     user: {
-                     *         idNumber
-                     *         name: {
-                     *             first
-                     *             middle
-                     *             last
-                     *         },
-                     *         type
-                     *         organizationSelected{
-                     *              id,
-                     *
-                     *              path_profilePicture
-                     *         } (Optional)
-                     *     }
-                     * }
-                     * @type Object
-                     */
-                    let user = Object.create(null);
-                    user.idNumber = account.idnumber;
-                    user.name = Object.create(null);
-                    user.name.first = account.firstname;
-                    user.name.middle = account.middlename;
-                    user.name.last = account.lastname;
-                    user.type = account.type;
-                    req.session.user = user;
-                    req.session.valid = true;
-
-                    logger.debug('Determining user type', log_options);
-
-                    let step = Promise.resolve(true);
-                    if(req.session.user.type === 1){
-                        logger.debug('Student type account', log_options);
-                        step = accountModel.getStudentOrganizations(req.session.user.idNumber).then(data => {
-                            logger.debug(`${JSON.stringify(data)}`, log_options);
-
-                            let organization = data.shift();
-                            logger.debug(`organizationSelected: ${JSON.stringify(organization)}`, log_options);
-                            logger.debug(`${JSON.stringify(organization)}`, log_options);
-
-                            let organizationSelected = Object.create(null);
-                            organizationSelected.id = organization.id;
-                            organizationSelected.path_profilePicture = organization.path_profilepicture || '';
-                            organizationSelected.acronym = data.acronym;
-
-                            req.session.user.organizationSelected = organizationSelected;
-
-                            return Promise.resolve(true);
-                        });
-                    }
-
-                    return step.then(() => {
-                        logger.debug('Rerouting user to /home', log_options);
-                        return new Promise((resolve, reject) => {
-                            try {
-                              return req.session.save(err => {
-                                    if(err){
-                                        throw err;
-                                    }
-
-                                    const reply = Object.create(null);
-                                    reply.url = '/home';
-                                    reply.reroute = true;
-                                    reply.valid = true;
-                                    res.send(reply);
-                                    return resolve(true);
-                                });
-                            } catch(err) {
-                                return reject(err);
-                            }
-                        });
-                    });
-                } else {
-                    logger.debug('Incorrect password', log_options);
-                    return res.send({
-                        valid: false
-                    });
-                }
-            }).catch(err => {
-                logger.debug(`Account not exists? err: ${err.stack}`, log_options);
-                return res.send({
-                    valid: false
-                });
-            });
-        } else {
             logger.debug('Aguy input');
             return res.send({
                 valid: false
             });
+        } else {
+            query.where('idNumber=${credential}');
         }
+
+        database.one(query.toString(), {
+            credential: input.credential
+        }).then(account => {
+            logger.debug(`Account found: ${JSON.stringify(account)}`, log_options);
+            if (account.password === bcrypt.hashSync(input.password, account.salt)) {
+
+                logger.debug('Enter!!', log_options);
+
+                /**
+                 * Session Contents
+                 * {
+                 *     user: {
+                 *         idNumber
+                 *         name: {
+                 *             first
+                 *             middle
+                 *             last
+                 *         },
+                 *         type
+                 *         organizationSelected{
+                 *              id,
+                 *
+                 *              path_profilePicture
+                 *         } (Optional)
+                 *     }
+                 * }
+                 * @type Object
+                 */
+                let user = Object.create(null);
+                user.idNumber = account.idnumber;
+                user.name = Object.create(null);
+                user.name.first = account.firstname;
+                user.name.middle = account.middlename;
+                user.name.last = account.lastname;
+                user.type = account.type;
+                req.session.user = user;
+                req.session.valid = true;
+
+                logger.debug('Determining user type', log_options);
+
+                let step = Promise.resolve(true);
+                if(req.session.user.type === 1){
+                    logger.debug('Student type account', log_options);
+                    step = accountModel.getStudentOrganizations(req.session.user.idNumber).then(data => {
+                        logger.debug(`${JSON.stringify(data)}`, log_options);
+
+                        let organization = data.shift();
+                        logger.debug(`organizationSelected: ${JSON.stringify(organization)}`, log_options);
+                        logger.debug(`${JSON.stringify(organization)}`, log_options);
+
+                        let organizationSelected = Object.create(null);
+                        organizationSelected.id = organization.id;
+                        organizationSelected.path_profilePicture = organization.path_profilepicture || '';
+                        organizationSelected.acronym = data.acronym;
+
+                        req.session.user.organizationSelected = organizationSelected;
+
+                        return Promise.resolve(true);
+                    });
+                }
+
+                return step.then(() => {
+                    logger.debug('Rerouting user to /home', log_options);
+                    return new Promise((resolve, reject) => {
+                        try {
+                          return req.session.save(err => {
+                                if(err){
+                                    throw err;
+                                }
+
+                                const reply = Object.create(null);
+                                reply.url = '/home';
+                                reply.reroute = true;
+                                reply.valid = true;
+                                res.send(reply);
+                                return resolve(true);
+                            });
+                        } catch(err) {
+                            return reject(err);
+                        }
+                    });
+                });
+            } else {
+                logger.debug('Incorrect password', log_options);
+                return res.send({
+                    valid: false
+                });
+            }
+        }).catch(err => {
+            logger.debug(`Account not exists? err: ${err.message}\n${err.stack}`, log_options);
+            return res.send({
+                valid: false
+            });
+        });
     };
 
     SystemController.viewHome = (req, res) => {
@@ -198,12 +197,22 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             case 2:
                 //TODO: implementation
                 return res.redirect('/blank');
-            // SLIFE Account
+            // Director of S-Life Account
             case 3:
                 //TODO: implementation
                 return res.redirect('/blank');
-            // Accounting Account
+            // Dean of Student Affairs Account
             case 4:
+                //TODO: implementation
+                return res.redirect('/blank');
+
+            // Vice President for Lasallian Mission Account
+            case 5:
+                //TODO: implementation
+                return res.redirect('/blank');
+
+            // President
+            case 6:
                 //TODO: implementation
                 return res.redirect('/blank');
 

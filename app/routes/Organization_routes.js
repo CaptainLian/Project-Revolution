@@ -11,6 +11,7 @@ module.exports = function(configuration, modules, router, controllers){
 
     router.get(`${base}/ProjectProposal/GOSMList`, controllers.Organization_controller.viewGOSMActivityListProjectProposal);
     router.get(`${base}/ProjectProposal/Main/:id/:status`, controllers.Organization_controller.viewSubmitProjectProposalMain);
+    router.get(`${base}/ProjectProposal/Edit/:id/:status`, controllers.Organization_controller.viewSubmitProjectProposalEdit);
     router.get(`${base}/ProjectProposal/Attachments/:id/:gid`, controllers.Organization_controller.viewSubmitProjectProposalAttachments);
     router.get(`${base}/ProjectProposal/BriefContext/:id`, controllers.Organization_controller.viewSubmitProjectProposalBriefContext);
     router.get(`${base}/ProjectProposal/Expense/:id/:revenue`, controllers.Organization_controller.viewSubmitProjectProposalExpense);
@@ -23,14 +24,12 @@ module.exports = function(configuration, modules, router, controllers){
     router.post(`${base}/projectproposal/SaveDesign/`, controllers.Organization_controller.saveDesign);
     router.post(`${base}/projectproposal/SavePPR`, controllers.Organization_controller.savePPR);
     router.post(`${base}/projectproposal/SaveAttachments`, controllers.Organization_controller.saveAttachments);
-    
 
-    //POST PROJECT POST 
-    router.post(`${base}/PostProjectProposal/SaveContext`, controllers.Organization_controller.postSaveContext);    
+    //POST PROJECT POST
+    router.post(`${base}/PostProjectProposal/SaveContext`, controllers.Organization_controller.postSaveContext);
     router.post(`${base}/PostProjectProposal/SaveExpenses`, controllers.Organization_controller.postSaveExpenses);
     router.post(`${base}/PostProjectProposal/SaveAttachments`, controllers.Organization_controller.postSaveAttachments);
     router.post(`${base}/PostProjectProposal/Main`, controllers.Organization_controller.postSaveMain);
-    
 
     //POST PROJECT
     router.get(`${base}/PostProjectProposal/Completed/:gosmid`, controllers.Organization_controller.viewCompletedPostActs);
@@ -43,7 +42,10 @@ module.exports = function(configuration, modules, router, controllers){
     //PNP
     router.get(`${base}/Publicity/list`, controllers.Organization_controller.viewPubs);
     router.get(`${base}/Publicity/Create/:gosmid`, controllers.Organization_controller.viewPubsSpecific);
-    router.post(`${base}/Publicity/Insert`, controllers.Organization_controller.insertPubs);    
+    router.post(`${base}/Publicity/Insert`, controllers.Organization_controller.insertPubs);
     router.post(`${base}/Publicity/modal`, controllers.Organization_controller.viewPubDetails);
-    router.post(`${base}/Publicity/Reupload`, controllers.Organization_controller.reuploadPubs);    
+    router.post(`${base}/Publicity/Reupload`, controllers.Organization_controller.reuploadPubs);
+
+    //Treasurer
+    router.get(`${base}/treasurer/dashboard`, controllers.Treasurer_controller.viewDashboard);
 };

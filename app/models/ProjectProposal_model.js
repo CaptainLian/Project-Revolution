@@ -22,10 +22,12 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const getApprovedPPRsSQL = queryFiles.getApprovedPPRs;
     const getNextActivityForApprovalSQL = queryFiles.getNextActivityForApproval;
     const getGOSMActivitiesToImplementSQL = queryFiles.getGOSMActivitiesToImplement;
+    const getPPRSectionsToEditSQL = queryFiles.getPPRSectionsToEdit;
     const updatePPRStatusSQL = queryFiles.updatePPRStatus;
     const updateIsProgramDesignCompleteSQL = queryFiles.updateIsProgramDesignComplete;
     const updateIsAttachmentsCompleteSQL = queryFiles.updateIsAttachmentsComplete;
     const updatePPRExpensesSQL = queryFiles.updatePPRExpenses;
+    const updatePPRComepletionSQL = queryFiles.updatePPRComepletion;
     const submitProjectProposalSQL = queryFiles.submitProjectProposal;
     const deleteProgramDesignSQL = queryFiles.deleteProgramDesign;
     const deleteExpensesSQL = queryFiles.deleteExpenses;
@@ -34,7 +36,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const getAllMyActivity = queryFiles.getAllMyActivity;
     const getPPRToCreatePubsList = queryFiles.getPPRToCreatePubsList;
     const getExpenseTypesSQL = queryFiles.getExpenseTypes;
-    
+
     /**
      * class with properties
      * {
@@ -315,6 +317,10 @@ module.exports = function(configuration, modules, db, queryFiles) {
         return connection.none(updateIsAttachmentsCompleteSQL, param);
     };
 
+    ProjectProposalModel.prototype.updatePPRCompletion = function(param, connection = this._db){
+        return connection.none(updatePPRComepletionSQL, param);
+    };
+
     ProjectProposalModel.prototype.insertProjectProposalDesign = function(param, connection = this._db) {
         //TODO: test
         return connection.none(insertProjectProposalProgramDesignSQL, param);
@@ -373,8 +379,11 @@ module.exports = function(configuration, modules, db, queryFiles) {
         return connection.any(queryFiles.getProjectProposalProjectHeads, param);
     };
 
-    ProjectProposalModel.prototype.getNextActivityForApproval = function(connection = this._db){
-        return connection.oneOrNone(getNextActivityForApprovalSQL);
+    ProjectProposalModel.prototype.getNextActivityForApproval = function(idNumber, connection = this._db){
+        const param = Object.create(null);
+        param.idNumber = idNumber;
+
+        return connection.oneOrNone(getNextActivityForApprovalSQL, param);
     };
 
     ProjectProposalModel.prototype.updatePPRStatus = function(param, connection = this._db){
@@ -391,6 +400,10 @@ module.exports = function(configuration, modules, db, queryFiles) {
 
     ProjectProposalModel.prototype.getApprovedPPRs = function(connection = this._db){
         return connection.any(getApprovedPPRsSQL);
+    };
+
+    ProjectProposalModel.prototype.getPPRSectionsToEdit = function(param, connection = this._db){
+        return connection.one(getPPRSectionsToEdit, param);
     };
 
     ProjectProposalModel.prototype.deleteProgramDesign = function(param, connection = this._db){
@@ -417,6 +430,20 @@ module.exports = function(configuration, modules, db, queryFiles) {
 
     ProjectProposalModel.prototype.getExpenseTypes = function(connection = this._db){
         return connection.many(getExpenseTypesSQL);
+    };
+
+    const getSignatoriesSQL = queryFiles.PPR_get_signatories;
+    ProjectProposalModel.prototype.getSignatories = function(activityID, connection = this._db){
+        return connection.many(getSignatoriesSQL, {
+            activityID: activityID
+        });
+    };
+
+    const getTotalExpenseSQL = queryFiles.PPR_get_total_expense;
+    ProjectProposalModel.prototype.getSignatories = function(activityID, connection = this._db){
+        return connection.many(getTotalExpenseSQL, {
+            GAID: activityID
+        });
     };
 
     return new ProjectProposalModel(db, modules);

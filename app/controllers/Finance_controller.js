@@ -1,4 +1,7 @@
 module.exports = function(configuration, modules, models, database, queryFiles){
+	const logger = modules.logger;
+	const log_options = Object.create(null);
+	log_options.from = 'Finance-Controlelr';
 
     const projectProposalModel = models.ProjectProposal_model;
     const financeModel = models.Finance_model;
@@ -42,9 +45,11 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 						const renderData = Object.create(null);
 			            renderData.extra_data = req.extra_data;
+	            		renderData.csrfToken = req.csrfToken();
 			            renderData.cashAdvance = data;
 			            renderData.projectproposal = data1[0];
 			            renderData.particulars = data1[1];
+			            renderData.gosmactivity = data.GOSMActivity;
 			            // transactionType: if 0 direct payment; if 1 cash advance
 			            renderData.transactionType = req.params.transaction;
 						return res.render('Finance/EvaluateTransaction', renderData);
@@ -65,6 +70,48 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			else{
 
 			}
+		},
+		approveCashAdvance: (req, res) => {
+
+			console.log("approves cash advance");
+			console.log(req.body.cashAdvanceId);
+
+			var dbParam = {
+				status: 1,
+				id: req.body.cashAdvanceId
+			};
+
+			financeModel.updatePreActivityCashAdvanceStatus(dbParam)
+			.then(data=>{
+
+				console.log("successfully approved");
+				res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
+
+			}).catch(error=>{
+				console.log(error);
+			});
+
+		},
+		pendCashAdvance: (req, res) =>{
+
+			console.log("pend cash advance");
+			console.log(req.body.cashAdvanceId);
+
+			var dbParam = {
+				status: 2,
+				id: req.body.cashAdvanceId
+			};
+
+			financeModel.updatePreActivityCashAdvanceStatus(dbParam)
+			.then(data=>{
+
+				console.log("successfully pended");
+				res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
+
+			}).catch(error=>{
+				console.log(error);
+			});
+
 		},
 		viewFinanceList: (req, res) => {
 
@@ -182,26 +229,21 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				//next();
 
 			}).catch(error=>{
-				console.log(error)
+				console.log(error);
 			});
 
 		},
 		submitPreacts: (req, res) => {
-
-			console.log("IT ENTERS HERE");
-			console.log("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+			logger.debug('submitPreacts()', log_options);
 			console.log(req.body);
 
 			//TODO: gosmactivity to be changed later
 			var dbParam = {
-				gosmactivity: 1,
+				gosmactivity: req.body.gosmactivity,
 				submittedBy: req.session.user.idNumber,
 				purpose: req.body.purpose,
 				justification: req.body.nodpjustification
 			};
-
-				
-
 
 			financeModel.insertPreActivityCashAdvance(dbParam)
 			.then(data=>{
@@ -223,7 +265,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 	            	financeModel.insertPreActivityCashAdvanceParticular(particularParam)
 	            	.then(data1=>{
 	            		
-	            		res.redirect(`/finance/list/transaction/${req.params.gosmactivity}`);
+	            		res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
 
 	            	}).catch(error=>{
 	            		console.log("error in one particular");
@@ -256,7 +298,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 	            	}).then(data2=>{
 
-	            		res.redirect(`/finance/list/transaction/${req.params.gosmactivity}`);
+	            		res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
 
 	            	}).catch(error=>{
 	            		console.log("error in transaction");
@@ -278,8 +320,14 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		createPreacts: (req, res) => {
 			const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
-			return res.render('Finance/FinancePreacts', renderData);
+			return res.render('Finance/Preacts_DirectPayment', renderData);
 			//next();
 		},
+		createPreactsBookTransfer: (req, res) => {
+			const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+			return res.render('Finance/Preacts_DirectPayment', renderData);
+			//next();
+		}
 	};
 };
