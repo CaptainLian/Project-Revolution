@@ -6,40 +6,21 @@
 
 })();
 $("#approve").click(function(){
-    swal({   
-        title: "Are you sure?",                                           
-        showCancelButton: true,   
-        reverseButtons:true,
-        confirmButtonColor: "#00C292",   
-        confirmButtonText: "Yes",   
-        cancelButtonText: "No", 
-        focusConfirm:false,
-        focusCancel:false,
-        showLoaderOnConfirm: true,
-        preConfirm: function (data) {
-            console.log(data);
-            console.log("DATA");
-            return new Promise(function (resolve, reject) {
-                setTimeout(function() {
-                    if (data === 'taken@example.com') {
-                        reject('This email is already taken.')
-                    } else {
-                        resolve()
-                    }
-                }, 2000)
-            })
-        }
-
-    }).then(function(data){
-        console.log(data);
-        console.log("ASD");
-        $("html, body").animate({ scrollTop: 0 },function(){
-            $('#doc').removeClass("bounceInRight animated").addClass("bounceInRight   animated").one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-                $(this).removeClass("bounceInRight animated");
-            });    
-        });
-
-    });
+    swal({
+      title: 'Warning',
+      text: "Once you submit this you all finance transaction for this activity will be canceled, and you can no longer add finance transaction for this activity",
+      type: 'warning',
+      showCancelButton: true,
+      reverseButtons:true,
+      confirmButtonColor: '#00C292',
+      
+      confirmButtonText: 'Submit'
+    }).then(function (result) {
+        console.log(result);
+      if (result) {
+        
+      }
+    })
 });
 $("#defer").click(function(){
     var question = '<div class="row">'+
@@ -49,15 +30,12 @@ $("#defer").click(function(){
     '<div class="form-group col-md-12">'+
     '<label class="col-md-12 text-left"><strong>Sections to be Edited:</strong></label>'+
     '<div class="col-md-12">'+
-    '<select class="col-md-12" multiple=""s id="select-sec">'+
-
-    '<option value="1">I. Objectives</option>'+
+    '<select class="col-md-12" multiple="" id="select-sec">'+
+    '<option value="1">I. How objectives were met</option>'+
     '<option value="2">II. Learnings</option>'+
-    '<option value="3">III. Required Documents</option>'+
-    '<option value="4">IV. List of Expenses</option>'+
-    '<option value="5">V. Receipts</option>'+
-    '<option value="6">VI. Event Pictures</option>'+
-
+    '<option value="3">III. General Attendace Sheet</option>'+
+    '<option value="4">IV. Event Pictures </option>'+
+    '<option value="5">V. Receipts</option>'+    
     '</select>'+
     '</div>'+
 
