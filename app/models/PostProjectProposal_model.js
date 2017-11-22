@@ -35,6 +35,8 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const getPostExpenseMaxSubmissionID = queryFiles.getPostExpenseMaxSubmissionID;
     const getLatestPostExpense = queryFiles.getLatestPostExpense;
     const getPostActsToCheck = queryFiles.getPostActsToCheck;
+
+    const updatePostPPR = queryFiles.updatePostPPR;
     
 
 
@@ -53,6 +55,9 @@ module.exports = function(configuration, modules, db, queryFiles) {
     	},
         updatePostProjectProposalCompleteness:function (param, connection = db) {
             return connection.any(updatePostProjectProposalCompleteness, param);
+        },
+        updatePostPPR:function (param, connection = db) {
+            return connection.any(updatePostPPR, param);
         },
         getPostActsToCheck:function (param, connection = db) {
             return connection.any(getPostActsToCheck, param);

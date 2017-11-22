@@ -5,6 +5,7 @@
     });
 
 })();
+$("#myTable3").DataTable();
 $("#approve").click(function(){
     swal({
       title: 'Warning',
@@ -16,9 +17,13 @@ $("#approve").click(function(){
       
       confirmButtonText: 'Submit'
     }).then(function (result) {
-        console.log(result);
-      if (result) {
         
+      if (result) {
+            $.ajax({
+                type:'POST',
+                url:'/ADM/Activity/Save',
+                data:{sections:sections,status:2,gosmid:$("input#gosmid").val()}
+           })
       }
     })
 });
@@ -82,14 +87,22 @@ $("#defer").click(function(){
         cancelButtonText: "Cancel",   
 
     }).then(function(data){
-        console.log(data);
-        console.log("ASD");
-        $("html, body").animate({ scrollTop: 0 },function(){
-            $('#doc').removeClass("bounceOutUp animated").addClass("bounceOutUp   animated").one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-                $(this).removeClass("bounceOutUp animated");
-            });    
-        });
+       console.log($("#select-sec").val());
+       var sections = $("#select-sec").val();
+       if(data){
+            $.ajax({
+                type:'POST',
+                url:'/ADM/Activity/Save',
+                data:{sections:sections,status:2,gosmid:$("input#gosmid").val()},
+                success:function(data){
+                    if(data)
+                        window.location.href='/ADM/Activity/List';
+                }
+           })
+       }
 
+       console.log(data)
+      
 
     });
 });

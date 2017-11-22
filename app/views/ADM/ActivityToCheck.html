@@ -22,6 +22,7 @@
     {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
     <!-- animation CSS -->
     {{tag.style('/css/animate.css')}}
+    {{tag.style('/plugins/bower_components/Magnific-Popup-master/dist/magnific-popup.css')}}
     <!--alerts CSS -->
     {{tag.style('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.css')}}
     <!-- Custom CSS -->
@@ -95,7 +96,8 @@
     {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/nestable2/1.5.0/jquery.nestable.min.js', true)}}
     {{tag.javascript('/plugins/bower_components/custom-select/custom-select.min.js', true)}}
     {{tag.javascript('/plugins/bower_components/bootstrap-select/bootstrap-select.min.js', true)}}
-
+    {{tag.javascript('/plugins/bower_components/Magnific-Popup-master/dist/jquery.magnific-popup.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/Magnific-Popup-master/dist/jquery.magnific-popup-init.js', true)}}
     <!-- Page Scripts -->
     {{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
     {{tag.javascript('/js/ADM/viewActivityToCheck.js', true)}}
@@ -107,6 +109,18 @@
 {%endblock%}
 
 {%block content%}
+<!-- <form action="/ADM/Activity/Save" id="form-approve" method="POST" class="form-horizontal">
+    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+    <input type="hidden" name="gosmid" value="{{id}}">
+    <input type="hidden" name="status" value="1">
+</form>
+<form action="/ADM/Activity/Save" id="form-pend" method="POST" class="form-horizontal">
+    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+    
+    <input type="hidden" id="sec" name="sections[]" >
+    <input type="hidden" id="comment" name="comment" >
+</form> -->
+<input type="hidden" id="gosmid" value="{{id}}">
 <div id="doc" class="row white-box">
     <div class="col-md-4 col-xs-12">
         <div class="white-box">
@@ -174,7 +188,7 @@
                     <ul>
                         <li><a href="#section-linebox-1"><span>Activity Report</span></a></li>
                         <li><a href="#section-linebox-2"><span>Attachments</span></a></li>
-                        <li><a href="#section-linebox-3"><span>Expenses</span></a></li>
+                       <!--  <li><a href="#section-linebox-3"><span>Expenses</span></a></li> -->
                        
                     </ul>
                 </nav>
@@ -274,7 +288,7 @@
                         </div>
                     </section>
                     
-                    <section id="section-linebox-3">
+                 <!--    <section id="section-linebox-3">
                         <div class="white-box">
                             
                             <h4 class="text-left">IV. List of Expenses</h4>
@@ -342,7 +356,7 @@
                             </div>
 
                         </div>
-                    </section>
+                    </section> -->
                  
                 </div>
                 <!-- /content -->

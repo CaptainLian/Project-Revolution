@@ -60,6 +60,7 @@
     <!-- Custom Theme JavaScript -->
     {{tag.javascript('/js/custom.min.js', true)}}
     {{tag.javascript('/js/cbpFWTabs.js', true)}}
+    {{tag.javascript('/js/ADM/viewActivityToCheck.js', true)}}
     <!-- tabs-->
     
   <!--  {{tag.javascript('/js/PNP/PubsToCheck.js', true)}} -->
@@ -82,6 +83,7 @@
 						</tr>
 					</thead>
 					<tbody>
+                         
                         {%for pa in postacts%}
 						<tr>
 							<td class="text-center">{{pa.actualdatestart}}</td>

@@ -35,6 +35,11 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		
 		
 	};
+	ADM_controller.updateStatus = (req, res) => {
+		console.log(req.body)
+		console.log(req.params)
+		res.json({status:1})
+	};
 	ADM_controller.viewActivity = (req, res) => {
 		
 
@@ -57,6 +62,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
                 renderData.activity = data[0]
                 renderData.pictures=data[1]
                 renderData.expense = data[2];
+                renderData.id = data[0].id
                 renderData.extra_data = req.extra_data;
                 renderData.csrfToken = req.csrfToken();
                 res.render('ADM/ActivityToCheck',renderData)
