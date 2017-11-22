@@ -76,6 +76,7 @@
           swal("Success!", "You wrote: " + inputValue, "success");
         });
     });
+    
     $('.ca-deny').click(function(){
         swal({
           title: "Deny Request",
