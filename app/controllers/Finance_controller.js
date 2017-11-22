@@ -54,7 +54,11 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			            renderData.transactionType = req.params.transaction;
 
 			             //from cso
-			            if (req.session.user.organizationSelected.id == 0) {
+			            if (req.session.user.user.type === 3 ||
+							req.session.user.user.type === 4 ||
+							req.session.user.user.type === 5 ||
+							req.session.user.user.type === 6) {
+			            	
 			            	renderData.isCso = true;
 			            	return res.render('Finance/EvaluateTransaction', renderData);
 			            }
@@ -126,7 +130,10 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		viewFinanceList: (req, res) => {
 
 			//is cso
-			if (req.session.user.organizationSelected.id == 0){
+			if (req.session.user.user.type === 3 ||
+				req.session.user.user.type === 4 ||
+				req.session.user.user.type === 5 ||
+				req.session.user.user.type === 6){
 
 				database.task(t =>{
 					return t.batch([financeModel.getActivitiesWithFinancialDocuments(),
@@ -197,7 +204,11 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 	            renderData.projectProposal = data[2]
 
 	            //from cso
-	            if (req.session.user.organizationSelected.id == 0) {
+	            if (req.session.user.user.type === 3 ||
+					req.session.user.user.type === 4 ||
+					req.session.user.user.type === 5 ||
+					req.session.user.user.type === 6) {
+
 	            	renderData.isCso = true;
 	            	return res.render('Finance/ViewActivityTransaction', renderData);
 					//next();
