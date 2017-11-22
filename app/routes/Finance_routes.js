@@ -14,6 +14,6 @@ module.exports = function(configuration, modules, router, controllers, models, d
 	router.post('/transaction/pendCashAdvance', controllers.Finance_controller.pendCashAdvance);
 
 	router.get('/finance/list', controllers.Finance_controller.viewFinanceList);
-	router.get('/finance/list/transaction/:gosmactivity', controllers.Finance_controller.viewTransaction)
+	router.get('/finance/list/transaction/:gosmactivity', controllers.Finance_controller.viewTransaction);
 
 };

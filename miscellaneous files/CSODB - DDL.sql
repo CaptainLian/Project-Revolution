@@ -1000,7 +1000,7 @@ INSERT INTO FunctionalityCategory (id, name, domain)
                                   (211, 'Activity Processing & Documentations', 2),
                                   (212, 'Submit Financial Documents', 2),
                                   (213, 'Cancel Financial Documents', 2),
-                                  (214, 'Organization Management', 2);
+                                  (214, 'Organization Management', 2); 
 
 DROP TABLE IF EXISTS Functionality CASCADE;
 CREATE TABLE Functionality (
@@ -1011,11 +1011,11 @@ CREATE TABLE Functionality (
     C = category ID
     S = unique sequence
   */
-	id INTEGER,
-	name VARCHAR (100),
-  category INTEGER REFERENCES FunctionalityCategory (id) ON UPDATE CASCADE,
+    id INTEGER,
+    name VARCHAR (100),
+    category INTEGER REFERENCES FunctionalityCategory (id) ON UPDATE CASCADE,
 
-   PRIMARY KEY (id)
+    PRIMARY KEY (id)
 );
 CREATE OR REPLACE FUNCTION trigger_before_insert_Functionality()
 RETURNS trigger AS
@@ -1075,7 +1075,9 @@ INSERT INTO Functionality (id, name, category)
                           (211015, 'Force Sign Project Proposal'            , 211),
                           -- Publicity
                           (210016, 'Submit Publicity Material'              , 210),
-                          (106017, 'Evaluate Publicity Material',             106);
+                          (106017, 'Evaluate Publicity Material'            , 106),
+                          -- Finance
+                          (212018, 'Submit Financial Documents'             , 212);
 
 DROP TABLE IF EXISTS OrganizationAccessControl CASCADE;
 CREATE TABLE OrganizationAccessControl (
@@ -1191,15 +1193,17 @@ $trigger$
         INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       VALUES  (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
                                               (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE),
-                                              -- Sign PPR as Treasurer
-                                              (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 11)), TRUE);
+                                              -- Sign PPR as Treasurer 212018
+                                              (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 11)), TRUE),
+                                              (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 18)), TRUE);
 
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole, home_url, rank)
                              VALUES (NEW.id, 'Associate Vice President of Finance', FALSE, vpfRoleID, '/Organization/treasurer/dashboard', 30)
         RETURNING id INTO avpfRoleID;
         INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       VALUES  (avpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
-                                              (avpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE);
+                                              (avpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE),
+                                              (avpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 18)), TRUE);
 
         RETURN NEW;
     END;

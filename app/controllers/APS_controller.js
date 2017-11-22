@@ -116,7 +116,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 var pa = {
                     projectId:data.id
                 };
-                
+
                 return task.batch([
                     Promise.resolve(data),
                     projectProposalModel.getProjectProposalExpenses(data.id),
@@ -153,7 +153,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             console.log("renderData.attachment");
             return res.render('APS/ActivityChecking', renderData);
         }).catch(err => {
-            logger.debug(`${err.message}/n${err.stack}`, log_options);
+            logger.debug(`${err.message}\n${err.stack}`, log_options);
             const renderData = Object.create(null);
             renderData.csrfToken = req.csrfToken();
             renderData.extra_data = req.extra_data;
