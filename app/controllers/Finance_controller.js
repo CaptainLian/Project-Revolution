@@ -265,7 +265,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 	            	financeModel.insertPreActivityCashAdvanceParticular(particularParam)
 	            	.then(data1=>{
 	            		
-	            		res.redirect(`/finance/list/transaction/${req.params.gosmactivity}`);
+	            		res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
 
 	            	}).catch(error=>{
 	            		console.log("error in one particular");
@@ -320,7 +320,14 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		createPreacts: (req, res) => {
 			const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
-			return res.render('Finance/FinancePreacts', renderData);
+			return res.render('Finance/Preacts_DirectPayment', renderData);
+			//next();
+		},
+		createPreactsBookTransfer: (req, res) => {
+			const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+			return res.render('Finance/Preacts_DirectPayment', renderData);
+			//next();
 		}
 	};
 };
