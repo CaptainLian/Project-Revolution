@@ -234,7 +234,15 @@
 								<select name="typeOfItem[]" id="sel0" class="form-control select2">
 									
 									{% for type in expenseTypes %}
-										<option value="{{type.id}}" >{{type.name}}</option>
+
+										{% if type.id == 3%}
+
+										{% else %}
+											
+											<option value="{{type.id}}" >{{type.name}}</option>
+
+										{% endif %}
+
 									{% endfor %}
 									
 								</select>

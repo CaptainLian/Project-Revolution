@@ -1,0 +1,542 @@
+{% extends '../template/CSO_master.html' %}
+{% import '../template/tags_macro.html' as tag %}
+
+{%block page_title%}CSO - Evaluate Activity{%-endblock%}
+
+{%block style%}
+	{{super()}}
+    <!-- Bootstrap Core CSS -->
+    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
+    <!-- Menu CSS -->
+    {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
+    <!-- animation CSS -->
+    {{tag.style('/css/animate.css')}}
+    <!--alerts CSS -->
+    {{tag.style('/css/style.css')}}
+    {{tag.style('/css/custom.css')}}
+	<!-- color CSS -->
+    {{tag.style('/css/colors/default.css')}}
+
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+	<!-- IMPORTANT -->
+	<style type="text/css">
+        .panel:hover{
+            background-color: #fff
+        }
+    </style>
+{%endblock%}
+	
+{%block defer_script%}
+	{{super()}}
+    <!-- jQuery -->
+    {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
+    <!-- Bootstrap Core JavaScript -->
+    {{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
+    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
+    <!-- Menu Plugin JavaScript -->
+    {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
+    <!--slimscroll JavaScript -->
+    {{tag.javascript('/js/jquery.slimscroll.js', true)}}
+    <!--Wave Effects -->
+    {{tag.javascript('/js/waves.js', true)}}
+    <!-- Custom Theme JavaScript -->
+    {{tag.javascript('/js/custom.min.js', true)}}
+    <!-- tabs-->
+    {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
+    <!--Style Switcher -->
+    {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
+{%endblock%}
+
+{%block content%}
+<form method="POST" action="/Organization/ProjectProposal/SavePPR">
+<input type="hidden" name="_csrf" value="{{csrfToken}}">
+<input type="hidden" name="gosmid" value="{{gosmid}}">
+<input type="hidden" name="pprid" value="{{projectProposal.id}}">
+<div class="row white-box">
+	<div class="col-md-12">
+		<div class="">
+			<div class="col-md-6 col-xs-12">
+				<h3>{{gosmActivity.strategies}}</h3>
+				<hr>
+				<p>
+					<b class="col-md-4 col-xs-2  text-left">Date:</b>
+					{{gosmActivity.startdate}} - {{gosmActivity.enddate}}
+				</p>
+				
+				<p>
+					<b class="col-md-4 col-xs-2  text-left">Nature of Activity:</b>
+					{{gosmActivity.name}}
+				</p>
+				<p>
+					<b class="col-md-12  text-left">Project Heads:</b>
+
+					{% for head in projectHeads %}
+						
+						<p class="offset-md-4 offset-xs-2">{{head.firstname}} {{head.lastname}}</p>
+
+					{% endfor %}
+
+				</p>
+				<div>
+				</div>
+			</div>
+			<div class="col-md-6 text-right">
+				{% set completionRate = 0 %}
+
+				{% if projectProposal.isattachmentscomplete %}
+
+					{% set completionRate = completionRate + 25 %}
+
+				{% endif %}
+
+				{% if projectProposal.isbriefcontextcomplete %}
+
+					{% set completionRate = completionRate + 25 %}
+
+				{% endif %}
+
+				{% if projectProposal.isexpensecomplete %}
+
+					{% set completionRate = completionRate + 25 %}
+
+				{% else %}
+
+					{% if projectProposal.isexpense %}
+
+					{% else %}
+
+						{% set completionRate = completionRate + 25 %}
+
+					{% endif %}
+
+				{% endif %}
+
+				{% if projectProposal.isprogramcomplete %}
+
+					{% set completionRate = completionRate + 25 %}
+
+				{% endif %}
+
+				<h3>Completion Rate: {{completionRate}}%</h3>
+				<hr>
+				<p>
+					<b class="col-md-10  text-right"> Brief Context:</b>
+					{% if projectProposal.isbriefcontextcomplete %}
+
+					100%
+
+					{% else %}
+
+					0%
+
+					{% endif %}
+				</p>
+				
+				<p>
+					<b class="col-md-10  text-right"> Program Schedule :</b>
+					{% if projectProposal.isprogramcomplete %}
+
+					100%
+
+					{% else %}
+
+					0%
+
+					{% endif %}
+				</p>
+				<p>
+					<b class="col-md-10 text-right">Funding Expense:</b>
+					
+					{% if projectProposal.isexpensecomplete %}
+
+					100%
+
+					{% else %}
+
+						{% if projectProposal.isexpense %}
+
+						0%
+						
+						{% else %}
+
+						100%
+
+						{% endif %}
+
+
+					{% endif %}
+				</p>
+				<p>
+					<b class="col-md-10 text-right">Attachments:</b>
+					
+					{% if projectProposal.isattachmentscomplete %}
+
+					100%
+
+					{% else %}
+
+					0%
+
+					{% endif %}
+				</p>
+				 
+			</div>
+			<div class="list-group col-md-12">
+				{% set editbrief = false %}
+
+				{% for edit in sectionsToEdit.sectionstoedit %}
+
+					{% if edit == "Brief Context" %}
+
+						{% set editbrief = true %}
+
+					{% endif %}
+
+				{% endfor %}
+
+				{% if editbrief %}
+
+				<a type="button" onclick="(function () {window.location.href='/Organization/ProjectProposal/BriefContext/{{gosmActivity.id}}'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
+				<div class="row">
+					<div class="col-md-6 text-left">
+
+
+
+						{% if projectProposal.isbriefcontextcomplete %}
+
+							<h5>Brief Context <span class="label label-success">Complete</span></h5>
+							<input type="hidden" name="context" value="{{projectProposal.isbriefcontextcomplete}}">
+
+						{% else %}
+
+							<h5>Brief Context <span class="label label-warning">To Be Edited</span></h5>
+							<input type="hidden" name="context" value="{{projectProposal.isbriefcontextcomplete}}">
+
+						{% endif %}
+
+					</div>
+					
+					
+					<div class="col-md-6 text-right" >
+						<i class="fa fa-pencil " style="padding-top: 10px"></i>
+					</div>
+					
+				</div>
+				</a>
+
+				{% else %}
+
+				<a type="button" onclick="(function () {window.location.href='/Organization/ProjectProposal/BriefContext/{{gosmActivity.id}}'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
+				<div class="row">
+					<div class="col-md-6 text-left">
+
+
+
+						{% if projectProposal.isbriefcontextcomplete %}
+
+							<h5>Brief Context <span class="label label-success">Complete</span></h5>
+							<input type="hidden" name="context" value="{{projectProposal.isbriefcontextcomplete}}">
+
+						{% else %}
+
+							<h5>Brief Context <span class="label label-danger">Incomplete</span></h5>
+							<input type="hidden" name="context" value="{{projectProposal.isbriefcontextcomplete}}">
+
+						{% endif %}
+
+					</div>
+					
+					
+					<div class="col-md-6 text-right" >
+						<i class="fa fa-pencil " style="padding-top: 10px"></i>
+					</div>
+					
+				</div>
+				</a>
+
+
+				{% endif %}
+
+				{% set editsched = false %}
+
+				{% for edit in sectionsToEdit.sectionstoedit %}
+
+					{% if edit == "Program Design" %}
+
+						{% set editsched = true %}
+
+					{% endif %}
+
+				{% endfor %}
+
+				{% if editsched %}
+				<a type="button" onclick="(function () {window.location.href='/Organization/ProjectProposal/ProgramDesign/{{gosmActivity.id}}'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
+				<div class="row">
+					<div class="col-md-6 text-left">
+
+						{% if projectProposal.isprogramcomplete %}
+
+							<h5>Program Schedule <span class="label label-success">Complete</span></h5>
+							<input type="hidden" name="program" value="{{projectProposal.isprogramcomplete}}">
+
+						{% else %}
+
+							<h5>Program Schedule <span class="label label-danger">Incomplete</span></h5>
+							<input type="hidden" name="program" value="{{projectProposal.isprogramcomplete}}">
+
+						{% endif %}
+						
+					</div>
+					
+					
+					<div class="col-md-6 text-right" >
+						<i class="fa fa-pencil " style="padding-top: 10px"></i>
+					</div>
+					
+				</div>
+				</a>
+				{% else %}
+
+				<a type="button" onclick="(function () {window.location.href='/Organization/ProjectProposal/ProgramDesign/{{gosmActivity.id}}'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
+				<div class="row">
+					<div class="col-md-6 text-left">
+
+						{% if projectProposal.isprogramcomplete %}
+
+							<h5>Program Schedule <span class="label label-success">Complete</span></h5>
+							<input type="hidden" name="program" value="{{projectProposal.isprogramcomplete}}">
+
+						{% else %}
+
+							<h5>Program Schedule <span class="label label-warning">To Be Edited</span></h5>
+							<input type="hidden" name="program" value="{{projectProposal.isprogramcomplete}}">
+
+						{% endif %}
+						
+					</div>
+					
+					
+					<div class="col-md-6 text-right" >
+						<i class="fa fa-pencil " style="padding-top: 10px"></i>
+					</div>
+					
+				</div>
+				</a>
+
+				{% endif %}
+
+
+				{% set editexpense = false %}
+
+				{% for edit in sectionsToEdit.sectionstoedit %}
+
+					{% if edit == "Source of Funds" %}
+
+						{% set editexpense = true %}
+
+					{% endif %}
+
+					{% if edit == "Organizational Funds" %}
+
+						{% set editexpense = true %}
+
+					{% endif %}
+
+					{% if edit == "Revenue and Expense Table" %}
+
+						{% set editexpense = true %}
+
+					{% endif %}
+
+				{% endfor %}
+
+				{% if editexpense %}
+
+					{% if projectProposal.isexpense %}
+						{% if gosmActivity.activitynature == 4 %}
+					
+					<a type="button" onclick="(function () {window.location.href='/Organization/ProjectProposal/Expense/{{gosmActivity.id}}/1'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
+					
+						{% else %}
+					<a type="button" onclick="(function () {window.location.href='/Organization/ProjectProposal/Expense/{{gosmActivity.id}}/0'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
+					
+						{% endif %}
+					{% else %}
+				<a type="button" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
+
+					{% endif %}
+				<div class="row">
+					<div class="col-md-6 text-left">
+
+							{% if projectProposal.isexpensecomplete %}
+
+							<h5>Funding Expense <span class="label label-success">Complete</span></h5>
+
+							<input type="hidden" name="expense" value="{{projectProposal.isexpensecomplete}}">
+							{% else %}
+
+								{% if projectProposal.isexpense %}
+
+							<h5>Funding Expense <span class="label label-warning">To Be Edited</span></h5>
+							<input type="hidden" name="expense" value="{{projectProposal.isexpensecomplete}}">
+
+								{% else %}
+
+							<h5>Funding Expense <span class="label label-success">Complete</span></h5>
+							<input type="hidden" name="expense" value="true">
+
+
+								{% endif %}
+
+
+							{% endif %}
+
+					</div>
+					
+					
+					<div class="col-md-6 text-right" >
+						<i class="fa fa-pencil " style="padding-top: 10px"></i>
+					</div>
+					
+				</div>
+
+				{% else %}
+
+					{% if projectProposal.isexpense %}
+						{% if gosmActivity.activitynature == 4 %}
+					
+					<a type="button" onclick="(function () {window.location.href='/Organization/ProjectProposal/Expense/{{gosmActivity.id}}/1'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
+					
+						{% else %}
+					<a type="button" onclick="(function () {window.location.href='/Organization/ProjectProposal/Expense/{{gosmActivity.id}}/0'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
+					
+						{% endif %}
+					{% else %}
+				<a type="button" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
+
+					{% endif %}
+				<div class="row">
+					<div class="col-md-6 text-left">
+
+							{% if projectProposal.isexpensecomplete %}
+
+							<h5>Funding Expense <span class="label label-success">Complete</span></h5>
+
+							<input type="hidden" name="expense" value="{{projectProposal.isexpensecomplete}}">
+							{% else %}
+
+								{% if projectProposal.isexpense %}
+
+							<h5>Funding Expense <span class="label label-danger">Incomplete</span></h5>
+							<input type="hidden" name="expense" value="{{projectProposal.isexpensecomplete}}">
+
+								{% else %}
+
+							<h5>Funding Expense <span class="label label-success">Complete</span></h5>
+							<input type="hidden" name="expense" value="true">
+
+
+								{% endif %}
+
+
+							{% endif %}
+
+					</div>
+					
+					
+					<div class="col-md-6 text-right" >
+						<i class="fa fa-pencil " style="padding-top: 10px"></i>
+					</div>
+					
+				</div>
+
+				</a>
+
+				{% endif %}
+
+				{% set editattachments = false %}
+
+				{% for edit in sectionsToEdit.sectionstoedit %}
+
+					{% if edit == "Attachments" %}
+
+						{% set editattachments = true %}
+
+					{% endif %}
+
+
+				{% endfor %}
+
+				{% if editattachments %}
+				<a type="button" onclick="(function () {window.location.href='/Organization/ProjectProposal/Attachments/{{projectProposal.id}}/{{gosmActivity.id}}'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
+					<div class="row">
+						<div class="col-md-6 text-left">
+
+							{% if projectProposal.isattachmentscomplete %}
+
+								<h5>Attachments <span class="label label-success">Complete</span></h5>
+								<input type="hidden" name="attachment" value="{{projectProposal.isattachmentscomplete}}">
+
+							{% else %}
+
+								<h5>Attachments <span class="label label-warning">To Be Edited</span></h5>
+								<input type="hidden" name="attachment" value="{{projectProposal.isattachmentscomplete}}">
+
+							{% endif %}
+
+						</div>
+						
+						
+						<div class="col-md-6 text-right" >
+							<i class="fa fa-pencil " style="padding-top: 10px"></i>
+						</div>
+						
+					</div>
+					</a>
+				{% else %}
+
+				<a type="button" onclick="(function () {window.location.href='/Organization/ProjectProposal/Attachments/{{projectProposal.id}}/{{gosmActivity.id}}'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
+					<div class="row">
+						<div class="col-md-6 text-left">
+
+							{% if projectProposal.isattachmentscomplete %}
+
+								<h5>Attachments <span class="label label-success">Complete</span></h5>
+								<input type="hidden" name="attachment" value="{{projectProposal.isattachmentscomplete}}">
+
+							{% else %}
+
+								<h5>Attachments <span class="label label-danger">Incomplete</span></h5>
+								<input type="hidden" name="attachment" value="{{projectProposal.isattachmentscomplete}}">
+
+							{% endif %}
+
+						</div>
+						
+						
+						<div class="col-md-6 text-right" >
+							<i class="fa fa-pencil " style="padding-top: 10px"></i>
+						</div>
+						
+					</div>
+					</a>
+				{% endif %}
+			</div>
+			
+			<div class=" col-md-12 form-group text-center">
+				<button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Submit</button>
+				<button type="button" class="btn btn-default">Cancel</button>
+				
+			</div>
+		</div>
+	</div>
+</div>
+</form>
+{%endblock%}

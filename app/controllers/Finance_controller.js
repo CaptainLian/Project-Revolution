@@ -322,8 +322,14 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		createPreacts: (req, res) => {
 			const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
-			return res.render('Finance/FinancePreacts', renderData);
+			return res.render('Finance/Preacts_DirectPayment', renderData);
 			//next();
 		},
+		createPreactsBookTransfer: (req, res) => {
+			const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+			return res.render('Finance/Preacts_DirectPayment', renderData);
+			//next();
+		}
 	};
 };

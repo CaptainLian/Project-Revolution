@@ -163,6 +163,41 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
 
         },
+        viewSubmitProjectProposalEdit: (req, res) => {
+            if (req.params.status == 2){
+
+                console.log("ENTER 2");
+
+                var dbParam = {
+                    gosmactivity: req.params.id
+                };
+
+                database.task(task => {
+                    return task.batch([
+                        gosmModel.getGOSMActivity(dbParam),
+                        gosmModel.getGOSMActivityProjectHeads(dbParam),
+                        projectProposalModel.getProjectProposal(dbParam),
+                        projectProposalModel.getPPRSectionsToEdit(dbParam)
+                    ]);
+                }).then(data => {
+                    const renderData = Object.create(null);
+                    renderData.extra_data = req.extra_data;
+                    renderData.csrfToken = req.csrfToken();
+
+                    renderData.gosmActivity = data[0];
+                    renderData.projectHeads = data[1];
+                    renderData.projectProposal = data[2];
+                    renderData.sectionsToEdit = data[3];
+                    renderData.gosmid = req.params.id;
+                    console.log(renderData.gosmActivity);
+                    console.log("KAHITANONGMESSAGE");
+
+                    return res.render('Org/SubmitProjectProposal_pendedit',renderData);
+                }).catch(err => {
+                    logger.warn(`${err.message}\n${err.stack}`, log_options);
+                });
+            }
+        },
         viewSubmitPostProjectProposalMain: (req, res) => {
             var dbParam = {
                 idNumber: req.session.user.idNumber,

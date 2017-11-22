@@ -22,6 +22,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const getApprovedPPRsSQL = queryFiles.getApprovedPPRs;
     const getNextActivityForApprovalSQL = queryFiles.getNextActivityForApproval;
     const getGOSMActivitiesToImplementSQL = queryFiles.getGOSMActivitiesToImplement;
+    const getPPRSectionsToEditSQL = queryFiles.getPPRSectionsToEdit;
     const updatePPRStatusSQL = queryFiles.updatePPRStatus;
     const updateIsProgramDesignCompleteSQL = queryFiles.updateIsProgramDesignComplete;
     const updateIsAttachmentsCompleteSQL = queryFiles.updateIsAttachmentsComplete;
@@ -391,6 +392,10 @@ module.exports = function(configuration, modules, db, queryFiles) {
 
     ProjectProposalModel.prototype.getApprovedPPRs = function(connection = this._db){
         return connection.any(getApprovedPPRsSQL);
+    };
+
+    ProjectProposalModel.prototype.getPPRSectionsToEdit = function(param, connection = this._db){
+        return connection.one(getPPRSectionsToEdit, param);
     };
 
     ProjectProposalModel.prototype.deleteProgramDesign = function(param, connection = this._db){
