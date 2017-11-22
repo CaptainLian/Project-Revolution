@@ -52,7 +52,17 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			            renderData.gosmactivity = data.GOSMActivity;
 			            // transactionType: if 0 direct payment; if 1 cash advance
 			            renderData.transactionType = req.params.transaction;
-						return res.render('Finance/EvaluateTransaction', renderData);
+
+			             //from cso
+			            if (req.session.user.organizationSelected.id == 0) {
+			            	renderData.isCso = true;
+			            	return res.render('Finance/EvaluateTransaction', renderData);
+			            }
+			            else{
+			            	renderData.isCso = false;
+			            	return res.render('Finance/EvaluateTransaction', renderData);
+			            }
+
 						//next();
 
 					}).catch(error=>{
