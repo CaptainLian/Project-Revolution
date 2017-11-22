@@ -179,11 +179,34 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     gosmModel.getGOSMActivityProjectHeads(dbParam2)
                     ]);
             }).then(data =>{
+                console.log(data);
+                console.log("data");
                 const renderData = Object.create(null);
                 renderData.extra_data = req.extra_data;
                 renderData.csrfToken = req.csrfToken();
                 renderData.activities = data[0];
                 renderData.projectHeads = data[1];
+                // if(data[0].status == 5){
+                //     var sections = data[0].sectionsToBeEdited;
+                //     for(var x = 0; x < sections.length; x++){
+                //         if(sections[x] == 1 && !renderData.activities.isBriefContextComplete){
+                //             renderData.activities.isBriefContextCompleted = false
+                //         }
+                //         if(sections[x] == 2 && !renderData.activities.isBriefContextComplete){
+                //             renderData.activities.isBriefContextCompleted = false   
+                //         }
+                //         if(sections[x] == 3 && !renderData.activities.isBriefContextComplete){
+                //             renderData.activities.isOtherFinanceDocumentsCompleted = false
+                //         }
+                //         if(sections[x] == 4){
+                //             renderData.activities.isOtherFinanceDocumentsCompleted = false   
+                //         }
+
+                //         if(sections[x] == 5){
+                //             renderData.activities.isOtherFinanceDocumentsCompleted = false
+                //         }
+                //     }
+                // }
                 renderData.gosmid = req.params.gosmid;
                 console.log(renderData.activities);
                 console.log(renderData.projectHeads);
@@ -1031,7 +1054,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             var galsParam ={
                                  gosmid: req.body.gosmid,
                                  filename : galsFilename,
-                                 filenameToShow: galsFilenameToShow
+                                 filenameToShow: galsFilenameToShow,
+                                 idNumber:req.session.user.idNumber
                             };
 
                             Promise.all([

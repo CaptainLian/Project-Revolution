@@ -22,7 +22,12 @@ $("#approve").click(function(){
             $.ajax({
                 type:'POST',
                 url:'/ADM/Activity/Save',
-                data:{status:2,gosmid:$("input#gosmid").val()}
+                data:{status:2,gosmid:$("input#gosmid").val()},
+                success:function(data){
+                    if(data){
+                        window.location.href='/ADM/Activity/List';
+                    }
+                }
            })
       }
     })
@@ -39,8 +44,7 @@ $("#defer").click(function(){
     '<option value="1">I. How objectives were met</option>'+
     '<option value="2">II. Learnings</option>'+
     '<option value="3">III. General Attendace Sheet</option>'+
-    '<option value="4">IV. Event Pictures </option>'+
-    '<option value="5">V. Receipts</option>'+    
+    '<option value="4">IV. Event Pictures </option>'+ 
     '</select>'+
     '</div>'+
 
@@ -89,6 +93,8 @@ $("#defer").click(function(){
     }).then(function(data){
        console.log($("#select-sec").val());
        var sections = $("#select-sec").val();
+       console.log("sections")
+       console.log(sections)
        if(data){
             $.ajax({
                 type:'POST',
@@ -96,7 +102,7 @@ $("#defer").click(function(){
                 data:{sections:sections,comment:$("textarea").val(),status:2,gosmid:$("input#gosmid").val()},
                 success:function(data){
                     if(data){
-                        // window.location.href='/ADM/Activity/List';
+                        window.location.href='/ADM/Activity/List';
                     }
                 }
            })

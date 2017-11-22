@@ -37,7 +37,8 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const getPostActsToCheck = queryFiles.getPostActsToCheck;
 
     const updatePostPPR = queryFiles.updatePostPPR;
-    
+    const updatePostStatus = queryFiles.updatePostStatus;
+        
 
 
 	return {
@@ -70,6 +71,9 @@ module.exports = function(configuration, modules, db, queryFiles) {
         },
         updatePostProjectProposalFinanceDocumentStatus:function (param, connection = db) {
             return connection.none(updatePostProjectProposalFinanceDocumentStatus, param);
+        },
+        updatePostStatus:function (param, connection = db) {
+            return connection.none(updatePostStatus, param);
         },
         insertPostProjectProposalGals:function (param, connection = db) {
             return connection.none(insertPostProjectProposalGals, param);

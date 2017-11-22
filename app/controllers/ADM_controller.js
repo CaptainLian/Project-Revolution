@@ -38,7 +38,71 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 	ADM_controller.updateStatus = (req, res) => {
 		console.log(req.body)
 		console.log(req.params)
-		res.json({status:1})
+		var sections=[]
+		var dbParam = {};
+		var stat ={
+            	otherFinance:true,
+            	briefContext:true,
+            	gosmid:req.body.gosmid
+            }
+		if (!Array.isArray(req.body["sections[]"])) {
+            sections.push(req.body.sections)
+            dbParam = {
+            	gosmid: req.body.gosmid,
+            	status: 4,
+            	comments:"",
+            	sections:sections
+            }
+            console.log("asd");
+        }else{
+            
+            dbParam = {
+            	gosmid: req.body.gosmid,
+            	status: 5,
+            	comments:req.body.comment,
+            	sections:req.body["sections[]"]
+
+            }
+            var sections = req.body["sections[]"];
+            for(var x = 0; x < sections.length; x++){
+            	console.log("asd");
+                if(sections[x] == 1 ){
+                    stat.briefContext = false
+                }
+                if(sections[x] == 2){
+                    stat.briefContext = false
+                }
+                if(sections[x] == 3){
+                    stat.otherFinance = false;
+                }
+                if(sections[x] == 4){
+                    stat.otherFinance = false;
+                }
+
+                // if(sections[x] == 5){
+                //     stat.briefContext = false
+                // }
+            }
+
+            // var
+            console.log("asd2");
+        }
+        database.task(t=>{
+        	return t.batch([
+        		postProjectProposalModel.updatePostPPR(dbParam,t),
+        		postProjectProposalModel.updatePostStatus(stat,t)
+        		])
+        }).then(data=>{
+        		res.json({status:1})
+        	}).catch(err=>{
+        		console.log(err)
+        	})
+        console.log("DB PARAM");
+        console.log(req.body)
+        
+        	
+
+		
 	};
 	ADM_controller.viewActivity = (req, res) => {
 		

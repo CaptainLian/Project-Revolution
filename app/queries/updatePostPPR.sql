@@ -1,5 +1,5 @@
 UPDATE "PostProjectProposal"
    SET "status" = ${status},
-   		"sections" = ${sections},
+   		"sectionsToBeEdited" = ${sections},
    		"comments" = ${comments}
  WHERE "GOSMActivity" = ${gosmid}
