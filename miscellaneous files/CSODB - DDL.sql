@@ -1000,7 +1000,7 @@ INSERT INTO FunctionalityCategory (id, name, domain)
                                   (211, 'Activity Processing & Documentations', 2),
                                   (212, 'Submit Financial Documents', 2),
                                   (213, 'Cancel Financial Documents', 2),
-                                  (214, 'Organization Management', 2);
+                                  (214, 'Organization Management', 2); 
 
 DROP TABLE IF EXISTS Functionality CASCADE;
 CREATE TABLE Functionality (
@@ -1011,11 +1011,11 @@ CREATE TABLE Functionality (
     C = category ID
     S = unique sequence
   */
-	id INTEGER,
-	name VARCHAR (100),
-  category INTEGER REFERENCES FunctionalityCategory (id) ON UPDATE CASCADE,
+    id INTEGER,
+    name VARCHAR (100),
+    category INTEGER REFERENCES FunctionalityCategory (id) ON UPDATE CASCADE,
 
-   PRIMARY KEY (id)
+    PRIMARY KEY (id)
 );
 CREATE OR REPLACE FUNCTION trigger_before_insert_Functionality()
 RETURNS trigger AS
@@ -1075,7 +1075,9 @@ INSERT INTO Functionality (id, name, category)
                           (211015, 'Force Sign Project Proposal'            , 211),
                           -- Publicity
                           (210016, 'Submit Publicity Material'              , 210),
-                          (106017, 'Evaluate Publicity Material',             106);
+                          (106017, 'Evaluate Publicity Material'            , 106),
+                          -- Finance
+                          (212018, 'Submit Financial Documents'             , 212);
 
 DROP TABLE IF EXISTS OrganizationAccessControl CASCADE;
 CREATE TABLE OrganizationAccessControl (
@@ -1191,15 +1193,17 @@ $trigger$
         INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       VALUES  (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
                                               (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE),
-                                              -- Sign PPR as Treasurer
-                                              (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 11)), TRUE);
+                                              -- Sign PPR as Treasurer 212018
+                                              (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 11)), TRUE),
+                                              (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 18)), TRUE);
 
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole, home_url, rank)
                              VALUES (NEW.id, 'Associate Vice President of Finance', FALSE, vpfRoleID, '/Organization/treasurer/dashboard', 30)
         RETURNING id INTO avpfRoleID;
         INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       VALUES  (avpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
-                                              (avpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE);
+                                              (avpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE),
+                                              (avpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 18)), TRUE);
 
         RETURN NEW;
     END;
@@ -1659,9 +1663,9 @@ CREATE TABLE SignatoryStatus (
 );
 INSERT INTO SignatoryStatus (id, name)
                      VALUES ( 0, 'Unsigned'),
-                            ( 1, 'Accept'),
+                            ( 1, 'Accepted'),
                             ( 2, 'Pend'),
-                            ( 3, 'Deny'),
+                            ( 3, 'Denied'),
                             ( 4, 'Force Signed');
 DROP TABLE IF EXISTS SignatoryType CASCADE;
 CREATE TABLE SignatoryType (
@@ -1711,7 +1715,7 @@ $trigger$
            AND status <> 4;
 
         IF numSignNeeded = 0 THEN
-            SELECT ga.nature, ga.type INTO nature, type
+            SELECT ga.activityNature, ga.activityType INTO "nature", "type"
               FROM GOSMActivity ga
              WHERE ga.id = NEW.GOSMActivity;
 
@@ -2082,7 +2086,9 @@ INSERT INTO "PostProjectProposalStatus" (id, name)
                                  VALUES ( 0, 'Unopened'),
                                         ( 1, 'Opened'),
                                         ( 2, 'In-progress'),
-                                        ( 3, 'Submitted');
+                                        ( 3, 'For Approval'),
+                                        ( 4, 'Approved'),
+                                        ( 5, 'Pend');
 
 DROP TABLE IF EXISTS "PostProjectProposal" CASCADE;
 CREATE TABLE "PostProjectProposal" (
@@ -2090,6 +2096,8 @@ CREATE TABLE "PostProjectProposal" (
   "preparedBy" INTEGER REFERENCES Account(idNumber),
   "status" SMALLINT NOT NULL DEFAULT 0 REFERENCES "PostProjectProposalStatus"("id"),
   "dateCreated" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "ANP" INTEGER,
+  "ANMP" INTEGER,
   "objectives" TEXT[],
   "WATTTWITA" TEXT,
   "WWYGLIETA" TEXT,
@@ -2185,7 +2193,7 @@ CREATE TRIGGER "before_insert_PostProjectProposalEventPicture_sequence"
 
 DROP TABLE IF EXISTS "PostProjectDirectPaymentPayment" CASCADE;
 CREATE TABLE "PostProjectDirectPaymentPayment" (
-  id INTEGER,
+  id SMALLINT,
   name VARCHAR(45),
 
   PRIMARY KEY (id)
@@ -2193,6 +2201,18 @@ CREATE TABLE "PostProjectDirectPaymentPayment" (
 INSERT INTO "PostProjectDirectPaymentPayment" (id, name)
                                  VALUES ( 0, 'Cheque'),
                                         ( 1, 'Book Transfer');
+                                        
+DROP TABLE IF EXISTS "PostProjectDirectPaymentStatus" CASCADE;
+CREATE TABLE "PostProjectDirectPaymentStatus" ( 
+   "id" SMALLINT,
+   "name" VARCHAR(45),
+
+   PRIMARY KEY ("id")
+);
+INSERT INTO "PostProjectDirectPaymentStatus" ("id", "name")
+                                      VALUES (  0,  'For approval'),
+                                             (  1, 'Approved'),
+                                             (  2, 'Pend');
 DROP TABLE IF EXISTS "PostProjectDirectPayment" CASCADE;
 CREATE TABLE "PostProjectDirectPayment" (
   "GOSMActivity" INTEGER REFERENCES "PostProjectProposal"("GOSMActivity"),
@@ -2208,7 +2228,8 @@ CREATE TABLE "PostProjectDirectPayment" (
   "roffilenameToShow" TEXT,
   "idNumber" INTEGER REFERENCES Account(idNumber),
   "dateCreated" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
+  "status" SMALLINT REFERENCES "PostProjectDirectPaymentStatus"("id") DEFAULT 0,
+  
   PRIMARY KEY("GOSMActivity", "submissionID", "sequence")
 );
 CREATE OR REPLACE FUNCTION "trigger_before_insert_PostProjectDirectPayment_sequence"()
@@ -2244,6 +2265,18 @@ CREATE TABLE "PostProjectReimbursementPayment" (
 INSERT INTO "PostProjectReimbursementPayment" (id, name)
                                  VALUES ( 0, 'Payment By Check'),
                                         ( 1, 'Payment By Book Transfer');
+DROP TABLE IF EXISTS "PostProjectReimbursementStatus" CASCADE;
+CREATE TABLE "PostProjectReimbursementStatus" ( 
+   "id" SMALLINT,
+   "name" VARCHAR(45),
+
+   PRIMARY KEY ("id")
+);
+INSERT INTO "PostProjectReimbursementStatus" ("id", "name")
+                                     VALUES  (  0, 'For approval'),
+                                             (  1, 'Approved'),
+                                             (  2, 'Pend'),
+                                             (  3, 'Denied');
 DROP TABLE IF EXISTS "PostProjectReimbursement" CASCADE;
 CREATE TABLE "PostProjectReimbursement" (
   "GOSMActivity" INTEGER REFERENCES "PostProjectProposal"("GOSMActivity"),
@@ -2259,6 +2292,7 @@ CREATE TABLE "PostProjectReimbursement" (
   "filenamesToShow" TEXT[],
   "idNumber" INTEGER REFERENCES Account(idNumber),
   "dateCreated" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "status" SMALLINT REFERENCES "PostProjectReimbursementStatus"("id") DEFAULT 0,
 
   PRIMARY KEY("GOSMActivity", "submissionID", "sequence")
 );
@@ -2286,6 +2320,19 @@ CREATE TRIGGER "before_insert_PostProjectReimbursement_sequence"
     FOR EACH ROW
     EXECUTE PROCEDURE "trigger_before_insert_PostProjectReimbursement_sequence"();
 
+DROP TABLE IF EXISTS "PostProjectBookTransferStatus" CASCADE;
+CREATE TABLE "PostProjectBookTransferStatus" ( 
+   "id" SMALLINT,
+   "name" VARCHAR(45),
+
+   PRIMARY KEY ("id")
+);
+INSERT INTO "PostProjectBookTransferStatus" ("id", "name")
+                                     VALUES (  0,  'For approval'),
+                                            (  1, 'Approved'),
+                                            (  2, 'Pend'),
+                                            (  3, 'Denied');
+                                             
 DROP TABLE IF EXISTS "PostProjectBookTransfer" CASCADE;
 CREATE TABLE "PostProjectBookTransfer" (
   "GOSMActivity" INTEGER REFERENCES "PostProjectProposal"("GOSMActivity"),
@@ -2298,6 +2345,8 @@ CREATE TABLE "PostProjectBookTransfer" (
   "bsfilenameToShow" TEXT,
   "idNumber" INTEGER REFERENCES Account(idNumber),
   "dateCreated" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "status" SMALLINT REFERENCES "PostProjectBookTransferStatus"("id") DEFAULT 0,
+  
 
   PRIMARY KEY("GOSMActivity", "submissionID", "sequence")
 );

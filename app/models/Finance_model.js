@@ -12,6 +12,7 @@ module.exports = function(configuration, modules, database, queryFiles){
     const getActivityTransactionsSQL = queryFiles.getActivityTransactions;
     const getPreActivityCashAdvanceSQL = queryFiles.getPreActivityCashAdvance;
     const getCashAdvanceParticularsSQL = queryFiles.getCashAdvanceParticulars;
+    const updatePreActivityCashAdvanceStatusSQL = queryFiles.updatePreActivityCashAdvanceStatus;
 
 	
 	FinanceModel.insertPreActivityCashAdvance = function(param, connection = database) {
@@ -50,6 +51,10 @@ module.exports = function(configuration, modules, database, queryFiles){
 
     FinanceModel.getCashAdvanceParticulars = function(param, connection = database){
         return connection.any(getCashAdvanceParticularsSQL, param);
+    };
+
+    FinanceModel.updatePreActivityCashAdvanceStatus = function(param, connection = database){
+        return connection.none(updatePreActivityCashAdvanceStatusSQL, param);
     };
 
 	return FinanceModel;

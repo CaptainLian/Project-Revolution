@@ -4,6 +4,7 @@ WITH "SignatoryType" AS (
           FROM ProjectProposalSignatory pps
          WHERE pps.GOSMActivity = ${activityID}
            AND pps.signatory = ${idNumber}
+           AND pps.status = 0
     )
     SELECT pps.type
       FROM "AccountSignatories" pps LEFT JOIN SignatoryType st

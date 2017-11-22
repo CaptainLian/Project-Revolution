@@ -18,4 +18,5 @@ SELECT EXISTS(SELECT *
                WHERE ppr.GOSMActivity NOT IN (SELECT ppp."GOSMActivity"
                                                 FROM "PostProjectProposal" ppp
                                                WHERE ppp."GOSMActivity" IN (SELECT ppr.GOSMActivity
-                                                                              FROM "CurrentTermPPR" ppr))) AS exists;
+                                                                              FROM "CurrentTermPPR" ppr)
+                                                 AND ppp.status = 3)) AS exists;

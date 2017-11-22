@@ -10,8 +10,10 @@ module.exports = function(configuration, modules, router, controllers, models, d
 	router.get('/transaction/preacts/directpayment/:gosmactivity', controllers.Finance_controller.createPreacts);
 
 	router.post('/transaction/submitPreacts', controllers.Finance_controller.submitPreacts);
+	router.post('/transaction/approveCashAdvance', controllers.Finance_controller.approveCashAdvance);
+	router.post('/transaction/pendCashAdvance', controllers.Finance_controller.pendCashAdvance);
 
 	router.get('/finance/list', controllers.Finance_controller.viewFinanceList);
-	router.get('/finance/list/transaction/:gosmactivity', controllers.Finance_controller.viewTransaction)
+	router.get('/finance/list/transaction/:gosmactivity', controllers.Finance_controller.viewTransaction);
 
 };

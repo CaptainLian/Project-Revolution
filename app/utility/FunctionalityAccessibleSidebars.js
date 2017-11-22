@@ -84,6 +84,12 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluatePublicityMaterial] = [{
     link: '/PNP/Pubs/List'
 }];
 
+//Submit Financial Documents
+functionalitySidebars[FUNCTIONALITY_SEQUENCES.SubmitFinancialDocuments] = [{
+    name: 'Submit Financial Documents',
+    link: '/finance/list'
+}];
+
 const accessibleRoutes = [];
 for(const functionality in functionalitySidebars){
     for(const sidebar of functionalitySidebars[functionality]){
