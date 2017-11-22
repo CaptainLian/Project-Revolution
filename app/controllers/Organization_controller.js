@@ -888,7 +888,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             console.log(obj)
             var dbParam = {
                 id: req.body.gosmid,
-
+                anmp:req.body.anmp,
+                anp:req.body.anp,
                 well: req.body.wentWell,
                 learning: req.body.learning,
                 develop: req.body.develop,
@@ -1051,72 +1052,72 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                        console.log("========TAs33333333333  Sd=========");
                         console.log(finParam);
                         //EXPENSES MAY VARY
-                        console.log(typeof req.files['file[]'])
-                        if(typeof req.files['file[]'] == 'object'){
-                            if(typeof req.files['file[]'][Symbol.iterator] == 'function'){
-                                for(var ctr = 0; ctr < req.body['est[]'].length; ctr++){
+                        // console.log(typeof req.files['file[]'])
+                        // if(typeof req.files['file[]'] == 'object'){
+                        //     if(typeof req.files['file[]'][Symbol.iterator] == 'function'){
+                        //         for(var ctr = 0; ctr < req.body['est[]'].length; ctr++){
 
-                                    var orignalFileName = req.files['file[]'][ctr].name;
-                                    var ftype = path.extname(orignalFileName);
-                                    console.log(ftype);
-                                    var fname = cuid()+ftype;
+                        //             var orignalFileName = req.files['file[]'][ctr].name;
+                        //             var ftype = path.extname(orignalFileName);
+                        //             console.log(ftype);
+                        //             var fname = cuid()+ftype;
 
-                                    var dbParam ={
-                                        gosmid: req.body.gosmid,
-                                        submissionID:expenseID,
-                                        particular:req.body['par[]'][ctr],
-                                        establishment:req.body['est[]'][ctr],
-                                        price:req.body['price[]'][ctr],
-                                        file: fname,
-                                        filenameToShow:req.files['file[]'][ctr].name,
-                                        idNumber:req.session.user.idNumber,
+                        //             var dbParam ={
+                        //                 gosmid: req.body.gosmid,
+                        //                 submissionID:expenseID,
+                        //                 particular:req.body['par[]'][ctr],
+                        //                 establishment:req.body['est[]'][ctr],
+                        //                 price:req.body['price[]'][ctr],
+                        //                 file: fname,
+                        //                 filenameToShow:req.files['file[]'][ctr].name,
+                        //                 idNumber:req.session.user.idNumber,
 
-                                    };
-                                    console.log(dbParam);
-                                    console.log("req.files");
-                                    var p = path.join(dir2,fname);
-                                    Promise.all([
-                                            req.files['file[]'][ctr].mv(p),
-                                            postProjectProposalModel.insertPostProjectExpense(dbParam,t)
-                                        ]).then(result =>{
-                                            console.log("========IF2============");
-                                        }).catch(err =>{    
-                                            console.log("========PROMISE2=========");
-                                            console.log(err);
-                                        })
-                                }
-                            }else{
+                        //             };
+                        //             console.log(dbParam);
+                        //             console.log("req.files");
+                        //             var p = path.join(dir2,fname);
+                        //             Promise.all([
+                        //                     req.files['file[]'][ctr].mv(p),
+                        //                     postProjectProposalModel.insertPostProjectExpense(dbParam,t)
+                        //                 ]).then(result =>{
+                        //                     console.log("========IF2============");
+                        //                 }).catch(err =>{    
+                        //                     console.log("========PROMISE2=========");
+                        //                     console.log(err);
+                        //                 })
+                        //         }
+                        //     }else{
 
-                                    var orignalFileName = req.files['file[]'].name;
-                                    var ftype = path.extname(orignalFileName);
-                                    console.log(ftype);
-                                    var fname = cuid()+ftype;
+                        //             var orignalFileName = req.files['file[]'].name;
+                        //             var ftype = path.extname(orignalFileName);
+                        //             console.log(ftype);
+                        //             var fname = cuid()+ftype;
 
-                                    var dbParam ={
-                                        gosmid: req.body.gosmid,
-                                        submissionID:expenseID,
-                                        particular:req.body['par[]'],
-                                        establishment:req.body['est[]'],
-                                        price:req.body['price[]'],
-                                        file: fname,
-                                        filenameToShow:req.files['file[]'].name,
-                                        idNumber:req.session.user.idNumber,
+                        //             var dbParam ={
+                        //                 gosmid: req.body.gosmid,
+                        //                 submissionID:expenseID,
+                        //                 particular:req.body['par[]'],
+                        //                 establishment:req.body['est[]'],
+                        //                 price:req.body['price[]'],
+                        //                 file: fname,
+                        //                 filenameToShow:req.files['file[]'].name,
+                        //                 idNumber:req.session.user.idNumber,
 
-                                    };
-                                    var p = path.join(dir2,fname);
-                                    Promise.all([
-                                            req.files['file[]'].mv(p),
-                                            postProjectProposalModel.insertPostProjectExpense(dbParam,t)
-                                        ]).then(result =>{
-                                            console.log("========IF3============");
-                                        }).catch(err =>{
-                                            console.log("========PROMISE3=========");
-                                            console.log(err);
-                                        })
-                            }
-                        }else{
-                            finParam.status = false;
-                        }
+                        //             };
+                        //             var p = path.join(dir2,fname);
+                        //             Promise.all([
+                        //                     req.files['file[]'].mv(p),
+                        //                     postProjectProposalModel.insertPostProjectExpense(dbParam,t)
+                        //                 ]).then(result =>{
+                        //                     console.log("========IF3============");
+                        //                 }).catch(err =>{
+                        //                     console.log("========PROMISE3=========");
+                        //                     console.log(err);
+                        //                 })
+                        //     }
+                        // }else{
+                        //     finParam.status = false;
+                        // }
 
 
 

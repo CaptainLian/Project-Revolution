@@ -22,7 +22,7 @@ $("#approve").click(function(){
             $.ajax({
                 type:'POST',
                 url:'/ADM/Activity/Save',
-                data:{sections:sections,status:2,gosmid:$("input#gosmid").val()}
+                data:{status:2,gosmid:$("input#gosmid").val()}
            })
       }
     })
@@ -93,10 +93,11 @@ $("#defer").click(function(){
             $.ajax({
                 type:'POST',
                 url:'/ADM/Activity/Save',
-                data:{sections:sections,status:2,gosmid:$("input#gosmid").val()},
+                data:{sections:sections,comment:$("textarea").val(),status:2,gosmid:$("input#gosmid").val()},
                 success:function(data){
-                    if(data)
-                        window.location.href='/ADM/Activity/List';
+                    if(data){
+                        // window.location.href='/ADM/Activity/List';
+                    }
                 }
            })
        }

@@ -78,7 +78,7 @@
 						<tr>
 							<th class="text-center" width="33%">Event Date</th>
 							<th class="text-center" width="33%">Activity Name</th>
-							<th class="text-center" width="33%">Status</th>
+						<!-- 	<th class="text-center" width="33%">Status</th> -->
 
 						</tr>
 					</thead>
@@ -86,8 +86,8 @@
                          
                         {%for pa in postacts%}
 						<tr>
-							<td class="text-center">{{pa.actualdatestart}}</td>
-							<td class="text-center"><a href="/PNP/Pubs/{{pub.gosmid}}" class="btn-lnk">{{pa.strategies}}</a></td>
+							<td class="text-center">{{pa.ddate}}</td>
+							<td class="text-center"><a href="/ADM/Activity/{{pa.GOSMActivity}}" class="btn-lnk">{{pa.strategies}}</a></td>
                             {% if pub.status === 0 %}
                                 <td class="text-center"><span class="label label-warning">{{number[loop.index0].count}} Unapproved</span></td>
                             {% elif pub.status === 1 %}
