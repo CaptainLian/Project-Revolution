@@ -98,6 +98,7 @@
                           
                     </div>
                     <div class="row">
+<<<<<<< HEAD
                         <div class="col-xs-6">
                             
                                 <div class="form-group m-b-40">
@@ -116,14 +117,37 @@
                                 </div>
                         </div>
                         <div class="col-xs-6">
+=======
+                        
+                        <div class="col-md-6">
+>>>>>>> lian
                                 <div class="form-group m-b-40">
                                     <select class="form-control select2" name="activity" id ="transaction">
                                         <option selected="true" disabled="disabled" >Select</option>
+
+
+                                        {% for organization in organizations %}
+
+                                            <optgroup label="{{organization.name}}">
+
                                             {% for activity in activities %}
 
-                                                <option value="{{activity.id}}">{{activity.strategies}}</option>
+                                                {% if activity.organization == organization.id %}
+
+                                                   <option value="{{activity.id}}">{{organization.name}} - {{activity.strategies}}</option>
+
+                                                {% endif %}
                                             
                                             {% endfor %}
+
+                                        
+                                    
+                                            </optgroup>
+
+                                        {% endfor %}
+
+                                            
+
 
                                     </select>
                                     <span class="highlight"></span> <span class="bar"></span>

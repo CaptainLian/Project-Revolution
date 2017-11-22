@@ -1,6 +1,83 @@
-﻿	ROLLBACK;
+﻿ROLLBACK;
 
 START TRANSACTION;
+INSERT INTO public."Building"(
+            id, name)
+    VALUES (0, 'Br. Andrew Gonzales Building');
+
+INSERT INTO public."Building"(
+            id, name)
+    VALUES (1, 'Br. Gabriel Conon (SPS) Building');
+
+INSERT INTO public."Building"(
+            id, name)
+    VALUES (2, 'Don Enrique Yuchengco Building');
+
+INSERT INTO public."Building"(
+            id, name)
+    VALUES (3, 'Enrique Razon Building');
+
+INSERT INTO public."Building"(
+            id, name)
+    VALUES (4, 'Velasco Building');
+
+INSERT INTO public."Building"(
+            id, name)
+    VALUES (5, 'Gokongwei Building');
+
+INSERT INTO public."Building"(
+            id, name)
+    VALUES (6, 'La Salle Building');
+
+INSERT INTO public."Building"(
+            id, name)
+    VALUES (7, 'St. Joseph Building');
+
+INSERT INTO public."Building"(
+            id, name)
+    VALUES (8, 'St. Miguel Building');
+
+INSERT INTO public."Building"(
+            id, name)
+    VALUES (9, 'St. Mutien Marie Building');
+
+INSERT INTO public."Building"(
+            id, name)
+    VALUES (10, 'University Library Building');
+
+INSERT INTO public."Building"(
+            id, name)
+    VALUES (11, 'William Shaw Building');
+
+INSERT INTO public."Building"(
+            id, name)
+    VALUES (12, 'Others');
+
+INSERT INTO public."Building"(
+            id, name)
+    VALUES (13, 'Henry Sy Building');
+
+INSERT INTO public."ActivityVenue"(id, name, capacity, size, rate, "rateType", building)
+                           VALUES ( 0, 'A 1502-A Conference Room', 20, 0, 360, 0, 0),
+                                  ( 1, 'A 1502-B Conference Room', 10, 0, 230, 0, 0),
+                                  ( 2, 'A 1505-A Conference Room', 12, 0, 240, 0, 0),
+                                  ( 3, 'A 1505-B Conference Room', 8, 0, 110, 0, 0),
+                                  ( 4, 'A 1506 Conference Room', 30, 0, 850, 0, 0),
+                                  ( 5, 'A 1602 Conference Room', 20, 0, 680, 0, 0),
+                                  ( 6, 'A 703 Lecture Room', 120, 1, 1200, 0, 0),
+                                  ( 7, 'A 903 Lecture Room', 120, 1, 1200, 0, 0),
+                                  ( 8, 'A 1103 Lecture Room', 120, 1, 1200, 0, 0),
+                                  ( 9, 'A 1403 Lecture Room', 120, 1, 1200, 0, 0),
+                                  (10, 'A 1703 Lecture Room', 120, 1, 1200, 0, 0),
+                                  (11, 'A1402 Micro Teaching Laboratory', 45, 0, 700, 0, 0),
+                                  (12, 'A1805 Micro Teaching Laboratory', 45, 0, 700, 0, 0),
+                                  (13, '20th Floor Board Room', 20, 0, 900, 0, 0),
+                                  (14, '20th Floor Conference Room', 8, 0, 400, 0, 0),
+                                  (15, '20th Floor Multipurpose Room', 200, 2, 2500, 0, 0),
+                                  (16, 'Classroom (Full-size)', 45, 0, 620, 0, 0),
+                                  (17, 'Classroom (Half-size', 25, 0, 340, 0, 0),
+                                  (18, 'Natividad Fajardo-Rosario Gonzalez Auditorium, 18th Flr.', 238, 2, 3000, 0, 0),
+                                  ( 19, 'Neil Room', 12,  3, 700.43,       4,        0);
 
 /* Organization Data */
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
@@ -441,7 +518,7 @@ gnU99t5j1naPrW03gMZhVjUlXH19JfLOgvkO3sykAWDkcFZGxv1jJ8BqzUmUihrY
 TytBAoGBAI/ER2xg4RY59hEr0ST9tIwpV/4r6S6bDAiCsFmfMMfU4U7TPocfouMY
 BXKAD/glJ44EL4z82axYP0LA6Abe/pfkc8dwWsEAayYjYV+8qzQ7mtHRKxmLxHTm
 BtfxKI72NnSS70p1VAzKACZXwMRR5RRhOz75s1bJ3JK18AMSRc3r
------END RSA PRIVATE KEY-----', 2);
+-----END RSA PRIVATE KEY-----', 1);
 INSERT INTO OrganizationOfficer (idNumber, role, yearID)
                          VALUES (5555555, 10027, system_get_current_year_id());
 
@@ -480,7 +557,7 @@ gnU99t5j1naPrW03gMZhVjUlXH19JfLOgvkO3sykAWDkcFZGxv1jJ8BqzUmUihrY
 TytBAoGBAI/ER2xg4RY59hEr0ST9tIwpV/4r6S6bDAiCsFmfMMfU4U7TPocfouMY
 BXKAD/glJ44EL4z82axYP0LA6Abe/pfkc8dwWsEAayYjYV+8qzQ7mtHRKxmLxHTm
 BtfxKI72NnSS70p1VAzKACZXwMRR5RRhOz75s1bJ3JK18AMSRc3r
------END RSA PRIVATE KEY-----', 2);
+-----END RSA PRIVATE KEY-----', 1);
 INSERT INTO OrganizationOfficer (idNumber, role, yearID)
                          VALUES (6666666, 12, system_get_current_year_id());
 
@@ -519,7 +596,7 @@ gnU99t5j1naPrW03gMZhVjUlXH19JfLOgvkO3sykAWDkcFZGxv1jJ8BqzUmUihrY
 TytBAoGBAI/ER2xg4RY59hEr0ST9tIwpV/4r6S6bDAiCsFmfMMfU4U7TPocfouMY
 BXKAD/glJ44EL4z82axYP0LA6Abe/pfkc8dwWsEAayYjYV+8qzQ7mtHRKxmLxHTm
 BtfxKI72NnSS70p1VAzKACZXwMRR5RRhOz75s1bJ3JK18AMSRc3r
------END RSA PRIVATE KEY-----', 2);
+-----END RSA PRIVATE KEY-----', 1);
 INSERT INTO OrganizationOfficer (idNumber, role, yearID)
                       VALUES (7777777, 13, system_get_current_year_id());
 
@@ -562,10 +639,49 @@ BtfxKI72NnSS70p1VAzKACZXwMRR5RRhOz75s1bJ3JK18AMSRc3r
 INSERT INTO OrganizationOfficer (idNumber, role, yearID)
                          VALUES (8888888, 18, system_get_current_year_id());
 
+INSERT INTO Account (email, idNumber, password, firstname, lastname, contactNumber, publicKey, privateKey, type)
+    VALUES ('amt_vc@dlsu.edu.ph', 9999999, '1234', 'CSO', 'VC - AMT', '+63 9228474849', '-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArdjmjQSvYOuZD4w1J3oD
+AZyWknSkIEebVNh5T563AtBoEfkSYfhW+MaumUBkJNt40Cl8Zp/wpy53cFwMHQ/L
+vO9VMTogiysoeSLzjdNspEnWapZlcp+XPXRD9TDVwGxKHeF81eAeDpHwV7G42EFo
+IV9HUW47kk0jljqmoRbWfcCD9ryjaz9DGiBoV5lhxpQSF5JhydYgt1B+Z5m602fC
+acZCR7jf817RtmUxbRxHmwUMd73GJwVIgzQkG+HoyUeyRDbtbJJDlJs+NsV5f5xU
+I9dE3OxApAimpcEOKCezzH0vEB498mgLbi9ZQdyyeCJZRnJHmVbyWdSdmc1TiZYQ
+zQIDAQAB
+-----END PUBLIC KEY-----', '-----BEGIN RSA PRIVATE KEY-----
+MIIEowIBAAKCAQEArdjmjQSvYOuZD4w1J3oDAZyWknSkIEebVNh5T563AtBoEfkS
+YfhW+MaumUBkJNt40Cl8Zp/wpy53cFwMHQ/LvO9VMTogiysoeSLzjdNspEnWapZl
+cp+XPXRD9TDVwGxKHeF81eAeDpHwV7G42EFoIV9HUW47kk0jljqmoRbWfcCD9ryj
+az9DGiBoV5lhxpQSF5JhydYgt1B+Z5m602fCacZCR7jf817RtmUxbRxHmwUMd73G
+JwVIgzQkG+HoyUeyRDbtbJJDlJs+NsV5f5xUI9dE3OxApAimpcEOKCezzH0vEB49
+8mgLbi9ZQdyyeCJZRnJHmVbyWdSdmc1TiZYQzQIDAQABAoIBAB1+BG678rywe0Dl
++kZ+LnBhjjG+U/Gd9D4Kk1nshQOXM3CJHpM8PBTsL8aT4+lUykQWJaKLU5opCd4n
+3242tcuRlpRJVigF5FHYmhTfXzjnxdZDOWaeqFumk7jO1hRUyqYTEMh/wtmZ7HoU
+DlWxkubGcSThXH3PVFAyFv6RD0Y50A4em/2ObFeyOavBlmXNwxdXkeWJCtWDlDdU
+ebM6ZKufJwKQ6EJitFPRyKo7XQWTGNJ9TYtX0Hp4w0wFG6OOF6bsZJ3Jh73fJhqE
+mlLrvC1v5wsJUCojXrzBjGl2uMNL01m+AXwKLY23XSP828cZvAfQAR7x4w9XlYzZ
+z87zNwECgYEA+eBhZS9RDJEIxxlc8ubzFiIaHMtYNK4y3XLtj2nTxYRTRkUuZWCZ
+AfqfdwXzOUGDR5/ViEfAUOwKpoqJT5dW1CU7iAQFcI1l8zXt9l/EAvc3IsN36pBV
+rGRdfYDZdxPweRU4skehUcj5WBewl7hWzIRqxEPbaDoBpxCbKeXNqe0CgYEAshuL
+gKLwJkbPqn/383g9WrUTHKxz39G00mTiTWe73uqcaoo13QBmJWxUwLYvGyFeEeWg
+rU1BSYJpC/yi+rd/C/cCIVcX3U+3/NDLPj4NqllW8kbCx76bVUAL/o4W4M1CXnI7
+FLcUbF+bKOwMhMK1JI3OY0Kf0/Zos6jBgXE9pmECgYBWNc8EjQ2mi0d/AcYq2/mU
+clGWC6Y0DsHn22YQ688vv1bH0MiQG4LOxvxLoVboMy0rAf83FKJKiRWnnfZ/6lP/
+v5TJebGywmYhQkMGlMXYzBhOuyfdWszkPIBw84qT5eI6tFKqV8JVqEQ2232G6wev
+aiQ38L17OUAmtrkB/JI3hQKBgH4YHjWeJaMTsuYk3yhR0i4r0DIWrZqh3wCtR8JB
+VLLHKqIK44NpSufnwEEHOmZcwzqsdYr8DOK8Hx7LZ59U1e9kmu97t3uJetrT/3A7
+gnU99t5j1naPrW03gMZhVjUlXH19JfLOgvkO3sykAWDkcFZGxv1jJ8BqzUmUihrY
+TytBAoGBAI/ER2xg4RY59hEr0ST9tIwpV/4r6S6bDAiCsFmfMMfU4U7TPocfouMY
+BXKAD/glJ44EL4z82axYP0LA6Abe/pfkc8dwWsEAayYjYV+8qzQ7mtHRKxmLxHTm
+BtfxKI72NnSS70p1VAzKACZXwMRR5RRhOz75s1bJ3JK18AMSRc3r
+-----END RSA PRIVATE KEY-----', 1);
+INSERT INTO OrganizationOfficer (idNumber, role, yearID)
+                         VALUES (9999999,  8, system_get_current_year_id());
+
 INSERT INTO GOSM (termID, studentOrganization)
            VALUES (system_get_current_term_id(), 1);
 UPDATE GOSM
-   SET status = 2
+   SET status = 3
  WHERE id%100000 = 1;
 
 
@@ -574,13 +690,11 @@ INSERT INTO GOSMActivity (gosm, goals, objectives, strategies, description, meas
 INSERT INTO GOSMActivityProjectHead (idNumber, activityID)
                              VALUES (3333333, (SELECT id FROM GOSMActivity WHERE gosm%100000 = 1 LIMIT 1));
 
-INSERT INTO ProjectProposal (facultyAdviser, preparedBy, GOSMActivity, ENP, ENMP, venue, context1, context2, context3, sourceFundOther, sourceFundParticipantFee, sourceFundOrganizational, accumulatedOperationalFunds, accumulatedDepositoryFunds, comments)
-                     VALUES (4444444, 3333333, (SELECT id FROM GOSMActivity WHERE gosm%100000 = 1 LIMIT 1), 1, 1, 0, 'Context kita', 'Context parin kita', 'Context ulit kita',69.69, 69.69, 69.69, 69.69, 69.69, 'Comments ko toh');
+INSERT INTO ProjectProposal (actualDateEnd, facultyAdviser, preparedBy, GOSMActivity, ENP, ENMP, venue, context1, context2, context3, sourceFundOther, sourceFundParticipantFee, sourceFundOrganizational, accumulatedOperationalFunds, accumulatedDepositoryFunds, comments)
+                     VALUES ((CURRENT_TIMESTAMP - INTERVAL '1 day'), 4444444, 3333333, (SELECT id FROM GOSMActivity WHERE gosm%100000 = 1 LIMIT 1), 1, 1, 0, 'Context kita', 'Context parin kita', 'Context ulit kita',69.69, 69.69, 69.69, 69.69, 69.69, 'Comments ko toh');
 
 INSERT INTO GOSMActivity (gosm, goals, objectives, strategies, description, measures, targetDateStart, targetDateEnd, ActivityNature, ActivityType, isRelatedToOrganizationNature, budget)
                  VALUES ((SELECT id FROM GOSM WHERE id%100000 = 1 LIMIT 1), 'Goal Mo to 2', '{"Objectives 2", "Mo 2", "To 2"}', 'Strategies Mo to 2', 'Descibe kita 2', 'Measure mo to :) 2', '2017-10-13', '2017-10-14', 1, 2, false, 999.99);
-INSERT INTO GOSMActivityProjectHead (idNumber, activityID)
-                          VALUES (3333333, (SELECT id FROM GOSMActivity WHERE gosm%100000 = 1 AND sequence = 2 LIMIT 1));
 
 UPDATE ProjectProposal
    SET status = 2
@@ -597,7 +711,8 @@ INSERT INTO ProjectProposalProgramDesign (projectProposal, dayID, date, startTim
                                   VALUES (1,    1, '2017-10-14', '21:34:03', '23:00:00', 'Aguy', 'Gansa', 3333333);
 
 DELETE FROM ProjectProposalExpenses
-WHERE projectProposal = 1
-AND sequence = 1;
+ WHERE projectProposal = 1
+   AND sequence = 1;
+
 
 COMMIT;

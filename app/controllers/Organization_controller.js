@@ -22,15 +22,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
         //Create ProjectProposal
         viewGOSMActivityListProjectProposal: (req, res) => {
-
-
             systemModel.getCurrentTerm()
             .then(data=>{
                 var param = {
                     termID: data.id,
                     studentOrganization: req.session.user.organizationSelected.id
                 };
-                
+
                 gosmModel.getOrgGOSM(param)
                 .then(data1=>{
 
@@ -49,23 +47,19 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         console.log(renderData);
                         return res.render('Org/ActivityToImplement', renderData);
                     }).catch(error=>{
-                        console.log(error);
+                        logger.warn(`${error.message}\n${error.stack}`, log_options);
                     });
 
 
                 }).catch(error=>{
-
+                    logger.warn(`${error.message}\n${error.stack}`, log_options);
                 });
-                 
+
             }).catch(error=>{
-
+                logger.warn(`${error.message}\n${error.stack}`, log_options);
             });
-            
-
-            
-
-            
         },
+
         viewGOSMActivityListPostProjectProposal: (req, res) => {
 
             //TODO: session of gosm id??
@@ -88,10 +82,10 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 }
                 return res.render('Org/PostActivityToImplement', renderData);
             }).catch(error=>{
-                console.log(error);
+                logger.warn(`${error.message}\n${error.stack}`, log_options);
             });
 
-            
+
         },
 
         viewSubmitProjectProposalMain: (req, res) => {
@@ -128,12 +122,10 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                         return res.render('Org/SubmitProjectProposal_main',renderData);
                     }).catch(err => {
-                        console.log(err);
+                        logger.warn(`${err.message}\n${err.stack}`, log_options);
                     });
-
-
                 }).catch(error=>{
-                    console.log(error);
+                    logger.warn(`${error.message}\n${error.stack}`, log_options);
                 });
 
             } // already started ppr
@@ -146,31 +138,29 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 };
 
                 database.task(task => {
-                        return task.batch([
-                            gosmModel.getGOSMActivity(dbParam),
-                            gosmModel.getGOSMActivityProjectHeads(dbParam),
-                            projectProposalModel.getProjectProposal(dbParam)
-                        ]);
-                    }).then(data => {
-                        const renderData = Object.create(null);
-                        renderData.extra_data = req.extra_data;
-                        renderData.csrfToken = req.csrfToken();
+                    return task.batch([
+                        gosmModel.getGOSMActivity(dbParam),
+                        gosmModel.getGOSMActivityProjectHeads(dbParam),
+                        projectProposalModel.getProjectProposal(dbParam)
+                    ]);
+                }).then(data => {
+                    const renderData = Object.create(null);
+                    renderData.extra_data = req.extra_data;
+                    renderData.csrfToken = req.csrfToken();
 
-                        renderData.gosmActivity = data[0];
-                        renderData.projectHeads = data[1];
-                        renderData.projectProposal = data[2];
-                        renderData.gosmid = req.params.id;
-                        console.log(data[2]);
-                        console.log("KAHITANONGMESSAGE");
+                    renderData.gosmActivity = data[0];
+                    renderData.projectHeads = data[1];
+                    renderData.projectProposal = data[2];
+                    renderData.gosmid = req.params.id;
+                    console.log(renderData.gosmActivity);
+                    console.log("KAHITANONGMESSAGE");
 
-                        return res.render('Org/SubmitProjectProposal_main',renderData);
-                    }).catch(err => {
-                        console.log(err);
-                        console.log(err.stack);
-                    });
-
+                    return res.render('Org/SubmitProjectProposal_main',renderData);
+                }).catch(err => {
+                    logger.warn(`${err.message}\n${err.stack}`, log_options);
+                });
             }
-            
+
 
         },
         viewSubmitPostProjectProposalMain: (req, res) => {
@@ -178,10 +168,10 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 idNumber: req.session.user.idNumber,
                 gosmid:req.params.gosmid
             };
-             var dbParam2 = {                
+             var dbParam2 = {
                 gosmactivity:req.params.gosmid
             };
-            
+
             console.log(dbParam);
             database.task(task=>{
                 return task.batch([
@@ -191,7 +181,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             }).then(data =>{
                 const renderData = Object.create(null);
                 renderData.extra_data = req.extra_data;
-                renderData.csrfToken = req.csrfToken();                
+                renderData.csrfToken = req.csrfToken();
                 renderData.activities = data[0];
                 renderData.projectHeads = data[1];
                 renderData.gosmid = req.params.gosmid;
@@ -199,7 +189,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 console.log(renderData.projectHeads);
                 return res.render('Org/SubmitPostProjectProposal_main', renderData);
             }).catch(err=>{
-                console.log(err);
+                logger.warn(`${err.message}\n${err.stack}`, log_options);
             });
             // postProjectProposalModel.getPostProjectProposalMain(dbParam)
             // .then(data=>{
@@ -207,16 +197,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             //     const renderData = Object.create(null);
             //     renderData.extra_data = req.extra_data;
             //     renderData.csrfToken = req.csrfToken();
-                
+
             //     renderData.activities = data;
             //     console.log(renderData);
             //     // return res.render('Org/SubmitPostProjectProposal_main', renderData);
             // }).catch(error=>{
             //     console.log(error);
             // });
-
-
-            
         },
 
         viewSubmitProjectProposalAttachments: (req, res) => {
@@ -229,36 +216,34 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             var gl = {
                 projectId: req.params.id
             }
-            
-
              database.task(task => {
-                       
-                        return task.batch([
-                                gosmModel.getGOSMActivityType(req.params.id, undefined, task).
-                                   then(data =>{
-                                        console.log("DATA");
-                                        console.log(data[0].activitytype);
-                                        return gosmModel.getGOSMActivityAttachmentRequirement(data[0].activitytype,task);
-                                        
-                                   }),
-                               projectProposalModel.getLatestProjectProposalAttachment(gl)
 
-                            ]) 
-                       
-                    }).then(data => {
-                        console.log("DATA");
-                        console.log(data[0]);
-                        renderData.attachments = data[0];
-                        renderData.documents = data[1]
-                        console.log("DATA1");
-                        console.log(data[1]);
-                        return res.render('Org/SubmitProjectProposal_attachments',renderData);
-                    }).catch(error => {
-                        console.log(error);
-                    });
+                return task.batch([
+                        gosmModel.getGOSMActivityType(req.params.gid, undefined, task).
+                           then(data =>{
+                                console.log("DATA");
+                                console.log(data[0].activitytype);
+                                return gosmModel.getGOSMActivityAttachmentRequirement(data[0].activitytype,task);
 
+                           }),
+                       projectProposalModel.getLatestProjectProposalAttachment(gl)
 
-          
+                    ])
+
+            }).then(data => {
+                console.log("DATA");
+                console.log(data[0]);
+                renderData.attachments = data[0];
+                renderData.documents = data[1]
+                renderData.gid = req.params.gid
+                renderData.pid = req.params.id
+                console.log("DATA1");
+                console.log(data[1]);
+                return res.render('Org/SubmitProjectProposal_attachments',renderData);
+            }).catch(error => {
+                logger.warn(`${error.message}\n${error.stack}`, log_options);
+            });
+
         },
 
         viewSubmitProjectProposalBriefContext: (req, res) => {
@@ -275,29 +260,27 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
 
              database.task(task => {
-                        return task.batch([
-                            projectProposalModel.getProjectProposal(dbParam),
-                            projectProposalModel.getAllVenues(),
-                            projectProposalModel.getOrgFacultyAdvisers(dbParam)
-                        ]);
-                    }).then(data => {
-                       
-                        const renderData = Object.create(null);
-                        renderData.extra_data = req.extra_data;
-                        renderData.csrfToken = req.csrfToken();
-                        renderData.projectProposal = data[0];
-                        renderData.venues = data[1];
-                        renderData.advisers = data[2];
-                        renderData.gosmactivity = dbParam;
+                    return task.batch([
+                        projectProposalModel.getProjectProposal(dbParam),
+                        projectProposalModel.getAllVenues(),
+                        projectProposalModel.getOrgFacultyAdvisers(dbParam)
+                    ]);
+                }).then(data => {
 
-                        return res.render('Org/SubmitProjectProposal_briefcontext',renderData);
+                    const renderData = Object.create(null);
+                    renderData.extra_data = req.extra_data;
+                    renderData.csrfToken = req.csrfToken();
+                    renderData.projectProposal = data[0];
+                    renderData.venues = data[1];
+                    renderData.advisers = data[2];
+                    renderData.gosmactivity = dbParam;
 
-                    }).catch(error => {
-                        console.log(error);
-                    });
-
-
+                    return res.render('Org/SubmitProjectProposal_briefcontext',renderData);
+                }).catch(error => {
+                    logger.warning(`${error.message}\n${error.stack}`, log_options);
+                });
         },
+
         viewSubmitPostProjectProposalBriefContext: (req, res) => {
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
@@ -319,9 +302,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 console.log(renderData.save);
                 return res.render('Org/SubmitPostProjectProposal_briefcontext',renderData);
             }).catch(err => {
-                console.log(err);
+                logger.warn(`${err.message}\n${err.stack}`, log_options);
             })
-            
+
         },
         viewSubmitPostProjectProposalOthers: (req, res) => {
             const renderData = Object.create(null);
@@ -341,11 +324,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.status = data;
                 renderData.id = req.params.gosmid;
                 console.log(data);
-                return res.render('Org/SubmitPostProjectProposal_financedocuments',renderData);    
+                return res.render('Org/SubmitPostProjectProposal_financedocuments',renderData);
             }).catch(err =>{
-                console.log(err);
+                logger.warn(`${err.message}\n${err.stack}`, log_options);
             })
-            
+
         },
         // viewSubmitPostProjectProposalBriefContext: (req, res) => {
         //     const renderData = Object.create(null);
@@ -371,7 +354,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 return task.batch([
                     projectProposalModel.getProjectProposal(dbParam),
                     projectProposalModel.getProjectProposalExpenses(req.params.id),
+<<<<<<< HEAD
                     projectProposalModel.getExpenseTypes()                    
+=======
+                    projectProposalModel.getExpenseTypes()
+>>>>>>> lian
                 ]);
             })
             .then(data=>{
@@ -383,11 +370,15 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.projectProposal = data[0];
                 renderData.expenses = data[1];
                 renderData.revenue = req.params.revenue;
+<<<<<<< HEAD
+=======
+                // renderData.revenue = 1;
+>>>>>>> lian
                 renderData.expenseTypes = data[2];
 
                 console.log(renderData.gosmactivity);
                 console.log(renderData.projectProposal);
-            
+
                 return res.render('Org/SubmitProjectProposal_expense', renderData);
             }).catch(error=>{
                 console.log(error);
@@ -843,8 +834,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
             if(!(req.body.actualDateStart).trim() ||
                 !(req.body.actualDateEnd).trim() ||
-                !(req.body.enp).trim() || 
-                !(req.body.enmp).trim() || 
+                !(req.body.enp).trim() ||
+                !(req.body.enmp).trim() ||
                 !(req.body.venue).trim() ||
                 !(req.body.adviser).trim() ||
                 !(req.body.expense).trim() ||
@@ -853,7 +844,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 !(req.body.context3).trim()){
 
                 dbParam.isBriefContextComplete = false;
-                
+
             }
 
             if (!(req.body.actualDateStart).trim()){
@@ -881,6 +872,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 
                 res.redirect(`/Organization/ProjectProposal/Main/${req.params.id}/1`);
 
+                res.redirect(`/Organization/ProjectProposal/Main/${req.params.id}/1`);
+
             }).catch(error=>{
                 console.log(error);
             });
@@ -893,13 +886,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             console.log(req.params);
 
             // TODO: change id, to come from selected activity
-            var obj = req.body['obj[]'].filter(function(e){return e}); 
+            var obj = req.body['obj[]'].filter(function(e){return e});
             var dbParam = {
                 id: req.body.gosmid,
-                           
+
                 well: req.body.wentWell,
                 learning: req.body.learning,
-                develop: req.body.develop,                
+                develop: req.body.develop,
                 mistakes: req.body.mistakes,
                 objectives:req.body['obj[]'],
                 isBriefContextComplete: true
@@ -918,7 +911,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             {
 
                 dbParam.isBriefContextComplete = false;
-                
+
             }
             console.log("dbParam")
             console.log(dbParam);
@@ -928,29 +921,29 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                }).catch(err=>{
                                     console.log(err);
                                });
-            
+
             // return res.redirect(`Organization/postprojectproposal/main/${req.bod}`)
         },
         postSaveExpenses: (req, res) =>{
              const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
-            
+
             // var date = new Date().toJSON();
 
-             
+
              var dir3 = path.join (__dirname,'..','assets','upload');
 
             //CHECK IF DIRECTOR EXIST
             if (!fs.existsSync(dir3)){
                 fs.mkdirSync(dir3);
-            }            
+            }
             var dir = path.join (__dirname,'..','assets','upload','postacts');
             //CHECK IF DIRECTOR EXIST
             if (!fs.existsSync(dir)){
                 fs.mkdirSync(dir);
             }
-            
+
             var dir2 = path.join (__dirname,'..','assets','upload','postacts',req.session.user.idNumber+"");
             //CHECK IF DIRECTOR EXIST
             if (!fs.existsSync(dir2)){
@@ -990,12 +983,12 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     dp:dp,
                     bt:bt,
                     reim:reim
-                }; 
+                };
                 var finParam = {
                     gosmid : req.body.gosmid,
                     status:true
                 }
-                
+
                 if(typeof req.files['gals'] == 'object'){
                     var galsFilename = cuid() + path.extname(req.files['gals'].name);
                     var galsFilenameToShow = (req.files['gals'].name);
@@ -1022,12 +1015,12 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 }
                console.log("========TAs33333333333  Sd=========");
                 console.log(finParam);
-                //EXPENSES MAY VARY 
+                //EXPENSES MAY VARY
                 console.log(typeof req.files['file[]'])
                 if(typeof req.files['file[]'] == 'object'){
                     if(typeof req.files['file[]'][Symbol.iterator] == 'function'){
-                        for(var ctr = 0; ctr < req.body['est[]'].length; ctr++){    
-                            
+                        for(var ctr = 0; ctr < req.body['est[]'].length; ctr++){
+
                             var orignalFileName = req.files['file[]'][ctr].name;
                             var ftype = path.extname(orignalFileName);
                             console.log(ftype);
@@ -1041,7 +1034,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                 file: fname,
                                 filenameToShow:req.files['file[]'][ctr].name,
                                 idNumber:req.session.user.idNumber,
-                               
+
                             };
                             var p = path.join(dir2,fname);
                             Promise.all([
@@ -1069,7 +1062,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                 file: fname,
                                 filenameToShow:req.files['file[]'].name,
                                 idNumber:req.session.user.idNumber,
-                               
+
                             };
                             var p = path.join(dir2,fname);
                             Promise.all([
@@ -1090,7 +1083,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 if(typeof req.files['pictures[]'] == 'object'){
                 console.log(typeof req.files['pictures[]'][Symbol.iterator] );
                     if(typeof req.files['pictures[]'][Symbol.iterator] == 'function'){
-                        for(var ctr = 0; ctr < req.body['pictureCaption[]'].length; ctr++){    
+                        for(var ctr = 0; ctr < req.body['pictureCaption[]'].length; ctr++){
                             var orignalFileName = req.files['pictures[]'][ctr].name;
                             var ftype = path.extname(orignalFileName);
                             console.log(ftype);
@@ -1147,7 +1140,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 console.log("========TAsdASDASd=========");
                 console.log(finParam);
                 postProjectProposalModel.updatePostProjectRequiredCompleteness(finParam,t);
-                //PICTURES MAY VARY 
+                //PICTURES MAY VARY
 
             }).then(data=>{
                  return res.redirect(`/Organization/PostProjectProposal/Main/${req.body.gosmid}`)
@@ -1156,9 +1149,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 console.log("========TAST=========");
                                 console.log(err);
             })
-            
+
             // TODO: change id, to come from selected activity
-         
+
             // return res.redirect(`Organization/postprojectproposal/main/${req.bod}`)
         },
 
@@ -1188,7 +1181,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
             database.tx(transaction=>{
 
-                
+
 
                 for (var item in sched){
                     console.log(sched[item].length);
@@ -1222,7 +1215,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             console.log(error);
                         });
 
-                        
+
                     }
                     index++;
                 }
@@ -1248,7 +1241,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         console.log("updateIsProgramDesignComplete")
                         console.log(error);
                     });
-                } 
+                }
                 else {
 
                     console.log("ENTERS");
@@ -1289,7 +1282,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             console.log(req.params.id);
             var dbParam = {
                 id: req.body.pprid,
-                preparedby: req.session.user.idNumber
+                preparedby: req.session.user.idNumber,
+                gosmid: req.body.gosmid
             };
             console.log(req.body.context);
             if(req.body.context && req.body.program && req.body.expense && req.body.attachment){
@@ -1297,17 +1291,24 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                 projectProposalModel.submitProjectProposal(dbParam)
                 .then(data=>{
-                return res.redirect(`/Organization/ProjectProposal/gosmlist/`);
-                }).catch(error=>{
 
+                    postProjectProposalModel.insertPostProjectProposal(dbParam)
+                    .then(data1=>{
+
+
+                        return res.redirect(`/Organization/ProjectProposal/gosmlist/`);
+                   
+
+                    }).catch(error=>{
+                        console.log("error in insertPostProjectProposal");
+                        console.log(error);
+                    });
+                }).catch(error=>{
+                    console.log("error in submit projectProposal");
+                    console.log(error);
                 });
 
-                // postProjectProposalModel.insertPostProjectProposal(dbParam)
-                // .then(data=>{
-                //     return res.render(`/Organization/ProjectProposal/gosmlist`,renderData);
-                // }).catch(err=>{
-
-                // });
+               
             }else{
 
                 console.log("IZ HERE INSTEAD");
@@ -1352,16 +1353,16 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             console.log(req.body);
             console.log("=========================== FILES");
             console.log(typeof req.files['rof-dp']);
-           
-          
-        
-           
-           
 
-            
+
+
+
+
+
+
 
             database.tx(t=>{
-                 var statFin = {             
+                 var statFin = {
                     stat:true,
                     gosmid: (req.body.gosmid)
                 }
@@ -1372,12 +1373,12 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 if(dp){
                     if(typeof req.files['fq-dp'] == 'object' || typeof req.files['rof-dp'] == 'object'){
                         //DP
-                       
+
                         if(typeof req.files['fq-dp'] == 'object'){
                             fqName = req.files['fq-dp'].name;
-                            fqcuid = cuid()+path.extname(fqName);    
+                            fqcuid = cuid()+path.extname(fqName);
                         }
-                       
+
                         if(typeof req.files['rof-dp'] == 'object'){
                             rofName = req.files['rof-dp'].name;
                             rofcuid = cuid()+path.extname(rofName);
@@ -1398,13 +1399,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         if(req.body['amount-dp'] != ''){
                             dpParam.amount = req.body['amount-dp'];
                         }
-                        if( !(req.body['est-dp']).trim() || 
-                            !(req.body['amount-dp']).trim()|| 
-                            !(req.body['pb-dp']).trim() || 
-                            !(req.body['delayed-dp']).trim() 
+                        if( !(req.body['est-dp']).trim() ||
+                            !(req.body['amount-dp']).trim()||
+                            !(req.body['pb-dp']).trim() ||
+                            !(req.body['delayed-dp']).trim()
 
                             ){
-                          
+
                             statFin.stat = false;
                         }
 
@@ -1424,7 +1425,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         }
                         else if( typeof req.files['rof-dp'] == 'object'){
                              Promise.all([
-                            
+
                                     req.files['rof-dp'].mv(path.join(dir2,rofcuid)),
                                     postProjectProposalModel.insertPostDP(dpParam,t)
                                 ])
@@ -1438,7 +1439,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         else if(typeof req.files['fq-dp'] == 'object' ){
                              Promise.all([
                                     req.files['fq-dp'].mv(path.join(dir2,fqcuid)),
-                            
+
                                     postProjectProposalModel.insertPostDP(dpParam,t)
                                 ])
                                 .then(data =>{
@@ -1484,11 +1485,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             bsts: bsName,
                             idNumber: req.session.user.idNumber
                         };
-                         if( !(req.body['est-bt']).trim() || 
-                            !(req.body['amount-bt']).trim() || 
+                         if( !(req.body['est-bt']).trim() ||
+                            !(req.body['amount-bt']).trim() ||
                             !(req.body['pur-bt']).trim()
                             ){
-                           
+
                             statFin.isFinanceDocumentCompleted = false;
                         }
                         if(req.body['amount-bt'] != ''){
@@ -1534,7 +1535,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         if(typeof req.files['rec-pr'][Symbol.iterator] == 'function'){
                             for(var ctr = 0; ctr < req.files['rec-pr'].length; ctr++){
                                 var recName = req.files['rec-pr'][ctr].name;
-                                var reccuid = cuid()+path.extname(recName); 
+                                var reccuid = cuid()+path.extname(recName);
                                 names.push(recName)  ;
                                 nameToShow.push(reccuid);
                                 req.files['rec-pr'][ctr].mv(path.join(dir2,reccuid))
@@ -1547,7 +1548,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             }
                         }else{
                             var recName = req.files['rec-pr'].name;
-                            var reccuid = cuid()+path.extname(recName); 
+                            var reccuid = cuid()+path.extname(recName);
                             names.push(recName)  ;
                             nameToShow.push(reccuid);
                             req.files['rec-pr'].mv(path.join(dir2,reccuid))
@@ -1570,14 +1571,14 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             idNumber: req.session.user.idNumber
 
                         }
-                        
-                        if( !(req.body['est-pr']).trim() || 
-                            !(req.body['amount-pr']).trim() || 
-                            !(req.body['delayed-pr']).trim() || 
+
+                        if( !(req.body['est-pr']).trim() ||
+                            !(req.body['amount-pr']).trim() ||
+                            !(req.body['delayed-pr']).trim() ||
                             !(req.body['n-pr']).trim()
 
                             ){
-                            
+
                             statFin.stat = false;
                         }
                         if(req.body['amount-pr'] != '')
@@ -1611,7 +1612,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     }
                 }
                 console.log(statFin);
-                    
+
                  postProjectProposalModel.updatePostProjectFinanceCompleteness(statFin,t)
                     .then(data =>{
 
@@ -1670,7 +1671,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     console.log(error);
                 });
 
+<<<<<<< HEAD
             
+=======
+
+>>>>>>> lian
 
                 for (var i = 0; i < req.body['item[]'].length-1; i++){
 
@@ -1682,6 +1687,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             quantity: req.body['quantity[]'][i],
                             sellingPrice: req.body['price[]'][i]
                         };
+<<<<<<< HEAD
 
                         console.log("revenue loop");
                         console.log(dbParam3);
@@ -1728,6 +1734,54 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 console.log(error);
             });
         
+=======
+
+                        console.log("revenue loop");
+                        console.log(dbParam3);
+
+                        projectProposalModel.insertProjectProposalProjectedIncome(dbParam3, transaction)
+                        .then(data=>{
+
+                        }).catch(error=>{
+                            console.log(error);
+                        });
+
+
+                    }
+                    else{
+
+                        var dbParam3 = {
+                            projectProposal: req.params.ppr,
+                            material: req.body['item[]'][i],
+                            quantity: req.body['quantity[]'][i],
+                            unitCost: req.body['price[]'][i],
+                            type: req.body['typeOfItem[]'][i]
+                        };
+
+                        console.log("expense loop");
+                        console.log(dbParam3);
+
+                        projectProposalModel.insertProjectProposalExpenses(dbParam3, transaction)
+                        .then(data=>{
+
+                        }).catch(error=>{
+                            console.log(error);
+                        });
+
+                    }
+
+
+                }
+
+            }).then(data=>{
+
+                res.redirect(`/Organization/ProjectProposal/Main/${req.params.id}/1`);
+
+            }).catch(error=>{
+                console.log(error);
+            });
+
+>>>>>>> lian
 
         },
 
@@ -1735,7 +1789,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
-            
+
             // var date = new Date().toJSON();
 
              var dir3 =__dirname+'/../assets/upload/';
@@ -1757,7 +1811,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             if (!fs.existsSync(dir2)){
                 fs.mkdirSync(dir2);
             }
- 
+
 
             dir2 = path.normalize(dir2);
             console.log("req.files");
@@ -1769,17 +1823,17 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                        'application/vnd.oasis.opendocument.presentation',
                        'application/pdf'];
 
-        
+
             database.task(task => {
-                       
+
                         return gosmModel.getGOSMActivityType(req.body.activityId, undefined, task).
                                then(data =>{
                                     console.log("DATA");
                                     console.log(data[0].activitytype);
                                     return gosmModel.getGOSMActivityAttachmentRequirement(data[0].activitytype,task);
-                                    
+
                                });
-                       
+
                     }).then(data => {
 
 
@@ -1792,13 +1846,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                 // console.log(file);
                                 // console.log("file");
                                 // console.log(data[ctr].id);
-                                
-                                var date = cuid();           
+
+                                var date = cuid();
                                 var nFilename = file.name.split('.').pop();
                                 console.log("new File name");
                                 console.log(nFilename);
                                  var db ={
-                                        projectId : req.body.activityId,
+                                        projectId : req.body.pid,
                                         requirement: data[ctr].id,
                                         dir: dir2 + file.name +' - '+ date,
                                         idNumber: req.session.user.idNumber,
@@ -1817,16 +1871,16 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                                 console.log(result);
                                             }).catch(err=>{
                                                 console.log(err);
-                                            });                                                
+                                            });
                                 ctr++
                             }
                         }else if(typeof req.files['uploadfile[]'][Symbol.iterator] == 'undefined'){
                               var file = req.files['uploadfile[]'];
                               var nFilename = file.name.split('.').pop();
                                 console.log("new File name");
-                                var date = cuid();     
+                                var date = cuid();
                               var db ={
-                                        projectId : req.body.activityId,
+                                        projectId : req.body.pid,
                                         requirement: data[ctr].id,
                                         dir: dir2 + file.name +' - '+ date,
                                         idNumber: req.session.user.idNumber,
@@ -1834,7 +1888,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                         filenametoShow: file.name
 
                                     };
-                                
+
                                 console.log("FILE");
                                 var p = path.normalize(path.join(dir2 , date +'.'+ nFilename));
                                 console.log(path.normalize(path.join(dir2 , date +'.'+ nFilename)));
@@ -1846,7 +1900,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                                 console.log(result);
                                             }).catch(err=>{
                                                 console.log(err);
-                                            });          
+                                            });
                         }
 
 
@@ -1863,7 +1917,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     });
 
                     var dbParam = {
-                            id: req.body.activityId
+                            id: req.body.pid
                     };
 
                     projectProposalModel.updateIsAttachmentsComplete(dbParam)
@@ -1884,21 +1938,21 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 idNumber: req.session.user.idNumber
             };
             console.log(dbParam3);
-            
+
             database.tx(t=>{
-                postProjectProposalModel.updatePostProjectProposalCompleteness(dbParam3,t);    
+                postProjectProposalModel.updatePostProjectProposalCompleteness(dbParam3,t);
                 return postProjectProposalModel.getPostActsToImplement(dbParam,t);
             }).then(data=>{
-               
+
                 req.session.postSubmitted = true;
                 return res.redirect('/Organization/PostProjectProposal/GOSMList');
             }).catch(err=>{
                  console.log("POST SAVE MAIN");
                 console.log(error);
             });
-          
 
-           
+
+
 
         },
         viewPubs: (req, res)=>{
@@ -1918,8 +1972,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                     console.log("ERROR");
                                     console.log(err);
                                 })
-            
-            
+
+
         },
         viewPubsSpecific: (req, res)=>{
             const renderData = Object.create(null);
@@ -1949,11 +2003,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                           return res.render('Org/CreatePubs',renderData);
                     }).catch(err=>{
                         console.log("ERROR VIEW PUB");
-                        console.log(err);   
+                        console.log(err);
                     })
-          
-            
-            
+
+
+
         },
         insertPubs: (req, res)=>{
 
@@ -1976,10 +2030,10 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             if (!fs.existsSync(dir2)){
                 fs.mkdirSync(dir2);
             }
- 
+
 
             dir2 = path.normalize(dir2);
-            console.log("req.files");   
+            console.log("req.files");
             console.log(req.body);
 
             const renderData = Object.create(null);
@@ -2000,11 +2054,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             }
             pnpModel.getSpecificPubSeq(gParam).then(data=>{
                  database.task(t=>{
-                
-               
-                
-                console.log(data)  
-                
+
+
+
+                console.log(data)
+
                 var insertParam = {
                                     gosmid: req.body.gosmid,
                                     sid: data.seq+1,
@@ -2018,7 +2072,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                                     }
                                     console.log(insertParam);
-                    
+
                 req.files['pubs'].mv(path.join(dir2,filename))
                   return  pnpModel.insertActivityPublicity(insertParam,t)
                             .catch(err=>{
@@ -2036,9 +2090,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     console.log(err)
                 })
             });
-           
-            
-            
+
+
+
         },
         viewPubDetails: (req, res)=>{
             const renderData = Object.create(null);
@@ -2085,7 +2139,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             if (!fs.existsSync(dir2)){
                 fs.mkdirSync(dir2);
             }
- 
+
 
             dir2 = path.normalize(dir2);
             database.task(t=>{
@@ -2097,7 +2151,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                          pnpModel.updatePubsToPend(dbParam,t),
                          pnpModel.getPubDetails(dbParam,t)
                          ]);
-                
+
             }).then(data=>{
                 console.log("DATA DOMS");
                 console.log(data);

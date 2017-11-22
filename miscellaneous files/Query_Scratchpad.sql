@@ -1,29 +1,30 @@
-﻿
-WITH "CurrentTermPPR" AS (
-    SELECT id 
-      FROM GOSMActivity
-     WHERE GOSM IN (SELECT id 
-                      FROM GOSM
-                     WHERE termID = system_get_current_term_id())
-  ORDER BY id ASC
-),"AccountToSign" AS ( /* The minimum type of the user to sign PPRs */
-    SELECT pps.GOSMActivity, MIN(st.lineup) AS lineup
-      FROM ProjectProposalSignatory pps LEFT JOIN SignatoryType st 
-                                               ON pps.type = st.id
-     WHERE pps.signatory = 3333333
-       AND pps.GOSMActivity IN (SELECT id FROM "CurrentTermPPR")
-       AND status = 0
-  GROUP BY pps.GOSMActivity
-), "ProjectProposalCurrentLineup" AS ( /* The actual minimum type of each PPR*/
-    SELECT pps.GOSMActivity, MIN(st.lineup) AS lineup
-      FROM ProjectProposalSignatory pps LEFT JOIN SignatoryType st
-                                               ON pps.type = st.id
-     WHERE GOSMActivity IN (SELECT id FROM "CurrentTermPPR")
-       AND status = 0
-  GROUP BY pps.GOSMActivity
+﻿WITH "SignatoryType" AS (
+    WITH "AccountSignatories" AS (
+        SELECT *
+          FROM ProjectProposalSignatory pps
+         WHERE pps.GOSMActivity = 1
+           AND pps.signatory = 1111111
+    )
+    SELECT pps.type
+      FROM "AccountSignatories" pps LEFT JOIN SignatoryType st
+                                           ON pps.type = st.id
+     WHERE st.lineup = (SELECT MIN(st.lineup)
+                          FROM SignatoryType st
+                         WHERE id IN (SELECT pps.type
+                                        FROM "AccountSignatories" pps))
+  ORDER BY pps.type DESC
+     LIMIT 1
 )
--- This is the list of ProjectProposals the user can currently sign
-SELECT ppcl.GOSMActivity
-  FROM "ProjectProposalCurrentLineup" ppcl INNER JOIN "AccountToSign" ats
-                                                  ON ppcl.GOSMActivity = ats.GOSMActivity
-                                                 AND ppcl.lineup = ats.lineup;
+UPDATE ProjectProposalSignatory
+   SET status = 2
+ WHERE GOSMActivity = 1
+   AND signatory = 3333333
+   AND type = (SELECT type FROM "SignatoryType");
+/*
+	0 - unsigned
+	1 - accept
+	2- pend
+	3 - deny
+	4 - force signed
+*/
+

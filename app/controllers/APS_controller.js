@@ -10,6 +10,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     const gosmModel = models.gosmModel;
     const organizationModel = models.organization_model;
     const projectProposalModel = models.ProjectProposal_model;
+    const accountModel = models.Account_model;
 
     const APSController = Object.create(null);
 
@@ -103,13 +104,18 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     };
 
     APSController.activityChecking = (req, res) => {
+        logger.debug('activityChecking()', log_options);
         var activityId;
         database.task(task => {
 
-            return projectProposalModel.getNextActivityForApproval(task)
+            return projectProposalModel.getNextActivityForApproval(req.session.user.idNumber, task)
             .then(data => {
                 activityId = data.id;
-                console.log(activityId);
+                logger.debug(`Activity ID: ${activityId}`);
+
+                var pa = {
+                    projectId:data.id
+                };
 
                 return task.batch([
                     Promise.resolve(data),
@@ -125,10 +131,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         'pppd.personincharge AS personincharge'
                     ]),
                     projectProposalModel.getProjectProposalProjectHeads(data.id),
-                    projectProposalModel.getProjectProposalAttachment(data.id)
+                    projectProposalModel.getLatestProjectProposalAttachment(pa),
+                    projectProposalModel.getSignatories(data.id)
                 ]);
-
-
+            }).catch(err=>{
+                return logger.warn(`Unhandled error: ${err.message}\n${err.stack} `, log_options);
             });
         }).then(data => {
             logger.debug(`${JSON.stringify(data[3])}`, log_options);
@@ -143,9 +150,16 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.programDesign = data[3];
             renderData.projectHeads = data[4];
             renderData.attachment = data[5];
+            renderData.signatories = data[6];
+            console.log(renderData.attachment);
+            console.log("renderData.attachment");
             return res.render('APS/ActivityChecking', renderData);
         }).catch(err => {
-            throw err;
+            logger.debug(`${err.message}\n${err.stack}`, log_options);
+            const renderData = Object.create(null);
+            renderData.csrfToken = req.csrfToken();
+            renderData.extra_data = req.extra_data;
+            return res.render('template/APS/NoActivityToCheck', renderData);
         });
     };
 
@@ -159,14 +173,84 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         const renderData = Object.create(null);
         renderData.extra_data = req.extra_data;
 
-        return res.render('APS/ProjectProposal_sign_list', renderData);
+        return accountModel.getPPRToSignList(req.session.user.idNumber)
+        .then(list => {
+            logger.debug(`${JSON.stringify(list, '\n')}`, log_options);
+
+            renderData.activities = list;
+            return res.render('APS/ProjectProposal_sign_list', renderData);
+        }).catch(err => {
+            return logger.warn(`${err.message}\n${err.stack}`, log_options);
+        });
     };
 
     APSController.viewPPRSign = (req, res) => {
+        logger.debug('viewPPRSign()', log_options);
+
+        let activityID = parseInt(req.params.activityID);
+
+        if(!Number.isInteger(activityID)){
+            return res.redirect('/APS/Signatory/ActivtiyList');
+        }
+        //TODO: check if PPR has already been signed by user
+
         const renderData = Object.create(null);
         renderData.extra_data = req.extra_data;
-        
-        return res.render('APS/ProjectProposal_sign', renderData);
+        renderData.csrfToken = req.csrfToken();
+
+        return database.task(task => {
+            logger.debug('Executing batch queries', log_options);
+            return task.batch([
+                projectProposalModel.getActivityProjectProposalDetailsGAID(activityID, [
+                    'an.name AS nature',
+                    'at.name AS type',
+                    'GA.STRATEGIES AS strategies',
+                    'SO.NAME AS orgname',
+                    'av.name AS venue',
+                    'PP.ENMP AS enmp',
+                    'PP.ENP AS enp',
+                    'GA.OBJECTIVES AS objectives',
+                    'PP.CONTEXT1 AS context1',
+                    'PP.CONTEXT2 AS context2',
+                    'PP.CONTEXT3 AS context3',
+                    'PP.ID as id',
+                    'PP.SOURCEFUNDOTHER as sourcefundother',
+                    'PP.SOURCEFUNDPARTICIPANTFEE AS sourcefundparticipantfee',
+                    'PP.SOURCEFUNDORGANIZATIONAL',
+                    'PP.ACCUMULATEDOPERATIONALFUNDS as accumulatedoperationalfunds',
+                    'PP.ACCUMULATEDDEPOSITORYFUNDS AS accumulateddepositoryfunds',
+                    'PP.ORGANIZATIONFUNDOTHERSOURCE AS organizationfundothersource'
+                ]),
+                projectProposalModel.getProjectProposalExpenses(activityID),
+                projectProposalModel.getProjectProposalProjectedIncome(activityID),
+                projectProposalModel.getProjectProposalProgramDesign(activityID, [
+                    'pppd.dayid AS dayid',
+                    "to_char(pppd.date, 'Mon DD, YYYY') AS date",
+                    "to_char(pppd.starttime + CURRENT_DATE, 'HH:MI AM') AS starttime",
+                    "to_char(pppd.endtime + CURRENT_DATE, 'HH:MI PM') AS endtime",
+                    'pppd.activity AS activity',
+                    'pppd.activitydescription AS activitydescription',
+                    'pppd.personincharge AS personincharge'
+                ]),
+                projectProposalModel.getProjectProposalProjectHeads(activityID),
+                projectProposalModel.getLatestProjectProposalAttachment({projectId: activityID}),
+                projectProposalModel.getSignatories(activityID)
+            ]);
+        }).then(data => {
+            renderData.projectProposal = data[0];
+            renderData.expenses = data[1];
+            renderData.activity = activityID;
+            renderData.projectedIncome = data[2];
+            renderData.programDesign = data[3];
+            renderData.projectHeads = data[4];
+            renderData.attachment = data[5];
+            renderData.signatories = data[6];
+
+            logger.debug('rendering page', log_options);
+            return res.render('APS/ProjectProposal_sign', renderData);
+        }).catch(err => {
+            return logger.debug(`${err.message}/n${err.stack}`, log_options);
+        });
     };
 
     return APSController;
