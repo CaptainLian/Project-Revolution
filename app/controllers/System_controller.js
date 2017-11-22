@@ -53,7 +53,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         req.session.user = undefined;
         return req.session.destroy((err) => {
             if(err)
-                throw err;
+                logger.warn(`${err.message}\n${err.stack}`, log_options);
             return res.redirect("/");
         });
     };

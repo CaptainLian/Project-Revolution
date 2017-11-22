@@ -115,7 +115,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                 var pa = {
                     projectId:data.id
-                }
+                };
+                
                 return task.batch([
                     Promise.resolve(data),
                     projectProposalModel.getProjectProposalExpenses(data.id),
@@ -133,10 +134,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     projectProposalModel.getLatestProjectProposalAttachment(pa)
                 ]);
             }).catch(err=>{
-            //     const renderData = Object.create(null);
-            // renderData.csrfToken = req.csrfToken();
-            // renderData.extra_data = req.extra_data;
-            // res.render('template/APS/NoActivityToCheck', renderData);
+                return logger.warn(`Unhandled error: ${err.message}\n${err.stack} `, log_options);
             });
         }).then(data => {
             logger.debug(`${JSON.stringify(data[3])}`, log_options);

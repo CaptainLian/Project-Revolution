@@ -1659,9 +1659,9 @@ CREATE TABLE SignatoryStatus (
 );
 INSERT INTO SignatoryStatus (id, name)
                      VALUES ( 0, 'Unsigned'),
-                            ( 1, 'Accept'),
+                            ( 1, 'Accepted'),
                             ( 2, 'Pend'),
-                            ( 3, 'Deny'),
+                            ( 3, 'Denied'),
                             ( 4, 'Force Signed');
 DROP TABLE IF EXISTS SignatoryType CASCADE;
 CREATE TABLE SignatoryType (
@@ -2082,7 +2082,9 @@ INSERT INTO "PostProjectProposalStatus" (id, name)
                                  VALUES ( 0, 'Unopened'),
                                         ( 1, 'Opened'),
                                         ( 2, 'In-progress'),
-                                        ( 3, 'Submitted');
+                                        ( 3, 'For Approval'),
+                                        ( 4, 'Approved'),
+                                        ( 5, 'Pend');
 
 DROP TABLE IF EXISTS "PostProjectProposal" CASCADE;
 CREATE TABLE "PostProjectProposal" (
@@ -2090,6 +2092,8 @@ CREATE TABLE "PostProjectProposal" (
   "preparedBy" INTEGER REFERENCES Account(idNumber),
   "status" SMALLINT NOT NULL DEFAULT 0 REFERENCES "PostProjectProposalStatus"("id"),
   "dateCreated" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "ANP" INTEGER,
+  "ANMP" INTEGER,
   "objectives" TEXT[],
   "WATTTWITA" TEXT,
   "WWYGLIETA" TEXT,
@@ -2185,7 +2189,7 @@ CREATE TRIGGER "before_insert_PostProjectProposalEventPicture_sequence"
 
 DROP TABLE IF EXISTS "PostProjectDirectPaymentPayment" CASCADE;
 CREATE TABLE "PostProjectDirectPaymentPayment" (
-  id INTEGER,
+  id SMALLINT,
   name VARCHAR(45),
 
   PRIMARY KEY (id)
@@ -2193,6 +2197,18 @@ CREATE TABLE "PostProjectDirectPaymentPayment" (
 INSERT INTO "PostProjectDirectPaymentPayment" (id, name)
                                  VALUES ( 0, 'Cheque'),
                                         ( 1, 'Book Transfer');
+                                        
+DROP TABLE IF EXISTS "PostProjectDirectPaymentStatus" CASCADE;
+CREATE TABLE "PostProjectDirectPaymentStatus" ( 
+   "id" SMALLINT,
+   "name" VARCHAR(45),
+
+   PRIMARY KEY ("id")
+);
+INSERT INTO "PostProjectDirectPaymentStatus" ("id", "name")
+                                      VALUES (  0,  'For approval'),
+                                             (  1, 'Approved'),
+                                             (  2, 'Pend');
 DROP TABLE IF EXISTS "PostProjectDirectPayment" CASCADE;
 CREATE TABLE "PostProjectDirectPayment" (
   "GOSMActivity" INTEGER REFERENCES "PostProjectProposal"("GOSMActivity"),
@@ -2208,7 +2224,8 @@ CREATE TABLE "PostProjectDirectPayment" (
   "roffilenameToShow" TEXT,
   "idNumber" INTEGER REFERENCES Account(idNumber),
   "dateCreated" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
+  "status" SMALLINT REFERENCES "PostProjectDirectPaymentStatus"("id") DEFAULT 0,
+  
   PRIMARY KEY("GOSMActivity", "submissionID", "sequence")
 );
 CREATE OR REPLACE FUNCTION "trigger_before_insert_PostProjectDirectPayment_sequence"()
@@ -2244,6 +2261,18 @@ CREATE TABLE "PostProjectReimbursementPayment" (
 INSERT INTO "PostProjectReimbursementPayment" (id, name)
                                  VALUES ( 0, 'Payment By Check'),
                                         ( 1, 'Payment By Book Transfer');
+DROP TABLE IF EXISTS "PostProjectReimbursementStatus" CASCADE;
+CREATE TABLE "PostProjectReimbursementStatus" ( 
+   "id" SMALLINT,
+   "name" VARCHAR(45),
+
+   PRIMARY KEY ("id")
+);
+INSERT INTO "PostProjectReimbursementStatus" ("id", "name")
+                                     VALUES  (  0, 'For approval'),
+                                             (  1, 'Approved'),
+                                             (  2, 'Pend'),
+                                             (  3, 'Denied');
 DROP TABLE IF EXISTS "PostProjectReimbursement" CASCADE;
 CREATE TABLE "PostProjectReimbursement" (
   "GOSMActivity" INTEGER REFERENCES "PostProjectProposal"("GOSMActivity"),
@@ -2259,6 +2288,7 @@ CREATE TABLE "PostProjectReimbursement" (
   "filenamesToShow" TEXT[],
   "idNumber" INTEGER REFERENCES Account(idNumber),
   "dateCreated" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "status" SMALLINT REFERENCES "PostProjectReimbursementStatus"("id") DEFAULT 0,
 
   PRIMARY KEY("GOSMActivity", "submissionID", "sequence")
 );
@@ -2286,6 +2316,19 @@ CREATE TRIGGER "before_insert_PostProjectReimbursement_sequence"
     FOR EACH ROW
     EXECUTE PROCEDURE "trigger_before_insert_PostProjectReimbursement_sequence"();
 
+DROP TABLE IF EXISTS "PostProjectBookTransferStatus" CASCADE;
+CREATE TABLE "PostProjectBookTransferStatus" ( 
+   "id" SMALLINT,
+   "name" VARCHAR(45),
+
+   PRIMARY KEY ("id")
+);
+INSERT INTO "PostProjectBookTransferStatus" ("id", "name")
+                                     VALUES (  0,  'For approval'),
+                                            (  1, 'Approved'),
+                                            (  2, 'Pend'),
+                                            (  3, 'Denied');
+                                             
 DROP TABLE IF EXISTS "PostProjectBookTransfer" CASCADE;
 CREATE TABLE "PostProjectBookTransfer" (
   "GOSMActivity" INTEGER REFERENCES "PostProjectProposal"("GOSMActivity"),
@@ -2298,6 +2341,8 @@ CREATE TABLE "PostProjectBookTransfer" (
   "bsfilenameToShow" TEXT,
   "idNumber" INTEGER REFERENCES Account(idNumber),
   "dateCreated" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "status" SMALLINT REFERENCES "PostProjectBookTransferStatus"("id") DEFAULT 0,
+  
 
   PRIMARY KEY("GOSMActivity", "submissionID", "sequence")
 );
