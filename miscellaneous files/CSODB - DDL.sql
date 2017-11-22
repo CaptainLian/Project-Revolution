@@ -398,6 +398,25 @@ $function$
         RETURN var_FunctionalityID;
     END;
 $function$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION "PreAct_CashAdvance_get_organization"("param_CAID" INTEGER)
+RETURNS INTEGER AS
+$function$
+    DECLARE
+        "var_organizationID" INTEGER;
+    BEGIN
+         SELECT g.studentOrganization INTO "var_organizationID"
+           FROM GOSM g
+          WHERE g.id = (SELECT ga.GOSM
+                          FROM GOSMActivity ga
+                         WHERE ga.id = (SELECT paca.GOSMActivity
+                                          FROM "PreActivityCashAdvance" paca 
+                                         WHERE paca.id = "param_CAID"));
+
+        RETURN "var_organizationID";
+    END;
+$function$ LANGUAGE plpgsql;
+
 /*
     Helpful functions end
 */
@@ -1998,6 +2017,41 @@ CREATE TABLE "PreActivityDirectCashAdvanceSignatory" (
 
     CONSTRAINT "pk_PreActivityDirectCashAdvanceSignatory" PRIMARY KEY("cashAdvance", "signatory", "type")
 );
+CREATE OR REPLACE FUNCTION "trigger_after_insert_PreActivityDirectCashAdvanceSignatory_signatories"()
+RETURNS trigger AS
+$trigger$
+    DECLARE
+        organization INTEGER;
+        organizationPresident INTEGER;
+    BEGIN
+        organization = "PreAct_CashAdvance_get_organization"();
+
+         INSERT INTO ProjectProposalSignatory (GOSMActivity, signatory, type)
+              VALUES (NEW.GOSMActivity, "PPR_get_organization_next_treasurer_signatory"(organization), 1);
+
+        INSERT INTO ProjectProposalSignatory (GOSMActivity, signatory, type)
+             VALUES (NEW.GOSMActivity, "PPR_get_organization_next_immediate_supervisor_signatory"(NEW.preparedBy, organization), 2);
+
+        INSERT INTO ProjectProposalSignatory (GOSMActivity, signatory, type)
+             VALUES (NEW.GOSMActivity, organization_get_president(organization), 3);
+
+        INSERT INTO ProjectProposalSignatory (GOSMActivity, signatory, type)
+             VALUES (NEW.GOSMActivity, organization_get_documentation_signatories(organization), 5);
+
+        INSERT INTO ProjectProposalSignatory (GOSMActivity, signatory, type)
+            VALUES (NEW.GOSMActivity, "PPR_get_cso_next_first_phase_signatory"(), 6);
+
+        INSERT INTO ProjectProposalSignatory (GOSMActivity, signatory, type)
+            VALUES (NEW.GOSMActivity, "PPR_get_cso_next_second_phase_signatory"(), 7);
+
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER "after_insert_PreActivityDirectCashAdvanceSignatory_signatories"
+    AFTER INSERT ON "PreActivityDirectCashAdvanceSignatory"
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_after_insert_PreActivityDirectCashAdvanceSignatory_signatories"();
+
 /* Organization Treasurer */
     /* AMTActivityEvaluation */
 DROP TABLE IF EXISTS AMTActivityEvaluationStatus CASCADE;
