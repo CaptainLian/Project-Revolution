@@ -305,6 +305,10 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     return Promise.resolve(true);
                 }).catch(err => {
                     logger.debug(`${err.message}\n${err.stack}`);
+                    const renderData = Object.create(null);
+                    renderData.csrfToken = req.csrfToken();
+                    renderData.extra_data = req.extra_data;
+                    return res.render('template/APS/NoActivityToCheck', renderData);
                 });
             }break;
 
@@ -364,7 +368,6 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             });
         }).then(data => {
             logger.debug(`activityID: ${data[6]}`, log_options);
-
             logger.debug(`${JSON.stringify(data[3])}`, log_options);
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
@@ -380,11 +383,12 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
             return res.render('APS/ActivityChecking', renderData);
         }).catch(err => {
+            logger.debug('RENDEIRNG NO ACTIVITY TO CHECK');
+            logger.debug(`${err.message}/n${err.stack}`);
             const renderData = Object.create(null);
             renderData.csrfToken = req.csrfToken();
             renderData.extra_data = req.extra_data;
-            res.render('template/APS/NoActivityToCheck', renderData);
-            logger.debug(`${err.message}/n${err.stack}`);
+            return res.render('template/APS/NoActivityToCheck', renderData);
         });
     };
 

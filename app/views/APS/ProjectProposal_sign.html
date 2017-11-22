@@ -477,10 +477,10 @@
                                 <div class="comment-body col-md-12 text-center">
                                     <div class="user-img">  </div>
                                     <div class="mail-contnet text-center">
-                            
+
                                     <h5 class="text-center">
                                         <span class="label label-rounded label-danger pull-left">{{signatory.status}}</span>
-                                        
+
                                         <span class="time pull-right">
                                         {% if(signatory.datesigned)%}
                                             {{signatory.datesigned}}
@@ -488,19 +488,15 @@
                                             N/A
                                         {% endif %}
                                         </span>
-                                        
-                                        
-                                        
-                                    </h5> 
+                                    </h5>
                                     <h5>{{signatory.signatoryname}}</h5>
-                                    <p>{{signatory.type}}</p> 
-                                    <p">{{signatory.digitalsignature}}</p>
+                                    <p>{{signatory.type}}</p>
+                                    <p>{{signatory.digitalsignature}}</p>
                                     </div>
                                 </div>
                             {% endfor %}
                             </div>
-                            <hr>
-                            
+                            <hr />
                             <br />
                         </div>
                     </section>
