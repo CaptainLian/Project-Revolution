@@ -1,4 +1,7 @@
 module.exports = function(configuration, modules, models, database, queryFiles){
+	const logger = modules.logger;
+	const log_options = Object.create(null);
+	log_options.from = 'Finance-Controlelr';
 
     const projectProposalModel = models.ProjectProposal_model;
     const financeModel = models.Finance_model;
@@ -226,26 +229,21 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				//next();
 
 			}).catch(error=>{
-				console.log(error)
+				console.log(error);
 			});
 
 		},
 		submitPreacts: (req, res) => {
-
-			console.log("IT ENTERS HERE");
-			console.log("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+			logger.debug('submitPreacts()', log_options);
 			console.log(req.body);
 
 			//TODO: gosmactivity to be changed later
 			var dbParam = {
-				gosmactivity: 1,
+				gosmactivity: req.body.gosmactivity,
 				submittedBy: req.session.user.idNumber,
 				purpose: req.body.purpose,
 				justification: req.body.nodpjustification
 			};
-
-				
-
 
 			financeModel.insertPreActivityCashAdvance(dbParam)
 			.then(data=>{
@@ -323,7 +321,6 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
 			return res.render('Finance/FinancePreacts', renderData);
-			//next();
-		},
+		}
 	};
 };

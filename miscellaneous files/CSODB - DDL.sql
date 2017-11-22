@@ -413,11 +413,10 @@ INSERT INTO AccountType(id, name)
 VALUES (0, 'Admin'),
        (1, 'Student Account'),
        (2, 'Faculty Adviser Account'),
-       (3, 'SLIFE Account'),
-       (4, 'Accounting Account'),
-       (5, 'DLSU President'),
-       (6, 'VP LA Mission'),
-       (7, 'Dean Student Affairs');
+       (3, 'Director of S-Life'),
+       (4, 'Dean of Student Affairs'),
+       (5, 'Vice President for Lasallian Mission'),
+       (6, 'President');
 
 DROP TABLE IF EXISTS Account CASCADE;
 CREATE TABLE Account (
@@ -1960,7 +1959,14 @@ CREATE TABLE "FinanceSignatoryType" (
 
     PRIMARY KEY ("id")
 );
-
+INSERT INTO "FinanceSignatoryType" ("id", "name", "lineup")
+                            VALUES (0, 'Organization Finance/Treasurer', 0),
+                                   (1, 'Organization President', 10),
+                                   (2, 'Director of S-Life', 20),
+                                   (3, 'Dean of Student Affairs', 30),
+                                   (4, 'Vice President for Lasallian Mission', 40),
+                                   (5, 'President', 50);
+       
 DROP TABLE IF EXISTS "PreActivityDirectPaymentSignatory" CASCADE;
 CREATE TABLE "PreActivityDirectPaymentSignatory" (
     "id" SERIAL UNIQUE,

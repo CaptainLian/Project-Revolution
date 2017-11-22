@@ -429,5 +429,12 @@ module.exports = function(configuration, modules, db, queryFiles) {
         });
     };
 
+    const getTotalExpenseSQL = queryFiles.PPR_get_total_expense;
+    ProjectProposalModel.prototype.getSignatories = function(activityID, connection = this._db){
+        return connection.many(getTotalExpenseSQL, {
+            GAID: activityID
+        });
+    };
+
     return new ProjectProposalModel(db, modules);
 };

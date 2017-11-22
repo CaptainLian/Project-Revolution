@@ -244,7 +244,7 @@ module.exports = function(configuration, application, modules, database, queryFi
                 sidebars[sidebars.length] = newSidebar;
             }
 
-            logger.debug(`Has PPR Approved: ${hasPPRWithoutPostProjectProposal.exists}`, log_options);
+            logger.debug(`Has PPR without post project proposal: ${hasPPRWithoutPostProjectProposal.exists}`, log_options);
             if(hasPPRWithoutPostProjectProposal.exists){
                 const newSidebar = Object.create(null);
                 newSidebar.name = 'Submit Post Activity';
