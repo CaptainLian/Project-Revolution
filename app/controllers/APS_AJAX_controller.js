@@ -358,7 +358,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     ], task),
                     projectProposalModel.getProjectProposalProjectHeads(data.id, task),
                     projectProposalModel.getLatestProjectProposalAttachment(pa),
-                    Promise.resolve(activityId)
+                    Promise.resolve(activityId),
+                    projectProposalModel.getSignatories(data.id)
                 ]);
             });
         }).then(data => {
@@ -374,6 +375,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.programDesign = data[3];
             renderData.projectHeads = data[4];
             renderData.attachment = data[5];
+            renderData.signatories = data[6];
             renderData.csrfToken = req.csrfToken();
 
             return res.render('APS/ActivityChecking', renderData);

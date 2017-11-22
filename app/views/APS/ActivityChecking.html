@@ -1,4 +1,4 @@
-{% extends './APS_master.html' %}
+{% extends '../template/CSO_master.html' %}
 {% import '../template/tags_macro.html' as tag %}
 
 {%block page_title%}APS - Activity Checking{%-endblock%}
@@ -180,8 +180,8 @@
                         <li><a href="#section-linebox-1"><span>Details</span></a></li>
                         <li><a href="#section-linebox-2"><span>Schedule</span></a></li>
                         <li><a href="#section-linebox-3"><span>Funding</span></a></li>
-
                         <li><a href="#section-linebox-5"><span>Attachment</span></a></li>
+                        <li><a href="#section-linebox-6"><span>Signatories</span></a></li>
 
                     </ul>
                 </nav>
@@ -487,6 +487,45 @@
                         </div>
 
                         {% endfor %}
+                    </section>
+
+                    <section id="section-linebox-6">
+                        <div class="white-box">
+                            <h4 class="m-t-30 text-left">VIII. Signatories</h4>
+                              {% for signatory in signatories %}
+                            <div>
+                               <p>{{signatory.digitalsignature}}</p> 
+                               <p>{{signatory.signatoryname}}</p> 
+                               <p>{{signatory.type}}</p> 
+                               <p>{{signatory.datesigned}}</p> 
+                            </div>
+                             {% endfor %}
+                           <!--  <table class="table  text-left table-striped">
+                                <thead>
+                                    <th>Name</th>
+                                    <th>Type</th>
+                                    <th>Status</th>
+                                    <th>Date Signed</th>
+                                    <th>Digital Signature</th>
+                                </thead>
+                                <tbody>
+                                    {% for signatory in signatories %}
+                                    <tr>
+                                        <td>{{signatory.signatoryname}}</td>
+                                        <td>{{signatory.type}}</td>
+                                        <td>{{signatory.status}}</td>
+                                        {% if(signatory.datesigned)%}
+                                        <td>{{signatory.datesigned}}</td>
+                                        {% else %}
+                                        <td>N/A</td>
+                                        {% endif %}
+                                        <td>{{signatory.digitalsignature}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table> -->
+                            <br />
+                        </div>
                     </section>
 
                 </div>
