@@ -83,13 +83,12 @@
             '<div class="col-md-12">' +
             '<select class="col-md-12" multiple=""s id="select-sec">' +
 
-            '<option value="Objectives">I. Objectives</option>' +
-            '<option value="Brief Context">II. Brief Context</option>' +
-            '<option value="Program Design">III. Program Design</option>' +
-            '<option value="Source of Funds">IV. Source of Funds</option>' +
-            '<option value="Organizational Funds">V. Organizational Funds</option>' +
-            '<option value="Revenue and Expense Table">VI. Revenue and Expense Table</option>' +
-            '<option value="Attachements">VII. Attachements</option>' +
+            '<option value="Brief Context">I. Brief Context</option>' +
+            '<option value="Program Design">II. Program Design</option>' +
+            '<option value="Source of Funds">III. Source of Funds</option>' +
+            '<option value="Organizational Funds">IV. Organizational Funds</option>' +
+            '<option value="Revenue and Expense Table">V. Revenue and Expense Table</option>' +
+            '<option value="Attachements">VI. Attachements</option>' +
             '</select>' +
             '</div>' +
 

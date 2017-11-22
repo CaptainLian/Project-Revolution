@@ -1575,7 +1575,7 @@ INSERT INTO "ExpenseTypeAttachmentRequirement" ("expenseType", "document")
 
 DROP TABLE IF EXISTS ProjectProposalExpenses CASCADE;
 CREATE TABLE ProjectProposalExpenses (
-    id SERIAL NOT NULL UNIQUE,
+    "id" SERIAL NOT NULL UNIQUE,
     projectProposal INTEGER REFERENCES ProjectProposal(id),
     sequence INTEGER,
     material VARCHAR(45) NOT NULL,
@@ -1592,7 +1592,7 @@ $trigger$
         SELECT COALESCE(MAX(sequence) + 1, 1) INTO STRICT NEW.sequence
           FROM ProjectProposalExpenses
          WHERE projectProposal = NEW.projectProposal;
-        return NEW;
+        RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
 CREATE TRIGGER before_insert_ProjectProposalExpenses
@@ -1882,6 +1882,15 @@ CREATE TRIGGER "before_insert_PreActivityDirectPayment_sequence"
     BEFORE INSERT ON "PreActivityDirectPayment"
     FOR EACH ROW
     EXECUTE PROCEDURE "trigger_before_insert_PreActivityDirectPayment_sequence"();
+    
+DROP TABLE IF EXISTS "PreActivityDirectPaymentParticular" CASCADE;
+CREATE TABLE "PreActivityDirectPaymentParticular" (
+    "id" SERIAL UNIQUE,
+    "directPayment" INTEGER REFERENCES "PreActivityDirectPaymentParticular"("id"),
+    "particular" INTEGER REFERENCES ProjectProposalExpenses(id),
+
+    PRIMARY KEY ("directPayment", "particular")
+);
 
 DROP TABLE IF EXISTS "PreActivityCashAdvanceStatus" CASCADE;
 CREATE TABLE "PreActivityCashAdvanceStatus" (
@@ -1897,7 +1906,7 @@ INSERT INTO "PreActivityCashAdvanceStatus" ("id", "name")
                                              (3, 'Denied');
 DROP TABLE IF EXISTS "PreActivityCashAdvance" CASCADE;
 CREATE TABLE "PreActivityCashAdvance" (
-    "id" SERIAL UNIQUE,
+    "id" SERIAL NOT NULL UNIQUE,
     "GOSMActivity" INTEGER REFERENCES ProjectProposal(GOSMActivity),
     "submissionID" INTEGER,
     "sequence" INTEGER DEFAULT -1,
@@ -1955,7 +1964,7 @@ CREATE TABLE "FinanceSignatoryType" (
 DROP TABLE IF EXISTS "PreActivityDirectPaymentSignatory" CASCADE;
 CREATE TABLE "PreActivityDirectPaymentSignatory" (
     "id" SERIAL UNIQUE,
-    "DirectPayment" INTEGER REFERENCES "PreActivityDirectPayment"("id"),
+    "directPayment" INTEGER REFERENCES "PreActivityDirectPayment"("id"),
     "signatory" INTEGER REFERENCES Account(idNumber),
     "type" SMALLINT NOT NULL REFERENCES "FinanceSignatoryType"("id"),
     "status" SMALLINT NOT NULL REFERENCES SignatoryStatus(id) DEFAULT 0,
@@ -1965,13 +1974,13 @@ CREATE TABLE "PreActivityDirectPaymentSignatory" (
     "digitalSignature" TEXT,
     "dateSigned" TIMESTAMP WITH TIME ZONE,
 
-    CONSTRAINT "pk_PreActivityDirectPaymentSignatory" PRIMARY KEY("DirectPayment", "signatory", "type")
+    CONSTRAINT "pk_PreActivityDirectPaymentSignatory" PRIMARY KEY("directPayment", "signatory", "type")
 );
 
 DROP TABLE IF EXISTS "PreActivityDirectCashAdvanceSignatory" CASCADE;
 CREATE TABLE "PreActivityDirectCashAdvanceSignatory" (
     "id" SERIAL UNIQUE,
-    "CashAdvance" INTEGER REFERENCES "PreActivityCashAdvance"("id"),
+    "cashAdvance" INTEGER REFERENCES "PreActivityCashAdvance"("id"),
     "signatory" INTEGER REFERENCES Account(idNumber),
     "type" SMALLINT NOT NULL REFERENCES "FinanceSignatoryType"("id"),
     "status" SMALLINT NOT NULL REFERENCES SignatoryStatus(id) DEFAULT 0,
@@ -1981,7 +1990,7 @@ CREATE TABLE "PreActivityDirectCashAdvanceSignatory" (
     "digitalSignature" TEXT,
     "dateSigned" TIMESTAMP WITH TIME ZONE,
 
-    CONSTRAINT "pk_PreActivityDirectCashAdvanceSignatory" PRIMARY KEY("CashAdvance", "signatory", "type")
+    CONSTRAINT "pk_PreActivityDirectCashAdvanceSignatory" PRIMARY KEY("cashAdvance", "signatory", "type")
 );
 /* Organization Treasurer */
     /* AMTActivityEvaluation */
@@ -2111,7 +2120,14 @@ CREATE TABLE "PostProjectProposal" (
   "isCheckedDP" BOOLEAN NOT NULL DEFAULT FALSE,
   "isCheckedR" BOOLEAN NOT NULL DEFAULT FALSE,
   "isCheckedBT" BOOLEAN NOT NULL DEFAULT FALSE,
-
+  "comments" TEXT,
+  "sectionsToBeEdited" VARCHAR(60)[],
+  "document" JSONB,
+  "checkedByStage1" INTEGER,
+  "signatureStage1" TEXT,
+  "checkedByStage2" INTEGER,
+  "signatureStage2" TEXT,
+  
   PRIMARY KEY("GOSMActivity")
 );
 
@@ -2215,6 +2231,7 @@ INSERT INTO "PostProjectDirectPaymentStatus" ("id", "name")
                                              (  2, 'Pend');
 DROP TABLE IF EXISTS "PostProjectDirectPayment" CASCADE;
 CREATE TABLE "PostProjectDirectPayment" (
+  "id" SERIAL NOT NULL UNIQUE,
   "GOSMActivity" INTEGER REFERENCES "PostProjectProposal"("GOSMActivity"),
   "submissionID" INTEGER,
   "sequence" INTEGER DEFAULT -1,
@@ -2254,6 +2271,14 @@ CREATE TRIGGER "before_insert_PostProjectDirectPayment_sequence"
     BEFORE INSERT ON "PostProjectDirectPayment"
     FOR EACH ROW
     EXECUTE PROCEDURE "trigger_before_insert_PostProjectDirectPayment_sequence"();
+    
+DROP TABLE IF EXISTS "PostProjectDirectPaymentParticular" CASCADE;
+CREATE TABLE "PostProjectDirectPaymentParticular" (
+  "directPayment" INTEGER REFERENCES "PostProjectDirectPayment"("id"),
+  "particular" INTEGER REFERENCES ProjectProposalExpenses("id"),
+
+  PRIMARY KEY ("directPayment", "particular")
+);
 
 DROP TABLE IF EXISTS "PostProjectReimbursementPayment" CASCADE;
 CREATE TABLE "PostProjectReimbursementPayment" (
@@ -2279,6 +2304,7 @@ INSERT INTO "PostProjectReimbursementStatus" ("id", "name")
                                              (  3, 'Denied');
 DROP TABLE IF EXISTS "PostProjectReimbursement" CASCADE;
 CREATE TABLE "PostProjectReimbursement" (
+  "id" SERIAL NOT NULL UNIQUE,
   "GOSMActivity" INTEGER REFERENCES "PostProjectProposal"("GOSMActivity"),
   "submissionID" INTEGER,
   "sequence" INTEGER DEFAULT -1,
@@ -2319,6 +2345,14 @@ CREATE TRIGGER "before_insert_PostProjectReimbursement_sequence"
     BEFORE INSERT ON "PostProjectReimbursement"
     FOR EACH ROW
     EXECUTE PROCEDURE "trigger_before_insert_PostProjectReimbursement_sequence"();
+  
+DROP TABLE IF EXISTS "PostProjectReimbursementParticular" CASCADE;
+CREATE TABLE "PostProjectReimbursementParticular" (
+  "bookTransfer" INTEGER REFERENCES "PostProjectReimbursement"("id"),
+  "particular" INTEGER REFERENCES ProjectProposalExpenses("id"),
+
+  PRIMARY KEY ("bookTransfer", "particular")
+);
 
 DROP TABLE IF EXISTS "PostProjectBookTransferStatus" CASCADE;
 CREATE TABLE "PostProjectBookTransferStatus" ( 
@@ -2335,6 +2369,7 @@ INSERT INTO "PostProjectBookTransferStatus" ("id", "name")
                                              
 DROP TABLE IF EXISTS "PostProjectBookTransfer" CASCADE;
 CREATE TABLE "PostProjectBookTransfer" (
+  "id" SERIAL NOT NULL UNIQUE,
   "GOSMActivity" INTEGER REFERENCES "PostProjectProposal"("GOSMActivity"),
   "submissionID" INTEGER,
   "sequence" INTEGER DEFAULT -1,
@@ -2349,6 +2384,13 @@ CREATE TABLE "PostProjectBookTransfer" (
   
 
   PRIMARY KEY("GOSMActivity", "submissionID", "sequence")
+);
+DROP TABLE IF EXISTS "PostProjectBookTransferParticular" CASCADE;
+CREATE TABLE "PostProjectBookTransferParticular" (
+   "bookTransfer" INTEGER REFERENCES "PostProjectBookTransfer"("id"),
+   "particular" INTEGER REFERENCES ProjectProposalExpenses(id),
+
+   PRIMARY KEY ("bookTransfer", "particular")
 );
 CREATE OR REPLACE FUNCTION "trigger_before_insert_PostProjectBookTransfer_sequence"()
 RETURNS trigger AS
@@ -2372,7 +2414,7 @@ $trigger$ LANGUAGE plpgsql;
 CREATE TRIGGER "before_insert_PostProjectBookTransfer_sequence"
     BEFORE INSERT ON "PostProjectBookTransfer"
     FOR EACH ROW
-    EXECUTE PROCEDURE "trigger_before_insert_PostProjectReimbursement_sequence"();
+    EXECUTE PROCEDURE "trigger_before_insert_PostProjectBookTransfer_sequence"();
   /* Post Acts END*/
 /* ADM END */
 /* Publicity */
@@ -2416,7 +2458,7 @@ INSERT INTO "ActivityPublicityStatus" ("id", "name")
 
 DROP TABLE IF EXISTS "ActivityPublicity" CASCADE;
 CREATE TABLE "ActivityPublicity" (
-    "id" SERIAL UNIQUE,
+    "id" SERIAL NOT NULL UNIQUE,
     "GOSMActivity" INTEGER REFERENCES ProjectProposal(GOSMActivity),
     "submissionID" INTEGER,
     "sequence" INTEGER DEFAULT -1,

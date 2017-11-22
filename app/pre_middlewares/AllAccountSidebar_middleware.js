@@ -14,6 +14,11 @@ module.exports = function(configuration, application, modules, database, queryFi
         if(!req.extra_data.system.sidebars.canAttach)
             return next();
 
+        if(req.session.user.type === 1){
+            if(req.session.user.organizationSelected === 0){
+                return next();
+            }
+        }
         const sidebars = req.extra_data.view.sidebars;
         return AccountModel.hasPPRToSign(req.session.user.idNumber)
         .then(PPR => {
