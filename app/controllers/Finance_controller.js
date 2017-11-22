@@ -238,7 +238,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 			//TODO: gosmactivity to be changed later
 			var dbParam = {
-				gosmactivity: 1,
+				gosmactivity: req.body.gosmactivity,
 				submittedBy: req.session.user.idNumber,
 				purpose: req.body.purpose,
 				justification: req.body.nodpjustification
@@ -267,7 +267,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 	            	financeModel.insertPreActivityCashAdvanceParticular(particularParam)
 	            	.then(data1=>{
 	            		
-	            		res.redirect(`/finance/list/transaction/${req.params.gosmactivity}`);
+	            		res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
 
 	            	}).catch(error=>{
 	            		console.log("error in one particular");

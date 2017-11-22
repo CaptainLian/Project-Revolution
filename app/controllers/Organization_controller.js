@@ -176,7 +176,6 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     return task.batch([
                         gosmModel.getGOSMActivity(dbParam),
                         gosmModel.getGOSMActivityProjectHeads(dbParam),
-                        projectProposalModel.getProjectProposal(dbParam),
                         projectProposalModel.getPPRSectionsToEdit(dbParam)
                     ]);
                 }).then(data => {
@@ -186,13 +185,66 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                     renderData.gosmActivity = data[0];
                     renderData.projectHeads = data[1];
-                    renderData.projectProposal = data[2];
-                    renderData.sectionsToEdit = data[3];
+                    renderData.sectionsToEdit = data[2];
                     renderData.gosmid = req.params.id;
                     console.log(renderData.gosmActivity);
                     console.log("KAHITANONGMESSAGE");
 
-                    return res.render('Org/SubmitProjectProposal_pendedit',renderData);
+                    var context = true;
+                    var sched = true;
+                    var expense = true;
+                    var attachments = true;
+
+                    for(var i; i < renderData.sectionsToEdit.sectionstoedit.length; i++){
+
+                        if (renderData.sectionsToEdit.sectionstoedit == "Brief Context") {
+                            context = false;
+                        }
+
+                        if (renderData.sectionsToEdit.sectionstoedit == "Program Design") {
+                            sched = false;
+                        }
+
+                        if (renderData.sectionsToEdit.sectionstoedit == "Source of Funds") {
+                            expense = false;
+                        }
+                        else if (renderData.sectionsToEdit.sectionstoedit == "Organizational Funds") {
+                            expense = false;
+                        }
+                        else if (renderData.sectionsToEdit.sectionstoedit == "Revenue and Expense Table") {
+                            expense = false;
+                        }
+
+                        if (renderData.sectionsToEdit.sectionstoedit == "Attachments") {
+                            attachments = false;
+                        }
+
+                    }
+
+                    var updateParam = {
+                        context: context,
+                        sched: sched,
+                        expense: expense,
+                        attachments: attachments
+                    }
+
+                    projectProposalModel.updatePPRCompletion(updateParam)
+                    .then(updata=>{
+                        
+                        projectProposalModel.getProjectProposal(dbParam)
+                        .then(pprdata=>{
+                            
+                            renderData.projectProposal = data[2];
+                            return res.render('Org/SubmitProjectProposal_pendedit',renderData);
+
+                        }).catch(error=>{
+                            console.log(error);
+                        });
+
+                    }).catch(error=>{
+                        console.log(error);
+                    })
+
                 }).catch(err => {
                     logger.warn(`${err.message}\n${err.stack}`, log_options);
                 });
