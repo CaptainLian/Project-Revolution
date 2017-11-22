@@ -452,7 +452,7 @@
                         </div>
                     </section>
 
-                    <section id="section-linebox-5" style="display: block;visibility:hidden;">
+                    <section id="section-linebox-5" >
                      <h4 class="text-left">VII. Attachments</h4>
                         <hr>
                         {% for att in attachment %}
@@ -466,11 +466,18 @@
                         {% endfor %}
                     </section>
 
-                    <section id="section-linebox-6">
+                     <section id="section-linebox-6">
                         <div class="white-box">
                             <h4 class="m-t-30 text-left">VIII. Signatories</h4>
-                            <hr />
-                            <table class="table  text-left table-striped">
+                              {% for signatory in signatories %}
+                            <div>
+                               <div class="text-left">{{signatory.digitalsignature}}</div> 
+                               <div class="text-left">{{signatory.signatoryname}}</div> 
+                               <div class="text-left">{{signatory.type}}</div> 
+                               <div class="text-left">{{signatory.datesigned}}</div> 
+                            </div>
+                             {% endfor %}
+                           <!--  <table class="table  text-left table-striped">
                                 <thead>
                                     <th>Name</th>
                                     <th>Type</th>
@@ -493,7 +500,7 @@
                                     </tr>
                                     {% endfor %}
                                 </tbody>
-                            </table>
+                            </table> -->
                             <br />
                         </div>
                     </section>

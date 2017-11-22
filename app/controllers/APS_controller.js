@@ -131,7 +131,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         'pppd.personincharge AS personincharge'
                     ]),
                     projectProposalModel.getProjectProposalProjectHeads(data.id),
-                    projectProposalModel.getLatestProjectProposalAttachment(pa)
+                    projectProposalModel.getLatestProjectProposalAttachment(pa),
+                    projectProposalModel.getSignatories(data.id)
                 ]);
             }).catch(err=>{
                 return logger.warn(`Unhandled error: ${err.message}\n${err.stack} `, log_options);
@@ -149,6 +150,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.programDesign = data[3];
             renderData.projectHeads = data[4];
             renderData.attachment = data[5];
+            renderData.signatories = data[6];
             console.log(renderData.attachment);
             console.log("renderData.attachment");
             return res.render('APS/ActivityChecking', renderData);
