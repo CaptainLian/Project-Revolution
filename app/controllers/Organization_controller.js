@@ -2224,7 +2224,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 return t.batch([
                         postProjectProposalModel.getPostActsDetails(dbParam,t),
                         postProjectProposalModel.getLatestEventPicture(dbParam,t),
-                        postProjectProposalModel.getLatestPostExpense(dbParam,t)
+                        postProjectProposalModel.getLatestPostExpense(dbParam,t),
+                        projectProposalModel.getProjectHeadsGOSM(dbParam,t)
                         // projectProposalModel.getProjectProposalProjectHeads(3)
                         ]);
             }).then(data=>{
@@ -2235,6 +2236,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.activity = data[0]
                 renderData.pictures=data[1]
                 renderData.expense = data[2];
+                renderData.heads = data[3];
                 renderData.extra_data = req.extra_data;
                 renderData.csrfToken = req.csrfToken();
                 res.render('Org/PostActsCompleted', renderData)
