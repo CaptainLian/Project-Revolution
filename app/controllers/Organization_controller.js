@@ -885,6 +885,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.gosmActivities = data[0];
                 renderData.members = data[3];
                 renderData.status = data[4].status;
+                renderData.comments = data[4].comments;
+
                 console.log(data[4])
                 console.log("GOSM DATA")
 
