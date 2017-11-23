@@ -2365,15 +2365,16 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             database.task(t=>{
                 return t.batch([
                     pnpModel.getActivityDetailsforPubs(dbParam,t),
-                    projectProposalModel.getProjectHeadsGOSM(dbParam,t)
-
+                    projectProposalModel.getProjectHeadsGOSM(dbParam,t),
+                    orgresModel.getOrgresOtherDetails(dbParam,t)
                     ])
             }).then(data=>{
                     renderData.projectProposal = data[0]
                     renderData.projectHeads = data[1]
+                    renderData.others = data[2]
                     res.render('Orgres/orgresSpecificActivity', renderData);  
                 }).catch(err=>{
-
+                    console.log(err)
                 })
             
                 
