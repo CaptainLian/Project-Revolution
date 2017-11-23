@@ -59,15 +59,15 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			            renderData.transactionType = req.params.transaction;
 
 			            //to evaluate
-            			renderData.isCso = req.session.user.type === 3 ||
-							req.session.user.type === 4 ||
-							req.session.user.type === 5 ||
-							req.session.user.type === 6 || 
-							req.extra_data.user.accessibleFunctionalitiesList['21'];
+			            renderData.isCso = null;
+			            if(req.session.user.type >= 3 && req.session.user.type <= 6){
+                            renderData.isCso = true;
+                        }else{
+                            renderData.isCso = req.extra_data.user.accessibleFunctionalitiesList['21'];
+                            renderData.toadd = req.extra_data.user.accessibleFunctionalitiesList['18'];
+                        }
 
-						// to add transaction			
-						renderData.toadd = req.extra_data.user.accessibleFunctionalitiesList['18'];
-
+						// to add transaction
 						if (renderData.isCso && renderData.toadd) {
 
 							console.log("CORRECT THIS FAR==============")
@@ -103,7 +103,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 						console.log(error);
 					});
 
-					
+
 
 				}).catch(error=>{
 					console.log(error);
@@ -164,7 +164,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 					documentObj.Particulars[documentObj.Particulars.length] = particularObj;
 
-					
+
 				}
 
 				const DOCUMENT_STRING = STRINGIFY(documentObj);
@@ -173,7 +173,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
                 logger.debug(`Document: ${DOCUMENT_STRING}\n\nDigital Signature: ${DIGITAL_SIGNATURE}`, log_options);
 
                 return accountModel.approvePreActCashAdvance(req.body.cashAdvanceId, req.session.user.idNumber, DOCUMENT_STRING, DIGITAL_SIGNATURE);
-				
+
 			}).then(data => {
 				console.log("successfully approved");
 				return res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
@@ -214,15 +214,14 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 				const renderData = Object.create(null);
             	renderData.extra_data = req.extra_data;
-            	//to evaluate
-            	renderData.isCso = req.session.user.type === 3 ||
-							req.session.user.type === 4 ||
-							req.session.user.type === 5 ||
-							req.session.user.type === 6 || 
-							req.extra_data.user.accessibleFunctionalitiesList['21'];
-
-				// to add transaction			
-				renderData.toadd = req.extra_data.user.accessibleFunctionalitiesList['18'];
+                //to evaluate
+                renderData.isCso = null;
+                if(req.session.user.type >= 3 && req.session.user.type <= 6){
+                    renderData.isCso = true;
+                }else{
+                    renderData.isCso = req.extra_data.user.accessibleFunctionalitiesList['21'];
+                    renderData.toadd = req.extra_data.user.accessibleFunctionalitiesList['18'];
+                }
 
             	renderData.activities = data[0];
             	renderData.transactionTotal = data[1];
@@ -237,7 +236,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
             	console.log("orgid is ");
             	console.log(renderData.orgid);
-            	
+
 				return res.render('Finance/Finance_list', renderData);
 				//next();
 
@@ -262,10 +261,10 @@ module.exports = function(configuration, modules, models, database, queryFiles){
             renderData.isCso = req.session.user.type === 3 ||
 						req.session.user.type === 4 ||
 						req.session.user.type === 5 ||
-						req.session.user.type === 6 || 
+						req.session.user.type === 6 ||
 						req.extra_data.user.accessibleFunctionalitiesList['21'];
 
-			// to add transaction			
+			// to add transaction
 			renderData.toadd = req.extra_data.user.accessibleFunctionalitiesList['18'];
 
 			if ((renderData.isCso) && (!renderData.toadd)) {
@@ -284,11 +283,11 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				})
 				.then(data=>{
 
-					
+
 		            renderData.transactions = data[0];
 		            renderData.gosmactivity = data[1];
 		            renderData.projectProposal = data[2];
-		            
+
 					return res.render('Finance/ViewActivityTransaction', renderData);
 
 				}).catch(error=>{
@@ -308,11 +307,11 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				})
 				.then(data=>{
 
-					
+
 		            renderData.transactions = data[0];
 		            renderData.gosmactivity = data[1];
 		            renderData.projectProposal = data[2];
-		            
+
 					return res.render('Finance/ViewActivityTransaction', renderData);
 
 				}).catch(error=>{
@@ -322,9 +321,9 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 			}
 
-			
 
-			
+
+
 		},
 		createPreactsCashAdvance: (req, res) => {
 
@@ -382,14 +381,14 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 	            	financeModel.insertPreActivityCashAdvanceParticular(particularParam)
 	            	.then(data1=>{
-	            		
+
 	            		res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
 
 	            	}).catch(error=>{
 	            		console.log("error in one particular");
 	            		console.log(error);
 	            	});
-	            
+
 	            }
 	            else{
 
@@ -423,11 +422,11 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 	            		console.log(error);
 	            	});
 
-	            	
+
 
 	            }
 
-	            
+
 
 			}).catch(error=>{
 				console.log(error);
