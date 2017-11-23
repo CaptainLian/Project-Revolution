@@ -951,7 +951,6 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
 
         },
-<<<<<<< HEAD
         postSaveContext: (req, res) =>{
             console.log(req.body);
 
@@ -965,15 +964,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 
             }
             console.log(obj)
-=======
-        postSaveContext: (req, res) => {
-            console.log(req.params);
 
-            // TODO: change id, to come from selected activity
-            var obj = req.body['obj[]'].filter(function(e) {
-                return e
-            });
->>>>>>> lian
             var dbParam = {
                 id: req.body.gosmid,
                 anmp:req.body.anmp,
@@ -982,11 +973,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 learning: req.body.learning,
                 develop: req.body.develop,
                 mistakes: req.body.mistakes,
-<<<<<<< HEAD
+
                 objectives:obj,
-=======
-                objectives: req.body['obj[]'],
->>>>>>> lian
+
                 isBriefContextComplete: true
             };
 
@@ -996,17 +985,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 !(req.body.learning).trim() ||
                 !(req.body.develop).trim() ||
                 !(req.body.learning).trim() ||
-<<<<<<< HEAD
+
                 !(req.body.mistakes).trim() 
                 // ||
                 // obj.length != (req.body['obj[]']).length
                 )
             {
-=======
-                !(req.body.mistakes).trim() ||
-                obj.length != (req.body['obj[]']).length
-            ) {
->>>>>>> lian
+
 
                 dbParam.isBriefContextComplete = false;
 
@@ -1083,7 +1068,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             // console.log("expenseSubmissionID")
             // console.log(expenseSubmissionID)
             // console.log(req.files);
-<<<<<<< HEAD
+
             database.tx(t=>{
 
                 var dbParam3 = {
@@ -1143,142 +1128,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                     console.log("========PROMISE PICTURE1============");
                                     console.log(err)
 
-=======
-            database.tx(t => {
-                //NORMAL THINGS TO INSERT
-                var statParam = {
-                    dp: dp,
-                    bt: bt,
-                    reim: reim
-                };
-                var finParam = {
-                    gosmid: req.body.gosmid,
-                    status: true
-                }
 
-                if (typeof req.files['gals'] == 'object') {
-                    var galsFilename = cuid() + path.extname(req.files['gals'].name);
-                    var galsFilenameToShow = (req.files['gals'].name);
-                    var pg = path.join(dir5, galsFilename);
-                    var galsParam = {
-                        gosmid: req.body.gosmid,
-                        filename: galsFilename,
-                        filenameToShow: galsFilenameToShow
-                    };
-
-                    Promise.all([
-                        postProjectProposalModel.insertPostProjectProposalGals(galsParam, t),
-                        req.files['gals'].mv(pg)
-                    ]).then(data => {
-                        console.log("")
-                    }).catch(err => {
-                        console.log("========PROMISE PICTURE============");
-                        console.log(err)
-
-
-                    });
-                } else {
-                    finParam.status = false;
-                }
-                console.log("========TAs33333333333  Sd=========");
-                console.log(finParam);
-                //EXPENSES MAY VARY
-                console.log(typeof req.files['file[]'])
-                if (typeof req.files['file[]'] == 'object') {
-                    if (typeof req.files['file[]'][Symbol.iterator] == 'function') {
-                        for (var ctr = 0; ctr < req.body['est[]'].length; ctr++) {
-
-                            var orignalFileName = req.files['file[]'][ctr].name;
-                            var ftype = path.extname(orignalFileName);
-                            console.log(ftype);
-                            var fname = cuid() + ftype;
-
-                            var dbParam = {
-                                gosmid: req.body.gosmid,
-                                particular: req.body['par[]'][ctr],
-                                establishment: req.body['est[]'][ctr],
-                                price: req.body['price[]'][ctr],
-                                file: fname,
-                                filenameToShow: req.files['file[]'][ctr].name,
-                                idNumber: req.session.user.idNumber,
-
-                            };
-                            var p = path.join(dir2, fname);
-                            Promise.all([
-                                req.files['file[]'][ctr].mv(p),
-                                postProjectProposalModel.insertPostProjectExpense(dbParam, t)
-                            ]).then(result => {
-
-                            }).catch(err => {
-                                console.log("========PROMISE=========");
-                                console.log(err);
-                            })
-                        }
-                    } else {
-
-                        var orignalFileName = req.files['file[]'].name;
-                        var ftype = path.extname(orignalFileName);
-                        console.log(ftype);
-                        var fname = cuid() + ftype;
-
-                        var dbParam = {
-                            gosmid: req.body.gosmid,
-                            particular: req.body['par[]'],
-                            establishment: req.body['est[]'],
-                            price: req.body['price[]'],
-                            file: fname,
-                            filenameToShow: req.files['file[]'].name,
-                            idNumber: req.session.user.idNumber,
-
-                        };
-                        var p = path.join(dir2, fname);
-                        Promise.all([
-                            req.files['file[]'].mv(p),
-                            postProjectProposalModel.insertPostProjectExpense(dbParam, t)
-                        ]).then(result => {
-
-                        }).catch(err => {
-                            console.log("========PROMISE=========");
-                            console.log(err);
-                        })
-                    }
-                } else {
-                    finParam.status = false;
-                }
-                console.log("========TA22222222222=========");
-                console.log(finParam);
-                if (typeof req.files['pictures[]'] == 'object') {
-                    console.log(typeof req.files['pictures[]'][Symbol.iterator]);
-                    if (typeof req.files['pictures[]'][Symbol.iterator] == 'function') {
-                        for (var ctr = 0; ctr < req.body['pictureCaption[]'].length; ctr++) {
-                            var orignalFileName = req.files['pictures[]'][ctr].name;
-                            var ftype = path.extname(orignalFileName);
-                            console.log(ftype);
-                            var fname = cuid() + ftype;
-                            var pictureParam = {
-                                gosmid: req.body.gosmid,
-                                filename: ftype,
-                                filenameToShow: req.files['pictures[]'].name,
-                                idNumber: req.session.user.idNumber,
-                                description: req.body["pictureCaption[]"][ctr]
-                            }
-                            var p = path.join(dir5, fname);
-                            Promise.all([
-                                req.files['pictures[]'][ctr].mv(p),
-                                postProjectProposalModel.insertPostProjectProposalEventPictures(pictureParam, t)
-                            ]).then(result => {
-
-                            }).catch(err => {
-                                console.log("========PROMISE=========");
-                                console.log(err);
-                            })
->>>>>>> lian
 
                                 });
                         }else{
                             finParam.status = false;
                         }
-<<<<<<< HEAD
+
                        console.log("========TAs33333333333  Sd=========");
                         console.log(finParam);
                         //EXPENSES MAY VARY
@@ -1421,45 +1277,6 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         //PICTURES MAY VARY
                 }); 
                 
-
-
-
-=======
-                    } else {
-                        var orignalFileName = req.files['pictures[]'].name;
-                        var ftype = path.extname(orignalFileName);
-                        console.log(ftype);
-                        var fname = cuid() + ftype;
-                        var pictureParam = {
-                            gosmid: req.body.gosmid,
-                            filename: ftype,
-                            filenameToShow: req.files['pictures[]'].name,
-                            idNumber: req.session.user.idNumber,
-                            description: req.body["pictureCaption[]"]
-                        }
-                        var p = path.join(dir5, fname);
-                        Promise.all([
-                            req.files['pictures[]'].mv(p),
-                            postProjectProposalModel.insertPostProjectProposalEventPictures(pictureParam, t)
-                        ]).then(result => {
-
-                        }).catch(err => {
-                            console.log("========PROMISE=========");
-                            console.log(err);
-                        })
-
-                    }
-                } else {
-                    finParam.status = false;
-                }
-                console.log("+++++++++++++++++++++++++++++++");
-                console.log(statParam)
-                postProjectProposalModel.updatePostProjectProposalFinanceDocumentStatus(statParam, t);
-                console.log("========TAsdASDASd=========");
-                console.log(finParam);
-                postProjectProposalModel.updatePostProjectRequiredCompleteness(finParam, t);
-                //PICTURES MAY VARY
->>>>>>> lian
 
             }).then(data => {
                 return res.redirect(`/Organization/PostProjectProposal/Main/${req.body.gosmid}`)
@@ -1636,16 +1453,14 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
         },
 
-<<<<<<< HEAD
+
         postSaveAttachments: (req, res) =>{
             var dbParam3 = {
                 gosmid: req.body.gosmid,
                 status:2
             }
             postProjectProposalModel.updatePostProjectProposalCompleteness(dbParam3);
-=======
-        postSaveAttachments: (req, res) => {
->>>>>>> lian
+
             // var date = new Date().toJSON();
 
             var dir3 = __dirname + '/../assets/upload/';
