@@ -6,3 +6,4 @@ SELECT TO_CHAR(PPR.actualdatestart,'Mon DD, YYYY') AS ADATE, *
  WHERE GA.ID in (SELECT activityID
  				   FROM GOSMACtivityProjectHead
  				  WHERE idNumber = ${idNumber})
+ LIMIT 1

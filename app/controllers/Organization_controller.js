@@ -2403,7 +2403,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     renderData.projectProposal = data[0]
                     renderData.projectHeads = data[1]
                     renderData.others = data[2]
-                    renderData.scores = data[3]
+                    renderData.scores = data[3][0]
+                    console.log(data[3])
                     res.render('Orgres/orgresSpecificActivity', renderData);  
                 }).catch(err=>{
                     console.log(err)
