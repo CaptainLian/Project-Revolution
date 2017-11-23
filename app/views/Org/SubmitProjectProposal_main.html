@@ -60,6 +60,7 @@
 <input type="hidden" name="gosmid" value="{{gosmid}}">
 <input type="hidden" name="pprid" value="{{projectProposal.id}}">
 <input type="hidden" name="status" value="{{status}}">
+<input type="hidden" name="gosmactivity" value="{{gosmActivity.id}}">
 
 <div class="row white-box">
 	<div class="col-md-12">
@@ -126,68 +127,80 @@
 
 				{% endif %}
 
-				<h3>Completion Rate: {{completionRate}}%</h3>
+				{% if status == 1 %}
+					<h3>Completion Rate: {{completionRate}}%</h3>
+				{% else %}
+					<h3>Comments: </h3>
+				{% endif %}
 				<hr>
-				<p>
-					<b class="col-md-10  text-right"> Brief Context:</b>
-					{% if projectProposal.isbriefcontextcomplete %}
-
-					100%
-
-					{% else %}
-
-					0%
-
-					{% endif %}
-				</p>
-				
-				<p>
-					<b class="col-md-10  text-right"> Program Schedule :</b>
-					{% if projectProposal.isprogramcomplete %}
-
-					100%
-
-					{% else %}
-
-					0%
-
-					{% endif %}
-				</p>
-				<p>
-					<b class="col-md-10 text-right">Funding Expense:</b>
-					
-					{% if projectProposal.isexpensecomplete %}
-
-					100%
-
-					{% else %}
-
-						{% if projectProposal.isexpense %}
-
-						0%
-						
-						{% else %}
+				{% if status == 1 %}
+					<p>
+						<b class="col-md-10  text-right"> Brief Context:</b>
+						{% if projectProposal.isbriefcontextcomplete %}
 
 						100%
 
+						{% else %}
+
+						0%
+
 						{% endif %}
-
-
-					{% endif %}
-				</p>
-				<p>
-					<b class="col-md-10 text-right">Attachments:</b>
+					</p>
 					
-					{% if projectProposal.isattachmentscomplete %}
+					<p>
+						<b class="col-md-10  text-right"> Program Schedule :</b>
+						{% if projectProposal.isprogramcomplete %}
 
-					100%
+						100%
 
-					{% else %}
+						{% else %}
 
-					0%
+						0%
 
-					{% endif %}
-				</p>
+						{% endif %}
+					</p>
+					<p>
+						<b class="col-md-10 text-right">Funding Expense:</b>
+						
+						{% if projectProposal.isexpensecomplete %}
+
+						100%
+
+						{% else %}
+
+							{% if projectProposal.isexpense %}
+
+							0%
+							
+							{% else %}
+
+							100%
+
+							{% endif %}
+
+
+						{% endif %}
+					</p>
+					<p>
+						<b class="col-md-10 text-right">Attachments:</b>
+						
+						{% if projectProposal.isattachmentscomplete %}
+
+						100%
+
+						{% else %}
+
+						0%
+
+						{% endif %}
+					</p>
+				{% else %}
+
+					<p>
+					{{sectionsToEdit.comments}}
+					</p>
+
+				{% endif %}
 				 
 			</div>
 			<div class="list-group col-md-12">

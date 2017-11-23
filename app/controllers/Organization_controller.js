@@ -400,7 +400,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 return task.batch([
                     projectProposalModel.getProjectProposal(dbParam),
                     projectProposalModel.getProjectProposalExpenses(req.params.id),
-                    projectProposalModel.getExpenseTypes()
+                    projectProposalModel.getExpenseTypes(),
+                    projectProposalModel.getPPRSectionsToEdit(dbParam)
                 ]);
             })
             .then(data=>{
@@ -415,6 +416,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 // renderData.revenue = 1;
                 renderData.expenseTypes = data[2];
                 renderData.status = req.params.status;
+                renderData.sectionsToEdit = data[3];
 
                 console.log(renderData.gosmactivity);
                 console.log(renderData.projectProposal);
@@ -1346,7 +1348,22 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     }
                     else {
 
+                        var signatoryParam = {
+                            status: 0
+                            gosmactivity: req.body.gosmactivity
+                        }
+
+                        projectProposal.updatePPRSignatoryStatus(signatoryParam)
+                        .then(data=>{
+
                             return res.redirect(`/Organization/ProjectProposal/gosmlist/`);
+
+
+                        }).catch(error=>{
+                            console.log("new query error");
+                            console.log(error);
+                        });
+
 
                     }
 

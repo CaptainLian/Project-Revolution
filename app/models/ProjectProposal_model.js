@@ -36,6 +36,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const getAllMyActivity = queryFiles.getAllMyActivity;
     const getPPRToCreatePubsList = queryFiles.getPPRToCreatePubsList;
     const getExpenseTypesSQL = queryFiles.getExpenseTypes;
+    const updatePPRSignatoryStatusSQL = queryFiles.updatePPRSignatoryStatus;
 
     /**
      * class with properties
@@ -392,6 +393,10 @@ module.exports = function(configuration, modules, db, queryFiles) {
 
     ProjectProposalModel.prototype.updatePPRExpenses = function(param, connection = this._db){
         return connection.none(updatePPRExpensesSQL, param);
+    };
+
+    ProjectProposalModel.prototype.updatePPRSignatoryStatus = function(param, connection = this._db){
+        return connection.none(updatePPRSignatoryStatusSQL, param);
     };
 
     ProjectProposalModel.prototype.submitProjectProposal = function(param, connection = this._db){
