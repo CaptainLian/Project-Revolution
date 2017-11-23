@@ -3,5 +3,5 @@ UPDATE "PreActivityCashAdvanceSignatory"
        "document" = ${document},
        "digitalSignature" = ${digitalSignature},
        "dateSigned" = CURRENT_TIMESTAMP
- WHERE "cashAdvance" = ${activityID}
+ WHERE "cashAdvance" = ${cashAdvance}
    AND "signatory" = ${idNumber};

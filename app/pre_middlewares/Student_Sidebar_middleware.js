@@ -3,7 +3,7 @@
 module.exports = function(configuration, application, modules, database, queryFiles, models) {
     const Promise = modules.Promise;
     const accessControlModel = models.AccessControl_model;
-
+    const organizationModel = models.organization_model;
     const logger = modules.logger;
     const log_options = {
         from: 'Student-AccessControl-Middleware'
@@ -200,26 +200,26 @@ module.exports = function(configuration, application, modules, database, queryFi
         const sidebars = req.extra_data.view.sidebars;
 
         logger.debug('Performing sidebar checks', log_options);
-
-
         return database.task(task => {
             return task.batch([
                 accountModel.hasGOSMActivityWithoutPPR(user.idNumber),
                 accountModel.hasGOSMACtivityWithAMTActivityEvaluation(user.idNumber),
                 accountModel.hasPPRApproved(user.idNumber),
-                accountModel.hasPPRWithoutPostProjectProposal(user.idNumber)
+                accountModel.hasPPRWithoutPostProjectProposal(user.idNumber),
+                organizationModel.hasGOSMSubmitted(organizationSelected.id)
             ]);
         }).then(data => {
             const [GOSMActivityWithoutPPR,
                 GOSMActivityWithActivityEvaluation,
                 PPRApproved,
-                hasPPRWithoutPostProjectProposal
+                hasPPRWithoutPostProjectProposal,
+                hasSubmittedGOSM
             ] = data;
 
             logger.debug(`Has GOSM activity without PPR: ${GOSMActivityWithoutPPR.exists}`, log_options);
             if (GOSMActivityWithoutPPR.exists && organizationSelected.id !== 0) {
                 const newSidebar = Object.create(null);
-                newSidebar.name = 'Submit Project Proposal';
+                newSidebar.name = 'Project Proposal';
                 newSidebar.link = '/Organization/ProjectProposal/GOSMList';
                 sidebars[sidebars.length] = newSidebar;
             }
@@ -228,7 +228,6 @@ module.exports = function(configuration, application, modules, database, queryFi
             if (GOSMActivityWithActivityEvaluation.exists) {
                 const newSidebar = Object.create(null);
                 newSidebar.name = 'View AMT Activity Evaluation';
-                //TODO: SET ACTUAL LINK
                 newSidebar.link = '/blank';
 
                 sidebars[sidebars.length] = newSidebar;
@@ -238,7 +237,6 @@ module.exports = function(configuration, application, modules, database, queryFi
             if(PPRApproved.exists){
                 const newSidebar = Object.create(null);
                 newSidebar.name = 'Submit Activity Publicity';
-                //TODO: SET ACTUAL LINK
                 newSidebar.link = '/Organization/Publicity/list';
 
                 sidebars[sidebars.length] = newSidebar;
@@ -253,9 +251,21 @@ module.exports = function(configuration, application, modules, database, queryFi
                 sidebars[sidebars.length] = newSidebar;
             }
 
+            if(!hasSubmittedGOSM.exists && req.extra_data.user.accessibleFunctionalitiesList[0]){
+                logger.debug('CAN SUBMIT GOSM', log_options);
+                const newSidebar = Object.create(null);
+                newSidebar.name = 'Submit GOSM';
+                newSidebar.link = '/Organization/createGOSM';
+                newSidebar.icon = 'fa fa-comment-o';
+
+                sidebars[sidebars.length] = newSidebar;
+            }else{
+                logger.debug('CANNOT SUBMIT GOSM', log_options);
+            }
+
             return next();
         }).catch(err => {
-            logger.debug(`${err.message}\n${err.stack}`, log_options);
+            logger.warn(`${err.message}\n${err.stack}`, log_options);
             return next(err);
         });
 

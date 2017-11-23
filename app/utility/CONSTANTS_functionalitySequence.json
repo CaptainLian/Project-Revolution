@@ -14,5 +14,6 @@
     "SubmitPublicityMaterial": 16,
     "EvaluatePublicityMaterial": 17,
 
-    "SubmitFinancialDocuments": 18
+    "SubmitFinancialDocuments": 18,
+    "EvaluateFinancialDocument":19
 }

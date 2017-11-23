@@ -22,13 +22,6 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.ViewAPSReport] = [{
     link: '/Organization/APSReport'
 }];
 
-//Create GOSM
-functionalitySidebars[FUNCTIONALITY_SEQUENCES.CreateGOSM] = [{
-    name: 'Submit GOSM',
-    link: '/Organization/createGOSM',
-    icon: 'fa fa-comment-o'
-}];
-
 //Evaluate GOSM
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateGOSM] = [{
     name: 'View GOSM Submissions',
@@ -85,10 +78,11 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluatePublicityMaterial] = [{
 }];
 
 //Submit Financial Documents
-functionalitySidebars[FUNCTIONALITY_SEQUENCES.SubmitFinancialDocuments] = [{
-    name: 'Submit Financial Documents',
+functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateFinancialDocument] = [{
+    name: 'Financial Documents',
     link: '/finance/list'
 }];
+
 
 const accessibleRoutes = [];
 for(const functionality in functionalitySidebars){
