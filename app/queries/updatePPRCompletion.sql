@@ -1,4 +1,4 @@
 UPDATE public.projectproposal
-   SET isattachmentscomplete=${attachments}, 
+   SET isattachmentscomplete=${attachments}, status=${status},
        isbriefcontextcomplete=${context}, isexpensecomplete=${expense}, isprogramcomplete=${sched}
- WHERE gosmactivity${gosmactivity};
+ WHERE gosmactivity=${gosmactivity};
