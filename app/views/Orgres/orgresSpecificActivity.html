@@ -1,0 +1,363 @@
+{% extends '../template/CSO_master.html' %}
+{% import '../template/tags_macro.html' as tag %}
+
+{%block page_title%}ORGRES - Review{%-endblock%}
+
+{%block meta%}
+    {{super()}}
+    <meta data-name="csrf" data-token="{{csrfToken}}" />
+{%endblock%}
+
+{%block style%}
+    {{super()}}
+    <!-- Bootstrap Core CSS -->
+    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
+    {{tag.style('/plugins/bower_components/datatables/jquery.dataTables.min.css')}}
+    {{tag.style('/plugins/bower_components/nestable/nestable.css')}}
+    {{tag.style('https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css')}}
+    {{tag.style('https://cdnjs.cloudflare.com/ajax/libs/nestable2/1.5.0/jquery.nestable.min.CSS')}}
+
+    <!-- Menu CSS -->
+    {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
+    <!-- animation CSS -->
+    {{tag.style('/css/animate.css')}}
+    <!--alerts CSS -->
+    {{tag.style('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.css')}}
+    <!-- Custom CSS -->
+    {{tag.style('/plugins/bower_components/custom-select/custom-select.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-select/bootstrap-select.min.css')}}
+    {{tag.style('/css/style.css')}}
+    {{tag.style('/css/custom.css')}}
+    <!-- color CSS -->
+    {{tag.style('/css/colors/default.css', id='theme')}}
+
+    <style type="text/css">
+        .remove:{
+            color: yellow
+        }
+        .sweet-alert fieldset {
+
+            display: none;
+        }
+        .tabs-style-linebox nav a:hover{
+            color: #00c292;
+            text-decoration-color:#00c292 !important;
+        }
+        a:focus::after,
+        .tabs-style-linebox nav a:hover::after,
+        .tabs-style-linebox nav li.tab-current a::after{
+            background: #00c292;
+            text-decoration-color:#00c292 !important;
+        }
+        .tabs-style-linebox nav a:focus::after,
+        .tabs-style-linebox nav a:hover::after,
+        .tabs-style-linebox nav li.tab-current a::after{
+            background: #00c292;
+            text-decoration-color:#00c292 !important;
+        }
+        .custom-class:focus { overflow: hidden; }
+    </style>
+{%endblock%}
+
+{%block defer_script%}
+    {{super()}}
+    <!-- jQuery -->
+    {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
+    <!-- Bootstrap Core JavaScript -->
+    {{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
+    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
+    <!-- Menu Plugin JavaScript -->
+    {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
+    <!--slimscroll JavaScript -->
+    {{tag.javascript('/js/jquery.slimscroll.js', true)}}
+    <!--Wave Effects -->
+    {{tag.javascript('/js/waves.js', true)}}
+    <!-- Custom Theme JavaScript -->
+    {{tag.javascript('/js/custom.min.js', true)}}
+    {{tag.javascript('/js/cbpFWTabs.js', true)}}
+    <!-- tabs-->
+    {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
+    <!-- Sweet-Alert  -->
+    {{tag.javascript('/plugins/bower_components/sweetalert/sweetalert.min.js', true)}}
+    <!--Style Switcher -->
+    {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
+
+    {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js', true)}}
+    {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js', true)}}
+    {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js', true)}}
+    {{tag.javascript('https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js', true)}}
+    {{tag.javascript('https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js', true)}}
+    {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js', true)}}
+    {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js', true)}}
+    {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js', true)}}
+    {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/nestable2/1.5.0/jquery.nestable.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/custom-select/custom-select.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-select/bootstrap-select.min.js', true)}}
+
+    <!-- Page Scripts -->
+    {{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
+    {{tag.javascript('/js/APS/ActivityChecking.js', true)}}
+    <!-- /Page Scripts -->
+{%endblock%}
+
+{%block body_preloader%}
+    <div class="preloader">
+        <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+        </svg>
+    </div>
+{%endblock%}
+
+{%block content%}
+    <div id="doc" ct="{{activity}}" class="row white-box">
+    <div class="col-md-4 col-xs-12 ">
+        <div class="white-box ">
+            <div class="text-center"> <h1>{{projectProposal.strategies}}</h1> </div>
+            <p class="text-center">{{projectProposal.orgname}}</p>
+            <div class="">
+                <!-- .row -->
+                
+                <div class="row text-center ">
+                    <div class="col-md-6 b-r"><strong>Type</strong>
+                        <p>{{projectProposal.typename}}</p>
+                    </div>
+                    <div class="col-md-6"><strong>Nature</strong>
+                        <p>{{projectProposal.natname}}</p>
+                    </div>
+                </div>
+                <!-- /.row -->
+                <hr>
+                <!-- .row -->
+                <div class="row text-center m-t-10">
+                    <div class="col-md-6 b-r"><strong>Venue</strong>
+                        <p>{{projectProposal.activityvenue}}</p>
+                    </div>
+                    <div class="col-md-6"><strong>ENMP / ENP</strong>
+                        <p>{{projectProposal.enmp}}/ {{projectProposal.enp}}</p>
+                    </div>
+                </div>
+                <!-- /.row -->
+                <hr>
+                <!-- .row -->
+                <div class="row text-center m-t-10">
+                    <div class="col-md-12">
+                        <p><strong>Project Heads</strong></p>
+
+
+                        {% for head in projectHeads %}
+                            <p>{{head.name}}</p>
+                            <p>{{head.contactnumber}}</p>
+                        {% endfor %}
+
+                    </div>
+                </div>
+                <hr>
+
+
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8 col-xs-12" style="border-left: rgba(120,130,140,13) solid 1px">
+        <div class="white-box"  style="padding: 25px 0px 0px 0px">
+
+    		 <div class="sttabs tabs-style-linebox ">
+                                <nav>
+                                    <ul>
+                                        <li><a href="#section-linebox-1"><span>Survey Grade</span></a></li>
+                                        <li><a href="#section-linebox-2"><span>What Went Well</span></a></li>
+                                        <li><a href="#section-linebox-3"><span>Future Expectations</span></a></li>
+                                        <li><a href="#section-linebox-5"><span>Comments</span></a></li>
+                                    </ul>
+                                </nav>
+                                <div class="content-wrap text-center">
+                                    <section id="section-linebox-1">
+                                      
+                                        <div class="white-box text-left">
+                                                
+                                                <p class="text-center"><strong>Legend:</strong></p>
+                                                <p class="text-center">
+                                                    
+                                                    5 - Strongly Agree  
+                                                    4 - Agree   
+                                                    3 - Neutral   
+                                                    2 - Disagree   
+                                                    1 - Strongly Disagree
+                                                </p>
+
+                                                
+                                                
+                                                
+        
+                                                <div class="table-responsive">
+                                                    <table class="table table-borderless">
+                                                            <thead>
+                                                                <tr><th>Construct</th>
+                                                                <th>Average Grade</th>
+                                                                
+                                                            </tr></thead>
+                                                            <tbody>
+                                                                
+                                                                <tr>
+                                                                    <th>a. I understood the purpose of the activity</th>
+                                                                    <td class="text-center">4</td>
+                                                                </tr>
+                                                                
+                                                                <tr>
+                                                                    <th>b. The activity served my interest</th>
+                                                                    <td class="text-center">3</td>
+                                                                    
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>c. The activity made me happy and satisfied</th>
+                                                                    <td class="text-center">4</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>d. I felt involved during the activity</th>
+                                                                    <td class="text-center">4</td>
+                                                                </tr>
+                                                               <tr>
+                                                                    <th>e. I felt involved during the activity</th>
+                                                                    <td class="text-center">4</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>f. The organization urged me to go </th>
+                                                                    <td class="text-center">4</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>g. The activity made me appreciate the organization more</th>
+                                                                    <td class="text-center">4</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>h. The activity was memorable for me</th>
+                                                                    <td class="text-center">4</td>
+                                                                </tr>
+                                                                <tr>
+                                                                </tr>
+                                                            </tbody>
+                                                    </table>
+
+                                                </div>
+                                            
+                                            
+                                        </div>
+                                    </section>
+                                    <section id="section-linebox-2 text-left">
+                                        <div class="white-box">
+                                             <p><strong>Officers</strong></p>
+                                             <dd>The activity started on time </dd>
+                                             <dd>The activity started on time </dd>
+                                             <dd>The activity started on time </dd>
+
+                                             <p><strong>Members</strong></p>
+                                             <dd>The activity started on time </dd>
+                                             <dd>The activity started on time </dd>
+                                             <dd>The activity started on time </dd>
+                                             <dd>The activity started on time </dd>
+                                             <dd>The activity started on time </dd>
+                                             <dd>The activity started on time </dd>
+                                             <dd>The activity started on time </dd>
+                                             <dd>The activity started on time </dd>
+                                             <dd>The activity started on time </dd>
+                                             
+                                             <p><strong>Non-Members</strong></p>
+                                             <dd>The activity started on time </dd>
+                                             <dd>The activity started on time </dd>
+                                             <dd>The activity started on time </dd>
+                                             <dd>The activity started on time </dd>
+                                             <dd>The activity started on time </dd>
+                                             <dd>The activity started on time </dd>
+                                             <dd>The activity started on time </dd>
+                                             <dd>The activity started on time </dd>
+                                             <dd>The activity started on time </dd>
+                                             <dd>The activity started on time </dd>
+                                             <dd>The activity started on time </dd>
+                                             <dd>The activity started on time </dd>
+                                             <dd>The activity started on time </dd>
+                                             <dd>The activity started on time </dd>
+                                             <dd>The activity started on time </dd>
+                                        </div>
+                                    </section>
+                                    
+                                    <section id="section-linebox-3">
+                                        <div class="white-box">
+                                             <p><strong>Officers</strong></p>
+                                             <dd>The activity started on time </dd>
+                                             <dd>The activity started on time </dd>
+                                             <dd>The activity started on time </dd>
+
+                                             <p><strong>Members</strong></p>
+                                             <dd>The activity started on time </dd>
+                                             <dd>The activity started on time </dd>
+                                             <dd>The activity started on time </dd>
+                                             <dd>The activity started on time </dd>
+                                             <dd>The activity started on time </dd>
+                                             <dd>The activity started on time </dd>
+                                             <dd>The activity started on time </dd>
+                                             <dd>The activity started on time </dd>
+                                             <dd>The activity started on time </dd>
+                                             
+                                             <p><strong>Non-Members</strong></p>
+                                             <dd>The activity started on time </dd>
+                                             <dd>The activity started on time </dd>
+                                             <dd>The activity started on time </dd>
+                                             <dd>The activity started on time </dd>
+                                             <dd>The activity started on time </dd>
+                                             <dd>The activity started on time </dd>
+                                             <dd>The activity started on time </dd>
+                                             <dd>The activity started on time </dd>
+                                             <dd>The activity started on time </dd>
+                                             <dd>The activity started on time </dd>
+                                             <dd>The activity started on time </dd>
+                                             <dd>The activity started on time </dd>
+                                             <dd>The activity started on time </dd>
+                                             <dd>The activity started on time </dd>
+                                             <dd>The activity started on time </dd>
+                                        </div>
+                                    </section>
+                                    
+                                    <section id="section-linebox-5">
+                                         <div class="white-box">
+                                                 <p><strong>Officers</strong></p>
+                                                 <dd>The activity started on time </dd>
+                                                 <dd>The activity started on time </dd>
+                                                 <dd>The activity started on time </dd>
+
+                                                 <p><strong>Members</strong></p>
+                                                 <dd>The activity started on time </dd>
+                                                 <dd>The activity started on time </dd>
+                                                 <dd>The activity started on time </dd>
+                                                 <dd>The activity started on time </dd>
+                                                 <dd>The activity started on time </dd>
+                                                 <dd>The activity started on time </dd>
+                                                 <dd>The activity started on time </dd>
+                                                 <dd>The activity started on time </dd>
+                                                 <dd>The activity started on time </dd>
+                                                 
+                                                 <p><strong>Non-Members</strong></p>
+                                                 <dd>The activity started on time </dd>
+                                                 <dd>The activity started on time </dd>
+                                                 <dd>The activity started on time </dd>
+                                                 <dd>The activity started on time </dd>
+                                                 <dd>The activity started on time </dd>
+                                                 <dd>The activity started on time </dd>
+                                                 <dd>The activity started on time </dd>
+                                                 <dd>The activity started on time </dd>
+                                                 <dd>The activity started on time </dd>
+                                                 <dd>The activity started on time </dd>
+                                                 <dd>The activity started on time </dd>
+                                                 <dd>The activity started on time </dd>
+                                                 <dd>The activity started on time </dd>
+                                                 <dd>The activity started on time </dd>
+                                                 <dd>The activity started on time </dd>
+                                            </div>
+                                    </section>
+                                    
+                                </div>
+                                <!-- /content -->
+                            </div>
+        </div>
+    </div>
+</div>
+{%endblock%}

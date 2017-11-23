@@ -179,7 +179,9 @@
                     <ul>
                         <li><a href="#section-linebox-1"><span>Details</span></a></li>
                         <li><a href="#section-linebox-2"><span>Schedule</span></a></li>
+                        {%if withExpense%}
                         <li><a href="#section-linebox-3"><span>Funding</span></a></li>
+                        {%endif%}
                         <li><a href="#section-linebox-5"><span>Attachment</span></a></li>
                         <li><a href="#section-linebox-6"><span>Signatories</span></a></li>
 
@@ -275,7 +277,7 @@
 
                         </div>
                     </section>
-
+                    {%if withExpense%}
                     <section id="section-linebox-3">
                         <div class="white-box">
                             <h4 class="text-left">IV. Source of Funds</h4>
@@ -378,7 +380,7 @@
                             <h4 class="text-left">VI. Revenue and Expense Table</h4>
                             <hr>
                             <br/>
-
+                            {%if withRevenue%}
                             <table class="table bg">
                                 <thead>
 
@@ -418,6 +420,7 @@
                                     </tr>
                                 </tfoot>
                             </table>
+                            {%endif%}
                             <br/>
                             <table class="table bg">
                                 <thead>
@@ -456,6 +459,7 @@
                                         <td class="text-right text-danger" colspan="3"><strong>Total Expense</strong></td>
                                         <td  class="text-right">{{totalexpense | round(2)}}</td>
                                     </tr>
+                                     {%if withRevenue%}
                                      <tr>
                                         <td class="text-right text-success" colspan="3"  style="border-top: white solid 0px "><strong>Total Income </strong></td>
                                         <td  class="text-right" style="border-top: white solid 0px ">
@@ -463,6 +467,7 @@
                                             {{totalincome | round(2)}}
                                         </td>
                                     </tr>
+                                    {%endif%}
                                 </tfoot>
                             </table>
                             <br/>
@@ -471,6 +476,7 @@
 
                         </div>
                     </section>
+                    {%endif%}
 
                     <section id="section-linebox-5" style="display: block;visibility:hidden;">
                      <h4 class="text-left">VII. Attachments</h4>
@@ -502,8 +508,16 @@
                                    <div class="mail-contnet text-center">
 
                                    <h5 class="text-center">
-                                       <span class="label label-rounded label-danger pull-left">{{signatory.status}}</span>
-
+                                        {%if signatory.status =='Unsigned' %}
+                                        <span class="label label-rounded label-default text-black pull-left" style="color:black">{{signatory.status}}</span>
+                                        {%elif  signatory.status == 'Approved'%}
+                                        <span class="label label-rounded label-success pull-left">{{signatory.status}}</span>
+                                        {%elif  signatory.status == 'Pend'%}
+                                        <span class="label label-rounded label-warning pull-left">{{signatory.status}}</span>
+                                        {%elif  signatory.status == 'Denied'%}
+                                        <span class="label label-rounded label-danger pull-left">{{signatory.status}}</span>
+                                        {%endif%}
+                                        
                                        <span class="time pull-right">
                                        {% if(signatory.datesigned)%}
                                            {{signatory.datesigned}}

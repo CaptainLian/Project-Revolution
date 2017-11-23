@@ -14,6 +14,7 @@ module.exports = function(configuration, application, modules, database, queryFi
         if(!req.extra_data.system.sidebars.canAttach)
             return next();
 
+        /*
         if(req.session.user.type === 1){
             logger.debug('User type 1', log_options);
             logger.debug(`Org selected: ${JSON.stringify(req.session.user.organizationSelected)}`, log_options);
@@ -22,6 +23,7 @@ module.exports = function(configuration, application, modules, database, queryFi
                 return next();
             }
         }
+        */
 
         const sidebars = req.extra_data.view.sidebars;
 

@@ -152,6 +152,16 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.projectHeads = data[4];
             renderData.attachment = data[5];
             renderData.signatories = data[6];
+
+            renderData.withExpense = data[1].length >0;
+            renderData.withRevenue = data[2].length >0;
+
+            console.log(data[2].length > 0)
+            console.log("REVENUE")
+            console.log(data[1].length > 0)
+            console.log("EXPENSE")
+
+            
             console.log(renderData.attachment);
             console.log("renderData.attachment");
             return res.render('APS/ActivityChecking', renderData);
@@ -253,7 +263,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.projectHeads = data[4];
             renderData.attachment = data[5];
             renderData.signatories = data[6];
+            renderData.withExpense = data[1].length >0;
+            renderData.withRevenue = data[2].length >0;
 
+            console.log(data[2].length > 0)
+            console.log("REVENUE")
+            console.log(data[1].length > 0)
+            console.log("EXPENSE")
             logger.debug(`Signatories: ${JSON.stringify(renderData.signatories)}`, log_options);
             logger.debug('rendering page', log_options);
             return res.render('APS/ProjectProposal_sign', renderData);

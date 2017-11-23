@@ -12,6 +12,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     const projectProposalModel = models.ProjectProposal_model;
     const postProjectProposalModel = models.PostProjectProposal_model;
     const gosmModel = models.gosmModel;
+    const orgresModel = models.Orgres_model;
     const logger = modules.logger;
     const path = require('path');
 
@@ -850,12 +851,12 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             .then(GOSM => {
                                 /* GOSM Exists */
                                 if (GOSM) {
-                                    return Promise.resolve(GOSM.id);
+                                    return Promise.resolve([GOSM.id,GOSM]);
                                 }
                                 //else
                                 return gosmModel.insertNewGOSM(GOSMParam.termID, GOSMParam.studentOrganization, true, task1)
                                     .then(data => {
-                                        return Promise.resolve(data.id);
+                                        return Promise.resolve([data.id,data]);
                                     });
                             }).catch(err => {
                                 throw err;
@@ -864,13 +865,20 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         var dbParam = {
                             organization: req.session.user.organizationSelected.id
                         };
+                         let GOSMParam = Object.create(null);
+                      
+                        GOSMParam.termID = GOSM[1].termid
+                        GOSMParam.studentOrganization = req.session.user.organizationSelected.id;
+                      
                         logger.debug('Starting batch queries', log_options);
                         return task1.batch([
-                            gosmModel.getGOSMActivities(GOSM, undefined, task1),
+                            gosmModel.getGOSMActivities(GOSM[0], undefined, task1),
                             gosmModel.getAllActivityTypes(['id', 'name'], task1),
                             gosmModel.getAllActivityNature(['id', 'name'], task1),
-                            organizationModel.getStudentsOfOrganization(dbParam)
-                        ]);
+                            organizationModel.getStudentsOfOrganization(dbParam),
+                            gosmModel.getOrgGOSM(GOSMParam, task1)
+                        ])
+                        
                     });
             }).then(data => {
                 logger.debug(`${JSON.stringify(data)}`, log_options);
@@ -883,6 +891,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.activityNature = data[2];
                 renderData.gosmActivities = data[0];
                 renderData.members = data[3];
+                renderData.status = data[4].status;
+                renderData.comments = data[4].comments;
+
+                console.log(data[4])
+                console.log("GOSM DATA")
 
                 return res.render('Org/GOSM', renderData);
             }).catch(err => {
@@ -2350,6 +2363,53 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             }).catch(err=>{
                 console.log(err);
             })
+        },
+        orgresLists:(req, res)=>{
+            const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
+            var dbParam = {
+                // idNumber: req.session.user.idNumber
+                idNumber: 3333333
+            }
+            orgresModel.getOrgresList(dbParam)
+                .then(data=>{
+                    renderData.activities = data;
+                    console.log(data)
+                    res.render('Orgres/OrgresList', renderData);
+                }).catch(err=>{
+                    console.log("ERROR")
+                    console.log(err)
+                })
+
+            
+        },
+        orgresSpecficActivity:(req, res)=>{
+
+            const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
+            var dbParam = {
+                gosmid :req.params.id
+            }
+            database.task(t=>{
+                return t.batch([
+                    pnpModel.getActivityDetailsforPubs(dbParam,t),
+                    projectProposalModel.getProjectHeadsGOSM(dbParam,t)
+
+                    ])
+            }).then(data=>{
+                    renderData.projectProposal = data[0]
+                    renderData.projectHeads = data[1]
+                    res.render('Orgres/orgresSpecificActivity', renderData);  
+                }).catch(err=>{
+
+                })
+            
+                
+
+
+            
         }
 
 
