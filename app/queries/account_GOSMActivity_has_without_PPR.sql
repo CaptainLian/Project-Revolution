@@ -10,10 +10,10 @@ WITH "CurrentTermGOSMActivity" AS (
                       FROM GOSMActivityProjectHead gaph
                      WHERE gaph.idNumber = ${idNumber})
 )
-SELECT EXISTS(SELECT *  
+SELECT EXISTS(SELECT *
                 FROM "CurrentTermGOSMActivity" ctga
                WHERE ctga.id NOT IN (SELECT ppr.GOSMActivity
                                        FROM ProjectProposal ppr
                                       WHERE ppr.GOSMActivity IN (SELECT id
                                                                   FROM "CurrentTermGOSMActivity")
-                                        AND ppr.status <> 1)) AS exists;
+                                        AND ppr.status <> 1 AND ppr.status <> 4)) AS exists;

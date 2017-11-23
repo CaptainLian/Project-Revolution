@@ -59,7 +59,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             view.GOSMID = GOSMID;
             view.GOSMStatus = data[2].status;
             view.csrfToken = req.csrfToken();
-            view.showUpdateButtons = view.GOSMStatus != 1 && view.GOSMStatus != 3;
+            // view.showUpdateButtons = view.GOSMStatus != 1 && view.GOSMStatus != 3;
+            view.showUpdateButtons = view.GOSMStatus ==2;
             view.extra_data = req.extra_data;
             return res.render('APS/OrganizationSpecificGOSM', view);
         }).catch(error => {
@@ -201,6 +202,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         return database.task(task => {
             logger.debug('Executing batch queries', log_options);
             return task.batch([
+                // 0
                 projectProposalModel.getActivityProjectProposalDetailsGAID(activityID, [
                     'an.name AS nature',
                     'at.name AS type',
@@ -221,8 +223,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     'PP.ACCUMULATEDDEPOSITORYFUNDS AS accumulateddepositoryfunds',
                     'PP.ORGANIZATIONFUNDOTHERSOURCE AS organizationfundothersource'
                 ]),
+                // 1
                 projectProposalModel.getProjectProposalExpenses(activityID),
+                // 2
                 projectProposalModel.getProjectProposalProjectedIncome(activityID),
+                // 3
                 projectProposalModel.getProjectProposalProgramDesign(activityID, [
                     'pppd.dayid AS dayid',
                     "to_char(pppd.date, 'Mon DD, YYYY') AS date",
@@ -232,8 +237,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     'pppd.activitydescription AS activitydescription',
                     'pppd.personincharge AS personincharge'
                 ]),
+                // 4
                 projectProposalModel.getProjectProposalProjectHeads(activityID),
+                // 5
                 projectProposalModel.getLatestProjectProposalAttachment({projectId: activityID}),
+                // 6
                 projectProposalModel.getSignatories(activityID)
             ]);
         }).then(data => {
@@ -246,6 +254,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.attachment = data[5];
             renderData.signatories = data[6];
 
+            logger.debug(`Signatories: ${JSON.stringify(renderData.signatories)}`, log_options);
             logger.debug('rendering page', log_options);
             return res.render('APS/ProjectProposal_sign', renderData);
         }).catch(err => {

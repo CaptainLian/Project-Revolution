@@ -16,7 +16,8 @@ module.exports = function(configuration, application, modules, database, queryFi
 
         if(req.session.user.type === 1){
             logger.debug('User type 1', log_options);
-            if(req.session.user.organizationSelected === 0){
+            logger.debug(`Org selected: ${JSON.stringify(req.session.user.organizationSelected)}`, log_options);
+            if(req.session.user.organizationSelected.id === 0){
                 logger.debug('CSO organization', log_options);
                 return next();
             }
@@ -26,7 +27,9 @@ module.exports = function(configuration, application, modules, database, queryFi
 
         return AccountModel.hasPPRToSign(req.session.user.idNumber)
         .then(PPR => {
-            logger.debug(`has PPR To Sign ${PPR.exists}`, log_options);
+
+            logger.debug(`Has PPR To Sign ${PPR.exists}`, log_options);
+
             if(PPR.exists){
                 sidebars[sidebars.length] = {
                     name: 'Sign Project Proposal',

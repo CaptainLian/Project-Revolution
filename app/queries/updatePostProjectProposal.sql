@@ -4,5 +4,7 @@ UPDATE "PostProjectProposal"
    	   "WWYGLIETA" = ${learning},
    	  	"HDTATYLCTTDOTP" = ${develop},
    	   "WATTWWAWCYDTPTFHA" = ${mistakes},
-   	   "isBriefContextCompleted" = ${isBriefContextComplete}
+   	   "isBriefContextCompleted" = ${isBriefContextComplete},
+   	   "ANMP" = ${anmp},
+   	   "ANP" = ${anp}
  WHERE "GOSMActivity" = ${id}

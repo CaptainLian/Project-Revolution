@@ -398,6 +398,63 @@ $function$
         RETURN var_FunctionalityID;
     END;
 $function$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION "PreAct_CashAdvance_get_organization"("param_CAID" INTEGER)
+RETURNS INTEGER AS
+$function$
+    DECLARE
+        "var_organizationID" INTEGER;
+    BEGIN
+         SELECT g.studentOrganization INTO "var_organizationID"
+           FROM GOSM g
+          WHERE g.id = (SELECT ga.GOSM
+                          FROM GOSMActivity ga
+                         WHERE ga.id = (SELECT paca."GOSMActivity"
+                                          FROM "PreActivityCashAdvance" paca 
+                                         WHERE paca.id = "param_CAID"));
+
+        RETURN "var_organizationID";
+    END;
+$function$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION "PreActCashAdvance_get_number_to_sign_per_account"()
+RETURNS TABLE (
+    idNumber INTEGER,
+    "numSign" BIGINT
+) AS
+$function$
+    BEGIN
+        RETURN QUERY SELECT preca.signatory AS idNumber, COUNT(preca.id) AS "numSign"
+                       FROM "PreActivityCashAdvanceSignatory" preca
+                      WHERE preca."status" = 0
+                      AND preca."cashAdvance" IN (SELECT paca.id
+                                                    FROM "PreActivityCashAdvance" paca
+                                                   WHERE paca."GOSMActivity" IN (SELECT ga.id
+                                                                                   FROM "GOSMActivity_get_current_term_activity_ids"() ga))
+                   GROUP BY preca.signatory;
+    END;
+$function$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION "PreActCashAdvance_get_organization_next_treasurer_signatory"(organizationID INTEGER)
+RETURNS INTEGER AS
+$function$
+    DECLARE
+        treasurerID INTEGER;
+    BEGIN
+         WITH "OrganizationTreasurerNumSign" AS (
+             SELECT ot.idNumber, COALESCE(n."numSign", 0) AS "numSign"
+               FROM organization_get_treasurer_signatories(organizationID) ot LEFT JOIN "PreActCashAdvance_get_number_to_sign_per_account"() n
+                                                                                     ON ot.idNumber = n.idNumber
+         )
+          SELECT ot.idNumber INTO treasurerID
+            FROM "OrganizationTreasurerNumSign" ot
+        ORDER BY "numSign" ASC, ot.idNumber DESC
+        LIMIT 1;
+
+        RETURN treasurerID;
+    END;
+$function$ LANGUAGE plpgsql;
+
 /*
     Helpful functions end
 */
@@ -1076,7 +1133,10 @@ INSERT INTO Functionality (id, name, category)
                           (210016, 'Submit Publicity Material'              , 210),
                           (106017, 'Evaluate Publicity Material'            , 106),
                           -- Finance
-                          (212018, 'Submit Financial Documents'             , 212);
+                          (212018, 'Submit Financial Documents'             , 212),
+                          -- Signatory for Org
+                          (212019, 'Sign Financial Document Phase' , 212),
+                          (108020, 'Evaluate Post Project'         , 108);
 
 DROP TABLE IF EXISTS OrganizationAccessControl CASCADE;
 CREATE TABLE OrganizationAccessControl (
@@ -1121,7 +1181,11 @@ INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       -- Evaluate Publicity Material
                                       (   17,        106017,      TRUE),
                                       (   18,        106017,      TRUE),
-                                      (   19,        106017,      TRUE);
+                                      (   19,        106017,      TRUE),
+                                      -- Evaluate Publicity Material
+                                      (    5,        108020,      TRUE),
+                                      (    6,        108020,      TRUE),
+                                      (    7,        108020,      TRUE);
 
 /* Organization Default Structure */
 
@@ -1142,12 +1206,14 @@ $trigger$
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole, rank)
                              VALUES (NEW.id, 'President', TRUE, NULL, 0)
         RETURNING id INTO presidentRoleID;
+        
         INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                        VALUES (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 0)), TRUE),
                                               (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 7)), TRUE),
                                               (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
                                               (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE),
-                                              (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 15)), TRUE);
+                                              (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 15)), TRUE),
+                                              (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 19)), TRUE);
 
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole, rank)
                              VALUES (NEW.id, 'Executive Secretariat', TRUE, presidentRoleID, 10)
@@ -1194,7 +1260,8 @@ $trigger$
                                               (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE),
                                               -- Sign PPR as Treasurer 212018
                                               (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 11)), TRUE),
-                                              (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 18)), TRUE);
+                                              (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 18)), TRUE),
+                                              (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 19)), TRUE);
 
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole, home_url, rank)
                              VALUES (NEW.id, 'Associate Vice President of Finance', FALSE, vpfRoleID, '/Organization/treasurer/dashboard', 30)
@@ -1662,7 +1729,7 @@ CREATE TABLE SignatoryStatus (
 );
 INSERT INTO SignatoryStatus (id, name)
                      VALUES ( 0, 'Unsigned'),
-                            ( 1, 'Accepted'),
+                            ( 1, 'Approved'),
                             ( 2, 'Pend'),
                             ( 3, 'Denied'),
                             ( 4, 'Force Signed');
@@ -1707,33 +1774,44 @@ $trigger$
         nature SMALLINT;
         type SMALLINT;
     BEGIN
-        SELECT COUNT(pps.id) INTO numSignNeeded
-          FROM ProjectProposalSignatory pps
-         WHERE pps.GOSMActivity = NEW.GOSMActivity
-           AND status <> 1
-           AND status <> 4;
+	IF NEW.status = 1 OR NEW.status = 4 THEN
+	    SELECT COUNT(pps.id) INTO numSignNeeded
+              FROM ProjectProposalSignatory pps
+             WHERE pps.GOSMActivity = NEW.GOSMActivity
+               AND status <> 1
+               AND status <> 4;
 
-        IF numSignNeeded = 0 THEN
-            SELECT ga.activityNature, ga.activityType INTO "nature", "type"
-              FROM GOSMActivity ga
-             WHERE ga.id = NEW.GOSMActivity;
+             IF numSignNeeded = 0 THEN
+                SELECT ga.activityNature, ga.activityType INTO "nature", "type"
+                  FROM GOSMActivity ga
+                 WHERE ga.id = NEW.GOSMActivity;
 
-             IF nature = 1 OR type = 2 THEN
-                 INSERT INTO AMTActivityEvaluation (activity, status)
-                                            VALUES (NEW.GOSMActivity, 0);
-             END IF;
+                 IF nature = 1 OR type = 2 THEN
+                     INSERT INTO AMTActivityEvaluation (activity, status)
+                                                VALUES (NEW.GOSMActivity, 0);
+                 END IF;
 
-             UPDATE ProjectProposal
-                SET status = 3
+                UPDATE ProjectProposal
+                   SET status = 3
+                 WHERE GOSMActivity = NEW.GOSMActivity;
+            END IF;
+	ELSIF NEW.status = 2 THEN
+	    UPDATE ProjectProposal
+                SET status = 4
               WHERE GOSMActivity = NEW.GOSMActivity;
-        END IF;
+        ELSIF NEW.status = 3 THEN
+            UPDATE ProjectProposal
+               SET status = 5
+             WHERE GOSMActivity = NEW.GOSMActivity;
+	END IF;
+        
 
         RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
 CREATE TRIGGER after_update_ProjectProposalSignatory_completion
     AFTER UPDATE ON ProjectProposalSignatory
-    FOR EACH ROW
+    FOR EACH ROW WHEN (OLD.status <> NEW.status)
     EXECUTE PROCEDURE "trigger_after_update_ProjectProposalSignatory_completion"();
 
     /* Load balancing of Proposals */
@@ -1983,8 +2061,8 @@ CREATE TABLE "PreActivityDirectPaymentSignatory" (
     CONSTRAINT "pk_PreActivityDirectPaymentSignatory" PRIMARY KEY("directPayment", "signatory", "type")
 );
 
-DROP TABLE IF EXISTS "PreActivityDirectCashAdvanceSignatory" CASCADE;
-CREATE TABLE "PreActivityDirectCashAdvanceSignatory" (
+DROP TABLE IF EXISTS "PreActivityCashAdvanceSignatory" CASCADE;
+CREATE TABLE "PreActivityCashAdvanceSignatory" (
     "id" SERIAL UNIQUE,
     "cashAdvance" INTEGER REFERENCES "PreActivityCashAdvance"("id"),
     "signatory" INTEGER REFERENCES Account(idNumber),
@@ -1996,8 +2074,115 @@ CREATE TABLE "PreActivityDirectCashAdvanceSignatory" (
     "digitalSignature" TEXT,
     "dateSigned" TIMESTAMP WITH TIME ZONE,
 
-    CONSTRAINT "pk_PreActivityDirectCashAdvanceSignatory" PRIMARY KEY("cashAdvance", "signatory", "type")
+    CONSTRAINT "pk_PreActivityCashAdvanceSignatory" PRIMARY KEY("cashAdvance", "signatory", "type")
 );
+CREATE OR REPLACE FUNCTION "trigger_after_insert_PreActivityCashAdvance_signatories"()
+RETURNS TRIGGER AS
+$trigger$
+    DECLARE
+        organization INTEGER;
+        organizationPresident INTEGER;
+    BEGIN
+        organization = "PreAct_CashAdvance_get_organization"(NEW."id");
+	organizationPresident = organization_get_president(organization);
+	
+        INSERT INTO "PreActivityCashAdvanceSignatory" ("cashAdvance", signatory, type)
+                                               VALUES (NEW."id", "PreActCashAdvance_get_organization_next_treasurer_signatory"(organization), 0);
+	
+        INSERT INTO "PreActivityCashAdvanceSignatory" ("cashAdvance", signatory, type)
+                                               VALUES (NEW."id", organizationPresident, 1);
+                                                 
+        INSERT INTO "PreActivityCashAdvanceSignatory" ("cashAdvance", signatory, type)
+                                               VALUES (NEW."id", (SELECT a.idNumber FROM Account a WHERE type = 3 ORDER BY idNumber DESC LIMIT 1), 2);  
+	
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER "after_insert_PreActivityCashAdvance_signatories"
+    AFTER INSERT ON "PreActivityCashAdvance"
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_after_insert_PreActivityCashAdvance_signatories"();
+
+CREATE OR REPLACE FUNCTION "trigger_after_insert_PreActivityCashAdvanceParticular_signatories"()
+RETURNS TRIGGER AS
+$trigger$
+    DECLARE
+	totalExpense NUMERIC(12, 2);
+    BEGIN
+	SELECT SUM(ppe.unitCost*ppe.quantity) INTO totalExpense
+	  FROM ProjectProposalExpenses ppe
+	 WHERE ppe.id IN (SELECT pacap.particular
+	                    FROM "PreActivityCashAdvanceParticular" pacap
+	                   WHERE pacap."cashAdvance" = NEW."cashAdvance");
+
+	IF totalExpense > 5000.00 THEN
+            INSERT INTO "PreActivityCashAdvanceSignatory" ("cashAdvance", "signatory", "type")
+                                                   VALUES (NEW."cashAdvance", (SELECT a.idNumber FROM Account a WHERE a.type = 4 ORDER BY a.idNumber DESC LIMIT 1), 3)
+            ON CONFLICT DO NOTHING;
+        END IF;
+        
+	IF totalExpense > 50000.00 THEN
+            INSERT INTO "PreActivityCashAdvanceSignatory" ("cashAdvance", "signatory", "type")
+                                                   VALUES (NEW."cashAdvance", (SELECT a.idNumber FROM Account a WHERE a.type = 5 ORDER BY a.idNumber DESC LIMIT 1), 4)
+            ON CONFLICT DO NOTHING;
+        END IF;
+        
+	IF totalExpense > 250000.00 THEN
+	    INSERT INTO "PreActivityCashAdvanceSignatory" ("cashAdvance", "signatory", "type")
+                                                   VALUES (NEW."cashAdvance", (SELECT a.idNumber FROM Account a WHERE a.type = 6 ORDER BY a.idNumber DESC LIMIT 1), 5)
+            ON CONFLICT DO NOTHING;
+	END IF;
+	
+        RETURN NEW;
+    END
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER "after_insert_PreActivityCashAdvanceParticular_signatories"
+    AFTER INSERT ON "PreActivityCashAdvanceParticular"
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_after_insert_PreActivityCashAdvanceParticular_signatories"();
+    
+CREATE OR REPLACE FUNCTION "trigger_after_delete_PreActivityCashAdvanceParticular_signatories"()
+RETURNS TRIGGER AS
+$trigger$
+    DECLARE
+	totalExpense NUMERIC(12, 2);
+    BEGIN
+	SELECT SUM(ppe.unitCost*ppe.quantity) INTO totalExpense
+	  FROM ProjectProposalExpenses ppe
+	 WHERE ppe.id IN (SELECT pacap.particular
+	                    FROM "PreActivityCashAdvanceParticular" pacap
+	                   WHERE pacap."cashAdvance" = NEW."cashAdvance");
+
+	IF totalExpense <= 5000.00 THEN
+            DELETE FROM "PreActivityCashAdvanceSignatory" pacas
+            WHERE pacas."cashAdvance" = OLD."cashAdvance"
+              AND pacas."signatory" = (SELECT a.idNumber FROM Account a WHERE a.type = 4 ORDER BY a.idNumber DESC LIMIT 1)
+              AND pacas.type = 3;
+            
+        END IF;
+        
+	IF totalExpense <= 50000.00 THEN
+           DELETE FROM "PreActivityCashAdvanceSignatory" pacas
+            WHERE pacas."cashAdvance" = OLD."cashAdvance"
+              AND pacas."signatory" = (SELECT a.idNumber FROM Account a WHERE a.type = 5 ORDER BY a.idNumber DESC LIMIT 1)
+              AND pacas.type = 4;
+        END IF;
+        
+	IF totalExpense <= 250000.00 THEN
+            DELETE FROM "PreActivityCashAdvanceSignatory" pacas
+            WHERE pacas."cashAdvance" = OLD."cashAdvance"
+              AND pacas."signatory" = (SELECT a.idNumber FROM Account a WHERE a.type = 6 ORDER BY a.idNumber DESC LIMIT 1)
+              AND pacas.type = 5;
+	END IF;
+	
+        RETURN NEW;
+    END
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER "after_delete_PreActivityCashAdvanceParticular_signatories"
+    AFTER DELETE ON "PreActivityCashAdvanceParticular"
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_after_delete_PreActivityCashAdvanceParticular_signatories"();
+
 /* Organization Treasurer */
     /* AMTActivityEvaluation */
 DROP TABLE IF EXISTS AMTActivityEvaluationStatus CASCADE;

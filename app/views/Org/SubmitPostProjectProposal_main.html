@@ -1,7 +1,7 @@
 {% extends '../template/CSO_master.html' %}
 {% import '../template/tags_macro.html' as tag %}
 
-{%block page_title%}CSO - Post Activity{%-endblock%}
+{%block page_title%}CSO - Post Activity{%endblock%}
 
 {%block sidebar_content%}
     {{super()}}
@@ -97,27 +97,28 @@
 
 				</div>
 			</div>
+			{% if activities.status != 5%}
 			<div class="col-md-6 text-right">
 				<h3>Completion Rate:
 					{% set completionRate = 0 %}
 
 					{% if activities.isBriefContextCompleted %}
 
-						{% set completionRate = completionRate + 33.3 %}
+						{% set completionRate = completionRate + 50 %}
 
 					{% endif %}
 
 					{% if activities.isOtherFinanceDocumentsCompleted %}
 
-						{% set completionRate = completionRate + 33.3 %}
+						{% set completionRate = completionRate + 50 %}
 
 					{% endif %}
 
-					{% if activities.isFinanceDocumentCompleted %}
+					<!-- {% if activities.isFinanceDocumentCompleted %}
 
 						{% set completionRate = completionRate + 33.3 %}
 
-					{% endif %}
+					{% endif %} -->
 
 
 
@@ -144,7 +145,7 @@
 					{% endif %}
 				</p>
 
-				<p>
+			<!-- 	<p>
 					<b class="col-md-10 text-right">Finance Document:</b>
 
 					{% if activities.isFinanceDocumentCompleted %}
@@ -153,9 +154,48 @@
 						0%
 					{% endif %}
 				</p>
-
+ -->
 
 			</div>
+			{% elif activities.status == 5%}
+			<div class="col-md-6 text-right">
+				<h3>Sections to be Edited:
+				</h3>
+				
+				{% for sec in activities.sectionsToBeEdited%}
+				<p>	
+					{%if sec ==1%}
+						<b class="col-md-12  text-right">How Objectives were met</b>
+					{%elif sec ==2%}
+						<b class="col-md-12  text-right">Learnings</b>
+					{%elif sec ==3%}
+						<b class="col-md-12  text-right">General Attendance Sheet</b>
+					{%elif sec ==4%}
+						<b class="col-md-12  text-right">Event Pictures</b>
+					
+
+					{%endif%}
+
+				</p>
+				
+					
+
+				{%endfor%}
+			
+				<p>{{activities.comments}}</p>
+			<!-- 	<p>
+					<b class="col-md-10 text-right">Finance Document:</b>
+
+					{% if activities.isFinanceDocumentCompleted %}
+						100%
+					{% else%}
+						0%
+					{% endif %}
+				</p>
+ -->
+
+			</div>
+			{%endif%}
 			<div class="list-group col-md-12">
 				<a type="button" onclick="(function () {window.location.href='/Organization/PostProjectProposal/BriefContext/{{activities.id}}'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
 					<div class="row">
@@ -163,8 +203,11 @@
 						{% if activities.isBriefContextCompleted %}
 						<h5>Brief Context <span class="label label-success">Complete</span></h5>
 						<input type="hidden" name="briefContext" value="1">
-						{% else%}
+						{% elif not activities.isBriefContextCompleted and activities.status != 5 %}
 							<h5>Brief Context <span class="label label-danger">Incomplete</span></h5>
+							<input type="hidden" name="briefContext" value="0">
+						{% elif not activities.isBriefContextCompleted and activities.status == 5 %}
+							<h5>Brief Context <span class="label label-warning">To be edited</span></h5>
 							<input type="hidden" name="briefContext" value="0">
 						{% endif %}
 
@@ -184,9 +227,13 @@
 							{% if activities.isOtherFinanceDocumentsCompleted %}
 								<h5>Required Document <span class="label label-success">Complete</span></h5>
 								<input type="hidden" name="reqDocu" value="1">
-							{% else%}
+							{% elif not activities.isOtherFinanceDocumentsCompleted and activities.status != 5 %}
 								<h5>Required Document<span class="label label-danger">Incomplete</span></h5>
 								<input type="hidden" name="reqDocu" value="0">
+							{% elif not activities.isOtherFinanceDocumentsCompleted and activities.status == 5 %}
+								<h5>Required Document<span class="label label-warning">To be Edited</span></h5>
+								<input type="hidden" name="reqDocu" value="0">
+
 							{% endif %}
 
 
@@ -200,27 +247,7 @@
 					</div>
 				</a>
 
-				<a type="button" onclick="(function () {window.location.href='/Organization/PostProjectProposal/FinanceDocument/{{activities.id}}'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
-					<div class="row">
-						<div class="col-md-6 text-left">
-
-							{% if activities.isFinanceDocumentCompleted %}
-							<h5>Finance Document <span class="label label-success">Complete</span></h5>
-							<input type="hidden" name="finDocu" value="1">
-							{% else%}
-								<h5>Finance Document <span class="label label-danger">Incomplete</span></h5>
-								<input type="hidden" name="finDocu" value="0">
-							{% endif %}
-
-						</div>
-
-
-						<div class="col-md-6 text-right" >
-							<i class="fa fa-pencil " style="padding-top: 10px"></i>
-						</div>
-
-					</div>
-				</a>
+				
 
 
 
@@ -230,10 +257,8 @@
 			<div class="m-t-40 col-md-12 text-center">
 
 					<button type="submit"
-					{% if not activities.isFinanceDocumentCompleted %}
-
-							disabled=''
-					{%elif not activities.isOtherFinanceDocumentsCompleted%}
+					
+					{%if not activities.isOtherFinanceDocumentsCompleted%}
 						disabled=''
 					{%elif not activities.isBriefContextCompleted%}
 					disabled=''
@@ -241,10 +266,8 @@
 					{% endif %}
 
 					 class="btn btn-success
-					{% if not activities.isFinanceDocumentCompleted %}
-
-						disabled
-					{%elif not activities.isOtherFinanceDocumentsCompleted%}
+					
+					{%if not activities.isOtherFinanceDocumentsCompleted%}
 					disabled
 					{%elif not activities.isBriefContextCompleted%}
 					disabled

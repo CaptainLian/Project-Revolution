@@ -23,41 +23,41 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         //Create ProjectProposal
         viewGOSMActivityListProjectProposal: (req, res) => {
             systemModel.getCurrentTerm()
-            .then(data=>{
-                var param = {
-                    termID: data.id,
-                    studentOrganization: req.session.user.organizationSelected.id
-                };
-
-                gosmModel.getOrgGOSM(param)
-                .then(data1=>{
-
-
-                    var dbParam = {
-                        gosm: data1.id
+                .then(data => {
+                    var param = {
+                        termID: data.id,
+                        studentOrganization: req.session.user.organizationSelected.id
                     };
 
-                    projectProposalModel.getGOSMActivitiesToImplement(dbParam)
-                    .then(data2=>{
-
-                        const renderData = Object.create(null);
-                        renderData.extra_data = req.extra_data;
-                        renderData.csrfToken = req.csrfToken();
-                        renderData.activities = data2;
-                        console.log(renderData);
-                        return res.render('Org/ActivityToImplement', renderData);
-                    }).catch(error=>{
-                        logger.warn(`${error.message}\n${error.stack}`, log_options);
-                    });
+                    gosmModel.getOrgGOSM(param)
+                        .then(data1 => {
 
 
-                }).catch(error=>{
+                            var dbParam = {
+                                gosm: data1.id
+                            };
+
+                            projectProposalModel.getGOSMActivitiesToImplement(dbParam)
+                                .then(data2 => {
+
+                                    const renderData = Object.create(null);
+                                    renderData.extra_data = req.extra_data;
+                                    renderData.csrfToken = req.csrfToken();
+                                    renderData.activities = data2;
+                                    console.log(renderData);
+                                    return res.render('Org/ActivityToImplement', renderData);
+                                }).catch(error => {
+                                    logger.warn(`${error.message}\n${error.stack}`, log_options);
+                                });
+
+
+                        }).catch(error => {
+                            logger.warn(`${error.message}\n${error.stack}`, log_options);
+                        });
+
+                }).catch(error => {
                     logger.warn(`${error.message}\n${error.stack}`, log_options);
                 });
-
-            }).catch(error=>{
-                logger.warn(`${error.message}\n${error.stack}`, log_options);
-            });
         },
 
         viewGOSMActivityListPostProjectProposal: (req, res) => {
@@ -68,22 +68,22 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             };
             console.log(dbParam);
             postProjectProposalModel.getPostActsToImplement(dbParam)
-            .then(data=>{
-                console.log(data);
-                const renderData = Object.create(null);
-                renderData.extra_data = req.extra_data;
-                renderData.csrfToken = req.csrfToken();
+                .then(data => {
+                    console.log(data);
+                    const renderData = Object.create(null);
+                    renderData.extra_data = req.extra_data;
+                    renderData.csrfToken = req.csrfToken();
 
-                renderData.activities = data;
-                console.log(renderData);
-                if(req.session.postSubmitted){
-                    renderData.success = 1;
-                    req.session.postSubmitted = false;
-                }
-                return res.render('Org/PostActivityToImplement', renderData);
-            }).catch(error=>{
-                logger.warn(`${error.message}\n${error.stack}`, log_options);
-            });
+                    renderData.activities = data;
+                    console.log(renderData);
+                    if (req.session.postSubmitted) {
+                        renderData.success = 1;
+                        req.session.postSubmitted = false;
+                    }
+                    return res.render('Org/PostActivityToImplement', renderData);
+                }).catch(error => {
+                    logger.warn(`${error.message}\n${error.stack}`, log_options);
+                });
 
 
         },
@@ -92,7 +92,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
             console.log("ITPO");
             //still no ppr or rejected ppr
-            if (req.params.status == 0){
+            if (req.params.status == 0) {
 
                 console.log("ENTER 0");
 
@@ -125,13 +125,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         return res.render('Org/SubmitProjectProposal_main',renderData);
                     }).catch(err => {
                         logger.warn(`${err.message}\n${err.stack}`, log_options);
-                    });
-                }).catch(error=>{
-                    logger.warn(`${error.message}\n${error.stack}`, log_options);
-                });
 
+                    });
+                })
             } // already started ppr
-            else if (req.params.status == 1){
+            else if (req.params.status == 1) {
 
                 console.log("ENTER 1");
 
@@ -159,10 +157,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     console.log(renderData.gosmActivity);
                     console.log("KAHITANONGMESSAGE");
 
-                    return res.render('Org/SubmitProjectProposal_main',renderData);
+                    return res.render('Org/SubmitProjectProposal_main', renderData);
                 }).catch(err => {
                     logger.warn(`${err.message}\n${err.stack}`, log_options);
                 });
+
             }  
             else if (req.params.status == 2){
 
@@ -210,29 +209,51 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         viewSubmitPostProjectProposalMain: (req, res) => {
             var dbParam = {
                 idNumber: req.session.user.idNumber,
-                gosmid:req.params.gosmid
+                gosmid: req.params.gosmid
             };
-             var dbParam2 = {
-                gosmactivity:req.params.gosmid
+            var dbParam2 = {
+                gosmactivity: req.params.gosmid
             };
 
             console.log(dbParam);
-            database.task(task=>{
+            database.task(task => {
                 return task.batch([
                     postProjectProposalModel.getPostProjectProposalMain(dbParam),
                     gosmModel.getGOSMActivityProjectHeads(dbParam2)
-                    ]);
-            }).then(data =>{
+                ]);
+            }).then(data => {
+
                 const renderData = Object.create(null);
                 renderData.extra_data = req.extra_data;
                 renderData.csrfToken = req.csrfToken();
                 renderData.activities = data[0];
                 renderData.projectHeads = data[1];
+                // if(data[0].status == 5){
+                //     var sections = data[0].sectionsToBeEdited;
+                //     for(var x = 0; x < sections.length; x++){
+                //         if(sections[x] == 1 && !renderData.activities.isBriefContextComplete){
+                //             renderData.activities.isBriefContextCompleted = false
+                //         }
+                //         if(sections[x] == 2 && !renderData.activities.isBriefContextComplete){
+                //             renderData.activities.isBriefContextCompleted = false   
+                //         }
+                //         if(sections[x] == 3 && !renderData.activities.isBriefContextComplete){
+                //             renderData.activities.isOtherFinanceDocumentsCompleted = false
+                //         }
+                //         if(sections[x] == 4){
+                //             renderData.activities.isOtherFinanceDocumentsCompleted = false   
+                //         }
+
+                //         if(sections[x] == 5){
+                //             renderData.activities.isOtherFinanceDocumentsCompleted = false
+                //         }
+                //     }
+                // }
                 renderData.gosmid = req.params.gosmid;
                 console.log(renderData.activities);
                 console.log(renderData.projectHeads);
                 return res.render('Org/SubmitPostProjectProposal_main', renderData);
-            }).catch(err=>{
+            }).catch(err => {
                 logger.warn(`${err.message}\n${err.stack}`, log_options);
             });
             // postProjectProposalModel.getPostProjectProposalMain(dbParam)
@@ -258,21 +279,23 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             console.log("req.body");
             console.log(req.params.id);
             var gl = {
-                projectId: req.params.id
+                projectId: req.params.gid
             }
-             database.task(task => {
+            console.log("req.body");
+            console.log(gl);
+            database.task(task => {
 
                 return task.batch([
-                        gosmModel.getGOSMActivityType(req.params.gid, undefined, task).
-                           then(data =>{
-                                console.log("DATA");
-                                console.log(data[0].activitytype);
-                                return gosmModel.getGOSMActivityAttachmentRequirement(data[0].activitytype,task);
+                    gosmModel.getGOSMActivityType(req.params.gid, undefined, task).
+                    then(data => {
+                        console.log("DATA");
+                        console.log(data[0].activitytype);
+                        return gosmModel.getGOSMActivityAttachmentRequirement(data[0].activitytype, task);
 
-                           }),
-                       projectProposalModel.getLatestProjectProposalAttachment(gl)
+                    }),
+                    projectProposalModel.getLatestProjectProposalAttachment(gl)
 
-                    ])
+                ])
 
             }).then(data => {
                 console.log("DATA");
@@ -283,7 +306,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.pid = req.params.id
                 console.log("DATA1");
                 console.log(data[1]);
-                return res.render('Org/SubmitProjectProposal_attachments',renderData);
+                return res.render('Org/SubmitProjectProposal_attachments', renderData);
             }).catch(error => {
                 logger.warn(`${error.message}\n${error.stack}`, log_options);
             });
@@ -298,31 +321,31 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             console.log(orgID);
 
             var dbParam = {
-                    gosmactivity: req.params.id,
-                    orgId: orgID
+                gosmactivity: req.params.id,
+                orgId: orgID
             };
 
 
-             database.task(task => {
-                    return task.batch([
-                        projectProposalModel.getProjectProposal(dbParam),
-                        projectProposalModel.getAllVenues(),
-                        projectProposalModel.getOrgFacultyAdvisers(dbParam)
-                    ]);
-                }).then(data => {
+            database.task(task => {
+                return task.batch([
+                    projectProposalModel.getProjectProposal(dbParam),
+                    projectProposalModel.getAllVenues(),
+                    projectProposalModel.getOrgFacultyAdvisers(dbParam)
+                ]);
+            }).then(data => {
 
-                    const renderData = Object.create(null);
-                    renderData.extra_data = req.extra_data;
-                    renderData.csrfToken = req.csrfToken();
-                    renderData.projectProposal = data[0];
-                    renderData.venues = data[1];
-                    renderData.advisers = data[2];
-                    renderData.gosmactivity = dbParam;
+                const renderData = Object.create(null);
+                renderData.extra_data = req.extra_data;
+                renderData.csrfToken = req.csrfToken();
+                renderData.projectProposal = data[0];
+                renderData.venues = data[1];
+                renderData.advisers = data[2];
+                renderData.gosmactivity = dbParam;
 
-                    return res.render('Org/SubmitProjectProposal_briefcontext',renderData);
-                }).catch(error => {
-                    logger.warning(`${error.message}\n${error.stack}`, log_options);
-                });
+                return res.render('Org/SubmitProjectProposal_briefcontext', renderData);
+            }).catch(error => {
+                logger.warning(`${error.message}\n${error.stack}`, log_options);
+            });
         },
 
         viewSubmitPostProjectProposalBriefContext: (req, res) => {
@@ -331,20 +354,20 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.csrfToken = req.csrfToken();
             renderData.id = req.params.gosmid
             var dbParam = {
-                gosmid:req.params.gosmid
+                gosmid: req.params.gosmid
             }
             console.log("DATA")
             console.log(req.params);
-            database.task(t=>{
-                return  t.batch([
+            database.task(t => {
+                return t.batch([
                     gosmModel.getObjectives(dbParam),
                     postProjectProposalModel.getPostBriefContext(dbParam)
-                    ]);
+                ]);
             }).then(data => {
                 renderData.objectives = data[0].objectives;
-                renderData.save =  data[1];
+                renderData.save = data[1];
                 console.log(renderData.save);
-                return res.render('Org/SubmitPostProjectProposal_briefcontext',renderData);
+                return res.render('Org/SubmitPostProjectProposal_briefcontext', renderData);
             }).catch(err => {
                 logger.warn(`${err.message}\n${err.stack}`, log_options);
             })
@@ -355,21 +378,21 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
             renderData.id = req.params.gosmid;
-            return res.render('Org/SubmitPostProjectProposal_others',renderData);
+            return res.render('Org/SubmitPostProjectProposal_others', renderData);
         },
         viewSubmitPostProjectProposalFinanceDocument: (req, res) => {
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
             var dbParam = {
-                gosmid : req.params.gosmid
+                gosmid: req.params.gosmid
             }
             postProjectProposalModel.getPostProjectProposal(dbParam).then(data => {
                 renderData.status = data;
                 renderData.id = req.params.gosmid;
                 console.log(data);
-                return res.render('Org/SubmitPostProjectProposal_financedocuments',renderData);
-            }).catch(err =>{
+                return res.render('Org/SubmitPostProjectProposal_financedocuments', renderData);
+            }).catch(err => {
                 logger.warn(`${err.message}\n${err.stack}`, log_options);
             })
 
@@ -390,36 +413,36 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             console.log(orgID);
 
             var dbParam = {
-                    gosmactivity: req.params.id,
-                    orgId: orgID
+                gosmactivity: req.params.id,
+                orgId: orgID
             };
 
-            database.task(task=>{
-                return task.batch([
-                    projectProposalModel.getProjectProposal(dbParam),
-                    projectProposalModel.getProjectProposalExpenses(req.params.id),
-                    projectProposalModel.getExpenseTypes()
-                ]);
-            })
-            .then(data=>{
+            database.task(task => {
+                    return task.batch([
+                        projectProposalModel.getProjectProposal(dbParam),
+                        projectProposalModel.getProjectProposalExpenses(req.params.id),
+                        projectProposalModel.getExpenseTypes()
+                    ]);
+                })
+                .then(data => {
 
-                const renderData = Object.create(null);
-                renderData.extra_data = req.extra_data;
-                renderData.csrfToken = req.csrfToken();
-                renderData.gosmactivity = dbParam;
-                renderData.projectProposal = data[0];
-                renderData.expenses = data[1];
-                renderData.revenue = req.params.revenue;
-                // renderData.revenue = 1;
-                renderData.expenseTypes = data[2];
+                    const renderData = Object.create(null);
+                    renderData.extra_data = req.extra_data;
+                    renderData.csrfToken = req.csrfToken();
+                    renderData.gosmactivity = dbParam;
+                    renderData.projectProposal = data[0];
+                    renderData.expenses = data[1];
+                    renderData.revenue = req.params.revenue;
+                    // renderData.revenue = 1;
+                    renderData.expenseTypes = data[2];
 
-                console.log(renderData.gosmactivity);
-                console.log(renderData.projectProposal);
+                    console.log(renderData.gosmactivity);
+                    console.log(renderData.projectProposal);
 
-                return res.render('Org/SubmitProjectProposal_expense', renderData);
-            }).catch(error=>{
-                console.log(error);
-            });
+                    return res.render('Org/SubmitProjectProposal_expense', renderData);
+                }).catch(error => {
+                    console.log(error);
+                });
 
 
         },
@@ -432,43 +455,43 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             console.log(orgID);
 
             var dbParam = {
-                    gosmactivity: req.params.id,
-                    orgId: orgID
+                gosmactivity: req.params.id,
+                orgId: orgID
             };
 
 
-            database.task(task =>{
-                return task.batch([
-                    projectProposalModel.getProjectProposal(dbParam),
-                    gosmModel.getGOSMActivityProjectHeads(dbParam),
-                    projectProposalModel.getProjectProposalProgramDesign(req.params.id, [
-                        'pppd.dayid AS dayid',
-                        "to_char(pppd.date, 'Mon DD, YYYY') AS date",
-                        "to_char(pppd.starttime + CURRENT_DATE, 'HH:MI') AS starttime",
-                        "to_char(pppd.endtime + CURRENT_DATE, 'HH:MI') AS endtime",
-                        'pppd.activity AS activity',
-                        'pppd.activitydescription AS activitydescription',
-                        'pppd.personincharge AS personincharge'
-                    ])
-                ]);
-            })
-            .then(data=>{
+            database.task(task => {
+                    return task.batch([
+                        projectProposalModel.getProjectProposal(dbParam),
+                        gosmModel.getGOSMActivityProjectHeads(dbParam),
+                        projectProposalModel.getProjectProposalProgramDesign(req.params.id, [
+                            'pppd.dayid AS dayid',
+                            "to_char(pppd.date, 'Mon DD, YYYY') AS date",
+                            "to_char(pppd.starttime + CURRENT_DATE, 'HH:MI') AS starttime",
+                            "to_char(pppd.endtime + CURRENT_DATE, 'HH:MI') AS endtime",
+                            'pppd.activity AS activity',
+                            'pppd.activitydescription AS activitydescription',
+                            'pppd.personincharge AS personincharge'
+                        ])
+                    ]);
+                })
+                .then(data => {
 
-                const renderData = Object.create(null);
-                renderData.extra_data = req.extra_data;
-                renderData.csrfToken = req.csrfToken();
-                renderData.gosmactivity = dbParam;
-                renderData.projectProposal = data[0];
-                renderData.projectHeads = data[1];
-                renderData.programDesign = data[2];
+                    const renderData = Object.create(null);
+                    renderData.extra_data = req.extra_data;
+                    renderData.csrfToken = req.csrfToken();
+                    renderData.gosmactivity = dbParam;
+                    renderData.projectProposal = data[0];
+                    renderData.projectHeads = data[1];
+                    renderData.programDesign = data[2];
 
-                console.log(renderData.gosmactivity);
-                console.log(renderData.projectProposal);
+                    console.log(renderData.gosmactivity);
+                    console.log(renderData.projectProposal);
 
-                return res.render('Org/SubmitProjectProposal_programdesign',renderData);
-            }).catch(error=>{
-                console.log(error);
-            });
+                    return res.render('Org/SubmitProjectProposal_programdesign', renderData);
+                }).catch(error => {
+                    console.log(error);
+                });
 
         },
 
@@ -489,7 +512,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.allProjects = data[0];
                 renderData.deniedProjects = data[1];
                 renderData.pendingProjects = data[2];
-                renderData.successProjects =  data[3];
+                renderData.successProjects = data[3];
 
                 return res.render('Org/ProjectHeadHome', renderData);
             }).catch(error => {
@@ -552,10 +575,10 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             dbParam.studentorganization = req.session.user.organizationSelected.id;
 
             gosmModel.submitGOSM(dbParam)
-            .then(() => {
-                res.send("1");
-                logger.debug('GOSM Submitted', log_options);
-            });
+                .then(() => {
+                    res.send("1");
+                    logger.debug('GOSM Submitted', log_options);
+                });
         },
 
         deleteActivity: (req, res) => {
@@ -564,12 +587,12 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
             logger.debug(`Deleting activity: ${req.body.dbid}`, log_options);
             gosmModel.deleteActivity(dbParam)
-            .then(data => {
-                return res.send("1");
-            }).catch(error => {
-                res.send('0');
-                throw error;
-            });
+                .then(data => {
+                    return res.send("1");
+                }).catch(error => {
+                    res.send('0');
+                    throw error;
+                });
         },
 
         updateActivity: (req, res) => {
@@ -598,7 +621,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             var activityType = req.body['activity-type'];
             var others = req.body.othersDescription;
             var natureType = req.body['nature-type'];
-            var personInCharge = [];
+            var personInCharge = req.body.personInCharge;
             personInCharge = req.body['personInCharge[]'];
 
             if (!Array.isArray(personInCharge)) {
@@ -624,15 +647,30 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 budget: budget
             };
 
-            gosmModel.updateActivity(dbParam)
-            .then(data => {
-                 logger.debug(`ID: ${data.id}`, log_options);
+            logger.debug('starting transaction', log_options);
+            database.tx(transaction => {
+                return gosmModel.updateActivity(dbParam, transaction)
+                .then(data => {
+                    return Promise.all([
+                        Promise.resolve(data.id),
+                        gosmModel.clearProjectHeads(id, transaction)
+                    ]);
 
-                return res.send(String(data.id));
+                }).then(data => {
+                    for(const projectHead of personInCharge){
+                        gosmModel.insertProjectHead(id, projectHead, transaction)
+                        .then(() => {});
+                    }
 
-            }).catch(error => {
-                res.send("0");
-                throw error;
+                    logger.debug(`ID: ${data[0].id}`, log_options);
+                    return res.send(String(data[0].id));
+                }).catch(err => {
+                    logger.warn(`${err.message}\n${err.stack}`, log_options);
+                    return res.send("0");
+                });
+            }).catch(err => {
+                logger.warn(`${err.message}\n${err.stack}`, log_options);
+                return res.send("0");
             });
         },
 
@@ -644,7 +682,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
          * @returns {[type]}     [description]
          */
         inputCreateGOSM: (req, res) => {
-            logger.debug('inputCreateGOSM(): ',log_options);
+            logger.debug('inputCreateGOSM(): ', log_options);
             /* Validate input */
             logger.warning('inputCreateGOSM - Input not yet validated!', log_options);
             logger.debug(`${JSON.stringify(req.body)}`, log_options);
@@ -679,83 +717,83 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             let budget = req.body.budget;
 
             systemModel.getCurrentTerm('id')
-            .then(term => {
-                logger.debug(`Current termID: ${term.id}`, log_options);
+                .then(term => {
+                    logger.debug(`Current termID: ${term.id}`, log_options);
 
-               /**
-                * const param = {
-                *      termID: term.id,
-                *      studentOrganization
-                * }
-                * @type {Object}
-                */
-               let param = Object.create(null);
-               param.termID = term.id;
-               param.studentOrganization = req.session.user.organizationSelected.id;
-               return gosmModel.getOrgGOSM(param);
-           }).then(gosm => {
-               logger.debug('starting transaction', log_options);
-               return database.tx(transaction => {
-                   const dbParam = {
-                       GOSM: gosm.id,
-                       goals: goals,
-                       objectives: objectives,
-                       strategies: strategy,
-                       description: description,
-                       measures: measures,
-                       targetDateStart: `${startDateSplit[2]}-${startDateSplit[0]}-${startDateSplit[1]}`,
-                       targetDateEnd: `${endDateSplit[2]}-${endDateSplit[0]}-${endDateSplit[1]}`,
-                       activityNature: natureType,
-                       activityType: activityType,
-                       activityTypeOtherDescription: others,
-                       isRelatedToOrganizationNature: isRelatedToOrganization,
-                       budget: budget
-                   };
+                    /**
+                     * const param = {
+                     *      termID: term.id,
+                     *      studentOrganization
+                     * }
+                     * @type {Object}
+                     */
+                    let param = Object.create(null);
+                    param.termID = term.id;
+                    param.studentOrganization = req.session.user.organizationSelected.id;
+                    return gosmModel.getOrgGOSM(param);
+                }).then(gosm => {
+                    logger.debug('starting transaction', log_options);
+                    return database.tx(transaction => {
+                        const dbParam = {
+                            GOSM: gosm.id,
+                            goals: goals,
+                            objectives: objectives,
+                            strategies: strategy,
+                            description: description,
+                            measures: measures,
+                            targetDateStart: `${startDateSplit[2]}-${startDateSplit[0]}-${startDateSplit[1]}`,
+                            targetDateEnd: `${endDateSplit[2]}-${endDateSplit[0]}-${endDateSplit[1]}`,
+                            activityNature: natureType,
+                            activityType: activityType,
+                            activityTypeOtherDescription: others,
+                            isRelatedToOrganizationNature: isRelatedToOrganization,
+                            budget: budget
+                        };
 
-                   if (activityType == 10 && others == null) {
-                       throw new Error('Error activity type others empty');
-                   }
-                   logger.debug('Inserting GOSM Activity', log_options);
-                   return gosmModel.insertProposedActivity(dbParam, transaction)
-                   .then(activity => {
-                       logger.debug(`ActivityID: ${activity.activityid}, person-in-charge_length: ${personInCharge.length}`, log_options);
+                        if (activityType == 10 && others == null) {
+                            throw new Error('Error activity type others empty');
+                        }
+                        logger.debug('Inserting GOSM Activity', log_options);
+                        return gosmModel.insertProposedActivity(dbParam, transaction)
+                            .then(activity => {
+                                logger.debug(`ActivityID: ${activity.activityid}, person-in-charge_length: ${personInCharge.length}`, log_options);
 
-                       for (let index = personInCharge.length + 1; --index;) {
-                           const item = personInCharge[personInCharge.length - index];
-                           console.log("Inside the loop");
-                           console.log(item);
+                                for (let index = personInCharge.length + 1; --index;) {
+                                    const item = personInCharge[personInCharge.length - index];
+                                    console.log("Inside the loop");
+                                    console.log(item);
 
-                           /**
-                            * const projectHeadParam = {
-                            *      idNumber: parseInt(item),
-                            *      activityID: activity.activityid
-                            *  };
-                            * @variable projectHeadParam
-                            * @type {Object}
-                            */
-                           const projectHeadParam = Object.create(null);
-                           projectHeadParam.idNumber = parseInt(item);
-                           projectHeadParam.activityID = parseInt(activity.activityid);
+                                    /**
+                                     * const projectHeadParam = {
+                                     *      idNumber: parseInt(item),
+                                     *      activityID: activity.activityid
+                                     *  };
+                                     * @variable projectHeadParam
+                                     * @type {Object}
+                                     */
+                                    const projectHeadParam = Object.create(null);
+                                    projectHeadParam.idNumber = parseInt(item);
+                                    projectHeadParam.activityID = parseInt(activity.activityid);
 
-                           gosmModel.insertActivityProjectHead(projectHeadParam, transaction)
-                           .then(data => {
+                                    gosmModel.insertActivityProjectHead(projectHeadParam, transaction)
+                                        .then(data => {
 
-                           });
-                       }
-                       logger.debug('Inserting project heads', log_options);
-                       return Promise.resolve(activity.activityid);
-                   });
-               });
-           }).then(data => {
-               return res.send(String(data));
-           });
+                                        });
+                                }
+                                logger.debug('Inserting project heads', log_options);
+                                return Promise.resolve(activity.activityid);
+                            });
+                    });
+                }).then(data => {
+                    return res.send(String(data));
+                });
         },
 
         createActivityRequirements: (req, res) => {
 
             const dbParam = {};
             //TODO CHANGE ID
-            dbParam. id = 1;
+            dbParam.id = 1;
 
             database.task(task => {
                 return task.batch([
@@ -780,55 +818,55 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
 
-            return res.render('Org/Settings_ACL',renderData);
+            return res.render('Org/Settings_ACL', renderData);
         },
 
         //TODO Test
         viewCreateGOSM: (req, res) => {
-             logger.debug('VIEW CREATE GOSM CONTROLLER', log_options);
+            logger.debug('VIEW CREATE GOSM CONTROLLER', log_options);
 
             database.task(task1 => {
                 logger.debug('Starting database task', log_options);
                 return systemModel.getCurrentTerm('id', task1)
-                .then(term => {
-                    /**
-                     * const param = {
-                     *      termID: term.id,
-                     *      studentOrganization
-                     * }
-                     * @type {Object}
-                     */
-                    let GOSMParam = Object.create(null);
-                    GOSMParam.termID = term.id;
-                    GOSMParam.studentOrganization = req.session.user.organizationSelected.id;
+                    .then(term => {
+                        /**
+                         * const param = {
+                         *      termID: term.id,
+                         *      studentOrganization
+                         * }
+                         * @type {Object}
+                         */
+                        let GOSMParam = Object.create(null);
+                        GOSMParam.termID = term.id;
+                        GOSMParam.studentOrganization = req.session.user.organizationSelected.id;
 
-                    return gosmModel.getOrgGOSM(GOSMParam, task1)
-                    .then(GOSM => {
-                        /* GOSM Exists */
-                        if (GOSM) {
-                            return Promise.resolve(GOSM.id);
-                        }
-                        //else
-                        return gosmModel.insertNewGOSM(GOSMParam.termID, GOSMParam.studentOrganization, true, task1)
-                        .then(data => {
-                            return Promise.resolve(data.id);
-                        });
-                    }).catch(err => {
-                        throw err;
+                        return gosmModel.getOrgGOSM(GOSMParam, task1)
+                            .then(GOSM => {
+                                /* GOSM Exists */
+                                if (GOSM) {
+                                    return Promise.resolve(GOSM.id);
+                                }
+                                //else
+                                return gosmModel.insertNewGOSM(GOSMParam.termID, GOSMParam.studentOrganization, true, task1)
+                                    .then(data => {
+                                        return Promise.resolve(data.id);
+                                    });
+                            }).catch(err => {
+                                throw err;
+                            });
+                    }).then(GOSM => {
+                        var dbParam = {
+                            organization: req.session.user.organizationSelected.id
+                        };
+                        logger.debug('Starting batch queries', log_options);
+                        return task1.batch([
+                            gosmModel.getGOSMActivities(GOSM, undefined, task1),
+                            gosmModel.getAllActivityTypes(['id', 'name'], task1),
+                            gosmModel.getAllActivityNature(['id', 'name'], task1),
+                            organizationModel.getStudentsOfOrganization(dbParam)
+                        ]);
                     });
-                }).then(GOSM => {
-                    var dbParam = {
-                        organization: req.session.user.organizationSelected.id
-                    };
-                    logger.debug('Starting batch queries', log_options);
-                    return task1.batch([
-                        gosmModel.getGOSMActivities(GOSM, undefined, task1),
-                        gosmModel.getAllActivityTypes(['id', 'name'], task1),
-                        gosmModel.getAllActivityNature(['id', 'name'], task1),
-                        organizationModel.getStudentsOfOrganization(dbParam)
-                    ]);
-                });
-             }).then(data => {
+            }).then(data => {
                 logger.debug(`${JSON.stringify(data)}`, log_options);
                 logger.debug(`${JSON.stringify(data[2])}`, log_options);
                 const renderData = Object.create(null);
@@ -841,13 +879,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.members = data[3];
 
                 return res.render('Org/GOSM', renderData);
-              }).catch(err => {
-                  throw err;
-              });
+            }).catch(err => {
+                throw err;
+            });
         },
 
 
-        saveContext: (req, res) =>{
+        saveContext: (req, res) => {
             console.log(req.body);
 
             let startDateSplit = req.body.actualDateStart.split("/");
@@ -855,8 +893,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
 
             var dbParam = {
-                actualDateStart:  "'" + startDateSplit[2] + "-" + startDateSplit[0] + "-" + startDateSplit[1] + "'",
-                actualDateEnd:  "'" + endDateSplit[2] + "-" + endDateSplit[0] + "-" + endDateSplit[1] + "'",
+                actualDateStart: "'" + startDateSplit[2] + "-" + startDateSplit[0] + "-" + startDateSplit[1] + "'",
+                actualDateEnd: "'" + endDateSplit[2] + "-" + endDateSplit[0] + "-" + endDateSplit[1] + "'",
                 id: req.params.ppr,
                 enp: req.body.enp,
                 enmp: req.body.enmp,
@@ -869,7 +907,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 isBriefContextComplete: true
             };
 
-            if(!(req.body.actualDateStart).trim() ||
+            if (!(req.body.actualDateStart).trim() ||
                 !(req.body.actualDateEnd).trim() ||
                 !(req.body.enp).trim() ||
                 !(req.body.enmp).trim() ||
@@ -878,26 +916,26 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 !(req.body.expense).trim() ||
                 !(req.body.context1).trim() ||
                 !(req.body.context2).trim() ||
-                !(req.body.context3).trim()){
+                !(req.body.context3).trim()) {
 
                 dbParam.isBriefContextComplete = false;
 
             }
 
-            if (!(req.body.actualDateStart).trim()){
-                dbParam.actualDateStart=null;
+            if (!(req.body.actualDateStart).trim()) {
+                dbParam.actualDateStart = null;
             }
 
-            if (!(req.body.actualDateEnd).trim()){
-                dbParam.actualDateEnd=null;
+            if (!(req.body.actualDateEnd).trim()) {
+                dbParam.actualDateEnd = null;
             }
 
-            if (!(req.body.enp).trim()){
-                dbParam.enp=null;
+            if (!(req.body.enp).trim()) {
+                dbParam.enp = null;
             }
 
-            if (!(req.body.enmp).trim()){
-                dbParam.enmp=null;
+            if (!(req.body.enmp).trim()) {
+                dbParam.enmp = null;
             }
 
             console.log(req.params.id);
@@ -905,93 +943,113 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             console.log(dbParam);
 
             projectProposalModel.updatePPRBriefContext(dbParam)
-            .then(data=>{
+                .then(data => {
 
-                res.redirect(`/Organization/ProjectProposal/Main/${req.params.id}/1`);
+                    res.redirect(`/Organization/ProjectProposal/Main/${req.params.id}/1`);
 
-            }).catch(error=>{
-                console.log(error);
-            });
+                }).catch(error => {
+                    console.log(error);
+                });
 
 
 
 
         },
         postSaveContext: (req, res) =>{
-            console.log(req.params);
+            console.log(req.body);
 
             // TODO: change id, to come from selected activity
-            var obj = req.body['obj[]'].filter(function(e){return e});
+            if(typeof req.body['obj[]'] !== 'undefined' && req.body['obj[]'] && req.body['obj[]'].constructor === Array){
+                var obj = req.body['obj[]'].filter(function(e){return e});
+            }else{
+                
+                var obj = [];
+                obj.push(req.body['obj[]']);
+                
+            }
+            console.log(obj)
+
             var dbParam = {
                 id: req.body.gosmid,
-
+                anmp:req.body.anmp,
+                anp:req.body.anp,
                 well: req.body.wentWell,
                 learning: req.body.learning,
                 develop: req.body.develop,
                 mistakes: req.body.mistakes,
-                objectives:req.body['obj[]'],
+
+                objectives:obj,
+
                 isBriefContextComplete: true
             };
 
             console.log(dbParam)
-            console.log(obj.length != (req.body['obj[]']).length
-                )
-            if(  !(req.body.wentWell).trim() ||
+            console.log(obj.length != (req.body['obj[]']).length)
+            if (!(req.body.wentWell).trim() ||
                 !(req.body.learning).trim() ||
                 !(req.body.develop).trim() ||
                 !(req.body.learning).trim() ||
-                !(req.body.mistakes).trim() ||
-                obj.length != (req.body['obj[]']).length
+
+                !(req.body.mistakes).trim() 
+                // ||
+                // obj.length != (req.body['obj[]']).length
                 )
             {
+
 
                 dbParam.isBriefContextComplete = false;
 
             }
             console.log("dbParam")
             console.log(dbParam);
+            var dbParam3 = {
+                gosmid: req.body.gosmid,
+                status:2
+            }
+            postProjectProposalModel.updatePostProjectProposalCompleteness(dbParam3);
+
             postProjectProposalModel.updatePostProjectProposal(dbParam)
-                               .then(data=>{
-                                    return res.redirect(`/Organization/PostProjectProposal/Main/${req.body.gosmid}`)
-                               }).catch(err=>{
-                                    console.log(err);
-                               });
+                .then(data => {
+                    return res.redirect(`/Organization/PostProjectProposal/Main/${req.body.gosmid}`)
+                }).catch(err => {
+                    console.log(err);
+                });
 
             // return res.redirect(`Organization/postprojectproposal/main/${req.bod}`)
         },
-        postSaveExpenses: (req, res) =>{
-             const renderData = Object.create(null);
+        postSaveExpenses: (req, res) => {
+            const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
 
             // var date = new Date().toJSON();
 
 
-             var dir3 = path.join (__dirname,'..','assets','upload');
+            var dir3 = path.join(__dirname, '..', 'assets', 'upload');
 
             //CHECK IF DIRECTOR EXIST
-            if (!fs.existsSync(dir3)){
+            if (!fs.existsSync(dir3)) {
                 fs.mkdirSync(dir3);
             }
-            var dir = path.join (__dirname,'..','assets','upload','postacts');
+            var dir = path.join(__dirname, '..', 'assets', 'upload', 'postacts');
             //CHECK IF DIRECTOR EXIST
-            if (!fs.existsSync(dir)){
+            if (!fs.existsSync(dir)) {
                 fs.mkdirSync(dir);
             }
 
-            var dir2 = path.join (__dirname,'..','assets','upload','postacts',req.session.user.idNumber+"");
+            var dir2 = path.join(__dirname, '..', 'assets', 'upload', 'postacts', req.session.user.idNumber + "");
             //CHECK IF DIRECTOR EXIST
-            if (!fs.existsSync(dir2)){
+            if (!fs.existsSync(dir2)) {
                 fs.mkdirSync(dir2);
             }
-            var dir4 = path.join (__dirname,'..','assets','upload','images');
+            var dir4 = path.join(__dirname, '..', 'assets', 'upload', 'images');
             //CHECK IF DIRECTOR EXIST
-            if (!fs.existsSync(dir4)){
+            if (!fs.existsSync(dir4)) {
                 fs.mkdirSync(dir4);
             }
-            var dir5 = path.join (__dirname,'..','assets','upload','images',req.session.user.idNumber+"");
+            var dir5 = path.join(__dirname, '..', 'assets', 'upload', 'images', req.session.user.idNumber + "");
             //CHECK IF DIRECTOR EXIST
-            if (!fs.existsSync(dir5)){
+            if (!fs.existsSync(dir5)) {
                 fs.mkdirSync(dir5);
             }
 
@@ -999,190 +1057,237 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             var dp = true;
             var bt = true;
             var reim = true;
-            if(typeof req.body.bt == "undefined"){
+            if (typeof req.body.bt == "undefined") {
                 bt = false;
             }
 
-            if(typeof req.body.dp == "undefined"){
+            if (typeof req.body.dp == "undefined") {
                 dp = false
             }
-            if(typeof req.body.reim == "undefined"){
+            if (typeof req.body.reim == "undefined") {
                 reim = false
             }
 
-
+            // var expenseSubmissionID = postProjectProposalModel.getPostExpenseMaxSubmissionID({gosmid: req.body.gosmid});
+            // console.log("expenseSubmissionID")
+            // console.log(expenseSubmissionID)
             // console.log(req.files);
+
             database.tx(t=>{
-                //NORMAL THINGS TO INSERT
-                var statParam ={
-                    dp:dp,
-                    bt:bt,
-                    reim:reim
-                };
-                var finParam = {
-                    gosmid : req.body.gosmid,
-                    status:true
+
+                var dbParam3 = {
+                    gosmid: req.body.gosmid,
+                    status:2
                 }
+                 postProjectProposalModel.updatePostProjectProposalCompleteness(dbParam3,t); 
 
-                if(typeof req.files['gals'] == 'object'){
-                    var galsFilename = cuid() + path.extname(req.files['gals'].name);
-                    var galsFilenameToShow = (req.files['gals'].name);
-                    var pg = path.join(dir5,galsFilename);
-                    var galsParam ={
-                         gosmid: req.body.gosmid,
-                         filename : galsFilename,
-                         filenameToShow: galsFilenameToShow
-                    };
-
-                    Promise.all([
-                        postProjectProposalModel.insertPostProjectProposalGals(galsParam,t),
-                        req.files['gals'].mv(pg)
-                        ]).then(data=>{
-                            console.log("")
-                        }).catch(err=>{
-                            console.log("========PROMISE PICTURE============");
-                            console.log(err)
-
-
-                        });
-                }else{
-                    finParam.status = false;
-                }
-               console.log("========TAs33333333333  Sd=========");
-                console.log(finParam);
-                //EXPENSES MAY VARY
-                console.log(typeof req.files['file[]'])
-                if(typeof req.files['file[]'] == 'object'){
-                    if(typeof req.files['file[]'][Symbol.iterator] == 'function'){
-                        for(var ctr = 0; ctr < req.body['est[]'].length; ctr++){
-
-                            var orignalFileName = req.files['file[]'][ctr].name;
-                            var ftype = path.extname(orignalFileName);
-                            console.log(ftype);
-                            var fname = cuid()+ftype;
-
-                            var dbParam ={
-                                gosmid: req.body.gosmid,
-                                particular:req.body['par[]'][ctr],
-                                establishment:req.body['est[]'][ctr],
-                                price:req.body['price[]'][ctr],
-                                file: fname,
-                                filenameToShow:req.files['file[]'][ctr].name,
-                                idNumber:req.session.user.idNumber,
-
-                            };
-                            var p = path.join(dir2,fname);
-                            Promise.all([
-                                    req.files['file[]'][ctr].mv(p),
-                                    postProjectProposalModel.insertPostProjectExpense(dbParam,t)
-                                ]).then(result =>{
-
-                                }).catch(err =>{
-                                    console.log("========PROMISE=========");
-                                    console.log(err);
-                                })
+                return t.batch([
+                    postProjectProposalModel.getPostExpenseMaxSubmissionID({gosmid: req.body.gosmid}),
+                    postProjectProposalModel.getEventPictureMaxSubmission(dbParam3,t)])
+                        .then(data=>{
+                        console.log(data[0][0].max);
+                        console.log("data")
+                        var submissionID = 0;
+                        if(data[1][0].max !=null){
+                            submissionID = data[1   ][0].max+1
                         }
-                    }else{
-
-                            var orignalFileName = req.files['file[]'].name;
-                            var ftype = path.extname(orignalFileName);
-                            console.log(ftype);
-                            var fname = cuid()+ftype;
-
-                            var dbParam ={
-                                gosmid: req.body.gosmid,
-                                particular:req.body['par[]'],
-                                establishment:req.body['est[]'],
-                                price:req.body['price[]'],
-                                file: fname,
-                                filenameToShow:req.files['file[]'].name,
-                                idNumber:req.session.user.idNumber,
-
-                            };
-                            var p = path.join(dir2,fname);
-                            Promise.all([
-                                    req.files['file[]'].mv(p),
-                                    postProjectProposalModel.insertPostProjectExpense(dbParam,t)
-                                ]).then(result =>{
-
-                                }).catch(err =>{
-                                    console.log("========PROMISE=========");
-                                    console.log(err);
-                                })
-                    }
-                }else{
-                    finParam.status = false;
-                }
-                console.log("========TA22222222222=========");
-                console.log(finParam);
-                if(typeof req.files['pictures[]'] == 'object'){
-                console.log(typeof req.files['pictures[]'][Symbol.iterator] );
-                    if(typeof req.files['pictures[]'][Symbol.iterator] == 'function'){
-                        for(var ctr = 0; ctr < req.body['pictureCaption[]'].length; ctr++){
-                            var orignalFileName = req.files['pictures[]'][ctr].name;
-                            var ftype = path.extname(orignalFileName);
-                            console.log(ftype);
-                            var fname = cuid()+ftype;
-                            var pictureParam = {
-                                gosmid: req.body.gosmid,
-                                filename : ftype,
-                                filenameToShow:req.files['pictures[]'].name,
-                                idNumber:req.session.user.idNumber,
-                                description: req.body["pictureCaption[]"][ctr]
-                            }
-                            var p = path.join(dir5,fname);
-                            Promise.all([
-                                    req.files['pictures[]'][ctr].mv(p),
-                                    postProjectProposalModel.insertPostProjectProposalEventPictures(pictureParam,t)
-                                ]).then(result =>{
-
-                                }).catch(err =>{
-                                    console.log("========PROMISE=========");
-                                    console.log(err);
-                                })
-
+                        var expenseID = 0;
+                        if(data[0][0].max !=null){
+                            expenseID = data[0][0].max+1
                         }
-                    }else{
-                         var orignalFileName = req.files['pictures[]'].name;
-                            var ftype = path.extname(orignalFileName);
-                            console.log(ftype);
-                            var fname = cuid()+ftype;
-                            var pictureParam = {
-                                gosmid: req.body.gosmid,
-                                filename : ftype,
-                                filenameToShow:req.files['pictures[]'].name,
-                                idNumber:req.session.user.idNumber,
-                                description: req.body["pictureCaption[]"]
-                            }
-                            var p = path.join(dir5,fname);
+                        console.log(expenseID);
+                        console.log("data")
+
+                                    //NORMAL THINGS TO INSERT
+                        var statParam ={
+                            dp:dp,
+                            bt:bt,
+                            reim:reim
+                        };
+                        var finParam = {
+                            gosmid : req.body.gosmid,
+                            status:true
+                        }
+                        console.log("GALS");
+                        console.log( req.files['gals']);
+                        console.log(typeof req.files['gals']);
+                        if(typeof req.files['gals'] == 'object'){
+                            var galsFilename = cuid() + path.extname(req.files['gals'].name);
+                            var galsFilenameToShow = (req.files['gals'].name);
+                            var pg = path.join(dir5,galsFilename);
+                            var galsParam ={
+                                 gosmid: req.body.gosmid,
+                                 filename : galsFilename,
+                                 filenameToShow: galsFilenameToShow,
+                                 idNumber:req.session.user.idNumber
+                            };
+
                             Promise.all([
-                                    req.files['pictures[]'].mv(p),
-                                    postProjectProposalModel.insertPostProjectProposalEventPictures(pictureParam,t)
-                                ]).then(result =>{
+                                postProjectProposalModel.insertPostProjectProposalGals(galsParam,t),
+                                req.files['gals'].mv(pg)
+                                ]).then(data=>{
+                                    console.log("")
+                                    console.log("========IF1============");
+                                }).catch(err=>{
+                                    console.log("========PROMISE PICTURE1============");
+                                    console.log(err)
 
-                                }).catch(err =>{
-                                    console.log("========PROMISE=========");
-                                    console.log(err);
-                                })
 
-                    }
-                }else{
-                    finParam.status = false;
-                }
-                 console.log("+++++++++++++++++++++++++++++++");
-                console.log(statParam)
-                postProjectProposalModel.updatePostProjectProposalFinanceDocumentStatus(statParam,t);
-                console.log("========TAsdASDASd=========");
-                console.log(finParam);
-                postProjectProposalModel.updatePostProjectRequiredCompleteness(finParam,t);
-                //PICTURES MAY VARY
 
-            }).then(data=>{
-                 return res.redirect(`/Organization/PostProjectProposal/Main/${req.body.gosmid}`)
+                                });
+                        }else{
+                            finParam.status = false;
+                        }
 
-            }).catch(err=>{
+                       console.log("========TAs33333333333  Sd=========");
+                        console.log(finParam);
+                        //EXPENSES MAY VARY
+                        // console.log(typeof req.files['file[]'])
+                        // if(typeof req.files['file[]'] == 'object'){
+                        //     if(typeof req.files['file[]'][Symbol.iterator] == 'function'){
+                        //         for(var ctr = 0; ctr < req.body['est[]'].length; ctr++){
+
+                        //             var orignalFileName = req.files['file[]'][ctr].name;
+                        //             var ftype = path.extname(orignalFileName);
+                        //             console.log(ftype);
+                        //             var fname = cuid()+ftype;
+
+                        //             var dbParam ={
+                        //                 gosmid: req.body.gosmid,
+                        //                 submissionID:expenseID,
+                        //                 particular:req.body['par[]'][ctr],
+                        //                 establishment:req.body['est[]'][ctr],
+                        //                 price:req.body['price[]'][ctr],
+                        //                 file: fname,
+                        //                 filenameToShow:req.files['file[]'][ctr].name,
+                        //                 idNumber:req.session.user.idNumber,
+
+                        //             };
+                        //             console.log(dbParam);
+                        //             console.log("req.files");
+                        //             var p = path.join(dir2,fname);
+                        //             Promise.all([
+                        //                     req.files['file[]'][ctr].mv(p),
+                        //                     postProjectProposalModel.insertPostProjectExpense(dbParam,t)
+                        //                 ]).then(result =>{
+                        //                     console.log("========IF2============");
+                        //                 }).catch(err =>{    
+                        //                     console.log("========PROMISE2=========");
+                        //                     console.log(err);
+                        //                 })
+                        //         }
+                        //     }else{
+
+                        //             var orignalFileName = req.files['file[]'].name;
+                        //             var ftype = path.extname(orignalFileName);
+                        //             console.log(ftype);
+                        //             var fname = cuid()+ftype;
+
+                        //             var dbParam ={
+                        //                 gosmid: req.body.gosmid,
+                        //                 submissionID:expenseID,
+                        //                 particular:req.body['par[]'],
+                        //                 establishment:req.body['est[]'],
+                        //                 price:req.body['price[]'],
+                        //                 file: fname,
+                        //                 filenameToShow:req.files['file[]'].name,
+                        //                 idNumber:req.session.user.idNumber,
+
+                        //             };
+                        //             var p = path.join(dir2,fname);
+                        //             Promise.all([
+                        //                     req.files['file[]'].mv(p),
+                        //                     postProjectProposalModel.insertPostProjectExpense(dbParam,t)
+                        //                 ]).then(result =>{
+                        //                     console.log("========IF3============");
+                        //                 }).catch(err =>{
+                        //                     console.log("========PROMISE3=========");
+                        //                     console.log(err);
+                        //                 })
+                        //     }
+                        // }else{
+                        //     finParam.status = false;
+                        // }
+
+
+
+
+
+
+                        console.log("========TA22222222222=========");
+                        console.log(finParam);
+                        if(typeof req.files['pictures[]'] == 'object'){
+                        console.log(typeof req.files['pictures[]'][Symbol.iterator] );
+                            if(typeof req.files['pictures[]'][Symbol.iterator] == 'function'){
+                                for(var ctr = 0; ctr < req.body['pictureCaption[]'].length; ctr++){
+                                    var orignalFileName = req.files['pictures[]'][ctr].name;
+                                    var ftype = path.extname(orignalFileName);
+                                    console.log(ftype);
+                                    var fname = cuid()+ftype;
+                                    var pictureParam = {
+                                        gosmid: req.body.gosmid,
+                                        submissionID:submissionID,
+                                        filename : fname,
+                                        filenameToShow:req.files['pictures[]'].name,
+                                        idNumber:req.session.user.idNumber,
+                                        description: req.body["pictureCaption[]"][ctr]
+                                    }
+                                    var p = path.join(dir5,fname);
+                                    Promise.all([
+                                            req.files['pictures[]'][ctr].mv(p),
+                                            postProjectProposalModel.insertPostProjectProposalEventPictures(pictureParam,t)
+                                        ]).then(result =>{
+
+                                        }).catch(err =>{
+                                            console.log("========PROMISE=========");
+                                            console.log(err);
+                                        })
+
+                                }
+                            }else{
+                                 var orignalFileName = req.files['pictures[]'].name;
+                                    var ftype = path.extname(orignalFileName);
+                                    console.log(ftype);
+                                    var fname = cuid()+ftype;
+                                    var pictureParam = {
+                                        gosmid: req.body.gosmid,
+                                        submissionID:submissionID,
+                                        filename : fname,
+                                        filenameToShow:req.files['pictures[]'].name,
+                                        idNumber:req.session.user.idNumber,
+                                        description: req.body["pictureCaption[]"]
+                                    }
+                                    var p = path.join(dir5,fname);
+                                    Promise.all([
+                                            req.files['pictures[]'].mv(p),
+                                            postProjectProposalModel.insertPostProjectProposalEventPictures(pictureParam,t)
+                                        ]).then(result =>{
+
+                                        }).catch(err =>{
+                                            console.log("========PROMISE=========");
+                                            console.log(err);
+                                        })
+
+                            }
+                        }else{
+                            finParam.status = false;
+                        }
+                         console.log("+++++++++++++++++++++++++++++++");
+                        console.log(statParam)
+                        postProjectProposalModel.updatePostProjectProposalFinanceDocumentStatus(statParam,t);
+                        console.log("========TAsdASDASd=========");
+                        console.log(finParam);
+                        postProjectProposalModel.updatePostProjectRequiredCompleteness(finParam,t);
+                        //PICTURES MAY VARY
+                }); 
+                
+
+            }).then(data => {
+                return res.redirect(`/Organization/PostProjectProposal/Main/${req.body.gosmid}`)
+
+            }).catch(err => {
                 console.log("========TAST=========");
-                                console.log(err);
+                console.log(err);
             })
 
             // TODO: change id, to come from selected activity
@@ -1190,13 +1295,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             // return res.redirect(`Organization/postprojectproposal/main/${req.bod}`)
         },
 
-        saveDesign: (req, res) =>{
+        saveDesign: (req, res) => {
 
 
             console.log(req.body);
             console.log("asda++++++++++++++++++++++++++++++++++L");
             var sched = JSON.parse(req.body.sched);
-            var keys =  Object.keys(sched);
+            var keys = Object.keys(sched);
             console.log(keys);
 
             var dbParam = {
@@ -1204,24 +1309,24 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             };
 
             projectProposalModel.deleteProgramDesign(dbParam)
-            .then(data=>{
+                .then(data => {
 
-            }).catch(error=>{
-                console.log("delete error");
-                console.log(error);
-            });
+                }).catch(error => {
+                    console.log("delete error");
+                    console.log(error);
+                });
 
 
             var index = 0;
 
-            database.tx(transaction=>{
+            database.tx(transaction => {
 
 
 
-                for (var item in sched){
+                for (var item in sched) {
                     console.log(sched[item].length);
 
-                    for (var i = 0; i < sched[item].length; i++){
+                    for (var i = 0; i < sched[item].length; i++) {
 
                         console.log(sched[item][i]);
 
@@ -1243,12 +1348,12 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
 
                         projectProposalModel.insertProjectProposalDesign(dbParam, transaction)
-                        .then(data=>{
+                            .then(data => {
 
-                        }).catch(error=>{
-                            console.log("insertsched error");
-                            console.log(error);
-                        });
+                            }).catch(error => {
+                                console.log("insertsched error");
+                                console.log(error);
+                            });
 
 
                     }
@@ -1258,7 +1363,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 console.log("INDEX IS");
                 console.log(index);
 
-                if (index == 0){
+                if (index == 0) {
 
                     console.log("ENTERS EMPTY");
 
@@ -1270,14 +1375,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     console.log(param);
 
                     projectProposalModel.updateIsProgramDesignComplete(param, transaction)
-                    .then(data=>{
+                        .then(data => {
 
-                    }).catch(error=>{
-                        console.log("updateIsProgramDesignComplete")
-                        console.log(error);
-                    });
-                }
-                else {
+                        }).catch(error => {
+                            console.log("updateIsProgramDesignComplete")
+                            console.log(error);
+                        });
+                } else {
 
                     console.log("ENTERS");
 
@@ -1287,27 +1391,27 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     };
 
                     projectProposalModel.updateIsProgramDesignComplete(param, transaction)
-                    .then(data=>{
+                        .then(data => {
 
-                    }).catch(error=>{
-                        console.log(error);
-                    });
+                        }).catch(error => {
+                            console.log(error);
+                        });
 
-                 }
+                }
 
 
 
-            }).then(data=>{
+            }).then(data => {
                 return res.send("1");
 
-            }).catch(error=>{
+            }).catch(error => {
                 console.log(error);
             });
 
 
-         },
+        },
 
-        savePPR:(req, res)=>{
+        savePPR: (req, res) => {
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
@@ -1321,30 +1425,30 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 gosmid: req.body.gosmid
             };
             console.log(req.body.context);
-            if(req.body.context && req.body.program && req.body.expense && req.body.attachment){
+            if (req.body.context && req.body.program && req.body.expense && req.body.attachment) {
                 console.log("IZ HERE");
 
                 projectProposalModel.submitProjectProposal(dbParam)
-                .then(data=>{
+                    .then(data => {
 
-                    postProjectProposalModel.insertPostProjectProposal(dbParam)
-                    .then(data1=>{
+                        postProjectProposalModel.insertPostProjectProposal(dbParam)
+                            .then(data1 => {
 
 
-                        return res.redirect(`/Organization/ProjectProposal/gosmlist/`);
-                   
+                                return res.redirect(`/Organization/ProjectProposal/gosmlist/`);
 
-                    }).catch(error=>{
-                        console.log("error in insertPostProjectProposal");
+
+                            }).catch(error => {
+                                console.log("error in insertPostProjectProposal");
+                                console.log(error);
+                            });
+                    }).catch(error => {
+                        console.log("error in submit projectProposal");
                         console.log(error);
                     });
-                }).catch(error=>{
-                    console.log("error in submit projectProposal");
-                    console.log(error);
-                });
 
-               
-            }else{
+
+            } else {
 
                 console.log("IZ HERE INSTEAD");
 
@@ -1353,36 +1457,43 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
         },
 
+
         postSaveAttachments: (req, res) =>{
+            var dbParam3 = {
+                gosmid: req.body.gosmid,
+                status:2
+            }
+            postProjectProposalModel.updatePostProjectProposalCompleteness(dbParam3);
+
             // var date = new Date().toJSON();
 
-             var dir3 =__dirname+'/../assets/upload/';
-             var dir3 = path.join (__dirname,'..','assets','upload');
+            var dir3 = __dirname + '/../assets/upload/';
+            var dir3 = path.join(__dirname, '..', 'assets', 'upload');
 
             //CHECK IF DIRECTOR EXIST
-            if (!fs.existsSync(dir3)){
+            if (!fs.existsSync(dir3)) {
                 fs.mkdirSync(dir3);
             }
-            var dir =__dirname+'/../assets/upload/preacts/';
-            var dir = path.join (__dirname,'..','assets','upload','preacts');
+            var dir = __dirname + '/../assets/upload/preacts/';
+            var dir = path.join(__dirname, '..', 'assets', 'upload', 'preacts');
             //CHECK IF DIRECTOR EXIST
-            if (!fs.existsSync(dir)){
+            if (!fs.existsSync(dir)) {
                 fs.mkdirSync(dir);
             }
-            var dir2 = __dirname+'/../assets/upload/preacts/'+req.session.user.idNumber+'/';
-            var dir2 = path.join (__dirname,'..','assets','upload','preacts',req.session.user.idNumber+"");
+            var dir2 = __dirname + '/../assets/upload/preacts/' + req.session.user.idNumber + '/';
+            var dir2 = path.join(__dirname, '..', 'assets', 'upload', 'preacts', req.session.user.idNumber + "");
             //CHECK IF DIRECTOR EXIST
-            if (!fs.existsSync(dir2)){
+            if (!fs.existsSync(dir2)) {
                 fs.mkdirSync(dir2);
             }
             var bt, reim, dp;
-            if(typeof req.body.bt == 'undefined'){
-                bt =false;
+            if (typeof req.body.bt == 'undefined') {
+                bt = false;
             }
-            if(typeof req.body.reim == 'undefined'){
+            if (typeof req.body.reim == 'undefined') {
                 reim = false;
             }
-            if(typeof req.body.dp == 'undefined'){
+            if (typeof req.body.dp == 'undefined') {
                 dp = false;
             }
             console.log(req.body);
@@ -1396,27 +1507,27 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
 
 
-            database.tx(t=>{
-                 var statFin = {
-                    stat:true,
+            database.tx(t => {
+                var statFin = {
+                    stat: true,
                     gosmid: (req.body.gosmid)
                 }
-                var fqName='';
-                var fqcuid='';
+                var fqName = '';
+                var fqcuid = '';
                 var rofName = '';
-                var rofcuid ='';
-                if(dp){
-                    if(typeof req.files['fq-dp'] == 'object' || typeof req.files['rof-dp'] == 'object'){
+                var rofcuid = '';
+                if (dp) {
+                    if (typeof req.files['fq-dp'] == 'object' || typeof req.files['rof-dp'] == 'object') {
                         //DP
 
-                        if(typeof req.files['fq-dp'] == 'object'){
+                        if (typeof req.files['fq-dp'] == 'object') {
                             fqName = req.files['fq-dp'].name;
-                            fqcuid = cuid()+path.extname(fqName);
+                            fqcuid = cuid() + path.extname(fqName);
                         }
 
-                        if(typeof req.files['rof-dp'] == 'object'){
+                        if (typeof req.files['rof-dp'] == 'object') {
                             rofName = req.files['rof-dp'].name;
-                            rofcuid = cuid()+path.extname(rofName);
+                            rofcuid = cuid() + path.extname(rofName);
                         }
                         var dpParam = {
                             gosmid: req.body.gosmid,
@@ -1431,63 +1542,61 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             idNumber: req.session.user.idNumber
 
                         };
-                        if(req.body['amount-dp'] != ''){
+                        if (req.body['amount-dp'] != '') {
                             dpParam.amount = req.body['amount-dp'];
                         }
-                        if( !(req.body['est-dp']).trim() ||
-                            !(req.body['amount-dp']).trim()||
+                        if (!(req.body['est-dp']).trim() ||
+                            !(req.body['amount-dp']).trim() ||
                             !(req.body['pb-dp']).trim() ||
                             !(req.body['delayed-dp']).trim()
 
-                            ){
+                        ) {
 
                             statFin.stat = false;
                         }
 
-                        if(typeof req.files['fq-dp'] == 'object' && typeof req.files['rof-dp'] == 'object'){
+                        if (typeof req.files['fq-dp'] == 'object' && typeof req.files['rof-dp'] == 'object') {
                             console.log(dpParam);
-                             Promise.all([
-                                    req.files['fq-dp'].mv(path.join(dir2,fqcuid)),
-                                    req.files['rof-dp'].mv(path.join(dir2,rofcuid)),
-                                    postProjectProposalModel.insertPostDP(dpParam,t)
+                            Promise.all([
+                                    req.files['fq-dp'].mv(path.join(dir2, fqcuid)),
+                                    req.files['rof-dp'].mv(path.join(dir2, rofcuid)),
+                                    postProjectProposalModel.insertPostDP(dpParam, t)
                                 ])
-                                .then(data =>{
+                                .then(data => {
 
-                                }).catch(err =>{
-                                     console.log("==================DP1");
+                                }).catch(err => {
+                                    console.log("==================DP1");
+                                    console.log(err);
+                                });
+                        } else if (typeof req.files['rof-dp'] == 'object') {
+                            Promise.all([
+
+                                    req.files['rof-dp'].mv(path.join(dir2, rofcuid)),
+                                    postProjectProposalModel.insertPostDP(dpParam, t)
+                                ])
+                                .then(data => {
+
+                                }).catch(err => {
+                                    console.log("==================DP2");
+                                    console.log(err);
+                                });
+                        } else if (typeof req.files['fq-dp'] == 'object') {
+                            Promise.all([
+                                    req.files['fq-dp'].mv(path.join(dir2, fqcuid)),
+
+                                    postProjectProposalModel.insertPostDP(dpParam, t)
+                                ])
+                                .then(data => {
+
+                                }).catch(err => {
+                                    console.log("==================DP3");
                                     console.log(err);
                                 });
                         }
-                        else if( typeof req.files['rof-dp'] == 'object'){
-                             Promise.all([
 
-                                    req.files['rof-dp'].mv(path.join(dir2,rofcuid)),
-                                    postProjectProposalModel.insertPostDP(dpParam,t)
-                                ])
-                                .then(data =>{
-
-                                }).catch(err =>{
-                                     console.log("==================DP2");
-                                    console.log(err);
-                                });
-                        }
-                        else if(typeof req.files['fq-dp'] == 'object' ){
-                             Promise.all([
-                                    req.files['fq-dp'].mv(path.join(dir2,fqcuid)),
-
-                                    postProjectProposalModel.insertPostDP(dpParam,t)
-                                ])
-                                .then(data =>{
-
-                                }).catch(err =>{
-                                     console.log("==================DP3");
-                                    console.log(err);
-                                });
-                        }
-
-                    }else{
+                    } else {
                         statFin.stat = false;
-                         var dpParam = {
+                        var dpParam = {
                             gosmid: req.body.gosmid,
                             est: req.body['est-dp'],
                             amount: 0.0,
@@ -1500,174 +1609,174 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             idNumber: req.session.user.idNumber
 
                         };
-                        if(req.body['amount-dp'] != ''){
+                        if (req.body['amount-dp'] != '') {
                             dpParam.amount = req.body['amount-dp'];
                         }
-                         postProjectProposalModel.insertPostDP(dpParam,t)
+                        postProjectProposalModel.insertPostDP(dpParam, t)
                     }
                 }
-                if(bt){
-                    if(typeof req.files['bs-bt'] == 'object'){
+                if (bt) {
+                    if (typeof req.files['bs-bt'] == 'object') {
                         //BT
                         var bsName = req.files['bs-bt'].name;
-                        var bscuid = cuid()+path.extname(bsName);
+                        var bscuid = cuid() + path.extname(bsName);
                         var btParam = {
-                            gosmid : req.body.gosmid,
-                            est : req.body["est-bt"],
+                            gosmid: req.body.gosmid,
+                            est: req.body["est-bt"],
                             amount: req.body["amount-bt"],
                             purpose: req.body['pur-bt'],
                             bs: bscuid,
                             bsts: bsName,
                             idNumber: req.session.user.idNumber
                         };
-                         if( !(req.body['est-bt']).trim() ||
+                        if (!(req.body['est-bt']).trim() ||
                             !(req.body['amount-bt']).trim() ||
                             !(req.body['pur-bt']).trim()
-                            ){
+                        ) {
 
                             statFin.isFinanceDocumentCompleted = false;
                         }
-                        if(req.body['amount-bt'] != ''){
+                        if (req.body['amount-bt'] != '') {
                             btParam.amount = req.body['amount-bt'];
                         }
                         Promise.all([
-                                    req.files['bs-bt'].mv(path.join(dir2,bscuid)),
-                                    postProjectProposalModel.insertPostBT(btParam,t)
-                                ])
-                                .then(data =>{
+                                req.files['bs-bt'].mv(path.join(dir2, bscuid)),
+                                postProjectProposalModel.insertPostBT(btParam, t)
+                            ])
+                            .then(data => {
 
-                                }).catch(err =>{
-                                    console.log("==================bt");
-                                    console.log(err);
-                                });
+                            }).catch(err => {
+                                console.log("==================bt");
+                                console.log(err);
+                            });
 
-                    }else{
+                    } else {
                         var bscuid = '';
                         var bsts = '';
                         statFin.stat = false;
-                         var btParam = {
-                            gosmid : req.body.gosmid,
-                            est : req.body["est-bt"],
+                        var btParam = {
+                            gosmid: req.body.gosmid,
+                            est: req.body["est-bt"],
                             amount: 0.0,
                             purpose: req.body['pur-bt'],
                             bs: bscuid,
                             bsts: bsName,
                             idNumber: req.session.user.idNumber
                         };
-                        if(req.body['amount-bt'] != ''){
+                        if (req.body['amount-bt'] != '') {
                             btParam.amount = req.body['amount-bt'];
                         }
-                        postProjectProposalModel.insertPostBT(btParam,t)
+                        postProjectProposalModel.insertPostBT(btParam, t)
                     }
                 }
 
 
-                if(reim){
-                    if(typeof req.files['rec-pr'] == 'object'){
+                if (reim) {
+                    if (typeof req.files['rec-pr'] == 'object') {
                         //REIM
-                        var names =[];
+                        var names = [];
                         var nameToShow = [];
-                        if(typeof req.files['rec-pr'][Symbol.iterator] == 'function'){
-                            for(var ctr = 0; ctr < req.files['rec-pr'].length; ctr++){
+                        if (typeof req.files['rec-pr'][Symbol.iterator] == 'function') {
+                            for (var ctr = 0; ctr < req.files['rec-pr'].length; ctr++) {
                                 var recName = req.files['rec-pr'][ctr].name;
-                                var reccuid = cuid()+path.extname(recName);
-                                names.push(recName)  ;
+                                var reccuid = cuid() + path.extname(recName);
+                                names.push(recName);
                                 nameToShow.push(reccuid);
-                                req.files['rec-pr'][ctr].mv(path.join(dir2,reccuid))
-                                    .then(data=>{
+                                req.files['rec-pr'][ctr].mv(path.join(dir2, reccuid))
+                                    .then(data => {
 
-                                    }).catch(err=>{
+                                    }).catch(err => {
                                         console.log("==================REIM");
                                         console.log(err);
                                     })
                             }
-                        }else{
+                        } else {
                             var recName = req.files['rec-pr'].name;
-                            var reccuid = cuid()+path.extname(recName);
-                            names.push(recName)  ;
+                            var reccuid = cuid() + path.extname(recName);
+                            names.push(recName);
                             nameToShow.push(reccuid);
-                            req.files['rec-pr'].mv(path.join(dir2,reccuid))
-                                .then(data=>{
+                            req.files['rec-pr'].mv(path.join(dir2, reccuid))
+                                .then(data => {
 
-                                }).catch(err=>{
+                                }).catch(err => {
                                     console.log("==================REIM1");
                                     console.log(err);
                                 })
                         }
                         var rParam = {
-                            gosmid : req.body.gosmid,
-                            est : req.body["est-pr"],
+                            gosmid: req.body.gosmid,
+                            est: req.body["est-pr"],
                             amount: 0.0,
-                            paymentBy : req.body['pb-pr'],
+                            paymentBy: req.body['pb-pr'],
                             delayedProcessing: req.body['delayed-pr'],
-                            n:req.body['n-pr'],
+                            n: req.body['n-pr'],
                             filenames: names,
                             filenamesToShow: nameToShow,
                             idNumber: req.session.user.idNumber
 
                         }
 
-                        if( !(req.body['est-pr']).trim() ||
+                        if (!(req.body['est-pr']).trim() ||
                             !(req.body['amount-pr']).trim() ||
                             !(req.body['delayed-pr']).trim() ||
                             !(req.body['n-pr']).trim()
 
-                            ){
+                        ) {
 
                             statFin.stat = false;
                         }
-                        if(req.body['amount-pr'] != '')
+                        if (req.body['amount-pr'] != '')
                             rParam.amount = req.body['amount-pr'];
                         console.log(rParam);
-                        postProjectProposalModel.insertPostReim(rParam,t)
-                        .then(data =>{
+                        postProjectProposalModel.insertPostReim(rParam, t)
+                            .then(data => {
 
-                        })
-                        .catch(err=>{
-                            console.log("=======================REIM2");
-                            console.log(err);
-                        });
-                    }else{
+                            })
+                            .catch(err => {
+                                console.log("=======================REIM2");
+                                console.log(err);
+                            });
+                    } else {
                         statFin.stat = false;
-                         var rParam = {
-                            gosmid : req.body.gosmid,
-                            est : req.body["est-pr"],
+                        var rParam = {
+                            gosmid: req.body.gosmid,
+                            est: req.body["est-pr"],
                             amount: 0.0,
-                            paymentBy : req.body['pb-pr'],
+                            paymentBy: req.body['pb-pr'],
                             delayedProcessing: req.body['delayed-pr'],
-                            n:req.body['n-pr'],
+                            n: req.body['n-pr'],
                             filenames: names,
                             filenamesToShow: nameToShow,
                             idNumber: req.session.user.idNumber
 
                         }
-                        if(req.body['amount-pr'] != '')
+                        if (req.body['amount-pr'] != '')
                             rParam.amount = req.body['amount-pr'];
-                        postProjectProposalModel.insertPostReim(rParam,t)
+                        postProjectProposalModel.insertPostReim(rParam, t)
                     }
                 }
                 console.log(statFin);
 
-                 postProjectProposalModel.updatePostProjectFinanceCompleteness(statFin,t)
-                    .then(data =>{
+                postProjectProposalModel.updatePostProjectFinanceCompleteness(statFin, t)
+                    .then(data => {
 
                     })
-                    .catch(err=>{
+                    .catch(err => {
                         console.log("=======================FINAUPDATE");
                         console.log(err);
                     });
 
 
-            }).then(data =>{
+            }).then(data => {
                 return res.redirect(`/Organization/PostProjectProposal/Main/${req.body.gosmid}`);
-            }).catch(err =>{
+            }).catch(err => {
                 console.log("==================TRAC");
                 console.log(err);
             })
         },
 
 
-        saveExpenses: (req, res) =>{
+        saveExpenses: (req, res) => {
             console.log("HERE");
             console.log(req.body);
 
@@ -1686,31 +1795,31 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
 
 
-            database.tx(transaction=>{
+            database.tx(transaction => {
 
                 projectProposalModel.updatePPRExpenses(dbParam, transaction)
-                .then(data=>{
+                    .then(data => {
 
-                }).catch(error=>{
-                    console.log(error);
-                });
+                    }).catch(error => {
+                        console.log(error);
+                    });
 
                 var dbParam2 = {
                     projectproposal: req.params.ppr
                 };
 
                 projectProposalModel.deleteExpenses(dbParam2, transaction)
-                .then(data=>{
+                    .then(data => {
 
-                }).catch(error=>{
-                    console.log(error);
-                });
+                    }).catch(error => {
+                        console.log(error);
+                    });
 
 
 
-                for (var i = 0; i < req.body['item[]'].length-1; i++){
+                for (var i = 0; i < req.body['item[]'].length - 1; i++) {
 
-                    if(req.body['optionsRadios2[]'][i] == 'Revenue'){
+                    if (req.body['optionsRadios2[]'][i] == 'Revenue') {
 
                         var dbParam3 = {
                             projectProposal: req.params.ppr,
@@ -1723,15 +1832,14 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         console.log(dbParam3);
 
                         projectProposalModel.insertProjectProposalProjectedIncome(dbParam3, transaction)
-                        .then(data=>{
+                            .then(data => {
 
-                        }).catch(error=>{
-                            console.log(error);
-                        });
+                            }).catch(error => {
+                                console.log(error);
+                            });
 
 
-                    }
-                    else{
+                    } else {
 
                         var dbParam3 = {
                             projectProposal: req.params.ppr,
@@ -1745,52 +1853,52 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         console.log(dbParam3);
 
                         projectProposalModel.insertProjectProposalExpenses(dbParam3, transaction)
-                        .then(data=>{
+                            .then(data => {
 
-                        }).catch(error=>{
-                            console.log(error);
-                        });
+                            }).catch(error => {
+                                console.log(error);
+                            });
 
                     }
 
 
                 }
 
-            }).then(data=>{
+            }).then(data => {
 
                 res.redirect(`/Organization/ProjectProposal/Main/${req.params.id}/1`);
 
-            }).catch(error=>{
+            }).catch(error => {
                 console.log(error);
             });
 
 
         },
 
-        saveAttachments: (req, res) =>{
+        saveAttachments: (req, res) => {
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
 
             // var date = new Date().toJSON();
 
-             var dir3 =__dirname+'/../assets/upload/';
-             var dir3 = path.join (__dirname,'..','assets','upload');
+            var dir3 = __dirname + '/../assets/upload/';
+            var dir3 = path.join(__dirname, '..', 'assets', 'upload');
 
             //CHECK IF DIRECTOR EXIST
-            if (!fs.existsSync(dir3)){
+            if (!fs.existsSync(dir3)) {
                 fs.mkdirSync(dir3);
             }
-            var dir =__dirname+'/../assets/upload/preacts/';
-            var dir = path.join (__dirname,'..','assets','upload','preacts');
+            var dir = __dirname + '/../assets/upload/preacts/';
+            var dir = path.join(__dirname, '..', 'assets', 'upload', 'preacts');
             //CHECK IF DIRECTOR EXIST
-            if (!fs.existsSync(dir)){
+            if (!fs.existsSync(dir)) {
                 fs.mkdirSync(dir);
             }
-            var dir2 = __dirname+'/../assets/upload/preacts/'+req.session.user.idNumber+'/';
-            var dir2 = path.join (__dirname,'..','assets','upload','preacts',req.session.user.idNumber+"");
+            var dir2 = __dirname + '/../assets/upload/preacts/' + req.session.user.idNumber + '/';
+            var dir2 = path.join(__dirname, '..', 'assets', 'upload', 'preacts', req.session.user.idNumber + "");
             //CHECK IF DIRECTOR EXIST
-            if (!fs.existsSync(dir2)){
+            if (!fs.existsSync(dir2)) {
                 fs.mkdirSync(dir2);
             }
 
@@ -1801,135 +1909,136 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             console.log(req.session.user.idNumber);
 
             var dt = ['application/vnd.oasis.opendocument.text',
-                      'application/vnd.oasis.opendocument.spreadsheet',
-                       'application/vnd.oasis.opendocument.presentation',
-                       'application/pdf'];
+                'application/vnd.oasis.opendocument.spreadsheet',
+                'application/vnd.oasis.opendocument.presentation',
+                'application/pdf'
+            ];
 
 
             database.task(task => {
 
-                        return gosmModel.getGOSMActivityType(req.body.activityId, undefined, task).
-                               then(data =>{
-                                    console.log("DATA");
-                                    console.log(data[0].activitytype);
-                                    return gosmModel.getGOSMActivityAttachmentRequirement(data[0].activitytype,task);
+                return gosmModel.getGOSMActivityType(req.body.activityId, undefined, task).
+                then(data => {
+                    console.log("DATA");
+                    console.log(data[0].activitytype);
+                    return gosmModel.getGOSMActivityAttachmentRequirement(data[0].activitytype, task);
 
-                               });
+                });
 
-                    }).then(data => {
-
-
-                        var ctr = 0;
-                        console.log(req.files['uploadfile[]']);
-                        console.log("TYPE OF ONE UPLOAD");
-                        console.log(typeof req.files['uploadfile[]'][Symbol.iterator]);
-                        if(typeof req.files['uploadfile[]'][Symbol.iterator] == 'function'){
-                            for(var file of req.files['uploadfile[]']){
-                                // console.log(file);
-                                // console.log("file");
-                                // console.log(data[ctr].id);
-
-                                var date = cuid();
-                                var nFilename = file.name.split('.').pop();
-                                console.log("new File name");
-                                console.log(nFilename);
-                                 var db ={
-                                        projectId : req.body.pid,
-                                        requirement: data[ctr].id,
-                                        dir: dir2 + file.name +' - '+ date,
-                                        idNumber: req.session.user.idNumber,
-                                        filename: date +'.'+ nFilename,
-                                        filenametoShow: file.name
-
-                                    };
-                                console.log("FILE");
-                                console.log(path.normalize(path.join(dir2 , date +'.'+ nFilename)));
-                                var p = path.normalize(path.join(dir2 , date +'.'+ nFilename));
-                                Promise.all([
-                                            file.mv(p),
-                                            projectProposalModel.insertProjectProposalAttachment(db)
-
-                                            ]).then(result=>{
-                                                console.log(result);
-                                            }).catch(err=>{
-                                                console.log(err);
-                                            });
-                                ctr++
-                            }
-                        }else if(typeof req.files['uploadfile[]'][Symbol.iterator] == 'undefined'){
-                              var file = req.files['uploadfile[]'];
-                              var nFilename = file.name.split('.').pop();
-                                console.log("new File name");
-                                var date = cuid();
-                              var db ={
-                                        projectId : req.body.pid,
-                                        requirement: data[ctr].id,
-                                        dir: dir2 + file.name +' - '+ date,
-                                        idNumber: req.session.user.idNumber,
-                                        filename: date +'.'+ nFilename,
-                                        filenametoShow: file.name
-
-                                    };
-
-                                console.log("FILE");
-                                var p = path.normalize(path.join(dir2 , date +'.'+ nFilename));
-                                console.log(path.normalize(path.join(dir2 , date +'.'+ nFilename)));
-                                Promise.all([
-                                            file.mv(p),
-                                            projectProposalModel.insertProjectProposalAttachment(db)
-
-                                            ]).then(result=>{
-                                                console.log(result);
-                                            }).catch(err=>{
-                                                console.log(err);
-                                            });
-                        }
+            }).then(data => {
 
 
-                        // console.log("DATA1");
-                        // console.log(data);
-                        // console.log(data[0].id);
-                        // renderData.attachments = data;
-                        console.log("ACT ID ");
-                        console.log(req.body.activityId);
+                var ctr = 0;
+                console.log(req.files['uploadfile[]']);
+                console.log("TYPE OF ONE UPLOAD");
+                console.log(typeof req.files['uploadfile[]'][Symbol.iterator]);
+                if (typeof req.files['uploadfile[]'][Symbol.iterator] == 'function') {
+                    for (var file of req.files['uploadfile[]']) {
+                        // console.log(file);
+                        // console.log("file");
+                        // console.log(data[ctr].id);
 
-                        return res.redirect(`/Organization/ProjectProposal/main/${req.body.activityId}/1`);
-                    }).catch(error => {
-                        console.log(error);
-                    });
+                        var date = cuid();
+                        var nFilename = file.name.split('.').pop();
+                        console.log("new File name");
+                        console.log(nFilename);
+                        var db = {
+                            projectId: req.body.pid,
+                            requirement: data[ctr].id,
+                            dir: dir2 + file.name + ' - ' + date,
+                            idNumber: req.session.user.idNumber,
+                            filename: date + '.' + nFilename,
+                            filenametoShow: file.name
 
-                    var dbParam = {
-                            id: req.body.pid
+                        };
+                        console.log("FILE");
+                        console.log(path.normalize(path.join(dir2, date + '.' + nFilename)));
+                        var p = path.normalize(path.join(dir2, date + '.' + nFilename));
+                        Promise.all([
+                            file.mv(p),
+                            projectProposalModel.insertProjectProposalAttachment(db)
+
+                        ]).then(result => {
+                            console.log(result);
+                        }).catch(err => {
+                            console.log(err);
+                        });
+                        ctr++
+                    }
+                } else if (typeof req.files['uploadfile[]'][Symbol.iterator] == 'undefined') {
+                    var file = req.files['uploadfile[]'];
+                    var nFilename = file.name.split('.').pop();
+                    console.log("new File name");
+                    var date = cuid();
+                    var db = {
+                        projectId: req.body.pid,
+                        requirement: data[ctr].id,
+                        dir: dir2 + file.name + ' - ' + date,
+                        idNumber: req.session.user.idNumber,
+                        filename: date + '.' + nFilename,
+                        filenametoShow: file.name
+
                     };
 
-                    projectProposalModel.updateIsAttachmentsComplete(dbParam)
-                    .then(data=>{
+                    console.log("FILE");
+                    var p = path.normalize(path.join(dir2, date + '.' + nFilename));
+                    console.log(path.normalize(path.join(dir2, date + '.' + nFilename)));
+                    Promise.all([
+                        file.mv(p),
+                        projectProposalModel.insertProjectProposalAttachment(db)
 
-                    }).catch(error=>{
-                        console.log(error);
+                    ]).then(result => {
+                        console.log(result);
+                    }).catch(err => {
+                        console.log(err);
                     });
+                }
+
+
+                // console.log("DATA1");
+                // console.log(data);
+                // console.log(data[0].id);
+                // renderData.attachments = data;
+                console.log("ACT ID ");
+                console.log(req.body.activityId);
+
+                return res.redirect(`/Organization/ProjectProposal/main/${req.body.activityId}/1`);
+            }).catch(error => {
+                console.log(error);
+            });
+
+            var dbParam = {
+                id: req.body.pid
+            };
+
+            projectProposalModel.updateIsAttachmentsComplete(dbParam)
+                .then(data => {
+
+                }).catch(error => {
+                    console.log(error);
+                });
 
 
         },
-        postSaveMain: (req, res)=>{
+        postSaveMain: (req, res) => {
             var dbParam3 = {
                 gosmid: req.body.gosmid,
-                status:3
+                status: 3
             }
-             var dbParam = {
+            var dbParam = {
                 idNumber: req.session.user.idNumber
             };
             console.log(dbParam3);
 
-            database.tx(t=>{
-                postProjectProposalModel.updatePostProjectProposalCompleteness(dbParam3,t);
-                return postProjectProposalModel.getPostActsToImplement(dbParam,t);
-            }).then(data=>{
+            database.tx(t => {
+                postProjectProposalModel.updatePostProjectProposalCompleteness(dbParam3, t);
+                return postProjectProposalModel.getPostActsToImplement(dbParam, t);
+            }).then(data => {
 
                 req.session.postSubmitted = true;
                 return res.redirect('/Organization/PostProjectProposal/GOSMList');
-            }).catch(err=>{
-                 console.log("POST SAVE MAIN");
+            }).catch(err => {
+                console.log("POST SAVE MAIN");
                 console.log(error);
             });
 
@@ -1937,7 +2046,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
 
         },
-        viewPubs: (req, res)=>{
+        viewPubs: (req, res) => {
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
@@ -1945,71 +2054,71 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 idNumber: req.session.user.idNumber
             }
             projectProposalModel.getPPRToCreatePubsList(dbParam)
-                                .then(data=>{
-                                    console.log("DATA");
-                                    console.log(data);
-                                    renderData.activities = data;
-                                    return res.render('Org/Publist',renderData);
-                                }).catch(err=>{
-                                    console.log("ERROR");
-                                    console.log(err);
-                                })
+                .then(data => {
+                    console.log("DATA");
+                    console.log(data);
+                    renderData.activities = data;
+                    return res.render('Org/Publist', renderData);
+                }).catch(err => {
+                    console.log("ERROR");
+                    console.log(err);
+                })
 
 
         },
-        viewPubsSpecific: (req, res)=>{
+        viewPubsSpecific: (req, res) => {
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
             var gosmParam = {
-            gosmid : req.params.gosmid,
-            idNumber:req.session.user.idNumber
+                gosmid: req.params.gosmid,
+                idNumber: req.session.user.idNumber
             }
             var gosmParam2 = {
-                gosmactivity : req.params.gosmid
+                gosmactivity: req.params.gosmid
             }
-            database.task(t=>{
-                    return t.batch([
-                            pnpModel.getMypubs(gosmParam,t),
-                            pnpModel.getActivityDetailsforPubs(gosmParam,t),
-                            gosmModel.getGOSMActivityProjectHeads(gosmParam2,t)
+            database.task(t => {
+                return t.batch([
+                    pnpModel.getMypubs(gosmParam, t),
+                    pnpModel.getActivityDetailsforPubs(gosmParam, t),
+                    gosmModel.getGOSMActivityProjectHeads(gosmParam2, t)
 
-                        ])
-                }).then(pubs=>{
-                        console.log(pubs[0]);
-                        console.log("pubs[0]");
-                        renderData.pubs = pubs[0];
-                        renderData.activities = pubs[1];
-                        renderData.heads = pubs[2];
-                        renderData.gosmid = req.params.gosmid
-                          return res.render('Org/CreatePubs',renderData);
-                    }).catch(err=>{
-                        console.log("ERROR VIEW PUB");
-                        console.log(err);
-                    })
+                ])
+            }).then(pubs => {
+                console.log(pubs[0]);
+                console.log("pubs[0]");
+                renderData.pubs = pubs[0];
+                renderData.activities = pubs[1];
+                renderData.heads = pubs[2];
+                renderData.gosmid = req.params.gosmid
+                return res.render('Org/CreatePubs', renderData);
+            }).catch(err => {
+                console.log("ERROR VIEW PUB");
+                console.log(err);
+            })
 
 
 
         },
-        insertPubs: (req, res)=>{
+        insertPubs: (req, res) => {
 
-             var dir3 =__dirname+'/../assets/upload/';
-             var dir3 = path.join (__dirname,'..','assets','upload');
+            var dir3 = __dirname + '/../assets/upload/';
+            var dir3 = path.join(__dirname, '..', 'assets', 'upload');
 
             //CHECK IF DIRECTOR EXIST
-            if (!fs.existsSync(dir3)){
+            if (!fs.existsSync(dir3)) {
                 fs.mkdirSync(dir3);
             }
-            var dir =__dirname+'/../assets/upload/pubs/';
-            var dir = path.join (__dirname,'..','assets','upload','pubs');
+            var dir = __dirname + '/../assets/upload/pubs/';
+            var dir = path.join(__dirname, '..', 'assets', 'upload', 'pubs');
             //CHECK IF DIRECTOR EXIST
-            if (!fs.existsSync(dir)){
+            if (!fs.existsSync(dir)) {
                 fs.mkdirSync(dir);
             }
-            var dir2 = __dirname+'/../assets/upload/pubs/'+req.session.user.idNumber+'/';
-            var dir2 = path.join (__dirname,'..','assets','upload','pubs',req.session.user.idNumber+"");
+            var dir2 = __dirname + '/../assets/upload/pubs/' + req.session.user.idNumber + '/';
+            var dir2 = path.join(__dirname, '..', 'assets', 'upload', 'pubs', req.session.user.idNumber + "");
             //CHECK IF DIRECTOR EXIST
-            if (!fs.existsSync(dir2)){
+            if (!fs.existsSync(dir2)) {
                 fs.mkdirSync(dir2);
             }
 
@@ -2023,52 +2132,59 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.csrfToken = req.csrfToken();
             //GOSM ID OF PICTURES
             var gParam = {
-                gosmid : req.body.gosmid
+                gosmid: req.body.gosmid
             };
             console.log(req.body);
             console.log(req.files);
             var filename = cuid() + path.extname(req.files['pubs'].name);
             var filenameTS = req.files['pubs'].name;
-            if(req.body['optionsRadios2'] != 'null'){
+            if (req.body['optionsRadios2'] != 'null') {
                 var mod = req.body['optionsRadios2'];
-            }else{
+            } else {
                 var mod = 0;
             }
-            pnpModel.getSpecificPubSeq(gParam).then(data=>{
-                 database.task(t=>{
+            pnpModel.getSpecificPubSeq(gParam).then(data => {
+                database.task(t => {
 
 
 
-                console.log(data)
+                    console.log(data)
 
-                var insertParam = {
-                                    gosmid: req.body.gosmid,
-                                    sid: data.seq+1,
-                                    mod: mod,
-                                    tpd: req.body['posting-date'],
-                                    sb: req.session.user.idNumber,
-                                    ds:req.body.title,
-                                    status:0,
-                                    filename: filename,
-                                    filenameToShow: filenameTS
+                    var insertParam = {
+                        gosmid: req.body.gosmid,
+                        sid: data.seq + 1,
+                        mod: mod,
+                        tpd: req.body['posting-date'],
+                        sb: req.session.user.idNumber,
+                        ds: req.body.title,
+                        status: 0,
+                        filename: filename,
+                        filenameToShow: filenameTS
+                    }
+                    console.log(insertParam);
 
-                                    }
-                                    console.log(insertParam);
-
-                req.files['pubs'].mv(path.join(dir2,filename))
-                  return  pnpModel.insertActivityPublicity(insertParam,t)
-                            .catch(err=>{
-                                console.log(err)
-                                console.log("err")
-                            })
+                    req.files['pubs'].mv(path.join(dir2, filename))
+                    return pnpModel.insertActivityPublicity(insertParam, t)
+                        .catch(err => {
+                            console.log(err)
+                            console.log("err")
+                        })
                 }).then(result => {
                     // console.logr()
                     console.log("result");
                     console.log(result);
-                    res.json({status:1,path:'/upload/pubs/'+req.session.user.idNumber+'/'+filename,description:req.body.title, id:result.id, type:mod});
-                }).catch(err=>{
+                    res.json({
+                        status: 1,
+                        path: '/upload/pubs/' + req.session.user.idNumber + '/' + filename,
+                        description: req.body.title,
+                        id: result.id,
+                        type: mod
+                    });
+                }).catch(err => {
                     console.log("rrD")
-                    res.json({status:1});
+                    res.json({
+                        status: 1
+                    });
                     console.log(err)
                 })
             });
@@ -2076,97 +2192,134 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
 
         },
-        viewPubDetails: (req, res)=>{
+        viewPubDetails: (req, res) => {
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
             var dbParam = {
-                id:req.body.id
+                id: req.body.id
             }
             console.log(dbParam)
             pnpModel.getPubDetails(dbParam)
-                    .then(data=>{
-                        console.log(data);
-                        renderData.activity = data
-                        console.log("TPYE");
-                        console.log(req.body.type);
-                        if(req.body.type == 1){
-                            console.log("ONE TYPE");
-                            res.render('section/PNP/approveModal',renderData);
-                        }else{
-                            console.log("SECOND TYPE");
-                            res.render('section/PNP/pendModal',renderData);
-                        }
-                    }).catch(err=>{
-                        console.log(err);
-                    })
+                .then(data => {
+                    console.log(data);
+                    renderData.activity = data
+                    console.log("TPYE");
+                    console.log(req.body.type);
+                    if (req.body.type == 1) {
+                        console.log("ONE TYPE");
+                        res.render('section/PNP/approveModal', renderData);
+                    } else {
+                        console.log("SECOND TYPE");
+                        res.render('section/PNP/pendModal', renderData);
+                    }
+                }).catch(err => {
+                    console.log(err);
+                })
         },
-        reuploadPubs:(req, res)=>{
-            var dir3 =__dirname+'/../assets/upload/';
-            var dir3 = path.join (__dirname,'..','assets','upload');
+        reuploadPubs: (req, res) => {
+            var dir3 = __dirname + '/../assets/upload/';
+            var dir3 = path.join(__dirname, '..', 'assets', 'upload');
 
             //CHECK IF DIRECTOR EXIST
-            if (!fs.existsSync(dir3)){
+            if (!fs.existsSync(dir3)) {
                 fs.mkdirSync(dir3);
             }
-            var dir =__dirname+'/../assets/upload/pubs/';
-            var dir = path.join (__dirname,'..','assets','upload','pubs');
+            var dir = __dirname + '/../assets/upload/pubs/';
+            var dir = path.join(__dirname, '..', 'assets', 'upload', 'pubs');
             //CHECK IF DIRECTOR EXIST
-            if (!fs.existsSync(dir)){
+            if (!fs.existsSync(dir)) {
                 fs.mkdirSync(dir);
             }
-            var dir2 = __dirname+'/../assets/upload/pubs/'+req.session.user.idNumber+'/';
-            var dir2 = path.join (__dirname,'..','assets','upload','pubs',req.session.user.idNumber+"");
+            var dir2 = __dirname + '/../assets/upload/pubs/' + req.session.user.idNumber + '/';
+            var dir2 = path.join(__dirname, '..', 'assets', 'upload', 'pubs', req.session.user.idNumber + "");
             //CHECK IF DIRECTOR EXIST
-            if (!fs.existsSync(dir2)){
+            if (!fs.existsSync(dir2)) {
                 fs.mkdirSync(dir2);
             }
 
 
             dir2 = path.normalize(dir2);
-            database.task(t=>{
+            database.task(t => {
                 var dbParam = {
                     id: req.body.pubsid
                 }
                 return t.batch([
-                        //GINAGAWA NG UPDATE PUBS TO PEND NISESET NIYA YUNG PUBS SA OLD VERSION NA STATUS
-                         pnpModel.updatePubsToPend(dbParam,t),
-                         pnpModel.getPubDetails(dbParam,t)
-                         ]);
+                    //GINAGAWA NG UPDATE PUBS TO PEND NISESET NIYA YUNG PUBS SA OLD VERSION NA STATUS
+                    pnpModel.updatePubsToPend(dbParam, t),
+                    pnpModel.getPubDetails(dbParam, t)
+                ]);
 
-            }).then(data=>{
+            }).then(data => {
                 console.log("DATA DOMS");
                 console.log(data);
                 var filename = cuid() + path.extname(req.files['file'].name);
                 var filenameTS = req.files['file'].name;
-                req.files['file'].mv(path.join(dir2,filename))
-                 var insertParam = {
-                                    gosmid: data[1].GOSMActivity,
-                                    sid: data.seq+1,
-                                    mod: data[1].modeOfDistribution,
-                                    tpd: data[1].targetPostingDate,
-                                    sb: req.session.user.idNumber,
-                                    ds:data[1].description,
-                                    status:0,
-                                    filename: filename,
-                                    filenameToShow: filenameTS
+                req.files['file'].mv(path.join(dir2, filename))
+                var insertParam = {
+                    gosmid: data[1].GOSMActivity,
+                    sid: data.seq + 1,
+                    mod: data[1].modeOfDistribution,
+                    tpd: data[1].targetPostingDate,
+                    sb: req.session.user.idNumber,
+                    ds: data[1].description,
+                    status: 0,
+                    filename: filename,
+                    filenameToShow: filenameTS
 
-                                    }
-                var d =data;
+                }
+                var d = data;
                 console.log("DATA DOMS");
                 console.log(data[1]);
                 pnpModel.insertActivityPublicity(insertParam)
-                        .then(data=>{
-                             res.json({status:1,path:'/upload/pubs/'+req.session.user.idNumber+'/'+filename,description:req.body.title, id:data.id, type:d[1].modeOfDistribution});
-                         }).catch(err=>{
-                             res.json({status:0});
-                             console.log(err);
-                         })
+                    .then(data => {
+                        res.json({
+                            status: 1,
+                            path: '/upload/pubs/' + req.session.user.idNumber + '/' + filename,
+                            description: req.body.title,
+                            id: data.id,
+                            type: d[1].modeOfDistribution
+                        });
+                    }).catch(err => {
+                        res.json({
+                            status: 0
+                        });
+                        console.log(err);
+                    })
 
-            }).catch(err=>{
+            }).catch(err => {
                 console.log(err);
             })
 
+        },
+        viewCompletedPostActs: (req, res)=>{
+            database.task(t=>{
+                var dbParam = {
+                    gosmid:req.params.gosmid
+                }
+                
+                return t.batch([
+                        postProjectProposalModel.getPostActsDetails(dbParam,t),
+                        postProjectProposalModel.getLatestEventPicture(dbParam,t),
+                        postProjectProposalModel.getLatestPostExpense(dbParam,t),
+                        projectProposalModel.getProjectHeadsGOSM(dbParam,t)
+                        // projectProposalModel.getProjectProposalProjectHeads(3)
+                        ]);
+            }).then(data=>{
+                console.log(data);
+                console.log("data[1]");
+                
+                const renderData = Object.create(null);
+                renderData.activity = data[0]
+                renderData.pictures=data[1]
+                renderData.expense = data[2];
+                renderData.heads = data[3];
+                renderData.extra_data = req.extra_data;
+                renderData.csrfToken = req.csrfToken();
+                res.render('Org/PostActsCompleted', renderData)
+            }).catch(err=>{
+                console.log(err);
+            })
         }
 
 

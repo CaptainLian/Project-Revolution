@@ -8,10 +8,5 @@ module.exports = function(configuration, modules, router, controllers){
 
 		const logger = modules.logger;
 		router.get('/test', controllers.test_controller.test);
-		router.get('/blank', (req, res) => {
-			const renderData = attachExtraRenderData(undefined, req);
-			logger.debug(JSON.stringify(renderData), log_options);
-			return res.render('System/blank', renderData);
-		});
 	}
 };
