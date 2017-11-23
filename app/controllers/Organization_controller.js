@@ -1453,7 +1453,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     else {
 
                         var signatoryParam = {
-                            status: 0
+                            status: 0,
                             gosmactivity: req.body.gosmactivity
                         }
 

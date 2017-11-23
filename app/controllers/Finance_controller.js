@@ -182,11 +182,14 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 				const renderData = Object.create(null);
             	renderData.extra_data = req.extra_data;
+            	//to evaluate
             	renderData.isCso = req.session.user.type === 3 ||
 							req.session.user.type === 4 ||
 							req.session.user.type === 5 ||
 							req.session.user.type === 6 || 
-							req.extra_data.user.accessibleFunctionalitiesList['19'];
+							req.extra_data.user.accessibleFunctionalitiesList['21'];
+
+				renderData.toadd = req.extra_data.user.accessibleFunctionalitiesList['18'];
 
             	renderData.activities = data[0];
             	renderData.transactionTotal = data[1];
