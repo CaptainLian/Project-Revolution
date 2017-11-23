@@ -179,7 +179,9 @@
                     <ul>
                         <li><a href="#section-linebox-1"><span>Details</span></a></li>
                         <li><a href="#section-linebox-2"><span>Schedule</span></a></li>
+                        {%if withExpense%}
                         <li><a href="#section-linebox-3"><span>Funding</span></a></li>
+                        {%endif%}
                         <li><a href="#section-linebox-5"><span>Attachment</span></a></li>
                         <li><a href="#section-linebox-6"><span>Signatories</span></a></li>
 
@@ -378,7 +380,7 @@
                             <h4 class="text-left">VI. Revenue and Expense Table</h4>
                             <hr>
                             <br/>
-
+                            {%if withRevenue%}
                             <table class="table bg">
                                 <thead>
 
@@ -418,6 +420,7 @@
                                     </tr>
                                 </tfoot>
                             </table>
+                            {%endif%}
                             <br/>
                             <table class="table bg">
                                 <thead>
@@ -456,6 +459,7 @@
                                         <td class="text-right text-danger" colspan="3"><strong>Total Expense</strong></td>
                                         <td  class="text-right">{{totalexpense | round(2)}}</td>
                                     </tr>
+                                     {%if withRevenue%}
                                      <tr>
                                         <td class="text-right text-success" colspan="3"  style="border-top: white solid 0px "><strong>Total Income </strong></td>
                                         <td  class="text-right" style="border-top: white solid 0px ">
@@ -463,6 +467,7 @@
                                             {{totalincome | round(2)}}
                                         </td>
                                     </tr>
+                                    {%endif%}
                                 </tfoot>
                             </table>
                             <br/>
