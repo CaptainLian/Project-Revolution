@@ -246,111 +246,76 @@
                                     <section id="section-linebox-2 text-left">
                                         <div class="white-box">
                                              <p><strong>Officers</strong></p>
-                                             <dd>The activity started on time </dd>
-                                             <dd>The activity started on time </dd>
-                                             <dd>The activity started on time </dd>
+                                             {%for oth in others%}
+                                             	{%if oth.positionInOrganization == 0%}
+                                             		<dd>{{oth.wwwita}}</dd>
+                                             	{%endif%}
+                                             {%endfor%}
+                                             
 
                                              <p><strong>Members</strong></p>
-                                             <dd>The activity started on time </dd>
-                                             <dd>The activity started on time </dd>
-                                             <dd>The activity started on time </dd>
-                                             <dd>The activity started on time </dd>
-                                             <dd>The activity started on time </dd>
-                                             <dd>The activity started on time </dd>
-                                             <dd>The activity started on time </dd>
-                                             <dd>The activity started on time </dd>
-                                             <dd>The activity started on time </dd>
+                                             {%for oth in others%}
+                                             	{%if oth.positionInOrganization == 1%}
+                                             		<dd>{{oth.wwwita}}</dd>
+                                             	{%endif%}
+                                             {%endfor%}
                                              
                                              <p><strong>Non-Members</strong></p>
-                                             <dd>The activity started on time </dd>
-                                             <dd>The activity started on time </dd>
-                                             <dd>The activity started on time </dd>
-                                             <dd>The activity started on time </dd>
-                                             <dd>The activity started on time </dd>
-                                             <dd>The activity started on time </dd>
-                                             <dd>The activity started on time </dd>
-                                             <dd>The activity started on time </dd>
-                                             <dd>The activity started on time </dd>
-                                             <dd>The activity started on time </dd>
-                                             <dd>The activity started on time </dd>
-                                             <dd>The activity started on time </dd>
-                                             <dd>The activity started on time </dd>
-                                             <dd>The activity started on time </dd>
-                                             <dd>The activity started on time </dd>
+                                             {%for oth in others%}
+                                             	{%if oth.positionInOrganization == 2%}
+                                             		<dd>{{oth.wwwita}}</dd>
+                                             	{%endif%}
+                                             {%endfor%}
                                         </div>
                                     </section>
                                     
                                     <section id="section-linebox-3">
                                         <div class="white-box">
                                              <p><strong>Officers</strong></p>
-                                             <dd>The activity started on time </dd>
-                                             <dd>The activity started on time </dd>
-                                             <dd>The activity started on time </dd>
+                                            {%for oth in others%}
+                                             	{%if oth.positionInOrganization == 0%}
+                                             		<dd>{{oth.fac}}</dd>
+                                             	{%endif%}
+                                             {%endfor%}
 
                                              <p><strong>Members</strong></p>
-                                             <dd>The activity started on time </dd>
-                                             <dd>The activity started on time </dd>
-                                             <dd>The activity started on time </dd>
-                                             <dd>The activity started on time </dd>
-                                             <dd>The activity started on time </dd>
-                                             <dd>The activity started on time </dd>
-                                             <dd>The activity started on time </dd>
-                                             <dd>The activity started on time </dd>
-                                             <dd>The activity started on time </dd>
+                                             {%for oth in others%}
+                                             	{%if oth.positionInOrganization == 1%}
+                                             		<dd>{{oth.fac}}</dd>
+                                             	{%endif%}
+                                             {%endfor%}
                                              
                                              <p><strong>Non-Members</strong></p>
-                                             <dd>The activity started on time </dd>
-                                             <dd>The activity started on time </dd>
-                                             <dd>The activity started on time </dd>
-                                             <dd>The activity started on time </dd>
-                                             <dd>The activity started on time </dd>
-                                             <dd>The activity started on time </dd>
-                                             <dd>The activity started on time </dd>
-                                             <dd>The activity started on time </dd>
-                                             <dd>The activity started on time </dd>
-                                             <dd>The activity started on time </dd>
-                                             <dd>The activity started on time </dd>
-                                             <dd>The activity started on time </dd>
-                                             <dd>The activity started on time </dd>
-                                             <dd>The activity started on time </dd>
-                                             <dd>The activity started on time </dd>
+                                            {%for oth in others%}
+                                             	{%if oth.positionInOrganization == 2%}
+                                             		<dd>{{oth.fac}}</dd>
+                                             	{%endif%}
+                                             {%endfor%}
                                         </div>
                                     </section>
                                     
                                     <section id="section-linebox-5">
                                          <div class="white-box">
                                                  <p><strong>Officers</strong></p>
-                                                 <dd>The activity started on time </dd>
-                                                 <dd>The activity started on time </dd>
-                                                 <dd>The activity started on time </dd>
+                                                {%for oth in others%}
+	                                             	{%if oth.positionInOrganization == 0%}
+	                                             		<dd>{{oth.effa}}</dd>
+	                                             	{%endif%}
+	                                             {%endfor%}
 
                                                  <p><strong>Members</strong></p>
-                                                 <dd>The activity started on time </dd>
-                                                 <dd>The activity started on time </dd>
-                                                 <dd>The activity started on time </dd>
-                                                 <dd>The activity started on time </dd>
-                                                 <dd>The activity started on time </dd>
-                                                 <dd>The activity started on time </dd>
-                                                 <dd>The activity started on time </dd>
-                                                 <dd>The activity started on time </dd>
-                                                 <dd>The activity started on time </dd>
-                                                 
+                                                  {%for oth in others%}
+	                                             	{%if oth.positionInOrganization == 1%}
+	                                             		<dd>{{oth.effa}}</dd>
+	                                             	{%endif%}
+	                                             {%endfor%}
+
                                                  <p><strong>Non-Members</strong></p>
-                                                 <dd>The activity started on time </dd>
-                                                 <dd>The activity started on time </dd>
-                                                 <dd>The activity started on time </dd>
-                                                 <dd>The activity started on time </dd>
-                                                 <dd>The activity started on time </dd>
-                                                 <dd>The activity started on time </dd>
-                                                 <dd>The activity started on time </dd>
-                                                 <dd>The activity started on time </dd>
-                                                 <dd>The activity started on time </dd>
-                                                 <dd>The activity started on time </dd>
-                                                 <dd>The activity started on time </dd>
-                                                 <dd>The activity started on time </dd>
-                                                 <dd>The activity started on time </dd>
-                                                 <dd>The activity started on time </dd>
-                                                 <dd>The activity started on time </dd>
+                                                 {%for oth in others%}
+	                                             	{%if oth.positionInOrganization == 2%}
+	                                             		<dd>{{oth.effa}}</dd>
+	                                             	{%endif%}
+	                                             {%endfor%}
                                             </div>
                                     </section>
                                     
