@@ -20,4 +20,13 @@ module.exports = function(configuration, modules, router, controllers){
 			});
 		});
 	}
+
+
+    router.get('/blank', (req, res) => {
+        const renderData = Object.create(null);
+        renderData.extra_data = req.extra_data;
+        renderData.csrfToken = req.csrfToken();
+        
+        return res.render('System/blank', renderData);
+    });
 };

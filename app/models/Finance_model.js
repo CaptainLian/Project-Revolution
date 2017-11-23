@@ -1,6 +1,8 @@
 'use strict';
 
 module.exports = function(configuration, modules, database, queryFiles){	
+    const squel = require('squel').useFlavour('postgres');
+    
 	const FinanceModel = Object.create(null);
 
     const insertPreActivityCashAdvanceSQL = queryFiles.insertPreActivityCashAdvance;
@@ -55,6 +57,11 @@ module.exports = function(configuration, modules, database, queryFiles){
 
     FinanceModel.updatePreActivityCashAdvanceStatus = function(param, connection = database){
         return connection.none(updatePreActivityCashAdvanceStatusSQL, param);
+    };
+
+    FinanceModel.getPreActivityCashAdvanceDetails = (cashAdvanceID, fields, connection = database) => {
+        let query = squel.select()
+        .from('"PreActivityCashAdvance"');
     };
 
 	return FinanceModel;

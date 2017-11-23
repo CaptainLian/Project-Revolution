@@ -15,14 +15,23 @@ module.exports = function(configuration, application, modules, database, queryFi
             return next();
 
         if(req.session.user.type === 1){
-            if(req.session.user.organizationSelected === 0){
+            logger.debug('User type 1', log_options);
+            logger.debug(`Org selected: ${JSON.stringify(req.session.user.organizationSelected)}`, log_options);
+            if(req.session.user.organizationSelected.id === 0){
+                logger.debug('CSO organization', log_options);
                 return next();
             }
         }
+
         const sidebars = req.extra_data.view.sidebars;
+
         return AccountModel.hasPPRToSign(req.session.user.idNumber)
         .then(PPR => {
+<<<<<<< HEAD
             logger.debug(`Has PPR To Sign ${PPR.exists}`, log_options);
+=======
+            logger.debug(`has PPR To Sign ${PPR.exists}`, log_options);
+>>>>>>> lian
             if(PPR.exists){
                 sidebars[sidebars.length] = {
                     name: 'Sign Project Proposal',

@@ -210,5 +210,27 @@ module.exports = function(configuration, modules, database, queryFiles) {
         return connection.none(denyPPRSQL, param);
     };
 
+    const approvePreActCashAdvanceSQL = queryFiles.account_PreActCashAdvance_approve;
+    AccountModel.approvePreActCashAdvance = (cashAdvance, idNumber, document, digitalSignature, connection = database) => {
+        const param = Object.create(null);
+        param.cashAdvance = cashAdvance;
+        param.idNumber = idNumber;
+        param.document = document;
+        param.digitalSignature = digitalSignature;
+
+        return connection.none(approvePreActCashAdvanceSQL, param);
+    };
+
+    const pendPreActCashAdvanceSQL = queryFiles.account_PreActCashAdvance_approve;
+    AccountModel.pendPreActCashAdvance = (cashAdvance, idNumber, comments, sections, connection = database) => {
+        const param = Object.create(null);
+        param.cashAdvance = cashAdvance;
+        param.idNumber = idNumber;
+        param.comments = comments;
+        param.sections = sections;
+
+        return connection.none(pendPreActCashAdvanceSQL, param);
+    };
+
     return AccountModel;
 };

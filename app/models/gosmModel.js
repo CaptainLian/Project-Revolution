@@ -1,7 +1,6 @@
 'use strict';
 
-const log_options= Object.create(null);
-log_options.from = 'GOSM-Model';
+
 
 const squel = require('squel').useFlavour('postgres');
 
@@ -25,7 +24,42 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const attachFields = dbHelper.attachFields;
 
     const logger = modules.logger;
+    const log_options= Object.create(null);
+    log_options.from = 'GOSM-Model';
+
     return {
+
+        clearProjectHeads: (activityID, connection = db) => {
+            logger.debug('clearProjectHeads()', log_options);
+
+            let query = squel.delete()
+                .from('GOSMActivityProjectHead')
+                .where('activityID = ${activityID}', {
+                    dontQuote: true
+                });
+
+            return connection.none (query.toString(), {activityID: activityID});
+        },
+
+        insertProjectHead:(activityID, projectHead, connection = db) => {
+            logger.debug('insertProjectHead()', log_options);
+            let query = squel.insert()
+                .into('GOSMActivityProjectHead')
+                .set('activityID', '${activityID}', {
+                    dontQuote: true
+                })
+                .set('idNumber', '${idNumber}', {
+                    dontQuote: true
+                });
+
+            query = query.toString();
+            logger.debug(query, log_options);
+            return connection.none (query, {
+                activityID: activityID,
+                idNumber: projectHead
+            });
+        },
+
         getAllActivityTypes: function(fields, connection = db) {
             let query = squel.select()
             .from('ActivityType');

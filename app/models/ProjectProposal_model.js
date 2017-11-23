@@ -7,7 +7,7 @@ log_options.from = 'ProjectProposal-Model';
 const squel = require('squel').useFlavour('postgres');
 
 module.exports = function(configuration, modules, db, queryFiles) {
-
+    let logger = modules.logger;
 
     const getLatestProjectProposalAttachment = queryFiles.getLatestProjectProposalAttachment;
     const getProjectHeadsGOSM = queryFiles.getProjectHeadsGOSM;
@@ -23,10 +23,12 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const getApprovedPPRsSQL = queryFiles.getApprovedPPRs;
     const getNextActivityForApprovalSQL = queryFiles.getNextActivityForApproval;
     const getGOSMActivitiesToImplementSQL = queryFiles.getGOSMActivitiesToImplement;
+    const getPPRSectionsToEditSQL = queryFiles.getPPRSectionsToEdit;
     const updatePPRStatusSQL = queryFiles.updatePPRStatus;
     const updateIsProgramDesignCompleteSQL = queryFiles.updateIsProgramDesignComplete;
     const updateIsAttachmentsCompleteSQL = queryFiles.updateIsAttachmentsComplete;
     const updatePPRExpensesSQL = queryFiles.updatePPRExpenses;
+    const updatePPRCompletionSQL = queryFiles.updatePPRCompletion;
     const submitProjectProposalSQL = queryFiles.submitProjectProposal;
     const deleteProgramDesignSQL = queryFiles.deleteProgramDesign;
     const deleteExpensesSQL = queryFiles.deleteExpenses;
@@ -229,7 +231,10 @@ module.exports = function(configuration, modules, db, queryFiles) {
     ProjectProposalModel.prototype.getProjectProposalProgramDesign = function(id, fields, connection = this._db){
         let query = squel.select()
         .from('ProjectProposalProgramDesign', 'pppd')
-        .where('projectProposal = ${id}');
+        .where('projectProposal = ?', squel.select()
+            .from('ProjectProposal')
+            .where('GOSMActivity = ${id}')
+            .field('id'));
         this._attachFields(query, fields);
 
         query = query.toString();
@@ -239,10 +244,14 @@ module.exports = function(configuration, modules, db, queryFiles) {
     };
 
     ProjectProposalModel.prototype.getProjectProposalExpenses = function(id, fields, connection = this._db){
+        console.log('ProjectProposalExpenses()');
         let query = squel.select()
         .from('ProjectProposalExpenses', 'ppe')
             .left_join('ExpenseType', 'et', 'ppe.type = et.id')
-        .where('projectProposal = ${id}');
+        .where('projectProposal = ?', squel.select()
+            .from('ProjectProposal')
+            .where('GOSMActivity = ${id}')
+            .field('id'));
         this._attachFields(query, fields);
 
         query = query.toString();
@@ -256,13 +265,18 @@ module.exports = function(configuration, modules, db, queryFiles) {
          */
         let param = Object.create(null);
         param.id = id;
+
+        console.log(`EXPENSES: \n${query}`);
         return connection.any(query, param);
     };
 
     ProjectProposalModel.prototype.getProjectProposalProjectedIncome =  function(id, fields, connection = this._db){
         let query = squel.select()
         .from('ProjectProposalProjectedIncome', 'pppi')
-        .where('projectProposal = ${id}');
+        .where('projectProposal = ?', squel.select()
+            .from('ProjectProposal')
+            .where('GOSMActivity = ${id}')
+            .field('id'));
         this._attachFields(query, fields);
 
         query = query.toString();
@@ -276,7 +290,10 @@ module.exports = function(configuration, modules, db, queryFiles) {
         let query = squel.select()
         .from('ProjectProposalAttachment', 'ppa')
             .left_join('DocumentAttachmentRequirement', 'dar', 'ppa.requirement = dar.id')
-        .where('projectProposal = ${id}');
+        .where('projectProposal = ?', squel.select()
+            .from('ProjectProposal')
+            .where('GOSMActivity = ${id}')
+            .field('id'));
         this._attachFields(query, fields);
 
         query = query.toString();
@@ -317,6 +334,10 @@ module.exports = function(configuration, modules, db, queryFiles) {
 
     ProjectProposalModel.prototype.updateIsAttachmentsComplete = function(param, connection = this._db){
         return connection.none(updateIsAttachmentsCompleteSQL, param);
+    };
+
+    ProjectProposalModel.prototype.updatePPRCompletion = function(param, connection = this._db){
+        return connection.none(updatePPRCompletionSQL, param);
     };
 
     ProjectProposalModel.prototype.insertProjectProposalDesign = function(param, connection = this._db) {
@@ -400,6 +421,10 @@ module.exports = function(configuration, modules, db, queryFiles) {
         return connection.any(getApprovedPPRsSQL);
     };
 
+    ProjectProposalModel.prototype.getPPRSectionsToEdit = function(param, connection = this._db){
+        return connection.one(getPPRSectionsToEditSQL, param);
+    };
+
     ProjectProposalModel.prototype.deleteProgramDesign = function(param, connection = this._db){
         return connection.none(deleteProgramDesignSQL, param);
     };
@@ -430,6 +455,14 @@ module.exports = function(configuration, modules, db, queryFiles) {
     ProjectProposalModel.prototype.getSignatories = function(activityID, connection = this._db){
         return connection.many(getSignatoriesSQL, {
             activityID: activityID
+        });
+    };
+
+    const getTotalExpenseSQL = queryFiles.PPR_get_total_expense;
+    ProjectProposalModel.prototype.getTotalExpenseSQL = function(activityID, connection = this._db){
+        logger.debug(`getSignatories(activityID: ${activityID})`, log_options);
+        return connection.many(getTotalExpenseSQL, {
+            GAID: activityID
         });
     };
 
