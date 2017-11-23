@@ -52,7 +52,21 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			            renderData.gosmactivity = data.GOSMActivity;
 			            // transactionType: if 0 direct payment; if 1 cash advance
 			            renderData.transactionType = req.params.transaction;
-						return res.render('Finance/EvaluateTransaction', renderData);
+
+			             //from cso
+			            if (req.session.user.user.type === 3 ||
+							req.session.user.user.type === 4 ||
+							req.session.user.user.type === 5 ||
+							req.session.user.user.type === 6) {
+			            	
+			            	renderData.isCso = true;
+			            	return res.render('Finance/EvaluateTransaction', renderData);
+			            }
+			            else{
+			            	renderData.isCso = false;
+			            	return res.render('Finance/EvaluateTransaction', renderData);
+			            }
+
 						//next();
 
 					}).catch(error=>{
@@ -116,7 +130,10 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		viewFinanceList: (req, res) => {
 
 			//is cso
-			if (req.session.user.organizationSelected.id == 0){
+			if (req.session.user.user.type === 3 ||
+				req.session.user.user.type === 4 ||
+				req.session.user.user.type === 5 ||
+				req.session.user.user.type === 6){
 
 				database.task(t =>{
 					return t.batch([financeModel.getActivitiesWithFinancialDocuments(),
@@ -187,7 +204,11 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 	            renderData.projectProposal = data[2]
 
 	            //from cso
-	            if (req.session.user.organizationSelected.id == 0) {
+	            if (req.session.user.user.type === 3 ||
+					req.session.user.user.type === 4 ||
+					req.session.user.user.type === 5 ||
+					req.session.user.user.type === 6) {
+
 	            	renderData.isCso = true;
 	            	return res.render('Finance/ViewActivityTransaction', renderData);
 					//next();

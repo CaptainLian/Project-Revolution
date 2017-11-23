@@ -27,7 +27,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const updateIsProgramDesignCompleteSQL = queryFiles.updateIsProgramDesignComplete;
     const updateIsAttachmentsCompleteSQL = queryFiles.updateIsAttachmentsComplete;
     const updatePPRExpensesSQL = queryFiles.updatePPRExpenses;
-    const updatePPRComepletionSQL = queryFiles.updatePPRComepletion;
+    const updatePPRCompletionSQL = queryFiles.updatePPRCompletion;
     const submitProjectProposalSQL = queryFiles.submitProjectProposal;
     const deleteProgramDesignSQL = queryFiles.deleteProgramDesign;
     const deleteExpensesSQL = queryFiles.deleteExpenses;
@@ -318,7 +318,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
     };
 
     ProjectProposalModel.prototype.updatePPRCompletion = function(param, connection = this._db){
-        return connection.none(updatePPRComepletionSQL, param);
+        return connection.none(updatePPRCompletionSQL, param);
     };
 
     ProjectProposalModel.prototype.insertProjectProposalDesign = function(param, connection = this._db) {
@@ -403,7 +403,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
     };
 
     ProjectProposalModel.prototype.getPPRSectionsToEdit = function(param, connection = this._db){
-        return connection.one(getPPRSectionsToEdit, param);
+        return connection.one(getPPRSectionsToEditSQL, param);
     };
 
     ProjectProposalModel.prototype.deleteProgramDesign = function(param, connection = this._db){
