@@ -7,7 +7,7 @@ log_options.from = 'ProjectProposal-Model';
 const squel = require('squel').useFlavour('postgres');
 
 module.exports = function(configuration, modules, db, queryFiles) {
-
+    let logger = modules.logger;
 
     const getLatestProjectProposalAttachment = queryFiles.getLatestProjectProposalAttachment;
     const insertProjectProposalAttachment = queryFiles.insertProjectProposalAttachment;
@@ -455,7 +455,8 @@ module.exports = function(configuration, modules, db, queryFiles) {
     };
 
     const getTotalExpenseSQL = queryFiles.PPR_get_total_expense;
-    ProjectProposalModel.prototype.getSignatories = function(activityID, connection = this._db){
+    ProjectProposalModel.prototype.getTotalExpenseSQL = function(activityID, connection = this._db){
+        logger.debug(`getSignatories(activityID: ${activityID})`, log_options);
         return connection.many(getTotalExpenseSQL, {
             GAID: activityID
         });
