@@ -36,7 +36,7 @@
                         modal_type.html(activityDetails.type);
                         modal_nature.html(activityDetails.nature);
                         modal_date.html(activityDetails.startdate + ' - ' + activityDetails.enddate);
-                        modal_comments.html(activityDetails.comments);
+                        modal_comments.val(activityDetails.comments);
 
                         modal_table.find('.modal_head_row').remove();
 
