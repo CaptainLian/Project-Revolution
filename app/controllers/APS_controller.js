@@ -59,7 +59,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             view.GOSMID = GOSMID;
             view.GOSMStatus = data[2].status;
             view.csrfToken = req.csrfToken();
-            view.showUpdateButtons = view.GOSMStatus != 1 && view.GOSMStatus != 3;
+            // view.showUpdateButtons = view.GOSMStatus != 1 && view.GOSMStatus != 3;
+            view.showUpdateButtons = view.GOSMStatus ==2;
             view.extra_data = req.extra_data;
             return res.render('APS/OrganizationSpecificGOSM', view);
         }).catch(error => {
