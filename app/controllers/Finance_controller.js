@@ -1,8 +1,7 @@
 module.exports = function(configuration, modules, models, database, queryFiles){
 	const SIGN = require('../utility/digitalSignature.js').signString;
     const STRINGIFY = require('json-stable-stringify');
-
-
+    
 	const logger = modules.logger;
 	const log_options = Object.create(null);
 	log_options.from = 'Finance-Controlelr';
@@ -257,15 +256,14 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			const renderData = Object.create(null);
 	        renderData.extra_data = req.extra_data;
 
-	        //to evaluate
-            renderData.isCso = req.session.user.type === 3 ||
-						req.session.user.type === 4 ||
-						req.session.user.type === 5 ||
-						req.session.user.type === 6 ||
-						req.extra_data.user.accessibleFunctionalitiesList['21'];
+            renderData.isCso = null;
+            if(req.session.user.type >= 3 && req.session.user.type <= 6){
+                renderData.isCso = true;
+            }else{
+                renderData.isCso = req.extra_data.user.accessibleFunctionalitiesList['21'];
+                renderData.toadd = req.extra_data.user.accessibleFunctionalitiesList['18'];
+            }
 
-			// to add transaction
-			renderData.toadd = req.extra_data.user.accessibleFunctionalitiesList['18'];
 
 			if ((renderData.isCso) && (!renderData.toadd)) {
 
@@ -306,28 +304,17 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 									projectProposalModel.getProjectProposal(dbParam)]);
 				})
 				.then(data=>{
-
-
 		            renderData.transactions = data[0];
 		            renderData.gosmactivity = data[1];
 		            renderData.projectProposal = data[2];
-
 					return res.render('Finance/ViewActivityTransaction', renderData);
-
 				}).catch(error=>{
 					console.log(error);
 				});
-
-
 			}
-
-
-
-
 		},
-		createPreactsCashAdvance: (req, res) => {
 
-			//TODO: to be replaced by value from previous page
+		createPreactsCashAdvance: (req, res) => {
 			var dbParam = {
 				projectProposal: req.params.projectproposal
 			};
@@ -340,7 +327,6 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 	            renderData.extra_data = req.extra_data;
 	            renderData.csrfToken = req.csrfToken();
 	            renderData.particulars = data;
-	            //TODO: to come from previous page
 	            renderData.gosmactivity = req.params.gosmactivity;
 				return res.render('Finance/Preacts_CashAdvance', renderData);
 				//next();
@@ -362,78 +348,86 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				justification: req.body.nodpjustification
 			};
 
-			financeModel.insertPreActivityCashAdvance(dbParam)
-			.then(data=>{
+            let particulars = req.body.particulars;
+            if(!Array.isArray(particulars)){
+                particulars = [particulars];
+            }
 
-				let particulars = [];
-	            particulars = req.body.particulars;
+            database.tx(transaction => {
+                return financeModel.insertPreActivityCashAdvance(dbParam, transaction)
+                .then(data => {
 
-	            if (!Array.isArray(particulars)) {
+                    for(let index = 0; index < particulars.length; ++index){
+                        financeModel.insertPreActivityCashAdvanceParticular({
+                            cashAdvance: data.id,
+                            particular: particulars[index]
+                        }, transaction);
+                    }
 
-	                var particularParam = {
-	            		cashAdvance: data.id,
-	            		particular: particulars
-	            	};
+                    if(req.extra_data.user.accessibleFunctionalitiesList['22']){
+                        return transaction.task(t => {
+                            return t.batch([
+                                accountModel.getAccountDetails(req.session.user.idNumber, ['a.privateKey'], t),
+            					financeModel.getPreActivityCashAdvanceDetails(req.body.cashAdvanceId, [
+            						'preca.id AS cashadvance',
+            						'preca."GOSMActivity"',
+            						'preca."submissionID"',
+            						'preca."sequence"',
+            						'(a.firstname || \' \' || a.lastname ) AS submittedBy',
+            						"to_char(preca.\"dateSubmitted\", 'Mon DD, YYYY') AS dateSubmitted",
+            						'preca.purpose',
+            						'preca.justification'
+            					], t),
+            					financeModel.getPreActivityCashAdvanceParticularDetails(req.body.cashAdvanceId, [
+            						'ppe.id',
+            						'ppe.material',
+            						'ppe.quantity',
+            						'ppe.unitCost',
+            						'et.name AS type'
+            					], t)
+                            ]);
+                        }).then(data => {
+                            const documentObj = Object.create(null);
 
-	            	console.log("particular is only one");
-	            	console.log(particulars);
-	            	console.log(req.body.particulars);
+            				documentObj.CashAdvanceID = data[1].cashadvance;
+            				documentObj.ActivityID = data[1].GOSMActivity;
+            				documentObj.SubmissionID = data[1].submissionID;
+            				documentObj.VersionID = data[1].sequence;
+            				documentObj.SubmittedBy = data[1].submittedBy;
+            				documentObj.DateSubmitted = data[1].dateSubmitted;
+            				documentObj.Purpose = data[1].Purpose;
+            				documentObj.Justification = data[1].justification;
 
-	            	financeModel.insertPreActivityCashAdvanceParticular(particularParam)
-	            	.then(data1=>{
+            				documentObj.Particulars = [];
+            				for(const particular of data[2]){
+            					const particularObj = Object.create(null);
+            					particularObj.ID = particular.id;
+            					particularObj.Material = particular.material;
+            					particularObj.Quantity = particular.quantity;
+            					particularObj.UnitCost = particular.unitcost,
+            					particularObj.Type = particular.type;
 
-	            		res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
+            					documentObj.Particulars[documentObj.Particulars.length] = particularObj;
+            				}
 
-	            	}).catch(error=>{
-	            		console.log("error in one particular");
-	            		console.log(error);
-	            	});
+            				const DOCUMENT_STRING = STRINGIFY(documentObj);
+                            logger.debug(`Private Key: ${data[0].privatekey}`);
+                            const {signature: DIGITAL_SIGNATURE} = SIGN(DOCUMENT_STRING, data[0].privatekey);
+                            logger.debug(`Document: ${DOCUMENT_STRING}\n\nDigital Signature: ${DIGITAL_SIGNATURE}`, log_options);
 
-	            }
-	            else{
+                            return accountModel.approvePreActCashAdvance(req.body.cashAdvanceId, req.session.user.idNumber, DOCUMENT_STRING, DIGITAL_SIGNATURE, transaction);
+                        });
 
-	            	database.tx(transaction=>{
-
-	            		for(var i = 0; i < particulars.length; i++){
-	            			console.log("particulars is more than 1");
-
-	            			var particularParam = {
-	            				cashAdvance: data.id,
-	            				particular: particulars[i]
-	            			};
-
-	            			financeModel.insertPreActivityCashAdvanceParticular(particularParam, transaction)
-	            			.then(data1=>{
-
-	            			}).catch(error=>{
-	            				console.log("error is in particular loop");
-	            				console.log(error);
-	            			});
-
-
-	            		}
-
-	            	}).then(data2=>{
-
-	            		res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
-
-	            	}).catch(error=>{
-	            		console.log("error in transaction");
-	            		console.log(error);
-	            	});
-
-
-
-	            }
-
-
-
-			}).catch(error=>{
-				console.log(error);
-			});
-
-
+                    }
+                    return Promise.resolve(true);
+                });
+            }).then(data =>{
+                return res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
+            }).catch(err => {
+                return logger.warn(`${err.message}\n${err.stack}`, log_options);
+            });
 		},
+
 		createPreacts: (req, res) => {
 			const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
