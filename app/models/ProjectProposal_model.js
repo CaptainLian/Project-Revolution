@@ -230,7 +230,10 @@ module.exports = function(configuration, modules, db, queryFiles) {
     ProjectProposalModel.prototype.getProjectProposalProgramDesign = function(id, fields, connection = this._db){
         let query = squel.select()
         .from('ProjectProposalProgramDesign', 'pppd')
-        .where('projectProposal = ${id}');
+        .where('projectProposal = ?', squel.select()
+            .from('ProjectProposal')
+            .where('GOSMActivity = ${id}')
+            .field('id'));
         this._attachFields(query, fields);
 
         query = query.toString();
@@ -240,10 +243,14 @@ module.exports = function(configuration, modules, db, queryFiles) {
     };
 
     ProjectProposalModel.prototype.getProjectProposalExpenses = function(id, fields, connection = this._db){
+        console.log('ProjectProposalExpenses()');
         let query = squel.select()
         .from('ProjectProposalExpenses', 'ppe')
             .left_join('ExpenseType', 'et', 'ppe.type = et.id')
-        .where('projectProposal = ${id}');
+        .where('projectProposal = ?', squel.select()
+            .from('ProjectProposal')
+            .where('GOSMActivity = ${id}')
+            .field('id'));
         this._attachFields(query, fields);
 
         query = query.toString();
@@ -257,13 +264,18 @@ module.exports = function(configuration, modules, db, queryFiles) {
          */
         let param = Object.create(null);
         param.id = id;
+
+        console.log(`EXPENSES: \n${query}`);
         return connection.any(query, param);
     };
 
     ProjectProposalModel.prototype.getProjectProposalProjectedIncome =  function(id, fields, connection = this._db){
         let query = squel.select()
         .from('ProjectProposalProjectedIncome', 'pppi')
-        .where('projectProposal = ${id}');
+        .where('projectProposal = ?', squel.select()
+            .from('ProjectProposal')
+            .where('GOSMActivity = ${id}')
+            .field('id'));
         this._attachFields(query, fields);
 
         query = query.toString();
@@ -277,7 +289,10 @@ module.exports = function(configuration, modules, db, queryFiles) {
         let query = squel.select()
         .from('ProjectProposalAttachment', 'ppa')
             .left_join('DocumentAttachmentRequirement', 'dar', 'ppa.requirement = dar.id')
-        .where('projectProposal = ${id}');
+        .where('projectProposal = ?', squel.select()
+            .from('ProjectProposal')
+            .where('GOSMActivity = ${id}')
+            .field('id'));
         this._attachFields(query, fields);
 
         query = query.toString();

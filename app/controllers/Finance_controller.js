@@ -1,4 +1,8 @@
 module.exports = function(configuration, modules, models, database, queryFiles){
+	const SIGN = require('../utility/digitalSignature.js').signString;
+    const STRINGIFY = require('json-stable-stringify');
+
+
 	const logger = modules.logger;
 	const log_options = Object.create(null);
 	log_options.from = 'Finance-Controlelr';
@@ -7,6 +11,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
     const financeModel = models.Finance_model;
     const gosmModel = models.gosmModel;
 
+    const accountModel = models.Account_model;
 
 	return {
 		createTransaction: (req, res) => {
@@ -95,13 +100,21 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				id: req.body.cashAdvanceId
 			};
 
+			accountModel.getAccountDetails(req.session.user.idNumber, ['a.privateKey'])
+			.then(data =>{
+				return database.task(t => {
+					return t.batch([
+						
+					]);
+				});
+			});
+
 			financeModel.updatePreActivityCashAdvanceStatus(dbParam)
 			.then(data=>{
-
 				console.log("successfully approved");
 				res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
 
-			}).catch(error=>{
+			}).catch(error => {
 				console.log(error);
 			});
 
@@ -202,13 +215,13 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 	            renderData.extra_data = req.extra_data;
 	            renderData.transactions = data[0];
 	            renderData.gosmactivity = data[1];
-	            renderData.projectProposal = data[2]
+	            renderData.projectProposal = data[2];
 
 	            //from cso
-	            if (req.session.user.user.type === 3 ||
-					req.session.user.user.type === 4 ||
-					req.session.user.user.type === 5 ||
-					req.session.user.user.type === 6) {
+	            if (req.session.user.type === 3 ||
+					req.session.user.type === 4 ||
+					req.session.user.type === 5 ||
+					req.session.user.type === 6) {
 
 	            	renderData.isCso = true;
 	            	return res.render('Finance/ViewActivityTransaction', renderData);
