@@ -3,7 +3,7 @@
 module.exports = function(configuration, application, modules, database, queryFiles, models) {
     const logger = modules.logger;
     const ignoreRoutes = configuration.security.routes_ignore_login_required;
-    const contains = modules.collections.utilities.binarySearchContains;
+    const contains = modules.collections.utilities.linearSearchContains;
     const log_options = Object.create(null);
     log_options.from = 'System-Account_middleware';
 
@@ -14,8 +14,8 @@ module.exports = function(configuration, application, modules, database, queryFi
             priority: configuration.load_priority.HIGH,
             action: function(req, res, next) {
                 const session = req.session;
-                logger.debug('Checking if user is logged-in', log_options);
 
+                logger.debug('Checking if user is logged-in', log_options);
                 /* Must be logged in to enter */
                 if(((typeof session.user) !== 'undefined') || contains(ignoreRoutes, req._parsedUrl.pathname)){
                     logger.debug('User is logged-in or accessing an ignored route', log_options);

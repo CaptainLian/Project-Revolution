@@ -2,8 +2,6 @@
 
 
 module.exports = function(configuration, modules, models, database, queryFiles) {
-    const Promise = module.Promise;
-
     const logger = modules.logger;
 
     const log_options = Object.create(null);
@@ -61,7 +59,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             view.GOSMID = GOSMID;
             view.GOSMStatus = data[2].status;
             view.csrfToken = req.csrfToken();
-            view.showUpdateButtons = view.GOSMStatus != 1 && view.GOSMStatus != 3;
+            // view.showUpdateButtons = view.GOSMStatus != 1 && view.GOSMStatus != 3;
+            view.showUpdateButtons = view.GOSMStatus ==2;
             view.extra_data = req.extra_data;
             return res.render('APS/OrganizationSpecificGOSM', view);
         }).catch(error => {
@@ -106,13 +105,18 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     };
 
     APSController.activityChecking = (req, res) => {
+        logger.debug('activityChecking()', log_options);
         var activityId;
         database.task(task => {
 
-            return projectProposalModel.getNextActivityForApproval(task)
+            return projectProposalModel.getNextActivityForApproval(req.session.user.idNumber, task)
             .then(data => {
                 activityId = data.id;
-                console.log(activityId);
+                logger.debug(`Activity ID: ${activityId}`);
+
+                var pa = {
+                    projectId:data.id
+                };
 
                 return task.batch([
                     Promise.resolve(data),
@@ -128,10 +132,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         'pppd.personincharge AS personincharge'
                     ]),
                     projectProposalModel.getProjectProposalProjectHeads(data.id),
-                    projectProposalModel.getProjectProposalAttachment(data.id)
+                    projectProposalModel.getLatestProjectProposalAttachment(pa),
+                    projectProposalModel.getSignatories(data.id)
                 ]);
-
-
+            }).catch(err=>{
+                return logger.warn(`Unhandled error: ${err.message}\n${err.stack} `, log_options);
             });
         }).then(data => {
             logger.debug(`${JSON.stringify(data[3])}`, log_options);
@@ -146,10 +151,16 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.programDesign = data[3];
             renderData.projectHeads = data[4];
             renderData.attachment = data[5];
+            renderData.signatories = data[6];
+            console.log(renderData.attachment);
+            console.log("renderData.attachment");
             return res.render('APS/ActivityChecking', renderData);
         }).catch(err => {
-            logger.debug(`${err.message}/n${err.stack}`);
-            throw err;
+            logger.debug(`${err.message}\n${err.stack}`, log_options);
+            const renderData = Object.create(null);
+            renderData.csrfToken = req.csrfToken();
+            renderData.extra_data = req.extra_data;
+            return res.render('template/APS/NoActivityToCheck', renderData);
         });
     };
 
@@ -163,17 +174,20 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         const renderData = Object.create(null);
         renderData.extra_data = req.extra_data;
 
-
         return accountModel.getPPRToSignList(req.session.user.idNumber)
         .then(list => {
             logger.debug(`${JSON.stringify(list, '\n')}`, log_options);
 
             renderData.activities = list;
             return res.render('APS/ProjectProposal_sign_list', renderData);
+        }).catch(err => {
+            return logger.warn(`${err.message}\n${err.stack}`, log_options);
         });
     };
 
     APSController.viewPPRSign = (req, res) => {
+        logger.debug('viewPPRSign()', log_options);
+
         let activityID = parseInt(req.params.activityID);
 
         if(!Number.isInteger(activityID)){
@@ -184,9 +198,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         const renderData = Object.create(null);
         renderData.extra_data = req.extra_data;
         renderData.csrfToken = req.csrfToken();
-        
+
         return database.task(task => {
+            logger.debug('Executing batch queries', log_options);
             return task.batch([
+                // 0
                 projectProposalModel.getActivityProjectProposalDetailsGAID(activityID, [
                     'an.name AS nature',
                     'at.name AS type',
@@ -207,8 +223,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     'PP.ACCUMULATEDDEPOSITORYFUNDS AS accumulateddepositoryfunds',
                     'PP.ORGANIZATIONFUNDOTHERSOURCE AS organizationfundothersource'
                 ]),
+                // 1
                 projectProposalModel.getProjectProposalExpenses(activityID),
+                // 2
                 projectProposalModel.getProjectProposalProjectedIncome(activityID),
+                // 3
                 projectProposalModel.getProjectProposalProgramDesign(activityID, [
                     'pppd.dayid AS dayid',
                     "to_char(pppd.date, 'Mon DD, YYYY') AS date",
@@ -218,8 +237,12 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     'pppd.activitydescription AS activitydescription',
                     'pppd.personincharge AS personincharge'
                 ]),
+                // 4
                 projectProposalModel.getProjectProposalProjectHeads(activityID),
-                projectProposalModel.getProjectProposalAttachment(activityID)
+                // 5
+                projectProposalModel.getLatestProjectProposalAttachment({projectId: activityID}),
+                // 6
+                projectProposalModel.getSignatories(activityID)
             ]);
         }).then(data => {
             renderData.projectProposal = data[0];
@@ -229,9 +252,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.programDesign = data[3];
             renderData.projectHeads = data[4];
             renderData.attachment = data[5];
+            renderData.signatories = data[6];
+
+            logger.debug(`Signatories: ${JSON.stringify(renderData.signatories)}`, log_options);
+            logger.debug('rendering page', log_options);
             return res.render('APS/ProjectProposal_sign', renderData);
         }).catch(err => {
-            logger.debug(`${err.message}/n${err.stack}`, log_options);
+            return logger.debug(`${err.message}/n${err.stack}`, log_options);
         });
     };
 

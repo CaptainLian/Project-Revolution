@@ -77,106 +77,10 @@
 				<div class="panel-body">
 					
 
-						<div class="row">
-							<div class="col-md-8">
-								<table id="program-tables" style="table-layout: fixed" class=" table color-bordered-table inverse-bordered-table" >
-									<thead>
-										<tr>
+						<div class="row m-t-40">
+							
 
-											<th width="50%" class="text-center"  >Particular</th>
-											<!--  <th width="10%">Duration</th> -->
-
-											<th width="35%" colspan="2"  class="text-center">Amount</th>
-
-											<th width="15%" class="text-center"></th>
-										</tr>
-									</thead>
-									<tbody>
-
-
-
-
-
-										<tr id="tot-exp" class="panel-error"    >
-											<td  class="text-right" style="border-top: 1px grey solid"><strong>Total Expenses</strong></td>
-
-											<td style="border-top: 1px grey solid"></td>
-											<td class="text-right text-danger" style="border-top: 1px grey solid">₱<span id="texp"></span></td>
-
-											<td style="border-top: 1px grey solid"></td>
-										</tr>
-
-
-
-									</tbody>
-								</table>
-
-							</div>
-							<div id="data" class="col-md-4 m-t-40">
-								<div class="form-group ">
-									<label class="form-control-label">Particular</label>
-									<input id="part"  type="text" name="par[]" class="form-control">
-									<div>
-										<span class="help-block" id="part-help"></span>
-									</div>
-								</div>
-
-								<div class="form-group ">
-									<label class="form-control-label">Establishment</label>
-									<input id="est"  type="text" name="est[]" class="form-control">
-									<div>
-										<span class="help-block" id="est-help"></span>
-									</div>
-								</div>
-
-
-								<div class="form-group ">
-									<label class="form-control-label">Price</label>
-									<div class="input-group">
-										<span class="input-group-addon" id="basic-addon1" step='0.01'>₱</span>
-										<input id="price"  type="text" class="form-control" name="price[]">
-									</div>
-									<div>
-										<span class="help-block" id="price-help"></span>
-									</div>
-								</div>
-
-
-								<div class="form-group">
-									<label class=" ">File upload</label>
-									<div class="">
-										<div class="fileinput fileinput-new input-group" data-provides="fileinput">
-											<div class="form-control" data-trigger="fileinput">
-												<i class="glyphicon glyphicon-file fileinput-exists"></i>
-												<span id="filename" style="text-overflow: ellipsis;" class="fileinput-filename"></span>
-											</div>
-											<span class="input-group-addon btn btn-default btn-file"> 
-												<span class="fileinput-new">Select file</span>
-												<span class="fileinput-exists">Change</span>
-												<input id="file" type="file" name="file[]" accept=".pdf, .odt, .odp, .ods">
-											</span>
-											<a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a> </div>
-										</div>
-										<div>
-											<span class="help-block" id="file-help">*Only pdf and opendata format are acceptable</span>
-										</div>
-									</div>
-
-
-
-
-
-									<div class="m-t-5 form-group text-center ">
-
-										<button type="button" id="insert-button" class="btn btn-info">Insert </button>
-
-									</div>
-
-
-								</div>
-							</div>
-
-							<h3 class="box-title m-t-40">Activity Report Attachments</h3>
+							
 							<hr>     
 							<div class="form-group" style="border-bottom: 1px solid white">
 								<div class="row" >
@@ -185,7 +89,7 @@
 											<label  style="">General Attendance List Sheet</label>    
 										</div>
 										<div class="col-md-8 offset-md-1  text-center m-b-10 " >
-											<input required=""  type="file" accept=".pdf, .odt, .odp, .ods" name="gals" style="padding-left: 10px" >    
+											<input required=""  type="file" accept=".jpeg, .jpe, .jpg,.png" name="gals" style="padding-left: 10px" >    
 										</div>
 
 									</div>
@@ -230,58 +134,6 @@
 
 								</div>
 							</div>
-
-							<h3 class="box-title m-t-40">Other Finance Document</h3>
-							<hr>   
-							<div class="row">
-								<div class="col-md-12 ">
-									<div class="form-group row">
-
-										<label class="col-md-3 text-right"></label>
-										<div class="col-md-9">
-											<div class="col-md-3">
-												<div class="form-group" style="border: 1px solid white">
-													<div class="checkbox">
-														<input value="dp" id="f-dp" name="dp" type="checkbox">
-														<label for="f-dp">Direct Payment</label>
-														<div class="help-block with-errors"></div>
-													</div>
-												</div>
-											</div>
-											<div class="col-md-3">
-												<div class="form-group" style="border: 1px solid white">
-													<div class="checkbox">
-														<input value="reim" id="f-r" name="reim" type="checkbox">
-														<label for="f-r">Reimbursement</label>
-														<div class="help-block with-errors"></div>
-													</div>
-												</div>
-											</div>
-
-
-										</div>
-										<div class="col-md-9 offset-md-3">
-											<div class="col-md-3">
-												<div class="form-group" style="border: 1px solid white">
-													<div class="checkbox">
-														<input value="bt" id="f-bt" name="bt" type="checkbox">
-														<label for="f-bt">Book Transfer</label>
-														<div class="help-block with-errors"></div>
-													</div>
-												</div>
-											</div>
-											 
-
-
-										</div>  
-										                                                           
-
-
-
-									</div>
-								</div>
-
-							</div>  
 
 						</div>
 						<div class="panel-footer text-center">

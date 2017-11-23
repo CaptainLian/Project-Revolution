@@ -12,5 +12,10 @@
     
     "ViewPublicityMaterial": 5,
     "SubmitPublicityMaterial": 16,
-    "EvaluatePublicityMaterial": 17
+    "EvaluatePublicityMaterial": 17,
+
+    "SubmitFinancialDocuments": 18,
+    "EvaluateFinancialDocument":19,
+
+    "EvaluatePostProject": 20
 }

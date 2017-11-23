@@ -28,6 +28,18 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const insertPostReim = queryFiles.insertPostReim;
     const insertPostDP = queryFiles.insertPostDP;
 
+    const getPostActsDetails = queryFiles.getPostActsDetails;
+    const getEventPictureMaxSubmission = queryFiles.getEventPictureMaxSubmission;
+
+    const getLatestEventPicture = queryFiles.getLatestEventPicture;
+    const getPostExpenseMaxSubmissionID = queryFiles.getPostExpenseMaxSubmissionID;
+    const getLatestPostExpense = queryFiles.getLatestPostExpense;
+    const getPostActsToCheck = queryFiles.getPostActsToCheck;
+
+    const updatePostPPR = queryFiles.updatePostPPR;
+    const updatePostStatus = queryFiles.updatePostStatus;
+        
+
 
 	return {
         insertPostBT:function (param, connection = db) {
@@ -45,6 +57,12 @@ module.exports = function(configuration, modules, db, queryFiles) {
         updatePostProjectProposalCompleteness:function (param, connection = db) {
             return connection.any(updatePostProjectProposalCompleteness, param);
         },
+        updatePostPPR:function (param, connection = db) {
+            return connection.any(updatePostPPR, param);
+        },
+        getPostActsToCheck:function (param, connection = db) {
+            return connection.any(getPostActsToCheck, param);
+        },
         updatePostProjectRequiredCompleteness:function (param, connection = db) {
             return connection.any(updatePostProjectRequiredCompleteness, param);
         },
@@ -54,6 +72,9 @@ module.exports = function(configuration, modules, db, queryFiles) {
         updatePostProjectProposalFinanceDocumentStatus:function (param, connection = db) {
             return connection.none(updatePostProjectProposalFinanceDocumentStatus, param);
         },
+        updatePostStatus:function (param, connection = db) {
+            return connection.none(updatePostStatus, param);
+        },
         insertPostProjectProposalGals:function (param, connection = db) {
             return connection.none(insertPostProjectProposalGals, param);
         },
@@ -61,7 +82,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
             return connection.none(insertPostProjectProposalEventPictures, param);
         },
     	insertPostProjectProposal:function (param, connection = db) {
-        	return connection.one(insertPostProjectProposal, param);
+        	return connection.any(insertPostProjectProposal, param);
     	},
         getPostBriefContext:function (param, connection = db) {
             return connection.one(getPostBriefContext, param);
@@ -74,6 +95,21 @@ module.exports = function(configuration, modules, db, queryFiles) {
     	},
         getPostProjectProposalMain:function (param, connection = db) {
             return connection.one(getPostProjectProposalMain, param);
+        },
+        getPostActsDetails:function (param, connection = db) {
+            return connection.one(getPostActsDetails, param);
+        },
+        getEventPictureMaxSubmission:function (param, connection = db) {
+            return connection.any(getEventPictureMaxSubmission, param);
+        },
+        getLatestEventPicture:function (param, connection = db) {
+            return connection.any(getLatestEventPicture, param);
+        },
+        getLatestPostExpense:function (param, connection = db) {
+            return connection.any(getLatestPostExpense, param);
+        },
+        getPostExpenseMaxSubmissionID:function (param, connection = db) {
+            return connection.any(getPostExpenseMaxSubmissionID, param);
         },
         insertPostProjectExpense:function (param, connection = db) {
             return connection.none(insertPostExpense, param);

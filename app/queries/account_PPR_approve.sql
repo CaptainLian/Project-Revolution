@@ -4,6 +4,7 @@ WITH "SignatoryType" AS (
           FROM ProjectProposalSignatory pps
          WHERE pps.GOSMActivity = ${activityID}
            AND pps.signatory = ${idNumber}
+           AND pps.status = 0
     )
     SELECT pps.type
       FROM "AccountSignatories" pps LEFT JOIN SignatoryType st
@@ -18,8 +19,8 @@ WITH "SignatoryType" AS (
 UPDATE ProjectProposalSignatory
    SET status = 1,
        document = ${document},
-       digitalSignature = digitalSignature,
-       dateSign = CURRENT_TIMESTAMP
+       digitalSignature = ${digitalSignature},
+       dateSigned = CURRENT_TIMESTAMP
  WHERE GOSMActivity = ${activityID}
    AND signatory = ${idNumber}
    AND type = (SELECT type FROM "SignatoryType");

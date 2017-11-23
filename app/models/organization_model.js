@@ -138,5 +138,15 @@ module.exports = function(configuration, modules, database, queryFiles){
 		});
 	};
 
+	const hasGOSMSubmittedSQL = queryFiles.organization_GOSM_has_submitted;
+	OrganizationModel.hasGOSMSubmitted = (organizationID, connection = database) => {
+		logger.debug(`hasGOSMSubmitted(organizationID: ${organizationID})`, log_options);
+
+		logger.debug(hasGOSMSubmittedSQL, log_options);
+		return connection.one(hasGOSMSubmittedSQL, {
+			studentOrganization: organizationID
+		});
+	};
+
 	return OrganizationModel;
 };

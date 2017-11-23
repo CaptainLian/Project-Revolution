@@ -790,7 +790,7 @@ $("#submit-but").click(function(){
         data:{"sched":JSON.stringify(sched), gid:$("#data-route").attr("gid"),pid:$("#data-route").attr("pid")},
         success:function(data){
             if(parseInt(data))
-            window.location.href="/organization/projectproposal/main/"+$("#data-route").attr("gid")+'/1';
+            window.location.href="/organization/projectproposal/main/"+$("#data-route").attr("gid")+'/'+$("#data-route").attr("status");
         }
     })
 })

@@ -74,47 +74,51 @@
 {%endblock%}
 
 {%block content%}
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="white-box">
-                <h3 class="box-title m-b-0">GOSM of {{organizationName}}</h3>
+ <div class="panel panel-info">
+        <div class="panel-heading">GOSM of {{organizationName}}</div>
+        <div class="panel-wrapper collapse in">
+            <div class="panel-body">
+                  <div class="row">
+                    <div class="col-sm-12">
+                        <div class="white-box">
+                            <h3 class="box-title m-b-0"></h3>
 
-                <div class="table-responsive">
-                    <table id="myTable" class="table table-hover" role="grid" aria-describedby="myTable_info">
-                        <thead>
-                            <tr role="row">
-                                <th class="sorting" tabindex="0" aria-controls="myTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 139px;">Activity Name</th>
-                                <th class="sorting" tabindex="0" aria-controls="myTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 139px;">Activity Date</th>
-                            </tr>
-                        </thead>
+                            <div class="table-responsive">
+                                <table id="myTable" class="table table-hover" role="grid" aria-describedby="myTable_info">
+                                    <thead>
+                                        <tr role="row">
+                                            <th class="sorting" tabindex="0" aria-controls="myTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 139px;">Activity Name</th>
+                                            <th class="sorting" tabindex="0" aria-controls="myTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 139px;">Activity Date</th>
+                                        </tr>
+                                    </thead>
 
-                        <tbody>
-    						{% set cls = cycler("even", "odd") %}
-                            {% for activity in GOSMActivities %}
-                                <tr class="activity_row {{ cls.next() }}" data-activity-id="{{activity.id}}" role="row" data-toggle="modal" data-target="#sampleModal">
-    	                            <td>{{activity.strategies}}</td><!-- Activity name-->
-    	                            <td>{{activity.targetdatestart}}</td><!-- Activity date -->
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                                    <tbody>
+                                        {% set cls = cycler("even", "odd") %}
+                                        {% for activity in GOSMActivities %}
+                                            <tr class="activity_row {{ cls.next() }}" data-activity-id="{{activity.id}}" role="row" data-toggle="modal" data-target="#sampleModal">
+                                                <td>{{activity.strategies}}</td><!-- Activity name-->
+                                                <td>{{activity.targetdatestart}}</td><!-- Activity date -->
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
 
-                    {% if showUpdateButtons %}
-                    <div class="text-center">
-                        <h4>Actions</h4>
-                        <button id="btn_approve" class="btnGosm btn btn-success btn-rounded sa-approve" alt="alert">Approve</button>
-                        <button id="btn_pend" class="btn btn-warning btn-rounded sa-pend btnGosm" alt="alert">Pend</button>
-                        <button id="btn_deny" class="btn btn-danger btn-rounded sa-deny btnGosm" alt="alert">Deny</button>
+                               
+                            </div><!-- ./table-responsive -->
+                        </div>
                     </div>
-                    {% endif %}
-                </div><!-- ./table-responsive -->
+
+                </div>
             </div>
-        </div>
-
-        <div class="col-sm-12">
-        </div>
-
-        <div class="col-sm-12">
+            <div class="panel-footer text-center">
+                 {% if showUpdateButtons %}
+                    
+                        <button id="btn_approve" class="btnGosm btn btn-success btn-info sa-approve" alt="alert">Approve</button>
+                        <button id="btn_pend" class="btn btn-warning btn-warning  sa-pend btnGosm" alt="alert">Pend</button>
+                        <button id="btn_deny" class="btn btn-danger btn-danger sa-deny btnGosm" alt="alert">Deny</button>
+                   
+                {% endif %}
+            </div>
         </div>
     </div>
 {%endblock%}
@@ -134,7 +138,10 @@
                             <nav>
                                 <ul>
                                     <li><a href="#section-bar-1" ><span>1. Activity Details</span></a></li>
+                                    {% if showUpdateButtons %}
+
                                     <li><a href="#section-bar-2" ><span>2. Add Comment</span></a></li>
+                                    {%endif%}
                                 </ul>
                             </nav>
                             <div class="content-wrap">
@@ -187,7 +194,9 @@
                                         <label class="col-md-12">Write a comment for revision</label>
                                         <div class="col-md-12 text-center">
                                             <textarea id="modal_txtarea_comments" class="form-control" rows="5"></textarea> <br>
+                                            
                                             <button id="modal_btn_add_comment" class="btn btn-info" type="" data-dismiss="modal">Add Comment</button>
+
                                         </div>
                                     </div>
                                 </section>

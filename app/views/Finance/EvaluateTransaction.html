@@ -48,7 +48,7 @@
     <!-- tabs-->
     {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
     <!-- Sweet-Alert  -->
-    {{tag.javascript('/plugins/bower_components/sweetalert/sweetalert.min.js', true)}}
+
     <!--Style Switcher -->
     {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
 
@@ -66,11 +66,31 @@
 
     <!-- Page Scripts -->
     {{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
-    <!-- {{tag.javascript('/js/Orgres/ManageAccount.js', true)}} -->
+    {{tag.javascript('/js/Fin/evaluateTransaction.js', true)}}
     <!-- /Page Scripts -->
+
+    <!-- Sweet-Alert  -->
+
 {%endblock%}
 
 {%block content%}
+
+{% if transactionType ==1 %}
+
+<form action="/transaction/approveCashAdvance" id="form-id" class="form-horizontal" method="POST">
+<input type="hidden" name="_csrf" value="{{csrfToken}}">
+<input type="hidden" name="cashAdvanceId" value="{{cashAdvance.id}}">
+<input type="hidden" name="transactionType" value="{{transactionType}}">
+<input type="hidden" name="gosmactivity" value="{{gosmactivity}}">
+
+</form>
+
+<form action="/transaction/pendCashAdvance" id="form-id2" class="form-horizontal" method="POST">
+<input type="hidden" name="_csrf" value="{{csrfToken}}">
+<input type="hidden" name="cashAdvanceId" value="{{cashAdvance.id}}">
+<input type="hidden" name="gosmactivity" value="{{gosmactivity}}">
+
+{% endif %}
 <div class="row">
     <!-- Left sidebar -->
     <div class="col-md-12">
@@ -78,26 +98,36 @@
             <div class="row">
                 <div class="col-lg-2 col-md-3  col-sm-4 col-xs-12 inbox-panel">
                     <div>
-                        <a href="#" class="btn btn-success btn-block waves-effect waves-light ca-approve">Approve</a>
-                        <a href="#" class="btn btn-warning btn-block waves-effect waves-light ca-pend">Pend</a>
+
+                        {% if isCso %}
+                        <a href="#" id="approve" class="btn btn-success btn-block waves-effect waves-light ">Approve</a>
+                        <a href="#" id="defer" class="btn btn-warning btn-block waves-effect waves-light ca-pend">Pend</a>
+                        
+                        <!--                       
                         <a href="#" class="btn btn-danger btn-block waves-effect waves-light ca-deny">Deny</a>
+                        -->
+                        {% endif %}
 
                         <div class="list-group mail-list m-t-20">
                            
-                            <a href="inbox.html" class="list-group-item active">Go back</a> 
+                            <a href="/finance/list/transaction/{{gosmactivity}}" class="list-group-item active">Go back</a> 
                         </div>
                         
                     </div>
                 </div>
                 <div class="col-lg-10 col-md-9 col-sm-8 col-xs-12 mail_listing">
                     <div class="media m-b-30 p-t-20">
-                        <h4 class="font-bold m-t-0">Cash Advance for General Assembly to be held on September 30, 2017</h4> 
+                        {% if transactionType == 1 %}
+                            <h4 class="font-bold m-t-0">Cash Advance for {{cashAdvance.strategies}} to be held on {{projectproposal.startdate}}</h4> 
+                        {% else %}
+
+                        {% endif %}
                         <hr>
                         <a class="pull-left" href="#"> <img class="media-object thumb-sm img-circle" src="../plugins/images/users/pawandeep.jpg" alt=""> </a>
-                        <div class="media-body"> <span class="media-meta pull-right">07:23 AM</span>
-                            <h4 class="text-danger m-0">La Salle Computer Society &nbsp;(123457)</h4>
+                        <div class="media-body"> <span class="media-meta pull-right">{{cashAdvance.submittime}}</span>
+                            <h4 class="text-danger m-0">{{cashAdvance.organization}} &nbsp;({{cashAdvance.orgid}})</h4>
                             
-                            <span class="media-meta pull-right">September 17, 2017</span>
+                            <span class="media-meta pull-right">{{cashAdvance.submissiondate}}</span>
                             <small>Payable to: Dominique Dagunton (114256432), VP Finance</small>
                         </div>
                     </div>
@@ -124,7 +154,7 @@
                                     
                                 </div>
                                 <div class="col-md-6">
-                                    <label style="">From: Dominique Dagunton</label>
+                                    <label style="">From: {{cashAdvance.firstname}} {{cashAdvance.lastname}}</label>
                                     
                                 </div>
                             </div>
@@ -144,7 +174,23 @@
                                     <th>Amount</th>
                                 </tr>
                             </thead>
-                            <tbody id="memo_body"><tr><td>Food Expense</td><td>Php 3,000</td></tr><tr><th class="text-right">Total Expense:</th><th>Php 3,000</th></tr></tbody>
+                            <tbody id="memo_body">
+
+                            {% set totalamount = 0 | float %}
+
+                            {% for particular in particulars %}
+
+                                {% set amount = (particular.amount | round(2)) %}
+
+                                {% set totalamount = (totalamount | float) + (amount | round(2)) %}
+
+                                <tr><td>{{particular.material}}</td><td>Php {{particular.amount}}</td></tr>
+
+                            {% endfor %}
+
+                            
+
+                            <tr><th class="text-right">Total Expense:</th><th>Php {{totalamount | round(2)}}</th></tr></tbody>
                             <tfoot>
                             </tfoot>
                         </table>
@@ -152,11 +198,11 @@
                         <div class="col-md-12" id="" style="display: block;">
                             <div class="col-md-12 m-b-10">
                                 <label style="">Justification for not using Direct Payment:</label>
-                                <p>Papers were processed late.</p>  
+                                <p>{{cashAdvance.justification}}</p>  
                             </div>
                             <div class="col-md-12 m-b-10">
                                 <label style="">Purpose:</label>
-                                <p>Cash Advance for General Assembly to be held on September 30, 2017.</p>  
+                                <p>{{cashAdvance.purpose}}</p>  
                             </div>
                         </div>
                         <div class="col-md-12" id="justification_cp" style="display: none;">
@@ -186,4 +232,5 @@
         </div>
     </div>
 </div>
+</form>
 {%endblock%}

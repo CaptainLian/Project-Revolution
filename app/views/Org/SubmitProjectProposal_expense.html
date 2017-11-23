@@ -64,7 +64,7 @@
 
     <script>
 
-
+    var rev={{revenue}};
 
 		
     </script>
@@ -75,8 +75,13 @@
 {%endblock%}
 
 {%block content%}
-<form action="/Organization/projectproposal/SaveExpenses/{{gosmactivity.gosmactivity}}/{{projectProposal.id}}" id="form-id" method="POST">
+<form action="/Organization/projectproposal/SaveExpenses" id="form-id" method="POST">
 <input type="hidden" name="_csrf" value="{{csrfToken}}">
+<input type="hidden" name="status" value="{{status}}">
+<input type="hidden" name="id" value="{{gosmactivity.gosmactivity}}">
+<input type="hidden" name="ppr" value="{{projectProposal.id}}">
+
+
 
 <div class="row">
 	<div class="col-md-12">
@@ -196,8 +201,8 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr class="fund" id="tot-rev">
-											<td class="text-right"><strong>Total Assets</strong></td>
+										<tr class="fund" id="tot-rev" {%if revenue ==0 %}style="display:none" {%endif%}>
+											<td class="text-right" ><strong>Total Assets</strong></td>
 											<!--  <td></td> -->
 											<td class="text-right  text-success">₱<span id="trev"></span></td>
 											<td></td>
@@ -210,7 +215,7 @@
 											<td class="text-right text-danger">₱<span id="texp"></span></td>
 											<td></td>
 										</tr>
-										<tr class="fund">
+										<tr class="fund" {%if revenue ==0 %}style="display:none" {%endif%}>
 											<td class="text-right"><strong>Total Revenue </strong></td>
 											<td class="text-right text-success">₱<span id="tfin"></span></td>
 											<td></td>
@@ -229,12 +234,20 @@
 									<span class="help-block" id="item-help"></span>
 								</div>
 							</div>
-							<div class="form-group">
+							<div class="form-group toi">
 								<label class="form-control-label">Type of Item</label>
 								<select name="typeOfItem[]" id="sel0" class="form-control select2">
 									
 									{% for type in expenseTypes %}
-										<option value="{{type.id}}" >{{type.name}}</option>
+
+										{% if type.id == 3%}
+
+										{% else %}
+											
+											<option value="{{type.id}}" >{{type.name}}</option>
+
+										{% endif %}
+
 									{% endfor %}
 									
 								</select>
@@ -262,9 +275,9 @@
 									<span class="help-block" id="quantity-help"></span>
 								</div>
 							</div>
-							<div class="form-group">
+							<div class="form-group" {%if revenue ==0 %}style="display:none" {%endif%}>
 								<div class="radio-list text-center">
-									<label class="radio-inline fund">
+									<label class="radio-inline fund" >
 										<input name="optionsRadios2[]" id="rev-opt"  value="Revenue" type="radio">
 										Revenue
 									</label>
