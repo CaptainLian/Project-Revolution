@@ -227,6 +227,11 @@ module.exports = function(configuration, application, modules, database, queryFi
                 newSidebar2.name = 'Post Project';
                 newSidebar2.link = '/ADM/Activity/List';
                 sidebars[sidebars.length] = newSidebar2;
+
+                const newSidebar3 = Object.create(null);
+                newSidebar3.name = 'Activity Research Form';
+                newSidebar3.link = '/Organization/Orgres/list';
+                sidebars[sidebars.length] = newSidebar3;
             }
 
 

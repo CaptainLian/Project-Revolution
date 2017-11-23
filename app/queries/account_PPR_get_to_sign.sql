@@ -2,16 +2,16 @@ WITH "CurrentTermPPR" AS (
     SELECT ppr.GOSMActivity
       FROM ProjectProposal ppr
       WHERE ppr.status = 2
-        AND GOSMActivity IN (SELECT id 
+        AND GOSMActivity IN (SELECT id
                                FROM GOSMActivity ga
-                              WHERE ga.GOSM IN (SELECT id 
+                              WHERE ga.GOSM IN (SELECT id
                                                   FROM GOSM g
                                                  WHERE g.termID = system_get_current_term_id()
                                                    AND g.status = 3))
   ORDER BY id ASC
 ),"AccountToSign" AS ( /* The minimum type of the user to sign PPRs */
     SELECT pps.GOSMActivity, MIN(st.lineup) AS lineup
-      FROM ProjectProposalSignatory pps LEFT JOIN SignatoryType st 
+      FROM ProjectProposalSignatory pps LEFT JOIN SignatoryType st
                                                ON pps.type = st.id
      WHERE pps.signatory = ${idNumber}
        AND pps.GOSMActivity IN (SELECT GOSMActivity FROM "CurrentTermPPR")
@@ -31,9 +31,9 @@ WITH "CurrentTermPPR" AS (
                                                        ON ppcl.GOSMActivity = ats.GOSMActivity
                                                       AND ppcl.lineup = ats.lineup
 )
-SELECT pp.GOSMActivity, pp.actualDateStart, ga.strategies
+SELECT pp.GOSMActivity, to_char(pp.actualDateStart, 'Mon DD, YYYY') AS actualDateStart, ga.strategies
   FROM (SELECT *
-          FROM ProjectProposal 
+          FROM ProjectProposal
          WHERE GOSMActivity IN (SELECT GOSMActivity
                                   FROM "AccountPPRCanSign")) pp LEFT JOIN GOSMActivity ga
                                                                        ON pp.GOSMActivity = ga.id;
