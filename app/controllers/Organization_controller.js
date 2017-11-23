@@ -102,32 +102,32 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 };
 
                 projectProposalModel.insertProjectProposal(dbParam)
-                    .then(data => {
+                .then(data=>{
 
-                        database.task(task => {
-                            return task.batch([
-                                gosmModel.getGOSMActivity(dbParam),
-                                gosmModel.getGOSMActivityProjectHeads(dbParam),
-                                projectProposalModel.getProjectProposal(dbParam)
-                            ]);
-                        }).then(data => {
-                            const renderData = Object.create(null);
-                            renderData.extra_data = req.extra_data;
-                            renderData.csrfToken = req.csrfToken();
+                    database.task(task => {
+                        return task.batch([
+                            gosmModel.getGOSMActivity(dbParam),
+                            gosmModel.getGOSMActivityProjectHeads(dbParam),
+                            projectProposalModel.getProjectProposal(dbParam)
+                        ]);
+                    }).then(data => {
+                        const renderData = Object.create(null);
+                        renderData.extra_data = req.extra_data;
+                        renderData.csrfToken = req.csrfToken();
 
-                            renderData.gosmActivity = data[0];
-                            renderData.projectHeads = data[1];
-                            renderData.projectProposal = data[2];
-                            renderData.gosmid = req.params.id;
+                        renderData.gosmActivity = data[0];
+                        renderData.projectHeads = data[1];
+                        renderData.projectProposal = data[2];
+                        renderData.sectionsToEdit = null;
+                        renderData.status = 1;
+                        renderData.gosmid = req.params.id;
 
-                            return res.render('Org/SubmitProjectProposal_main', renderData);
-                        }).catch(err => {
-                            logger.warn(`${err.message}\n${err.stack}`, log_options);
-                        });
-                    }).catch(error => {
-                        logger.warn(`${error.message}\n${error.stack}`, log_options);
+                        return res.render('Org/SubmitProjectProposal_main',renderData);
+                    }).catch(err => {
+                        logger.warn(`${err.message}\n${err.stack}`, log_options);
+
                     });
-
+                })
             } // already started ppr
             else if (req.params.status == 1) {
 
@@ -151,6 +151,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     renderData.gosmActivity = data[0];
                     renderData.projectHeads = data[1];
                     renderData.projectProposal = data[2];
+                    renderData.sectionsToEdit = null;
+                    renderData.status = 1;
                     renderData.gosmid = req.params.id;
                     console.log(renderData.gosmActivity);
                     console.log("KAHITANONGMESSAGE");
@@ -159,12 +161,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 }).catch(err => {
                     logger.warn(`${err.message}\n${err.stack}`, log_options);
                 });
-            }
 
-
-        },
-        viewSubmitProjectProposalEdit: (req, res) => {
-            if (req.params.status == 2) {
+            }  
+            else if (req.params.status == 2){
 
                 console.log("ENTER 2");
 
@@ -188,11 +187,12 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     renderData.projectHeads = data[1];
                     renderData.projectProposal = data[2];
                     renderData.sectionsToEdit = data[3];
+                    renderData.status = 2;
                     renderData.gosmid = req.params.id;
                     console.log(renderData.gosmActivity);
                     console.log("KAHITANONGMESSAGE");
 
-                     return res.render('Org/SubmitProjectProposal_pendedit',renderData);
+                     return res.render('Org/SubmitProjectProposal_main',renderData);
 
 
                    
@@ -203,6 +203,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     logger.warn(`${err.message}\n${err.stack}`, log_options);
                 });
             }
+
+
         },
         viewSubmitPostProjectProposalMain: (req, res) => {
             var dbParam = {
@@ -277,8 +279,10 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             console.log("req.body");
             console.log(req.params.id);
             var gl = {
-                projectId: req.params.id
+                projectId: req.params.gid
             }
+            console.log("req.body");
+            console.log(gl);
             database.task(task => {
 
                 return task.batch([
