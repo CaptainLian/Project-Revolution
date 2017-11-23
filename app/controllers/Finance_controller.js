@@ -91,8 +91,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			}
 		},
 		approveCashAdvance: (req, res) => {
+			logger.debug('approveCashAdvance', log_options);
 
-			console.log("approves cash advance");
 			console.log(req.body.cashAdvanceId);
 
 			var dbParam = {
@@ -100,25 +100,35 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				id: req.body.cashAdvanceId
 			};
 
-			accountModel.getAccountDetails(req.session.user.idNumber, ['a.privateKey'])
-			.then(data =>{
-				return database.task(t => {
-					return t.batch([
-						
-					]);
-				});
-			});
-
-			financeModel.updatePreActivityCashAdvanceStatus(dbParam)
-			.then(data=>{
+			database.task(t => {
+				return t.batch([
+					accountModel.getAccountDetails(req.session.user.idNumber, ['a.privateKey'], t),
+					financeModel.getPreActivityCashAdvanceDetails(req.body.cashAdvanceId, [
+						'preca.id AS cashadvance',
+						'preca."GOSMActivity"',
+						'preca."submissionID"',
+						'preca."sequence"',
+						'(a.firstname || \' \' || a.lastname ) AS submittedBy',
+						"to_char(preca.dateSubmitted, 'Mon DD, YYYY') AS dateSubmitted",
+						'preca.purpose',
+						'preca.justification',
+						'preca.comments'
+					], t),
+					financeModel.getPreActivityCashAdvanceParticularDetails(req.body.cashAdvanceId, [
+						'ppe.id',
+						'ppe.material',
+						'ppe.quantity',
+						'ppe.unitCost',
+						'et.name AS type'
+					], t)
+				]);
+			}).then(data => {
+				logger.debug(`Cash Advance: ${data}`, log_options);
 				console.log("successfully approved");
-				res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
-
-			}).catch(error => {
-				console.log(error);
+				return res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
 			});
-
 		},
+
 		pendCashAdvance: (req, res) =>{
 
 			console.log("pend cash advance");
