@@ -566,6 +566,63 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 const sections = req.body.sectionsToBeEdited;
                 const comments = req.body.comments;
 
+                    var context = true;
+                    var sched = true;
+                    var expense = true;
+                    var attachments = true;
+
+                    for(var i = 0; i < req.body.sectionsToBeEdited.length; i++){
+
+                        console.log("AT LEAST LOOPS BRUH")
+
+                        if (req.body.sectionsToBeEdited[i] == "Brief Context") {
+                            context = false;
+                            console.log("SHOULD ENTER THIS");
+                        }
+
+                        if (req.body.sectionsToBeEdited[i] == "Program Design") {
+                            sched = false;
+                        }
+
+                        if (req.body.sectionsToBeEdited[i] == "Source of Funds") {
+                            expense = false;
+                        }
+                        else if (req.body.sectionsToBeEdited[i] == "Organizational Funds") {
+                            expense = false;
+                        }
+                        else if (req.body.sectionsToBeEdited[i] == "Revenue and Expense Table") {
+                            expense = false;
+                            console.log("ALSO THIS");
+                        }
+
+                        if (req.body.sectionsToBeEdited[i] == "Attachments") {
+                            attachments = false;
+                        }
+
+                    }
+
+                    var updateParam = {
+                        context: context,
+                        sched: sched,
+                        expense: expense,
+                        attachments: attachments,
+                        gosmactivity: activityID,
+                        status: 4
+                    }
+
+                    console.log("UPDATE PARAM IS");
+                    console.log(updateParam);
+
+                    projectProposalModel.updatePPRCompletion(updateParam)
+                    .then(updata=>{
+                        
+                       
+                        
+                    }).catch(error=>{
+                        console.log("ERROR 2")
+                        console.log(error);
+                    })
+
                 afterProcessing = accountModel.pendPPR(activityID, req.session.user.idNumber, comments, sections)
                 .then(data => {
                     return Promise.resolve(true);
