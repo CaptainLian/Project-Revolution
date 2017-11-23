@@ -1135,7 +1135,8 @@ INSERT INTO Functionality (id, name, category)
                           -- Finance
                           (212018, 'Submit Financial Documents'             , 212),
                           -- Signatory for Org
-                          (212019, 'Sign Financial Document Phase' , 212);
+                          (212019, 'Sign Financial Document Phase' , 212),
+                          (108020, 'Evaluate Post Project'         , 108);
 
 DROP TABLE IF EXISTS OrganizationAccessControl CASCADE;
 CREATE TABLE OrganizationAccessControl (
@@ -1180,7 +1181,11 @@ INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       -- Evaluate Publicity Material
                                       (   17,        106017,      TRUE),
                                       (   18,        106017,      TRUE),
-                                      (   19,        106017,      TRUE);
+                                      (   19,        106017,      TRUE),
+                                      -- Evaluate Publicity Material
+                                      (    5,        108020,      TRUE),
+                                      (    6,        108020,      TRUE),
+                                      (    7,        108020,      TRUE);
 
 /* Organization Default Structure */
 
@@ -2367,7 +2372,7 @@ CREATE TABLE "PostProjectProposalEventPicture" (
   "description" TEXT,
   "idNumber" INTEGER REFERENCES Account(idNumber),
 
-  PRIMARY KEY("GOSMActivity", "submissionID", "sequence")
+  PRIMARY KEY("GOSMActivity", "sequence")
 );
 CREATE OR REPLACE FUNCTION "trigger_before_insert_PostProjectProposalEventPicture_sequence"()
 RETURNS TRIGGER AS

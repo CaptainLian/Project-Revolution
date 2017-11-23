@@ -15,7 +15,9 @@ module.exports = function(configuration, modules, database, queryFiles) {
     dbHelper = null;
 
     const logger = modules.logger;
-
+    const log_options = Object.create(null);
+    log_options.from = 'Account-model';
+    
     const AccountModel = Object.create(null);
 
     /*
@@ -232,5 +234,13 @@ module.exports = function(configuration, modules, database, queryFiles) {
         return connection.none(pendPreActCashAdvanceSQL, param);
     };
 
+    const isProjectHeadSQL = queryFiles.account_is_project_head;
+    AccountModel.isProjectHead = (idNumber, connection = database) => {
+        logger.debug(`isProjectHead(idNumber: ${idNumber})`, log_options);
+        logger.debug(isProjectHeadSQL, log_options);
+        return connection.one(isProjectHeadSQL, {
+            idNumber: idNumber
+        });
+    };
     return AccountModel;
 };

@@ -590,7 +590,7 @@ INSERT INTO GOSMActivity (gosm, goals, objectives, strategies, description, meas
                  VALUES ((SELECT id FROM GOSM WHERE id%100000 = 1 LIMIT 1), 'Goal Mo to 2', '{"Objectives 2", "Mo 2", "To 2"}', 'Strategies Mo to 2', 'Descibe kita 2', 'Measure mo to :) 2', '2017-10-13', '2017-10-14', 1, 2, false, 999.99);
 
 UPDATE ProjectProposal
-   SET status = 3
+   SET status = 2
 WHERE id = 1;
 
 INSERT INTO ProjectProposalExpenses (projectProposal, material, quantity, unitCost)

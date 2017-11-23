@@ -83,6 +83,11 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateFinancialDocument] = [{
     link: '/finance/list'
 }];
 
+//Evaluate Post Project
+functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluatePostProject] = [{
+    name: 'Post Project',
+    link: '/ADM/Activity/List'
+}];
 
 const accessibleRoutes = [];
 for(const functionality in functionalitySidebars){

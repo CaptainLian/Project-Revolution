@@ -202,27 +202,33 @@ module.exports = function(configuration, application, modules, database, queryFi
         logger.debug('Performing sidebar checks', log_options);
         return database.task(task => {
             return task.batch([
-                accountModel.hasGOSMActivityWithoutPPR(user.idNumber),
+                accountModel.isProjectHead(user.idNumber),
                 accountModel.hasGOSMACtivityWithAMTActivityEvaluation(user.idNumber),
                 accountModel.hasPPRApproved(user.idNumber),
                 accountModel.hasPPRWithoutPostProjectProposal(user.idNumber),
                 organizationModel.hasGOSMSubmitted(organizationSelected.id)
             ]);
         }).then(data => {
-            const [GOSMActivityWithoutPPR,
+            const [isProjectHead,
                 GOSMActivityWithActivityEvaluation,
                 PPRApproved,
                 hasPPRWithoutPostProjectProposal,
                 hasSubmittedGOSM
             ] = data;
 
-            logger.debug(`Has GOSM activity without PPR: ${GOSMActivityWithoutPPR.exists}`, log_options);
-            if (GOSMActivityWithoutPPR.exists && organizationSelected.id !== 0) {
+            logger.debug(`isProjectHead: ${isProjectHead.exists}`, log_options);
+            if (isProjectHead.exists && organizationSelected.id !== 0) {
                 const newSidebar = Object.create(null);
                 newSidebar.name = 'Project Proposal';
                 newSidebar.link = '/Organization/ProjectProposal/GOSMList';
                 sidebars[sidebars.length] = newSidebar;
+
+                const newSidebar2 = Object.create(null);
+                newSidebar2.name = 'Post Project';
+                newSidebar2.link = '/ADM/Activity/List';
+                sidebars[sidebars.length] = newSidebar2;
             }
+
 
             logger.debug(`Has GOSM activity with AMT Evaluation: ${GOSMActivityWithActivityEvaluation.exists}`, log_options);
             if (GOSMActivityWithActivityEvaluation.exists) {
@@ -238,15 +244,6 @@ module.exports = function(configuration, application, modules, database, queryFi
                 const newSidebar = Object.create(null);
                 newSidebar.name = 'Submit Activity Publicity';
                 newSidebar.link = '/Organization/Publicity/list';
-
-                sidebars[sidebars.length] = newSidebar;
-            }
-
-            logger.debug(`Has PPR without post project proposal: ${hasPPRWithoutPostProjectProposal.exists}`, log_options);
-            if(hasPPRWithoutPostProjectProposal.exists){
-                const newSidebar = Object.create(null);
-                newSidebar.name = 'Submit Post Activity';
-                newSidebar.link = '/Organization/PostProjectProposal/GOSMList';
 
                 sidebars[sidebars.length] = newSidebar;
             }
