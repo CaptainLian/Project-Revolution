@@ -424,8 +424,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 return task.batch([
                     projectProposalModel.getProjectProposal(dbParam),
                     projectProposalModel.getProjectProposalExpenses(req.params.id),
-                    projectProposalModel.getExpenseTypes(),
-                    projectProposalModel.getPPRSectionsToEdit(dbParam)
+                    projectProposalModel.getExpenseTypes()
+                    // projectProposalModel.getPPRSectionsToEdit(dbParam)
                 ]);
             })
             .then(data=>{
@@ -440,7 +440,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 // renderData.revenue = 1;
                 renderData.expenseTypes = data[2];
                 renderData.status = req.params.status;
-                renderData.sectionsToEdit = data[3];
+                // renderData.sectionsToEdit = data[3];
 
                     console.log(renderData.gosmactivity);
                     console.log(renderData.projectProposal);
