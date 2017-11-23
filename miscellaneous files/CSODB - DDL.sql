@@ -1214,8 +1214,8 @@ $trigger$
                                               (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
                                               (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE),
                                               (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 15)), TRUE),
-                                              (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 19)), TRUE,
-                                              (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 21)), TRUE));
+                                              (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 19)), TRUE),
+                                              (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 21)), TRUE);
 
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole, rank)
                              VALUES (NEW.id, 'Executive Secretariat', TRUE, presidentRoleID, 10)
