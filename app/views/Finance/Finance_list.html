@@ -84,7 +84,9 @@
                                             <th>Activity Name</th>
                                             <th>Transactions</th>
                                             
-                                            {% if isCso %}
+                                            {% if isCso and toadd %}
+
+                                            {% elif isCso %}
                                                 <th>Organization</th>
                                             {% endif %}
 
@@ -94,7 +96,8 @@
 
                                         {% for activity in activities %}
                                             <tr onclick="window.location = '/finance/list/transaction/{{activity.gosmactivity}}'">
-                                                {% if isCso %}
+                                                
+                                                {% if isCso and not toadd %}
 
                                                     <td>{{activity.startdate}}</td>
                                                     <td>{{activity.strategies}}</td>
@@ -152,7 +155,9 @@
                                                         {% endif %}
 
 
-                                                    <td>{{activity.name}}</td>
+                                                        <td>{{activity.name}}</td>
+
+
                                                 
                                                 {% else %}
 
