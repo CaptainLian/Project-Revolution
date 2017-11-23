@@ -403,7 +403,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
     };
 
     ProjectProposalModel.prototype.getPPRSectionsToEdit = function(param, connection = this._db){
-        return connection.one(getPPRSectionsToEdit, param);
+        return connection.one(getPPRSectionsToEditSQL, param);
     };
 
     ProjectProposalModel.prototype.deleteProgramDesign = function(param, connection = this._db){
