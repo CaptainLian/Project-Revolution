@@ -16,8 +16,8 @@ module.exports = function(configuration, application, modules, database, queryFi
 
         if(req.session.user.type === 1){
             logger.debug('User type 1', log_options);
-            logger.debug(`Org selected: ${req.session.user.organizationSelected}`, log_options);
-            if(req.session.user.organizationSelected == 0){
+            logger.debug(`Org selected: ${JSON.stringify(req.session.user.organizationSelected)}`, log_options);
+            if(req.session.user.organizationSelected.id === 0){
                 logger.debug('CSO organization', log_options);
                 return next();
             }

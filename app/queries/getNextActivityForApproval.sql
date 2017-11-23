@@ -38,13 +38,13 @@ SELECT AN.NAME AS nature, AT.NAME AS type, GA.STRATEGIES AS strategies, SO.NAME 
 	   PP.SOURCEFUNDORGANIZATIONAL, PP.ACCUMULATEDOPERATIONALFUNDS as accumulatedoperationalfunds,
 	   PP.ACCUMULATEDDEPOSITORYFUNDS AS accumulateddepositoryfunds, PP.ORGANIZATIONFUNDOTHERSOURCE AS organizationfundothersource
 FROM ((SELECT * FROM "PPRCanSign"
-        WHERE STATUS =2
+        WHERE STATUS = 2
           AND dateStatusModified IS NULL
      ORDER BY dateSubmitted) 
     UNION
     (SELECT *
        FROM "PPRCanSign"
-      WHERE STATUS =2
+      WHERE STATUS = 2
         AND dateStatusModified IS NOT NULL 
    ORDER BY dateStatusModified)
      LIMIT 1) PP LEFT JOIN GOSMACTIVITY GA

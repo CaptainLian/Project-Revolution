@@ -130,15 +130,16 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		viewFinanceList: (req, res) => {
 
 			//is cso
-			if (req.session.user.user.type === 3 ||
-				req.session.user.user.type === 4 ||
-				req.session.user.user.type === 5 ||
-				req.session.user.user.type === 6){
+			if (req.session.user.type === 3 ||
+				req.session.user.type === 4 ||
+				req.session.user.type === 5 ||
+				req.session.user.type === 6){
 
 				database.task(t =>{
 					return t.batch([financeModel.getActivitiesWithFinancialDocuments(),
 									financeModel.getTransactionTotalPerActivity(),
-									financeModel.getApprovedTransactionTotalPerActivity()]);
+									financeModel.getApprovedTransactionTotalPerActivity()
+									]);
 				})
 				.then(data=>{
 
@@ -146,7 +147,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 	            	renderData.extra_data = req.extra_data;
 	            	renderData.isCso = true;
 	            	renderData.activities = data[0];
-	            	renderData.transactionTotal = data[1]
+	            	renderData.transactionTotal = data[1];
 	            	renderData.approvedTransactionTotal = data[2];
 	            	renderData.orgid = req.session.user.organizationSelected.id;
 					return res.render('Finance/Finance_list', renderData);
@@ -154,7 +155,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 				}).catch(error=>{
 					console.log(error);
-				})
+				});
 
 
 			}//not cso
