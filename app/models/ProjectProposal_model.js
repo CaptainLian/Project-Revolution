@@ -10,6 +10,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
     let logger = modules.logger;
 
     const getLatestProjectProposalAttachment = queryFiles.getLatestProjectProposalAttachment;
+    const getProjectHeadsGOSM = queryFiles.getProjectHeadsGOSM;
     const insertProjectProposalAttachment = queryFiles.insertProjectProposalAttachment;
     const updatePPRBriefContextSQL = queryFiles.updatePPRBriefContext;
     const insertProjectProposalSQL = queryFiles.insertProjectProposal;
@@ -304,6 +305,9 @@ module.exports = function(configuration, modules, db, queryFiles) {
 
     ProjectProposalModel.prototype.getPPRProjectedCost = function(param, connection = this._db) {
         return connection.oneOrNone(getPPRProjectedCostSQL, param);
+    };
+    ProjectProposalModel.prototype.getProjectHeadsGOSM = function(param, connection = this._db) {
+        return connection.any(getProjectHeadsGOSM, param);
     };
 
     ProjectProposalModel.prototype.getGOSMActivitiesToImplement = function(param, connection = this._db) {
