@@ -58,12 +58,44 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			            // transactionType: if 0 direct payment; if 1 cash advance
 			            renderData.transactionType = req.params.transaction;
 
-			            renderData.isCso = req.session.user.type === 3 ||
+			            //to evaluate
+            			renderData.isCso = req.session.user.type === 3 ||
 							req.session.user.type === 4 ||
 							req.session.user.type === 5 ||
 							req.session.user.type === 6 || 
-							req.extra_data.user.accessibleFunctionalitiesList['19'];
-						return res.render('Finance/EvaluateTransaction', renderData);
+							req.extra_data.user.accessibleFunctionalitiesList['21'];
+
+						// to add transaction			
+						renderData.toadd = req.extra_data.user.accessibleFunctionalitiesList['18'];
+
+						if (renderData.isCso && renderData.toadd) {
+
+							console.log("CORRECT THIS FAR==============")
+
+							var signatoryParam = {
+								cashadvance: req.params.id,
+								idnumber: req.session.user.idNumber
+							};
+
+							financeModel.checkCashAdvanceSignatory(signatoryParam)
+							.then(signatory=>{
+
+								console.log(signatory);
+								console.log("inside signatoryquery");
+								if (signatory.length==0) {
+									renderData.isCso = false;
+								}
+
+								return res.render('Finance/EvaluateTransaction', renderData);
+
+							}).catch(error=>{
+								console.log(error);
+							});
+
+						}
+						else{
+							return res.render('Finance/EvaluateTransaction', renderData);
+						}
 
 						//next();
 
@@ -189,14 +221,22 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 							req.session.user.type === 6 || 
 							req.extra_data.user.accessibleFunctionalitiesList['21'];
 
+				// to add transaction			
 				renderData.toadd = req.extra_data.user.accessibleFunctionalitiesList['18'];
 
             	renderData.activities = data[0];
             	renderData.transactionTotal = data[1];
             	renderData.approvedTransactionTotal = data[2];
+
             	if(!renderData.isCso){
             		renderData.orgid = req.session.user.organizationSelected.id;
             	}
+            	else if (renderData.isCso && renderData.toadd){
+            		renderData.orgid = req.session.user.organizationSelected.id;
+            	}
+
+            	console.log("orgid is ");
+            	console.log(renderData.orgid);
             	
 				return res.render('Finance/Finance_list', renderData);
 				//next();
@@ -209,32 +249,80 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		viewTransaction: (req, res) => {
 
 			var dbParam = {
-				gosmactivity: req.params.gosmactivity
+				gosmactivity: req.params.gosmactivity,
+				idnumber: req.session.user.idNumber
 			};
 
-			database.task(t =>{
+			console.log("THE DB PARAM IS");
+			console.log(dbParam);
+			const renderData = Object.create(null);
+	        renderData.extra_data = req.extra_data;
+
+	        //to evaluate
+            renderData.isCso = req.session.user.type === 3 ||
+						req.session.user.type === 4 ||
+						req.session.user.type === 5 ||
+						req.session.user.type === 6 || 
+						req.extra_data.user.accessibleFunctionalitiesList['21'];
+
+			// to add transaction			
+			renderData.toadd = req.extra_data.user.accessibleFunctionalitiesList['18'];
+
+			if ((renderData.isCso) && (!renderData.toadd)) {
+
+				console.log("is cso is");
+				console.log(renderData.isCso);
+				console.log("too add is ");
+				console.log(renderData.toadd);
+
+				console.log("it renders this one");
+
+				database.task(t =>{
+					return t.batch([financeModel.getActivityTransactionsForSignatory(dbParam),
+									gosmModel.getGOSMActivity(dbParam),
+									projectProposalModel.getProjectProposal(dbParam)]);
+				})
+				.then(data=>{
+
+					
+		            renderData.transactions = data[0];
+		            renderData.gosmactivity = data[1];
+		            renderData.projectProposal = data[2];
+		            
+					return res.render('Finance/ViewActivityTransaction', renderData);
+
+				}).catch(error=>{
+					console.log(error);
+				});
+
+
+			}
+			else{
+
+				console.log("nope its this one");
+
+				database.task(t =>{
 					return t.batch([financeModel.getActivityTransactions(dbParam),
 									gosmModel.getGOSMActivity(dbParam),
 									projectProposalModel.getProjectProposal(dbParam)]);
-			})
-			.then(data=>{
+				})
+				.then(data=>{
 
-				const renderData = Object.create(null);
-	            renderData.extra_data = req.extra_data;
-	            renderData.transactions = data[0];
-	            renderData.gosmactivity = data[1];
-	            renderData.projectProposal = data[2];
-	            renderData.isCso = req.session.user.type === 3 ||
-							req.session.user.type === 4 ||
-							req.session.user.type === 5 ||
-							req.session.user.type === 6 || 
-							req.extra_data.user.accessibleFunctionalitiesList['19'];
-				return res.render('Finance/ViewActivityTransaction', renderData);
+					
+		            renderData.transactions = data[0];
+		            renderData.gosmactivity = data[1];
+		            renderData.projectProposal = data[2];
+		            
+					return res.render('Finance/ViewActivityTransaction', renderData);
 
-			}).catch(error=>{
-				console.log(error);
-			});
+				}).catch(error=>{
+					console.log(error);
+				});
 
+
+			}
+
+			
 
 			
 		},
