@@ -508,8 +508,16 @@
                                    <div class="mail-contnet text-center">
 
                                    <h5 class="text-center">
-                                       <span class="label label-rounded label-danger pull-left">{{signatory.status}}</span>
-
+                                        {%if signatory.status =='Unsigned' %}
+                                        <span class="label label-rounded label-default text-black pull-left" style="color:black">{{signatory.status}}</span>
+                                        {%elif  signatory.status == 'Approved'%}
+                                        <span class="label label-rounded label-success pull-left">{{signatory.status}}</span>
+                                        {%elif  signatory.status == 'Pend'%}
+                                        <span class="label label-rounded label-warning pull-left">{{signatory.status}}</span>
+                                        {%elif  signatory.status == 'Denied'%}
+                                        <span class="label label-rounded label-danger pull-left">{{signatory.status}}</span>
+                                        {%endif%}
+                                        
                                        <span class="time pull-right">
                                        {% if(signatory.datesigned)%}
                                            {{signatory.datesigned}}
