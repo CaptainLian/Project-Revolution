@@ -1136,7 +1136,8 @@ INSERT INTO Functionality (id, name, category)
                           (212018, 'Submit Financial Documents'             , 212),
                           -- Signatory for Org
                           (212019, 'Sign Financial Document Phase' , 212),
-                          (108020, 'Evaluate Post Project'         , 108);
+                          (108020, 'Evaluate Post Project'         , 108),
+                          (212021, 'Evaluate Financial Documents'             , 212);
 
 DROP TABLE IF EXISTS OrganizationAccessControl CASCADE;
 CREATE TABLE OrganizationAccessControl (
@@ -1213,7 +1214,8 @@ $trigger$
                                               (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
                                               (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE),
                                               (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 15)), TRUE),
-                                              (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 19)), TRUE);
+                                              (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 19)), TRUE,
+                                              (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 21)), TRUE));
 
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole, rank)
                              VALUES (NEW.id, 'Executive Secretariat', TRUE, presidentRoleID, 10)
@@ -1258,10 +1260,12 @@ $trigger$
         INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       VALUES  (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
                                               (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE),
-                                              -- Sign PPR as Treasurer 212018
+                                              -- Sign PPR as Treasurer 212018 212021
                                               (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 11)), TRUE),
                                               (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 18)), TRUE),
-                                              (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 19)), TRUE);
+                                              (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 19)), TRUE),
+                                              -- Evaluate
+                                              (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 21)), TRUE);
 
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole, home_url, rank)
                              VALUES (NEW.id, 'Associate Vice President of Finance', FALSE, vpfRoleID, '/Organization/treasurer/dashboard', 30)
@@ -2019,6 +2023,42 @@ CREATE TRIGGER "before_insert_PreActivityCashAdvance_sequence"
     BEFORE INSERT ON "PreActivityCashAdvance"
     FOR EACH ROW
     EXECUTE PROCEDURE "trigger_before_insert_PreActivityCashAdvance_sequence"();
+
+CREATE OR REPLACE FUNCTION "trigger_after_update_PreActivityCashAdvanceSignatory_completion"()
+RETURNS TRIGGER AS
+$trigger$
+    DECLARE
+        numSignNeeded INTEGER;
+    BEGIN
+	IF NEW.status = 1 THEN
+	    SELECT COUNT(pacas.id) INTO numSignNeeded
+              FROM "PreActivityCashAdvanceSignatory" pacas
+             WHERE pacas."cashAdvance" = NEW."cashAdvance"
+               AND pacas.status <> 1;
+
+             IF numSignNeeded = 0 THEN
+                UPDATE "PreActivityCashAdvance"
+                   SET status = 1
+                 WHERE id = NEW."cashAdvance";
+            END IF;
+	ELSIF NEW.status = 2 THEN
+            UPDATE "PreActivityCashAdvance"
+               SET status = 2
+             WHERE id = NEW."cashAdvance";
+        ELSIF NEW.status = 3 THEN
+                UPDATE "PreActivityCashAdvance"
+                   SET status = 3
+                 WHERE id = NEW."cashAdvance";
+	END IF;
+        
+
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER "after_update_PreActivityCashAdvanceSignatory_completion"
+    AFTER UPDATE ON "PreActivityCashAdvanceSignatory"
+    FOR EACH ROW WHEN (OLD.status <> NEW.status)
+    EXECUTE PROCEDURE "trigger_after_update_PreActivityCashAdvanceSignatory_completion"();
 
 DROP TABLE IF EXISTS "PreActivityCashAdvanceParticular" CASCADE;
 CREATE TABLE "PreActivityCashAdvanceParticular" (
