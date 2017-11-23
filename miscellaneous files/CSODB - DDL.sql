@@ -2362,7 +2362,7 @@ CREATE TABLE "PostProjectProposalEventPicture" (
   "description" TEXT,
   "idNumber" INTEGER REFERENCES Account(idNumber),
 
-  PRIMARY KEY("GOSMActivity", "sequence")
+  PRIMARY KEY("GOSMActivity", "submissionID", "sequence")
 );
 CREATE OR REPLACE FUNCTION "trigger_before_insert_PostProjectProposalEventPicture_sequence"()
 RETURNS TRIGGER AS

@@ -27,7 +27,9 @@ module.exports = function(configuration, application, modules, database, queryFi
 
         return AccountModel.hasPPRToSign(req.session.user.idNumber)
         .then(PPR => {
-            logger.debug(`has PPR To Sign ${PPR.exists}`, log_options);
+
+            logger.debug(`Has PPR To Sign ${PPR.exists}`, log_options);
+
             if(PPR.exists){
                 sidebars[sidebars.length] = {
                     name: 'Sign Project Proposal',
