@@ -47,4 +47,8 @@ module.exports = function(configuration, modules, router, controllers){
 
     //Treasurer
     router.get(`${base}/treasurer/dashboard`, controllers.Treasurer_controller.viewDashboard);
+
+    router.get(`${base}/Orgres/list`, controllers.Organization_controller.orgresLists);
+    router.get(`${base}/Orgres/Specific/:id`, controllers.Organization_controller.orgresSpecficActivity);
+
 };

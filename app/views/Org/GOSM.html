@@ -243,6 +243,7 @@
                         </div>
 
                     </div>
+                    {%if status !=3 and  status !=4 and  status !=5%}
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
@@ -257,6 +258,7 @@
                             </div>
                         </div>
                     </div>
+                    {%endif%}
                 </form>
 
             </div>
@@ -301,6 +303,7 @@
                         </tbody>
                     </table>
                 </div>
+                {%if status !=3 and  status !=4 and  status !=5%}
                 <div class="panel-footer"> 
                     <div class="row">
                         <div class=" col-md-12" style="text-align: center">
@@ -308,6 +311,7 @@
                         </div>
                     </div>
                 </div>
+                {%endif%}
                 
             </div>
         </section>

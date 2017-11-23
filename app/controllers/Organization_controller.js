@@ -12,6 +12,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     const projectProposalModel = models.ProjectProposal_model;
     const postProjectProposalModel = models.PostProjectProposal_model;
     const gosmModel = models.gosmModel;
+    const orgresModel = models.Orgres_model;
     const logger = modules.logger;
     const path = require('path');
 
@@ -2332,6 +2333,53 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             }).catch(err=>{
                 console.log(err);
             })
+        },
+        orgresLists:(req, res)=>{
+            const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
+            var dbParam = {
+                // idNumber: req.session.user.idNumber
+                idNumber: 3333333
+            }
+            orgresModel.getOrgresList(dbParam)
+                .then(data=>{
+                    renderData.activities = data;
+                    console.log(data)
+                    res.render('Orgres/OrgresList', renderData);
+                }).catch(err=>{
+                    console.log("ERROR")
+                    console.log(err)
+                })
+
+            
+        },
+        orgresSpecficActivity:(req, res)=>{
+
+            const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
+            var dbParam = {
+                gosmid :req.params.id
+            }
+            database.task(t=>{
+                return t.batch([
+                    pnpModel.getActivityDetailsforPubs(dbParam,t),
+                    projectProposalModel.getProjectHeadsGOSM(dbParam,t)
+
+                    ])
+            }).then(data=>{
+                    renderData.projectProposal = data[0]
+                    renderData.projectHeads = data[1]
+                    res.render('Orgres/orgresSpecificActivity', renderData);  
+                }).catch(err=>{
+
+                })
+            
+                
+
+
+            
         }
 
 
