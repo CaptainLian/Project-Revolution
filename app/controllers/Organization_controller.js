@@ -2396,12 +2396,14 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 return t.batch([
                     pnpModel.getActivityDetailsforPubs(dbParam,t),
                     projectProposalModel.getProjectHeadsGOSM(dbParam,t),
-                    orgresModel.getOrgresOtherDetails(dbParam,t)
+                    orgresModel.getOrgresOtherDetails(dbParam,t),
+                    orgresModel.calculate_peractivity(dbParam,t)
                     ])
             }).then(data=>{
                     renderData.projectProposal = data[0]
                     renderData.projectHeads = data[1]
                     renderData.others = data[2]
+                    renderData.scores = data[3]
                     res.render('Orgres/orgresSpecificActivity', renderData);  
                 }).catch(err=>{
                     console.log(err)
