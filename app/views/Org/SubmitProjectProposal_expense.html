@@ -75,8 +75,13 @@
 {%endblock%}
 
 {%block content%}
-<form action="/Organization/projectproposal/SaveExpenses/{{gosmactivity.gosmactivity}}/{{projectProposal.id}}" id="form-id" method="POST">
+<form action="/Organization/projectproposal/SaveExpenses" id="form-id" method="POST">
 <input type="hidden" name="_csrf" value="{{csrfToken}}">
+<input type="hidden" name="status" value="{{status}}">
+<input type="hidden" name="id" value="{{gosmactivity.gosmactivity}}">
+<input type="hidden" name="ppr" value="{{projectProposal.id}}">
+
+
 
 <div class="row">
 	<div class="col-md-12">

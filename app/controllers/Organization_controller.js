@@ -281,6 +281,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.documents = data[1]
                 renderData.gid = req.params.gid
                 renderData.pid = req.params.id
+                renderData.status = req.params.status;
                 console.log("DATA1");
                 console.log(data[1]);
                 return res.render('Org/SubmitProjectProposal_attachments',renderData);
@@ -318,6 +319,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     renderData.venues = data[1];
                     renderData.advisers = data[2];
                     renderData.gosmactivity = dbParam;
+                    renderData.status = req.params.status;
 
                     return res.render('Org/SubmitProjectProposal_briefcontext',renderData);
                 }).catch(error => {
@@ -412,6 +414,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.revenue = req.params.revenue;
                 // renderData.revenue = 1;
                 renderData.expenseTypes = data[2];
+                renderData.status = req.params.status;
 
                 console.log(renderData.gosmactivity);
                 console.log(renderData.projectProposal);
@@ -461,6 +464,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.projectProposal = data[0];
                 renderData.projectHeads = data[1];
                 renderData.programDesign = data[2];
+                renderData.status = req.params.status;
 
                 console.log(renderData.gosmactivity);
                 console.log(renderData.projectProposal);
@@ -857,7 +861,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             var dbParam = {
                 actualDateStart:  "'" + startDateSplit[2] + "-" + startDateSplit[0] + "-" + startDateSplit[1] + "'",
                 actualDateEnd:  "'" + endDateSplit[2] + "-" + endDateSplit[0] + "-" + endDateSplit[1] + "'",
-                id: req.params.ppr,
+                id: req.body.ppr,
                 enp: req.body.enp,
                 enmp: req.body.enmp,
                 venue: req.body.venue,
@@ -900,14 +904,14 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 dbParam.enmp=null;
             }
 
-            console.log(req.params.id);
+            console.log(req.body.id);
 
             console.log(dbParam);
 
             projectProposalModel.updatePPRBriefContext(dbParam)
             .then(data=>{
 
-                res.redirect(`/Organization/ProjectProposal/Main/${req.params.id}/1`);
+                res.redirect(`/Organization/ProjectProposal/Main/${req.body.id}/${req.body.status}`);
 
             }).catch(error=>{
                 console.log(error);
@@ -1327,17 +1331,26 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 projectProposalModel.submitProjectProposal(dbParam)
                 .then(data=>{
 
-                    postProjectProposalModel.insertPostProjectProposal(dbParam)
-                    .then(data1=>{
+                    if (req.body.status == 1) {
+                        postProjectProposalModel.insertPostProjectProposal(dbParam)
+                        .then(data1=>{
 
 
-                        return res.redirect(`/Organization/ProjectProposal/gosmlist/`);
-                   
+                            return res.redirect(`/Organization/ProjectProposal/gosmlist/`);
+                       
 
-                    }).catch(error=>{
-                        console.log("error in insertPostProjectProposal");
-                        console.log(error);
-                    });
+                        }).catch(error=>{
+                            console.log("error in insertPostProjectProposal");
+                            console.log(error);
+                        });
+                    }
+                    else {
+
+                            return res.redirect(`/Organization/ProjectProposal/gosmlist/`);
+
+                    }
+
+                    
                 }).catch(error=>{
                     console.log("error in submit projectProposal");
                     console.log(error);
@@ -1672,7 +1685,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             console.log(req.body);
 
             var dbParam = {
-                id: req.params.ppr,
+                id: req.body.ppr,
                 accumulatedOperationalFunds: req.body.ope,
                 accumulatedDepositoryFunds: req.body.dep,
                 organizationFundOtherSource: req.body.otherfunds,
@@ -1696,7 +1709,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 });
 
                 var dbParam2 = {
-                    projectproposal: req.params.ppr
+                    projectproposal: req.body.ppr
                 };
 
                 projectProposalModel.deleteExpenses(dbParam2, transaction)
@@ -1713,7 +1726,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     if(req.body['optionsRadios2[]'][i] == 'Revenue'){
 
                         var dbParam3 = {
-                            projectProposal: req.params.ppr,
+                            projectProposal: req.body.ppr,
                             item: req.body['item[]'][i],
                             quantity: req.body['quantity[]'][i],
                             sellingPrice: req.body['price[]'][i]
@@ -1734,7 +1747,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     else{
 
                         var dbParam3 = {
-                            projectProposal: req.params.ppr,
+                            projectProposal: req.body.ppr,
                             material: req.body['item[]'][i],
                             quantity: req.body['quantity[]'][i],
                             unitCost: req.body['price[]'][i],
@@ -1758,7 +1771,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
             }).then(data=>{
 
-                res.redirect(`/Organization/ProjectProposal/Main/${req.params.id}/1`);
+                res.redirect(`/Organization/ProjectProposal/Main/${req.body.id}/${req.body.status}`);
 
             }).catch(error=>{
                 console.log(error);
@@ -1893,7 +1906,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         console.log("ACT ID ");
                         console.log(req.body.activityId);
 
-                        return res.redirect(`/Organization/ProjectProposal/main/${req.body.activityId}/1`);
+                        return res.redirect(`/Organization/ProjectProposal/main/${req.body.activityId}/${req.body.status}`);
                     }).catch(error => {
                         console.log(error);
                     });
