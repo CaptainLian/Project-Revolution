@@ -59,6 +59,9 @@
 <input type="hidden" name="_csrf" value="{{csrfToken}}">
 <input type="hidden" name="gosmid" value="{{gosmid}}">
 <input type="hidden" name="pprid" value="{{projectProposal.id}}">
+<input type="hidden" name="status" value="{{status}}">
+<input type="hidden" name="gosmactivity" value="{{gosmActivity.id}}">
+
 <div class="row white-box">
 	<div class="col-md-12">
 		<div class="">
@@ -124,74 +127,86 @@
 
 				{% endif %}
 
-				<h3>Completion Rate: {{completionRate}}%</h3>
+				{% if status == 1 %}
+					<h3>Completion Rate: {{completionRate}}%</h3>
+				{% else %}
+					<h3>Comments: </h3>
+				{% endif %}
 				<hr>
-				<p>
-					<b class="col-md-10  text-right"> Brief Context:</b>
-					{% if projectProposal.isbriefcontextcomplete %}
-
-					100%
-
-					{% else %}
-
-					0%
-
-					{% endif %}
-				</p>
-				
-				<p>
-					<b class="col-md-10  text-right"> Program Schedule :</b>
-					{% if projectProposal.isprogramcomplete %}
-
-					100%
-
-					{% else %}
-
-					0%
-
-					{% endif %}
-				</p>
-				<p>
-					<b class="col-md-10 text-right">Funding Expense:</b>
-					
-					{% if projectProposal.isexpensecomplete %}
-
-					100%
-
-					{% else %}
-
-						{% if projectProposal.isexpense %}
-
-						0%
-						
-						{% else %}
+				{% if status == 1 %}
+					<p>
+						<b class="col-md-10  text-right"> Brief Context:</b>
+						{% if projectProposal.isbriefcontextcomplete %}
 
 						100%
 
+						{% else %}
+
+						0%
+
 						{% endif %}
-
-
-					{% endif %}
-				</p>
-				<p>
-					<b class="col-md-10 text-right">Attachments:</b>
+					</p>
 					
-					{% if projectProposal.isattachmentscomplete %}
+					<p>
+						<b class="col-md-10  text-right"> Program Schedule :</b>
+						{% if projectProposal.isprogramcomplete %}
 
-					100%
+						100%
 
-					{% else %}
+						{% else %}
 
-					0%
+						0%
 
-					{% endif %}
-				</p>
+						{% endif %}
+					</p>
+					<p>
+						<b class="col-md-10 text-right">Funding Expense:</b>
+						
+						{% if projectProposal.isexpensecomplete %}
+
+						100%
+
+						{% else %}
+
+							{% if projectProposal.isexpense %}
+
+							0%
+							
+							{% else %}
+
+							100%
+
+							{% endif %}
+
+
+						{% endif %}
+					</p>
+					<p>
+						<b class="col-md-10 text-right">Attachments:</b>
+						
+						{% if projectProposal.isattachmentscomplete %}
+
+						100%
+
+						{% else %}
+
+						0%
+
+						{% endif %}
+					</p>
+				{% else %}
+
+					<p>
+					{{sectionsToEdit.comments}}
+					</p>
+
+				{% endif %}
 				 
 			</div>
 			<div class="list-group col-md-12">
 
 			{% if status == 1 %}
-				<a type="button" onclick="(function () {window.location.href='/Organization/ProjectProposal/BriefContext/{{gosmActivity.id}}'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
+				<a type="button" onclick="(function () {window.location.href='/Organization/ProjectProposal/BriefContext/{{gosmActivity.id}}/1'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
 				<div class="row">
 					<div class="col-md-6 text-left">
 
@@ -232,7 +247,7 @@
 
 					{% if editbrief %}
 
-					<a type="button" onclick="(function () {window.location.href='/Organization/ProjectProposal/BriefContext/{{gosmActivity.id}}'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
+					<a type="button" onclick="(function () {window.location.href='/Organization/ProjectProposal/BriefContext/{{gosmActivity.id}}/2'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
 					<div class="row">
 						<div class="col-md-6 text-left">
 
@@ -296,7 +311,7 @@
 			{% endif %}
 
 			{% if status == 1 %}
-				<a type="button" onclick="(function () {window.location.href='/Organization/ProjectProposal/ProgramDesign/{{gosmActivity.id}}'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
+				<a type="button" onclick="(function () {window.location.href='/Organization/ProjectProposal/ProgramDesign/{{gosmActivity.id}}/1'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
 				<div class="row">
 					<div class="col-md-6 text-left">
 
@@ -337,7 +352,7 @@
 					{% endfor %}
 
 					{% if editsched %}
-					<a type="button" onclick="(function () {window.location.href='/Organization/ProjectProposal/ProgramDesign/{{gosmActivity.id}}'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
+					<a type="button" onclick="(function () {window.location.href='/Organization/ProjectProposal/ProgramDesign/{{gosmActivity.id}}/2'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
 					<div class="row">
 						<div class="col-md-6 text-left">
 
@@ -348,7 +363,7 @@
 
 							{% else %}
 
-								<h5>Program Schedule <span class="label label-danger">Incomplete</span></h5>
+								<h5>Program Schedule <span class="label label-warning">To Be Edited</span></h5>
 								<input type="hidden" name="program" value="{{projectProposal.isprogramcomplete}}">
 
 							{% endif %}
@@ -375,7 +390,7 @@
 
 							{% else %}
 
-								<h5>Program Schedule <span class="label label-warning">To Be Edited</span></h5>
+								<h5>Program Schedule <span class="label label-danger">Incomplete</span></h5>
 								<input type="hidden" name="program" value="{{projectProposal.isprogramcomplete}}">
 
 							{% endif %}
@@ -399,10 +414,10 @@
 				{% if projectProposal.isexpense %}
 					{% if gosmActivity.activitynature == 4 %}
 					
-					<a type="button" onclick="(function () {window.location.href='/Organization/ProjectProposal/Expense/{{gosmActivity.id}}/1'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
+					<a type="button" onclick="(function () {window.location.href='/Organization/ProjectProposal/Expense/{{gosmActivity.id}}/1/1'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
 					
 					{% else %}
-					<a type="button" onclick="(function () {window.location.href='/Organization/ProjectProposal/Expense/{{gosmActivity.id}}/0'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
+					<a type="button" onclick="(function () {window.location.href='/Organization/ProjectProposal/Expense/{{gosmActivity.id}}/0/1'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
 					
 					{% endif %}
 				{% else %}
@@ -476,10 +491,10 @@
 						{% if projectProposal.isexpense %}
 							{% if gosmActivity.activitynature == 4 %}
 						
-						<a type="button" onclick="(function () {window.location.href='/Organization/ProjectProposal/Expense/{{gosmActivity.id}}/1'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
+						<a type="button" onclick="(function () {window.location.href='/Organization/ProjectProposal/Expense/{{gosmActivity.id}}/1/2'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
 						
 							{% else %}
-						<a type="button" onclick="(function () {window.location.href='/Organization/ProjectProposal/Expense/{{gosmActivity.id}}/0'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
+						<a type="button" onclick="(function () {window.location.href='/Organization/ProjectProposal/Expense/{{gosmActivity.id}}/0/2'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
 						
 							{% endif %}
 						{% else %}
@@ -579,7 +594,7 @@
 
 			{% if status == 1 %}
 
-				<a type="button" onclick="(function () {window.location.href='/Organization/ProjectProposal/Attachments/{{projectProposal.id}}/{{gosmActivity.id}}'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
+				<a type="button" onclick="(function () {window.location.href='/Organization/ProjectProposal/Attachments/{{projectProposal.id}}/{{gosmActivity.id}}/1'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
 					<div class="row">
 						<div class="col-md-6 text-left">
 
@@ -621,7 +636,7 @@
 					{% endfor %}
 
 					{% if editattachments %}
-					<a type="button" onclick="(function () {window.location.href='/Organization/ProjectProposal/Attachments/{{projectProposal.id}}/{{gosmActivity.id}}'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
+					<a type="button" onclick="(function () {window.location.href='/Organization/ProjectProposal/Attachments/{{projectProposal.id}}/{{gosmActivity.id}}/2'}());" class=" panel-heading list-group-item m-t-40" style="border-right: 0px;border-top: 0px;border-left: 0px">
 						<div class="row">
 							<div class="col-md-6 text-left">
 

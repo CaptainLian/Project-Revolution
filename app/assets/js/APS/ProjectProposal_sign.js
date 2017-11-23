@@ -88,7 +88,7 @@
             '<option value="Source of Funds">III. Source of Funds</option>' +
             '<option value="Organizational Funds">IV. Organizational Funds</option>' +
             '<option value="Revenue and Expense Table">V. Revenue and Expense Table</option>' +
-            '<option value="Attachements">VI. Attachements</option>' +
+            '<option value="Attachments">VI. Attachments</option>' +
             '</select>' +
             '</div>' +
 
