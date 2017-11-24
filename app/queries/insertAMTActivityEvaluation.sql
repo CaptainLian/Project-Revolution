@@ -3,6 +3,7 @@ INSERT INTO AMTACTIVITYEVALUATION
 	 VALUES (${activity},${idNumber},now(),${venue}) 
 	     ON CONFLICT (ACTIVITY) DO UPDATE 
 							    SET STATUS = 1, 
-							        EVALUATOR = ${idNumber}
+							        EVALUATOR = ${idNumber},
+							        DATERESERVED = now()
 
 

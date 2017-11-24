@@ -1,7 +1,34 @@
 //START 
-// $(".fund").css("display", "none");
-// $("#rev-opt").remove();
-// $(".expense").css("display","none");
+// <<<<<<< HEAD
+// // $(".fund").css("display", "none");
+// // $("#rev-opt").remove();
+// // $(".expense").css("display","none");
+// =======
+if(!rev){
+    alert("1");
+    $(".fund").css("display", "none");
+    $("#rev-opt").remove();
+    $(".expense").css("display","none");    
+}
+
+$("#rev-opt").change(function(){
+    console.log("change");
+    if($(this).is(":checked")){
+        $(".toi").css("display","none")
+    }else{
+        $(".toi").css("display","")
+    }
+});
+$("#exp").change(function(){
+    console.log("change");
+    if($(this).is(":checked")){
+         $(".toi").css("display","")
+    }else{
+       
+    }
+})
+
+// >>>>>>> lian
 //END KPAG FUNDRAISING
 var item = {};
 item["rev"] = {};

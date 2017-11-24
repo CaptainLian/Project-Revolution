@@ -7,9 +7,10 @@ log_options.from = 'ProjectProposal-Model';
 const squel = require('squel').useFlavour('postgres');
 
 module.exports = function(configuration, modules, db, queryFiles) {
-
+    let logger = modules.logger;
 
     const getLatestProjectProposalAttachment = queryFiles.getLatestProjectProposalAttachment;
+    const getProjectHeadsGOSM = queryFiles.getProjectHeadsGOSM;
     const insertProjectProposalAttachment = queryFiles.insertProjectProposalAttachment;
     const updatePPRBriefContextSQL = queryFiles.updatePPRBriefContext;
     const insertProjectProposalSQL = queryFiles.insertProjectProposal;
@@ -22,10 +23,12 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const getApprovedPPRsSQL = queryFiles.getApprovedPPRs;
     const getNextActivityForApprovalSQL = queryFiles.getNextActivityForApproval;
     const getGOSMActivitiesToImplementSQL = queryFiles.getGOSMActivitiesToImplement;
+    const getPPRSectionsToEditSQL = queryFiles.getPPRSectionsToEdit;
     const updatePPRStatusSQL = queryFiles.updatePPRStatus;
     const updateIsProgramDesignCompleteSQL = queryFiles.updateIsProgramDesignComplete;
     const updateIsAttachmentsCompleteSQL = queryFiles.updateIsAttachmentsComplete;
     const updatePPRExpensesSQL = queryFiles.updatePPRExpenses;
+    const updatePPRCompletionSQL = queryFiles.updatePPRCompletion;
     const submitProjectProposalSQL = queryFiles.submitProjectProposal;
     const deleteProgramDesignSQL = queryFiles.deleteProgramDesign;
     const deleteExpensesSQL = queryFiles.deleteExpenses;
@@ -34,7 +37,11 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const getAllMyActivity = queryFiles.getAllMyActivity;
     const getPPRToCreatePubsList = queryFiles.getPPRToCreatePubsList;
     const getExpenseTypesSQL = queryFiles.getExpenseTypes;
-    
+
+
+    const updatePPRSignatoryStatusSQL = queryFiles.updatePPRSignatoryStatus;
+    const getPPRDetailsSQL = queryFiles.getPPRDetails;
+
     /**
      * class with properties
      * {
@@ -228,7 +235,10 @@ module.exports = function(configuration, modules, db, queryFiles) {
     ProjectProposalModel.prototype.getProjectProposalProgramDesign = function(id, fields, connection = this._db){
         let query = squel.select()
         .from('ProjectProposalProgramDesign', 'pppd')
-        .where('projectProposal = ${id}');
+        .where('projectProposal = ?', squel.select()
+            .from('ProjectProposal')
+            .where('GOSMActivity = ${id}')
+            .field('id'));
         this._attachFields(query, fields);
 
         query = query.toString();
@@ -238,10 +248,14 @@ module.exports = function(configuration, modules, db, queryFiles) {
     };
 
     ProjectProposalModel.prototype.getProjectProposalExpenses = function(id, fields, connection = this._db){
+        console.log('ProjectProposalExpenses()');
         let query = squel.select()
         .from('ProjectProposalExpenses', 'ppe')
             .left_join('ExpenseType', 'et', 'ppe.type = et.id')
-        .where('projectProposal = ${id}');
+        .where('projectProposal = ?', squel.select()
+            .from('ProjectProposal')
+            .where('GOSMActivity = ${id}')
+            .field('id'));
         this._attachFields(query, fields);
 
         query = query.toString();
@@ -255,13 +269,18 @@ module.exports = function(configuration, modules, db, queryFiles) {
          */
         let param = Object.create(null);
         param.id = id;
+
+        console.log(`EXPENSES: \n${query}`);
         return connection.any(query, param);
     };
 
     ProjectProposalModel.prototype.getProjectProposalProjectedIncome =  function(id, fields, connection = this._db){
         let query = squel.select()
         .from('ProjectProposalProjectedIncome', 'pppi')
-        .where('projectProposal = ${id}');
+        .where('projectProposal = ?', squel.select()
+            .from('ProjectProposal')
+            .where('GOSMActivity = ${id}')
+            .field('id'));
         this._attachFields(query, fields);
 
         query = query.toString();
@@ -275,7 +294,10 @@ module.exports = function(configuration, modules, db, queryFiles) {
         let query = squel.select()
         .from('ProjectProposalAttachment', 'ppa')
             .left_join('DocumentAttachmentRequirement', 'dar', 'ppa.requirement = dar.id')
-        .where('projectProposal = ${id}');
+        .where('projectProposal = ?', squel.select()
+            .from('ProjectProposal')
+            .where('GOSMActivity = ${id}')
+            .field('id'));
         this._attachFields(query, fields);
 
         query = query.toString();
@@ -287,6 +309,9 @@ module.exports = function(configuration, modules, db, queryFiles) {
 
     ProjectProposalModel.prototype.getPPRProjectedCost = function(param, connection = this._db) {
         return connection.oneOrNone(getPPRProjectedCostSQL, param);
+    };
+    ProjectProposalModel.prototype.getProjectHeadsGOSM = function(param, connection = this._db) {
+        return connection.any(getProjectHeadsGOSM, param);
     };
 
     ProjectProposalModel.prototype.getGOSMActivitiesToImplement = function(param, connection = this._db) {
@@ -315,9 +340,17 @@ module.exports = function(configuration, modules, db, queryFiles) {
         return connection.none(updateIsAttachmentsCompleteSQL, param);
     };
 
+    ProjectProposalModel.prototype.updatePPRCompletion = function(param, connection = this._db){
+        return connection.none(updatePPRCompletionSQL, param);
+    };
+
     ProjectProposalModel.prototype.insertProjectProposalDesign = function(param, connection = this._db) {
         //TODO: test
         return connection.none(insertProjectProposalProgramDesignSQL, param);
+    };
+
+    ProjectProposalModel.prototype.getPPRDetails = function(param, connection = this._db){
+        return connection.one(getPPRDetails, param);
     };
 
     ProjectProposalModel.prototype.insertProjectProposalAttachment = function(param, connection = this._db) {
@@ -373,8 +406,11 @@ module.exports = function(configuration, modules, db, queryFiles) {
         return connection.any(queryFiles.getProjectProposalProjectHeads, param);
     };
 
-    ProjectProposalModel.prototype.getNextActivityForApproval = function(connection = this._db){
-        return connection.oneOrNone(getNextActivityForApprovalSQL);
+    ProjectProposalModel.prototype.getNextActivityForApproval = function(idNumber, connection = this._db){
+        const param = Object.create(null);
+        param.idNumber = idNumber;
+
+        return connection.oneOrNone(getNextActivityForApprovalSQL, param);
     };
 
     ProjectProposalModel.prototype.updatePPRStatus = function(param, connection = this._db){
@@ -385,12 +421,20 @@ module.exports = function(configuration, modules, db, queryFiles) {
         return connection.none(updatePPRExpensesSQL, param);
     };
 
+    ProjectProposalModel.prototype.updatePPRSignatoryStatus = function(param, connection = this._db){
+        return connection.none(updatePPRSignatoryStatusSQL, param);
+    };
+
     ProjectProposalModel.prototype.submitProjectProposal = function(param, connection = this._db){
         return connection.none(submitProjectProposalSQL, param);
     };
 
     ProjectProposalModel.prototype.getApprovedPPRs = function(connection = this._db){
         return connection.any(getApprovedPPRsSQL);
+    };
+
+    ProjectProposalModel.prototype.getPPRSectionsToEdit = function(param, connection = this._db){
+        return connection.one(getPPRSectionsToEditSQL, param);
     };
 
     ProjectProposalModel.prototype.deleteProgramDesign = function(param, connection = this._db){
@@ -417,6 +461,22 @@ module.exports = function(configuration, modules, db, queryFiles) {
 
     ProjectProposalModel.prototype.getExpenseTypes = function(connection = this._db){
         return connection.many(getExpenseTypesSQL);
+    };
+
+    const getSignatoriesSQL = queryFiles.PPR_get_signatories;
+    ProjectProposalModel.prototype.getSignatories = function(activityID, connection = this._db){
+        return connection.many(getSignatoriesSQL, {
+            activityID: activityID
+        });
+    };
+
+
+    const getTotalExpenseSQL = queryFiles.PPR_get_total_expense;
+    ProjectProposalModel.prototype.getTotalExpenseSQL = function(activityID, connection = this._db){
+        logger.debug(`getSignatories(activityID: ${activityID})`, log_options);
+        return connection.many(getTotalExpenseSQL, {
+            GAID: activityID
+        });
     };
 
     return new ProjectProposalModel(db, modules);

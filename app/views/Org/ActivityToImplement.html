@@ -94,7 +94,7 @@
                                     <td><a href="/Organization/ProjectProposal/Main/{{activity.id}}/{{activity.status}}" class="btn-link">{{activity.strategies}}</a></td>      
                                     <td>{{activity.startdate}}</td>      
                                     
-                                    <td><span class="label label-info">Unprocessed</span></td>      
+                                    <td><span class="label" style="color:black">Unprocessed</span></td>      
                                 </tr>
                             
                             {% elif activity.status == 1 %}
@@ -103,7 +103,43 @@
                                     <td><a href="/Organization/ProjectProposal/Main/{{activity.id}}/{{activity.status}}" class="btn-link">{{activity.strategies}}</a></td>      
                                     <td>{{activity.startdate}}</td>      
                                     
-                                    <td><span class="label label-warning">In Progress</span></td>      
+                                    <td><span class="label label-primary">In Progress</span></td>      
+                                </tr>
+
+                            {% elif activity.status == 2 %}
+
+                                <tr>
+                                    <td><a href="/Organization/projectproposal/projectproposaldetails/{{activity.id}}" class="btn-link">{{activity.strategies}}</a></td>      
+                                    <td>{{activity.startdate}}</td>      
+                                    
+                                    <td><span class="label label-info">For Approval</span></td>      
+                                </tr>
+
+                            {% elif activity.status == 3 %}
+
+                                <tr>
+                                    <td><a href="/Organization/projectproposal/projectproposaldetails/{{activity.id}}" class="btn-link">{{activity.strategies}}</a></td>      
+                                    <td>{{activity.startdate}}</td>      
+                                    
+                                    <td><span class="label label-success">Approved</span></td>      
+                                </tr>
+
+                            {% elif activity.status == 4 %}
+
+                                <tr>
+                                    <td><a href="/Organization/ProjectProposal/Main/{{activity.id}}/{{activity.status}}" class="btn-link">{{activity.strategies}}</a></td>      
+                                    <td>{{activity.startdate}}</td>      
+                                    
+                                    <td><span class="label label-warning">Pended</span></td>      
+                                </tr>
+
+                            {% elif activity.status == 5 %}
+
+                                <tr>
+                                    <td><a href="/Organization/projectproposal/projectproposaldetails/{{activity.id}}" class="btn-link">{{activity.strategies}}</a></td>      
+                                    <td>{{activity.startdate}}</td>      
+                                    
+                                    <td><span class="label label-danger">Denied</span></td>      
                                 </tr>
 
                             {% endif %}

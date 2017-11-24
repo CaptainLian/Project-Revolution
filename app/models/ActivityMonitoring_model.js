@@ -6,7 +6,7 @@ module.exports = function(configuration, modules, database, queryFiles){
 	const insertAMTActivityEvaluationSQL = queryFiles.insertAMTActivityEvaluation;
     const updateAMTActivityEvaluationSQL = queryFiles.updateAMTActivityEvaluation;
 
-    const insertAMTActivityEvaluation = queryFiles.insertAmtActivityEvaluation;
+    const insertAMTActivityEvaluation = queryFiles.insertAMTActivityEvaluation;
     const deleteToMyActivity = queryFiles.deleteAmtActivityEvaluation;
 	const getAvailableActivityToCheck = queryFiles.getAvailableActivityToCheck;
     const getAmtMyActivity = queryFiles.getAmtMyActivity;

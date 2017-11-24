@@ -1,11 +1,14 @@
 SELECT id, strategies, to_char(G.targetdatestart, 'Mon DD, YYYY') AS startdate, status
-  FROM ((SELECT *, 0 as status
-  		  FROM gosmactivity
- 		 WHERE id NOT IN(SELECT GOSMACTIVITY
+  FROM ((SELECT GA.*, 0 as status
+  		  FROM gosmactivity GA JOIN GOSMACTIVITYPROJECTHEAD GAPH
+  		  						 ON GAPH.ACTIVITYID=GA.ID
+ 		 WHERE GAPH.idnumber = ${idnumber}
+ 		   AND id NOT IN(SELECT GOSMACTIVITY
 		 				   FROM PROJECTPROPOSAL))
- UNION (SELECT *, 1 as status
- 		  FROM gosmactivity
- 		 WHERE id IN(SELECT GOSMACTIVITY
-	      			   FROM PROJECTPROPOSAL
-	      			  WHERE status=1))) G
+ UNION (SELECT GA.*, P.status as status
+ 		  FROM gosmactivity GA JOIN PROJECTPROPOSAL P
+ 		  						 ON GA.ID=P.GOSMACTIVITY
+ 		  					   JOIN GOSMACTIVITYPROJECTHEAD GAPH
+ 		  					     ON GAPH.ACTIVITYID=GA.ID
+ 		 WHERE GAPH.idnumber = ${idnumber})) G
  WHERE gosm=${gosm};

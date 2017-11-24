@@ -15,7 +15,9 @@ module.exports = function(configuration, modules, database, queryFiles) {
     dbHelper = null;
 
     const logger = modules.logger;
-
+    const log_options = Object.create(null);
+    log_options.from = 'Account-model';
+    
     const AccountModel = Object.create(null);
 
     /*
@@ -129,11 +131,11 @@ module.exports = function(configuration, modules, database, queryFiles) {
         return connection.any(getAccountLogsSQL);
     };
 
-    const hasGOSMActivityWithoutPPRSQL = queryFiles.account_has_GOSMActivtiy_without_PPR;
-    AccountModel.hasGOSMActivityWithoutPPR = (idNumber, organizationID, connection = database) => {
+    const hasGOSMActivityWithoutPPRSQL = queryFiles.account_GOSMActivity_has_without_PPR;
+    AccountModel.hasGOSMActivityWithoutPPR = (idNumber, connection = database) => {
         const param = Object.create(null);
         param.idNumber = idNumber;
-        param.organizationID = organizationID;
+
         return connection.one(hasGOSMActivityWithoutPPRSQL, param);
     };
 
@@ -142,7 +144,24 @@ module.exports = function(configuration, modules, database, queryFiles) {
         const param = Object.create(null);
         param.idNumber = idNumber;
         param.organizationID = organizationID;
+
         return connection.one(hasGOSMActivityWithAMTActivityEvaluationSQL, param);
+    };
+
+    const hasPPRWithoutPostProjectProposal = queryFiles.account_PPR_has_without_PostProjectProposal;
+    AccountModel.hasPPRWithoutPostProjectProposal = (idNumber, connection = database) => {
+        const param = Object.create(null);
+        param.idNumber = idNumber;
+
+        return connection.one(hasPPRWithoutPostProjectProposal, param);
+    };
+
+    const hasPPRApprovedSQL = queryFiles.account_PPR_has_approved;
+    AccountModel.hasPPRApproved = (idNumber, connection = database) => {
+        const param = Object.create(null);
+        param.idNumber = idNumber;
+
+        return connection.one(hasPPRApprovedSQL, param);
     };
 
     const hasPPRToSignSQL = queryFiles.account_PPR_has_to_sign;
@@ -169,7 +188,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
         param.document = document;
         param.digitalSignature = digitalSignature;
 
-        return connection.none(pendPPRSQL, param);
+        return connection.none(approvePPRSQL, param);
     };
 
     const pendPPRSQL = queryFiles.account_PPR_pend;
@@ -193,5 +212,35 @@ module.exports = function(configuration, modules, database, queryFiles) {
         return connection.none(denyPPRSQL, param);
     };
 
+    const approvePreActCashAdvanceSQL = queryFiles.account_PreActCashAdvance_approve;
+    AccountModel.approvePreActCashAdvance = (cashAdvance, idNumber, document, digitalSignature, connection = database) => {
+        const param = Object.create(null);
+        param.cashAdvance = cashAdvance;
+        param.idNumber = idNumber;
+        param.document = document;
+        param.digitalSignature = digitalSignature;
+
+        return connection.none(approvePreActCashAdvanceSQL, param);
+    };
+
+    const pendPreActCashAdvanceSQL = queryFiles.account_PreActCashAdvance_approve;
+    AccountModel.pendPreActCashAdvance = (cashAdvance, idNumber, comments, sections, connection = database) => {
+        const param = Object.create(null);
+        param.cashAdvance = cashAdvance;
+        param.idNumber = idNumber;
+        param.comments = comments;
+        param.sections = sections;
+
+        return connection.none(pendPreActCashAdvanceSQL, param);
+    };
+
+    const isProjectHeadSQL = queryFiles.account_is_project_head;
+    AccountModel.isProjectHead = (idNumber, connection = database) => {
+        logger.debug(`isProjectHead(idNumber: ${idNumber})`, log_options);
+        logger.debug(isProjectHeadSQL, log_options);
+        return connection.one(isProjectHeadSQL, {
+            idNumber: idNumber
+        });
+    };
     return AccountModel;
 };
