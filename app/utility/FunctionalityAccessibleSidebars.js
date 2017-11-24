@@ -77,12 +77,6 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluatePublicityMaterial] = [{
     link: '/PNP/Pubs/List'
 }];
 
-//Submit Financial Documents
-functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateFinancialDocument] = [{
-    name: 'Financial Documents',
-    link: '/finance/list'
-}];
-
 //Evaluate Post Project
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluatePostProject] = [{
     name: 'Post Project',
