@@ -5,6 +5,6 @@ SELECT id, gosmactivity, status, enp, enmp, to_char(actualdatestart, 'MM/DD/YYYY
        accumulateddepositoryfunds, organizationfundothersource, comments, 
        preparedby, facultyadviser, datecreated, datesubmitted, datestatusmodified, 
        isattachmentscomplete, isbriefcontextcomplete, isexpensecomplete, 
-       isprogramcomplete
+       isprogramcomplete, to_char(NOW(), 'Month DD, YYYY') AS currentdata
   FROM PROJECTPROPOSAL
  WHERE GOSMACTIVITY=${gosmactivity};
