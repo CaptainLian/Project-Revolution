@@ -2492,6 +2492,12 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
 
             
+        },
+        apsReport:(req, res)=>{
+             const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
+             res.render('Org/apsreport', renderData);
         }
 
 
