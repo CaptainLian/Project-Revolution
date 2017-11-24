@@ -1,0 +1,4 @@
+SELECT AVG("IUTPOTA") AS first, AVG("TASMI") AS SECOND, AVG("IFIDTA") as THIRD,
+	   	AVG("TAWWP") AS FOURTH, AVG("TOUMGTTA") AS FIFTH
+  FROM "ActivityResearchForm"
+ WHERE "GOSMActivity" = ${gosmid}

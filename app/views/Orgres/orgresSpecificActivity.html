@@ -176,7 +176,7 @@
                                       
                                         <div class="white-box text-left">
                                                 
-                                                <p class="text-center"><strong>Legend:</strong></p>
+                                              <!--   <p class="text-center"><strong>Legend:</strong></p>
                                                 <p class="text-center">
                                                     
                                                     5 - Strongly Agree  
@@ -184,7 +184,7 @@
                                                     3 - Neutral   
                                                     2 - Disagree   
                                                     1 - Strongly Disagree
-                                                </p>
+                                                </p> -->
 
                                                 
                                                 
@@ -200,41 +200,94 @@
                                                             <tbody>
                                                                 
                                                                 <tr>
-                                                                    <th>a. I understood the purpose of the activity</th>
-                                                                    <td class="text-center">4</td>
+                                                                    <th>I understood the purpose of the activity</th>
+                                                                    <td class="text-center">
+                                                                    	{%if scores.first == 5%}
+	                                                                    	Strongly Agree  
+                                                                    	{%elif scores.first == 4%}
+                                                                    		Agree
+                                                                    	{%elif scores.first == 3%}
+                                                                    	 Neutral
+                                                                    	{%elif scores.first == 2%}
+                                                                    	Disagree
+                                                                    	{%elif scores.first == 1%}
+                                                                    	Strongly Disagree
+                                                                    	
+                                                                    	{%endif%}
+
+                                                                    </td>
                                                                 </tr>
                                                                 
                                                                 <tr>
-                                                                    <th>b. The activity served my interest</th>
-                                                                    <td class="text-center">3</td>
+                                                                    <th>The activity served my interest</th>
+                                                                    <td class="text-center">
+                                                                    	{%if scores.second == 5%}
+	                                                                    	Strongly Agree  
+                                                                    	{%elif scores.second == 4%}
+                                                                    		Agree
+                                                                    	{%elif scores.second == 3%}
+                                                                    	 Neutral
+                                                                    	{%elif scores.second == 2%}
+                                                                    	Disagree
+                                                                    	{%elif scores.second == 1%}
+                                                                    	Strongly Disagree
+                                                                    	
+                                                                    	{%endif%}
+                                                                    </td>
                                                                     
                                                                 </tr>
                                                                 <tr>
-                                                                    <th>c. The activity made me happy and satisfied</th>
-                                                                    <td class="text-center">4</td>
+                                                                    <th>The activity made me happy and satisfied</th>
+                                                                    <td class="text-center">
+                                                                    	{%if scores.third == 5%}
+	                                                                    	Strongly Agree  
+                                                                    	{%elif scores.third == 4%}
+                                                                    		Agree
+                                                                    	{%elif scores.third == 3%}
+                                                                    	 Neutral
+                                                                    	{%elif scores.third == 2%}
+                                                                    	Disagree
+                                                                    	{%elif scores.third == 1%}
+                                                                    	Strongly Disagree
+                                                                    	
+                                                                    	{%endif%}
+                                                                    </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <th>d. I felt involved during the activity</th>
-                                                                    <td class="text-center">4</td>
+                                                                    <th>I felt involved during the activity</th>
+                                                                    <td class="text-center">
+                                                                    	{%if scores.fourth == 5%}
+	                                                                    	Strongly Agree  
+                                                                    	{%elif scores.fourth == 4%}
+                                                                    		Agree
+                                                                    	{%elif scores.fourth == 3%}
+                                                                    	 Neutral
+                                                                    	{%elif scores.fourth == 2%}
+                                                                    	Disagree
+                                                                    	{%elif scores.fourth == 1%}
+                                                                    	Strongly Disagree
+                                                                    	
+                                                                    	{%endif%}
+                                                                    </td>
                                                                 </tr>
                                                                <tr>
-                                                                    <th>e. I felt involved during the activity</th>
-                                                                    <td class="text-center">4</td>
+                                                                    <th>I felt involved during the activity</th>
+                                                                    <td class="text-center">
+                                                                    	{%if scores.fifth == 5%}
+	                                                                    	Strongly Agree  
+                                                                    	{%elif scores.fifth == 4%}
+                                                                    		Agree
+                                                                    	{%elif scores.fifth == 3%}
+                                                                    	 Neutral
+                                                                    	{%elif scores.fifth == 2%}
+                                                                    	Disagree
+                                                                    	{%elif scores.fifth == 1%}
+                                                                    	Strongly Disagree
+                                                                    	
+                                                                    	{%endif%}
+                                                                    </td>
                                                                 </tr>
-                                                                <tr>
-                                                                    <th>f. The organization urged me to go </th>
-                                                                    <td class="text-center">4</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th>g. The activity made me appreciate the organization more</th>
-                                                                    <td class="text-center">4</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th>h. The activity was memorable for me</th>
-                                                                    <td class="text-center">4</td>
-                                                                </tr>
-                                                                <tr>
-                                                                </tr>
+                                                            
                                                             </tbody>
                                                     </table>
 

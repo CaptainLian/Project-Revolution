@@ -1137,7 +1137,8 @@ INSERT INTO Functionality (id, name, category)
                           -- Signatory for Org
                           (212019, 'Sign Financial Document Phase' , 212),
                           (108020, 'Evaluate Post Project'         , 108),
-                          (212021, 'Evaluate Financial Documents'             , 212);
+                          (212021, 'Evaluate Financial Documents'             , 212),
+                          (212022, 'Auto-approve Financial Documents'          , 212);
 
 DROP TABLE IF EXISTS OrganizationAccessControl CASCADE;
 CREATE TABLE OrganizationAccessControl (
@@ -1260,12 +1261,13 @@ $trigger$
         INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       VALUES  (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
                                               (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE),
-                                              -- Sign PPR as Treasurer 212018 212021
+                                              -- Sign PPR as Treasurer
                                               (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 11)), TRUE),
                                               (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 18)), TRUE),
                                               (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 19)), TRUE),
                                               -- Evaluate
-                                              (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 21)), TRUE);
+                                              (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 21)), TRUE),
+                                              (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 22)), TRUE);
 
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole, home_url, rank)
                              VALUES (NEW.id, 'Associate Vice President of Finance', FALSE, vpfRoleID, '/Organization/treasurer/dashboard', 30)
