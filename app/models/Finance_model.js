@@ -17,6 +17,7 @@ module.exports = function(configuration, modules, database, queryFiles){
     const updatePreActivityCashAdvanceStatusSQL = queryFiles.updatePreActivityCashAdvanceStatus;
     const getActivityTransactionsForSignatorySQL = queryFiles.getActivityTransactionsForSignatory;
     const checkCashAdvanceSignatorySQL = queryFiles.checkCashAdvanceSignatory;
+    const getTransactionTotalPerActivityForSignatorySQL = queryFiles.getTransactionTotalPerActivityForSignatory;
 
     const attachFields = require('../utility/databaseHelper').attachFields;
 	
@@ -73,6 +74,10 @@ module.exports = function(configuration, modules, database, queryFiles){
     FinanceModel.checkCashAdvanceSignatory = function(param, connection = database){
         return connection.any(checkCashAdvanceSignatorySQL, param);
     };  
+
+    FinanceModel.getTransactionTotalPerActivityForSignatory = function(param, connection = database){
+        return connection.any(getTransactionTotalPerActivityForSignatorySQL, param);
+    };
 
     //Used for signing
     FinanceModel.getPreActivityCashAdvanceDetails = (cashAdvanceID, fields, connection = database) => {
