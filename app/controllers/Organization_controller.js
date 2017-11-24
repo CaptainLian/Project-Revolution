@@ -45,7 +45,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                     renderData.extra_data = req.extra_data;
                                     renderData.csrfToken = req.csrfToken();
                                     renderData.activities = data2;
-                                    console.log(renderData);
+                                    console.log(data2);
                                     return res.render('Org/ActivityToImplement', renderData);
                                 }).catch(error => {
                                     logger.warn(`${error.message}\n${error.stack}`, log_options);
@@ -424,7 +424,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 return task.batch([
                     projectProposalModel.getProjectProposal(dbParam),
                     projectProposalModel.getProjectProposalExpenses(req.params.id),
-                    projectProposalModel.getExpenseTypes(),
+
+                    projectProposalModel.getExpenseTypes()
                     // projectProposalModel.getPPRSectionsToEdit(dbParam)
 
                 ]);
@@ -441,7 +442,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                 renderData.expenseTypes = data[2];
                 renderData.status = req.params.status;
-                renderData.sectionsToEdit = data[3];
+                // renderData.sectionsToEdit = data[3];
 
                     console.log(renderData.gosmactivity);
                     console.log(renderData.projectProposal);
@@ -1117,7 +1118,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         if(data[0][0].max !=null){
                             expenseID = data[0][0].max+1
                         }
-                        console.log(expenseID);
+                        console.log(submissionID)
+                        console.log("expenseID");
                         console.log("data")
 
                                     //NORMAL THINGS TO INSERT
@@ -2407,7 +2409,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     renderData.projectHeads = data[1]
                     renderData.others = data[2]
                     renderData.scores = data[3][0]
-                    console.log(data[2])
+
                     res.render('Orgres/orgresSpecificActivity', renderData);  
                 }).catch(err=>{
                     console.log(err)

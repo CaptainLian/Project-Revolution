@@ -202,15 +202,15 @@
                                                                 <tr>
                                                                     <th>I understood the purpose of the activity</th>
                                                                     <td class="text-center">
-                                                                    	{%if scores.first == 5%}
+                                                                    	{%if (scores.first | round) == 5%}
 	                                                                    	Strongly Agree  
-                                                                    	{%elif scores.first == 4%}
+                                                                    	{%elif (scores.first | round) == 4%}
                                                                     		Agree
-                                                                    	{%elif scores.first == 3%}
+                                                                    	{%elif (scores.first | round) == 3%}
                                                                     	 Neutral
-                                                                    	{%elif scores.first == 2%}
+                                                                    	{%elif (scores.first | round) == 2%}
                                                                     	Disagree
-                                                                    	{%elif scores.first == 1%}
+                                                                    	{%elif (scores.first | round) == 1%}
                                                                     	Strongly Disagree
                                                                     	
                                                                     	{%endif%}
@@ -221,15 +221,15 @@
                                                                 <tr>
                                                                     <th>The activity served my interest</th>
                                                                     <td class="text-center">
-                                                                    	{%if scores.second == 5%}
+                                                                    	{%if (scores.second | round) == 5%}
 	                                                                    	Strongly Agree  
-                                                                    	{%elif scores.second == 4%}
+                                                                    	{%elif (scores.second | round)  == 4%}
                                                                     		Agree
-                                                                    	{%elif scores.second == 3%}
+                                                                    	{%elif (scores.second | round)  == 3%}
                                                                     	 Neutral
-                                                                    	{%elif scores.second == 2%}
+                                                                    	{%elif (scores.second | round)  == 2%}
                                                                     	Disagree
-                                                                    	{%elif scores.second == 1%}
+                                                                    	{%elif (scores.second | round(1))  == 1%}
                                                                     	Strongly Disagree
                                                                     	
                                                                     	{%endif%}
@@ -239,15 +239,15 @@
                                                                 <tr>
                                                                     <th>The activity made me happy and satisfied</th>
                                                                     <td class="text-center">
-                                                                    	{%if scores.third == 5%}
+                                                                    	{%if (scores.third | round) == 5%}
 	                                                                    	Strongly Agree  
-                                                                    	{%elif scores.third == 4%}
+                                                                    	{%elif (scores.third | round) == 4%}
                                                                     		Agree
-                                                                    	{%elif scores.third == 3%}
+                                                                    	{%elif (scores.third | round) == 3%}
                                                                     	 Neutral
-                                                                    	{%elif scores.third == 2%}
+                                                                    	{%elif (scores.third | round) == 2%}
                                                                     	Disagree
-                                                                    	{%elif scores.third == 1%}
+                                                                    	{%elif (scores.third | round) == 1%}
                                                                     	Strongly Disagree
                                                                     	
                                                                     	{%endif%}
@@ -256,15 +256,15 @@
                                                                 <tr>
                                                                     <th>I felt involved during the activity</th>
                                                                     <td class="text-center">
-                                                                    	{%if scores.fourth == 5%}
+                                                                    	{%if (scores.fourth | round) == 5%}
 	                                                                    	Strongly Agree  
-                                                                    	{%elif scores.fourth == 4%}
+                                                                    	{%elif (scores.fourth | round) == 4%}
                                                                     		Agree
-                                                                    	{%elif scores.fourth == 3%}
+                                                                    	{%elif (scores.fourth | round) == 3%}
                                                                     	 Neutral
-                                                                    	{%elif scores.fourth == 2%}
+                                                                    	{%elif (scores.fourth | round) == 2%}
                                                                     	Disagree
-                                                                    	{%elif scores.fourth == 1%}
+                                                                    	{%elif (scores.fourth | round) == 1%}
                                                                     	Strongly Disagree
                                                                     	
                                                                     	{%endif%}
@@ -273,15 +273,15 @@
                                                                <tr>
                                                                     <th>I felt involved during the activity</th>
                                                                     <td class="text-center">
-                                                                    	{%if scores.fifth == 5%}
+                                                                    	{%if (scores.fifth | round) == 5%}
 	                                                                    	Strongly Agree  
-                                                                    	{%elif scores.fifth == 4%}
+                                                                    	{%elif (scores.fifth | round) == 4%}
                                                                     		Agree
-                                                                    	{%elif scores.fifth == 3%}
+                                                                    	{%elif (scores.fifth | round) == 3%}
                                                                     	 Neutral
-                                                                    	{%elif scores.fifth == 2%}
+                                                                    	{%elif (scores.fifth | round) == 2%}
                                                                     	Disagree
-                                                                    	{%elif scores.fifth == 1%}
+                                                                    	{%elif (scores.fifth | round) == 1%}
                                                                     	Strongly Disagree
                                                                     	
                                                                     	{%endif%}
@@ -301,7 +301,7 @@
                                              <p><strong>Officers</strong></p>
                                              {%for oth in others%}
                                              	{%if oth.positionInOrganization == 0%}
-                                             		<dd>{{oth.wwwita}}</dd>
+                                             		<dd>{{oth.WWWITA}}</dd>
                                              	{%endif%}
                                              {%endfor%}
                                              
@@ -309,14 +309,14 @@
                                              <p><strong>Members</strong></p>
                                              {%for oth in others%}
                                              	{%if oth.positionInOrganization == 1%}
-                                             		<dd>{{oth.wwwita}}</dd>
+                                             		<dd>{{oth.WWWITA}}</dd>
                                              	{%endif%}
                                              {%endfor%}
                                              
                                              <p><strong>Non-Members</strong></p>
                                              {%for oth in others%}
                                              	{%if oth.positionInOrganization == 2%}
-                                             		<dd>{{oth.wwwita}}</dd>
+                                             		<dd>{{oth.WWWITA}}</dd>
                                              	{%endif%}
                                              {%endfor%}
                                         </div>
@@ -327,21 +327,21 @@
                                              <p><strong>Officers</strong></p>
                                             {%for oth in others%}
                                              	{%if oth.positionInOrganization == 0%}
-                                             		<dd>{{oth.fac}}</dd>
+                                             		<dd>{{oth.FAC}}</dd>
                                              	{%endif%}
                                              {%endfor%}
 
                                              <p><strong>Members</strong></p>
                                              {%for oth in others%}
                                              	{%if oth.positionInOrganization == 1%}
-                                             		<dd>{{oth.fac}}</dd>
+                                             		<dd>{{oth.FAC}}</dd>
                                              	{%endif%}
                                              {%endfor%}
                                              
                                              <p><strong>Non-Members</strong></p>
                                             {%for oth in others%}
                                              	{%if oth.positionInOrganization == 2%}
-                                             		<dd>{{oth.fac}}</dd>
+                                             		<dd>{{oth.FAC}}</dd>
                                              	{%endif%}
                                              {%endfor%}
                                         </div>
@@ -352,21 +352,21 @@
                                                  <p><strong>Officers</strong></p>
                                                 {%for oth in others%}
 	                                             	{%if oth.positionInOrganization == 0%}
-	                                             		<dd>{{oth.effa}}</dd>
+	                                             		<dd>{{oth.EFFA}}</dd>
 	                                             	{%endif%}
 	                                             {%endfor%}
 
                                                  <p><strong>Members</strong></p>
                                                   {%for oth in others%}
 	                                             	{%if oth.positionInOrganization == 1%}
-	                                             		<dd>{{oth.effa}}</dd>
+	                                             		<dd>{{oth.EFFA}}</dd>
 	                                             	{%endif%}
 	                                             {%endfor%}
 
                                                  <p><strong>Non-Members</strong></p>
                                                  {%for oth in others%}
 	                                             	{%if oth.positionInOrganization == 2%}
-	                                             		<dd>{{oth.effa}}</dd>
+	                                             		<dd>{{oth.EFFA}}</dd>
 	                                             	{%endif%}
 	                                             {%endfor%}
                                             </div>
