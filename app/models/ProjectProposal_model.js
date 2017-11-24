@@ -40,6 +40,10 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const getApprovedPPRCountPerOrgSQL = queryFiles.getApprovedPPRCountPerOrg;
     const getPendedPPRCountPerOrgSQL = queryFiles.getPendedPPRCountPerOrg;
     const getDeniedPPRCountPerOrgSQL = queryFiles.getDeniedPPRCountPerOrg;
+    const getActivitiesRelatedToNatureCountSQL = queryFiles.getActivitiesRelatedToNatureCount;
+    const getActivitiesNotRelatedToNatureCountSQL = queryFiles.getActivitiesNotRelatedToNatureCount;
+    const getGOSMCountPerOrgSQL = queryFiles.getGOSMCountPerOrg;
+
 
 
     const updatePPRSignatoryStatusSQL = queryFiles.updatePPRSignatoryStatus;
@@ -464,6 +468,30 @@ module.exports = function(configuration, modules, db, queryFiles) {
 
     ProjectProposalModel.prototype.getExpenseTypes = function(connection = this._db){
         return connection.many(getExpenseTypesSQL);
+    };
+
+    ProjectProposalModel.prototype.getApprovedPPRCountPerOrg = function(param, connection = this._db){
+        return connection.any(getApprovedPPRCountPerOrgSQL, param);
+    };
+    
+    ProjectProposalModel.prototype.getPendedPPRCountPerOrg = function(param, connection = this._db){
+        return connection.any(getPendedPPRCountPerOrgSQL, param);
+    };
+
+    ProjectProposalModel.prototype.getDeniedPPRCountPerOrg = function(param, connection = this._db){
+        return connection.any(getDeniedPPRCountPerOrgSQL, param);
+    };
+
+    ProjectProposalModel.prototype.getActivitiesRelatedToNatureCount = function(param, connection = this._db){
+        return connection.any(getActivitiesRelatedToNatureCountSQL, param)
+    };
+
+    ProjectProposalModel.prototype.getActivitiesNotRelatedToNatureCount = function(param, connection = this._db){
+        return connection.any(getActivitiesNotRelatedToNatureCountSQL, param)
+    };
+
+    ProjectProposalModel.prototype.getGOSMCountPerOrg = function(param, connection = this._db){
+        return connection.any(getGOSMCountPerOrgSQL, param);
     };
 
     const getSignatoriesSQL = queryFiles.PPR_get_signatories;
