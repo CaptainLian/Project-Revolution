@@ -350,7 +350,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
     };
 
     ProjectProposalModel.prototype.getPPRDetails = function(param, connection = this._db){
-        return connection.one(getPPRDetails, param);
+        return connection.one(getPPRDetailsSQL, param);
     };
 
     ProjectProposalModel.prototype.insertProjectProposalAttachment = function(param, connection = this._db) {
