@@ -82,7 +82,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 	            renderData.csrfToken = req.csrfToken();
 
 
-				return res.render('Orgres/SubmitActivityResearchForm', renderData);
+				return res.redirect('/Orgres/SubmitActivityResearchForm');
 
 			}).catch(error=>{
 				console.log(error);

@@ -1,5 +1,5 @@
 UPDATE public.amtactivityevaluation
-   SET equipment=${equipment}, materials=${materials}, registration=${registration}, timestart=${timestart},
+   SET equipment=${equipment}, materials=${materials}, registration=${registration}, timestart=${timeStart},
        timeend=${timeEnd}, activityexecution=${activityexecution}, hosts=${hosts},
        facilitators=${facilitators}, presentation=${presentation}, activities=${activities},
        organizationstandingpresentation=${organizationstandingpresentation}, actualstarttime=${actualstarttime}, 

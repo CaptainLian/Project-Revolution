@@ -46,7 +46,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                     renderData.extra_data = req.extra_data;
                                     renderData.csrfToken = req.csrfToken();
                                     renderData.activities = data2;
-                                    console.log(renderData);
+                                    console.log(data2);
                                     return res.render('Org/ActivityToImplement', renderData);
                                 }).catch(error => {
                                     logger.warn(`${error.message}\n${error.stack}`, log_options);
@@ -497,8 +497,10 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 return task.batch([
                     projectProposalModel.getProjectProposal(dbParam),
                     projectProposalModel.getProjectProposalExpenses(req.params.id),
-                    projectProposalModel.getExpenseTypes(),
-                    projectProposalModel.getPPRSectionsToEdit(dbParam)
+
+                    projectProposalModel.getExpenseTypes()
+                    // projectProposalModel.getPPRSectionsToEdit(dbParam)
+
                 ]);
             })
             .then(data=>{
@@ -510,10 +512,10 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.projectProposal = data[0];
                 renderData.expenses = data[1];
                 renderData.revenue = req.params.revenue;
-                // renderData.revenue = 1;
+
                 renderData.expenseTypes = data[2];
                 renderData.status = req.params.status;
-                renderData.sectionsToEdit = data[3];
+                // renderData.sectionsToEdit = data[3];
 
                     console.log(renderData.gosmactivity);
                     console.log(renderData.projectProposal);
@@ -1035,7 +1037,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             console.log(dbParam);
 
             projectProposalModel.updatePPRBriefContext(dbParam)
+
                 .then(data => {
+
 
                 res.redirect(`/Organization/ProjectProposal/Main/${req.body.id}/${req.body.status}`);
 
@@ -1187,7 +1191,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         if(data[0][0].max !=null){
                             expenseID = data[0][0].max+1
                         }
-                        console.log(expenseID);
+                        console.log(submissionID)
+                        console.log("expenseID");
                         console.log("data")
 
                                     //NORMAL THINGS TO INSERT
@@ -1931,8 +1936,6 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         console.log(error);
                     });
 
-
-
                 for (var i = 0; i < req.body['item[]'].length - 1; i++) {
 
                     if (req.body['optionsRadios2[]'][i] == 'Revenue') {
@@ -1943,6 +1946,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             quantity: req.body['quantity[]'][i],
                             sellingPrice: req.body['price[]'][i]
                         };
+
 
                         console.log("revenue loop");
                         console.log(dbParam3);
@@ -1987,6 +1991,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             }).catch(error => {
                 console.log(error);
             });
+
 
 
         },
@@ -2476,7 +2481,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     renderData.projectProposal = data[0]
                     renderData.projectHeads = data[1]
                     renderData.others = data[2]
-                    renderData.scores = data[3]
+                    renderData.scores = data[3][0]
+
                     res.render('Orgres/orgresSpecificActivity', renderData);  
                 }).catch(err=>{
                     console.log(err)

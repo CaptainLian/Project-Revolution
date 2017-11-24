@@ -1,3 +1,34 @@
+$(document).bind('customGenerated', function() {
+    (function() {
+        [].slice.call(document.querySelectorAll('.sttabs')).forEach(function(el) {
+            new CBPFWTabs(el);
+        });
+
+    })();
+
+    $('#section-linebox-5').css('visibility', "hidden");
+    $('#section-linebox-5').css('height', 0);
+    $('#section-linebox-5').css('width', 0);
+    $(document).on('click', '.sttabs li', function() {
+        var page = $(this).find("a").attr("href");
+        console.log(page);
+        page = page.replace("#section-linebox-", "");
+        console.log(page);
+        if (page == "5") {
+            console.log("REFRESH");
+
+            $('#section-linebox-5').css('visibility', "visible");
+            $('#section-linebox-5').css('height', "100%");
+            $('#section-linebox-5').css('width', "100%");
+        } else {
+            $('#section-linebox-5').css('visibility', "hidden");
+            $('#section-linebox-5').css('height', 0);
+            $('#section-linebox-5').css('width', 0);
+        }
+    });
+});
+$(document).trigger("customGenerated");
+
 (() => {
     const DELAY_REROUTE_APPROVE = 400;
     const DELAY_REROUTE_PEND = 650;

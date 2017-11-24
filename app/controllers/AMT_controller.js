@@ -225,7 +225,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 				amtModel.updateAMTActivityEvaluation(dbParam)
 				.then(data=>{
-
+					res.redirect('/blank')
 				})
 				.catch(error=>{
 					console.log("ERROR 1");
