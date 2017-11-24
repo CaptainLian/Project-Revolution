@@ -2463,11 +2463,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
             var dbParam = {
-                // idNumber: req.session.user.idNumber
-                idNumber: 3333333
+                idNumber: req.session.user.idNumber
+                
             }
             orgresModel.getOrgresList(dbParam)
                 .then(data=>{
+                    console.log("DATA NG LIST")
+                    console.log(data)
                     renderData.activities = data;
                     console.log(data)
                     res.render('Orgres/OrgresList', renderData);
@@ -2510,10 +2512,92 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             
         },
         apsReport:(req, res)=>{
-             const renderData = Object.create(null);
-            renderData.extra_data = req.extra_data;
-            renderData.csrfToken = req.csrfToken();
-             res.render('Org/apsreport', renderData);
+
+            var param = {
+                org: req.session.user.organizationSelected.id
+            };
+
+            database.task(t=>{
+                return t.batch([
+                    projectProposalModel.getPendedPPRCountPerOrg(param, t),
+                    projectProposalModel.getApprovedPPRCountPerOrg(param, t),
+                    projectProposalModel.getDeniedPPRCountPerOrg(param, t),
+                    projectProposalModel.getActivitiesRelatedToNatureCount(param, t),
+                    projectProposalModel.getActivitiesNotRelatedToNatureCount(param, t),
+                    projectProposalModel.getGOSMCountPerOrg(param, t)
+                    ])
+            }).then(data=>{
+
+                const renderData = Object.create(null);
+                renderData.extra_data = req.extra_data;
+                renderData.csrfToken = req.csrfToken();
+
+                console.log(data[0]);
+                console.log(data[1]);
+
+                renderData.haspend = false;
+                renderData.hasapproved = false;
+                renderData.hasdenied = false;
+                renderData.hasrelated = false;
+                renderData.hasnorelated = false;
+                renderData.hasgosm = false;
+
+                if (data[0].length==0) {
+                    console.log("enter this");
+                    renderData.pended = 0;
+                }
+                else{
+                    renderData.haspend = true
+                    renderData.pended = data[0];
+                }
+
+                if (data[1].length == 0) {
+                    renderData.approved = 0;
+                }
+                else{
+                    renderData.hasapproved = true
+                    renderData.approved = data[1];  
+                }
+
+                if (data[2].length == 0) {
+                    renderData.denied = 0
+                }
+                else{
+                    renderData.hasdenied = true
+                    renderData.denied = data[2];
+                }
+
+                if (data[3].length == 0) {
+                    renderData.related = 0
+                }
+                else{
+                    renderData.hasrelated = true
+                    renderData.related = data[3];
+                }
+
+                if (data[4].length == 0) {
+                    renderData.norelated = 0
+                }
+                else{
+                    renderData.hasnorelated = true
+                    renderData.norelated = data[4];
+                }
+
+                if (data[5].length == 0) {
+                    renderData.gosm = 0
+                }
+                else{
+                    renderData.hasgosm = true
+                    renderData.gosm = data[5];
+                }
+
+
+                res.render('Org/apsreport', renderData);
+
+            }).catch(err=>{
+                console.log(err)
+            })
+
         }
 
 
