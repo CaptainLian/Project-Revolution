@@ -13,5 +13,5 @@ SELECT AN.NAME AS nature, AT.NAME AS type, GA.STRATEGIES AS strategies, SO.NAME 
 			    ON GA.ACTIVITYTYPE=AT.ID
 			  JOIN ACTIVITYNATURE AN
 			    ON GA.ACTIVITYNATURE=AN.ID
-WHERE PP.id=${projectproposal}
+WHERE GA.id=${gosmactivity}
 				

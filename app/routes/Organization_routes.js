@@ -24,6 +24,9 @@ module.exports = function(configuration, modules, router, controllers){
     router.post(`${base}/projectproposal/SavePPR`, controllers.Organization_controller.savePPR);
     router.post(`${base}/projectproposal/SaveAttachments`, controllers.Organization_controller.saveAttachments);
 
+    router.get(`${base}/projectproposal/projectproposaldetails/:gosmactivity`, controllers.Organization_controller.viewActivityDetails);
+
+
     //POST PROJECT POST
     router.post(`${base}/PostProjectProposal/SaveContext`, controllers.Organization_controller.postSaveContext);
     router.post(`${base}/PostProjectProposal/SaveExpenses`, controllers.Organization_controller.postSaveExpenses);
