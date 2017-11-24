@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = function(configuration, modules, models, database, queryFiles){
 	const SIGN = require('../utility/digitalSignature.js').signString;
     const STRINGIFY = require('json-stable-stringify');
@@ -421,9 +423,12 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 
                     let autosign = false;
-                    if(typeof req.extra_data.user.accessibleFunctionalitiesList['22'] !== 'undefined'){
-                    	autosign = req.extra_data.user.accessibleFunctionalitiesList['22'];
+                    if(typeof req.extra_data.user.accessibleFunctionalitiesList !== 'undefined'){
+                    	if(typeof req.extra_data.user.accessibleFunctionalitiesList['22'] !== 'undefined'){
+                    		autosign = req.extra_data.user.accessibleFunctionalitiesList['22'];
+                   		 }
                     }
+                    
                     if(autosign){
                         return transaction.task(t => {
                             return t.batch([
