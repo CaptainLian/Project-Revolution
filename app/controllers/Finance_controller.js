@@ -419,7 +419,12 @@ module.exports = function(configuration, modules, models, database, queryFiles){
                         }, transaction);
                     }
 
-                    if(req.extra_data.user.accessibleFunctionalitiesList['22']){
+
+                    let autosign = false;
+                    if(typeof req.extra_data.user.accessibleFunctionalitiesList['22'] !== 'undefined'){
+                    	autosign = req.extra_data.user.accessibleFunctionalitiesList['22'];
+                    }
+                    if(autosign){
                         return transaction.task(t => {
                             return t.batch([
                                 accountModel.getAccountDetails(req.session.user.idNumber, ['a.privateKey'], t),
