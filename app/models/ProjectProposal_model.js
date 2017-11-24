@@ -37,7 +37,10 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const getAllMyActivity = queryFiles.getAllMyActivity;
     const getPPRToCreatePubsList = queryFiles.getPPRToCreatePubsList;
     const getExpenseTypesSQL = queryFiles.getExpenseTypes;
+
+
     const updatePPRSignatoryStatusSQL = queryFiles.updatePPRSignatoryStatus;
+    const getPPRDetailsSQL = queryFiles.getPPRDetails;
 
     /**
      * class with properties
@@ -346,6 +349,10 @@ module.exports = function(configuration, modules, db, queryFiles) {
         return connection.none(insertProjectProposalProgramDesignSQL, param);
     };
 
+    ProjectProposalModel.prototype.getPPRDetails = function(param, connection = this._db){
+        return connection.one(getPPRDetails, param);
+    };
+
     ProjectProposalModel.prototype.insertProjectProposalAttachment = function(param, connection = this._db) {
         //TODO: test
 
@@ -462,6 +469,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
             activityID: activityID
         });
     };
+
 
     const getTotalExpenseSQL = queryFiles.PPR_get_total_expense;
     ProjectProposalModel.prototype.getTotalExpenseSQL = function(activityID, connection = this._db){

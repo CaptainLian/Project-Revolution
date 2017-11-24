@@ -204,44 +204,99 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		},
 		viewFinanceList: (req, res) => {
 
-			database.task(t =>{
+			console.log("My user type is");
+			console.log(req.session.user.type);
+
+			if(req.session.user.type >= 3 && req.session.user.type <= 6){
+
+				var signatoryParam = {
+					idnumber: req.session.user.idNumber
+				}
+
+                database.task(t =>{
+					return t.batch([financeModel.getActivitiesWithFinancialDocuments(),
+									financeModel.getTransactionTotalPerActivityForSignatory(signatoryParam)]);
+				})
+				.then(data=>{
+
+					console.log("DITO AKO ----------------------------------------------")
+
+					const renderData = Object.create(null);
+	            	renderData.extra_data = req.extra_data;
+	                //to evaluate
+	                renderData.isCso = null;
+	                if(req.session.user.type >= 3 && req.session.user.type <= 6){
+	                    renderData.isCso = true;
+	                }else{
+	                    renderData.isCso = req.extra_data.user.accessibleFunctionalitiesList['21'];
+	                    renderData.toadd = req.extra_data.user.accessibleFunctionalitiesList['18'];
+	                }
+
+	            	renderData.activities = data[0];
+	            	renderData.transactionTotal = data[1];
+	            	renderData.approvedTransactionTotal = null;
+
+	            	if(!renderData.isCso){
+	            		renderData.orgid = req.session.user.organizationSelected.id;
+	            	}
+	            	else if (renderData.isCso && renderData.toadd){
+	            		renderData.orgid = req.session.user.organizationSelected.id;
+	            	}
+
+	            	console.log("orgid is ");
+	            	console.log(renderData.orgid);
+
+					return res.render('Finance/Finance_list', renderData);
+					//next();
+
+				}).catch(error=>{
+					console.log(error);
+				});
+            }
+            else{
+
+            	database.task(t =>{
 					return t.batch([financeModel.getActivitiesWithFinancialDocuments(),
 									financeModel.getTransactionTotalPerActivity(),
 									financeModel.getApprovedTransactionTotalPerActivity()]);
-			})
-			.then(data=>{
+				})
+				.then(data=>{
 
-				const renderData = Object.create(null);
-            	renderData.extra_data = req.extra_data;
-                //to evaluate
-                renderData.isCso = null;
-                if(req.session.user.type >= 3 && req.session.user.type <= 6){
-                    renderData.isCso = true;
-                }else{
-                    renderData.isCso = req.extra_data.user.accessibleFunctionalitiesList['21'];
-                    renderData.toadd = req.extra_data.user.accessibleFunctionalitiesList['18'];
-                }
+					const renderData = Object.create(null);
+	            	renderData.extra_data = req.extra_data;
+	                //to evaluate
+	                renderData.isCso = null;
+	                if(req.session.user.type >= 3 && req.session.user.type <= 6){
+	                    renderData.isCso = true;
+	                }else{
+	                    renderData.isCso = req.extra_data.user.accessibleFunctionalitiesList['21'];
+	                    renderData.toadd = req.extra_data.user.accessibleFunctionalitiesList['18'];
+	                }
 
-            	renderData.activities = data[0];
-            	renderData.transactionTotal = data[1];
-            	renderData.approvedTransactionTotal = data[2];
+	            	renderData.activities = data[0];
+	            	renderData.transactionTotal = data[1];
+	            	renderData.approvedTransactionTotal = data[2];
 
-            	if(!renderData.isCso){
-            		renderData.orgid = req.session.user.organizationSelected.id;
-            	}
-            	else if (renderData.isCso && renderData.toadd){
-            		renderData.orgid = req.session.user.organizationSelected.id;
-            	}
+	            	if(!renderData.isCso){
+	            		renderData.orgid = req.session.user.organizationSelected.id;
+	            	}
+	            	else if (renderData.isCso && renderData.toadd){
+	            		renderData.orgid = req.session.user.organizationSelected.id;
+	            	}
 
-            	console.log("orgid is ");
-            	console.log(renderData.orgid);
+	            	console.log("orgid is ");
+	            	console.log(renderData.orgid);
 
-				return res.render('Finance/Finance_list', renderData);
-				//next();
+					return res.render('Finance/Finance_list', renderData);
+					//next();
 
-			}).catch(error=>{
-				console.log(error);
-			});
+				}).catch(error=>{
+					console.log(error);
+				});
+
+            }
+
+			
 		},
 
 		viewTransaction: (req, res) => {

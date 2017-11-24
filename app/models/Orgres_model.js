@@ -31,7 +31,7 @@ module.exports = function(configuration, modules, database, queryFiles){
         return connection.any(getOrgresOtherDetails, param);
     };
     OrgresModel.calculate_peractivity = function(param, connection = database) {
-        return connection.any(getOrgresOtherDetails, param);
+        return connection.any(calculate_peractivity, param);
     };
 
 

@@ -29,10 +29,8 @@
     {{tag.style('/plugins/bower_components/bootstrap-select/bootstrap-select.min.css')}}
     {{tag.style('/css/style.css')}}
     {{tag.style('/css/custom.css')}}
-    {{tag.style('/css/doms.css')}}
     <!-- color CSS -->
     {{tag.style('/css/colors/default.css', id='theme')}}
-    {{tag.style('/css/doms.css')}}
 
     <style type="text/css">
         .remove:{
@@ -120,19 +118,6 @@
             <p class="text-center">{{projectProposal.orgname}}</p>
             <div class="">
                 <!-- .row -->
-                <div class="row button-box text-center m-b-30 " >
-
-                    <div class="col-lg-4 col-sm-4 col-xs-12 text-center">
-                        <button id="reject" class="btn btn-block btn-danger">Reject</button>
-                    </div>
-                    <div class="col-lg-4 col-sm-4 col-xs-12 text-center">
-                        <button id="defer" class="btn btn-block  btn-warning">Pend</button>
-                    </div>
-                    <div class="col-lg-4 col-sm-4 col-xs-12 text-center">
-                        <button id="approve" class="btn btn-block   btn-success">Approve</button>
-                    </div>
-
-                </div>
                 <div class="row text-center ">
                     <div class="col-md-6 b-r"><strong>Type</strong>
                         <p>{{projectProposal.type}}</p>
@@ -499,17 +484,17 @@
 
                     <section id="section-linebox-6">
                        <div class="white-box">
-                           <h4 class="text-left">VIII. Signatories</h4>
+                           <h4 class="m-t-30 text-left">VIII. Signatories</h4>
 
                            <hr />
 
                            <div class="comment-center">
-                            {% for signatory in signatories %}
-                                <div class="comment-body col-md-12 text-center">
-                                    <div class="user-img">  </div>
-                                    <div class="mail-contnet text-center">
+                           {% for signatory in signatories %}
+                               <div class="comment-body col-md-12 text-center">
+                                   <div class="user-img">  </div>
+                                   <div class="mail-contnet text-center">
 
-                                    <h5 class="text-center">
+                                   <h5 class="text-center">
                                         {%if signatory.status =='Unsigned' %}
                                         <span class="label label-rounded label-default text-black pull-left" style="color:black">{{signatory.status}}</span>
                                         {%elif  signatory.status == 'Approved'%}
@@ -519,24 +504,22 @@
                                         {%elif  signatory.status == 'Denied'%}
                                         <span class="label label-rounded label-danger pull-left">{{signatory.status}}</span>
                                         {%endif%}
-
-                                        <span class="time pull-right">
-                                        {% if(signatory.datesigned)%}
-                                            {{signatory.datesigned}}
-                                        {% else %}
-                                            N/A
-                                        {% endif %}
-                                        </span>
                                         
-                                    </h5> 
-                                    <h5>{{signatory.signatoryname}}</h5>
-                                    <p>{{signatory.type}}</p>
-                                    <p class="break">{{signatory.digitalsignature}}</p>
-                                    </div>
-                                </div>
-
-                            {% endfor %}
-                            </div>
+                                       <span class="time pull-right">
+                                       {% if(signatory.datesigned)%}
+                                           {{signatory.datesigned}}
+                                       {% else %}
+                                           N/A
+                                       {% endif %}
+                                       </span>
+                                   </h5>
+                                   <h5>{{signatory.signatoryname}}</h5>
+                                   <p>{{signatory.type}}</p>
+                                   <p>{{signatory.digitalsignature}}</p>
+                                   </div>
+                               </div>
+                           {% endfor %}
+                           </div>
                            <hr />
                            <br />
                        </div>
