@@ -172,7 +172,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     studentorganization: req.session.user.organizationSelected.id
                 };
 
-                organizationModel.getStudentOganization(orgParam)
+                organizationModel.getStudentOrganization(orgParam)
                 .then(orgdata=>{
 
                     console.log("ENTER 0");
