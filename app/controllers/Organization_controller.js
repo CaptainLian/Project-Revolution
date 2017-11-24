@@ -35,7 +35,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
 
                             var dbParam = {
-                                gosm: data1.id
+                                gosm: data1.id,
+                                idnumber: req.session.user.idNumber
                             };
 
                             projectProposalModel.getGOSMActivitiesToImplement(dbParam)
