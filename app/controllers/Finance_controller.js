@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = function(configuration, modules, models, database, queryFiles){
 	const SIGN = require('../utility/digitalSignature.js').signString;
     const STRINGIFY = require('json-stable-stringify');
@@ -418,7 +420,9 @@ module.exports = function(configuration, modules, models, database, queryFiles){
                             particular: particulars[index]
                         }, transaction);
                     }
+
                     
+
                     return Promise.resolve(true);
                 });
             }).then(data =>{
