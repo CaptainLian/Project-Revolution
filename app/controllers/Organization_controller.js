@@ -71,7 +71,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         gosmactivity: req.params.gosmactivity
                     }
 
-                    return projectProposalModel.getPPRDetials(dbparam, task)
+                    return projectProposalModel.getPPRDetails(dbParam, task)
                     .then(data => {
                         activityId = data.id;
                         logger.debug(`Activity ID: ${activityId}`);
@@ -118,7 +118,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                     console.log(data[2].length > 0)
                     console.log("REVENUE")
-                    console.log(data[1].length > 0)
+                    console.log(data[0])
                     console.log("EXPENSE")
 
                     
@@ -168,40 +168,56 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             //still no ppr or rejected ppr
             if (req.params.status == 0) {
 
-                console.log("ENTER 0");
-
-                var dbParam = {
-                    gosmactivity: req.params.id,
-                    preparedby: req.session.user.idNumber
+                var orgParam = {
+                    studentorganization: req.session.user.organizationSelected.id
                 };
 
-                projectProposalModel.insertProjectProposal(dbParam)
-                .then(data=>{
+                organizationModel.getStudentOrganization(orgParam)
+                .then(orgdata=>{
 
-                    database.task(task => {
-                        return task.batch([
-                            gosmModel.getGOSMActivity(dbParam),
-                            gosmModel.getGOSMActivityProjectHeads(dbParam),
-                            projectProposalModel.getProjectProposal(dbParam)
-                        ]);
-                    }).then(data => {
-                        const renderData = Object.create(null);
-                        renderData.extra_data = req.extra_data;
-                        renderData.csrfToken = req.csrfToken();
+                    console.log("ENTER 0");
 
-                        renderData.gosmActivity = data[0];
-                        renderData.projectHeads = data[1];
-                        renderData.projectProposal = data[2];
-                        renderData.sectionsToEdit = null;
-                        renderData.status = 1;
-                        renderData.gosmid = req.params.id;
+                    var dbParam = {
+                        gosmactivity: req.params.id,
+                        preparedby: req.session.user.idNumber,
+                        operationalfunds: orgdata.operationalfunds,
+                        depositoryfunds: orgdata.depositryfunds
+                    };
+                    console.log(dbParam);
 
-                        return res.render('Org/SubmitProjectProposal_main',renderData);
-                    }).catch(err => {
-                        logger.warn(`${err.message}\n${err.stack}`, log_options);
+                    projectProposalModel.insertProjectProposal(dbParam)
+                    .then(data=>{
 
-                    });
-                })
+                        database.task(task => {
+                            return task.batch([
+                                gosmModel.getGOSMActivity(dbParam),
+                                gosmModel.getGOSMActivityProjectHeads(dbParam),
+                                projectProposalModel.getProjectProposal(dbParam)
+                            ]);
+                        }).then(data => {
+                            const renderData = Object.create(null);
+                            renderData.extra_data = req.extra_data;
+                            renderData.csrfToken = req.csrfToken();
+
+                            renderData.gosmActivity = data[0];
+                            renderData.projectHeads = data[1];
+                            renderData.projectProposal = data[2];
+                            renderData.sectionsToEdit = null;
+                            renderData.status = 1;
+                            renderData.gosmid = req.params.id;
+
+                            return res.render('Org/SubmitProjectProposal_main',renderData);
+                        }).catch(err => {
+                            logger.warn(`${err.message}\n${err.stack}`, log_options);
+
+                        });
+                    })
+
+                }).catch(error=>{
+
+                });
+
+                
             } // already started ppr
             else if (req.params.status == 1) {
 
@@ -2492,6 +2508,12 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
 
             
+        },
+        apsReport:(req, res)=>{
+             const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
+             res.render('Org/apsreport', renderData);
         }
 
 

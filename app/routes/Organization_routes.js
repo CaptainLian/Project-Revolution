@@ -54,4 +54,6 @@ module.exports = function(configuration, modules, router, controllers){
     router.get(`${base}/Orgres/list`, controllers.Organization_controller.orgresLists);
     router.get(`${base}/Orgres/Specific/:id`, controllers.Organization_controller.orgresSpecficActivity);
 
+    router.get(`${base}/APS/report`, controllers.Organization_controller.apsReport);
+
 };

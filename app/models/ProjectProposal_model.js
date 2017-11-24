@@ -37,6 +37,9 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const getAllMyActivity = queryFiles.getAllMyActivity;
     const getPPRToCreatePubsList = queryFiles.getPPRToCreatePubsList;
     const getExpenseTypesSQL = queryFiles.getExpenseTypes;
+    const getApprovedPPRCountPerOrgSQL = queryFiles.getApprovedPPRCountPerOrg;
+    const getPendedPPRCountPerOrgSQL = queryFiles.getPendedPPRCountPerOrg;
+    const getDeniedPPRCountPerOrgSQL = queryFiles.getDeniedPPRCountPerOrg;
 
 
     const updatePPRSignatoryStatusSQL = queryFiles.updatePPRSignatoryStatus;
@@ -350,7 +353,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
     };
 
     ProjectProposalModel.prototype.getPPRDetails = function(param, connection = this._db){
-        return connection.one(getPPRDetails, param);
+        return connection.one(getPPRDetailsSQL, param);
     };
 
     ProjectProposalModel.prototype.insertProjectProposalAttachment = function(param, connection = this._db) {

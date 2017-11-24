@@ -207,7 +207,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			console.log("My user type is");
 			console.log(req.session.user.type);
 
-			if(req.session.user.type >= 3 && req.session.user.type <= 6){
+			if((req.session.user.type >= 3 && req.session.user.type <= 6) || req.extra_data.user.accessibleFunctionalitiesList['21']){
 
 				var signatoryParam = {
 					idnumber: req.session.user.idNumber
