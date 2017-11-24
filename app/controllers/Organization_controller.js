@@ -2463,11 +2463,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
             var dbParam = {
-                // idNumber: req.session.user.idNumber
-                idNumber: 3333333
+                idNumber: req.session.user.idNumber
+                
             }
             orgresModel.getOrgresList(dbParam)
                 .then(data=>{
+                    console.log("DATA NG LIST")
+                    console.log(data)
                     renderData.activities = data;
                     console.log(data)
                     res.render('Orgres/OrgresList', renderData);
