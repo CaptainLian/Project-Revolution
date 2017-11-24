@@ -81,9 +81,8 @@
                                         <div class="list-group mail-list m-t-20 ">
                                             <div class="btn-group col-md-12">
 
-                                                {% if isCso %}
+                                                {% if toadd %}
 
-                                                {% else %}
                                                 <button aria-expanded="false" data-toggle="dropdown" class="fixedWidth finadd btn btn-info btn-block  waves-effect waves-light" type="button"><i class="fa fa-plus"></i> Add <span class="caret"></span></button>
                                                     <ul role="menu" class="dropdown-menu">
                                                         <li><a href="/transaction/preacts/directpayment/{{gosmactivity.id}}">Direct Payment</a></li>
@@ -145,7 +144,15 @@
 
                                                 {% if transaction.status == 0 %}
 
-                                                    <td><span class="label label-table label-info">For Approval</span></td>
+                                                    {% if transaction.transaction == 1 %}
+
+                                                        <td><span class="label label-table label-primary">For Approval</span></td>
+
+                                                    {% elif transaction.transaction == 2 %}
+
+                                                        <td><span class="label label-table label-info">For Approval</span></td>
+
+                                                    {% endif %}
 
 
                                                 {% endif %}

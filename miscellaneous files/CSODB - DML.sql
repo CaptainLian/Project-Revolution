@@ -314,7 +314,7 @@ INSERT INTO OrganizationOfficer (idNumber, role, yearID)
 
 
 INSERT INTO Account (email, idNumber, password, firstname, lastname, contactNumber, publicKey, privateKey, type)
-              VALUES ('org_avp@dlsu.edu.ph', 3333333, '1234', 'Organization', 'AVP - Finance', '+63 9228474849', '-----BEGIN PUBLIC KEY-----
+              VALUES ('org_vp_internals@dlsu.edu.ph', 3333333, '1234', 'Organization', 'VP - Internals', '+63 9228474849', '-----BEGIN PUBLIC KEY-----
 MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCAzi5o0Zsng2PmPXBWjMtz+Ra9
 f8OR3cA0LEsgH1zq61xOVcNPPokAV65jyvSZTpoVm8JQtAErYQkWWgF7o7nF2haJ
 iWCky6edWuBclYDAyWNpwL9kAAox76KVVRnlRDFYLm/pqZBMRvzdqTBfGkD1GsSn
@@ -595,5 +595,30 @@ DHlzzr/32erXIjn8nravd8WMOOzjDUkrgI/hHAqR/5s=
 
 INSERT INTO OrganizationOfficer(idNumber, role, yearID)
 VALUES(10111111, 5, system_get_current_year_id()) ;
+
+INSERT INTO Account (email, idNumber, password, firstname, lastname, contactNumber, publicKey, privateKey, type)
+    VALUES ('vc_orgres@dlsu.edu.ph', 10222222, '1234', 'CSO', 'VC - ORGRES', '+63 9228474849', '-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCWV0IKxCMIRG3uw+obl+BbX3Zc
+ahot+jWM+/wONxsfEhEUl/Pxd4d/kCPc2uxsgOCsLr2W12TBMJOG0p7bySjbgCaT
+uFMSrD18GVir4/NMwD50f/pDa83CLhN9wUfljKZ6433Fq5S8ZwaKq0vxFBmQphRY
+9TSVIY79gL6owf+2KQIDAQAB
+-----END PUBLIC KEY-----', '-----BEGIN RSA PRIVATE KEY-----
+MIICXAIBAAKBgQCWV0IKxCMIRG3uw+obl+BbX3Zcahot+jWM+/wONxsfEhEUl/Px
+d4d/kCPc2uxsgOCsLr2W12TBMJOG0p7bySjbgCaTuFMSrD18GVir4/NMwD50f/pD
+a83CLhN9wUfljKZ6433Fq5S8ZwaKq0vxFBmQphRY9TSVIY79gL6owf+2KQIDAQAB
+AoGAMgJEjaBApvdcOhghP5x9nOdcT9Fbc//O4F7RsUjTVLqFw/vnwWKpR92CkGyi
+SFV2ZtAFcK+lbD3kVOyquyFm3VeAgi7o7r0z5cML5EbC7/4FU++qa13+/Yxe+wH3
+x11xItwhhbEuzwxC3cqPLDZKsqZ7wRVBeeWf7a1ZlMARzKECQQDyrwkJ26bdEqWA
+rNPKzEGeq8R1NsHXyogwalcQXKuI6hlZDa0G8x+hs5qZCRR8xEbBdpxY0KqcWAx4
+zzWsCAnbAkEAnpcWYm2tr8I+IthJvZC/BkQ4fES9ImfMyY/jIi8KCpaEhTgtd5Qs
+8LQ9myy0gaUJbtPythnlvV9MkLpYku5pSwJBAIpQiG496lSFlB5KYktrLtsoOsgz
+dTdwDz7I3OZOatWV1uyShtM3LggTPUGLk0mo9Eq/N0zHYPXKmREhyA1MZ5ECQFMU
+ucBUzwHdk6mzf2YU104UHTdU13SXxlvtykLVO8ByO/iChqc3dBehhQiu8d1dNUTf
+Oi6WAJolu7myNca7qWMCQC5RzyUic9LsCJ0WEbJdCiGNFf68NCKvgU3Ecd0oOVdw
+DHlzzr/32erXIjn8nravd8WMOOzjDUkrgI/hHAqR/5s=
+-----END RSA PRIVATE KEY-----', 1);
+
+INSERT INTO OrganizationOfficer(idNumber, role, yearID)
+VALUES(10222222, 20, system_get_current_year_id()) ;
 
 COMMIT;
