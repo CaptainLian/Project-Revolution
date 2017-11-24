@@ -98,16 +98,19 @@
             <div class="row">
                 <div class="col-lg-2 col-md-3  col-sm-4 col-xs-12 inbox-panel">
                     <div>
+
+                        {% if isCso %}
                         <a href="#" id="approve" class="btn btn-success btn-block waves-effect waves-light ">Approve</a>
                         <a href="#" id="defer" class="btn btn-warning btn-block waves-effect waves-light ca-pend">Pend</a>
                         
                         <!--                       
                         <a href="#" class="btn btn-danger btn-block waves-effect waves-light ca-deny">Deny</a>
                         -->
+                        {% endif %}
 
                         <div class="list-group mail-list m-t-20">
                            
-                            <a href="inbox.html" class="list-group-item active">Go back</a> 
+                            <a href="/finance/list/transaction/{{gosmactivity}}" class="list-group-item active">Go back</a> 
                         </div>
                         
                     </div>

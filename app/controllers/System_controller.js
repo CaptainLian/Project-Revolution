@@ -197,12 +197,22 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             case 2:
                 //TODO: implementation
                 return res.redirect('/blank');
-            // SLIFE Account
+            // Director of S-Life Account
             case 3:
                 //TODO: implementation
                 return res.redirect('/blank');
-            // Accounting Account
+            // Dean of Student Affairs Account
             case 4:
+                //TODO: implementation
+                return res.redirect('/blank');
+
+            // Vice President for Lasallian Mission Account
+            case 5:
+                //TODO: implementation
+                return res.redirect('/blank');
+
+            // President
+            case 6:
                 //TODO: implementation
                 return res.redirect('/blank');
 

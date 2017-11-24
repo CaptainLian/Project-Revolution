@@ -1,9 +1,9 @@
 //START 
-<<<<<<< HEAD
-// $(".fund").css("display", "none");
-// $("#rev-opt").remove();
-// $(".expense").css("display","none");
-=======
+// <<<<<<< HEAD
+// // $(".fund").css("display", "none");
+// // $("#rev-opt").remove();
+// // $(".expense").css("display","none");
+// =======
 if(!rev){
     alert("1");
     $(".fund").css("display", "none");
@@ -28,7 +28,7 @@ $("#exp").change(function(){
     }
 })
 
->>>>>>> lian
+// >>>>>>> lian
 //END KPAG FUNDRAISING
 var item = {};
 item["rev"] = {};

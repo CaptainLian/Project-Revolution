@@ -15,7 +15,9 @@ module.exports = function(configuration, modules, database, queryFiles) {
     dbHelper = null;
 
     const logger = modules.logger;
-
+    const log_options = Object.create(null);
+    log_options.from = 'Account-model';
+    
     const AccountModel = Object.create(null);
 
     /*
@@ -210,5 +212,35 @@ module.exports = function(configuration, modules, database, queryFiles) {
         return connection.none(denyPPRSQL, param);
     };
 
+    const approvePreActCashAdvanceSQL = queryFiles.account_PreActCashAdvance_approve;
+    AccountModel.approvePreActCashAdvance = (cashAdvance, idNumber, document, digitalSignature, connection = database) => {
+        const param = Object.create(null);
+        param.cashAdvance = cashAdvance;
+        param.idNumber = idNumber;
+        param.document = document;
+        param.digitalSignature = digitalSignature;
+
+        return connection.none(approvePreActCashAdvanceSQL, param);
+    };
+
+    const pendPreActCashAdvanceSQL = queryFiles.account_PreActCashAdvance_approve;
+    AccountModel.pendPreActCashAdvance = (cashAdvance, idNumber, comments, sections, connection = database) => {
+        const param = Object.create(null);
+        param.cashAdvance = cashAdvance;
+        param.idNumber = idNumber;
+        param.comments = comments;
+        param.sections = sections;
+
+        return connection.none(pendPreActCashAdvanceSQL, param);
+    };
+
+    const isProjectHeadSQL = queryFiles.account_is_project_head;
+    AccountModel.isProjectHead = (idNumber, connection = database) => {
+        logger.debug(`isProjectHead(idNumber: ${idNumber})`, log_options);
+        logger.debug(isProjectHeadSQL, log_options);
+        return connection.one(isProjectHeadSQL, {
+            idNumber: idNumber
+        });
+    };
     return AccountModel;
 };

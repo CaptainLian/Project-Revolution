@@ -1,3 +1,3 @@
 INSERT INTO "PostProjectProposalEventPicture"
-			("GOSMActivity","filename","filenameToShow","description","idNumber")
-	 VALUES (${gosmid}, ${filename}, ${filenameToShow}, ${description}, ${idNumber})
+			("GOSMActivity","submissionID","filename","filenameToShow","description","idNumber")
+	 VALUES (${gosmid},${submissionID}, ${filename}, ${filenameToShow}, ${description}, ${idNumber})

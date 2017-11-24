@@ -305,6 +305,10 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     return Promise.resolve(true);
                 }).catch(err => {
                     logger.debug(`${err.message}\n${err.stack}`);
+                    const renderData = Object.create(null);
+                    renderData.csrfToken = req.csrfToken();
+                    renderData.extra_data = req.extra_data;
+                    return res.render('template/APS/NoActivityToCheck', renderData);
                 });
             }break;
 
@@ -364,7 +368,6 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             });
         }).then(data => {
             logger.debug(`activityID: ${data[6]}`, log_options);
-
             logger.debug(`${JSON.stringify(data[3])}`, log_options);
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
@@ -380,11 +383,12 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
             return res.render('APS/ActivityChecking', renderData);
         }).catch(err => {
+            logger.debug('RENDEIRNG NO ACTIVITY TO CHECK');
+            logger.debug(`${err.message}/n${err.stack}`);
             const renderData = Object.create(null);
             renderData.csrfToken = req.csrfToken();
             renderData.extra_data = req.extra_data;
-            res.render('template/APS/NoActivityToCheck', renderData);
-            logger.debug(`${err.message}/n${err.stack}`);
+            return res.render('template/APS/NoActivityToCheck', renderData);
         });
     };
 
@@ -561,6 +565,63 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             case 2: { //Pend
                 const sections = req.body.sectionsToBeEdited;
                 const comments = req.body.comments;
+
+                    var context = true;
+                    var sched = true;
+                    var expense = true;
+                    var attachments = true;
+
+                    for(var i = 0; i < req.body.sectionsToBeEdited.length; i++){
+
+                        console.log("AT LEAST LOOPS BRUH")
+
+                        if (req.body.sectionsToBeEdited[i] == "Brief Context") {
+                            context = false;
+                            console.log("SHOULD ENTER THIS");
+                        }
+
+                        if (req.body.sectionsToBeEdited[i] == "Program Design") {
+                            sched = false;
+                        }
+
+                        if (req.body.sectionsToBeEdited[i] == "Source of Funds") {
+                            expense = false;
+                        }
+                        else if (req.body.sectionsToBeEdited[i] == "Organizational Funds") {
+                            expense = false;
+                        }
+                        else if (req.body.sectionsToBeEdited[i] == "Revenue and Expense Table") {
+                            expense = false;
+                            console.log("ALSO THIS");
+                        }
+
+                        if (req.body.sectionsToBeEdited[i] == "Attachments") {
+                            attachments = false;
+                        }
+
+                    }
+
+                    var updateParam = {
+                        context: context,
+                        sched: sched,
+                        expense: expense,
+                        attachments: attachments,
+                        gosmactivity: activityID,
+                        status: 4
+                    }
+
+                    console.log("UPDATE PARAM IS");
+                    console.log(updateParam);
+
+                    projectProposalModel.updatePPRCompletion(updateParam)
+                    .then(updata=>{
+                        
+                       
+                        
+                    }).catch(error=>{
+                        console.log("ERROR 2")
+                        console.log(error);
+                    })
 
                 afterProcessing = accountModel.pendPPR(activityID, req.session.user.idNumber, comments, sections)
                 .then(data => {

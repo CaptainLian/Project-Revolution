@@ -3,7 +3,7 @@
 module.exports = function(configuration, application, modules, database, queryFiles, models) {
     const Promise = modules.Promise;
     const accessControlModel = models.AccessControl_model;
-
+    const organizationModel = models.organization_model;
     const logger = modules.logger;
     const log_options = {
         from: 'Student-AccessControl-Middleware'
@@ -200,35 +200,45 @@ module.exports = function(configuration, application, modules, database, queryFi
         const sidebars = req.extra_data.view.sidebars;
 
         logger.debug('Performing sidebar checks', log_options);
-
-
         return database.task(task => {
             return task.batch([
-                accountModel.hasGOSMActivityWithoutPPR(user.idNumber),
+                accountModel.isProjectHead(user.idNumber),
                 accountModel.hasGOSMACtivityWithAMTActivityEvaluation(user.idNumber),
                 accountModel.hasPPRApproved(user.idNumber),
-                accountModel.hasPPRWithoutPostProjectProposal(user.idNumber)
+                accountModel.hasPPRWithoutPostProjectProposal(user.idNumber),
+                organizationModel.hasGOSMSubmitted(organizationSelected.id)
             ]);
         }).then(data => {
-            const [GOSMActivityWithoutPPR,
+            const [isProjectHead,
                 GOSMActivityWithActivityEvaluation,
                 PPRApproved,
-                hasPPRWithoutPostProjectProposal
+                hasPPRWithoutPostProjectProposal,
+                hasSubmittedGOSM
             ] = data;
 
-            logger.debug(`Has GOSM activity without PPR: ${GOSMActivityWithoutPPR.exists}`, log_options);
-            if (GOSMActivityWithoutPPR.exists && organizationSelected.id !== 0) {
+            logger.debug(`isProjectHead: ${isProjectHead.exists}`, log_options);
+            if (isProjectHead.exists && organizationSelected.id !== 0) {
                 const newSidebar = Object.create(null);
-                newSidebar.name = 'Submit Project Proposal';
+                newSidebar.name = 'Project Proposal';
                 newSidebar.link = '/Organization/ProjectProposal/GOSMList';
                 sidebars[sidebars.length] = newSidebar;
+
+                const newSidebar2 = Object.create(null);
+                newSidebar2.name = 'Post Project';
+                newSidebar2.link = '/Organization/PostProjectProposal/GOSMList';
+                sidebars[sidebars.length] = newSidebar2;
+
+                const newSidebar3 = Object.create(null);
+                newSidebar3.name = 'Activity Research Form';
+                newSidebar3.link = '/Organization/Orgres/list';
+                sidebars[sidebars.length] = newSidebar3;
             }
+
 
             logger.debug(`Has GOSM activity with AMT Evaluation: ${GOSMActivityWithActivityEvaluation.exists}`, log_options);
             if (GOSMActivityWithActivityEvaluation.exists) {
                 const newSidebar = Object.create(null);
                 newSidebar.name = 'View AMT Activity Evaluation';
-                //TODO: SET ACTUAL LINK
                 newSidebar.link = '/blank';
 
                 sidebars[sidebars.length] = newSidebar;
@@ -238,24 +248,26 @@ module.exports = function(configuration, application, modules, database, queryFi
             if(PPRApproved.exists){
                 const newSidebar = Object.create(null);
                 newSidebar.name = 'Submit Activity Publicity';
-                //TODO: SET ACTUAL LINK
                 newSidebar.link = '/Organization/Publicity/list';
 
                 sidebars[sidebars.length] = newSidebar;
             }
 
-            logger.debug(`Has PPR Approved: ${hasPPRWithoutPostProjectProposal.exists}`, log_options);
-            if(hasPPRWithoutPostProjectProposal.exists){
+            if(!hasSubmittedGOSM.exists && req.extra_data.user.accessibleFunctionalitiesList[0]){
+                logger.debug('CAN SUBMIT GOSM', log_options);
                 const newSidebar = Object.create(null);
-                newSidebar.name = 'Submit Post Activity';
-                newSidebar.link = '/Organization/PostProjectProposal/GOSMList';
+                newSidebar.name = 'Submit GOSM';
+                newSidebar.link = '/Organization/createGOSM';
+                newSidebar.icon = 'fa fa-comment-o';
 
                 sidebars[sidebars.length] = newSidebar;
+            }else{
+                logger.debug('CANNOT SUBMIT GOSM', log_options);
             }
 
             return next();
         }).catch(err => {
-            logger.debug(`${err.message}\n${err.stack}`, log_options);
+            logger.warn(`${err.message}\n${err.stack}`, log_options);
             return next(err);
         });
 

@@ -64,11 +64,9 @@
 
     <script>
 
-<<<<<<< HEAD
 
-=======
     var rev={{revenue}};
->>>>>>> lian
+
 
 		
     </script>
@@ -79,8 +77,13 @@
 {%endblock%}
 
 {%block content%}
-<form action="/Organization/projectproposal/SaveExpenses/{{gosmactivity.gosmactivity}}/{{projectProposal.id}}" id="form-id" method="POST">
+<form action="/Organization/projectproposal/SaveExpenses" id="form-id" method="POST">
 <input type="hidden" name="_csrf" value="{{csrfToken}}">
+<input type="hidden" name="status" value="{{status}}">
+<input type="hidden" name="id" value="{{gosmactivity.gosmactivity}}">
+<input type="hidden" name="ppr" value="{{projectProposal.id}}">
+
+
 
 <div class="row">
 	<div class="col-md-12">
@@ -238,7 +241,15 @@
 								<select name="typeOfItem[]" id="sel0" class="form-control select2">
 									
 									{% for type in expenseTypes %}
-										<option value="{{type.id}}" >{{type.name}}</option>
+
+										{% if type.id == 3%}
+
+										{% else %}
+											
+											<option value="{{type.id}}" >{{type.name}}</option>
+
+										{% endif %}
+
 									{% endfor %}
 									
 								</select>

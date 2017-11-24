@@ -29,6 +29,7 @@
     {{tag.style('/plugins/bower_components/bootstrap-select/bootstrap-select.min.css')}}
     {{tag.style('/css/style.css')}}
     {{tag.style('/css/custom.css')}}
+    {{tag.style('/css/doms.css')}}
     <!-- color CSS -->
     {{tag.style('/css/colors/default.css', id='theme')}}
 
@@ -187,7 +188,9 @@
                     <ul>
                         <li><a href="#section-linebox-1"><span>Details</span></a></li>
                         <li><a href="#section-linebox-2"><span>Schedule</span></a></li>
+                        {%if withExpense%}
                         <li><a href="#section-linebox-3"><span>Funding</span></a></li>
+                        {%endif%}
                         <li><a href="#section-linebox-5"><span>Attachment</span></a></li>
                         <li><a href="#section-linebox-6"><span>Signatories</span></a></li>
                     </ul>
@@ -258,7 +261,7 @@
 
                         </div>
                     </section>
-
+                    {%if withExpense%}
                     <section id="section-linebox-3">
                         <div class="white-box">
                             <h4 class="text-left">IV. Source of Funds</h4>
@@ -358,10 +361,10 @@
 
                             </div>
                             <br/>
-                            <h4 class="text-left">VI. Revenue and Expense Table</h4>
+                            <h4 class="text-left">VI.{%if withRevenue%} Revenue and {%endif%} Expense Table</h4>
                             <hr>
                             <br/>
-
+                            {%if withRevenue%}
                             <table class="table bg">
                                 <thead>
 
@@ -401,6 +404,7 @@
                                     </tr>
                                 </tfoot>
                             </table>
+                            {%endif%}
                             <br/>
                             <table class="table bg">
                                 <thead>
@@ -439,6 +443,7 @@
                                         <td class="text-right text-danger" colspan="3"><strong>Total Expense</strong></td>
                                         <td  class="text-right">{{totalexpense | round(2)}}</td>
                                     </tr>
+                                    {%if withRevenue%}
                                      <tr>
                                         <td class="text-right text-success" colspan="3"  style="border-top: white solid 0px "><strong>Total Income </strong></td>
                                         <td  class="text-right" style="border-top: white solid 0px ">
@@ -446,13 +451,15 @@
                                             {{totalincome | round(2)}}
                                         </td>
                                     </tr>
+                                    {%endif%}
                                 </tfoot>
                             </table>
                             <br />
                         </div>
                     </section>
+                    {%endif%}
 
-                    <section id="section-linebox-5" >
+                    <section id="section-linebox-5">
                      <h4 class="text-left">VII. Attachments</h4>
                         <hr>
                         {% for att in attachment %}
@@ -466,41 +473,47 @@
                         {% endfor %}
                     </section>
 
+
                      <section id="section-linebox-6">
                         <div class="white-box">
                             <h4 class="m-t-30 text-left">VIII. Signatories</h4>
-                              {% for signatory in signatories %}
-                            <div>
-                               <div class="text-left">{{signatory.digitalsignature}}</div> 
-                               <div class="text-left">{{signatory.signatoryname}}</div> 
-                               <div class="text-left">{{signatory.type}}</div> 
-                               <div class="text-left">{{signatory.datesigned}}</div> 
-                            </div>
-                             {% endfor %}
-                           <!--  <table class="table  text-left table-striped">
-                                <thead>
-                                    <th>Name</th>
-                                    <th>Type</th>
-                                    <th>Status</th>
-                                    <th>Date Signed</th>
-                                    <th>Digital Signature</th>
-                                </thead>
-                                <tbody>
-                                    {% for signatory in signatories %}
-                                    <tr>
-                                        <td>{{signatory.signatoryname}}</td>
-                                        <td>{{signatory.type}}</td>
-                                        <td>{{signatory.status}}</td>
+
+                            <hr />
+                            <div class="comment-center">
+                            {% for signatory in signatories %}
+                                <div class="comment-body col-md-12 text-center">
+                                    <div class="user-img">  </div>
+                                    <div class="mail-contnet text-center">
+
+                                    <h5 class="text-center">
+                                        {%if signatory.status =='Unsigned' %}
+                                        <span class="label label-rounded label-default text-black pull-left" style="color:black">{{signatory.status}}</span>
+                                        {%elif  signatory.status == 'Approved'%}
+                                        <span class="label label-rounded label-success pull-left">{{signatory.status}}</span>
+                                        {%elif  signatory.status == 'Pend'%}
+                                        <span class="label label-rounded label-warning pull-left">{{signatory.status}}</span>
+                                        {%elif  signatory.status == 'Denied'%}
+                                        <span class="label label-rounded label-danger pull-left">{{signatory.status}}</span>
+                                        {%endif%}
+
+                                        <span class="time pull-right">
                                         {% if(signatory.datesigned)%}
-                                        <td>{{signatory.datesigned}}</td>
+                                            {{signatory.datesigned}}
                                         {% else %}
-                                        <td>N/A</td>
+                                            N/A
                                         {% endif %}
-                                        <td>{{signatory.digitalsignature}}</td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table> -->
+                                        </span>
+                                        
+                                    </h5> 
+                                    <h5>{{signatory.signatoryname}}</h5>
+                                    <p>{{signatory.type}}</p>
+                                    <p class="break">{{signatory.digitalsignature}}</p>
+                                    </div>
+                                </div>
+
+                            {% endfor %}
+                            </div>
+                            <hr />
                             <br />
                         </div>
                     </section>

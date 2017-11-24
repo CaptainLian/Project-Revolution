@@ -11,15 +11,15 @@ module.exports = function(configuration, modules, router, controllers){
 
     router.get(`${base}/ProjectProposal/GOSMList`, controllers.Organization_controller.viewGOSMActivityListProjectProposal);
     router.get(`${base}/ProjectProposal/Main/:id/:status`, controllers.Organization_controller.viewSubmitProjectProposalMain);
-    router.get(`${base}/ProjectProposal/Attachments/:id/:gid`, controllers.Organization_controller.viewSubmitProjectProposalAttachments);
-    router.get(`${base}/ProjectProposal/BriefContext/:id`, controllers.Organization_controller.viewSubmitProjectProposalBriefContext);
-    router.get(`${base}/ProjectProposal/Expense/:id/:revenue`, controllers.Organization_controller.viewSubmitProjectProposalExpense);
-    router.get(`${base}/ProjectProposal/ProgramDesign/:id`, controllers.Organization_controller.viewSubmitProjectProposalProgramDesign);
+    router.get(`${base}/ProjectProposal/Attachments/:id/:gid/:status`, controllers.Organization_controller.viewSubmitProjectProposalAttachments);
+    router.get(`${base}/ProjectProposal/BriefContext/:id/:status`, controllers.Organization_controller.viewSubmitProjectProposalBriefContext);
+    router.get(`${base}/ProjectProposal/Expense/:id/:revenue/:status`, controllers.Organization_controller.viewSubmitProjectProposalExpense);
+    router.get(`${base}/ProjectProposal/ProgramDesign/:id/:status`, controllers.Organization_controller.viewSubmitProjectProposalProgramDesign);
 
     router.get(`${base}/Setting/ACL`, controllers.Organization_controller.viewSettingAcl);
 
-    router.post(`${base}/projectproposal/SaveContext/:id/:ppr`, controllers.Organization_controller.saveContext);
-    router.post(`${base}/projectproposal/SaveExpenses/:id/:ppr`, controllers.Organization_controller.saveExpenses);
+    router.post(`${base}/projectproposal/SaveContext`, controllers.Organization_controller.saveContext);
+    router.post(`${base}/projectproposal/SaveExpenses`, controllers.Organization_controller.saveExpenses);
     router.post(`${base}/projectproposal/SaveDesign/`, controllers.Organization_controller.saveDesign);
     router.post(`${base}/projectproposal/SavePPR`, controllers.Organization_controller.savePPR);
     router.post(`${base}/projectproposal/SaveAttachments`, controllers.Organization_controller.saveAttachments);
@@ -31,6 +31,7 @@ module.exports = function(configuration, modules, router, controllers){
     router.post(`${base}/PostProjectProposal/Main`, controllers.Organization_controller.postSaveMain);
 
     //POST PROJECT
+    router.get(`${base}/PostProjectProposal/Completed/:gosmid`, controllers.Organization_controller.viewCompletedPostActs);
     router.get(`${base}/PostProjectProposal/GOSMList`, controllers.Organization_controller.viewGOSMActivityListPostProjectProposal);
     router.get(`${base}/PostProjectProposal/Main/:gosmid`, controllers.Organization_controller.viewSubmitPostProjectProposalMain);
     router.get(`${base}/PostProjectProposal/BriefContext/:gosmid`, controllers.Organization_controller.viewSubmitPostProjectProposalBriefContext);
@@ -46,4 +47,8 @@ module.exports = function(configuration, modules, router, controllers){
 
     //Treasurer
     router.get(`${base}/treasurer/dashboard`, controllers.Treasurer_controller.viewDashboard);
+
+    router.get(`${base}/Orgres/list`, controllers.Organization_controller.orgresLists);
+    router.get(`${base}/Orgres/Specific/:id`, controllers.Organization_controller.orgresSpecficActivity);
+
 };
