@@ -265,6 +265,16 @@ module.exports = function(configuration, application, modules, database, queryFi
                 logger.debug('CANNOT SUBMIT GOSM', log_options);
             }
 
+
+            if(req.extra_data.user.accessibleFunctionalitiesList['21'] || req.extra_data.user.accessibleFunctionalitiesList['18']){
+                logger.debug('CAN VIEW FINANCIAL DOCU', log_options);
+                const newSidebar = Object.create(null);
+                newSidebar.name = 'Financial Documents';
+                newSidebar.link = '/finance/list';
+
+                sidebars[sidebars.length] = newSidebar;
+            }
+
             return next();
         }).catch(err => {
             logger.warn(`${err.message}\n${err.stack}`, log_options);
