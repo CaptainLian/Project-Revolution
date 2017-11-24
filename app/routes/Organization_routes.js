@@ -5,7 +5,6 @@ module.exports = function(configuration, modules, router, controllers){
 	router.get(`${base}/ProjectHead/home`, controllers.Organization_controller.viewProjectHeadHome);
 
 	router.get(`${base}/Officers`,controllers.Organization_controller.viewOfficers);
-	router.get(`${base}/APSReport`, controllers.Organization_controller.viewAPSReport);
 	router.get(`${base}/createGOSM`, controllers.Organization_controller.viewCreateGOSM);
 	router.get(`${base}/activityRequirements`, controllers.Organization_controller.createActivityRequirements);
 
@@ -54,6 +53,6 @@ module.exports = function(configuration, modules, router, controllers){
     router.get(`${base}/Orgres/list`, controllers.Organization_controller.orgresLists);
     router.get(`${base}/Orgres/Specific/:id`, controllers.Organization_controller.orgresSpecficActivity);
 
-    router.get(`${base}/APS/report`, controllers.Organization_controller.apsReport);
+    router.get(`${base}/APSReport`, controllers.Organization_controller.apsReport);
 
 };
