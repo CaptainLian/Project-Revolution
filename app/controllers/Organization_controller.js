@@ -62,6 +62,78 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 });
         },
 
+        viewActivityDetails: (req, res) => {
+                logger.debug('activityChecking()', log_options);
+                var activityId;
+                database.task(task => {
+
+                    var dbParam = {
+                        gosmactivity: req.params.gosmactivity
+                    }
+
+                    return projectProposalModel.getPPRDetials(dbparam, task)
+                    .then(data => {
+                        activityId = data.id;
+                        logger.debug(`Activity ID: ${activityId}`);
+
+                        var pa = {
+                            projectId:data.id
+                        };
+
+                        return task.batch([
+                            Promise.resolve(data),
+                            projectProposalModel.getProjectProposalExpenses(data.id),
+                            projectProposalModel.getProjectProposalProjectedIncome(data.id),
+                            projectProposalModel.getProjectProposalProgramDesign(data.id, [
+                                'pppd.dayid AS dayid',
+                                "to_char(pppd.date, 'Mon DD, YYYY') AS date",
+                                "to_char(pppd.starttime + CURRENT_DATE, 'HH:MI AM') AS starttime",
+                                "to_char(pppd.endtime + CURRENT_DATE, 'HH:MI PM') AS endtime",
+                                'pppd.activity AS activity',
+                                'pppd.activitydescription AS activitydescription',
+                                'pppd.personincharge AS personincharge'
+                            ]),
+                            projectProposalModel.getProjectProposalProjectHeads(data.id),
+                            projectProposalModel.getLatestProjectProposalAttachment(pa),
+                        ]);
+                    }).catch(err=>{
+                        return logger.warn(`Unhandled error: ${err.message}\n${err.stack} `, log_options);
+                    });
+                }).then(data => {
+                    logger.debug(`${JSON.stringify(data[3])}`, log_options);
+                    const renderData = Object.create(null);
+                    renderData.csrfToken = req.csrfToken();
+                    renderData.extra_data = req.extra_data;
+
+                    renderData.projectProposal = data[0];
+                    renderData.expenses = data[1];
+                    renderData.activity = activityId;
+                    renderData.projectedIncome = data[2];
+                    renderData.programDesign = data[3];
+                    renderData.projectHeads = data[4];
+                    renderData.attachment = data[5];
+
+                    renderData.withExpense = data[1].length >0;
+                    renderData.withRevenue = data[2].length >0;
+
+                    console.log(data[2].length > 0)
+                    console.log("REVENUE")
+                    console.log(data[1].length > 0)
+                    console.log("EXPENSE")
+
+                    
+                    console.log(renderData.attachment);
+                    console.log("renderData.attachment");
+                    return res.render('Org/viewActivityDetails', renderData);
+                }).catch(err => {
+                    logger.debug(`${err.message}\n${err.stack}`, log_options);
+                    const renderData = Object.create(null);
+                    renderData.csrfToken = req.csrfToken();
+                    renderData.extra_data = req.extra_data;
+                    return res.render('template/APS/NoActivityToCheck', renderData);
+                });
+        },
+
         viewGOSMActivityListPostProjectProposal: (req, res) => {
 
             //TODO: session of gosm id??
