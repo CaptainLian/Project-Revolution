@@ -71,7 +71,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         gosmactivity: req.params.gosmactivity
                     }
 
-                    return projectProposalModel.getPPRDetials(dbparam, task)
+                    return projectProposalModel.getPPRDetails(dbParam, task)
                     .then(data => {
                         activityId = data.id;
                         logger.debug(`Activity ID: ${activityId}`);
