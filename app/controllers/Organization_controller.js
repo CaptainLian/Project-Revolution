@@ -118,7 +118,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                     console.log(data[2].length > 0)
                     console.log("REVENUE")
-                    console.log(data[1].length > 0)
+                    console.log(data[0])
                     console.log("EXPENSE")
 
                     
@@ -183,6 +183,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         operationalfunds: orgdata.operationalfunds,
                         depositoryfunds: orgdata.depositryfunds
                     };
+                    console.log(dbParam);
 
                     projectProposalModel.insertProjectProposal(dbParam)
                     .then(data=>{
@@ -2462,11 +2463,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
             var dbParam = {
-                // idNumber: req.session.user.idNumber
-                idNumber: 3333333
+                idNumber: req.session.user.idNumber
+                
             }
             orgresModel.getOrgresList(dbParam)
                 .then(data=>{
+                    console.log("DATA NG LIST")
+                    console.log(data)
                     renderData.activities = data;
                     console.log(data)
                     res.render('Orgres/OrgresList', renderData);
