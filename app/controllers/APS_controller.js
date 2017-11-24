@@ -156,9 +156,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.withExpense = data[1].length >0;
             renderData.withRevenue = data[2].length >0;
 
-            console.log(data[2].length > 0)
+            console.log(data[2])
             console.log("REVENUE")
-            console.log(data[1].length > 0)
+            console.log(data[1])
             console.log("EXPENSE")
 
             
@@ -231,7 +231,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     'PP.SOURCEFUNDORGANIZATIONAL',
                     'PP.ACCUMULATEDOPERATIONALFUNDS as accumulatedoperationalfunds',
                     'PP.ACCUMULATEDDEPOSITORYFUNDS AS accumulateddepositoryfunds',
-                    'PP.ORGANIZATIONFUNDOTHERSOURCE AS organizationfundothersource'
+                    'PP.ORGANIZATIONFUNDOTHERSOURCE AS organizationfundothersource',
+                    'PP.isExpense as expense'
                 ]),
                 // 1
                 projectProposalModel.getProjectProposalExpenses(activityID),
@@ -263,12 +264,12 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.projectHeads = data[4];
             renderData.attachment = data[5];
             renderData.signatories = data[6];
-            renderData.withExpense = data[1].length >0;
+            renderData.withExpense = data[0].expense;
             renderData.withRevenue = data[2].length >0;
 
             console.log(data[2].length > 0)
             console.log("REVENUE")
-            console.log(data[1].length > 0)
+            console.log(data[0].expense)
             console.log("EXPENSE")
             logger.debug(`Signatories: ${JSON.stringify(renderData.signatories)}`, log_options);
             logger.debug('rendering page', log_options);

@@ -118,7 +118,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                     console.log(data[2].length > 0)
                     console.log("REVENUE")
-                    console.log(data[1].length > 0)
+                    console.log(data[0])
                     console.log("EXPENSE")
 
                     
