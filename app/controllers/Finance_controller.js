@@ -418,67 +418,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
                             particular: particulars[index]
                         }, transaction);
                     }
-
-
-                    let autosign = false;
-                    if(typeof req.extra_data.user.accessibleFunctionalitiesList['22'] !== 'undefined'){
-                    	autosign = req.extra_data.user.accessibleFunctionalitiesList['22'];
-                    }
-                    if(autosign){
-                        return transaction.task(t => {
-                            return t.batch([
-                                accountModel.getAccountDetails(req.session.user.idNumber, ['a.privateKey'], t),
-            					financeModel.getPreActivityCashAdvanceDetails(req.body.cashAdvanceId, [
-            						'preca.id AS cashadvance',
-            						'preca."GOSMActivity"',
-            						'preca."submissionID"',
-            						'preca."sequence"',
-            						'(a.firstname || \' \' || a.lastname ) AS submittedBy',
-            						"to_char(preca.\"dateSubmitted\", 'Mon DD, YYYY') AS dateSubmitted",
-            						'preca.purpose',
-            						'preca.justification'
-            					], t),
-            					financeModel.getPreActivityCashAdvanceParticularDetails(req.body.cashAdvanceId, [
-            						'ppe.id',
-            						'ppe.material',
-            						'ppe.quantity',
-            						'ppe.unitCost',
-            						'et.name AS type'
-            					], t)
-                            ]);
-                        }).then(data => {
-                            const documentObj = Object.create(null);
-
-            				documentObj.CashAdvanceID = data[1].cashadvance;
-            				documentObj.ActivityID = data[1].GOSMActivity;
-            				documentObj.SubmissionID = data[1].submissionID;
-            				documentObj.VersionID = data[1].sequence;
-            				documentObj.SubmittedBy = data[1].submittedBy;
-            				documentObj.DateSubmitted = data[1].dateSubmitted;
-            				documentObj.Purpose = data[1].Purpose;
-            				documentObj.Justification = data[1].justification;
-
-            				documentObj.Particulars = [];
-            				for(const particular of data[2]){
-            					const particularObj = Object.create(null);
-            					particularObj.ID = particular.id;
-            					particularObj.Material = particular.material;
-            					particularObj.Quantity = particular.quantity;
-            					particularObj.UnitCost = particular.unitcost,
-            					particularObj.Type = particular.type;
-
-            					documentObj.Particulars[documentObj.Particulars.length] = particularObj;
-            				}
-
-            				const DOCUMENT_STRING = STRINGIFY(documentObj);
-                            logger.debug(`Private Key: ${data[0].privatekey}`);
-                            const {signature: DIGITAL_SIGNATURE} = SIGN(DOCUMENT_STRING, data[0].privatekey);
-                            logger.debug(`Document: ${DOCUMENT_STRING}\n\nDigital Signature: ${DIGITAL_SIGNATURE}`, log_options);
-
-                            return accountModel.approvePreActCashAdvance(req.body.cashAdvanceId, req.session.user.idNumber, DOCUMENT_STRING, DIGITAL_SIGNATURE, transaction);
-                        });
-
-                    }
+                    
                     return Promise.resolve(true);
                 });
             }).then(data =>{
