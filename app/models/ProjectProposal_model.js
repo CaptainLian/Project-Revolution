@@ -39,7 +39,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const getExpenseTypesSQL = queryFiles.getExpenseTypes;
     const getApprovedPPRCountPerOrgSQL = queryFiles.getApprovedPPRCountPerOrg;
     const getPendedPPRCountPerOrgSQL = queryFiles.getPendedPPRCountPerOrg;
-    cosnt getDeniedPPRCountPerOrgSQL = queryFiles.getDeniedPPRCountPerOrg;
+    const getDeniedPPRCountPerOrgSQL = queryFiles.getDeniedPPRCountPerOrg;
 
 
     const updatePPRSignatoryStatusSQL = queryFiles.updatePPRSignatoryStatus;

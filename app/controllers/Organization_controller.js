@@ -179,10 +179,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                     var dbParam = {
                         gosmactivity: req.params.id,
-                        preparedby: req.session.user.idNumber
+                        preparedby: req.session.user.idNumber,
                         operationalfunds: orgdata.operationalfunds,
                         depositoryfunds: orgdata.depositryfunds
                     };
+                    console.log(dbParam);
 
                     projectProposalModel.insertProjectProposal(dbParam)
                     .then(data=>{
