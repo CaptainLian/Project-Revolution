@@ -524,7 +524,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="row">
                     <div class="col-md-12">
                         <div class="panel panel-success">
-                            <div class="panel-heading">Pre-Activity Finance Documents</div>
+                            <div class="panel-heading">GOSM for Term 1 AY 2018-2019</div>
                             <div class="panel-wrapper collapse in" aria-expanded="true">
                                 <div class="panel-body">
                                     <form action="#" class="form-horizontal">
@@ -536,113 +536,246 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                 <div class="sttabs tabs-style-line">
                                                                     <nav>
                                                                         <ul>
-                                                                            <li><a class="text-center" href="#section-line-1"><span>Cash Advance</span></a></li>
+                                                                            <li><a class="text-center" href="#section-line-1"><span>Edit Activity</span></a></li>
+                                                                            <li><a class="text-center" href="#section-line-2"><span>Proposed Activities</span></a></li>
+                                                                            <li><a class="text-center" href="#section-line-3"><span>Comments</span></a></li>
                                                                         </ul>
                                                                     </nav>
                                                                     <div class="content-wrap ">
-                                                                        
                                                                         <section id="section-line-1">
-                                                                            <div class="row" >
-                                                                                <div class="col-sm-12">
-                                                                                    <h3 class="box-title m-t-40">Payment Requisition Slip<span class="badge btn-circle btn-xs btn-success pull-right" data-toggle="tooltip" title="Click on the particulars field to add an expense to the cash advance request"><span class="fa fa-question"></span></span></h3>
-                                                                                    <hr>
-                                                                                    <div class="row">
-                                                                                        <div class="col-md-12 ">
-                                                                                            <div class="form-group row form-inline">
-                                                                                                <label class="col-md-3">Particulars</label>
-                                                                                                <!-- food, accomodation, others, venue, transportation, honorarium, cash prize, cor -->
-                                                                                                <select id="ca_particular" class="col-md-9 select2 m-b-10 select2-multiple"  multiple="multiple" data-placeholder="Choose">
-                                                                                                        <!-- data-item ="name of particular" data-type="expense type" <>data-item<>-->
-                                                                                                        <option value="0" data-item="Food Expense" data-amount="1000" data-quantity ="3" data-type="food">Food Expense</option>
-                                                                                                        <option value="1" data-item="Token" data-amount ="3000.25" data-quantity ="3" data-type="honorarium">Token</option>
-                                                                                                        <option value="2" data-item="Accomodation Expense" data-amount ="3000" data-quantity ="3" data-type="accomodation">Accomodation Expense</option>
-                                                                                                        <option value="3" data-item="Honorarium" data-amount ="3000" data-quantity ="3" data-type="cash prize">Cash Prize</option>
+                                                                            <div class="white-box">
+                                                                                <form class="form-horizontal form-bordered">
+                                                                                    <div class="form-body">
+                                                                                        <div class="form-group">
+                                                                                            <label class="control-label col-md-3">Strategy</label>
+                                                                                            <div class="col-md-9">
+                                                                                                <input name="strategy" id="strategy" type="text" placeholder="Title of your Activity" class="form-control">
+
+                                                                                            </div>
+                                                                                            <div><span class="help-block" id="help-strat"></span></div>
+
+                                                                                        </div>
+                                                                                        <div class="form-group">
+                                                                                            <label class="control-label col-md-3">Goals</label>
+                                                                                            <div class="col-md-9">
+                                                                                                <input name="goals" id="goals" type="text" placeholder="" class="form-control">
+                                                                                            </div>
+                                                                                            <div><span class="help-block" id="help-goals"></span></div>
+                                                                                        </div>
+                                                                                        <div class="form-group">
+                                                                                            <label class="control-label col-md-3">Objectives</label>
+                                                                                            <div class="col-md-9" id="div-objectives">
+                                                                                                <input name="objectives[]" id="objectives" type="text" placeholder="" class="form-control">
+                                                                                                <span class="help-block">&nbsp;</span> 
+                                                                                                
+                                                                                            </div>   
+                                                                                            <div id="div-after-objectives"></div>
+                                                                                            
+                                                                                            <div style="text-align: center" class="col-md-12">
+                                                                                                <button id="objectives-add" type="button" class="btn btn-success">&nbsp;&nbsp;&nbsp;+&nbsp;&nbsp;&nbsp;</button>
+                                                                                            </div>
+                                                                                            <div><span class="help-block" id="help-obj"></span></div>
+
+                                                                                        </div>
+
+                                                                                        <div class="form-group">
+                                                                                            <label class="control-label col-md-3">Description</label>
+                                                                                            <div class="col-md-9">
+                                                                                                <textarea  name="description" id="description" rows=4 class="form-control"></textarea> 
+                                                                                            </div>
+                                                                                            <div><span class="help-block" id="help-desc"></span></div>
+                                                                                        </div>
+                                                                                        <div class="form-group">
+                                                                                            <label class="control-label col-md-3">Measures</label>
+                                                                                            <div class="col-md-9">
+                                                                                                <input name="measures" id="measures" type="text" placeholder="" class="form-control">
+                                                                                            </div>
+
+                                                                                            <div><span class="help-block" id="help-measure"></span></div>
+                                                                                        </div>
+                                                                                        <div class="form-group">
+                                                                                            <label class="control-label col-md-3">Target Date</label>
+                                                                                            <div class="input-daterange input-group col-md-8" id="date-range">
+                                                                                                <input name="targetDateStart" id="targetDateStart" class="form-control" readonly="" placeholder="mm/dd/yyyy" name="start" type="text">
+                                                                                                <span class="input-group-addon bg-info b-0 text-white">to</span>
+                                                                                                <input name="targetDateEnd" id="targetDateEnd" class="form-control" readonly="" name="end" type="text" placeholder="mm/dd/yyyy">
+
+
+                                                                                            </div>
+                                                                                            <div class="col-md-1" style="margin-top: 8px" >
+                                                                                                <i class="fa fa-cog fa-spin text-inverse m-r-10" data-toggle="tooltip" title="Click to choose TERM Long or YEAR Long"></i>
+                                                                                            </div>
+
+                                                                                            
+                                                                                        </div>
+                                                                                        <div class="form-group">
+                                                                                            <label class="control-label col-md-3">Activity Type</label>
+                                                                                            <div class="col-md-9">
+                                                                                                <select class="form-control select" name="activity-type" id="activity-type">
+                                                                                                    {% for type in activityTypes %}
+                                                                                                    <option value="{{type.id}}">{{type.name}}</option>
+
+                                                                                                    {% endfor %}
+
 
                                                                                                 </select>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="col-md-12 ">
-                                                                                            <div class="form-group row form-inline">
-                                                                                                <label class="col-md-3">Total Amount</label>
-                                                                                                <p id='ca_amount' class="col-md-9 tab-2" ></p>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    
-                                                                                </div>
 
-                                                                                <div class="col-sm-12">
-                                                                                    <h3 class="box-title m-t-40">Memo</h3>
-                                                                                    <hr>
-                                                                                    <br>
-                                                                                    <table id="memoTable" class="table table-bordered m-b-0">
-                                                                                        <thead>
-                                                                                            <tr>
-                                                                                                <th>Particulars</th>
-                                                                                                <th>Amount</th>
-                                                                                            </tr>
-                                                                                        </thead>
-                                                                                        <tbody id='memo_body'>
-                                                                                        </tbody>
-                                                                                        <tfoot>
-                                                                                        </tfoot>
-                                                                                    </table>
-                                                                                    <br>
-                                                                                    <div class ='col-md-12' id='purpose' style='display: none;'>
-                                                                                        <div class="col-md-12 m-b-10" >
-                                                                                            <label  style="">Purpose: </label>
-                                                                                            <textarea name="dp-memo" style="width: 100%;" placeholder="ex. Cash advance for [Activity name] to be held on [Activity date]" required=""></textarea>   
+                                                                                            </div>
+
+                                                                                            <div class="col-md-12 act-others" style="display: none" id="div-space">&nbsp;</div>
+
+                                                                                            <label class="control-label col-md-3" style="display: none" id="act-others-label">Others</label>
+
+                                                                                            <div class="col-md-9 act-others" style="display: none" id="div-others">                                                  
+                                                                                                <input name="othersDescription" id="othersDescription" type="text" class="form-control" style="display: none" id="activity-others">
+                                                                                            </div>
+                                                                                            <div><span class="help-block" id="help-actT"></span></div>
+                                                                                        </div>
+                                                                                        <div class="form-group">
+                                                                                            <label class="control-label col-md-3">Nature Type</label>
+                                                                                            <div class="col-md-9">
+                                                                                                <select class="form-control " name="nature-type" id="nature-type">
+                                                                                                    {% for nature in activityNature %}
+                                                                                                    <option value="{{nature.id}}">{{nature.name}}</option>
+                                                                                                    {% endfor %}
+                                                                                                </select>
+                                                                                            </div>
+                                                                                            <div><span class="help-block" id="help-nat"></span></div>
+                                                                                        </div>
+
+                                                                                        <div class="form-group">
+                                                                                            <label class="control-label col-md-3">Person in Charge</label>
+                                                                                            <div class="col-md-9">
+                                                                                                <select multiple="multiple" name="personInCharge[]" class="select" id="personInCharge">
+                                                                                                    {% for member in members %}
+
+                                                                                                        <option value="{{member.idnumber}}">{{member.firstname}} {{member.lastname}}</option>
+
+                                                                                                    {% endfor %}
+                                                                                                </select>
+
+                                                                                            </div>
+                                                                                             <div><span class="help-block" id="help-pic"></span></div>
+
+
+                                                                                        </div>
+
+                                                                                        <div class="form-group">
+                                                                                            <label class="control-label col-md-3">Related to Organization</label>
+                                                                                            <div class="col-md-9">
+                                                                                                <div class="radio-list">
+                                                                                                    <label>
+                                                                                                        <input type="radio" name="isRelatedToOrganization" value="true"> Yes </label>
+                                                                                                        <label>
+                                                                                                        <input type="radio"  name="isRelatedToOrganization" value="false" > No </label>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                             <div><span class="help-block" id="help-rto"></span></div>
+                                                                                        </div>
+                                                                                        <div class="form-group">
+                                                                                            <label class="control-label col-md-3">Budget</label>
+                                                                                            <div class="col-md-9 input-group">
+                                                                                                <div class="input-group-addon"><i>₱</i></div>
+                                                                                                <input name="budget"  id ="budget" class="form-control">
+                                                                                            </div>
+                                                                                             <div><span class="help-block" id="help-bud"></span></div>
+                                                                                        </div>
+
+                                                                                    </div>
+                                                                                    <div class="form-actions">
+                                                                                        <div class="row">
+                                                                                            <div class="col-md-12">
+                                                                                                <div class="row">
+                                                                                                    <div class=" col-md-12" style="text-align: center">
+                                                                                                        <button type="button" id="add-gosm" class="btn btn-info">Add to GOSM</button>
+                                                                                                        <button style="display: none" type="button" id="edit-gosm" class="btn btn-warning">Edit Activity</button>
+                                                                                                        <button style="display: none" type="button" id="cancel-gosm" class="btn btn-muted">Cancel</button>
+                                                                                                        
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
                                                                                         </div>
                                                                                     </div>
-                                                                                    <div class ='col-md-12' id='justification_dp' style='display: none;'>
-                                                                                        <div class="col-md-12 m-b-10" >
-                                                                                            <label  style="">Justification for not using Direct Payment</label>
-                                                                                            <textarea name="dp-memo" style="width: 100%;" placeholder="ex. Papers processed late" required=""></textarea>   
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class ='col-md-12' id='justification_cp' style='display: none;'>
-                                                                                        <div class="col-md-6 m-b-10" >
-                                                                                            <label  style="">Justification for using Cash Prize</label>    
-                                                                                        </div>
-                                                                                        <div class="col-md-6 m-b-10">
-                                                                                            <textarea name="dp-memo" style="width: 100%"></textarea>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="col-md-12">
-                                                                                    <h3 class="box-title m-t-40">Required attachments <span class="badge btn-circle btn-xs btn-success pull-right" data-toggle="tooltip" title="click the browse button to upload the following documents"><span class="fa fa-question"></span></span></h3>
-                                                                                    <hr>
-                                                                                    <br>
-                                                                                    
-                                                                                        <div class="col-md-12 m-10" id='iq' style='display: none;'>
-                                                                                            <div class="col-md-4  text-left"  >  
-                                                                                                <label  style="">Informal Quotation</label>    
-                                                                                            </div>
-                                                                                            <div class="col-md-8">
-                                                                                                <input multiple="" style="" type="file" accept=".pdf, .odt, .odp, .ods" name="...">    
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="col-md-12 m-10" id='elop' style='display: none;'>
-                                                                                            <div class="col-md-4  text-left" >
-                                                                                                <label  style="">Estimated List of Participants</label>    
-                                                                                            </div>
-                                                                                            <div class="col-md-8">
-                                                                                                <input multiple="" style="" type="file" accept=".pdf, .odt, .odp, .ods" name="...">    
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="col-md-12 m-10" id='moc' style='display: none;'>
-                                                                                            <div class="col-md-4  text-left">
-                                                                                                <label  style="">Mechanics of Competition</label>    
-                                                                                            </div>
-                                                                                            <div class="col-md-8">
-                                                                                                <input multiple="" style="" type="file" accept=".pdf, .odt, .odp, .ods" name="...">    
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    
-                                                                                </div> 
+                                                                                </form>
                                                                             </div>
                                                                         </section>
-                                                                        
+                                                                        <section id="section-line-2">
+                                                                           <div class="panel ">
+                                                                                <div class="panel-body">
+                                                                                    <table  class="table table-hover">
+                                                                                        <thead>
+                                                                                            <tr>
+                                                                                                <th width="5%">#</th>
+                                                                                                <th width="15%">Strategy</th>
+                                                                                                <th width="15%">Date</th>
+                                                                                                <th width="35%">Description</th>
+                                                                                                <th width="35%">actions</th>
+                                                                                                
+                                                                                            </tr>
+                                                                                        </thead>
+                                                                                        <tbody>
+                                                                                            <tr>
+                                                                                                <td class="text-left td-title"  >ASDASD</td>
+                                                                                                <td class="text-left td-title" >ASDASD</td>
+                                                                                                <td class="text-left td-title" >ASDASDASD</td>
+                                                                                                <td class="text-left td-title" >ASD}</td>
+                                                                                                <td class="text-center text-nowrap">
+                                                                                                    <a  data-toggle="tooltip" data-original-title="Details"> 
+                                                                                                        <i db-id="{{activities.id}}"  class="fa fa-eye text-inverse m-r-10"></i> 
+                                                                                                    </a>
+                                                                                                    <a  data-toggle="tooltip" data-original-title="Edit"> 
+                                                                                                        <i db-id="{{activities.id}}"  class="fa fa-pencil text-inverse m-r-10"></i> 
+                                                                                                    </a>
+                                                                                                    <a class="remove"  data-toggle="tooltip" data-original-title="Close"> 
+                                                                                                        <i db-id="{{activities.id}}" class="fa fa-close text-danger"></i> 
+                                                                                                    </a>
+                                                                                                </td>                                  
+                                                                                            </tr>
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                </div>
+                                                                                <div class="panel-footer"> 
+                                                                                    <div class="row">
+                                                                                        <div class=" col-md-12" style="text-align: center">
+                                                                                            <button type="submit" id="submit-gosm" class="btn btn-success">Submit to CSO</button>                                               
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </section>
+                                                                        <section id="section-line-3">
+
+                                                                        <div class="white-box">
+                                                                        <div class="panel panel-info block4">
+                                                                                <div class="panel-heading"> Overall Comment
+                                                                                    <div class="pull-right"><a href="#" data-perform="panel-collapse"></div>
+                                                                                </div>
+                                                                                <div class="panel-wrapper collapse in" aria-expanded="true">
+                                                                                    <div class="panel-body">
+                                                                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <table  class="table table-hover">
+                                                                                <thead>
+                                                                                    <tr>
+                                                                                        <th width="5%">#</th>
+                                                                                        <th width="90%">Comment</th>
+                                                                                        
+                                                                                        
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    <tr>
+                                                                                        <td class="text-left"  >ASDASD</td>
+                                                                                        <td class="text-left td-title" >ASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASD</td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                            <br>
+                                                                            
+                                                                        </div>
+                                                                        </section>
                                                                     </div>
                                                                     <!-- /content -->
                                                                 </div>
@@ -657,10 +790,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         </div>
                                     </form>
                                 </div>
-                                <div class="panel-footer text-center">                                                    
-                                    <button type="submit" class="btn btn-success" id='submitButton' onclick="submit()">Submit</button>
-                                    <button type="button" class="btn btn-default">Cancel</button>                                
-                                </div>
+                                
                             </div>
                         </div>
                     </div>
