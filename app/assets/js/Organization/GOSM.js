@@ -188,8 +188,9 @@ $("#edit-gosm").click(function() {
 
         },
         success: function(data) {
+            data = parseInt(data)
             if (data > 0) {
-
+                console.log("CLEAR")
                 $("html, body").animate({
                     scrollTop: 0
                 }, function() {
@@ -200,7 +201,15 @@ $("#edit-gosm").click(function() {
                     $("#cancel-gosm").css("display", "none");
                 });
             } else {
-
+                 $("html, body").animate({
+                    scrollTop: 0
+                }, function() {
+                    $(".myadmin-alert").hide();
+                    clear();
+                    $("#add-gosm").css("display", "");
+                    $("#edit-gosm").css("display", "none");
+                    $("#cancel-gosm").css("display", "none");
+                });
             }
 
         }
@@ -301,25 +310,25 @@ function clearModal() {
 }
 
 function dType(val) {
-    if (val == 1) {
-        return "Academic Contest";
-    } else if (val == 2) {
+    if (val == 0) {
+        return "Competition";
+    } else if (val == 1) {
         return "Distribution";
-    } else if (val == 3) {
+    } else if (val == 2) {
         return "General Assembly";
-    } else if (val == 4) {
+    } else if (val == 3) {
         return "Seminar/Workshops";
-    } else if (val == 5) {
+    } else if (val == 4) {
         return "Publicity/Awareness";
-    } else if (val == 6) {
+    } else if (val == 5) {
         return "Meetings";
-    } else if (val == 7) {
+    } else if (val == 6) {
         return "Spiritual Activity";
-    } else if (val == 8) {
+    } else if (val == 7) {
         return "Recruitment Audition";
-    } else if (val == 9) {
+    } else if (val == 8) {
         return "Recreation";
-    } else if (val == 10) {
+    } else if (val == 9) {
         return "Others";
     }
 }
@@ -328,7 +337,7 @@ function dNat(val) {
     if (val == 1) {
         return "Academic";
     } else if (val == 2) {
-        return "special Interest";
+        return "Special Interest";
     } else if (val == 3) {
         return "Department Initiative";
     } else if (val == 4) {
