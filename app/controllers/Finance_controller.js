@@ -321,7 +321,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
             renderData.isCso = null;
             if((req.session.user.type >= 3 && req.session.user.type <= 6) ||
-            	renderData.isCso = req.extra_data.user.accessibleFunctionalitiesList['21']){
+            	req.extra_data.user.accessibleFunctionalitiesList['21']){
                 renderData.isCso = true;
 	            renderData.toadd = req.extra_data.user.accessibleFunctionalitiesList['18'];
             }else{
