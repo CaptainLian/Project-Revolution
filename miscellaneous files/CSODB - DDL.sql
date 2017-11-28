@@ -2026,41 +2026,7 @@ CREATE TRIGGER "before_insert_PreActivityCashAdvance_sequence"
     FOR EACH ROW
     EXECUTE PROCEDURE "trigger_before_insert_PreActivityCashAdvance_sequence"();
 
-CREATE OR REPLACE FUNCTION "trigger_after_update_PreActivityCashAdvanceSignatory_completion"()
-RETURNS TRIGGER AS
-$trigger$
-    DECLARE
-        numSignNeeded INTEGER;
-    BEGIN
-	IF NEW.status = 1 THEN
-	    SELECT COUNT(pacas.id) INTO numSignNeeded
-              FROM "PreActivityCashAdvanceSignatory" pacas
-             WHERE pacas."cashAdvance" = NEW."cashAdvance"
-               AND pacas.status <> 1;
 
-             IF numSignNeeded = 0 THEN
-                UPDATE "PreActivityCashAdvance"
-                   SET status = 1
-                 WHERE id = NEW."cashAdvance";
-            END IF;
-	ELSIF NEW.status = 2 THEN
-            UPDATE "PreActivityCashAdvance"
-               SET status = 2
-             WHERE id = NEW."cashAdvance";
-        ELSIF NEW.status = 3 THEN
-                UPDATE "PreActivityCashAdvance"
-                   SET status = 3
-                 WHERE id = NEW."cashAdvance";
-	END IF;
-        
-
-        RETURN NEW;
-    END;
-$trigger$ LANGUAGE plpgsql;
-CREATE TRIGGER "after_update_PreActivityCashAdvanceSignatory_completion"
-    AFTER UPDATE ON "PreActivityCashAdvanceSignatory"
-    FOR EACH ROW WHEN (OLD.status <> NEW.status)
-    EXECUTE PROCEDURE "trigger_after_update_PreActivityCashAdvanceSignatory_completion"();
 
 DROP TABLE IF EXISTS "PreActivityCashAdvanceParticular" CASCADE;
 CREATE TABLE "PreActivityCashAdvanceParticular" (
@@ -2225,6 +2191,40 @@ CREATE TRIGGER "after_delete_PreActivityCashAdvanceParticular_signatories"
     FOR EACH ROW
     EXECUTE PROCEDURE "trigger_after_delete_PreActivityCashAdvanceParticular_signatories"();
 
+CREATE OR REPLACE FUNCTION "trigger_after_update_PreActivityCashAdvanceSignatory_completion"()
+RETURNS TRIGGER AS
+$trigger$
+    DECLARE
+        numSignNeeded INTEGER;
+    BEGIN
+	IF NEW.status = 1 THEN
+	    SELECT COUNT(pacas.id) INTO numSignNeeded
+              FROM "PreActivityCashAdvanceSignatory" pacas
+             WHERE pacas."cashAdvance" = NEW."cashAdvance"
+               AND pacas.status <> 1;
+
+             IF numSignNeeded = 0 THEN
+                UPDATE "PreActivityCashAdvance"
+                   SET status = 1
+                 WHERE id = NEW."cashAdvance";
+            END IF;
+	ELSIF NEW.status = 2 THEN
+            UPDATE "PreActivityCashAdvance"
+               SET status = 2
+             WHERE id = NEW."cashAdvance";
+        ELSIF NEW.status = 3 THEN
+                UPDATE "PreActivityCashAdvance"
+                   SET status = 3
+                 WHERE id = NEW."cashAdvance";
+	END IF;
+        
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER "after_update_PreActivityCashAdvanceSignatory_completion"
+    AFTER UPDATE ON "PreActivityCashAdvanceSignatory"
+    FOR EACH ROW WHEN (OLD.status <> NEW.status)
+    EXECUTE PROCEDURE "trigger_after_update_PreActivityCashAdvanceSignatory_completion"();
 /* Organization Treasurer */
     /* AMTActivityEvaluation */
 DROP TABLE IF EXISTS AMTActivityEvaluationStatus CASCADE;

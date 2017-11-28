@@ -59,15 +59,20 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			            // transactionType: if 0 direct payment; if 1 cash advance
 			            renderData.transactionType = req.params.transaction;
 
+
+			            const ACL = req.extra_data.accessControl[req.session.user.organizationSelected.id];
+			            if(typeof ACL !== 'undefined'){
+
+			            }
 			            //to evaluate
 			            renderData.isCso = null;
-			            if((req.session.user.type >= 3 && req.session.user.type <= 6) ||
-			            	req.extra_data.user.accessibleFunctionalitiesList['21']){
+			            renderData.toadd = null;
+			            if(req.session.user.type >= 3 && req.session.user.type <= 6){
                             renderData.isCso = true;
-                        	renderData.toadd = req.extra_data.user.accessibleFunctionalitiesList['18'];
-                        }else{
-                            renderData.isCso = req.extra_data.user.accessibleFunctionalitiesList['21'];
-                            renderData.toadd = req.extra_data.user.accessibleFunctionalitiesList['18'];
+                        	renderData.toadd = true;
+                        }else if(typeof ACL !== 'undefined' && req.session.user.type == 1){
+                        	renderData.isCso = ACL['21'] || false;
+                        	renderData.toadd = ACL['18'] || false;
                         }
 
 						// to add transaction
@@ -320,11 +325,10 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 	        renderData.extra_data = req.extra_data;
 
             renderData.isCso = null;
-            console.log("req.session.user.type");
-            console.log(req.session.user.type);
-            console.log(req.extra_data.user.accessibleFunctionalitiesList['21']);
-            
-            if((req.session.user.type >= 3 && req.session.user.type <= 6)){
+
+            if((req.session.user.type >= 3 && req.session.user.type <= 6) ||
+            	req.extra_data.user.accessibleFunctionalitiesList['21']){
+
                 renderData.isCso = true;
 	            renderData.toadd = req.extra_data.user.accessibleFunctionalitiesList['18'];
             }else{
