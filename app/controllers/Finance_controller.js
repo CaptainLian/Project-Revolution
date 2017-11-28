@@ -59,8 +59,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			            // transactionType: if 0 direct payment; if 1 cash advance
 			            renderData.transactionType = req.params.transaction;
 
-
-			            const ACL = req.extra_data.accessControl[String(req.session.user.organizationSelected.id)];
+			            logger.debug(`${JSON.stringify(req.extra_data.accessControl)}`, log_options);
+			            const ACL = req.extra_data.user.accessControl[String(req.session.user.organizationSelected.id)];
 
 
 			            //to evaluate
