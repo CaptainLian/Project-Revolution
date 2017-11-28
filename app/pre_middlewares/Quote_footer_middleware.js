@@ -22,6 +22,7 @@ module.exports = function(configuration, application, modules, database, queryFi
     FooterAttacher.name = 'Quote-footer-middleware';
     FooterAttacher.priority = configuration.load_priority.LOW;
     FooterAttacher.action = (req, res, next) => {
+
         logger.debug(`Attaching footer data` ,log_options);
 
         req.extra_data.footer = QUOTES[Math.floor(Math.random()*(QUOTES.length))];
@@ -31,5 +32,11 @@ module.exports = function(configuration, application, modules, database, queryFi
         return next();
     };
 
-    return [FooterAttacher];
+    if(configuration.webserver.easter_eggs.enable_footer_quotes){
+        logger.warn('Marxist footer quotes activated', log_options);
+        return [FooterAttacher];
+    }
+
+    return [];
+
 };

@@ -60,6 +60,9 @@ const configuration = {
         "encryption": {
             "bits": 1024,
             "web_workers_amount": -1
+        },
+        "easter_eggs":{
+            "enable_footer_quotes": true
         }
     },
     "database": {
