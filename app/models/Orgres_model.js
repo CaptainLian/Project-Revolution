@@ -6,6 +6,10 @@ module.exports = function(configuration, modules, database, queryFiles){
     const getActivitiesForResearchFormSQL = queryFiles.getActivitiesForResearchForm;
     const getOrganizationsForResearchFormSQL = queryFiles.getOrganizationsForResearchForm;
     const insertActivityResearchFormSQL = queryFiles.insertActivityResearchForm;
+    const getOrgresList = queryFiles.getOrgresList;
+    const getOrgresOtherDetails = queryFiles.getOrgresOtherDetails;
+    const calculate_peractivity = queryFiles.calculate_peractivity;
+    
 	
 	OrgresModel.getActivitiesForResearchForm = function(connection = database) {
         
@@ -19,6 +23,15 @@ module.exports = function(configuration, modules, database, queryFiles){
 
     OrgresModel.insertActivityResearchForm = function(param, connection = database) {
         return connection.none(insertActivityResearchFormSQL, param);
+    };
+    OrgresModel.getOrgresList = function(param, connection = database) {
+        return connection.any(getOrgresList, param);
+    };
+    OrgresModel.getOrgresOtherDetails = function(param, connection = database) {
+        return connection.any(getOrgresOtherDetails, param);
+    };
+    OrgresModel.calculate_peractivity = function(param, connection = database) {
+        return connection.any(calculate_peractivity, param);
     };
 
 

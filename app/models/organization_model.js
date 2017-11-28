@@ -8,6 +8,7 @@ module.exports = function(configuration, modules, database, queryFiles){
 	const getActivitiesWithPPRSQL = queryFiles.getActivitiesWithPPR;
 	const getActivitiesWithoutPPRSQL = queryFiles.getActivitiesWithoutPPR;
 	const getStudentsOfOrganizationSQL = queryFiles.getStudentsOfOrganization;
+	const getStudentOrganizationSQL = queryFiles.getStudentOrganization;
 
     const logger = modules.logger;
 	/**
@@ -34,6 +35,10 @@ module.exports = function(configuration, modules, database, queryFiles){
 
 	OrganizationModel.getActivitiesWithPPR = (param, fields, connection = database) => {
 		return connection.one(getActivitiesWithPPRSQL, param);
+	};
+
+	OrganizationModel.getStudentOrganization = (param, fields, connection = database) =>{
+		return connection.one(getStudentOrganizationSQL, param);
 	};
 
 	OrganizationModel.getActivitiesWithoutPPR = (param, fields, connection = database) => {
@@ -135,6 +140,16 @@ module.exports = function(configuration, modules, database, queryFiles){
 			}
 
 			return Promise.resolve(organizationStructure);
+		});
+	};
+
+	const hasGOSMSubmittedSQL = queryFiles.organization_GOSM_has_submitted;
+	OrganizationModel.hasGOSMSubmitted = (organizationID, connection = database) => {
+		logger.debug(`hasGOSMSubmitted(organizationID: ${organizationID})`, log_options);
+
+		logger.debug(hasGOSMSubmittedSQL, log_options);
+		return connection.one(hasGOSMSubmittedSQL, {
+			studentOrganization: organizationID
 		});
 	};
 

@@ -71,3 +71,7 @@
 .table-borderless > thead > tr > th {
     border: none;
 }
+.break{
+	max-width:600px;
+    word-wrap:break-word;
+}

@@ -98,32 +98,37 @@
                           
                     </div>
                     <div class="row">
-                        <div class="col-xs-6">
-                            
-                                <div class="form-group m-b-40">
-                                    <select class="form-control select2" name="organization" id="org-select">
-                                        <option selected="true" disabled="disabled">Select an Organization</option>
-                                            
-                                            {% for organization in organizations %}
-                                                
-                                                <option value="{{organization.id}}">{{organization.name}}</option>
-                                    
-                                            {% endfor %}
-                                    </select>
-                                    <span class="highlight"></span> <span class="bar"></span>
-                                    <label for="input6">Organization</label>
-                                    <span class="help-block" id="org-help" ><small>Select the organization to be evaluated.</small></span>
-                                </div>
-                        </div>
-                        <div class="col-xs-6">
+
+                        
+                        <div class="col-md-6">
+
                                 <div class="form-group m-b-40">
                                     <select class="form-control select2" name="activity" id ="transaction">
                                         <option selected="true" disabled="disabled" >Select</option>
+
+
+                                        {% for organization in organizations %}
+
+                                            <optgroup label="{{organization.name}}">
+
                                             {% for activity in activities %}
 
-                                                <option value="{{activity.id}}">{{activity.strategies}}</option>
+                                                {% if activity.organization == organization.id %}
+
+                                                   <option value="{{activity.id}}">{{organization.name}} - {{activity.strategies}}</option>
+
+                                                {% endif %}
                                             
                                             {% endfor %}
+
+                                        
+                                    
+                                            </optgroup>
+
+                                        {% endfor %}
+
+                                            
+
 
                                     </select>
                                     <span class="highlight"></span> <span class="bar"></span>

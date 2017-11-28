@@ -1,3 +1,3 @@
 INSERT INTO "PostProjectProposalExpense"
-			("GOSMActivity", "particular","establishment", "price","filename","filenameToShow","idNumber")
-	 VALUES (${gosmid},${particular},${establishment},${price},${file},${filenameToShow},${idNumber})
+			("GOSMActivity","submissionID", "particular","establishment", "price","filename","filenameToShow","idNumber")
+	 VALUES (${gosmid},${submissionID},${particular},${establishment},${price},${file},${filenameToShow},${idNumber})

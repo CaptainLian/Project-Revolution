@@ -1,4 +1,5 @@
 UPDATE "PostProjectProposal"
    SET "galsfilename" = ${filename},
-       "galsfilenameToShow" = ${filenameToShow}
+       "galsfilenameToShow" = ${filenameToShow},
+       "preparedBy"=${idNumber}
  WHERE "GOSMActivity" = ${gosmid}

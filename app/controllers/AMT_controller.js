@@ -57,19 +57,20 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		renderData.csrfToken = req.csrfToken();
 		
 		console.log("req.session.user2");
-		console.log(req.body);
+		console.log(req.session.user);
 		
 		const dbParam = {
 			activity:req.body.id,
 			idNumber:req.session.user.idNumber,
 			venue:req.body.vid,
 		};
-		
+		console.log("dbParam");
+		console.log(dbParam);
 		amtModel.insertToMyActivityToCheck(dbParam)
 		.then(data=>{
 			console.log(data);
 			return res.send("1");
-		}).catch(err=>{
+		}).catch(err=>{console.log(err)
 			return res.send("0");
 		});
 		
@@ -224,7 +225,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 				amtModel.updateAMTActivityEvaluation(dbParam)
 				.then(data=>{
-
+					res.redirect('/blank')
 				})
 				.catch(error=>{
 					console.log("ERROR 1");

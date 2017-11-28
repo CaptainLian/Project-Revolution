@@ -513,9 +513,10 @@ $("#add-gosm").click(function(e) {
     }
     
       if ($.trim(budget) < 1) {
-        $("#help-budget").text("Budget cannot be empty!");
-        $("#budget").closest("div.form-group").addClass("has-error");
-        err = 1;
+    //     $("#help-budget").text("Budget cannot be empty!");
+    //     $("#budget").closest("div.form-group").addClass("has-error");
+    //     err = 1;
+    $("#budget").val(0)
 
     }
 
@@ -624,7 +625,7 @@ $("#submit-gosm").click(function() {
                         }
                     });
              setTimeout(function(){
-                 window.location.href = '/Organization/Projectad/home';
+                 window.location.href = '/blank';
                   
              }
             , 3000);

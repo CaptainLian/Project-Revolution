@@ -1,2 +1,3 @@
-INSERT INTO POSTPROJECTPROPOSAL (GOSMACTIVITY)
-     VALUES (${gosmId});
+INSERT INTO "PostProjectProposal"(
+            "GOSMActivity", status, "dateCreated")
+    VALUES (${gosmid}, 0, NOW());

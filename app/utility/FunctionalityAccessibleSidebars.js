@@ -22,13 +22,6 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.ViewAPSReport] = [{
     link: '/Organization/APSReport'
 }];
 
-//Create GOSM
-functionalitySidebars[FUNCTIONALITY_SEQUENCES.CreateGOSM] = [{
-    name: 'Submit GOSM',
-    link: '/Organization/createGOSM',
-    icon: 'fa fa-comment-o'
-}];
-
 //Evaluate GOSM
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateGOSM] = [{
     name: 'View GOSM Submissions',
@@ -82,6 +75,12 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.SubmitPublicityMaterial] = [{
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluatePublicityMaterial] = [{
     name: 'Evaluate Publicity Submissions',
     link: '/PNP/Pubs/List'
+}];
+
+//Evaluate Post Project
+functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluatePostProject] = [{
+    name: 'Post Project',
+    link: '/ADM/Activity/List'
 }];
 
 const accessibleRoutes = [];

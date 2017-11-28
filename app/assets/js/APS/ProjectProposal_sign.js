@@ -1,3 +1,34 @@
+$(document).bind('customGenerated', function() {
+    (function() {
+        [].slice.call(document.querySelectorAll('.sttabs')).forEach(function(el) {
+            new CBPFWTabs(el);
+        });
+
+    })();
+
+    $('#section-linebox-5').css('visibility', "hidden");
+    $('#section-linebox-5').css('height', 0);
+    $('#section-linebox-5').css('width', 0);
+    $(document).on('click', '.sttabs li', function() {
+        var page = $(this).find("a").attr("href");
+        console.log(page);
+        page = page.replace("#section-linebox-", "");
+        console.log(page);
+        if (page == "5") {
+            console.log("REFRESH");
+
+            $('#section-linebox-5').css('visibility', "visible");
+            $('#section-linebox-5').css('height', "100%");
+            $('#section-linebox-5').css('width', "100%");
+        } else {
+            $('#section-linebox-5').css('visibility', "hidden");
+            $('#section-linebox-5').css('height', 0);
+            $('#section-linebox-5').css('width', 0);
+        }
+    });
+});
+$(document).trigger("customGenerated");
+
 (() => {
     const DELAY_REROUTE_APPROVE = 400;
     const DELAY_REROUTE_PEND = 650;
@@ -83,13 +114,12 @@
             '<div class="col-md-12">' +
             '<select class="col-md-12" multiple=""s id="select-sec">' +
 
-            '<option value="Objectives">I. Objectives</option>' +
-            '<option value="Brief Context">II. Brief Context</option>' +
-            '<option value="Program Design">III. Program Design</option>' +
-            '<option value="Source of Funds">IV. Source of Funds</option>' +
-            '<option value="Organizational Funds">V. Organizational Funds</option>' +
-            '<option value="Revenue and Expense Table">VI. Revenue and Expense Table</option>' +
-            '<option value="Attachements">VII. Attachements</option>' +
+            '<option value="Brief Context">I. Brief Context</option>' +
+            '<option value="Program Design">II. Program Design</option>' +
+            '<option value="Source of Funds">III. Source of Funds</option>' +
+            '<option value="Organizational Funds">IV. Organizational Funds</option>' +
+            '<option value="Revenue and Expense Table">V. Revenue and Expense Table</option>' +
+            '<option value="Attachments">VI. Attachments</option>' +
             '</select>' +
             '</div>' +
 
