@@ -473,7 +473,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
     ProjectProposalModel.prototype.getApprovedPPRCountPerOrg = function(param, connection = this._db){
         return connection.any(getApprovedPPRCountPerOrgSQL, param);
     };
-    
+
     ProjectProposalModel.prototype.getPendedPPRCountPerOrg = function(param, connection = this._db){
         return connection.any(getPendedPPRCountPerOrgSQL, param);
     };

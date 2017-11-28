@@ -482,12 +482,12 @@
                         {% endfor %}
                     </section>
 
+
                     <section id="section-linebox-6">
                        <div class="white-box">
                            <h4 class="m-t-30 text-left">VIII. Signatories</h4>
 
                            <hr />
-
                            <div class="comment-center">
                            {% for signatory in signatories %}
                                <div class="comment-body col-md-12 text-center">
@@ -495,16 +495,16 @@
                                    <div class="mail-contnet text-center">
 
                                    <h5 class="text-center">
-                                        {%if signatory.status =='Unsigned' %}
-                                        <span class="label label-rounded label-default text-black pull-left" style="color:black">{{signatory.status}}</span>
-                                        {%elif  signatory.status == 'Approved'%}
-                                        <span class="label label-rounded label-success pull-left">{{signatory.status}}</span>
-                                        {%elif  signatory.status == 'Pend'%}
-                                        <span class="label label-rounded label-warning pull-left">{{signatory.status}}</span>
-                                        {%elif  signatory.status == 'Denied'%}
-                                        <span class="label label-rounded label-danger pull-left">{{signatory.status}}</span>
-                                        {%endif%}
-                                        
+                                       {%if signatory.status =='Unsigned' %}
+                                       <span class="label label-rounded label-default text-black pull-left" style="color:black">{{signatory.status}}</span>
+                                       {%elif  signatory.status == 'Approved'%}
+                                       <span class="label label-rounded label-success pull-left">{{signatory.status}}</span>
+                                       {%elif  signatory.status == 'Pend'%}
+                                       <span class="label label-rounded label-warning pull-left">{{signatory.status}}</span>
+                                       {%elif  signatory.status == 'Denied'%}
+                                       <span class="label label-rounded label-danger pull-left">{{signatory.status}}</span>
+                                       {%endif%}
+
                                        <span class="time pull-right">
                                        {% if(signatory.datesigned)%}
                                            {{signatory.datesigned}}
@@ -512,21 +512,21 @@
                                            N/A
                                        {% endif %}
                                        </span>
+
                                    </h5>
                                    <h5>{{signatory.signatoryname}}</h5>
                                    <p>{{signatory.type}}</p>
-                                   <p>{{signatory.digitalsignature}}</p>
+                                   <p class="break">{{signatory.digitalsignature}}</p>
                                    </div>
                                </div>
+
                            {% endfor %}
                            </div>
                            <hr />
                            <br />
                        </div>
                    </section>
-
                 </div>
-
                 <!-- /content -->
             </div>
         </div>

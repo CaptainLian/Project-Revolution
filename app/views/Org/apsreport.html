@@ -99,15 +99,15 @@
     {{tag.javascript('/plugins/bower_components/Magnific-Popup-master/dist/jquery.magnific-popup.min.js', true)}}
     {{tag.javascript('/plugins/bower_components/Magnific-Popup-master/dist/jquery.magnific-popup-init.js', true)}}
     <!-- Page Scripts -->
-    
+
     {{tag.javascript('/plugins/bower_components/Chart.js/Chart.min.js', true)}}
     {{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
 
     <script >
     	$( document ).ready(function() {
-    
 
-    
+
+
     var ctx3 = document.getElementById("chart3").getContext("2d");
     var data3 = [
         {
@@ -135,7 +135,7 @@
             label: "Non-Academic"
         }
     ];
-    
+
     var myPieChart = new Chart(ctx3).Pie(data3,{
         segmentShowStroke : true,
         segmentStrokeColor : "#fff",
@@ -145,7 +145,7 @@
         animationEasing : "easeOutBounce",
         animateRotate : true,
         animateScale : false,
-        
+
         responsive: true
     });
 
@@ -177,7 +177,7 @@
             label: "not pushed through"
         }
     ];
-    
+
     var myPieChart = new Chart(ctx4).Pie(data4,{
         segmentShowStroke : true,
         segmentStrokeColor : "#fff",
@@ -187,7 +187,7 @@
         animationEasing : "easeOutBounce",
         animateRotate : true,
         animateScale : false,
-        
+
         responsive: true
     });
 
@@ -206,7 +206,7 @@
             label: "On-Time Activities"
         }
     ];
-    
+
     var myPieChart = new Chart(ctx5).Pie(data5,{
         segmentShowStroke : true,
         segmentStrokeColor : "#fff",
@@ -216,25 +216,22 @@
         animationEasing : "easeOutBounce",
         animateRotate : true,
         animateScale : false,
-        
+
         responsive: true
     });
-  
+
 });
     </script>
-    
+
     <!-- /Page Scripts -->
 {%endblock%}
 
-{%block body_preloader%}
-   
-{%endblock%}
 
 {%block content%}
 <div class="row">
                     <div class="col-sm-12">
                         <div class="white-box">
-                  
+
                             <br>
                             <section>
                                 <div class="sttabs tabs-style-bar">
@@ -341,7 +338,7 @@
                                             </div> -->
                                         </div>
                                         </section>
-                                        
+
                                     </div>
                                     <!-- /content -->
                                 </div>
@@ -350,10 +347,10 @@
                         </div>
                     </div>
                     <div class="col-sm-12">
-                        
+
                     </div>
                     <div class="col-sm-12">
-                        
+
                     </div>
                 </div>
 {%endblock%}
