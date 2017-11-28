@@ -320,8 +320,11 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 	        renderData.extra_data = req.extra_data;
 
             renderData.isCso = null;
-            if((req.session.user.type >= 3 && req.session.user.type <= 6) ||
-            	renderData.isCso = req.extra_data.user.accessibleFunctionalitiesList['21']){
+            console.log("req.session.user.type");
+            console.log(req.session.user.type);
+            console.log(req.extra_data.user.accessibleFunctionalitiesList['21']);
+            
+            if((req.session.user.type >= 3 && req.session.user.type <= 6)){
                 renderData.isCso = true;
 	            renderData.toadd = req.extra_data.user.accessibleFunctionalitiesList['18'];
             }else{
