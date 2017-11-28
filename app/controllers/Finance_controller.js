@@ -71,7 +71,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
                         	renderData.toadd = true;
                         }else if(typeof ACL !== 'undefined' && req.session.user.type == 1){
                         	renderData.isCso = ACL['21'] || false;
-                        	renderData.toadd = ACL['18'] || false;
+                        	renderData.toadd = true;
                         }
 
 						// to add transaction
