@@ -1191,7 +1191,7 @@ INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
 
 /* Organization Default Structure */
 
-CREATE OR REPLACE FUNCTION trigger_after_insert_StudentOrganization()
+CREATE OR REPLACE FUNCTION "trigger_after_insert_StudentOrganization_ACL"()
 RETURNS trigger AS
 $trigger$
     DECLARE
@@ -1280,10 +1280,10 @@ $trigger$
         RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
-CREATE TRIGGER after_insert_StudentOrganization
+CREATE TRIGGER "after_insert_StudentOrganization_ACL"
     AFTER INSERT ON StudentOrganization
     FOR EACH ROW
-    EXECUTE PROCEDURE trigger_after_insert_StudentOrganization();
+    EXECUTE PROCEDURE "trigger_after_insert_StudentOrganization_ACL"();
 
 -- FORMS
     /* GOSM RELATED*/
