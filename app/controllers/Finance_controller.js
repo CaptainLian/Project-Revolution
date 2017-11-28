@@ -60,10 +60,9 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			            renderData.transactionType = req.params.transaction;
 
 
-			            const ACL = req.extra_data.accessControl[req.session.user.organizationSelected.id];
-			            if(typeof ACL !== 'undefined'){
+			            const ACL = req.extra_data.accessControl[String(req.session.user.organizationSelected.id)];
 
-			            }
+
 			            //to evaluate
 			            renderData.isCso = null;
 			            renderData.toadd = null;
@@ -85,7 +84,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 								idnumber: req.session.user.idNumber
 							};
 
-							financeModel.checkCashAdvanceSignatory(signatoryParam)
+							return financeModel.checkCashAdvanceSignatory(signatoryParam)
 							.then(signatory=>{
 
 								console.log(signatory);
@@ -97,32 +96,21 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 								return res.render('Finance/EvaluateTransaction', renderData);
 
 							}).catch(error=>{
-								console.log(error);
+								return logger.debug(`${error.message}\n${error.stack}`, log_options);
 							});
 
-						}
-						else{
+						}else{
 							return res.render('Finance/EvaluateTransaction', renderData);
 						}
-
-						//next();
-
 					}).catch(error=>{
-						console.log(error);
+						return logger.debug(`${error.message}\n${error.stack}`, log_options);
 					});
-
-
-
 				}).catch(error=>{
-					console.log(error);
+					return logger.debug(`${error.message}\n${error.stack}`, log_options);
 				});
-
-
-			}
-			else{
-
 			}
 		},
+
 		approveCashAdvance: (req, res) => {
 			logger.debug('approveCashAdvance', log_options);
 
