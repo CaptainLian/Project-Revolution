@@ -503,7 +503,7 @@ $trigger$
 
         NEW.dateCreated = CURRENT_TIMESTAMP;
         NEW.dateModified = NEW.dateCreated;
-        return NEW;
+        RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
 CREATE TRIGGER before_insert_Account
@@ -518,26 +518,14 @@ $trigger$
         SELECT gen_salt('bf') INTO NEW.salt;
         SELECT crypt(NEW.password, NEW.salt) INTO NEW.password;
         NEW.dateModified = CURRENT_TIMESTAMP;
-        return NEW;
+        RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
 CREATE TRIGGER before_update_Account
     BEFORE UPDATE ON Account
-    FOR EACH ROW WHEN (crypt(NEW.password, OLD.salt) <> OLD.password)
+    FOR EACH ROW
     EXECUTE PROCEDURE trigger_before_update_Account();
 
-CREATE OR REPLACE FUNCTION trigger_before_update_Account2()
-RETURNS trigger AS
-$trigger$
-    BEGIN
-        NEW.dateModified = CURRENT_TIMESTAMP;
-        RETURN NEW;
-    END;
-$trigger$ LANGUAGE plpgsql;
-CREATE TRIGGER before_update_Account2
-BEFORE UPDATE ON Account
-    FOR EACH ROW
-    EXECUTE PROCEDURE trigger_before_update_Account2();
     /* Account Table Triggers End */
 DROP TABLE IF EXISTS "AccountNotification" CASCADE;
 CREATE TABLE "AccountNotification" (
@@ -831,6 +819,7 @@ CREATE TABLE StudentOrganization (
     description TEXT,
     funds NUMERIC(16, 2) NOT NULL DEFAULT 0.0,
     operationalFunds NUMERIC(16, 2) NOT NULL DEFAULT 0.0,
+    depositoryFunds NUMERIC(16, 2) NOT NULL DEFAULT 0.0,
     depositryFunds NUMERIC(16, 2) NOT NULL DEFAULT 0.0,
     path_profilePicture TEXT,
 
@@ -1623,8 +1612,7 @@ INSERT INTO ExpenseType (id, name)
                         (3, 'Venue Expense'),
                         (4, 'Transport Expense'),
                         (5, 'Honorarium'),
-                        (6, 'Cash Prize'),
-                        (7, 'Corruption Expense');
+                        (6, 'Cash Prize');
 
 DROP TABLE IF EXISTS "ExpenseTypeAttachmentRequirement" CASCADE;
 CREATE TABLE "ExpenseTypeAttachmentRequirement" (
