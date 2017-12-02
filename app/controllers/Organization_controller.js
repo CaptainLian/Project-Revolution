@@ -2557,7 +2557,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.hasnorelated = false;
                 renderData.hasgosm = false;
 
-                if (data[0].length==0) {
+                if (data[0]==null) {
                     console.log("enter this");
                     renderData.pended = 0;
                 }
@@ -2566,7 +2566,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     renderData.pended = data[0];
                 }
 
-                if (data[1].length == 0) {
+                if (data[1] == null) {
                     renderData.approved = 0;
                 }
                 else{
@@ -2574,7 +2574,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     renderData.approved = data[1];
                 }
 
-                if (data[2].length == 0) {
+                if (data[2] == null) {
                     renderData.denied = 0
                 }
                 else{
@@ -2582,7 +2582,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     renderData.denied = data[2];
                 }
 
-                if (data[3].length == 0) {
+                if (data[3] == null) {
                     renderData.related = 0
                 }
                 else{
@@ -2590,7 +2590,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     renderData.related = data[3];
                 }
 
-                if (data[4].length == 0) {
+                if (data[4] == null) {
                     renderData.norelated = 0
                 }
                 else{
@@ -2598,7 +2598,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     renderData.norelated = data[4];
                 }
 
-                if (data[5].length == 0) {
+                if (data[5]== null) {
                     renderData.gosm = 0
                 }
                 else{
