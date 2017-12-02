@@ -2128,7 +2128,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         requirement: data[ctr].id,
                         dir: dir2 + file.name + ' - ' + date,
                         idNumber: req.session.user.idNumber,
-                        filename: dateSplit + '.' + nFilename,
+                        filename: date + '.' + nFilename,
                         filenametoShow: file.name
 
                     };
