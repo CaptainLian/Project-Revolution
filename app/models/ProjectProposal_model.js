@@ -471,27 +471,27 @@ module.exports = function(configuration, modules, db, queryFiles) {
     };
 
     ProjectProposalModel.prototype.getApprovedPPRCountPerOrg = function(param, connection = this._db){
-        return connection.any(getApprovedPPRCountPerOrgSQL, param);
+        return connection.oneOrNone(getApprovedPPRCountPerOrgSQL, param);
     };
 
     ProjectProposalModel.prototype.getPendedPPRCountPerOrg = function(param, connection = this._db){
-        return connection.any(getPendedPPRCountPerOrgSQL, param);
+        return connection.oneOrNone(getPendedPPRCountPerOrgSQL, param);
     };
 
     ProjectProposalModel.prototype.getDeniedPPRCountPerOrg = function(param, connection = this._db){
-        return connection.any(getDeniedPPRCountPerOrgSQL, param);
+        return connection.oneOrNone(getDeniedPPRCountPerOrgSQL, param);
     };
 
     ProjectProposalModel.prototype.getActivitiesRelatedToNatureCount = function(param, connection = this._db){
-        return connection.any(getActivitiesRelatedToNatureCountSQL, param)
+        return connection.oneOrNone(getActivitiesRelatedToNatureCountSQL, param)
     };
 
     ProjectProposalModel.prototype.getActivitiesNotRelatedToNatureCount = function(param, connection = this._db){
-        return connection.any(getActivitiesNotRelatedToNatureCountSQL, param)
+        return connection.oneOrNone(getActivitiesNotRelatedToNatureCountSQL, param)
     };
 
     ProjectProposalModel.prototype.getGOSMCountPerOrg = function(param, connection = this._db){
-        return connection.any(getGOSMCountPerOrgSQL, param);
+        return connection.oneOrNone(getGOSMCountPerOrgSQL, param);
     };
 
     const getSignatoriesSQL = queryFiles.PPR_get_signatories;
