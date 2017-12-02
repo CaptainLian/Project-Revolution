@@ -260,7 +260,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 });
 
             }
-            else if (req.params.status == 2){
+            else if (req.params.status == 4){
 
                 console.log("ENTER 2");
 
@@ -1572,7 +1572,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             gosmactivity: req.body.gosmactivity
                         }
 
-                        projectProposal.updatePPRSignatoryStatus(signatoryParam)
+                        projectProposalModel.updatePPRSignatoryStatus(signatoryParam)
                         .then(data=>{
 
                             return res.redirect(`/Organization/ProjectProposal/gosmlist/`);
