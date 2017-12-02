@@ -101,7 +101,23 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             //5
                             projectProposalModel.getLatestProjectProposalAttachment(pa),
                             //6
-                            projectProposalModel.getSignatories(data.id)
+                            database.any(`SELECT
+                                            a.idNumber as signatory,
+                                            a.firstname || ' ' || a.lastname AS signatoryName,
+                                            st.name AS type, ss.name AS status,
+                                            pps.digitalSignature,
+                                            TO_CHAR(pps.dateSigned, 'Mon DD, YYYY') AS dateSigned
+                                          FROM (SELECT *
+                                                  FROM ProjectProposalSignatory pps
+                                                 WHERE pps.GOSMActivity = (SELECT gosmactivity
+                                                                             FROM ProjectProposal
+                                                                             WHERE id = \$\{projectId\})) pps LEFT JOIN SignatoryType st
+                                                                                                                  ON pps.type = st.id
+                                                                                                           LEFT JOIN SignatoryStatus ss
+                                                                                                                  ON pps.status = ss.id
+                                                                                                           LEFT JOIN Account a
+                                                                                                                  ON pps.signatory = a.idNumber
+                                        ORDER BY st.lineup ASC, a.idNumber DESC;`, pa)
                         ]);
                     }).catch(err=>{
                         return logger.warn(`Unhandled error: ${err.message}\n${err.stack} `, log_options);
@@ -1555,11 +1571,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     if (req.body.status == 1) {
                         postProjectProposalModel.insertPostProjectProposal(dbParam)
                         .then(data1=>{
-
-
                             return res.redirect(`/Organization/ProjectProposal/gosmlist/`);
-
-
                         }).catch(error=>{
                             console.log("error in insertPostProjectProposal");
                             console.log(error);
@@ -1567,20 +1579,16 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     }
                     else {
 
-                        var signatoryParam = {
+                        let signatoryParam = {
                             status: 0,
                             gosmactivity: req.body.gosmactivity
-                        }
+                        };
 
                         projectProposalModel.updatePPRSignatoryStatus(signatoryParam)
                         .then(data=>{
-
                             return res.redirect(`/Organization/ProjectProposal/gosmlist/`);
-
-
                         }).catch(error=>{
-                            console.log("new query error");
-                            console.log(error);
+                            logger.debug(`${error.message}\n${error.stack}`, log_options);
                         });
 
 
@@ -2120,7 +2128,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         requirement: data[ctr].id,
                         dir: dir2 + file.name + ' - ' + date,
                         idNumber: req.session.user.idNumber,
-                        filename: date + '.' + nFilename,
+                        filename: dateSplit + '.' + nFilename,
                         filenametoShow: file.name
 
                     };
