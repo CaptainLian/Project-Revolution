@@ -278,10 +278,10 @@ $(document).on('click', "i.fa-pencil", function() {
                 data.targetdatestart = data.targetdatestart.substring(0, 10);
                 console.log(data.targetdatestart);
                 var sdate = data.targetdatestart.split('-');
-                var startday = sdate[1] + '/' + sdate[2] + '/' + sdate[0];
+                var startday = sdate[1] + '/' + (parseInt(sdate[2])+1) + '/' + sdate[0];
                 data.targetdateend = data.targetdateend.substring(0, 10);
                 var edate = data.targetdateend.split('-');
-                var endday = edate[1] + '/' + edate[2] + '/' + edate[0];
+                var endday = edate[1] + '/' + (parseInt(edate[2])+1) + '/' + edate[0];
 
                 var targetDateStart = $("#targetDateStart").val(startday).trigger('change');
                 var targetDateEnd = $("#targetDateEnd").val(endday).trigger('change');
@@ -385,10 +385,10 @@ $(document).on('click', 'i.fa-eye', function() {
             $("#modal-nature").text(dNat(data.activitynature));
             data.targetdatestart = data.targetdatestart.substring(0, 10);
             var sdate = data.targetdatestart.split('-');
-            var startday = sdate[1] + '/' + sdate[2] + '/' + sdate[0];
+            var startday = sdate[1] + '/' + (parseInt(sdate[2])+1) + '/' + sdate[0];
             data.targetdateend = data.targetdateend.substring(0, 10);
             var edate = data.targetdateend.split('-');
-            var endday = edate[1] + '/' + edate[2] + '/' + edate[0];
+            var endday = edate[1] + '/' + (parseInt(edate[2])+1) + '/' + edate[0];
             $("#modal-starttime").text(startday).trigger('change');
             $("#modal-endtime").text(endday).trigger('change');
             var toBeInserted = '';

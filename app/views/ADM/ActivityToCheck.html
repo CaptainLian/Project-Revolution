@@ -156,7 +156,7 @@
                         <p>{{activity.venue}}</p>
                     </div>
                     <div class="col-md-6"><strong>ANMP /AMP</strong>
-                        <p>50 / 20</p>
+                        <p>{{activity.ANMP}} / {{activity.ANP}}</p>
 
                         <strong>ENMP /EMP</strong>
                         <p>{{activity.enmp}} / {{activity.enp}}</p>
@@ -168,11 +168,11 @@
                 <div class="row text-center m-t-10">
                     <div class="col-md-12">
                         <p><strong>Project Heads</strong></p>
-
-                        <p>Neil Capistrano</p>
-                        <p>09390290166</p>
-                        <p>Dominique Dagunton</p>
-                        <p>09290430145</p>
+                        {%for p in pheads%}
+                        <p>{{p.name}}</p>
+                        <p>{{p.contactnumber}}</p>
+                        {%endfor%}
+                        
                     </div>
                 </div>
                 <hr>

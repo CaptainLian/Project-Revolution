@@ -83,11 +83,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             //0
                             Promise.resolve(data),
                             //1
-                            projectProposalModel.getProjectProposalExpenses(data.id),
+                            projectProposalModel.getProjectProposalExpenses(req.params.gosmactivity),
                             //2
-                            projectProposalModel.getProjectProposalProjectedIncome(data.id),
+                            projectProposalModel.getProjectProposalProjectedIncome(req.params.gosmactivity),
                             //3
-                            projectProposalModel.getProjectProposalProgramDesign(data.id, [
+                            projectProposalModel.getProjectProposalProgramDesign(req.params.gosmactivity, [
                                 'pppd.dayid AS dayid',
                                 "to_char(pppd.date, 'Mon DD, YYYY') AS date",
                                 "to_char(pppd.starttime + CURRENT_DATE, 'HH:MI AM') AS starttime",
@@ -99,9 +99,25 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             //4
                             projectProposalModel.getProjectProposalProjectHeads(data.id),
                             //5
-                            projectProposalModel.getLatestProjectProposalAttachment(pa),
+                            projectProposalModel.getLatestProjectProposalAttachment({projectId:req.params.gosmactivity}),
                             //6
-                            projectProposalModel.getSignatories(data.id)
+                            database.any(`SELECT
+                                            a.idNumber as signatory,
+                                            a.firstname || ' ' || a.lastname AS signatoryName,
+                                            st.name AS type, ss.name AS status,
+                                            pps.digitalSignature,
+                                            TO_CHAR(pps.dateSigned, 'Mon DD, YYYY') AS dateSigned
+                                          FROM (SELECT *
+                                                  FROM ProjectProposalSignatory pps
+                                                 WHERE pps.GOSMActivity = (SELECT gosmactivity
+                                                                             FROM ProjectProposal
+                                                                             WHERE id = \$\{projectId\})) pps LEFT JOIN SignatoryType st
+                                                                                                                  ON pps.type = st.id
+                                                                                                           LEFT JOIN SignatoryStatus ss
+                                                                                                                  ON pps.status = ss.id
+                                                                                                           LEFT JOIN Account a
+                                                                                                                  ON pps.signatory = a.idNumber
+                                        ORDER BY st.lineup ASC, a.idNumber DESC;`, pa)
                         ]);
                     }).catch(err=>{
                         return logger.warn(`Unhandled error: ${err.message}\n${err.stack} `, log_options);
@@ -1555,11 +1571,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     if (req.body.status == 1) {
                         postProjectProposalModel.insertPostProjectProposal(dbParam)
                         .then(data1=>{
-
-
                             return res.redirect(`/Organization/ProjectProposal/gosmlist/`);
-
-
                         }).catch(error=>{
                             console.log("error in insertPostProjectProposal");
                             console.log(error);
@@ -1567,20 +1579,16 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     }
                     else {
 
-                        var signatoryParam = {
+                        let signatoryParam = {
                             status: 0,
                             gosmactivity: req.body.gosmactivity
-                        }
+                        };
 
                         projectProposalModel.updatePPRSignatoryStatus(signatoryParam)
                         .then(data=>{
-
                             return res.redirect(`/Organization/ProjectProposal/gosmlist/`);
-
-
                         }).catch(error=>{
-                            console.log("new query error");
-                            console.log(error);
+                            logger.debug(`${error.message}\n${error.stack}`, log_options);
                         });
 
 
