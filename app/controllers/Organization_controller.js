@@ -83,11 +83,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             //0
                             Promise.resolve(data),
                             //1
-                            projectProposalModel.getProjectProposalExpenses(data.id),
+                            projectProposalModel.getProjectProposalExpenses(req.params.gosmactivity),
                             //2
-                            projectProposalModel.getProjectProposalProjectedIncome(data.id),
+                            projectProposalModel.getProjectProposalProjectedIncome(req.params.gosmactivity),
                             //3
-                            projectProposalModel.getProjectProposalProgramDesign(data.id, [
+                            projectProposalModel.getProjectProposalProgramDesign(req.params.gosmactivity, [
                                 'pppd.dayid AS dayid',
                                 "to_char(pppd.date, 'Mon DD, YYYY') AS date",
                                 "to_char(pppd.starttime + CURRENT_DATE, 'HH:MI AM') AS starttime",
@@ -99,7 +99,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             //4
                             projectProposalModel.getProjectProposalProjectHeads(data.id),
                             //5
-                            projectProposalModel.getLatestProjectProposalAttachment(pa),
+                            projectProposalModel.getLatestProjectProposalAttachment({projectId:req.params.gosmactivity}),
                             //6
                             database.any(`SELECT
                                             a.idNumber as signatory,

@@ -76,7 +76,7 @@ $(".approve").on('click',function(){
         console.log("DATA ON APPROVE");
         console.log(pub.attr("data-id"));
         if(data){
-            swal("Good job!", "You clicked the button!", "success");    
+            swal("Good job!", "Success!", "success");    
         }
         
         
@@ -138,7 +138,7 @@ $(".pend").on('click',function(){
         console.log("DATA ON APPROVE");
         console.log(pub.attr("data-id"));
         if(data){
-            swal("Good job!", "You clicked the button!", "success");    
+            swal("Good job!", "Success!", "success");    
         }
         
         
@@ -204,7 +204,7 @@ $(".deny").on('click',function(){
         console.log("DATA ON APPROVE");
         console.log(pub.attr("data-id"));
         if(data){
-            swal("Good job!", "You clicked the button!", "success");    
+            swal("Good job!", "Success!", "success");    
         }
         
         
