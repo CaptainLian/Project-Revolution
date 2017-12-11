@@ -99,22 +99,20 @@
     {{tag.javascript('/plugins/bower_components/Magnific-Popup-master/dist/jquery.magnific-popup.min.js', true)}}
     {{tag.javascript('/plugins/bower_components/Magnific-Popup-master/dist/jquery.magnific-popup-init.js', true)}}
     <!-- Page Scripts -->
-    
+
     {{tag.javascript('/plugins/bower_components/Chart.js/Chart.min.js', true)}}
     {{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
 
     <script >
     	$( document ).ready(function() {
-    
 
-    
+
+
     var ctx3 = document.getElementById("chart3").getContext("2d");
     var data3 = [
         {
             {% if hasrelated %}
-                {% for relate in related%}
-                    value: {{relate.related}},
-                {% endfor %}
+                value: {{related.related}},
             {% else %}
                 value: {{related}},
             {% endif %}
@@ -124,9 +122,7 @@
         },
         {
             {% if hasnorelated %}
-                {% for norelate in norelated%}
-                    value: {{norelate.norelated}},
-                {% endfor %}
+                value: {{norelated.norelated}},
             {% else %}
                 value: {{norelated}},
             {% endif %}
@@ -135,7 +131,7 @@
             label: "Non-Academic"
         }
     ];
-    
+
     var myPieChart = new Chart(ctx3).Pie(data3,{
         segmentShowStroke : true,
         segmentStrokeColor : "#fff",
@@ -145,7 +141,7 @@
         animationEasing : "easeOutBounce",
         animateRotate : true,
         animateScale : false,
-        
+
         responsive: true
     });
 
@@ -153,31 +149,31 @@
     var ctx4 = document.getElementById("chart4").getContext("2d");
     var data4 = [
         {
-            {% if hasgosm %}
-                {% for g in gosm%}
-                    value: {{g.gosm}},
-                {% endfor %}
+            {% if hasapproved %}
+                value: {{approved.approved}},
             {% else %}
-                value: {{gosm}},
+                value: {{approved}},
             {% endif %}
             color: "#b8edf0",
             highlight: "#b8edf0",
             label: "pushed through"
         },
         {
-            {% if hasapproved %}
-                {% for approve in approved%}
-                    value: {{approve.approved}},
-                {% endfor %}
+            {% if hasgosm %}
+                {% if hasapproved %}
+                    value: {{gosm.gosm-approved.approved}},
+                {% else %}
+                    value: {{gosm.gosm}},
+                {% endif %}
             {% else %}
-                value: {{approved}},
-            {% endif %}
+                value: {{gosm}},
+            {% endif %}            
             color: "#006064",
             highlight: "#00838f",
             label: "not pushed through"
         }
     ];
-    
+
     var myPieChart = new Chart(ctx4).Pie(data4,{
         segmentShowStroke : true,
         segmentStrokeColor : "#fff",
@@ -187,54 +183,51 @@
         animationEasing : "easeOutBounce",
         animateRotate : true,
         animateScale : false,
-        
+
         responsive: true
     });
 
-    var ctx5 = document.getElementById("chart5").getContext("2d");
-    var data5 = [
-        {
-            value: 50,
-            color: "#b8edf0",
-            highlight: "#b8edf0",
-            label: "Late Activities"
-        },
-        {
-            value: 100,
-            color: "#004d40",
-            highlight: "#00695c",
-            label: "On-Time Activities"
-        }
-    ];
-    
-    var myPieChart = new Chart(ctx5).Pie(data5,{
-        segmentShowStroke : true,
-        segmentStrokeColor : "#fff",
-        segmentStrokeWidth : 0,
-        animationSteps : 100,
-        tooltipCornerRadius: 0,
-        animationEasing : "easeOutBounce",
-        animateRotate : true,
-        animateScale : false,
-        
-        responsive: true
-    });
-  
+    // var ctx5 = document.getElementById("chart5").getContext("2d");
+    // var data5 = [
+    //     {
+    //         value: 50,
+    //         color: "#b8edf0",
+    //         highlight: "#b8edf0",
+    //         label: "Late Activities"
+    //     },
+    //     {
+    //         value: 100,
+    //         color: "#004d40",
+    //         highlight: "#00695c",
+    //         label: "On-Time Activities"
+    //     }
+    // ];
+
+    // var myPieChart = new Chart(ctx5).Pie(data5,{
+    //     segmentShowStroke : true,
+    //     segmentStrokeColor : "#fff",
+    //     segmentStrokeWidth : 0,
+    //     animationSteps : 100,
+    //     tooltipCornerRadius: 0,
+    //     animationEasing : "easeOutBounce",
+    //     animateRotate : true,
+    //     animateScale : false,
+
+    //     responsive: true
+    // });
+
 });
     </script>
-    
+
     <!-- /Page Scripts -->
 {%endblock%}
 
-{%block body_preloader%}
-   
-{%endblock%}
 
 {%block content%}
 <div class="row">
                     <div class="col-sm-12">
                         <div class="white-box">
-                  
+
                             <br>
                             <section>
                                 <div class="sttabs tabs-style-bar">
@@ -254,9 +247,7 @@
                                                     <div class="col-md-6 col-sm-6 col-xs-6">
                                                         <h3 class="counter text-right m-t-15 text-success">
                                                         {% if hasapproved %}
-                                                            {% for approve in approved%}
-                                                                {{approve.approved}}
-                                                            {% endfor %}
+                                                            {{approved.approved}}
                                                         {% else %}
                                                             {{approved}}
                                                         {% endif %}</h3>
@@ -276,9 +267,7 @@
                                                     <div class="col-md-6 col-sm-6 col-xs-6">
                                                         <h3 class="counter text-right m-t-15 text-warning">
                                                         {% if haspend %}
-                                                            {% for pend in pended%}
-                                                                {{pend.pended}}
-                                                            {% endfor %}
+                                                            {{pended.pended}}
                                                         {% else %}
                                                             {{pended}}
                                                         {% endif %}</h3>
@@ -298,9 +287,7 @@
                                                     <div class="col-md-6 col-sm-6 col-xs-6">
                                                         <h3 class="counter text-right m-t-15 text-danger">
                                                         {% if hasdenied %}
-                                                            {% for deny in denied%}
-                                                                {{deny.denied}}
-                                                            {% endfor %}
+                                                            {{denied.denied}}
                                                         {% else %}
                                                             {{denied}}
                                                         {% endif %}</h3>
@@ -341,7 +328,7 @@
                                             </div> -->
                                         </div>
                                         </section>
-                                        
+
                                     </div>
                                     <!-- /content -->
                                 </div>
@@ -350,10 +337,10 @@
                         </div>
                     </div>
                     <div class="col-sm-12">
-                        
+
                     </div>
                     <div class="col-sm-12">
-                        
+
                     </div>
                 </div>
 {%endblock%}

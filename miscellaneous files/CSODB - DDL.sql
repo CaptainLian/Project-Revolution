@@ -503,7 +503,7 @@ $trigger$
 
         NEW.dateCreated = CURRENT_TIMESTAMP;
         NEW.dateModified = NEW.dateCreated;
-        return NEW;
+        RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
 CREATE TRIGGER before_insert_Account
@@ -518,26 +518,14 @@ $trigger$
         SELECT gen_salt('bf') INTO NEW.salt;
         SELECT crypt(NEW.password, NEW.salt) INTO NEW.password;
         NEW.dateModified = CURRENT_TIMESTAMP;
-        return NEW;
+        RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
 CREATE TRIGGER before_update_Account
     BEFORE UPDATE ON Account
-    FOR EACH ROW WHEN (crypt(NEW.password, OLD.salt) <> OLD.password)
+    FOR EACH ROW
     EXECUTE PROCEDURE trigger_before_update_Account();
 
-CREATE OR REPLACE FUNCTION trigger_before_update_Account2()
-RETURNS trigger AS
-$trigger$
-    BEGIN
-        NEW.dateModified = CURRENT_TIMESTAMP;
-        RETURN NEW;
-    END;
-$trigger$ LANGUAGE plpgsql;
-CREATE TRIGGER before_update_Account2
-BEFORE UPDATE ON Account
-    FOR EACH ROW
-    EXECUTE PROCEDURE trigger_before_update_Account2();
     /* Account Table Triggers End */
 DROP TABLE IF EXISTS "AccountNotification" CASCADE;
 CREATE TABLE "AccountNotification" (
@@ -831,6 +819,7 @@ CREATE TABLE StudentOrganization (
     description TEXT,
     funds NUMERIC(16, 2) NOT NULL DEFAULT 0.0,
     operationalFunds NUMERIC(16, 2) NOT NULL DEFAULT 0.0,
+    depositoryFunds NUMERIC(16, 2) NOT NULL DEFAULT 0.0,
     depositryFunds NUMERIC(16, 2) NOT NULL DEFAULT 0.0,
     path_profilePicture TEXT,
 
@@ -1191,7 +1180,7 @@ INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
 
 /* Organization Default Structure */
 
-CREATE OR REPLACE FUNCTION trigger_after_insert_StudentOrganization()
+CREATE OR REPLACE FUNCTION "trigger_after_insert_StudentOrganization_ACL"()
 RETURNS trigger AS
 $trigger$
     DECLARE
@@ -1280,10 +1269,10 @@ $trigger$
         RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
-CREATE TRIGGER after_insert_StudentOrganization
+CREATE TRIGGER "after_insert_StudentOrganization_ACL"
     AFTER INSERT ON StudentOrganization
     FOR EACH ROW
-    EXECUTE PROCEDURE trigger_after_insert_StudentOrganization();
+    EXECUTE PROCEDURE "trigger_after_insert_StudentOrganization_ACL"();
 
 -- FORMS
     /* GOSM RELATED*/
@@ -1623,8 +1612,7 @@ INSERT INTO ExpenseType (id, name)
                         (3, 'Venue Expense'),
                         (4, 'Transport Expense'),
                         (5, 'Honorarium'),
-                        (6, 'Cash Prize'),
-                        (7, 'Corruption Expense');
+                        (6, 'Cash Prize');
 
 DROP TABLE IF EXISTS "ExpenseTypeAttachmentRequirement" CASCADE;
 CREATE TABLE "ExpenseTypeAttachmentRequirement" (
@@ -2026,41 +2014,7 @@ CREATE TRIGGER "before_insert_PreActivityCashAdvance_sequence"
     FOR EACH ROW
     EXECUTE PROCEDURE "trigger_before_insert_PreActivityCashAdvance_sequence"();
 
-CREATE OR REPLACE FUNCTION "trigger_after_update_PreActivityCashAdvanceSignatory_completion"()
-RETURNS TRIGGER AS
-$trigger$
-    DECLARE
-        numSignNeeded INTEGER;
-    BEGIN
-	IF NEW.status = 1 THEN
-	    SELECT COUNT(pacas.id) INTO numSignNeeded
-              FROM "PreActivityCashAdvanceSignatory" pacas
-             WHERE pacas."cashAdvance" = NEW."cashAdvance"
-               AND pacas.status <> 1;
 
-             IF numSignNeeded = 0 THEN
-                UPDATE "PreActivityCashAdvance"
-                   SET status = 1
-                 WHERE id = NEW."cashAdvance";
-            END IF;
-	ELSIF NEW.status = 2 THEN
-            UPDATE "PreActivityCashAdvance"
-               SET status = 2
-             WHERE id = NEW."cashAdvance";
-        ELSIF NEW.status = 3 THEN
-                UPDATE "PreActivityCashAdvance"
-                   SET status = 3
-                 WHERE id = NEW."cashAdvance";
-	END IF;
-        
-
-        RETURN NEW;
-    END;
-$trigger$ LANGUAGE plpgsql;
-CREATE TRIGGER "after_update_PreActivityCashAdvanceSignatory_completion"
-    AFTER UPDATE ON "PreActivityCashAdvanceSignatory"
-    FOR EACH ROW WHEN (OLD.status <> NEW.status)
-    EXECUTE PROCEDURE "trigger_after_update_PreActivityCashAdvanceSignatory_completion"();
 
 DROP TABLE IF EXISTS "PreActivityCashAdvanceParticular" CASCADE;
 CREATE TABLE "PreActivityCashAdvanceParticular" (
@@ -2225,6 +2179,40 @@ CREATE TRIGGER "after_delete_PreActivityCashAdvanceParticular_signatories"
     FOR EACH ROW
     EXECUTE PROCEDURE "trigger_after_delete_PreActivityCashAdvanceParticular_signatories"();
 
+CREATE OR REPLACE FUNCTION "trigger_after_update_PreActivityCashAdvanceSignatory_completion"()
+RETURNS TRIGGER AS
+$trigger$
+    DECLARE
+        numSignNeeded INTEGER;
+    BEGIN
+	IF NEW.status = 1 THEN
+	    SELECT COUNT(pacas.id) INTO numSignNeeded
+              FROM "PreActivityCashAdvanceSignatory" pacas
+             WHERE pacas."cashAdvance" = NEW."cashAdvance"
+               AND pacas.status <> 1;
+
+             IF numSignNeeded = 0 THEN
+                UPDATE "PreActivityCashAdvance"
+                   SET status = 1
+                 WHERE id = NEW."cashAdvance";
+            END IF;
+	ELSIF NEW.status = 2 THEN
+            UPDATE "PreActivityCashAdvance"
+               SET status = 2
+             WHERE id = NEW."cashAdvance";
+        ELSIF NEW.status = 3 THEN
+                UPDATE "PreActivityCashAdvance"
+                   SET status = 3
+                 WHERE id = NEW."cashAdvance";
+	END IF;
+        
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER "after_update_PreActivityCashAdvanceSignatory_completion"
+    AFTER UPDATE ON "PreActivityCashAdvanceSignatory"
+    FOR EACH ROW WHEN (OLD.status <> NEW.status)
+    EXECUTE PROCEDURE "trigger_after_update_PreActivityCashAdvanceSignatory_completion"();
 /* Organization Treasurer */
     /* AMTActivityEvaluation */
 DROP TABLE IF EXISTS AMTActivityEvaluationStatus CASCADE;

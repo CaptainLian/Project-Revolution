@@ -497,17 +497,19 @@
                                         {%endif%}
 
                                         <span class="time pull-right">
-                                        {% if(signatory.datesigned)%}
+                                        {% if(signatory.datesigned and signatory.status == 'Approved')%}
                                             {{signatory.datesigned}}
                                         {% else %}
                                             N/A
                                         {% endif %}
                                         </span>
-                                        
-                                    </h5> 
+
+                                    </h5>
                                     <h5>{{signatory.signatoryname}}</h5>
                                     <p>{{signatory.type}}</p>
-                                    <p class="break">{{signatory.digitalsignature}}</p>
+                                    <p class="break">{%if(signatory.status == 'Approved')%}
+                                        {{signatory.digitalsignature}}
+                                        {%endif%}</p>
                                     </div>
                                 </div>
 

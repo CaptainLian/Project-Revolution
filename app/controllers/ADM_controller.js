@@ -96,7 +96,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             briefContext: true,
             gosmid: req.body.gosmid
         }
-        if (!Array.isArray(req.body["sections[]"])) {
+        if ( req.body.status == '4') {
             sections.push(req.body.sections)
             dbParam = {
                 gosmid: req.body.gosmid,
@@ -115,29 +115,52 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
             }
             var sections = req.body["sections[]"];
-            for (var x = 0; x < sections.length; x++) {
-                console.log("asd");
-                if (sections[x] == 1) {
-                    stat.briefContext = false
-                }
-                if (sections[x] == 2) {
-                    stat.briefContext = false
-                }
-                if (sections[x] == 3) {
-                    stat.otherFinance = false;
-                }
-                if (sections[x] == 4) {
-                    stat.otherFinance = false;
-                }
+            if(Array.isArray(req.body["sections[]"]) ){
+                for (var x = 0; x < sections.length; x++) {
+                    console.log("asd");
+                    if (sections[x] == "1") {
+                        stat.briefContext = false
+                    }
+                    if (sections[x] == "2") {
+                        stat.briefContext = false
+                    }
+                    if (sections[x] == "3") {
+                        stat.otherFinance = false;
+                    }
+                    if (sections[x] == "4") {
+                        stat.otherFinance = false;
+                    }
+                    
 
-                // if(sections[x] == 5){
-                //     stat.briefContext = false
-                // }
+                    // if(sections[x] == 5){
+                    //     stat.briefContext = false
+                    // }
+                }
+            }else{
+                console.log("asd3");
+                    var arr = [];
+                    dbParam.sections = arr.push(req.body["sections[]"])
+                    dbParam.sections = '{"'+req.body["sections[]"]+'"}';
+                  if (req.body["sections[]"] == "1") {
+                        stat.briefContext = false
+                    }
+                    if (req.body["sections[]"] == "2") {
+                        stat.briefContext = false
+                    }
+                    if (req.body["sections[]"] == "3") {
+                        stat.otherFinance = false;
+                    }
+                    if (req.body["sections[]"] == "4") {
+                        stat.otherFinance = false;
+                    }
             }
 
             // var
             console.log("asd2");
         }
+        console.log("DBPARAM");
+        console.log(dbParam);
+        console.log(stat);
         database.task(t => {
             return t.batch([
                 postProjectProposalModel.updatePostPPR(dbParam, t),
@@ -167,7 +190,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             return t.batch([
                 postProjectProposalModel.getPostActsDetails(dbParam, t),
                 postProjectProposalModel.getLatestEventPicture(dbParam, t),
-                postProjectProposalModel.getLatestPostExpense(dbParam, t)
+                postProjectProposalModel.getLatestPostExpense(dbParam, t),
+                projectProposalModel.getProjectProposalProjectHeads(req.params.id,t)
                 // projectProposalModel.getProjectProposalProjectHeads(3)
             ]);
         }).then(data => {
@@ -181,6 +205,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.id = data[0].id;
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
+            console.log(data[3])
+
+            renderData.pheads = data[3]
             res.render('ADM/ActivityToCheck', renderData);
         }).catch(err => {
             console.log(err);

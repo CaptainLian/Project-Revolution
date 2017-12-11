@@ -28,10 +28,11 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			//next();
 		},
 		evaluateTransaction: (req, res) => {
-
+			console.log('EvaluateTransaction !!!!-13131231231313123s	');
+			logger.debug('evaluateTransaction()', log_options);
 			// cash advance
 			if (req.params.transaction == 1){
-
+				logger.debug('Cash Advance', log_options);
 				var param = {
 					id: req.params.id
 				};
@@ -43,6 +44,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 						gosmactivity: data.GOSMActivity
 					};
 
+					logger.debug('starting tasks', log_options);
 					database.task(t=>{
 						return t.batch([projectProposalModel.getProjectProposal(dbParam),
 										financeModel.getCashAdvanceParticulars(param)]);
@@ -60,15 +62,21 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			            renderData.transactionType = req.params.transaction;
 
 			            //to evaluate
-			            renderData.isCso = null;
+			            renderData.isCso = false;
+			            renderData.toadd = false;
 			            if(req.session.user.type >= 3 && req.session.user.type <= 6){
-                            renderData.isCso = true;
-                        }else{
-                            renderData.isCso = req.extra_data.user.accessibleFunctionalitiesList['21'];
-                            renderData.toadd = req.extra_data.user.accessibleFunctionalitiesList['18'];
-                        }
+	                    	renderData.isCso = true;
+	                    }else if(typeof req.extra_data.user.accessControl !== 'undefined'){
+			            	const ACL = req.extra_data.user.accessControl[String(req.session.user.organizationSelected.id)];
+			            	if(typeof ACL !== 'undefined' && req.session.user.type == 1){
+	                    		renderData.isCso = ACL['21'] || false;
+	                    		renderData.toadd = true;
+	                    	}
+			            }
 
 						// to add transaction
+
+						logger.debug(`IsCSO: ${renderData.isCso}\nToAdd: ${renderData.toadd}`, log_options);
 						if (renderData.isCso && renderData.toadd) {
 
 							console.log("CORRECT THIS FAR==============")
@@ -78,7 +86,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 								idnumber: req.session.user.idNumber
 							};
 
-							financeModel.checkCashAdvanceSignatory(signatoryParam)
+							return financeModel.checkCashAdvanceSignatory(signatoryParam)
 							.then(signatory=>{
 
 								console.log(signatory);
@@ -90,32 +98,21 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 								return res.render('Finance/EvaluateTransaction', renderData);
 
 							}).catch(error=>{
-								console.log(error);
+								return logger.debug(`${error.message}\n${error.stack}`, log_options);
 							});
 
-						}
-						else{
+						}else{
 							return res.render('Finance/EvaluateTransaction', renderData);
 						}
-
-						//next();
-
 					}).catch(error=>{
-						console.log(error);
+						return logger.debug(`${error.message}\n${error.stack}`, log_options);
 					});
-
-
-
 				}).catch(error=>{
-					console.log(error);
+					return logger.debug(`${error.message}\n${error.stack}`, log_options);
 				});
-
-
-			}
-			else{
-
 			}
 		},
+
 		approveCashAdvance: (req, res) => {
 			logger.debug('approveCashAdvance', log_options);
 
@@ -225,14 +222,19 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 					const renderData = Object.create(null);
 	            	renderData.extra_data = req.extra_data;
+	                
 	                //to evaluate
-	                renderData.isCso = null;
-	                if(req.session.user.type >= 3 && req.session.user.type <= 6){
-	                    renderData.isCso = true;
-	                }else{
-	                    renderData.isCso = req.extra_data.user.accessibleFunctionalitiesList['21'];
-	                    renderData.toadd = req.extra_data.user.accessibleFunctionalitiesList['18'];
-	                }
+		            renderData.isCso = false;
+		            renderData.toadd = false;
+		            if(req.session.user.type >= 3 && req.session.user.type <= 6){
+                    	renderData.isCso = true;
+                    }else if(typeof req.extra_data.user.accessControl !== 'undefined'){
+		            	const ACL = req.extra_data.user.accessControl[String(req.session.user.organizationSelected.id)];
+		            	if(typeof ACL !== 'undefined' && req.session.user.type == 1){
+                    		renderData.isCso = ACL['21'] || false;
+                    		renderData.toadd = true;
+                    	}
+		            }
 
 	            	renderData.activities = data[0];
 	            	renderData.transactionTotal = data[1];
@@ -267,13 +269,17 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 					const renderData = Object.create(null);
 	            	renderData.extra_data = req.extra_data;
 	                //to evaluate
-	                renderData.isCso = null;
-	                if(req.session.user.type >= 3 && req.session.user.type <= 6){
-	                    renderData.isCso = true;
-	                }else{
-	                    renderData.isCso = req.extra_data.user.accessibleFunctionalitiesList['21'];
-	                    renderData.toadd = req.extra_data.user.accessibleFunctionalitiesList['18'];
-	                }
+		            renderData.isCso = false;
+		            renderData.toadd = false;
+		            if(req.session.user.type >= 3 && req.session.user.type <= 6){
+                    	renderData.isCso = true;
+                    }else if(typeof req.extra_data.user.accessControl !== 'undefined'){
+		            	const ACL = req.extra_data.user.accessControl[String(req.session.user.organizationSelected.id)];
+		            	if(typeof ACL !== 'undefined' && req.session.user.type == 1){
+                    		renderData.isCso = ACL['21'] || false;
+                    		renderData.toadd = true;
+                    	}
+		            }
 
 	            	renderData.activities = data[0];
 	            	renderData.transactionTotal = data[1];
@@ -313,12 +319,17 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			const renderData = Object.create(null);
 	        renderData.extra_data = req.extra_data;
 
+           	//to evaluate
             renderData.isCso = null;
+            renderData.toadd = null;
             if(req.session.user.type >= 3 && req.session.user.type <= 6){
                 renderData.isCso = true;
-            }else{
-                renderData.isCso = req.extra_data.user.accessibleFunctionalitiesList['21'];
-                renderData.toadd = req.extra_data.user.accessibleFunctionalitiesList['18'];
+            }else if(typeof req.extra_data.user.accessControl !== 'undefined'){
+            	const ACL = req.extra_data.user.accessControl[String(req.session.user.organizationSelected.id)];
+            	if(typeof ACL !== 'undefined' && req.session.user.type == 1){
+            		renderData.isCso = ACL['21'] || false;
+            		renderData.toadd = true;
+            	}
             }
 
 

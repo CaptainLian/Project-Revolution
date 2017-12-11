@@ -29,6 +29,7 @@
     {{tag.style('/plugins/bower_components/bootstrap-select/bootstrap-select.min.css')}}
     {{tag.style('/css/style.css')}}
     {{tag.style('/css/custom.css')}}
+    {{tag.style('/css/doms.css')}}
     <!-- color CSS -->
     {{tag.style('/css/colors/default.css', id='theme')}}
 
@@ -482,19 +483,19 @@
                         {% endfor %}
                     </section>
 
+
                     <section id="section-linebox-6">
                        <div class="white-box">
                            <h4 class="m-t-30 text-left">VIII. Signatories</h4>
 
                            <hr />
-
                            <div class="comment-center">
                            {% for signatory in signatories %}
-                               <div class="comment-body col-md-12 text-center">
-                                   <div class="user-img">  </div>
-                                   <div class="mail-contnet text-center">
+                                <div class="comment-body col-md-12 text-center">
+                                    <div class="user-img">  </div>
+                                    <div class="mail-contnet text-center">
 
-                                   <h5 class="text-center">
+                                    <h5 class="text-center">
                                         {%if signatory.status =='Unsigned' %}
                                         <span class="label label-rounded label-default text-black pull-left" style="color:black">{{signatory.status}}</span>
                                         {%elif  signatory.status == 'Approved'%}
@@ -504,29 +505,31 @@
                                         {%elif  signatory.status == 'Denied'%}
                                         <span class="label label-rounded label-danger pull-left">{{signatory.status}}</span>
                                         {%endif%}
-                                        
-                                       <span class="time pull-right">
-                                       {% if(signatory.datesigned)%}
-                                           {{signatory.datesigned}}
-                                       {% else %}
-                                           N/A
-                                       {% endif %}
-                                       </span>
-                                   </h5>
-                                   <h5>{{signatory.signatoryname}}</h5>
-                                   <p>{{signatory.type}}</p>
-                                   <p>{{signatory.digitalsignature}}</p>
-                                   </div>
-                               </div>
-                           {% endfor %}
+
+                                        <span class="time pull-right">
+                                        {% if(signatory.datesigned and signatory.status == 'Approved')%}
+                                            {{signatory.datesigned}}
+                                        {% else %}
+                                            N/A
+                                        {% endif %}
+                                        </span>
+
+                                    </h5>
+                                    <h5>{{signatory.signatoryname}}</h5>
+                                    <p>{{signatory.type}}</p>
+                                    <p class="break">{%if(signatory.status == 'Approved')%}
+                                        {{signatory.digitalsignature}}
+                                        {%endif%}</p>
+                                    </div>
+                                </div>
+
+                            {% endfor %}
                            </div>
                            <hr />
                            <br />
                        </div>
                    </section>
-
                 </div>
-
                 <!-- /content -->
             </div>
         </div>
