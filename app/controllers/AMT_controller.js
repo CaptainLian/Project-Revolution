@@ -128,7 +128,9 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		projectProposalModel.getProjectProposal(param)
 		.then(data=>{
-			projectProposalModel.getProjectProposalProgramDesign(data.id, [
+			console.log("data")
+			console.log(data.id)
+			projectProposalModel.getProjectProposalProgramDesign(req.body.activity, [
                         'pppd.dayid AS dayid',
                         "to_char(pppd.date, 'Mon DD, YYYY') AS date",
                         "to_char(pppd.starttime + pppd.date, 'HH24:MI') AS starttime",
@@ -138,12 +140,12 @@ module.exports = function(configuration, modules, models, database, queryFiles){
                         'pppd.personincharge AS personincharge',
                         "to_char(pppd.date, 'YYYY-MM-DD') AS origdate"
             ]).then(data1=>{
-
-            	console.log(data1[0].origdate);
+            	console.log("data1");
+            	console.log(data1);
 
             	var starttimeapproved = new Date(data1.origdate );
             	var actualstarttime = new Date(data1.origdate + " " +req.body.timeStart);
-            	console.log("starttimeapproved.getMonth()"+data1.origdate+" "+data1.starttime);
+            	// console.log("starttimeapproved.getMonth()"+data1.origdate+" "+data1.starttime);
             	
             	var diff = timediff(new Date(data1[0].origdate+" "+data1[0].starttime),new Date(data1[0].origdate+" "+req.body.timeStart), 'm');
             	console.log(diff);

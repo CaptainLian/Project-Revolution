@@ -60,11 +60,14 @@ const configuration = {
         "encryption": {
             "bits": 1024,
             "web_workers_amount": -1
+        },
+        "easter_eggs":{
+            "enable_footer_quotes": true
         }
     },
     "database": {
         "host": "localhost",
-        "port": 5432,
+        "port": 5433,
         "database": "CSODB",
         "username": "postgres",
         "password": "1234",

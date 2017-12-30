@@ -81,16 +81,17 @@ INSERT INTO public."ActivityVenue"(id, name, capacity, size, rate, "rateType", b
 
 /* Organization Data */
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
-                 VALUES (1, 'Chemsoc', 'Chemistry Society', 1, NULL);
+                 VALUES (1, 'LSCS', 'La Salle Computer Society', 2, NULL);
+
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
                  VALUES (2, 'MC', 'Math Circle', 1, NULL);
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
                  VALUES (3, 'Physoc', 'Physics Society', 1, NULL);
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
                  VALUES (4, 'SV', 'Societas Vitae', 1, NULL);
-
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
-                 VALUES (5, 'LSCS', 'La Salle Computer Society', 2, NULL);
+                 VALUES (5, 'Chemsoc', 'Chemistry Society', 1, NULL);
+
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
                  VALUES (6, 'UNITED', 'Union of Students Inspired Towards Education', 2, NULL);
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
@@ -744,7 +745,7 @@ f0tk8MiOLy0hDX1xpmjutW2Ro4HZ1yjWZD5EOBGVJtVY
 -----END RSA PRIVATE KEY-----', 1);
 
 INSERT INTO Account(email, idNumber, password, firstname, lastname, contactNumber, publicKey, privateKey, type)
-        VALUES('facult_adviser1@dlsu.edu.ph', 2011111, '1234', 'Faculty', 'Adviser 1', '6321515512', '-----BEGIN PUBLIC KEY-----
+        VALUES('facult_adviser1@dlsu.edu.ph', 2011111, '1234', 'Renato Jose', 'Molano', '6321515512', '-----BEGIN PUBLIC KEY-----
 MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCyws+X1ZRyQBJ5vh25G2ost83G
 DrqAeWfyUx05Uoc9e9gYBOeO6gsADS3eBhNgmxyWTKLmrb6JefDgPWm/G8n4RzbN
 C9SnMnHgKqOUVYejStbTYrjhFCpFODd4U0dwlTiqRl2wtXagO6eX2TPSx0DT2kFu
@@ -766,7 +767,7 @@ fPMR4Ls4cC0Kd1HZ2d3FpC6rSDUCnnJkuS9m+rA0SQ==
 -----END RSA PRIVATE KEY-----', 2);
 
 INSERT INTO Account(email, idNumber, password, firstname, lastname, contactNumber, publicKey, privateKey, type)
-        VALUES('facult_adviser2@dlsu.edu.ph', 2011112, '1234', 'Faculty', 'Adviser 2', '6321515512', '-----BEGIN PUBLIC KEY-----
+        VALUES('facult_adviser2@dlsu.edu.ph', 2011112, '1234', 'Edward', 'Tighe', '6321515512', '-----BEGIN PUBLIC KEY-----
 MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCB6bnoSAXYGu5+/Sfd+qtMgKDN
 bmt2Yusudo62x4tkPPdfWMHhDmJbagK5mMbjo0BegN/+ASrgDBZQWdNVlOYsCTXv
 5dvu8v/ZNvE62J1Qzi62cu4qjNz3Iit4HGSQijWh4tX93avSwBiVOKrEIvPIgMM8
@@ -912,5 +913,10 @@ INSERT INTO OrganizationOfficer (idNumber, role, yearID, dateAssigned)
 INSERT INTO OrganizationFacultyAdviser(organization, faculty, yearID)
 VALUES (1, 2011111, system_get_current_year_id()),
 (1, 2011112, system_get_current_year_id());
+
+UPDATE StudentOrganization
+   SET operationalFunds = 12000,
+        depositoryFunds = 12000,
+        depositryFunds = 12000;
 
 COMMIT;

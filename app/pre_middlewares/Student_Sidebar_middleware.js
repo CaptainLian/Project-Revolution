@@ -256,7 +256,7 @@ module.exports = function(configuration, application, modules, database, queryFi
             if(!hasSubmittedGOSM.exists && req.extra_data.user.accessibleFunctionalitiesList[0]){
                 logger.debug('CAN SUBMIT GOSM', log_options);
                 const newSidebar = Object.create(null);
-                newSidebar.name = 'Submit GOSM';
+                newSidebar.name = 'Organization GOSM';
                 newSidebar.link = '/Organization/createGOSM';
                 newSidebar.icon = 'fa fa-comment-o';
 
