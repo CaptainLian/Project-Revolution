@@ -3503,6 +3503,10 @@ CREATE TABLE "OfficerSurveyForm" (
 
     PRIMARY KEY("termID", "organizationID", "officer")
 );
+CREATE TRIGGER "before_insert_OfficerSurveyForm_id"
+    BEFORE INSERT ON "OfficerSurveyForm"
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_before_insert_id"('OfficerSurveyForm');
 
 DROP TABLE IF EXISTS "MemberSurveyForm" CASCADE;
 CREATE TABLE "MemberSurveyForm" (
