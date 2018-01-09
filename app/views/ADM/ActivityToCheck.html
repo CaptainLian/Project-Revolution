@@ -160,10 +160,11 @@
                 <div class="row text-center m-t-10">
                     <div class="col-md-12">
                         <p><strong>Project Heads</strong></p>
-                        {%for p in pheads%}
-                        <p>{{p.name}}</p>
-                        <p>{{p.contactnumber}}</p>
-                        {%endfor%}
+                        
+                        {% for head in projectHeads %}
+                            <p>{{head.firstname}} {{head.lastname}}</p>
+                            <p>{{head.contactnumber}}</p>
+                        {% endfor %}
                         
                     </div>
                 </div>

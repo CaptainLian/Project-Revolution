@@ -73,7 +73,7 @@
 							<td class="text-center">{{pub.targetdate}}</td>
 							<td class="text-center"><a href="/PNP/Pubs/{{pub.gosmid}}" class="btn-lnk">{{pub.title}}</a></td>
                             {% if pub.status === 0 %}
-                                <td class="text-center"><span class="label label-warning">{{number[loop.index0].count}} Unapproved</span></td>
+                                <td class="text-center"><span class="label label-warning">Unapproved</span></td>
                             {% elif pub.status === 1 %}
                                 <td class="text-center"><span class="label label-success">Checked</span></td>
                             {% elif pub.status === 2 %}

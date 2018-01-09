@@ -84,6 +84,19 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
              })
 
         },
+        venue: (req, res) => {
+            const renderData = Object.create(null);
+            console.log(req.param)
+            renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
+            projectProposalModel.getAllVenues()
+            .then(data=>{
+                renderData.venue = data
+                console.log(data)
+                return res.render('Org/venue',renderData)
+            })
+
+        },
         viewChangePassword: (req, res) => {
             const renderData = Object.create(null);
             console.log(req.param)
@@ -518,7 +531,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         for (var i = 0; i < data[4].length; i++){
 
                             if (data[4][i].studentorganization == organizationid
-                                && data[4][i].status == 1) {
+                                && data[4][i].apstatus == 1) {
 
                                 if(data[4][i].modeOfDistribution == 1){
 
@@ -752,7 +765,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         var orgresParticipantCount = 0;
                         for (var i = 0; i < data[7].length; i++){
 
-                            if(data[7][i].organizationID == organizationid){
+                            if(data[7][i].studentorganization == organizationid){
 
                                 arfSurveyTotal = arfSurveyTotal + 1;
 
@@ -1611,7 +1624,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         for (var i = 0; i < data[4].length; i++){
 
                             if (data[4][i].studentorganization == organizationid
-                                && data[4][i].status == 1) {
+                                && data[4][i].apstatus == 1) {
 
                                 if(data[4][i].modeOfDistribution == 1){
 
@@ -1845,7 +1858,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         var orgresParticipantCount1 = 0;
                         for (var i = 0; i < data[7].length; i++){
 
-                            if(data[7][i].organizationID == organizationid){
+                            if(data[7][i].studentorganization == organizationid){
 
                                 arfSurveyTotal1 = arfSurveyTotal1 + 1;
 
@@ -2457,7 +2470,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         for (var i = 0; i < data[20].length; i++){
 
                             if (data[20][i].studentorganization == organizationid
-                                && data[20][i].status == 1) {
+                                && data[20][i].apstatus == 1) {
 
                                 if(data[20][i].modeOfDistribution == 1){
 
@@ -2691,7 +2704,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         var orgresParticipantCount2 = 0;
                         for (var i = 0; i < data[23].length; i++){
 
-                            if(data[23][i].organizationID == organizationid){
+                            if(data[23][i].studentorganization == organizationid){
 
                                 arfSurveyTotal2 = arfSurveyTotal2 + 1;
 
@@ -3302,7 +3315,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         for (var i = 0; i < data[36].length; i++){
 
                             if (data[36][i].studentorganization == organizationid
-                                && data[36][i].status == 1) {
+                                && data[36][i].apstatus == 1) {
 
                                 if(data[36][i].modeOfDistribution == 1){
 
@@ -3536,7 +3549,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         var orgresParticipantCount3 = 0;
                         for (var i = 0; i < data[39].length; i++){
 
-                            if(data[39][i].organizationID == organizationid){
+                            if(data[39][i].studentorganization == organizationid){
 
                                 arfSurveyTotal3 = arfSurveyTotal3 + 1;
 
@@ -4870,8 +4883,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     // renderData.sectionsToEdit = data[3];
 
 
-                    console.log(renderData.gosmactivity);
-                    console.log(renderData.projectProposal);
+                    console.log("FUNDS EXPENSE");
+                    console.log(data[5]);
 
                     return res.render('Org/SubmitProjectProposal_expense', renderData);
                 }).catch(error => {

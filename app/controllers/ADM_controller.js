@@ -208,6 +208,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             const dbParam = {
                 gosmid: req.params.id
             };
+            const dbParam1 = {
+                gosmactivity: req.params.id
+            };
 
             return t.batch([
                 //0
@@ -217,7 +220,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 //2
                 postProjectProposalModel.getLatestPostExpense(dbParam, t),
                 //3
-                projectProposalModel.getProjectProposalProjectHeads(req.params.id,t)
+                gosmModel.getGOSMActivityProjectHeads(dbParam1,t)
             ]);
         }).then(([activity, pictures, expense, projectHeads]) => {
             const renderData = Object.create(null);
@@ -228,8 +231,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
             console.log("activity");
-            console.log(activity);
-            renderData.pheads = projectHeads;
+            console.log(projectHeads);
+            renderData.projectHeads = projectHeads;
             return res.render('ADM/ActivityToCheck', renderData);
         }).catch(error => {
             return logger.error(`${error.message}:\n${error.stack}`, log_options);
