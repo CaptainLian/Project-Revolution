@@ -124,7 +124,7 @@
   
 	{{tag.javascript('/js/system/AJAX_CSRF.js')}}
   
-  {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.21.0/moment.min.js')}}
+  {{tag.javascript('/js/https/moment.min.js')}}
 	{{tag.javascript('/plugins/bower_components/moment/moment.js')}}
 	{{tag.javascript('/plugins/bower_components/calendar/dist/fullcalendar.min.js')}}
 
@@ -148,7 +148,7 @@
         var calendar  = $('#calendar').fullCalendar({
               height:500,
               defaultView: 'listYear',
-              defaultDate: '2018-03-01',
+              // defaultDate: '2018-03-01',
   		      	editable: false,
               overlap:false,
   		      	selectable: true,
@@ -189,7 +189,7 @@
   			        }
   			    },
   			    header: {
-  			        right: 'listYear agendaWeek month  prev,next',
+  			        right: 'listYear agendaWeek   prev,next',
   			        center: 'title',
   			        left: 'add_event'
   			    },
