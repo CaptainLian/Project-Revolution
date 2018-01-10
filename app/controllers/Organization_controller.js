@@ -297,6 +297,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             }
                         }
 
+
                         //approved activities
                         for(var i = 0; data[0].length > i; i++){
 
@@ -334,6 +335,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                             }
 
+
                             if(data[0][i].studentorganization == organizationid &&
                                 data[0][i].isrelatedtoorganizationnature == true){
                                     isRelatedToOrganizationCount = isRelatedToOrganizationCount + 1;
@@ -346,6 +348,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             }
 
                         }
+
+
 
                         // all activities
                         for (var i = 0; data[1].length > i; i++){
