@@ -84,6 +84,19 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
              })
 
         },
+        venue: (req, res) => {
+            const renderData = Object.create(null);
+            console.log(req.param)
+            renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
+            projectProposalModel.getAllVenues()
+            .then(data=>{
+                renderData.venue = data
+                console.log(data)
+                return res.render('Org/venue',renderData)
+            })
+
+        },
         viewChangePassword: (req, res) => {
             const renderData = Object.create(null);
             console.log(req.param)
