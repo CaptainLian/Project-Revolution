@@ -53,8 +53,10 @@ $('#myTable').DataTable();
         form.removeClass('has-error');
         if(isValid){
         	form.addClass('has-success');
+            $('#ARF_btn_submit').removeAttr('disabled');
         }else{
         	form.addClass('has-error');
+            $('#ARF_btn_submit').attr('disabled', 'disabled');
         }
     });
 })();
