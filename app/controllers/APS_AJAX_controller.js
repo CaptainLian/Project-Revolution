@@ -40,6 +40,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             return t.batch([
                 gosmModel.getActivityDetails(
                     activityID, [
+                        'ga.strategies',
                         ['ga.comments'],
                         ['at.name', 'type'],
                         ['an.name', 'nature'],

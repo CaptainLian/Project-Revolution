@@ -2754,13 +2754,40 @@ INSERT INTO OrganizationOfficer (idNumber, role, yearID, dateAssigned)
                          (1011135, 6, system_get_current_year_id(), CURRENT_TIMESTAMP),
                          (1011136, 7, system_get_current_year_id(), CURRENT_TIMESTAMP);
 
+TRUNCATE TABLE OrganizationFacultyAdviser;
 INSERT INTO OrganizationFacultyAdviser(organization, faculty, yearID)
 VALUES (1, 2011111, system_get_current_year_id()),
-       (1, 2011112, system_get_current_year_id());
+       (1, 2011112, system_get_current_year_id()),
 
-INSERT INTO OrganizationFacultyAdviser(organization, faculty, yearID)
-VALUES (38, 2011111, system_get_current_year_id()),
-       (38, 2011112, system_get_current_year_id());
+       (38, 2011111, system_get_current_year_id()),
+       (38, 2011112, system_get_current_year_id()),
+
+       (10, 2011111, system_get_current_year_id()),
+       (10, 2011112, system_get_current_year_id()),
+
+       (11, 2011111, system_get_current_year_id()),
+       (11, 2011112, system_get_current_year_id()),
+       
+       (12, 2011111, system_get_current_year_id()),
+       (12, 2011112, system_get_current_year_id()),
+       
+       (13, 2011111, system_get_current_year_id()),
+       (13, 2011112, system_get_current_year_id()),
+       
+       (14, 2011111, system_get_current_year_id()),
+       (14, 2011112, system_get_current_year_id()),
+       
+       (15, 2011111, system_get_current_year_id()),
+       (15, 2011112, system_get_current_year_id()),
+       
+       (16, 2011111, system_get_current_year_id()),
+       (16, 2011112, system_get_current_year_id()),
+       
+       (17, 2011111, system_get_current_year_id()),
+       (17, 2011112, system_get_current_year_id()),
+       
+       (18, 2011111, system_get_current_year_id()),
+       (18, 2011112, system_get_current_year_id());
 
 UPDATE StudentOrganization
     -- galing sa la salle

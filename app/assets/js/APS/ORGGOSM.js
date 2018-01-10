@@ -16,6 +16,7 @@
     const modal_nature = $('#modal_nature');
     const modal_date = $('#modal_date');
     const modal_comments = $('#modal_txtarea_comments');
+    const modal_activity_name = $('#modal_activity_name');
 
     /* Viewing and updating of each GOSM activity */
     (() => {
@@ -33,11 +34,13 @@
                     if (data.valid) {
                         const activityDetails = data.activityDetails;
                         const projectHeads = data.projectHeads;
+
+                        modal_activity_name.html(activityDetails.strategies);
                         modal_type.html(activityDetails.type);
                         modal_nature.html(activityDetails.nature);
                         modal_date.html(activityDetails.startdate + ' - ' + activityDetails.enddate);
                         modal_comments.val(activityDetails.comments);
-
+ 
                         modal_table.find('.modal_head_row').remove();
 
                         if (projectHeads.length > 0) {
