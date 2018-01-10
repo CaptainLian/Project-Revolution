@@ -236,6 +236,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                     let termstart = term.dateStart;
 
+                    console.log(dbParam);
+                    console.log("DBPARAM+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+
                     database.task(task => {
                         return task.batch([
                             //APS AND ADM
@@ -301,6 +304,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             if(data[0][i].studentorganization == organizationid &&
                                 data[0][i].isingosm == true){
 
+
                                 preactsApprovedActivities = preactsApprovedActivities + 1;
 
                                 if(data[0][i].activitynature == 8){
@@ -315,7 +319,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                 var diff = timediff(actualdatestart, datesigned, 'D');
 
 
-                                if (diff.days>2){
+                                if (diff.days<2){
                                     preactsEarlyApprovedActivities = preactsEarlyApprovedActivities + 1;
                                 }
                                 else{
@@ -331,7 +335,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             }
 
                             if(data[0][i].studentorganization == organizationid &&
-                                data[0][i].isrelatedtoorganization == true){
+                                data[0][i].isrelatedtoorganizationnature == true){
                                     isRelatedToOrganizationCount = isRelatedToOrganizationCount + 1;
                             }
 
@@ -424,7 +428,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                         for (var i = 0; i < data[3].length; i++){
 
-                            if (data[3][i].studentorganization = organizationid) {
+                            if (data[3][i].studentorganization == organizationid) {
 
                                 postactsTotalActivities = postactsTotalActivities + 1;
 
@@ -440,7 +444,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                     var diff = timediff(actualdatestart, datesubmitted, 'D');
 
 
-                                    if (diff.days>30){
+                                    if (diff.days<30){
                                         postactsEarlyApprovedActivities = postactsEarlyApprovedActivities + 1;
                                     }
                                     else{
@@ -1414,7 +1418,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                 var diff1 = timediff(actualdatestart1, datesigned1, 'D');
 
 
-                                if (diff1.days>2){
+                                if (diff1.days<2){
                                     preactsEarlyApprovedActivities1 = preactsEarlyApprovedActivities1 + 1;
                                 }
                                 else{
@@ -1430,7 +1434,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             }
 
                             if(data[0][i].studentorganization == organizationid &&
-                                data[0][i].isrelatedtoorganization == true){
+                                data[0][i].isrelatedtoorganizationnature == true){
                                     isRelatedToOrganizationCount1 = isRelatedToOrganizationCount1 + 1;
                             }
 
@@ -1517,7 +1521,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                         for (var i = 0; i < data[3].length; i++){
 
-                            if (data[3][i].studentorganization = organizationid) {
+                            if (data[3][i].studentorganization == organizationid) {
 
                                 postactsTotalActivities1 = postactsTotalActivities1 + 1;
 
@@ -1533,7 +1537,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                     var diff1 = timediff(actualdatestart1, datesubmitted1, 'D');
 
 
-                                    if (diff1.days>30){
+                                    if (diff1.days<30){
                                         postactsEarlyApprovedActivities1 = postactsEarlyApprovedActivities1 + 1;
                                     }
                                     else{
@@ -2260,7 +2264,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                 var diff2 = timediff(actualdatestart2, datesigned2, 'D');
 
 
-                                if (diff2.days>2){
+                                if (diff2.days<2){
                                     preactsEarlyApprovedActivities2 = preactsEarlyApprovedActivities2 + 1;
                                 }
                                 else{
@@ -2276,7 +2280,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             }
 
                             if(data[16][i].studentorganization == organizationid &&
-                                data[16][i].isrelatedtoorganization == true){
+                                data[16][i].isrelatedtoorganizationnature == true){
                                     isRelatedToOrganizationCount2 = isRelatedToOrganizationCount2 + 1;
                             }
 
@@ -2363,7 +2367,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                         for (var i = 0; i < data[19].length; i++){
 
-                            if (data[19][i].studentorganization = organizationid) {
+                            if (data[19][i].studentorganization == organizationid) {
 
                                 postactsTotalActivities2 = postactsTotalActivities2 + 1;
 
@@ -2379,7 +2383,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                     var diff2 = timediff(actualdatestart2, datesubmitted2, 'D');
 
 
-                                    if (diff2.days>30){
+                                    if (diff2.days<30){
                                         postactsEarlyApprovedActivities2 = postactsEarlyApprovedActivities2 + 1;
                                     }
                                     else{
@@ -3105,7 +3109,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                 var diff3 = timediff(actualdatestart3, datesigned3, 'D');
 
 
-                                if (diff3.days>2){
+                                if (diff3.days<2){
                                     preactsEarlyApprovedActivities3 = preactsEarlyApprovedActivities3 + 1;
                                 }
                                 else{
@@ -3121,7 +3125,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             }
 
                             if(data[32][i].studentorganization == organizationid &&
-                                data[32][i].isrelatedtoorganization == true){
+                                data[32][i].isrelatedtoorganizationnature == true){
                                     isRelatedToOrganizationCount3 = isRelatedToOrganizationCount3 + 1;
                             }
 
@@ -3208,7 +3212,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                         for (var i = 0; i < data[35].length; i++){
 
-                            if (data[35][i].studentorganization = organizationid) {
+                            if (data[35][i].studentorganization == organizationid) {
 
                                 postactsTotalActivities3 = postactsTotalActivities3 + 1;
 
@@ -3224,7 +3228,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                     var diff3 = timediff(actualdatestart3, datesubmitted3, 'D');
 
 
-                                    if (diff3.days>30){
+                                    if (diff3.days<30){
                                         postactsEarlyApprovedActivities3 = postactsEarlyApprovedActivities3 + 1;
                                     }
                                     else{

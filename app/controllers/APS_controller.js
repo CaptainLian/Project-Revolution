@@ -230,7 +230,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 else if(data[0][i].status == 3){
                     ApprovedPPR = ApprovedPPR + 1;
                 }
-                else if(data[0][i].status == 5 || data[0][i].status == 7){
+                else if(data[0][i].status == 4){
                     PendedPPR = PendedPPR + 1;
                 }
 
