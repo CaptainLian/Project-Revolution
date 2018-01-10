@@ -4148,6 +4148,441 @@ COPY public."AccountNotification" (id, account, sequence, status, date, title, d
 2	1111112	1	0	2018-01-10 18:35:50.209836+08	GOSM Submission	GOSM for current has been submitted	null
 3	7111112	1	0	2018-01-10 18:36:12.822349+08	GOSM Submission	GOSM for current has been submitted	null
 4	2111112	1	0	2018-01-10 18:59:38.515914+08	GOSM Submission	GOSM for current has been submitted	null
+5	3111112	1	0	2018-01-10 19:15:35.546937+08	GOSM Submission	GOSM for current has been submitted	null
+6	3111113	1	0	2018-01-10 19:15:35.546937+08	GOSM Submission	GOSM for current has been submitted	null
+7	6111112	1	0	2018-01-10 19:16:28.954628+08	GOSM Submission	GOSM for current has been submitted	null
+8	8111112	1	0	2018-01-10 19:19:15.428686+08	GOSM Submission	GOSM for current has been submitted	null
+9	10111112	1	0	2018-01-10 19:32:39.796238+08	GOSM Submission	GOSM for current has been submitted	null
+10	9111112	1	0	2018-01-10 19:44:22.374649+08	GOSM Submission	GOSM for current has been submitted	null
+11	1111111	1	0	2018-01-10 19:47:24.770956+08	GOSM Evaluation	The organization's GOSM have been approved by CSO Executive Chairperson External	{"GOSMID":100001,"evaluator":1011118,"statusID":3}
+12	3111111	1	0	2018-01-10 19:54:54.782232+08	GOSM Evaluation	The organization's GOSM have been approved by CSO Executive Chairperson External	{"GOSMID":1000009,"evaluator":1011118,"statusID":3}
+14	4111111	1	0	2018-01-10 20:56:04.258308+08	GOSM Evaluation	The organization's GOSM have been approved by CSO Executive Chairperson External	{"GOSMID":1100002,"evaluator":1011118,"statusID":3}
+15	6111111	1	0	2018-01-10 20:56:14.273541+08	GOSM Evaluation	The organization's GOSM have been approved by CSO Executive Chairperson External	{"GOSMID":1300005,"evaluator":1011118,"statusID":3}
+13	8111111	1	1	2018-01-10 20:30:58.670464+08	GOSM Evaluation	The organization's GOSM have been peended by CSO Executive Chairperson External	{"GOSMID":1500007,"comments":"Please put spritual activity","evaluator":1011118,"statusID":4}
+17	8111112	2	0	2018-01-10 21:09:42.506936+08	GOSM Submission	GOSM for current has been submitted	null
+19	10111111	1	1	2018-04-10 21:13:51.983946+08	GOSM Evaluation	The organization's GOSM have been approved by CSO Chairperson	{"GOSMID":1700008,"evaluator":1011117,"statusID":3}
+20	1111114	1	1	2018-01-10 21:32:28.682342+08	New Project Proposal	Please check activity Connecting Java to MySQL	null
+16	7111111	1	1	2018-01-10 20:56:23.612605+08	GOSM Evaluation	The organization's GOSM have been approved by CSO Executive Chairperson External	{"GOSMID":1400003,"evaluator":1011118,"statusID":3}
+24	10111114	1	1	2018-01-10 21:47:44.190732+08	New Project Proposal	Please check activity Corporate Social Responsibility 	null
+27	1111116	1	0	2018-01-10 21:50:15.86212+08	New Project Proposal	Please check activity Server Side API: Firebase	null
+21	1111114	2	1	2018-01-10 21:39:59.843029+08	New Project Proposal	Please check activity Basic Photoshop Workshop	null
+22	1111114	3	1	2018-01-10 21:43:20.606937+08	New Project Proposal	Please check activity Mobile UI Seminar	null
+23	1111114	4	1	2018-01-10 21:45:19.240348+08	New Project Proposal	Please check activity Last Programmer Standing	null
+25	1111114	5	1	2018-01-10 21:48:44.077825+08	New Project Proposal	Please check activity Stay Sharp: C#	null
+26	1111114	6	1	2018-01-10 21:50:15.86212+08	New Project Proposal	Please check activity Server Side API: Firebase	null
+29	4111114	1	0	2018-01-10 21:53:13.013545+08	New Project Proposal	Please check activity Photoshop Series 1: Basic	null
+30	4111115	1	0	2018-01-10 21:53:13.013545+08	New Project Proposal	Please check activity Photoshop Series 1: Basic	null
+32	7111116	1	0	2018-01-10 21:53:54.928136+08	New Project Proposal	Please check activity E-Cultural Voyagers: A Community Engagement (Masid-Danas Phase)	null
+35	4111114	2	0	2018-01-10 21:58:54.062857+08	New Project Proposal	Please check activity Photoshop Series 2: Intermediate	null
+31	7111114	1	1	2018-01-10 21:53:54.928136+08	New Project Proposal	Please check activity E-Cultural Voyagers: A Community Engagement (Masid-Danas Phase)	null
+38	10111116	1	0	2018-01-10 22:00:40.795121+08	New Project Proposal	Please check activity SOCPSYC Reviewer	null
+40	7111116	2	0	2018-01-10 22:00:41.2196+08	New Project Proposal	Please check activity #ECOTalks 1: I am a Lasallian, I am PRO Green"	null
+37	10111114	2	1	2018-01-10 22:00:40.795121+08	New Project Proposal	Please check activity SOCPSYC Reviewer	null
+39	7111114	2	1	2018-01-10 22:00:41.2196+08	New Project Proposal	Please check activity #ECOTalks 1: I am a Lasallian, I am PRO Green"	null
+28	1111114	7	1	2018-01-10 21:52:35.744671+08	New Project Proposal	Please check activity Denki Megatech Convention 2016	null
+33	1111114	8	1	2018-01-10 21:55:28.20484+08	New Project Proposal	Please check activity MyCareer	null
+34	1111114	9	1	2018-01-10 21:58:04.913559+08	New Project Proposal	Please check activity Computer Literacy Program	null
+36	1111114	10	1	2018-01-10 21:59:38.469082+08	New Project Proposal	Please check activity Nook Supplies	null
+18	8111111	2	1	2018-01-10 21:10:36.791961+08	GOSM Evaluation	The organization's GOSM have been approved by CSO Chairperson	{"GOSMID":1500007,"evaluator":1011117,"statusID":3}
+41	1111115	1	0	2018-01-10 22:09:22.946545+08	Project Proposal Evaluation	Please evaluate Connecting Java to MySQL	null
+43	1111115	2	0	2018-01-10 22:09:45.252708+08	Project Proposal Evaluation	Please evaluate Basic Photoshop Workshop	null
+45	1111115	3	0	2018-01-10 22:09:56.321541+08	Project Proposal Evaluation	Please evaluate Mobile UI Seminar	null
+47	1111115	4	0	2018-01-10 22:10:02.286423+08	Project Proposal Evaluation	Please evaluate Last Programmer Standing	null
+49	4111112	2	0	2018-01-10 22:17:26.514056+08	New Project Proposal	Please check activity Photoshop Series 3: Advanced	null
+50	4111114	3	0	2018-01-10 22:17:26.514056+08	New Project Proposal	Please check activity Photoshop Series 3: Advanced	null
+42	1111114	11	1	2018-01-10 22:09:22.946545+08	Project Proposal Evaluation	Your activity Connecting Java to MySQL has been approved by OrganizationAVP - Documentation	null
+44	1111114	12	1	2018-01-10 22:09:45.252708+08	Project Proposal Evaluation	Your activity Basic Photoshop Workshop has been pended by OrganizationAVP - Documentation	null
+46	1111114	13	1	2018-01-10 22:09:56.321541+08	Project Proposal Evaluation	Your activity Mobile UI Seminar has been approved by OrganizationAVP - Documentation	null
+53	1111115	5	0	2018-01-10 22:18:45.766112+08	Project Proposal Evaluation	Please evaluate General Assembly	null
+54	1111114	16	0	2018-01-10 22:18:45.766112+08	Project Proposal Evaluation	Your activity General Assembly has been approved by OrganizationAVP - Documentation	null
+55	1111115	6	0	2018-01-10 22:18:54.31048+08	Project Proposal Evaluation	Please evaluate Computer Literacy Program	null
+56	1111114	17	0	2018-01-10 22:18:54.31048+08	Project Proposal Evaluation	Your activity Computer Literacy Program has been approved by OrganizationAVP - Documentation	null
+52	10111114	3	1	2018-01-10 22:18:01.759562+08	New Project Proposal	Please check activity SOCRES2 Reviewer	null
+48	1111114	14	1	2018-01-10 22:10:02.286423+08	Project Proposal Evaluation	Your activity Last Programmer Standing has been approved by OrganizationAVP - Documentation	null
+51	1111114	15	1	2018-01-10 22:17:56.740832+08	New Project Proposal	Please check activity General Assembly	null
+57	1111113	1	0	2018-01-10 22:25:20.891275+08	Project Proposal Evaluation	Please evaluate Connecting Java to MySQL	null
+58	1111114	18	0	2018-01-10 22:25:20.891275+08	Project Proposal Evaluation	Your activity Connecting Java to MySQL has been approved by OrganizationVP - Finance	null
+60	1111113	2	0	2018-01-10 22:26:50.07045+08	Project Proposal Evaluation	Please evaluate Mobile UI Seminar	null
+61	1111114	19	0	2018-01-10 22:26:50.07045+08	Project Proposal Evaluation	Your activity Mobile UI Seminar has been approved by OrganizationVP - Finance	null
+62	1111113	3	0	2018-01-10 22:27:17.097392+08	Project Proposal Evaluation	Please evaluate Last Programmer Standing	null
+63	1111114	20	0	2018-01-10 22:27:17.097392+08	Project Proposal Evaluation	Your activity Last Programmer Standing has been approved by OrganizationVP - Finance	null
+64	1111113	4	0	2018-01-10 22:27:38.270035+08	Project Proposal Evaluation	Please evaluate General Assembly	null
+65	1111114	21	0	2018-01-10 22:27:38.270035+08	Project Proposal Evaluation	Your activity General Assembly has been approved by OrganizationVP - Finance	null
+66	1111113	5	0	2018-01-10 22:27:44.321091+08	Project Proposal Evaluation	Please evaluate Computer Literacy Program	null
+67	1111114	22	0	2018-01-10 22:27:44.321091+08	Project Proposal Evaluation	Your activity Computer Literacy Program has been approved by OrganizationVP - Finance	null
+68	1111111	2	0	2018-01-10 22:28:33.798199+08	Project Proposal Evaluation	Please evaluate Connecting Java to MySQL	null
+69	1111114	23	0	2018-01-10 22:28:33.798199+08	Project Proposal Evaluation	Your activity Connecting Java to MySQL has been approved by OrganizationVP - Documentation	null
+70	1111111	3	0	2018-01-10 22:28:40.362346+08	Project Proposal Evaluation	Please evaluate Mobile UI Seminar	null
+71	1111114	24	0	2018-01-10 22:28:40.362346+08	Project Proposal Evaluation	Your activity Mobile UI Seminar has been approved by OrganizationVP - Documentation	null
+72	1111111	4	0	2018-01-10 22:28:45.911183+08	Project Proposal Evaluation	Please evaluate Last Programmer Standing	null
+73	1111114	25	0	2018-01-10 22:28:45.911183+08	Project Proposal Evaluation	Your activity Last Programmer Standing has been approved by OrganizationVP - Documentation	null
+74	1111111	5	0	2018-01-10 22:28:57.064011+08	Project Proposal Evaluation	Please evaluate Computer Literacy Program	null
+75	1111114	26	0	2018-01-10 22:28:57.064011+08	Project Proposal Evaluation	Your activity Computer Literacy Program has been approved by OrganizationVP - Documentation	null
+76	1111111	6	0	2018-01-10 22:29:03.24385+08	Project Proposal Evaluation	Please evaluate General Assembly	null
+77	1111114	27	0	2018-01-10 22:29:03.24385+08	Project Proposal Evaluation	Your activity General Assembly has been approved by OrganizationVP - Documentation	null
+79	7111116	3	0	2018-01-10 22:29:17.011505+08	New Project Proposal	Please check activity Annual Recruitment Week	null
+80	2011111	1	0	2018-01-10 22:29:29.260299+08	Project Proposal Evaluation	Please evaluate Connecting Java to MySQL	null
+81	1111114	28	0	2018-01-10 22:29:29.260299+08	Project Proposal Evaluation	Your activity Connecting Java to MySQL has been approved by OrganizationPresident	null
+82	2011111	2	0	2018-01-10 22:29:36.696213+08	Project Proposal Evaluation	Please evaluate Mobile UI Seminar	null
+83	1111114	29	0	2018-01-10 22:29:36.696213+08	Project Proposal Evaluation	Your activity Mobile UI Seminar has been approved by OrganizationPresident	null
+84	2011111	3	0	2018-01-10 22:29:42.763994+08	Project Proposal Evaluation	Please evaluate Last Programmer Standing	null
+85	1111114	30	0	2018-01-10 22:29:42.763994+08	Project Proposal Evaluation	Your activity Last Programmer Standing has been approved by OrganizationPresident	null
+86	2011111	4	0	2018-01-10 22:29:48.05782+08	Project Proposal Evaluation	Please evaluate Computer Literacy Program	null
+87	1111114	31	0	2018-01-10 22:29:48.05782+08	Project Proposal Evaluation	Your activity Computer Literacy Program has been approved by OrganizationPresident	null
+88	2011111	5	0	2018-01-10 22:29:53.482181+08	Project Proposal Evaluation	Please evaluate General Assembly	null
+89	1111114	32	0	2018-01-10 22:29:53.482181+08	Project Proposal Evaluation	Your activity General Assembly has been approved by OrganizationPresident	null
+90	1011121	1	0	2018-01-10 22:30:16.919363+08	Project Proposal Evaluation	Please evaluate Connecting Java to MySQL	null
+91	1111114	33	0	2018-01-10 22:30:16.919363+08	Project Proposal Evaluation	Your activity Connecting Java to MySQL has been approved by Renato JoseMolano	null
+92	1011121	2	0	2018-01-10 22:30:26.815473+08	Project Proposal Evaluation	Please evaluate Mobile UI Seminar	null
+93	1111114	34	0	2018-01-10 22:30:26.815473+08	Project Proposal Evaluation	Your activity Mobile UI Seminar has been approved by Renato JoseMolano	null
+94	1011121	3	0	2018-01-10 22:30:34.526647+08	Project Proposal Evaluation	Please evaluate Last Programmer Standing	null
+95	1111114	35	0	2018-01-10 22:30:34.526647+08	Project Proposal Evaluation	Your activity Last Programmer Standing has been approved by Renato JoseMolano	null
+97	1011121	4	0	2018-01-10 22:31:00.860046+08	Project Proposal Evaluation	Please evaluate Computer Literacy Program	null
+98	1111114	36	0	2018-01-10 22:31:00.860046+08	Project Proposal Evaluation	Your activity Computer Literacy Program has been approved by Renato JoseMolano	null
+99	1011121	5	0	2018-01-10 22:31:13.517479+08	Project Proposal Evaluation	Please evaluate General Assembly	null
+100	1111114	37	0	2018-01-10 22:31:13.517479+08	Project Proposal Evaluation	Your activity General Assembly has been approved by Renato JoseMolano	null
+101	1011120	1	0	2018-01-10 22:32:02.003273+08	Project Proposal Evaluation	Please evaluate Connecting Java to MySQL	null
+102	1111114	38	0	2018-01-10 22:32:02.003273+08	Project Proposal Evaluation	Your activity Connecting Java to MySQL has been approved by CSOA - APS	null
+103	1011120	2	0	2018-01-10 22:32:09.053674+08	Project Proposal Evaluation	Please evaluate Mobile UI Seminar	null
+104	1111114	39	0	2018-01-10 22:32:09.053674+08	Project Proposal Evaluation	Your activity Mobile UI Seminar has been approved by CSOA - APS	null
+105	1011120	3	0	2018-01-10 22:32:14.78854+08	Project Proposal Evaluation	Please evaluate Last Programmer Standing	null
+106	1111114	40	0	2018-01-10 22:32:14.78854+08	Project Proposal Evaluation	Your activity Last Programmer Standing has been approved by CSOA - APS	null
+107	1011120	4	0	2018-01-10 22:32:27.009126+08	Project Proposal Evaluation	Please evaluate General Assembly	null
+108	1111114	41	0	2018-01-10 22:32:27.009126+08	Project Proposal Evaluation	Your activity General Assembly has been approved by CSOA - APS	null
+109	1011120	5	0	2018-01-10 22:32:36.91952+08	Project Proposal Evaluation	Please evaluate Computer Literacy Program	null
+78	7111114	3	1	2018-01-10 22:29:17.011505+08	New Project Proposal	Please check activity Annual Recruitment Week	null
+59	10111114	4	1	2018-01-10 22:25:45.116766+08	New Project Proposal	Please check activity HISTSO2 Reviewer	null
+110	1111114	42	0	2018-01-10 22:32:36.91952+08	Project Proposal Evaluation	Your activity Computer Literacy Program has been approved by CSOA - APS	null
+111	4111114	4	0	2018-01-10 22:33:47.22055+08	New Project Proposal	Please check activity MooMedia: 1st General Assembly	null
+112	1111114	43	0	2018-01-10 22:33:49.492983+08	Project Proposal Evaluation	Your activity Connecting Java to MySQL has been approved by CSOAVC - APS	null
+113	1111114	44	0	2018-01-10 22:33:57.636838+08	Project Proposal Evaluation	Your activity Mobile UI Seminar has been approved by CSOAVC - APS	null
+114	1111114	45	0	2018-01-10 22:34:03.803262+08	Project Proposal Evaluation	Your activity Last Programmer Standing has been approved by CSOAVC - APS	null
+116	1111114	46	0	2018-01-10 22:34:14.77763+08	Project Proposal Evaluation	Your activity General Assembly has been approved by CSOAVC - APS	null
+117	1111114	47	0	2018-01-10 22:34:24.629793+08	Project Proposal Evaluation	Your activity Computer Literacy Program has been approved by CSOAVC - APS	null
+96	7111114	4	1	2018-01-10 22:30:42.936133+08	New Project Proposal	Please check activity 1st General Assembly and Turn-over Ceremony	null
+115	7111114	5	1	2018-01-10 22:34:08.224238+08	New Project Proposal	Please check activity Let's ECO: An ECO Team Building	null
+118	4111115	2	0	2018-01-10 22:35:21.504345+08	Project Proposal Evaluation	Please evaluate Photoshop Series 2: Intermediate	null
+119	4111114	5	0	2018-01-10 22:35:21.504345+08	Project Proposal Evaluation	Your activity Photoshop Series 2: Intermediate has been approved by Organization4AVP - Documentation	null
+120	4111115	3	0	2018-01-10 22:35:29.932292+08	Project Proposal Evaluation	Please evaluate Photoshop Series 1: Basic	null
+121	4111114	6	0	2018-01-10 22:35:29.932292+08	Project Proposal Evaluation	Your activity Photoshop Series 1: Basic has been approved by Organization4AVP - Documentation	null
+122	4111115	4	0	2018-01-10 22:35:29.932292+08	Project Proposal Evaluation	Your activity Photoshop Series 1: Basic has been approved by Organization4AVP - Documentation	null
+123	4111115	5	0	2018-01-10 22:35:36.539422+08	Project Proposal Evaluation	Please evaluate MooMedia: 1st General Assembly	null
+124	4111114	7	0	2018-01-10 22:35:36.539422+08	Project Proposal Evaluation	Your activity MooMedia: 1st General Assembly has been approved by Organization4AVP - Documentation	null
+125	4111113	1	0	2018-01-10 22:39:35.782507+08	Project Proposal Evaluation	Please evaluate Photoshop Series 2: Intermediate	null
+126	4111114	8	0	2018-01-10 22:39:35.782507+08	Project Proposal Evaluation	Your activity Photoshop Series 2: Intermediate has been approved by Organization4VP - Finance	null
+127	4111113	2	0	2018-01-10 22:39:47.696565+08	Project Proposal Evaluation	Please evaluate Photoshop Series 1: Basic	null
+128	4111114	9	0	2018-01-10 22:39:47.696565+08	Project Proposal Evaluation	Your activity Photoshop Series 1: Basic has been approved by Organization4VP - Finance	null
+129	4111115	6	0	2018-01-10 22:39:47.696565+08	Project Proposal Evaluation	Your activity Photoshop Series 1: Basic has been approved by Organization4VP - Finance	null
+131	4111113	3	0	2018-01-10 22:49:46.590266+08	Project Proposal Evaluation	Please evaluate MooMedia: 1st General Assembly	null
+132	4111114	10	0	2018-01-10 22:49:46.590266+08	Project Proposal Evaluation	Your activity MooMedia: 1st General Assembly has been approved by Organization4VP - Finance	null
+133	4111111	2	0	2018-01-10 22:50:33.551343+08	Project Proposal Evaluation	Please evaluate Photoshop Series 1: Basic	null
+134	4111114	11	0	2018-01-10 22:50:33.551343+08	Project Proposal Evaluation	Your activity Photoshop Series 1: Basic has been approved by Organization4VP - Documentation	null
+135	4111115	7	0	2018-01-10 22:50:33.551343+08	Project Proposal Evaluation	Your activity Photoshop Series 1: Basic has been approved by Organization4VP - Documentation	null
+136	4111111	3	0	2018-01-10 22:50:39.794181+08	Project Proposal Evaluation	Please evaluate MooMedia: 1st General Assembly	null
+137	4111114	12	0	2018-01-10 22:50:39.794181+08	Project Proposal Evaluation	Your activity MooMedia: 1st General Assembly has been approved by Organization4VP - Documentation	null
+138	4111111	4	0	2018-01-10 22:50:46.236218+08	Project Proposal Evaluation	Please evaluate Photoshop Series 2: Intermediate	null
+139	4111114	13	0	2018-01-10 22:50:46.236218+08	Project Proposal Evaluation	Your activity Photoshop Series 2: Intermediate has been approved by Organization4VP - Documentation	null
+140	2011112	1	0	2018-01-10 22:52:01.124745+08	Project Proposal Evaluation	Please evaluate Photoshop Series 1: Basic	null
+141	4111114	14	0	2018-01-10 22:52:01.124745+08	Project Proposal Evaluation	Your activity Photoshop Series 1: Basic has been approved by Organization4President	null
+142	4111115	8	0	2018-01-10 22:52:01.124745+08	Project Proposal Evaluation	Your activity Photoshop Series 1: Basic has been approved by Organization4President	null
+143	2011111	6	0	2018-01-10 22:52:06.074281+08	Project Proposal Evaluation	Please evaluate Photoshop Series 2: Intermediate	null
+144	4111114	15	0	2018-01-10 22:52:06.074281+08	Project Proposal Evaluation	Your activity Photoshop Series 2: Intermediate has been approved by Organization4President	null
+145	2011111	7	0	2018-01-10 22:52:12.437791+08	Project Proposal Evaluation	Please evaluate MooMedia: 1st General Assembly	null
+146	4111114	16	0	2018-01-10 22:52:12.437791+08	Project Proposal Evaluation	Your activity MooMedia: 1st General Assembly has been approved by Organization4President	null
+147	1011121	6	0	2018-01-10 22:54:43.997914+08	Project Proposal Evaluation	Please evaluate MooMedia: 1st General Assembly	null
+148	4111114	17	0	2018-01-10 22:54:43.997914+08	Project Proposal Evaluation	Your activity MooMedia: 1st General Assembly has been approved by Renato JoseMolano	null
+149	1011121	7	0	2018-01-10 22:55:40.664019+08	Project Proposal Evaluation	Please evaluate Photoshop Series 1: Basic	null
+150	4111114	18	0	2018-01-10 22:55:40.664019+08	Project Proposal Evaluation	Your activity Photoshop Series 1: Basic has been approved by EdwardTighe	null
+151	4111115	9	0	2018-01-10 22:55:40.664019+08	Project Proposal Evaluation	Your activity Photoshop Series 1: Basic has been approved by EdwardTighe	null
+152	1011121	8	0	2018-01-10 22:56:06.035477+08	Project Proposal Evaluation	Please evaluate Photoshop Series 2: Intermediate	null
+153	4111114	19	0	2018-01-10 22:56:06.035477+08	Project Proposal Evaluation	Your activity Photoshop Series 2: Intermediate has been approved by Renato JoseMolano	null
+130	10111114	5	1	2018-01-10 22:48:56.894334+08	New Project Proposal	Please check activity Green Card Alliance	null
+154	10111114	6	1	2018-01-10 22:58:19.266276+08	New Project Proposal	Please check activity Officers Training Program	null
+155	4111114	20	0	2018-01-10 23:05:42.667411+08	Project Proposal Evaluation	Please evaluate Photoshop Series 3: Advanced	null
+156	4111112	3	0	2018-01-10 23:05:42.667411+08	Project Proposal Evaluation	Your activity Photoshop Series 3: Advanced has been approved by Organization4VP - Internal	null
+157	4111114	21	0	2018-01-10 23:05:42.667411+08	Project Proposal Evaluation	Your activity Photoshop Series 3: Advanced has been approved by Organization4VP - Internal	null
+158	4111115	10	0	2018-01-10 23:10:17.204172+08	Project Proposal Evaluation	Please evaluate Photoshop Series 3: Advanced	null
+159	4111112	4	0	2018-01-10 23:10:17.204172+08	Project Proposal Evaluation	Your activity Photoshop Series 3: Advanced has been approved by Organization4AVP - Documentation	null
+160	4111114	22	0	2018-01-10 23:10:17.204172+08	Project Proposal Evaluation	Your activity Photoshop Series 3: Advanced has been approved by Organization4AVP - Documentation	null
+161	4111113	4	0	2018-01-10 23:11:09.74277+08	Project Proposal Evaluation	Please evaluate Photoshop Series 3: Advanced	null
+162	4111112	5	0	2018-01-10 23:11:09.74277+08	Project Proposal Evaluation	Your activity Photoshop Series 3: Advanced has been approved by Organization4VP - Finance	null
+163	4111114	23	0	2018-01-10 23:11:09.74277+08	Project Proposal Evaluation	Your activity Photoshop Series 3: Advanced has been approved by Organization4VP - Finance	null
+164	4111111	5	0	2018-01-10 23:12:05.204444+08	Project Proposal Evaluation	Please evaluate Photoshop Series 3: Advanced	null
+165	4111112	6	0	2018-01-10 23:12:05.204444+08	Project Proposal Evaluation	Your activity Photoshop Series 3: Advanced has been approved by Organization4VP - Documentation	null
+166	4111114	24	0	2018-01-10 23:12:05.204444+08	Project Proposal Evaluation	Your activity Photoshop Series 3: Advanced has been approved by Organization4VP - Documentation	null
+168	2011111	8	0	2018-01-10 23:12:35.444976+08	Project Proposal Evaluation	Please evaluate Photoshop Series 3: Advanced	null
+169	4111112	7	0	2018-01-10 23:12:35.444976+08	Project Proposal Evaluation	Your activity Photoshop Series 3: Advanced has been approved by Organization4President	null
+170	4111114	25	0	2018-01-10 23:12:35.444976+08	Project Proposal Evaluation	Your activity Photoshop Series 3: Advanced has been approved by Organization4President	null
+171	1011121	9	0	2018-01-10 23:13:11.856954+08	Project Proposal Evaluation	Please evaluate Photoshop Series 3: Advanced	null
+172	4111112	8	0	2018-01-10 23:13:11.856954+08	Project Proposal Evaluation	Your activity Photoshop Series 3: Advanced has been approved by Renato JoseMolano	null
+173	4111114	26	0	2018-01-10 23:13:11.856954+08	Project Proposal Evaluation	Your activity Photoshop Series 3: Advanced has been approved by Renato JoseMolano	null
+174	7111114	6	0	2018-01-10 23:13:13.973541+08	New Project Proposal	Please check activity ECOntrol: Waste Analysis and Characterization Study	null
+175	7111116	4	0	2018-01-10 23:13:13.973541+08	New Project Proposal	Please check activity ECOntrol: Waste Analysis and Characterization Study	null
+176	1011120	6	0	2018-01-10 23:16:19.784618+08	Project Proposal Evaluation	Please evaluate Photoshop Series 3: Advanced	null
+177	4111112	9	0	2018-01-10 23:16:19.784618+08	Project Proposal Evaluation	Your activity Photoshop Series 3: Advanced has been approved by CSOA - APS	null
+178	4111114	27	0	2018-01-10 23:16:19.784618+08	Project Proposal Evaluation	Your activity Photoshop Series 3: Advanced has been approved by CSOA - APS	null
+180	7111114	7	0	2018-01-10 23:18:31.222625+08	New Project Proposal	Please check activity #ECOTalks 2: "Engineers on Environment Protection and Sustainability" (In Partnership with GCOE STCG)	null
+181	1011120	7	0	2018-01-10 23:20:44.353064+08	Project Proposal Evaluation	Please evaluate Photoshop Series 2: Intermediate	null
+182	4111114	28	0	2018-01-10 23:20:44.353064+08	Project Proposal Evaluation	Your activity Photoshop Series 2: Intermediate has been approved by CSOA - APS	null
+183	1011120	8	0	2018-01-10 23:21:01.677457+08	Project Proposal Evaluation	Please evaluate Photoshop Series 1: Basic	null
+184	4111114	29	0	2018-01-10 23:21:01.677457+08	Project Proposal Evaluation	Your activity Photoshop Series 1: Basic has been approved by CSOA - APS	null
+185	4111115	11	0	2018-01-10 23:21:01.677457+08	Project Proposal Evaluation	Your activity Photoshop Series 1: Basic has been approved by CSOA - APS	null
+186	1011120	9	0	2018-01-10 23:21:15.386723+08	Project Proposal Evaluation	Please evaluate MooMedia: 1st General Assembly	null
+187	4111114	30	0	2018-01-10 23:21:15.386723+08	Project Proposal Evaluation	Your activity MooMedia: 1st General Assembly has been approved by CSOA - APS	null
+190	7111114	8	0	2018-01-10 23:26:43.505528+08	New Project Proposal	Please check activity All Forms of Life is Important: Bird Race	null
+191	7111116	5	0	2018-01-10 23:26:43.505528+08	New Project Proposal	Please check activity All Forms of Life is Important: Bird Race	null
+192	7111114	9	0	2018-01-10 23:28:24.562857+08	New Project Proposal	Please check activity ECO Gives Back: A Christmas Celebration with the Kids	null
+193	7111116	6	0	2018-01-10 23:28:24.562857+08	New Project Proposal	Please check activity ECO Gives Back: A Christmas Celebration with the Kids	null
+194	7111116	7	0	2018-01-10 23:28:48.587775+08	Project Proposal Evaluation	Please evaluate E-Cultural Voyagers: A Community Engagement (Masid-Danas Phase)	null
+195	7111114	10	0	2018-01-10 23:28:48.587775+08	Project Proposal Evaluation	Your activity E-Cultural Voyagers: A Community Engagement (Masid-Danas Phase) has been approved by Organization7AVP - Documentation	null
+196	7111116	8	0	2018-01-10 23:28:48.587775+08	Project Proposal Evaluation	Your activity E-Cultural Voyagers: A Community Engagement (Masid-Danas Phase) has been approved by Organization7AVP - Documentation	null
+198	7111116	9	0	2018-01-10 23:28:55.252543+08	Project Proposal Evaluation	Please evaluate #ECOTalks 1: I am a Lasallian, I am PRO Green"	null
+199	7111114	11	0	2018-01-10 23:28:55.252543+08	Project Proposal Evaluation	Your activity #ECOTalks 1: I am a Lasallian, I am PRO Green" has been approved by Organization7AVP - Documentation	null
+200	7111116	10	0	2018-01-10 23:28:55.252543+08	Project Proposal Evaluation	Your activity #ECOTalks 1: I am a Lasallian, I am PRO Green" has been approved by Organization7AVP - Documentation	null
+167	3111114	1	1	2018-01-10 23:12:16.928111+08	New Project Proposal	Please check activity Talent Management	null
+179	3111114	2	1	2018-01-10 23:16:30.501087+08	New Project Proposal	Please check activity Operations Summit 	null
+188	3111114	3	1	2018-01-10 23:21:52.778067+08	New Project Proposal	Please check activity OGX-Po	null
+189	3111114	4	1	2018-01-10 23:25:17.973024+08	New Project Proposal	Please check activity October - Local Committee Meeting	null
+197	3111114	5	1	2018-01-10 23:28:50.255316+08	New Project Proposal	Please check activity Sales Development Programme 2.0	null
+201	7111116	11	0	2018-01-10 23:29:01.682939+08	Project Proposal Evaluation	Please evaluate Annual Recruitment Week	null
+202	7111114	12	0	2018-01-10 23:29:01.682939+08	Project Proposal Evaluation	Your activity Annual Recruitment Week has been approved by Organization7AVP - Documentation	null
+203	7111116	12	0	2018-01-10 23:29:01.682939+08	Project Proposal Evaluation	Your activity Annual Recruitment Week has been approved by Organization7AVP - Documentation	null
+204	7111115	1	0	2018-01-10 23:29:06.566866+08	Project Proposal Evaluation	Please evaluate 1st General Assembly and Turn-over Ceremony	null
+205	7111114	13	0	2018-01-10 23:29:06.566866+08	Project Proposal Evaluation	Your activity 1st General Assembly and Turn-over Ceremony has been approved by Organization7AVP - Documentation	null
+206	10111114	7	0	2018-01-10 23:29:10.594712+08	New Project Proposal	Please check activity AVP Applications	null
+207	7111116	13	0	2018-01-10 23:29:11.095178+08	Project Proposal Evaluation	Please evaluate ECOntrol: Waste Analysis and Characterization Study	null
+208	7111114	14	0	2018-01-10 23:29:11.095178+08	Project Proposal Evaluation	Your activity ECOntrol: Waste Analysis and Characterization Study has been approved by Organization7AVP - Documentation	null
+209	7111116	14	0	2018-01-10 23:29:11.095178+08	Project Proposal Evaluation	Your activity ECOntrol: Waste Analysis and Characterization Study has been approved by Organization7AVP - Documentation	null
+210	7111115	2	0	2018-01-10 23:29:20.625257+08	Project Proposal Evaluation	Please evaluate Let's ECO: An ECO Team Building	null
+211	7111114	15	0	2018-01-10 23:29:20.625257+08	Project Proposal Evaluation	Your activity Let's ECO: An ECO Team Building has been approved by Organization7AVP - Documentation	null
+212	7111115	3	0	2018-01-10 23:29:27.265469+08	Project Proposal Evaluation	Please evaluate #ECOTalks 2: "Engineers on Environment Protection and Sustainability" (In Partnership with GCOE STCG)	null
+213	7111114	16	0	2018-01-10 23:29:27.265469+08	Project Proposal Evaluation	Your activity #ECOTalks 2: "Engineers on Environment Protection and Sustainability" (In Partnership with GCOE STCG) has been approved by Organization7AVP - Documentation	null
+214	7111116	15	0	2018-01-10 23:29:49.301931+08	Project Proposal Evaluation	Please evaluate All Forms of Life is Important: Bird Race	null
+215	7111114	17	0	2018-01-10 23:29:49.301931+08	Project Proposal Evaluation	Your activity All Forms of Life is Important: Bird Race has been approved by Organization7AVP - Documentation	null
+216	7111116	16	0	2018-01-10 23:29:49.301931+08	Project Proposal Evaluation	Your activity All Forms of Life is Important: Bird Race has been approved by Organization7AVP - Documentation	null
+217	7111116	17	0	2018-01-10 23:29:58.120414+08	Project Proposal Evaluation	Please evaluate ECO Gives Back: A Christmas Celebration with the Kids	null
+218	7111114	18	0	2018-01-10 23:29:58.120414+08	Project Proposal Evaluation	Your activity ECO Gives Back: A Christmas Celebration with the Kids has been approved by Organization7AVP - Documentation	null
+219	7111116	18	0	2018-01-10 23:29:58.120414+08	Project Proposal Evaluation	Your activity ECO Gives Back: A Christmas Celebration with the Kids has been approved by Organization7AVP - Documentation	null
+220	3111114	6	0	2018-01-10 23:30:22.275904+08	New Project Proposal	Please check activity Activation Camp 	null
+221	7111115	4	0	2018-01-10 23:31:36.367793+08	Project Proposal Evaluation	Please evaluate E-Cultural Voyagers: A Community Engagement (Masid-Danas Phase)	null
+222	7111114	19	0	2018-01-10 23:31:36.367793+08	Project Proposal Evaluation	Your activity E-Cultural Voyagers: A Community Engagement (Masid-Danas Phase) has been approved by Organization7AVP - Finance	null
+223	7111116	19	0	2018-01-10 23:31:36.367793+08	Project Proposal Evaluation	Your activity E-Cultural Voyagers: A Community Engagement (Masid-Danas Phase) has been approved by Organization7AVP - Finance	null
+224	7111115	5	0	2018-01-10 23:31:54.423297+08	Project Proposal Evaluation	Please evaluate #ECOTalks 1: I am a Lasallian, I am PRO Green"	null
+225	7111114	20	0	2018-01-10 23:31:54.423297+08	Project Proposal Evaluation	Your activity #ECOTalks 1: I am a Lasallian, I am PRO Green" has been approved by Organization7AVP - Finance	null
+226	7111116	20	0	2018-01-10 23:31:54.423297+08	Project Proposal Evaluation	Your activity #ECOTalks 1: I am a Lasallian, I am PRO Green" has been approved by Organization7AVP - Finance	null
+227	7111115	6	0	2018-01-10 23:32:06.408233+08	Project Proposal Evaluation	Please evaluate Annual Recruitment Week	null
+228	7111114	21	0	2018-01-10 23:32:06.408233+08	Project Proposal Evaluation	Your activity Annual Recruitment Week has been approved by Organization7AVP - Finance	null
+229	7111116	21	0	2018-01-10 23:32:06.408233+08	Project Proposal Evaluation	Your activity Annual Recruitment Week has been approved by Organization7AVP - Finance	null
+230	7111115	7	0	2018-01-10 23:32:20.546813+08	Project Proposal Evaluation	Please evaluate ECOntrol: Waste Analysis and Characterization Study	null
+231	7111114	22	0	2018-01-10 23:32:20.546813+08	Project Proposal Evaluation	Your activity ECOntrol: Waste Analysis and Characterization Study has been approved by Organization7AVP - Finance	null
+232	7111116	22	0	2018-01-10 23:32:20.546813+08	Project Proposal Evaluation	Your activity ECOntrol: Waste Analysis and Characterization Study has been approved by Organization7AVP - Finance	null
+233	7111115	8	0	2018-01-10 23:32:37.427929+08	Project Proposal Evaluation	Please evaluate All Forms of Life is Important: Bird Race	null
+234	7111114	23	0	2018-01-10 23:32:37.427929+08	Project Proposal Evaluation	Your activity All Forms of Life is Important: Bird Race has been approved by Organization7AVP - Finance	null
+235	7111116	23	0	2018-01-10 23:32:37.427929+08	Project Proposal Evaluation	Your activity All Forms of Life is Important: Bird Race has been approved by Organization7AVP - Finance	null
+236	3111114	7	0	2018-01-10 23:32:41.728252+08	New Project Proposal	Please check activity Intership Phase	null
+237	7111115	9	0	2018-01-10 23:32:51.61954+08	Project Proposal Evaluation	Please evaluate ECO Gives Back: A Christmas Celebration with the Kids	null
+238	7111114	24	0	2018-01-10 23:32:51.61954+08	Project Proposal Evaluation	Your activity ECO Gives Back: A Christmas Celebration with the Kids has been approved by Organization7AVP - Finance	null
+239	7111116	24	0	2018-01-10 23:32:51.61954+08	Project Proposal Evaluation	Your activity ECO Gives Back: A Christmas Celebration with the Kids has been approved by Organization7AVP - Finance	null
+240	3111114	8	0	2018-01-10 23:34:07.336749+08	New Project Proposal	Please check activity Global Goals Weeks	null
+241	3111114	9	0	2018-01-10 23:35:40.068001+08	New Project Proposal	Please check activity Organizing Committee Track	null
+242	7111113	1	0	2018-01-10 23:35:42.519177+08	Project Proposal Evaluation	Please evaluate E-Cultural Voyagers: A Community Engagement (Masid-Danas Phase)	null
+243	7111114	25	0	2018-01-10 23:35:42.519177+08	Project Proposal Evaluation	Your activity E-Cultural Voyagers: A Community Engagement (Masid-Danas Phase) has been approved by Organization7VP - Finance	null
+244	7111116	25	0	2018-01-10 23:35:42.519177+08	Project Proposal Evaluation	Your activity E-Cultural Voyagers: A Community Engagement (Masid-Danas Phase) has been approved by Organization7VP - Finance	null
+245	7111113	2	0	2018-01-10 23:37:21.147076+08	Project Proposal Evaluation	Please evaluate #ECOTalks 1: I am a Lasallian, I am PRO Green"	null
+246	7111114	26	0	2018-01-10 23:37:21.147076+08	Project Proposal Evaluation	Your activity #ECOTalks 1: I am a Lasallian, I am PRO Green" has been approved by Organization7VP - Finance	null
+247	7111116	26	0	2018-01-10 23:37:21.147076+08	Project Proposal Evaluation	Your activity #ECOTalks 1: I am a Lasallian, I am PRO Green" has been approved by Organization7VP - Finance	null
+248	7111113	3	0	2018-01-10 23:37:36.229289+08	Project Proposal Evaluation	Please evaluate 1st General Assembly and Turn-over Ceremony	null
+249	7111114	27	0	2018-01-10 23:37:36.229289+08	Project Proposal Evaluation	Your activity 1st General Assembly and Turn-over Ceremony has been approved by Organization7VP - Finance	null
+250	7111113	4	0	2018-01-10 23:37:37.580974+08	Project Proposal Evaluation	Please evaluate Annual Recruitment Week	null
+251	7111114	28	0	2018-01-10 23:37:37.580974+08	Project Proposal Evaluation	Your activity Annual Recruitment Week has been approved by Organization7VP - Finance	null
+252	7111116	27	0	2018-01-10 23:37:37.580974+08	Project Proposal Evaluation	Your activity Annual Recruitment Week has been approved by Organization7VP - Finance	null
+253	7111113	5	0	2018-01-10 23:37:47.986854+08	Project Proposal Evaluation	Please evaluate Let's ECO: An ECO Team Building	null
+254	7111114	29	0	2018-01-10 23:37:47.986854+08	Project Proposal Evaluation	Your activity Let's ECO: An ECO Team Building has been approved by Organization7VP - Finance	null
+255	7111113	6	0	2018-01-10 23:37:51.086573+08	Project Proposal Evaluation	Please evaluate ECOntrol: Waste Analysis and Characterization Study	null
+256	7111114	30	0	2018-01-10 23:37:51.086573+08	Project Proposal Evaluation	Your activity ECOntrol: Waste Analysis and Characterization Study has been approved by Organization7VP - Finance	null
+257	7111116	28	0	2018-01-10 23:37:51.086573+08	Project Proposal Evaluation	Your activity ECOntrol: Waste Analysis and Characterization Study has been approved by Organization7VP - Finance	null
+258	7111113	7	0	2018-01-10 23:37:53.910261+08	Project Proposal Evaluation	Please evaluate #ECOTalks 2: "Engineers on Environment Protection and Sustainability" (In Partnership with GCOE STCG)	null
+259	7111114	31	0	2018-01-10 23:37:53.910261+08	Project Proposal Evaluation	Your activity #ECOTalks 2: "Engineers on Environment Protection and Sustainability" (In Partnership with GCOE STCG) has been approved by Organization7VP - Finance	null
+260	7111113	8	0	2018-01-10 23:37:55.281593+08	Project Proposal Evaluation	Please evaluate All Forms of Life is Important: Bird Race	null
+261	7111114	32	0	2018-01-10 23:37:55.281593+08	Project Proposal Evaluation	Your activity All Forms of Life is Important: Bird Race has been approved by Organization7VP - Finance	null
+262	7111116	29	0	2018-01-10 23:37:55.281593+08	Project Proposal Evaluation	Your activity All Forms of Life is Important: Bird Race has been approved by Organization7VP - Finance	null
+263	10111114	8	0	2018-01-10 23:38:30.148552+08	New Project Proposal	Please check activity Frosh Welcoming 	null
+264	10111116	2	0	2018-01-10 23:38:30.148552+08	New Project Proposal	Please check activity Frosh Welcoming 	null
+265	3111115	1	0	2018-01-10 23:39:01.42692+08	Project Proposal Evaluation	Please evaluate October - Local Committee Meeting	null
+266	3111114	10	0	2018-01-10 23:39:01.42692+08	Project Proposal Evaluation	Your activity October - Local Committee Meeting has been approved by Organization3AVP - Documentation	null
+267	3111115	2	0	2018-01-10 23:39:12.110939+08	Project Proposal Evaluation	Please evaluate Talent Management	null
+268	3111114	11	0	2018-01-10 23:39:12.110939+08	Project Proposal Evaluation	Your activity Talent Management has been approved by Organization3AVP - Documentation	null
+269	3111115	3	0	2018-01-10 23:39:18.586896+08	Project Proposal Evaluation	Please evaluate Operations Summit 	null
+270	3111114	12	0	2018-01-10 23:39:18.586896+08	Project Proposal Evaluation	Your activity Operations Summit  has been approved by Organization3AVP - Documentation	null
+271	3111115	4	0	2018-01-10 23:39:25.547574+08	Project Proposal Evaluation	Please evaluate Organizing Committee Track	null
+272	3111114	13	0	2018-01-10 23:39:25.547574+08	Project Proposal Evaluation	Your activity Organizing Committee Track has been approved by Organization3AVP - Documentation	null
+273	3111115	5	0	2018-01-10 23:39:30.974716+08	Project Proposal Evaluation	Please evaluate Global Goals Weeks	null
+274	3111114	14	0	2018-01-10 23:39:30.974716+08	Project Proposal Evaluation	Your activity Global Goals Weeks has been approved by Organization3AVP - Documentation	null
+275	3111115	6	0	2018-01-10 23:39:47.560714+08	Project Proposal Evaluation	Please evaluate Intership Phase	null
+276	3111114	15	0	2018-01-10 23:39:47.560714+08	Project Proposal Evaluation	Your activity Intership Phase has been pended by Organization3AVP - Documentation	null
+277	7111113	9	0	2018-01-10 23:40:19.414429+08	Project Proposal Evaluation	Please evaluate ECO Gives Back: A Christmas Celebration with the Kids	null
+278	7111114	33	0	2018-01-10 23:40:19.414429+08	Project Proposal Evaluation	Your activity ECO Gives Back: A Christmas Celebration with the Kids has been approved by Organization7VP - Finance	null
+279	7111116	30	0	2018-01-10 23:40:19.414429+08	Project Proposal Evaluation	Your activity ECO Gives Back: A Christmas Celebration with the Kids has been approved by Organization7VP - Finance	null
+280	3111113	2	0	2018-01-10 23:40:39.555536+08	Project Proposal Evaluation	Please evaluate Talent Management	null
+281	3111114	16	0	2018-01-10 23:40:39.555536+08	Project Proposal Evaluation	Your activity Talent Management has been approved by Organization3VP - Finance	null
+282	3111113	3	0	2018-01-10 23:40:46.040139+08	Project Proposal Evaluation	Please evaluate Operations Summit 	null
+283	3111114	17	0	2018-01-10 23:40:46.040139+08	Project Proposal Evaluation	Your activity Operations Summit  has been approved by Organization3VP - Finance	null
+284	3111113	4	0	2018-01-10 23:41:00.355698+08	Project Proposal Evaluation	Please evaluate October - Local Committee Meeting	null
+285	3111114	18	0	2018-01-10 23:41:00.355698+08	Project Proposal Evaluation	Your activity October - Local Committee Meeting has been approved by Organization3VP - Finance	null
+286	3111113	5	0	2018-01-10 23:41:08.177205+08	Project Proposal Evaluation	Please evaluate Organizing Committee Track	null
+287	3111114	19	0	2018-01-10 23:41:08.177205+08	Project Proposal Evaluation	Your activity Organizing Committee Track has been approved by Organization3VP - Finance	null
+288	3111113	6	0	2018-01-10 23:41:15.838703+08	Project Proposal Evaluation	Please evaluate Global Goals Weeks	null
+289	3111114	20	0	2018-01-10 23:41:15.838703+08	Project Proposal Evaluation	Your activity Global Goals Weeks has been approved by Organization3VP - Finance	null
+290	3111111	2	0	2018-01-10 23:42:21.551802+08	Project Proposal Evaluation	Please evaluate Talent Management	null
+291	3111114	21	0	2018-01-10 23:42:21.551802+08	Project Proposal Evaluation	Your activity Talent Management has been approved by Organization3VP - Documentation	null
+292	3111111	3	0	2018-01-10 23:42:29.215455+08	Project Proposal Evaluation	Please evaluate Operations Summit 	null
+293	3111114	22	0	2018-01-10 23:42:29.215455+08	Project Proposal Evaluation	Your activity Operations Summit  has been approved by Organization3VP - Documentation	null
+294	3111111	4	0	2018-01-10 23:42:44.735353+08	Project Proposal Evaluation	Please evaluate Global Goals Weeks	null
+295	3111114	23	0	2018-01-10 23:42:44.735353+08	Project Proposal Evaluation	Your activity Global Goals Weeks has been approved by Organization3VP - Documentation	null
+296	3111111	5	0	2018-01-10 23:42:56.055253+08	Project Proposal Evaluation	Please evaluate Organizing Committee Track	null
+297	3111114	24	0	2018-01-10 23:42:56.055253+08	Project Proposal Evaluation	Your activity Organizing Committee Track has been approved by Organization3VP - Documentation	null
+298	3111111	6	0	2018-01-10 23:43:06.408796+08	Project Proposal Evaluation	Please evaluate October - Local Committee Meeting	null
+299	3111114	25	0	2018-01-10 23:43:06.408796+08	Project Proposal Evaluation	Your activity October - Local Committee Meeting has been approved by Organization3VP - Documentation	null
+300	2011111	9	0	2018-01-10 23:43:25.268659+08	Project Proposal Evaluation	Please evaluate Talent Management	null
+301	3111114	26	0	2018-01-10 23:43:25.268659+08	Project Proposal Evaluation	Your activity Talent Management has been approved by Organization3President	null
+302	2011111	10	0	2018-01-10 23:43:30.340588+08	Project Proposal Evaluation	Please evaluate Operations Summit 	null
+303	3111114	27	0	2018-01-10 23:43:30.340588+08	Project Proposal Evaluation	Your activity Operations Summit  has been approved by Organization3President	null
+304	2011111	11	0	2018-01-10 23:43:43.790822+08	Project Proposal Evaluation	Please evaluate Global Goals Weeks	null
+305	3111114	28	0	2018-01-10 23:43:43.790822+08	Project Proposal Evaluation	Your activity Global Goals Weeks has been approved by Organization3President	null
+306	2011111	12	0	2018-01-10 23:43:49.998922+08	Project Proposal Evaluation	Please evaluate Organizing Committee Track	null
+307	3111114	29	0	2018-01-10 23:43:49.998922+08	Project Proposal Evaluation	Your activity Organizing Committee Track has been approved by Organization3President	null
+308	2011111	13	0	2018-01-10 23:43:58.701773+08	Project Proposal Evaluation	Please evaluate October - Local Committee Meeting	null
+309	3111114	30	0	2018-01-10 23:43:58.701773+08	Project Proposal Evaluation	Your activity October - Local Committee Meeting has been approved by Organization3President	null
+310	1011121	10	0	2018-01-10 23:46:21.28332+08	Project Proposal Evaluation	Please evaluate Talent Management	null
+311	3111114	31	0	2018-01-10 23:46:21.28332+08	Project Proposal Evaluation	Your activity Talent Management has been approved by Renato JoseMolano	null
+312	7111111	2	0	2018-01-10 23:46:28.377733+08	Project Proposal Evaluation	Please evaluate ECOntrol: Waste Analysis and Characterization Study	null
+313	7111114	34	0	2018-01-10 23:46:28.377733+08	Project Proposal Evaluation	Your activity ECOntrol: Waste Analysis and Characterization Study has been approved by Organization7VP - Documentation	null
+314	7111116	31	0	2018-01-10 23:46:28.377733+08	Project Proposal Evaluation	Your activity ECOntrol: Waste Analysis and Characterization Study has been approved by Organization7VP - Documentation	null
+315	7111111	3	0	2018-01-10 23:46:31.698542+08	Project Proposal Evaluation	Please evaluate ECO Gives Back: A Christmas Celebration with the Kids	null
+316	7111114	35	0	2018-01-10 23:46:31.698542+08	Project Proposal Evaluation	Your activity ECO Gives Back: A Christmas Celebration with the Kids has been approved by Organization7VP - Documentation	null
+317	7111116	32	0	2018-01-10 23:46:31.698542+08	Project Proposal Evaluation	Your activity ECO Gives Back: A Christmas Celebration with the Kids has been approved by Organization7VP - Documentation	null
+318	7111111	4	0	2018-01-10 23:46:33.946093+08	Project Proposal Evaluation	Please evaluate #ECOTalks 2: "Engineers on Environment Protection and Sustainability" (In Partnership with GCOE STCG)	null
+319	7111114	36	0	2018-01-10 23:46:33.946093+08	Project Proposal Evaluation	Your activity #ECOTalks 2: "Engineers on Environment Protection and Sustainability" (In Partnership with GCOE STCG) has been approved by Organization7VP - Documentation	null
+320	7111111	5	0	2018-01-10 23:46:35.838913+08	Project Proposal Evaluation	Please evaluate ECO Gives Back: A Christmas Celebration with the Kids	null
+321	7111114	37	0	2018-01-10 23:46:35.838913+08	Project Proposal Evaluation	Your activity ECO Gives Back: A Christmas Celebration with the Kids has been approved by Organization7VP - Documentation	null
+322	7111116	33	0	2018-01-10 23:46:35.838913+08	Project Proposal Evaluation	Your activity ECO Gives Back: A Christmas Celebration with the Kids has been approved by Organization7VP - Documentation	null
+323	7111111	6	0	2018-01-10 23:46:38.041266+08	Project Proposal Evaluation	Please evaluate ECO Gives Back: A Christmas Celebration with the Kids	null
+324	7111114	38	0	2018-01-10 23:46:38.041266+08	Project Proposal Evaluation	Your activity ECO Gives Back: A Christmas Celebration with the Kids has been approved by Organization7VP - Documentation	null
+325	7111116	34	0	2018-01-10 23:46:38.041266+08	Project Proposal Evaluation	Your activity ECO Gives Back: A Christmas Celebration with the Kids has been approved by Organization7VP - Documentation	null
+326	7111111	7	0	2018-01-10 23:46:42.16262+08	Project Proposal Evaluation	Please evaluate ECO Gives Back: A Christmas Celebration with the Kids	null
+327	7111114	39	0	2018-01-10 23:46:42.16262+08	Project Proposal Evaluation	Your activity ECO Gives Back: A Christmas Celebration with the Kids has been approved by Organization7VP - Documentation	null
+328	7111116	35	0	2018-01-10 23:46:42.16262+08	Project Proposal Evaluation	Your activity ECO Gives Back: A Christmas Celebration with the Kids has been approved by Organization7VP - Documentation	null
+329	7111111	8	0	2018-01-10 23:46:42.193705+08	Project Proposal Evaluation	Please evaluate ECO Gives Back: A Christmas Celebration with the Kids	null
+330	7111114	40	0	2018-01-10 23:46:42.193705+08	Project Proposal Evaluation	Your activity ECO Gives Back: A Christmas Celebration with the Kids has been approved by Organization7VP - Documentation	null
+331	7111116	36	0	2018-01-10 23:46:42.193705+08	Project Proposal Evaluation	Your activity ECO Gives Back: A Christmas Celebration with the Kids has been approved by Organization7VP - Documentation	null
+332	1011121	11	0	2018-01-10 23:46:42.574419+08	Project Proposal Evaluation	Please evaluate Global Goals Weeks	null
+333	3111114	32	0	2018-01-10 23:46:42.574419+08	Project Proposal Evaluation	Your activity Global Goals Weeks has been approved by Renato JoseMolano	null
+334	7111111	9	0	2018-01-10 23:46:44.916085+08	Project Proposal Evaluation	Please evaluate ECO Gives Back: A Christmas Celebration with the Kids	null
+335	7111114	41	0	2018-01-10 23:46:44.916085+08	Project Proposal Evaluation	Your activity ECO Gives Back: A Christmas Celebration with the Kids has been approved by Organization7VP - Documentation	null
+336	7111116	37	0	2018-01-10 23:46:44.916085+08	Project Proposal Evaluation	Your activity ECO Gives Back: A Christmas Celebration with the Kids has been approved by Organization7VP - Documentation	null
+337	7111111	10	0	2018-01-10 23:46:47.396091+08	Project Proposal Evaluation	Please evaluate ECO Gives Back: A Christmas Celebration with the Kids	null
+338	7111114	42	0	2018-01-10 23:46:47.396091+08	Project Proposal Evaluation	Your activity ECO Gives Back: A Christmas Celebration with the Kids has been approved by Organization7VP - Documentation	null
+339	7111116	38	0	2018-01-10 23:46:47.396091+08	Project Proposal Evaluation	Your activity ECO Gives Back: A Christmas Celebration with the Kids has been approved by Organization7VP - Documentation	null
+340	1011121	12	0	2018-01-10 23:46:51.550781+08	Project Proposal Evaluation	Please evaluate Organizing Committee Track	null
+341	3111114	33	0	2018-01-10 23:46:51.550781+08	Project Proposal Evaluation	Your activity Organizing Committee Track has been approved by Renato JoseMolano	null
+342	1011121	13	0	2018-01-10 23:46:59.851455+08	Project Proposal Evaluation	Please evaluate October - Local Committee Meeting	null
+343	3111114	34	0	2018-01-10 23:46:59.851455+08	Project Proposal Evaluation	Your activity October - Local Committee Meeting has been approved by Renato JoseMolano	null
+344	7111111	11	0	2018-01-10 23:47:11.500164+08	Project Proposal Evaluation	Please evaluate All Forms of Life is Important: Bird Race	null
+345	7111114	43	0	2018-01-10 23:47:11.500164+08	Project Proposal Evaluation	Your activity All Forms of Life is Important: Bird Race has been approved by Organization7VP - Documentation	null
+346	7111116	39	0	2018-01-10 23:47:11.500164+08	Project Proposal Evaluation	Your activity All Forms of Life is Important: Bird Race has been approved by Organization7VP - Documentation	null
+347	7111111	12	0	2018-01-10 23:47:12.104035+08	Project Proposal Evaluation	Please evaluate All Forms of Life is Important: Bird Race	null
+348	7111114	44	0	2018-01-10 23:47:12.104035+08	Project Proposal Evaluation	Your activity All Forms of Life is Important: Bird Race has been approved by Organization7VP - Documentation	null
+349	7111116	40	0	2018-01-10 23:47:12.104035+08	Project Proposal Evaluation	Your activity All Forms of Life is Important: Bird Race has been approved by Organization7VP - Documentation	null
+350	7111111	13	0	2018-01-10 23:47:15.694132+08	Project Proposal Evaluation	Please evaluate All Forms of Life is Important: Bird Race	null
+351	7111114	45	0	2018-01-10 23:47:15.694132+08	Project Proposal Evaluation	Your activity All Forms of Life is Important: Bird Race has been approved by Organization7VP - Documentation	null
+352	7111116	41	0	2018-01-10 23:47:15.694132+08	Project Proposal Evaluation	Your activity All Forms of Life is Important: Bird Race has been approved by Organization7VP - Documentation	null
+353	7111111	14	0	2018-01-10 23:47:16.95589+08	Project Proposal Evaluation	Please evaluate All Forms of Life is Important: Bird Race	null
+354	7111114	46	0	2018-01-10 23:47:16.95589+08	Project Proposal Evaluation	Your activity All Forms of Life is Important: Bird Race has been approved by Organization7VP - Documentation	null
+355	7111116	42	0	2018-01-10 23:47:16.95589+08	Project Proposal Evaluation	Your activity All Forms of Life is Important: Bird Race has been approved by Organization7VP - Documentation	null
+356	7111111	15	0	2018-01-10 23:47:17.905914+08	Project Proposal Evaluation	Please evaluate All Forms of Life is Important: Bird Race	null
+357	7111114	47	0	2018-01-10 23:47:17.905914+08	Project Proposal Evaluation	Your activity All Forms of Life is Important: Bird Race has been approved by Organization7VP - Documentation	null
+358	7111116	43	0	2018-01-10 23:47:17.905914+08	Project Proposal Evaluation	Your activity All Forms of Life is Important: Bird Race has been approved by Organization7VP - Documentation	null
+359	7111111	16	0	2018-01-10 23:47:20.209902+08	Project Proposal Evaluation	Please evaluate All Forms of Life is Important: Bird Race	null
+360	7111114	48	0	2018-01-10 23:47:20.209902+08	Project Proposal Evaluation	Your activity All Forms of Life is Important: Bird Race has been approved by Organization7VP - Documentation	null
+361	7111116	44	0	2018-01-10 23:47:20.209902+08	Project Proposal Evaluation	Your activity All Forms of Life is Important: Bird Race has been approved by Organization7VP - Documentation	null
+362	1011120	10	0	2018-01-10 23:47:38.507971+08	Project Proposal Evaluation	Please evaluate Talent Management	null
+363	3111114	35	0	2018-01-10 23:47:38.507971+08	Project Proposal Evaluation	Your activity Talent Management has been approved by CSOA - APS	null
+364	1011120	11	0	2018-01-10 23:47:47.197943+08	Project Proposal Evaluation	Please evaluate October - Local Committee Meeting	null
+365	3111114	36	0	2018-01-10 23:47:47.197943+08	Project Proposal Evaluation	Your activity October - Local Committee Meeting has been approved by CSOA - APS	null
+366	1011120	12	0	2018-01-10 23:47:54.349036+08	Project Proposal Evaluation	Please evaluate Global Goals Weeks	null
+367	3111114	37	0	2018-01-10 23:47:54.349036+08	Project Proposal Evaluation	Your activity Global Goals Weeks has been approved by CSOA - APS	null
+368	1011120	13	0	2018-01-10 23:48:04.225519+08	Project Proposal Evaluation	Please evaluate Operations Summit 	null
+369	3111114	38	0	2018-01-10 23:48:04.225519+08	Project Proposal Evaluation	Your activity Operations Summit  has been approved by CSOA - APS	null
+370	7111111	17	0	2018-01-10 23:48:11.385162+08	Project Proposal Evaluation	Please evaluate E-Cultural Voyagers: A Community Engagement (Masid-Danas Phase)	null
+371	7111114	49	0	2018-01-10 23:48:11.385162+08	Project Proposal Evaluation	Your activity E-Cultural Voyagers: A Community Engagement (Masid-Danas Phase) has been approved by Organization7VP - Documentation	null
+372	7111116	45	0	2018-01-10 23:48:11.385162+08	Project Proposal Evaluation	Your activity E-Cultural Voyagers: A Community Engagement (Masid-Danas Phase) has been approved by Organization7VP - Documentation	null
+373	1011120	14	0	2018-01-10 23:48:16.257253+08	Project Proposal Evaluation	Please evaluate Organizing Committee Track	null
+374	3111114	39	0	2018-01-10 23:48:16.257253+08	Project Proposal Evaluation	Your activity Organizing Committee Track has been approved by CSOA - APS	null
+375	7111111	18	0	2018-01-10 23:48:26.650071+08	Project Proposal Evaluation	Please evaluate #ECOTalks 1: I am a Lasallian, I am PRO Green"	null
+376	7111114	50	0	2018-01-10 23:48:26.650071+08	Project Proposal Evaluation	Your activity #ECOTalks 1: I am a Lasallian, I am PRO Green" has been approved by Organization7VP - Documentation	null
+377	7111116	46	0	2018-01-10 23:48:26.650071+08	Project Proposal Evaluation	Your activity #ECOTalks 1: I am a Lasallian, I am PRO Green" has been approved by Organization7VP - Documentation	null
+378	7111111	19	0	2018-01-10 23:48:33.105948+08	Project Proposal Evaluation	Please evaluate Annual Recruitment Week	null
+379	7111114	51	0	2018-01-10 23:48:33.105948+08	Project Proposal Evaluation	Your activity Annual Recruitment Week has been approved by Organization7VP - Documentation	null
+380	7111116	47	0	2018-01-10 23:48:33.105948+08	Project Proposal Evaluation	Your activity Annual Recruitment Week has been approved by Organization7VP - Documentation	null
+381	7111111	20	0	2018-01-10 23:48:37.078321+08	Project Proposal Evaluation	Please evaluate Let's ECO: An ECO Team Building	null
+382	7111114	52	0	2018-01-10 23:48:37.078321+08	Project Proposal Evaluation	Your activity Let's ECO: An ECO Team Building has been approved by Organization7VP - Documentation	null
+383	7111111	21	0	2018-01-10 23:48:38.885439+08	Project Proposal Evaluation	Please evaluate Let's ECO: An ECO Team Building	null
+384	7111114	53	0	2018-01-10 23:48:38.885439+08	Project Proposal Evaluation	Your activity Let's ECO: An ECO Team Building has been approved by Organization7VP - Documentation	null
+385	7111111	22	0	2018-01-10 23:48:54.687613+08	Project Proposal Evaluation	Please evaluate 1st General Assembly and Turn-over Ceremony	null
+386	7111114	54	0	2018-01-10 23:48:54.687613+08	Project Proposal Evaluation	Your activity 1st General Assembly and Turn-over Ceremony has been approved by Organization7VP - Documentation	null
+387	3111114	40	0	2018-01-10 23:48:56.80596+08	Project Proposal Evaluation	Your activity Talent Management has been approved by CSOAVC - APS	null
+388	3111114	41	0	2018-01-10 23:49:01.735109+08	Project Proposal Evaluation	Your activity Operations Summit  has been approved by CSOAVC - APS	null
+389	3111114	42	0	2018-01-10 23:49:08.700912+08	Project Proposal Evaluation	Your activity Organizing Committee Track has been approved by CSOAVC - APS	null
+390	3111114	43	0	2018-01-10 23:49:17.307866+08	Project Proposal Evaluation	Your activity Global Goals Weeks has been approved by CSOAVC - APS	null
+391	3111114	44	0	2018-01-10 23:49:31.456334+08	Project Proposal Evaluation	Your activity October - Local Committee Meeting has been approved by CSOAVC - APS	null
+392	3111114	45	0	2018-01-10 23:49:43.655282+08	New Project Proposal	Please check activity Local Committee Orientation Seminar	null
+393	2011111	14	0	2018-01-10 23:50:07.908414+08	Project Proposal Evaluation	Please evaluate Let's ECO: An ECO Team Building	null
+394	7111114	55	0	2018-01-10 23:50:07.908414+08	Project Proposal Evaluation	Your activity Let's ECO: An ECO Team Building has been approved by Organization7President	null
+395	2011111	15	0	2018-01-10 23:50:13.609713+08	Project Proposal Evaluation	Please evaluate Let's ECO: An ECO Team Building	null
+396	7111114	56	0	2018-01-10 23:50:13.609713+08	Project Proposal Evaluation	Your activity Let's ECO: An ECO Team Building has been approved by Organization7President	null
+397	2011111	16	0	2018-01-10 23:50:18.92409+08	Project Proposal Evaluation	Please evaluate ECO Gives Back: A Christmas Celebration with the Kids	null
+398	7111114	57	0	2018-01-10 23:50:18.92409+08	Project Proposal Evaluation	Your activity ECO Gives Back: A Christmas Celebration with the Kids has been approved by Organization7President	null
+399	7111116	48	0	2018-01-10 23:50:18.92409+08	Project Proposal Evaluation	Your activity ECO Gives Back: A Christmas Celebration with the Kids has been approved by Organization7President	null
+400	2011111	17	0	2018-01-10 23:50:24.172256+08	Project Proposal Evaluation	Please evaluate Let's ECO: An ECO Team Building	null
+401	7111114	58	0	2018-01-10 23:50:24.172256+08	Project Proposal Evaluation	Your activity Let's ECO: An ECO Team Building has been approved by Organization7President	null
+402	2011111	18	0	2018-01-10 23:50:35.429246+08	Project Proposal Evaluation	Please evaluate ECO Gives Back: A Christmas Celebration with the Kids	null
+403	7111114	59	0	2018-01-10 23:50:35.429246+08	Project Proposal Evaluation	Your activity ECO Gives Back: A Christmas Celebration with the Kids has been approved by Organization7President	null
+404	7111116	49	0	2018-01-10 23:50:35.429246+08	Project Proposal Evaluation	Your activity ECO Gives Back: A Christmas Celebration with the Kids has been approved by Organization7President	null
+405	2011111	19	0	2018-01-10 23:50:39.18092+08	Project Proposal Evaluation	Please evaluate ECO Gives Back: A Christmas Celebration with the Kids	null
+406	7111114	60	0	2018-01-10 23:50:39.18092+08	Project Proposal Evaluation	Your activity ECO Gives Back: A Christmas Celebration with the Kids has been approved by Organization7President	null
+407	7111116	50	0	2018-01-10 23:50:39.18092+08	Project Proposal Evaluation	Your activity ECO Gives Back: A Christmas Celebration with the Kids has been approved by Organization7President	null
+408	2011111	20	0	2018-01-10 23:50:43.167395+08	Project Proposal Evaluation	Please evaluate ECO Gives Back: A Christmas Celebration with the Kids	null
+409	7111114	61	0	2018-01-10 23:50:43.167395+08	Project Proposal Evaluation	Your activity ECO Gives Back: A Christmas Celebration with the Kids has been approved by Organization7President	null
+410	7111116	51	0	2018-01-10 23:50:43.167395+08	Project Proposal Evaluation	Your activity ECO Gives Back: A Christmas Celebration with the Kids has been approved by Organization7President	null
+411	2011111	21	0	2018-01-10 23:50:46.595217+08	Project Proposal Evaluation	Please evaluate ECO Gives Back: A Christmas Celebration with the Kids	null
+412	7111114	62	0	2018-01-10 23:50:46.595217+08	Project Proposal Evaluation	Your activity ECO Gives Back: A Christmas Celebration with the Kids has been approved by Organization7President	null
+413	7111116	52	0	2018-01-10 23:50:46.595217+08	Project Proposal Evaluation	Your activity ECO Gives Back: A Christmas Celebration with the Kids has been approved by Organization7President	null
+414	2011111	22	0	2018-01-10 23:50:49.267709+08	Project Proposal Evaluation	Please evaluate ECO Gives Back: A Christmas Celebration with the Kids	null
+415	7111114	63	0	2018-01-10 23:50:49.267709+08	Project Proposal Evaluation	Your activity ECO Gives Back: A Christmas Celebration with the Kids has been approved by Organization7President	null
+416	7111116	53	0	2018-01-10 23:50:49.267709+08	Project Proposal Evaluation	Your activity ECO Gives Back: A Christmas Celebration with the Kids has been approved by Organization7President	null
+417	2011111	23	0	2018-01-10 23:51:02.583195+08	Project Proposal Evaluation	Please evaluate ECOntrol: Waste Analysis and Characterization Study	null
+418	7111114	64	0	2018-01-10 23:51:02.583195+08	Project Proposal Evaluation	Your activity ECOntrol: Waste Analysis and Characterization Study has been approved by Organization7President	null
+419	7111116	54	0	2018-01-10 23:51:02.583195+08	Project Proposal Evaluation	Your activity ECOntrol: Waste Analysis and Characterization Study has been approved by Organization7President	null
+420	2011112	2	0	2018-01-10 23:51:09.75601+08	Project Proposal Evaluation	Please evaluate E-Cultural Voyagers: A Community Engagement (Masid-Danas Phase)	null
+421	7111114	65	0	2018-01-10 23:51:09.75601+08	Project Proposal Evaluation	Your activity E-Cultural Voyagers: A Community Engagement (Masid-Danas Phase) has been approved by Organization7President	null
+422	7111116	55	0	2018-01-10 23:51:09.75601+08	Project Proposal Evaluation	Your activity E-Cultural Voyagers: A Community Engagement (Masid-Danas Phase) has been approved by Organization7President	null
+423	2011112	3	0	2018-01-10 23:51:20.809288+08	Project Proposal Evaluation	Please evaluate E-Cultural Voyagers: A Community Engagement (Masid-Danas Phase)	null
+424	7111114	66	0	2018-01-10 23:51:20.809288+08	Project Proposal Evaluation	Your activity E-Cultural Voyagers: A Community Engagement (Masid-Danas Phase) has been approved by Organization7President	null
+425	7111116	56	0	2018-01-10 23:51:20.809288+08	Project Proposal Evaluation	Your activity E-Cultural Voyagers: A Community Engagement (Masid-Danas Phase) has been approved by Organization7President	null
+426	2011112	4	0	2018-01-10 23:51:24.746504+08	Project Proposal Evaluation	Please evaluate E-Cultural Voyagers: A Community Engagement (Masid-Danas Phase)	null
+427	7111114	67	0	2018-01-10 23:51:24.746504+08	Project Proposal Evaluation	Your activity E-Cultural Voyagers: A Community Engagement (Masid-Danas Phase) has been approved by Organization7President	null
+428	7111116	57	0	2018-01-10 23:51:24.746504+08	Project Proposal Evaluation	Your activity E-Cultural Voyagers: A Community Engagement (Masid-Danas Phase) has been approved by Organization7President	null
+429	2011112	5	0	2018-01-10 23:51:31.930805+08	Project Proposal Evaluation	Please evaluate E-Cultural Voyagers: A Community Engagement (Masid-Danas Phase)	null
+430	7111114	68	0	2018-01-10 23:51:31.930805+08	Project Proposal Evaluation	Your activity E-Cultural Voyagers: A Community Engagement (Masid-Danas Phase) has been approved by Organization7President	null
+431	7111116	58	0	2018-01-10 23:51:31.930805+08	Project Proposal Evaluation	Your activity E-Cultural Voyagers: A Community Engagement (Masid-Danas Phase) has been approved by Organization7President	null
+432	2011112	6	0	2018-01-10 23:51:37.697172+08	Project Proposal Evaluation	Please evaluate E-Cultural Voyagers: A Community Engagement (Masid-Danas Phase)	null
+433	7111114	69	0	2018-01-10 23:51:37.697172+08	Project Proposal Evaluation	Your activity E-Cultural Voyagers: A Community Engagement (Masid-Danas Phase) has been approved by Organization7President	null
+434	7111116	59	0	2018-01-10 23:51:37.697172+08	Project Proposal Evaluation	Your activity E-Cultural Voyagers: A Community Engagement (Masid-Danas Phase) has been approved by Organization7President	null
+435	2011112	7	0	2018-01-10 23:51:41.684337+08	Project Proposal Evaluation	Please evaluate E-Cultural Voyagers: A Community Engagement (Masid-Danas Phase)	null
+436	7111114	70	0	2018-01-10 23:51:41.684337+08	Project Proposal Evaluation	Your activity E-Cultural Voyagers: A Community Engagement (Masid-Danas Phase) has been approved by Organization7President	null
+437	7111116	60	0	2018-01-10 23:51:41.684337+08	Project Proposal Evaluation	Your activity E-Cultural Voyagers: A Community Engagement (Masid-Danas Phase) has been approved by Organization7President	null
+438	10111114	9	0	2018-01-10 23:51:43.630391+08	New Project Proposal	Please check activity General Assembly: Behavioral Sciences Convocation	null
+439	10111116	3	0	2018-01-10 23:51:43.630391+08	New Project Proposal	Please check activity General Assembly: Behavioral Sciences Convocation	null
 \.
 
 
@@ -4522,6 +4957,49 @@ COPY public."PostProjectDirectPaymentStatus" (id, name) FROM stdin;
 --
 
 COPY public."PostProjectProposal" ("GOSMActivity", "preparedBy", status, "dateCreated", "dateSubmitted", "ANP", "ANMP", objectives, "WATTTWITA", "WWYGLIETA", "HDTATYLCTTDOTP", "WATTWWAWCYDTPTFHA", galsfilename, "galsfilenameToShow", "isBriefContextCompleted", "isOtherFinanceDocumentsCompleted", "isFinanceDocumentCompleted", "isCheckedDP", "isCheckedR", "isCheckedBT", comments, "sectionsToBeEdited", document, "checkedByStage1", "signatureStage1", "checkedByStage2", "signatureStage2") FROM stdin;
+8	\N	0	2018-01-10 21:32:28.682342+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
+10	\N	0	2018-01-10 21:39:59.843029+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
+13	\N	0	2018-01-10 21:43:20.606937+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
+17	\N	0	2018-01-10 21:45:19.240348+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
+65	\N	0	2018-01-10 21:47:44.190732+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
+21	\N	0	2018-01-10 21:48:44.077825+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
+30	\N	0	2018-01-10 21:50:15.86212+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
+31	\N	0	2018-01-10 21:52:35.744671+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
+7	\N	0	2018-01-10 21:53:13.013545+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
+24	\N	0	2018-01-10 21:53:54.928136+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
+1	\N	0	2018-01-10 21:55:28.20484+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
+6	\N	0	2018-01-10 21:58:04.913559+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
+11	\N	0	2018-01-10 21:58:54.062857+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
+2	\N	0	2018-01-10 21:59:38.469082+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
+70	\N	0	2018-01-10 22:00:40.795121+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
+27	\N	0	2018-01-10 22:00:41.2196+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
+14	\N	0	2018-01-10 22:17:26.514056+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
+118	\N	0	2018-01-10 22:17:56.740832+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
+73	\N	0	2018-01-10 22:18:01.759562+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
+80	\N	0	2018-01-10 22:25:45.116766+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
+3	\N	0	2018-01-10 22:29:17.011505+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
+5	\N	0	2018-01-10 22:30:42.936133+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
+29	\N	0	2018-01-10 22:33:47.22055+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
+9	\N	0	2018-01-10 22:34:08.224238+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
+83	\N	0	2018-01-10 22:48:56.894334+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
+85	\N	0	2018-01-10 22:58:19.266276+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
+62	\N	0	2018-01-10 23:12:16.928111+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
+12	\N	0	2018-01-10 23:13:13.973541+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
+64	\N	0	2018-01-10 23:16:30.501087+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
+28	\N	0	2018-01-10 23:18:31.222625+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
+67	\N	0	2018-01-10 23:21:52.778067+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
+68	\N	0	2018-01-10 23:25:17.973024+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
+25	\N	0	2018-01-10 23:26:43.505528+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
+22	\N	0	2018-01-10 23:28:24.562857+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
+69	\N	0	2018-01-10 23:28:50.255316+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
+86	\N	0	2018-01-10 23:29:10.594712+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
+72	\N	0	2018-01-10 23:30:22.275904+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
+75	\N	0	2018-01-10 23:32:41.728252+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
+79	\N	0	2018-01-10 23:34:07.336749+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
+81	\N	0	2018-01-10 23:35:40.068001+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
+90	\N	0	2018-01-10 23:38:30.148552+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
+61	\N	0	2018-01-10 23:49:43.655282+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
+88	\N	0	2018-01-10 23:51:43.630391+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
 \.
 
 
@@ -4678,6 +5156,7 @@ COPY public."PreActivityCashAdvanceStatus" (id, name) FROM stdin;
 --
 
 COPY public."PreActivityDirectPayment" (id, "GOSMActivity", "submissionID", sequence, "submittedBy", "dateSubmitted", "nameOfEstablishment", amount, "reasonForDelayedPRSProcessing", "galsFilename", "galsfilenameToShow", "fqFilename", "fqfilenameToShow", "rofFilename", "rofFilenameToShow", "evaluatedBy", comments, "dateEvaluated", status) FROM stdin;
+1	6	1	1	1111115	2018-01-10 23:51:31.726844+08	\N	\N	\N			cjc98t09b0002rhnt2m5infd4.pdf	Sample informal quotation.pdf	cjc98t09b0003rhnt1zcn1iwz.pdf	sample credentials.pdf	\N	\N	\N	0
 \.
 
 
@@ -4686,6 +5165,7 @@ COPY public."PreActivityDirectPayment" (id, "GOSMActivity", "submissionID", sequ
 --
 
 COPY public."PreActivityDirectPaymentParticular" (id, "directPayment", particular) FROM stdin;
+1	1	14
 \.
 
 
@@ -4694,6 +5174,9 @@ COPY public."PreActivityDirectPaymentParticular" (id, "directPayment", particula
 --
 
 COPY public."PreActivityDirectPaymentSignatory" (id, "directPayment", signatory, type, status, comments, "sectionsToEdit", document, "digitalSignature", "dateSigned") FROM stdin;
+1	1	1111115	0	0	\N	\N	\N	\N	\N
+2	1	1111111	1	0	\N	\N	\N	\N	\N
+3	1	3011111	2	0	\N	\N	\N	\N	\N
 \.
 
 
@@ -4906,6 +5389,7 @@ COPY public.activitytype (id, name) FROM stdin;
 --
 
 COPY public.amtactivityevaluation (activity, venue, equipment, materials, registration, timeend, activityexecution, hosts, facilitators, presentation, activities, organizationstandingpresentation, timestart, actualstarttime, actualendtime, anp, person1ea, person1loa, person1iitskoa, person1iomwm, person2ea, person2loa, person2iitskoa, person2iomwm, comments1, comments2, comments3, suggestions1, suggestions2, suggestions3, evaluator, status, datereserved, dateevaluated) FROM stdin;
+118	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	0	2018-01-10 22:34:14.743693+08	\N
 \.
 
 
@@ -5055,15 +5539,17 @@ COPY public.functionalitydomain (id, name) FROM stdin;
 --
 
 COPY public.gosm (id, termid, studentorganization, status, datecreated, datesubmitted, datestatusmodified, preparedby, statusevaluator, comments) FROM stdin;
-1100002	201720182	11	2	2018-04-10 17:36:45.258814+08	2018-01-10 18:30:36.785209+08	\N	4111111	\N	\N
 1200004	201720182	12	1	2018-01-10 18:31:10.08905+08	\N	\N	5111111	\N	\N
-100001	201720182	1	2	2018-04-10 17:18:07.585455+08	2018-01-10 18:35:50.186928+08	\N	1111111	\N	\N
-1400003	201720182	14	2	2018-01-10 17:52:46.136326+08	2018-01-10 18:36:12.778639+08	\N	7111111	\N	\N
-1300005	201720182	13	1	2018-01-10 18:36:15.562252+08	\N	\N	6111111	\N	\N
-1500007	201720182	15	1	2018-01-10 18:37:19.873165+08	\N	\N	8111111	\N	\N
-1700008	201720182	17	1	2018-01-10 18:58:16.626235+08	\N	\N	10111111	\N	\N
 3800006	201720182	38	2	2018-01-10 18:37:01.772962+08	2018-01-10 18:59:38.470763+08	\N	2111111	\N	\N
-1000009	201720182	10	1	2018-01-10 19:00:52.123588+08	\N	\N	3111111	\N	\N
+1800011	201720182	18	1	2018-01-10 19:34:53.954991+08	\N	\N	11111111	\N	\N
+1600010	201720182	16	2	2018-01-10 19:19:34.298676+08	2018-01-10 19:44:22.354518+08	\N	9111111	\N	\N
+100001	201720182	1	3	2018-04-10 17:18:07.585455+08	2018-01-10 18:35:50.186928+08	2018-01-10 19:47:24.738475+08	1111111	1011118	\N
+1000009	201720182	10	3	2018-01-10 19:00:52.123588+08	2018-01-10 19:15:35.470756+08	2018-01-10 19:54:54.762675+08	3111111	1011118	\N
+1100002	201720182	11	3	2018-04-10 17:36:45.258814+08	2018-01-10 18:30:36.785209+08	2018-01-10 20:56:04.208216+08	4111111	1011118	\N
+1300005	201720182	13	3	2018-01-10 18:36:15.562252+08	2018-01-10 19:16:28.930191+08	2018-01-10 20:56:14.239941+08	6111111	1011118	\N
+1400003	201720182	14	3	2018-01-10 17:52:46.136326+08	2018-01-10 18:36:12.778639+08	2018-01-10 20:56:23.574044+08	7111111	1011118	\N
+1500007	201720182	15	3	2018-01-10 18:37:19.873165+08	2018-01-10 21:09:42.480468+08	2018-01-10 21:10:36.778267+08	8111111	1011117	Please put spritual activity
+1700008	201720182	17	3	2018-01-10 18:58:16.626235+08	2018-01-10 19:32:39.780275+08	2018-04-10 21:13:51.79965+08	10111111	1011117	\N
 \.
 
 
@@ -5091,6 +5577,8 @@ COPY public.gosmactivity (id, gosm, sequence, goals, objectives, strategies, des
 20	100001	18	To teach a new server side scripting language for web development which can be used in future machine projects.	{"To help participants recall and retain their lessons involving PHP.","To provide guidance and assistance to the participants in web development.","To help the participants improve their programming skills for future uses."}	Pa Help Po (PHP) Workshop	This workshop aims to teach participants the ins and outs of PHP.	At least 30 participants	2018-02-14	2018-02-14	2	3	\N	t	0.00	\N	t
 21	100001	21	To teach a new programming language that could be used in the future.	{"To teach participants concepts and skills supplementary to skills learned in their class","To expose the participants to a different programming language used in the corporate world.","To give participants an opportunity to apply concepts that they've learned in class"}	Stay Sharp: C#	This workshop will expose its participants into learning a new programming language.	At least 30 participants	2018-02-15	2018-02-15	2	3	\N	t	150.00	\N	t
 22	1400003	20	To create activities for the welfare of the students especially on areas such as environmental awareness and action, individual growth and community engagement. 	{"To provide an avenue wherein student can do community outreach programs"," To immerse the ECO Community to other issue advocacies that they can expand on"}	ECO Gives Back: A Christmas Celebration with the Kids	This program is generally created in order to build the heart of members in touching hearts and transforming lives.\n	70% of the total number of members attended the event	2018-01-31	2018-01-31	9	3	\N	f	616.00	\N	t
+91	1600010	90	Recruit new members of the organization.	{"To garner new members of our organization","To garner some funds for the organization thru the membership fees","To publicize the organization to the freshmen student body"}	Annual Recruitment Week	This is a week-long event, spearheaded by CSO, where the incumbent officers will recruit new members to expand the size of the organization.\n	At least 40 members will be recruited	2018-01-14	2018-01-14	6	7	\N	f	1484.00	\N	t
+92	1700008	91	Promote a good relationship between Behavioral Sciences students and the Behavioral Sciences Department through the service that the activity would provide. This would also strengthen the relationship of BSS officers and members. 	{"To provide students with an alternative when one is in need of school supplies for a certain amount of time only.","To create a bond with the people in the  department through constant interactions with each other inside the department.          ","To help students in their academics by giving them the tools that they need for a particular activity or class. "}	BSS Storage System	The BSS Storage System will serve as a back up option when one is in need of a certain school supply for a class in the Behavioral Sciences. The storage system will also contain items that were bought in previous activities of the organization. A member can borrow an item but must be returned within the day. \n	To fill the storage space with office supplies. 	2018-03-22	2018-03-22	1	9	\N	t	5000.00	\N	t
 23	1100002	19	To teach the fundamental principles of After Effects through lecture and hands-on activities	{"To introduce the participants to basic Adobe After Effects concepts","To teach participants new concepts of multimedia art","To encourage the participants to learn new multimedia art techniques"}	Adobe After Effects: Back to Basics	A seminar will be given to students in which basic concepts and hands-on activities on Adobe After Effects will be taught\n	Target number of participants is 20	2018-02-03	2018-02-03	2	3	\N	t	200.00	\N	t
 24	1400003	23	To create activities for the welfare of the students especially on areas such as environmental awareness and action, individual growth and community engagement. 	{"To immerse members and volunteers to a community"," To be able to create a project that is specific to the needs of the community","To partner and interact with the chosen community"}	E-Cultural Voyagers: A Community Engagement (Masid-Danas Phase)	Phase 1 of Community Engagement is focused on immersing the group to the chosen community which in turn may help them directly analyze which projects are needed to be implemented. \n	70% of the total number of members attended the event	2018-02-05	2018-02-05	6	3	\N	f	870.00	\N	t
 25	1400003	25	To create activities for the welfare of the students especially on areas such as environmental awareness and action, individual growth and community engagement. 	{"To gather an inventory of migratory and resident birds on campus would be conducted in partnership with different organizations and Wild Bird Club of the Philippines through a fun bird race and birdwatching activity","To identify areas on campus that serves as habitat for the bird","To instill awareness to the community on the importance of the ecosystem and the environment"}	All Forms of Life is Important: Bird Race	As a regular activity of the organization, an inventory of migratory and resident birds on campus would be conducted in partnership with Wild Bird Club of the Philippines. Members of the community outside of the organization would be invited to join the bird watching. This aims to have a clear inventory of birds and to identify areas on campus that serves as habitat for the birds. This also aims to train members how to be good bird guides for those who want to visit the campus which will be integrated during the team building of ECO.\n	Generate a comprehensive bird inventory and have at least 70% of the total number of members attend the event	2018-01-24	2018-01-25	1	3	\N	t	515.00	\N	t
@@ -5116,6 +5604,7 @@ COPY public.gosmactivity (id, gosm, sequence, goals, objectives, strategies, des
 45	1300005	44	Expose members to an award-winning author and new literary works.	{"To introduce the participants to certain kinds of literature"}	Book Club: Mario Vargas Llosa	An event where the participants, guided by a facilitator or a guest speaker, will talk and create a discussion about a certain literary work.\n	Number of attendees is 40	2018-02-23	2018-02-23	2	3	\N	t	500.00	\N	t
 46	3800006	41	Recruit 250 members	{"Each officer must recruit at least 5 members each."}	Annual Recruitment Week	The Annual Recruitment Week will be for the recruitment of members.	Attendance	2018-02-06	2018-02-06	5	4	\N	f	1200.00	\N	t
 47	1500007	45	To inncrease member	{"To orient the members of the committee of the background of the Visual Novel Project,  dates of workshops and activities and the members’ role in the Visual Novel Making"," To orient and familiarize the members of the Adobe Flash, Paint Tool Sai and Photoshop programs for the programming of the visual novel and drawing of the scenes and images.","Produce a Visual Novel."}	NOBIRU  GEMU: Visual Novel	1. To get to know the beneficiary that ENGLICOM will support for the whole year. 2. To assess the needs of the beneficiary. 3. To introduce the organization to the beneficiary.\n	To recruit 20 members to be part of VN cencomm	2018-02-25	2018-02-28	5	7	\N	f	2500.00	\N	t
+105	1800011	104	To facilitate discourse within the university regarding Marcos' burial in LNMB	{"To create an avenue for unobstructed discourse and to inspire creative and critical thinking"}	FERDIN4ND M4RCOS	Tara sa Marcos Highway is a one-day event that will zoom in on the Marcos Burial\n	Cultura will be in charge of publicity and the film showing	2018-02-23	2018-02-23	1	3	\N	t	0.00	\N	t
 48	1300005	46	Develop specialised tracks for activities targetting the skill levels of members	{"to define and explain Ghazal and Tanaga poetry to members and attendees"}	Poetry: Ghazal and Tanaga	A seminar where a speaker will introduce different forms of poetry, specifically Ghazal and Tanaga, in order for the participants to widen their knowlege when it comes to these forms and how to effectively write poems in this form and to also discuss the historical and cultural importance of both the Ghazal and the Tanaga.\n	Number of participants is 60	2018-03-16	2018-03-16	2	3	\N	t	500.00	\N	t
 49	3800006	47	To recruit committed members to become future leaders of YES.	{"Recruit at least 50 Young Officers."}	Young Officers' Recruitment	Recruitment for the future officers of YES.	Number of participants/Evaluation	2018-02-07	2018-02-07	6	9	\N	f	0.00	\N	t
 50	1300005	49	Develop specialised tracks for activities targetting the skill levels of members	{"To help the participants to learn more about their characters."}	Character Creation	A seminar where the speaker will talk about creating a diverse and unique yet realistic character for the upkeep of the attendees.\n	Number of participants is 35	2018-03-23	2018-03-23	2	3	\N	t	500.00	\N	t
@@ -5136,6 +5625,53 @@ COPY public.gosmactivity (id, gosm, sequence, goals, objectives, strategies, des
 65	1700008	1	Promote academic excellence in the fields of the Behavioral Sciences, to facilitate the development of our members	{"To orient students about the basics of Corporate Social Responsibilty"," To show the importance of CSR in organizations","To enlighten students with the pros and cons of working in CSR"}	Corporate Social Responsibility 	The activity aims to give students a background of Corporate Social Responsibility and it's importance in organizations	At lesast 20 students shall attend the talk	2018-02-14	2018-02-14	1	3	\N	t	3000.00	\N	t
 66	1300005	64	Develop specialised tracks for activities targetting the skill levels of members	{"To spark healthy relationships, both friendly and professional, between the attendees.","To give chance for the members to share their works with each other.","To provide an oppotunity to the participants to socialize."}	Collaborative Writing	An activity where the participants are expected to bring their own works, share them to everyone, and perhaps collaborate on a new project, create mash-ups of past works or comment on and improve the works of their peers.\n	number of attendees is 40	2018-03-02	2018-03-02	2	3	\N	t	500.00	\N	t
 67	1000009	65	Give an avenue for the DLSU community to sign up and go for exchange.	{"Introduce Global Volunteer Program to DLSU community"}	OGX-Po	Recruitment booth for the outgoing exchange program of AIESEC in DLSU. 	# of sign ups, # of exchange participants	2018-02-12	2018-02-12	2	7	\N	t	0.00	\N	t
+68	1000009	68	Update members on the current situation of AIESEC in DLSU.	{".To refresh the minds of the members and other participants about the current standing of the organization. "}	October - Local Committee Meeting	Local Committee Meetings are meetings AIESEC in DLSU conducts every month with different agendas every month to gather all members.  	# of attendees, # of departments present	2018-02-14	2018-02-14	6	7	\N	f	330.00	\N	t
+69	1000009	69	Enhance sales comptencies of sale-centric departments.	{".Enhance sales competency of the member "}	Sales Development Programme 2.0	Sales Program by the Business and Development department to be carried out to sales-centric departments.	# of attendees, # of departments involved in this program, # of deals closed, # of meetings set	2018-02-12	2018-02-13	6	3	\N	f	0.00	\N	t
+70	1700008	66	Develop academic execellence by equipping members of the Behavioral Sciences Society and students from the course with the tools in order for them to better understand	{"To supplement the topics that are being tackled in Social Psychology class. ","To categorize each topic in order for the students to better understand the topic","To create another way of learning which may help students who find it difficult to keep up during class"}	SOCPSYC Reviewer	The activity aims to provide students with a summary of the topics that they have discussed in class which can help them understand the topics easily and may even perform better. \n	Every member taking this course must be given a copy of the reviewer. 	2018-02-21	2018-02-21	1	1	\N	t	2000.00	\N	t
+71	1300005	67	To welcome new and returning members into the organization by providing them their membership cards.	{"To provide substantial proof of a student's membership","To give the members access to certain benefits provided by the CSO Green Card Alliance","To be able to distribute the Membership Cards within the members"}	Membership Card Distribution	The Membership Card will act as a substantial proof of a student's status as a bona fide member of the organization. The aforementioned card also allows its owner to enjoy certain benefits provided by the CSO Green Card Alliance.\n	Number of members is 150	2018-01-29	2018-02-02	6	1	\N	f	0.00	\N	t
+72	1000009	70	Build newie knowledge on basic AIESEC operations, culture and foundation. Reintegrte oldies. 	{" Introduce the different department operations to newies","reintegrate oldies ","Conduct a simulation for newies"}	Activation Camp 	In depth orientation for new members. Reintegration for oldies. Operations, processes, simulation.	# of new participants, # of old participants	2018-02-15	2018-02-15	2	3	\N	t	320.00	\N	t
+73	1700008	71	Develop academic execellence by equipping members of the Behavioral Sciences Society and students from the course with the tools in order for them to understand 	{"To supplement the topics that are being taught during Social Research class.    ","To give students the right tools for them to be a better researcher","To remind students the important elements when it comes to research writing"}	SOCRES2 Reviewer	The activity aims to provide students with a summary of the topics that they have discussed in class which can help them understand the topics easily and may even perform better. \n	Every member taking this course must be given a copy of the reviewer. 	2018-02-22	2018-02-22	1	1	\N	t	50.00	\N	t
+74	1300005	72	Develop specialised tracks for activities targetting the skill levels of members	{"To enable the participants to have a new perspective on a specific topic in writing.","To introduce new techniques and strategies for the members to improve upon.","To help the members overcome the hindrances and the difficulties they face in their writing."}	Kill Your Darlings	A character's death is a pivotal point in any literary work and it must be planned properly. This activity aims to give participants the tools and techniques to effectively kill a character in the story.\n	number of participants is 40	2018-02-10	2018-02-10	2	3	\N	t	1000.00	\N	t
+75	1000009	73	For newies to determine which department they would like to join and work in. For vps to determine which members are fit for the dept or not.	{"Make newies determine which department they would like to join","make newies undergo department operations for a day"}	Intership Phase	Last step for newies before becoming full pledged AIESECers.	# of newies	2018-02-16	2018-02-16	2	3	\N	t	1230.00	\N	t
+76	1500007	55	To increase member participation and foster unity	{"To create a program that will teach participants the different constellations","To view the Leopold meteor shower"}	Stargazing	On-Campus, Overnight Activity – SLIFE \n	To have an ENP of 20-30 people 	2018-03-06	2018-03-07	5	8	\N	f	3000.00	\N	t
+77	1300005	75	Develop specialised tracks for activities targetting the skill levels of members	{"To enable the participants delve into various forms of creative writing, in this case, scriptwriting","To provide an avenue for the participants to produce an output of scriptwriting","To introduce the participants the foundations of scriptwriting"}	Scriptwriting Seminar	A specialized seminar that caters to aspiring writers who wants to delve and learn the basics and foundations of scriptwriting.\n	Number of attendees is 35	2018-02-23	2018-02-23	2	3	\N	t	1000.00	\N	t
+78	1500007	77	To instill skills and enhance of members 	{"To teach participants the properties of printer ink and the method on how to create different colors using them.","To teach participants the basics of manga drawing and coloring using the mixed ink. "}	Ink Mixing + Manga Drawing Workshop 	Seminar/Workshop – CSO\n	To have an ENP of 20 people	2018-03-08	2018-03-08	2	3	\N	t	1100.00	\N	t
+79	1000009	76	Not just raise awareness about the Sustainable Development Goals to the Lasallian community but give them opportunities to actualize these goals. 	{"Raise awarness towards the Sustainable Development Goals","Provide activities to actualize the different SDGs"}	Global Goals Weeks	Weeklong campaign for the Sustainable Development Goals	# of internal partnerships, # of activities carried out, # of participants	2018-02-19	2018-02-19	7	4	\N	f	0.00	\N	t
+80	1700008	74	Develop academic execellence by equipping members of the Behavioral Sciences Society and students from the course with the tools in order for them to learn	{"To prepare the students in different activities and reports that they may have during class. ","To provide the students a simple and easy to remember guide on the different perspectives of Behavioral Sciences","To supplement the topics that are being tackled in History of Social Thought 2. "}	HISTSO2 Reviewer	The Behavioral Science Library will serve as an online library for the different academic readings and and thesis papers done by Behavioral Science students\n	To have an online library set up	2018-02-28	2018-02-28	1	1	\N	t	1000.00	\N	t
+81	1000009	80	Create talent pipeline for future EwAs and AIESEC in DLSU events	{"Show the realities of being an OC","Train aspiring OC"}	Organizing Committee Track	Organizing Committees are the backbones of any AIESEC event. To ensure that all our events go smoothly and are of execellent quality, we have created this OC track wherein we can train and mold new talent for future organizing committees. 	# of speakers, # of attendees	2018-02-21	2018-02-21	2	3	\N	t	1200.00	\N	t
+82	1300005	78	To improve the creativity and imagination of the participants with the help of speculative fiction	{"To spark the interest of participants on speculative fiction","To teach the participants the basics of writing speculative fiction","To introduce the participants to speculative fiction"}	SPECFIC	A seminar/workshop that tackles what speculative fiction is and how the participants can write one\n	Number of participants is 40	2018-02-09	2018-02-09	2	3	\N	t	1000.00	\N	t
+83	1700008	81	Promote camaraderie and teamwork among the organizations.	{"To create ties between external establishments and the Council of Student Organizations","To give value to the members who participated in the Annual Recruitment Week","To encourage teamwork and promote a spirit of unity amongst the organizations"}	Green Card Alliance	An annual project that ties CSO with partner establishments that can provide discounts and/or special privileges to all the Members of both the Student Organizations and Alumni Association\n	Solicit at least 3 establishments	2018-03-02	2018-03-02	6	2	\N	f	2000.00	\N	t
+84	1500007	79	To increase member participation and publicize major events	{"To create a program for an anime marathon viewing, group game play and/or card and board game sessions"}	2nd General Assembly	help students improve on their academic standing\n	To have an ENP of 20 in each activity	2018-03-09	2018-03-09	2	3	\N	t	600.00	\N	t
+85	1700008	84	Orient the new officers about their responsibilities and task so that the organization will function smoothly.	{"To be able to train the next set of officers of the Behavioral Sciences Society.   ","To encourage teamwork and promote a spirit of unity among the officers of BSS. ","To encourage teamwork and promote a spirit of unity among the officers of BSS. "}	Officers Training Program	The Officers Training Program will be a place where the new officers can talk amongst each other and plan future activities together. \n	80% of officers in the organization must be able to attend the program. 	2018-03-07	2018-03-07	6	2	\N	f	2000.00	\N	t
+86	1700008	86	Provide a succession program for the organization through training individuals who are interested in being officers of the organization	{"To recruit active members who are willing to help in the various activities by the organization","To enable active participation for the various students under the Behavioral Sciences Department","To provide manpower for the activities set for the term"}	AVP Applications	AVP Applications aim to recruit AVPs who are willing to actively participate in co-curricular and extra-curricular affairs\n	Fill up the needs of the organization through various positions	2018-03-14	2018-03-14	6	7	\N	f	1000.00	\N	t
+88	1700008	87	Orient the new and old members about the upcoming activities and what to expect from the organization for the whole school year.	{"To formally introduce Behavioral Sciences Society and the officers to the members","To welcome the new members, especially the Froshies, to Behavioral Sciences Society","To promote interaction and foster positive relationships among the old and new members of the organization","To serve as an avenue for announcing and promoting the activities and projects of the organization for this academic year"}	General Assembly: Behavioral Sciences Convocation	The First General Assembly will introduce the organization and its officers for AY 2016-2017 to the new and old members. The activity will help promote upcoming BSS activities for the academic year. It will also be a time to introduce the faculty under the Behavioral Sciences Department. The activity will also recognize those students under Behavioral Sciences that have garnered academic awards. \n	At least 40 members should attend the assembly	2018-03-21	2018-03-21	6	2	\N	f	9000.00	\N	t
+89	1600010	88	Introduce the new members about what the organization is about	{"To welcome the members to the organization"," To introduce the structure of the organization; to discuss the plans and projects of the organization to its members"}	General Assembly	The General Assembly is an event where all of the members of the organization is gathered in one place and given opporunity to mingle within themselves.\n	At least 20 members would attend	2018-01-16	2018-01-16	6	2	\N	f	1500.00	\N	t
+90	1700008	89	Greet the incoming freshmen through the presence of different organizations of the university. 	{"To welcome incoming freshmen to the university","   To build raport among the new officers of the organization. ",""}	Frosh Welcoming 	The Frosh Welcoming activity serves as an avenue for organizations to make their presence known with the freshmen. \n	A booth shall be set-up during the specified time and date. 	2018-03-21	2018-03-23	6	9	\N	f	4000.00	\N	t
+93	1600010	92	Have a night of fun and camaraderie among members, alumni, and faculty, drawing parallels on the actual thanksgiving in America	{"To immerse the members and participants to one of America's well-known tradition","To award the outstanding officers during the term"," To build camaraderie among members"}	Thanksgiving	An American tradition where families are reunited, our version of thanksgiving invites everyone to join us in our meals and games just like how it is done originally.\n	At least 40 guests would attend	2018-01-18	2018-01-18	2	2	\N	f	0.00	\N	t
+94	1700008	93	Promote academic excellence in the fields of the Behavioral Science	{"To orient the Behavioral Sciences students of their upcoming majors classes.","To answer questions or concerns of students about the major subjects of the Behavioral Sciences degree.","To answer questions or concerns of students about the major subjects of the Behavioral Sciences degree."}	Majors Orientation	"Majors Orientation is a seminar targeted toward the incoming major students of the Behavioral Sciences program. The seminar will discuss preparation needed for taking major classes.\n	At least 20 people should attend the seminar.	2018-03-23	2018-03-23	1	3	\N	t	1000.00	\N	t
+95	1600010	94	Train officers about the processes and protocols that involve the organization	{"To train the members about each committee","To discuss the various paperworks that the junior officers will have"," To introduce the applicants to the organization"}	Junior Officers Training 1&2	This training is more comprehensive than the first one, for it will involve some paperwork and strict collaboration among the applicants.\n	At least 15 officers would participate	2018-01-19	2018-01-19	6	3	\N	f	300.00	\N	t
+96	1700008	95	The Political Science Society aims to educate the students on how they can understand and study the behavior of the Filipino people towards Duterte’s way of handling the Philippine political administration. 	{"To help the students critically understanding the behavior of the supporters of Duterte.","To prevent the students from forming hasty generalizations on both Duterte’s supporters and the happenings that are allegedly linked on Duterte’s “Shoot to Kill” order. "," To address the lack of  the knowledge of majority of the youth when it comes to political matters and preventing them from the “Bandwag on Nature” of most of the Filipinos "}	People’s Behavior on Duterte’s Administration 	People’s Behavior on Duterte’s Administration is a tie-up activity among three organizations (POLISCY, SMS, and BSS) that seeks to explore the purposes behind the way the Filipino people, most especially Duterte’s supporters, behave on his style of managing the country. \n	There should be at least an audience and officers from the organization to help facilitate and learn from the professors 	2018-03-26	2018-03-26	1	3	\N	t	1200.00	\N	t
+97	1600010	96	Introduce the International Studies students about their degree and possible career in the future.	{"To showcase the International Studies Department programs","To discuss their program in the university","To provide information to students on their possible career track in the future; "}	International Studies Convocation	This will be the main event that will welcome the IS students and enthusiasts to the field. They'll also learn what are the possible careers in the degrees that they're in\n	At least 25 students would attend	2018-01-22	2018-01-22	1	3	\N	t	2000.00	\N	t
+98	1600010	98	Allow the students to review about the topics in their INTGLOS class as well as have fun.	{"To provide a fun refresher session to students taking up INTGLOS","To provide a good working relationship within the 3 IS organizations","To build camaraderie among freshmen; "}	INTGLOS Amazing Race	A tie-up event where students taking up INTGLOS can participate to test their physical skills and knowledge of the subject\n	At least 20 freshmen would participate	2018-02-12	2018-02-12	1	0	\N	t	500.00	\N	t
+99	1600010	99	Brief the participants on their upcoming majors of their program.	{"To allow the upcoming ISA majors about their major subjects for the succeeding terms","To answer the questions that the upcoming ISA majors will ask"}	American Studies Majors Orientation	Queries of the upcoming ISA majors will be answered in this activity; some professors in their majors will serve as speakers to answer the concerns of the students.\n	At least 15 students that will take their majors would attend	2018-02-26	2018-02-26	1	9	\N	t	0.00	\N	t
+100	1600010	100	Inform the public about the US National Elections Results and importance.	{"To give updates about the US elections to the Lasallian community;","To discuss American politics and governance","To provide analysis on the elections and the possible effects to the country"}	US Election Watch 2016	As part of our advocacy, we're promoting the US elections in selected areas to answer the Lasallian Community's FAQs about American elections\n	At least 20 students shall participate in the culminating event	2018-03-06	2018-03-06	1	4	\N	t	1000.00	\N	t
+101	1800011	1	Make the new and returning members of Cultura aware of the organization's events, committees, and members.	{"Convene the Cultura members and discuss org events, possible contributions to committees, and other matters that need to be discussed for the '17-'18 members"}	General Assembly 	A General Assembly of all members where the EBs and Officers welcome the new and old members and discuss organization matters and how they can contribute or participate.\n	We will host an assembly and discuss the events planned, committees to join, etc.	2018-01-27	2018-01-27	6	2	\N	f	2500.00	\N	t
+102	1600010	101	Simulate the American elections to the student body.	{"To allow the students to participate in a US elections","To represent DLSU and NCR in the result counting of the mock election","To simulate the US elections; "}	US National Mock Elections	This is a week-long event, wherein students can vote their President (of the USA) in a specified voting area. This activity is spearheaded by the US Embassy and American Corners around the country.\n	At least 30 students shall cast their vote	2018-03-08	2018-03-08	1	9	\N	t	300.00	\N	t
+103	1800011	102	Open discourse and dialogue regarding books and literature, trading ideas, observations, and insights	{"To breake the ice and provide an \\"informal\\" space for Cultura members to share their thoughts on certain books."}	Brown Bag Series: Book Club	Participants are expected to bring a book of their choice and present the said work and discuss as to why this isa good work. \n	This event is open to non-Cultura members. Participants will be encouraged to bring a book to be presented. After which, a discussion will follow regarding literary genres and styles.	2018-02-02	2018-02-02	1	3	\N	t	500.00	\N	t
+104	1600010	103	Greet the people who have their birthdays on the said date.	{"To remind the members that one someone among them is celebrating their birthday; to appreciate the special day of one of our members; To allow the members to have a collective greeting to one of our members."}	Birthday Greetings	As an organization, it is a nice gesture for us to greet one another on their respective days, but some members might not keep track of it; thus, the officers shall initiate it by sending greetings in the members' FB group or the AMSTUD page itself.\n	At least 70% of members will be greeted on their birthday	2018-03-17	2018-03-17	1	9	\N	t	0.00	\N	t
+106	1600010	105	Allow the students and the interested party to binge watch popular American television series	{"To feature a popular television series to the student body","To allow the students to participate and analyze the given television series","To provide an alternative entertainment to the student body every Thursday evenings; "}	AMSTUD and Chill: Binge watching	TV series has been embedded in American pop culture and society. And as a means to promote these beloved series, AMSTUD will feature a well-known American television series every term.\n	An average of 15 students should participate every term	2018-03-08	2018-03-08	1	8	\N	t	0.00	\N	t
+107	1600010	107	Assist the students who are struggling in their subjects	{"To help the ISA majors with their subjects","To build camaraderie among members","To prepare the students for their upcoming finals"}	Peer Tutoring Sessions	A tutoring session during the vacant schedules of the officers and members where the struggling students will have the opportunity to grasp the topics that requires clarification for them.\n	At least 20 students will participate	2018-03-12	2018-03-12	1	9	\N	t	0.00	\N	t
+108	1800011	106	Prepare the Literature Majors about to take the qualifying exam to major in literature.	{"Hold a discussion to refresh students on what they might need to know during the QLY."}	QLY-LIM Orientation	An optional review session for incoming Lit Majors about to take the QLY for them to have an idea of what to expect for the QLY.\n	We will hold a simple briefer on the QLY about the process (exam and interview), and then a short refresher course. 	2018-03-02	2018-03-02	1	3	\N	t	0.00	\N	t
+109	1600010	108	Publicize the popular holidays in the US in relation with the Philippine holidays.	{"To remind the student body about the significant dates in the US, as part of globalization; ","To have a fast fact check on the various dates of the year","To compare the holidays of the Philippines and the US"}	AMSTUD Calendar	A calendar is necessary to keep track of the important dates that we should remember. In relation to that, the US has significant dates that some don't bother to remember, thus creating a calendar providing details of these events might encourage people to indulge in our activities.\n	A total of 1000 likes for all of the publicity that the organization will provide	2018-03-14	2018-03-14	1	4	\N	t	0.00	\N	t
+111	1800011	111	Reconnect with the fundamental elements of human spirituality	{"To help members and non-members relax in mind and spirit by providing a day of relaxation"}	Take Me To Church	A break from the daily routine to explore one's spirituality away from the day-to-day environment.\n	We will organize a trip to a nearby church 	2018-02-16	2018-02-16	8	6	\N	f	2000.00	\N	t
+110	1800011	109	Raise awareness of Philippine culture and identity through our mythology	{"Call for artworks showcasing the mystical world of Philippine mythology"}	Aswang, Atbp. 	Showcase artwork of Kajo Baldisimo from the Trese series of Budjette Tan alongside artworks from other artists.\n	In partnership with the Bienvenido Creative Writing Center, we will invite Baldisimo and other artists to showcase their artworks on Philippine mythology.	2018-02-16	2018-02-16	8	6		f	500.00	\N	t
+112	1800011	112	To talk about the relevance of crafts in this time and age.	{"To break the ice and provide an \\"informal\\" space for Cultura members to share their thoughts on certain topics."}	Brown Bag Series: Craft Talk	An "informal" roundtable discussion on writing, media, craft, and publication.\n	Members of Cultura will be given priority in facilitating the discussion; non-members are welcome to attend. 	2018-02-24	2018-02-24	1	3	\N	t	2000.00	\N	t
+113	1800011	113	Prepare literature majors for post-graduation job hunting by providing them possible options of careers to pursue.	{"To break the stereotypes surrounding the Literature degree by inviting embodiments of success in the field of arts and literature"}	Let's Get Lit: Career Caravan	A talk with people of various occupations who have majored in Literature to educate undergraduates with possible options for their future coupled with an open forum.\n	We will collaborate with the Literature department and individuals outside of the university to enable access to a diverse and fulfilling discussion.	2018-03-03	2018-03-03	1	3	\N	t	3000.00	\N	t
+114	1800011	114	Interact with the famed author and his works	{"To showcase the works of Vargas Llosa and to enlighten people about the artist's poetics and politics"}	Vargas Llosa Goes to DLSU	In partnership with the department and of the BNS creative wriitng center, Vargas Llosa will be visiting DLSU to interact with the Lasallian community\n	We will host an exhibit which promotes Llosa's artworks to the Lasallian community	2018-03-16	2018-03-16	3	3	\N	f	0.00	\N	t
+115	1800011	115	Invite Cultura members and professors fro the Department to talk about their current projects and endeavors	{"To create connections for Cultura artists and writers by providing them with an avenue to showcase their work"}	Brown Bag Series: "Talent Show"	The "Talent Show" is a Cultura convention where the members can talk about their current artistic endeavors, allowing them to share their passions and create connections with other artists and writers\n	We will invite acclaimed writers from the Department of Literature to facilitate the discussion	2018-02-09	2018-02-09	1	3	\N	t	1500.00	\N	t
+116	1800011	116	Create a multi-disciplinary atmosphere where students and professors can talk about theory and the arts and its application in the real world	{"To connect the Literature department with the students  in joined intellectual communion"}	Arrogo Talk	A session facilitated by Dr. Tiny Arrogo of the Literature Department on all things Humanities\n	We will be inviting Dr. Tiny Arrogo, among other professors, for a talk on the value of the humanities	2018-02-17	2018-02-17	3	3	\N	f	0.00	\N	t
+117	1500007	85	To experience Japanese and La Sallian integration of spirituality	{"Integrate La Sallian qualities with japanese culture"}	Spirited Away: Adventure of a lifetime	aguy	15 ENMP	2018-02-14	2018-02-14	8	6	\N	f	5000.00	\N	t
+118	100001	32	To provide opportunities for its members in order to develop social skills and camaraderie with other members	{"To be able to look back on the activities of the organization for the year","To be able to recognize outstanding officers","To help the students get a grasp of the culture in CCS"}	General Assembly	The General Assembly is a gathering of the members and officers of the organization wherein outstanding officers will be recognized and the activities that have transpired throughout the year	Participation of at least 100 members	2018-01-25	2018-01-25	1	2	\N	f	0.00	\N	f
 \.
 
 
@@ -5244,6 +5780,100 @@ COPY public.gosmactivityprojecthead (idnumber, activityid) FROM stdin;
 6111113	66
 6111114	66
 3111114	67
+3111114	68
+3111114	69
+10111114	70
+10111116	70
+6111114	71
+6111115	71
+3111114	72
+10111114	73
+6111113	74
+6111114	74
+3111114	75
+8111111	76
+8111112	76
+8111114	76
+6111113	77
+6111114	77
+8111112	78
+8111113	78
+8111114	78
+3111114	79
+10111114	80
+3111114	81
+6111112	82
+6111114	82
+10111114	83
+8111114	84
+8111116	84
+10111114	85
+10111114	86
+10111114	88
+10111116	88
+9111111	89
+9111114	89
+10111114	90
+10111116	90
+9111112	91
+9111114	91
+9111116	91
+10111114	92
+10111116	92
+9111114	93
+9111116	93
+10111114	94
+9111114	95
+9111116	95
+10111114	96
+9111114	97
+9111116	97
+9111114	98
+9111116	98
+9111111	99
+9111114	99
+9111111	100
+9111114	100
+9111116	100
+11111112	101
+11111114	101
+9111111	102
+9111114	102
+11111112	103
+11111114	103
+9111112	104
+9111114	104
+11111114	105
+11111116	105
+9111111	106
+9111114	106
+9111116	106
+9111111	107
+9111114	107
+11111112	108
+11111114	108
+9111112	109
+9111114	109
+9111116	109
+11111112	111
+11111114	111
+11111111	110
+11111114	110
+11111112	112
+11111114	112
+11111111	113
+11111112	113
+11111114	113
+11111111	114
+11111112	114
+11111114	114
+11111113	115
+11111114	115
+11111111	116
+11111114	116
+8111111	117
+8111114	117
+1111114	118
 \.
 
 
@@ -5265,520 +5895,31 @@ COPY public.gosmstatus (id, name) FROM stdin;
 --
 
 COPY public.organizationaccesscontrol (role, functionality, isallowed) FROM stdin;
-0	104002	t
-1	104002	t
-2	104002	t
-3	104002	t
-4	104002	t
-11	104003	t
-12	104003	t
-13	104003	t
-8	108004	t
-9	108004	t
-10	108004	t
-20	109006	t
-21	109006	t
-22	109006	t
-0	214007	t
-1	3008	t
-2	3008	t
-3	3008	t
-4	3008	t
-5	3008	t
-21	3008	t
-13	104013	t
-12	104014	t
-17	106017	t
-18	106017	t
-19	106017	t
-5	108020	t
-6	108020	t
-7	108020	t
-2	2023	t
-20	2023	t
-21	2023	t
-0	104030	t
-1	104030	t
-2	104030	t
-3	104030	t
-4	104030	t
-10023	211000	t
-10023	211009	t
-10023	211010	t
-10023	211015	t
-10023	212019	t
-10023	212021	t
-10023	211024	t
-10023	211025	t
-10023	214027	t
-10023	104028	t
-10023	1031	t
-10023	109032	t
-10024	211009	t
-10024	211010	t
-10024	214027	t
-10024	104028	t
-10024	109032	t
-10025	211009	t
-10025	211010	t
-10025	214027	t
-10025	104028	t
-10025	109032	t
-10026	211009	t
-10026	214027	t
-10026	104028	t
-10026	109032	t
-10027	211009	t
-10027	211012	t
-10027	214027	t
-10027	104028	t
-10027	109032	t
-10028	211009	t
-10028	214027	t
-10028	104028	t
-10028	109032	t
-10029	211009	t
-10029	211011	t
-10029	212018	t
-10029	212019	t
-10029	212021	t
-10029	212022	t
-10029	211026	t
-10029	214027	t
-10029	104028	t
-10029	109032	t
-10029	105033	t
-10030	211009	t
-10030	212018	t
-10030	211026	t
-10030	214027	t
-10030	104028	t
-10030	109032	t
-10031	214027	t
-20032	211000	t
-20032	211009	t
-20032	211010	t
-20032	211015	t
-20032	212019	t
-20032	212021	t
-20032	211024	t
-20032	211025	t
-20032	214027	t
-20032	104028	t
-20032	1031	t
-20032	109032	t
-20033	211009	t
-20033	211010	t
-20033	214027	t
-20033	104028	t
-20033	109032	t
-20034	211009	t
-20034	211010	t
-20034	214027	t
-20034	104028	t
-20034	109032	t
-20035	211009	t
-20035	214027	t
-20035	104028	t
-20035	109032	t
-20036	211009	t
-20036	211012	t
-20036	214027	t
-20036	104028	t
-20036	109032	t
-20037	211009	t
-20037	214027	t
-20037	104028	t
-20037	109032	t
-20038	211009	t
-20038	211011	t
-20038	212018	t
-20038	212019	t
-20038	212021	t
-20038	212022	t
-20038	211026	t
-20038	214027	t
-20038	104028	t
-20038	109032	t
-20038	105033	t
-20039	211009	t
-20039	212018	t
-20039	211026	t
-20039	214027	t
-20039	104028	t
-20039	109032	t
-20040	214027	t
-30041	211000	t
-30041	211009	t
-30041	211010	t
-30041	211015	t
-30041	212019	t
-30041	212021	t
-30041	211024	t
-30041	211025	t
-30041	214027	t
-30041	104028	t
-30041	1031	t
-30041	109032	t
-30042	211009	t
-30042	211010	t
-30042	214027	t
-30042	104028	t
-30042	109032	t
-30043	211009	t
-30043	211010	t
-30043	214027	t
-30043	104028	t
-30043	109032	t
-30044	211009	t
-30044	214027	t
-30044	104028	t
-30044	109032	t
-30045	211009	t
-30045	211012	t
-30045	214027	t
-30045	104028	t
-30045	109032	t
-30046	211009	t
-30046	214027	t
-30046	104028	t
-30046	109032	t
-30047	211009	t
-30047	211011	t
-30047	212018	t
-30047	212019	t
-30047	212021	t
-30047	212022	t
-30047	211026	t
-30047	214027	t
-30047	104028	t
-30047	109032	t
-30047	105033	t
-30048	211009	t
-30048	212018	t
-30048	211026	t
-30048	214027	t
-30048	104028	t
-30048	109032	t
-30049	214027	t
-40050	211000	t
-40050	211009	t
-40050	211010	t
-40050	211015	t
-40050	212019	t
-40050	212021	t
-40050	211024	t
-40050	211025	t
-40050	214027	t
-40050	104028	t
-40050	1031	t
-40050	109032	t
-40051	211009	t
-40051	211010	t
-40051	214027	t
-40051	104028	t
-40051	109032	t
-40052	211009	t
-40052	211010	t
-40052	214027	t
-40052	104028	t
-40052	109032	t
-40053	211009	t
-40053	214027	t
-40053	104028	t
-40053	109032	t
-40054	211009	t
-40054	211012	t
-40054	214027	t
-40054	104028	t
-40054	109032	t
-40055	211009	t
-40055	214027	t
-40055	104028	t
-40055	109032	t
-40056	211009	t
-40056	211011	t
-40056	212018	t
-40056	212019	t
-40056	212021	t
-40056	212022	t
-40056	211026	t
-40056	214027	t
-40056	104028	t
-40056	109032	t
-40056	105033	t
-40057	211009	t
-40057	212018	t
-40057	211026	t
-40057	214027	t
-40057	104028	t
-40057	109032	t
-40058	214027	t
-50059	211000	t
-50059	211009	t
-50059	211010	t
-50059	211015	t
-50059	212019	t
-50059	212021	t
-50059	211024	t
-50059	211025	t
-50059	214027	t
-50059	104028	t
-50059	1031	t
-50059	109032	t
-50060	211009	t
-50060	211010	t
-50060	214027	t
-50060	104028	t
-50060	109032	t
-50061	211009	t
-50061	211010	t
-50061	214027	t
-50061	104028	t
-50061	109032	t
-50062	211009	t
-50062	214027	t
-50062	104028	t
-50062	109032	t
-50063	211009	t
-50063	211012	t
-50063	214027	t
-50063	104028	t
-50063	109032	t
-50064	211009	t
-50064	214027	t
-50064	104028	t
-50064	109032	t
-50065	211009	t
-50065	211011	t
-50065	212018	t
-50065	212019	t
-50065	212021	t
-50065	212022	t
-50065	211026	t
-50065	214027	t
-50065	104028	t
-50065	109032	t
-50065	105033	t
-50066	211009	t
-50066	212018	t
-50066	211026	t
-50066	214027	t
-50066	104028	t
-50066	109032	t
-50067	214027	t
-60068	211000	t
-60068	211009	t
-60068	211010	t
-60068	211015	t
-60068	212019	t
-60068	212021	t
-60068	211024	t
-60068	211025	t
-60068	214027	t
-60068	104028	t
-60068	1031	t
-60068	109032	t
-60069	211009	t
-60069	211010	t
-60069	214027	t
-60069	104028	t
-60069	109032	t
-60070	211009	t
-60070	211010	t
-60070	214027	t
-60070	104028	t
-60070	109032	t
-60071	211009	t
-60071	214027	t
-60071	104028	t
-60071	109032	t
-60072	211009	t
-60072	211012	t
-60072	214027	t
-60072	104028	t
-60072	109032	t
-60073	211009	t
-60073	214027	t
-60073	104028	t
-60073	109032	t
-60074	211009	t
-60074	211011	t
-60074	212018	t
-60074	212019	t
-60074	212021	t
-60074	212022	t
-60074	211026	t
-60074	214027	t
-60074	104028	t
-60074	109032	t
-60074	105033	t
-60075	211009	t
-60075	212018	t
-60075	211026	t
-60075	214027	t
-60075	104028	t
-60075	109032	t
-60076	214027	t
-70077	211000	t
-70077	211009	t
-70077	211010	t
-70077	211015	t
-70077	212019	t
-70077	212021	t
-70077	211024	t
-70077	211025	t
-70077	214027	t
-70077	104028	t
-70077	1031	t
-70077	109032	t
-70078	211009	t
-70078	211010	t
-70078	214027	t
-70078	104028	t
-70078	109032	t
-70079	211009	t
-70079	211010	t
-70079	214027	t
-70079	104028	t
-70079	109032	t
-70080	211009	t
-70080	214027	t
-70080	104028	t
-70080	109032	t
-70081	211009	t
-70081	211012	t
-70081	214027	t
-70081	104028	t
-70081	109032	t
-70082	211009	t
-70082	214027	t
-70082	104028	t
-70082	109032	t
-70083	211009	t
-70083	211011	t
-70083	212018	t
-70083	212019	t
-70083	212021	t
-70083	212022	t
-70083	211026	t
-70083	214027	t
-70083	104028	t
-70083	109032	t
-70083	105033	t
-70084	211009	t
-70084	212018	t
-70084	211026	t
-70084	214027	t
-70084	104028	t
-70084	109032	t
-70085	214027	t
-80086	211000	t
-80086	211009	t
-80086	211010	t
-80086	211015	t
-80086	212019	t
-80086	212021	t
-80086	211024	t
-80086	211025	t
-80086	214027	t
-80086	104028	t
-80086	1031	t
-80086	109032	t
-80087	211009	t
-80087	211010	t
-80087	214027	t
-80087	104028	t
-80087	109032	t
-80088	211009	t
-80088	211010	t
-80088	214027	t
-80088	104028	t
-80088	109032	t
-80089	211009	t
-80089	214027	t
-80089	104028	t
-80089	109032	t
-80090	211009	t
-80090	211012	t
-80090	214027	t
-80090	104028	t
-80090	109032	t
-80091	211009	t
-80091	214027	t
-80091	104028	t
-80091	109032	t
-80092	211009	t
-80092	211011	t
-80092	212018	t
-80092	212019	t
-80092	212021	t
-80092	212022	t
-80092	211026	t
-80092	214027	t
-80092	104028	t
-80092	109032	t
-80092	105033	t
-80093	211009	t
-80093	212018	t
-80093	211026	t
-80093	214027	t
-80093	104028	t
-80093	109032	t
-80094	214027	t
-90095	211000	t
-90095	211009	t
-90095	211010	t
-90095	211015	t
-90095	212019	t
-90095	212021	t
-90095	211024	t
-90095	211025	t
-90095	214027	t
-90095	104028	t
-90095	1031	t
-90095	109032	t
-90096	211009	t
-90096	211010	t
-90096	214027	t
-90096	104028	t
-90096	109032	t
-90097	211009	t
-90097	211010	t
-90097	214027	t
-90097	104028	t
-90097	109032	t
-90098	211009	t
-90098	214027	t
-90098	104028	t
-90098	109032	t
-90099	211009	t
-90099	211012	t
-90099	214027	t
-90099	104028	t
-90099	109032	t
-90100	211009	t
-90100	214027	t
-90100	104028	t
-90100	109032	t
-90101	211009	t
-90101	211011	t
-90101	212018	t
-90101	212019	t
-90101	212021	t
-90101	212022	t
-90101	211026	t
-90101	214027	t
-90101	104028	t
-90101	109032	t
-90101	105033	t
-90102	211009	t
-90102	212018	t
-90102	211026	t
-90102	214027	t
-90102	104028	t
-90102	109032	t
-90103	214027	t
+100109	211009	t
+100109	214027	t
+100109	104028	t
+100109	109032	t
+100111	211009	t
+100111	212018	t
+100111	211026	t
+100111	214027	t
+100111	104028	t
+100111	109032	t
+100106	211009	t
+100106	211010	t
+100106	214027	t
+100106	104028	t
+100106	109032	t
+100105	211009	t
+100105	211010	t
+100105	214027	t
+100105	104028	t
+100105	109032	t
+100107	211009	t
+100107	214027	t
+100107	104028	t
+100107	109032	t
+100112	214027	t
 100104	211000	t
 100104	211009	t
 100104	211010	t
@@ -5791,29 +5932,11 @@ COPY public.organizationaccesscontrol (role, functionality, isallowed) FROM stdi
 100104	104028	t
 100104	1031	t
 100104	109032	t
-100105	211009	t
-100105	211010	t
-100105	214027	t
-100105	104028	t
-100105	109032	t
-100106	211009	t
-100106	211010	t
-100106	214027	t
-100106	104028	t
-100106	109032	t
-100107	211009	t
-100107	214027	t
-100107	104028	t
-100107	109032	t
 100108	211009	t
 100108	211012	t
 100108	214027	t
 100108	104028	t
 100108	109032	t
-100109	211009	t
-100109	214027	t
-100109	104028	t
-100109	109032	t
 100110	211009	t
 100110	211011	t
 100110	212018	t
@@ -5825,914 +5948,34 @@ COPY public.organizationaccesscontrol (role, functionality, isallowed) FROM stdi
 100110	104028	t
 100110	109032	t
 100110	105033	t
-100111	211009	t
-100111	212018	t
-100111	211026	t
-100111	214027	t
-100111	104028	t
-100111	109032	t
-100112	214027	t
-110113	211000	t
-110113	211009	t
-110113	211010	t
-110113	211015	t
-110113	212019	t
-110113	212021	t
-110113	211024	t
-110113	211025	t
-110113	214027	t
-110113	104028	t
-110113	1031	t
-110113	109032	t
-110114	211009	t
-110114	211010	t
-110114	214027	t
-110114	104028	t
-110114	109032	t
-110115	211009	t
-110115	211010	t
-110115	214027	t
-110115	104028	t
-110115	109032	t
-110116	211009	t
-110116	214027	t
-110116	104028	t
-110116	109032	t
-110117	211009	t
-110117	211012	t
-110117	214027	t
-110117	104028	t
-110117	109032	t
-110118	211009	t
-110118	214027	t
-110118	104028	t
-110118	109032	t
-110119	211009	t
-110119	211011	t
-110119	212018	t
-110119	212019	t
-110119	212021	t
-110119	212022	t
-110119	211026	t
-110119	214027	t
-110119	104028	t
-110119	109032	t
-110119	105033	t
-110120	211009	t
-110120	212018	t
-110120	211026	t
-110120	214027	t
-110120	104028	t
-110120	109032	t
-110121	214027	t
-120122	211000	t
-120122	211009	t
-120122	211010	t
-120122	211015	t
-120122	212019	t
-120122	212021	t
-120122	211024	t
-120122	211025	t
-120122	214027	t
-120122	104028	t
-120122	1031	t
-120122	109032	t
-120123	211009	t
-120123	211010	t
-120123	214027	t
-120123	104028	t
-120123	109032	t
-120124	211009	t
-120124	211010	t
-120124	214027	t
-120124	104028	t
-120124	109032	t
-120125	211009	t
-120125	214027	t
-120125	104028	t
-120125	109032	t
-120126	211009	t
-120126	211012	t
-120126	214027	t
-120126	104028	t
-120126	109032	t
-120127	211009	t
-120127	214027	t
-120127	104028	t
-120127	109032	t
-120128	211009	t
-120128	211011	t
-120128	212018	t
-120128	212019	t
-120128	212021	t
-120128	212022	t
-120128	211026	t
-120128	214027	t
-120128	104028	t
-120128	109032	t
-120128	105033	t
-120129	211009	t
-120129	212018	t
-120129	211026	t
-120129	214027	t
-120129	104028	t
-120129	109032	t
-120130	214027	t
-130131	211000	t
-130131	211009	t
-130131	211010	t
-130131	211015	t
-130131	212019	t
-130131	212021	t
-130131	211024	t
-130131	211025	t
-130131	214027	t
-130131	104028	t
-130131	1031	t
-130131	109032	t
-130132	211009	t
-130132	211010	t
-130132	214027	t
-130132	104028	t
-130132	109032	t
-130133	211009	t
-130133	211010	t
-130133	214027	t
-130133	104028	t
-130133	109032	t
-130134	211009	t
-130134	214027	t
-130134	104028	t
-130134	109032	t
-130135	211009	t
-130135	211012	t
-130135	214027	t
-130135	104028	t
-130135	109032	t
-130136	211009	t
-130136	214027	t
-130136	104028	t
-130136	109032	t
-130137	211009	t
-130137	211011	t
-130137	212018	t
-130137	212019	t
-130137	212021	t
-130137	212022	t
-130137	211026	t
-130137	214027	t
-130137	104028	t
-130137	109032	t
-130137	105033	t
-130138	211009	t
-130138	212018	t
-130138	211026	t
-130138	214027	t
-130138	104028	t
-130138	109032	t
-130139	214027	t
-140140	211000	t
-140140	211009	t
-140140	211010	t
-140140	211015	t
-140140	212019	t
-140140	212021	t
-140140	211024	t
-140140	211025	t
-140140	214027	t
-140140	104028	t
-140140	1031	t
-140140	109032	t
-140141	211009	t
-140141	211010	t
-140141	214027	t
-140141	104028	t
-140141	109032	t
-140142	211009	t
-140142	211010	t
-140142	214027	t
-140142	104028	t
-140142	109032	t
-140143	211009	t
-140143	214027	t
-140143	104028	t
-140143	109032	t
-140144	211009	t
-140144	211012	t
-140144	214027	t
-140144	104028	t
-140144	109032	t
-140145	211009	t
-140145	214027	t
-140145	104028	t
-140145	109032	t
-140146	211009	t
-140146	211011	t
-140146	212018	t
-140146	212019	t
-140146	212021	t
-140146	212022	t
-140146	211026	t
-140146	214027	t
-140146	104028	t
-140146	109032	t
-140146	105033	t
-140147	211009	t
-140147	212018	t
-140147	211026	t
-140147	214027	t
-140147	104028	t
-140147	109032	t
-140148	214027	t
-150149	211000	t
-150149	211009	t
-150149	211010	t
-150149	211015	t
-150149	212019	t
-150149	212021	t
-150149	211024	t
-150149	211025	t
-150149	214027	t
-150149	104028	t
-150149	1031	t
-150149	109032	t
-150150	211009	t
-150150	211010	t
-150150	214027	t
-150150	104028	t
-150150	109032	t
-150151	211009	t
-150151	211010	t
-150151	214027	t
-150151	104028	t
-150151	109032	t
-150152	211009	t
-150152	214027	t
-150152	104028	t
-150152	109032	t
-150153	211009	t
-150153	211012	t
-150153	214027	t
-150153	104028	t
-150153	109032	t
-150154	211009	t
-150154	214027	t
-150154	104028	t
-150154	109032	t
-150155	211009	t
-150155	211011	t
-150155	212018	t
-150155	212019	t
-150155	212021	t
-150155	212022	t
-150155	211026	t
-150155	214027	t
-150155	104028	t
-150155	109032	t
-150155	105033	t
-150156	211009	t
-150156	212018	t
-150156	211026	t
-150156	214027	t
-150156	104028	t
-150156	109032	t
-150157	214027	t
-160158	211000	t
-160158	211009	t
-160158	211010	t
-160158	211015	t
-160158	212019	t
-160158	212021	t
-160158	211024	t
-160158	211025	t
-160158	214027	t
-160158	104028	t
-160158	1031	t
-160158	109032	t
-160159	211009	t
-160159	211010	t
-160159	214027	t
-160159	104028	t
-160159	109032	t
-160160	211009	t
-160160	211010	t
-160160	214027	t
-160160	104028	t
-160160	109032	t
-160161	211009	t
-160161	214027	t
-160161	104028	t
-160161	109032	t
-160162	211009	t
-160162	211012	t
-160162	214027	t
-160162	104028	t
-160162	109032	t
-160163	211009	t
-160163	214027	t
-160163	104028	t
-160163	109032	t
-160164	211009	t
-160164	211011	t
-160164	212018	t
-160164	212019	t
-160164	212021	t
-160164	212022	t
-160164	211026	t
-160164	214027	t
-160164	104028	t
-160164	109032	t
-160164	105033	t
-160165	211009	t
-160165	212018	t
-160165	211026	t
-160165	214027	t
-160165	104028	t
-160165	109032	t
-160166	214027	t
-170167	211000	t
-170167	211009	t
-170167	211010	t
-170167	211015	t
-170167	212019	t
-170167	212021	t
-170167	211024	t
-170167	211025	t
-170167	214027	t
-170167	104028	t
-170167	1031	t
-170167	109032	t
-170168	211009	t
-170168	211010	t
-170168	214027	t
-170168	104028	t
-170168	109032	t
-170169	211009	t
-170169	211010	t
-170169	214027	t
-170169	104028	t
-170169	109032	t
-170170	211009	t
-170170	214027	t
-170170	104028	t
-170170	109032	t
-170171	211009	t
-170171	211012	t
-170171	214027	t
-170171	104028	t
-170171	109032	t
-170172	211009	t
-170172	214027	t
-170172	104028	t
-170172	109032	t
-170173	211009	t
-170173	211011	t
-170173	212018	t
-170173	212019	t
-170173	212021	t
-170173	212022	t
-170173	211026	t
-170173	214027	t
-170173	104028	t
-170173	109032	t
-170173	105033	t
-170174	211009	t
-170174	212018	t
-170174	211026	t
-170174	214027	t
-170174	104028	t
-170174	109032	t
-170175	214027	t
-180176	211000	t
-180176	211009	t
-180176	211010	t
-180176	211015	t
-180176	212019	t
-180176	212021	t
-180176	211024	t
-180176	211025	t
-180176	214027	t
-180176	104028	t
-180176	1031	t
-180176	109032	t
-180177	211009	t
-180177	211010	t
-180177	214027	t
-180177	104028	t
-180177	109032	t
-180178	211009	t
-180178	211010	t
-180178	214027	t
-180178	104028	t
-180178	109032	t
-180179	211009	t
-180179	214027	t
-180179	104028	t
-180179	109032	t
-180180	211009	t
-180180	211012	t
-180180	214027	t
-180180	104028	t
-180180	109032	t
-180181	211009	t
-180181	214027	t
-180181	104028	t
-180181	109032	t
-180182	211009	t
-180182	211011	t
-180182	212018	t
-180182	212019	t
-180182	212021	t
-180182	212022	t
-180182	211026	t
-180182	214027	t
-180182	104028	t
-180182	109032	t
-180182	105033	t
-180183	211009	t
-180183	212018	t
-180183	211026	t
-180183	214027	t
-180183	104028	t
-180183	109032	t
-180184	214027	t
-190185	211000	t
-190185	211009	t
-190185	211010	t
-190185	211015	t
-190185	212019	t
-190185	212021	t
-190185	211024	t
-190185	211025	t
-190185	214027	t
-190185	104028	t
-190185	1031	t
-190185	109032	t
-190186	211009	t
-190186	211010	t
-190186	214027	t
-190186	104028	t
-190186	109032	t
-190187	211009	t
-190187	211010	t
-190187	214027	t
-190187	104028	t
-190187	109032	t
-190188	211009	t
-190188	214027	t
-190188	104028	t
-190188	109032	t
-190189	211009	t
-190189	211012	t
-190189	214027	t
-190189	104028	t
-190189	109032	t
-190190	211009	t
-190190	214027	t
-190190	104028	t
-190190	109032	t
-190191	211009	t
-190191	211011	t
-190191	212018	t
-190191	212019	t
-190191	212021	t
-190191	212022	t
-190191	211026	t
-190191	214027	t
-190191	104028	t
-190191	109032	t
-190191	105033	t
-190192	211009	t
-190192	212018	t
-190192	211026	t
-190192	214027	t
-190192	104028	t
-190192	109032	t
-190193	214027	t
-200194	211000	t
-200194	211009	t
-200194	211010	t
-200194	211015	t
-200194	212019	t
-200194	212021	t
-200194	211024	t
-200194	211025	t
-200194	214027	t
-200194	104028	t
-200194	1031	t
-200194	109032	t
-200195	211009	t
-200195	211010	t
-200195	214027	t
-200195	104028	t
-200195	109032	t
-200196	211009	t
-200196	211010	t
-200196	214027	t
-200196	104028	t
-200196	109032	t
-200197	211009	t
-200197	214027	t
-200197	104028	t
-200197	109032	t
-200198	211009	t
-200198	211012	t
-200198	214027	t
-200198	104028	t
-200198	109032	t
-200199	211009	t
-200199	214027	t
-200199	104028	t
-200199	109032	t
-200200	211009	t
-200200	211011	t
-200200	212018	t
-200200	212019	t
-200200	212021	t
-200200	212022	t
-200200	211026	t
-200200	214027	t
-200200	104028	t
-200200	109032	t
-200200	105033	t
-200201	211009	t
-200201	212018	t
-200201	211026	t
-200201	214027	t
-200201	104028	t
-200201	109032	t
-200202	214027	t
-210203	211000	t
-210203	211009	t
-210203	211010	t
-210203	211015	t
-210203	212019	t
-210203	212021	t
-210203	211024	t
-210203	211025	t
-210203	214027	t
-210203	104028	t
-210203	1031	t
-210203	109032	t
-210204	211009	t
-210204	211010	t
-210204	214027	t
-210204	104028	t
-210204	109032	t
-210205	211009	t
-210205	211010	t
-210205	214027	t
-210205	104028	t
-210205	109032	t
-210206	211009	t
-210206	214027	t
-210206	104028	t
-210206	109032	t
-210207	211009	t
-210207	211012	t
-210207	214027	t
-210207	104028	t
-210207	109032	t
-210208	211009	t
-210208	214027	t
-210208	104028	t
-210208	109032	t
-210209	211009	t
-210209	211011	t
-210209	212018	t
-210209	212019	t
-210209	212021	t
-210209	212022	t
-210209	211026	t
-210209	214027	t
-210209	104028	t
-210209	109032	t
-210209	105033	t
-210210	211009	t
-210210	212018	t
-210210	211026	t
-210210	214027	t
-210210	104028	t
-210210	109032	t
-210211	214027	t
-220212	211000	t
-220212	211009	t
-220212	211010	t
-220212	211015	t
-220212	212019	t
-220212	212021	t
-220212	211024	t
-220212	211025	t
-220212	214027	t
-220212	104028	t
-220212	1031	t
-220212	109032	t
-220213	211009	t
-220213	211010	t
-220213	214027	t
-220213	104028	t
-220213	109032	t
-220214	211009	t
-220214	211010	t
-220214	214027	t
-220214	104028	t
-220214	109032	t
-220215	211009	t
-220215	214027	t
-220215	104028	t
-220215	109032	t
-220216	211009	t
-220216	211012	t
-220216	214027	t
-220216	104028	t
-220216	109032	t
-220217	211009	t
-220217	214027	t
-220217	104028	t
-220217	109032	t
-220218	211009	t
-220218	211011	t
-220218	212018	t
-220218	212019	t
-220218	212021	t
-220218	212022	t
-220218	211026	t
-220218	214027	t
-220218	104028	t
-220218	109032	t
-220218	105033	t
-220219	211009	t
-220219	212018	t
-220219	211026	t
-220219	214027	t
-220219	104028	t
-220219	109032	t
-220220	214027	t
-230221	211000	t
-230221	211009	t
-230221	211010	t
-230221	211015	t
-230221	212019	t
-230221	212021	t
-230221	211024	t
-230221	211025	t
-230221	214027	t
-230221	104028	t
-230221	1031	t
-230221	109032	t
-230222	211009	t
-230222	211010	t
-230222	214027	t
-230222	104028	t
-230222	109032	t
-230223	211009	t
-230223	211010	t
-230223	214027	t
-230223	104028	t
-230223	109032	t
-230224	211009	t
-230224	214027	t
-230224	104028	t
-230224	109032	t
-230225	211009	t
-230225	211012	t
-230225	214027	t
-230225	104028	t
-230225	109032	t
-230226	211009	t
-230226	214027	t
-230226	104028	t
-230226	109032	t
-230227	211009	t
-230227	211011	t
-230227	212018	t
-230227	212019	t
-230227	212021	t
-230227	212022	t
-230227	211026	t
-230227	214027	t
-230227	104028	t
-230227	109032	t
-230227	105033	t
-230228	211009	t
-230228	212018	t
-230228	211026	t
-230228	214027	t
-230228	104028	t
-230228	109032	t
-230229	214027	t
-240230	211000	t
-240230	211009	t
-240230	211010	t
-240230	211015	t
-240230	212019	t
-240230	212021	t
-240230	211024	t
-240230	211025	t
-240230	214027	t
-240230	104028	t
-240230	1031	t
-240230	109032	t
-240231	211009	t
-240231	211010	t
-240231	214027	t
-240231	104028	t
-240231	109032	t
-240232	211009	t
-240232	211010	t
-240232	214027	t
-240232	104028	t
-240232	109032	t
-240233	211009	t
-240233	214027	t
-240233	104028	t
-240233	109032	t
-240234	211009	t
-240234	211012	t
-240234	214027	t
-240234	104028	t
-240234	109032	t
-240235	211009	t
-240235	214027	t
-240235	104028	t
-240235	109032	t
-240236	211009	t
-240236	211011	t
-240236	212018	t
-240236	212019	t
-240236	212021	t
-240236	212022	t
-240236	211026	t
-240236	214027	t
-240236	104028	t
-240236	109032	t
-240236	105033	t
-240237	211009	t
-240237	212018	t
-240237	211026	t
-240237	214027	t
-240237	104028	t
-240237	109032	t
-240238	214027	t
-250239	211000	t
-250239	211009	t
-250239	211010	t
-250239	211015	t
-250239	212019	t
-250239	212021	t
-250239	211024	t
-250239	211025	t
-250239	214027	t
-250239	104028	t
-250239	1031	t
-250239	109032	t
-250240	211009	t
-250240	211010	t
-250240	214027	t
-250240	104028	t
-250240	109032	t
-250241	211009	t
-250241	211010	t
-250241	214027	t
-250241	104028	t
-250241	109032	t
-250242	211009	t
-250242	214027	t
-250242	104028	t
-250242	109032	t
-250243	211009	t
-250243	211012	t
-250243	214027	t
-250243	104028	t
-250243	109032	t
-250244	211009	t
-250244	214027	t
-250244	104028	t
-250244	109032	t
-250245	211009	t
-250245	211011	t
-250245	212018	t
-250245	212019	t
-250245	212021	t
-250245	212022	t
-250245	211026	t
-250245	214027	t
-250245	104028	t
-250245	109032	t
-250245	105033	t
-250246	211009	t
-250246	212018	t
-250246	211026	t
-250246	214027	t
-250246	104028	t
-250246	109032	t
-250247	214027	t
-260248	211000	t
-260248	211009	t
-260248	211010	t
-260248	211015	t
-260248	212019	t
-260248	212021	t
-260248	211024	t
-260248	211025	t
-260248	214027	t
-260248	104028	t
-260248	1031	t
-260248	109032	t
-260249	211009	t
-260249	211010	t
-260249	214027	t
-260249	104028	t
-260249	109032	t
-260250	211009	t
-260250	211010	t
-260250	214027	t
-260250	104028	t
-260250	109032	t
-260251	211009	t
-260251	214027	t
-260251	104028	t
-260251	109032	t
-260252	211009	t
-260252	211012	t
-260252	214027	t
-260252	104028	t
-260252	109032	t
-260253	211009	t
-260253	214027	t
-260253	104028	t
-260253	109032	t
-260254	211009	t
-260254	211011	t
-260254	212018	t
-260254	212019	t
-260254	212021	t
-260254	212022	t
-260254	211026	t
-260254	214027	t
-260254	104028	t
-260254	109032	t
-260254	105033	t
-260255	211009	t
-260255	212018	t
-260255	211026	t
-260255	214027	t
-260255	104028	t
-260255	109032	t
-260256	214027	t
-270257	211000	t
-270257	211009	t
-270257	211010	t
-270257	211015	t
-270257	212019	t
-270257	212021	t
-270257	211024	t
-270257	211025	t
-270257	214027	t
-270257	104028	t
-270257	1031	t
-270257	109032	t
-270258	211009	t
-270258	211010	t
-270258	214027	t
-270258	104028	t
-270258	109032	t
-270259	211009	t
-270259	211010	t
-270259	214027	t
-270259	104028	t
-270259	109032	t
-270260	211009	t
-270260	214027	t
-270260	104028	t
-270260	109032	t
-270261	211009	t
-270261	211012	t
-270261	214027	t
-270261	104028	t
-270261	109032	t
-270262	211009	t
-270262	214027	t
-270262	104028	t
-270262	109032	t
-270263	211009	t
-270263	211011	t
-270263	212018	t
-270263	212019	t
-270263	212021	t
-270263	212022	t
-270263	211026	t
-270263	214027	t
-270263	104028	t
-270263	109032	t
-270263	105033	t
-270264	211009	t
-270264	212018	t
-270264	211026	t
-270264	214027	t
-270264	104028	t
-270264	109032	t
-270265	214027	t
+0	104002	t
+0	214007	t
+0	104030	t
+280271	211009	t
+280271	214027	t
+280271	104028	t
+280271	109032	t
+280273	211009	t
+280273	212018	t
+280273	211026	t
+280273	214027	t
+280273	104028	t
+280273	109032	t
+280268	211009	t
+280268	211010	t
+280268	214027	t
+280268	104028	t
+280268	109032	t
+280267	211009	t
+280267	211010	t
+280267	214027	t
+280267	104028	t
+280267	109032	t
+280269	211009	t
+280269	214027	t
+280269	104028	t
+280269	109032	t
+280274	214027	t
 280266	211000	t
 280266	211009	t
 280266	211010	t
@@ -6745,29 +5988,11 @@ COPY public.organizationaccesscontrol (role, functionality, isallowed) FROM stdi
 280266	104028	t
 280266	1031	t
 280266	109032	t
-280267	211009	t
-280267	211010	t
-280267	214027	t
-280267	104028	t
-280267	109032	t
-280268	211009	t
-280268	211010	t
-280268	214027	t
-280268	104028	t
-280268	109032	t
-280269	211009	t
-280269	214027	t
-280269	104028	t
-280269	109032	t
 280270	211009	t
 280270	211012	t
 280270	214027	t
 280270	104028	t
 280270	109032	t
-280271	211009	t
-280271	214027	t
-280271	104028	t
-280271	109032	t
 280272	211009	t
 280272	211011	t
 280272	212018	t
@@ -6779,278 +6004,31 @@ COPY public.organizationaccesscontrol (role, functionality, isallowed) FROM stdi
 280272	104028	t
 280272	109032	t
 280272	105033	t
-280273	211009	t
-280273	212018	t
-280273	211026	t
-280273	214027	t
-280273	104028	t
-280273	109032	t
-280274	214027	t
-290275	211000	t
-290275	211009	t
-290275	211010	t
-290275	211015	t
-290275	212019	t
-290275	212021	t
-290275	211024	t
-290275	211025	t
-290275	214027	t
-290275	104028	t
-290275	1031	t
-290275	109032	t
-290276	211009	t
-290276	211010	t
-290276	214027	t
-290276	104028	t
-290276	109032	t
-290277	211009	t
-290277	211010	t
-290277	214027	t
-290277	104028	t
-290277	109032	t
-290278	211009	t
-290278	214027	t
-290278	104028	t
-290278	109032	t
-290279	211009	t
-290279	211012	t
-290279	214027	t
-290279	104028	t
-290279	109032	t
-290280	211009	t
-290280	214027	t
-290280	104028	t
-290280	109032	t
-290281	211009	t
-290281	211011	t
-290281	212018	t
-290281	212019	t
-290281	212021	t
-290281	212022	t
-290281	211026	t
-290281	214027	t
-290281	104028	t
-290281	109032	t
-290281	105033	t
-290282	211009	t
-290282	212018	t
-290282	211026	t
-290282	214027	t
-290282	104028	t
-290282	109032	t
-290283	214027	t
-300284	211000	t
-300284	211009	t
-300284	211010	t
-300284	211015	t
-300284	212019	t
-300284	212021	t
-300284	211024	t
-300284	211025	t
-300284	214027	t
-300284	104028	t
-300284	1031	t
-300284	109032	t
-300285	211009	t
-300285	211010	t
-300285	214027	t
-300285	104028	t
-300285	109032	t
-300286	211009	t
-300286	211010	t
-300286	214027	t
-300286	104028	t
-300286	109032	t
-300287	211009	t
-300287	214027	t
-300287	104028	t
-300287	109032	t
-300288	211009	t
-300288	211012	t
-300288	214027	t
-300288	104028	t
-300288	109032	t
-300289	211009	t
-300289	214027	t
-300289	104028	t
-300289	109032	t
-300290	211009	t
-300290	211011	t
-300290	212018	t
-300290	212019	t
-300290	212021	t
-300290	212022	t
-300290	211026	t
-300290	214027	t
-300290	104028	t
-300290	109032	t
-300290	105033	t
-300291	211009	t
-300291	212018	t
-300291	211026	t
-300291	214027	t
-300291	104028	t
-300291	109032	t
-300292	214027	t
-310293	211000	t
-310293	211009	t
-310293	211010	t
-310293	211015	t
-310293	212019	t
-310293	212021	t
-310293	211024	t
-310293	211025	t
-310293	214027	t
-310293	104028	t
-310293	1031	t
-310293	109032	t
-310294	211009	t
-310294	211010	t
-310294	214027	t
-310294	104028	t
-310294	109032	t
-310295	211009	t
-310295	211010	t
-310295	214027	t
-310295	104028	t
-310295	109032	t
-310296	211009	t
-310296	214027	t
-310296	104028	t
-310296	109032	t
-310297	211009	t
-310297	211012	t
-310297	214027	t
-310297	104028	t
-310297	109032	t
-310298	211009	t
-310298	214027	t
-310298	104028	t
-310298	109032	t
-310299	211009	t
-310299	211011	t
-310299	212018	t
-310299	212019	t
-310299	212021	t
-310299	212022	t
-310299	211026	t
-310299	214027	t
-310299	104028	t
-310299	109032	t
-310299	105033	t
-310300	211009	t
-310300	212018	t
-310300	211026	t
-310300	214027	t
-310300	104028	t
-310300	109032	t
-310301	214027	t
-320302	211000	t
-320302	211009	t
-320302	211010	t
-320302	211015	t
-320302	212019	t
-320302	212021	t
-320302	211024	t
-320302	211025	t
-320302	214027	t
-320302	104028	t
-320302	1031	t
-320302	109032	t
-320303	211009	t
-320303	211010	t
-320303	214027	t
-320303	104028	t
-320303	109032	t
-320304	211009	t
-320304	211010	t
-320304	214027	t
-320304	104028	t
-320304	109032	t
-320305	211009	t
-320305	214027	t
-320305	104028	t
-320305	109032	t
-320306	211009	t
-320306	211012	t
-320306	214027	t
-320306	104028	t
-320306	109032	t
-320307	211009	t
-320307	214027	t
-320307	104028	t
-320307	109032	t
-320308	211009	t
-320308	211011	t
-320308	212018	t
-320308	212019	t
-320308	212021	t
-320308	212022	t
-320308	211026	t
-320308	214027	t
-320308	104028	t
-320308	109032	t
-320308	105033	t
-320309	211009	t
-320309	212018	t
-320309	211026	t
-320309	214027	t
-320309	104028	t
-320309	109032	t
-320310	214027	t
-330311	211000	t
-330311	211009	t
-330311	211010	t
-330311	211015	t
-330311	212019	t
-330311	212021	t
-330311	211024	t
-330311	211025	t
-330311	214027	t
-330311	104028	t
-330311	1031	t
-330311	109032	t
-330312	211009	t
-330312	211010	t
-330312	214027	t
-330312	104028	t
-330312	109032	t
-330313	211009	t
-330313	211010	t
-330313	214027	t
-330313	104028	t
-330313	109032	t
-330314	211009	t
-330314	214027	t
-330314	104028	t
-330314	109032	t
-330315	211009	t
-330315	211012	t
-330315	214027	t
-330315	104028	t
-330315	109032	t
-330316	211009	t
-330316	214027	t
-330316	104028	t
-330316	109032	t
-330317	211009	t
-330317	211011	t
-330317	212018	t
-330317	212019	t
-330317	212021	t
-330317	212022	t
-330317	211026	t
-330317	214027	t
-330317	104028	t
-330317	109032	t
-330317	105033	t
-330318	211009	t
-330318	212018	t
-330318	211026	t
-330318	214027	t
-330318	104028	t
-330318	109032	t
-330319	214027	t
+340325	211009	t
+340325	214027	t
+340325	104028	t
+340325	109032	t
+340327	211009	t
+340327	212018	t
+340327	211026	t
+340327	214027	t
+340327	104028	t
+340327	109032	t
+340322	211009	t
+340322	211010	t
+340322	214027	t
+340322	104028	t
+340322	109032	t
+340321	211009	t
+340321	211010	t
+340321	214027	t
+340321	104028	t
+340321	109032	t
+340323	211009	t
+340323	214027	t
+340323	104028	t
+340323	109032	t
+340328	214027	t
 340320	211000	t
 340320	211009	t
 340320	211010	t
@@ -7063,29 +6041,11 @@ COPY public.organizationaccesscontrol (role, functionality, isallowed) FROM stdi
 340320	104028	t
 340320	1031	t
 340320	109032	t
-340321	211009	t
-340321	211010	t
-340321	214027	t
-340321	104028	t
-340321	109032	t
-340322	211009	t
-340322	211010	t
-340322	214027	t
-340322	104028	t
-340322	109032	t
-340323	211009	t
-340323	214027	t
-340323	104028	t
-340323	109032	t
 340324	211009	t
 340324	211012	t
 340324	214027	t
 340324	104028	t
 340324	109032	t
-340325	211009	t
-340325	214027	t
-340325	104028	t
-340325	109032	t
 340326	211009	t
 340326	211011	t
 340326	212018	t
@@ -7097,13 +6057,84 @@ COPY public.organizationaccesscontrol (role, functionality, isallowed) FROM stdi
 340326	104028	t
 340326	109032	t
 340326	105033	t
-340327	211009	t
-340327	212018	t
-340327	211026	t
-340327	214027	t
-340327	104028	t
-340327	109032	t
-340328	214027	t
+160163	211009	t
+160163	214027	t
+160163	104028	t
+160163	109032	t
+160165	211009	t
+160165	212018	t
+160165	211026	t
+160165	214027	t
+160165	104028	t
+160165	109032	t
+160160	211009	t
+160160	211010	t
+160160	214027	t
+160160	104028	t
+160160	109032	t
+160159	211009	t
+160159	211010	t
+160159	214027	t
+160159	104028	t
+160159	109032	t
+160161	211009	t
+160161	214027	t
+160161	104028	t
+160161	109032	t
+160166	214027	t
+160158	211000	t
+160158	211009	t
+160158	211010	t
+160158	211015	t
+160158	212019	t
+160158	212021	t
+160158	211024	t
+160158	211025	t
+160158	214027	t
+160158	104028	t
+160158	1031	t
+160158	109032	t
+160162	211009	t
+160162	211012	t
+160162	214027	t
+160162	104028	t
+160162	109032	t
+160164	211009	t
+160164	211011	t
+160164	212018	t
+160164	212019	t
+160164	212021	t
+160164	212022	t
+160164	211026	t
+160164	214027	t
+160164	104028	t
+160164	109032	t
+160164	105033	t
+350334	211009	t
+350334	214027	t
+350334	104028	t
+350334	109032	t
+350336	211009	t
+350336	212018	t
+350336	211026	t
+350336	214027	t
+350336	104028	t
+350336	109032	t
+350331	211009	t
+350331	211010	t
+350331	214027	t
+350331	104028	t
+350331	109032	t
+350330	211009	t
+350330	211010	t
+350330	214027	t
+350330	104028	t
+350330	109032	t
+350332	211009	t
+350332	214027	t
+350332	104028	t
+350332	109032	t
+350337	214027	t
 350329	211000	t
 350329	211009	t
 350329	211010	t
@@ -7116,29 +6147,11 @@ COPY public.organizationaccesscontrol (role, functionality, isallowed) FROM stdi
 350329	104028	t
 350329	1031	t
 350329	109032	t
-350330	211009	t
-350330	211010	t
-350330	214027	t
-350330	104028	t
-350330	109032	t
-350331	211009	t
-350331	211010	t
-350331	214027	t
-350331	104028	t
-350331	109032	t
-350332	211009	t
-350332	214027	t
-350332	104028	t
-350332	109032	t
 350333	211009	t
 350333	211012	t
 350333	214027	t
 350333	104028	t
 350333	109032	t
-350334	211009	t
-350334	214027	t
-350334	104028	t
-350334	109032	t
 350335	211009	t
 350335	211011	t
 350335	212018	t
@@ -7150,13 +6163,542 @@ COPY public.organizationaccesscontrol (role, functionality, isallowed) FROM stdi
 350335	104028	t
 350335	109032	t
 350335	105033	t
-350336	211009	t
-350336	212018	t
-350336	211026	t
-350336	214027	t
-350336	104028	t
-350336	109032	t
-350337	214027	t
+170172	211009	t
+170172	214027	t
+170172	104028	t
+170172	109032	t
+170174	211009	t
+170174	212018	t
+170174	211026	t
+170174	214027	t
+170174	104028	t
+170174	109032	t
+170169	211009	t
+170169	211010	t
+170169	214027	t
+170169	104028	t
+170169	109032	t
+170168	211009	t
+170168	211010	t
+170168	214027	t
+170168	104028	t
+170168	109032	t
+170170	211009	t
+170170	214027	t
+170170	104028	t
+170170	109032	t
+170175	214027	t
+170167	211000	t
+170167	211009	t
+170167	211010	t
+170167	211015	t
+170167	212019	t
+170167	212021	t
+170167	211024	t
+170167	211025	t
+170167	214027	t
+170167	104028	t
+170167	1031	t
+170167	109032	t
+170171	211009	t
+170171	211012	t
+170171	214027	t
+170171	104028	t
+170171	109032	t
+170173	211009	t
+170173	211011	t
+170173	212018	t
+170173	212019	t
+170173	212021	t
+170173	212022	t
+170173	211026	t
+170173	214027	t
+170173	104028	t
+170173	109032	t
+170173	105033	t
+300289	211009	t
+300289	214027	t
+300289	104028	t
+300289	109032	t
+300291	211009	t
+300291	212018	t
+300291	211026	t
+300291	214027	t
+300291	104028	t
+300291	109032	t
+300286	211009	t
+300286	211010	t
+300286	214027	t
+300286	104028	t
+300286	109032	t
+300285	211009	t
+300285	211010	t
+300285	214027	t
+300285	104028	t
+300285	109032	t
+300287	211009	t
+300287	214027	t
+300287	104028	t
+300287	109032	t
+300292	214027	t
+300284	211000	t
+300284	211009	t
+300284	211010	t
+300284	211015	t
+300284	212019	t
+300284	212021	t
+300284	211024	t
+300284	211025	t
+300284	214027	t
+300284	104028	t
+300284	1031	t
+300284	109032	t
+300288	211009	t
+300288	211012	t
+300288	214027	t
+300288	104028	t
+300288	109032	t
+300290	211009	t
+300290	211011	t
+300290	212018	t
+300290	212019	t
+300290	212021	t
+300290	212022	t
+300290	211026	t
+300290	214027	t
+300290	104028	t
+300290	109032	t
+300290	105033	t
+50064	211009	t
+50064	214027	t
+50064	104028	t
+50064	109032	t
+50066	211009	t
+50066	212018	t
+50066	211026	t
+50066	214027	t
+50066	104028	t
+50066	109032	t
+50061	211009	t
+50061	211010	t
+50061	214027	t
+50061	104028	t
+50061	109032	t
+50060	211009	t
+50060	211010	t
+50060	214027	t
+50060	104028	t
+50060	109032	t
+50062	211009	t
+50062	214027	t
+50062	104028	t
+50062	109032	t
+50067	214027	t
+50059	211000	t
+50059	211009	t
+50059	211010	t
+50059	211015	t
+50059	212019	t
+50059	212021	t
+50059	211024	t
+50059	211025	t
+50059	214027	t
+50059	104028	t
+50059	1031	t
+50059	109032	t
+50063	211009	t
+50063	211012	t
+50063	214027	t
+50063	104028	t
+50063	109032	t
+50065	211009	t
+50065	211011	t
+50065	212018	t
+50065	212019	t
+50065	212021	t
+50065	212022	t
+50065	211026	t
+50065	214027	t
+50065	104028	t
+50065	109032	t
+50065	105033	t
+290280	211009	t
+290280	214027	t
+290280	104028	t
+290280	109032	t
+290282	211009	t
+290282	212018	t
+290282	211026	t
+290282	214027	t
+290282	104028	t
+290282	109032	t
+290277	211009	t
+290277	211010	t
+290277	214027	t
+290277	104028	t
+290277	109032	t
+290276	211009	t
+290276	211010	t
+290276	214027	t
+290276	104028	t
+290276	109032	t
+290278	211009	t
+290278	214027	t
+290278	104028	t
+290278	109032	t
+290283	214027	t
+290275	211000	t
+290275	211009	t
+290275	211010	t
+290275	211015	t
+290275	212019	t
+290275	212021	t
+290275	211024	t
+290275	211025	t
+290275	214027	t
+290275	104028	t
+290275	1031	t
+290275	109032	t
+290279	211009	t
+290279	211012	t
+290279	214027	t
+290279	104028	t
+290279	109032	t
+290281	211009	t
+290281	211011	t
+290281	212018	t
+290281	212019	t
+290281	212021	t
+290281	212022	t
+290281	211026	t
+290281	214027	t
+290281	104028	t
+290281	109032	t
+290281	105033	t
+10	108004	t
+13	104003	t
+13	104013	t
+22	109006	t
+19	106017	t
+9	108004	t
+6	108020	t
+7	108020	t
+12	104003	t
+12	104014	t
+21	109006	t
+21	3008	t
+21	2023	t
+18	106017	t
+3	104002	t
+3	3008	t
+3	104030	t
+2	104002	t
+2	3008	t
+2	2023	t
+2	104030	t
+4	104002	t
+4	3008	t
+4	104030	t
+1	104002	t
+1	3008	t
+1	104030	t
+8	108004	t
+5	3008	t
+5	108020	t
+11	104003	t
+20	109006	t
+20	2023	t
+17	106017	t
+180181	211009	t
+180181	214027	t
+180181	104028	t
+180181	109032	t
+180183	211009	t
+180183	212018	t
+180183	211026	t
+180183	214027	t
+180183	104028	t
+180183	109032	t
+180178	211009	t
+180178	211010	t
+180178	214027	t
+180178	104028	t
+180178	109032	t
+180177	211009	t
+180177	211010	t
+180177	214027	t
+180177	104028	t
+180177	109032	t
+180179	211009	t
+180179	214027	t
+180179	104028	t
+180179	109032	t
+180184	214027	t
+180176	211000	t
+180176	211009	t
+180176	211010	t
+180176	211015	t
+180176	212019	t
+180176	212021	t
+180176	211024	t
+180176	211025	t
+180176	214027	t
+180176	104028	t
+180176	1031	t
+180176	109032	t
+180180	211009	t
+180180	211012	t
+180180	214027	t
+180180	104028	t
+180180	109032	t
+180182	211009	t
+180182	211011	t
+180182	212018	t
+180182	212019	t
+180182	212021	t
+180182	212022	t
+180182	211026	t
+180182	214027	t
+180182	104028	t
+180182	109032	t
+180182	105033	t
+190190	211009	t
+190190	214027	t
+190190	104028	t
+190190	109032	t
+190192	211009	t
+190192	212018	t
+190192	211026	t
+190192	214027	t
+190192	104028	t
+190192	109032	t
+190187	211009	t
+190187	211010	t
+190187	214027	t
+190187	104028	t
+190187	109032	t
+190186	211009	t
+190186	211010	t
+190186	214027	t
+190186	104028	t
+190186	109032	t
+190188	211009	t
+190188	214027	t
+190188	104028	t
+190188	109032	t
+190193	214027	t
+190185	211000	t
+190185	211009	t
+190185	211010	t
+190185	211015	t
+190185	212019	t
+190185	212021	t
+190185	211024	t
+190185	211025	t
+190185	214027	t
+190185	104028	t
+190185	1031	t
+190185	109032	t
+190189	211009	t
+190189	211012	t
+190189	214027	t
+190189	104028	t
+190189	109032	t
+190191	211009	t
+190191	211011	t
+190191	212018	t
+190191	212019	t
+190191	212021	t
+190191	212022	t
+190191	211026	t
+190191	214027	t
+190191	104028	t
+190191	109032	t
+190191	105033	t
+240235	211009	t
+240235	214027	t
+240235	104028	t
+240235	109032	t
+240237	211009	t
+240237	212018	t
+240237	211026	t
+240237	214027	t
+240237	104028	t
+240237	109032	t
+240232	211009	t
+240232	211010	t
+240232	214027	t
+240232	104028	t
+240232	109032	t
+240231	211009	t
+240231	211010	t
+240231	214027	t
+240231	104028	t
+240231	109032	t
+240233	211009	t
+240233	214027	t
+240233	104028	t
+240233	109032	t
+240238	214027	t
+240230	211000	t
+240230	211009	t
+240230	211010	t
+240230	211015	t
+240230	212019	t
+240230	212021	t
+240230	211024	t
+240230	211025	t
+240230	214027	t
+240230	104028	t
+240230	1031	t
+240230	109032	t
+240234	211009	t
+240234	211012	t
+240234	214027	t
+240234	104028	t
+240234	109032	t
+240236	211009	t
+240236	211011	t
+240236	212018	t
+240236	212019	t
+240236	212021	t
+240236	212022	t
+240236	211026	t
+240236	214027	t
+240236	104028	t
+240236	109032	t
+240236	105033	t
+310298	211009	t
+310298	214027	t
+310298	104028	t
+310298	109032	t
+310300	211009	t
+310300	212018	t
+310300	211026	t
+310300	214027	t
+310300	104028	t
+310300	109032	t
+310295	211009	t
+310295	211010	t
+310295	214027	t
+310295	104028	t
+310295	109032	t
+310294	211009	t
+310294	211010	t
+310294	214027	t
+310294	104028	t
+310294	109032	t
+310296	211009	t
+310296	214027	t
+310296	104028	t
+310296	109032	t
+310301	214027	t
+310293	211000	t
+310293	211009	t
+310293	211010	t
+310293	211015	t
+310293	212019	t
+310293	212021	t
+310293	211024	t
+310293	211025	t
+310293	214027	t
+310293	104028	t
+310293	1031	t
+310293	109032	t
+310297	211009	t
+310297	211012	t
+310297	214027	t
+310297	104028	t
+310297	109032	t
+310299	211009	t
+310299	211011	t
+310299	212018	t
+310299	212019	t
+310299	212021	t
+310299	212022	t
+310299	211026	t
+310299	214027	t
+310299	104028	t
+310299	109032	t
+310299	105033	t
+140145	211009	t
+140145	214027	t
+140145	104028	t
+140145	109032	t
+140147	211009	t
+140147	212018	t
+140147	211026	t
+140147	214027	t
+140147	104028	t
+140147	109032	t
+140142	211009	t
+140142	211010	t
+140142	214027	t
+140142	104028	t
+140142	109032	t
+140141	211009	t
+140141	211010	t
+140141	214027	t
+140141	104028	t
+140141	109032	t
+140143	211009	t
+140143	214027	t
+140143	104028	t
+140143	109032	t
+140148	214027	t
+140140	211000	t
+140140	211009	t
+140140	211010	t
+140140	211015	t
+140140	212019	t
+140140	212021	t
+140140	211024	t
+140140	211025	t
+140140	214027	t
+140140	104028	t
+140140	1031	t
+140140	109032	t
+140144	211009	t
+140144	211012	t
+140144	214027	t
+140144	104028	t
+140144	109032	t
+140146	211009	t
+140146	211011	t
+140146	212018	t
+140146	212019	t
+140146	212021	t
+140146	212022	t
+140146	211026	t
+140146	214027	t
+140146	104028	t
+140146	109032	t
+140146	105033	t
+360343	211009	t
+360343	214027	t
+360343	104028	t
+360343	109032	t
+360345	211009	t
+360345	212018	t
+360345	211026	t
+360345	214027	t
+360345	104028	t
+360345	109032	t
+360340	211009	t
+360340	211010	t
+360340	214027	t
+360340	104028	t
+360340	109032	t
+360339	211009	t
+360339	211010	t
+360339	214027	t
+360339	104028	t
+360339	109032	t
+360341	211009	t
+360341	214027	t
+360341	104028	t
+360341	109032	t
+360346	214027	t
 360338	211000	t
 360338	211009	t
 360338	211010	t
@@ -7169,29 +6711,11 @@ COPY public.organizationaccesscontrol (role, functionality, isallowed) FROM stdi
 360338	104028	t
 360338	1031	t
 360338	109032	t
-360339	211009	t
-360339	211010	t
-360339	214027	t
-360339	104028	t
-360339	109032	t
-360340	211009	t
-360340	211010	t
-360340	214027	t
-360340	104028	t
-360340	109032	t
-360341	211009	t
-360341	214027	t
-360341	104028	t
-360341	109032	t
 360342	211009	t
 360342	211012	t
 360342	214027	t
 360342	104028	t
 360342	109032	t
-360343	211009	t
-360343	214027	t
-360343	104028	t
-360343	109032	t
 360344	211009	t
 360344	211011	t
 360344	212018	t
@@ -7203,13 +6727,349 @@ COPY public.organizationaccesscontrol (role, functionality, isallowed) FROM stdi
 360344	104028	t
 360344	109032	t
 360344	105033	t
-360345	211009	t
-360345	212018	t
-360345	211026	t
-360345	214027	t
-360345	104028	t
-360345	109032	t
-360346	214027	t
+70082	211009	t
+70082	214027	t
+70082	104028	t
+70082	109032	t
+70084	211009	t
+70084	212018	t
+70084	211026	t
+70084	214027	t
+70084	104028	t
+70084	109032	t
+70079	211009	t
+70079	211010	t
+70079	214027	t
+70079	104028	t
+70079	109032	t
+70078	211009	t
+70078	211010	t
+70078	214027	t
+70078	104028	t
+70078	109032	t
+70080	211009	t
+70080	214027	t
+70080	104028	t
+70080	109032	t
+70085	214027	t
+70077	211000	t
+70077	211009	t
+70077	211010	t
+70077	211015	t
+70077	212019	t
+70077	212021	t
+70077	211024	t
+70077	211025	t
+70077	214027	t
+70077	104028	t
+70077	1031	t
+70077	109032	t
+70081	211009	t
+70081	211012	t
+70081	214027	t
+70081	104028	t
+70081	109032	t
+70083	211009	t
+70083	211011	t
+70083	212018	t
+70083	212019	t
+70083	212021	t
+70083	212022	t
+70083	211026	t
+70083	214027	t
+70083	104028	t
+70083	109032	t
+70083	105033	t
+200199	211009	t
+200199	214027	t
+200199	104028	t
+200199	109032	t
+200201	211009	t
+200201	212018	t
+200201	211026	t
+200201	214027	t
+200201	104028	t
+200201	109032	t
+200196	211009	t
+200196	211010	t
+200196	214027	t
+200196	104028	t
+200196	109032	t
+200195	211009	t
+200195	211010	t
+200195	214027	t
+200195	104028	t
+200195	109032	t
+200197	211009	t
+200197	214027	t
+200197	104028	t
+200197	109032	t
+200202	214027	t
+200194	211000	t
+200194	211009	t
+200194	211010	t
+200194	211015	t
+200194	212019	t
+200194	212021	t
+200194	211024	t
+200194	211025	t
+200194	214027	t
+200194	104028	t
+200194	1031	t
+200194	109032	t
+200198	211009	t
+200198	211012	t
+200198	214027	t
+200198	104028	t
+200198	109032	t
+200200	211009	t
+200200	211011	t
+200200	212018	t
+200200	212019	t
+200200	212021	t
+200200	212022	t
+200200	211026	t
+200200	214027	t
+200200	104028	t
+200200	109032	t
+200200	105033	t
+150154	211009	t
+150154	214027	t
+150154	104028	t
+150154	109032	t
+150156	211009	t
+150156	212018	t
+150156	211026	t
+150156	214027	t
+150156	104028	t
+150156	109032	t
+150151	211009	t
+150151	211010	t
+150151	214027	t
+150151	104028	t
+150151	109032	t
+150150	211009	t
+150150	211010	t
+150150	214027	t
+150150	104028	t
+150150	109032	t
+150152	211009	t
+150152	214027	t
+150152	104028	t
+150152	109032	t
+150157	214027	t
+150149	211000	t
+150149	211009	t
+150149	211010	t
+150149	211015	t
+150149	212019	t
+150149	212021	t
+150149	211024	t
+150149	211025	t
+150149	214027	t
+150149	104028	t
+150149	1031	t
+150149	109032	t
+150153	211009	t
+150153	211012	t
+150153	214027	t
+150153	104028	t
+150153	109032	t
+150155	211009	t
+150155	211011	t
+150155	212018	t
+150155	212019	t
+150155	212021	t
+150155	212022	t
+150155	211026	t
+150155	214027	t
+150155	104028	t
+150155	109032	t
+150155	105033	t
+320307	211009	t
+320307	214027	t
+320307	104028	t
+320307	109032	t
+320309	211009	t
+320309	212018	t
+320309	211026	t
+320309	214027	t
+320309	104028	t
+320309	109032	t
+320304	211009	t
+320304	211010	t
+320304	214027	t
+320304	104028	t
+320304	109032	t
+320303	211009	t
+320303	211010	t
+320303	214027	t
+320303	104028	t
+320303	109032	t
+320305	211009	t
+320305	214027	t
+320305	104028	t
+320305	109032	t
+320310	214027	t
+320302	211000	t
+320302	211009	t
+320302	211010	t
+320302	211015	t
+320302	212019	t
+320302	212021	t
+320302	211024	t
+320302	211025	t
+320302	214027	t
+320302	104028	t
+320302	1031	t
+320302	109032	t
+320306	211009	t
+320306	211012	t
+320306	214027	t
+320306	104028	t
+320306	109032	t
+320308	211009	t
+320308	211011	t
+320308	212018	t
+320308	212019	t
+320308	212021	t
+320308	212022	t
+320308	211026	t
+320308	214027	t
+320308	104028	t
+320308	109032	t
+320308	105033	t
+210208	211009	t
+210208	214027	t
+210208	104028	t
+210208	109032	t
+210210	211009	t
+210210	212018	t
+210210	211026	t
+210210	214027	t
+210210	104028	t
+210210	109032	t
+210205	211009	t
+210205	211010	t
+210205	214027	t
+210205	104028	t
+210205	109032	t
+210204	211009	t
+210204	211010	t
+210204	214027	t
+210204	104028	t
+210204	109032	t
+210206	211009	t
+210206	214027	t
+210206	104028	t
+210206	109032	t
+210211	214027	t
+210203	211000	t
+210203	211009	t
+210203	211010	t
+210203	211015	t
+210203	212019	t
+210203	212021	t
+210203	211024	t
+210203	211025	t
+210203	214027	t
+210203	104028	t
+210203	1031	t
+210203	109032	t
+210207	211009	t
+210207	211012	t
+210207	214027	t
+210207	104028	t
+210207	109032	t
+210209	211009	t
+210209	211011	t
+210209	212018	t
+210209	212019	t
+210209	212021	t
+210209	212022	t
+210209	211026	t
+210209	214027	t
+210209	104028	t
+210209	109032	t
+210209	105033	t
+10028	211009	t
+10028	214027	t
+10028	104028	t
+10028	109032	t
+10030	211009	t
+10030	212018	t
+10030	211026	t
+10030	214027	t
+10030	104028	t
+10030	109032	t
+10025	211009	t
+10025	211010	t
+10025	214027	t
+10025	104028	t
+10025	109032	t
+10024	211009	t
+10024	211010	t
+10024	214027	t
+10024	104028	t
+10024	109032	t
+10026	211009	t
+10026	214027	t
+10026	104028	t
+10026	109032	t
+10031	214027	t
+10023	211000	t
+10023	211009	t
+10023	211010	t
+10023	211015	t
+10023	212019	t
+10023	212021	t
+10023	211024	t
+10023	211025	t
+10023	214027	t
+10023	104028	t
+10023	1031	t
+10023	109032	t
+10027	211009	t
+10027	211012	t
+10027	214027	t
+10027	104028	t
+10027	109032	t
+10029	211009	t
+10029	211011	t
+10029	212018	t
+10029	212019	t
+10029	212021	t
+10029	212022	t
+10029	211026	t
+10029	214027	t
+10029	104028	t
+10029	109032	t
+10029	105033	t
+370352	211009	t
+370352	214027	t
+370352	104028	t
+370352	109032	t
+370354	211009	t
+370354	212018	t
+370354	211026	t
+370354	214027	t
+370354	104028	t
+370354	109032	t
+370349	211009	t
+370349	211010	t
+370349	214027	t
+370349	104028	t
+370349	109032	t
+370348	211009	t
+370348	211010	t
+370348	214027	t
+370348	104028	t
+370348	109032	t
+370350	211009	t
+370350	214027	t
+370350	104028	t
+370350	109032	t
+370355	214027	t
 370347	211000	t
 370347	211009	t
 370347	211010	t
@@ -7222,29 +7082,11 @@ COPY public.organizationaccesscontrol (role, functionality, isallowed) FROM stdi
 370347	104028	t
 370347	1031	t
 370347	109032	t
-370348	211009	t
-370348	211010	t
-370348	214027	t
-370348	104028	t
-370348	109032	t
-370349	211009	t
-370349	211010	t
-370349	214027	t
-370349	104028	t
-370349	109032	t
-370350	211009	t
-370350	214027	t
-370350	104028	t
-370350	109032	t
 370351	211009	t
 370351	211012	t
 370351	214027	t
 370351	104028	t
 370351	109032	t
-370352	211009	t
-370352	214027	t
-370352	104028	t
-370352	109032	t
 370353	211009	t
 370353	211011	t
 370353	212018	t
@@ -7256,13 +7098,826 @@ COPY public.organizationaccesscontrol (role, functionality, isallowed) FROM stdi
 370353	104028	t
 370353	109032	t
 370353	105033	t
-370354	211009	t
-370354	212018	t
-370354	211026	t
-370354	214027	t
-370354	104028	t
-370354	109032	t
-370355	214027	t
+20037	211009	t
+20037	214027	t
+20037	104028	t
+20037	109032	t
+20039	211009	t
+20039	212018	t
+20039	211026	t
+20039	214027	t
+20039	104028	t
+20039	109032	t
+20034	211009	t
+20034	211010	t
+20034	214027	t
+20034	104028	t
+20034	109032	t
+20033	211009	t
+20033	211010	t
+20033	214027	t
+20033	104028	t
+20033	109032	t
+20035	211009	t
+20035	214027	t
+20035	104028	t
+20035	109032	t
+20040	214027	t
+20032	211000	t
+20032	211009	t
+20032	211010	t
+20032	211015	t
+20032	212019	t
+20032	212021	t
+20032	211024	t
+20032	211025	t
+20032	214027	t
+20032	104028	t
+20032	1031	t
+20032	109032	t
+20036	211009	t
+20036	211012	t
+20036	214027	t
+20036	104028	t
+20036	109032	t
+20038	211009	t
+20038	211011	t
+20038	212018	t
+20038	212019	t
+20038	212021	t
+20038	212022	t
+20038	211026	t
+20038	214027	t
+20038	104028	t
+20038	109032	t
+20038	105033	t
+110118	211009	t
+110118	214027	t
+110118	104028	t
+110118	109032	t
+110120	211009	t
+110120	212018	t
+110120	211026	t
+110120	214027	t
+110120	104028	t
+110120	109032	t
+110115	211009	t
+110115	211010	t
+110115	214027	t
+110115	104028	t
+110115	109032	t
+110114	211009	t
+110114	211010	t
+110114	214027	t
+110114	104028	t
+110114	109032	t
+110116	211009	t
+110116	214027	t
+110116	104028	t
+110116	109032	t
+110121	214027	t
+110113	211000	t
+110113	211009	t
+110113	211010	t
+110113	211015	t
+110113	212019	t
+110113	212021	t
+110113	211024	t
+110113	211025	t
+110113	214027	t
+110113	104028	t
+110113	1031	t
+110113	109032	t
+110117	211009	t
+110117	211012	t
+110117	214027	t
+110117	104028	t
+110117	109032	t
+110119	211009	t
+110119	211011	t
+110119	212018	t
+110119	212019	t
+110119	212021	t
+110119	212022	t
+110119	211026	t
+110119	214027	t
+110119	104028	t
+110119	109032	t
+110119	105033	t
+220217	211009	t
+220217	214027	t
+220217	104028	t
+220217	109032	t
+220219	211009	t
+220219	212018	t
+220219	211026	t
+220219	214027	t
+220219	104028	t
+220219	109032	t
+220214	211009	t
+220214	211010	t
+220214	214027	t
+220214	104028	t
+220214	109032	t
+220213	211009	t
+220213	211010	t
+220213	214027	t
+220213	104028	t
+220213	109032	t
+220215	211009	t
+220215	214027	t
+220215	104028	t
+220215	109032	t
+220220	214027	t
+220212	211000	t
+220212	211009	t
+220212	211010	t
+220212	211015	t
+220212	212019	t
+220212	212021	t
+220212	211024	t
+220212	211025	t
+220212	214027	t
+220212	104028	t
+220212	1031	t
+220212	109032	t
+220216	211009	t
+220216	211012	t
+220216	214027	t
+220216	104028	t
+220216	109032	t
+220218	211009	t
+220218	211011	t
+220218	212018	t
+220218	212019	t
+220218	212021	t
+220218	212022	t
+220218	211026	t
+220218	214027	t
+220218	104028	t
+220218	109032	t
+220218	105033	t
+120127	211009	t
+120127	214027	t
+120127	104028	t
+120127	109032	t
+120129	211009	t
+120129	212018	t
+120129	211026	t
+120129	214027	t
+120129	104028	t
+120129	109032	t
+120124	211009	t
+120124	211010	t
+120124	214027	t
+120124	104028	t
+120124	109032	t
+120123	211009	t
+120123	211010	t
+120123	214027	t
+120123	104028	t
+120123	109032	t
+120125	211009	t
+120125	214027	t
+120125	104028	t
+120125	109032	t
+120130	214027	t
+120122	211000	t
+120122	211009	t
+120122	211010	t
+120122	211015	t
+120122	212019	t
+120122	212021	t
+120122	211024	t
+120122	211025	t
+120122	214027	t
+120122	104028	t
+120122	1031	t
+120122	109032	t
+120126	211009	t
+120126	211012	t
+120126	214027	t
+120126	104028	t
+120126	109032	t
+120128	211009	t
+120128	211011	t
+120128	212018	t
+120128	212019	t
+120128	212021	t
+120128	212022	t
+120128	211026	t
+120128	214027	t
+120128	104028	t
+120128	109032	t
+120128	105033	t
+30046	211009	t
+30046	214027	t
+30046	104028	t
+30046	109032	t
+30048	211009	t
+30048	212018	t
+30048	211026	t
+30048	214027	t
+30048	104028	t
+30048	109032	t
+30043	211009	t
+30043	211010	t
+30043	214027	t
+30043	104028	t
+30043	109032	t
+30042	211009	t
+30042	211010	t
+30042	214027	t
+30042	104028	t
+30042	109032	t
+30044	211009	t
+30044	214027	t
+30044	104028	t
+30044	109032	t
+30049	214027	t
+30041	211000	t
+30041	211009	t
+30041	211010	t
+30041	211015	t
+30041	212019	t
+30041	212021	t
+30041	211024	t
+30041	211025	t
+30041	214027	t
+30041	104028	t
+30041	1031	t
+30041	109032	t
+30045	211009	t
+30045	211012	t
+30045	214027	t
+30045	104028	t
+30045	109032	t
+30047	211009	t
+30047	211011	t
+30047	212018	t
+30047	212019	t
+30047	212021	t
+30047	212022	t
+30047	211026	t
+30047	214027	t
+30047	104028	t
+30047	109032	t
+30047	105033	t
+230226	211009	t
+230226	214027	t
+230226	104028	t
+230226	109032	t
+230228	211009	t
+230228	212018	t
+230228	211026	t
+230228	214027	t
+230228	104028	t
+230228	109032	t
+230223	211009	t
+230223	211010	t
+230223	214027	t
+230223	104028	t
+230223	109032	t
+230222	211009	t
+230222	211010	t
+230222	214027	t
+230222	104028	t
+230222	109032	t
+230224	211009	t
+230224	214027	t
+230224	104028	t
+230224	109032	t
+230229	214027	t
+230221	211000	t
+230221	211009	t
+230221	211010	t
+230221	211015	t
+230221	212019	t
+230221	212021	t
+230221	211024	t
+230221	211025	t
+230221	214027	t
+230221	104028	t
+230221	1031	t
+230221	109032	t
+230225	211009	t
+230225	211012	t
+230225	214027	t
+230225	104028	t
+230225	109032	t
+230227	211009	t
+230227	211011	t
+230227	212018	t
+230227	212019	t
+230227	212021	t
+230227	212022	t
+230227	211026	t
+230227	214027	t
+230227	104028	t
+230227	109032	t
+230227	105033	t
+80091	211009	t
+80091	214027	t
+80091	104028	t
+80091	109032	t
+80093	211009	t
+80093	212018	t
+80093	211026	t
+80093	214027	t
+80093	104028	t
+80093	109032	t
+80088	211009	t
+80088	211010	t
+80088	214027	t
+80088	104028	t
+80088	109032	t
+80087	211009	t
+80087	211010	t
+80087	214027	t
+80087	104028	t
+80087	109032	t
+80089	211009	t
+80089	214027	t
+80089	104028	t
+80089	109032	t
+80094	214027	t
+80086	211000	t
+80086	211009	t
+80086	211010	t
+80086	211015	t
+80086	212019	t
+80086	212021	t
+80086	211024	t
+80086	211025	t
+80086	214027	t
+80086	104028	t
+80086	1031	t
+80086	109032	t
+80090	211009	t
+80090	211012	t
+80090	214027	t
+80090	104028	t
+80090	109032	t
+80092	211009	t
+80092	211011	t
+80092	212018	t
+80092	212019	t
+80092	212021	t
+80092	212022	t
+80092	211026	t
+80092	214027	t
+80092	104028	t
+80092	109032	t
+80092	105033	t
+260253	211009	t
+260253	214027	t
+260253	104028	t
+260253	109032	t
+260255	211009	t
+260255	212018	t
+260255	211026	t
+260255	214027	t
+260255	104028	t
+260255	109032	t
+260250	211009	t
+260250	211010	t
+260250	214027	t
+260250	104028	t
+260250	109032	t
+260249	211009	t
+260249	211010	t
+260249	214027	t
+260249	104028	t
+260249	109032	t
+260251	211009	t
+260251	214027	t
+260251	104028	t
+260251	109032	t
+260256	214027	t
+260248	211000	t
+260248	211009	t
+260248	211010	t
+260248	211015	t
+260248	212019	t
+260248	212021	t
+260248	211024	t
+260248	211025	t
+260248	214027	t
+260248	104028	t
+260248	1031	t
+260248	109032	t
+260252	211009	t
+260252	211012	t
+260252	214027	t
+260252	104028	t
+260252	109032	t
+260254	211009	t
+260254	211011	t
+260254	212018	t
+260254	212019	t
+260254	212021	t
+260254	212022	t
+260254	211026	t
+260254	214027	t
+260254	104028	t
+260254	109032	t
+260254	105033	t
+330316	211009	t
+330316	214027	t
+330316	104028	t
+330316	109032	t
+330318	211009	t
+330318	212018	t
+330318	211026	t
+330318	214027	t
+330318	104028	t
+330318	109032	t
+330313	211009	t
+330313	211010	t
+330313	214027	t
+330313	104028	t
+330313	109032	t
+330312	211009	t
+330312	211010	t
+330312	214027	t
+330312	104028	t
+330312	109032	t
+330314	211009	t
+330314	214027	t
+330314	104028	t
+330314	109032	t
+330319	214027	t
+330311	211000	t
+330311	211009	t
+330311	211010	t
+330311	211015	t
+330311	212019	t
+330311	212021	t
+330311	211024	t
+330311	211025	t
+330311	214027	t
+330311	104028	t
+330311	1031	t
+330311	109032	t
+330315	211009	t
+330315	211012	t
+330315	214027	t
+330315	104028	t
+330315	109032	t
+330317	211009	t
+330317	211011	t
+330317	212018	t
+330317	212019	t
+330317	212021	t
+330317	212022	t
+330317	211026	t
+330317	214027	t
+330317	104028	t
+330317	109032	t
+330317	105033	t
+250244	211009	t
+250244	214027	t
+250244	104028	t
+250244	109032	t
+250246	211009	t
+250246	212018	t
+250246	211026	t
+250246	214027	t
+250246	104028	t
+250246	109032	t
+250241	211009	t
+250241	211010	t
+250241	214027	t
+250241	104028	t
+250241	109032	t
+250240	211009	t
+250240	211010	t
+250240	214027	t
+250240	104028	t
+250240	109032	t
+250242	211009	t
+250242	214027	t
+250242	104028	t
+250242	109032	t
+250247	214027	t
+250239	211000	t
+250239	211009	t
+250239	211010	t
+250239	211015	t
+250239	212019	t
+250239	212021	t
+250239	211024	t
+250239	211025	t
+250239	214027	t
+250239	104028	t
+250239	1031	t
+250239	109032	t
+250243	211009	t
+250243	211012	t
+250243	214027	t
+250243	104028	t
+250243	109032	t
+250245	211009	t
+250245	211011	t
+250245	212018	t
+250245	212019	t
+250245	212021	t
+250245	212022	t
+250245	211026	t
+250245	214027	t
+250245	104028	t
+250245	109032	t
+250245	105033	t
+40055	211009	t
+40055	214027	t
+40055	104028	t
+40055	109032	t
+40057	211009	t
+40057	212018	t
+40057	211026	t
+40057	214027	t
+40057	104028	t
+40057	109032	t
+40052	211009	t
+40052	211010	t
+40052	214027	t
+40052	104028	t
+40052	109032	t
+40051	211009	t
+40051	211010	t
+40051	214027	t
+40051	104028	t
+40051	109032	t
+40053	211009	t
+40053	214027	t
+40053	104028	t
+40053	109032	t
+40058	214027	t
+40050	211000	t
+40050	211009	t
+40050	211010	t
+40050	211015	t
+40050	212019	t
+40050	212021	t
+40050	211024	t
+40050	211025	t
+40050	214027	t
+40050	104028	t
+40050	1031	t
+40050	109032	t
+40054	211009	t
+40054	211012	t
+40054	214027	t
+40054	104028	t
+40054	109032	t
+40056	211009	t
+40056	211011	t
+40056	212018	t
+40056	212019	t
+40056	212021	t
+40056	212022	t
+40056	211026	t
+40056	214027	t
+40056	104028	t
+40056	109032	t
+40056	105033	t
+270262	211009	t
+270262	214027	t
+270262	104028	t
+270262	109032	t
+270264	211009	t
+270264	212018	t
+270264	211026	t
+270264	214027	t
+270264	104028	t
+270264	109032	t
+270259	211009	t
+270259	211010	t
+270259	214027	t
+270259	104028	t
+270259	109032	t
+270258	211009	t
+270258	211010	t
+270258	214027	t
+270258	104028	t
+270258	109032	t
+270260	211009	t
+270260	214027	t
+270260	104028	t
+270260	109032	t
+270265	214027	t
+270257	211000	t
+270257	211009	t
+270257	211010	t
+270257	211015	t
+270257	212019	t
+270257	212021	t
+270257	211024	t
+270257	211025	t
+270257	214027	t
+270257	104028	t
+270257	1031	t
+270257	109032	t
+270261	211009	t
+270261	211012	t
+270261	214027	t
+270261	104028	t
+270261	109032	t
+270263	211009	t
+270263	211011	t
+270263	212018	t
+270263	212019	t
+270263	212021	t
+270263	212022	t
+270263	211026	t
+270263	214027	t
+270263	104028	t
+270263	109032	t
+270263	105033	t
+90100	211009	t
+90100	214027	t
+90100	104028	t
+90100	109032	t
+90102	211009	t
+90102	212018	t
+90102	211026	t
+90102	214027	t
+90102	104028	t
+90102	109032	t
+90097	211009	t
+90097	211010	t
+90097	214027	t
+90097	104028	t
+90097	109032	t
+90096	211009	t
+90096	211010	t
+90096	214027	t
+90096	104028	t
+90096	109032	t
+90098	211009	t
+90098	214027	t
+90098	104028	t
+90098	109032	t
+90103	214027	t
+90095	211000	t
+90095	211009	t
+90095	211010	t
+90095	211015	t
+90095	212019	t
+90095	212021	t
+90095	211024	t
+90095	211025	t
+90095	214027	t
+90095	104028	t
+90095	1031	t
+90095	109032	t
+90099	211009	t
+90099	211012	t
+90099	214027	t
+90099	104028	t
+90099	109032	t
+90101	211009	t
+90101	211011	t
+90101	212018	t
+90101	212019	t
+90101	212021	t
+90101	212022	t
+90101	211026	t
+90101	214027	t
+90101	104028	t
+90101	109032	t
+90101	105033	t
+60073	211009	t
+60073	214027	t
+60073	104028	t
+60073	109032	t
+60075	211009	t
+60075	212018	t
+60075	211026	t
+60075	214027	t
+60075	104028	t
+60075	109032	t
+60070	211009	t
+60070	211010	t
+60070	214027	t
+60070	104028	t
+60070	109032	t
+60069	211009	t
+60069	211010	t
+60069	214027	t
+60069	104028	t
+60069	109032	t
+60071	211009	t
+60071	214027	t
+60071	104028	t
+60071	109032	t
+60076	214027	t
+60068	211000	t
+60068	211009	t
+60068	211010	t
+60068	211015	t
+60068	212019	t
+60068	212021	t
+60068	211024	t
+60068	211025	t
+60068	214027	t
+60068	104028	t
+60068	1031	t
+60068	109032	t
+60072	211009	t
+60072	211012	t
+60072	214027	t
+60072	104028	t
+60072	109032	t
+60074	211009	t
+60074	211011	t
+60074	212018	t
+60074	212019	t
+60074	212021	t
+60074	212022	t
+60074	211026	t
+60074	214027	t
+60074	104028	t
+60074	109032	t
+60074	105033	t
+130136	211009	t
+130136	214027	t
+130136	104028	t
+130136	109032	t
+130138	211009	t
+130138	212018	t
+130138	211026	t
+130138	214027	t
+130138	104028	t
+130138	109032	t
+130133	211009	t
+130133	211010	t
+130133	214027	t
+130133	104028	t
+130133	109032	t
+130132	211009	t
+130132	211010	t
+130132	214027	t
+130132	104028	t
+130132	109032	t
+130134	211009	t
+130134	214027	t
+130134	104028	t
+130134	109032	t
+130139	214027	t
+130131	211000	t
+130131	211009	t
+130131	211010	t
+130131	211015	t
+130131	212019	t
+130131	212021	t
+130131	211024	t
+130131	211025	t
+130131	214027	t
+130131	104028	t
+130131	1031	t
+130131	109032	t
+130135	211009	t
+130135	211012	t
+130135	214027	t
+130135	104028	t
+130135	109032	t
+130137	211009	t
+130137	211011	t
+130137	212018	t
+130137	212019	t
+130137	212021	t
+130137	212022	t
+130137	211026	t
+130137	214027	t
+130137	104028	t
+130137	109032	t
+130137	105033	t
+380361	211009	t
+380361	214027	t
+380361	104028	t
+380361	109032	t
+380363	211009	t
+380363	212018	t
+380363	211026	t
+380363	214027	t
+380363	104028	t
+380363	109032	t
+380358	211009	t
+380358	211010	t
+380358	214027	t
+380358	104028	t
+380358	109032	t
+380357	211009	t
+380357	211010	t
+380357	214027	t
+380357	104028	t
+380357	109032	t
+380359	211009	t
+380359	214027	t
+380359	104028	t
+380359	109032	t
+380364	214027	t
 380356	211000	t
 380356	211009	t
 380356	211010	t
@@ -7275,29 +7930,11 @@ COPY public.organizationaccesscontrol (role, functionality, isallowed) FROM stdi
 380356	104028	t
 380356	1031	t
 380356	109032	t
-380357	211009	t
-380357	211010	t
-380357	214027	t
-380357	104028	t
-380357	109032	t
-380358	211009	t
-380358	211010	t
-380358	214027	t
-380358	104028	t
-380358	109032	t
-380359	211009	t
-380359	214027	t
-380359	104028	t
-380359	109032	t
 380360	211009	t
 380360	211012	t
 380360	214027	t
 380360	104028	t
 380360	109032	t
-380361	211009	t
-380361	214027	t
-380361	104028	t
-380361	109032	t
 380362	211009	t
 380362	211011	t
 380362	212018	t
@@ -7309,13 +7946,6 @@ COPY public.organizationaccesscontrol (role, functionality, isallowed) FROM stdi
 380362	104028	t
 380362	109032	t
 380362	105033	t
-380363	211009	t
-380363	212018	t
-380363	211026	t
-380363	214027	t
-380363	104028	t
-380363	109032	t
-380364	214027	t
 \.
 
 
@@ -7341,6 +7971,24 @@ COPY public.organizationfacultyadviser (id, organization, faculty, yearid) FROM 
 2	1	2011112	20172018
 3	38	2011111	20172018
 4	38	2011112	20172018
+5	10	2011111	20172018
+6	10	2011112	20172018
+7	11	2011111	20172018
+8	11	2011112	20172018
+9	12	2011111	20172018
+10	12	2011112	20172018
+11	13	2011111	20172018
+12	13	2011112	20172018
+13	14	2011111	20172018
+14	14	2011112	20172018
+15	15	2011111	20172018
+16	15	2011112	20172018
+17	16	2011111	20172018
+18	16	2011112	20172018
+19	17	2011111	20172018
+20	17	2011112	20172018
+21	18	2011111	20172018
+22	18	2011112	20172018
 \.
 
 
@@ -7361,92 +8009,92 @@ COPY public.organizationnature (id, name, acronym) FROM stdin;
 --
 
 COPY public.organizationofficer (idnumber, role, yearid, dateassigned, isactive) FROM stdin;
-1111111	10023	20172018	2018-04-10 17:15:55.191515+08	t
-1111112	10026	20172018	2018-04-10 17:15:55.191515+08	t
-1111113	10027	20172018	2018-04-10 17:15:55.191515+08	t
-1111114	10028	20172018	2018-04-10 17:15:55.191515+08	t
-1111115	10029	20172018	2018-04-10 17:15:55.191515+08	t
-1111116	10030	20172018	2018-04-10 17:15:55.191515+08	t
-2111111	380356	20172018	2018-04-10 17:15:55.191515+08	t
-2111112	380359	20172018	2018-04-10 17:15:55.191515+08	t
-2111113	380360	20172018	2018-04-10 17:15:55.191515+08	t
-2111114	380361	20172018	2018-04-10 17:15:55.191515+08	t
-2111115	380362	20172018	2018-04-10 17:15:55.191515+08	t
-2111116	380363	20172018	2018-04-10 17:15:55.191515+08	t
-3111111	100104	20172018	2018-04-10 17:15:55.191515+08	t
-3111112	100107	20172018	2018-04-10 17:15:55.191515+08	t
-3111113	100106	20172018	2018-04-10 17:15:55.191515+08	t
-3111114	100108	20172018	2018-04-10 17:15:55.191515+08	t
-3111115	100109	20172018	2018-04-10 17:15:55.191515+08	t
-3111116	100111	20172018	2018-04-10 17:15:55.191515+08	t
-4111111	110113	20172018	2018-04-10 17:15:55.191515+08	t
-4111112	110116	20172018	2018-04-10 17:15:55.191515+08	t
-4111113	110117	20172018	2018-04-10 17:15:55.191515+08	t
-4111114	110118	20172018	2018-04-10 17:15:55.191515+08	t
-4111115	110119	20172018	2018-04-10 17:15:55.191515+08	t
-4111116	110120	20172018	2018-04-10 17:15:55.191515+08	t
-5111111	120122	20172018	2018-04-10 17:15:55.191515+08	t
-5111112	120125	20172018	2018-04-10 17:15:55.191515+08	t
-5111113	120126	20172018	2018-04-10 17:15:55.191515+08	t
-5111114	120127	20172018	2018-04-10 17:15:55.191515+08	t
-5111115	120128	20172018	2018-04-10 17:15:55.191515+08	t
-5111116	120129	20172018	2018-04-10 17:15:55.191515+08	t
-6111111	130131	20172018	2018-04-10 17:15:55.191515+08	t
-6111112	130134	20172018	2018-04-10 17:15:55.191515+08	t
-6111113	130135	20172018	2018-04-10 17:15:55.191515+08	t
-6111114	130136	20172018	2018-04-10 17:15:55.191515+08	t
-6111115	130137	20172018	2018-04-10 17:15:55.191515+08	t
-6111116	130138	20172018	2018-04-10 17:15:55.191515+08	t
-7111111	140140	20172018	2018-04-10 17:15:55.191515+08	t
-7111112	140143	20172018	2018-04-10 17:15:55.191515+08	t
-7111113	140144	20172018	2018-04-10 17:15:55.191515+08	t
-7111114	140145	20172018	2018-04-10 17:15:55.191515+08	t
-7111115	140146	20172018	2018-04-10 17:15:55.191515+08	t
-7111116	140147	20172018	2018-04-10 17:15:55.191515+08	t
-8111111	150149	20172018	2018-04-10 17:15:55.191515+08	t
-8111112	150152	20172018	2018-04-10 17:15:55.191515+08	t
-8111113	150153	20172018	2018-04-10 17:15:55.191515+08	t
-8111114	150154	20172018	2018-04-10 17:15:55.191515+08	t
-8111115	150155	20172018	2018-04-10 17:15:55.191515+08	t
-8111116	150156	20172018	2018-04-10 17:15:55.191515+08	t
-9111111	160158	20172018	2018-04-10 17:15:55.191515+08	t
-9111112	160161	20172018	2018-04-10 17:15:55.191515+08	t
-9111113	160162	20172018	2018-04-10 17:15:55.191515+08	t
-9111114	160163	20172018	2018-04-10 17:15:55.191515+08	t
-9111115	160164	20172018	2018-04-10 17:15:55.191515+08	t
-9111116	160165	20172018	2018-04-10 17:15:55.191515+08	t
-10111111	170167	20172018	2018-04-10 17:15:55.191515+08	t
-10111112	170170	20172018	2018-04-10 17:15:55.191515+08	t
-10111113	170171	20172018	2018-04-10 17:15:55.191515+08	t
-10111114	170172	20172018	2018-04-10 17:15:55.191515+08	t
-10111115	170173	20172018	2018-04-10 17:15:55.191515+08	t
-10111116	170174	20172018	2018-04-10 17:15:55.191515+08	t
-11111111	180176	20172018	2018-04-10 17:15:55.191515+08	t
-11111112	180179	20172018	2018-04-10 17:15:55.191515+08	t
-11111113	180180	20172018	2018-04-10 17:15:55.191515+08	t
-11111114	180181	20172018	2018-04-10 17:15:55.191515+08	t
-11111115	180182	20172018	2018-04-10 17:15:55.191515+08	t
-11111116	180183	20172018	2018-04-10 17:15:55.191515+08	t
-1011117	0	20172018	2018-04-10 17:15:55.191515+08	t
-1011118	2	20172018	2018-04-10 17:15:55.191515+08	t
-1011119	11	20172018	2018-04-10 17:15:55.191515+08	t
-1011120	12	20172018	2018-04-10 17:15:55.191515+08	t
-1011121	13	20172018	2018-04-10 17:15:55.191515+08	t
-1011122	14	20172018	2018-04-10 17:15:55.191515+08	t
-1011123	15	20172018	2018-04-10 17:15:55.191515+08	t
-1011124	16	20172018	2018-04-10 17:15:55.191515+08	t
-1011125	17	20172018	2018-04-10 17:15:55.191515+08	t
-1011126	18	20172018	2018-04-10 17:15:55.191515+08	t
-1011127	19	20172018	2018-04-10 17:15:55.191515+08	t
-1011128	10	20172018	2018-04-10 17:15:55.191515+08	t
-1011129	21	20172018	2018-04-10 17:15:55.191515+08	t
-1011130	22	20172018	2018-04-10 17:15:55.191515+08	t
-1011131	8	20172018	2018-04-10 17:15:55.191515+08	t
-1011132	9	20172018	2018-04-10 17:15:55.191515+08	t
-1011133	10	20172018	2018-04-10 17:15:55.191515+08	t
-1011134	5	20172018	2018-04-10 17:15:55.191515+08	t
-1011135	6	20172018	2018-04-10 17:15:55.191515+08	t
-1011136	7	20172018	2018-04-10 17:15:55.191515+08	t
+1111111	10023	20172018	2018-01-10 23:03:08.913856+08	t
+1111112	10026	20172018	2018-01-10 23:03:08.913856+08	t
+1111113	10027	20172018	2018-01-10 23:03:08.913856+08	t
+1111114	10028	20172018	2018-01-10 23:03:08.913856+08	t
+1111115	10029	20172018	2018-01-10 23:03:08.913856+08	t
+1111116	10030	20172018	2018-01-10 23:03:08.913856+08	t
+2111111	380356	20172018	2018-01-10 23:03:08.913856+08	t
+2111112	380359	20172018	2018-01-10 23:03:08.913856+08	t
+2111113	380360	20172018	2018-01-10 23:03:08.913856+08	t
+2111114	380361	20172018	2018-01-10 23:03:08.913856+08	t
+2111115	380362	20172018	2018-01-10 23:03:08.913856+08	t
+2111116	380363	20172018	2018-01-10 23:03:08.913856+08	t
+3111111	100104	20172018	2018-01-10 23:03:08.913856+08	t
+3111112	100107	20172018	2018-01-10 23:03:08.913856+08	t
+3111113	100108	20172018	2018-01-10 23:03:08.913856+08	t
+3111114	100109	20172018	2018-01-10 23:03:08.913856+08	t
+3111115	100110	20172018	2018-01-10 23:03:08.913856+08	t
+3111116	100111	20172018	2018-01-10 23:03:08.913856+08	t
+4111111	110113	20172018	2018-01-10 23:03:08.913856+08	t
+4111112	110116	20172018	2018-01-10 23:03:08.913856+08	t
+4111113	110117	20172018	2018-01-10 23:03:08.913856+08	t
+4111114	110118	20172018	2018-01-10 23:03:08.913856+08	t
+4111115	110119	20172018	2018-01-10 23:03:08.913856+08	t
+4111116	110120	20172018	2018-01-10 23:03:08.913856+08	t
+5111111	120122	20172018	2018-01-10 23:03:08.913856+08	t
+5111112	120125	20172018	2018-01-10 23:03:08.913856+08	t
+5111113	120126	20172018	2018-01-10 23:03:08.913856+08	t
+5111114	120127	20172018	2018-01-10 23:03:08.913856+08	t
+5111115	120128	20172018	2018-01-10 23:03:08.913856+08	t
+5111116	120129	20172018	2018-01-10 23:03:08.913856+08	t
+6111111	130131	20172018	2018-01-10 23:03:08.913856+08	t
+6111112	130134	20172018	2018-01-10 23:03:08.913856+08	t
+6111113	130135	20172018	2018-01-10 23:03:08.913856+08	t
+6111114	130136	20172018	2018-01-10 23:03:08.913856+08	t
+6111115	130137	20172018	2018-01-10 23:03:08.913856+08	t
+6111116	130138	20172018	2018-01-10 23:03:08.913856+08	t
+7111111	140140	20172018	2018-01-10 23:03:08.913856+08	t
+7111112	140143	20172018	2018-01-10 23:03:08.913856+08	t
+7111113	140144	20172018	2018-01-10 23:03:08.913856+08	t
+7111114	140145	20172018	2018-01-10 23:03:08.913856+08	t
+7111115	140146	20172018	2018-01-10 23:03:08.913856+08	t
+7111116	140147	20172018	2018-01-10 23:03:08.913856+08	t
+8111111	150149	20172018	2018-01-10 23:03:08.913856+08	t
+8111112	150152	20172018	2018-01-10 23:03:08.913856+08	t
+8111113	150153	20172018	2018-01-10 23:03:08.913856+08	t
+8111114	150154	20172018	2018-01-10 23:03:08.913856+08	t
+8111115	150155	20172018	2018-01-10 23:03:08.913856+08	t
+8111116	150156	20172018	2018-01-10 23:03:08.913856+08	t
+9111111	160158	20172018	2018-01-10 23:03:08.913856+08	t
+9111112	160161	20172018	2018-01-10 23:03:08.913856+08	t
+9111113	160162	20172018	2018-01-10 23:03:08.913856+08	t
+9111114	160163	20172018	2018-01-10 23:03:08.913856+08	t
+9111115	160164	20172018	2018-01-10 23:03:08.913856+08	t
+9111116	160165	20172018	2018-01-10 23:03:08.913856+08	t
+10111111	170167	20172018	2018-01-10 23:03:08.913856+08	t
+10111112	170170	20172018	2018-01-10 23:03:08.913856+08	t
+10111113	170171	20172018	2018-01-10 23:03:08.913856+08	t
+10111114	170172	20172018	2018-01-10 23:03:08.913856+08	t
+10111115	170173	20172018	2018-01-10 23:03:08.913856+08	t
+10111116	170174	20172018	2018-01-10 23:03:08.913856+08	t
+11111111	180176	20172018	2018-01-10 23:03:08.913856+08	t
+11111112	180179	20172018	2018-01-10 23:03:08.913856+08	t
+11111113	180180	20172018	2018-01-10 23:03:08.913856+08	t
+11111114	180181	20172018	2018-01-10 23:03:08.913856+08	t
+11111115	180182	20172018	2018-01-10 23:03:08.913856+08	t
+11111116	180183	20172018	2018-01-10 23:03:08.913856+08	t
+1011117	0	20172018	2018-01-10 23:03:08.913856+08	t
+1011118	2	20172018	2018-01-10 23:03:08.913856+08	t
+1011119	11	20172018	2018-01-10 23:03:08.913856+08	t
+1011120	12	20172018	2018-01-10 23:03:08.913856+08	t
+1011121	13	20172018	2018-01-10 23:03:08.913856+08	t
+1011122	14	20172018	2018-01-10 23:03:08.913856+08	t
+1011123	15	20172018	2018-01-10 23:03:08.913856+08	t
+1011124	16	20172018	2018-01-10 23:03:08.913856+08	t
+1011125	17	20172018	2018-01-10 23:03:08.913856+08	t
+1011126	18	20172018	2018-01-10 23:03:08.913856+08	t
+1011127	19	20172018	2018-01-10 23:03:08.913856+08	t
+1011128	10	20172018	2018-01-10 23:03:08.913856+08	t
+1011129	21	20172018	2018-01-10 23:03:08.913856+08	t
+1011130	22	20172018	2018-01-10 23:03:08.913856+08	t
+1011131	8	20172018	2018-01-10 23:03:08.913856+08	t
+1011132	9	20172018	2018-01-10 23:03:08.913856+08	t
+1011133	10	20172018	2018-01-10 23:03:08.913856+08	t
+1011134	5	20172018	2018-01-10 23:03:08.913856+08	t
+1011135	6	20172018	2018-01-10 23:03:08.913856+08	t
+1011136	7	20172018	2018-01-10 23:03:08.913856+08	t
 \.
 
 
@@ -7874,6 +8522,56 @@ COPY public.preactivityattachmentrequirement (id, activitytype, attachment, opti
 --
 
 COPY public.projectproposal (id, gosmactivity, status, enp, enmp, actualdatestart, actualdateend, venue, context1, context2, context3, isexpense, sourcefundother, sourcefundparticipantfee, sourcefundorganizational, accumulatedoperationalfunds, accumulateddepositoryfunds, organizationfundothersource, comments, preparedby, facultyadviser, datecreated, datesubmitted, datestatusmodified, isattachmentscomplete, isbriefcontextcomplete, isexpensecomplete, isprogramcomplete, reschedulereason, reschedreasonother, rescheduledates, reschedrejectreason, timespended, venuefilename, venuefilenametoshow, venuecreated) FROM stdin;
+14	27	2	25	21	2018-02-15	2018-02-15	2	La Sallians are ignorant of going green	Because of socio-economic problems	The very best I can do	t	0.00	0.00	30.00	0.00	308400.00	0.00	\N	7111114	2011112	2018-01-10 21:54:00.231019+08	2018-01-10 22:00:41.2196+08	\N	t	t	t	t	\N	\N	\N		0	\N	\N	\N
+6	65	2	23	20	2018-02-14	2018-02-14	0	Students do not know the basics of Corporate Social Responsibility.	There is a problem because CSR is important with the proper functioning of organizations. By knowing the basics of CSR, participants will discover and realize the practical applications of CSR.	The project heads will be giving their undivided attention towards the completion of this project.	t	0.00	0.00	3500.00	0.00	343854.00	0.00	\N	10111114	2011111	2018-01-10 21:13:59.13507+08	2018-01-10 21:47:44.190732+08	\N	t	t	t	t	\N	\N	\N		0	\N	\N	\N
+16	2	2	10	10	2018-01-26	2018-01-26	0	Insufficient nook supplies	Org people need those	seminar	t	0.00	0.00	1000.00	0.00	337467.00	0.00	\N	1111114	2011111	2018-01-10 21:58:09.071952+08	2018-01-10 21:59:38.469082+08	\N	t	t	t	t	\N	\N	\N		0	\N	\N	\N
+10	30	2	10	10	2018-01-16	2018-01-16	0	They dont know how to use firebase	they can doo better	seminar	t	0.00	0.00	190.00	0.00	340657.00	0.00	\N	1111114	2011111	2018-01-10 21:48:46.998234+08	2018-01-10 21:50:15.86212+08	\N	t	t	t	t	\N	\N	\N		0	\N	\N	\N
+5	21	2	10	10	2018-02-15	2018-02-15	0	they lack c# skills	the more they know the better	seminar	t	0.00	0.00	1900.00	0.00	342557.00	0.00	\N	1111114	2011111	2018-01-10 20:59:45.854887+08	2018-01-10 21:48:44.077825+08	\N	t	t	t	t	\N	\N	\N		0	\N	\N	\N
+13	11	2	15	15	2018-02-02	2018-02-02	49	The activity teaches students about Photoshop which could help translate what they want to portray. Photoshop enables them to have another way of expressing and visualizing their message.\r\n	There are always problems in terms of visualizing an idea or translating a message through a picture\r\n	This activity will teach the participants of the basics of Photoshop	t	0.00	0.00	2700.00	0.00	310644.00	0.00	\N	4111114	2011111	2018-01-10 21:53:30.591264+08	2018-01-10 21:58:54.062857+08	\N	t	t	t	t	\N	\N	\N		0	\N	\N	\N
+18	3	2	20	5	2018-01-11	2018-01-11	0	The lack of functioning members of society	Possibly ignorance	The very best that I have	t	0.00	0.00	1005.00	0.00	308370.00	0.00	\N	7111114	2011111	2018-01-10 22:01:53.151819+08	2018-01-10 22:29:17.011505+08	\N	t	t	t	t	\N	\N	\N		0	\N	\N	\N
+11	31	2	10	10	2018-02-18	2018-02-18	0	they need to be aware of the current trends	they can do better	convention	t	0.00	0.00	1000.00	0.00	340467.00	0.00	\N	1111114	2011111	2018-01-10 21:51:00.620963+08	2018-01-10 21:52:35.744671+08	\N	t	t	t	t	\N	\N	\N		0	\N	\N	\N
+12	1	2	10	10	2018-01-18	2018-01-18	0	They dont know what they want to become	time is being wasted	seminar	t	0.00	0.00	1000.00	0.00	339467.00	0.00	\N	1111114	2011111	2018-01-10 21:52:51.943583+08	2018-01-10 21:55:28.20484+08	\N	t	t	t	t	\N	\N	\N		0	\N	\N	\N
+7	7	2	20	20	2018-01-26	2018-01-26	25	The activity teaches students about Photoshop which could help translate what they want to portray. Photoshop enables them to have another way of expressing and visualizing their message.	There are always problems in terms of visualizing an idea or translating a message through a picture	This activity will teach the participants of the basics of Photoshop	t	0.00	0.00	3100.00	0.00	313744.00	0.00	\N	4111114	2011112	2018-01-10 21:22:23.57137+08	2018-01-10 21:53:13.013545+08	\N	t	t	t	t	\N	\N	\N		0	\N	\N	\N
+1	8	3	10	10	2018-02-02	2018-02-02	0	Inconsistent data	They dont collect data properly	Seminar	t	0.00	0.00	10.00	0.00	345567.00	0.00	\N	1111114	2011111	2018-01-10 20:57:16.735829+08	2018-01-10 21:32:28.682342+08	2018-01-10 22:33:49.412298+08	t	t	t	t	\N	\N	\N		0	\N	\N	\N
+8	24	2	15	15	2018-02-05	2018-02-05	0	People are ignorant of different cultures	To spread awares	My best	t	0.00	0.00	75.00	0.00	308475.00	0.00	\N	7111114	2011112	2018-01-10 21:45:36.030742+08	2018-01-10 21:53:54.928136+08	\N	t	t	t	t	\N	\N	\N		0	\N	\N	\N
+3	13	3	10	10	2018-02-12	2018-02-12	0	Bad UI design	Good UI means good User experience	Seminar	t	0.00	0.00	1000.00	0.00	343657.00	0.00	\N	1111114	2011111	2018-01-10 20:59:33.387539+08	2018-01-10 21:43:20.606937+08	2018-01-10 22:33:57.618223+08	t	t	t	t	\N	\N	\N		0	\N	\N	\N
+4	17	3	10	10	2018-02-13	2018-02-13	0	Competitive CCS	they become content	Competition	t	0.00	0.00	100.00	0.00	342657.00	0.00	\N	1111114	2011111	2018-01-10 20:59:40.704313+08	2018-01-10 21:45:19.240348+08	2018-01-10 22:34:03.785532+08	t	t	t	t	\N	\N	\N		0	\N	\N	\N
+2	10	4	10	10	2018-02-08	2018-02-08	0	Ugly pubs	People cant understand what they are promoting	Seminar	t	0.00	0.00	1900.00	0.00	345557.00	0.00	\N	1111114	2011111	2018-01-10 20:58:05.007698+08	2018-01-10 21:39:59.843029+08	2018-01-10 22:09:45.218794+08	t	t	f	t	\N	\N	\N		1	\N	\N	\N
+20	118	3	10	10	2018-01-25	2018-01-25	0	Camaraderie	Chaos	this general asssembly	t	0.00	0.00	1000.00	0.00	336467.00	0.00	\N	1111114	2011111	2018-01-10 22:16:16.591949+08	2018-01-10 22:17:56.740832+08	2018-01-10 22:34:14.743693+08	t	t	t	t	\N	\N	\N		0	\N	\N	\N
+9	70	2	40	40	2018-02-21	2018-02-21	0	Students having low grades due to them having limited notes on a course. 	There is a problem because during a class, students do not have the luxury to take note of everything that is being discussed inside the class	The project head will give its undivided attention regarding the completion of this project	t	0.00	0.00	900.00	0.00	340354.00	0.00	\N	10111114	2011111	2018-01-10 21:47:56.422256+08	2018-01-10 22:00:40.795121+08	\N	t	t	t	t	\N	\N	\N		0	\N	\N	\N
+15	6	3	10	10	2018-01-22	2018-01-22	0	some are computer illiterate	they dont know how to use computer	semianr	t	0.00	0.00	1000.00	0.00	337467.00	0.00	\N	1111114	2011111	2018-01-10 21:55:30.734074+08	2018-01-10 21:58:04.913559+08	2018-01-10 22:34:24.601347+08	t	t	t	t	\N	\N	\N		0	\N	\N	\N
+23	80	2	80	80	2018-02-28	2018-02-28	0	Students do not understand the different sociological perspectives that one uses in the Behavioral Sciences.	There is a problem because topics that are being tackled in History 2 do not have enough supplementary materials. 	This activity will allow the participants to be well-equipped regarding the topics that will be covered in HISTSO2. The project head will be coordinating with several faculties in order to gather the necessary lecture materials for the event.	t	0.00	0.00	1300.00	0.00	339054.00	0.00	\N	10111114	2011112	2018-01-10 22:18:08.947926+08	2018-01-10 22:25:45.116766+08	\N	t	t	t	t	\N	\N	\N		0	\N	\N	\N
+17	14	2	20	15	2018-03-09	2018-03-09	27	The activity teaches students about Photoshop which could help translate what they want to portray. Photoshop enables them to have another way of expressing and visualizing their message.\r\n	There are always problems in terms of visualizing an idea or translating a message through a picture\r\n	This activity will teach the participants of the basics of Photoshop	t	0.00	0.00	1200.00	0.00	307944.00	0.00	\N	4111114	2011111	2018-01-10 21:59:04.831732+08	2018-01-10 22:17:26.514056+08	\N	t	t	t	t	\N	\N	\N		0	\N	\N	\N
+21	23	1	\N	\N	\N	\N	\N	\N	\N	\N	t	\N	\N	\N	1428.00	0.00	\N	\N	4111114	\N	2018-01-10 22:17:47.448561+08	\N	\N	f	f	f	f	\N	\N	\N		0	\N	\N	\N
+24	29	2	20	20	2018-01-29	2018-01-29	16	Decrease quality of student leaders	Officers are not prepared enough for the position that they receive	The project heads will commit their undivided attention for the success of this project	t	0.00	0.00	1200.00	0.00	306744.00	0.00	\N	4111114	2011111	2018-01-10 22:18:24.427044+08	2018-01-10 22:33:47.22055+08	\N	t	t	t	t	\N	\N	\N		0	\N	\N	\N
+19	73	2	23	23	2018-01-22	2018-01-22	18	Students are not performing well in terms of research writing mainly due to them not understanding the classroom sessions well enough.	There is a problem because their performance regarding research writing will heavily affect the way they write their dissertations. Due to this, we can discover ways to prevent them from having poor performance by giving them the necessary tools in writing properly.	This activity will allow the participants to have a copy of what they usually discuss in class. Thus allowing them to study the lecture materials and have a better performance.	t	0.00	0.00	400.00	0.00	339454.00	0.00	\N	10111114	2011111	2018-01-10 22:09:20.750625+08	2018-01-10 22:18:01.759562+08	\N	t	t	t	t	\N	\N	\N		0	\N	\N	\N
+22	26	1	\N	\N	\N	\N	\N	\N	\N	\N	t	\N	\N	\N	1428.00	0.00	\N	\N	4111114	\N	2018-01-10 22:18:05.785216+08	\N	\N	f	f	f	f	\N	\N	\N		0	\N	\N	\N
+27	9	2	15	2	2018-01-22	2018-01-22	0	Not enough team building	Because of lack of team building	The best teambuilding this term would be given by me	t	0.00	0.00	5000.00	0.00	306741.00	0.00	\N	7111114	2011111	2018-01-10 22:30:50.970629+08	2018-01-10 22:34:08.224238+08	\N	t	t	t	t	\N	\N	\N		0	\N	\N	\N
+26	5	2	15	21	2018-01-15	2018-01-15	0	Unity of the organization	Because of need of additional activities to unite peoples	This activity will unite them by giving myself the best 	t	0.00	0.00	624.00	0.00	307365.00	0.00	\N	7111114	2011111	2018-01-10 22:25:58.457362+08	2018-01-10 22:30:42.936133+08	\N	t	t	t	t	\N	\N	\N		0	\N	\N	\N
+28	12	2	61	2	2018-01-18	2018-01-18	0	Waste is not recycled, it is wasted	People are ignorant on the waste of wastage	Communicate wastes	t	0.00	0.00	950.00	0.00	301741.00	0.00	\N	7111114	2011111	2018-01-10 22:30:51.675746+08	2018-01-10 23:13:13.973541+08	\N	t	t	t	t	\N	\N	\N		0	\N	\N	\N
+29	28	2	51	25	2018-01-22	2018-01-22	19	Engineers are ignorant of environmental concenrs	Not enough focus discussions on environment	The best of the environmentalist is to be offered	t	0.00	0.00	75.00	0.00	300791.00	0.00	\N	7111114	2011112	2018-01-10 22:30:52.342281+08	2018-01-10 23:18:31.222625+08	\N	t	t	t	t	\N	\N	\N		0	\N	\N	\N
+38	66	1	\N	\N	\N	\N	\N	\N	\N	\N	t	\N	\N	\N	1404.00	0.00	\N	\N	6111114	\N	2018-01-10 23:25:23.251115+08	\N	\N	f	f	f	f	\N	\N	\N		0	\N	\N	\N
+39	77	1	\N	\N	\N	\N	\N	\N	\N	\N	t	\N	\N	\N	1404.00	0.00	\N	\N	6111114	\N	2018-01-10 23:25:34.178058+08	\N	\N	f	f	f	f	\N	\N	\N		0	\N	\N	\N
+25	83	2	50	50	2018-03-02	2018-03-02	0	Camaraderie and team work between organizations are not promoted due to them belonging to different colleges and thus have minimal interaction with each other.	There is a problem because in order for DLSU to fully achieve one of its core values which is communion, organizations have to be united.	This activity will allow the several organizations to interact with each other through the activities prepared. The project head will work hand-in-hand with the presidents of each organization in order to ensure the success of this project.	t	0.00	0.00	5500.00	0.00	337754.00	0.00	\N	10111114	2011111	2018-01-10 22:25:55.886057+08	2018-01-10 22:48:56.894334+08	\N	t	t	t	t	\N	\N	\N		0	\N	\N	\N
+40	74	1	\N	\N	\N	\N	\N	\N	\N	\N	t	\N	\N	\N	1404.00	0.00	\N	\N	6111114	\N	2018-01-10 23:25:41.77817+08	\N	\N	f	f	f	f	\N	\N	\N		0	\N	\N	\N
+41	45	1	\N	\N	\N	\N	\N	\N	\N	\N	t	\N	\N	\N	1404.00	0.00	\N	\N	6111114	\N	2018-01-10 23:25:47.036813+08	\N	\N	f	f	f	f	\N	\N	\N		0	\N	\N	\N
+45	90	2	29	12	2018-03-21	2018-03-23	86	Decreasing number of students who participate in organizations.	There is a problem because they no longer feel the need to join organizations.	Through this activity, organizations are given an avenue for them to recruit incoming freshmen	t	0.00	0.00	8000.00	0.00	327054.00	0.00	\N	10111114	2011112	2018-01-10 23:29:14.512262+08	2018-01-10 23:38:30.148552+08	\N	t	t	t	t	\N	\N	\N		0	\N	\N	\N
+30	85	2	15	15	2018-03-07	2018-03-07	0	Some officers that are given positions are not that ready with the responsibilities of the position given to them.	There is a problem because they are not trained and briefed regarding the position they are about to inherit.	Through this activity, officers will be given training so that they are given the necessary experience in being officers before being full-fledged officers	t	0.00	0.00	3200.00	0.00	332254.00	0.00	\N	10111114	2011111	2018-01-10 22:49:50.856342+08	2018-01-10 22:58:19.266276+08	\N	t	t	t	t	\N	\N	\N		0	\N	\N	\N
+35	25	2	51	5	2018-01-24	2018-01-25	0	Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, 	One morning, when Gregor Samsa woke from troubled dreams, he found himself transformed in his bed into a horrible vermin. He lay on his armour-like back	Margaret granted him his wish.\r\n\r\nThey bought her a gift.\r\n\r\nThose librarians envy him his good fortune.\r\n	t	0.00	0.00	76.00	0.00	300716.00	0.00	\N	7111114	2011111	2018-01-10 23:18:38.639274+08	2018-01-10 23:26:43.505528+08	\N	t	t	t	t	\N	\N	\N		0	\N	\N	\N
+44	72	2	10	10	2018-02-15	2018-02-15	0	discipline	order is becoming a problem	camp	t	0.00	0.00	1000.00	0.00	311053.00	0.00	\N	3111114	2011111	2018-01-10 23:29:04.611379+08	2018-01-10 23:30:22.275904+08	\N	t	t	t	t	\N	\N	\N		0	\N	\N	\N
+34	67	2	10	10	2018-02-12	2018-02-12	0	An avenue for DLSU community	people need someone	OG-P\r\n	t	0.00	0.00	1000.00	0.00	312253.00	0.00	\N	3111114	2011111	2018-01-10 23:16:45.014038+08	2018-01-10 23:21:52.778067+08	\N	t	t	t	t	\N	\N	\N		0	\N	\N	\N
+43	69	2	10	10	2018-02-12	2018-02-12	0	They dont know how to sell themselves	they value lowers	development	t	0.00	0.00	100.00	0.00	311153.00	0.00	\N	3111114	2011111	2018-01-10 23:27:08.409421+08	2018-01-10 23:28:50.255316+08	\N	t	t	t	t	\N	\N	\N		0	\N	\N	\N
+31	86	2	30	30	2018-03-14	2018-03-14	0	Aspiring officers do not know the process of being an officer. 	This is a problem because most of the members that are interested in becoming an officer tend to lose interest just because they do not know how to be an officer.	Through this activity, aspiring officers are given an avenue where they can express their desire of being an officer. The project heads will be coordinating with the officers of the organization in handling the aspiring officers.	t	0.00	0.00	2000.00	0.00	329054.00	0.00	\N	10111114	2011111	2018-01-10 22:58:34.719181+08	2018-01-10 23:29:10.594712+08	\N	t	t	t	t	\N	\N	\N		0	\N	\N	\N
+42	22	2	125	51	2018-01-31	2018-01-31	34	People are ignorant of kids	Kids are annoying	The best to the kids	t	0.00	0.00	4675.00	0.00	300640.00	0.00	\N	7111114	2011111	2018-01-10 23:26:46.095765+08	2018-01-10 23:28:24.562857+08	\N	t	t	t	t	\N	\N	\N		0	\N	\N	\N
+37	35	1	\N	\N	\N	\N	\N	\N	\N	\N	t	\N	\N	\N	1404.00	0.00	\N	\N	6111114	\N	2018-01-10 23:25:04.935712+08	\N	\N	f	f	f	f	\N	\N	\N		0	\N	\N	\N
+46	75	4	10	10	2018-02-18	2018-02-18	0	inter	cooperation	\r\nintership	t	0.00	0.00	100.00	0.00	310053.00	0.00	\N	3111114	2011111	2018-01-10 23:30:27.27118+08	2018-01-10 23:32:41.728252+08	2018-01-10 23:39:47.52139+08	t	t	f	t	\N	\N	\N		1	\N	\N	\N
+32	62	3	10	10	2018-02-07	2018-02-07	0	Talents are hidden	talents are wasted	talent management	t	0.00	0.00	1000.00	0.00	314253.00	0.00	\N	3111114	2011111	2018-01-10 23:03:29.442892+08	2018-01-10 23:12:16.928111+08	2018-01-10 23:48:56.780586+08	t	t	t	t	\N	\N	\N		0	\N	\N	\N
+33	64	3	10	10	2018-02-08	2018-02-08	0	Lack of summit	People need to be inform	my best	t	0.00	0.00	1000.00	0.00	313253.00	0.00	\N	3111114	2011111	2018-01-10 23:12:33.473139+08	2018-01-10 23:16:30.501087+08	2018-01-10 23:49:01.709665+08	t	t	t	t	\N	\N	\N		0	\N	\N	\N
+48	81	3	10	10	2018-02-21	2018-02-21	0	organization of the track in their committee	disorganize	event	t	0.00	0.00	100.00	0.00	308953.00	0.00	\N	3111114	2011111	2018-01-10 23:34:12.193819+08	2018-01-10 23:35:40.068001+08	2018-01-10 23:49:08.678449+08	t	t	t	t	\N	\N	\N		0	\N	\N	\N
+47	79	3	10	10	2018-02-19	2018-02-19	0	exposure to some international events	they become limited by what they have experience locally	seminar	t	0.00	0.00	1000.00	0.00	309953.00	0.00	\N	3111114	2011111	2018-01-10 23:32:44.057337+08	2018-01-10 23:34:07.336749+08	2018-01-10 23:49:17.290922+08	t	t	t	t	\N	\N	\N		0	\N	\N	\N
+36	68	3	10	10	2018-01-14	2018-01-14	0	They need to be aware of their env	They are not helping their countrymen	General Assembly\r\n	t	0.00	0.00	100.00	0.00	311253.00	0.00	\N	3111114	2011111	2018-01-10 23:22:29.009647+08	2018-01-10 23:25:17.973024+08	2018-01-10 23:49:31.430741+08	t	t	t	t	\N	\N	\N		0	\N	\N	\N
+49	61	2	10	10	2018-01-26	2018-01-26	0	lack of seminar for locals	they need to learn some new things\r\n	seminar	t	0.00	0.00	1000.00	0.00	308853.00	0.00	\N	3111114	2011111	2018-01-10 23:35:42.67435+08	2018-01-10 23:49:43.655282+08	\N	t	t	t	t	\N	\N	\N		0	\N	\N	\N
+50	88	2	10	10	2018-03-21	2018-03-21	0	In the age of information and computerization, various sectors in society, including commerce, government, and researching organizations, realize that data is changing the face of the world. Information systems are being implemented in both corporate and nonprofit organizations, and business processes are being improved and optimized through the use of software. With the emergence of the digital era, there is a growing understanding that knowing how to program is essential. Learning facts is less and less relevant in a world where Google can satisfy just about any question in a matter of milliseconds; it is skills that will enable individuals to succeed, and that set of skills must include programming. 	In the age of information and computerization, various sectors in society, including commerce, government, and researching organizations, realize that data is changing the face of the world. Information systems are being implemented in both corporate and nonprofit organizations, and business processes are being improved and optimized through the use of software. With the emergence of the digital era, there is a growing understanding that knowing how to program is essential. Learning facts is less and less relevant in a world where Google can satisfy just about any question in a matter of milliseconds; it is skills that will enable individuals to succeed, and that set of skills must include programming. 	The seminar will be an opportunity for the participants to learn how to program with the use of C#. Since students of CCS are already taught foundational concepts regarding how to program, the seminar will focus more on the syntax of programming with the use of C#. This seminar is vital since C# is one of the most used programming languages according to the IEEE Spectrum’s ranking list which ranks C# as the 6th most used programming language. The provision of this seminar will not only help its participants in knowing how to program with the use of C# for both their academic classes now, and for their future careers, but this can also help them enhance their critical thinking abilities on how to solve problems with the use of coding.  This is also a way for the participants to know how to use C# in a hands-on manner and understand how it can be used outside in the business world.	t	0.00	0.00	6000.00	0.00	319054.00	0.00	\N	10111114	2011111	2018-01-10 23:38:55.170354+08	2018-01-10 23:51:43.630391+08	\N	t	t	t	t	\N	\N	\N		0	\N	\N	\N
 \.
 
 
@@ -7882,6 +8580,88 @@ COPY public.projectproposal (id, gosmactivity, status, enp, enmp, actualdatestar
 --
 
 COPY public.projectproposalattachment (id, projectproposal, requirement, sequence, idnumber, filename, filenametoshow, directory) FROM stdin;
+1	1	3	1	1111114	cjc93u4350000y1ntrdvtvr5d.pdf	samplevrt.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/1111114samplevrt.pdf - cjc93u4350000y1ntrdvtvr5d
+2	1	4	1	1111114	cjc93u4370001y1ntdfsgg4xp.pdf	Credential of Speakers.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/1111114Credential of Speakers.pdf - cjc93u4370001y1ntdfsgg4xp
+3	2	3	1	1111114	cjc943t0k0002y1ntjvxxe7pv.pdf	samplevrt.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/1111114samplevrt.pdf - cjc943t0k0002y1ntjvxxe7pv
+4	2	4	1	1111114	cjc943t0m0003y1ntjm8w16q0.pdf	Credential of Speakers.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/1111114Credential of Speakers.pdf - cjc943t0m0003y1ntjm8w16q0
+5	2	0	1	1111114	cjc943t0m0004y1nt26o6eejf.pdf	Sample informal quotation.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/1111114Sample informal quotation.pdf - cjc943t0m0004y1nt26o6eejf
+6	3	3	1	1111114	cjc9484d80005y1ntt2xjuoee.pdf	samplevrt.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/1111114samplevrt.pdf - cjc9484d80005y1ntt2xjuoee
+7	3	4	1	1111114	cjc9484d90006y1ntbhkbqq59.pdf	sample credentials.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/1111114sample credentials.pdf - cjc9484d90006y1ntbhkbqq59
+8	4	3	1	1111114	cjc94annh0007y1ntf5stynhp.pdf	samplevrt.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/1111114samplevrt.pdf - cjc94annh0007y1ntf5stynhp
+9	4	4	1	1111114	cjc94anni0008y1nt8sxglvaa.pdf	Credential of Speakers.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/1111114Credential of Speakers.pdf - cjc94anni0008y1nt8sxglvaa
+10	6	3	1	10111114	cjc94dpxq0009y1ntma314eth.pdf	sample vrt.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/10111114sample vrt.pdf - cjc94dpxq0009y1ntma314eth
+11	6	4	1	10111114	cjc94dpxq000ay1ntukenemz9.pdf	SAMPLE CREDENTIALS OF SPEAKER.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/10111114SAMPLE CREDENTIALS OF SPEAKER.pdf - cjc94dpxq000ay1ntukenemz9
+12	5	3	1	1111114	cjc94f1yn000by1ntjknhgali.pdf	samplevrt.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/1111114samplevrt.pdf - cjc94f1yn000by1ntjknhgali
+13	5	4	1	1111114	cjc94f1yo000cy1ntqx0poqir.pdf	sample credentials.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/1111114sample credentials.pdf - cjc94f1yo000cy1ntqx0poqir
+14	10	3	1	1111114	cjc94h03i000dy1nt775bnhwu.pdf	samplevrt.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/1111114samplevrt.pdf - cjc94h03i000dy1nt775bnhwu
+15	10	4	1	1111114	cjc94h03j000ey1ntz6ddbm3p.pdf	sample credentials.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/1111114sample credentials.pdf - cjc94h03j000ey1ntz6ddbm3p
+16	11	3	1	1111114	cjc94k0kt000fy1ntg05pmdcm.pdf	samplevrt.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/1111114samplevrt.pdf - cjc94k0kt000fy1ntg05pmdcm
+17	11	4	1	1111114	cjc94k0ku000gy1nt39m23wrc.pdf	Credential of Speakers.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/1111114Credential of Speakers.pdf - cjc94k0ku000gy1nt39m23wrc
+18	7	3	1	4111114	cjc94kp1r000hy1nth7bmo1kh.pdf	sample-vrt.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/4111114sample-vrt.pdf - cjc94kp1r000hy1nth7bmo1kh
+19	7	4	1	4111114	cjc94kp1r000iy1ntjihp2ry2.pdf	SAMPLE-CREDENTIALS-OF-SPEAKER.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/4111114SAMPLE-CREDENTIALS-OF-SPEAKER.pdf - cjc94kp1r000iy1ntjihp2ry2
+20	8	3	1	7111114	cjc94lphf000jy1nt7pz4ez93.pdf	sample-vrt.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/7111114sample-vrt.pdf - cjc94lphf000jy1nt7pz4ez93
+21	8	4	1	7111114	cjc94lphf000ky1ntopylqp0r.pdf	SAMPLE-CREDENTIALS-OF-SPEAKER.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/7111114SAMPLE-CREDENTIALS-OF-SPEAKER.pdf - cjc94lphf000ky1ntopylqp0r
+22	12	3	1	1111114	cjc94npjb000ly1nt9g47wdzc.pdf	samplevrt.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/1111114samplevrt.pdf - cjc94npjb000ly1nt9g47wdzc
+23	12	4	1	1111114	cjc94npjc000my1ntcjymueu9.pdf	sample credentials.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/1111114sample credentials.pdf - cjc94npjc000my1ntcjymueu9
+24	15	3	1	1111114	cjc94r2mw000ny1nt4egzbcr1.pdf	samplevrt.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/1111114samplevrt.pdf - cjc94r2mw000ny1nt4egzbcr1
+25	15	5	1	1111114	cjc94r2mw000oy1nta8jbv58h.pdf	sample credentials.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/1111114sample credentials.pdf - cjc94r2mw000oy1nta8jbv58h
+26	13	3	1	4111114	cjc94s1a1000py1ntw1l9zcfn.pdf	sample-vrt.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/4111114sample-vrt.pdf - cjc94s1a1000py1ntw1l9zcfn
+27	13	4	1	4111114	cjc94s1a2000qy1nt56vyfj9b.pdf	SAMPLE-CREDENTIALS-OF-SPEAKER.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/4111114SAMPLE-CREDENTIALS-OF-SPEAKER.pdf - cjc94s1a2000qy1nt56vyfj9b
+28	16	3	1	1111114	cjc94t1r4000ry1ntmbw4hn9y.pdf	samplevrt.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/1111114samplevrt.pdf - cjc94t1r4000ry1ntmbw4hn9y
+29	14	3	1	7111114	cjc94udsv000sy1nt0pi81mh2.pdf	sample-vrt.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/7111114sample-vrt.pdf - cjc94udsv000sy1nt0pi81mh2
+30	14	4	1	7111114	cjc94udsw000ty1nthbd3lpiq.pdf	[DRAFT 4.2] Resume.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/7111114[DRAFT 4.2] Resume.pdf - cjc94udsw000ty1nthbd3lpiq
+31	9	2	1	10111114	cjc94ue9n000uy1ntgy6hnyqc.pdf	Informal Quotation Template.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/10111114Informal Quotation Template.pdf - cjc94ue9n000uy1ntgy6hnyqc
+32	9	3	1	10111114	cjc94ue9o000vy1nt7ea6scff.pdf	sample vrt.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/10111114sample vrt.pdf - cjc94ue9o000vy1nt7ea6scff
+33	17	3	1	4111114	cjc95fyfb0000kbntdmctybvm.pdf	sample-vrt.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/4111114sample-vrt.pdf - cjc95fyfb0000kbntdmctybvm
+34	17	4	1	4111114	cjc95fyfd0001kbnticbh37wj.pdf	SAMPLE-CREDENTIALS-OF-SPEAKER.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/4111114SAMPLE-CREDENTIALS-OF-SPEAKER.pdf - cjc95fyfd0001kbnticbh37wj
+35	20	3	1	1111114	cjc95gk5j0002kbntpu9lix59.pdf	samplevrt.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/1111114samplevrt.pdf - cjc95gk5j0002kbntpu9lix59
+36	19	2	1	10111114	cjc95gpek0003kbntw2uu5iiv.pdf	Contest Mechanics.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/10111114Contest Mechanics.pdf - cjc95gpek0003kbntw2uu5iiv
+37	19	3	1	10111114	cjc95gpel0004kbntjtfpq2eg.pdf	sample vrt.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/10111114sample vrt.pdf - cjc95gpel0004kbntjtfpq2eg
+38	23	2	1	10111114	cjc95qjss0000zqntriq2q1fb.pdf	Contest Mechanics.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/10111114Contest Mechanics.pdf - cjc95qjss0000zqntriq2q1fb
+39	23	3	1	10111114	cjc95qjsu0001zqntzdfx9heh.pdf	sample vrt.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/10111114sample vrt.pdf - cjc95qjsu0001zqntzdfx9heh
+40	18	0	1	7111114	cjc95u36a0002zqntf3mejwru.pdf	Contest-Mechanics.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/7111114Contest-Mechanics.pdf - cjc95u36a0002zqntf3mejwru
+41	18	3	1	7111114	cjc95u36a0003zqnt24e2up9m.pdf	sample-vrt.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/7111114sample-vrt.pdf - cjc95u36a0003zqnt24e2up9m
+42	18	8	1	7111114	cjc95u36c0004zqntq04j6ml6.pdf	demo-kit-final.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/7111114demo-kit-final.pdf - cjc95u36c0004zqntq04j6ml6
+43	26	3	1	7111114	cjc95x0k40005zqnt3xrowmpb.pdf	sample-vrt.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/7111114sample-vrt.pdf - cjc95x0k40005zqnt3xrowmpb
+44	24	3	1	4111114	cjc960zao0006zqntnmvncq5t.pdf	sample-vrt.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/4111114sample-vrt.pdf - cjc960zao0006zqntnmvncq5t
+45	27	3	1	7111114	cjc961f8r0007zqntwymv4co1.pdf	sample-vrt.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/7111114sample-vrt.pdf - cjc961f8r0007zqntwymv4co1
+46	27	4	1	7111114	cjc961f8r0008zqnt4152uu7h.pdf	SAMPLE-CREDENTIALS-OF-SPEAKER.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/7111114SAMPLE-CREDENTIALS-OF-SPEAKER.pdf - cjc961f8r0008zqnt4152uu7h
+47	25	3	1	10111114	cjc96kgog0009zqnthp9k2f8i.pdf	sample vrt.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/10111114sample vrt.pdf - cjc96kgog0009zqnthp9k2f8i
+48	30	3	1	10111114	cjc96wio9000azqntsgx9k897.pdf	sample vrt.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/10111114sample vrt.pdf - cjc96wio9000azqntsgx9k897
+49	32	3	1	3111114	cjc97ehti00001znt61yf8am6.pdf	samplevrt.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/3111114samplevrt.pdf - cjc97ehti00001znt61yf8am6
+50	32	4	1	3111114	cjc97ehtl00011znt7u91xmo6.pdf	sample credentials.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/3111114sample credentials.pdf - cjc97ehtl00011znt7u91xmo6
+51	28	3	1	7111114	cjc97fq1000021zntybzqn87a.pdf	sample-vrt.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/7111114sample-vrt.pdf - cjc97fq1000021zntybzqn87a
+52	28	5	1	7111114	cjc97fq1000031zntq3z6rrmm.pdf	Contest-Mechanics.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/7111114Contest-Mechanics.pdf - cjc97fq1000031zntq3z6rrmm
+53	33	3	1	3111114	cjc97jxiq0000tbntrtlmds3d.pdf	samplevrt.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/3111114samplevrt.pdf - cjc97jxiq0000tbntrtlmds3d
+54	33	4	1	3111114	cjc97jxiu0001tbntitwl74ds.pdf	Credential of Speakers.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/3111114Credential of Speakers.pdf - cjc97jxiu0001tbntitwl74ds
+55	29	3	1	7111114	cjc97mild0002tbntcx43czyv.pdf	sample-vrt.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/7111114sample-vrt.pdf - cjc97mild0002tbntcx43czyv
+56	29	4	1	7111114	cjc97mile0003tbntcaaekgbh.pdf	SAMPLE-CREDENTIALS-OF-SPEAKER.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/7111114SAMPLE-CREDENTIALS-OF-SPEAKER.pdf - cjc97mile0003tbntcaaekgbh
+57	34	0	1	3111114	cjc97qu3e0004tbnt9gypg0gk.pdf	Sample informal quotation.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/3111114Sample informal quotation.pdf - cjc97qu3e0004tbnt9gypg0gk
+58	34	3	1	3111114	cjc97qu3f0005tbnteyaomi8a.pdf	samplevrt.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/3111114samplevrt.pdf - cjc97qu3f0005tbnteyaomi8a
+59	34	8	1	3111114	cjc97qu3g0006tbnthi8kyr3q.pdf	Credential of Speakers.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/3111114Credential of Speakers.pdf - cjc97qu3g0006tbnthi8kyr3q
+60	36	0	1	3111114	cjc97v8ki0007tbntg4czj0n8.pdf	Sample informal quotation.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/3111114Sample informal quotation.pdf - cjc97v8ki0007tbntg4czj0n8
+61	36	3	1	3111114	cjc97v8kj0008tbnt6pn717yr.pdf	samplevrt.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/3111114samplevrt.pdf - cjc97v8kj0008tbnt6pn717yr
+62	36	8	1	3111114	cjc97v8kj0009tbnth0nh5pg4.pdf	Credential of Speakers.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/3111114Credential of Speakers.pdf - cjc97v8kj0009tbnth0nh5pg4
+63	35	3	1	7111114	cjc97x23v000atbnt3e18aja5.pdf	sample-vrt.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/7111114sample-vrt.pdf - cjc97x23v000atbnt3e18aja5
+64	35	4	1	7111114	cjc97x23w000btbnt4la2paga.pdf	SAMPLE-CREDENTIALS-OF-SPEAKER.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/7111114SAMPLE-CREDENTIALS-OF-SPEAKER.pdf - cjc97x23w000btbnt4la2paga
+65	42	3	1	7111114	cjc97z8ds000ctbntxuuymtvz.pdf	sample-vrt.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/7111114sample-vrt.pdf - cjc97z8ds000ctbntxuuymtvz
+66	42	4	1	7111114	cjc97z8dt000dtbntujacnnzz.pdf	SAMPLE-CREDENTIALS-OF-SPEAKER.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/7111114SAMPLE-CREDENTIALS-OF-SPEAKER.pdf - cjc97z8dt000dtbntujacnnzz
+67	43	3	1	3111114	cjc97zsni000etbntxd7kvnud.pdf	samplevrt.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/3111114samplevrt.pdf - cjc97zsni000etbntxd7kvnud
+68	43	4	1	3111114	cjc97zsnj000ftbntq5dd6vfa.pdf	Credential of Speakers.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/3111114Credential of Speakers.pdf - cjc97zsnj000ftbntq5dd6vfa
+69	31	0	1	10111114	cjc9806qd000gtbntljsgvm1n.pdf	Contest Mechanics.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/10111114Contest Mechanics.pdf - cjc9806qd000gtbntljsgvm1n
+70	31	3	1	10111114	cjc9806qe000htbntys5a1ada.pdf	sample vrt.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/10111114sample vrt.pdf - cjc9806qe000htbntys5a1ada
+71	31	8	1	10111114	cjc9806qf000itbntffprbepy.pdf	sample application form.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/10111114sample application form.pdf - cjc9806qf000itbntffprbepy
+72	44	3	1	3111114	cjc981r86000jtbntd2cii1u9.pdf	samplevrt.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/3111114samplevrt.pdf - cjc981r86000jtbntd2cii1u9
+73	44	4	1	3111114	cjc981r87000ktbntu694z6gl.pdf	Credential of Speakers.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/3111114Credential of Speakers.pdf - cjc981r87000ktbntu694z6gl
+74	46	3	1	3111114	cjc984qj6000ltbntarlfgg3u.pdf	samplevrt.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/3111114samplevrt.pdf - cjc984qj6000ltbntarlfgg3u
+75	46	4	1	3111114	cjc984qj6000mtbntxfxepe8r.pdf	Credential of Speakers.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/3111114Credential of Speakers.pdf - cjc984qj6000mtbntxfxepe8r
+76	47	3	1	3111114	cjc986kzi000ntbnt16sbbqxa.pdf	samplevrt.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/3111114samplevrt.pdf - cjc986kzi000ntbnt16sbbqxa
+77	47	5	1	3111114	cjc986kzj000otbnturxmkd7p.pdf	Credential of Speakers.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/3111114Credential of Speakers.pdf - cjc986kzj000otbnturxmkd7p
+78	48	3	1	3111114	cjc988ku1000ptbnto6xwzgba.pdf	samplevrt.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/3111114samplevrt.pdf - cjc988ku1000ptbnto6xwzgba
+79	48	4	1	3111114	cjc988ku2000qtbnt5n46jeuh.pdf	Credential of Speakers.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/3111114Credential of Speakers.pdf - cjc988ku2000qtbnt5n46jeuh
+80	45	3	1	10111114	cjc98c6sg0000rhntn4vkpbpv.pdf	sample vrt.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/10111114sample vrt.pdf - cjc98c6sg0000rhntn4vkpbpv
+81	49	3	1	3111114	cjc98cp080001rhntqd31nosn.pdf	samplevrt.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/3111114samplevrt.pdf - cjc98cp080001rhntqd31nosn
+82	50	3	1	10111114	cjc98t78e0004rhntn1lgj7qv.pdf	sample vrt.pdf	/home/shinichi/Desktop/Project-Revolution/app/assets/upload/preacts/10111114sample vrt.pdf - cjc98t78e0004rhntn1lgj7qv
 \.
 
 
@@ -7890,6 +8670,58 @@ COPY public.projectproposalattachment (id, projectproposal, requirement, sequenc
 --
 
 COPY public.projectproposalexpenses (id, projectproposal, sequence, material, quantity, unitcost, type) FROM stdin;
+1	1	1	Food	1	10.00	1
+2	2	1	food	10	190.00	1
+3	3	1	food	10	100.00	1
+4	4	1	food	10	10.00	1
+5	6	1	Token for the speaker	1	500.00	5
+6	6	2	Food for the participants	30	100.00	1
+7	5	1	Food	10	190.00	0
+8	10	1	food	19	10.00	0
+9	8	1	Booth Materials	15	5.00	1
+10	7	1	Token of Appreciation	1	1500.00	5
+11	7	2	Food for participants	40	40.00	1
+12	11	1	Food	10	100.00	0
+13	12	1	Food	10	100.00	0
+14	15	1	Food	100	10.00	1
+15	9	1	Printing Expense	1	500.00	0
+16	9	2	Food for volunteers	4	100.00	1
+17	13	1	Token  of Appreciation	1	1200.00	5
+18	13	2	Food	30	50.00	1
+19	16	1	Food	10	100.00	1
+20	14	1	Jollibee Chicken joi	2	15.00	5
+21	17	1	Token of Appreciation	1	1200.00	5
+22	19	1	Printing expense	40	10.00	0
+23	20	1	Food	10	100.00	1
+24	23	1	Food for the volunteers	5	100.00	1
+25	23	2	printing expense	40	20.00	0
+26	18	1	Confetti	67	15.00	0
+27	26	1	Cash Prize	4	156.00	5
+28	24	1	Food	30	40.00	1
+29	27	1	Jollibee Chicken joi	50	100.00	1
+30	25	1	Food for the participants	40	100.00	1
+31	25	2	Game materials	3	500.00	0
+32	30	1	name tags	40	5.00	0
+33	30	2	Food for the participants	30	100.00	1
+34	32	1	Food	10	100.00	1
+35	28	1	Uncle John's Fried Chicken	10	95.00	1
+36	33	1	Food	10	100.00	1
+37	29	1	Uncle John's Fried Chicken	5	15.00	6
+38	31	1	Food for the participants	40	50.00	0
+39	34	1	IT	10	100.00	0
+40	36	1	Food	10	10.00	0
+41	35	1	Cash Prize	1	51.00	5
+42	35	2	Confetti	1	25.00	0
+43	42	1	Uncle John's Fried Chicken	55	85.00	1
+44	43	1	Food	10	10.00	0
+45	44	1	Food	10	100.00	0
+46	46	1	Food	10	10.00	0
+47	47	1	food	10	100.00	0
+48	48	1	food	10	10.00	0
+49	45	1	Freebies	400	20.00	0
+50	49	1	Food	10	100.00	1
+51	50	1	Food for the participants	50	80.00	1
+52	50	2	games freebies	100	20.00	0
 \.
 
 
@@ -7898,6 +8730,78 @@ COPY public.projectproposalexpenses (id, projectproposal, sequence, material, qu
 --
 
 COPY public.projectproposalprogramdesign (id, projectproposal, dayid, sequence, date, starttime, endtime, activity, activitydescription, personincharge) FROM stdin;
+3	1	0	3	2018-02-02	13:00:00+08	14:00:00+08	prayer	asd	1111114
+4	1	0	4	2018-02-02	14:00:00+08	15:00:00+08	acs	asd	1111114
+5	2	0	1	2018-02-08	12:00:00+08	13:00:00+08	Opening	prayer	1111114
+6	2	0	2	2018-02-08	13:00:00+08	14:30:00+08	Lunch	lunch	1111114
+7	2	0	3	2018-02-08	14:30:00+08	15:00:00+08	ending	prayer	1111114
+8	3	0	1	2018-02-12	12:00:00+08	13:00:00+08	Opening	Act	1111114
+9	3	0	2	2018-02-12	13:00:00+08	14:00:00+08	Lunch	asd	1111114
+10	4	0	1	2018-02-13	12:00:00+08	13:00:00+08	Opening	prater	1111114
+11	6	0	1	2018-02-14	09:00:00+08	09:05:00+08	Prayer	The seminar starts with a prayer\n	10111114
+12	6	0	2	2018-02-14	09:05:00+08	11:00:00+08	Seminar Proper	The speaker will be giving out his talk regarding CSR	10111114
+13	6	0	3	2018-02-14	11:00:00+08	11:05:00+08	Cleaning	The event will end with cleaning the venue	10111114
+14	5	0	1	2018-02-15	12:00:00+08	13:00:00+08	Act	prayer	1111114
+15	10	0	1	2018-01-16	12:00:00+08	13:00:00+08	act	asd	1111114
+16	8	0	1	2018-02-05	13:05:00+08	13:10:00+08	Rehearsal	Penchorn placement	7111116
+17	7	0	1	2018-01-26	13:00:00+08	13:15:00+08	Orientation	Participants will be briefed of the activities for the day	4111114
+18	7	0	2	2018-01-26	13:15:00+08	16:00:00+08	Photoshop Basics	Participants are taught how to use Photoshop	4111114
+19	7	0	3	2018-01-26	16:00:00+08	16:30:00+08	Exercises	They are given exercises to practice what they learned	4111114
+20	11	0	1	2018-02-18	12:00:00+08	13:00:00+08	Opening	prayer	1111114
+21	12	0	1	2018-01-18	12:00:00+08	13:00:00+08	Prayer	opening	1111114
+22	9	0	1	2018-02-21	09:00:00+08	18:00:00+08	Review Material Distribution	The project heads along with the officers will be giving out review materials for the courses under behavioral Sciences	10111114
+23	15	0	1	2018-01-22	12:00:00+08	13:00:00+08	Opening	prayer	1111114
+24	13	0	1	2018-02-02	12:00:00+08	12:15:00+08	Orientation	Orientation of the activities for the day	4111114
+25	13	0	2	2018-02-02	12:15:00+08	16:00:00+08	Photoshop lesson	The students are given a lesson on how to use photoshop	4111114
+26	13	0	3	2018-02-02	16:00:00+08	17:00:00+08	Exercises	Students practice what they learned through exercises	4111114
+27	16	0	1	2018-01-26	12:00:00+08	13:00:00+08	Opening	prayer	1111114
+28	14	0	1	2018-02-15	13:30:00+08	14:00:00+08	Discussion		7111116
+29	17	0	1	2018-03-09	12:00:00+08	12:15:00+08	Orientation	Tell the participants of the activities for the day	4111112
+30	17	0	2	2018-03-09	12:15:00+08	16:00:00+08	Photoshop lesson	Teach the students an advanced lesson about photoshop	4111112
+31	17	0	3	2018-03-09	16:00:00+08	17:00:00+08	Exercises	The students practice what they learned	4111112
+32	19	0	1	2018-01-22	09:00:00+08	18:00:00+08	Distribution of Lecture Materials	The volunteers will be giving out lecture materials in the specified venue.	10111114
+33	20	0	1	2018-01-25	12:00:00+08	13:00:00+08	Act	asd	1111114
+35	23	0	2	2018-02-28	01:00:00+08	03:00:00+08	Review Material Distribution	The volunteers will be giving out the review materials to the participants 	10111114
+36	18	0	1	2018-01-11	13:30:00+08	18:30:00+08	Booth Manning		7111114
+37	26	0	1	2018-01-15	13:30:00+08	14:00:00+08	Assembly		7111114
+38	26	0	2	2018-01-15	14:15:00+08	18:30:00+08	Awarding of Officers		7111114
+39	24	0	1	2018-01-29	09:00:00+08	09:30:00+08	Introduction	The organization officers introduce themselves and tell their objectives for the term	4111114
+40	24	0	2	2018-01-29	09:30:00+08	10:30:00+08	Games	A game is played to capture the attention of the participants and keep them engaged throughout	4111114
+41	24	0	3	2018-01-29	10:30:00+08	12:00:00+08	Briefing 	The officers explains their plans for the term and ask for feedback from the members	4111114
+42	24	0	4	2018-01-29	12:00:00+08	12:30:00+08	Lunch	The attendees are given food	4111114
+43	27	0	1	2018-01-22	14:15:00+08	16:00:00+08	Event proper		7111114
+44	27	0	2	2018-01-22	16:00:00+08	17:00:00+08	Clean-up		7111114
+45	27	0	3	2018-01-22	13:29:00+08	14:00:00+08	Intro		7111114
+50	25	0	5	2018-03-02	09:00:00+08	09:15:00+08	Booth setup	The various organizations will be setting up their own booths in their assigned places.	10111114
+51	25	0	6	2018-03-02	09:15:00+08	09:30:00+08	Opening Prayer	The event will start with a prayer to be lead by the project head	10111114
+52	25	0	7	2018-03-02	09:30:00+08	15:45:00+08	Event Proper	organizations will be playing with each other through the games prepared.	10111114
+53	25	0	8	2018-03-02	03:45:00+08	04:00:00+08	Closing Prayer	the event will end with a closing prayer	10111114
+56	30	0	3	2018-03-07	09:00:00+08	09:15:00+08	Starting Prayer		10111114
+57	30	0	4	2018-03-07	09:15:00+08	12:45:00+08	Training Proper		10111114
+58	30	0	5	2018-03-07	12:45:00+08	13:00:00+08	closing prayer		10111114
+59	32	0	1	2018-02-07	12:00:00+08	13:00:00+08	Prayer	opening	3111114
+60	28	0	1	2018-01-18	11:00:00+08	13:30:00+08	Discussion of data 		7111116
+61	31	0	1	2018-03-14	09:00:00+08	09:15:00+08	Opening Prayer		10111114
+62	31	0	2	2018-03-14	09:15:00+08	09:45:00+08	Officers Briefing	the aspiring officers will be given information regarding the various positions in the organization	10111114
+63	31	0	3	2018-03-14	09:45:00+08	10:00:00+08	closing prayer		10111114
+64	33	0	1	2018-02-08	12:00:00+08	13:01:00+08	Activity	Desc	3111114
+65	29	0	1	2018-01-22	09:15:00+08	12:00:00+08	Focus group discussion		7111114
+66	34	0	1	2018-02-12	12:00:00+08	13:00:00+08	Activity	Asd	3111114
+67	36	0	1	2018-01-14	12:00:00+08	13:00:00+08	Act	prayer	3111114
+68	35	0	1	2018-01-24	13:00:00+08	14:30:00+08	Event Proper		7111116
+69	35	1	1	2018-01-25	13:00:00+08	14:10:00+08	Event Proper		7111116
+70	42	0	1	2018-01-31	13:28:00+08	18:30:00+08	Kid's day celebration		7111116
+71	43	0	1	2018-02-12	12:00:00+08	13:00:00+08	act	asd	3111114
+72	44	0	1	2018-02-15	12:00:00+08	13:00:00+08	act	ac	3111114
+73	46	0	1	2018-02-18	12:00:00+08	13:00:00+08	Opening	actrivity	3111114
+74	47	0	1	2018-02-19	12:00:00+08	13:00:00+08	act	1123	3111114
+75	48	0	1	2018-02-21	12:00:00+08	13:00:00+08	act	prayer	3111114
+76	45	0	1	2018-03-21	09:00:00+08	12:00:00+08	Frosh walk		10111114
+77	45	1	1	2018-03-22	09:00:00+08	12:00:00+08	Frosh walk		10111114
+78	45	2	1	2018-03-23	09:00:00+08	12:00:00+08	Frosh walk		10111114
+79	49	0	1	2018-01-26	12:00:00+08	13:00:00+08	opening	prayer	3111114
+81	50	0	2	2018-03-21	14:00:00+08	14:15:00+08	PRAYER		10111114
+82	50	0	3	2018-03-21	14:15:00+08	18:45:00+08	Event proper		10111114
 \.
 
 
@@ -7934,6 +8838,418 @@ COPY public.projectproposalreschedulereason (id, name) FROM stdin;
 --
 
 COPY public.projectproposalsignatory (id, gosmactivity, signatory, type, status, comments, sectionstoedit, document, digitalsignature, datesigned) FROM stdin;
+9	10	1111115	1	0	\N	\N	\N	\N	\N
+10	10	1111113	2	0	\N	\N	\N	\N	\N
+11	10	1111111	3	0	\N	\N	\N	\N	\N
+12	10	1111113	5	0	\N	\N	\N	\N	\N
+13	10	1011121	6	0	\N	\N	\N	\N	\N
+14	10	1011120	7	0	\N	\N	\N	\N	\N
+29	21	1111114	0	0	\N	\N	\N	\N	\N
+30	21	1111115	1	0	\N	\N	\N	\N	\N
+31	21	1111113	2	0	\N	\N	\N	\N	\N
+32	21	1111111	3	0	\N	\N	\N	\N	\N
+33	21	1111113	5	0	\N	\N	\N	\N	\N
+34	21	1011121	6	0	\N	\N	\N	\N	\N
+35	21	1011120	7	0	\N	\N	\N	\N	\N
+37	65	10111114	0	0	\N	\N	\N	\N	\N
+38	65	10111115	1	0	\N	\N	\N	\N	\N
+39	65	10111113	2	0	\N	\N	\N	\N	\N
+40	65	10111111	3	0	\N	\N	\N	\N	\N
+41	65	10111113	5	0	\N	\N	\N	\N	\N
+42	65	1011121	6	0	\N	\N	\N	\N	\N
+43	65	1011120	7	0	\N	\N	\N	\N	\N
+51	7	1011120	7	0	\N	\N	\N	\N	\N
+52	10	2011111	4	0	\N	\N	\N	\N	\N
+54	65	2011111	4	0	\N	\N	\N	\N	\N
+62	24	1011121	6	0	\N	\N	\N	\N	\N
+63	24	1011120	7	0	\N	\N	\N	\N	\N
+65	21	2011111	4	0	\N	\N	\N	\N	\N
+66	70	10111114	0	0	\N	\N	\N	\N	\N
+67	70	10111116	0	0	\N	\N	\N	\N	\N
+68	70	10111115	1	0	\N	\N	\N	\N	\N
+69	70	10111113	2	0	\N	\N	\N	\N	\N
+70	70	10111111	3	0	\N	\N	\N	\N	\N
+71	70	10111113	5	0	\N	\N	\N	\N	\N
+72	70	1011121	6	0	\N	\N	\N	\N	\N
+73	70	1011120	7	0	\N	\N	\N	\N	\N
+74	24	2011112	4	0	\N	\N	\N	\N	\N
+75	30	1111114	0	0	\N	\N	\N	\N	\N
+76	30	1111116	0	0	\N	\N	\N	\N	\N
+77	30	1111115	1	0	\N	\N	\N	\N	\N
+78	30	1111113	2	0	\N	\N	\N	\N	\N
+79	30	1111111	3	0	\N	\N	\N	\N	\N
+80	30	1111113	5	0	\N	\N	\N	\N	\N
+81	30	1011121	6	0	\N	\N	\N	\N	\N
+82	30	1011120	7	0	\N	\N	\N	\N	\N
+83	30	2011111	4	0	\N	\N	\N	\N	\N
+84	70	2011111	4	0	\N	\N	\N	\N	\N
+85	31	1111114	0	0	\N	\N	\N	\N	\N
+86	31	1111115	1	0	\N	\N	\N	\N	\N
+87	31	1111113	2	0	\N	\N	\N	\N	\N
+88	31	1111111	3	0	\N	\N	\N	\N	\N
+89	31	1111113	5	0	\N	\N	\N	\N	\N
+90	31	1011121	6	0	\N	\N	\N	\N	\N
+91	31	1011120	7	0	\N	\N	\N	\N	\N
+92	31	2011111	4	0	\N	\N	\N	\N	\N
+93	1	1111114	0	0	\N	\N	\N	\N	\N
+94	1	1111115	1	0	\N	\N	\N	\N	\N
+95	1	1111113	2	0	\N	\N	\N	\N	\N
+96	1	1111111	3	0	\N	\N	\N	\N	\N
+97	1	1111113	5	0	\N	\N	\N	\N	\N
+98	1	1011121	6	0	\N	\N	\N	\N	\N
+99	1	1011120	7	0	\N	\N	\N	\N	\N
+106	11	1011120	7	0	\N	\N	\N	\N	\N
+111	27	7111111	3	0	\N	\N	\N	\N	\N
+113	27	1011121	6	0	\N	\N	\N	\N	\N
+114	27	1011120	7	0	\N	\N	\N	\N	\N
+115	1	2011111	4	0	\N	\N	\N	\N	\N
+116	27	2011112	4	0	\N	\N	\N	\N	\N
+126	2	1111114	0	0	\N	\N	\N	\N	\N
+127	2	1111115	1	0	\N	\N	\N	\N	\N
+128	2	1111113	2	0	\N	\N	\N	\N	\N
+129	2	1111111	3	0	\N	\N	\N	\N	\N
+130	2	1111113	5	0	\N	\N	\N	\N	\N
+131	2	1011121	6	0	\N	\N	\N	\N	\N
+132	2	1011120	7	0	\N	\N	\N	\N	\N
+133	2	2011111	4	0	\N	\N	\N	\N	\N
+141	14	1011120	7	0	\N	\N	\N	\N	\N
+147	3	7111111	3	0	\N	\N	\N	\N	\N
+149	3	1011121	6	0	\N	\N	\N	\N	\N
+150	3	1011120	7	0	\N	\N	\N	\N	\N
+151	3	2011111	4	0	\N	\N	\N	\N	\N
+152	73	10111114	0	0	\N	\N	\N	\N	\N
+153	73	10111115	1	0	\N	\N	\N	\N	\N
+154	73	10111113	2	0	\N	\N	\N	\N	\N
+155	73	10111111	3	0	\N	\N	\N	\N	\N
+156	73	10111113	5	0	\N	\N	\N	\N	\N
+157	73	1011121	6	0	\N	\N	\N	\N	\N
+100	11	4111114	0	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "Classroom", "Nature": "Special Interest", "Context": "The activity teaches students about Photoshop which could help translate what they want to portray. Photoshop enables them to have another way of expressing and visualizing their message.\\r\\n", "Expenses": [{"Type": "Honorarium", "Material": "Token  of Appreciation", "Quantity": 1, "Sequence": 1, "UnitCost": "1200.00"}, {"Type": "Food Expense", "Material": "Food", "Quantity": 30, "Sequence": 2, "UnitCost": "50.00"}], "ActivityID": 11, "Objectives": ["To introduce the participants to intermediate Photoshop concepts", "To teach participants intermediate concepts of art", "To encourage the participants to learn intermediate art techniques"], "Strategies": "Photoshop Series 2: Intermediate", "Organization": "Moo Media", "ProjectHeads": [{"IDNumber": 1111114}], "ProgramDesign": [{"Date": "Feb 02, 2018", "DayID": 0, "EndTime": "12:15 PM", "Activity": "Orientation", "Sequence": 1, "StartTime": "12:00 PM", "Description": "Orientation of the activities for the day", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Feb 02, 2018", "DayID": 0, "EndTime": "04:00 PM", "Activity": "Photoshop lesson", "Sequence": 2, "StartTime": "12:15 PM", "Description": "The students are given a lesson on how to use photoshop", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Feb 02, 2018", "DayID": 0, "EndTime": "05:00 PM", "Activity": "Exercises", "Sequence": 3, "StartTime": "04:00 PM", "Description": "Students practice what they learned through exercises", "PersonInCharge": {"IDNumber": 4111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 13, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "310644.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	0fceeb9f43ef44c4cb7262e95a8f47318be1c1f10878deef1cb567b767d1039d4c6df8f47c2af26a930273c2c95631658bf411dd1c98306fbafca26a3f6199351e432dfe968e4bd4fdb9d04f7ea7884665643fe45f1963a42aa8b135ee3d2679cf22b1c69b2d5bca9d46c6502b212ff3bd21f68410e35685835e3d153a5d1d90	2018-01-10 22:35:21.475302+08
+146	3	7111113	2	1	\N	\N	{"Type": "Recruitment/Audition", "Venue": "A 1502-A Conference Room", "Nature": "Fundraising", "Context": "The lack of functioning members of society", "Expenses": [{"Type": "Others", "Material": "Confetti", "Quantity": 67, "Sequence": 1, "UnitCost": "15.00"}], "ActivityID": 3, "Objectives": ["To showcase the nature, mission-vision, activities and programs of the organization", "To recruite new members from both STC and Taft campus as well as membership renewal for old members", "To increase the organizational funds through membership fee "], "Strategies": "Annual Recruitment Week", "Organization": "De La Salle University - Environmental Conservation Organization", "ProjectHeads": [{"IDNumber": 1111114}], "ProgramDesign": [{"Date": "Jan 11, 2018", "DayID": 0, "EndTime": "06:30 PM", "Activity": "Booth Manning", "Sequence": 1, "StartTime": "01:30 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 18, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "308370.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	03c58218d1c4f3fcea025be767acbb8211908ee77c6349210613e134bded5e2f9524ce946f5f0234685235836473428a30c8583f17632b960d01bdc80cd7f4858faf35476c90636ce944cfb72536e97c5c5f5e68c71bd0806bd97576a74c44079a2531ce9ae228b99d43948a4431827e7411e3f8b0be9ab40c15fb011b4e6c81	2018-01-10 23:48:33.087345+08
+158	73	1011120	7	0	\N	\N	\N	\N	\N
+1	8	1111114	0	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Special Interest", "Context": "Inconsistent data", "Expenses": [{"Type": "Food Expense", "Material": "Food", "Quantity": 1, "Sequence": 1, "UnitCost": "10.00"}], "ActivityID": 8, "Objectives": ["To teach participants concepts and skills supplementary to those learned in class", "To further solidify concepts participants learned in their class", "To help participants develop relevant skills that could supplement lessons learned in the classroom"], "Strategies": "Connecting Java to MySQL", "Organization": "La Salle Computer Society", "ProjectHeads": [{"IDNumber": 7111114}, {"IDNumber": 7111116}], "ProgramDesign": [{"Date": "Feb 02, 2018", "DayID": 0, "EndTime": "02:00 PM", "Activity": "prayer", "Sequence": 3, "StartTime": "01:00 PM", "Description": "asd", "PersonInCharge": {"IDNumber": 1111114}}, {"Date": "Feb 02, 2018", "DayID": 0, "EndTime": "03:00 PM", "Activity": "acs", "Sequence": 4, "StartTime": "02:00 PM", "Description": "asd", "PersonInCharge": {"IDNumber": 1111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 1, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "345567.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	87b935e5b41e98cf3657c29d7e01006eb1aaa34383641ce844002868142268dd8282dec12a1f40f64de8ecf6a3cac511db5d742ad92367991ece3b3e6143e29f33cd113bbc6e2ce4861ab5bde2aa05ae72dd7fec2a2993c1831dae5276a77602a27cfdf3c199aa046a37fe925d1887760feaa54ab5ff70169401c670e98956ae	2018-01-10 22:09:22.924253+08
+8	10	1111114	0	2	Fix expense	{"Revenue and Expense Table"}	\N	\N	\N
+15	13	1111114	0	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Special Interest", "Context": "Bad UI design", "Expenses": [{"Type": "Food Expense", "Material": "food", "Quantity": 10, "Sequence": 1, "UnitCost": "100.00"}], "ActivityID": 13, "Objectives": ["To teach students skills that cannot be learned inside the classroom", "To broaden the knowledge of the participants on the possibilities in mobile application development", "To teach the participants of the importance of UI Design is not only for aesthetic purposes but also for flexibility and usability"], "Strategies": "Mobile UI Seminar", "Organization": "La Salle Computer Society", "ProjectHeads": [{"IDNumber": 4111114}], "ProgramDesign": [{"Date": "Feb 12, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "Opening", "Sequence": 1, "StartTime": "12:00 PM", "Description": "Act", "PersonInCharge": {"IDNumber": 1111114}}, {"Date": "Feb 12, 2018", "DayID": 0, "EndTime": "02:00 PM", "Activity": "Lunch", "Sequence": 2, "StartTime": "01:00 PM", "Description": "asd", "PersonInCharge": {"IDNumber": 1111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 3, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "343657.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	52f12efed5046d78b53986275de2dc77f6178522b18d9b7a5a7f1f83882d954604f003e7236691757ca78a98248e0c5195356663a9f6c6fe1e9a84ca816bee7c823a33ff06adad95b95c1a3132928b733833205288d48668448ee4439135a6799d6c680d97a33339125975fc7760e6f46e5b5b5cdae394b8a7edfba9aea07ab6	2018-01-10 22:09:56.29751+08
+22	17	1111114	0	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Special Interest", "Context": "Competitive CCS", "Expenses": [{"Type": "Food Expense", "Material": "food", "Quantity": 10, "Sequence": 1, "UnitCost": "10.00"}], "ActivityID": 17, "Objectives": ["To be able to challenge members to think critically whilst under pressure", "To be able to promote competitive programming amongst the organization's members", "To be able to provide an entertaining activity with a unique twist to improve member interest in organizational activities"], "Strategies": "Last Programmer Standing", "Organization": "La Salle Computer Society", "ProjectHeads": [{"IDNumber": 4111112}, {"IDNumber": 4111114}], "ProgramDesign": [{"Date": "Feb 13, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "Opening", "Sequence": 1, "StartTime": "12:00 PM", "Description": "prater", "PersonInCharge": {"IDNumber": 1111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 4, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "342657.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	5efe04c134d986c79b8698c3b2261a3063758b54e760a4ce8bb7aaca211b6203ef6008a53c0c8298f736141af190e7d2e163bc0bf1f913a669fc3c812d5ef02206cc0f3be8a84d2b2849b41f5ba8c3ea59f4d82f551276c825658f4939c9988ac4eb47d6ae1544fab79c1f0f30a22f2a1ccf1de63ed2732ec85b6671c25f639a	2018-01-10 22:10:02.25986+08
+159	73	2011111	4	0	\N	\N	\N	\N	\N
+168	23	4111114	0	0	\N	\N	\N	\N	\N
+169	23	4111116	0	0	\N	\N	\N	\N	\N
+170	23	4111115	1	0	\N	\N	\N	\N	\N
+171	23	4111113	2	0	\N	\N	\N	\N	\N
+172	23	4111111	3	0	\N	\N	\N	\N	\N
+173	23	4111113	5	0	\N	\N	\N	\N	\N
+174	23	1011121	6	0	\N	\N	\N	\N	\N
+175	23	1011120	7	0	\N	\N	\N	\N	\N
+176	26	4111113	0	0	\N	\N	\N	\N	\N
+177	26	4111114	0	0	\N	\N	\N	\N	\N
+178	26	4111115	1	0	\N	\N	\N	\N	\N
+179	26	4111113	2	0	\N	\N	\N	\N	\N
+180	26	4111111	3	0	\N	\N	\N	\N	\N
+181	26	4111113	5	0	\N	\N	\N	\N	\N
+182	26	1011121	6	0	\N	\N	\N	\N	\N
+183	26	1011120	7	0	\N	\N	\N	\N	\N
+184	80	10111114	0	0	\N	\N	\N	\N	\N
+185	80	10111115	1	0	\N	\N	\N	\N	\N
+186	80	10111113	2	0	\N	\N	\N	\N	\N
+187	80	10111111	3	0	\N	\N	\N	\N	\N
+188	80	10111113	5	0	\N	\N	\N	\N	\N
+189	80	1011121	6	0	\N	\N	\N	\N	\N
+190	80	1011120	7	0	\N	\N	\N	\N	\N
+197	29	1011120	7	0	\N	\N	\N	\N	\N
+160	118	1111114	0	1	\N	\N	{"Type": "General Assembly", "Venue": "A 1502-A Conference Room", "Nature": "Academic", "Context": "Camaraderie", "Expenses": [{"Type": "Food Expense", "Material": "Food", "Quantity": 10, "Sequence": 1, "UnitCost": "100.00"}], "ActivityID": 118, "Objectives": ["To be able to look back on the activities of the organization for the year", "To be able to recognize outstanding officers", "To help the students get a grasp of the culture in CCS"], "Strategies": "General Assembly", "Organization": "La Salle Computer Society", "ProjectHeads": [], "ProgramDesign": [{"Date": "Jan 25, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "Act", "Sequence": 1, "StartTime": "12:00 PM", "Description": "asd", "PersonInCharge": {"IDNumber": 1111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 20, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "336467.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	927fcf3b8a1960494a3a44bc6be6a96ead26d06a7ec917190c81d54ae1eecb04c2cd62135d40f30a73da35892828314a65d721650dcd3fee77cd792dae4f61d1d5aae9025f7e983663f9888cf640a6601934f6b8b36c86939f7cd86e4d4f0864778bc3eb5622388fe3ee5e7ba1ebb6c4645859b197c26d2dbeed604c96068d79	2018-01-10 22:18:45.746869+08
+118	6	1111114	0	1	\N	\N	{"Type": "Publicity/Awareness Campaign", "Venue": "A 1502-A Conference Room", "Nature": "Community Development", "Context": "some are computer illiterate", "Expenses": [{"Type": "Food Expense", "Material": "Food", "Quantity": 100, "Sequence": 1, "UnitCost": "10.00"}], "ActivityID": 6, "Objectives": ["For Computer Studies students to be able to impart their knowledge on IT essentials to DLSU employee participants.", "For the participants to know the fundamentals and use of basic software productivity tools limited to Microsoft (MS) Word, MS Powerpoint, MS Excel, Google Drive and Google Docs only.", "For the participants to know the uses of the taught productivity tools and how they can be integrated to their everyday tasks or jobs."], "Strategies": "Computer Literacy Program", "Organization": "La Salle Computer Society", "ProjectHeads": [{"IDNumber": 10111114}], "ProgramDesign": [{"Date": "Jan 22, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "Opening", "Sequence": 1, "StartTime": "12:00 PM", "Description": "prayer", "PersonInCharge": {"IDNumber": 1111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 15, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "337467.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	50fe46549c83290382d3a34aad6765bd3e7e13f4754c1dde55f3c8bd2d2dba28134fdf4bfd88c3b9004cd55201f9f7ec2656110bae4f294cadaca351f5e37a05d0f695671017f8c48791aa0b656bca0c04d1c5361894803650f168a4e4a003f8d2088845325997187d672cfd2164ac697d785697a026b12983267545d5f45aa0	2018-01-10 22:18:54.291185+08
+198	80	2011112	4	0	\N	\N	\N	\N	\N
+2	8	1111115	1	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Special Interest", "Context": "Inconsistent data", "Expenses": [{"Type": "Food Expense", "Material": "Food", "Quantity": 1, "Sequence": 1, "UnitCost": "10.00"}], "ActivityID": 8, "Objectives": ["To teach participants concepts and skills supplementary to those learned in class", "To further solidify concepts participants learned in their class", "To help participants develop relevant skills that could supplement lessons learned in the classroom"], "Strategies": "Connecting Java to MySQL", "Organization": "La Salle Computer Society", "ProjectHeads": [{"IDNumber": 7111114}, {"IDNumber": 7111116}], "ProgramDesign": [{"Date": "Feb 02, 2018", "DayID": 0, "EndTime": "02:00 PM", "Activity": "prayer", "Sequence": 3, "StartTime": "01:00 PM", "Description": "asd", "PersonInCharge": {"IDNumber": 1111114}}, {"Date": "Feb 02, 2018", "DayID": 0, "EndTime": "03:00 PM", "Activity": "acs", "Sequence": 4, "StartTime": "02:00 PM", "Description": "asd", "PersonInCharge": {"IDNumber": 1111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 1, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "345567.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	14ea242c7808147fa910f1f0cc61383e5b07255caf202d55e60b3acbfe040cbe2bd0eb63d588c3e68bc3d45a23e2d9876764862317e1c6f6e4d212f1e3360f90b4266a6fc9cbe1853ca25cdf883a3268a3ad803801f7f7ec1fb51048bf6bd42278d567f8637bb17f2977647bf892d5a26f988760ffed86daaa40cdfc0d1e2285	2018-01-10 22:25:20.868604+08
+200	83	10111114	0	0	\N	\N	\N	\N	\N
+201	83	10111115	1	0	\N	\N	\N	\N	\N
+202	83	10111113	2	0	\N	\N	\N	\N	\N
+203	83	10111111	3	0	\N	\N	\N	\N	\N
+204	83	10111113	5	0	\N	\N	\N	\N	\N
+205	83	1011121	6	0	\N	\N	\N	\N	\N
+206	83	1011120	7	0	\N	\N	\N	\N	\N
+210	5	7111111	3	0	\N	\N	\N	\N	\N
+212	5	1011121	6	0	\N	\N	\N	\N	\N
+213	5	1011120	7	0	\N	\N	\N	\N	\N
+16	13	1111115	1	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Special Interest", "Context": "Bad UI design", "Expenses": [{"Type": "Food Expense", "Material": "food", "Quantity": 10, "Sequence": 1, "UnitCost": "100.00"}], "ActivityID": 13, "Objectives": ["To teach students skills that cannot be learned inside the classroom", "To broaden the knowledge of the participants on the possibilities in mobile application development", "To teach the participants of the importance of UI Design is not only for aesthetic purposes but also for flexibility and usability"], "Strategies": "Mobile UI Seminar", "Organization": "La Salle Computer Society", "ProjectHeads": [{"IDNumber": 4111114}], "ProgramDesign": [{"Date": "Feb 12, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "Opening", "Sequence": 1, "StartTime": "12:00 PM", "Description": "Act", "PersonInCharge": {"IDNumber": 1111114}}, {"Date": "Feb 12, 2018", "DayID": 0, "EndTime": "02:00 PM", "Activity": "Lunch", "Sequence": 2, "StartTime": "01:00 PM", "Description": "asd", "PersonInCharge": {"IDNumber": 1111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 3, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "343657.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	c613c71c137cbaa7975a5d4b03d81f727d04941c29cb4cb5363537e6778ae9e646eb58c0d1552d703d8964ccf35751550ccd30bd88cc7b76dcffb9a38f13987f0d3a203b0ff0656362121f60a208b961d225f37e7243b97ad33ee8db22787d13edd2879a6c69047c52131b3e645576c2ee1d37b25fac06ecea5f953871006352	2018-01-10 22:26:50.052024+08
+23	17	1111115	1	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Special Interest", "Context": "Competitive CCS", "Expenses": [{"Type": "Food Expense", "Material": "food", "Quantity": 10, "Sequence": 1, "UnitCost": "10.00"}], "ActivityID": 17, "Objectives": ["To be able to challenge members to think critically whilst under pressure", "To be able to promote competitive programming amongst the organization's members", "To be able to provide an entertaining activity with a unique twist to improve member interest in organizational activities"], "Strategies": "Last Programmer Standing", "Organization": "La Salle Computer Society", "ProjectHeads": [{"IDNumber": 4111112}, {"IDNumber": 4111114}], "ProgramDesign": [{"Date": "Feb 13, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "Opening", "Sequence": 1, "StartTime": "12:00 PM", "Description": "prater", "PersonInCharge": {"IDNumber": 1111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 4, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "342657.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	4586e9cb65a17ba1b5c00526630f620da7d12e35247dd6035c8330b74c8a27635d3605d47bdaf50ff1a0da1a86194a3e5794ac067e8b261db880b2401a43e6b2ff0066095c5967b0e1ed52e0f42b1794096c543091822ccd0b55ae5aba4ad24ff69acd3404e9c0cf350b31904cc9cc4a49557b91b7c83706fd76f780d4c20751	2018-01-10 22:27:17.071538+08
+161	118	1111115	1	1	\N	\N	{"Type": "General Assembly", "Venue": "A 1502-A Conference Room", "Nature": "Academic", "Context": "Camaraderie", "Expenses": [{"Type": "Food Expense", "Material": "Food", "Quantity": 10, "Sequence": 1, "UnitCost": "100.00"}], "ActivityID": 118, "Objectives": ["To be able to look back on the activities of the organization for the year", "To be able to recognize outstanding officers", "To help the students get a grasp of the culture in CCS"], "Strategies": "General Assembly", "Organization": "La Salle Computer Society", "ProjectHeads": [], "ProgramDesign": [{"Date": "Jan 25, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "Act", "Sequence": 1, "StartTime": "12:00 PM", "Description": "asd", "PersonInCharge": {"IDNumber": 1111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 20, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "336467.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	28af49aaf3931c9524d43a9f768566ebfc5eb253df4f8a9e5f55a8f87acb9100c461ef6507bd61a73ab33a8438874e80a8588e01d9c9d1982a1ff585cf413845fcd957dd332d2ef59e3c638e302daf42389d162d3fa9200aa2a8294073c29f0a1fb853685d1934eb9bd43c1a6c5cef86a02b54a277712ccc8ff27b832af826de	2018-01-10 22:27:38.244055+08
+119	6	1111115	1	1	\N	\N	{"Type": "Publicity/Awareness Campaign", "Venue": "A 1502-A Conference Room", "Nature": "Community Development", "Context": "some are computer illiterate", "Expenses": [{"Type": "Food Expense", "Material": "Food", "Quantity": 100, "Sequence": 1, "UnitCost": "10.00"}], "ActivityID": 6, "Objectives": ["For Computer Studies students to be able to impart their knowledge on IT essentials to DLSU employee participants.", "For the participants to know the fundamentals and use of basic software productivity tools limited to Microsoft (MS) Word, MS Powerpoint, MS Excel, Google Drive and Google Docs only.", "For the participants to know the uses of the taught productivity tools and how they can be integrated to their everyday tasks or jobs."], "Strategies": "Computer Literacy Program", "Organization": "La Salle Computer Society", "ProjectHeads": [{"IDNumber": 10111114}], "ProgramDesign": [{"Date": "Jan 22, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "Opening", "Sequence": 1, "StartTime": "12:00 PM", "Description": "prayer", "PersonInCharge": {"IDNumber": 1111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 15, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "337467.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	77b6718c120e07c0baab520fef1d4fc07824abcce023754c9a2527974b8f14541143a41b29cde30fa00e74fcb2b75dcda857fa42d055e6a0af70313f1feff16634c4e4dc55e035c17ba1a2218ac2c53faae0e9ee265eba51131fb68355dfeb24e279d1c1cb5bb631d4782576704d1a4724f1d1c692f41c5600f6147a93f4c417	2018-01-10 22:27:44.288318+08
+3	8	1111113	2	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Special Interest", "Context": "Inconsistent data", "Expenses": [{"Type": "Food Expense", "Material": "Food", "Quantity": 1, "Sequence": 1, "UnitCost": "10.00"}], "ActivityID": 8, "Objectives": ["To teach participants concepts and skills supplementary to those learned in class", "To further solidify concepts participants learned in their class", "To help participants develop relevant skills that could supplement lessons learned in the classroom"], "Strategies": "Connecting Java to MySQL", "Organization": "La Salle Computer Society", "ProjectHeads": [{"IDNumber": 7111114}, {"IDNumber": 7111116}], "ProgramDesign": [{"Date": "Feb 02, 2018", "DayID": 0, "EndTime": "02:00 PM", "Activity": "prayer", "Sequence": 3, "StartTime": "01:00 PM", "Description": "asd", "PersonInCharge": {"IDNumber": 1111114}}, {"Date": "Feb 02, 2018", "DayID": 0, "EndTime": "03:00 PM", "Activity": "acs", "Sequence": 4, "StartTime": "02:00 PM", "Description": "asd", "PersonInCharge": {"IDNumber": 1111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 1, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "345567.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	05dd1661be86712535a0c4a96f19ab75b30e610e3f009ce26ca832b2732345571cb86514a332aa6fdf30f558596b68494ff633f3cfe4a53fecef3bd7db2c53508c8e41974ed6e92888eedd7213eea3a58f6cd743b380965bad4ef38016848516bee31339b543a32d6b3fa24e0468a570523d75d0b37642ecfcb0186cd3a351bb	2018-01-10 22:28:33.765683+08
+163	118	1111111	3	1	\N	\N	{"Type": "General Assembly", "Venue": "A 1502-A Conference Room", "Nature": "Academic", "Context": "Camaraderie", "Expenses": [{"Type": "Food Expense", "Material": "Food", "Quantity": 10, "Sequence": 1, "UnitCost": "100.00"}], "ActivityID": 118, "Objectives": ["To be able to look back on the activities of the organization for the year", "To be able to recognize outstanding officers", "To help the students get a grasp of the culture in CCS"], "Strategies": "General Assembly", "Organization": "La Salle Computer Society", "ProjectHeads": [], "ProgramDesign": [{"Date": "Jan 25, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "Act", "Sequence": 1, "StartTime": "12:00 PM", "Description": "asd", "PersonInCharge": {"IDNumber": 1111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 20, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "336467.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	22baee6ac869cc7976572078a07e6289b71c318073b71caf9d3e56db3293b53960874d7a0e1135e674116d0a336e08d3b7394a2a24b0b8c0621f997ac9fd6f337a39d1c777f3d8925db02533cf017178cd0c798b6ce97bff156f2f5976463d54635a9cd694699ccf114ce05a26961d8b3ff8ed0b813fa1acf6b96c8d02e33392	2018-01-10 22:29:53.442954+08
+5	8	1111113	5	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Special Interest", "Context": "Inconsistent data", "Expenses": [{"Type": "Food Expense", "Material": "Food", "Quantity": 1, "Sequence": 1, "UnitCost": "10.00"}], "ActivityID": 8, "Objectives": ["To teach participants concepts and skills supplementary to those learned in class", "To further solidify concepts participants learned in their class", "To help participants develop relevant skills that could supplement lessons learned in the classroom"], "Strategies": "Connecting Java to MySQL", "Organization": "La Salle Computer Society", "ProjectHeads": [{"IDNumber": 7111114}, {"IDNumber": 7111116}], "ProgramDesign": [{"Date": "Feb 02, 2018", "DayID": 0, "EndTime": "02:00 PM", "Activity": "prayer", "Sequence": 3, "StartTime": "01:00 PM", "Description": "asd", "PersonInCharge": {"IDNumber": 1111114}}, {"Date": "Feb 02, 2018", "DayID": 0, "EndTime": "03:00 PM", "Activity": "acs", "Sequence": 4, "StartTime": "02:00 PM", "Description": "asd", "PersonInCharge": {"IDNumber": 1111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 1, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "345567.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	05dd1661be86712535a0c4a96f19ab75b30e610e3f009ce26ca832b2732345571cb86514a332aa6fdf30f558596b68494ff633f3cfe4a53fecef3bd7db2c53508c8e41974ed6e92888eedd7213eea3a58f6cd743b380965bad4ef38016848516bee31339b543a32d6b3fa24e0468a570523d75d0b37642ecfcb0186cd3a351bb	2018-01-10 22:28:33.765683+08
+17	13	1111113	2	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Special Interest", "Context": "Bad UI design", "Expenses": [{"Type": "Food Expense", "Material": "food", "Quantity": 10, "Sequence": 1, "UnitCost": "100.00"}], "ActivityID": 13, "Objectives": ["To teach students skills that cannot be learned inside the classroom", "To broaden the knowledge of the participants on the possibilities in mobile application development", "To teach the participants of the importance of UI Design is not only for aesthetic purposes but also for flexibility and usability"], "Strategies": "Mobile UI Seminar", "Organization": "La Salle Computer Society", "ProjectHeads": [{"IDNumber": 4111114}], "ProgramDesign": [{"Date": "Feb 12, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "Opening", "Sequence": 1, "StartTime": "12:00 PM", "Description": "Act", "PersonInCharge": {"IDNumber": 1111114}}, {"Date": "Feb 12, 2018", "DayID": 0, "EndTime": "02:00 PM", "Activity": "Lunch", "Sequence": 2, "StartTime": "01:00 PM", "Description": "asd", "PersonInCharge": {"IDNumber": 1111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 3, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "343657.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	4df156a04c922fb20e0b0b116597697a504e33f3f0fdb3611b28cb26947660276a193d297761f93cc26d8d2016da288218947deb388f347a5b41aece08a9ae6a5ae6edeef334124c9f67a63c29a6aeb4d8b0f9a018c93498d7592e0955ed3f245a4f8bf5d98db556c3fa1a1b4a6c6db4e593800e86cb911a40ec1443549161de	2018-01-10 22:28:40.324677+08
+19	13	1111113	5	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Special Interest", "Context": "Bad UI design", "Expenses": [{"Type": "Food Expense", "Material": "food", "Quantity": 10, "Sequence": 1, "UnitCost": "100.00"}], "ActivityID": 13, "Objectives": ["To teach students skills that cannot be learned inside the classroom", "To broaden the knowledge of the participants on the possibilities in mobile application development", "To teach the participants of the importance of UI Design is not only for aesthetic purposes but also for flexibility and usability"], "Strategies": "Mobile UI Seminar", "Organization": "La Salle Computer Society", "ProjectHeads": [{"IDNumber": 4111114}], "ProgramDesign": [{"Date": "Feb 12, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "Opening", "Sequence": 1, "StartTime": "12:00 PM", "Description": "Act", "PersonInCharge": {"IDNumber": 1111114}}, {"Date": "Feb 12, 2018", "DayID": 0, "EndTime": "02:00 PM", "Activity": "Lunch", "Sequence": 2, "StartTime": "01:00 PM", "Description": "asd", "PersonInCharge": {"IDNumber": 1111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 3, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "343657.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	4df156a04c922fb20e0b0b116597697a504e33f3f0fdb3611b28cb26947660276a193d297761f93cc26d8d2016da288218947deb388f347a5b41aece08a9ae6a5ae6edeef334124c9f67a63c29a6aeb4d8b0f9a018c93498d7592e0955ed3f245a4f8bf5d98db556c3fa1a1b4a6c6db4e593800e86cb911a40ec1443549161de	2018-01-10 22:28:40.324677+08
+24	17	1111113	2	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Special Interest", "Context": "Competitive CCS", "Expenses": [{"Type": "Food Expense", "Material": "food", "Quantity": 10, "Sequence": 1, "UnitCost": "10.00"}], "ActivityID": 17, "Objectives": ["To be able to challenge members to think critically whilst under pressure", "To be able to promote competitive programming amongst the organization's members", "To be able to provide an entertaining activity with a unique twist to improve member interest in organizational activities"], "Strategies": "Last Programmer Standing", "Organization": "La Salle Computer Society", "ProjectHeads": [{"IDNumber": 4111112}, {"IDNumber": 4111114}], "ProgramDesign": [{"Date": "Feb 13, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "Opening", "Sequence": 1, "StartTime": "12:00 PM", "Description": "prater", "PersonInCharge": {"IDNumber": 1111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 4, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "342657.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	9527937751085d55a225d64b9268d231159fbbaa44121338816f06761a8680ac9357cbe010d531e16916837fbe331a5abd2eba17f631ac9846be7f2007af13521c0618e0b4a9f193bfad38dad3228d701e7e6ace1ab99f96c2c7217d5c58ffa7c3cbf07622d102e5ca139a73a2ec49360b30707740fd4badd5ce3fa68657134d	2018-01-10 22:28:45.884237+08
+308	66	6111114	0	0	\N	\N	\N	\N	\N
+309	66	6111115	1	0	\N	\N	\N	\N	\N
+310	66	6111113	2	0	\N	\N	\N	\N	\N
+311	66	6111111	3	0	\N	\N	\N	\N	\N
+312	66	6111113	5	0	\N	\N	\N	\N	\N
+313	66	1011121	6	0	\N	\N	\N	\N	\N
+314	66	1011120	7	0	\N	\N	\N	\N	\N
+315	77	6111113	0	0	\N	\N	\N	\N	\N
+316	77	6111114	0	0	\N	\N	\N	\N	\N
+317	77	6111115	1	0	\N	\N	\N	\N	\N
+318	77	6111113	2	0	\N	\N	\N	\N	\N
+319	77	6111111	3	0	\N	\N	\N	\N	\N
+320	77	6111113	5	0	\N	\N	\N	\N	\N
+321	77	1011121	6	0	\N	\N	\N	\N	\N
+322	77	1011120	7	0	\N	\N	\N	\N	\N
+323	74	6111113	0	0	\N	\N	\N	\N	\N
+324	74	6111114	0	0	\N	\N	\N	\N	\N
+325	74	6111115	1	0	\N	\N	\N	\N	\N
+326	74	6111113	2	0	\N	\N	\N	\N	\N
+327	74	6111111	3	0	\N	\N	\N	\N	\N
+328	74	6111113	5	0	\N	\N	\N	\N	\N
+26	17	1111113	5	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Special Interest", "Context": "Competitive CCS", "Expenses": [{"Type": "Food Expense", "Material": "food", "Quantity": 10, "Sequence": 1, "UnitCost": "10.00"}], "ActivityID": 17, "Objectives": ["To be able to challenge members to think critically whilst under pressure", "To be able to promote competitive programming amongst the organization's members", "To be able to provide an entertaining activity with a unique twist to improve member interest in organizational activities"], "Strategies": "Last Programmer Standing", "Organization": "La Salle Computer Society", "ProjectHeads": [{"IDNumber": 4111112}, {"IDNumber": 4111114}], "ProgramDesign": [{"Date": "Feb 13, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "Opening", "Sequence": 1, "StartTime": "12:00 PM", "Description": "prater", "PersonInCharge": {"IDNumber": 1111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 4, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "342657.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	9527937751085d55a225d64b9268d231159fbbaa44121338816f06761a8680ac9357cbe010d531e16916837fbe331a5abd2eba17f631ac9846be7f2007af13521c0618e0b4a9f193bfad38dad3228d701e7e6ace1ab99f96c2c7217d5c58ffa7c3cbf07622d102e5ca139a73a2ec49360b30707740fd4badd5ce3fa68657134d	2018-01-10 22:28:45.884237+08
+120	6	1111113	2	1	\N	\N	{"Type": "Publicity/Awareness Campaign", "Venue": "A 1502-A Conference Room", "Nature": "Community Development", "Context": "some are computer illiterate", "Expenses": [{"Type": "Food Expense", "Material": "Food", "Quantity": 100, "Sequence": 1, "UnitCost": "10.00"}], "ActivityID": 6, "Objectives": ["For Computer Studies students to be able to impart their knowledge on IT essentials to DLSU employee participants.", "For the participants to know the fundamentals and use of basic software productivity tools limited to Microsoft (MS) Word, MS Powerpoint, MS Excel, Google Drive and Google Docs only.", "For the participants to know the uses of the taught productivity tools and how they can be integrated to their everyday tasks or jobs."], "Strategies": "Computer Literacy Program", "Organization": "La Salle Computer Society", "ProjectHeads": [{"IDNumber": 10111114}], "ProgramDesign": [{"Date": "Jan 22, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "Opening", "Sequence": 1, "StartTime": "12:00 PM", "Description": "prayer", "PersonInCharge": {"IDNumber": 1111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 15, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "337467.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	59dba6fdb8feddf286c612731cef50afde0a3ee4929cfc8635d135a979723fd39c92b4bb8622704b52d314a4c89de288999d13c9f07942dc7fe819e7613925b126f3d0d99b524666d95b13822b732cb426b3cbee62cc8d848d03e5eb3be56f3c8ddb097d6639571b03fb3c533f8153e955cd16bab298748ea36e97d861bd09b0	2018-01-10 22:28:57.032957+08
+122	6	1111113	5	1	\N	\N	{"Type": "Publicity/Awareness Campaign", "Venue": "A 1502-A Conference Room", "Nature": "Community Development", "Context": "some are computer illiterate", "Expenses": [{"Type": "Food Expense", "Material": "Food", "Quantity": 100, "Sequence": 1, "UnitCost": "10.00"}], "ActivityID": 6, "Objectives": ["For Computer Studies students to be able to impart their knowledge on IT essentials to DLSU employee participants.", "For the participants to know the fundamentals and use of basic software productivity tools limited to Microsoft (MS) Word, MS Powerpoint, MS Excel, Google Drive and Google Docs only.", "For the participants to know the uses of the taught productivity tools and how they can be integrated to their everyday tasks or jobs."], "Strategies": "Computer Literacy Program", "Organization": "La Salle Computer Society", "ProjectHeads": [{"IDNumber": 10111114}], "ProgramDesign": [{"Date": "Jan 22, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "Opening", "Sequence": 1, "StartTime": "12:00 PM", "Description": "prayer", "PersonInCharge": {"IDNumber": 1111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 15, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "337467.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	59dba6fdb8feddf286c612731cef50afde0a3ee4929cfc8635d135a979723fd39c92b4bb8622704b52d314a4c89de288999d13c9f07942dc7fe819e7613925b126f3d0d99b524666d95b13822b732cb426b3cbee62cc8d848d03e5eb3be56f3c8ddb097d6639571b03fb3c533f8153e955cd16bab298748ea36e97d861bd09b0	2018-01-10 22:28:57.032957+08
+162	118	1111113	2	1	\N	\N	{"Type": "General Assembly", "Venue": "A 1502-A Conference Room", "Nature": "Academic", "Context": "Camaraderie", "Expenses": [{"Type": "Food Expense", "Material": "Food", "Quantity": 10, "Sequence": 1, "UnitCost": "100.00"}], "ActivityID": 118, "Objectives": ["To be able to look back on the activities of the organization for the year", "To be able to recognize outstanding officers", "To help the students get a grasp of the culture in CCS"], "Strategies": "General Assembly", "Organization": "La Salle Computer Society", "ProjectHeads": [], "ProgramDesign": [{"Date": "Jan 25, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "Act", "Sequence": 1, "StartTime": "12:00 PM", "Description": "asd", "PersonInCharge": {"IDNumber": 1111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 20, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "336467.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	09845944c7708bca0c0c9c7beed48960b6056b547f6558423904d54fd91590fa8ef8cbc2cc073dd56bbc321091b817f3a1aee0fdf9d88a4a3d63c7508b8b67ea98345a8963c25e71c485356c323911cfbf74c6eae1e9b9b75f3a86aca7fc16e3aa5cc37faf111ce0a12f593010fa3a500350fd5e386a82cb0052160e499a581e	2018-01-10 22:29:03.210866+08
+164	118	1111113	5	1	\N	\N	{"Type": "General Assembly", "Venue": "A 1502-A Conference Room", "Nature": "Academic", "Context": "Camaraderie", "Expenses": [{"Type": "Food Expense", "Material": "Food", "Quantity": 10, "Sequence": 1, "UnitCost": "100.00"}], "ActivityID": 118, "Objectives": ["To be able to look back on the activities of the organization for the year", "To be able to recognize outstanding officers", "To help the students get a grasp of the culture in CCS"], "Strategies": "General Assembly", "Organization": "La Salle Computer Society", "ProjectHeads": [], "ProgramDesign": [{"Date": "Jan 25, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "Act", "Sequence": 1, "StartTime": "12:00 PM", "Description": "asd", "PersonInCharge": {"IDNumber": 1111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 20, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "336467.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	09845944c7708bca0c0c9c7beed48960b6056b547f6558423904d54fd91590fa8ef8cbc2cc073dd56bbc321091b817f3a1aee0fdf9d88a4a3d63c7508b8b67ea98345a8963c25e71c485356c323911cfbf74c6eae1e9b9b75f3a86aca7fc16e3aa5cc37faf111ce0a12f593010fa3a500350fd5e386a82cb0052160e499a581e	2018-01-10 22:29:03.210866+08
+214	5	2011111	4	0	\N	\N	\N	\N	\N
+329	74	1011121	6	0	\N	\N	\N	\N	\N
+330	74	1011120	7	0	\N	\N	\N	\N	\N
+4	8	1111111	3	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Special Interest", "Context": "Inconsistent data", "Expenses": [{"Type": "Food Expense", "Material": "Food", "Quantity": 1, "Sequence": 1, "UnitCost": "10.00"}], "ActivityID": 8, "Objectives": ["To teach participants concepts and skills supplementary to those learned in class", "To further solidify concepts participants learned in their class", "To help participants develop relevant skills that could supplement lessons learned in the classroom"], "Strategies": "Connecting Java to MySQL", "Organization": "La Salle Computer Society", "ProjectHeads": [{"IDNumber": 7111114}, {"IDNumber": 7111116}], "ProgramDesign": [{"Date": "Feb 02, 2018", "DayID": 0, "EndTime": "02:00 PM", "Activity": "prayer", "Sequence": 3, "StartTime": "01:00 PM", "Description": "asd", "PersonInCharge": {"IDNumber": 1111114}}, {"Date": "Feb 02, 2018", "DayID": 0, "EndTime": "03:00 PM", "Activity": "acs", "Sequence": 4, "StartTime": "02:00 PM", "Description": "asd", "PersonInCharge": {"IDNumber": 1111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 1, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "345567.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	996936326ceb8c58622a453d570f61b04e2d656183d0f654066c2572334cb7bba5f07d0852592a593e3dc97cd661cc10dd64bde5e263cc13f9bf187a394888605f65a7dfa18510cae3e89eb30acbda17e8ffd4c84198c5ffbc404a565d3ecde8cbf9cdca44fb49483386a6ee730cb087e93422532ef7e6f3ab6645b7f0717774	2018-01-10 22:29:29.230508+08
+18	13	1111111	3	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Special Interest", "Context": "Bad UI design", "Expenses": [{"Type": "Food Expense", "Material": "food", "Quantity": 10, "Sequence": 1, "UnitCost": "100.00"}], "ActivityID": 13, "Objectives": ["To teach students skills that cannot be learned inside the classroom", "To broaden the knowledge of the participants on the possibilities in mobile application development", "To teach the participants of the importance of UI Design is not only for aesthetic purposes but also for flexibility and usability"], "Strategies": "Mobile UI Seminar", "Organization": "La Salle Computer Society", "ProjectHeads": [{"IDNumber": 4111114}], "ProgramDesign": [{"Date": "Feb 12, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "Opening", "Sequence": 1, "StartTime": "12:00 PM", "Description": "Act", "PersonInCharge": {"IDNumber": 1111114}}, {"Date": "Feb 12, 2018", "DayID": 0, "EndTime": "02:00 PM", "Activity": "Lunch", "Sequence": 2, "StartTime": "01:00 PM", "Description": "asd", "PersonInCharge": {"IDNumber": 1111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 3, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "343657.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	19c311ff2b60ff04219c05ecdc440aef7652c555bb33f3e382cae341b2001130adca16afda7656cd3ea743a3f91686d0faa9e986e8df9ca1d85c588bc3067dcf58b40eaa1495e714cb1889f1c4370bf013de319780b3ccf108576f201d93cef5527e870b200de8f682445b8903d4b6c20cb132eb948d8a1e5bd256c5c6cb6391	2018-01-10 22:29:36.673564+08
+25	17	1111111	3	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Special Interest", "Context": "Competitive CCS", "Expenses": [{"Type": "Food Expense", "Material": "food", "Quantity": 10, "Sequence": 1, "UnitCost": "10.00"}], "ActivityID": 17, "Objectives": ["To be able to challenge members to think critically whilst under pressure", "To be able to promote competitive programming amongst the organization's members", "To be able to provide an entertaining activity with a unique twist to improve member interest in organizational activities"], "Strategies": "Last Programmer Standing", "Organization": "La Salle Computer Society", "ProjectHeads": [{"IDNumber": 4111112}, {"IDNumber": 4111114}], "ProgramDesign": [{"Date": "Feb 13, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "Opening", "Sequence": 1, "StartTime": "12:00 PM", "Description": "prater", "PersonInCharge": {"IDNumber": 1111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 4, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "342657.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	92f92c704840bbe109845c985d0da672a6e008b6b8a9da1debdde0aaf7e844f2b1f0ad4dfcd37b57676c52f3cd073e0e7cfa4771cd9413ae68b46f5bf3b4e2265957912cbaa3e21f03d0074b9474fbc083131d0fe8aff36ebf1cc6c817cfb79719886e969da8061e79fdb5f96a9a25468abb866eb25c9d6868cc3601cbd01bff	2018-01-10 22:29:42.736276+08
+121	6	1111111	3	1	\N	\N	{"Type": "Publicity/Awareness Campaign", "Venue": "A 1502-A Conference Room", "Nature": "Community Development", "Context": "some are computer illiterate", "Expenses": [{"Type": "Food Expense", "Material": "Food", "Quantity": 100, "Sequence": 1, "UnitCost": "10.00"}], "ActivityID": 6, "Objectives": ["For Computer Studies students to be able to impart their knowledge on IT essentials to DLSU employee participants.", "For the participants to know the fundamentals and use of basic software productivity tools limited to Microsoft (MS) Word, MS Powerpoint, MS Excel, Google Drive and Google Docs only.", "For the participants to know the uses of the taught productivity tools and how they can be integrated to their everyday tasks or jobs."], "Strategies": "Computer Literacy Program", "Organization": "La Salle Computer Society", "ProjectHeads": [{"IDNumber": 10111114}], "ProgramDesign": [{"Date": "Jan 22, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "Opening", "Sequence": 1, "StartTime": "12:00 PM", "Description": "prayer", "PersonInCharge": {"IDNumber": 1111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 15, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "337467.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	182513d19b134df3264ec1550ee39e1a5a1c3e458e92e99f437412240624bdc6cf60a499bd893a345eada5b24a396aa3d74e9789d509fb4181fbafed4973f389af71bd57a0dfb7ccf01822da7f9ef6d7a47f461f6e2cec87b177ec5392ddad1b52bd4554b9f48aac2d665a4f68dc9f87e1941cd3dc21d07550195453e852534c	2018-01-10 22:29:48.036591+08
+331	45	6111114	0	0	\N	\N	\N	\N	\N
+332	45	6111115	1	0	\N	\N	\N	\N	\N
+333	45	6111113	2	0	\N	\N	\N	\N	\N
+334	45	6111111	3	0	\N	\N	\N	\N	\N
+335	45	6111113	5	0	\N	\N	\N	\N	\N
+336	45	1011121	6	0	\N	\N	\N	\N	\N
+337	45	1011120	7	0	\N	\N	\N	\N	\N
+36	8	2011111	4	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Special Interest", "Context": "Inconsistent data", "Expenses": [{"Type": "Food Expense", "Material": "Food", "Quantity": 1, "Sequence": 1, "UnitCost": "10.00"}], "ActivityID": 8, "Objectives": ["To teach participants concepts and skills supplementary to those learned in class", "To further solidify concepts participants learned in their class", "To help participants develop relevant skills that could supplement lessons learned in the classroom"], "Strategies": "Connecting Java to MySQL", "Organization": "La Salle Computer Society", "ProjectHeads": [{"IDNumber": 7111114}, {"IDNumber": 7111116}], "ProgramDesign": [{"Date": "Feb 02, 2018", "DayID": 0, "EndTime": "02:00 PM", "Activity": "prayer", "Sequence": 3, "StartTime": "01:00 PM", "Description": "asd", "PersonInCharge": {"IDNumber": 1111114}}, {"Date": "Feb 02, 2018", "DayID": 0, "EndTime": "03:00 PM", "Activity": "acs", "Sequence": 4, "StartTime": "02:00 PM", "Description": "asd", "PersonInCharge": {"IDNumber": 1111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 1, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "345567.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	733f0a4bb55450fa2ba28a18848ecbdfd094af069ea8ddb99b9adfbe961cb04bbbe2c4a387296239fb2dc5bc0160e22e4803cee3c3328fb53988efe5c56a8d56013a3628e5b73eafdb8e79b7213baeacc07f67a90ef4ba9b1f9d90e7052b6d5adad4aa7ded65b46bc6d8118b2f49a7c3037693ecdad05a01f0d34c0a78c20b4e	2018-01-10 22:30:16.894918+08
+53	13	2011111	4	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Special Interest", "Context": "Bad UI design", "Expenses": [{"Type": "Food Expense", "Material": "food", "Quantity": 10, "Sequence": 1, "UnitCost": "100.00"}], "ActivityID": 13, "Objectives": ["To teach students skills that cannot be learned inside the classroom", "To broaden the knowledge of the participants on the possibilities in mobile application development", "To teach the participants of the importance of UI Design is not only for aesthetic purposes but also for flexibility and usability"], "Strategies": "Mobile UI Seminar", "Organization": "La Salle Computer Society", "ProjectHeads": [{"IDNumber": 4111114}], "ProgramDesign": [{"Date": "Feb 12, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "Opening", "Sequence": 1, "StartTime": "12:00 PM", "Description": "Act", "PersonInCharge": {"IDNumber": 1111114}}, {"Date": "Feb 12, 2018", "DayID": 0, "EndTime": "02:00 PM", "Activity": "Lunch", "Sequence": 2, "StartTime": "01:00 PM", "Description": "asd", "PersonInCharge": {"IDNumber": 1111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 3, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "343657.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	5b451a5d48edc0874d16f4ffbdb3e0d25fc8fa5bed0bc6f6a6a553f3a26d4033f51e12606d7106e53f9445db23eb776d758e792ed67e8f13f5b0c618e60a5b6db115842c418eb85c6dfa18632ddf0ad73cb1ec95fb9bdbee733e0a74ab2d6468f6b46617e89bd6cfcf6fccc495afb1bfde7974df41f8a6df379f95531b0f287d	2018-01-10 22:30:26.774521+08
+55	17	2011111	4	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Special Interest", "Context": "Competitive CCS", "Expenses": [{"Type": "Food Expense", "Material": "food", "Quantity": 10, "Sequence": 1, "UnitCost": "10.00"}], "ActivityID": 17, "Objectives": ["To be able to challenge members to think critically whilst under pressure", "To be able to promote competitive programming amongst the organization's members", "To be able to provide an entertaining activity with a unique twist to improve member interest in organizational activities"], "Strategies": "Last Programmer Standing", "Organization": "La Salle Computer Society", "ProjectHeads": [{"IDNumber": 4111112}, {"IDNumber": 4111114}], "ProgramDesign": [{"Date": "Feb 13, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "Opening", "Sequence": 1, "StartTime": "12:00 PM", "Description": "prater", "PersonInCharge": {"IDNumber": 1111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 4, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "342657.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	70adfabb1d7c7a8f8554916c125e8a6fe14b377fe2f57076156b4b38e1cfc74b63e18f580fa84a9f8ff8a7be55794f9dcd7516660261a84ef2e1dd8ac3b07e8a9a5685c717660f0b4a3653a2149ef3b34270778f570dd27b7183c33a8381446844ed9500370d9de67fa8b0b28cbde625a811f0d8d6be7780487df5d6094089a3	2018-01-10 22:30:34.502023+08
+220	9	1011121	6	0	\N	\N	\N	\N	\N
+221	9	1011120	7	0	\N	\N	\N	\N	\N
+228	12	1011121	6	0	\N	\N	\N	\N	\N
+229	12	1011120	7	0	\N	\N	\N	\N	\N
+233	28	7111111	3	0	\N	\N	\N	\N	\N
+235	28	1011121	6	0	\N	\N	\N	\N	\N
+236	28	1011120	7	0	\N	\N	\N	\N	\N
+125	6	2011111	4	1	\N	\N	{"Type": "Publicity/Awareness Campaign", "Venue": "A 1502-A Conference Room", "Nature": "Community Development", "Context": "some are computer illiterate", "Expenses": [{"Type": "Food Expense", "Material": "Food", "Quantity": 100, "Sequence": 1, "UnitCost": "10.00"}], "ActivityID": 6, "Objectives": ["For Computer Studies students to be able to impart their knowledge on IT essentials to DLSU employee participants.", "For the participants to know the fundamentals and use of basic software productivity tools limited to Microsoft (MS) Word, MS Powerpoint, MS Excel, Google Drive and Google Docs only.", "For the participants to know the uses of the taught productivity tools and how they can be integrated to their everyday tasks or jobs."], "Strategies": "Computer Literacy Program", "Organization": "La Salle Computer Society", "ProjectHeads": [{"IDNumber": 10111114}], "ProgramDesign": [{"Date": "Jan 22, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "Opening", "Sequence": 1, "StartTime": "12:00 PM", "Description": "prayer", "PersonInCharge": {"IDNumber": 1111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 15, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "337467.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	4ddb722be660fa643d668202db2a90ff5979914cb69e7776f691325261aebdaa962de09c9a1d8209af726e5a9433ecc2a64821d1b07f5177bcca7f88289105dca59d7981b52adc08b9216b186f5ec5f6aaff73cb7d16168c9480b073db0f0d17e22e8de44916478e458fdd1cd4cb296b20bf0aa90e2f338ba25c590920378840	2018-01-10 22:31:00.840826+08
+167	118	2011111	4	1	\N	\N	{"Type": "General Assembly", "Venue": "A 1502-A Conference Room", "Nature": "Academic", "Context": "Camaraderie", "Expenses": [{"Type": "Food Expense", "Material": "Food", "Quantity": 10, "Sequence": 1, "UnitCost": "100.00"}], "ActivityID": 118, "Objectives": ["To be able to look back on the activities of the organization for the year", "To be able to recognize outstanding officers", "To help the students get a grasp of the culture in CCS"], "Strategies": "General Assembly", "Organization": "La Salle Computer Society", "ProjectHeads": [], "ProgramDesign": [{"Date": "Jan 25, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "Act", "Sequence": 1, "StartTime": "12:00 PM", "Description": "asd", "PersonInCharge": {"IDNumber": 1111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 20, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "336467.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	15b452d0ded52a52e95da0cf5faba6a592196d8e6fb35be08d369d3646a04512fab8de84a126931e29ff3ac288bfbb0f1113b11fe1413b51c32f7be62f290f77d38c32cbc954007899c14a8b740175d0cd3d216b2a0035724b3d7d2a2f4f5c1a0a5adbbc9eb737816557f6c648c31b02e727f05bdb47cf12ae9198a3897a093d	2018-01-10 22:31:13.487678+08
+237	9	2011111	4	0	\N	\N	\N	\N	\N
+6	8	1011121	6	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Special Interest", "Context": "Inconsistent data", "Expenses": [{"Type": "Food Expense", "Material": "Food", "Quantity": 1, "Sequence": 1, "UnitCost": "10.00"}], "ActivityID": 8, "Objectives": ["To teach participants concepts and skills supplementary to those learned in class", "To further solidify concepts participants learned in their class", "To help participants develop relevant skills that could supplement lessons learned in the classroom"], "Strategies": "Connecting Java to MySQL", "Organization": "La Salle Computer Society", "ProjectHeads": [{"IDNumber": 7111114}, {"IDNumber": 7111116}], "ProgramDesign": [{"Date": "Feb 02, 2018", "DayID": 0, "EndTime": "02:00 PM", "Activity": "prayer", "Sequence": 3, "StartTime": "01:00 PM", "Description": "asd", "PersonInCharge": {"IDNumber": 1111114}}, {"Date": "Feb 02, 2018", "DayID": 0, "EndTime": "03:00 PM", "Activity": "acs", "Sequence": 4, "StartTime": "02:00 PM", "Description": "asd", "PersonInCharge": {"IDNumber": 1111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 1, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "345567.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	83850d182104f7eba30624a6727e8a2b63a30276381a1c4be4744757375a495828d75469239edf9d8fab95bb9389740aff41b8aedaae297c37f6600c6529c26dbc12a0bfde21b322690fb238416454a30929ecddde6b6da3b10b10cfb9a5623f53875bca782103daa4afeec02008ed08e5d1f1f1ca788c809c6a413fc4462e1a	2018-01-10 22:32:01.981255+08
+20	13	1011121	6	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Special Interest", "Context": "Bad UI design", "Expenses": [{"Type": "Food Expense", "Material": "food", "Quantity": 10, "Sequence": 1, "UnitCost": "100.00"}], "ActivityID": 13, "Objectives": ["To teach students skills that cannot be learned inside the classroom", "To broaden the knowledge of the participants on the possibilities in mobile application development", "To teach the participants of the importance of UI Design is not only for aesthetic purposes but also for flexibility and usability"], "Strategies": "Mobile UI Seminar", "Organization": "La Salle Computer Society", "ProjectHeads": [{"IDNumber": 4111114}], "ProgramDesign": [{"Date": "Feb 12, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "Opening", "Sequence": 1, "StartTime": "12:00 PM", "Description": "Act", "PersonInCharge": {"IDNumber": 1111114}}, {"Date": "Feb 12, 2018", "DayID": 0, "EndTime": "02:00 PM", "Activity": "Lunch", "Sequence": 2, "StartTime": "01:00 PM", "Description": "asd", "PersonInCharge": {"IDNumber": 1111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 3, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "343657.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	0a561da5cc0fec34a517a46cb838817f3763fd7bf9d32987fc1e295107bb42fee262c43753f786779d448bc193f87a5fdfe4b503584828b11ab4b90be595aff67f88d735c7c75ed94fbf33b13c7753514980dc9e1eaf928c6eabbe0e5fc4975e5fa786cf556aab0f075a8488e61e11a36639a23155bfb1816f54ab514db44fdb	2018-01-10 22:32:09.026228+08
+27	17	1011121	6	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Special Interest", "Context": "Competitive CCS", "Expenses": [{"Type": "Food Expense", "Material": "food", "Quantity": 10, "Sequence": 1, "UnitCost": "10.00"}], "ActivityID": 17, "Objectives": ["To be able to challenge members to think critically whilst under pressure", "To be able to promote competitive programming amongst the organization's members", "To be able to provide an entertaining activity with a unique twist to improve member interest in organizational activities"], "Strategies": "Last Programmer Standing", "Organization": "La Salle Computer Society", "ProjectHeads": [{"IDNumber": 4111112}, {"IDNumber": 4111114}], "ProgramDesign": [{"Date": "Feb 13, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "Opening", "Sequence": 1, "StartTime": "12:00 PM", "Description": "prater", "PersonInCharge": {"IDNumber": 1111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 4, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "342657.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	53ecaba51664838e1f365a6a594b585c658a444fdbfca8648bebae9ba8096c4d53fd5cbe5f57366367310a40969f2e06beb22e47f067dcb1723e632ed5f2ec8e82b348160d8c7915623170ee574cc19f015334cd5bc0437b6504d6c75f084505b81b4bddc258679e02e0200429ca422eaf8e018af1eb756fa3a65edcbd55a532	2018-01-10 22:32:14.763724+08
+165	118	1011121	6	1	\N	\N	{"Type": "General Assembly", "Venue": "A 1502-A Conference Room", "Nature": "Academic", "Context": "Camaraderie", "Expenses": [{"Type": "Food Expense", "Material": "Food", "Quantity": 10, "Sequence": 1, "UnitCost": "100.00"}], "ActivityID": 118, "Objectives": ["To be able to look back on the activities of the organization for the year", "To be able to recognize outstanding officers", "To help the students get a grasp of the culture in CCS"], "Strategies": "General Assembly", "Organization": "La Salle Computer Society", "ProjectHeads": [], "ProgramDesign": [{"Date": "Jan 25, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "Act", "Sequence": 1, "StartTime": "12:00 PM", "Description": "asd", "PersonInCharge": {"IDNumber": 1111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 20, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "336467.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	311e77423a7b44bfe1aa399ec1fd28d61c8efc6f24453037a2f38bd6fd53728c11fe337bd3a9bd4acec5f18000175a2f7b4fd43de4371b2ac052bfa691a1809854c48893a80f1688c9bc611d29645b6d1b48b10a27649e80abb9bcf2b0dc4d888c29172dd9972c4ec588bc38a8ae7ea5437f928c1b6f075d24c448de6cd76529	2018-01-10 22:32:26.983463+08
+123	6	1011121	6	1	\N	\N	{"Type": "Publicity/Awareness Campaign", "Venue": "A 1502-A Conference Room", "Nature": "Community Development", "Context": "some are computer illiterate", "Expenses": [{"Type": "Food Expense", "Material": "Food", "Quantity": 100, "Sequence": 1, "UnitCost": "10.00"}], "ActivityID": 6, "Objectives": ["For Computer Studies students to be able to impart their knowledge on IT essentials to DLSU employee participants.", "For the participants to know the fundamentals and use of basic software productivity tools limited to Microsoft (MS) Word, MS Powerpoint, MS Excel, Google Drive and Google Docs only.", "For the participants to know the uses of the taught productivity tools and how they can be integrated to their everyday tasks or jobs."], "Strategies": "Computer Literacy Program", "Organization": "La Salle Computer Society", "ProjectHeads": [{"IDNumber": 10111114}], "ProgramDesign": [{"Date": "Jan 22, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "Opening", "Sequence": 1, "StartTime": "12:00 PM", "Description": "prayer", "PersonInCharge": {"IDNumber": 1111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 15, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "337467.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	49bd422e4c3ff1540b798d6af56047e7eb5197442be2ac5fe6bd57a184bfa83e6906842bb64ce7a0c4f1ea11958b0b11326474a06c7dffa3c55445e603432561c835909847c0361f0d3def95566af8a2a02fd28753176793ab2b4092e3f38a95d0cf9461b37b3799e1c5aefdd8740b9f94ea4ab215f37b9692eb2f9daaff5a1f	2018-01-10 22:32:36.892704+08
+7	8	1011120	7	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Special Interest", "Context": "Inconsistent data", "Expenses": [{"Type": "Food Expense", "Material": "Food", "Quantity": 1, "Sequence": 1, "UnitCost": "10.00"}], "ActivityID": 8, "Objectives": ["To teach participants concepts and skills supplementary to those learned in class", "To further solidify concepts participants learned in their class", "To help participants develop relevant skills that could supplement lessons learned in the classroom"], "Strategies": "Connecting Java to MySQL", "Organization": "La Salle Computer Society", "ProjectHeads": [{"IDNumber": 7111114}, {"IDNumber": 7111116}], "ProgramDesign": [{"Date": "Feb 02, 2018", "DayID": 0, "EndTime": "02:00 PM", "Activity": "prayer", "Sequence": 3, "StartTime": "01:00 PM", "Description": "asd", "PersonInCharge": {"IDNumber": 1111114}}, {"Date": "Feb 02, 2018", "DayID": 0, "EndTime": "03:00 PM", "Activity": "acs", "Sequence": 4, "StartTime": "02:00 PM", "Description": "asd", "PersonInCharge": {"IDNumber": 1111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 1, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "345567.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	60591aebc37d5ff24963b4388439a08f5f3f840b5fbe9b2cbf6dc5e6cd4c8d4205e85cf362f284d31bae914cf4e6cebfe037c1c88360d1ba9c18e05df5bfc5c4193a123aceca2696a711ccfade78327cf8495889b1fb5d04cf5a0f444da3ea945c6bce5e2813fee800257154d2809491059556d5cb9c3405eeb3aac96107cb93	2018-01-10 22:33:49.412298+08
+21	13	1011120	7	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Special Interest", "Context": "Bad UI design", "Expenses": [{"Type": "Food Expense", "Material": "food", "Quantity": 10, "Sequence": 1, "UnitCost": "100.00"}], "ActivityID": 13, "Objectives": ["To teach students skills that cannot be learned inside the classroom", "To broaden the knowledge of the participants on the possibilities in mobile application development", "To teach the participants of the importance of UI Design is not only for aesthetic purposes but also for flexibility and usability"], "Strategies": "Mobile UI Seminar", "Organization": "La Salle Computer Society", "ProjectHeads": [{"IDNumber": 4111114}], "ProgramDesign": [{"Date": "Feb 12, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "Opening", "Sequence": 1, "StartTime": "12:00 PM", "Description": "Act", "PersonInCharge": {"IDNumber": 1111114}}, {"Date": "Feb 12, 2018", "DayID": 0, "EndTime": "02:00 PM", "Activity": "Lunch", "Sequence": 2, "StartTime": "01:00 PM", "Description": "asd", "PersonInCharge": {"IDNumber": 1111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 3, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "343657.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	3e5ed681c37cf7979865d4d14945634701bca613fb67c798c1226bd35f65fd2732c54ec8e187fbeb41e1515f4f4f687c2b2d50b57006ce139de9cd731527f57dddb181ab2140f0052627486b13fc3f8ffb2cfc8a85940d10c6e2f7bd0a4b57106c2b7431e1f597660b8ec4ce2b86d01d125ef07b0064927b1f7cf39f3b7c6329	2018-01-10 22:33:57.618223+08
+28	17	1011120	7	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Special Interest", "Context": "Competitive CCS", "Expenses": [{"Type": "Food Expense", "Material": "food", "Quantity": 10, "Sequence": 1, "UnitCost": "10.00"}], "ActivityID": 17, "Objectives": ["To be able to challenge members to think critically whilst under pressure", "To be able to promote competitive programming amongst the organization's members", "To be able to provide an entertaining activity with a unique twist to improve member interest in organizational activities"], "Strategies": "Last Programmer Standing", "Organization": "La Salle Computer Society", "ProjectHeads": [{"IDNumber": 4111112}, {"IDNumber": 4111114}], "ProgramDesign": [{"Date": "Feb 13, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "Opening", "Sequence": 1, "StartTime": "12:00 PM", "Description": "prater", "PersonInCharge": {"IDNumber": 1111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 4, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "342657.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	89188f34e14956fca066e7fa85114a0b1e4fd636cbcc717b44fffad732536b96b2cfe081796fda59de6e9356f70298e2a21304d2aaaf379e6fb52e049042e28d60f05fe592ef452ee26d73a095463eb39734a0cf3b1985fb6d287a058964202acbcda121e7ab9b4f519a68802745bec2a1f26886dff11235ee3d78800c913cb6	2018-01-10 22:34:03.785532+08
+344	22	1011121	6	0	\N	\N	\N	\N	\N
+345	22	1011120	7	0	\N	\N	\N	\N	\N
+346	69	3111114	0	0	\N	\N	\N	\N	\N
+347	69	3111115	1	0	\N	\N	\N	\N	\N
+348	69	3111113	2	0	\N	\N	\N	\N	\N
+349	69	3111111	3	0	\N	\N	\N	\N	\N
+350	69	3111113	5	0	\N	\N	\N	\N	\N
+351	69	1011121	6	0	\N	\N	\N	\N	\N
+352	69	1011120	7	0	\N	\N	\N	\N	\N
+353	22	2011111	4	0	\N	\N	\N	\N	\N
+166	118	1011120	7	1	\N	\N	{"Type": "General Assembly", "Venue": "A 1502-A Conference Room", "Nature": "Academic", "Context": "Camaraderie", "Expenses": [{"Type": "Food Expense", "Material": "Food", "Quantity": 10, "Sequence": 1, "UnitCost": "100.00"}], "ActivityID": 118, "Objectives": ["To be able to look back on the activities of the organization for the year", "To be able to recognize outstanding officers", "To help the students get a grasp of the culture in CCS"], "Strategies": "General Assembly", "Organization": "La Salle Computer Society", "ProjectHeads": [], "ProgramDesign": [{"Date": "Jan 25, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "Act", "Sequence": 1, "StartTime": "12:00 PM", "Description": "asd", "PersonInCharge": {"IDNumber": 1111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 20, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "336467.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	12621b8b1474a214803a3ea2cff59d38a64f39202b4fa267c22f2f12a0ac66c1751b62308b4543623bbb792670f73d30d3de3cebbb7630a7c8ee13d74a3c46abccd4b0158115e096013b243bf55d7982d0a2a6d6cc711b5791a260ee8272eedb18070d89828f39cf9ba76e51e5c023992566a9936401a7b8a16dfd0c5a3878ab	2018-01-10 22:34:14.743693+08
+124	6	1011120	7	1	\N	\N	{"Type": "Publicity/Awareness Campaign", "Venue": "A 1502-A Conference Room", "Nature": "Community Development", "Context": "some are computer illiterate", "Expenses": [{"Type": "Food Expense", "Material": "Food", "Quantity": 100, "Sequence": 1, "UnitCost": "10.00"}], "ActivityID": 6, "Objectives": ["For Computer Studies students to be able to impart their knowledge on IT essentials to DLSU employee participants.", "For the participants to know the fundamentals and use of basic software productivity tools limited to Microsoft (MS) Word, MS Powerpoint, MS Excel, Google Drive and Google Docs only.", "For the participants to know the uses of the taught productivity tools and how they can be integrated to their everyday tasks or jobs."], "Strategies": "Computer Literacy Program", "Organization": "La Salle Computer Society", "ProjectHeads": [{"IDNumber": 10111114}], "ProgramDesign": [{"Date": "Jan 22, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "Opening", "Sequence": 1, "StartTime": "12:00 PM", "Description": "prayer", "PersonInCharge": {"IDNumber": 1111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 15, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "337467.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	8e5b584e8a4c520f0c3679aff6eba6884e0a03bd41194779e35c8494c89df705cf8452baf303b7b5d1d3c389b71dab97e410dad5098a6f4d0c172eafb9c6997b788fdaf40b73ddf62fc0055ed4a47a9cdf9786db3e8aed1872df44c3bdc9c31b751cecc7ec5cc11d92fe2612b3b742a14a50243e6bf489fd16e6afd0009ad0dc	2018-01-10 22:34:24.601347+08
+44	7	4111114	0	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "Y 407 Seminar Room", "Nature": "Special Interest", "Context": "The activity teaches students about Photoshop which could help translate what they want to portray. Photoshop enables them to have another way of expressing and visualizing their message.", "Expenses": [{"Type": "Honorarium", "Material": "Token of Appreciation", "Quantity": 1, "Sequence": 1, "UnitCost": "1500.00"}, {"Type": "Food Expense", "Material": "Food for participants", "Quantity": 40, "Sequence": 2, "UnitCost": "40.00"}], "ActivityID": 7, "Objectives": ["To introduce the participants to basic Photoshop concepts", "To teach participants new concepts of art", "To encourage the participants to learn new art techniques"], "Strategies": "Photoshop Series 1: Basic", "Organization": "Moo Media", "ProjectHeads": [{"IDNumber": 4111114}, {"IDNumber": 4111115}], "ProgramDesign": [{"Date": "Jan 26, 2018", "DayID": 0, "EndTime": "01:15 PM", "Activity": "Orientation", "Sequence": 1, "StartTime": "01:00 PM", "Description": "Participants will be briefed of the activities for the day", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Jan 26, 2018", "DayID": 0, "EndTime": "04:00 PM", "Activity": "Photoshop Basics", "Sequence": 2, "StartTime": "01:15 PM", "Description": "Participants are taught how to use Photoshop", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Jan 26, 2018", "DayID": 0, "EndTime": "04:30 PM", "Activity": "Exercises", "Sequence": 3, "StartTime": "04:00 PM", "Description": "They are given exercises to practice what they learned", "PersonInCharge": {"IDNumber": 4111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 7, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "313744.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	3a8db45a58db5c03ba306f78855945c84b71b5eb0982c84a1fabb2d300ad65dcbdb4fe77d2275d825c9b12b319525a2a14bbae97a2a0a301ab7e477beced27de2ebb66ffd5732a0d849d882457aab8597ade9af4d221b9d7364bd09082656c966a7d96a9e522a3ad622d49faf76649608f2d1b6aec5f1a7104cde7de0bc63912	2018-01-10 22:35:29.908096+08
+191	29	4111114	0	1	\N	\N	{"Type": "General Assembly", "Venue": "Classroom (Full-size)", "Nature": "Organizational Development", "Context": "Decrease quality of student leaders", "Expenses": [{"Type": "Food Expense", "Material": "Food", "Quantity": 30, "Sequence": 1, "UnitCost": "40.00"}], "ActivityID": 29, "Objectives": ["To introduce the members to the organization's mission vision and purpose", "To increase awareness on the concerns of the organization", "To allow the members to know one another"], "Strategies": "MooMedia: 1st General Assembly", "Organization": "Moo Media", "ProjectHeads": [{"IDNumber": 7111114}], "ProgramDesign": [{"Date": "Jan 29, 2018", "DayID": 0, "EndTime": "09:30 AM", "Activity": "Introduction", "Sequence": 1, "StartTime": "09:00 AM", "Description": "The organization officers introduce themselves and tell their objectives for the term", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Jan 29, 2018", "DayID": 0, "EndTime": "10:30 AM", "Activity": "Games", "Sequence": 2, "StartTime": "09:30 AM", "Description": "A game is played to capture the attention of the participants and keep them engaged throughout", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Jan 29, 2018", "DayID": 0, "EndTime": "12:00 PM", "Activity": "Briefing ", "Sequence": 3, "StartTime": "10:30 AM", "Description": "The officers explains their plans for the term and ask for feedback from the members", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Jan 29, 2018", "DayID": 0, "EndTime": "12:30 PM", "Activity": "Lunch", "Sequence": 4, "StartTime": "12:00 PM", "Description": "The attendees are given food", "PersonInCharge": {"IDNumber": 4111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 24, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "306744.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	6c944be8b28b6c01b1219d793d080298d678bfb668a36ba4612edf5a1aaf7e5818ee34f0f0458cd906a59c3320f9b02a59da4b8bd713925d823eddb0139dad06a4cf430c5af8847d19cc772ed71563e3997b3287c0248fa0a06c1254f8f5a0d17e40da0e764cc3f80d7e98df3664dd3bd53d052385ddbeb1a23207baa7e74a51	2018-01-10 22:35:36.51746+08
+238	83	2011111	4	0	\N	\N	\N	\N	\N
+239	12	2011111	4	0	\N	\N	\N	\N	\N
+354	69	2011111	4	0	\N	\N	\N	\N	\N
+101	11	4111115	1	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "Classroom", "Nature": "Special Interest", "Context": "The activity teaches students about Photoshop which could help translate what they want to portray. Photoshop enables them to have another way of expressing and visualizing their message.\\r\\n", "Expenses": [{"Type": "Honorarium", "Material": "Token  of Appreciation", "Quantity": 1, "Sequence": 1, "UnitCost": "1200.00"}, {"Type": "Food Expense", "Material": "Food", "Quantity": 30, "Sequence": 2, "UnitCost": "50.00"}], "ActivityID": 11, "Objectives": ["To introduce the participants to intermediate Photoshop concepts", "To teach participants intermediate concepts of art", "To encourage the participants to learn intermediate art techniques"], "Strategies": "Photoshop Series 2: Intermediate", "Organization": "Moo Media", "ProjectHeads": [{"IDNumber": 1111114}], "ProgramDesign": [{"Date": "Feb 02, 2018", "DayID": 0, "EndTime": "12:15 PM", "Activity": "Orientation", "Sequence": 1, "StartTime": "12:00 PM", "Description": "Orientation of the activities for the day", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Feb 02, 2018", "DayID": 0, "EndTime": "04:00 PM", "Activity": "Photoshop lesson", "Sequence": 2, "StartTime": "12:15 PM", "Description": "The students are given a lesson on how to use photoshop", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Feb 02, 2018", "DayID": 0, "EndTime": "05:00 PM", "Activity": "Exercises", "Sequence": 3, "StartTime": "04:00 PM", "Description": "Students practice what they learned through exercises", "PersonInCharge": {"IDNumber": 4111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 13, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "310644.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	95c0af5246b8ac9f25663043edc4bb17ac650dee8169dd7b4d50775b447cc18afc6e2eecd9e082b8ce4df1a42fae423eb0d3b0440b575f447abd6391d39606400dde01bef96988c66b54353ff6d6dc0ea9ed86f4fa008fe97f96bcbaa34e8a82d37551a93e22a8f2cc3c84f177313f7fa9e362b65f6df2948140e5de1a50d300	2018-01-10 22:39:35.764203+08
+45	7	4111115	0	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "Y 407 Seminar Room", "Nature": "Special Interest", "Context": "The activity teaches students about Photoshop which could help translate what they want to portray. Photoshop enables them to have another way of expressing and visualizing their message.", "Expenses": [{"Type": "Honorarium", "Material": "Token of Appreciation", "Quantity": 1, "Sequence": 1, "UnitCost": "1500.00"}, {"Type": "Food Expense", "Material": "Food for participants", "Quantity": 40, "Sequence": 2, "UnitCost": "40.00"}], "ActivityID": 7, "Objectives": ["To introduce the participants to basic Photoshop concepts", "To teach participants new concepts of art", "To encourage the participants to learn new art techniques"], "Strategies": "Photoshop Series 1: Basic", "Organization": "Moo Media", "ProjectHeads": [{"IDNumber": 4111114}, {"IDNumber": 4111115}], "ProgramDesign": [{"Date": "Jan 26, 2018", "DayID": 0, "EndTime": "01:15 PM", "Activity": "Orientation", "Sequence": 1, "StartTime": "01:00 PM", "Description": "Participants will be briefed of the activities for the day", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Jan 26, 2018", "DayID": 0, "EndTime": "04:00 PM", "Activity": "Photoshop Basics", "Sequence": 2, "StartTime": "01:15 PM", "Description": "Participants are taught how to use Photoshop", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Jan 26, 2018", "DayID": 0, "EndTime": "04:30 PM", "Activity": "Exercises", "Sequence": 3, "StartTime": "04:00 PM", "Description": "They are given exercises to practice what they learned", "PersonInCharge": {"IDNumber": 4111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 7, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "313744.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	8eef35c889c8bc2d5457a03365ec448fee0c4d793bf109cf499426f9357175598436b53302e3da759e981566b01dfd3b4aa0ee64597e8d7c0a78e2efd73479edb5182ea79407fc3f4dcc0463c8bf39d54af53f5d6de5334cc75efd1d47e05c8dbcdf393c3d2da6135f3f130e66a64117f81494234ec689f3759ecf3a074c1770	2018-01-10 22:39:47.668878+08
+46	7	4111115	1	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "Y 407 Seminar Room", "Nature": "Special Interest", "Context": "The activity teaches students about Photoshop which could help translate what they want to portray. Photoshop enables them to have another way of expressing and visualizing their message.", "Expenses": [{"Type": "Honorarium", "Material": "Token of Appreciation", "Quantity": 1, "Sequence": 1, "UnitCost": "1500.00"}, {"Type": "Food Expense", "Material": "Food for participants", "Quantity": 40, "Sequence": 2, "UnitCost": "40.00"}], "ActivityID": 7, "Objectives": ["To introduce the participants to basic Photoshop concepts", "To teach participants new concepts of art", "To encourage the participants to learn new art techniques"], "Strategies": "Photoshop Series 1: Basic", "Organization": "Moo Media", "ProjectHeads": [{"IDNumber": 4111114}, {"IDNumber": 4111115}], "ProgramDesign": [{"Date": "Jan 26, 2018", "DayID": 0, "EndTime": "01:15 PM", "Activity": "Orientation", "Sequence": 1, "StartTime": "01:00 PM", "Description": "Participants will be briefed of the activities for the day", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Jan 26, 2018", "DayID": 0, "EndTime": "04:00 PM", "Activity": "Photoshop Basics", "Sequence": 2, "StartTime": "01:15 PM", "Description": "Participants are taught how to use Photoshop", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Jan 26, 2018", "DayID": 0, "EndTime": "04:30 PM", "Activity": "Exercises", "Sequence": 3, "StartTime": "04:00 PM", "Description": "They are given exercises to practice what they learned", "PersonInCharge": {"IDNumber": 4111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 7, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "313744.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	8eef35c889c8bc2d5457a03365ec448fee0c4d793bf109cf499426f9357175598436b53302e3da759e981566b01dfd3b4aa0ee64597e8d7c0a78e2efd73479edb5182ea79407fc3f4dcc0463c8bf39d54af53f5d6de5334cc75efd1d47e05c8dbcdf393c3d2da6135f3f130e66a64117f81494234ec689f3759ecf3a074c1770	2018-01-10 22:39:47.668878+08
+192	29	4111115	1	1	\N	\N	{"Type": "General Assembly", "Venue": "Classroom (Full-size)", "Nature": "Organizational Development", "Context": "Decrease quality of student leaders", "Expenses": [{"Type": "Food Expense", "Material": "Food", "Quantity": 30, "Sequence": 1, "UnitCost": "40.00"}], "ActivityID": 29, "Objectives": ["To introduce the members to the organization's mission vision and purpose", "To increase awareness on the concerns of the organization", "To allow the members to know one another"], "Strategies": "MooMedia: 1st General Assembly", "Organization": "Moo Media", "ProjectHeads": [{"IDNumber": 7111114}], "ProgramDesign": [{"Date": "Jan 29, 2018", "DayID": 0, "EndTime": "09:30 AM", "Activity": "Introduction", "Sequence": 1, "StartTime": "09:00 AM", "Description": "The organization officers introduce themselves and tell their objectives for the term", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Jan 29, 2018", "DayID": 0, "EndTime": "10:30 AM", "Activity": "Games", "Sequence": 2, "StartTime": "09:30 AM", "Description": "A game is played to capture the attention of the participants and keep them engaged throughout", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Jan 29, 2018", "DayID": 0, "EndTime": "12:00 PM", "Activity": "Briefing ", "Sequence": 3, "StartTime": "10:30 AM", "Description": "The officers explains their plans for the term and ask for feedback from the members", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Jan 29, 2018", "DayID": 0, "EndTime": "12:30 PM", "Activity": "Lunch", "Sequence": 4, "StartTime": "12:00 PM", "Description": "The attendees are given food", "PersonInCharge": {"IDNumber": 4111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 24, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "306744.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	3b045146292d61a95d5da114d8fb1c8eeaa83246f387f720541609ba516211b4809692df563f34ff855d896bd18aa39ebb7a1b2ebb9f5332219a23f2fd3c19e9c796269c934bbba1243b999b9dd235fc9c38b70f1e6875fdee4f4f3cec270db9de63f5b0d8c31addef5fd9cf0f4b89e6df71bab23cbfc0050a2f468805127d94	2018-01-10 22:49:46.560311+08
+240	85	10111114	0	0	\N	\N	\N	\N	\N
+241	85	10111115	1	0	\N	\N	\N	\N	\N
+242	85	10111113	2	0	\N	\N	\N	\N	\N
+243	85	10111111	3	0	\N	\N	\N	\N	\N
+244	85	10111113	5	0	\N	\N	\N	\N	\N
+245	85	1011121	6	0	\N	\N	\N	\N	\N
+246	85	1011120	7	0	\N	\N	\N	\N	\N
+47	7	4111113	2	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "Y 407 Seminar Room", "Nature": "Special Interest", "Context": "The activity teaches students about Photoshop which could help translate what they want to portray. Photoshop enables them to have another way of expressing and visualizing their message.", "Expenses": [{"Type": "Honorarium", "Material": "Token of Appreciation", "Quantity": 1, "Sequence": 1, "UnitCost": "1500.00"}, {"Type": "Food Expense", "Material": "Food for participants", "Quantity": 40, "Sequence": 2, "UnitCost": "40.00"}], "ActivityID": 7, "Objectives": ["To introduce the participants to basic Photoshop concepts", "To teach participants new concepts of art", "To encourage the participants to learn new art techniques"], "Strategies": "Photoshop Series 1: Basic", "Organization": "Moo Media", "ProjectHeads": [{"IDNumber": 4111114}, {"IDNumber": 4111115}], "ProgramDesign": [{"Date": "Jan 26, 2018", "DayID": 0, "EndTime": "01:15 PM", "Activity": "Orientation", "Sequence": 1, "StartTime": "01:00 PM", "Description": "Participants will be briefed of the activities for the day", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Jan 26, 2018", "DayID": 0, "EndTime": "04:00 PM", "Activity": "Photoshop Basics", "Sequence": 2, "StartTime": "01:15 PM", "Description": "Participants are taught how to use Photoshop", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Jan 26, 2018", "DayID": 0, "EndTime": "04:30 PM", "Activity": "Exercises", "Sequence": 3, "StartTime": "04:00 PM", "Description": "They are given exercises to practice what they learned", "PersonInCharge": {"IDNumber": 4111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 7, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "313744.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	034932bcb9e4c2aab8733b37637e082dcad2e032408aff1de86cf8f9f3979c59a96dd05ed102aabe6aa373ba24d4ef1daa1bed7f3ffec06eaa128e801dfc3e1cd4dbfe49da370afd8e2ddaf8927edf9d3257577ae76be6770b7c86b29a3faaea52f39fba9bd9653f3bbe470fbb5741c5a1f006c0d0352d45a0a25cd5058a305c	2018-01-10 22:50:33.522682+08
+49	7	4111113	5	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "Y 407 Seminar Room", "Nature": "Special Interest", "Context": "The activity teaches students about Photoshop which could help translate what they want to portray. Photoshop enables them to have another way of expressing and visualizing their message.", "Expenses": [{"Type": "Honorarium", "Material": "Token of Appreciation", "Quantity": 1, "Sequence": 1, "UnitCost": "1500.00"}, {"Type": "Food Expense", "Material": "Food for participants", "Quantity": 40, "Sequence": 2, "UnitCost": "40.00"}], "ActivityID": 7, "Objectives": ["To introduce the participants to basic Photoshop concepts", "To teach participants new concepts of art", "To encourage the participants to learn new art techniques"], "Strategies": "Photoshop Series 1: Basic", "Organization": "Moo Media", "ProjectHeads": [{"IDNumber": 4111114}, {"IDNumber": 4111115}], "ProgramDesign": [{"Date": "Jan 26, 2018", "DayID": 0, "EndTime": "01:15 PM", "Activity": "Orientation", "Sequence": 1, "StartTime": "01:00 PM", "Description": "Participants will be briefed of the activities for the day", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Jan 26, 2018", "DayID": 0, "EndTime": "04:00 PM", "Activity": "Photoshop Basics", "Sequence": 2, "StartTime": "01:15 PM", "Description": "Participants are taught how to use Photoshop", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Jan 26, 2018", "DayID": 0, "EndTime": "04:30 PM", "Activity": "Exercises", "Sequence": 3, "StartTime": "04:00 PM", "Description": "They are given exercises to practice what they learned", "PersonInCharge": {"IDNumber": 4111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 7, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "313744.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	034932bcb9e4c2aab8733b37637e082dcad2e032408aff1de86cf8f9f3979c59a96dd05ed102aabe6aa373ba24d4ef1daa1bed7f3ffec06eaa128e801dfc3e1cd4dbfe49da370afd8e2ddaf8927edf9d3257577ae76be6770b7c86b29a3faaea52f39fba9bd9653f3bbe470fbb5741c5a1f006c0d0352d45a0a25cd5058a305c	2018-01-10 22:50:33.522682+08
+193	29	4111113	2	1	\N	\N	{"Type": "General Assembly", "Venue": "Classroom (Full-size)", "Nature": "Organizational Development", "Context": "Decrease quality of student leaders", "Expenses": [{"Type": "Food Expense", "Material": "Food", "Quantity": 30, "Sequence": 1, "UnitCost": "40.00"}], "ActivityID": 29, "Objectives": ["To introduce the members to the organization's mission vision and purpose", "To increase awareness on the concerns of the organization", "To allow the members to know one another"], "Strategies": "MooMedia: 1st General Assembly", "Organization": "Moo Media", "ProjectHeads": [{"IDNumber": 7111114}], "ProgramDesign": [{"Date": "Jan 29, 2018", "DayID": 0, "EndTime": "09:30 AM", "Activity": "Introduction", "Sequence": 1, "StartTime": "09:00 AM", "Description": "The organization officers introduce themselves and tell their objectives for the term", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Jan 29, 2018", "DayID": 0, "EndTime": "10:30 AM", "Activity": "Games", "Sequence": 2, "StartTime": "09:30 AM", "Description": "A game is played to capture the attention of the participants and keep them engaged throughout", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Jan 29, 2018", "DayID": 0, "EndTime": "12:00 PM", "Activity": "Briefing ", "Sequence": 3, "StartTime": "10:30 AM", "Description": "The officers explains their plans for the term and ask for feedback from the members", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Jan 29, 2018", "DayID": 0, "EndTime": "12:30 PM", "Activity": "Lunch", "Sequence": 4, "StartTime": "12:00 PM", "Description": "The attendees are given food", "PersonInCharge": {"IDNumber": 4111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 24, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "306744.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	796a7952db85834b34375460f5702f40b0c859009d87121f2c483d0a2235892a7d6a6751c659175daa7251b44b8bf8635439d8834dc25b31cf578fefb1d60f2c73d83aa6356dc64e26614c629a5d10fd7bb5b76940733d328a54ad6281bbcadb1f81422b98d9e2f5fb2f4e90d8188039860c876b5490980c72c0760684300c8b	2018-01-10 22:50:39.776868+08
+195	29	4111113	5	1	\N	\N	{"Type": "General Assembly", "Venue": "Classroom (Full-size)", "Nature": "Organizational Development", "Context": "Decrease quality of student leaders", "Expenses": [{"Type": "Food Expense", "Material": "Food", "Quantity": 30, "Sequence": 1, "UnitCost": "40.00"}], "ActivityID": 29, "Objectives": ["To introduce the members to the organization's mission vision and purpose", "To increase awareness on the concerns of the organization", "To allow the members to know one another"], "Strategies": "MooMedia: 1st General Assembly", "Organization": "Moo Media", "ProjectHeads": [{"IDNumber": 7111114}], "ProgramDesign": [{"Date": "Jan 29, 2018", "DayID": 0, "EndTime": "09:30 AM", "Activity": "Introduction", "Sequence": 1, "StartTime": "09:00 AM", "Description": "The organization officers introduce themselves and tell their objectives for the term", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Jan 29, 2018", "DayID": 0, "EndTime": "10:30 AM", "Activity": "Games", "Sequence": 2, "StartTime": "09:30 AM", "Description": "A game is played to capture the attention of the participants and keep them engaged throughout", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Jan 29, 2018", "DayID": 0, "EndTime": "12:00 PM", "Activity": "Briefing ", "Sequence": 3, "StartTime": "10:30 AM", "Description": "The officers explains their plans for the term and ask for feedback from the members", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Jan 29, 2018", "DayID": 0, "EndTime": "12:30 PM", "Activity": "Lunch", "Sequence": 4, "StartTime": "12:00 PM", "Description": "The attendees are given food", "PersonInCharge": {"IDNumber": 4111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 24, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "306744.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	796a7952db85834b34375460f5702f40b0c859009d87121f2c483d0a2235892a7d6a6751c659175daa7251b44b8bf8635439d8834dc25b31cf578fefb1d60f2c73d83aa6356dc64e26614c629a5d10fd7bb5b76940733d328a54ad6281bbcadb1f81422b98d9e2f5fb2f4e90d8188039860c876b5490980c72c0760684300c8b	2018-01-10 22:50:39.776868+08
+102	11	4111113	2	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "Classroom", "Nature": "Special Interest", "Context": "The activity teaches students about Photoshop which could help translate what they want to portray. Photoshop enables them to have another way of expressing and visualizing their message.\\r\\n", "Expenses": [{"Type": "Honorarium", "Material": "Token  of Appreciation", "Quantity": 1, "Sequence": 1, "UnitCost": "1200.00"}, {"Type": "Food Expense", "Material": "Food", "Quantity": 30, "Sequence": 2, "UnitCost": "50.00"}], "ActivityID": 11, "Objectives": ["To introduce the participants to intermediate Photoshop concepts", "To teach participants intermediate concepts of art", "To encourage the participants to learn intermediate art techniques"], "Strategies": "Photoshop Series 2: Intermediate", "Organization": "Moo Media", "ProjectHeads": [{"IDNumber": 1111114}], "ProgramDesign": [{"Date": "Feb 02, 2018", "DayID": 0, "EndTime": "12:15 PM", "Activity": "Orientation", "Sequence": 1, "StartTime": "12:00 PM", "Description": "Orientation of the activities for the day", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Feb 02, 2018", "DayID": 0, "EndTime": "04:00 PM", "Activity": "Photoshop lesson", "Sequence": 2, "StartTime": "12:15 PM", "Description": "The students are given a lesson on how to use photoshop", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Feb 02, 2018", "DayID": 0, "EndTime": "05:00 PM", "Activity": "Exercises", "Sequence": 3, "StartTime": "04:00 PM", "Description": "Students practice what they learned through exercises", "PersonInCharge": {"IDNumber": 4111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 13, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "310644.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	03a4712306cf3ec1b994d05a08fe4e8d0a68a2572739144bf9a72469f02c33aafc95fd552b9c561910515ebfa9a48df5c434c6739604d9403a5c1fa021871c30a7c1d8e33e9eab1d82692ab2d123904f3f2f078ef7c20e62508f2e9aa6925b311acdfdd2563a410db029936695cb201ab5d2be79ca8e38021b36c4b772d52f8c	2018-01-10 22:50:46.207977+08
+104	11	4111113	5	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "Classroom", "Nature": "Special Interest", "Context": "The activity teaches students about Photoshop which could help translate what they want to portray. Photoshop enables them to have another way of expressing and visualizing their message.\\r\\n", "Expenses": [{"Type": "Honorarium", "Material": "Token  of Appreciation", "Quantity": 1, "Sequence": 1, "UnitCost": "1200.00"}, {"Type": "Food Expense", "Material": "Food", "Quantity": 30, "Sequence": 2, "UnitCost": "50.00"}], "ActivityID": 11, "Objectives": ["To introduce the participants to intermediate Photoshop concepts", "To teach participants intermediate concepts of art", "To encourage the participants to learn intermediate art techniques"], "Strategies": "Photoshop Series 2: Intermediate", "Organization": "Moo Media", "ProjectHeads": [{"IDNumber": 1111114}], "ProgramDesign": [{"Date": "Feb 02, 2018", "DayID": 0, "EndTime": "12:15 PM", "Activity": "Orientation", "Sequence": 1, "StartTime": "12:00 PM", "Description": "Orientation of the activities for the day", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Feb 02, 2018", "DayID": 0, "EndTime": "04:00 PM", "Activity": "Photoshop lesson", "Sequence": 2, "StartTime": "12:15 PM", "Description": "The students are given a lesson on how to use photoshop", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Feb 02, 2018", "DayID": 0, "EndTime": "05:00 PM", "Activity": "Exercises", "Sequence": 3, "StartTime": "04:00 PM", "Description": "Students practice what they learned through exercises", "PersonInCharge": {"IDNumber": 4111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 13, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "310644.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	03a4712306cf3ec1b994d05a08fe4e8d0a68a2572739144bf9a72469f02c33aafc95fd552b9c561910515ebfa9a48df5c434c6739604d9403a5c1fa021871c30a7c1d8e33e9eab1d82692ab2d123904f3f2f078ef7c20e62508f2e9aa6925b311acdfdd2563a410db029936695cb201ab5d2be79ca8e38021b36c4b772d52f8c	2018-01-10 22:50:46.207977+08
+48	7	4111111	3	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "Y 407 Seminar Room", "Nature": "Special Interest", "Context": "The activity teaches students about Photoshop which could help translate what they want to portray. Photoshop enables them to have another way of expressing and visualizing their message.", "Expenses": [{"Type": "Honorarium", "Material": "Token of Appreciation", "Quantity": 1, "Sequence": 1, "UnitCost": "1500.00"}, {"Type": "Food Expense", "Material": "Food for participants", "Quantity": 40, "Sequence": 2, "UnitCost": "40.00"}], "ActivityID": 7, "Objectives": ["To introduce the participants to basic Photoshop concepts", "To teach participants new concepts of art", "To encourage the participants to learn new art techniques"], "Strategies": "Photoshop Series 1: Basic", "Organization": "Moo Media", "ProjectHeads": [{"IDNumber": 4111114}, {"IDNumber": 4111115}], "ProgramDesign": [{"Date": "Jan 26, 2018", "DayID": 0, "EndTime": "01:15 PM", "Activity": "Orientation", "Sequence": 1, "StartTime": "01:00 PM", "Description": "Participants will be briefed of the activities for the day", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Jan 26, 2018", "DayID": 0, "EndTime": "04:00 PM", "Activity": "Photoshop Basics", "Sequence": 2, "StartTime": "01:15 PM", "Description": "Participants are taught how to use Photoshop", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Jan 26, 2018", "DayID": 0, "EndTime": "04:30 PM", "Activity": "Exercises", "Sequence": 3, "StartTime": "04:00 PM", "Description": "They are given exercises to practice what they learned", "PersonInCharge": {"IDNumber": 4111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 7, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "313744.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	402a74320b5bdb103fca200999f12ffafb9491df44e33aeb9498f015f24139bb95d80dd8c4a1b44622931b6dc958247afc0818a8e6da11fd1d743d93f1e6564d5d09b215d50f9150ae3fdc8c2adbea2fd36e617e31a39f26308c4a91a6d0a2dcc4a0370347fd7f531599419dbcade69304a4875a75a2623692b8a8198b72b717	2018-01-10 22:52:01.098885+08
+103	11	4111111	3	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "Classroom", "Nature": "Special Interest", "Context": "The activity teaches students about Photoshop which could help translate what they want to portray. Photoshop enables them to have another way of expressing and visualizing their message.\\r\\n", "Expenses": [{"Type": "Honorarium", "Material": "Token  of Appreciation", "Quantity": 1, "Sequence": 1, "UnitCost": "1200.00"}, {"Type": "Food Expense", "Material": "Food", "Quantity": 30, "Sequence": 2, "UnitCost": "50.00"}], "ActivityID": 11, "Objectives": ["To introduce the participants to intermediate Photoshop concepts", "To teach participants intermediate concepts of art", "To encourage the participants to learn intermediate art techniques"], "Strategies": "Photoshop Series 2: Intermediate", "Organization": "Moo Media", "ProjectHeads": [{"IDNumber": 1111114}], "ProgramDesign": [{"Date": "Feb 02, 2018", "DayID": 0, "EndTime": "12:15 PM", "Activity": "Orientation", "Sequence": 1, "StartTime": "12:00 PM", "Description": "Orientation of the activities for the day", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Feb 02, 2018", "DayID": 0, "EndTime": "04:00 PM", "Activity": "Photoshop lesson", "Sequence": 2, "StartTime": "12:15 PM", "Description": "The students are given a lesson on how to use photoshop", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Feb 02, 2018", "DayID": 0, "EndTime": "05:00 PM", "Activity": "Exercises", "Sequence": 3, "StartTime": "04:00 PM", "Description": "Students practice what they learned through exercises", "PersonInCharge": {"IDNumber": 4111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 13, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "310644.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	580d6f2da1c7273967548dcc0e97e9b78c920da8cc1804fca54df02ce7b3a0f9d3018b774d22f96e81d38f372449f32e13123e057b623d74828bb9da16f9f84011edd56a77695caffbf1cd1b0198c7aa115d80787be20e44478d993962882e143bd6ae3133fe8e5f44f27a44eb6e2dabeb3cce81e110ee9c33fb718231c0d31c	2018-01-10 22:52:06.049687+08
+194	29	4111111	3	1	\N	\N	{"Type": "General Assembly", "Venue": "Classroom (Full-size)", "Nature": "Organizational Development", "Context": "Decrease quality of student leaders", "Expenses": [{"Type": "Food Expense", "Material": "Food", "Quantity": 30, "Sequence": 1, "UnitCost": "40.00"}], "ActivityID": 29, "Objectives": ["To introduce the members to the organization's mission vision and purpose", "To increase awareness on the concerns of the organization", "To allow the members to know one another"], "Strategies": "MooMedia: 1st General Assembly", "Organization": "Moo Media", "ProjectHeads": [{"IDNumber": 7111114}], "ProgramDesign": [{"Date": "Jan 29, 2018", "DayID": 0, "EndTime": "09:30 AM", "Activity": "Introduction", "Sequence": 1, "StartTime": "09:00 AM", "Description": "The organization officers introduce themselves and tell their objectives for the term", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Jan 29, 2018", "DayID": 0, "EndTime": "10:30 AM", "Activity": "Games", "Sequence": 2, "StartTime": "09:30 AM", "Description": "A game is played to capture the attention of the participants and keep them engaged throughout", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Jan 29, 2018", "DayID": 0, "EndTime": "12:00 PM", "Activity": "Briefing ", "Sequence": 3, "StartTime": "10:30 AM", "Description": "The officers explains their plans for the term and ask for feedback from the members", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Jan 29, 2018", "DayID": 0, "EndTime": "12:30 PM", "Activity": "Lunch", "Sequence": 4, "StartTime": "12:00 PM", "Description": "The attendees are given food", "PersonInCharge": {"IDNumber": 4111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 24, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "306744.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	3d80304687148e0de8601bdadbbd5d9da649951e4ca4b82a8b551395087bb792eaa2350201166dcf987a98fa55dc207025753e3951f2b3fa442a8bcc1e2faac6b4fd80d24ff3df27420b9ed1cfd5cda2f6ea1c56310280f92ced4deb6e8c61289d8075500f9b9e6521b648aad98868db5e96992860cb604d398bf6b746bcb239	2018-01-10 22:52:12.409895+08
+247	85	2011111	4	0	\N	\N	\N	\N	\N
+199	29	2011111	4	1	\N	\N	{"Type": "General Assembly", "Venue": "Classroom (Full-size)", "Nature": "Organizational Development", "Context": "Decrease quality of student leaders", "Expenses": [{"Type": "Food Expense", "Material": "Food", "Quantity": 30, "Sequence": 1, "UnitCost": "40.00"}], "ActivityID": 29, "Objectives": ["To introduce the members to the organization's mission vision and purpose", "To increase awareness on the concerns of the organization", "To allow the members to know one another"], "Strategies": "MooMedia: 1st General Assembly", "Organization": "Moo Media", "ProjectHeads": [{"IDNumber": 7111114}], "ProgramDesign": [{"Date": "Jan 29, 2018", "DayID": 0, "EndTime": "09:30 AM", "Activity": "Introduction", "Sequence": 1, "StartTime": "09:00 AM", "Description": "The organization officers introduce themselves and tell their objectives for the term", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Jan 29, 2018", "DayID": 0, "EndTime": "10:30 AM", "Activity": "Games", "Sequence": 2, "StartTime": "09:30 AM", "Description": "A game is played to capture the attention of the participants and keep them engaged throughout", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Jan 29, 2018", "DayID": 0, "EndTime": "12:00 PM", "Activity": "Briefing ", "Sequence": 3, "StartTime": "10:30 AM", "Description": "The officers explains their plans for the term and ask for feedback from the members", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Jan 29, 2018", "DayID": 0, "EndTime": "12:30 PM", "Activity": "Lunch", "Sequence": 4, "StartTime": "12:00 PM", "Description": "The attendees are given food", "PersonInCharge": {"IDNumber": 4111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 24, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "306744.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	2413b2edf305f72842c289a90b3a8e163796df68cec168672de7b601c5a28ca16ec6693080608e4945fd7d2ab465d64ed99288c68e6e62edbf693fee17efcd3e71d1a15fb950ddef03742d4c30b6a3a911f088d3c03790b98b224beb78dda0f2f59b125fdeb6aefe43c7e571fee2cf929798cd3266251aa3cb894a4b4e4a5d73	2018-01-10 22:54:43.9707+08
+64	7	2011112	4	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "Y 407 Seminar Room", "Nature": "Special Interest", "Context": "The activity teaches students about Photoshop which could help translate what they want to portray. Photoshop enables them to have another way of expressing and visualizing their message.", "Expenses": [{"Type": "Honorarium", "Material": "Token of Appreciation", "Quantity": 1, "Sequence": 1, "UnitCost": "1500.00"}, {"Type": "Food Expense", "Material": "Food for participants", "Quantity": 40, "Sequence": 2, "UnitCost": "40.00"}], "ActivityID": 7, "Objectives": ["To introduce the participants to basic Photoshop concepts", "To teach participants new concepts of art", "To encourage the participants to learn new art techniques"], "Strategies": "Photoshop Series 1: Basic", "Organization": "Moo Media", "ProjectHeads": [{"IDNumber": 4111114}, {"IDNumber": 4111115}], "ProgramDesign": [{"Date": "Jan 26, 2018", "DayID": 0, "EndTime": "01:15 PM", "Activity": "Orientation", "Sequence": 1, "StartTime": "01:00 PM", "Description": "Participants will be briefed of the activities for the day", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Jan 26, 2018", "DayID": 0, "EndTime": "04:00 PM", "Activity": "Photoshop Basics", "Sequence": 2, "StartTime": "01:15 PM", "Description": "Participants are taught how to use Photoshop", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Jan 26, 2018", "DayID": 0, "EndTime": "04:30 PM", "Activity": "Exercises", "Sequence": 3, "StartTime": "04:00 PM", "Description": "They are given exercises to practice what they learned", "PersonInCharge": {"IDNumber": 4111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 7, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "313744.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	1f3de3fd5c40c785ebaba61423ca662bae9f8e62c4876a2b0d5dabdf837cca61ff5b73f796c4356ad7f6db51de010c4ddbba8600f0757454d7224acba0e28546544efea465988e4450669051a5dc6ffc6fe2278c469e9bc32378c988dccd8cd55eecdf46b30e843d01392562d8ff81c0164d364f2eabac09ab5d91eef6e91bdf	2018-01-10 22:55:40.647559+08
+117	11	2011111	4	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "Classroom", "Nature": "Special Interest", "Context": "The activity teaches students about Photoshop which could help translate what they want to portray. Photoshop enables them to have another way of expressing and visualizing their message.\\r\\n", "Expenses": [{"Type": "Honorarium", "Material": "Token  of Appreciation", "Quantity": 1, "Sequence": 1, "UnitCost": "1200.00"}, {"Type": "Food Expense", "Material": "Food", "Quantity": 30, "Sequence": 2, "UnitCost": "50.00"}], "ActivityID": 11, "Objectives": ["To introduce the participants to intermediate Photoshop concepts", "To teach participants intermediate concepts of art", "To encourage the participants to learn intermediate art techniques"], "Strategies": "Photoshop Series 2: Intermediate", "Organization": "Moo Media", "ProjectHeads": [{"IDNumber": 1111114}], "ProgramDesign": [{"Date": "Feb 02, 2018", "DayID": 0, "EndTime": "12:15 PM", "Activity": "Orientation", "Sequence": 1, "StartTime": "12:00 PM", "Description": "Orientation of the activities for the day", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Feb 02, 2018", "DayID": 0, "EndTime": "04:00 PM", "Activity": "Photoshop lesson", "Sequence": 2, "StartTime": "12:15 PM", "Description": "The students are given a lesson on how to use photoshop", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Feb 02, 2018", "DayID": 0, "EndTime": "05:00 PM", "Activity": "Exercises", "Sequence": 3, "StartTime": "04:00 PM", "Description": "Students practice what they learned through exercises", "PersonInCharge": {"IDNumber": 4111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 13, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "310644.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	a9e0153004043a84102f353ab997e54922df0342ea5a73533c0aaa5eb97a80f31a0a774f85fb84cda94c0966e0f882262f57c0d6b742c5af9484985b5bf2e42085d7bf3675e04cd6f6cc202bbe45b75b5235d20d77715b4efbd5a5c135f6186f32a5b15369318caba6e9c4338ac0d02b83a66211e0243f4b259fd1897264bab9	2018-01-10 22:56:06.016824+08
+248	86	10111114	0	0	\N	\N	\N	\N	\N
+249	86	10111115	1	0	\N	\N	\N	\N	\N
+250	86	10111113	2	0	\N	\N	\N	\N	\N
+251	86	10111111	3	0	\N	\N	\N	\N	\N
+252	86	10111113	5	0	\N	\N	\N	\N	\N
+253	86	1011121	6	0	\N	\N	\N	\N	\N
+254	86	1011120	7	0	\N	\N	\N	\N	\N
+262	86	2011111	4	0	\N	\N	\N	\N	\N
+134	14	4111112	0	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "Y 409 Seminar Room", "Nature": "Special Interest", "Context": "The activity teaches students about Photoshop which could help translate what they want to portray. Photoshop enables them to have another way of expressing and visualizing their message.\\r\\n", "Expenses": [{"Type": "Honorarium", "Material": "Token of Appreciation", "Quantity": 1, "Sequence": 1, "UnitCost": "1200.00"}], "ActivityID": 14, "Objectives": ["To introduce the participants to advanced Photoshop concepts", " To teach participants advanced concepts of art", "To encourage the participants to learn advanced art techniques"], "Strategies": "Photoshop Series 3: Advanced", "Organization": "Moo Media", "ProjectHeads": [{"IDNumber": 7111114}, {"IDNumber": 7111116}], "ProgramDesign": [{"Date": "Mar 09, 2018", "DayID": 0, "EndTime": "12:15 PM", "Activity": "Orientation", "Sequence": 1, "StartTime": "12:00 PM", "Description": "Tell the participants of the activities for the day", "PersonInCharge": {"IDNumber": 4111112}}, {"Date": "Mar 09, 2018", "DayID": 0, "EndTime": "04:00 PM", "Activity": "Photoshop lesson", "Sequence": 2, "StartTime": "12:15 PM", "Description": "Teach the students an advanced lesson about photoshop", "PersonInCharge": {"IDNumber": 4111112}}, {"Date": "Mar 09, 2018", "DayID": 0, "EndTime": "05:00 PM", "Activity": "Exercises", "Sequence": 3, "StartTime": "04:00 PM", "Description": "The students practice what they learned", "PersonInCharge": {"IDNumber": 4111112}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 17, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "307944.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	30d5263216ec3729285727b56e0f5eb610eb762600126160c527524e5828c325f4a4bc2b6859549feeefcfaf2435761307a8f51e4f0012944609aa748fd79ccef897b2922b2e0487c44e8ae7c5e6444f551ccdf2eb8bdcbb06f2ae8fd36a5aad84559e31fdf4b057454110e6e0d056b58809c529759af37447ec186b8af224da	2018-01-10 23:05:42.636546+08
+135	14	4111114	0	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "Y 409 Seminar Room", "Nature": "Special Interest", "Context": "The activity teaches students about Photoshop which could help translate what they want to portray. Photoshop enables them to have another way of expressing and visualizing their message.\\r\\n", "Expenses": [{"Type": "Honorarium", "Material": "Token of Appreciation", "Quantity": 1, "Sequence": 1, "UnitCost": "1200.00"}], "ActivityID": 14, "Objectives": ["To introduce the participants to advanced Photoshop concepts", " To teach participants advanced concepts of art", "To encourage the participants to learn advanced art techniques"], "Strategies": "Photoshop Series 3: Advanced", "Organization": "Moo Media", "ProjectHeads": [{"IDNumber": 7111114}, {"IDNumber": 7111116}], "ProgramDesign": [{"Date": "Mar 09, 2018", "DayID": 0, "EndTime": "12:15 PM", "Activity": "Orientation", "Sequence": 1, "StartTime": "12:00 PM", "Description": "Tell the participants of the activities for the day", "PersonInCharge": {"IDNumber": 4111112}}, {"Date": "Mar 09, 2018", "DayID": 0, "EndTime": "04:00 PM", "Activity": "Photoshop lesson", "Sequence": 2, "StartTime": "12:15 PM", "Description": "Teach the students an advanced lesson about photoshop", "PersonInCharge": {"IDNumber": 4111112}}, {"Date": "Mar 09, 2018", "DayID": 0, "EndTime": "05:00 PM", "Activity": "Exercises", "Sequence": 3, "StartTime": "04:00 PM", "Description": "The students practice what they learned", "PersonInCharge": {"IDNumber": 4111112}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 17, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "307944.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	552fde778577c05753fae965630f71463b363fc891059f7ec70c3e920cbe659e4264e8321e63756d73616d6828b9ab7a53aa558c12cc5e9056184c32d98b7a1655a963ff46e55b3bc62a2ddbeaad19451c99c95d2a2ab817613bf61a14ca84aa974aa9305a2986032ae98dc5c0c00e0346bb607f59c1bc9bfe49f4a3bc685e98	2018-01-10 23:10:17.18273+08
+263	62	2011111	4	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Organizational Development", "Context": "Talents are hidden", "Expenses": [{"Type": "Food Expense", "Material": "Food", "Quantity": 10, "Sequence": 1, "UnitCost": "100.00"}], "ActivityID": 62, "Objectives": ["Enhance talent management competency of the member."], "Strategies": "Talent Management", "Organization": "AIESEC DLSU", "ProjectHeads": [], "ProgramDesign": [{"Date": "Feb 07, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "Prayer", "Sequence": 1, "StartTime": "12:00 PM", "Description": "opening", "PersonInCharge": {"IDNumber": 3111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 32, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "314253.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	829e75c5f871c73993dc898be91e1cd425419a230e09dffefc9202d9133486fb3e58986e37294c6969abf1aec854821a5391852141e7124696ab3ac59a90e1e387ff0b4072a1cd030c5b472b7447aaf65ab4aa9d09e359db3652eba52c1e28ec2854df3937197b0f9656217abd7ec024a315dbe07ee290ff131edca8f20fa7ee	2018-01-10 23:46:21.265278+08
+136	14	4111115	1	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "Y 409 Seminar Room", "Nature": "Special Interest", "Context": "The activity teaches students about Photoshop which could help translate what they want to portray. Photoshop enables them to have another way of expressing and visualizing their message.\\r\\n", "Expenses": [{"Type": "Honorarium", "Material": "Token of Appreciation", "Quantity": 1, "Sequence": 1, "UnitCost": "1200.00"}], "ActivityID": 14, "Objectives": ["To introduce the participants to advanced Photoshop concepts", " To teach participants advanced concepts of art", "To encourage the participants to learn advanced art techniques"], "Strategies": "Photoshop Series 3: Advanced", "Organization": "Moo Media", "ProjectHeads": [{"IDNumber": 7111114}, {"IDNumber": 7111116}], "ProgramDesign": [{"Date": "Mar 09, 2018", "DayID": 0, "EndTime": "12:15 PM", "Activity": "Orientation", "Sequence": 1, "StartTime": "12:00 PM", "Description": "Tell the participants of the activities for the day", "PersonInCharge": {"IDNumber": 4111112}}, {"Date": "Mar 09, 2018", "DayID": 0, "EndTime": "04:00 PM", "Activity": "Photoshop lesson", "Sequence": 2, "StartTime": "12:15 PM", "Description": "Teach the students an advanced lesson about photoshop", "PersonInCharge": {"IDNumber": 4111112}}, {"Date": "Mar 09, 2018", "DayID": 0, "EndTime": "05:00 PM", "Activity": "Exercises", "Sequence": 3, "StartTime": "04:00 PM", "Description": "The students practice what they learned", "PersonInCharge": {"IDNumber": 4111112}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 17, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "307944.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	39e1e1ce4d45bf1fd27f32ff502ce0ca3070bb5e7fc3365b7a48a484a468b0634e10c2e5392966aeff280ed28d96e95d172dbe9d94b5bc3fb7c1e211201e52ba198fa57027d5da13d477c93e56fd3549cde6796d6187d8d8ec1983ac1234be43b562639137d67824d225bab7233ae1e989898d5b5362b1f8adc711f82ba725ac	2018-01-10 23:11:09.712001+08
+137	14	4111113	2	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "Y 409 Seminar Room", "Nature": "Special Interest", "Context": "The activity teaches students about Photoshop which could help translate what they want to portray. Photoshop enables them to have another way of expressing and visualizing their message.\\r\\n", "Expenses": [{"Type": "Honorarium", "Material": "Token of Appreciation", "Quantity": 1, "Sequence": 1, "UnitCost": "1200.00"}], "ActivityID": 14, "Objectives": ["To introduce the participants to advanced Photoshop concepts", " To teach participants advanced concepts of art", "To encourage the participants to learn advanced art techniques"], "Strategies": "Photoshop Series 3: Advanced", "Organization": "Moo Media", "ProjectHeads": [{"IDNumber": 7111114}, {"IDNumber": 7111116}], "ProgramDesign": [{"Date": "Mar 09, 2018", "DayID": 0, "EndTime": "12:15 PM", "Activity": "Orientation", "Sequence": 1, "StartTime": "12:00 PM", "Description": "Tell the participants of the activities for the day", "PersonInCharge": {"IDNumber": 4111112}}, {"Date": "Mar 09, 2018", "DayID": 0, "EndTime": "04:00 PM", "Activity": "Photoshop lesson", "Sequence": 2, "StartTime": "12:15 PM", "Description": "Teach the students an advanced lesson about photoshop", "PersonInCharge": {"IDNumber": 4111112}}, {"Date": "Mar 09, 2018", "DayID": 0, "EndTime": "05:00 PM", "Activity": "Exercises", "Sequence": 3, "StartTime": "04:00 PM", "Description": "The students practice what they learned", "PersonInCharge": {"IDNumber": 4111112}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 17, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "307944.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	7b13c039b3543c54e167c30a75b36a5cc554992ac950e978ed484bb664c5266c25e8ad9d51c645e59c10a40746afc177b6c09c5c23719a5934f3f54c0ec56b3780dbec626852aea51a135e3c4417f17abb1ca78cb6c3d2d75362b73310e41f3cda5877ca440e9d7a3aab10ceee4e68541e0b2ed00a17d7e0f67e0a552800c0e8	2018-01-10 23:12:05.182561+08
+139	14	4111113	5	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "Y 409 Seminar Room", "Nature": "Special Interest", "Context": "The activity teaches students about Photoshop which could help translate what they want to portray. Photoshop enables them to have another way of expressing and visualizing their message.\\r\\n", "Expenses": [{"Type": "Honorarium", "Material": "Token of Appreciation", "Quantity": 1, "Sequence": 1, "UnitCost": "1200.00"}], "ActivityID": 14, "Objectives": ["To introduce the participants to advanced Photoshop concepts", " To teach participants advanced concepts of art", "To encourage the participants to learn advanced art techniques"], "Strategies": "Photoshop Series 3: Advanced", "Organization": "Moo Media", "ProjectHeads": [{"IDNumber": 7111114}, {"IDNumber": 7111116}], "ProgramDesign": [{"Date": "Mar 09, 2018", "DayID": 0, "EndTime": "12:15 PM", "Activity": "Orientation", "Sequence": 1, "StartTime": "12:00 PM", "Description": "Tell the participants of the activities for the day", "PersonInCharge": {"IDNumber": 4111112}}, {"Date": "Mar 09, 2018", "DayID": 0, "EndTime": "04:00 PM", "Activity": "Photoshop lesson", "Sequence": 2, "StartTime": "12:15 PM", "Description": "Teach the students an advanced lesson about photoshop", "PersonInCharge": {"IDNumber": 4111112}}, {"Date": "Mar 09, 2018", "DayID": 0, "EndTime": "05:00 PM", "Activity": "Exercises", "Sequence": 3, "StartTime": "04:00 PM", "Description": "The students practice what they learned", "PersonInCharge": {"IDNumber": 4111112}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 17, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "307944.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	7b13c039b3543c54e167c30a75b36a5cc554992ac950e978ed484bb664c5266c25e8ad9d51c645e59c10a40746afc177b6c09c5c23719a5934f3f54c0ec56b3780dbec626852aea51a135e3c4417f17abb1ca78cb6c3d2d75362b73310e41f3cda5877ca440e9d7a3aab10ceee4e68541e0b2ed00a17d7e0f67e0a552800c0e8	2018-01-10 23:12:05.182561+08
+138	14	4111111	3	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "Y 409 Seminar Room", "Nature": "Special Interest", "Context": "The activity teaches students about Photoshop which could help translate what they want to portray. Photoshop enables them to have another way of expressing and visualizing their message.\\r\\n", "Expenses": [{"Type": "Honorarium", "Material": "Token of Appreciation", "Quantity": 1, "Sequence": 1, "UnitCost": "1200.00"}], "ActivityID": 14, "Objectives": ["To introduce the participants to advanced Photoshop concepts", " To teach participants advanced concepts of art", "To encourage the participants to learn advanced art techniques"], "Strategies": "Photoshop Series 3: Advanced", "Organization": "Moo Media", "ProjectHeads": [{"IDNumber": 7111114}, {"IDNumber": 7111116}], "ProgramDesign": [{"Date": "Mar 09, 2018", "DayID": 0, "EndTime": "12:15 PM", "Activity": "Orientation", "Sequence": 1, "StartTime": "12:00 PM", "Description": "Tell the participants of the activities for the day", "PersonInCharge": {"IDNumber": 4111112}}, {"Date": "Mar 09, 2018", "DayID": 0, "EndTime": "04:00 PM", "Activity": "Photoshop lesson", "Sequence": 2, "StartTime": "12:15 PM", "Description": "Teach the students an advanced lesson about photoshop", "PersonInCharge": {"IDNumber": 4111112}}, {"Date": "Mar 09, 2018", "DayID": 0, "EndTime": "05:00 PM", "Activity": "Exercises", "Sequence": 3, "StartTime": "04:00 PM", "Description": "The students practice what they learned", "PersonInCharge": {"IDNumber": 4111112}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 17, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "307944.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	619b648f1117b5391b0d4704257aa671143d70a57047c9a1a60af8c5e87c89cc2750b643e880a28757a52942e8d471f3a78635fb0e88dd1bcfe964319c04ef8fc21cee763f722ecdca82d2cc27514f722959a8b4ff47e74bb8e5b2f17a648be9d0e5833246bac345d390db56e6b5496681e68e445b061e91670d1bf39c69fdab	2018-01-10 23:12:35.383056+08
+142	14	2011111	4	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "Y 409 Seminar Room", "Nature": "Special Interest", "Context": "The activity teaches students about Photoshop which could help translate what they want to portray. Photoshop enables them to have another way of expressing and visualizing their message.\\r\\n", "Expenses": [{"Type": "Honorarium", "Material": "Token of Appreciation", "Quantity": 1, "Sequence": 1, "UnitCost": "1200.00"}], "ActivityID": 14, "Objectives": ["To introduce the participants to advanced Photoshop concepts", " To teach participants advanced concepts of art", "To encourage the participants to learn advanced art techniques"], "Strategies": "Photoshop Series 3: Advanced", "Organization": "Moo Media", "ProjectHeads": [{"IDNumber": 7111114}, {"IDNumber": 7111116}], "ProgramDesign": [{"Date": "Mar 09, 2018", "DayID": 0, "EndTime": "12:15 PM", "Activity": "Orientation", "Sequence": 1, "StartTime": "12:00 PM", "Description": "Tell the participants of the activities for the day", "PersonInCharge": {"IDNumber": 4111112}}, {"Date": "Mar 09, 2018", "DayID": 0, "EndTime": "04:00 PM", "Activity": "Photoshop lesson", "Sequence": 2, "StartTime": "12:15 PM", "Description": "Teach the students an advanced lesson about photoshop", "PersonInCharge": {"IDNumber": 4111112}}, {"Date": "Mar 09, 2018", "DayID": 0, "EndTime": "05:00 PM", "Activity": "Exercises", "Sequence": 3, "StartTime": "04:00 PM", "Description": "The students practice what they learned", "PersonInCharge": {"IDNumber": 4111112}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 17, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "307944.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	14c0df2c14df33535e57c7bfcb4cd5b1a8afb95afccc7c58f9e80189ca543a032cbfdab121f2c6d0be7442b2a7ea9d023592d6527bad549b432513fef830e1c488c0284e24cfd5cb3d1a951e21abea4e386ef7102e7d64819d13dc4ec53ec1893fb7977ce95e19c9bc1d1ab11224416af50364ea8a49da24052de0f35fb8488f	2018-01-10 23:13:11.833808+08
+140	14	1011121	6	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "Y 409 Seminar Room", "Nature": "Special Interest", "Context": "The activity teaches students about Photoshop which could help translate what they want to portray. Photoshop enables them to have another way of expressing and visualizing their message.\\r\\n", "Expenses": [{"Type": "Honorarium", "Material": "Token of Appreciation", "Quantity": 1, "Sequence": 1, "UnitCost": "1200.00"}], "ActivityID": 14, "Objectives": ["To introduce the participants to advanced Photoshop concepts", " To teach participants advanced concepts of art", "To encourage the participants to learn advanced art techniques"], "Strategies": "Photoshop Series 3: Advanced", "Organization": "Moo Media", "ProjectHeads": [{"IDNumber": 7111114}, {"IDNumber": 7111116}], "ProgramDesign": [{"Date": "Mar 09, 2018", "DayID": 0, "EndTime": "12:15 PM", "Activity": "Orientation", "Sequence": 1, "StartTime": "12:00 PM", "Description": "Tell the participants of the activities for the day", "PersonInCharge": {"IDNumber": 4111112}}, {"Date": "Mar 09, 2018", "DayID": 0, "EndTime": "04:00 PM", "Activity": "Photoshop lesson", "Sequence": 2, "StartTime": "12:15 PM", "Description": "Teach the students an advanced lesson about photoshop", "PersonInCharge": {"IDNumber": 4111112}}, {"Date": "Mar 09, 2018", "DayID": 0, "EndTime": "05:00 PM", "Activity": "Exercises", "Sequence": 3, "StartTime": "04:00 PM", "Description": "The students practice what they learned", "PersonInCharge": {"IDNumber": 4111112}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 17, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "307944.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	108bd0fda79439a1452f0a38aecc49c6f6fc5f545f34e8863f5250cce546037b8d6aeb038e951d7bf831530291d4865be07b969acb61939b9f9aa26586cc6ab4b02c44d0f727414014bcdb6144e76394af280888cc94da237291a36b4740a8bf2715015ac87f65d1809e1f1bb369b5e85fb6dba945974159427ce1b8c638c175	2018-01-10 23:16:19.751948+08
+272	67	3111114	0	0	\N	\N	\N	\N	\N
+273	67	3111115	1	0	\N	\N	\N	\N	\N
+274	67	3111113	2	0	\N	\N	\N	\N	\N
+275	67	3111111	3	0	\N	\N	\N	\N	\N
+276	67	3111113	5	0	\N	\N	\N	\N	\N
+277	67	1011121	6	0	\N	\N	\N	\N	\N
+278	67	1011120	7	0	\N	\N	\N	\N	\N
+279	28	2011112	4	0	\N	\N	\N	\N	\N
+284	25	7111111	3	0	\N	\N	\N	\N	\N
+286	25	1011121	6	0	\N	\N	\N	\N	\N
+287	25	1011120	7	0	\N	\N	\N	\N	\N
+288	67	2011111	4	0	\N	\N	\N	\N	\N
+105	11	1011121	6	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "Classroom", "Nature": "Special Interest", "Context": "The activity teaches students about Photoshop which could help translate what they want to portray. Photoshop enables them to have another way of expressing and visualizing their message.\\r\\n", "Expenses": [{"Type": "Honorarium", "Material": "Token  of Appreciation", "Quantity": 1, "Sequence": 1, "UnitCost": "1200.00"}, {"Type": "Food Expense", "Material": "Food", "Quantity": 30, "Sequence": 2, "UnitCost": "50.00"}], "ActivityID": 11, "Objectives": ["To introduce the participants to intermediate Photoshop concepts", "To teach participants intermediate concepts of art", "To encourage the participants to learn intermediate art techniques"], "Strategies": "Photoshop Series 2: Intermediate", "Organization": "Moo Media", "ProjectHeads": [{"IDNumber": 1111114}], "ProgramDesign": [{"Date": "Feb 02, 2018", "DayID": 0, "EndTime": "12:15 PM", "Activity": "Orientation", "Sequence": 1, "StartTime": "12:00 PM", "Description": "Orientation of the activities for the day", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Feb 02, 2018", "DayID": 0, "EndTime": "04:00 PM", "Activity": "Photoshop lesson", "Sequence": 2, "StartTime": "12:15 PM", "Description": "The students are given a lesson on how to use photoshop", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Feb 02, 2018", "DayID": 0, "EndTime": "05:00 PM", "Activity": "Exercises", "Sequence": 3, "StartTime": "04:00 PM", "Description": "Students practice what they learned through exercises", "PersonInCharge": {"IDNumber": 4111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 13, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "310644.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	417e424e10616668494edc1587236b8ec692e550e6e657dc018956393dbb8fe25be3b0fc463f093495c7c8805a895e8b53443a3e4c3ba562c585ebfc1e7c0f18335cb6044602577cb9e84255ac61b2b379755522e033fd1066bd2f380af7abc40f2052347083c9dcc78958b0b0fbaa9ba959c61079d8a635baa468bfbfe741fe	2018-01-10 23:20:44.335746+08
+50	7	1011121	6	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "Y 407 Seminar Room", "Nature": "Special Interest", "Context": "The activity teaches students about Photoshop which could help translate what they want to portray. Photoshop enables them to have another way of expressing and visualizing their message.", "Expenses": [{"Type": "Honorarium", "Material": "Token of Appreciation", "Quantity": 1, "Sequence": 1, "UnitCost": "1500.00"}, {"Type": "Food Expense", "Material": "Food for participants", "Quantity": 40, "Sequence": 2, "UnitCost": "40.00"}], "ActivityID": 7, "Objectives": ["To introduce the participants to basic Photoshop concepts", "To teach participants new concepts of art", "To encourage the participants to learn new art techniques"], "Strategies": "Photoshop Series 1: Basic", "Organization": "Moo Media", "ProjectHeads": [{"IDNumber": 4111114}, {"IDNumber": 4111115}], "ProgramDesign": [{"Date": "Jan 26, 2018", "DayID": 0, "EndTime": "01:15 PM", "Activity": "Orientation", "Sequence": 1, "StartTime": "01:00 PM", "Description": "Participants will be briefed of the activities for the day", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Jan 26, 2018", "DayID": 0, "EndTime": "04:00 PM", "Activity": "Photoshop Basics", "Sequence": 2, "StartTime": "01:15 PM", "Description": "Participants are taught how to use Photoshop", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Jan 26, 2018", "DayID": 0, "EndTime": "04:30 PM", "Activity": "Exercises", "Sequence": 3, "StartTime": "04:00 PM", "Description": "They are given exercises to practice what they learned", "PersonInCharge": {"IDNumber": 4111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 7, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "313744.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	0a2cd4f4b112287244ee56a1278e066b91efa4de90da48fbc892bc234ef40ab67b8f2ff0303158fdf094fc758d9d9de503c510efe94847c8218e5f75959dd48968f7377073b092df5d2c605cb68e922b3038561cebbe9757c51c9456d8db5022fd4f97ed20ada2800e89aac20b27a563bf816a1ffc085a1327f5b52acd67fd6b	2018-01-10 23:21:01.65747+08
+196	29	1011121	6	1	\N	\N	{"Type": "General Assembly", "Venue": "Classroom (Full-size)", "Nature": "Organizational Development", "Context": "Decrease quality of student leaders", "Expenses": [{"Type": "Food Expense", "Material": "Food", "Quantity": 30, "Sequence": 1, "UnitCost": "40.00"}], "ActivityID": 29, "Objectives": ["To introduce the members to the organization's mission vision and purpose", "To increase awareness on the concerns of the organization", "To allow the members to know one another"], "Strategies": "MooMedia: 1st General Assembly", "Organization": "Moo Media", "ProjectHeads": [{"IDNumber": 7111114}], "ProgramDesign": [{"Date": "Jan 29, 2018", "DayID": 0, "EndTime": "09:30 AM", "Activity": "Introduction", "Sequence": 1, "StartTime": "09:00 AM", "Description": "The organization officers introduce themselves and tell their objectives for the term", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Jan 29, 2018", "DayID": 0, "EndTime": "10:30 AM", "Activity": "Games", "Sequence": 2, "StartTime": "09:30 AM", "Description": "A game is played to capture the attention of the participants and keep them engaged throughout", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Jan 29, 2018", "DayID": 0, "EndTime": "12:00 PM", "Activity": "Briefing ", "Sequence": 3, "StartTime": "10:30 AM", "Description": "The officers explains their plans for the term and ask for feedback from the members", "PersonInCharge": {"IDNumber": 4111114}}, {"Date": "Jan 29, 2018", "DayID": 0, "EndTime": "12:30 PM", "Activity": "Lunch", "Sequence": 4, "StartTime": "12:00 PM", "Description": "The attendees are given food", "PersonInCharge": {"IDNumber": 4111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 24, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "306744.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	022b71b5b2a00432a9430c7617caab688cea87270057d1451d1847e41d114629af0088c97b8a85bb4d41da7f274eab5c8e8d3e578365f4051499eeda1bc885321c108df6197e17d62c712a7477f7d83de736238727b75b0c3c482e9d0fd946b22c2eaaf1047c5ac959f082dcd1bb09210a6e567469d0ba1af07fcb438459ef40	2018-01-10 23:21:15.345432+08
+297	35	6111112	0	0	\N	\N	\N	\N	\N
+298	35	6111113	0	0	\N	\N	\N	\N	\N
+299	35	6111114	0	0	\N	\N	\N	\N	\N
+300	35	6111115	1	0	\N	\N	\N	\N	\N
+301	35	6111113	2	0	\N	\N	\N	\N	\N
+302	35	6111111	3	0	\N	\N	\N	\N	\N
+303	35	6111113	5	0	\N	\N	\N	\N	\N
+304	35	1011121	6	0	\N	\N	\N	\N	\N
+305	35	1011120	7	0	\N	\N	\N	\N	\N
+306	25	2011111	4	0	\N	\N	\N	\N	\N
+307	66	6111113	0	0	\N	\N	\N	\N	\N
+56	24	7111114	0	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Organizational Development", "Context": "People are ignorant of different cultures", "Expenses": [{"Type": "Food Expense", "Material": "Booth Materials", "Quantity": 15, "Sequence": 1, "UnitCost": "5.00"}], "ActivityID": 24, "Objectives": ["To immerse members and volunteers to a community", " To be able to create a project that is specific to the needs of the community", "To partner and interact with the chosen community"], "Strategies": "E-Cultural Voyagers: A Community Engagement (Masid-Danas Phase)", "Organization": "De La Salle University - Environmental Conservation Organization", "ProjectHeads": [{"IDNumber": 4111114}], "ProgramDesign": [{"Date": "Feb 05, 2018", "DayID": 0, "EndTime": "01:10 PM", "Activity": "Rehearsal", "Sequence": 1, "StartTime": "01:05 PM", "Description": "Penchorn placement", "PersonInCharge": {"IDNumber": 7111116}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 8, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "308475.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	248fd8111a222121594c047307db969eae543112091f61048f95188621f83b9521a0af811334035e347bd61d752980d66b0a564b4bf84ae813ba8a64c9192cba1e55f0d9a95b3fadfccb6e7f1339466cc25eef73effe454898cc933a4c82b134d2761b6f85095e37d0e70cba9f4ad10a1660e6a145c719bdfbfec089f1859375	2018-01-10 23:28:48.565324+08
+107	27	7111114	0	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1505-A Conference Room", "Nature": "Academic", "Context": "La Sallians are ignorant of going green", "Expenses": [{"Type": "Honorarium", "Material": "Jollibee Chicken joi", "Quantity": 2, "Sequence": 1, "UnitCost": "15.00"}], "ActivityID": 27, "Objectives": ["To express support to the Climate Change Commission's  A One Million Filipino Youth Voices on Climate Action Campaign #NowPh", "To instill awareness to the DLSU community of the climate change and on how they can individually contribute to the call for Climate Action", "Gather at least 1 pledge per unit or department and creat a concrete plan to execute it"], "Strategies": "#ECOTalks 1: I am a Lasallian, I am PRO Green\\"", "Organization": "De La Salle University - Environmental Conservation Organization", "ProjectHeads": [{"IDNumber": 7111114}], "ProgramDesign": [{"Date": "Feb 15, 2018", "DayID": 0, "EndTime": "02:00 PM", "Activity": "Discussion", "Sequence": 1, "StartTime": "01:30 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111116}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 14, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "308400.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	6f3b9f0e87b96ae7b2f861e9f618c620fe20c632c595ea7fa049817107bc6b9a65cc7dafe9e498c357d0f24992cb24b8c0a9140a225ed89ba233d134b653c4466e45bceba99fd3d58266ccb2c938de15263d0640fb345f7431c53c0e4902ec4d794579b7c3851060c17eedfb0bce50d6fef6527ef13d9eeefa9a60abced2b100	2018-01-10 23:28:55.225093+08
+143	3	7111114	0	1	\N	\N	{"Type": "Recruitment/Audition", "Venue": "A 1502-A Conference Room", "Nature": "Fundraising", "Context": "The lack of functioning members of society", "Expenses": [{"Type": "Others", "Material": "Confetti", "Quantity": 67, "Sequence": 1, "UnitCost": "15.00"}], "ActivityID": 3, "Objectives": ["To showcase the nature, mission-vision, activities and programs of the organization", "To recruite new members from both STC and Taft campus as well as membership renewal for old members", "To increase the organizational funds through membership fee "], "Strategies": "Annual Recruitment Week", "Organization": "De La Salle University - Environmental Conservation Organization", "ProjectHeads": [{"IDNumber": 1111114}], "ProgramDesign": [{"Date": "Jan 11, 2018", "DayID": 0, "EndTime": "06:30 PM", "Activity": "Booth Manning", "Sequence": 1, "StartTime": "01:30 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 18, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "308370.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	7766c412a005c52f8fa97f58f745b305e2d04f4e7d7535aa07d97f0d7f7577762fa4bcfd1efb42808e4bdbeea595b6bee7f50049f994595cbc48bbe3e8531c455b62b3a7e7ba1154b96393bf9040c56e59c69998b29bad6a79c808e76e311d5f2f864cfa8c6749b2bea8e7ae244f230ce48fc27cde1c2851ca6f0be7b1f0f577	2018-01-10 23:29:01.660409+08
+355	72	3111114	0	0	\N	\N	\N	\N	\N
+356	72	3111115	1	0	\N	\N	\N	\N	\N
+357	72	3111113	2	0	\N	\N	\N	\N	\N
+358	72	3111111	3	0	\N	\N	\N	\N	\N
+359	72	3111113	5	0	\N	\N	\N	\N	\N
+360	72	1011121	6	0	\N	\N	\N	\N	\N
+361	72	1011120	7	0	\N	\N	\N	\N	\N
+207	5	7111114	0	1	\N	\N	{"Type": "General Assembly", "Venue": "A 1502-A Conference Room", "Nature": "Organizational Development", "Context": "Unity of the organization", "Expenses": [{"Type": "Honorarium", "Material": "Cash Prize", "Quantity": 4, "Sequence": 1, "UnitCost": "156.00"}], "ActivityID": 5, "Objectives": ["(1) To provide avenue for the member to know more of nature, mission-vision, activities, programs and other relevant matters concerning the organization;  ", "To formally turn-over the office to the new set of officers and to recognize the old officers of the organization", "To create friendship and interaction between the members of the organization"], "Strategies": "1st General Assembly and Turn-over Ceremony", "Organization": "De La Salle University - Environmental Conservation Organization", "ProjectHeads": [{"IDNumber": 1111114}], "ProgramDesign": [{"Date": "Jan 15, 2018", "DayID": 0, "EndTime": "02:00 PM", "Activity": "Assembly", "Sequence": 1, "StartTime": "01:30 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111114}}, {"Date": "Jan 15, 2018", "DayID": 0, "EndTime": "06:30 PM", "Activity": "Awarding of Officers", "Sequence": 2, "StartTime": "02:15 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 26, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "307365.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	72da0a9fd72c16f1aef8a8c3b98549fd3c599accd6f5f321679f5d0ff00b41622bc880800934ef6c431724b015d8d926a7af504cf797c840076ee57d6362addadec209b4fb23ae8e456ba36e75f1f3920592c1bddc6e6b14dbe89525e9492e1bc647b55c76715771a362993e6d897c2a944432d41f9d0f8314e49d2e5d45820c	2018-01-10 23:29:06.549234+08
+222	12	7111114	0	1	\N	\N	{"Type": "Publicity/Awareness Campaign", "Venue": "A 1502-A Conference Room", "Nature": "Issue Advocacy", "Context": "Waste is not recycled, it is wasted", "Expenses": [{"Type": "Food Expense", "Material": "Uncle John's Fried Chicken", "Quantity": 10, "Sequence": 1, "UnitCost": "95.00"}], "ActivityID": 12, "Objectives": ["To be able to create a reducing waste program that is specific to the problem;", "To analyze the wastes generated in STC"], "Strategies": "ECOntrol: Waste Analysis and Characterization Study", "Organization": "De La Salle University - Environmental Conservation Organization", "ProjectHeads": [{"IDNumber": 1111114}], "ProgramDesign": [{"Date": "Jan 18, 2018", "DayID": 0, "EndTime": "01:30 PM", "Activity": "Discussion of data ", "Sequence": 1, "StartTime": "11:00 AM", "Description": "", "PersonInCharge": {"IDNumber": 7111116}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 28, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "301741.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	500a438412ab8e827dd62a61af02722034dea1cf4d24338bcc859e5b1202566786771d136ff9b5fa5e8523aeff5f30e8275272f45cc0c73d6a293cf4ac9e7e2bd6b613c943dd4e9dcf919e316441480f008bf07f58b037daa314ee64606466f5d3e64e6e7b9b19144f8d66b99bc48288d271f05572b13853fee12dd642ee0fd0	2018-01-10 23:29:11.076183+08
+362	90	10111114	0	0	\N	\N	\N	\N	\N
+363	90	10111116	0	0	\N	\N	\N	\N	\N
+364	90	10111115	1	0	\N	\N	\N	\N	\N
+365	90	10111113	2	0	\N	\N	\N	\N	\N
+366	90	10111111	3	0	\N	\N	\N	\N	\N
+367	90	10111113	5	0	\N	\N	\N	\N	\N
+368	90	1011121	6	0	\N	\N	\N	\N	\N
+369	90	1011120	7	0	\N	\N	\N	\N	\N
+215	9	7111114	0	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Organizational Development", "Context": "Not enough team building", "Expenses": [{"Type": "Food Expense", "Material": "Jollibee Chicken joi", "Quantity": 50, "Sequence": 1, "UnitCost": "100.00"}], "ActivityID": 9, "Objectives": ["To establish camaraderie between members", "To build one community of ECO"], "Strategies": "Let's ECO: An ECO Team Building", "Organization": "De La Salle University - Environmental Conservation Organization", "ProjectHeads": [{"IDNumber": 10111114}, {"IDNumber": 10111116}], "ProgramDesign": [{"Date": "Jan 22, 2018", "DayID": 0, "EndTime": "04:00 PM", "Activity": "Event proper", "Sequence": 1, "StartTime": "02:15 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111114}}, {"Date": "Jan 22, 2018", "DayID": 0, "EndTime": "05:00 PM", "Activity": "Clean-up", "Sequence": 2, "StartTime": "04:00 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111114}}, {"Date": "Jan 22, 2018", "DayID": 0, "EndTime": "02:00 PM", "Activity": "Intro", "Sequence": 3, "StartTime": "01:29 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 27, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "306741.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	959a26fcaa4e360965ab067269f4305479355f0b8d0be56dd84ee2b9ca8f50afb4ac0256ff6cc8b36b63b8857fd48e9b2d4d8bb21d5550d1a361e0ec1092f869c246bd7277a5175b6f7d1850d9ca009b5345c692c3b47754e3e14bcfb193b909d5a1465902b486c201f04f62e881b5ee9d71fb95e7afe89e86ce1e374fef1bf7	2018-01-10 23:29:20.602851+08
+230	28	7111114	0	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "Br. Gabriel Connon Conference Room SPS 201", "Nature": "Academic", "Context": "Engineers are ignorant of environmental concenrs", "Expenses": [{"Type": "Cash Prize", "Material": "Uncle John's Fried Chicken", "Quantity": 5, "Sequence": 1, "UnitCost": "15.00"}], "ActivityID": 28, "Objectives": ["To increase the awareness of engineering students on environmental issues", "To create an avenue for students wherein they can gather ideas in creating innovative things which can help in aiding the environmental problems", " To create sustainable projects in the future projects of DLSU Engineering Students"], "Strategies": "#ECOTalks 2: \\"Engineers on Environment Protection and Sustainability\\" (In Partnership with GCOE STCG)", "Organization": "De La Salle University - Environmental Conservation Organization", "ProjectHeads": [{"IDNumber": 7111114}, {"IDNumber": 7111116}], "ProgramDesign": [{"Date": "Jan 22, 2018", "DayID": 0, "EndTime": "12:00 PM", "Activity": "Focus group discussion", "Sequence": 1, "StartTime": "09:15 AM", "Description": "", "PersonInCharge": {"IDNumber": 7111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 29, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "300791.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	78e55b3a8a94695071ece130a6c1f73797507a08d37c7e9a408630d26a77cf86f36733ac943cbeb2066291c63a2f1ed11d9f10cbfc5cb7b1d5e1d475145264551d7385211bd0cb9cf0b90e04548398113395b2c5d287b5b86ad036bb4afe30f963bfc3785b9881382d54034935f6c494d10fa078e2f79893c5492782fb9eecc0	2018-01-10 23:29:27.253151+08
+370	90	2011112	4	0	\N	\N	\N	\N	\N
+371	72	2011111	4	0	\N	\N	\N	\N	\N
+280	25	7111114	0	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Academic", "Context": "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, ", "Expenses": [{"Type": "Honorarium", "Material": "Cash Prize", "Quantity": 1, "Sequence": 1, "UnitCost": "51.00"}, {"Type": "Others", "Material": "Confetti", "Quantity": 1, "Sequence": 2, "UnitCost": "25.00"}], "ActivityID": 25, "Objectives": ["To gather an inventory of migratory and resident birds on campus would be conducted in partnership with different organizations and Wild Bird Club of the Philippines through a fun bird race and birdwatching activity", "To identify areas on campus that serves as habitat for the bird", "To instill awareness to the community on the importance of the ecosystem and the environment"], "Strategies": "All Forms of Life is Important: Bird Race", "Organization": "De La Salle University - Environmental Conservation Organization", "ProjectHeads": [{"IDNumber": 10111114}], "ProgramDesign": [{"Date": "Jan 24, 2018", "DayID": 0, "EndTime": "02:30 PM", "Activity": "Event Proper", "Sequence": 1, "StartTime": "01:00 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111116}}, {"Date": "Jan 25, 2018", "DayID": 1, "EndTime": "02:10 PM", "Activity": "Event Proper", "Sequence": 1, "StartTime": "01:00 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111116}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 35, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "300716.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	195dd98bd5d21450949ed924110067de16e5c56d27562f83f2c962db628677892b2c572d16ff2c6700274ed1ae8246463852e13bd71be3c76fae8925112dc5a0e1c470bd24febf124be47986fe11977436c41eaf6996d35748fbb8b7d250d1b2883cdc23894a0706787542f0863cfb8b14cfb04c686537ccff6847724f8d3f5a	2018-01-10 23:29:49.083928+08
+338	22	7111114	0	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "9th Floor Gym(w/o Scoreboard)", "Nature": "Outreach", "Context": "People are ignorant of kids", "Expenses": [{"Type": "Food Expense", "Material": "Uncle John's Fried Chicken", "Quantity": 55, "Sequence": 1, "UnitCost": "85.00"}], "ActivityID": 22, "Objectives": ["To provide an avenue wherein student can do community outreach programs", " To immerse the ECO Community to other issue advocacies that they can expand on"], "Strategies": "ECO Gives Back: A Christmas Celebration with the Kids", "Organization": "De La Salle University - Environmental Conservation Organization", "ProjectHeads": [{"IDNumber": 4111113}, {"IDNumber": 4111114}], "ProgramDesign": [{"Date": "Jan 31, 2018", "DayID": 0, "EndTime": "06:30 PM", "Activity": "Kid's day celebration", "Sequence": 1, "StartTime": "01:28 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111116}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 42, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "300640.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	0b24de138d074ece1c113ccd2a18e575c25f1e5d3ba37c7e43ace2c0f549e1e74150f15cd5d36a286c3fc7489002451f262408bd09f79a7f128f7ceaa1dfcf05615ae8274b857b50bca4f3bac35857a1bcaf375e513689f60060a3916f63865f2a7a461f943a03cdeeba71da92c2efd501139c14fafbee66a4a11db5d1abb597	2018-01-10 23:29:58.087256+08
+373	75	3111115	1	0	\N	\N	\N	\N	\N
+374	75	3111113	2	0	\N	\N	\N	\N	\N
+375	75	3111111	3	0	\N	\N	\N	\N	\N
+376	75	3111113	5	0	\N	\N	\N	\N	\N
+377	75	1011121	6	0	\N	\N	\N	\N	\N
+378	75	1011120	7	0	\N	\N	\N	\N	\N
+57	24	7111116	0	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Organizational Development", "Context": "People are ignorant of different cultures", "Expenses": [{"Type": "Food Expense", "Material": "Booth Materials", "Quantity": 15, "Sequence": 1, "UnitCost": "5.00"}], "ActivityID": 24, "Objectives": ["To immerse members and volunteers to a community", " To be able to create a project that is specific to the needs of the community", "To partner and interact with the chosen community"], "Strategies": "E-Cultural Voyagers: A Community Engagement (Masid-Danas Phase)", "Organization": "De La Salle University - Environmental Conservation Organization", "ProjectHeads": [{"IDNumber": 4111114}], "ProgramDesign": [{"Date": "Feb 05, 2018", "DayID": 0, "EndTime": "01:10 PM", "Activity": "Rehearsal", "Sequence": 1, "StartTime": "01:05 PM", "Description": "Penchorn placement", "PersonInCharge": {"IDNumber": 7111116}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 8, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "308475.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	012f0daae688fb4486d44ed5ffefa2a877ab379f28f987f814d89d1110a7f319a92983116e0dc40f108d31dd6ff5c305e7e6e82afa070e2b6a8e47d7bd1b5bf4baafffecdad91ab07972a2e12decd77b30c1ba6b6d8d75c8c117238f8f85a3741584ba94c9a0ad20f629846349b2e5cec0be18b2e6e3c2d223d2aaed1f9db4ec	2018-01-10 23:31:36.34168+08
+379	75	2011111	4	0	\N	\N	\N	\N	\N
+108	27	7111116	0	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1505-A Conference Room", "Nature": "Academic", "Context": "La Sallians are ignorant of going green", "Expenses": [{"Type": "Honorarium", "Material": "Jollibee Chicken joi", "Quantity": 2, "Sequence": 1, "UnitCost": "15.00"}], "ActivityID": 27, "Objectives": ["To express support to the Climate Change Commission's  A One Million Filipino Youth Voices on Climate Action Campaign #NowPh", "To instill awareness to the DLSU community of the climate change and on how they can individually contribute to the call for Climate Action", "Gather at least 1 pledge per unit or department and creat a concrete plan to execute it"], "Strategies": "#ECOTalks 1: I am a Lasallian, I am PRO Green\\"", "Organization": "De La Salle University - Environmental Conservation Organization", "ProjectHeads": [{"IDNumber": 7111114}], "ProgramDesign": [{"Date": "Feb 15, 2018", "DayID": 0, "EndTime": "02:00 PM", "Activity": "Discussion", "Sequence": 1, "StartTime": "01:30 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111116}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 14, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "308400.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	1faef6344e732255a6c9b4e71a185acc2f441884732a05501a98b2df1125503ff8112c151d052429be946013fed249cd40be04f388d4ce1351e1cf24d59d7762e92781e30efb0f6b46abf247998306c43ca4a0cc02e2d2707d6d8f509ed572041d89e096a973e85a79e8e969483a552e7055ac80ed911b632e1e4e50792f3600	2018-01-10 23:31:54.392335+08
+144	3	7111116	0	1	\N	\N	{"Type": "Recruitment/Audition", "Venue": "A 1502-A Conference Room", "Nature": "Fundraising", "Context": "The lack of functioning members of society", "Expenses": [{"Type": "Others", "Material": "Confetti", "Quantity": 67, "Sequence": 1, "UnitCost": "15.00"}], "ActivityID": 3, "Objectives": ["To showcase the nature, mission-vision, activities and programs of the organization", "To recruite new members from both STC and Taft campus as well as membership renewal for old members", "To increase the organizational funds through membership fee "], "Strategies": "Annual Recruitment Week", "Organization": "De La Salle University - Environmental Conservation Organization", "ProjectHeads": [{"IDNumber": 1111114}], "ProgramDesign": [{"Date": "Jan 11, 2018", "DayID": 0, "EndTime": "06:30 PM", "Activity": "Booth Manning", "Sequence": 1, "StartTime": "01:30 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 18, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "308370.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	6ac1b88269fc0a043f45f0651d6117ffd25e501a0dd67ed9f8be9da56094382a9753c7586db536a8475c2ed69e83ad262b4b62c8b070c24daa7e0d52d63ecdec6e856d878f20ec9c6b04c456d26123de3128e901b4facb6903bd2815d3332e0cd864553df188aeba4573b39b59f35e94867d6c0f6ac2c813544d9b1f08bbe68f	2018-01-10 23:32:06.3853+08
+372	75	3111114	0	2	Fix expense	{"Revenue and Expense Table"}	\N	\N	\N
+223	12	7111116	0	1	\N	\N	{"Type": "Publicity/Awareness Campaign", "Venue": "A 1502-A Conference Room", "Nature": "Issue Advocacy", "Context": "Waste is not recycled, it is wasted", "Expenses": [{"Type": "Food Expense", "Material": "Uncle John's Fried Chicken", "Quantity": 10, "Sequence": 1, "UnitCost": "95.00"}], "ActivityID": 12, "Objectives": ["To be able to create a reducing waste program that is specific to the problem;", "To analyze the wastes generated in STC"], "Strategies": "ECOntrol: Waste Analysis and Characterization Study", "Organization": "De La Salle University - Environmental Conservation Organization", "ProjectHeads": [{"IDNumber": 1111114}], "ProgramDesign": [{"Date": "Jan 18, 2018", "DayID": 0, "EndTime": "01:30 PM", "Activity": "Discussion of data ", "Sequence": 1, "StartTime": "11:00 AM", "Description": "", "PersonInCharge": {"IDNumber": 7111116}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 28, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "301741.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	02c327b0e309844e97d46a93595d978adc6d289ee2c862db47520e25fee08d9235be171ae5c3acd2e1857332bb0e693684f29879885e1ca35757209872c858caedaa27e3b542245b160bc2b97fb6378dce6009b77f400da11af79ae2ed73dabecf4b0dd90de585c5ff3d1e34309cee87be2bb173d22dc2118ec83992c53aff50	2018-01-10 23:32:20.527616+08
+281	25	7111116	0	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Academic", "Context": "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, ", "Expenses": [{"Type": "Honorarium", "Material": "Cash Prize", "Quantity": 1, "Sequence": 1, "UnitCost": "51.00"}, {"Type": "Others", "Material": "Confetti", "Quantity": 1, "Sequence": 2, "UnitCost": "25.00"}], "ActivityID": 25, "Objectives": ["To gather an inventory of migratory and resident birds on campus would be conducted in partnership with different organizations and Wild Bird Club of the Philippines through a fun bird race and birdwatching activity", "To identify areas on campus that serves as habitat for the bird", "To instill awareness to the community on the importance of the ecosystem and the environment"], "Strategies": "All Forms of Life is Important: Bird Race", "Organization": "De La Salle University - Environmental Conservation Organization", "ProjectHeads": [{"IDNumber": 10111114}], "ProgramDesign": [{"Date": "Jan 24, 2018", "DayID": 0, "EndTime": "02:30 PM", "Activity": "Event Proper", "Sequence": 1, "StartTime": "01:00 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111116}}, {"Date": "Jan 25, 2018", "DayID": 1, "EndTime": "02:10 PM", "Activity": "Event Proper", "Sequence": 1, "StartTime": "01:00 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111116}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 35, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "300716.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	6f42ff1de848630a6a7bfd2e0f358747f647fadfbb7f12a292bb3da7bf30f695fde6fb9acedc33ff600933a5050d6e577bb55e41afb47fa3d2319b6f0663a769d120ca5ec2ffe08e7b4b0ec586ecfa2f947086a3c8cf4f33ff6e0d3758f585c5eb6b655199520b51ea0701bda95b2752563dc10cedb8054caf247d1220381cce	2018-01-10 23:32:37.409996+08
+339	22	7111116	0	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "9th Floor Gym(w/o Scoreboard)", "Nature": "Outreach", "Context": "People are ignorant of kids", "Expenses": [{"Type": "Food Expense", "Material": "Uncle John's Fried Chicken", "Quantity": 55, "Sequence": 1, "UnitCost": "85.00"}], "ActivityID": 22, "Objectives": ["To provide an avenue wherein student can do community outreach programs", " To immerse the ECO Community to other issue advocacies that they can expand on"], "Strategies": "ECO Gives Back: A Christmas Celebration with the Kids", "Organization": "De La Salle University - Environmental Conservation Organization", "ProjectHeads": [{"IDNumber": 4111113}, {"IDNumber": 4111114}], "ProgramDesign": [{"Date": "Jan 31, 2018", "DayID": 0, "EndTime": "06:30 PM", "Activity": "Kid's day celebration", "Sequence": 1, "StartTime": "01:28 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111116}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 42, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "300640.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	62e6cfd6fa896bc2f8d8db69bcfd10d591b8499644aa1efd7eaee861d5f22557824b1e42dbbac561bd106db64128a6afb5e3f57e6078e62132122c306d5a5052d6ec902fefca3ce2310c4d49e2da11a6401872e91ceca691c109167a0cc759de27a189f9a2ad5462b667d566e8e2ad434a2193284cff0bc5501766091451e2c6	2018-01-10 23:32:51.593804+08
+58	24	7111115	1	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Organizational Development", "Context": "People are ignorant of different cultures", "Expenses": [{"Type": "Food Expense", "Material": "Booth Materials", "Quantity": 15, "Sequence": 1, "UnitCost": "5.00"}], "ActivityID": 24, "Objectives": ["To immerse members and volunteers to a community", " To be able to create a project that is specific to the needs of the community", "To partner and interact with the chosen community"], "Strategies": "E-Cultural Voyagers: A Community Engagement (Masid-Danas Phase)", "Organization": "De La Salle University - Environmental Conservation Organization", "ProjectHeads": [{"IDNumber": 4111114}], "ProgramDesign": [{"Date": "Feb 05, 2018", "DayID": 0, "EndTime": "01:10 PM", "Activity": "Rehearsal", "Sequence": 1, "StartTime": "01:05 PM", "Description": "Penchorn placement", "PersonInCharge": {"IDNumber": 7111116}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 8, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "308475.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	7604ef678475d9f271d1720c1c091f8e410c28f90b27ba90de54d705c24fe7f3b3f3f15cb56c58456a1e547ee92f3c15419a252cbc18010e3c8914dba2e0046509d6f9bf4d7c1b3fa3627174f5775e63308b6f520c4a5d49343c1eec8af08c3621cb6095d8ab795713751d6318ebaede33eb32359dc6076ae133e60251209992	2018-01-10 23:35:42.500249+08
+396	61	3111114	0	0	\N	\N	\N	\N	\N
+397	61	3111115	1	0	\N	\N	\N	\N	\N
+398	61	3111113	2	0	\N	\N	\N	\N	\N
+399	61	3111111	3	0	\N	\N	\N	\N	\N
+400	61	3111113	5	0	\N	\N	\N	\N	\N
+401	61	1011121	6	0	\N	\N	\N	\N	\N
+402	61	1011120	7	0	\N	\N	\N	\N	\N
+109	27	7111115	1	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1505-A Conference Room", "Nature": "Academic", "Context": "La Sallians are ignorant of going green", "Expenses": [{"Type": "Honorarium", "Material": "Jollibee Chicken joi", "Quantity": 2, "Sequence": 1, "UnitCost": "15.00"}], "ActivityID": 27, "Objectives": ["To express support to the Climate Change Commission's  A One Million Filipino Youth Voices on Climate Action Campaign #NowPh", "To instill awareness to the DLSU community of the climate change and on how they can individually contribute to the call for Climate Action", "Gather at least 1 pledge per unit or department and creat a concrete plan to execute it"], "Strategies": "#ECOTalks 1: I am a Lasallian, I am PRO Green\\"", "Organization": "De La Salle University - Environmental Conservation Organization", "ProjectHeads": [{"IDNumber": 7111114}], "ProgramDesign": [{"Date": "Feb 15, 2018", "DayID": 0, "EndTime": "02:00 PM", "Activity": "Discussion", "Sequence": 1, "StartTime": "01:30 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111116}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 14, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "308400.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	4d10a1ef917c8454dc97b96252e7dc0ee1b8ee8a2b4cdcffd69f69b384a40c0d1ea4f5c5ffe4724167362545de0ae0c9cdaf81a45e4b23253c6c808de0ed23aab5a66a95513e50fc0055d7d9839ea1aceb9593895afe1e4f33f84d43542c0126468afaa269df0b9f0252834d964b6ce306b473e436ec3ef1d09c0045e9ba73b1	2018-01-10 23:37:21.109529+08
+208	5	7111115	1	1	\N	\N	{"Type": "General Assembly", "Venue": "A 1502-A Conference Room", "Nature": "Organizational Development", "Context": "Unity of the organization", "Expenses": [{"Type": "Honorarium", "Material": "Cash Prize", "Quantity": 4, "Sequence": 1, "UnitCost": "156.00"}], "ActivityID": 5, "Objectives": ["(1) To provide avenue for the member to know more of nature, mission-vision, activities, programs and other relevant matters concerning the organization;  ", "To formally turn-over the office to the new set of officers and to recognize the old officers of the organization", "To create friendship and interaction between the members of the organization"], "Strategies": "1st General Assembly and Turn-over Ceremony", "Organization": "De La Salle University - Environmental Conservation Organization", "ProjectHeads": [{"IDNumber": 1111114}], "ProgramDesign": [{"Date": "Jan 15, 2018", "DayID": 0, "EndTime": "02:00 PM", "Activity": "Assembly", "Sequence": 1, "StartTime": "01:30 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111114}}, {"Date": "Jan 15, 2018", "DayID": 0, "EndTime": "06:30 PM", "Activity": "Awarding of Officers", "Sequence": 2, "StartTime": "02:15 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 26, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "307365.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	7d3e9304b07d1ebfd8f2fa933883313544e568ef00d07b928e123a5f2c1e7065956fc8b1e562af9f2bfe20a7ef7860978ed582f136549cb6d8611926792580d057561b1dd1fbd46576fd445044771f8b0011b25aba054050a32ca4f7a3d6073380f05d25a5dd60b49488956b3e011e4c107fc5dfe5e52ee8544ca6fee7bd07f9	2018-01-10 23:37:36.211277+08
+145	3	7111115	1	1	\N	\N	{"Type": "Recruitment/Audition", "Venue": "A 1502-A Conference Room", "Nature": "Fundraising", "Context": "The lack of functioning members of society", "Expenses": [{"Type": "Others", "Material": "Confetti", "Quantity": 67, "Sequence": 1, "UnitCost": "15.00"}], "ActivityID": 3, "Objectives": ["To showcase the nature, mission-vision, activities and programs of the organization", "To recruite new members from both STC and Taft campus as well as membership renewal for old members", "To increase the organizational funds through membership fee "], "Strategies": "Annual Recruitment Week", "Organization": "De La Salle University - Environmental Conservation Organization", "ProjectHeads": [{"IDNumber": 1111114}], "ProgramDesign": [{"Date": "Jan 11, 2018", "DayID": 0, "EndTime": "06:30 PM", "Activity": "Booth Manning", "Sequence": 1, "StartTime": "01:30 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 18, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "308370.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	d70ba7fa5d4e0aecb109d6e25f77a2cfab63d690dbd08f318343a433b96f1e24ce927f28876bf650aad77cb453cfb32fe2a697a3fdf43c432ceebee7e4f65b11f27d13aad4d7b47e1baef6ff351f93f43cd668d0b75b75ba2104ab1dc51e9d02a43404bfabe7d01e27c8bd56a3d64567e757df6363b01059a29246110ddf6211	2018-01-10 23:37:37.555569+08
+216	9	7111115	1	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Organizational Development", "Context": "Not enough team building", "Expenses": [{"Type": "Food Expense", "Material": "Jollibee Chicken joi", "Quantity": 50, "Sequence": 1, "UnitCost": "100.00"}], "ActivityID": 9, "Objectives": ["To establish camaraderie between members", "To build one community of ECO"], "Strategies": "Let's ECO: An ECO Team Building", "Organization": "De La Salle University - Environmental Conservation Organization", "ProjectHeads": [{"IDNumber": 10111114}, {"IDNumber": 10111116}], "ProgramDesign": [{"Date": "Jan 22, 2018", "DayID": 0, "EndTime": "04:00 PM", "Activity": "Event proper", "Sequence": 1, "StartTime": "02:15 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111114}}, {"Date": "Jan 22, 2018", "DayID": 0, "EndTime": "05:00 PM", "Activity": "Clean-up", "Sequence": 2, "StartTime": "04:00 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111114}}, {"Date": "Jan 22, 2018", "DayID": 0, "EndTime": "02:00 PM", "Activity": "Intro", "Sequence": 3, "StartTime": "01:29 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 27, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "306741.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	11fe3d2abc2c4447277a22d13ed41618a7a6645caa0aea8f41f0ed78c845ecd93435d879fc7d16fb5dc59e2bb05c30cdbeb3f4eb60369a1858e3ffdf5533310a6df4750dfd4afd45df0c5f0e924f52df314c3d57a6d3620966d4ad18b1a4db516794ca0c2c68586ab72ab92ba0b8a9341d695f499b32bd4c2109712731c390d8	2018-01-10 23:37:47.967895+08
+224	12	7111115	1	1	\N	\N	{"Type": "Publicity/Awareness Campaign", "Venue": "A 1502-A Conference Room", "Nature": "Issue Advocacy", "Context": "Waste is not recycled, it is wasted", "Expenses": [{"Type": "Food Expense", "Material": "Uncle John's Fried Chicken", "Quantity": 10, "Sequence": 1, "UnitCost": "95.00"}], "ActivityID": 12, "Objectives": ["To be able to create a reducing waste program that is specific to the problem;", "To analyze the wastes generated in STC"], "Strategies": "ECOntrol: Waste Analysis and Characterization Study", "Organization": "De La Salle University - Environmental Conservation Organization", "ProjectHeads": [{"IDNumber": 1111114}], "ProgramDesign": [{"Date": "Jan 18, 2018", "DayID": 0, "EndTime": "01:30 PM", "Activity": "Discussion of data ", "Sequence": 1, "StartTime": "11:00 AM", "Description": "", "PersonInCharge": {"IDNumber": 7111116}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 28, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "301741.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	cfb398c40d26dc28bdc39374c4998b40de8a33384f4d702d55f1ca21500aba51560ff1aa6e0f412dc1381f5e99c365f09b84b8943b2ee0d721a2c4e5977e16121ef614477c64c2edff91907ee3a0085124d647b402797874bcf182474884c74bdcb00474c834c54a80760a8c04afba30c170d28c2593441e5d424f9f284eb353	2018-01-10 23:37:51.067257+08
+403	61	2011111	4	0	\N	\N	\N	\N	\N
+231	28	7111115	1	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "Br. Gabriel Connon Conference Room SPS 201", "Nature": "Academic", "Context": "Engineers are ignorant of environmental concenrs", "Expenses": [{"Type": "Cash Prize", "Material": "Uncle John's Fried Chicken", "Quantity": 5, "Sequence": 1, "UnitCost": "15.00"}], "ActivityID": 28, "Objectives": ["To increase the awareness of engineering students on environmental issues", "To create an avenue for students wherein they can gather ideas in creating innovative things which can help in aiding the environmental problems", " To create sustainable projects in the future projects of DLSU Engineering Students"], "Strategies": "#ECOTalks 2: \\"Engineers on Environment Protection and Sustainability\\" (In Partnership with GCOE STCG)", "Organization": "De La Salle University - Environmental Conservation Organization", "ProjectHeads": [{"IDNumber": 7111114}, {"IDNumber": 7111116}], "ProgramDesign": [{"Date": "Jan 22, 2018", "DayID": 0, "EndTime": "12:00 PM", "Activity": "Focus group discussion", "Sequence": 1, "StartTime": "09:15 AM", "Description": "", "PersonInCharge": {"IDNumber": 7111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 29, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "300791.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	c2d9903f049b783da9c4c7caa731f07bb5478719a6dd8e6bf8483494653cefb5d0bfcf26377c0cdb49ab0e6b1711f0f46227726e1268d51afb897cb23cd744b74dbf2690e7c9932b9ed89bbe12863d5bbdc292aaae28672ea751d6fbc3d49722ed778b78ad19923fdc4365e348c44a241e71bdefbacb2c60efe5a3a141080103	2018-01-10 23:37:53.889675+08
+282	25	7111115	1	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Academic", "Context": "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, ", "Expenses": [{"Type": "Honorarium", "Material": "Cash Prize", "Quantity": 1, "Sequence": 1, "UnitCost": "51.00"}, {"Type": "Others", "Material": "Confetti", "Quantity": 1, "Sequence": 2, "UnitCost": "25.00"}], "ActivityID": 25, "Objectives": ["To gather an inventory of migratory and resident birds on campus would be conducted in partnership with different organizations and Wild Bird Club of the Philippines through a fun bird race and birdwatching activity", "To identify areas on campus that serves as habitat for the bird", "To instill awareness to the community on the importance of the ecosystem and the environment"], "Strategies": "All Forms of Life is Important: Bird Race", "Organization": "De La Salle University - Environmental Conservation Organization", "ProjectHeads": [{"IDNumber": 10111114}], "ProgramDesign": [{"Date": "Jan 24, 2018", "DayID": 0, "EndTime": "02:30 PM", "Activity": "Event Proper", "Sequence": 1, "StartTime": "01:00 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111116}}, {"Date": "Jan 25, 2018", "DayID": 1, "EndTime": "02:10 PM", "Activity": "Event Proper", "Sequence": 1, "StartTime": "01:00 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111116}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 35, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "300716.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	9c207ca2820bb70ebf5114a3837791afe51747ce975751b45c6ee6e1ee77e89d2613bdad35db98827168ea25e2e53ea1166b5c59a6f497bf6f5b69855ca6eb0912a131c4dd32f0b76fe85a03531814fd4dec77a20bf0f991ba473b667c0cb054c8a057ba36dd928cfa97b6645611966e8e84840fcf8bf107716a476356a83fe9	2018-01-10 23:37:55.263668+08
+404	88	10111114	0	0	\N	\N	\N	\N	\N
+405	88	10111116	0	0	\N	\N	\N	\N	\N
+406	88	10111115	1	0	\N	\N	\N	\N	\N
+407	88	10111113	2	0	\N	\N	\N	\N	\N
+408	88	10111111	3	0	\N	\N	\N	\N	\N
+409	88	10111113	5	0	\N	\N	\N	\N	\N
+410	88	1011121	6	0	\N	\N	\N	\N	\N
+411	88	1011120	7	0	\N	\N	\N	\N	\N
+289	68	3111114	0	1	\N	\N	{"Type": "Recruitment/Audition", "Venue": "A 1502-A Conference Room", "Nature": "Organizational Development", "Context": "They need to be aware of their env", "Expenses": [{"Type": "Others", "Material": "Food", "Quantity": 10, "Sequence": 1, "UnitCost": "10.00"}], "ActivityID": 68, "Objectives": [".To refresh the minds of the members and other participants about the current standing of the organization. "], "Strategies": "October - Local Committee Meeting", "Organization": "AIESEC DLSU", "ProjectHeads": [], "ProgramDesign": [{"Date": "Jan 14, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "Act", "Sequence": 1, "StartTime": "12:00 PM", "Description": "prayer", "PersonInCharge": {"IDNumber": 3111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 36, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "311253.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	429911b4d35cf800e10179826f0a24c2b09052d8fd4c0ab54398340ab418c4e3eded9dfe776b316aa4013da8fbd0a5329740c2956f6a68e46eacb25521bd33ed00cee39ae82b197338c218235f89f67c926f3abca95a8891534a311f549884190650aba8d39d5cafaeef4d2f5dac6f3ffa9cc7c8161e8366b75dacbae8af2299	2018-01-10 23:39:01.40132+08
+255	62	3111114	0	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Organizational Development", "Context": "Talents are hidden", "Expenses": [{"Type": "Food Expense", "Material": "Food", "Quantity": 10, "Sequence": 1, "UnitCost": "100.00"}], "ActivityID": 62, "Objectives": ["Enhance talent management competency of the member."], "Strategies": "Talent Management", "Organization": "AIESEC DLSU", "ProjectHeads": [], "ProgramDesign": [{"Date": "Feb 07, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "Prayer", "Sequence": 1, "StartTime": "12:00 PM", "Description": "opening", "PersonInCharge": {"IDNumber": 3111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 32, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "314253.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	03e8623ec1800879ac028f647903453df42e3fd1c72126af9d455c1727ba1556ded156f85d3fc41385f565832b34b5e9eae9f443d3b757a5a1077a40d64373da39693296271d8969ecb7159273d1aaa401866ec3adf99786999d559a249417843b34dfb3fa534c21fb74f52f957125665e33452954697e7485f76f295eda7bd0	2018-01-10 23:39:12.085312+08
+264	64	3111114	0	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Organizational Development", "Context": "Lack of summit", "Expenses": [{"Type": "Food Expense", "Material": "Food", "Quantity": 10, "Sequence": 1, "UnitCost": "100.00"}], "ActivityID": 64, "Objectives": ["Train members in their respective department's operations."], "Strategies": "Operations Summit ", "Organization": "AIESEC DLSU", "ProjectHeads": [], "ProgramDesign": [{"Date": "Feb 08, 2018", "DayID": 0, "EndTime": "01:01 PM", "Activity": "Activity", "Sequence": 1, "StartTime": "12:00 PM", "Description": "Desc", "PersonInCharge": {"IDNumber": 3111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 33, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "313253.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	8af66df2e9ebac2975500553ab404e143a9c3b46888df12d8262e2bc5680de8b240ad5eaf363ea30c7ea8471d5df9586a30e6d605579a9ea088c3603b095e584c9ae793b348c7ace9cfd25f2d596e57b854635be3190e5bd0e62111ccae85fab1792dc748046a1a494d248ceb337b56a9b41665797ec132c1a1634c302e98785	2018-01-10 23:39:18.565573+08
+388	81	3111114	0	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Special Interest", "Context": "organization of the track in their committee", "Expenses": [{"Type": "Others", "Material": "food", "Quantity": 10, "Sequence": 1, "UnitCost": "10.00"}], "ActivityID": 81, "Objectives": ["Show the realities of being an OC", "Train aspiring OC"], "Strategies": "Organizing Committee Track", "Organization": "AIESEC DLSU", "ProjectHeads": [], "ProgramDesign": [{"Date": "Feb 21, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "act", "Sequence": 1, "StartTime": "12:00 PM", "Description": "prayer", "PersonInCharge": {"IDNumber": 3111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 48, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "308953.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	4dcfc9d37e07c417df90316f625039577eef8f9654bdb5ec89ced40faedfcfc10f1c26a8d5214113ee0dce23d4f95f63b8fd174852fd2d9c05668bfe409cde3e0d2d5fab16a22ca66bffd523dcb63d18631153c0e2cc855fb7d26efea36c62329ff221b87aa5c14f3e534787ef5699c3731ecd8472fc5b2a7f92ea42a7153566	2018-01-10 23:39:25.523906+08
+380	79	3111114	0	1	\N	\N	{"Type": "Publicity/Awareness Campaign", "Venue": "A 1502-A Conference Room", "Nature": "Issue Advocacy", "Context": "exposure to some international events", "Expenses": [{"Type": "Others", "Material": "food", "Quantity": 10, "Sequence": 1, "UnitCost": "100.00"}], "ActivityID": 79, "Objectives": ["Raise awarness towards the Sustainable Development Goals", "Provide activities to actualize the different SDGs"], "Strategies": "Global Goals Weeks", "Organization": "AIESEC DLSU", "ProjectHeads": [], "ProgramDesign": [{"Date": "Feb 19, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "act", "Sequence": 1, "StartTime": "12:00 PM", "Description": "1123", "PersonInCharge": {"IDNumber": 3111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 47, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "309953.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	12caf6c06bf712664424ff64899b8b871e1106494f3c14c3db0c72a4ef91311e016c64a3e6f1db943924a5777c5457dba3d87cdcc3f3ec76158e6eef8ae48a51d0ad29b4d941e98fab3e92201e558c3aabe4614e192a7c5dd696f0cdb936d48695b8b6e23d2f5412034ca25527a188b847dcaee8ed14eb824b236cceb0b5854d	2018-01-10 23:39:30.944282+08
+412	88	2011111	4	0	\N	\N	\N	\N	\N
+340	22	7111115	1	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "9th Floor Gym(w/o Scoreboard)", "Nature": "Outreach", "Context": "People are ignorant of kids", "Expenses": [{"Type": "Food Expense", "Material": "Uncle John's Fried Chicken", "Quantity": 55, "Sequence": 1, "UnitCost": "85.00"}], "ActivityID": 22, "Objectives": ["To provide an avenue wherein student can do community outreach programs", " To immerse the ECO Community to other issue advocacies that they can expand on"], "Strategies": "ECO Gives Back: A Christmas Celebration with the Kids", "Organization": "De La Salle University - Environmental Conservation Organization", "ProjectHeads": [{"IDNumber": 4111113}, {"IDNumber": 4111114}], "ProgramDesign": [{"Date": "Jan 31, 2018", "DayID": 0, "EndTime": "06:30 PM", "Activity": "Kid's day celebration", "Sequence": 1, "StartTime": "01:28 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111116}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 42, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "300640.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	2eb84c0227edc7faa32142a038c0bb82645ba851c3842ebce29b0117d43f96f667d20fe4445af3a44e21c40a4e9dd7883fab8af9a9081be7d0e25a4a596675b5ede77f7bbcc353c3c94f6dcfbc697d69feacade61b33ff34d0e40e6d9f21b931a153c099a8ddf53bfb6c2449e4c239680588dea20e60fd0560167e558d0cfb4d	2018-01-10 23:40:19.38983+08
+256	62	3111115	1	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Organizational Development", "Context": "Talents are hidden", "Expenses": [{"Type": "Food Expense", "Material": "Food", "Quantity": 10, "Sequence": 1, "UnitCost": "100.00"}], "ActivityID": 62, "Objectives": ["Enhance talent management competency of the member."], "Strategies": "Talent Management", "Organization": "AIESEC DLSU", "ProjectHeads": [], "ProgramDesign": [{"Date": "Feb 07, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "Prayer", "Sequence": 1, "StartTime": "12:00 PM", "Description": "opening", "PersonInCharge": {"IDNumber": 3111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 32, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "314253.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	1c5dee7422e2dcb6e3a8f0e0ec06b3bdcb566517febe2a1348c9bec5913b7c3343b37dbc4d238424f8452547e7d83e85cfc572527cab0109100dfc830a36f4f60fca9aefd07c385a5f9c016cb25d2ce2f1c79aba940f6feb4f4ba8678abb50a2933fe8734ade110c680152b5c685ccad5a7e3171af7ee438d3e5ed7496581661	2018-01-10 23:40:39.529133+08
+265	64	3111115	1	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Organizational Development", "Context": "Lack of summit", "Expenses": [{"Type": "Food Expense", "Material": "Food", "Quantity": 10, "Sequence": 1, "UnitCost": "100.00"}], "ActivityID": 64, "Objectives": ["Train members in their respective department's operations."], "Strategies": "Operations Summit ", "Organization": "AIESEC DLSU", "ProjectHeads": [], "ProgramDesign": [{"Date": "Feb 08, 2018", "DayID": 0, "EndTime": "01:01 PM", "Activity": "Activity", "Sequence": 1, "StartTime": "12:00 PM", "Description": "Desc", "PersonInCharge": {"IDNumber": 3111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 33, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "313253.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	98adfc5cf564ab81eda6f416fe946067dc81b34267aae0e89e3bee8b4f161a1288f1844f739a8b5bf17965af12c856a349abdeed5301da7bb985f0d029a9cc6a62ba79f4f37638a8a81e8871d7b4673e0ea719c2887f9bb8b920ef0e715f4727765e952e88167529c2c1ebc127f45a1d2ddf1a7e14b66809626342d466fb2884	2018-01-10 23:40:46.018122+08
+290	68	3111115	1	1	\N	\N	{"Type": "Recruitment/Audition", "Venue": "A 1502-A Conference Room", "Nature": "Organizational Development", "Context": "They need to be aware of their env", "Expenses": [{"Type": "Others", "Material": "Food", "Quantity": 10, "Sequence": 1, "UnitCost": "10.00"}], "ActivityID": 68, "Objectives": [".To refresh the minds of the members and other participants about the current standing of the organization. "], "Strategies": "October - Local Committee Meeting", "Organization": "AIESEC DLSU", "ProjectHeads": [], "ProgramDesign": [{"Date": "Jan 14, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "Act", "Sequence": 1, "StartTime": "12:00 PM", "Description": "prayer", "PersonInCharge": {"IDNumber": 3111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 36, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "311253.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	518380ae399eb0b85eae706b28c2ff2b17c652c54d9c5f95f9314aca67ba204c0306d66f3877955dfbc0ba603e6c4004633e0668006564263ebfc468f9ea52931729bc99f5f3b40751de34d9b76f9f75975ffa3308a9150cb6bed43a26796e37f46c093bef6298516957acd2344f0040327cf310026fa9d5e88972128f0afc18	2018-01-10 23:41:00.328056+08
+389	81	3111115	1	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Special Interest", "Context": "organization of the track in their committee", "Expenses": [{"Type": "Others", "Material": "food", "Quantity": 10, "Sequence": 1, "UnitCost": "10.00"}], "ActivityID": 81, "Objectives": ["Show the realities of being an OC", "Train aspiring OC"], "Strategies": "Organizing Committee Track", "Organization": "AIESEC DLSU", "ProjectHeads": [], "ProgramDesign": [{"Date": "Feb 21, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "act", "Sequence": 1, "StartTime": "12:00 PM", "Description": "prayer", "PersonInCharge": {"IDNumber": 3111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 48, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "308953.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	aa3b341a18d825a411705b95663338d3720839b4f2546abec71fe616fd3c10491a6ab9887c7682e83f029519498c0f933ccb4b6c0e225646157082f9510ca5880a9ada64d7e6ba8f967e85d27bdf37e90ee68cbbbfad007f5f3420281d9150ad9b88473df8fd313d693cd1e5c13b224edaca8dce5c32d53f2001629ce13795ec	2018-01-10 23:41:08.142198+08
+381	79	3111115	1	1	\N	\N	{"Type": "Publicity/Awareness Campaign", "Venue": "A 1502-A Conference Room", "Nature": "Issue Advocacy", "Context": "exposure to some international events", "Expenses": [{"Type": "Others", "Material": "food", "Quantity": 10, "Sequence": 1, "UnitCost": "100.00"}], "ActivityID": 79, "Objectives": ["Raise awarness towards the Sustainable Development Goals", "Provide activities to actualize the different SDGs"], "Strategies": "Global Goals Weeks", "Organization": "AIESEC DLSU", "ProjectHeads": [], "ProgramDesign": [{"Date": "Feb 19, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "act", "Sequence": 1, "StartTime": "12:00 PM", "Description": "1123", "PersonInCharge": {"IDNumber": 3111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 47, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "309953.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	668ee5011d642d2be6a0e1e21f8447ebeb30d03104b0aad63b1f6ffa022339efc435d13dd0a33c405f4ea8d57261ee188ee7e4068246bbf4dfaf16a43425ba4868a2f0653d53628821df6073471f012a539f5dccccc3d349bc011e71389003aeb692a269bf61c6db11579485a614cd2dab957d988fbd760e69b20d1cb08f686a	2018-01-10 23:41:15.815653+08
+257	62	3111113	2	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Organizational Development", "Context": "Talents are hidden", "Expenses": [{"Type": "Food Expense", "Material": "Food", "Quantity": 10, "Sequence": 1, "UnitCost": "100.00"}], "ActivityID": 62, "Objectives": ["Enhance talent management competency of the member."], "Strategies": "Talent Management", "Organization": "AIESEC DLSU", "ProjectHeads": [], "ProgramDesign": [{"Date": "Feb 07, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "Prayer", "Sequence": 1, "StartTime": "12:00 PM", "Description": "opening", "PersonInCharge": {"IDNumber": 3111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 32, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "314253.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	24e0fa6c51dc9df6f84b3b77b5fd1b1688cdc7df2a38385172b5af1ec44b8a317848044e5a5c9fdda68c750e4d4c1163589236e5ce153f3d1097651b352deba1f67e9a1ebba7ae86754290f8477225b01bf52454034cc71a05529fa88ea4f80b46b497548cba54b5e8b4a0ed6f99c5f8e774f8e4fa7dbc1b1694425f59a8a296	2018-01-10 23:42:21.525649+08
+259	62	3111113	5	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Organizational Development", "Context": "Talents are hidden", "Expenses": [{"Type": "Food Expense", "Material": "Food", "Quantity": 10, "Sequence": 1, "UnitCost": "100.00"}], "ActivityID": 62, "Objectives": ["Enhance talent management competency of the member."], "Strategies": "Talent Management", "Organization": "AIESEC DLSU", "ProjectHeads": [], "ProgramDesign": [{"Date": "Feb 07, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "Prayer", "Sequence": 1, "StartTime": "12:00 PM", "Description": "opening", "PersonInCharge": {"IDNumber": 3111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 32, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "314253.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	24e0fa6c51dc9df6f84b3b77b5fd1b1688cdc7df2a38385172b5af1ec44b8a317848044e5a5c9fdda68c750e4d4c1163589236e5ce153f3d1097651b352deba1f67e9a1ebba7ae86754290f8477225b01bf52454034cc71a05529fa88ea4f80b46b497548cba54b5e8b4a0ed6f99c5f8e774f8e4fa7dbc1b1694425f59a8a296	2018-01-10 23:42:21.525649+08
+266	64	3111113	2	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Organizational Development", "Context": "Lack of summit", "Expenses": [{"Type": "Food Expense", "Material": "Food", "Quantity": 10, "Sequence": 1, "UnitCost": "100.00"}], "ActivityID": 64, "Objectives": ["Train members in their respective department's operations."], "Strategies": "Operations Summit ", "Organization": "AIESEC DLSU", "ProjectHeads": [], "ProgramDesign": [{"Date": "Feb 08, 2018", "DayID": 0, "EndTime": "01:01 PM", "Activity": "Activity", "Sequence": 1, "StartTime": "12:00 PM", "Description": "Desc", "PersonInCharge": {"IDNumber": 3111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 33, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "313253.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	4b6b73984c52caf4139d5b23d00ee1b1d726acef305bca55e7037a912c595cfc7ae6a7ab84be3ae0df96d297fb3fd42b3ed15d5ec4d8b9eca988f641e2713640723a07942d8ef2798fa53efbf59518c77b78385215a57ba709c53c36a636e741000c85b7e68aa1af15221b89fc0c1f94c16f90eab3b7f495c004d563bff402af	2018-01-10 23:42:29.188082+08
+268	64	3111113	5	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Organizational Development", "Context": "Lack of summit", "Expenses": [{"Type": "Food Expense", "Material": "Food", "Quantity": 10, "Sequence": 1, "UnitCost": "100.00"}], "ActivityID": 64, "Objectives": ["Train members in their respective department's operations."], "Strategies": "Operations Summit ", "Organization": "AIESEC DLSU", "ProjectHeads": [], "ProgramDesign": [{"Date": "Feb 08, 2018", "DayID": 0, "EndTime": "01:01 PM", "Activity": "Activity", "Sequence": 1, "StartTime": "12:00 PM", "Description": "Desc", "PersonInCharge": {"IDNumber": 3111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 33, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "313253.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	4b6b73984c52caf4139d5b23d00ee1b1d726acef305bca55e7037a912c595cfc7ae6a7ab84be3ae0df96d297fb3fd42b3ed15d5ec4d8b9eca988f641e2713640723a07942d8ef2798fa53efbf59518c77b78385215a57ba709c53c36a636e741000c85b7e68aa1af15221b89fc0c1f94c16f90eab3b7f495c004d563bff402af	2018-01-10 23:42:29.188082+08
+382	79	3111113	2	1	\N	\N	{"Type": "Publicity/Awareness Campaign", "Venue": "A 1502-A Conference Room", "Nature": "Issue Advocacy", "Context": "exposure to some international events", "Expenses": [{"Type": "Others", "Material": "food", "Quantity": 10, "Sequence": 1, "UnitCost": "100.00"}], "ActivityID": 79, "Objectives": ["Raise awarness towards the Sustainable Development Goals", "Provide activities to actualize the different SDGs"], "Strategies": "Global Goals Weeks", "Organization": "AIESEC DLSU", "ProjectHeads": [], "ProgramDesign": [{"Date": "Feb 19, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "act", "Sequence": 1, "StartTime": "12:00 PM", "Description": "1123", "PersonInCharge": {"IDNumber": 3111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 47, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "309953.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	8adc9d82dfc4662602256c5beee05b779077b8f21f1ee976e940c7699e73d19d4b8a2101462d5c141b5d517ea7c6dbe75be1a7130d956f7e6c93ff40d82b955c51c39a6f78045e03f596e34d271c9cdc0a10f08b9e37f7e24e3dc2855019fbdb9eda2c6b9b530426c7df7ab69ea92c2325f6137caa4716d2fdcf22b1ed28f2b6	2018-01-10 23:42:44.715666+08
+384	79	3111113	5	1	\N	\N	{"Type": "Publicity/Awareness Campaign", "Venue": "A 1502-A Conference Room", "Nature": "Issue Advocacy", "Context": "exposure to some international events", "Expenses": [{"Type": "Others", "Material": "food", "Quantity": 10, "Sequence": 1, "UnitCost": "100.00"}], "ActivityID": 79, "Objectives": ["Raise awarness towards the Sustainable Development Goals", "Provide activities to actualize the different SDGs"], "Strategies": "Global Goals Weeks", "Organization": "AIESEC DLSU", "ProjectHeads": [], "ProgramDesign": [{"Date": "Feb 19, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "act", "Sequence": 1, "StartTime": "12:00 PM", "Description": "1123", "PersonInCharge": {"IDNumber": 3111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 47, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "309953.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	8adc9d82dfc4662602256c5beee05b779077b8f21f1ee976e940c7699e73d19d4b8a2101462d5c141b5d517ea7c6dbe75be1a7130d956f7e6c93ff40d82b955c51c39a6f78045e03f596e34d271c9cdc0a10f08b9e37f7e24e3dc2855019fbdb9eda2c6b9b530426c7df7ab69ea92c2325f6137caa4716d2fdcf22b1ed28f2b6	2018-01-10 23:42:44.715666+08
+390	81	3111113	2	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Special Interest", "Context": "organization of the track in their committee", "Expenses": [{"Type": "Others", "Material": "food", "Quantity": 10, "Sequence": 1, "UnitCost": "10.00"}], "ActivityID": 81, "Objectives": ["Show the realities of being an OC", "Train aspiring OC"], "Strategies": "Organizing Committee Track", "Organization": "AIESEC DLSU", "ProjectHeads": [], "ProgramDesign": [{"Date": "Feb 21, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "act", "Sequence": 1, "StartTime": "12:00 PM", "Description": "prayer", "PersonInCharge": {"IDNumber": 3111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 48, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "308953.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	51afa18467efc72e524b957722ed83bfc16d0d48059de4642b8951f7abc1dea2a6bf6e26d0f09155987389937dfb886877d95187f5b199cd95037eee9a8f6b79dd39ea1afc2acfb99911c5e98307237be8b55b438fbd4e070c0cad259ce9ef6deea9bc3c0a7a3793977ca14977c71458a763d628ed88f38b091d64b93dd8b805	2018-01-10 23:42:56.042178+08
+392	81	3111113	5	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Special Interest", "Context": "organization of the track in their committee", "Expenses": [{"Type": "Others", "Material": "food", "Quantity": 10, "Sequence": 1, "UnitCost": "10.00"}], "ActivityID": 81, "Objectives": ["Show the realities of being an OC", "Train aspiring OC"], "Strategies": "Organizing Committee Track", "Organization": "AIESEC DLSU", "ProjectHeads": [], "ProgramDesign": [{"Date": "Feb 21, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "act", "Sequence": 1, "StartTime": "12:00 PM", "Description": "prayer", "PersonInCharge": {"IDNumber": 3111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 48, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "308953.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	51afa18467efc72e524b957722ed83bfc16d0d48059de4642b8951f7abc1dea2a6bf6e26d0f09155987389937dfb886877d95187f5b199cd95037eee9a8f6b79dd39ea1afc2acfb99911c5e98307237be8b55b438fbd4e070c0cad259ce9ef6deea9bc3c0a7a3793977ca14977c71458a763d628ed88f38b091d64b93dd8b805	2018-01-10 23:42:56.042178+08
+291	68	3111113	2	1	\N	\N	{"Type": "Recruitment/Audition", "Venue": "A 1502-A Conference Room", "Nature": "Organizational Development", "Context": "They need to be aware of their env", "Expenses": [{"Type": "Others", "Material": "Food", "Quantity": 10, "Sequence": 1, "UnitCost": "10.00"}], "ActivityID": 68, "Objectives": [".To refresh the minds of the members and other participants about the current standing of the organization. "], "Strategies": "October - Local Committee Meeting", "Organization": "AIESEC DLSU", "ProjectHeads": [], "ProgramDesign": [{"Date": "Jan 14, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "Act", "Sequence": 1, "StartTime": "12:00 PM", "Description": "prayer", "PersonInCharge": {"IDNumber": 3111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 36, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "311253.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	0e2b110205586ea4129fd0788d83db0366884a58003e50cc697958ec946f40c4ee1994737fe9cc72d065059337e97c47b3b3e6c94bc795645c9d03cc355470d17009315dd867e0f08c8c4d379be0bdff8ae53859fbe53d9b7821b70fb380d2a3f90f51f3008cb80118c461e9f1b2bf4523b3b1d50533b54176cf3a158a3661a5	2018-01-10 23:43:06.381176+08
+293	68	3111113	5	1	\N	\N	{"Type": "Recruitment/Audition", "Venue": "A 1502-A Conference Room", "Nature": "Organizational Development", "Context": "They need to be aware of their env", "Expenses": [{"Type": "Others", "Material": "Food", "Quantity": 10, "Sequence": 1, "UnitCost": "10.00"}], "ActivityID": 68, "Objectives": [".To refresh the minds of the members and other participants about the current standing of the organization. "], "Strategies": "October - Local Committee Meeting", "Organization": "AIESEC DLSU", "ProjectHeads": [], "ProgramDesign": [{"Date": "Jan 14, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "Act", "Sequence": 1, "StartTime": "12:00 PM", "Description": "prayer", "PersonInCharge": {"IDNumber": 3111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 36, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "311253.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	0e2b110205586ea4129fd0788d83db0366884a58003e50cc697958ec946f40c4ee1994737fe9cc72d065059337e97c47b3b3e6c94bc795645c9d03cc355470d17009315dd867e0f08c8c4d379be0bdff8ae53859fbe53d9b7821b70fb380d2a3f90f51f3008cb80118c461e9f1b2bf4523b3b1d50533b54176cf3a158a3661a5	2018-01-10 23:43:06.381176+08
+258	62	3111111	3	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Organizational Development", "Context": "Talents are hidden", "Expenses": [{"Type": "Food Expense", "Material": "Food", "Quantity": 10, "Sequence": 1, "UnitCost": "100.00"}], "ActivityID": 62, "Objectives": ["Enhance talent management competency of the member."], "Strategies": "Talent Management", "Organization": "AIESEC DLSU", "ProjectHeads": [], "ProgramDesign": [{"Date": "Feb 07, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "Prayer", "Sequence": 1, "StartTime": "12:00 PM", "Description": "opening", "PersonInCharge": {"IDNumber": 3111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 32, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "314253.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	599c8716d6d12ea7c0d96e8ef1c11dd1a769c591b21136f790417b2a7f3bc2c238ffd18e148c62da4f82740a84c579b73980a47c3e1f0b138426f0bfe47cf0dad9a615e6c95ddcc80a18db057d12f642c379abc3a411eb7e82f4b07e42bbde11ff22b88e1b4aa55a488ea175dd0540c6656ffdf15e476a0c8d9b9aa2127b71a9	2018-01-10 23:43:25.249831+08
+267	64	3111111	3	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Organizational Development", "Context": "Lack of summit", "Expenses": [{"Type": "Food Expense", "Material": "Food", "Quantity": 10, "Sequence": 1, "UnitCost": "100.00"}], "ActivityID": 64, "Objectives": ["Train members in their respective department's operations."], "Strategies": "Operations Summit ", "Organization": "AIESEC DLSU", "ProjectHeads": [], "ProgramDesign": [{"Date": "Feb 08, 2018", "DayID": 0, "EndTime": "01:01 PM", "Activity": "Activity", "Sequence": 1, "StartTime": "12:00 PM", "Description": "Desc", "PersonInCharge": {"IDNumber": 3111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 33, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "313253.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	a86b78d7f23a55be58afc2fd8ea4df66c964fc35bf8216eb2b9d8a957a5135a716e91b843e408feeb7625b7a5342a09f08c8e12f373558ea66212092b51e5fc5855dabed4a9c7d9e361b354ca4b65f1c275147e27003f91bb6c8fb9e72da52ff9e5559f9947d742235e2fd49ba1542dff1f386d292d228a0a9de991c18cb748d	2018-01-10 23:43:30.318267+08
+383	79	3111111	3	1	\N	\N	{"Type": "Publicity/Awareness Campaign", "Venue": "A 1502-A Conference Room", "Nature": "Issue Advocacy", "Context": "exposure to some international events", "Expenses": [{"Type": "Others", "Material": "food", "Quantity": 10, "Sequence": 1, "UnitCost": "100.00"}], "ActivityID": 79, "Objectives": ["Raise awarness towards the Sustainable Development Goals", "Provide activities to actualize the different SDGs"], "Strategies": "Global Goals Weeks", "Organization": "AIESEC DLSU", "ProjectHeads": [], "ProgramDesign": [{"Date": "Feb 19, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "act", "Sequence": 1, "StartTime": "12:00 PM", "Description": "1123", "PersonInCharge": {"IDNumber": 3111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 47, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "309953.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	26940713db3e184e25c32ce17ede49133a1629138851a65d1819b78e8d6daa951cc9e17a38d5802755da144e6c0ac8895f6d15af18f9d5a0e20153ce3bd982ad3a88885d0d58a3506c37942bfaa7ee21bd7da74194487a161f8c2eb96aee40db0dab757cf6b9855847ab3110599746c9988cd09ad6c19ff0cf238bcce31f692e	2018-01-10 23:43:43.757673+08
+391	81	3111111	3	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Special Interest", "Context": "organization of the track in their committee", "Expenses": [{"Type": "Others", "Material": "food", "Quantity": 10, "Sequence": 1, "UnitCost": "10.00"}], "ActivityID": 81, "Objectives": ["Show the realities of being an OC", "Train aspiring OC"], "Strategies": "Organizing Committee Track", "Organization": "AIESEC DLSU", "ProjectHeads": [], "ProgramDesign": [{"Date": "Feb 21, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "act", "Sequence": 1, "StartTime": "12:00 PM", "Description": "prayer", "PersonInCharge": {"IDNumber": 3111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 48, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "308953.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	8814ddf2e0f0a47288e76eed16a94339aa32cd536848f5bf1270043290a4b0cea753dc03d922cc209205c555f774d71dc4efbb71fe653125f4ce6503e8fe8901d77db3b72448f3fae48c6d04d9c5df3609680fdedca2b295c76b9f3c17f2a0fbbba21f462dbc6e804e4359fff61c3388c171ad4a796c0e81459a19e77dd8bab6	2018-01-10 23:43:49.985341+08
+292	68	3111111	3	1	\N	\N	{"Type": "Recruitment/Audition", "Venue": "A 1502-A Conference Room", "Nature": "Organizational Development", "Context": "They need to be aware of their env", "Expenses": [{"Type": "Others", "Material": "Food", "Quantity": 10, "Sequence": 1, "UnitCost": "10.00"}], "ActivityID": 68, "Objectives": [".To refresh the minds of the members and other participants about the current standing of the organization. "], "Strategies": "October - Local Committee Meeting", "Organization": "AIESEC DLSU", "ProjectHeads": [], "ProgramDesign": [{"Date": "Jan 14, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "Act", "Sequence": 1, "StartTime": "12:00 PM", "Description": "prayer", "PersonInCharge": {"IDNumber": 3111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 36, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "311253.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	231115f4592a37945a2fa467d43c8ce864c1ebbe6db1d7bc0bc9f34e14890ba7b30ddb0916ea67c4b6c75a269e1b5ecf74b1bce4f15e517727455d6949e7e1827d9ef9d3fa227207e9fd71337e5128a69d75a317bf7a0ecc274ec72df34a091552788fc2dd231570ce4529774f7af828322060a79736d2af2e2d8397d7908ee2	2018-01-10 23:43:58.679661+08
+225	12	7111113	2	1	\N	\N	{"Type": "Publicity/Awareness Campaign", "Venue": "A 1502-A Conference Room", "Nature": "Issue Advocacy", "Context": "Waste is not recycled, it is wasted", "Expenses": [{"Type": "Food Expense", "Material": "Uncle John's Fried Chicken", "Quantity": 10, "Sequence": 1, "UnitCost": "95.00"}], "ActivityID": 12, "Objectives": ["To be able to create a reducing waste program that is specific to the problem;", "To analyze the wastes generated in STC"], "Strategies": "ECOntrol: Waste Analysis and Characterization Study", "Organization": "De La Salle University - Environmental Conservation Organization", "ProjectHeads": [{"IDNumber": 1111114}], "ProgramDesign": [{"Date": "Jan 18, 2018", "DayID": 0, "EndTime": "01:30 PM", "Activity": "Discussion of data ", "Sequence": 1, "StartTime": "11:00 AM", "Description": "", "PersonInCharge": {"IDNumber": 7111116}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 28, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "301741.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	2a5def1410f089334c54ead487d26b5b383e3b8f803842e50fdc9a96eee0871b2f6efef1efafad6f0b1ecc4bcb844e2f7bb1419b6033e39235c08a2cce08636850f9aa58a3f3625c30c145ba2ce3a333a5882ba7abe5917b79ab6af6d3d8e5a758300c78337ae218328be55cc9193fa7c93aed3ffec28c7b330da032a351bc5a	2018-01-10 23:46:28.332092+08
+227	12	7111113	5	1	\N	\N	{"Type": "Publicity/Awareness Campaign", "Venue": "A 1502-A Conference Room", "Nature": "Issue Advocacy", "Context": "Waste is not recycled, it is wasted", "Expenses": [{"Type": "Food Expense", "Material": "Uncle John's Fried Chicken", "Quantity": 10, "Sequence": 1, "UnitCost": "95.00"}], "ActivityID": 12, "Objectives": ["To be able to create a reducing waste program that is specific to the problem;", "To analyze the wastes generated in STC"], "Strategies": "ECOntrol: Waste Analysis and Characterization Study", "Organization": "De La Salle University - Environmental Conservation Organization", "ProjectHeads": [{"IDNumber": 1111114}], "ProgramDesign": [{"Date": "Jan 18, 2018", "DayID": 0, "EndTime": "01:30 PM", "Activity": "Discussion of data ", "Sequence": 1, "StartTime": "11:00 AM", "Description": "", "PersonInCharge": {"IDNumber": 7111116}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 28, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "301741.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	2a5def1410f089334c54ead487d26b5b383e3b8f803842e50fdc9a96eee0871b2f6efef1efafad6f0b1ecc4bcb844e2f7bb1419b6033e39235c08a2cce08636850f9aa58a3f3625c30c145ba2ce3a333a5882ba7abe5917b79ab6af6d3d8e5a758300c78337ae218328be55cc9193fa7c93aed3ffec28c7b330da032a351bc5a	2018-01-10 23:46:28.332092+08
+271	64	2011111	4	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Organizational Development", "Context": "Lack of summit", "Expenses": [{"Type": "Food Expense", "Material": "Food", "Quantity": 10, "Sequence": 1, "UnitCost": "100.00"}], "ActivityID": 64, "Objectives": ["Train members in their respective department's operations."], "Strategies": "Operations Summit ", "Organization": "AIESEC DLSU", "ProjectHeads": [], "ProgramDesign": [{"Date": "Feb 08, 2018", "DayID": 0, "EndTime": "01:01 PM", "Activity": "Activity", "Sequence": 1, "StartTime": "12:00 PM", "Description": "Desc", "PersonInCharge": {"IDNumber": 3111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 33, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "313253.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	a1cbea3c266ea2120c3dd05419e21eddbfacde509257224ed4e2fb746bc59a32fc93b33e93f8ac26529925afb5608f6bef90df92449138fc632a52a6e55d6858a211c0b10eae12276fe40e5fe6c9ebb2b809209e2f2dd8d723f9ce206841c62210bbb745eabb32d0031ad34673d0ddcb5e6952ce718bf6f9f0c49d63f220e2d6	2018-01-10 23:46:28.389099+08
+232	28	7111113	2	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "Br. Gabriel Connon Conference Room SPS 201", "Nature": "Academic", "Context": "Engineers are ignorant of environmental concenrs", "Expenses": [{"Type": "Cash Prize", "Material": "Uncle John's Fried Chicken", "Quantity": 5, "Sequence": 1, "UnitCost": "15.00"}], "ActivityID": 28, "Objectives": ["To increase the awareness of engineering students on environmental issues", "To create an avenue for students wherein they can gather ideas in creating innovative things which can help in aiding the environmental problems", " To create sustainable projects in the future projects of DLSU Engineering Students"], "Strategies": "#ECOTalks 2: \\"Engineers on Environment Protection and Sustainability\\" (In Partnership with GCOE STCG)", "Organization": "De La Salle University - Environmental Conservation Organization", "ProjectHeads": [{"IDNumber": 7111114}, {"IDNumber": 7111116}], "ProgramDesign": [{"Date": "Jan 22, 2018", "DayID": 0, "EndTime": "12:00 PM", "Activity": "Focus group discussion", "Sequence": 1, "StartTime": "09:15 AM", "Description": "", "PersonInCharge": {"IDNumber": 7111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 29, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "300791.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	7a52076f27bae5e0824ee953cc93c16385efe749fd9b180b4b6581241503df4695ace8034d3ba96f643aba7d4156c2bc2f9f25b03b857aa7cc5c7a28462e7b89b70399949de9e997525fe2d0168c3155ac32086d5c61e457d4ea116bd33879faface093bff88628cc9eca18e0c42446a96ed8cec08b0e04f7c073397382a8f7e	2018-01-10 23:46:33.926344+08
+234	28	7111113	5	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "Br. Gabriel Connon Conference Room SPS 201", "Nature": "Academic", "Context": "Engineers are ignorant of environmental concenrs", "Expenses": [{"Type": "Cash Prize", "Material": "Uncle John's Fried Chicken", "Quantity": 5, "Sequence": 1, "UnitCost": "15.00"}], "ActivityID": 28, "Objectives": ["To increase the awareness of engineering students on environmental issues", "To create an avenue for students wherein they can gather ideas in creating innovative things which can help in aiding the environmental problems", " To create sustainable projects in the future projects of DLSU Engineering Students"], "Strategies": "#ECOTalks 2: \\"Engineers on Environment Protection and Sustainability\\" (In Partnership with GCOE STCG)", "Organization": "De La Salle University - Environmental Conservation Organization", "ProjectHeads": [{"IDNumber": 7111114}, {"IDNumber": 7111116}], "ProgramDesign": [{"Date": "Jan 22, 2018", "DayID": 0, "EndTime": "12:00 PM", "Activity": "Focus group discussion", "Sequence": 1, "StartTime": "09:15 AM", "Description": "", "PersonInCharge": {"IDNumber": 7111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 29, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "300791.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	7a52076f27bae5e0824ee953cc93c16385efe749fd9b180b4b6581241503df4695ace8034d3ba96f643aba7d4156c2bc2f9f25b03b857aa7cc5c7a28462e7b89b70399949de9e997525fe2d0168c3155ac32086d5c61e457d4ea116bd33879faface093bff88628cc9eca18e0c42446a96ed8cec08b0e04f7c073397382a8f7e	2018-01-10 23:46:33.926344+08
+341	22	7111113	2	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "9th Floor Gym(w/o Scoreboard)", "Nature": "Outreach", "Context": "People are ignorant of kids", "Expenses": [{"Type": "Food Expense", "Material": "Uncle John's Fried Chicken", "Quantity": 55, "Sequence": 1, "UnitCost": "85.00"}], "ActivityID": 22, "Objectives": ["To provide an avenue wherein student can do community outreach programs", " To immerse the ECO Community to other issue advocacies that they can expand on"], "Strategies": "ECO Gives Back: A Christmas Celebration with the Kids", "Organization": "De La Salle University - Environmental Conservation Organization", "ProjectHeads": [{"IDNumber": 4111113}, {"IDNumber": 4111114}], "ProgramDesign": [{"Date": "Jan 31, 2018", "DayID": 0, "EndTime": "06:30 PM", "Activity": "Kid's day celebration", "Sequence": 1, "StartTime": "01:28 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111116}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 42, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "300640.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	6276cb46cddefac0651655042e817fcaea0f95b405f0274da24594da81854895c5ef416f169edc59c595a262dfe1fffb25e2b6b30c67eaeb8811e2cd09d551d3b21a3c24a0e75a5d413d2a25c7ef784d52c8f12658c487bc6301b159171566eb735a241cf91b87adfc922a2725ab014a5d10620b5252b3b64ed1f58d720c62cb	2018-01-10 23:46:47.37911+08
+395	81	2011111	4	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Special Interest", "Context": "organization of the track in their committee", "Expenses": [{"Type": "Others", "Material": "food", "Quantity": 10, "Sequence": 1, "UnitCost": "10.00"}], "ActivityID": 81, "Objectives": ["Show the realities of being an OC", "Train aspiring OC"], "Strategies": "Organizing Committee Track", "Organization": "AIESEC DLSU", "ProjectHeads": [], "ProgramDesign": [{"Date": "Feb 21, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "act", "Sequence": 1, "StartTime": "12:00 PM", "Description": "prayer", "PersonInCharge": {"IDNumber": 3111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 48, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "308953.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	851e9addb07dde561afef9719cfd41c60eddebd25a98569ac513cbf1b1f14057df1937b970c10e993576301da00aab04214ae2f421083681a3253c0d9a36f1cc2da3e1df8dd8d59071bfd363817db5e9365ad5f6a0f37a9ac81fcbd0f6c6f1cbfa77e662288c7ee99d0851ed689eb81f542df4773188a1db7a8a1ceb44b8700d	2018-01-10 23:46:51.526941+08
+387	79	2011111	4	1	\N	\N	{"Type": "Publicity/Awareness Campaign", "Venue": "A 1502-A Conference Room", "Nature": "Issue Advocacy", "Context": "exposure to some international events", "Expenses": [{"Type": "Others", "Material": "food", "Quantity": 10, "Sequence": 1, "UnitCost": "100.00"}], "ActivityID": 79, "Objectives": ["Raise awarness towards the Sustainable Development Goals", "Provide activities to actualize the different SDGs"], "Strategies": "Global Goals Weeks", "Organization": "AIESEC DLSU", "ProjectHeads": [], "ProgramDesign": [{"Date": "Feb 19, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "act", "Sequence": 1, "StartTime": "12:00 PM", "Description": "1123", "PersonInCharge": {"IDNumber": 3111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 47, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "309953.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	4f68115c4c785a356c5875282a0cc1bfc61d7ecf40b8cc83695b2804ec232ed74d0786a62481a6b65750be239e9ae611350bfc2d80bca5d794f4a3820d9dad1a12fc5fad40512660c5d6009593f02b23fc397c9bbe093e04fd4150c8919712bb5ea03f98a1073074ed53d9e327eda52ad3a38da2a10c095b72c61f429d838983	2018-01-10 23:46:42.553892+08
+296	68	2011111	4	1	\N	\N	{"Type": "Recruitment/Audition", "Venue": "A 1502-A Conference Room", "Nature": "Organizational Development", "Context": "They need to be aware of their env", "Expenses": [{"Type": "Others", "Material": "Food", "Quantity": 10, "Sequence": 1, "UnitCost": "10.00"}], "ActivityID": 68, "Objectives": [".To refresh the minds of the members and other participants about the current standing of the organization. "], "Strategies": "October - Local Committee Meeting", "Organization": "AIESEC DLSU", "ProjectHeads": [], "ProgramDesign": [{"Date": "Jan 14, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "Act", "Sequence": 1, "StartTime": "12:00 PM", "Description": "prayer", "PersonInCharge": {"IDNumber": 3111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 36, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "311253.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	5224b14bc906e84a6ccb54b2637a8c21ad0b38f67f275d4236f040258b270150443addd2174aa1f3431ad94b92b6c0ac45eb6335beffe0d786decfb463209bcf115cee0b37baf16aa20225aa87867b62e8b66e09ab504a6ee796fc81849ad53fab48bf2b7e21d4a5f891010bfc45ae03bacd1ae2d48ea9f7ef904a1fbf1dffd5	2018-01-10 23:46:59.834345+08
+343	22	7111113	5	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "9th Floor Gym(w/o Scoreboard)", "Nature": "Outreach", "Context": "People are ignorant of kids", "Expenses": [{"Type": "Food Expense", "Material": "Uncle John's Fried Chicken", "Quantity": 55, "Sequence": 1, "UnitCost": "85.00"}], "ActivityID": 22, "Objectives": ["To provide an avenue wherein student can do community outreach programs", " To immerse the ECO Community to other issue advocacies that they can expand on"], "Strategies": "ECO Gives Back: A Christmas Celebration with the Kids", "Organization": "De La Salle University - Environmental Conservation Organization", "ProjectHeads": [{"IDNumber": 4111113}, {"IDNumber": 4111114}], "ProgramDesign": [{"Date": "Jan 31, 2018", "DayID": 0, "EndTime": "06:30 PM", "Activity": "Kid's day celebration", "Sequence": 1, "StartTime": "01:28 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111116}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 42, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "300640.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	6276cb46cddefac0651655042e817fcaea0f95b405f0274da24594da81854895c5ef416f169edc59c595a262dfe1fffb25e2b6b30c67eaeb8811e2cd09d551d3b21a3c24a0e75a5d413d2a25c7ef784d52c8f12658c487bc6301b159171566eb735a241cf91b87adfc922a2725ab014a5d10620b5252b3b64ed1f58d720c62cb	2018-01-10 23:46:47.37911+08
+269	64	1011121	6	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Organizational Development", "Context": "Lack of summit", "Expenses": [{"Type": "Food Expense", "Material": "Food", "Quantity": 10, "Sequence": 1, "UnitCost": "100.00"}], "ActivityID": 64, "Objectives": ["Train members in their respective department's operations."], "Strategies": "Operations Summit ", "Organization": "AIESEC DLSU", "ProjectHeads": [], "ProgramDesign": [{"Date": "Feb 08, 2018", "DayID": 0, "EndTime": "01:01 PM", "Activity": "Activity", "Sequence": 1, "StartTime": "12:00 PM", "Description": "Desc", "PersonInCharge": {"IDNumber": 3111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 33, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "313253.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	20ba15cd4c6c830b3188e35772ab294943834b211823b883248268c81baee11b9c269391b6f501d7532770e8c8c69a67c4027929a8247ada7d3d302b6a35fc5a09ea20ae7a71bd3262df0627465aed486026ede37d1de835dd97c0a2fbb88f41954ba6a0b0b3d3ec827e5e7959423ba77993251cba33ec351fb6af8109d21894	2018-01-10 23:48:04.200376+08
+59	24	7111113	2	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Organizational Development", "Context": "People are ignorant of different cultures", "Expenses": [{"Type": "Food Expense", "Material": "Booth Materials", "Quantity": 15, "Sequence": 1, "UnitCost": "5.00"}], "ActivityID": 24, "Objectives": ["To immerse members and volunteers to a community", " To be able to create a project that is specific to the needs of the community", "To partner and interact with the chosen community"], "Strategies": "E-Cultural Voyagers: A Community Engagement (Masid-Danas Phase)", "Organization": "De La Salle University - Environmental Conservation Organization", "ProjectHeads": [{"IDNumber": 4111114}], "ProgramDesign": [{"Date": "Feb 05, 2018", "DayID": 0, "EndTime": "01:10 PM", "Activity": "Rehearsal", "Sequence": 1, "StartTime": "01:05 PM", "Description": "Penchorn placement", "PersonInCharge": {"IDNumber": 7111116}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 8, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "308475.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	92a72b50f6f3ed0f1571378c4a60f303086bfafaf5e0de94d98b9b0a84eae809002ccf72b6150485afa988b3ab6e96decf3472b3e255e68e00da83ba21596b3e3cbb127f6af0eda3e289e53ffb927d292c33836dd379f8c0d12b0ff7ff710bc19300e37d1ef4b5fecf0abb8dfac68c6c93b126d98a32bf75bcd57c6d52b1ed60	2018-01-10 23:48:11.363916+08
+61	24	7111113	5	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Organizational Development", "Context": "People are ignorant of different cultures", "Expenses": [{"Type": "Food Expense", "Material": "Booth Materials", "Quantity": 15, "Sequence": 1, "UnitCost": "5.00"}], "ActivityID": 24, "Objectives": ["To immerse members and volunteers to a community", " To be able to create a project that is specific to the needs of the community", "To partner and interact with the chosen community"], "Strategies": "E-Cultural Voyagers: A Community Engagement (Masid-Danas Phase)", "Organization": "De La Salle University - Environmental Conservation Organization", "ProjectHeads": [{"IDNumber": 4111114}], "ProgramDesign": [{"Date": "Feb 05, 2018", "DayID": 0, "EndTime": "01:10 PM", "Activity": "Rehearsal", "Sequence": 1, "StartTime": "01:05 PM", "Description": "Penchorn placement", "PersonInCharge": {"IDNumber": 7111116}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 8, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "308475.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	92a72b50f6f3ed0f1571378c4a60f303086bfafaf5e0de94d98b9b0a84eae809002ccf72b6150485afa988b3ab6e96decf3472b3e255e68e00da83ba21596b3e3cbb127f6af0eda3e289e53ffb927d292c33836dd379f8c0d12b0ff7ff710bc19300e37d1ef4b5fecf0abb8dfac68c6c93b126d98a32bf75bcd57c6d52b1ed60	2018-01-10 23:48:11.363916+08
+393	81	1011121	6	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Special Interest", "Context": "organization of the track in their committee", "Expenses": [{"Type": "Others", "Material": "food", "Quantity": 10, "Sequence": 1, "UnitCost": "10.00"}], "ActivityID": 81, "Objectives": ["Show the realities of being an OC", "Train aspiring OC"], "Strategies": "Organizing Committee Track", "Organization": "AIESEC DLSU", "ProjectHeads": [], "ProgramDesign": [{"Date": "Feb 21, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "act", "Sequence": 1, "StartTime": "12:00 PM", "Description": "prayer", "PersonInCharge": {"IDNumber": 3111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 48, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "308953.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	003f52c7c8cc09078dd937c98039e6c5568331b2ab2367379bcd933cc4cc2afaa8126d317b7ab4eeebf5d3b280dcb979022cac7da339459321ef0218ae15f7d406134106237723b401c9d011d0138d4f30fd745be212e9d2f3b36faa9b4e871f8eb80bb5519bad2749b1d2fd85d898e60f84647eaccec1959d93467614f19f0e	2018-01-10 23:48:16.245031+08
+110	27	7111113	2	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1505-A Conference Room", "Nature": "Academic", "Context": "La Sallians are ignorant of going green", "Expenses": [{"Type": "Honorarium", "Material": "Jollibee Chicken joi", "Quantity": 2, "Sequence": 1, "UnitCost": "15.00"}], "ActivityID": 27, "Objectives": ["To express support to the Climate Change Commission's  A One Million Filipino Youth Voices on Climate Action Campaign #NowPh", "To instill awareness to the DLSU community of the climate change and on how they can individually contribute to the call for Climate Action", "Gather at least 1 pledge per unit or department and creat a concrete plan to execute it"], "Strategies": "#ECOTalks 1: I am a Lasallian, I am PRO Green\\"", "Organization": "De La Salle University - Environmental Conservation Organization", "ProjectHeads": [{"IDNumber": 7111114}], "ProgramDesign": [{"Date": "Feb 15, 2018", "DayID": 0, "EndTime": "02:00 PM", "Activity": "Discussion", "Sequence": 1, "StartTime": "01:30 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111116}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 14, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "308400.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	541067ccdd921cc7aa0f552de4734229666b10a92f9c10a7ea1cc80c7394d89bec2028c7d18897b58e259e26e8491d5410de171a42fd1f8c190451793cf5983022591602852f31d6f35d3de8d07011ab3e3abddd0711839de5ecac22d7eadbd8d4a6c8c866c5b455f6d963c0bc99e89fba7cbc325e184dbe862df618896a7a9d	2018-01-10 23:48:26.640355+08
+261	62	1011120	7	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Organizational Development", "Context": "Talents are hidden", "Expenses": [{"Type": "Food Expense", "Material": "Food", "Quantity": 10, "Sequence": 1, "UnitCost": "100.00"}], "ActivityID": 62, "Objectives": ["Enhance talent management competency of the member."], "Strategies": "Talent Management", "Organization": "AIESEC DLSU", "ProjectHeads": [], "ProgramDesign": [{"Date": "Feb 07, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "Prayer", "Sequence": 1, "StartTime": "12:00 PM", "Description": "opening", "PersonInCharge": {"IDNumber": 3111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 32, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "314253.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	2f932e6c840b51b6ef82e6b9e10f72b00038d3e8a391362f6e44e39033e3da17caefe70c1c9490a09e9e8b6dfe38cb655c66724601a38b25a2c500dc6b0a0fab7b4076b6c6c5b3301e84d19977633b321f4993ff46b1b8dc99c46fdb736173c00172914427d4988c6bdf00fe4b2f27036a6a53732eee26c21d9b6637fd4bd173	2018-01-10 23:48:56.780586+08
+270	64	1011120	7	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Organizational Development", "Context": "Lack of summit", "Expenses": [{"Type": "Food Expense", "Material": "Food", "Quantity": 10, "Sequence": 1, "UnitCost": "100.00"}], "ActivityID": 64, "Objectives": ["Train members in their respective department's operations."], "Strategies": "Operations Summit ", "Organization": "AIESEC DLSU", "ProjectHeads": [], "ProgramDesign": [{"Date": "Feb 08, 2018", "DayID": 0, "EndTime": "01:01 PM", "Activity": "Activity", "Sequence": 1, "StartTime": "12:00 PM", "Description": "Desc", "PersonInCharge": {"IDNumber": 3111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 33, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "313253.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	2c59f92da46b0e9a6f162168ef84de34c090247204ab8e6fbe33383b9b9904dc40f72470cafb1abebfe859796a45b32e5510993556bf4f1a21ace2f4dfa1275b8c62c2ce818928d1340b82943998734e8987d4420c2b2e9182a0895e6df35a69dff4573455b132088d9dc35fd1bb5263d5573f9cc6a9484ac2e406a9c66b1a69	2018-01-10 23:49:01.709665+08
+394	81	1011120	7	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Special Interest", "Context": "organization of the track in their committee", "Expenses": [{"Type": "Others", "Material": "food", "Quantity": 10, "Sequence": 1, "UnitCost": "10.00"}], "ActivityID": 81, "Objectives": ["Show the realities of being an OC", "Train aspiring OC"], "Strategies": "Organizing Committee Track", "Organization": "AIESEC DLSU", "ProjectHeads": [], "ProgramDesign": [{"Date": "Feb 21, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "act", "Sequence": 1, "StartTime": "12:00 PM", "Description": "prayer", "PersonInCharge": {"IDNumber": 3111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 48, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "308953.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	13a6ac95eb2d32787a7648af7faf9de8852ce8a4745984da28382cd596d2039d240ea2ef6fe97385850d65073ca64362c3300229fd817e329f2019e0202a632252523b3c445372fbd8f26a31418b7ad05358907176b9f490f6b15e33dca2279d11a8f97e74d85cc5c04023f976b87bc255396b10c3c9ad419945e48b67401be5	2018-01-10 23:49:08.678449+08
+386	79	1011120	7	1	\N	\N	{"Type": "Publicity/Awareness Campaign", "Venue": "A 1502-A Conference Room", "Nature": "Issue Advocacy", "Context": "exposure to some international events", "Expenses": [{"Type": "Others", "Material": "food", "Quantity": 10, "Sequence": 1, "UnitCost": "100.00"}], "ActivityID": 79, "Objectives": ["Raise awarness towards the Sustainable Development Goals", "Provide activities to actualize the different SDGs"], "Strategies": "Global Goals Weeks", "Organization": "AIESEC DLSU", "ProjectHeads": [], "ProgramDesign": [{"Date": "Feb 19, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "act", "Sequence": 1, "StartTime": "12:00 PM", "Description": "1123", "PersonInCharge": {"IDNumber": 3111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 47, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "309953.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	043afb9d490d7184cb7aa3b16074b22b62a2d3059a9dd49803c3b77e262bace51633f205ca642865d648c3d7d3e23a7b289172a155f39a5dd17e85c7f06e88b1c315defcea946e658ccb184fb7bc3472c827b770dc4057166d5e66dfa2174307c385bf259fb1725f64ba59503f275cd3ac12abd23224c2ed7d2112f9feadb358	2018-01-10 23:49:17.290922+08
+295	68	1011120	7	1	\N	\N	{"Type": "Recruitment/Audition", "Venue": "A 1502-A Conference Room", "Nature": "Organizational Development", "Context": "They need to be aware of their env", "Expenses": [{"Type": "Others", "Material": "Food", "Quantity": 10, "Sequence": 1, "UnitCost": "10.00"}], "ActivityID": 68, "Objectives": [".To refresh the minds of the members and other participants about the current standing of the organization. "], "Strategies": "October - Local Committee Meeting", "Organization": "AIESEC DLSU", "ProjectHeads": [], "ProgramDesign": [{"Date": "Jan 14, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "Act", "Sequence": 1, "StartTime": "12:00 PM", "Description": "prayer", "PersonInCharge": {"IDNumber": 3111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 36, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "311253.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	70b2792d5387426322aca28cc076f9fe4ca65dd7975899f9667aa56c12e513ce54ce7ae41351cb5a130dde0eae465e6f823f2c8d90bae87aca62e8bcf19399a2ef0372f1e3f4eb6abd94263a302dee06036ee1c0e3fac05a93bc86c80da4aea57089269bd1480dceb1ad10d507bf6e37ae4bcf969c63b1323915d898c54da400	2018-01-10 23:49:31.430741+08
+283	25	7111113	2	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Academic", "Context": "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, ", "Expenses": [{"Type": "Honorarium", "Material": "Cash Prize", "Quantity": 1, "Sequence": 1, "UnitCost": "51.00"}, {"Type": "Others", "Material": "Confetti", "Quantity": 1, "Sequence": 2, "UnitCost": "25.00"}], "ActivityID": 25, "Objectives": ["To gather an inventory of migratory and resident birds on campus would be conducted in partnership with different organizations and Wild Bird Club of the Philippines through a fun bird race and birdwatching activity", "To identify areas on campus that serves as habitat for the bird", "To instill awareness to the community on the importance of the ecosystem and the environment"], "Strategies": "All Forms of Life is Important: Bird Race", "Organization": "De La Salle University - Environmental Conservation Organization", "ProjectHeads": [{"IDNumber": 10111114}], "ProgramDesign": [{"Date": "Jan 24, 2018", "DayID": 0, "EndTime": "02:30 PM", "Activity": "Event Proper", "Sequence": 1, "StartTime": "01:00 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111116}}, {"Date": "Jan 25, 2018", "DayID": 1, "EndTime": "02:10 PM", "Activity": "Event Proper", "Sequence": 1, "StartTime": "01:00 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111116}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 35, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "300716.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	3901886844c1f0f7d5087b2f38abc4f9d41521f48c4ff95c06bce27ed0ec10602424eeeaf1f46be5b9c3b0a0e5f80d9dec298bc3ea3f254ff1e815c9680df8e7865af6b7b34eb4ca7014c3d804871aeec0236a7d0184a1bb8c4306b1666f8e125d207fe87c9c3ee6764b34ad2c8bd6c2825fd9a7fc3fcdc58d9c5cba1a4194ea	2018-01-10 23:47:20.193833+08
+285	25	7111113	5	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Academic", "Context": "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, ", "Expenses": [{"Type": "Honorarium", "Material": "Cash Prize", "Quantity": 1, "Sequence": 1, "UnitCost": "51.00"}, {"Type": "Others", "Material": "Confetti", "Quantity": 1, "Sequence": 2, "UnitCost": "25.00"}], "ActivityID": 25, "Objectives": ["To gather an inventory of migratory and resident birds on campus would be conducted in partnership with different organizations and Wild Bird Club of the Philippines through a fun bird race and birdwatching activity", "To identify areas on campus that serves as habitat for the bird", "To instill awareness to the community on the importance of the ecosystem and the environment"], "Strategies": "All Forms of Life is Important: Bird Race", "Organization": "De La Salle University - Environmental Conservation Organization", "ProjectHeads": [{"IDNumber": 10111114}], "ProgramDesign": [{"Date": "Jan 24, 2018", "DayID": 0, "EndTime": "02:30 PM", "Activity": "Event Proper", "Sequence": 1, "StartTime": "01:00 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111116}}, {"Date": "Jan 25, 2018", "DayID": 1, "EndTime": "02:10 PM", "Activity": "Event Proper", "Sequence": 1, "StartTime": "01:00 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111116}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 35, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "300716.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	3901886844c1f0f7d5087b2f38abc4f9d41521f48c4ff95c06bce27ed0ec10602424eeeaf1f46be5b9c3b0a0e5f80d9dec298bc3ea3f254ff1e815c9680df8e7865af6b7b34eb4ca7014c3d804871aeec0236a7d0184a1bb8c4306b1666f8e125d207fe87c9c3ee6764b34ad2c8bd6c2825fd9a7fc3fcdc58d9c5cba1a4194ea	2018-01-10 23:47:20.193833+08
+260	62	1011121	6	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Organizational Development", "Context": "Talents are hidden", "Expenses": [{"Type": "Food Expense", "Material": "Food", "Quantity": 10, "Sequence": 1, "UnitCost": "100.00"}], "ActivityID": 62, "Objectives": ["Enhance talent management competency of the member."], "Strategies": "Talent Management", "Organization": "AIESEC DLSU", "ProjectHeads": [], "ProgramDesign": [{"Date": "Feb 07, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "Prayer", "Sequence": 1, "StartTime": "12:00 PM", "Description": "opening", "PersonInCharge": {"IDNumber": 3111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 32, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "314253.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	49dfb204a4e1074ea5e6d3b2e90de84f63fb55d6401927407b6b86517abee323c133927e294ede0a0d18660104ff2c20cd52e610de02a08f17a35b39283956b6ca3208c2a908fdb353b4aa67e377b25c4a825206d424c24a3761ca8a97f4277ea428ce7c83fb668401701f5b24f619bb2b2bf64d4d408d224dae559a63d5d09e	2018-01-10 23:47:38.483128+08
+294	68	1011121	6	1	\N	\N	{"Type": "Recruitment/Audition", "Venue": "A 1502-A Conference Room", "Nature": "Organizational Development", "Context": "They need to be aware of their env", "Expenses": [{"Type": "Others", "Material": "Food", "Quantity": 10, "Sequence": 1, "UnitCost": "10.00"}], "ActivityID": 68, "Objectives": [".To refresh the minds of the members and other participants about the current standing of the organization. "], "Strategies": "October - Local Committee Meeting", "Organization": "AIESEC DLSU", "ProjectHeads": [], "ProgramDesign": [{"Date": "Jan 14, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "Act", "Sequence": 1, "StartTime": "12:00 PM", "Description": "prayer", "PersonInCharge": {"IDNumber": 3111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 36, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "311253.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	3fe50fbec2bc828b483c806f2c0fbe49ab5282786662b6cb5fa68dc7ffcb1060a61d0d293ee56cfb20dc46e0a232960d045281fc09610506a1f5f5d4e00f68cadce1d21036eaa422216ad8e18009f6c450de26d226116200c0763fd644a9c58dc220738a7f69111936d8cc08be4a3446545f0bbc21c801e203544883775b99b1	2018-01-10 23:47:47.182501+08
+385	79	1011121	6	1	\N	\N	{"Type": "Publicity/Awareness Campaign", "Venue": "A 1502-A Conference Room", "Nature": "Issue Advocacy", "Context": "exposure to some international events", "Expenses": [{"Type": "Others", "Material": "food", "Quantity": 10, "Sequence": 1, "UnitCost": "100.00"}], "ActivityID": 79, "Objectives": ["Raise awarness towards the Sustainable Development Goals", "Provide activities to actualize the different SDGs"], "Strategies": "Global Goals Weeks", "Organization": "AIESEC DLSU", "ProjectHeads": [], "ProgramDesign": [{"Date": "Feb 19, 2018", "DayID": 0, "EndTime": "01:00 PM", "Activity": "act", "Sequence": 1, "StartTime": "12:00 PM", "Description": "1123", "PersonInCharge": {"IDNumber": 3111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 47, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "309953.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	76c7d4d617e8b7a12a2d2b6b7714dd9a45073fa61b59d627d13e7b1f3fe1e3c72981b865fe592afb98e637b1f1388f789456a1f4958505820666cb28bc3be9eb6c3a5f9a162321dc43d4c19e7c26a9ba2cc10bd448684d80b672f483c6e51436aab194c40f07bf38401aed217741b170e99ea41c5b830c33aa46bcc59e28cee3	2018-01-10 23:47:54.328384+08
+112	27	7111113	5	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1505-A Conference Room", "Nature": "Academic", "Context": "La Sallians are ignorant of going green", "Expenses": [{"Type": "Honorarium", "Material": "Jollibee Chicken joi", "Quantity": 2, "Sequence": 1, "UnitCost": "15.00"}], "ActivityID": 27, "Objectives": ["To express support to the Climate Change Commission's  A One Million Filipino Youth Voices on Climate Action Campaign #NowPh", "To instill awareness to the DLSU community of the climate change and on how they can individually contribute to the call for Climate Action", "Gather at least 1 pledge per unit or department and creat a concrete plan to execute it"], "Strategies": "#ECOTalks 1: I am a Lasallian, I am PRO Green\\"", "Organization": "De La Salle University - Environmental Conservation Organization", "ProjectHeads": [{"IDNumber": 7111114}], "ProgramDesign": [{"Date": "Feb 15, 2018", "DayID": 0, "EndTime": "02:00 PM", "Activity": "Discussion", "Sequence": 1, "StartTime": "01:30 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111116}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 14, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "308400.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	541067ccdd921cc7aa0f552de4734229666b10a92f9c10a7ea1cc80c7394d89bec2028c7d18897b58e259e26e8491d5410de171a42fd1f8c190451793cf5983022591602852f31d6f35d3de8d07011ab3e3abddd0711839de5ecac22d7eadbd8d4a6c8c866c5b455f6d963c0bc99e89fba7cbc325e184dbe862df618896a7a9d	2018-01-10 23:48:26.640355+08
+148	3	7111113	5	1	\N	\N	{"Type": "Recruitment/Audition", "Venue": "A 1502-A Conference Room", "Nature": "Fundraising", "Context": "The lack of functioning members of society", "Expenses": [{"Type": "Others", "Material": "Confetti", "Quantity": 67, "Sequence": 1, "UnitCost": "15.00"}], "ActivityID": 3, "Objectives": ["To showcase the nature, mission-vision, activities and programs of the organization", "To recruite new members from both STC and Taft campus as well as membership renewal for old members", "To increase the organizational funds through membership fee "], "Strategies": "Annual Recruitment Week", "Organization": "De La Salle University - Environmental Conservation Organization", "ProjectHeads": [{"IDNumber": 1111114}], "ProgramDesign": [{"Date": "Jan 11, 2018", "DayID": 0, "EndTime": "06:30 PM", "Activity": "Booth Manning", "Sequence": 1, "StartTime": "01:30 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 18, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "308370.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	03c58218d1c4f3fcea025be767acbb8211908ee77c6349210613e134bded5e2f9524ce946f5f0234685235836473428a30c8583f17632b960d01bdc80cd7f4858faf35476c90636ce944cfb72536e97c5c5f5e68c71bd0806bd97576a74c44079a2531ce9ae228b99d43948a4431827e7411e3f8b0be9ab40c15fb011b4e6c81	2018-01-10 23:48:33.087345+08
+217	9	7111113	2	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Organizational Development", "Context": "Not enough team building", "Expenses": [{"Type": "Food Expense", "Material": "Jollibee Chicken joi", "Quantity": 50, "Sequence": 1, "UnitCost": "100.00"}], "ActivityID": 9, "Objectives": ["To establish camaraderie between members", "To build one community of ECO"], "Strategies": "Let's ECO: An ECO Team Building", "Organization": "De La Salle University - Environmental Conservation Organization", "ProjectHeads": [{"IDNumber": 10111114}, {"IDNumber": 10111116}], "ProgramDesign": [{"Date": "Jan 22, 2018", "DayID": 0, "EndTime": "04:00 PM", "Activity": "Event proper", "Sequence": 1, "StartTime": "02:15 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111114}}, {"Date": "Jan 22, 2018", "DayID": 0, "EndTime": "05:00 PM", "Activity": "Clean-up", "Sequence": 2, "StartTime": "04:00 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111114}}, {"Date": "Jan 22, 2018", "DayID": 0, "EndTime": "02:00 PM", "Activity": "Intro", "Sequence": 3, "StartTime": "01:29 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 27, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "306741.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	7df00b5fb23f48579a9d37d606349903d397f7f0df78be7e37751c00e60008084d3b8a15c0536a79ededd1cd93abf0474ca6a69005b3f743c87b174bc12cac279b56090809921ad215e7caed925311e5507ead9e60070adbb088667c18785cbf3eeffc62b3b7d1ddbaa94805b327576273fef9d084ec669a590a552e4f0d1171	2018-01-10 23:48:38.859701+08
+219	9	7111113	5	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Organizational Development", "Context": "Not enough team building", "Expenses": [{"Type": "Food Expense", "Material": "Jollibee Chicken joi", "Quantity": 50, "Sequence": 1, "UnitCost": "100.00"}], "ActivityID": 9, "Objectives": ["To establish camaraderie between members", "To build one community of ECO"], "Strategies": "Let's ECO: An ECO Team Building", "Organization": "De La Salle University - Environmental Conservation Organization", "ProjectHeads": [{"IDNumber": 10111114}, {"IDNumber": 10111116}], "ProgramDesign": [{"Date": "Jan 22, 2018", "DayID": 0, "EndTime": "04:00 PM", "Activity": "Event proper", "Sequence": 1, "StartTime": "02:15 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111114}}, {"Date": "Jan 22, 2018", "DayID": 0, "EndTime": "05:00 PM", "Activity": "Clean-up", "Sequence": 2, "StartTime": "04:00 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111114}}, {"Date": "Jan 22, 2018", "DayID": 0, "EndTime": "02:00 PM", "Activity": "Intro", "Sequence": 3, "StartTime": "01:29 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 27, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "306741.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	7df00b5fb23f48579a9d37d606349903d397f7f0df78be7e37751c00e60008084d3b8a15c0536a79ededd1cd93abf0474ca6a69005b3f743c87b174bc12cac279b56090809921ad215e7caed925311e5507ead9e60070adbb088667c18785cbf3eeffc62b3b7d1ddbaa94805b327576273fef9d084ec669a590a552e4f0d1171	2018-01-10 23:48:38.859701+08
+209	5	7111113	2	1	\N	\N	{"Type": "General Assembly", "Venue": "A 1502-A Conference Room", "Nature": "Organizational Development", "Context": "Unity of the organization", "Expenses": [{"Type": "Honorarium", "Material": "Cash Prize", "Quantity": 4, "Sequence": 1, "UnitCost": "156.00"}], "ActivityID": 5, "Objectives": ["(1) To provide avenue for the member to know more of nature, mission-vision, activities, programs and other relevant matters concerning the organization;  ", "To formally turn-over the office to the new set of officers and to recognize the old officers of the organization", "To create friendship and interaction between the members of the organization"], "Strategies": "1st General Assembly and Turn-over Ceremony", "Organization": "De La Salle University - Environmental Conservation Organization", "ProjectHeads": [{"IDNumber": 1111114}], "ProgramDesign": [{"Date": "Jan 15, 2018", "DayID": 0, "EndTime": "02:00 PM", "Activity": "Assembly", "Sequence": 1, "StartTime": "01:30 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111114}}, {"Date": "Jan 15, 2018", "DayID": 0, "EndTime": "06:30 PM", "Activity": "Awarding of Officers", "Sequence": 2, "StartTime": "02:15 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 26, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "307365.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	8c0342a241dd881f6c115d74df9a1e57005179d11f59b1e3bbad4ca7ba7870978fd0c4cc9353b9c0efee6bb81d79e7020eb20e71317689f51a283c2e12d7936c99916870e9b630c6b518e7a63957b2c077b6e7e03e3da1f789e536e9c49c2f609db234af7d21b6d43ff89bf5acac444945c148f49ce3b3d161795be13765d22d	2018-01-10 23:48:54.659542+08
+211	5	7111113	5	1	\N	\N	{"Type": "General Assembly", "Venue": "A 1502-A Conference Room", "Nature": "Organizational Development", "Context": "Unity of the organization", "Expenses": [{"Type": "Honorarium", "Material": "Cash Prize", "Quantity": 4, "Sequence": 1, "UnitCost": "156.00"}], "ActivityID": 5, "Objectives": ["(1) To provide avenue for the member to know more of nature, mission-vision, activities, programs and other relevant matters concerning the organization;  ", "To formally turn-over the office to the new set of officers and to recognize the old officers of the organization", "To create friendship and interaction between the members of the organization"], "Strategies": "1st General Assembly and Turn-over Ceremony", "Organization": "De La Salle University - Environmental Conservation Organization", "ProjectHeads": [{"IDNumber": 1111114}], "ProgramDesign": [{"Date": "Jan 15, 2018", "DayID": 0, "EndTime": "02:00 PM", "Activity": "Assembly", "Sequence": 1, "StartTime": "01:30 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111114}}, {"Date": "Jan 15, 2018", "DayID": 0, "EndTime": "06:30 PM", "Activity": "Awarding of Officers", "Sequence": 2, "StartTime": "02:15 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 26, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "307365.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	8c0342a241dd881f6c115d74df9a1e57005179d11f59b1e3bbad4ca7ba7870978fd0c4cc9353b9c0efee6bb81d79e7020eb20e71317689f51a283c2e12d7936c99916870e9b630c6b518e7a63957b2c077b6e7e03e3da1f789e536e9c49c2f609db234af7d21b6d43ff89bf5acac444945c148f49ce3b3d161795be13765d22d	2018-01-10 23:48:54.659542+08
+218	9	7111111	3	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Organizational Development", "Context": "Not enough team building", "Expenses": [{"Type": "Food Expense", "Material": "Jollibee Chicken joi", "Quantity": 50, "Sequence": 1, "UnitCost": "100.00"}], "ActivityID": 9, "Objectives": ["To establish camaraderie between members", "To build one community of ECO"], "Strategies": "Let's ECO: An ECO Team Building", "Organization": "De La Salle University - Environmental Conservation Organization", "ProjectHeads": [{"IDNumber": 10111114}, {"IDNumber": 10111116}], "ProgramDesign": [{"Date": "Jan 22, 2018", "DayID": 0, "EndTime": "04:00 PM", "Activity": "Event proper", "Sequence": 1, "StartTime": "02:15 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111114}}, {"Date": "Jan 22, 2018", "DayID": 0, "EndTime": "05:00 PM", "Activity": "Clean-up", "Sequence": 2, "StartTime": "04:00 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111114}}, {"Date": "Jan 22, 2018", "DayID": 0, "EndTime": "02:00 PM", "Activity": "Intro", "Sequence": 3, "StartTime": "01:29 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111114}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 27, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "306741.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	0410580c9ef5d98c4bd7108e5974b4ace81c7649bbf9f05ac97daca35490b1790ca49ac9e1ed16263715bcf33196dbcfe4205275f061588f40e602f4b774f1fa104986312db839f9b147e85bea7d87bafed339801ab1db6f241fe32d52d212d74441bb5084bbbfabe3004b5b8634560feb6d883b30c6923bd7e6339b950e8c9c	2018-01-10 23:50:24.156847+08
+60	24	7111111	3	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "A 1502-A Conference Room", "Nature": "Organizational Development", "Context": "People are ignorant of different cultures", "Expenses": [{"Type": "Food Expense", "Material": "Booth Materials", "Quantity": 15, "Sequence": 1, "UnitCost": "5.00"}], "ActivityID": 24, "Objectives": ["To immerse members and volunteers to a community", " To be able to create a project that is specific to the needs of the community", "To partner and interact with the chosen community"], "Strategies": "E-Cultural Voyagers: A Community Engagement (Masid-Danas Phase)", "Organization": "De La Salle University - Environmental Conservation Organization", "ProjectHeads": [{"IDNumber": 4111114}], "ProgramDesign": [{"Date": "Feb 05, 2018", "DayID": 0, "EndTime": "01:10 PM", "Activity": "Rehearsal", "Sequence": 1, "StartTime": "01:05 PM", "Description": "Penchorn placement", "PersonInCharge": {"IDNumber": 7111116}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 8, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "308475.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	96068465ab630294263732e93c077982b3b9ef22cc6b3016dc1f3de3e66475f482aacd8b2e843fb6cc97ce3e2acae29ec348b92939cedab0f549aef874830f66c7635e3880feaca3701575e019f7462ebc5865fe92879a6ee8f95a8e156cc22d705497aea9b6bbe9fd5304ad7636c9fb921de3f99e1baab9b658bf2c96060074	2018-01-10 23:51:41.663459+08
+342	22	7111111	3	1	\N	\N	{"Type": "Seminar/Workshop", "Venue": "9th Floor Gym(w/o Scoreboard)", "Nature": "Outreach", "Context": "People are ignorant of kids", "Expenses": [{"Type": "Food Expense", "Material": "Uncle John's Fried Chicken", "Quantity": 55, "Sequence": 1, "UnitCost": "85.00"}], "ActivityID": 22, "Objectives": ["To provide an avenue wherein student can do community outreach programs", " To immerse the ECO Community to other issue advocacies that they can expand on"], "Strategies": "ECO Gives Back: A Christmas Celebration with the Kids", "Organization": "De La Salle University - Environmental Conservation Organization", "ProjectHeads": [{"IDNumber": 4111113}, {"IDNumber": 4111114}], "ProgramDesign": [{"Date": "Jan 31, 2018", "DayID": 0, "EndTime": "06:30 PM", "Activity": "Kid's day celebration", "Sequence": 1, "StartTime": "01:28 PM", "Description": "", "PersonInCharge": {"IDNumber": 7111116}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 42, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "300640.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	03f8195365825c1375dba8eea7c1eab2ce6d2d2b4ad4b410c885efc8a57baf7abd4d27756797de3326ddc6667a3b08721b581c6705449a3b9fa297a20c6a315141612cdc03dc80948131b8e086e0df305b19d2fb0f277fa5feb325827d1ac115f1d54ee25362e7a27d29a408319ba99ad1778715c62b8db4d9b42d85ea2a1a88	2018-01-10 23:50:49.241346+08
+226	12	7111111	3	1	\N	\N	{"Type": "Publicity/Awareness Campaign", "Venue": "A 1502-A Conference Room", "Nature": "Issue Advocacy", "Context": "Waste is not recycled, it is wasted", "Expenses": [{"Type": "Food Expense", "Material": "Uncle John's Fried Chicken", "Quantity": 10, "Sequence": 1, "UnitCost": "95.00"}], "ActivityID": 12, "Objectives": ["To be able to create a reducing waste program that is specific to the problem;", "To analyze the wastes generated in STC"], "Strategies": "ECOntrol: Waste Analysis and Characterization Study", "Organization": "De La Salle University - Environmental Conservation Organization", "ProjectHeads": [{"IDNumber": 1111114}], "ProgramDesign": [{"Date": "Jan 18, 2018", "DayID": 0, "EndTime": "01:30 PM", "Activity": "Discussion of data ", "Sequence": 1, "StartTime": "11:00 AM", "Description": "", "PersonInCharge": {"IDNumber": 7111116}}], "ProjectedIncome": [], "SourceFundOther": "0.00", "ProjectProposalID": 28, "SourceFundParticipantFee": "0.00", "AccumulatedDepositoryFunds": "301741.00", "AccumulatedOperationalFunds": "0.00", "OrganizationFundOtherSource": "0.00"}	5e9f7369060d05714982dccb2e8b2508bfae7a7ac8a3db726d0964eda78b83120f7a972ee28eae895ab5ef4fd49039bd6cc28e39b4ac289465840371d8c844effd902a04eecc04eec115109e1219647316039fbecc4a17e95b2e932d27d6e2cdda5e669aa8610f4484cb822e4ac593529b0ad55a7523e6099fc7cebd92bec4e9	2018-01-10 23:51:02.56512+08
 \.
 
 
@@ -7977,17 +9293,23 @@ COPY public.schoolyear (id, startyear, endyear, datestart, dateend) FROM stdin;
 --
 
 COPY public.session (sid, sess, expire) FROM stdin;
-KxfIG7JR1qNXsabOZkx646HVesuPC-9U	{"cookie":{"originalMaxAge":3600000,"expires":"2018-01-10T12:07:40.295Z","secure":false,"httpOnly":false,"path":"/","sameSite":"strict"},"csrfSecret":"uKB1i5_ZI7QHAu1Sn9uSpOBT","user":{"idNumber":6111111,"name":{"first":"Organization6","middle":null,"last":"President"},"type":1,"organizationSelected":{"id":13,"path_profilePicture":""}},"valid":true}	2018-01-10 20:07:41
-at_mChT0O10nDoFWXmBUXqBNfvoCptMs	{"cookie":{"originalMaxAge":3600000,"expires":"2018-01-10T12:07:20.299Z","secure":false,"httpOnly":false,"path":"/","sameSite":"strict"},"csrfSecret":"VgUidZzSoQ6TmUbZ_NOgEe85","user":{"idNumber":8111111,"name":{"first":"Organization8","middle":null,"last":"President"},"type":1,"organizationSelected":{"id":15,"path_profilePicture":""}},"valid":true}	2018-01-10 20:07:21
-nZU-GJjf4D4yy61bZ6MoyY4ZABaH5qUn	{"cookie":{"originalMaxAge":3599999,"expires":"2018-01-10T12:07:38.926Z","secure":false,"httpOnly":false,"path":"/","sameSite":"strict"},"csrfSecret":"Ac_p1HbrQWya9_Vm2S0NZ78m","user":{"idNumber":10111111,"name":{"first":"Organization10","middle":null,"last":"President"},"type":1,"organizationSelected":{"id":17,"path_profilePicture":""}},"valid":true}	2018-01-10 20:07:39
-EZnuivo4VgMBKv2jX9wYtKIrOVEuiTGh	{"cookie":{"originalMaxAge":3600000,"expires":"2018-01-10T11:49:47.553Z","secure":false,"httpOnly":false,"path":"/","sameSite":"strict"},"csrfSecret":"ykIeJ9EgK39Qs4inDli9VE_F"}	2018-01-10 19:49:48
-QnBtZv-_lLATncOiD1F6P807zqqnAsRj	{"cookie":{"originalMaxAge":3600000,"expires":"2018-01-10T11:59:15.403Z","secure":false,"httpOnly":false,"path":"/","sameSite":"strict"},"csrfSecret":"sqbjoznNTPjSpZwLiZ1szBAe","user":{"idNumber":10111111,"name":{"first":"Organization10","middle":null,"last":"President"},"type":1,"organizationSelected":{"id":17,"path_profilePicture":""}},"valid":true}	2018-01-10 19:59:16
-l5kNg994CNx_QiULfhIcVIjMHP4M7wa1	{"cookie":{"originalMaxAge":3600000,"expires":"2018-01-10T11:53:16.395Z","secure":false,"httpOnly":false,"path":"/","sameSite":"strict"},"csrfSecret":"vD0sHI44ufCdwzI0AJNfkTdg"}	2018-01-10 19:53:17
-xJa3RLFzH1dH76sdRMvEC07K8wwlbzJo	{"cookie":{"originalMaxAge":3600000,"expires":"2018-01-10T11:53:36.072Z","secure":false,"httpOnly":false,"path":"/","sameSite":"strict"},"csrfSecret":"X218A_rO-qMzSMZ52Y1dhwe4"}	2018-01-10 19:53:37
-LAgQmxXb17w6wf4eLcqwxJF0rKCZl05P	{"cookie":{"originalMaxAge":3600000,"expires":"2018-01-10T11:53:39.789Z","secure":false,"httpOnly":false,"path":"/","sameSite":"strict"},"csrfSecret":"mtzHDQniQjNuBec-4LQNMGBD"}	2018-01-10 19:53:40
-CGLlQQ4sSjk6eb4OJh3LYOE9hlIQvmjT	{"cookie":{"originalMaxAge":3600000,"expires":"2018-01-10T11:53:52.603Z","secure":false,"httpOnly":false,"path":"/","sameSite":"strict"},"csrfSecret":"euUBMe-cxFCG5ScHChEcQwxc"}	2018-01-10 19:53:53
-f7rioG4Hz66zG_qKezUB7lqu5v54uM6U	{"cookie":{"originalMaxAge":3600000,"expires":"2018-01-10T11:53:56.781Z","secure":false,"httpOnly":false,"path":"/","sameSite":"strict"},"csrfSecret":"lEZ-TeFNbnGlBzpmNc5OhmeG"}	2018-01-10 19:53:57
-L59ui3i1GLBfhpHHccS-4bQY_r3X8F2h	{"cookie":{"originalMaxAge":3600000,"expires":"2018-01-10T12:06:52.583Z","secure":false,"httpOnly":false,"path":"/","sameSite":"strict"},"csrfSecret":"nw2JWvilawu5ZIZqqZmJb4L3","user":{"idNumber":3111111,"name":{"first":"Organization3","middle":null,"last":"President"},"type":1,"organizationSelected":{"id":10,"path_profilePicture":""}},"valid":true}	2018-01-10 20:06:53
+Z7n0QFR0euCSMWCL3mSetjZdlex_om6y	{"cookie":{"originalMaxAge":3600000,"expires":"2018-02-10T15:04:03.281Z","secure":false,"httpOnly":false,"path":"/","sameSite":"strict"},"csrfSecret":"2o1Sfh9-iTaxqf7REfooKrWe"}	2018-02-10 23:04:04
+_yGiLFnHMqaLr1d91eoq67dYF_5Lb9-2	{"cookie":{"originalMaxAge":3600000,"expires":"2018-01-10T16:44:44.632Z","secure":false,"httpOnly":false,"path":"/","sameSite":"strict"},"csrfSecret":"xGrhkZwad94bCIKF58UwczCs","user":{"idNumber":7111113,"name":{"first":"Organization7","middle":null,"last":"VP - Documentation"},"type":1,"organizationSelected":{"id":14,"path_profilePicture":""}},"valid":true,"notingosm":0}	2018-01-11 00:44:45
+13i8HyotBgtdwWWeLP7ixb6gVqIUq4_j	{"cookie":{"originalMaxAge":3600000,"expires":"2018-01-10T16:51:32.118Z","secure":false,"httpOnly":false,"path":"/","sameSite":"strict"},"csrfSecret":"XHa4OciPuLfxMTTwBd3H1Ayq","user":{"idNumber":1011120,"name":{"first":"CSO","middle":null,"last":"AVC - APS"},"type":1,"organizationSelected":{"id":0,"path_profilePicture":"\\\\plugins\\\\images\\\\cso.png"}},"valid":true}	2018-01-11 00:51:33
+nYqY__s8DPA_v7_mQXZnZbVueGpQnLvS	{"cookie":{"originalMaxAge":3599999,"expires":"2018-01-10T16:51:52.838Z","secure":false,"httpOnly":false,"path":"/","sameSite":"strict"},"csrfSecret":"8DTxff109xCLoePnllPy-DLq","user":{"idNumber":7111111,"name":{"first":"Organization7","middle":null,"last":"President"},"type":1,"organizationSelected":{"id":14,"path_profilePicture":""}},"valid":true,"notingosm":0}	2018-01-11 00:51:53
+lWKhpCfKwFAzSHOEpI97KC4A6nhxm_kB	{"cookie":{"originalMaxAge":3600000,"expires":"2018-01-10T16:51:44.135Z","secure":false,"httpOnly":false,"path":"/","sameSite":"strict"},"csrfSecret":"GYU8napN7Ww5Z_5BZUYf6E96","user":{"idNumber":1111115,"name":{"first":"Organization","middle":null,"last":"VP - Finance"},"type":1,"organizationSelected":{"id":1,"path_profilePicture":""}},"valid":true,"notingosm":"1"}	2018-01-11 00:51:45
+xG-wOrVQrMU977p9sekBfbHpjymMATd5	{"cookie":{"originalMaxAge":3600000,"expires":"2018-01-10T16:17:24.281Z","secure":false,"httpOnly":false,"path":"/","sameSite":"strict"},"csrfSecret":"mKGFD2ev8lwn6iXeM5r0eOSf","user":{"idNumber":3111111,"name":{"first":"Organization3","middle":null,"last":"President"},"type":1,"organizationSelected":{"id":10,"path_profilePicture":""}},"valid":true,"notingosm":0}	2018-01-11 00:17:25
+HpN-Mq5Zl1cuGHJs1mnWJ2thLaL5Z8Nu	{"cookie":{"originalMaxAge":3599999,"expires":"2018-01-10T16:51:14.272Z","secure":false,"httpOnly":false,"path":"/","sameSite":"strict"},"csrfSecret":"HpKFXHgz4jD-6WCi5CgfwHb3","user":{"idNumber":7111114,"name":{"first":"Organization7","middle":null,"last":"AVP - Documentation"},"type":1,"organizationSelected":{"id":14,"path_profilePicture":""}},"valid":true,"notingosm":0}	2018-01-11 00:51:15
+K6ZBHmNL8NkkKHhAqmq2FskzBIwPWhNk	{"cookie":{"originalMaxAge":3600000,"expires":"2018-01-10T16:51:46.887Z","secure":false,"httpOnly":false,"path":"/","sameSite":"strict"},"csrfSecret":"rPIiFJh6PEfzfS-vHVhc_rD4","user":{"idNumber":1111114,"name":{"first":"Organization","middle":null,"last":"AVP - Documentation"},"type":1,"organizationSelected":{"id":1,"path_profilePicture":""}},"valid":true,"notingosm":"1"}	2018-01-11 00:51:47
+a2pHsrdiMR3ZgSKQ_iM_IB3wMaCvTtHB	{"cookie":{"originalMaxAge":3599999,"expires":"2018-01-10T16:51:48.985Z","secure":false,"httpOnly":false,"path":"/","sameSite":"strict"},"csrfSecret":"QBYWlycXptNmk4Sjk6Jh8AY_","user":{"idNumber":10111114,"name":{"first":"Organization10","middle":null,"last":"AVP - Documentation"},"type":1,"organizationSelected":{"id":17,"path_profilePicture":""}},"valid":true,"notingosm":0}	2018-01-11 00:51:49
+5FnI_r_XYpOtHjUdBHvRAohNQgQOWkuJ	{"cookie":{"originalMaxAge":3600000,"expires":"2018-01-10T16:51:07.750Z","secure":false,"httpOnly":false,"path":"/","sameSite":"strict"},"csrfSecret":"U2W1mJSDDoLTO-H5-SsWJy7i","user":{"idNumber":1011117,"name":{"first":"CSO","middle":null,"last":"Chairperson"},"type":1,"organizationSelected":{"id":0,"path_profilePicture":"\\\\plugins\\\\images\\\\cso.png"}},"valid":true}	2018-01-11 00:51:08
+sFaoDLYdDfekhAIxY8WNCH5t5L-w3ytN	{"cookie":{"originalMaxAge":3599999,"expires":"2018-01-10T16:51:38.590Z","secure":false,"httpOnly":false,"path":"/","sameSite":"strict"},"csrfSecret":"Onle1knbK-kQgwk_otHnkk7R","user":{"idNumber":1111115,"name":{"first":"Organization","middle":null,"last":"VP - Finance"},"type":1,"organizationSelected":{"id":1,"path_profilePicture":""}},"valid":true,"notingosm":"1"}	2018-01-11 00:51:39
+Ots2dWAAQJQVB7lCvm02dBNBDKXcea09	{"cookie":{"originalMaxAge":3600000,"expires":"2018-04-10T15:02:43.952Z","secure":false,"httpOnly":false,"path":"/","sameSite":"strict"},"csrfSecret":"g-n3P_YeOI4nhC_Stg8scRWb"}	2018-04-10 23:02:44
+Zgvfs782tTPhIKskMRisSLG0s9BX5uui	{"cookie":{"originalMaxAge":3599999,"expires":"2018-01-10T16:40:25.382Z","secure":false,"httpOnly":false,"path":"/","sameSite":"strict"},"csrfSecret":"-bTJZQWBbU2R4JpzfQUzvy9Y","user":{"idNumber":7111115,"name":{"first":"Organization7","middle":null,"last":"VP - Finance"},"type":1,"organizationSelected":{"id":14,"path_profilePicture":""}},"valid":true,"notingosm":0}	2018-01-11 00:40:26
+JvgfRWVfJY7QjO6nIm680KS3sJO10FEl	{"cookie":{"originalMaxAge":3600000,"expires":"2018-04-10T14:12:02.138Z","secure":false,"httpOnly":false,"path":"/","sameSite":"strict"},"csrfSecret":"YXRt2BbeV45oqBZOV7Z0mkdP"}	2018-04-10 22:12:03
+83VMpEI_3O5c03NRAbhpecmdeeH8mu3D	{"cookie":{"originalMaxAge":3600000,"expires":"2018-04-10T14:12:26.434Z","secure":false,"httpOnly":false,"path":"/","sameSite":"strict"},"csrfSecret":"vpKU5ZhWqS-VkDC4wsOTThfE"}	2018-04-10 22:12:27
+2eIg9833qw42CnTp0_41fx27OBrfT29C	{"cookie":{"originalMaxAge":3600000,"expires":"2018-01-10T16:42:31.517Z","secure":false,"httpOnly":false,"path":"/","sameSite":"strict"},"csrfSecret":"iRx9zpwraA7vRX_-BsWY6JDF","user":{"idNumber":7111113,"name":{"first":"Organization7","middle":null,"last":"VP - Documentation"},"type":1,"organizationSelected":{"id":14,"path_profilePicture":""}},"valid":true,"notingosm":0}	2018-01-11 00:42:32
+mrH_sIQS1C4EB_-RH24rt1IqjvXAzqdY	{"cookie":{"originalMaxAge":3600000,"expires":"2018-01-10T15:58:30.462Z","secure":false,"httpOnly":false,"path":"/","sameSite":"strict"},"csrfSecret":"oh2CvelqhitaRX6ADrEIqyxg","user":{"idNumber":1011121,"name":{"first":"CSO","middle":null,"last":"A - APS"},"type":1,"organizationSelected":{"id":0,"path_profilePicture":"\\\\plugins\\\\images\\\\cso.png"}},"valid":true}	2018-01-10 23:58:31
 \.
 
 
