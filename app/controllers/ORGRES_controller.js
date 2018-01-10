@@ -228,7 +228,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			return orgresModel.insertActivityResearchForm({
 				gosmactivity: req.body.activity,
 				idNumber: req.body.idNumber,
-				email: req.body.email,
+				email: `${req.body.email}@dlsu.edu.ph`,
 				positionInOrganization: req.body.position,
 				iutpota: req.body.radio1,
 				tasmi: req.body.radio2,
