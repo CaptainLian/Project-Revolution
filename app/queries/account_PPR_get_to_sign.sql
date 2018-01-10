@@ -20,4 +20,5 @@ SELECT pp.GOSMActivity, to_char(pp.actualDateStart, 'Mon DD, YYYY') AS actualDat
           FROM ProjectProposal PP RIGHT JOIN "AccountToSign" ATS
                                           ON PP.GOSMActivity = ATS.GOSMActivity WHERE PP.status <> 1) pp LEFT JOIN GOSMActivity ga
                                                                        ON pp.GOSMActivity = ga.id
+WHERE pp.actualDateStart >= NOW()
                                                                        ;
