@@ -424,7 +424,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                         for (var i = 0; i < data[3].length; i++){
 
-                            if (data[3][i].studentorganization = organizationid) {
+                            if (data[3][i].studentorganization == organizationid) {
 
                                 postactsTotalActivities = postactsTotalActivities + 1;
 
@@ -1517,7 +1517,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                         for (var i = 0; i < data[3].length; i++){
 
-                            if (data[3][i].studentorganization = organizationid) {
+                            if (data[3][i].studentorganization == organizationid) {
 
                                 postactsTotalActivities1 = postactsTotalActivities1 + 1;
 
@@ -2363,7 +2363,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                         for (var i = 0; i < data[19].length; i++){
 
-                            if (data[19][i].studentorganization = organizationid) {
+                            if (data[19][i].studentorganization == organizationid) {
 
                                 postactsTotalActivities2 = postactsTotalActivities2 + 1;
 
@@ -3208,7 +3208,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                         for (var i = 0; i < data[35].length; i++){
 
-                            if (data[35][i].studentorganization = organizationid) {
+                            if (data[35][i].studentorganization == organizationid) {
 
                                 postactsTotalActivities3 = postactsTotalActivities3 + 1;
 
