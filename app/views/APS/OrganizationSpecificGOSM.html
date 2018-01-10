@@ -17,35 +17,28 @@
     <!-- animation CSS -->
     {{tag.style('/css/animate.css')}}
     <!--alerts CSS -->
-
     {{tag.style('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.css')}}
-
     <!-- Custom CSS -->
     {{tag.style('/css/style.css')}}
     {{tag.style('/css/custom.css')}}
     <!-- color CSS -->
     {{tag.style('/css/colors/default.css')}}
-
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
     <!-- Page Styles -->
     {{tag.style('/css/ViewOrgGOSM')}}
     <!-- /Page Styles -->
 {%endblock%}
 
 {%block defer_script%}
-
     {{super()}}
-
     <!-- Menu Plugin JavaScript -->
     {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
     <!--slimscroll JavaScript -->
-    
     <!--Wave Effects -->
     {{tag.javascript('/js/waves.js', true)}}
     <!-- Custom Theme JavaScript -->
@@ -55,16 +48,11 @@
     {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
     <!-- Sweet-Alert  -->
     {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js', true)}}
-
     <!--Style Switcher -->
     {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
-
     <!-- Page-Scripts -->
     {{tag.javascript('/js/APS/ORGGOSM.js', true)}}
     <!-- /Page-Scripts -->
-
-    
-
 {%endblock%}
 
 {%block breadcrumb%}
@@ -129,7 +117,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" id="">Activity Name</h4>
+                    <h4 class="modal-title" id="modal_activity_name">Activity Name</h4>
                 </div>
                 <div class="modal-body">
                     <section>
