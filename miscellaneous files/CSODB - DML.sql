@@ -2662,7 +2662,7 @@ INSERT INTO OrganizationOfficer (idNumber, role, yearID, dateAssigned)
                          (3111113, 100106, system_get_current_year_id(), CURRENT_TIMESTAMP),
                          (3111114, 100108, system_get_current_year_id(), CURRENT_TIMESTAMP),
                          (3111115, 100109, system_get_current_year_id(), CURRENT_TIMESTAMP),
-                         (3111116, 100111, system_get_current_year_id(), CURRENT_TIMESTAMP),
+                         (3111116, 100110, system_get_current_year_id(), CURRENT_TIMESTAMP),
                          
                          /* ORG 4 */
                          (4111111, 110113, system_get_current_year_id(), CURRENT_TIMESTAMP),
