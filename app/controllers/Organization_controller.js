@@ -236,6 +236,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                     let termstart = term.dateStart;
 
+                    console.log(dbParam);
+                    console.log("DBPARAM+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+
                     database.task(task => {
                         return task.batch([
                             //APS AND ADM
@@ -301,6 +304,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             if(data[0][i].studentorganization == organizationid &&
                                 data[0][i].isingosm == true){
 
+                                console.log("ENTERSSSSSS HEREEEEEEEEEEEEEEEEEEEEEEEE++++++++++++++++++++++++++++++++++")
+
                                 preactsApprovedActivities = preactsApprovedActivities + 1;
 
                                 if(data[0][i].activitynature == 8){
@@ -331,7 +336,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             }
 
                             if(data[0][i].studentorganization == organizationid &&
-                                data[0][i].isrelatedtoorganization == true){
+                                data[0][i].isrelatedtoorganizationnature == true){
                                     isRelatedToOrganizationCount = isRelatedToOrganizationCount + 1;
                             }
 
@@ -1430,7 +1435,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             }
 
                             if(data[0][i].studentorganization == organizationid &&
-                                data[0][i].isrelatedtoorganization == true){
+                                data[0][i].isrelatedtoorganizationnature == true){
                                     isRelatedToOrganizationCount1 = isRelatedToOrganizationCount1 + 1;
                             }
 
@@ -2276,7 +2281,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             }
 
                             if(data[16][i].studentorganization == organizationid &&
-                                data[16][i].isrelatedtoorganization == true){
+                                data[16][i].isrelatedtoorganizationnature == true){
                                     isRelatedToOrganizationCount2 = isRelatedToOrganizationCount2 + 1;
                             }
 
@@ -3121,7 +3126,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             }
 
                             if(data[32][i].studentorganization == organizationid &&
-                                data[32][i].isrelatedtoorganization == true){
+                                data[32][i].isrelatedtoorganizationnature == true){
                                     isRelatedToOrganizationCount3 = isRelatedToOrganizationCount3 + 1;
                             }
 
