@@ -4866,8 +4866,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     // renderData.sectionsToEdit = data[3];
 
 
-                    console.log(renderData.gosmactivity);
-                    console.log(renderData.projectProposal);
+                    console.log("FUNDS EXPENSE");
+                    console.log(data[5]);
 
                     return res.render('Org/SubmitProjectProposal_expense', renderData);
                 }).catch(error => {
