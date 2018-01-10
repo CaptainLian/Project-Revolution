@@ -461,25 +461,25 @@
     // };
     //End of Online member survey form results
     //60 40 ratio
-    new Chart(document.getElementById("chart3"), {
-        type: 'pie',
-        data: {
-            labels: ["Academic", "Non-Academic"],
-            datasets: [{
-                label: "Respondents",
-                backgroundColor: ["#3e95cd", "#8e5ea2"],
-                data: [academic, nonAcademic]
-            }]
-        },
-        options: {
-            legend: {
-                display: false
-            },
-            title: {
-                display: true
-            }
-        }
-    });
+    // new Chart(document.getElementById("chart3"), {
+    //     type: 'pie',
+    //     data: {
+    //         labels: ["Academic", "Non-Academic"],
+    //         datasets: [{
+    //             label: "Respondents",
+    //             backgroundColor: ["#3e95cd", "#8e5ea2"],
+    //             data: [academic, nonAcademic]
+    //         }]
+    //     },
+    //     options: {
+    //         legend: {
+    //             display: false
+    //         },
+    //         title: {
+    //             display: true
+    //         }
+    //     }
+    // });
     //60 40 ratio
     new Chart(document.getElementById("chart4"), {
         type: 'pie',
