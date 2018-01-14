@@ -3,7 +3,9 @@
 module.exports = function(configuration, modules, models, database, queryFiles){
 	const SIGN = require('../utility/digitalSignature.js').signString;
     const STRINGIFY = require('json-stable-stringify');
-    
+    const path = require('path');
+    const fs = require('fs');
+	var cuid = require('cuid');
 	const logger = modules.logger;
 	const log_options = Object.create(null);
 	log_options.from = 'Finance-Controlelr';
@@ -415,13 +417,64 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				purpose: req.body.purpose,
 				justification: req.body.nodpjustification
 			};
+			console.log("req.files");
+			console.log(req.files);
+			
 
             let particulars = req.body.particulars;
             if(!Array.isArray(particulars)){
                 particulars = [particulars];
             }
 
+
+            var dir3 = __dirname + '/../assets/upload/';
+            var dir3 = path.join(__dirname, '..', 'assets', 'upload');
+
+            //CHECK IF DIRECTOR EXIST
+            if (!fs.existsSync(dir3)) {
+                fs.mkdirSync(dir3);
+            }
+            var dir = __dirname + '/../assets/upload/finance/';
+            var dir = path.join(__dirname, '..', 'assets', 'upload', 'finance');
+            //CHECK IF DIRECTOR EXIST
+            if (!fs.existsSync(dir)) {
+                fs.mkdirSync(dir);
+            }
+            var dir2 = __dirname + '/../assets/upload/finance/' + req.session.user.idNumber + '/';
+            var dir2 = path.join(__dirname, '..', 'assets', 'upload', 'finance', req.session.user.idNumber + "");
+            //CHECK IF DIRECTOR EXIST
+            if (!fs.existsSync(dir2)) {
+                fs.mkdirSync(dir2);
+            }
+             //  //TEMP SAVING FILEs
+	            // var date = cuid();
+	            // var nFilename = req.files['file'].name.split('.').pop();
+	            // var p = path.normalize(path.join(dir2, date + '.' + nFilename));
+	            //             Promise.all([
+	            //                 req.files['file'].mv(p),
+	            //                 // projectProposalModel.insertProjectProposalAttachment(db)
+
+	            //             ]).then(result => {
+	            //                 console.log(result);
+	            //             }).catch(err => {
+	            //                 console.log(err);
+	            //             });
+
             database.tx(transaction => {
+
+	            //TEMP SAVING FILEs
+	            var date = cuid();
+	            var nFilename = req.files['file'].name.split('.').pop();
+	            var p = path.normalize(path.join(dir2, date + '.' + nFilename));
+	                        Promise.all([
+	                            req.files['file'].mv(p),
+	                            // projectProposalModel.insertProjectProposalAttachment(db)
+
+	                        ]).then(result => {
+	                            console.log(result);
+	                        }).catch(err => {
+	                            console.log(err);
+	                        });
                 return financeModel.insertPreActivityCashAdvance(dbParam, transaction)
                 .then(data => {
 

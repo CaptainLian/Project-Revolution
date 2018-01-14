@@ -79,7 +79,7 @@
 {%endblock%}
 
 {%block content%}
-<form action="/transaction/submitPreacts" id="form-id" class="form-horizontal" method="POST">
+<form action="/transaction/submitPreacts" encType="multipart/form-data" id="form-id" class="form-horizontal" method="POST">
                         <input type="hidden" name="_csrf" value="{{csrfToken}}">
 
                         <input type="hidden" name="gosmactivity" value="{{gosmactivity}}">
@@ -173,11 +173,11 @@
                                                             <div class="col-md-4  text-left"  >  
                                                                 <label  style="">Informal Quotation</label>    
                                                             </div>
-                                                            <div class="col-md-8">
-                                                                <input multiple="" style="" type="file" accept=".pdf, .odt, .odp, .ods" name="...">    
+                                                             <div class="col-md-8">
+                                                                <input required="" multiple="" style="" type="file" accept=".pdf, .odt, .odp, .ods" name="file">    
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-12 m-10" id='elop' style='display: none;'>
+                                                       <!--  <div class="col-md-12 m-10" id='elop' style='display: none;'>
                                                             <div class="col-md-4  text-left" >
                                                                 <label  style="">Estimated List of Participants</label>    
                                                             </div>
@@ -190,9 +190,9 @@
                                                                 <label  style="">Mechanics of Competition</label>    
                                                             </div>
                                                             <div class="col-md-8">
-                                                                <input multiple="" style="" type="file" accept=".pdf, .odt, .odp, .ods" name="...">    
+                                                                <input multiple="" style="" type="file" accept=".pdf, .odt, .odp, .ods" name="fileRequired">    
                                                             </div>
-                                                        </div>
+                                                        </div> -->
 
                                                     </div> 
                                                 </div>
