@@ -1,4 +1,4 @@
-
+<form action="/Organization/Publicity/Reupload" id="form2" enctype=multipart/form-data method="POST" class="form-horizontal col-md-12">
         <div class="modal-dialog"  style="margin-top: 130px">
             <div class="modal-content">
                 <div class="modal-header
@@ -60,6 +60,26 @@
                                     <p class="control-label">{{activity.comments}}</p>
                                 </div>
                                 {%endif%}
+                                {%if activity.status == 0 %}
+                                
+                                    <!-- <input type="hidden" name="_csrf" value="{{csrfToken}}"> -->
+                                    <input type="hidden" name="pubsid" value="{{activity.apid}}">
+                                    <label class="col-md-4">Upload a revision</label>
+                                        <div class="col-md-12">
+                                            <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                <div class="form-control" data-trigger="fileinput">
+                                                    <i class="glyphicon glyphicon-file fileinput-exists"></i>
+                                                    <span class="fileinput-filename2" id="filename2"></span>
+                                                </div>
+                                                <span class="input-group-addon btn btn-default btn-file"> 
+                                                <span class="fileinput-new ">Select file</span>
+                                                <span class="fileinput-exists">Change</span>
+                                                <input type="file" id="file2" name="file">
+                                                </span>
+                                                <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a> </div>
+                                        </div>
+                                
+                                {%else%}
                                 <label class="control-label col-md-4">Checked by</label>
                                 <div class="col-md-8">
                                     <p class="control-label">{{activity.fullname}}</p>
@@ -68,6 +88,7 @@
                                 <div class="col-md-8">
                                     <p class="control-label">{{activity.ddate}}</p>
                                 </div>
+                                {%endif%}
                             </div>
                             
                         </div>
@@ -76,7 +97,12 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    {%if activity.status==0%}
+                    <button  class="btn btn-info" type="submit">Submit</button>
+                     </form>
+                    {%endif%}
                 </div>
+               
             </div>
         </div>
     

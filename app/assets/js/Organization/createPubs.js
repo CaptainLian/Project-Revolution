@@ -59,7 +59,7 @@ $('.mydatepicker, #datepicker').datepicker({
 				});
 $(document).on('submit','#form-pend',function(e){
 	var formData = new FormData($(this)[0]);
-	
+	console.log("Clicked!")
 	e.preventDefault();
 	
 	formData.append('_csrf',$('meta[data-name="csrf"]').attr("data-token"));
@@ -104,9 +104,56 @@ $(document).on('submit','#form-pend',function(e){
 			            })
 
 });
+$(document).on('submit','#form2',function(e){
+	var formData = new FormData($(this)[0]);
+	console.log("Clicked!")
+	e.preventDefault();
+	
+	formData.append('_csrf',$('meta[data-name="csrf"]').attr("data-token"));
+	var submit = new Promise(function (resolve, reject) {
+								$.ajax({
+									type:'POST',
+									url:'/Organization/Publicity/Reupload',
+									data:formData,
+									processData: false,
+									contentType: false,
+									cache: false,
+									enctype: 'multipart/form-data',
+									success:function(data){
+										if(data.status){
+											resolve(data)
+										}else{
+											reject()
+										}
+									}
+								});
+			                   
 
+			            }).then(data=>{
+			            	console.log("data");
+			            	$("#online-1").modal('hide');
+			            	console.log(objReupload);
+			            	// addRibbon(objReupload,0);
+			            	objReupload.find("img").attr('src',data.path);
+			            	objReupload.find("li:first").find("a").attr("href",data.path);
+
+			            	objReupload.find("li:last").find("a").attr("data-id",data.id).removeClass("modal-reupload").addClass("modal-desc");
+			            	  $.toast({
+					            heading: 'Successfully added!',
+					            text: 'The pubs was sent for approval',
+					            position: 'top-right',
+					            loaderBg:'#ff6849',
+					            icon: 'success',
+					            hideAfter: 3500, 
+					            stack: 6
+					          });
+
+			            })
+
+});
 $(document).on('click','.modal-desc',function(){
 	var d = $(this)
+	objReupload =  $(this).closest(".el-card-item");
 	 new Promise(function (resolve, reject) {
 								$.ajax({
 									type:'POST',
@@ -126,6 +173,7 @@ $(document).on('click','.modal-desc',function(){
 							
 			            })
 });
+
 
 $(".modal-reupload").on('click',function(){
 	var d = $(this);
