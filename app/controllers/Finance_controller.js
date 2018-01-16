@@ -475,6 +475,14 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 	                        }).catch(err => {
 	                            console.log(err);
 	                        });
+	                //TO ADD FILE NAME OF FILES
+	              	//TODO: gosmactivity to be changed later
+					// var dbParam = {
+					// 	gosmactivity: req.body.gosmactivity,
+					// 	submittedBy: req.session.user.idNumber,
+					// 	purpose: req.body.purpose,
+					// 	justification: req.body.nodpjustification
+					// };
                 return financeModel.insertPreActivityCashAdvance(dbParam, transaction)
                 .then(data => {
 
