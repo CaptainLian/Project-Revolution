@@ -17,6 +17,7 @@
     {{tag.style('/css/animate.css')}}
     <!-- Custom CSS -->
     {{tag.style('/css/style.css')}}
+    {{tag.style('/css/doms.css')}}
     <!-- {{tag.style('/css/styleCustom.css')}} -->
     {{tag.style('/plugins/bower_components/jqueryui/jquery-ui.min.css')}}
     <!-- color CSS you can use different color css from css/colors folder -->
@@ -150,8 +151,6 @@
                                 <input name="targetDateStart" id="targetDateStart" class="form-control" readonly="" placeholder="mm/dd/yyyy" name="start" type="text">
                                 <span class="input-group-addon bg-info b-0 text-white">to</span>
                                 <input name="targetDateEnd" id="targetDateEnd" class="form-control" readonly="" name="end" type="text" placeholder="mm/dd/yyyy">
-
-
                             </div>
                             
 
@@ -259,41 +258,50 @@
                 <div class="panel-body">
                     <div class="text-left">
                         <h2>You have <label id="rele">{{related}}</label> organization related events and <label id=nrele>{{notrelated}}</label> non related</h2>
+                        <p class="box-title m-b-0 pull-right">legend:
+                            <span class="label" style="background-color: #9bffc0;">Related to Organization Nature</span>
+                            
+                        </p>
                     </div>
-                    <table id="added-act" class="table table-hover">
+                    <table id="added-act" class="table">
                         <thead>
                             <tr>
                                 <th width="15%" class="text-center">Date</th>
                                 <th class="text-center" width="15%">Title</th>
-                                
-                             
                                 <th width="35%" class="text-center" >Description</th>
+                                <th width="10%" class="text-center">Nature</th>
                                 <th width="10%" class="text-center">Actions</th>
                                 
                             </tr>
                         </thead>
                         <tbody>
+
                             {% for activities in gosmActivities %}
-                                <tr>
-                                    <td class="text-center td-title" >{{activities.targetdatestart1}} - {{activities.targetdateend1}}</td>
-                                    <td class="text-center td-title" >{{activities.strategies}}</td>
-                                    
-                                    <td class="text-center td-title" >{{activities.description}}</td>
-                                    <td class="text-center text-nowrap">
-                                        <a  data-toggle="tooltip" data-original-title="Details"> 
-                                            <i db-id="{{activities.gid}}"  class="fa fa-eye text-inverse m-r-10"></i> 
-                                        </a>
-                                        {%if (status !=3 and status !=5 and status !=2) %}
-                                        <a data-toggle="tooltip" data-original-title="Edit"> 
-                                            <i db-id="{{activities.gid}}"  class="fa fa-pencil text-inverse m-r-10"></i> 
-                                        </a>
+                                {% if activities.isrelatedtoorganizationnature %}
+                                    <tr class="related">
+                                {% else %}
+                                    <tr class="">
+                                {% endif %}
+                                        <td class="text-center td-title" >{{activities.targetdatestart1}} - {{activities.targetdateend1}}</td>
+                                        <td class="text-center td-title" >{{activities.strategies}}</td>
                                         
-                                        <a class="remove"  data-toggle="tooltip" data-original-title="Close"> 
-                                            <i db-id="{{activities.gid}}" class="fa fa-close text-danger"></i> 
-                                        </a>
-                                        {%endif%}
-                                    </td>                                  
-                                </tr>
+                                        <td class="text-center td-title" >{{activities.description}}</td>
+                                        <td class="text-center td-title" >{{activities.natureName}}</td>
+                                        <td class="text-center text-nowrap">
+                                            <a  data-toggle="tooltip" data-original-title="Details"> 
+                                                <i db-id="{{activities.gid}}"  class="fa fa-eye text-inverse m-r-10"></i> 
+                                            </a>
+                                            {%if (status !=3 and status !=5 and status !=2) %}
+                                            <a data-toggle="tooltip" data-original-title="Edit"> 
+                                                <i db-id="{{activities.gid}}"  class="fa fa-pencil text-inverse m-r-10"></i> 
+                                            </a>
+                                            
+                                            <a class="remove"  data-toggle="tooltip" data-original-title="Close"> 
+                                                <i db-id="{{activities.gid}}" class="fa fa-close text-danger"></i> 
+                                            </a>
+                                            {%endif%}
+                                        </td>                                  
+                                    </tr>
                             {% endfor %}
                         </tbody>
                     </table>

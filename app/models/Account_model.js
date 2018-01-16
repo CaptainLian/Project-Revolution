@@ -157,7 +157,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
     /**
      *
-     * @param  {Integer}         idNumber     ID number of the account 
+     * @param  {Integer}         idNumber     ID number of the account
      * @param  {Object}            fields     A key value pair of, the columns to update as key and the value to update
      * @param  {pg_connection} connection     (Optional)
      * @return {[pg_promise}                  void
@@ -295,9 +295,9 @@ module.exports = function(configuration, modules, database, queryFiles) {
     AccountModel.deleteAcl = (connection = database) => {
     	logger.info(`call deleteAcl()`, log_options);
 
-        let param = Object.create(null);	
+        let param = Object.create(null);
         let query = squel.delete()
-        	.from("organizationaccesscontrol")
+        	.from("organizationaccesscontrol");
         // attachFields(query, fields);
         return connection.any(query.toString());
 
@@ -305,7 +305,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
     AccountModel.insertACL = (acls ,connection = database) => {
     	logger.info(`call insertACL()`, log_options);
-        let query = ""
+        let query = "";
 
         for( var acl in acls){
             var data = acl.split("+");
@@ -314,7 +314,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
                 .set("role",data[0])
                 .set("functionality",data[1])
                 .set("isallowed",true)
-                .toString() + ";"
+                .toString() + ";";
         }
 
         return connection.any(query.toString());
@@ -559,11 +559,13 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
     const getNotifcationsSQL = queryFiles.account_get_notifications;
     AccountModel.getNotifications = (idNumber, minSequence, fields, connection = database) => {
-        //logger.info(`call getNotifications(idNumber: ${idNumber}, minSequence: ${minSequence})`, log_options);
-        
+        logger.info(`call getNotifications(idNumber: ${idNumber}, minSequence: ${minSequence})`, log_options);
+
         let query = squel.select()
             .from('"AccountNotification"')
-            .where('"account" = ${idNumber}');
+            .where('"account" = ${idNumber}')
+            //Descending
+            .order('"sequence"', false);
         attachFields(query, fields);
 
         const param = Object.create(null);
@@ -574,9 +576,9 @@ module.exports = function(configuration, modules, database, queryFiles) {
         }
 
         param.idNumber = idNumber;
-        
+
         query = query.toString();
-        //logger.debug(`Executing query: ${query}`, log_options);
+        logger.debug(`Executing query: ${query}`, log_options);
         return connection.any(query, param);
     };
 
@@ -613,7 +615,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
         logger.debug(`Executing query: ${query}`, log_options);
         return connection.oneOrNone(query, param);
     };
-    
+
     AccountModel.updateNotifications = (idNumber, maxSequence, connection = database) => {
         logger.info(`call viewNotifications(idNumber: ${idNumber}, maxSequence: ${maxSequence})`, log_options);
 
@@ -624,7 +626,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
             .where('"sequence" <= ${maxSequence}')
             .where('"status" <> 1')
             .toString();
-        
+
         let param = Object.create(null);
         param.idNumber = idNumber;
         param.maxSequence = maxSequence;
@@ -662,7 +664,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
     /********************************
      * FINANCE ACCOUNTING SIGNATORY *
      ********************************/
-    
+
     const approvePreActDirectPaymentSQL = queryFiles.account_PreActDirectPayment_approve;
     AccountModel.approveDirectPayment = (directPaymentID, idNumber, document, digitalSignature, connection = database) => {
         logger.info(`call approveDirectPayment(directPaymentID: ${directPaymentID}, idNumber: ${idNumber})`)
@@ -705,6 +707,58 @@ module.exports = function(configuration, modules, database, queryFiles) {
         return connection.none(pendCashAdvanceSQL, param);
     };
 
+    /******
+    * ADM *
+    *******/
+
+    AccountModel.approvePostProjectProposal = (GOSMActivityID, idNumber, document, digitalSignature, connection = database) => {
+        logger.info(`call approvePostProjectProposal(GOSMActivityID: ${GOSMActivityID}, idNumber: ${idNumber})`);
+        const DONT_QUOTE = Object.create(null);
+        DONT_QUOTE.dontQuote = true;
+
+        let query = squel.update()
+            .table('"PostProjectProposalSignatory"', DONT_QUOTE)
+            .set('"status"', 1, DONT_QUOTE)
+            .set('"document"', '${document}', DONT_QUOTE)
+            .set('"digitalSignature"', '${digitalSignature}', DONT_QUOTE)
+            .set('"dateSigned"', 'CURRENT_TIMESTAMP', DONT_QUOTE)
+            .where('"GOSMActivity" = ${GOSMActivityID}')
+            .where('"signatory" = ${idNumber}')
+            .toString();
+
+        let param = Object.create(null);
+        param.document = document;
+        param.digitalSignature = digitalSignature;
+        param.GOSMActivityID = GOSMActivityID;
+        param.idNumber = idNumber;
+
+        logger.debug(`Executing query: ${query}`, log_options);
+        return connection.none(query, param);
+    };
+
+    AccountModel.pendPostProjectProposal = (GOSMActivityID, idNumber, comments, sections, connection = database) => {
+        logger.info(`call pendPostProjectProposal(GOSMActivityID: ${GOSMActivityID}, idNumber: ${idNumber})`);
+        const DONT_QUOTE = Object.create(null);
+        DONT_QUOTE.dontQuote = true;
+
+        let query = squel.update()
+            .table('"PostProjectProposalSignatory"', DONT_QUOTE)
+            .set('"status"', 2, DONT_QUOTE)
+            .set('"comments"', '${comments}', DONT_QUOTE)
+            .set('"sectionsToBeEdited"', '${sectionsToBeEdited}', DONT_QUOTE)
+            .where('"GOSMActivity" = ${GOSMActivityID}')
+            .where('"signatory" = ${idNumber}')
+            .toString();
+
+        let param = Object.create(null);
+        param.comments = comments;
+        param.sectionsToBeEdited = sections;
+        param.GOSMActivityID = GOSMActivityID;
+        param.idNumber = idNumber;
+
+        logger.debug(`Executing query: ${query}`, log_options);
+        return connection.none(query, param);
+    };
 
     return AccountModel;
 };

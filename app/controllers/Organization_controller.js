@@ -1247,6 +1247,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                         renderData.gradeType = false;
 
+                        renderData.totalGrade = amtGrade+documentationGrade+orgresGrade+financeGrade+pnpGrade;
+
                         var organizationParam = {
                             studentorganization: organizationid
                         };
@@ -4022,7 +4024,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         renderData.amtAverageScores3 = data[42];
 
                         renderData.amtScore = (amtScore1 + amtScore2 + amtScore3)/3;
-                        renderData.amtGrade = (amtGrade1 + amtScore2 + amtScore3)/3;
+                        renderData.amtGrade = (amtGrade1 + amtGrade2 + amtGrade3)/3;
 
                         //finance
                         renderData.financeMonitoringGrade = (financeMonitoringGrade1 + financeMonitoringGrade2 + financeMonitoringGrade3)/3;
@@ -4036,6 +4038,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
 
                         renderData.gradeType = true;
+
+                        renderData.totalGrade = renderData.amtGrade+renderData.documentationGrade+renderData.orgresGrade+renderData.financeGrade+renderData.pnpGrade;
 
                         var organizationParam = {
                             studentorganization: organizationid
