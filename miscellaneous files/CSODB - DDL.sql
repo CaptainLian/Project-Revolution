@@ -1987,7 +1987,9 @@ CREATE TABLE "PreActivityCashAdvance" (
     "justification" TEXT,
     "evaluatedBy" INTEGER REFERENCES Account(idNumber),
     "status" SMALLINT REFERENCES "PreActivityCashAdvanceStatus"("id"),
-
+    "filename" TEXT,
+    "filenameToShow" TEXT,
+    
     PRIMARY KEY ("GOSMActivity", "submissionID", "sequence")
 );
 CREATE OR REPLACE FUNCTION "trigger_before_insert_PreActivityCashAdvance_sequence"()
