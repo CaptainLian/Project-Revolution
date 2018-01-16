@@ -89,6 +89,14 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			});
 
 			
+		},
+		saveAccount: (req, res) =>{
+			console.log(req.body)
+			res.json(1);
+		},
+		getInfo: (req, res) =>{
+			console.log(req.body);
+			res.json(1);	
 		}
 
 	};

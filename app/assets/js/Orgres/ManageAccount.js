@@ -1,4 +1,6 @@
-   $("select").select2();
+	   $("select").select2({
+	   	 placeholder: "LSCS - President"
+	   });
         $("#sub-pos").click(function(){
             var json = ($("#nestable").nestable('serialize'));
             $.ajax({
@@ -65,7 +67,7 @@
 	    	$("#idNumber").val('');
 	    	$("#inputEmail3").val('');
 	    	$("#basic-addon1").val('');
-
+	    	$("select").select2("val",'');
 
 	    	$("#edit-lastName").val('');
 	    	$("#edit-middleName").val('');
@@ -74,6 +76,7 @@
 	    	$("#edit-idNumber").val('');
 	    	$("#edit-inputEmail3").val('');
 	    	$("#edit-basic-addon1").val('');
+	    	
 	    
 	    }
 	    function edit(data){
@@ -105,23 +108,25 @@
 	    	var idNumber = $("#idNumber").val();
 	    	var email  = $("#inputEmail3").val();
 	    	var number = $("#basic-addon1").val();
-
+	    	var orgpos = $("#add-personInCharge").select2("val");
 	    	
 	    	$.ajax({
 	    		type: 'POST',
-	    		url:'#',
+	    		url:'/ORGRES/AJAX/SaveAccount',
 	    		data:{
 	    			lastName:lastName,
 	    			middleName: middleName,
 	    			givenName: givenName ,
 	    			idNumber: idNumber,
 	    			email:email,
-	    			number:number
+	    			number:number,
+	    			orgpos: orgpos
 	    		},
 	    		success:function(data){
 	    			$("#largeModal").modal("hide");
 	    			//data > 0
 	    			if(1){
+	    				var orgpos = $("#add-personInCharge").select2("val");
 	    				var com = givenName + ' ' + middleName +' '+ lastName;
 	    				$("#name").val(com);
 	    				
@@ -133,17 +138,21 @@
 				                            '<a class="remove"  data-toggle="tooltip" data-original-title="Remove"> '+
 				                                '<i class="fa fa-trash-o text-danger"></i> '+
 				                            '</a>';
-				    	
-				                	
+				        var active = '<span class="label label-success">Active</span>';
+				    	var pos = ''
+				        for (ctr = 0; ctr < orgpos.length; ctr++) {
+				        	pos += "<p>"+orgpos[ctr]+"</p>"
+				        }
 						var row = table.row.add( [
 				                		idNumber,
-				                		email,
-				                        com,
-				                		"+639"+number,
+				                		com,
+				                        pos,
+				                		active,
 				                    	actions                        
 				                	]).draw().node();
 						clear();
-						$(row).find("td:last").addClass("text-center");
+						$(row).addClass("text-center");
+
 
 
 	    			}else{
@@ -161,6 +170,7 @@
 	    });
 	    var editNode;
 	    $("table").on("click",'tbody td a i.fa-pencil',function(){
+	    	var thisNode = $(this)
 	    	var node = table.row($(this).closest("tr")).data();
 	    	editNode = $(this).closest("tr");
 	    	console.log(node);
@@ -168,9 +178,15 @@
 	    	//get DATA
 	    	$.ajax({
 	    		type:'POST',
-	    		url:'',
-	    		data:node[0],
+	    		url:'/ORGRES/AJAX/Info',
+	    		data:{id:node[0]},
 	    		success:function(data){
+	    			if(data.success){
+
+	    				table.row(thisNode).remove();
+	    			}else{
+
+	    			}
 	    			$("#edit-lastName").val();
 			    	$("#edit-middleName").val();
 			    	$("#edit-givenName").val();
@@ -178,7 +194,10 @@
 			    	$("#edit-idNumber").val();
 			    	$("#edit-inputEmail3").val();
 			    	$("#edit-basic-addon1").val();
+			    	$("#edit-personInCharge").select2("val",'');
 			    	$("#edit").modal("show");
+
+
 	    		}
 	    	});
 	    	
@@ -211,6 +230,8 @@
 	    	var idNumber = $("#edit-idNumber").val();
 	    	var email  = $("#edit-inputEmail3").val();
 	    	var number = $("#edit-basic-addon1").val();
+	    	
+
 
 	    	$.ajax({
 	    		type: 'POST',
