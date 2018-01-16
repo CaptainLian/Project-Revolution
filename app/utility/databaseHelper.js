@@ -36,8 +36,8 @@ databaseHelper.attachReturning = (query, returning) =>{
         query.returning(returning);
         return true;
     } else if(Array.isArray(returning)){
-        for(let index = returning.index; index--; ){
-            query.returning(returning[index]);
+        for (const item of returning){
+            query.returning(item);
         }
         return true;
     }

@@ -7,8 +7,6 @@
 module.exports = function(configuration, modules, database, queryFiles) {
     const squel = require('squel').useFlavour('postgres');
 
-
-
     let dbHelper = require('../utility/databaseHelper');
     const attachReturning = dbHelper.attachReturning;
     const attachFields = dbHelper.attachFields;
@@ -18,18 +16,15 @@ module.exports = function(configuration, modules, database, queryFiles) {
     const log_options = Object.create(null);
     log_options.from = 'Account-model';
     
+    const forge = require('../utility/forge-promise.js');
+
     const AccountModel = Object.create(null);
 
-    /*
-    AccountModel.aguy = (params, connection = database) => {
-
-    }
-    */
-
     const query_insert_account = queryFiles.account_insert;
+
     /**
-     * [insertAccount description]
-     * @method  insertAccount
+     * [createAccount description]
+     * @method  createAccount
      * @param  {Integer}         idNumber      [description]
      * @param  {String}          email         [description]
      * @param  {Integer}         type          [description]
@@ -44,7 +39,9 @@ module.exports = function(configuration, modules, database, queryFiles) {
      * @param  {[pg-task, pg-connection, pg-transaction] (Optional)}          connection    [description]
      * @returns {Promise} [description]
      */
-    AccountModel.insertAccount = (idNumber, email, type, password, firstname, middlename, lastname, contactNumber, publicKey, privateKey, returning, connection = database) => {
+    AccountModel.createAccount = (idNumber, email, type, password, firstname, middlename, lastname, contactNumber, returning, connection = database) => {
+        logger.debug('createAccount()', log_options);
+        
         let param = Object.create(null);
         param.idNumber = idNumber;
         param.email = email;
@@ -54,27 +51,42 @@ module.exports = function(configuration, modules, database, queryFiles) {
         param.middlename = middlename;
         param.lastname = lastname;
         param.contactNumber = contactNumber;
-        param.publicKey = publicKey;
-        param.privateKey = privateKey;
 
-        if (returning) {
-            let query = squel.insert()
-                .into('Account')
-                .set('idNumber', '${idNumber}')
-                .set('email', '${email}')
-                .set('type', '${type}')
-                .set('password', '${password}')
-                .set('firstname', '${firstname}')
-                .set('middlename', '${middlename}')
-                .set('lastname', '${lastname}')
-                .set('contactNumber', '${contactNumber}')
-                .set('publicKey', '${publicKey}')
-                .set('privateKey', '${privateKey}');
-            attachReturning(query, returning);
+        logger.debug(`Generating key pair\n\tParameters: bits: ${configuration.security.encryption.bits}, workers: ${configuration.security.encryption.web_workers_amount}`, log_options);
+        return forge.pki.rsa.generateKeyPair({
+            bits: configuration.security.encryption.bits,
+            workers: configuration.security.encryption.web_workers_amount
+        }).then(pair => {
+            pair[0] = forge.forge.pki.publicKeyToPem(pair.publicKey);
+            pair[1] = forge.forge.pki.privateKeyToPem(pair.privateKey);
+            logger.debug(`Public key: ${pair[0]}`, log_options);
+            logger.debug(`Private key: ${pair[1]}`, log_options);
+            param.publicKey = pair[0];
+            param.privateKey = pair[1];
 
-            return connection.one(query.toString(), param);
-        }
-        return connection.none(query_insert_account, param);
+            if (returning) {
+                logger.debug('Returning query', log_options);
+                let query = squel.insert()
+                    .into('Account')
+                    .set('idNumber', squel.str('${idNumber}'))
+                    .set('email', squel.str('${email}'))
+                    .set('type', squel.str('${type}'))
+                    .set('password', squel.str('${password}'))
+                    .set('firstname', squel.str('${firstname}'))
+                    .set('middlename', squel.str('${middlename}'))
+                    .set('lastname', squel.str('${lastname}'))
+                    .set('publicKey', squel.str('${publicKey}'))
+                    .set('privateKey', squel.str('${privateKey}'))
+                    .set('contactNumber', squel.str('${contactNumber}'))
+                attachReturning(query, returning);
+
+                query = query.toString();
+                logger.debug(`Executing query: ${query}`, log_options);
+                return connection.one(query, param);
+            }
+            logger.debug(`Non-returning query\nExecuting query: ${query_insert_account}`, log_options);
+            return connection.none(query_insert_account, param);
+        });
     };
 
 
@@ -87,6 +99,8 @@ module.exports = function(configuration, modules, database, queryFiles) {
      * @returns {Promise}  [description]
      */
     AccountModel.getAccountDetails = (idNumber, fields, connection = database) => {
+        logger.debug('getAccountDetails()', log_options);
+
         let param = Object.create(null);
         param.idNumber = idNumber;
 
@@ -99,6 +113,8 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
     const query_get_student_studentOrganizations = queryFiles.student_get_studentOrganizations;
     AccountModel.getStudentOrganizations = (idNumber, connection = database) => {
+        logger.debug('getStudentOrganizations()', log_options);
+
         const param = Object.create(null);
         param.idNumber = idNumber;
 
