@@ -6929,6 +6929,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 }
                 renderData.heads = heads;
                 renderData.gosmid = req.params.gosmid
+
                 return res.render('Org/CreatePubs', renderData);
             }).catch(error => {
                 return logger.error(`${error.message}: ${error.stack}`, log_options);
@@ -7068,8 +7069,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             pnpModel.getPubDetails(dbParam).then(data => {
                 console.log(data);
                 renderData.activity = data
+                if(req.body.create == 0){
+                    renderData.create =  1
+                }
                 console.log("TPYE");
-                console.log(req.body.type);
+                console.log(renderData.create);
                 if (req.body.type == 1) {
                     console.log("ONE TYPE");
                     res.render('section/PNP/approveModal', renderData);

@@ -60,7 +60,7 @@
                                     <p class="control-label">{{activity.comments}}</p>
                                 </div>
                                 {%endif%}
-                                {%if activity.status == 0 %}
+                                {%if activity.status == 0 and create !=1 %}
                                 
                                     <!-- <input type="hidden" name="_csrf" value="{{csrfToken}}"> -->
                                     <input type="hidden" name="pubsid" value="{{activity.apid}}">
@@ -97,7 +97,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    {%if activity.status==0%}
+                    {%if activity.status==0 and create !=1%}
                     <button  class="btn btn-info" type="submit">Submit</button>
                      </form>
                     {%endif%}
