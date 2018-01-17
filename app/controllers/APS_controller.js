@@ -643,7 +643,6 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         var osfField8 = 0;
                         var osfField9 = 0;
 
-
                         for (var i = 0; i < data[5].length; i++){
 
                             if(data[5][i].organizationID == organizationid){
@@ -1169,6 +1168,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
 
             }
+
 
             console.log('total grades are');
             console.log(renderData.totalGrade);
