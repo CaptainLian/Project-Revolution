@@ -1294,11 +1294,30 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.activity = activityID;
             renderData.projectedIncome = data[2];
             renderData.programDesign = data[3];
-            console.log("data[4]")
-            console.log(data[4])
+            console.log("data[6]")
+            console.log(data[6])
+            var newArray = [];
+            var obj = []
+
+            data[6].forEach(function(ctr){
+                console.log()
+                var bool=  true;
+                newArray.forEach(function(i){
+                    if(i == ctr.signatory){
+                        bool = false
+                    }
+                })
+                if(bool){
+                    newArray.push(ctr.signatory)
+                    obj.push(ctr)
+                }
+            })
+            
+            console.log("NEW ARRAY")
+            console.log(obj)
             renderData.projectHeads = data[4];
             renderData.attachment = data[5];
-            renderData.signatories = data[6];
+            renderData.signatories = obj;
             renderData.withExpense = data[0].expense;
             renderData.withRevenue = data[2].length >0;
             renderData.status = data[7];
