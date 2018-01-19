@@ -57,7 +57,6 @@ module.exports.pki.rsa.generateKeyPair = (parameters) => {
 	});
 };
 
-
 module.exports.md = Object.create(null);
 
 module.exports.md.sha512 = (text) => {

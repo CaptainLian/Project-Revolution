@@ -13,8 +13,8 @@ module.exports = function(configuration, application, modules, database, queryFi
      * const StudentAccountAccessControlMiddleware = {
      *     name: StudentAccount-AccessControl-Middleware',
      *     priority: HIGHEST
-     * }
      * @type {Object}
+     * }
      */
     const StudentAccountAccessControlMiddleware = Object.create(null);
     StudentAccountAccessControlMiddleware.name = 'StudentAccount-AccessControl-Middleware';
@@ -252,19 +252,6 @@ module.exports = function(configuration, application, modules, database, queryFi
 
                 sidebars[sidebars.length] = newSidebar;
             }
-
-            if(!hasSubmittedGOSM.exists && req.extra_data.user.accessibleFunctionalitiesList[0]){
-                logger.debug('CAN SUBMIT GOSM', log_options);
-                const newSidebar = Object.create(null);
-                newSidebar.name = 'Organization GOSM';
-                newSidebar.link = '/Organization/createGOSM';
-                newSidebar.icon = 'fa fa-comment-o';
-
-                sidebars[sidebars.length] = newSidebar;
-            }else{
-                logger.debug('CANNOT SUBMIT GOSM', log_options);
-            }
-
 
             if(req.extra_data.user.accessibleFunctionalitiesList['21'] || req.extra_data.user.accessibleFunctionalitiesList['18']){
                 logger.debug('CAN VIEW FINANCIAL DOCU', log_options);

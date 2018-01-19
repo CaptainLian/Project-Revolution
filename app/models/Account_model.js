@@ -7,10 +7,10 @@
 module.exports = function(configuration, modules, database, queryFiles) {
     const squel = require('squel').useFlavour('postgres');
 
-    let dbHelper = require('../utility/databaseHelper');
-    const attachReturning = dbHelper.attachReturning;
-    const attachFields = dbHelper.attachFields;
-    dbHelper = null;
+    const {attachReturning, attachFields} = (() => {
+        let debHelper = require('../utility/databaseHelper');
+        return {dbHelper.attachReturning, dbHelper.attachFields};
+    })();
 
     const logger = modules.logger;
     const log_options = Object.create(null);
@@ -77,7 +77,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
                     .set('lastname', squel.str('${lastname}'))
                     .set('publicKey', squel.str('${publicKey}'))
                     .set('privateKey', squel.str('${privateKey}'))
-                    .set('contactNumber', squel.str('${contactNumber}'))
+                    .set('contactNumber', squel.str('${contactNumber}'));
                 attachReturning(query, returning);
 
                 query = query.toString();
