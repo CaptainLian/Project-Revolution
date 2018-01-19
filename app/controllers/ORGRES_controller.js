@@ -1,5 +1,6 @@
 module.exports = function(configuration, modules, models, database, queryFiles){
-
+	const nodemailer = require('nodemailer');
+	var smtpTransport = require('nodemailer-smtp-transport');
 	const orgresModel = models.Orgres_model;
 
 
@@ -92,7 +93,38 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		},
 		saveAccount: (req, res) =>{
 			console.log(req.body)
-			res.json(1);
+			console.log("req.body")
+			
+			let transporter = nodemailer.createTransport({
+			    host: 'smtp.gmail.com',
+		        port: 465,
+		        secure: true,
+			    auth: {
+			        user:'dlsum.facultyattendance@gmail.com',
+			        pass:'01234567891011'
+			    }
+			});
+
+			let mailOptions = {
+		          from: '"Faculty Attendance" <dlsum.facultyattendance@gmail.com>', // sender address
+		          to: "neil_capistrano@dlsu.edu.ph", // list of receivers
+		          subject: "req.body.subject", // Subject line
+		          text: "req.body.body", // plain text body
+		          html: '<b>NodeJS Email Tutorial</b>' // html body
+		      };
+
+		    transporter.sendMail(	mailOptions, (error, info) => {
+		        if (error) {
+		            return console.log(error);
+		        }
+		        console.log('Message %s sent: %s', info.messageId, info.response);
+		              
+		    });
+			      
+          
+
+			 
+			// res.json(1);
 		},
 		getInfo: (req, res) =>{
 			console.log(req.body);
