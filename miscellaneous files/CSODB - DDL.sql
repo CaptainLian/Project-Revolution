@@ -527,31 +527,35 @@ CREATE TRIGGER before_update_Account
     EXECUTE PROCEDURE trigger_before_update_Account();
 
     /* Account Table Triggers End */
+
+    /* Account Notifications */
+DROP TABLE IF EXISTS "AccountNotificationStatus" CASCADE;
+CREATE TABLE "AccountNotificationStatus" (
+  "id" INTEGER,
+  "name" VARCHAR(45),
+  
+  PRIMARY KEY ("id")
+);
+INSERT INTO "AccountNotificationStatus"("id", "name")
+                                VALUES (   0, 'Sent/Unseen'),
+                                       (   1, 'Seen'),
+                                       (   2, 'Opened'),
+                                       (   3, 'Deleted');
+
 DROP TABLE IF EXISTS "AccountNotification" CASCADE;
 CREATE TABLE "AccountNotification" (
-  id SERIAL NOT NULL UNIQUE,
-  account INTEGER REFERENCES Account(idNumber),
-  sequence INTEGER NOT NULL DEFAULT -1,
-  date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  message TEXT,
+  "id" SERIAL NOT NULL UNIQUE,
+  "account" INTEGER REFERENCES Account(idNumber),
+  "sequence" INTEGER NOT NULL DEFAULT -1,
+  "date" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "message" TEXT,
 
-  PRIMARY KEY (account, sequence)
+  PRIMARY KEY ("account", "sequence")
 );
-CREATE OR REPLACE FUNCTION "trigger_before_insert_AccountNotification"()
-RETURNS trigger AS
-$trigger$
-    BEGIN
-        SELECT COALESCE(MAX(sequence) + 1,0) INTO NEW.sequence
-          FROM AccountNotification
-         WHERE account = NEW.account;
-
-         return NEW;
-    END;
-$trigger$ LANGUAGE plpgsql;
 CREATE TRIGGER "before_insert_AccountNotification"
     BEFORE INSERT ON "AccountNotification"
     FOR EACH ROW
-    EXECUTE PROCEDURE "trigger_before_insert_AccountNotification"();
+    EXECUTE PROCEDURE "trigger_before_insert_increment_sequence"('"AccountNotification"', 'an', 'an."account" = $1."account"');
 
 DROP TABLE IF EXISTS SchoolYear CASCADE;
 CREATE TABLE SchoolYear (
