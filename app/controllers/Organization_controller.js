@@ -1202,6 +1202,36 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             renderData.status = 1;
                             renderData.gosmid = req.params.id;
 
+                            if(data[2].isbriefcontextcomplete == false){
+                                var contextCompletionRate = 0;
+
+                                if (data[2].enp != null) {
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                }
+                                if (data[2].enmp != null) {
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                }
+                                if (data[2].venue != null) {
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                }
+                                if (data[2].facultyadviser != null) {
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                }
+                                if (data[2].isexpense != null) {
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                }
+                                if (data[2].context1 != null) {
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                }
+                                if (data[2].context2 != null) {
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                }
+                                if (data[2].context3 != null) {
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                }
+                                renderData.contextCompletionRate = contextCompletionRate;
+                            }
+
                             if(data[2].isattachmentscomplete == false){
                                 
                                 renderData.submitbutton = false;
@@ -1212,6 +1242,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                                 renderData.submitbutton = false;
                                 console.log("2aadasdasdasd");
+
 
                             }
                             else if(data[2].isexpensecomplete == false){
@@ -1284,6 +1315,36 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     renderData.gosmid = req.params.id;
                     console.log(renderData.gosmActivity);
                     console.log("KAHITANONGMESSAGE");
+
+                        if(data[2].isbriefcontextcomplete == false){
+                                var contextCompletionRate = 0;
+
+                                if (data[2].enp != null) {
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                }
+                                if (data[2].enmp != null) {
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                }
+                                if (data[2].venue != null) {
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                }
+                                if (data[2].facultyadviser != null) {
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                }
+                                if (data[2].isexpense != null) {
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                }
+                                if (data[2].context1 != null) {
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                }
+                                if (data[2].context2 != null) {
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                }
+                                if (data[2].context3 != null) {
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                }
+                                renderData.contextCompletionRate = contextCompletionRate;
+                            }
 
                     if(data[2].isattachmentscomplete == false){
                                 
@@ -1358,6 +1419,36 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     renderData.gosmid = req.params.id;
                     console.log(renderData.gosmActivity);
                     console.log("KAHITANONGMESSAGE");
+
+                        if(data[2].isbriefcontextcomplete == false){
+                                var contextCompletionRate = 0;
+
+                                if (data[2].enp != null) {
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                }
+                                if (data[2].enmp != null) {
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                }
+                                if (data[2].venue != null) {
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                }
+                                if (data[2].facultyadviser != null) {
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                }
+                                if (data[2].isexpense != null) {
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                }
+                                if (data[2].context1 != null) {
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                }
+                                if (data[2].context2 != null) {
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                }
+                                if (data[2].context3 != null) {
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                }
+                                renderData.contextCompletionRate = contextCompletionRate;
+                            }
 
                     if(data[2].isattachmentscomplete == false){
                                 
