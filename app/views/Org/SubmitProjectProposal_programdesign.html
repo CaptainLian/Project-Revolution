@@ -248,9 +248,7 @@
                     return false;
                 }
             }
-
-              
-                              
+     
 
           });
         id = {{programDesign.length +1}}
@@ -364,9 +362,10 @@
                 var ev = overlap[ctr]
                  var estart = new Date(ev.start);
                 var eend = new Date(ev.end);
-                console.log("EVENT")
-                console.log(ev)
-                console.log(start)
+                
+                // if (event.end >= overlap[ctr].start && event.start <= overlap[ctr].end){
+                //    pweds = false;
+                // }
                 if (
                     ( Math.round(start) > Math.round(estart) && Math.round(start) < Math.round(eend) )
                     ||
@@ -379,7 +378,7 @@
                   pweds = false;
                 }
               }
-              return pweds
+              return pweds;
           }
          function addEvent(data){
           var startInp = $("#inp-start").val();
@@ -400,7 +399,7 @@
                             
                             
                     }
-
+            
             if(startInp < endInp && checkOverlap(event)){
                     var dateInp = $("#inp-date").val();
                     
