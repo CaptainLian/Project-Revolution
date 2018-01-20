@@ -230,9 +230,6 @@ $(document).ready(function() {
 		    				
 					    	var actions  =      '<a  data-toggle="tooltip" data-original-title="Edit"> '+
 					                                '<i  class="fa fa-pencil text-inverse m-r-10"></i> '+
-					                            '</a>'+
-					                            '<a class="remove"  data-toggle="tooltip" data-original-title="Remove"> '+
-					                                '<i class="fa fa-trash-o text-danger"></i> '+
 					                            '</a>';
 					        
 					        var active = '<span class="label label-success">Active</span>';	
@@ -451,9 +448,6 @@ $(document).ready(function() {
 		    				
 					    	var actions  =      '<a  data-toggle="tooltip" data-original-title="Edit"> '+
 					                                '<i  class="fa fa-pencil text-inverse m-r-10"></i> '+
-					                            '</a>'+
-					                            '<a class="remove"  data-toggle="tooltip" data-original-title="Remove"> '+
-					                                '<i class="fa fa-trash-o text-danger"></i> '+
 					                            '</a>';
 					        if(status2 == 1){
 					        	var active = '<span class="label label-success">Active</span>';	
