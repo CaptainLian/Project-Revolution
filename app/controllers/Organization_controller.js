@@ -1644,7 +1644,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.buildings = data[3];
                 renderData.gosmactivity = dbParam;
                 renderData.status = req.params.status;
-
+                console.log(data[2])
                 return res.render('Org/SubmitProjectProposal_briefcontext', renderData);
             }).catch(error => {
                 logger.warning(`${error.message}\n${error.stack}`, log_options);

@@ -342,7 +342,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     'acc.lastname AS lastname'
                 ]),
                 // 4
-                projectProposalModel.getProjectProposalProjectHeads(activityID),
+                projectProposalModel.getProjectHeadsGOSM({gosmid:activityID}),
                 // 5
                 projectProposalModel.getLatestProjectProposalAttachment({projectId: activityID}),
                 // 6
@@ -368,7 +368,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.status = data[7];
             console.log(data[2].length > 0);
             console.log("REVENUE");
-            console.log(data[0].expense);
+            console.log(activityID);
             console.log("EXPENSE");
 
             console.log(data[0].status);

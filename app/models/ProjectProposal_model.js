@@ -251,7 +251,8 @@ module.exports = function(configuration, modules, db, queryFiles) {
             .from('ProjectProposal')
             .where('GOSMActivity = ${id}')
             .field('id'))
-        .order("pppd.date");
+        .order("pppd.date")
+        .order("pppd.sequence");
         this._attachFields(query, fields);
 
         query = query.toString();
