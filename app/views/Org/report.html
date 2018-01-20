@@ -107,11 +107,11 @@
         window.onscroll = function() {scrollFunction()};
         //aps grades
         //60 40 ratio
-        var academic
-        var nonAcademic
+        var academic = {{sixty}}
+        var nonAcademic = {{forty}}
         //push thrgouh ratio
-        var numPush
-        var numNotPush
+        var numPush = {{push}}
+        var numNotPush = {{notPush}}
         //activities summary
         var numAcademicContest
         var numDistribution
@@ -128,27 +128,27 @@
 
         //amt tab
         //logistics chart 
-        var venue
-        var equipment
+        var venue = {{amtAverageScores.venue}}
+        var equipment = {{amtAverageScores.equipment}}
 
         //activity process
-        var openingStart
-        var timeEnd
-        var activityExec
-        var Registration
+        var openingStart = {{amtAverageScores.timestart}}
+        var timeEnd = {{amtAverageScores.timeend}}
+        var activityExec = {{amtAverageScores.activityexecution}}
+        var Registration = {{amtAverageScores.registration}}
 
         //audience feedback
-        var Announcement
-        var Interaction
-        var expectation
-        var Awareness
+        var Announcement = {{amtAverageScores.personea}}
+        var Interaction = {{amtAverageScores.personiomwm}}
+        var expectation = {{amtAverageScores.personea}}
+        var Awareness = {{amtAverageScores.personiitskoa}}
 
         //programdesign
-        var Hosts
-        var Ushers
-        var Presentations
-        var activities
-        var standingPresentation
+        var Hosts = {{amtAverageScores.hosts}}
+        var Ushers = {{amtAverageScores.facilitators}}
+        var Presentations = {{amtAverageScores.presentation}}
+        var activities = {{amtAverageScores.activities}}
+        var standingPresentation = {{amtAverageScores.organizationstandingpresentation}}
 
         
         
@@ -1226,36 +1226,40 @@
                                         </div>
                                                 <table class="table table-striped" id="finTable">
                                                     <thead>
+                                                    
                                                         <tr>
-                                                            <th>As of</th><!--date approved-->
+                                                            <th>Date</th><!--date approved-->
                                                             <th>Activity</th>
                                                             <th>Process Type</th>
                                                             <th>Expense</th>
-                                                            <th>Income</th>
-                                                            <th>Balance</th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>9/18/2015</td> <!--date approved-->
-                                                            <td>Junior Officer Training</td>
-                                                            <td>Cash Advance</td>
-                                                            <td>2,659.25</td>
-                                                            <td>49,920.00</td>
-                                                            <td>383,190.37</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>9/18/2015</td> <!--date approved-->
-                                                            <td>Junior Officer Training</td>
-                                                            <td>Cash Advance</td>
-                                                            <td>2,659.25</td>
-                                                            <td>49,920.00</td>
-                                                            <td>383,190.37</td>
-                                                        </tr>
-                                                        <!-- amt grade ay average ng percentage ng lahat ng evaluated activity -->
-                                                        
-                                                    </tbody>
-                                                    <tfoot>
+
+                                                    {% set totalAmount = 0 %}
+
+                                                    {% for transaction in financeTransactions %}
+
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>{{transaction.datestart}}</td> <!--date approved-->
+                                                                <td>{{transaction.strategies}}</td>
+                                                                {% if transaction.transaction == 1 %}
+                                                                    <td>Cash Advance</td>
+                                                                {% elif transaction.transaction == 2 %}
+                                                                    <td>Direct Payment</td>
+                                                                {% else %}
+                                                                    <td>Book Transfer</td>
+                                                                {% endif %}
+                                                                <td>{{transaction.amount}}</td>
+                                                            </tr>
+                                                            
+                                                            <!-- amt grade ay average ng percentage ng lahat ng evaluated activity -->
+                                                            
+                                                        </tbody>
+
+                                                    {% endfor %}
+                                                    
+                                                    <!-- <tfoot>
                                                         <tr>
                                                             <td></td>
                                                             <td></td>
@@ -1264,7 +1268,7 @@
                                                             <td><strong>Organization Fund</strong></td>
                                                             <td><strong>383,190.37</strong></td>
                                                         </tr>
-                                                    </tfoot>
+                                                    </tfoot> -->
                                                 </table>
                                         
                                         </section>
