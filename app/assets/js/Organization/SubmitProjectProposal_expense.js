@@ -141,7 +141,10 @@ $(document).ready(function(){
             var clone = $("#clone").clone();
 
             clone.find("#item").prop("id",idCounter+1);
-            clone.find("#sel0").prop("id",idCounter+2);
+            clone.find("#sel0").prop("id",idCounter+2).val($("#sel0").val());
+            console.log("LOG IF VLAUE");
+            console.log($("#sel0").select2("data").text)
+            var text = $("#sel0").select2("data").text ;
             clone.find("#price").prop("id",idCounter+3);
             clone.find("#quantity").prop("id",idCounter+4);
             clone.find("#exp").remove();
@@ -187,7 +190,7 @@ $(document).ready(function(){
 
                     '<p>Quantity: ' + quantity + ' ' + 'pcs</p>' +
                     '<p>Price: ₱ ' + price + '</p>' +
-                    '<p>Type: ' + $("#sel0").select2("data").text + '</p>' +
+                    '<p>Type: ' + text + '</p>' +
 
                     '</span> ' +
                     '</span>' +
@@ -229,7 +232,7 @@ $(document).ready(function(){
 
                     '<p>Quantity: ' + quantity + ' ' + 'pcs</p>' +
                     '<p>Price: ₱ ' + price + '</p>' +
-                    '<p>Type: ' + $("#sel0").select2("data").text + '</p>' +
+                    '<p>Type: ' + text + '</p>' +
 
                     '</span> ' +
                     '</span>' +
