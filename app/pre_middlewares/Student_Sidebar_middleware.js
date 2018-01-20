@@ -13,8 +13,8 @@ module.exports = function(configuration, application, modules, database, queryFi
      * const StudentAccountAccessControlMiddleware = {
      *     name: StudentAccount-AccessControl-Middleware',
      *     priority: HIGHEST
-     * }
      * @type {Object}
+     * }
      */
     const StudentAccountAccessControlMiddleware = Object.create(null);
     StudentAccountAccessControlMiddleware.name = 'StudentAccount-AccessControl-Middleware';
@@ -85,17 +85,15 @@ module.exports = function(configuration, application, modules, database, queryFi
     Sidebar_data_attacher_middleware.name = 'Student extra_data sidebar attacher';
     Sidebar_data_attacher_middleware.priority = configuration.load_priority.HIGH;
     Sidebar_data_attacher_middleware.action = (req, res, next) => {
+        req.extra_data.system.sidebars = Object.create(null);
+        req.extra_data.system.sidebars.canAttach = false;
 
         if (!req.extra_data.view) {
-            req.extra_data.system.sidebars = Object.create(null);
-            req.extra_data.system.sidebars.canAttach = false;
             logger.debug(`Can attach sidebars: ${req.extra_data.system.sidebars.canAttach}, due to extra_data uninitialized`, log_options);
             return next();
         }
 
         if (!req.session.user) {
-            req.extra_data.system.sidebars = Object.create(null);
-            req.extra_data.system.sidebars.canAttach = false;
             logger.debug(`Can attach sidebars: ${req.extra_data.system.sidebars.canAttach}, due to session not existent`, log_options);
             return next();
         }
@@ -110,14 +108,10 @@ module.exports = function(configuration, application, modules, database, queryFi
         */
 
         if (req.method !== 'GET') {
-            req.extra_data.system.sidebars = Object.create(null);
-            req.extra_data.system.sidebars.canAttach = false;
             logger.debug(`Can attach sidebars: ${req.extra_data.system.sidebars.canAttach}, due to method not GET`, log_options);
             return next();
         }
 
-
-        req.extra_data.system.sidebars = Object.create(null);
         req.extra_data.system.sidebars.canAttach = true;
         logger.debug(`Can attach sidebars: ${req.extra_data.system.sidebars.canAttach}`, log_options);
         return next();
@@ -172,10 +166,10 @@ module.exports = function(configuration, application, modules, database, queryFi
                 if (accessibleSidebars[functionality]) {
                     for (const sidebar of accessibleSidebars[functionality]) {
                         sidebars[sidebars.length] = sidebar;
-                    }
-                }
-            }
-        }
+                    }//for
+                } //if (accessibleSidebars[functionality])
+            }// if (ACL)
+        }//for
 
         return next();
     };
@@ -253,19 +247,6 @@ module.exports = function(configuration, application, modules, database, queryFi
                 sidebars[sidebars.length] = newSidebar;
             }
 
-            if(!hasSubmittedGOSM.exists && req.extra_data.user.accessibleFunctionalitiesList[0]){
-                logger.debug('CAN SUBMIT GOSM', log_options);
-                const newSidebar = Object.create(null);
-                newSidebar.name = 'Organization GOSM';
-                newSidebar.link = '/Organization/createGOSM';
-                newSidebar.icon = 'fa fa-comment-o';
-
-                sidebars[sidebars.length] = newSidebar;
-            }else{
-                logger.debug('CANNOT SUBMIT GOSM', log_options);
-            }
-
-
             if(req.extra_data.user.accessibleFunctionalitiesList['21'] || req.extra_data.user.accessibleFunctionalitiesList['18']){
                 logger.debug('CAN VIEW FINANCIAL DOCU', log_options);
                 const newSidebar = Object.create(null);
@@ -283,7 +264,8 @@ module.exports = function(configuration, application, modules, database, queryFi
 
     };
 
-    return [StudentAccountAccessControlMiddleware,
+    return [
+        StudentAccountAccessControlMiddleware,
         Sidebar_data_attacher_middleware,
         Student_sidebar_checker,
         Sidebar_view_attacher_Middleware,

@@ -97,6 +97,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			console.log("req.body")
 			
 			let transporter = nodemailer.createTransport({
+
 			// service:'Gmail',
 		    host: 'smtp.gmail.com',
 	        port: 465,		     
@@ -111,6 +112,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		        user:'dlsum.facultyattendance@gmail.com',
 		        pass:'01234567891011'
 		    }
+
 			});
 
 			// transporter.verify(function(error, success) {
