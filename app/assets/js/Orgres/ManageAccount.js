@@ -1,4 +1,17 @@
-	   $("select").select2({
+$(document).ready(function() {
+		$("#acc-type").select2({
+			maximumSelectionSize: 1
+	   });
+		$("#edit-acc-type").select2({
+			maximumSelectionSize: 1
+	   });
+});
+
+	   $("#add-personInCharge").select2({
+	   	 placeholder: "LSCS - President"
+	   });
+
+	   $("#edit-personInCharge").select2({
 	   	 placeholder: "LSCS - President"
 	   });
         $("#sub-pos").click(function(){

@@ -166,6 +166,53 @@ module.exports = function(configuration, modules, database, queryFiles) {
         return connection.one(query.toString(), param);
     };
 
+
+    AccountModel.getOrganizationRoles = (fields,connection = database) => {
+        logger.debug('getOrganizationRoles()', log_options);
+
+        let param = Object.create(null);
+        
+
+        let query = squel.select()
+            .from('organizationrole','oro')
+            .field('oro.id','orid')
+            .field('oro.organization','oroorg')
+            .field('oro.name','oroname')
+            .field('oro.rank','ororank')
+            .left_join('studentorganization','so','so.id = oro.organization')
+            .field('so.id','soid')
+            .field('so.name','soname')
+            .field('so.acronym','soacro')
+            .order('oro.organization')
+            .order('oro.rank');
+        attachFields(query, fields);
+        return connection.many(query.toString(), param);
+    };
+    AccountModel.getAccountType = (fields, connection = database) => {
+        logger.debug('getAccountType()', log_options);
+
+        let param = Object.create(null);
+        
+
+        let query = squel.select()
+            .from('accounttype');
+            
+        attachFields(query, fields);
+        return connection.many(query.toString(), param);
+    };
+    // AccountModel.getOrg = (fields, connection = database) => {
+    //     logger.debug('getAccountType()', log_options);
+
+    //     let param = Object.create(null);
+        
+
+    //     let query = squel.select()
+    //         .from('studentorganization');
+            
+            
+    //     attachFields(query, fields);
+    //     return connection.many(query.toString(), param);
+    // };
     const query_get_student_studentOrganizations = queryFiles.student_get_studentOrganizations;
     AccountModel.getStudentOrganizations = (idNumber, connection = database) => {
         logger.debug('getStudentOrganizations()', log_options);

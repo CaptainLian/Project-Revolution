@@ -172,25 +172,46 @@
                         </div>
 
                         <div class="form-group row">
+                            <label for="acc-type" class="col-sm-2 control-label col-form-label">Account Type</label>
+                            <div class="col-sm-10">
+                                <select multiple="" name="acc-type" placeholder="" class="select" id="acc-type" >
+                                    {% for t in type%}
+                                        <option value="{{t.id}}">{{t.name}}</option>
+                                    {% endfor%}
+
+                                </select>
+                            </div>
+                           
+                        </div>
+
+                        <div class="form-group row">
                             <label for="inputEmail3" class="col-sm-2 control-label col-form-label">Org & Position</label>
                             <div class="col-sm-10">
                                   <select multiple=""  name="position" placeholder="" class="select" id="add-personInCharge" >
-                                    <optgroup label="MooMedia">
-                                        <option>MooMedia - President</option>
-                                        <option>MooMedia - Finance</option>
-                                    </optgroup>
-                                    <optgroup label="LSCS">
-                                        <option>LSCS - President</option>
-                                        <option>LSCS - Finance</option>
-                                    </optgroup>
-                                    <optgroup label="Tapat">
-                                        <option>Tapat - President</option>
-                                        <option>Tapat - Finance</option>
-                                    </optgroup>
-                                    <optgroup label="Santugon">
-                                        <option>Santugon - President</option>
-                                        <option>Santugon - Finance</option>
-                                    </optgroup>
+                                    {% for r in roles %}
+                                        {% if loop.first %}
+                                            <optgroup label="{{r.soname}}">
+                                            <option>{{r.soacro}} - {{r.oroname}}</option>
+                                        {% elif loop.last %}
+                                            </optgroup>
+                                            
+                                        {% elif roles[loop.index0].soacro != roles[(loop.index0)+1].soacro %}
+                                            <option>{{r.soacro}} - {{r.oroname}}</option>
+                                            </optgroup>
+                                            <optgroup label="{{roles[(loop.index)+1].soname}}">
+                                            
+                                        {% else%}
+                                            <option>{{r.soacro}} - {{r.oroname}}</option>
+                                        {% endif %}
+
+
+                                        
+                                        
+                                        
+                                    {% endfor%}
+                                    
+                                        
+ 
                                 </select>
                             </div>
                            
@@ -253,6 +274,18 @@
                             <div class="col-sm-10">
                                 <input type="email" class="form-control" id="edit-inputEmail3" placeholder="Email">
                             </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="acc-type" class="col-sm-2 control-label col-form-label">Account Type</label>
+                            <div class="col-sm-10">
+                                <select multiple="" name="edit-acc-type" placeholder="" class="select" id="edit-acc-type" >
+                                    {% for t in type%}
+                                        <option value="{{t.id}}">{{t.name}}</option>
+                                    {% endfor%}
+
+                                </select>
+                            </div>                           
                         </div>
 
                         <div class="form-group row">

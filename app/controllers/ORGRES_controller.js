@@ -10,7 +10,21 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
 			renderData.csrfToken = req.csrfToken();
-			return res.render('Orgres/ManageAccount', renderData);
+			database.task(task =>{
+				return task.batch([
+						accModel.getOrganizationRoles(),
+						accModel.getAccountType()
+						]);
+			}).then(data=>{
+				renderData.roles = data[0]
+				renderData.type = data[1]			
+				console.log(data[0]);
+				return res.render('Orgres/ManageAccount', renderData);
+			}).catch(err =>{
+				console.log("ERROR");
+				console.log(err);
+			})
+		
 		},
 		viewManageOrg: (req, res) => {
 			const renderData = Object.create(null);
