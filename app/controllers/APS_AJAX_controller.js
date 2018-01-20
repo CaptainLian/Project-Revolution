@@ -616,8 +616,6 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     projectProposalModel.updatePPRCompletion(updateParam)
                     .then(updata=>{
                         
-                       
-                        
                     }).catch(error=>{
                         console.log("ERROR 2")
                         console.log(error);

@@ -96,18 +96,18 @@ module.exports = function(configuration, modules, database, queryFiles) {
     
     /**
      * @method
-     * @param  {Integer}                                                       idNumber       [description]
-     * @param  {String}                                                        email          [description]
-     * @param  {Integer}                                                       type           [description]
-     * @param  {String}                                                        password       [description]
-     * @param  {String}                                                        firstname      [description]
-     * @param  {String}                                                        middlename     [description]
-     * @param  {String}                                                        lastname       [description]
-     * @param  {String}                                                        contactNumber  [description]
-     * @param  { Array(Objects {organizationID: Integer, roleID: Integer} )}   organizations  [An array of objects which have the properties "organizationID" and "roleID"]
-     * @returns  {pg-promise}                                                                 [description]
+     * @param  {Integer}          idNumber       [description]
+     * @param  {String}           email          [description]
+     * @param  {Integer}          type           [description]
+     * @param  {String}           password       [description]
+     * @param  {String}           firstname      [description]
+     * @param  {String}           middlename     [description]
+     * @param  {String}           lastname       [description]
+     * @param  {String}           contactNumber  [description]
+     * @param  { Array(Integer) } roles          [An array of roleIDs, check database table OrganizationRole]
+     * @returns  {pg-promise}                    [description]
      */
-    AccountModel.createStudentAccount = (idNumber, email, password, firstname, middlename, lastname, contactNumber, organizations, connection = database) => {
+    AccountModel.createStudentAccount = (idNumber, email, password, firstname, middlename, lastname, contactNumber, roles, connection = database) => {
         logger.debug('createStudentAccount()', log_options);
         return connection.tx(transaction => {
             AccountModel.createAccount(idNumber,
@@ -132,7 +132,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
                 query = query.toString();
                 logger.debug(`Executing batch query: ${query}`, log_options);
                 
-                for(const organization of organization){
+                for(const roleID of roles){
                     let param = Object.create(null);
                     param.idNumber = idNumber;
                     param.role = roleID;

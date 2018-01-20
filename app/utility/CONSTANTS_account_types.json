@@ -1,9 +1,9 @@
 {
-	             "Admin": 0,
-	           "Student": 1,
-	           "Faculty": 2,
-	     "SLifeDirector": 3,
+	"Admin"             : 0,
+	"Student"           : 1,
+	"Faculty"           : 2,
+	"SLifeDirector"     : 3,
 	"DeanStudentAffairs": 4,
-	     "VicePresident": 5,
-	         "President": 6
+	"VicePresident"     : 5,
+	"President"         : 6
 }
