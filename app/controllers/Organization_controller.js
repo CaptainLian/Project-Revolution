@@ -2783,7 +2783,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         if (typeof pictures == 'object') {
                             console.log(typeof pictures[Symbol.iterator]);
                             if (typeof pictures[Symbol.iterator] == 'function') {
-                                for (var ctr = 0; ctr < PICTURES.length; ctr++) {
+                                for (var ctr = 0; ctr < pictures.length; ctr++) {
                                     var orignalFileName = pictures[ctr].name;
                                     var ftype = path.extname(orignalFileName);
                                     console.log(ftype);
