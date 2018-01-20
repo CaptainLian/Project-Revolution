@@ -84,10 +84,11 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluatePublicityMaterial] = [{
 }];
 
 //Evaluate Post Project
-functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluatePostProject] = [{
-    name: 'Post Project',
-    link: '/ADM/Activity/List'
-}];
+//NOTE experimental code
+functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluatePostProject] = [constructSidebar(
+        'Post Project',
+        '/ADM/Activity/List'
+)];
 
 const accessibleRoutes = [];
 for(const functionality in functionalitySidebars){

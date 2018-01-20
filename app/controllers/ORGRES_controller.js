@@ -96,6 +96,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			console.log("req.body")
 			
 			let transporter = nodemailer.createTransport({
+				connectionTimeout: '7000',
 			    host: 'smtp.gmail.com',
 		        port: 465,
 		        secure: true,

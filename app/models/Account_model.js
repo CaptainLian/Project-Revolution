@@ -1,3 +1,4 @@
+
 'use strict';
 
 /**
@@ -6,10 +7,16 @@
  */
 module.exports = function(configuration, modules, database, queryFiles) {
     const squel = require('squel').useFlavour('postgres');
+    
+    const ACCOUNT_TYPES = require('../utility/CONSTANTS_account_types.json');
 
     const {attachReturning, attachFields} = (() => {
-        let debHelper = require('../utility/databaseHelper');
-        return {dbHelper.attachReturning, dbHelper.attachFields};
+        let dbHelper = require('../utility/databaseHelper');
+
+        let ret = Object.create(null);
+        ret.attachReturning = dbHelper.attachReturning;
+        ret.attachFields = dbHelper.attachFields;
+        return ret;
     })();
 
     const logger = modules.logger;
@@ -33,8 +40,6 @@ module.exports = function(configuration, modules, database, queryFiles) {
      * @param  {String}          middlename    [description]
      * @param  {String}          lastname      [description]
      * @param  {String}          contactNumber [description]
-     * @param  {String}          publicKey     [description]
-     * @param  {String}          privateKey    [description]
      * @param  {[String, Array(String)] (Optional)}                           returning     [description]
      * @param  {[pg-task, pg-connection, pg-transaction] (Optional)}          connection    [description]
      * @returns {Promise} [description]
@@ -88,7 +93,57 @@ module.exports = function(configuration, modules, database, queryFiles) {
             return connection.none(query_insert_account, param);
         });
     };
+    
+    /**
+     * @method
+     * @param  {Integer}                                                       idNumber       [description]
+     * @param  {String}                                                        email          [description]
+     * @param  {Integer}                                                       type           [description]
+     * @param  {String}                                                        password       [description]
+     * @param  {String}                                                        firstname      [description]
+     * @param  {String}                                                        middlename     [description]
+     * @param  {String}                                                        lastname       [description]
+     * @param  {String}                                                        contactNumber  [description]
+     * @param  { Array(Objects {organizationID: Integer, roleID: Integer} )}   organizations  [An array of objects which have the properties "organizationID" and "roleID"]
+     * @returns  {pg-promise}                                                                 [description]
+     */
+    AccountModel.createStudentAccount = (idNumber, email, password, firstname, middlename, lastname, contactNumber, organizations, connection = database) => {
+        logger.debug('createStudentAccount()', log_options);
+        return connection.tx(transaction => {
+            AccountModel.createAccount(idNumber,
+                email,
+                ACCOUNT_TYPES.Student,
+                password,
+                firstname,
+                middlename,
+                lastname,
+                contactNumber,
+                null,
+                transaction
+            )
+            .then(() => {
+                let queries = [];
+                let query = squel.insert()
+                    .into('OrganizationOfficer')
+                    .set('idNumber', squel.str('${idNumber}'))
+                    .set('role', squel.str('${roleID}'))
+                    .set('yearID', squel.str('system_get_current_term_id()'));
 
+                query = query.toString();
+                logger.debug(`Executing batch query: ${query}`, log_options);
+                
+                for(const organization of organization){
+                    let param = Object.create(null);
+                    param.idNumber = idNumber;
+                    param.role = roleID;
+
+                    queries[queries.length] = transaction.none(query, param);
+                }
+
+                return transaction.batch(queries);
+            });
+        });
+    };
 
     /**
      *
