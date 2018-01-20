@@ -977,13 +977,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         },
 
 
-        viewGOSMDetails: (req, res) => {
-            const renderData = Object.create(null);
-            console.log(req.param)
-            renderData.extra_data = req.extra_data;
-            return res.render('Org/gosmDetails');
+        // viewGOSMDetails: (req, res) => {
+        //     const renderData = Object.create(null);
+        //     console.log(req.param)
+        //     renderData.extra_data = req.extra_data;
+        //     return res.render('Org/gosmDetails');
 
-        },
+        // },
 
         viewNotInGosmList: (req, res) => {
             const renderData = Object.create(null);
@@ -1081,10 +1081,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         ])
                     ]);
                 }).catch(err => {
-                    return logger.warn(`Unhandled error: ${err.message}\n${err.stack} `, log_options);
+                    console.log(err)
+                    // return logger.warn(`Unhandled error: ${err.message}\n${err.stack} `, log_options);
                 });
             }).then(data => {
-                logger.debug(`${JSON.stringify(data[3])}`, log_options);
+                // logger.debug(`${JSON.stringify(data[3])}`, log_options);
                 const renderData = Object.create(null);
                 renderData.csrfToken = req.csrfToken();
                 renderData.extra_data = req.extra_data;
@@ -1113,24 +1114,20 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                         
                                         return el.idnumber == req.session.user.idNumber;
                                       }); 
-                console.log(data[2].length > 0)
+                // console.log(data[2].length > 0)
                 console.log("REVENUE")
                 console.log(renderData.isProjecthead)
                 console.log("EXPENSE")
 
                 renderData.resched = timediff(data[3][0].datestart, data[3][0].currdate, 'D').days
                 console.log("Date DIFF")
-                console.log(data[3].currdate)
+                // console.log(data[3].currdate)
                 console.log(renderData.resched)
                 console.log(renderData.attachment);
                 console.log("renderData.attachment");
                 return res.render('Org/viewActivityDetails', renderData);
             }).catch(err => {
-                logger.debug(`${err.message}\n${err.stack}`, log_options);
-                const renderData = Object.create(null);
-                renderData.csrfToken = req.csrfToken();
-                renderData.extra_data = req.extra_data;
-                return res.render('template/APS/NoActivityToCheck', renderData);
+               console.log(err)
             });
         },
 
