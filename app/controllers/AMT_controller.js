@@ -113,6 +113,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			activity:req.body.id,
 			idNumber:req.session.user.idNumber,
 			venue:req.body.vid,
+			status:1
 		};
 		console.log("dbParam");
 		console.log(dbParam);
