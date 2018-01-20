@@ -210,7 +210,7 @@
                   var $this = this;
                   $('#date').text(moment(calEvent.start).toString().substr(0,16))
                   $('#event-title').text(calEvent.title)
-                  $('#pos').text(calEvent.person.text)
+                  $('#pos').text(calEvent.person)
                   
                   $('#desc').text(calEvent.description)
                   $('#start-time').text(moment(calEvent.start).format('HH:mm'))
@@ -227,7 +227,7 @@
             /// deny overlap of event
                 var start = new Date(event.start);
                 var end = new Date(event.end);
-
+                console.log("DOMS MAY KASLANAN")
                 var overlap = $('#calendar').fullCalendar('clientEvents', function(ev) {
                     if( ev == event) {
                         return false;
@@ -359,22 +359,29 @@
               var pweds = true;
               console.log(start)
               var overlap = $('#calendar').fullCalendar('clientEvents');
+              console.log(overlap[0].start)
               for(var ctr = 0; ctr < overlap.length; ctr++){
                 var ev = overlap[ctr]
-                 var estart = new Date(ev.start);
-                var eend = new Date(ev.end);
-                console.log(start > estart)
+                 var estart = new Date(ev.start._i);
+                var eend =  new Date(ev.end._i);
+                console.log("estart")
+                console.log("ESTART: "+estart+"   EEND: "+eend)
+                console.log((start) >= (estart) && (start) <= (eend))
+                console.log("START: "+start+"   END: "+end)
+                console.log((start) >= (estart) && (start) <= (eend))
 
                 if (
-                    ( Math.round(start) > Math.round(estart) && Math.round(start) < Math.round(eend) )
+                    ( (start) > (estart) && (start) < (eend) )
                     ||
-                    ( Math.round(end) > Math.round(estart) && Math.round(end) < Math.round(eend) )
+
+                    ( (end) > (estart) && (end) < (eend) )
                     ||
-                    ( Math.round(start) < Math.round(estart) && Math.round(end) > Math.round(eend) )
+                    ( (start) < (estart) && (end) > (eend) )
                     ||
-                    ( Math.round(start) == Math.round(estart) && Math.round(end) == Math.round(eend) )
+                    ( (start) == (estart) && (end) == (eend) )
                     
                 ){
+                  console.log("NAGERROR")
                   pweds = false;
                 }
               }
