@@ -1,7 +1,8 @@
 module.exports = function(configuration, modules, models, database, queryFiles){
 	const nodemailer = require('nodemailer');
-	var smtpTransport = require('nodemailer-smtp-transport');
+	
 	const orgresModel = models.Orgres_model;
+	const accModel = models.Account_model;
 
 
 	return {
@@ -96,17 +97,31 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			console.log("req.body")
 			
 			let transporter = nodemailer.createTransport({
-			    host: 'smtp.gmail.com',
-		        port: 465,
-		        secure: true,
-			    auth: {
-			        user:'dlsum.facultyattendance@gmail.com',
-			        pass:'01234567891011'
-			    }
+			// service:'Gmail',
+		    host: 'smtp.gmail.com',
+	        port: 465,		     
+	        secure:true,  
+	        connectionTimeout : "10000",
+	        
+	     //    requireTLS:true,
+	     //    tls:{
+		    //     rejectUnauthorized:false
+		    // },
+		    auth: {
+		        user:'dlsum.facultyattendance@gmail.com',
+		        pass:'01234567891011'
+		    }
 			});
 
+			// transporter.verify(function(error, success) {
+			//    if (error) {
+			//         console.log(error);
+			//    } else {
+			//         console.log('Server is ready to take our messages');
+			//    }
+			// });
 			let mailOptions = {
-		          from: '"Faculty Attendance" <dlsum.facultyattendance@gmail.com>', // sender address
+		          from: 'dlsum.facultyattendance@gmail.com', // sender address
 		          to: "neil_capistrano@dlsu.edu.ph", // list of receivers
 		          subject: "req.body.subject", // Subject line
 		          text: "req.body.body", // plain text body
@@ -115,16 +130,16 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		    transporter.sendMail(	mailOptions, (error, info) => {
 		        if (error) {
-		            return console.log(error);
-		        }
-		        console.log('Message %s sent: %s', info.messageId, info.response);
-		              
+		        	console.log("IMAP2");
+		            console.log(error);
+		        }		        		             
 		    });
+		    // accModel.createAccount(req.body.idNumber, req.body.email, type, password, firstname, middlename, lastname, contactNumber, returning,)
 			      
           
 
 			 
-			// res.json(1);
+			res.json(1);
 		},
 		getInfo: (req, res) =>{
 			console.log(req.body);
