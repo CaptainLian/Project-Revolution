@@ -14,9 +14,6 @@ const formatter = function(options){
       colour =  '\x1b[41m';
       break;
     case 'warning':
-      colour =  '\x1b[43m';
-      break;
-    case 'warning':
     case 'warn':
       colour =  '\x1b[43m';
       break;

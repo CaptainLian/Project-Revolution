@@ -531,7 +531,7 @@ CREATE TRIGGER before_update_Account
     /* Account Notifications */
 DROP TABLE IF EXISTS "AccountNotificationStatus" CASCADE;
 CREATE TABLE "AccountNotificationStatus" (
-  "id" INTEGER,
+  "id" SMALLINT,
   "name" VARCHAR(45),
   
   PRIMARY KEY ("id")
@@ -547,9 +547,11 @@ CREATE TABLE "AccountNotification" (
   "id" SERIAL NOT NULL UNIQUE,
   "account" INTEGER REFERENCES Account(idNumber),
   "sequence" INTEGER NOT NULL DEFAULT -1,
+  "status" SMALLINT REFERENCES "AccountNotificationStatus"("id") DEFAULT 0,
   "date" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
   "message" TEXT,
-
+  "data" JSONB,
+  
   PRIMARY KEY ("account", "sequence")
 );
 CREATE TRIGGER "before_insert_AccountNotification"
