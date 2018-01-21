@@ -939,6 +939,31 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     renderData.orgresLeadershipGrade = orgresLeadershipGrade;
                     renderData.orgresGrade = orgresGrade;
 
+                    renderData.osfField1Average = osfField1Average;
+                    renderData.osfField2Average = osfField2Average;
+                    renderData.osfField3Average = osfField3Average;
+                    renderData.osfField4Average = osfField4Average;
+                    renderData.osfField5Average = osfField5Average;
+                    renderData.osfField6Average = osfField6Average;
+                    renderData.osfField7Average = osfField7Average;
+                    renderData.osfField8Average = osfField8Average;
+                    renderData.osfField9Average = osfField9Average;
+
+                    renderData.msfField1Average = msfField1Average;
+                    renderData.msfField2Average = msfField2Average;
+                    renderData.msfField3Average = msfField3Average;
+                    renderData.msfField4Average = msfField4Average;
+                    renderData.msfField5Average = msfField5Average;
+                    renderData.msfField6Average = msfField6Average;
+                    renderData.msfField7Average = msfField7Average;
+                    renderData.msfField8Average = msfField8Average;
+                    renderData.msfField9Average = msfField9Average;
+                    renderData.msfField10Average = msfField10Average;
+                    renderData.msfField11Average = msfField11Average;
+                    renderData.msfField12Average = msfField12Average;
+                    renderData.msfField13Average = msfField13Average;
+
+
                     //documentation info
                     renderData.sixtyCount = isRelatedToOrganizationCount;
                     renderData.fortyCount = preactsAllApprovedTotal;
