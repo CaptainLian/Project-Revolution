@@ -7,7 +7,7 @@
  */
 module.exports = function(configuration, modules, database, queryFiles) {
     const squel = require('squel').useFlavour('postgres');
-    
+
     const ACCOUNT_TYPES = require('../utility/CONSTANTS_account_types.json');
 
     const {attachReturning, attachFields} = (() => {
@@ -22,7 +22,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
     const logger = modules.logger;
     const log_options = Object.create(null);
     log_options.from = 'Account-model';
-    
+
     const forge = require('../utility/forge-promise.js');
 
     const AccountModel = Object.create(null);
@@ -46,7 +46,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
      */
     AccountModel.createAccount = (idNumber, email, type, password, firstname, middlename, lastname, contactNumber, returning, connection = database) => {
         logger.debug('createAccount()', log_options);
-        
+
         let param = Object.create(null);
         param.idNumber = idNumber;
         param.email = email;
@@ -89,11 +89,12 @@ module.exports = function(configuration, modules, database, queryFiles) {
                 logger.debug(`Executing query: ${query}`, log_options);
                 return connection.one(query, param);
             }
-            logger.debug(`Non-returning query\nExecuting query: ${query_insert_account}`, log_options);
+            logger.debug(`Non-returning query\nExecuting query: ${query_insert_account}\nParameters: ${JSON.stringify(param)}`, log_options);
+            logger.debug(`Parameters: ${JSON.stringify(param)}`,log_options);
             return connection.none(query_insert_account, param);
         });
     };
-    
+
     /**
      * @method
      * @param  {Integer}          idNumber       [description]
@@ -110,7 +111,8 @@ module.exports = function(configuration, modules, database, queryFiles) {
     AccountModel.createStudentAccount = (idNumber, email, password, firstname, middlename, lastname, contactNumber, roles, connection = database) => {
         logger.debug('createStudentAccount()', log_options);
         return connection.tx(transaction => {
-            AccountModel.createAccount(idNumber,
+            AccountModel.createAccount(
+                idNumber,
                 email,
                 ACCOUNT_TYPES.Student,
                 password,
@@ -122,25 +124,37 @@ module.exports = function(configuration, modules, database, queryFiles) {
                 transaction
             )
             .then(() => {
-                let queries = [];
+                let queries = null;
                 let query = squel.insert()
                     .into('OrganizationOfficer')
                     .set('idNumber', squel.str('${idNumber}'))
                     .set('role', squel.str('${roleID}'))
-                    .set('yearID', squel.str('system_get_current_term_id()'));
+                    .set('yearID', squel.str('system_get_current_year_id()'));
 
                 query = query.toString();
-                logger.debug(`Executing batch query: ${query}`, log_options);
-                
-                for(const roleID of roles){
-                    let param = Object.create(null);
-                    param.idNumber = idNumber;
-                    param.roleID = roleID;
+                if(Array.isArray(roles)){
+                    logger.debug(`Batch roles`,log_options);
+                    for(const roleID of roles){
+                        queries = [];
 
-                    queries[queries.length] = transaction.none(query, param);
+                        let param = Object.create(null);
+                        param.idNumber = idNumber;
+                        param.roleID = roleID;
+
+                        queries[queries.length] = transaction.none(query, param);
+
+                        return transaction.batch(queries);
+                    }
                 }
+                logger.debug(`Single roles\nExecuting query: ${query}`,log_options);
 
-                return transaction.batch(queries);
+                let param = Object.create(null);
+                param.idNumber = idNumber;
+                param.roleID = roles;
+
+                queries = [transaction.none(query, param)];
+
+                return queries;
             });
         });
     };
@@ -356,9 +370,29 @@ module.exports = function(configuration, modules, database, queryFiles) {
     AccountModel.isProjectHead = (idNumber, connection = database) => {
         logger.debug(`isProjectHead(idNumber: ${idNumber})`, log_options);
         logger.debug(isProjectHeadSQL, log_options);
-        return connection.one(isProjectHeadSQL, {
-            idNumber: idNumber
-        });
+
+        const param = Object.create(null);
+        param.idNumber = idNumber;
+
+        return connection.one(isProjectHeadSQL, param);
     };
+
+    const getNotifcationsSQL = queryFiles.account_get_notifications;
+    AccountModel.getNotifications = (idNumber, connection = database) => {
+        logger.debug(`getNotifications(idNumber: ${idNumber})`, log_options);
+        logger.debug(getNotifcationsSQL, log_options);
+
+        const param = Object.create(null);
+        param.idNumber = idNumber;
+
+        return connection.any(getNotifcationsSQL, param);
+    };
+
+    AccountModel.addNotification = (idNumber, connection = database) => {
+        //TODO implemented
+        logger.error('addNotification() - FUNCTION HAS NO IMPLEMENTATION YET', log_options);
+        return null;
+    };
+
     return AccountModel;
 };

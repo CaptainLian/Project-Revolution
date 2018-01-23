@@ -4,7 +4,7 @@
 {%block page_title%}CSO Activity Management System{%-endblock%}
 
 {%block style%}
-<link rel="icon" type="image/png" sizes="16x16" href="/plugins/images/cso.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/plugins/images/cso.png">
 {%endblock%}
 
 {%block defer_script%}
@@ -13,9 +13,9 @@
 {%block body%}
     <!-- .preloader -->
     {%block body_preloader%}
-    <div class="preloader">
-        <div class="cssload-speeding-wheel"></div>
-    </div>
+        <div class="preloader">
+            <div class="cssload-speeding-wheel"></div>
+        </div>
     {%endblock%}
     <!--- ./preloader -->
     <div id="wrapper">
@@ -176,7 +176,13 @@
 
             </div><!-- /.container-fluid -->
             <footer class="footer text-center">
-                {%block footer%}{%if(extra_data.footer)%}{{extra_data.footer}}{%else%}2017 © CSO Event Management brought to you by Elite Proletariats{%endif%}{%endblock%}
+                {%block footer%}
+                    {%if(extra_data.view.footer)%}
+                        {{extra_data.view.footer}}
+                    {%else%}
+                        2017 © CSO Event Management brought to you by Elite Proletariats
+                    {%endif%}
+                {%endblock%}
             </footer>
         </div>
         <!-- /#page-wrapper -->
