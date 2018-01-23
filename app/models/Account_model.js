@@ -110,7 +110,8 @@ module.exports = function(configuration, modules, database, queryFiles) {
     AccountModel.createStudentAccount = (idNumber, email, password, firstname, middlename, lastname, contactNumber, roles, connection = database) => {
         logger.debug('createStudentAccount()', log_options);
         return connection.tx(transaction => {
-            AccountModel.createAccount(idNumber,
+            AccountModel.createAccount(
+                idNumber,
                 email,
                 ACCOUNT_TYPES.Student,
                 password,
@@ -122,23 +123,33 @@ module.exports = function(configuration, modules, database, queryFiles) {
                 transaction
             )
             .then(() => {
-                let queries = [];
+                let queries = null;
                 let query = squel.insert()
                     .into('OrganizationOfficer')
                     .set('idNumber', squel.str('${idNumber}'))
                     .set('role', squel.str('${roleID}'))
                     .set('yearID', squel.str('system_get_current_term_id()'));
 
-                query = query.toString();
-                logger.debug(`Executing batch query: ${query}`, log_options);
+                if(Array.isArray(roles)){
+                    for(const roleID of roles){
+                        queries = [];
 
-                for(const roleID of roles){
+                        let param = Object.create(null);
+                        param.idNumber = idNumber;
+                        param.roleID = roleID;
+
+                        queries[queries.length] = transaction.none(query, param);
+                    }
+                }else{
                     let param = Object.create(null);
                     param.idNumber = idNumber;
-                    param.role = roleID;
+                    param.roleID = roles;
 
-                    queries[queries.length] = transaction.none(query, param);
+                    queries = [transaction.none(query, param)];
                 }
+                
+                query = query.toString();
+                logger.debug(`Executing batch query: ${query}`, log_options);
 
                 return transaction.batch(queries);
             });
