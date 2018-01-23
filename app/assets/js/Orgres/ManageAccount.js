@@ -1,9 +1,11 @@
 $(document).ready(function() {
 		$("#acc-type").select2({
-			maximumSelectionSize: 1
-	   });
+			maximumSelectionSize: 1,
+			placeholder: "Student"
+	   	});
 		$("#edit-acc-type").select2({
-			maximumSelectionSize: 1
+			maximumSelectionSize: 1,
+			placeholder: "Student"
 	   });
 });
 
@@ -122,7 +124,7 @@ $(document).ready(function() {
 	    	var email  = $("#inputEmail3").val();
 	    	var number = $("#basic-addon1").val();
 	    	var orgpos = $("#add-personInCharge").select2("val");
-	    	
+	    	var accType = $("#acc-type").select2("val");;
 	    	$.ajax({
 	    		type: 'POST',
 	    		url:'/ORGRES/AJAX/SaveAccount',
@@ -133,7 +135,8 @@ $(document).ready(function() {
 	    			idNumber: idNumber,
 	    			email:email,
 	    			number:number,
-	    			orgpos: orgpos
+	    			orgpos: orgpos,
+	    			accType:accType
 	    		},
 	    		success:function(data){
 	    			$("#largeModal").modal("hide");
@@ -243,7 +246,8 @@ $(document).ready(function() {
 	    	var idNumber = $("#edit-idNumber").val();
 	    	var email  = $("#edit-inputEmail3").val();
 	    	var number = $("#edit-basic-addon1").val();
-	    	
+	    	var orgpos = $("#edit-personInCharge").select2("val");;
+	    	var accType = $("#acc-type").select2("val");;
 
 
 	    	$.ajax({

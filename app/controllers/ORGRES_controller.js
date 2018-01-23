@@ -1,6 +1,6 @@
 module.exports = function(configuration, modules, models, database, queryFiles){
 	const nodemailer = require('nodemailer');
-	
+	var cuid = require('cuid');
 	const orgresModel = models.Orgres_model;
 	const accModel = models.Account_model;
 
@@ -108,34 +108,21 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		},
 		saveAccount: (req, res) =>{
 			console.log(req.body)
+			console.log(req.body['accType[]'] ==1)
+
 			console.log("req.body")
 			
-			let transporter = nodemailer.createTransport({
-
-			// service:'Gmail',
-		    host: 'smtp.gmail.com',
-	        port: 465,		     
-	        secure:true,  
-	        connectionTimeout : "10000",
-	        
-	     //    requireTLS:true,
-	     //    tls:{
-		    //     rejectUnauthorized:false
-		    // },
-		    auth: {
-		        user:'dlsum.facultyattendance@gmail.com',
-		        pass:'01234567891011'
-		    }
-
+			let transporter = nodemailer.createTransport({		
+			    host: 'smtp.gmail.com',
+		        port: 465,		     
+		        secure:true,  
+		        connectionTimeout : "10000",	    
+			    auth: {
+			        user:'dlsum.facultyattendance@gmail.com',
+			        pass:'01234567891011'
+			    }
 			});
 
-			// transporter.verify(function(error, success) {
-			//    if (error) {
-			//         console.log(error);
-			//    } else {
-			//         console.log('Server is ready to take our messages');
-			//    }
-			// });
 			let mailOptions = {
 		          from: 'dlsum.facultyattendance@gmail.com', // sender address
 		          to: "neil_capistrano@dlsu.edu.ph", // list of receivers
@@ -144,18 +131,31 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		          html: '<b>NodeJS Email Tutorial</b>' // html body
 		      };
 
-		    transporter.sendMail(	mailOptions, (error, info) => {
+		    transporter.sendMail(mailOptions, (error, info) => {
 		        if (error) {
 		        	console.log("IMAP2");
 		            console.log(error);
 		        }		        		             
 		    });
-		    // accModel.createAccount(req.body.idNumber, req.body.email, type, password, firstname, middlename, lastname, contactNumber, returning,)
-			      
-          
+		    var password = cuid();
+		    database.task(task=>{
+		    	if(req.body['accType[]'] == 1){
+		    		console.log("createStudentAccount");
+		    		return	accModel.createStudentAccount(req.body.idNumber, req.body.email, password, req.body.givenName, req.body.middleName, req.body.lastName, req.body.number, req.body['orgpos[]'], task)		    				
+		    	}else{
+		    		console.log("createAccount");
+		    		return accModel.createAccount(req.body.idNumber, req.body.email, req.body['accType[]'], password, req.body.givenName, req.body.middleName, req.body.lastName, req.body.number, task);
+		    	}
+		    	
+		    }).then(data =>{
+		    	res.json(1);
+		    }).catch(err=>{
+		    	console.log(err)
+		    	res.json(0);
+		    });
 
 			 
-			res.json(1);
+			
 		},
 		getInfo: (req, res) =>{
 			console.log(req.body);

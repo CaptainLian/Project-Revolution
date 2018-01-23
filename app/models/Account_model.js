@@ -135,7 +135,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
                 for(const roleID of roles){
                     let param = Object.create(null);
                     param.idNumber = idNumber;
-                    param.role = roleID;
+                    param.roleID = roleID;
 
                     queries[queries.length] = transaction.none(query, param);
                 }

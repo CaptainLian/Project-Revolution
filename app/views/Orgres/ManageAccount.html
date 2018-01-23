@@ -191,17 +191,17 @@
                                     {% for r in roles %}
                                         {% if loop.first %}
                                             <optgroup label="{{r.soname}}">
-                                            <option>{{r.soacro}} - {{r.oroname}}</option>
+                                            <option value="{{r.orid}}">{{r.soacro}} - {{r.oroname}}</option>
                                         {% elif loop.last %}
                                             </optgroup>
                                             
                                         {% elif roles[loop.index0].soacro != roles[(loop.index0)+1].soacro %}
-                                            <option>{{r.soacro}} - {{r.oroname}}</option>
+                                            <option value="{{r.orid}}">{{r.soacro}} - {{r.oroname}}</option>
                                             </optgroup>
                                             <optgroup label="{{roles[(loop.index)+1].soname}}">
                                             
                                         {% else%}
-                                            <option>{{r.soacro}} - {{r.oroname}}</option>
+                                            <option value="{{r.orid}}">{{r.soacro}} - {{r.oroname}}</option>
                                         {% endif %}
 
 
