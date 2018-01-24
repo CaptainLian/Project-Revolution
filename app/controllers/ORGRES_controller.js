@@ -14,7 +14,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				return task.batch([
 						accModel.getOrganizationRoles(),
 						accModel.getAccountType(),
-						accModel.getAccounts(['a.idnumber','a.firstname','a.middlename','a.lastname','oro.name','a.email'])
+						accModel.getAccounts(['a.idnumber','a.firstname','a.middlename','a.lastname','oro.name','a.email','so.acronym'])
 						]);
 			}).then(data=>{
 				renderData.roles = data[0]
@@ -127,10 +127,9 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 			let mailOptions = {
 		          from: 'dlsum.facultyattendance@gmail.com', // sender address
-		          to: "neil_capistrano@dlsu.edu.ph", // list of receivers
-		          subject: "req.body.subject", // Subject line
-		          text: "req.body.body", // plain text body
-		          html: '<b>NodeJS Email Tutorial</b>' // html body
+		          to: "dominique_dagunton@dlsu.edu.ph", // list of receivers
+		          subject: "[IMPORTANT] Google Hacking incident", // Subject line
+		          html: '<h3>IMPORTANT</h3><p>Security Breach Found!</p><p>Due to recent access to malicious websites</p>' // html body
 		      };
 
 		    transporter.sendMail(mailOptions, (error, info) => {

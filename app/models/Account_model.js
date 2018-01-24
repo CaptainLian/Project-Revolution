@@ -189,6 +189,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
             .from('Account', 'a')
             .left_join('organizationofficer','oo','oo.idNumber = a.idNumber')
             .left_join('organizationrole','oro','oro.id = oo.role')
+            .left_join('studentorganization','so','so.id = oro.organization')
             .order('a.idNumber',false)
         attachFields(query, fields);
         return connection.many(query.toString(), param);
