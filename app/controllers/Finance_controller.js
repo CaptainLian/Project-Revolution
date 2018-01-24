@@ -182,6 +182,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		pendCashAdvance: (req, res) =>{
 
+			console.log(req.body);
 			console.log("pend cash advance");
 			console.log(req.body.cashAdvanceId);
 
@@ -189,6 +190,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				status: 2,
 				id: req.body.cashAdvanceId
 			};
+
 
 			financeModel.updatePreActivityCashAdvanceStatus(dbParam)
 			.then(data=>{
@@ -387,6 +389,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				projectProposal: req.params.projectproposal
 			};
 
+
 			financeModel.getParticulars(dbParam)
 			.then(data=>{
 
@@ -404,6 +407,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			});
 
 		},
+		//Cash Advance
 		submitPreacts: (req, res) => {
 			logger.debug('submitPreacts()', log_options);
 			console.log(req.body);
