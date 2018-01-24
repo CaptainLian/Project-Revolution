@@ -8,6 +8,34 @@ $(document).ready(function() {
 			placeholder: "Student"
 	   });
 });
+		// FOOTABLE
+
+		$('#myTable').footable();
+		$('#myTable').change(function (e) {
+			e.preventDefault();
+			var pageSize = $(this).val();
+			$('#demo-foo-pagination').data('page-size', pageSize);
+			$('#demo-foo-pagination').trigger('footable_initialized');
+		});
+		$('#demo-input-search2').on('input', function (e) {
+			e.preventDefault();
+			addrow.trigger('footable_filter', {filter: $(this).val()});
+		});
+		var addrow = $('#myTable');
+		addrow.footable().on('click', '.delete-row-btn', function() {
+
+			//get the footable object
+			var footable = addrow.data('footable');
+
+			//get the row we are wanting to delete
+			var row = $(this).parents('tr:first');
+
+			//delete the row
+			footable.removeRow(row);
+		});
+		// END OF FOOTABLE
+
+
 
 	   $("#add-personInCharge").select2({
 	   	 placeholder: "LSCS - President"
@@ -97,23 +125,23 @@ $(document).ready(function() {
 	    function edit(data){
 
 	    }
-	    var table = $('#myTable').DataTable( {
-	            dom: 'Bfrtip',
-	            buttons: [
-	                {
-	                    text: 'Add Account',
-	                    action: function ( e, dt, node, config ) {
-	                        $("#largeModal").modal('show');
-	                    }
-	                },
-	                // {
-	                //     text: 'Position',
-	                //     action: function ( e, dt, node, config ) {
-	                //         $("#position-modal").modal('show');
-	                //     }
-	                // }
-	            ]
-	        } );
+	    // var table = $('#myTable').DataTable( {
+	    //         dom: 'Bfrtip',
+	    //         buttons: [
+	    //             {
+	    //                 text: 'Add Account',
+	    //                 action: function ( e, dt, node, config ) {
+	    //                     $("#largeModal").modal('show');
+	    //                 }
+	    //             },
+	    //             // {
+	    //             //     text: 'Position',
+	    //             //     action: function ( e, dt, node, config ) {
+	    //             //         $("#position-modal").modal('show');
+	    //             //     }
+	    //             // }
+	    //         ]
+	    //     } );
 	    $("#submit").click(function(){
             console.log("asd");
 	    	var lastName = $("#lastName").val();
@@ -186,10 +214,10 @@ $(document).ready(function() {
 	    });
 	    var editNode;
 	    $("table").on("click",'tbody td a i.fa-pencil',function(){
-	    	var thisNode = $(this)
-	    	var node = table.row($(this).closest("tr")).data();
-	    	editNode = $(this).closest("tr");
-	    	console.log(node);
+	    	// var thisNode = $(this)
+	    	// var node = table.row($(this).closest("tr")).data();
+	    	// editNode = $(this).closest("tr");
+	    	// console.log(node);
 	    	$("#editModal").modal("show");	
 	    	//get DATA
 	    	$.ajax({

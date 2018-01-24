@@ -13,12 +13,14 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			database.task(task =>{
 				return task.batch([
 						accModel.getOrganizationRoles(),
-						accModel.getAccountType()
+						accModel.getAccountType(),
+						accModel.getAccounts(['a.idnumber','a.firstname','a.middlename','a.lastname','oro.name','a.email'])
 						]);
 			}).then(data=>{
 				renderData.roles = data[0]
 				renderData.type = data[1]			
-				console.log(data[0]);
+				renderData.accounts = data[2]			
+				console.log(data[2]);
 				return res.render('Orgres/ManageAccount', renderData);
 			}).catch(err =>{
 				console.log("ERROR");

@@ -15,7 +15,8 @@
     {{tag.style('/plugins/bower_components/nestable/nestable.css')}}
     {{tag.style('https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css')}}
     {{tag.style('https://cdnjs.cloudflare.com/ajax/libs/nestable2/1.5.0/jquery.nestable.min.CSS')}}
-
+    <!-- FOOTABLE -->
+    {{tag.javascript('/plugins/bower_components/footable/css/footable.core.css', true)}}
     <!-- Menu CSS -->
     {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
     <!-- animation CSS -->
@@ -29,6 +30,7 @@
     {{tag.style('/css/custom.css')}}
     <!-- color CSS -->
     {{tag.style('/css/colors/default.css', id='theme')}}
+
 
 {%endblock%}
 
@@ -57,6 +59,9 @@
     <!--Style Switcher -->
     {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
 
+    
+    
+
     {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js', true)}}
     {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js', true)}}
     {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js', true)}}
@@ -68,6 +73,7 @@
     {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/nestable2/1.5.0/jquery.nestable.min.js', true)}}
     {{tag.javascript('/plugins/bower_components/custom-select/custom-select.min.js', true)}}
     {{tag.javascript('/plugins/bower_components/bootstrap-select/bootstrap-select.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/footable/js/footable.all.min.js', true)}}
 
     <!-- Page Scripts -->
     {{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
@@ -82,47 +88,107 @@
 			<h3 class="box-title m-b-0">Organizations</h3>
 			<p class="text-muted m-b-30">A table showing the list of organizations</p>
 			<div class="table-responsive">
-
-				<table id="myTable" class="table table-hover" role="grid" aria-describedby="myTable_info">
+                 
+				<table id="myTable" class="table toggle-circle table-hover  toggle-circle" role="grid" data-page-size="15" aria-describedby="myTable_info">
 					<thead>
 						<tr role="row">
-							<th class="sorting text-center" width="15%">ID #</th>
+							<th data-toggle="true" class="sorting text-center" width="15%">ID #</th>
 
 							<th class="sorting text-center" width="30%" >Name</th>
 
 
 							
-                            <th class="sorting text-center" width="20%">Position</th>
+                            <th data-hide="all" class="sorting text-center" width="20%">Position</th>
                             <th class="sorting text-center" width="20%">Status </th>
 							<th class="sorting text-center" width="15%">Actions</th>
 						</tr>
 					</thead>
+                     <div class="form-inline  ">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <button id="demo-btn-addrow" class="btn btn-outline btn-primary btn-sm"><i class="icon wb-plus" aria-hidden="true"></i>Add New Row</button> <small>New row will be added in last page.</small> 
+                                </div>
+                            </div>
+
+                            <div class=" col-sm-6  text-right m-b-20" style="padding-left: 280px">
+                                <div class="form-group" style="position: right">
+                                    <input id="demo-input-search2" type="text" placeholder="Search" class="form-control" autocomplete="off"> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 					<tbody> 
-						<tr>
-							<td class="text-center ">11425784</td>
-							<td class="text-center ">Neil Capistrano</td>
+                       
+                        {% for acc in accounts%}
+                            {% if loop.first %}
+                                <tr>
+                                    <td class="text-center ">{{acc.idnumber}}</td>
+                                    <td class="text-center ">{{ acc.firstname}}&nbsp{{ acc.middlename}}&nbsp{{ acc.lastname}}</td>
 
 
 
-							
-                            <td class="text-center ">
-                                <p class="">LSCS - President</p>
-                                <p class="">MooMedia - President</p>
-                            </td>
+                                    
+                                    <td class="text-center ">
+                                         <p class="">{{acc.name}}</p>
+                            {% elif loop.last %}
+                                    </td>
 
-                            <td class="text-center "><span class="label label-success">Active</span></td>
+                                    <td class="text-center "><span class="label label-success">Active</span></td>
 
-							<td class="text-center text-nowrap">                                                   
-								<a  data-toggle="tooltip" data-original-title="Edit"> 
-									<i  class="fa fa-pencil text-inverse m-r-10"></i> 
-								</a>
-								<a class="remove"  data-toggle="tooltip" data-original-title="Remove"> 
-									<i class="fa fa-trash-o text-danger"></i> 
-								</a>
-							</td>  
-						</tr>
+                                    <td class="text-center text-nowrap">                                                   
+                                        <a  data-toggle="tooltip" data-original-title="Edit"> 
+                                            <i  class="fa fa-pencil text-inverse m-r-10"></i> 
+                                        </a>
+                                        <a class="remove"  data-toggle="tooltip" data-original-title="Remove"> 
+                                            <i class="fa fa-trash-o text-danger"></i> 
+                                        </a>
+                                    </td>  
+                                </tr>
+                                
+                            {% elif accounts[loop.index0].idnumber != accounts[(loop.index0)+1].idnumber %}
+                                        <p class="">{{acc.name}}</p>
+                                    </td>
+
+                                    <td class="text-center "><span class="label label-success">Active</span></td>
+
+                                    <td class="text-center text-nowrap">                                                   
+                                        <a  data-toggle="tooltip" data-original-title="Edit"> 
+                                            <i  class="fa fa-pencil text-inverse m-r-10"></i> 
+                                        </a>
+                                        <a class="remove"  data-toggle="tooltip" data-original-title="Remove"> 
+                                            <i class="fa fa-trash-o text-danger"></i> 
+                                        </a>
+                                    </td>  
+                                </tr>
+                                 <tr>
+                                    <td class="text-center ">{{accounts[(loop.index0)+1].idnumber}}</td>
+                                    <td class="text-center ">{{ accounts[(loop.index0)+1].firstname}}&nbsp{{ accounts[(loop.index0)+1].middlename}}&nbsp{{ accounts[(loop.index0)+1].lastname}}</td>
+
+
+
+                                    
+                                    <td class="text-center ">
+                                         <p class="">{{accounts[(loop.index0)+1].name}}</p>
+                                
+                            {% else%}
+                                <p class="">{{acc.name}}</p>
+                            {% endif %}
+                           
+                              
+                        {% endfor%}
+						 
 
 					</tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="5">
+                                <div class="text-right">
+                                    <ul class="pagination pagination-split m-t-30"> </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    </tfoot>
 				</table>
 			</div>
 		</div>
