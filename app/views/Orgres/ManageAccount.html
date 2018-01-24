@@ -16,7 +16,7 @@
     {{tag.style('https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css')}}
     {{tag.style('https://cdnjs.cloudflare.com/ajax/libs/nestable2/1.5.0/jquery.nestable.min.CSS')}}
     <!-- FOOTABLE -->
-    {{tag.javascript('/plugins/bower_components/footable/css/footable.core.css', true)}}
+    
     <!-- Menu CSS -->
     {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
     <!-- animation CSS -->
@@ -30,7 +30,11 @@
     {{tag.style('/css/custom.css')}}
     <!-- color CSS -->
     {{tag.style('/css/colors/default.css', id='theme')}}
-
+    <!-- <style type="text/css">
+        .footable-detail-show{
+        background-color: #F7FAFC
+        }
+    </style> -->
 
 {%endblock%}
 
@@ -89,7 +93,7 @@
 			<p class="text-muted m-b-30">A table showing the list of organizations</p>
 			<div class="table-responsive">
                  
-				<table id="myTable" class="table toggle-circle table-hover  toggle-circle" role="grid" data-page-size="15" aria-describedby="myTable_info">
+				<table id="myTable" class="table toggle-circle table-hover  toggle-circle" role="grid" data-page-size="10" aria-describedby="myTable_info">
 					<thead>
 						<tr role="row">
 							<th data-toggle="true" class="sorting text-center" width="15%">ID #</th>
@@ -107,11 +111,11 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <button id="demo-btn-addrow" class="btn btn-outline btn-primary btn-sm"><i class="icon wb-plus" aria-hidden="true"></i>Add New Row</button> <small>New row will be added in last page.</small> 
+                                    <button id="demo-btn-addrow" class="btn btn-outline btn-primary btn-sm"><i class="icon wb-plus" aria-hidden="true"></i>Add Account</button> <small>New row will be added in last page.</small> 
                                 </div>
                             </div>
 
-                            <div class=" col-sm-6  text-right m-b-20" style="padding-left: 280px">
+                            <div class=" col-sm-6  text-right m-b-20" id="pad" style="padding-left: 340px">
                                 <div class="form-group" style="position: right">
                                     <input id="demo-input-search2" type="text" placeholder="Search" class="form-control" autocomplete="off"> 
                                 </div>

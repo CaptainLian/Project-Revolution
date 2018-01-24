@@ -7,7 +7,10 @@ $(document).ready(function() {
 			maximumSelectionSize: 1,
 			placeholder: "Student"
 	   });
+		
 });
+		// var padding = ($(".form-inline").width() - $(".form-inline .row").width() - 130) + 'px';
+		// $("#pad").css("padding-left",padding)
 		// FOOTABLE
 
 		$('#myTable').footable();
@@ -125,6 +128,9 @@ $(document).ready(function() {
 	    function edit(data){
 
 	    }
+	    $("#demo-btn-addrow").click(function(){
+	    	$("#largeModal").modal('show');
+	    })
 	    // var table = $('#myTable').DataTable( {
 	    //         dom: 'Bfrtip',
 	    //         buttons: [
@@ -170,8 +176,11 @@ $(document).ready(function() {
 	    			$("#largeModal").modal("hide");
 	    			//data > 0
 	    			if(1){
+	    				var first = "<td>"+idNumber+"</td>";
+
 	    				var orgpos = $("#add-personInCharge").select2("val");
 	    				var com = givenName + ' ' + middleName +' '+ lastName;
+	    				var second = "<td>"+com+"</td>";
 	    				$("#name").val(com);
 	    				
 	    				$("#right").fadeIn("fast").delay(5000).fadeOut("slow");    
@@ -187,15 +196,23 @@ $(document).ready(function() {
 				        for (ctr = 0; ctr < orgpos.length; ctr++) {
 				        	pos += "<p>"+orgpos[ctr]+"</p>"
 				        }
-						var row = table.row.add( [
-				                		idNumber,
-				                		com,
-				                        pos,
-				                		active,
-				                    	actions                        
-				                	]).draw().node();
+				        var third = "<td>"+pos+"</td>";
+				        var fourth = "<td>"+active+"</td>";
+				        var fifth = "<td>"+actions+"</td>";
+						// var row = table.row.add( [
+				  //               		idNumber,
+				  //               		com,
+				  //                       pos,
+				  //               		active,
+				  //                   	actions                        
+				  //               	]).draw().node();
+				  		var newRow = "<tr class='text-center'>"+first+second+third+fourth+fifth+"</tr>";
+						var footable = addrow.data('footable');
+						$("#myTable").append(newRow);
+						$("#myTable").trigger('footable_initialize');
+
 						clear();
-						$(row).addClass("text-center");
+						// $(row).addClass("text-center");
 
 
 
