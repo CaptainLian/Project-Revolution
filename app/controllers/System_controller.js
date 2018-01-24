@@ -50,7 +50,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     };
 
     SystemController.logout = (req, res) => {
-        req.session.user = undefined;
+        req.session.user = null;
         return req.session.destroy((err) => {
             if(err)
                 logger.warn(`${err.message}\n${err.stack}`, log_options);
@@ -239,8 +239,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         logger.debug(req.session, log_options);
         //let fullname = req.session.user.name.first + " " + req.session.user.name.middle + " " + req.session.user.name.last;
 
-        accountModel.getAccountDetails(11445955, 'privateKey')
-            .then(data => {
+        accountModel.getAccountDetails(11445955, 'privateKey').then(data => {
                 let sampleDocument = {
                     Length: 500,
                     size: 5100,

@@ -10,6 +10,8 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
     const ACCOUNT_TYPES = require('../utility/CONSTANTS_account_types.json');
 
+    const JSON_STRINGIFY = require('json-stable-stringify');
+
     const {attachReturning, attachFields} = (() => {
         let dbHelper = require('../utility/databaseHelper');
 
@@ -124,18 +126,17 @@ module.exports = function(configuration, modules, database, queryFiles) {
                 transaction
             )
             .then(() => {
-                let queries = null;
                 let query = squel.insert()
                     .into('OrganizationOfficer')
                     .set('idNumber', squel.str('${idNumber}'))
                     .set('role', squel.str('${roleID}'))
-                    .set('yearID', squel.str('system_get_current_year_id()'));
+                    .set('yearID', squel.str('system_get_current_year_id()'))
+                    .toString();
 
-                query = query.toString();
                 if(Array.isArray(roles)){
-                    logger.debug(`Batch roles`,log_options);
+                    logger.debug(`Batch roles\nExecuting query: ${query}`,log_options);
                     for(const roleID of roles){
-                        queries = [];
+                        let queries = [];
 
                         let param = Object.create(null);
                         param.idNumber = idNumber;
@@ -146,15 +147,14 @@ module.exports = function(configuration, modules, database, queryFiles) {
                         return transaction.batch(queries);
                     }
                 }
+
                 logger.debug(`Single roles\nExecuting query: ${query}`,log_options);
 
                 let param = Object.create(null);
                 param.idNumber = idNumber;
                 param.roleID = roles;
 
-                queries = [transaction.none(query, param)];
-
-                return queries;
+                return transaction.none(query, param);
             });
         });
     };
@@ -185,7 +185,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
         logger.debug('getOrganizationRoles()', log_options);
 
         let param = Object.create(null);
-        
+
 
         let query = squel.select()
             .from('organizationrole','oro')
@@ -206,11 +206,11 @@ module.exports = function(configuration, modules, database, queryFiles) {
         logger.debug('getAccountType()', log_options);
 
         let param = Object.create(null);
-        
+
 
         let query = squel.select()
             .from('accounttype');
-            
+
         attachFields(query, fields);
         return connection.many(query.toString(), param);
     };
@@ -218,12 +218,12 @@ module.exports = function(configuration, modules, database, queryFiles) {
     //     logger.debug('getAccountType()', log_options);
 
     //     let param = Object.create(null);
-        
+
 
     //     let query = squel.select()
     //         .from('studentorganization');
-            
-            
+
+
     //     attachFields(query, fields);
     //     return connection.many(query.toString(), param);
     // };
@@ -380,7 +380,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
     const getNotifcationsSQL = queryFiles.account_get_notifications;
     AccountModel.getNotifications = (idNumber, connection = database) => {
         logger.debug(`getNotifications(idNumber: ${idNumber})`, log_options);
-        logger.debug(getNotifcationsSQL, log_options);
+        logger.debug(`Executing query: ${getNotifcationsSQL}`, log_options);
 
         const param = Object.create(null);
         param.idNumber = idNumber;
@@ -388,10 +388,40 @@ module.exports = function(configuration, modules, database, queryFiles) {
         return connection.any(getNotifcationsSQL, param);
     };
 
-    AccountModel.addNotification = (idNumber, connection = database) => {
-        //TODO implemented
-        logger.error('addNotification() - FUNCTION HAS NO IMPLEMENTATION YET', log_options);
-        return null;
+    /**
+     * [addNotification description]
+     * @param {Integer} idNumber             [description]
+     * @param {String} title                 [description]
+     * @param {String} description           [description]
+     * @param {Object} details               An object to be JSON string
+     * @param {pg-connection} connection [description]
+     */
+    AccountModel.addNotification = (idNumber, title, description, details, returning, connection = database) => {
+        logger.debug('addNotification()', log_options);
+
+        let param = Object.create(null);
+        param.idNumber = idNumber;
+        param.title = title;
+        param.description = description;
+        param.details = typeof details === 'object' ? JSON_STRINGIFY(details) : details;
+
+        let query = squel.insert()
+        .into('"AccountNotification"')
+        .set('"account"', squel.str('{idNumber}'))
+        .set('"title"', squel.str('{title}'))
+        .set('"description"', squel.str('{description}'))
+        .set('"details"', squel.str('{details}'));
+
+        let execute = connection.none;
+        if(returning){
+            attachReturning(query, returning);
+            execute = connection.one;
+            logger.debug('Returning query', log_options);
+        }
+
+        query = query.toString();
+        logger.debug(`Executing query: ${query}`, log_options);
+        return execute(query, param);
     };
 
     return AccountModel;

@@ -1,6 +1,6 @@
 'use strict';
 module.exports = function(configuration, application, modules, database, queryFiles, models) {
-
+    const accountModel = models.Account_model;
 
     const logger = modules.logger;
     const log_options = {
@@ -18,7 +18,15 @@ module.exports = function(configuration, application, modules, database, queryFi
     NotificationAttacher.name = 'Account Notification Attacher';
     NotificationAttacher.priority = configuration.load_priority.LOW;
     NotificationAttacher.action = (req, res, next) => {
-        return next();
+        const user = req.session.user;
+        if(req.method !== 'GET' || !user)
+            return next();
+        logger.debug('Attaching notifications', log_options);
+
+        accountModel.getNotifications(user.idNumber).then(notifications => {
+            req.extra_data.view.navbar.notifications = notifications;
+            return next();
+        });
     };
 
     return [NotificationAttacher];

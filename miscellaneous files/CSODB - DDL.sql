@@ -83,8 +83,8 @@ $function$
     DECLARE
         yearID INTEGER;
     BEGIN
-        SELECT schoolYearID INTO yearID
-          FROM Term
+        SELECT id INTO yearID
+          FROM SchoolYear
          WHERE CURRENT_DATE >= dateStart
            AND CURRENT_DATE <= dateEnd;
 
@@ -475,11 +475,24 @@ VALUES (0, 'Admin'),
        (5, 'Vice President for Lasallian Mission'),
        (6, 'President');
 
+DROP TABLE IF EXISTS "AccountStatus" CASCADE;
+CREATE TABLE "AccountStatus" (
+    "id" SMALLINT,
+    "name" VARCHAR(45) NOT NULL,
+
+    PRIMARY KEY("id")
+);
+INSERT INTO "AccountStatus" ("id", "name")
+                     VALUES (   0, 'Active'),
+                            (   1, 'Disabled si Neil'),
+                            (   2, 'Deleted');
+
 DROP TABLE IF EXISTS Account CASCADE;
 CREATE TABLE Account (
     idNumber INTEGER,
     email VARCHAR(255) NULL UNIQUE,
     type SMALLINT REFERENCES AccountType(id) DEFAULT 1,
+    status SMALLINT REFERENCES "AccountStatus"("id") DEFAULT 0,
     password CHAR(60) NOT NULL,
     salt CHAR(29),
     firstname VARCHAR(45),
@@ -549,8 +562,9 @@ CREATE TABLE "AccountNotification" (
   "sequence" INTEGER NOT NULL DEFAULT -1,
   "status" SMALLINT REFERENCES "AccountNotificationStatus"("id") DEFAULT 0,
   "date" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  "message" TEXT,
-  "data" JSONB,
+  "title" TEXT,
+  "description" TEXT,
+  "details" JSON,
   
   PRIMARY KEY ("account", "sequence")
 );
@@ -562,9 +576,11 @@ CREATE TRIGGER "before_insert_AccountNotification"
 DROP TABLE IF EXISTS SchoolYear CASCADE;
 CREATE TABLE SchoolYear (
     id INTEGER UNIQUE,
-    startYear INTEGER,
-    endYear INTEGER,
-
+    startYear SMALLINT,
+    endYear SMALLINT,
+    dateStart DATE NOT NULL,
+    dateEnd DATE NOT NULL,
+    
     PRIMARY KEY (startYear, endYear),
     CONSTRAINT start_end_year_value CHECK(startYear < endYear)
 );
@@ -606,35 +622,6 @@ CREATE TRIGGER before_insert_Term
     BEFORE INSERT ON Term
     FOR EACH ROW
     EXECUTE PROCEDURE trigger_before_insert_Term();
-
-/* REFERENCE TABLES DATA */
-/* 2015 - 2016 */
-INSERT INTO SchoolYear(startYear, endYear)
-               VALUES (2015, 2016);
-INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
-          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2015 AND endYear = 2016), 1, '2015-08-24', '2015-12-08');
-INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
-          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2015 AND endYear = 2016), 2, '2016-01-06', '2016-04-16');
-INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
-          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2015 AND endYear = 2016), 3, '2016-05-23', '2016-08-27');
-/* 2016 - 2017 */
-INSERT INTO SchoolYear(id, startYear, endYear)
-               VALUES (2, 2016, 2017);
-INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
-          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2016 AND endYear = 2017), 1, '2016-09-12', '2016-12-17');
-INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
-          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2016 AND endYear = 2017), 2, '2016-01-04', '2016-04-11');
-INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
-          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2016 AND endYear = 2017), 3, '2017-05-15', '2017-08-19');
-/* 2017 - 2018 */
-INSERT INTO SchoolYear(id, startYear, endYear)
-               VALUES (3, 2017, 2018);
-INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
-          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2017 AND endYear = 2018), 1, '2017-09-11', '2017-12-16');
-INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
-          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2017 AND endYear = 2018), 2, '2018-01-08', '2018-04-21');
-INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
-          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2017 AND endYear = 2018), 3, '2018-05-24', '2018-08-28');
 
 DROP TABLE IF EXISTS College CASCADE;
 CREATE TABLE College (
@@ -959,7 +946,7 @@ DROP TABLE IF EXISTS OrganizationOfficer CASCADE;
 CREATE TABLE OrganizationOfficer (
 	idNumber INTEGER REFERENCES Account(idNumber),
 	role INTEGER REFERENCES OrganizationRole(id),
-	yearID INTEGER,
+	yearID INTEGER REFERENCES SchoolYear(id),
 	dateAssigned TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
 
 	PRIMARY KEY(idNumber, role, yearID)

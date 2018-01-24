@@ -19,7 +19,10 @@ module.exports = function(configuration, application, modules, database, queryFi
             'Capital is reckless of the health or length of life of the laborer, unless under compulsion from society. ― Karl Marx',
             'The first requisite for the happiness of the people is the abolition of religion. ― Karl Marx',
             'The first duty of a man is to think for himself ― José Martí',
-            'When I give food to the poor, they call me a saint. When I ask why the poor have no food, they call me a communist. ― Hélder Câmara'
+            'When I give food to the poor, they call me a saint. When I ask why the poor have no food, they call me a communist. ― Hélder Câmara',
+            'From each according to his ability, to each according to his needs ― Karl Marx',
+            'Communism is the riddle of history solved, and it knows itself to be this solution ― Karl Marx',
+            'The worker therefore only feels himself outside his work, and in his work feels outside himself ― Karl Marx'
         ];
 
         const FooterAttacher = Object.create(null);
