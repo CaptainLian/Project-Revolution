@@ -7,7 +7,58 @@ $(document).ready(function() {
 			maximumSelectionSize: 1,
 			placeholder: "Student"
 	   });
+
+		
 });
+
+		// $("#add-personInCharge, #edit-personInCharge").css('visibility','hidden');
+		// $("#acc-type,#edit-acc-type").change(function(){
+		// 	console.log("BEFORe PUMASOK")
+		// 	console.log($(this).select2('val'))
+			
+		// 	if($(this).select2('val') == 1 ){
+		// 		console.log("PUMASOK")
+		// 		$("#add-personInCharge, #edit-personInCharge").css('visibility','visible');
+		// 		// $("#acc-type").select2({
+		// 		// 	maximumSelectionSize: 1,
+		// 		// 	placeholder: "Student"
+		// 	 //   	});
+		// 		// $("#edit-acc-type").select2({
+		// 		// 	maximumSelectionSize: 1,
+		// 		// 	placeholder: "Student"
+		// 	 //   });
+		// 	}
+		// })
+		// var padding = ($(".form-inline").width() - $(".form-inline .row").width() - 130) + 'px';
+		// $("#pad").css("padding-left",padding)
+		// FOOTABLE
+
+		$('#myTable').footable();
+		$('#myTable').change(function (e) {
+			e.preventDefault();
+			var pageSize = $(this).val();
+			$('#demo-foo-pagination').data('page-size', pageSize);
+			$('#demo-foo-pagination').trigger('footable_initialized');
+		});
+		$('#demo-input-search2').on('input', function (e) {
+			e.preventDefault();
+			addrow.trigger('footable_filter', {filter: $(this).val()});
+		});
+		var addrow = $('#myTable');
+		addrow.footable().on('click', '.delete-row-btn', function() {
+
+			//get the footable object
+			var footable = addrow.data('footable');
+
+			//get the row we are wanting to delete
+			var row = $(this).parents('tr:first');
+
+			//delete the row
+			footable.removeRow(row);
+		});
+		// END OF FOOTABLE
+
+
 
 	   $("#add-personInCharge").select2({
 	   	 placeholder: "LSCS - President"
@@ -97,23 +148,26 @@ $(document).ready(function() {
 	    function edit(data){
 
 	    }
-	    var table = $('#myTable').DataTable( {
-	            dom: 'Bfrtip',
-	            buttons: [
-	                {
-	                    text: 'Add Account',
-	                    action: function ( e, dt, node, config ) {
-	                        $("#largeModal").modal('show');
-	                    }
-	                },
-	                // {
-	                //     text: 'Position',
-	                //     action: function ( e, dt, node, config ) {
-	                //         $("#position-modal").modal('show');
-	                //     }
-	                // }
-	            ]
-	        } );
+	    $("#demo-btn-addrow").click(function(){
+	    	$("#largeModal").modal('show');
+	    })
+	    // var table = $('#myTable').DataTable( {
+	    //         dom: 'Bfrtip',
+	    //         buttons: [
+	    //             {
+	    //                 text: 'Add Account',
+	    //                 action: function ( e, dt, node, config ) {
+	    //                     $("#largeModal").modal('show');
+	    //                 }
+	    //             },
+	    //             // {
+	    //             //     text: 'Position',
+	    //             //     action: function ( e, dt, node, config ) {
+	    //             //         $("#position-modal").modal('show');
+	    //             //     }
+	    //             // }
+	    //         ]
+	    //     } );
 	    $("#submit").click(function(){
             console.log("asd");
 	    	var lastName = $("#lastName").val();
@@ -142,11 +196,22 @@ $(document).ready(function() {
 	    			$("#largeModal").modal("hide");
 	    			//data > 0
 	    			if(1){
+	    				var first = "<td>"+idNumber+"</td>";
+
 	    				var orgpos = $("#add-personInCharge").select2("val");
 	    				var com = givenName + ' ' + middleName +' '+ lastName;
+	    				var second = "<td>"+com+"</td>";
 	    				$("#name").val(com);
 	    				
-	    				$("#right").fadeIn("fast").delay(5000).fadeOut("slow");    
+	    				 $.toast({
+				            heading: 'Success!',
+				            text: 'Successfully Added the account of '+com,
+				            position: 'top-right',
+				            loaderBg:'#ff6849',
+				            icon: 'success',
+				            hideAfter: 3500, 
+				            stack: 6
+				          });
 	    				
 				    	var actions  =      '<a  data-toggle="tooltip" data-original-title="Edit"> '+
 				                                '<i  class="fa fa-pencil text-inverse m-r-10"></i> '+
@@ -159,15 +224,23 @@ $(document).ready(function() {
 				        for (ctr = 0; ctr < orgpos.length; ctr++) {
 				        	pos += "<p>"+orgpos[ctr]+"</p>"
 				        }
-						var row = table.row.add( [
-				                		idNumber,
-				                		com,
-				                        pos,
-				                		active,
-				                    	actions                        
-				                	]).draw().node();
+				        var third = "<td>"+pos+"</td>";
+				        var fourth = "<td>"+active+"</td>";
+				        var fifth = "<td>"+actions+"</td>";
+						// var row = table.row.add( [
+				  //               		idNumber,
+				  //               		com,
+				  //                       pos,
+				  //               		active,
+				  //                   	actions                        
+				  //               	]).draw().node();
+				  		var newRow = "<tr class='text-center'>"+first+second+third+fourth+fifth+"</tr>";
+						var footable = addrow.data('footable');
+						$("#myTable").append(newRow);
+						$("#myTable").trigger('footable_initialize');
+
 						clear();
-						$(row).addClass("text-center");
+						// $(row).addClass("text-center");
 
 
 
@@ -186,10 +259,10 @@ $(document).ready(function() {
 	    });
 	    var editNode;
 	    $("table").on("click",'tbody td a i.fa-pencil',function(){
-	    	var thisNode = $(this)
-	    	var node = table.row($(this).closest("tr")).data();
-	    	editNode = $(this).closest("tr");
-	    	console.log(node);
+	    	// var thisNode = $(this)
+	    	// var node = table.row($(this).closest("tr")).data();
+	    	// editNode = $(this).closest("tr");
+	    	// console.log(node);
 	    	$("#editModal").modal("show");	
 	    	//get DATA
 	    	$.ajax({
@@ -221,18 +294,40 @@ $(document).ready(function() {
 
 	    });
    		$("table").on("click",'tbody td a i.fa-trash-o',function(){
-   			var id = table.row($(this).closest("tr")).data()[0];
-   			var row = $(this).closest("tr");
+   			// var id = table.row($(this).closest("tr")).data()[0];
+   			// var row = $(this).closest("tr");
+   			var id = $(this).closest("tr").find("td:first").text();
+   			console.log($(this).closest("tr").find("td:first").text());
+   			// $("#myTable").footable().data('footable').removeRow($(this).closest("tr"));
    			//remove
 	    	$.ajax({
 	    		type:'POST',
-	    		url:'',
-	    		data:id,
+	    		url:'/ORGRES/AJAX/DeleteAccount',
+	    		data:{id:id},
 	    		success:function(data){
 	    			if(1){
-	    				table.row(row).remove().draw();
+	    				 
+	    				$("#myTable").footable().data('footable').removeRow($(this).closest("tr"));
+
+	    				 $.toast({
+				            heading: 'Success!',
+				            text: 'Successfully deleted the account.',
+				            position: 'top-right',
+				            loaderBg:'#ff6849',
+				            icon: 'success',
+				            hideAfter: 3500, 
+				            stack: 6
+				          });
 	    			}else{
-	    				
+	    				  $.toast({
+				            heading: 'Failed!',
+				            text: 'Something wrong happen.',
+				            position: 'top-right',
+				            loaderBg:'#ff6849',
+				            icon: 'error',
+				            hideAfter: 3500
+				            
+				          });
 	    			}
 	    		}
 	    	});
@@ -252,7 +347,7 @@ $(document).ready(function() {
 
 	    	$.ajax({
 	    		type: 'POST',
-	    		url:'#',
+	    		url:'/ORGRES/AJAX/EditAccount',
 	    		data:{
 	    			lastName:lastName,
 	    			middleName: middleName,
@@ -268,7 +363,15 @@ $(document).ready(function() {
 						var com = givenName + ' ' + middleName +' '+ lastName;
 						$("#name").val(com);
 						
-						$("#right").fadeIn("fast").delay(5000).fadeOut("slow");    
+						 $.toast({
+				            heading: 'Success!',
+				            text: 'Successfully edited account of '+com,
+				            position: 'top-right',
+				            loaderBg:'#ff6849',
+				            icon: 'success',
+				            hideAfter: 3500, 
+				            stack: 6
+				          });
 						
 				    	var actions  =      '<a  data-toggle="tooltip" data-original-title="Edit"> '+
 				                                '<i  class="fa fa-pencil text-inverse m-r-10"></i> '+

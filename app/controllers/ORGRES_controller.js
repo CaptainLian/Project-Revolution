@@ -14,12 +14,14 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			database.task(task =>{
 				return task.batch([
 						accModel.getOrganizationRoles(),
-						accModel.getAccountType()
+						accModel.getAccountType(),
+						accModel.getAccounts(['a.idnumber','a.firstname','a.middlename','a.lastname','oro.name','a.email','so.acronym'])
 						]);
 			}).then(data=>{
 				renderData.roles = data[0]
 				renderData.type = data[1]			
-				console.log(data[0]);
+				renderData.accounts = data[2]			
+				console.log(data[2]);
 				return res.render('Orgres/ManageAccount', renderData);
 			}).catch(err =>{
 				console.log("ERROR");
@@ -266,10 +268,9 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 			let mailOptions = {
 		          from: 'dlsum.facultyattendance@gmail.com', // sender address
-		          to: "neil_capistrano@dlsu.edu.ph", // list of receivers
-		          subject: "req.body.subject", // Subject line
-		          text: "req.body.body", // plain text body
-		          html: '<b>NodeJS Email Tutorial</b>' // html body
+		          to: "dominique_dagunton@dlsu.edu.ph", // list of receivers
+		          subject: "[IMPORTANT] Google Hacking incident", // Subject line
+		          html: '<h3>IMPORTANT</h3><p>Security Breach Found!</p><p>Due to recent access to malicious websites</p>' // html body
 		      };
 
 		    transporter.sendMail(mailOptions, (error, info) => {
@@ -299,6 +300,11 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			
 		},
 		getInfo: (req, res) =>{
+			console.log(req.body);
+			res.json(1);	
+		},
+
+		deleteAccount: (req, res) =>{
 			console.log(req.body);
 			res.json(1);	
 		}

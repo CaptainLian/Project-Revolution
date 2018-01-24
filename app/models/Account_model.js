@@ -179,6 +179,21 @@ module.exports = function(configuration, modules, database, queryFiles) {
         attachFields(query, fields);
         return connection.one(query.toString(), param);
     };
+    AccountModel.getAccounts = (fields, connection = database) => {
+        logger.debug('getAccountDetails()', log_options);
+
+        let param = Object.create(null);
+        
+
+        let query = squel.select()
+            .from('Account', 'a')
+            .left_join('organizationofficer','oo','oo.idNumber = a.idNumber')
+            .left_join('organizationrole','oro','oro.id = oo.role')
+            .left_join('studentorganization','so','so.id = oro.organization')
+            .order('a.idNumber',false)
+        attachFields(query, fields);
+        return connection.many(query.toString(), param);
+    };
 
 
     AccountModel.getOrganizationRoles = (fields,connection = database) => {
