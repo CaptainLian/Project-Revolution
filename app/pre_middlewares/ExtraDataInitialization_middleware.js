@@ -16,7 +16,8 @@ module.exports = function(configuration, application, modules, database, queryFi
         if(req.method === 'GET'){
             req.extra_data.view = Object.create(null);
             req.extra_data.view.sidebars = [];
-            req.extra_data.view.notifications = [];
+            req.extra_data.view.navbar = Object.create(null);
+            
             logger.debug('View data initialized', log_options);
         }
 
