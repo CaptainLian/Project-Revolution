@@ -9,6 +9,10 @@ module.exports = function(configuration, modules, database, queryFiles){
     const getOrgresList = queryFiles.getOrgresList;
     const getOrgresOtherDetails = queryFiles.getOrgresOtherDetails;
     const calculate_peractivity = queryFiles.calculate_peractivity;
+
+    const insertTermSQL = queryFiles.insertTerm;
+    const insertSchoolYearSQL = queryFiles.insertSchoolYear;
+    const getCurrentSchoolYearTermsSQL = queryFiles.getCurrentSchoolYearTerms;
     
 	
 	OrgresModel.getActivitiesForResearchForm = function(connection = database) {
@@ -32,6 +36,20 @@ module.exports = function(configuration, modules, database, queryFiles){
     };
     OrgresModel.calculate_peractivity = function(param, connection = database) {
         return connection.any(calculate_peractivity, param);
+    };
+
+    OrgresModel.insertTerm  = function (param, connection = database) {
+        
+        return connection.none(insertTermSQL, param);
+    };
+
+    OrgresModel.insertSchoolYear = function (param, connection = database) {
+
+        return connection.one(insertSchoolYearSQL, param);
+    };
+
+    OrgresModel.getCurrentSchoolYearTerms = function (connection = database){
+        return connection.any(getCurrentSchoolYearTermsSQL);
     };
 
 

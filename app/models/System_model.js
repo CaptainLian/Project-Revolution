@@ -59,6 +59,7 @@ class SystemModel {
 		return connection.oneOrNone(query);
 	}
 
+
 	/**
 	 * Retrieves the current database term with year joined
 	 * Joins 2 tables Term (t) And SchoolYear (sy)
@@ -88,5 +89,7 @@ class SystemModel {
  * @return SystemModel            [description]
  */
 module.exports = function(configuration, modules, database, queryFiles){
+
+	
 	return new SystemModel(database, modules.logger);
 };
