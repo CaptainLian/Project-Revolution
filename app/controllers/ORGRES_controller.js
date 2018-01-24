@@ -161,6 +161,11 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		getInfo: (req, res) =>{
 			console.log(req.body);
 			res.json(1);	
+		},
+
+		deleteAccount: (req, res) =>{
+			console.log(req.body);
+			res.json(1);	
 		}
 
 	};

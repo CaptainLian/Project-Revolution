@@ -7,8 +7,28 @@ $(document).ready(function() {
 			maximumSelectionSize: 1,
 			placeholder: "Student"
 	   });
+
 		
 });
+
+		// $("#add-personInCharge, #edit-personInCharge").css('visibility','hidden');
+		// $("#acc-type,#edit-acc-type").change(function(){
+		// 	console.log("BEFORe PUMASOK")
+		// 	console.log($(this).select2('val'))
+			
+		// 	if($(this).select2('val') == 1 ){
+		// 		console.log("PUMASOK")
+		// 		$("#add-personInCharge, #edit-personInCharge").css('visibility','visible');
+		// 		// $("#acc-type").select2({
+		// 		// 	maximumSelectionSize: 1,
+		// 		// 	placeholder: "Student"
+		// 	 //   	});
+		// 		// $("#edit-acc-type").select2({
+		// 		// 	maximumSelectionSize: 1,
+		// 		// 	placeholder: "Student"
+		// 	 //   });
+		// 	}
+		// })
 		// var padding = ($(".form-inline").width() - $(".form-inline .row").width() - 130) + 'px';
 		// $("#pad").css("padding-left",padding)
 		// FOOTABLE
@@ -183,7 +203,15 @@ $(document).ready(function() {
 	    				var second = "<td>"+com+"</td>";
 	    				$("#name").val(com);
 	    				
-	    				$("#right").fadeIn("fast").delay(5000).fadeOut("slow");    
+	    				 $.toast({
+				            heading: 'Success!',
+				            text: 'Successfully Added the account of '+com,
+				            position: 'top-right',
+				            loaderBg:'#ff6849',
+				            icon: 'success',
+				            hideAfter: 3500, 
+				            stack: 6
+				          });
 	    				
 				    	var actions  =      '<a  data-toggle="tooltip" data-original-title="Edit"> '+
 				                                '<i  class="fa fa-pencil text-inverse m-r-10"></i> '+
@@ -266,18 +294,40 @@ $(document).ready(function() {
 
 	    });
    		$("table").on("click",'tbody td a i.fa-trash-o',function(){
-   			var id = table.row($(this).closest("tr")).data()[0];
-   			var row = $(this).closest("tr");
+   			// var id = table.row($(this).closest("tr")).data()[0];
+   			// var row = $(this).closest("tr");
+   			var id = $(this).closest("tr").find("td:first").text();
+   			console.log($(this).closest("tr").find("td:first").text());
+   			// $("#myTable").footable().data('footable').removeRow($(this).closest("tr"));
    			//remove
 	    	$.ajax({
 	    		type:'POST',
-	    		url:'',
-	    		data:id,
+	    		url:'/ORGRES/AJAX/DeleteAccount',
+	    		data:{id:id},
 	    		success:function(data){
 	    			if(1){
-	    				table.row(row).remove().draw();
+	    				 
+	    				$("#myTable").footable().data('footable').removeRow($(this).closest("tr"));
+
+	    				 $.toast({
+				            heading: 'Success!',
+				            text: 'Successfully deleted the account.',
+				            position: 'top-right',
+				            loaderBg:'#ff6849',
+				            icon: 'success',
+				            hideAfter: 3500, 
+				            stack: 6
+				          });
 	    			}else{
-	    				
+	    				  $.toast({
+				            heading: 'Failed!',
+				            text: 'Something wrong happen.',
+				            position: 'top-right',
+				            loaderBg:'#ff6849',
+				            icon: 'error',
+				            hideAfter: 3500
+				            
+				          });
 	    			}
 	    		}
 	    	});
@@ -297,7 +347,7 @@ $(document).ready(function() {
 
 	    	$.ajax({
 	    		type: 'POST',
-	    		url:'#',
+	    		url:'/ORGRES/AJAX/EditAccount',
 	    		data:{
 	    			lastName:lastName,
 	    			middleName: middleName,
@@ -313,7 +363,15 @@ $(document).ready(function() {
 						var com = givenName + ' ' + middleName +' '+ lastName;
 						$("#name").val(com);
 						
-						$("#right").fadeIn("fast").delay(5000).fadeOut("slow");    
+						 $.toast({
+				            heading: 'Success!',
+				            text: 'Successfully edited account of '+com,
+				            position: 'top-right',
+				            loaderBg:'#ff6849',
+				            icon: 'success',
+				            hideAfter: 3500, 
+				            stack: 6
+				          });
 						
 				    	var actions  =      '<a  data-toggle="tooltip" data-original-title="Edit"> '+
 				                                '<i  class="fa fa-pencil text-inverse m-r-10"></i> '+
