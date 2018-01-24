@@ -162,6 +162,32 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			console.log(req.body);
 			res.json(1);	
 		},
+		getSpecificAccount: (req, res) =>{
+			database.task(task=>{
+				return task.batch([
+					accModel.getSpecificAccount(req.body.idNumber,['a.idnumber','a.firstname','a.middlename','a.lastname','oro.name','a.email','so.acronym','a.idNumber','a.contactNumber','aca.id']),
+					accModel.getSpecificAccount(req.body.idNumber,['oo.role'])
+					])
+			}).then(result=>{
+				console.log("result[1]")
+				var array2=[];
+				for(var x = 0; x < result[1].length; x++){
+					array2.push(result[1][x].role)
+				}
+				console.log(result[1])
+				res.json({
+					status:1,
+					details:result[0][0],
+					position:array2
+				})
+			}).catch(err=>{
+				res.json({
+					status:0					
+				})
+				console.log(err);
+			})
+			
+		},
 
 		deleteAccount: (req, res) =>{
 			console.log(req.body);

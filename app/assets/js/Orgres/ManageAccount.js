@@ -259,33 +259,35 @@ $(document).ready(function() {
 	    });
 	    var editNode;
 	    $("table").on("click",'tbody td a i.fa-pencil',function(){
-	    	// var thisNode = $(this)
-	    	// var node = table.row($(this).closest("tr")).data();
-	    	// editNode = $(this).closest("tr");
-	    	// console.log(node);
-	    	$("#editModal").modal("show");	
+	    	var id = $(this).closest("tr").find("td:first").text();
+
+	    	// $("#editModal").modal("show");	
 	    	//get DATA
 	    	$.ajax({
 	    		type:'POST',
-	    		url:'/ORGRES/AJAX/Info',
-	    		data:{id:node[0]},
+	    		url:'/ORGRES/AJAX/getSpecificAccount',
+	    		data:{idNumber:id},
 	    		success:function(data){
-	    			if(data.success){
+	    			if(data.status){
+	    				
+	    				$("#edit-lastName").val(data.details.lastname);
+				    	$("#edit-middleName").val(data.details.middlename);
+				    	$("#edit-givenName").val(data.details.givenname);
 
-	    				table.row(thisNode).remove();
+				    	$("#edit-idNumber").val(data.details.idnumber);
+				    	$("#edit-inputEmail3").val(data.details.email);
+				    	$("#edit-basic-addon1").val(data.details.contactnumber);
+				    	console.log("POSITIONS")
+				    	console.log(data.position)
+				    	$("#edit-personInCharge").select2("val",data.position);
+				    	$("#edit-acc-type").select2("val",data.details.id);
+				    	$("#edit").modal("show");
+				    	$("#editModal").modal("show");	
+	    				// table.row(thisNode).remove();
 	    			}else{
 
 	    			}
-	    			$("#edit-lastName").val();
-			    	$("#edit-middleName").val();
-			    	$("#edit-givenName").val();
-
-			    	$("#edit-idNumber").val();
-			    	$("#edit-inputEmail3").val();
-			    	$("#edit-basic-addon1").val();
-			    	$("#edit-personInCharge").select2("val",'');
-			    	$("#edit").modal("show");
-
+	    			
 
 	    		}
 	    	});
