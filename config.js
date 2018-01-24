@@ -67,6 +67,14 @@ const configuration = {
         },
         "easter_eggs":{
             "enable_footer_quotes": true
+        },
+        "email": {
+        	"host": "smtp.gmail.com",
+        	"port": 465,
+        	"secure": true,
+        	"connectionTimeout": "10000",
+        	"username": "dlsum.facultyattendance@gmail.com",
+        	"password": "01234567891011"
         }
     },
     "database": {
