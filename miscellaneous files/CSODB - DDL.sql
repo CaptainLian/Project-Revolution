@@ -571,7 +571,7 @@ CREATE TABLE "AccountNotification" (
 CREATE TRIGGER "before_insert_AccountNotification"
     BEFORE INSERT ON "AccountNotification"
     FOR EACH ROW
-    EXECUTE PROCEDURE "trigger_before_insert_increment_sequence"('"AccountNotification"', 'an', 'an."account" = $1."account"');
+    EXECUTE PROCEDURE "trigger_before_insert_increment_sequence"('AccountNotification', 'an', 'an."account" = $1."account"');
 
 DROP TABLE IF EXISTS SchoolYear CASCADE;
 CREATE TABLE SchoolYear (

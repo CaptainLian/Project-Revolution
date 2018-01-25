@@ -12,11 +12,13 @@ const utilities = Object.create(null);
  *                                       - function must return a value less than 0 to indicate a < b
  *                                       - function must return 0 if a = b
  *                                       - function must return a value greater than 0 to indicate a > b
- * @returns {Integer}                   The index of the value within the array
+ * @returns {Integer}                   The index of the value within the array 
+ *                                       - positive if the array contains the value
+ *                                       - negative means if it does not, the absolution value of the negative value is the insertion point
  */
 utilities.binarySearch = (array, value, comparator) => {
 	let lowestIndex = 0;
-	let highestIndex = array.length;
+	let highestIndex = array.length - 1;
 	comparator = comparator || ((a, b) => {
 		if(a > b) return 1;
 		if(a < b) return -1;

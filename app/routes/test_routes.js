@@ -9,8 +9,13 @@ module.exports = function(configuration, modules, router, controllers){
 		log_options.from = 'TEST ROUTES';
 
 		const logger = modules.logger;
-		logger.warn('Attaching test routes!', log_options);
+		logger.error('Attaching test routes!', log_options);
+		configuration.security.routes_ignore_login_required.push('/test');
 		router.get('/test', controllers.test_controller.test);
+		configuration.security.routes_ignore_login_required.push('/account');
 		router.get('/account', controllers.test_controller.account);
+		configuration.security.routes_ignore_login_required.push('/notification');
+		router.get('/notification', controllers.test_controller.notification);
+		configuration.security.routes_ignore_login_required.sort();
 	}
 };
