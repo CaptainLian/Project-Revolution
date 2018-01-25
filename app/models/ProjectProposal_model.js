@@ -510,5 +510,37 @@ module.exports = function(configuration, modules, db, queryFiles) {
         });
     };
 
+    /**
+     * [description]
+     * @method
+     * @param    {Integer}  PPRID       [description]
+     * @param    {Array(String)}  fields      [description]
+     * @param    {pg-connection}  connection  [description]
+     * @returns  {pg-promise}              [description]
+     */
+    ProjectProposalModel.getDetails = (PPRID, fields, connection = this._db) => {
+        logger.debug(`getDetails(PPRID: ${PPRID})`, log_options);
+
+        let query = squel.select()
+        .with('PPR', squel.select()
+            .from('ProjectProposal ppr')
+            .where('id = ${PPRID}'))
+        .with('GOSMA', squel.select()
+            .from('GOSMActivity')
+            .where('id = ?', squel.select()
+                .from('PPR')
+                .field('GOSMActivity')))
+        .from('PPR p')
+        .left_join('GOSMA', 'ga', ' p.GOSMActivity = ga.id');
+        this._attachFields(query, fields);
+
+        let param = Object.create(null);
+        param.PPRID = PPRID;
+
+        query = query.toString();
+        logger.debug(`Executing query: ${query}`, log_options);
+        return connection.oneOrNone(query, param);
+    };
+
     return new ProjectProposalModel(db, modules);
 };

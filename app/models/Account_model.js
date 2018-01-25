@@ -428,11 +428,11 @@ module.exports = function(configuration, modules, database, queryFiles) {
         param.details = typeof details === 'object' ? JSON_STRINGIFY(details) : details;
 
         let query = squel.insert()
-        .into('"AccountNotification"')
-        .set('"account"', squel.str('${idNumber}'))
-        .set('"title"', squel.str('${title}'))
-        .set('"description"', squel.str('${description}'))
-        .set('"details"', squel.str('${details}'));
+            .into('"AccountNotification"')
+            .set('"account"', squel.str('${idNumber}'))
+            .set('"title"', squel.str('${title}'))
+            .set('"description"', squel.str('${description}'))
+            .set('"details"', squel.str('${details}'));
 
         let execute = connection.none;
         if(returning){

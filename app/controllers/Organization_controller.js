@@ -1564,9 +1564,32 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             if (req.body.context && req.body.program && req.body.expense && req.body.attachment) {
                 console.log("IZ HERE");
                 
-                database.task(t => {
+                database.tx(t => {
                     return projectProposalModel.submitProjectProposal(dbParam, t).then(data => {
                         if (req.body.status == 1) { // first time nagpasa
+                            return t.task(task => {
+                                return task.batch([
+                                    projectproposalModel.getProjectProposalProjectHeads(dbParam.id),
+                                    projectproposalModel.getDetails(dbParam.id, ['ga.strategy'])
+                                ]);
+                            }).then(data => {
+                                let details = data[1];
+                                let description = `You are assigned as project head for ${details.strategy}`;
+
+                                let queries = [postProjectProposalModel.insertPostProjectProposal(dbParam, t)];
+                                for(const projectHead of data[0]){
+                                    queries[queries.length] = accountModel.addNotification(
+                                        projectHead.idNumber,
+                                        'Project Proposal Submission',
+                                        description,
+                                        null,
+                                        null,
+                                        t
+                                    );
+                                }
+
+                                return t.batch(queries);
+                            });
                             return postProjectProposalModel.insertPostProjectProposal(dbParam, t).then(data1=>{
                                 //NOTE: Notify all project heads
                                 
