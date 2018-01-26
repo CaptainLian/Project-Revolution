@@ -1569,8 +1569,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         if (req.body.status == 1) { // first time nagpasa
                             return t.task(task => {
                                 return task.batch([
-                                    projectproposalModel.getProjectProposalProjectHeads(dbParam.id),
-                                    projectproposalModel.getDetails(dbParam.id, ['ga.strategy'])
+                                    projectProposalModel.getProjectProposalProjectHeads(dbParam.id),
+                                    projectProposalModel.getDetails(dbParam.id, ['ga.strategy'])
                                 ]);
                             }).then(data => {
                                 let details = data[1];
