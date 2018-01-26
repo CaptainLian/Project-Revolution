@@ -198,7 +198,7 @@ $(document).ready(function() {
 	    			if(1){
 	    				var first = "<td>"+idNumber+"</td>";
 
-	    				var orgpos = $("#add-personInCharge").select2("val");
+	    				var orgpos = $("#add-personInCharge").select2("data");
 	    				var com = givenName + ' ' + middleName +' '+ lastName;
 	    				var second = "<td>"+com+"</td>";
 	    				$("#name").val(com);
@@ -220,9 +220,9 @@ $(document).ready(function() {
 				                                '<i class="fa fa-trash-o text-danger"></i> '+
 				                            '</a>';
 				        var active = '<span class="label label-success">Active</span>';
-				    	var pos = ''
+				    	var pos = '<p></p>'
 				        for (ctr = 0; ctr < orgpos.length; ctr++) {
-				        	pos += "<p>"+orgpos[ctr]+"</p>"
+				        	pos += "<p>"+orgpos[ctr].text+"</p>"
 				        }
 				        var third = "<td>"+pos+"</td>";
 				        var fourth = "<td>"+active+"</td>";
