@@ -41,5 +41,17 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			return res.send('Error');
 		});
 	};
+
+	testController.notification = (req, res) => {
+		const accountModel = models.Account_model;
+
+		return accountModel.addNotification(1011130, 'Project Proposal Submission', 'Aguy').then(() => {
+			return res.send('Success');
+		}).catch(err => {
+			console.log(err);
+			return res.send('Error');
+		});
+	};
+
 	return testController;
 };

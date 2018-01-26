@@ -23,7 +23,7 @@ module.exports = function(configuration, application, modules, database, queryFi
             return next();
         logger.debug('Attaching notifications', log_options);
 
-        accountModel.getNotifications(user.idNumber).then(notifications => {
+        return accountModel.getNotifications(user.idNumber).then(notifications => {
             req.extra_data.view.navbar.notifications = notifications;
             return next();
         });

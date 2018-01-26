@@ -4,9 +4,7 @@ const configuration = {
             "",
             "/",
             "/system/AJAX/checkLogin",
-            "/logout",
-            "/test",
-            "/account"
+            "/logout"
         ],
         "encryption": {
             "bits": 1024,

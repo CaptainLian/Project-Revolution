@@ -133,28 +133,18 @@ module.exports = function(configuration, modules, database, queryFiles) {
                     .set('yearID', squel.str('system_get_current_year_id()'))
                     .toString();
 
-                if(Array.isArray(roles)){
-                    logger.debug(`Batch roles\nExecuting query: ${query}`,log_options);
-                    for(const roleID of roles){
-                        let queries = [];
+                logger.debug(`Batch roles\nExecuting query: ${query}`,log_options);
+                
+                let queries = [];
+                for(const roleID of roles){
+                    let param = Object.create(null);
+                    param.idNumber = idNumber;
+                    param.roleID = roleID;
 
-                        let param = Object.create(null);
-                        param.idNumber = idNumber;
-                        param.roleID = roleID;
-
-                        queries[queries.length] = transaction.none(query, param);
-
-                        return transaction.batch(queries);
-                    }
+                    queries[queries.length] = transaction.none(query, param);
                 }
 
-                logger.debug(`Single roles\nExecuting query: ${query}`,log_options);
-
-                let param = Object.create(null);
-                param.idNumber = idNumber;
-                param.roleID = roles;
-
-                return transaction.none(query, param);
+                return transaction.batch(queries);
             });
         });
     };
@@ -438,11 +428,11 @@ module.exports = function(configuration, modules, database, queryFiles) {
         param.details = typeof details === 'object' ? JSON_STRINGIFY(details) : details;
 
         let query = squel.insert()
-        .into('"AccountNotification"')
-        .set('"account"', squel.str('{idNumber}'))
-        .set('"title"', squel.str('{title}'))
-        .set('"description"', squel.str('{description}'))
-        .set('"details"', squel.str('{details}'));
+            .into('"AccountNotification"')
+            .set('"account"', squel.str('${idNumber}'))
+            .set('"title"', squel.str('${title}'))
+            .set('"description"', squel.str('${description}'))
+            .set('"details"', squel.str('${details}'));
 
         let execute = connection.none;
         if(returning){

@@ -13,10 +13,10 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			renderData.csrfToken = req.csrfToken();
 			database.task(task =>{
 				return task.batch([
-						accModel.getOrganizationRoles(),
-						accModel.getAccountType(),
-						accModel.getAccounts(['a.idnumber','a.firstname','a.middlename','a.lastname','oro.name','a.email','so.acronym'])
-						]);
+					accModel.getOrganizationRoles(),
+					accModel.getAccountType(),
+					accModel.getAccounts(['a.idnumber','a.firstname','a.middlename','a.lastname','oro.name','a.email','so.acronym'])
+				]);
 			}).then(data=>{
 				renderData.roles = data[0]
 				renderData.type = data[1]			
@@ -227,9 +227,18 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		        }		        		             
 		    });
 		    var password = cuid();
+
+		    
+
 		    database.task(task=>{
 		    	if(req.body['accType[]'] == 1){
 		    		console.log("createStudentAccount");
+		    		if(!Array.isArray(req.body['orgpos[]'])){
+		    			req.body['orgpos[]'] = [req.body['orgpos[]']];
+		    		}
+		    		for(let index = 0, length= req.body['orgpos[]'].length; index < length; ++index){
+		    			req.body['orgpos[]'][index] = Number.parseInt(req.body['orgpos[]'][index]);
+		    		}
 		    		return	accModel.createStudentAccount(req.body.idNumber, req.body.email, password, req.body.givenName, req.body.middleName, req.body.lastName, req.body.number, req.body['orgpos[]'], task)		    				
 		    	}else{
 		    		console.log("createAccount");
