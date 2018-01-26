@@ -180,10 +180,45 @@ module.exports = function(configuration, modules, database, queryFiles) {
             .left_join('organizationofficer','oo','oo.idNumber = a.idNumber')
             .left_join('organizationrole','oro','oro.id = oo.role')
             .left_join('studentorganization','so','so.id = oro.organization')
+            .where('a.status <> ?',2)
             .order('a.idNumber',false)
         attachFields(query, fields);
         return connection.many(query.toString(), param);
     };
+    AccountModel.updateAccount = (idNumber,email,type,status,firstname,middlename,lastname,contactNumber, connection = database) => {
+        logger.debug('getAccountDetails()', log_options);
+
+        let param = Object.create(null);
+        
+
+        let query = squel.update()
+            .table('account')
+            .setFields({
+                'email':email,
+                'type':type,
+                'status':status,
+                'firstname':firstname,
+                'middlename':middlename,
+                'lastname':lastname,
+                'contactNumber':contactNumber
+            })
+            .where('idNumber = ?', idNumber);
+        // attachFields(query, fields);
+        return connection.none(query.toString());
+    }
+     AccountModel.deleteAccount = (idNumber,status , connection = database) => {
+        logger.debug('getAccountDetails()', log_options);
+
+        let param = Object.create(null);
+        
+
+        let query = squel.update()
+            .table('account')
+            .set('status',status)
+            .where('idNumber = ?', idNumber);
+        // attachFields(query, fields);
+        return connection.none(query.toString());
+    }
      AccountModel.getSpecificAccount = (idNumber,fields, connection = database) => {
         logger.debug('getAccountDetails()', log_options);
 

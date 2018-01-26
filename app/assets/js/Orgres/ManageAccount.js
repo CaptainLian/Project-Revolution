@@ -11,24 +11,18 @@ $(document).ready(function() {
 		
 });
 
-		// $("#add-personInCharge, #edit-personInCharge").css('visibility','hidden');
-		// $("#acc-type,#edit-acc-type").change(function(){
-		// 	console.log("BEFORe PUMASOK")
-		// 	console.log($(this).select2('val'))
+		$("#add-org-row,#edit-org-row").css('display','none');
+		$("#acc-type,#edit-acc-type").change(function(){
+			console.log("BEFORe PUMASOK")
+			console.log($(this).select2('val'))
 			
-		// 	if($(this).select2('val') == 1 ){
-		// 		console.log("PUMASOK")
-		// 		$("#add-personInCharge, #edit-personInCharge").css('visibility','visible');
-		// 		// $("#acc-type").select2({
-		// 		// 	maximumSelectionSize: 1,
-		// 		// 	placeholder: "Student"
-		// 	 //   	});
-		// 		// $("#edit-acc-type").select2({
-		// 		// 	maximumSelectionSize: 1,
-		// 		// 	placeholder: "Student"
-		// 	 //   });
-		// 	}
-		// })
+			if($(this).select2('val')[0] == 1 ){
+				console.log("PUMASOK")
+				$("#add-org-row,#edit-org-row").css('display','');			
+			}else{
+				$("#add-org-row,#edit-org-row").css('display','none');			
+			}
+		})
 		// var padding = ($(".form-inline").width() - $(".form-inline .row").width() - 130) + 'px';
 		// $("#pad").css("padding-left",padding)
 		// FOOTABLE
@@ -195,7 +189,7 @@ $(document).ready(function() {
 	    		success:function(data){
 	    			$("#largeModal").modal("hide");
 	    			//data > 0
-	    			if(1){
+	    			if(data.status){
 	    				var first = "<td>"+idNumber+"</td>";
 
 	    				var orgpos = $("#add-personInCharge").select2("data");
@@ -245,7 +239,16 @@ $(document).ready(function() {
 
 
 	    			}else{
-	    				$("#wrong").fadeIn("fast").delay(5000).fadeOut("slow");    
+	    				   $.toast({
+				            heading: 'Failed!',
+				            text: 'Account not added.',
+				            position: 'top-right',
+				            loaderBg:'#ff6849',
+				            icon: 'error',
+				            hideAfter: 3500
+				            
+				          });
+	    				
 	    			}
 	    			
 
@@ -272,7 +275,7 @@ $(document).ready(function() {
 	    				
 	    				$("#edit-lastName").val(data.details.lastname);
 				    	$("#edit-middleName").val(data.details.middlename);
-				    	$("#edit-givenName").val(data.details.givenname);
+				    	$("#edit-givenName").val(data.details.firstname);
 
 				    	$("#edit-idNumber").val(data.details.idnumber);
 				    	$("#edit-inputEmail3").val(data.details.email);
@@ -281,6 +284,11 @@ $(document).ready(function() {
 				    	console.log(data.position)
 				    	$("#edit-personInCharge").select2("val",data.position);
 				    	$("#edit-acc-type").select2("val",data.details.id);
+				    	if(data.details.id != 1){
+				    		$("#add-org-row,#edit-org-row").css('display','none');
+				    	}else{
+				    		$("#add-org-row,#edit-org-row").css('display','');
+				    	}
 				    	$("#edit").modal("show");
 				    	$("#editModal").modal("show");	
 	    				// table.row(thisNode).remove();
@@ -307,7 +315,7 @@ $(document).ready(function() {
 	    		url:'/ORGRES/AJAX/DeleteAccount',
 	    		data:{id:id},
 	    		success:function(data){
-	    			if(1){
+	    			if(data.status){
 	    				 
 	    				$("#myTable").footable().data('footable').removeRow($(this).closest("tr"));
 
@@ -323,7 +331,7 @@ $(document).ready(function() {
 	    			}else{
 	    				  $.toast({
 				            heading: 'Failed!',
-				            text: 'Something wrong happen.',
+				            text: 'Account cannot be deleted',
 				            position: 'top-right',
 				            loaderBg:'#ff6849',
 				            icon: 'error',
@@ -344,24 +352,27 @@ $(document).ready(function() {
 	    	var email  = $("#edit-inputEmail3").val();
 	    	var number = $("#edit-basic-addon1").val();
 	    	var orgpos = $("#edit-personInCharge").select2("val");;
-	    	var accType = $("#acc-type").select2("val");;
+	    	var accType = $("#edit-acc-type").select2("val");;
 
 
 	    	$.ajax({
 	    		type: 'POST',
-	    		url:'/ORGRES/AJAX/EditAccount',
+	    		url:'/ORGRES/AJAX/UpdateAccount',
 	    		data:{
+	    			id:idNumber,
 	    			lastName:lastName,
 	    			middleName: middleName,
 	    			givenName: givenName ,
-	    			idNumber: idNumber,
 	    			email:email,
-	    			number:number
+	    			number:number,
+	    			orgpos:orgpos,
+	    			accType:accType[0],
+	    			status:$("input[name=optionsRadios2]:checked").val()
 	    		},
 	    		success:function(data){
 	    			$("#editModal").modal("hide");
 					//data > 0
-					if(1){
+					if(data.status){
 						var com = givenName + ' ' + middleName +' '+ lastName;
 						$("#name").val(com);
 						
@@ -395,7 +406,15 @@ $(document).ready(function() {
 
 
 					}else{
-						$("#wrong").fadeIn("fast").delay(5000).fadeOut("slow");    
+						  $.toast({
+				            heading: 'Failed!',
+				            text: 'Something wrong happened.',
+				            position: 'top-right',
+				            loaderBg:'#ff6849',
+				            icon: 'error',
+				            hideAfter: 3500
+				            
+				          });
 	    			}
 	    			
 

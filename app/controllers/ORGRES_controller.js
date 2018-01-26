@@ -308,10 +308,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			 
 			
 		},
-		getInfo: (req, res) =>{
-			console.log(req.body);
-			res.json(1);	
-		},
+		
 		getSpecificAccount: (req, res) =>{
 			database.task(task=>{
 				return task.batch([
@@ -340,9 +337,28 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		},
 
 		deleteAccount: (req, res) =>{
-			console.log(req.body);
-			res.json(1);	
-		}
+			console.log(req.body.id)
+			accModel.deleteAccount(req.body.id,2)
+			.then(data=>{
+				console.log(data)
+				res.json({status:1});	
+			}).catch(err=>{
+				console.log(err)
+				res.json({status:0});	
+			})
+			
+		},
+		updateAccount: (req, res) =>{
+			console.log(req.body)
+			accModel.updateAccount(req.body.id, req.body.email, req.body.accType, req.body.status, req.body.givenName,req.body.middleName,req.body.lastName,req.body.number)
+			.then(data=>{
+				console.log(data)
+				res.json({status:1});	
+			}).catch(err=>{
+				console.log(err)
+				res.json({status:0});	
+			})
+		},
 
 	};
 };
