@@ -948,7 +948,8 @@ CREATE TABLE OrganizationOfficer (
 	role INTEGER REFERENCES OrganizationRole(id),
 	yearID INTEGER REFERENCES SchoolYear(id),
 	dateAssigned TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-
+        isActive BOOLEAN DEFAULT TRUE,
+        
 	PRIMARY KEY(idNumber, role, yearID)
 );
 
