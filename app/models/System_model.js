@@ -73,7 +73,7 @@ class SystemModel {
 		let query = this._squel.select()
 		.from('Term', 't')
 			.left_join('SchoolYear', 'sy', 't.schoolYearID = sy.id')
-		.where('CURRENT_DATE BETWEEN dateStart AND dateEnd');
+		.where('CURRENT_DATE BETWEEN t.dateStart AND t.dateEnd');
 		this._attachFields(query, fields);
 
 		query = query.toString();
