@@ -15,7 +15,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				return task.batch([
 					accModel.getOrganizationRoles(),
 					accModel.getAccountType(),
-					accModel.getAccounts(['a.idnumber','a.firstname','a.middlename','a.lastname','oro.name','a.email','so.acronym'])
+					accModel.getAccounts(['a.idnumber','a.firstname','a.middlename','a.lastname','oro.name','a.email','so.acronym','a.status'])
 				]);
 			}).then(data=>{
 				renderData.roles = data[0]
@@ -312,7 +312,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		getSpecificAccount: (req, res) =>{
 			database.task(task=>{
 				return task.batch([
-					accModel.getSpecificAccount(req.body.idNumber,['a.idnumber','a.firstname','a.middlename','a.lastname','oro.name','a.email','so.acronym','a.idNumber','a.contactNumber','aca.id']),
+					accModel.getSpecificAccount(req.body.idNumber,['a.idnumber','a.firstname','a.middlename','a.lastname','oro.name','a.email','so.acronym','a.idNumber','a.contactNumber','aca.id','a.status']),
 					accModel.getSpecificAccount(req.body.idNumber,['oo.role'])
 					])
 			}).then(result=>{

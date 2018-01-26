@@ -142,8 +142,12 @@
                                          <p class="">{{acc.acronym}} - {{acc.name}}</p>
                             {% elif loop.last %}
                                     </td>
-
+                                    {%if acc.status%}
                                     <td class="text-center "><span class="label label-success">Active</span></td>
+                                    {%elif  acc.status == 0%}
+                                    <td class="text-center "><span class="label label-warning">Inactive</span></td>
+                                    {%endif%}
+                                    
 
                                     <td class="text-center text-nowrap">                                                   
                                         <a  data-toggle="tooltip" data-original-title="Edit"> 
@@ -159,7 +163,11 @@
                                         <p class="">{{acc.acronym}} - {{acc.name}}</p>
                                     </td>
 
+                                    {%if acc.status%}
                                     <td class="text-center "><span class="label label-success">Active</span></td>
+                                    {%elif  acc.status == 0%}
+                                    <td class="text-center "><span class="label label-warning">Inactive</span></td>
+                                    {%endif%}
 
                                     <td class="text-center text-nowrap">                                                   
                                         <a  data-toggle="tooltip" data-original-title="Edit"> 
