@@ -142,6 +142,35 @@
                                          <p class="">{{acc.acronym}} - {{acc.name}} </p>
                                           
                                          {%endif%}
+
+                                     {% if accounts[loop.index0].idnumber != accounts[(loop.index0)+1].idnumber %}
+                                           
+
+                                            {%if acc.status%}
+                                            <td class="text-center "><span class="label label-success">Active</span></td>
+                                            {%elif  acc.status == 0%}
+                                            <td class="text-center "><span class="label label-warning">Inactive</span></td>
+                                            {%endif%}
+
+                                            <td class="text-center text-nowrap">                                                   
+                                                <a  data-toggle="tooltip" data-original-title="Edit"> 
+                                                    <i  class="fa fa-pencil text-inverse m-r-10"></i> 
+                                                </a>
+                                                <a class="remove"  data-toggle="tooltip" data-original-title="Remove"> 
+                                                    <i class="fa fa-trash-o text-danger"></i> 
+                                                </a>
+                                            </td>  
+                                        </tr>
+                                         <tr>
+                                            <td class="text-center ">{{accounts[(loop.index0)+1].idnumber}}</td>
+                                            <td class="text-center ">{{ accounts[(loop.index0)+1].firstname}}&nbsp{{ accounts[(loop.index0)+1].middlename}}&nbsp{{ accounts[(loop.index0)+1].lastname}}</td>
+
+
+
+                                            
+                                            <td class="text-center ">
+                                                 <p class=""></p>    
+                                    {%endif%}
                                          
                             {% elif loop.last %}
                                     </td>
@@ -164,9 +193,9 @@
                                 
                             {% elif accounts[loop.index0].idnumber != accounts[(loop.index0)+1].idnumber %}
                                          {%if acc.type == 1%}
-                                         <p class="">{{acc.acronym}} - {{acc.name}}</p>
+                                         <p class="">{{acc.acronym}} - {{acc.name}} </p>
                                          {%else  %}
-                                         <p class="">{{acc.acname}} </p>
+                                         <p class="">{{acc.acname}}  </p>
                                          {%endif%}
                                     </td>
 

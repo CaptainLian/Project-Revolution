@@ -179,7 +179,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
         let query = squel.select()
             .from('Account', 'a')
             .left_join('organizationofficer','oo','oo.idNumber = a.idNumber')
-            .left_join('organizationrole','oro','oro.id = oo.role')
+            .left_join('organizationrole','oro',' oo.role = oro.id ')
             .left_join('studentorganization','so','so.id = oro.organization')
             .left_join('accounttype','ac','a.type = ac.id')
             .field('ac.name','acname')
@@ -213,7 +213,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
             //update position to false
             let query2 = squel.update()
                         .table('organizationofficer')
-                        .set("isactive","f")
+                        .set("isactive",false)
                         .where('idNumber = ?', idNumber)
                         .where('yearid = system_get_current_year_id()').toString();
             let query3 =''
@@ -225,9 +225,9 @@ module.exports = function(configuration, modules, database, queryFiles) {
                         .set('idnumber', idNumber)
                         .set('role',orgpos)
                         .set('yearid',squel.str('system_get_current_year_id()'))
-                        .set('isactive','t')                    
+                        .set('isactive',true)                    
                         .toString();
-                query3 +=" ON CONFLICT (idnumber, role, yearid ) DO UPDATE set isactive='1'"
+                query3 +=" ON CONFLICT (idnumber, role, yearid ) DO UPDATE set isactive=true"
             }else{
                 console.log("ELSE");                
                 for(var ctr = 0; ctr < orgpos.length; ctr++){                    
@@ -236,9 +236,9 @@ module.exports = function(configuration, modules, database, queryFiles) {
                             .set('idnumber', idNumber)
                             .set('role',orgpos[ctr])
                             .set('yearid',squel.str('system_get_current_year_id()'))
-                            .set('isactive','t')                    
+                            .set('isactive',true)                    
                             .toString();
-                        query3 +=" ON CONFLICT (idnumber, role, yearid ) DO UPDATE set isactive='1'"
+                        query3 +=" ON CONFLICT (idnumber, role, yearid ) DO UPDATE set isactive=true"
 
                     // if(ctr+1 != orgpos.length)
                         query3+=';'
@@ -282,7 +282,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
             .left_join('studentorganization','so','so.id = oro.organization')
             .left_join('accounttype','aca','aca.id = a.type')
             .where('a.idNumber = ?',idNumber)
-            .where('oo.isactive = ?','t')
+            .where('oo.isactive = ?',true)
 
             .order('a.idNumber',false)
         attachFields(query, fields);
