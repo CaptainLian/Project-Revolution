@@ -15,7 +15,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				return task.batch([
 					accModel.getOrganizationRoles(),
 					accModel.getAccountType(),
-					accModel.getAccounts(['a.idnumber','a.firstname','a.middlename','a.lastname','oro.name','a.email','so.acronym','a.status','a.type','ac.name'])
+					accModel.getAccounts(['oo.isactive','a.idnumber','a.firstname','a.middlename','a.lastname','oro.name','a.email','so.acronym','a.status','a.type','ac.name'])
 				]);
 			}).then(data=>{
 				renderData.roles = data[0]
@@ -350,7 +350,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		},
 		updateAccount: (req, res) =>{
 			console.log(req.body)
-			accModel.updateAccount(req.body.id, req.body.email, req.body.accType, req.body.status, req.body.givenName,req.body.middleName,req.body.lastName,req.body.number)
+			accModel.updateAccount(req.body.id, req.body.email, req.body.accType, req.body.status, req.body.givenName,req.body.middleName,req.body.lastName,req.body.number, req.body['orgpos[]'])
 			.then(data=>{
 				console.log(data)
 				res.json({status:1});	
