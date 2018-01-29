@@ -172,7 +172,7 @@ $(document).ready(function() {
 	    	var email  = $("#inputEmail3").val();
 	    	var number = $("#basic-addon1").val();
 	    	var orgpos = $("#add-personInCharge").select2("val");
-	    	var accType = $("#acc-type").select2("val");;
+	    	var accType = $("#acc-type").select2("val");
 	    	$.ajax({
 	    		type: 'POST',
 	    		url:'/ORGRES/AJAX/SaveAccount',
@@ -213,7 +213,12 @@ $(document).ready(function() {
 				                            '<a class="remove"  data-toggle="tooltip" data-original-title="Remove"> '+
 				                                '<i class="fa fa-trash-o text-danger"></i> '+
 				                            '</a>';
-				        var active = '<span class="label label-success">Active</span>';
+				         if(accType[0]){
+				        	var active = '<span class="label label-success">Active</span>';	
+				        }else{
+				        	var active = '<span class="label label-warning">Inactive</span>';	
+				        }
+				        
 				    	var pos = '<p></p>'
 				        for (ctr = 0; ctr < orgpos.length; ctr++) {
 				        	pos += "<p>"+orgpos[ctr].text+"</p>"
@@ -309,6 +314,7 @@ $(document).ready(function() {
    			var id = $(this).closest("tr").find("td:first").text();
    			console.log($(this).closest("tr").find("td:first").text());
    			// $("#myTable").footable().data('footable').removeRow($(this).closest("tr"));
+   			var dis = $(this).closest("tr")
    			//remove
 	    	$.ajax({
 	    		type:'POST',
@@ -317,8 +323,7 @@ $(document).ready(function() {
 	    		success:function(data){
 	    			if(data.status){
 	    				 
-	    				$("#myTable").footable().data('footable').removeRow($(this).closest("tr"));
-
+	    				
 	    				 $.toast({
 				            heading: 'Success!',
 				            text: 'Successfully deleted the account.',
@@ -328,6 +333,8 @@ $(document).ready(function() {
 				            hideAfter: 3500, 
 				            stack: 6
 				          });
+	    				 dis.remove();
+	    				$("#myTable").trigger('footable_initialize');
 	    			}else{
 	    				  $.toast({
 				            heading: 'Failed!',
@@ -373,37 +380,57 @@ $(document).ready(function() {
 	    			$("#editModal").modal("hide");
 					//data > 0
 					if(data.status){
-						var com = givenName + ' ' + middleName +' '+ lastName;
-						$("#name").val(com);
-						
-						 $.toast({
+
+					 
+						var first = "<td>"+idNumber+"</td>";
+
+	    				var orgpos = $("#add-personInCharge").select2("data");
+	    				var com = givenName + ' ' + middleName +' '+ lastName;
+	    				var second = "<td>"+com+"</td>";
+	    				 
+	    				
+	    				 $.toast({
 				            heading: 'Success!',
-				            text: 'Successfully edited account of '+com,
+				            text: 'Successfully edited the account of '+com,
 				            position: 'top-right',
 				            loaderBg:'#ff6849',
 				            icon: 'success',
 				            hideAfter: 3500, 
 				            stack: 6
 				          });
-						
+	    				
 				    	var actions  =      '<a  data-toggle="tooltip" data-original-title="Edit"> '+
 				                                '<i  class="fa fa-pencil text-inverse m-r-10"></i> '+
 				                            '</a>'+
 				                            '<a class="remove"  data-toggle="tooltip" data-original-title="Remove"> '+
 				                                '<i class="fa fa-trash-o text-danger"></i> '+
 				                            '</a>';
-				    	
-				        table.row(editNode).remove().draw();
-						var row = table.row.add( [
-				                		idNumber,
-				                		email,
-				                        com,
-				                		number,
-				                    	actions                        
-				                	]).draw().node();
-						clear();
-						$(row).find("td:last").addClass("text-center");
+				        if(accType[0]){
+				        	var active = '<span class="label label-success">Active</span>';	
+				        }else{
+				        	var active = '<span class="label label-warning">Inactive</span>';	
+				        }
+				        
+				    	var pos = '<p></p>'
+				        for (ctr = 0; ctr < orgpos.length; ctr++) {
+				        	pos += "<p>"+orgpos[ctr].text+"</p>"
+				        }
+				        var third = "<td>"+pos+"</td>";
+				        var fourth = "<td>"+active+"</td>";
+				        var fifth = "<td>"+actions+"</td>";
+						// var row = table.row.add( [
+				  //               		idNumber,
+				  //               		com,
+				  //                       pos,
+				  //               		active,
+				  //                   	actions                        
+				  //               	]).draw().node();
+				  		var newRow = "<tr class='text-center'>"+first+second+third+fourth+fifth+"</tr>";
+						var footable = addrow.data('footable');
+						$("#myTable").append(newRow);
+						$("#myTable").trigger('footable_initialize');
 
+						clear();
 
 					}else{
 						  $.toast({

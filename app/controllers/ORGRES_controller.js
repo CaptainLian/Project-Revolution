@@ -15,7 +15,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				return task.batch([
 					accModel.getOrganizationRoles(),
 					accModel.getAccountType(),
-					accModel.getAccounts(['a.idnumber','a.firstname','a.middlename','a.lastname','oro.name','a.email','so.acronym','a.status'])
+					accModel.getAccounts(['a.idnumber','a.firstname','a.middlename','a.lastname','oro.name','a.email','so.acronym','a.status','a.type','ac.name'])
 				]);
 			}).then(data=>{
 				renderData.roles = data[0]
@@ -299,10 +299,10 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		    	}
 		    	
 		    }).then(data =>{
-		    	res.json(1);
+		    	res.json({status:1});
 		    }).catch(err=>{
 		    	console.log(err)
-		    	res.json(0);
+		    	res.json({status:0});
 		    });
 
 			 
