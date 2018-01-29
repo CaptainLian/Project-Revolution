@@ -14,6 +14,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     const gosmModel = models.gosmModel;
     const orgresModel = models.Orgres_model;
     const logger = modules.logger;
+    const accountModel = models.Account_model;
     const path = require('path');
 
     const log_options = Object.create(null);
@@ -1569,18 +1570,19 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         if (req.body.status == 1) { // first time nagpasa
                             return t.task(task => {
                                 return task.batch([
-                                    projectproposalModel.getProjectProposalProjectHeads(dbParam.id),
-                                    projectproposalModel.getDetails(dbParam.id, ['ga.strategy'])
+                                    projectProposalModel.getProjectProposalProjectHeads(dbParam.id, task),
+                                    projectProposalModel.getDetails(dbParam.id, ['ga.strategies'], task)
                                 ]);
                             }).then(data => {
                                 let details = data[1];
-                                let description = `You are assigned as project head for ${details.strategy}`;
+                                let description = `Please check ${data[1].strategies}`;
 
                                 let queries = [postProjectProposalModel.insertPostProjectProposal(dbParam, t)];
                                 for(const projectHead of data[0]){
+                                    logger.debug(`adding notification to ${JSON.stringify(projectHead)}`, log_options);
                                     queries[queries.length] = accountModel.addNotification(
-                                        projectHead.idNumber,
-                                        'Project Proposal Submission',
+                                        projectHead.idnumber,
+                                        'New Project Proposal',
                                         description,
                                         null,
                                         null,
@@ -1589,10 +1591,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                 }
 
                                 return t.batch(queries);
-                            });
-                            return postProjectProposalModel.insertPostProjectProposal(dbParam, t).then(data1=>{
-                                //NOTE: Notify all project heads
-                                
+                            }).then(data => {
                                 return res.redirect(`/Organization/ProjectProposal/gosmlist/`);
                             }).catch(error => {
                                 logger.debug(`${error.message}\n${error.stack}`, log_options);

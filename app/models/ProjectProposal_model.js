@@ -1,5 +1,5 @@
 'use strict';
-
+const attachFields = require('../utility/databaseHelper').attachFields;
 
 const log_options = Object.create(null);
 log_options.from = 'ProjectProposal-Model';
@@ -62,6 +62,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
         this._db = db;
         const dbHelper = require('../utility/databaseHelper');
         this._attachFields = dbHelper.attachFields;
+
 
         this._logger = modules.logger;
     };
@@ -518,7 +519,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
      * @param    {pg-connection}  connection  [description]
      * @returns  {pg-promise}              [description]
      */
-    ProjectProposalModel.getDetails = (PPRID, fields, connection = this._db) => {
+    ProjectProposalModel.prototype.getDetails = (PPRID, fields, connection = this._db) => {
         logger.debug(`getDetails(PPRID: ${PPRID})`, log_options);
 
         let query = squel.select()
@@ -532,13 +533,15 @@ module.exports = function(configuration, modules, db, queryFiles) {
                 .field('GOSMActivity')))
         .from('PPR p')
         .left_join('GOSMA', 'ga', ' p.GOSMActivity = ga.id');
-        this._attachFields(query, fields);
+
+        attachFields(query, fields);
 
         let param = Object.create(null);
         param.PPRID = PPRID;
 
         query = query.toString();
         logger.debug(`Executing query: ${query}`, log_options);
+        
         return connection.oneOrNone(query, param);
     };
 
