@@ -29,7 +29,6 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
     const AccountModel = Object.create(null);
 
-    const query_insert_account = queryFiles.account_insert;
 
     /**
      * [createAccount description]
@@ -71,29 +70,32 @@ module.exports = function(configuration, modules, database, queryFiles) {
             param.publicKey = pair[0];
             param.privateKey = pair[1];
 
-            if (returning) {
-                logger.debug('Returning query', log_options);
-                let query = squel.insert()
-                    .into('Account')
-                    .set('idNumber', squel.str('${idNumber}'))
-                    .set('email', squel.str('${email}'))
-                    .set('type', squel.str('${type}'))
-                    .set('password', squel.str('${password}'))
-                    .set('firstname', squel.str('${firstname}'))
-                    .set('middlename', squel.str('${middlename}'))
-                    .set('lastname', squel.str('${lastname}'))
-                    .set('publicKey', squel.str('${publicKey}'))
-                    .set('privateKey', squel.str('${privateKey}'))
-                    .set('contactNumber', squel.str('${contactNumber}'));
-                attachReturning(query, returning);
+            let query = squel.insert()
+                .into('Account')
+                .set('idNumber', squel.str('${idNumber}'))
+                .set('email', squel.str('${email}'))
+                .set('type', squel.str('${type}'))
+                .set('password', squel.str('${password}'))
+                .set('firstname', squel.str('${firstname}'))
+                .set('middlename', squel.str('${middlename}'))
+                .set('lastname', squel.str('${lastname}'))
+                .set('publicKey', squel.str('${publicKey}'))
+                .set('privateKey', squel.str('${privateKey}'))
+                .set('contactNumber', squel.str('${contactNumber}'));
 
-                query = query.toString();
-                logger.debug(`Executing query: ${query}`, log_options);
-                return connection.one(query, param);
+            let execute = connection.none;
+            if (typeof returning !== 'undefined') {
+                logger.debug('Returning query', log_options);
+
+                attachReturning(query, returning);
+                execute = connection.one;
+            }else{
+                logger.debug('Non-returning query', log_options);
             }
-            logger.debug(`Non-returning query\nExecuting query: ${query_insert_account}\nParameters: ${JSON.stringify(param)}`, log_options);
-            logger.debug(`Parameters: ${JSON.stringify(param)}`,log_options);
-            return connection.none(query_insert_account, param);
+
+            query = query.toString();
+            logger.debug(`Executing query: ${query}\nParameters: ${JSON.stringify(param)}`, log_options);
+            return execute(query, param);
         });
     };
 
@@ -170,12 +172,12 @@ module.exports = function(configuration, modules, database, queryFiles) {
         attachFields(query, fields);
         return connection.one(query.toString(), param);
     };
+
     AccountModel.getAccounts = (fields, connection = database) => {
         logger.debug('getAccounts()', log_options);
 
         let param = Object.create(null);
         
-
         let query = squel.select()
             .from('Account', 'a')
             .left_join(squel.select().from('organizationofficer').where('isactive = ?', true).where('yearid = ?',squel.str('system_get_current_year_id()'))
@@ -191,6 +193,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
         console.log(query.toString());
         return connection.many(query.toString(), param);
     };
+
     AccountModel.updateAccount = (idNumber,email,type,status,firstname,middlename,lastname,contactNumber, orgpos, connection = database) => {
         logger.debug('updateAccount()', log_options);
 
@@ -275,8 +278,6 @@ module.exports = function(configuration, modules, database, queryFiles) {
         logger.debug('getSpecificAccount()', log_options);
 
         let param = Object.create(null);
-        
-
         let query = squel.select()
             .from('Account', 'a')
             .left_join(squel.select().from('organizationofficer').where('isactive = ?',true).where('yearid = ?',squel.str('system_get_current_year_id()'))
@@ -294,26 +295,29 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
 
     AccountModel.getOrganizationRoles = (fields,connection = database) => {
+        logger.warn('Unstable function??', log_options);
         logger.debug('getOrganizationRoles()', log_options);
 
+        //TODO figure out parameters
         let param = Object.create(null);
-
-
+        
         let query = squel.select()
             .from('organizationrole','oro')
-            .field('oro.id','orid')
-            .field('oro.organization','oroorg')
-            .field('oro.name','oroname')
-            .field('oro.rank','ororank')
             .left_join('studentorganization','so','so.id = oro.organization')
             .field('so.id','soid')
             .field('so.name','soname')
             .field('so.acronym','soacro')
+            .field('oro.id','orid')
+            .field('oro.organization','oroorg')
+            .field('oro.name','oroname')
+            .field('oro.rank','ororank')
             .order('oro.organization')
             .order('oro.rank');
         attachFields(query, fields);
+
         return connection.many(query.toString(), param);
     };
+
     AccountModel.getAccountType = (fields, connection = database) => {
         logger.debug('getAccountType()', log_options);
 
@@ -326,19 +330,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
         attachFields(query, fields);
         return connection.many(query.toString(), param);
     };
-    // AccountModel.getOrg = (fields, connection = database) => {
-    //     logger.debug('getAccountType()', log_options);
 
-    //     let param = Object.create(null);
-
-
-    //     let query = squel.select()
-    //         .from('studentorganization');
-
-
-    //     attachFields(query, fields);
-    //     return connection.many(query.toString(), param);
-    // };
     const query_get_student_studentOrganizations = queryFiles.student_get_studentOrganizations;
     AccountModel.getStudentOrganizations = (idNumber, connection = database) => {
         logger.debug('getStudentOrganizations()', log_options);
@@ -515,7 +507,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
         param.idNumber = idNumber;
         param.title = title;
         param.description = description;
-        param.details = typeof details === 'object' ? JSON_STRINGIFY(details) : details;
+        param.details = JSON_STRINGIFY(details);
 
         let query = squel.insert()
             .into('"AccountNotification"')
