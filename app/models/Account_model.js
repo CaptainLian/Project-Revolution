@@ -1,3 +1,4 @@
+
 'use strict';
 
 /**
@@ -7,29 +8,32 @@
 module.exports = function(configuration, modules, database, queryFiles) {
     const squel = require('squel').useFlavour('postgres');
 
+    const ACCOUNT_TYPES = require('../utility/CONSTANTS_account_types.json');
 
+    const JSON_STRINGIFY = require('json-stable-stringify');
 
-    let dbHelper = require('../utility/databaseHelper');
-    const attachReturning = dbHelper.attachReturning;
-    const attachFields = dbHelper.attachFields;
-    dbHelper = null;
+    const {attachReturning, attachFields} = (() => {
+        let dbHelper = require('../utility/databaseHelper');
+
+        let ret = Object.create(null);
+        ret.attachReturning = dbHelper.attachReturning;
+        ret.attachFields = dbHelper.attachFields;
+        return ret;
+    })();
 
     const logger = modules.logger;
     const log_options = Object.create(null);
     log_options.from = 'Account-model';
-    
+
+    const forge = require('../utility/forge-promise.js');
+
     const AccountModel = Object.create(null);
 
-    /*
-    AccountModel.aguy = (params, connection = database) => {
-
-    }
-    */
-
     const query_insert_account = queryFiles.account_insert;
+
     /**
-     * [insertAccount description]
-     * @method  insertAccount
+     * [createAccount description]
+     * @method  createAccount
      * @param  {Integer}         idNumber      [description]
      * @param  {String}          email         [description]
      * @param  {Integer}         type          [description]
@@ -38,13 +42,13 @@ module.exports = function(configuration, modules, database, queryFiles) {
      * @param  {String}          middlename    [description]
      * @param  {String}          lastname      [description]
      * @param  {String}          contactNumber [description]
-     * @param  {String}          publicKey     [description]
-     * @param  {String}          privateKey    [description]
      * @param  {[String, Array(String)] (Optional)}                           returning     [description]
      * @param  {[pg-task, pg-connection, pg-transaction] (Optional)}          connection    [description]
      * @returns {Promise} [description]
      */
-    AccountModel.insertAccount = (idNumber, email, type, password, firstname, middlename, lastname, contactNumber, publicKey, privateKey, returning, connection = database) => {
+    AccountModel.createAccount = (idNumber, email, type, password, firstname, middlename, lastname, contactNumber, returning, connection = database) => {
+        logger.debug('createAccount()', log_options);
+
         let param = Object.create(null);
         param.idNumber = idNumber;
         param.email = email;
@@ -54,29 +58,96 @@ module.exports = function(configuration, modules, database, queryFiles) {
         param.middlename = middlename;
         param.lastname = lastname;
         param.contactNumber = contactNumber;
-        param.publicKey = publicKey;
-        param.privateKey = privateKey;
 
-        if (returning) {
-            let query = squel.insert()
-                .into('Account')
-                .set('idNumber', '${idNumber}')
-                .set('email', '${email}')
-                .set('type', '${type}')
-                .set('password', '${password}')
-                .set('firstname', '${firstname}')
-                .set('middlename', '${middlename}')
-                .set('lastname', '${lastname}')
-                .set('contactNumber', '${contactNumber}')
-                .set('publicKey', '${publicKey}')
-                .set('privateKey', '${privateKey}');
-            attachReturning(query, returning);
+        logger.debug(`Generating key pair\n\tParameters: bits: ${configuration.security.encryption.bits}, workers: ${configuration.security.encryption.web_workers_amount}`, log_options);
+        return forge.pki.rsa.generateKeyPair({
+            bits: configuration.security.encryption.bits,
+            workers: configuration.security.encryption.web_workers_amount
+        }).then(pair => {
+            pair[0] = forge.forge.pki.publicKeyToPem(pair.publicKey);
+            pair[1] = forge.forge.pki.privateKeyToPem(pair.privateKey);
+            logger.debug(`Public key: ${pair[0]}`, log_options);
+            logger.debug(`Private key: ${pair[1]}`, log_options);
+            param.publicKey = pair[0];
+            param.privateKey = pair[1];
 
-            return connection.one(query.toString(), param);
-        }
-        return connection.none(query_insert_account, param);
+            if (returning) {
+                logger.debug('Returning query', log_options);
+                let query = squel.insert()
+                    .into('Account')
+                    .set('idNumber', squel.str('${idNumber}'))
+                    .set('email', squel.str('${email}'))
+                    .set('type', squel.str('${type}'))
+                    .set('password', squel.str('${password}'))
+                    .set('firstname', squel.str('${firstname}'))
+                    .set('middlename', squel.str('${middlename}'))
+                    .set('lastname', squel.str('${lastname}'))
+                    .set('publicKey', squel.str('${publicKey}'))
+                    .set('privateKey', squel.str('${privateKey}'))
+                    .set('contactNumber', squel.str('${contactNumber}'));
+                attachReturning(query, returning);
+
+                query = query.toString();
+                logger.debug(`Executing query: ${query}`, log_options);
+                return connection.one(query, param);
+            }
+            logger.debug(`Non-returning query\nExecuting query: ${query_insert_account}\nParameters: ${JSON.stringify(param)}`, log_options);
+            logger.debug(`Parameters: ${JSON.stringify(param)}`,log_options);
+            return connection.none(query_insert_account, param);
+        });
     };
 
+    /**
+     * @method
+     * @param  {Integer}          idNumber       [description]
+     * @param  {String}           email          [description]
+     * @param  {Integer}          type           [description]
+     * @param  {String}           password       [description]
+     * @param  {String}           firstname      [description]
+     * @param  {String}           middlename     [description]
+     * @param  {String}           lastname       [description]
+     * @param  {String}           contactNumber  [description]
+     * @param  { Array(Integer) } roles          [An array of roleIDs, check database table OrganizationRole]
+     * @returns  {pg-promise}                    [description]
+     */
+    AccountModel.createStudentAccount = (idNumber, email, password, firstname, middlename, lastname, contactNumber, roles, connection = database) => {
+        logger.debug('createStudentAccount()', log_options);
+        return connection.tx(transaction => {
+            AccountModel.createAccount(
+                idNumber,
+                email,
+                ACCOUNT_TYPES.Student,
+                password,
+                firstname,
+                middlename,
+                lastname,
+                contactNumber,
+                null,
+                transaction
+            )
+            .then(() => {
+                let query = squel.insert()
+                    .into('OrganizationOfficer')
+                    .set('idNumber', squel.str('${idNumber}'))
+                    .set('role', squel.str('${roleID}'))
+                    .set('yearID', squel.str('system_get_current_year_id()'))
+                    .toString();
+
+                logger.debug(`Batch roles\nExecuting query: ${query}`,log_options);
+                
+                let queries = [];
+                for(const roleID of roles){
+                    let param = Object.create(null);
+                    param.idNumber = idNumber;
+                    param.roleID = roleID;
+
+                    queries[queries.length] = transaction.none(query, param);
+                }
+
+                return transaction.batch(queries);
+            });
+        });
+    };
 
     /**
      *
@@ -87,6 +158,8 @@ module.exports = function(configuration, modules, database, queryFiles) {
      * @returns {Promise}  [description]
      */
     AccountModel.getAccountDetails = (idNumber, fields, connection = database) => {
+        logger.debug('getAccountDetails()', log_options);
+
         let param = Object.create(null);
         param.idNumber = idNumber;
 
@@ -96,9 +169,90 @@ module.exports = function(configuration, modules, database, queryFiles) {
         attachFields(query, fields);
         return connection.one(query.toString(), param);
     };
+    AccountModel.getAccounts = (fields, connection = database) => {
+        logger.debug('getAccountDetails()', log_options);
 
+        let param = Object.create(null);
+        
+
+        let query = squel.select()
+            .from('Account', 'a')
+            .left_join('organizationofficer','oo','oo.idNumber = a.idNumber')
+            .left_join('organizationrole','oro','oro.id = oo.role')
+            .left_join('studentorganization','so','so.id = oro.organization')
+            .order('a.idNumber',false)
+        attachFields(query, fields);
+        return connection.many(query.toString(), param);
+    };
+     AccountModel.getSpecificAccount = (idNumber,fields, connection = database) => {
+        logger.debug('getAccountDetails()', log_options);
+
+        let param = Object.create(null);
+        
+
+        let query = squel.select()
+            .from('Account', 'a')
+            .left_join('organizationofficer','oo','oo.idNumber = a.idNumber')
+            .left_join('organizationrole','oro','oro.id = oo.role')
+            .left_join('studentorganization','so','so.id = oro.organization')
+            .left_join('accounttype','aca','aca.id = a.type')
+            .where('a.idNumber = ?',idNumber)
+            .order('a.idNumber',false)
+        attachFields(query, fields);
+        return connection.many(query.toString(), param);
+    };
+
+
+    AccountModel.getOrganizationRoles = (fields,connection = database) => {
+        logger.debug('getOrganizationRoles()', log_options);
+
+        let param = Object.create(null);
+
+
+        let query = squel.select()
+            .from('organizationrole','oro')
+            .field('oro.id','orid')
+            .field('oro.organization','oroorg')
+            .field('oro.name','oroname')
+            .field('oro.rank','ororank')
+            .left_join('studentorganization','so','so.id = oro.organization')
+            .field('so.id','soid')
+            .field('so.name','soname')
+            .field('so.acronym','soacro')
+            .order('oro.organization')
+            .order('oro.rank');
+        attachFields(query, fields);
+        return connection.many(query.toString(), param);
+    };
+    AccountModel.getAccountType = (fields, connection = database) => {
+        logger.debug('getAccountType()', log_options);
+
+        let param = Object.create(null);
+
+
+        let query = squel.select()
+            .from('accounttype');
+
+        attachFields(query, fields);
+        return connection.many(query.toString(), param);
+    };
+    // AccountModel.getOrg = (fields, connection = database) => {
+    //     logger.debug('getAccountType()', log_options);
+
+    //     let param = Object.create(null);
+
+
+    //     let query = squel.select()
+    //         .from('studentorganization');
+
+
+    //     attachFields(query, fields);
+    //     return connection.many(query.toString(), param);
+    // };
     const query_get_student_studentOrganizations = queryFiles.student_get_studentOrganizations;
     AccountModel.getStudentOrganizations = (idNumber, connection = database) => {
+        logger.debug('getStudentOrganizations()', log_options);
+
         const param = Object.create(null);
         param.idNumber = idNumber;
 
@@ -238,9 +392,59 @@ module.exports = function(configuration, modules, database, queryFiles) {
     AccountModel.isProjectHead = (idNumber, connection = database) => {
         logger.debug(`isProjectHead(idNumber: ${idNumber})`, log_options);
         logger.debug(isProjectHeadSQL, log_options);
-        return connection.one(isProjectHeadSQL, {
-            idNumber: idNumber
-        });
+
+        const param = Object.create(null);
+        param.idNumber = idNumber;
+
+        return connection.one(isProjectHeadSQL, param);
     };
+
+    const getNotifcationsSQL = queryFiles.account_get_notifications;
+    AccountModel.getNotifications = (idNumber, connection = database) => {
+        logger.debug(`getNotifications(idNumber: ${idNumber})`, log_options);
+        logger.debug(`Executing query: ${getNotifcationsSQL}`, log_options);
+
+        const param = Object.create(null);
+        param.idNumber = idNumber;
+
+        return connection.any(getNotifcationsSQL, param);
+    };
+
+    /**
+     * [addNotification description]
+     * @param {Integer} idNumber             [description]
+     * @param {String} title                 [description]
+     * @param {String} description           [description]
+     * @param {Object} details               An object to be JSON string
+     * @param {pg-connection} connection [description]
+     */
+    AccountModel.addNotification = (idNumber, title, description, details, returning, connection = database) => {
+        logger.debug('addNotification()', log_options);
+
+        let param = Object.create(null);
+        param.idNumber = idNumber;
+        param.title = title;
+        param.description = description;
+        param.details = typeof details === 'object' ? JSON_STRINGIFY(details) : details;
+
+        let query = squel.insert()
+            .into('"AccountNotification"')
+            .set('"account"', squel.str('${idNumber}'))
+            .set('"title"', squel.str('${title}'))
+            .set('"description"', squel.str('${description}'))
+            .set('"details"', squel.str('${details}'));
+
+        let execute = connection.none;
+        if(returning){
+            attachReturning(query, returning);
+            execute = connection.one;
+            logger.debug('Returning query', log_options);
+        }
+
+        query = query.toString();
+        logger.debug(`Executing query: ${query}`, log_options);
+        return execute(query, param);
+    };
+
     return AccountModel;
 };
