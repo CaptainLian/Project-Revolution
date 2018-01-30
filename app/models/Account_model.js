@@ -84,7 +84,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
                 .set('contactNumber', squel.str('${contactNumber}'));
 
             let execute = connection.none;
-            if (typeof returning !== 'undefined') {
+            if (typeof returning !== 'undefined' && returning) {
                 logger.debug('Returning query', log_options);
 
                 attachReturning(query, returning);
@@ -136,7 +136,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
                     .toString();
 
                 logger.debug(`Batch roles\nExecuting query: ${query}`,log_options);
-                
+
                 let queries = [];
                 for(const roleID of roles){
                     let param = Object.create(null);
@@ -177,7 +177,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
         logger.debug('getAccounts()', log_options);
 
         let param = Object.create(null);
-        
+
         let query = squel.select()
             .from('Account', 'a')
             .left_join('organizationofficer','oo','oo.idNumber = a.idNumber')
@@ -198,7 +198,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
         logger.debug('updateAccount()', log_options);
 
         let param = Object.create(null);
-        
+
         return connection.tx(t=>{
             //update basic info
             let query = squel.update()
@@ -228,18 +228,18 @@ module.exports = function(configuration, modules, database, queryFiles) {
                         .set('idnumber', idNumber)
                         .set('role',orgpos)
                         .set('yearid',squel.str('system_get_current_year_id()'))
-                        .set('isactive',true)                    
+                        .set('isactive',true)
                         .toString();
                 query3 +=" ON CONFLICT (idnumber, role, yearid ) DO UPDATE set isactive=true"
             }else{
-                console.log("ELSE");                
-                for(var ctr = 0; ctr < orgpos.length; ctr++){                    
+                console.log("ELSE");
+                for(var ctr = 0; ctr < orgpos.length; ctr++){
                      query3+=squel.insert()
                             .into('organizationofficer')
                             .set('idnumber', idNumber)
                             .set('role',orgpos[ctr])
                             .set('yearid',squel.str('system_get_current_year_id()'))
-                            .set('isactive',true)                    
+                            .set('isactive',true)
                             .toString();
                         query3 +=" ON CONFLICT (idnumber, role, yearid ) DO UPDATE set isactive=true"
 
@@ -247,7 +247,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
                         query3+=';'
                 }
 
-            }           
+            }
             return t.batch([
                         t.none(query),
                         t.none(query2),
@@ -255,15 +255,15 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
                     ])
         })
-      
+
         // attachFields(query, fields);
-     
+
     }
      AccountModel.deleteAccount = (idNumber,status , connection = database) => {
         logger.debug('deleteAccount()', log_options);
 
         let param = Object.create(null);
-        
+
 
         let query = squel.update()
             .table('account')
@@ -297,7 +297,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
         //TODO figure out parameters
         let param = Object.create(null);
-        
+
         let query = squel.select()
             .from('organizationrole','oro')
             .left_join('studentorganization','so','so.id = oro.organization')
@@ -504,7 +504,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
         param.idNumber = idNumber;
         param.title = title;
         param.description = description;
-        param.details = JSON_STRINGIFY(details);
+        param.details = details ? null : JSON_STRINGIFY(details);
 
         let query = squel.insert()
             .into('"AccountNotification"')
