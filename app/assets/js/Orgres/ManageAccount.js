@@ -193,6 +193,8 @@ $(document).ready(function() {
 	    				var first = "<td>"+idNumber+"</td>";
 
 	    				var orgpos = $("#add-personInCharge").select2("data");
+	    				var accType = $("#acc-type").select2("data");
+	    				var accTypeVal = $("#acc-type").select2("val");
 	    				var com = givenName + ' ' + middleName +' '+ lastName;
 	    				var second = "<td>"+com+"</td>";
 	    				$("#name").val(com);
@@ -213,16 +215,18 @@ $(document).ready(function() {
 				                            '<a class="remove"  data-toggle="tooltip" data-original-title="Remove"> '+
 				                                '<i class="fa fa-trash-o text-danger"></i> '+
 				                            '</a>';
-				         if(accType[0]){
-				        	var active = '<span class="label label-success">Active</span>';	
-				        }else{
-				        	var active = '<span class="label label-warning">Inactive</span>';	
-				        }
+				        
+				        var active = '<span class="label label-success">Active</span>';	
+				        
 				        
 				    	var pos = '<p></p>'
-				        for (ctr = 0; ctr < orgpos.length; ctr++) {
-				        	pos += "<p>"+orgpos[ctr].text+"</p>"
-				        }
+				        if(accTypeVal[0] ==1){
+				    		for (ctr = 0; ctr < orgpos.length; ctr++) {
+				        		pos += "<p>"+orgpos[ctr].text+"</p>"
+				        	}	
+				    	}else{
+				    		pos += "<p>"+accType[0].text+"</p>"
+				    	}
 				        var third = "<td>"+pos+"</td>";
 				        var fourth = "<td>"+active+"</td>";
 				        var fifth = "<td>"+actions+"</td>";
@@ -265,10 +269,17 @@ $(document).ready(function() {
 
 	    	  
 	    });
-	    var editNode;
+	    var editNode, showNode;
 	    $("table").on("click",'tbody td a i.fa-pencil',function(){
 	    	var id = $(this).closest("tr").find("td:first").text();
-
+	    	if($(this).closest("tr").hasClass('footable-detail-show')){
+	    		editNode = $(this).closest("tr")
+	    		showNode = $(this).closest("tr").next('tr')
+	    	}else{
+	    		editNode = $(this).closest("tr")
+	    		showNode = 1
+	    	}
+	    	
 	    	// $("#editModal").modal("show");	
 	    	//get DATA
 	    	$.ajax({
@@ -296,6 +307,7 @@ $(document).ready(function() {
 				    	}
 				    	$("#edit").modal("show");
 				    	$("#editModal").modal("show");	
+				    	$("input[value='"+data.details.status+"']").prop("checked",true)
 	    				// table.row(thisNode).remove();
 	    			}else{
 
@@ -361,7 +373,7 @@ $(document).ready(function() {
 	    	var orgpos = $("#edit-personInCharge").select2("val");;
 	    	var accType = $("#edit-acc-type").select2("val");;
 
-
+	    	var status2 = $("input[name='optionsRadios2']:checked").val();
 	    	$.ajax({
 	    		type: 'POST',
 	    		url:'/ORGRES/AJAX/UpdateAccount',
@@ -374,17 +386,20 @@ $(document).ready(function() {
 	    			number:number,
 	    			orgpos:orgpos,
 	    			accType:accType[0],
-	    			status:$("input[name=optionsRadios2]:checked").val()
+	    			status:status2
 	    		},
 	    		success:function(data){
 	    			$("#editModal").modal("hide");
 					//data > 0
 					if(data.status){
 
-					 
+					 	console.log("STATUS")
+					 	console.log(status2)
 						var first = "<td>"+idNumber+"</td>";
 
-	    				var orgpos = $("#add-personInCharge").select2("data");
+	    				var orgpos = $("#edit-personInCharge").select2("data");
+	    				var accType = $("#edit-acc-type").select2("data");
+	    				var accTypeVal = $("#edit-acc-type").select2("val");
 	    				var com = givenName + ' ' + middleName +' '+ lastName;
 	    				var second = "<td>"+com+"</td>";
 	    				 
@@ -398,6 +413,10 @@ $(document).ready(function() {
 				            hideAfter: 3500, 
 				            stack: 6
 				          });
+	    				editNode.remove()
+	    				if(showNode != 1){
+	    					showNode.remove()	
+	    				}
 	    				
 				    	var actions  =      '<a  data-toggle="tooltip" data-original-title="Edit"> '+
 				                                '<i  class="fa fa-pencil text-inverse m-r-10"></i> '+
@@ -405,16 +424,23 @@ $(document).ready(function() {
 				                            '<a class="remove"  data-toggle="tooltip" data-original-title="Remove"> '+
 				                                '<i class="fa fa-trash-o text-danger"></i> '+
 				                            '</a>';
-				        if(accType[0]){
+				        if(status2 == 1){
 				        	var active = '<span class="label label-success">Active</span>';	
 				        }else{
 				        	var active = '<span class="label label-warning">Inactive</span>';	
 				        }
 				        
 				    	var pos = '<p></p>'
-				        for (ctr = 0; ctr < orgpos.length; ctr++) {
-				        	pos += "<p>"+orgpos[ctr].text+"</p>"
-				        }
+				    	if(accTypeVal[0] ==1){
+				    		for (var ctr = 0; ctr < orgpos.length; ctr++) {
+				        		pos += "<p>"+orgpos[ctr].text+"</p>"
+				        	}	
+				    	}else{
+				    		pos += "<p>"+accType[0].text+"</p>"
+				    	}
+				        
+				        
+				        console.log("PUMASOK SA EDIT SUBMIT")
 				        var third = "<td>"+pos+"</td>";
 				        var fourth = "<td>"+active+"</td>";
 				        var fifth = "<td>"+actions+"</td>";

@@ -180,14 +180,14 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
         let query = squel.select()
             .from('Account', 'a')
-            .left_join('organizationofficer','oo','oo.idNumber = a.idNumber')
+            .left_join(squel.select().from('organizationofficer').where('isactive = ?', true).where('yearid = ?',squel.str('system_get_current_year_id()'))
+                        ,'oo','oo.idNumber = a.idNumber')
             .left_join('organizationrole','oro',' oo.role = oro.id ')
             .left_join('studentorganization','so','so.id = oro.organization')
             .left_join('accounttype','ac','a.type = ac.id')
             .field('ac.name','acname')
             .where('a.status <> ?',2)
-            .where('oo.isactive = ?', true)
-            .where('oo.yearid = ?',squel.str('system_get_current_year_id()'))
+
             .order('a.idNumber',false)
         attachFields(query, fields);
         console.log(query.toString());
@@ -220,7 +220,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
                         .where('idNumber = ?', idNumber)
                         .where('yearid = system_get_current_year_id()').toString();
             let query3 =''
-            if(!Array.isArray(orgpos)){
+            if(!Array.isArray(orgpos) && type ==1){
                 console.log("IF");
 
                 query3 += squel.insert()
@@ -231,9 +231,9 @@ module.exports = function(configuration, modules, database, queryFiles) {
                         .set('isactive',true)
                         .toString();
                 query3 +=" ON CONFLICT (idnumber, role, yearid ) DO UPDATE set isactive=true"
-            }else{
-                console.log("ELSE");
-                for(var ctr = 0; ctr < orgpos.length; ctr++){
+            }else if(Array.isArray(orgpos) && type ==1){
+                console.log("ELSE");                
+                for(var ctr = 0; ctr < orgpos.length; ctr++){                    
                      query3+=squel.insert()
                             .into('organizationofficer')
                             .set('idnumber', idNumber)
@@ -247,6 +247,8 @@ module.exports = function(configuration, modules, database, queryFiles) {
                         query3+=';'
                 }
 
+            }else{
+                query3=query2
             }
             return t.batch([
                         t.none(query),
@@ -278,12 +280,13 @@ module.exports = function(configuration, modules, database, queryFiles) {
         let param = Object.create(null);
         let query = squel.select()
             .from('Account', 'a')
-            .left_join('organizationofficer','oo','oo.idNumber = a.idNumber')
+            .left_join(squel.select().from('organizationofficer').where('isactive = ?',true).where('yearid = ?',squel.str('system_get_current_year_id()'))
+                        ,'oo','oo.idNumber = a.idNumber')
             .left_join('organizationrole','oro','oro.id = oo.role')
             .left_join('studentorganization','so','so.id = oro.organization')
             .left_join('accounttype','aca','aca.id = a.type')
             .where('a.idNumber = ?',idNumber)
-            .where('oo.isactive = ?',true)
+            
 
             .order('a.idNumber',false)
         attachFields(query, fields);
