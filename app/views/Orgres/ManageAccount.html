@@ -140,6 +140,8 @@
                                          <p class=""></p>
                                          {%if acc.type == 1%}
                                          <p class="">{{acc.acronym}} - {{acc.name}} </p>
+                                         {%else  %}
+                                         <p class="">{{acc.acname}}  </p>
                                           
                                          {%endif%}
 
@@ -228,7 +230,8 @@
                             {% else%}
                                 {%if acc.type == 1%}
                                 <p class="">{{acc.acronym}} - {{acc.name}}</p>
-                                
+                                {%else  %}
+                                <p class="">{{acc.acname}}  </p>
                                 {%endif%}
                             {% endif %}
                            

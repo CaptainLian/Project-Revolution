@@ -193,6 +193,8 @@ $(document).ready(function() {
 	    				var first = "<td>"+idNumber+"</td>";
 
 	    				var orgpos = $("#add-personInCharge").select2("data");
+	    				var accType = $("#acc-type").select2("data");
+	    				var accTypeVal = $("#acc-type").select2("val");
 	    				var com = givenName + ' ' + middleName +' '+ lastName;
 	    				var second = "<td>"+com+"</td>";
 	    				$("#name").val(com);
@@ -220,9 +222,13 @@ $(document).ready(function() {
 				        }
 				        
 				    	var pos = '<p></p>'
-				        for (ctr = 0; ctr < orgpos.length; ctr++) {
-				        	pos += "<p>"+orgpos[ctr].text+"</p>"
-				        }
+				        if(accTypeVal[0] ==1){
+				    		for (ctr = 0; ctr < orgpos.length; ctr++) {
+				        		pos += "<p>"+orgpos[ctr].text+"</p>"
+				        	}	
+				    	}else{
+				    		pos += "<p>"+accType[0].text+"</p>"
+				    	}
 				        var third = "<td>"+pos+"</td>";
 				        var fourth = "<td>"+active+"</td>";
 				        var fifth = "<td>"+actions+"</td>";
@@ -265,10 +271,17 @@ $(document).ready(function() {
 
 	    	  
 	    });
-	    var editNode;
+	    var editNode, showNode;
 	    $("table").on("click",'tbody td a i.fa-pencil',function(){
 	    	var id = $(this).closest("tr").find("td:first").text();
-	    	editNode = $(this).closest("tr")
+	    	if($(this).closest("tr").hasClass('footable-detail-show')){
+	    		editNode = $(this).closest("tr")
+	    		showNode = $(this).closest("tr").next('tr')
+	    	}else{
+	    		editNode = $(this).closest("tr")
+	    		showNode = 1
+	    	}
+	    	
 	    	// $("#editModal").modal("show");	
 	    	//get DATA
 	    	$.ajax({
@@ -387,6 +400,8 @@ $(document).ready(function() {
 						var first = "<td>"+idNumber+"</td>";
 
 	    				var orgpos = $("#edit-personInCharge").select2("data");
+	    				var accType = $("#edit-acc-type").select2("data");
+	    				var accTypeVal = $("#edit-acc-type").select2("val");
 	    				var com = givenName + ' ' + middleName +' '+ lastName;
 	    				var second = "<td>"+com+"</td>";
 	    				 
@@ -401,6 +416,10 @@ $(document).ready(function() {
 				            stack: 6
 				          });
 	    				editNode.remove()
+	    				if(showNode != 1){
+	    					showNode.remove()	
+	    				}
+	    				
 				    	var actions  =      '<a  data-toggle="tooltip" data-original-title="Edit"> '+
 				                                '<i  class="fa fa-pencil text-inverse m-r-10"></i> '+
 				                            '</a>'+
@@ -414,9 +433,14 @@ $(document).ready(function() {
 				        }
 				        
 				    	var pos = '<p></p>'
-				        for (ctr = 0; ctr < orgpos.length; ctr++) {
-				        	pos += "<p>"+orgpos[ctr].text+"</p>"
-				        }
+				    	if(accTypeVal[0] ==1){
+				    		for (var ctr = 0; ctr < orgpos.length; ctr++) {
+				        		pos += "<p>"+orgpos[ctr].text+"</p>"
+				        	}	
+				    	}else{
+				    		pos += "<p>"+accType[0].text+"</p>"
+				    	}
+				        
 				        
 				        console.log("PUMASOK SA EDIT SUBMIT")
 				        var third = "<td>"+pos+"</td>";

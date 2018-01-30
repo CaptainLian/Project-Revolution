@@ -217,7 +217,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
                         .where('idNumber = ?', idNumber)
                         .where('yearid = system_get_current_year_id()').toString();
             let query3 =''
-            if(!Array.isArray(orgpos)){
+            if(!Array.isArray(orgpos) && type ==1){
                 console.log("IF");
 
                 query3 += squel.insert()
@@ -228,7 +228,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
                         .set('isactive',true)                    
                         .toString();
                 query3 +=" ON CONFLICT (idnumber, role, yearid ) DO UPDATE set isactive=true"
-            }else{
+            }else if(Array.isArray(orgpos) && type ==1){
                 console.log("ELSE");                
                 for(var ctr = 0; ctr < orgpos.length; ctr++){                    
                      query3+=squel.insert()
@@ -244,7 +244,9 @@ module.exports = function(configuration, modules, database, queryFiles) {
                         query3+=';'
                 }
 
-            }           
+            }else{
+                query3=query2
+            }
             return t.batch([
                         t.none(query),
                         t.none(query2),
