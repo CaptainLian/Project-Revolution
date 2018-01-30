@@ -92,6 +92,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             credential: input.credential
         }).then(account => {
             logger.debug(`Account found: ${JSON.stringify(account)}`, log_options);
+            console.log("input.password")
+            console.log(account.salt)
             if (account.password === bcrypt.hashSync(input.password, account.salt)) {
 
                 logger.debug('Enter!!', log_options);

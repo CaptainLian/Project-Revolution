@@ -15,7 +15,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				return task.batch([
 					accModel.getOrganizationRoles(),
 					accModel.getAccountType(),
-					accModel.getAccounts(['a.idnumber','a.firstname','a.middlename','a.lastname','oro.name','a.email','so.acronym'])
+					accModel.getAccounts(['oo.isactive','a.idnumber','a.firstname','a.middlename','a.lastname','oro.name','a.email','so.acronym','a.status','a.type','ac.name'])
 				]);
 			}).then(data=>{
 				renderData.roles = data[0]
@@ -295,22 +295,17 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		    	}
 		    	
 		    }).then(data =>{
-		    	res.json(1);
+		    	res.json({status:1});
 		    }).catch(err=>{
 		    	console.log(err)
-		    	res.json(0);
+		    	res.json({status:0});
 		    });
 		},
-
-		getInfo: (req, res) =>{
-			//TODO: actual implementaion
-			console.log(req.body);
-			res.json(1);	
-		},
+		
 		getSpecificAccount: (req, res) =>{
 			database.task(task=>{
 				return task.batch([
-					accModel.getSpecificAccount(req.body.idNumber,['a.idnumber','a.firstname','a.middlename','a.lastname','oro.name','a.email','so.acronym','a.idNumber','a.contactNumber','aca.id']),
+					accModel.getSpecificAccount(req.body.idNumber,['a.idnumber','a.firstname','a.middlename','a.lastname','oro.name','a.email','so.acronym','a.idNumber','a.contactNumber','aca.id','a.status']),
 					accModel.getSpecificAccount(req.body.idNumber,['oo.role'])
 				])
 			}).then(result=>{
@@ -335,10 +330,28 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		},
 
 		deleteAccount: (req, res) =>{
-			//TODO: code actual implementation
-			console.log(req.body);
-			res.json(1);	
-		}
+			console.log(req.body.id)
+			accModel.deleteAccount(req.body.id,2)
+			.then(data=>{
+				console.log(data)
+				res.json({status:1});	
+			}).catch(err=>{
+				console.log(err)
+				res.json({status:0});	
+			})
+			
+		},
+		updateAccount: (req, res) =>{
+			console.log(req.body)
+			accModel.updateAccount(req.body.id, req.body.email, req.body.accType, req.body.status, req.body.givenName,req.body.middleName,req.body.lastName,req.body.number, req.body['orgpos[]'])
+			.then(data=>{
+				console.log(data)
+				res.json({status:1});	
+			}).catch(err=>{
+				console.log(err)
+				res.json({status:0});	
+			})
+		},
 
 	};
 };

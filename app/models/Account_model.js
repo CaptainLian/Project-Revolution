@@ -166,11 +166,12 @@ module.exports = function(configuration, modules, database, queryFiles) {
         let query = squel.select()
             .from('Account', 'a')
             .where('idNumber = ${idNumber}');
+
         attachFields(query, fields);
         return connection.one(query.toString(), param);
     };
     AccountModel.getAccounts = (fields, connection = database) => {
-        logger.debug('getAccountDetails()', log_options);
+        logger.debug('getAccounts()', log_options);
 
         let param = Object.create(null);
         
@@ -178,14 +179,98 @@ module.exports = function(configuration, modules, database, queryFiles) {
         let query = squel.select()
             .from('Account', 'a')
             .left_join('organizationofficer','oo','oo.idNumber = a.idNumber')
-            .left_join('organizationrole','oro','oro.id = oo.role')
+            .left_join('organizationrole','oro',' oo.role = oro.id ')
             .left_join('studentorganization','so','so.id = oro.organization')
+            .left_join('accounttype','ac','a.type = ac.id')
+            .field('ac.name','acname')
+            .where('a.status <> ?',2)
+            .where('oo.isactive = ?', true)
+            .where('oo.yearid = ?',squel.str('system_get_current_year_id()'))
             .order('a.idNumber',false)
         attachFields(query, fields);
+        console.log(query.toString());
         return connection.many(query.toString(), param);
     };
+    AccountModel.updateAccount = (idNumber,email,type,status,firstname,middlename,lastname,contactNumber, orgpos, connection = database) => {
+        logger.debug('updateAccount()', log_options);
+
+        let param = Object.create(null);
+        
+        return connection.tx(t=>{
+            //update basic info
+            let query = squel.update()
+                        .table('account')
+                        .setFields({
+                            'email':email,
+                            'type':type,
+                            'status':status,
+                            'firstname':firstname,
+                            'middlename':middlename,
+                            'lastname':lastname,
+                            'contactNumber':contactNumber
+                        })
+                        .where('idNumber = ?', idNumber).toString();
+            //update position to false
+            let query2 = squel.update()
+                        .table('organizationofficer')
+                        .set("isactive",false)
+                        .where('idNumber = ?', idNumber)
+                        .where('yearid = system_get_current_year_id()').toString();
+            let query3 =''
+            if(!Array.isArray(orgpos)){
+                console.log("IF");
+
+                query3 += squel.insert()
+                        .into('organizationofficer')
+                        .set('idnumber', idNumber)
+                        .set('role',orgpos)
+                        .set('yearid',squel.str('system_get_current_year_id()'))
+                        .set('isactive',true)                    
+                        .toString();
+                query3 +=" ON CONFLICT (idnumber, role, yearid ) DO UPDATE set isactive=true"
+            }else{
+                console.log("ELSE");                
+                for(var ctr = 0; ctr < orgpos.length; ctr++){                    
+                     query3+=squel.insert()
+                            .into('organizationofficer')
+                            .set('idnumber', idNumber)
+                            .set('role',orgpos[ctr])
+                            .set('yearid',squel.str('system_get_current_year_id()'))
+                            .set('isactive',true)                    
+                            .toString();
+                        query3 +=" ON CONFLICT (idnumber, role, yearid ) DO UPDATE set isactive=true"
+
+                    // if(ctr+1 != orgpos.length)
+                        query3+=';'
+                }
+
+            }           
+            return t.batch([
+                        t.none(query),
+                        t.none(query2),
+                        t.none(query3),
+
+                    ])
+        })
+      
+        // attachFields(query, fields);
+     
+    }
+     AccountModel.deleteAccount = (idNumber,status , connection = database) => {
+        logger.debug('deleteAccount()', log_options);
+
+        let param = Object.create(null);
+        
+
+        let query = squel.update()
+            .table('account')
+            .set('status',status)
+            .where('idNumber = ?', idNumber);
+        // attachFields(query, fields);
+        return connection.none(query.toString());
+    }
      AccountModel.getSpecificAccount = (idNumber,fields, connection = database) => {
-        logger.debug('getAccountDetails()', log_options);
+        logger.debug('getSpecificAccount()', log_options);
 
         let param = Object.create(null);
         
@@ -197,6 +282,8 @@ module.exports = function(configuration, modules, database, queryFiles) {
             .left_join('studentorganization','so','so.id = oro.organization')
             .left_join('accounttype','aca','aca.id = a.type')
             .where('a.idNumber = ?',idNumber)
+            .where('oo.isactive = ?',true)
+
             .order('a.idNumber',false)
         attachFields(query, fields);
         return connection.many(query.toString(), param);

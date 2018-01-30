@@ -11,24 +11,18 @@ $(document).ready(function() {
 		
 });
 
-		// $("#add-personInCharge, #edit-personInCharge").css('visibility','hidden');
-		// $("#acc-type,#edit-acc-type").change(function(){
-		// 	console.log("BEFORe PUMASOK")
-		// 	console.log($(this).select2('val'))
+		$("#add-org-row,#edit-org-row").css('display','none');
+		$("#acc-type,#edit-acc-type").change(function(){
+			console.log("BEFORe PUMASOK")
+			console.log($(this).select2('val'))
 			
-		// 	if($(this).select2('val') == 1 ){
-		// 		console.log("PUMASOK")
-		// 		$("#add-personInCharge, #edit-personInCharge").css('visibility','visible');
-		// 		// $("#acc-type").select2({
-		// 		// 	maximumSelectionSize: 1,
-		// 		// 	placeholder: "Student"
-		// 	 //   	});
-		// 		// $("#edit-acc-type").select2({
-		// 		// 	maximumSelectionSize: 1,
-		// 		// 	placeholder: "Student"
-		// 	 //   });
-		// 	}
-		// })
+			if($(this).select2('val')[0] == 1 ){
+				console.log("PUMASOK")
+				$("#add-org-row,#edit-org-row").css('display','');			
+			}else{
+				$("#add-org-row,#edit-org-row").css('display','none');			
+			}
+		})
 		// var padding = ($(".form-inline").width() - $(".form-inline .row").width() - 130) + 'px';
 		// $("#pad").css("padding-left",padding)
 		// FOOTABLE
@@ -178,7 +172,7 @@ $(document).ready(function() {
 	    	var email  = $("#inputEmail3").val();
 	    	var number = $("#basic-addon1").val();
 	    	var orgpos = $("#add-personInCharge").select2("val");
-	    	var accType = $("#acc-type").select2("val");;
+	    	var accType = $("#acc-type").select2("val");
 	    	$.ajax({
 	    		type: 'POST',
 	    		url:'/ORGRES/AJAX/SaveAccount',
@@ -195,7 +189,7 @@ $(document).ready(function() {
 	    		success:function(data){
 	    			$("#largeModal").modal("hide");
 	    			//data > 0
-	    			if(1){
+	    			if(data.status){
 	    				var first = "<td>"+idNumber+"</td>";
 
 	    				var orgpos = $("#add-personInCharge").select2("data");
@@ -219,7 +213,12 @@ $(document).ready(function() {
 				                            '<a class="remove"  data-toggle="tooltip" data-original-title="Remove"> '+
 				                                '<i class="fa fa-trash-o text-danger"></i> '+
 				                            '</a>';
-				        var active = '<span class="label label-success">Active</span>';
+				         if(accType[0]){
+				        	var active = '<span class="label label-success">Active</span>';	
+				        }else{
+				        	var active = '<span class="label label-warning">Inactive</span>';	
+				        }
+				        
 				    	var pos = '<p></p>'
 				        for (ctr = 0; ctr < orgpos.length; ctr++) {
 				        	pos += "<p>"+orgpos[ctr].text+"</p>"
@@ -245,7 +244,16 @@ $(document).ready(function() {
 
 
 	    			}else{
-	    				$("#wrong").fadeIn("fast").delay(5000).fadeOut("slow");    
+	    				   $.toast({
+				            heading: 'Failed!',
+				            text: 'Account not added.',
+				            position: 'top-right',
+				            loaderBg:'#ff6849',
+				            icon: 'error',
+				            hideAfter: 3500
+				            
+				          });
+	    				
 	    			}
 	    			
 
@@ -272,7 +280,7 @@ $(document).ready(function() {
 	    				
 	    				$("#edit-lastName").val(data.details.lastname);
 				    	$("#edit-middleName").val(data.details.middlename);
-				    	$("#edit-givenName").val(data.details.givenname);
+				    	$("#edit-givenName").val(data.details.firstname);
 
 				    	$("#edit-idNumber").val(data.details.idnumber);
 				    	$("#edit-inputEmail3").val(data.details.email);
@@ -281,6 +289,11 @@ $(document).ready(function() {
 				    	console.log(data.position)
 				    	$("#edit-personInCharge").select2("val",data.position);
 				    	$("#edit-acc-type").select2("val",data.details.id);
+				    	if(data.details.id != 1){
+				    		$("#add-org-row,#edit-org-row").css('display','none');
+				    	}else{
+				    		$("#add-org-row,#edit-org-row").css('display','');
+				    	}
 				    	$("#edit").modal("show");
 				    	$("#editModal").modal("show");	
 	    				// table.row(thisNode).remove();
@@ -301,16 +314,16 @@ $(document).ready(function() {
    			var id = $(this).closest("tr").find("td:first").text();
    			console.log($(this).closest("tr").find("td:first").text());
    			// $("#myTable").footable().data('footable').removeRow($(this).closest("tr"));
+   			var dis = $(this).closest("tr")
    			//remove
 	    	$.ajax({
 	    		type:'POST',
 	    		url:'/ORGRES/AJAX/DeleteAccount',
 	    		data:{id:id},
 	    		success:function(data){
-	    			if(1){
+	    			if(data.status){
 	    				 
-	    				$("#myTable").footable().data('footable').removeRow($(this).closest("tr"));
-
+	    				
 	    				 $.toast({
 				            heading: 'Success!',
 				            text: 'Successfully deleted the account.',
@@ -320,10 +333,12 @@ $(document).ready(function() {
 				            hideAfter: 3500, 
 				            stack: 6
 				          });
+	    				 dis.remove();
+	    				$("#myTable").trigger('footable_initialize');
 	    			}else{
 	    				  $.toast({
 				            heading: 'Failed!',
-				            text: 'Something wrong happen.',
+				            text: 'Account cannot be deleted',
 				            position: 'top-right',
 				            loaderBg:'#ff6849',
 				            icon: 'error',
@@ -344,58 +359,89 @@ $(document).ready(function() {
 	    	var email  = $("#edit-inputEmail3").val();
 	    	var number = $("#edit-basic-addon1").val();
 	    	var orgpos = $("#edit-personInCharge").select2("val");;
-	    	var accType = $("#acc-type").select2("val");;
+	    	var accType = $("#edit-acc-type").select2("val");;
 
 
 	    	$.ajax({
 	    		type: 'POST',
-	    		url:'/ORGRES/AJAX/EditAccount',
+	    		url:'/ORGRES/AJAX/UpdateAccount',
 	    		data:{
+	    			id:idNumber,
 	    			lastName:lastName,
 	    			middleName: middleName,
 	    			givenName: givenName ,
-	    			idNumber: idNumber,
 	    			email:email,
-	    			number:number
+	    			number:number,
+	    			orgpos:orgpos,
+	    			accType:accType[0],
+	    			status:$("input[name=optionsRadios2]:checked").val()
 	    		},
 	    		success:function(data){
 	    			$("#editModal").modal("hide");
 					//data > 0
-					if(1){
-						var com = givenName + ' ' + middleName +' '+ lastName;
-						$("#name").val(com);
-						
-						 $.toast({
+					if(data.status){
+
+					 
+						var first = "<td>"+idNumber+"</td>";
+
+	    				var orgpos = $("#add-personInCharge").select2("data");
+	    				var com = givenName + ' ' + middleName +' '+ lastName;
+	    				var second = "<td>"+com+"</td>";
+	    				 
+	    				
+	    				 $.toast({
 				            heading: 'Success!',
-				            text: 'Successfully edited account of '+com,
+				            text: 'Successfully edited the account of '+com,
 				            position: 'top-right',
 				            loaderBg:'#ff6849',
 				            icon: 'success',
 				            hideAfter: 3500, 
 				            stack: 6
 				          });
-						
+	    				
 				    	var actions  =      '<a  data-toggle="tooltip" data-original-title="Edit"> '+
 				                                '<i  class="fa fa-pencil text-inverse m-r-10"></i> '+
 				                            '</a>'+
 				                            '<a class="remove"  data-toggle="tooltip" data-original-title="Remove"> '+
 				                                '<i class="fa fa-trash-o text-danger"></i> '+
 				                            '</a>';
-				    	
-				        table.row(editNode).remove().draw();
-						var row = table.row.add( [
-				                		idNumber,
-				                		email,
-				                        com,
-				                		number,
-				                    	actions                        
-				                	]).draw().node();
-						clear();
-						$(row).find("td:last").addClass("text-center");
+				        if(accType[0]){
+				        	var active = '<span class="label label-success">Active</span>';	
+				        }else{
+				        	var active = '<span class="label label-warning">Inactive</span>';	
+				        }
+				        
+				    	var pos = '<p></p>'
+				        for (ctr = 0; ctr < orgpos.length; ctr++) {
+				        	pos += "<p>"+orgpos[ctr].text+"</p>"
+				        }
+				        var third = "<td>"+pos+"</td>";
+				        var fourth = "<td>"+active+"</td>";
+				        var fifth = "<td>"+actions+"</td>";
+						// var row = table.row.add( [
+				  //               		idNumber,
+				  //               		com,
+				  //                       pos,
+				  //               		active,
+				  //                   	actions                        
+				  //               	]).draw().node();
+				  		var newRow = "<tr class='text-center'>"+first+second+third+fourth+fifth+"</tr>";
+						var footable = addrow.data('footable');
+						$("#myTable").append(newRow);
+						$("#myTable").trigger('footable_initialize');
 
+						clear();
 
 					}else{
-						$("#wrong").fadeIn("fast").delay(5000).fadeOut("slow");    
+						  $.toast({
+				            heading: 'Failed!',
+				            text: 'Something wrong happened.',
+				            position: 'top-right',
+				            loaderBg:'#ff6849',
+				            icon: 'error',
+				            hideAfter: 3500
+				            
+				          });
 	    			}
 	    			
 
