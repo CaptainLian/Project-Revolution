@@ -523,7 +523,7 @@ CREATE TRIGGER before_insert_Account
     BEFORE INSERT ON Account
     FOR EACH ROW
     EXECUTE PROCEDURE trigger_before_insert_Account();
-
+/*
 CREATE OR REPLACE FUNCTION trigger_before_update_Account()
 RETURNS trigger AS
 $trigger$
@@ -538,7 +538,7 @@ CREATE TRIGGER before_update_Account
     BEFORE UPDATE ON Account
     FOR EACH ROW
     EXECUTE PROCEDURE trigger_before_update_Account();
-
+*/
     /* Account Table Triggers End */
 
     /* Account Notifications */

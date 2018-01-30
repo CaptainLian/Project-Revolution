@@ -23,43 +23,31 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     return {
         //Create ProjectProposal
         viewGOSMActivityListProjectProposal: (req, res) => {
-            systemModel.getCurrentTerm()
-                .then(data => {
-                    var param = {
-                        termID: data.id,
-                        studentOrganization: req.session.user.organizationSelected.id
+            //TODO: Flatten promises
+            systemModel.getCurrentTerm().then(data => {
+                gosmModel.getOrgGOSM(param).then(data1 => {
+                    var dbParam = {
+                        gosm: data1.id,
+                        idnumber: req.session.user.idNumber
                     };
 
-                    gosmModel.getOrgGOSM(param)
-                        .then(data1 => {
+                    projectProposalModel.getGOSMActivitiesToImplement(dbParam).then(data2 => {
 
-
-                            var dbParam = {
-                                gosm: data1.id,
-                                idnumber: req.session.user.idNumber
-                            };
-
-                            projectProposalModel.getGOSMActivitiesToImplement(dbParam)
-                                .then(data2 => {
-
-                                    const renderData = Object.create(null);
-                                    renderData.extra_data = req.extra_data;
-                                    renderData.csrfToken = req.csrfToken();
-                                    renderData.activities = data2;
-                                    console.log(data2);
-                                    return res.render('Org/ActivityToImplement', renderData);
-                                }).catch(error => {
-                                    logger.warn(`${error.message}\n${error.stack}`, log_options);
-                                });
-
-
-                        }).catch(error => {
-                            logger.warn(`${error.message}\n${error.stack}`, log_options);
-                        });
-
+                        const renderData = Object.create(null);
+                        renderData.extra_data = req.extra_data;
+                        renderData.csrfToken = req.csrfToken();
+                        renderData.activities = data2;
+                        console.log(data2);
+                        return res.render('Org/ActivityToImplement', renderData);
+                    }).catch(error => {
+                        logger.warn(`${error.message}\n${error.stack}`, log_options);
+                    });
                 }).catch(error => {
                     logger.warn(`${error.message}\n${error.stack}`, log_options);
                 });
+            }).catch(error => {
+                logger.warn(`${error.message}\n${error.stack}`, log_options);
+            });
         },
 
         viewActivityDetails: (req, res) => {
@@ -101,7 +89,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             projectProposalModel.getProjectProposalProjectHeads(data.id),
                             //5
                             projectProposalModel.getLatestProjectProposalAttachment({projectId:req.params.gosmactivity}),
-                            //6
+                            //6 TODO: Remove raw query
                             database.any(`SELECT
                                             a.idNumber as signatory,
                                             a.firstname || ' ' || a.lastname AS signatoryName,
@@ -1568,14 +1556,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 database.tx(t => {
                     return projectProposalModel.submitProjectProposal(dbParam, t).then(data => {
                         if (req.body.status == 1) { // first time nagpasa
-                            return t.task(task => {
+                            return t.task(task => {1
                                 return task.batch([
                                     projectProposalModel.getProjectProposalProjectHeads(dbParam.id, task),
                                     projectProposalModel.getDetails(dbParam.id, ['ga.strategies'], task)
                                 ]);
                             }).then(data => {
-                                let details = data[1];
-                                let description = `Please check ${data[1].strategies}`;
+                                let description = `Please check activity ${data[1].strategies}`;
 
                                 let queries = [postProjectProposalModel.insertPostProjectProposal(dbParam, t)];
                                 for(const projectHead of data[0]){
@@ -1715,16 +1702,15 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         if (typeof req.files['fq-dp'] == 'object' && typeof req.files['rof-dp'] == 'object') {
                             console.log(dpParam);
                             Promise.all([
-                                    req.files['fq-dp'].mv(path.join(dir2, fqcuid)),
-                                    req.files['rof-dp'].mv(path.join(dir2, rofcuid)),
-                                    postProjectProposalModel.insertPostDP(dpParam, t)
-                                ])
-                                .then(data => {
+                                req.files['fq-dp'].mv(path.join(dir2, fqcuid)),
+                                req.files['rof-dp'].mv(path.join(dir2, rofcuid)),
+                                postProjectProposalModel.insertPostDP(dpParam, t)
+                            ]).then(data => {
 
-                                }).catch(err => {
-                                    console.log("==================DP1");
-                                    console.log(err);
-                                });
+                            }).catch(err => {
+                                console.log("==================DP1");
+                                console.log(err);
+                            });
                         } else if (typeof req.files['rof-dp'] == 'object') {
                             Promise.all([
 
@@ -2486,8 +2472,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 idNumber: req.session.user.idNumber
 
             }
-            orgresModel.getOrgresList(dbParam)
-                .then(data=>{
+            orgresModel.getOrgresList(dbParam).then(data=>{
                     console.log("DATA NG LIST")
                     console.log(data)
                     renderData.activities = data;

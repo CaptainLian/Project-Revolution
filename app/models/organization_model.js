@@ -60,6 +60,8 @@ module.exports = function(configuration, modules, database, queryFiles){
 	 * @return {Object}                [description]
 	 */
 	OrganizationModel.getOrganizationStructure = (organizationID, connection = database) => {
+		logger.debug(`getOrganizationStructure(organizationID: ${organizationID})`, log_options);
+
 		/**
 		 * let param = {
 		 * 		organizationID: organizationID
@@ -68,7 +70,6 @@ module.exports = function(configuration, modules, database, queryFiles){
 		 */
 		let param = Object.create(null);
 		param.organizationID = organizationID;
-
 
 		return connection.many('SELECT id, name, masterRole FROM OrganizationRole WHERE organization = ${organizationID} ORDER BY id ASC;', param)
 		.then(data => {

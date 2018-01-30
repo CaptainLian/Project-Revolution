@@ -107,7 +107,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
             			datestart: "'" + thirdStartSplit[2] + "-" + thirdStartSplit[0] + "-" + thirdStartSplit[1] + "'",
             			dateend: "'" + thirdEndSplit[2] + "-" + thirdEndSplit[0] + "-" + thirdEndSplit[1] + "'"
             		}
-
+            		
             		database.task(t => {
 		                return t.batch([
 		                    orgresModel.insertTerm(dbParam1, t),
@@ -234,21 +234,17 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				effa: req.body.expectations
 			};
 
-			orgresModel.insertActivityResearchForm(dbParam)
-			.then(data=>{
+			orgresModel.insertActivityResearchForm(dbParam).then(data=>{
 				const renderData = Object.create(null);
 	            renderData.extra_data = req.extra_data;
 	            renderData.csrfToken = req.csrfToken();
 
-
 				return res.redirect('/Orgres/SubmitActivityResearchForm');
-
 			}).catch(error=>{
 				console.log(error);
-			});
-
-			
+			});	
 		},
+
 		saveAccount: (req, res) =>{
 			console.log(req.body)
 			console.log(req.body['accType[]'] ==1)
@@ -304,9 +300,6 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		    	console.log(err)
 		    	res.json({status:0});
 		    });
-
-			 
-			
 		},
 		
 		getSpecificAccount: (req, res) =>{
@@ -314,7 +307,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				return task.batch([
 					accModel.getSpecificAccount(req.body.idNumber,['a.idnumber','a.firstname','a.middlename','a.lastname','oro.name','a.email','so.acronym','a.idNumber','a.contactNumber','aca.id','a.status']),
 					accModel.getSpecificAccount(req.body.idNumber,['oo.role'])
-					])
+				])
 			}).then(result=>{
 				console.log("result[1]")
 				var array2=[];
