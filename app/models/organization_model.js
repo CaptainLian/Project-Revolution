@@ -154,5 +154,50 @@ module.exports = function(configuration, modules, database, queryFiles){
 		});
 	};
 
+	/**
+	 * Gets the information who have roles that are below the organiation president
+	 * Joined tables and their aliases
+	 *     Account a
+	 *     OrganizationOfficer oo
+	 * @method
+	 * @param    {Integer}                   organizationID  [description]
+	 * @param    {pg-connection (Optional)}  connection      [description]
+	 * @returns  {pg-promise}                                [description]
+	 */
+	OrganizationModel.getOrganizationExecutiveBoard = (organizationID, connection = database) => {
+		logger.debug(`getOrganizationExecutiveBoard(organizationID: ${organizationID}`, log_options);
+
+		let query = squel.select()
+			.with('"OrganizationRoles"', 
+				squel.select()
+				.from('OrganizationRole')
+				.where('organization = ${organizationID}'))
+			.with('"ExecutiveRoles"', 
+				squel.select()
+				.from('"OrganizationRoles"', 'oro')
+				.where('oro.masterRole = ?', 
+					squel.select()
+					.from('"OrganizationRoles"')
+					.where('masterRole IS NULL')
+					.where('rank = ?', 
+						squel.select()
+						.from('"OrganizationRoles"')
+						.field('MIN(rank)'))))
+			.from('OrganizationOfficer', 'oo')
+			.left_join('Account', 'a', 'oo.idNumber = a.idNumber')
+			.where('oo.yearID = system_get_current_year_id()')
+			.where('oo.role IN ?', 
+				squel.select()
+				.field('id')
+				.from('"ExecutiveRoles"'));
+
+		let param = Object.create(null);
+		param.organizationID = organizationID;
+
+		query = query.toString();
+		logger.debug(`Executing query: ${query}`, log_options);
+		return connection.any(query, param);
+	};
+
 	return OrganizationModel;
 };

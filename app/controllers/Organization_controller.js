@@ -650,12 +650,12 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     organizationModel.getActivitiesWithoutPPR(param, t),
                     projectProposalModel.getPPRProjectedCost(param, t),
                     gosmModel.getGOSMActivities(param.gosm, [
-                            'budget AS budget',
-                            'strategies AS strategies',
-                            "to_char(targetdatestart, 'Mon DD, YYYY') AS startdate",
-                            "to_char(targetdateend, 'Mon DD, YYYY') AS enddate"
-                        ],
-                        t)
+                        'budget AS budget',
+                        'strategies AS strategies',
+                        "to_char(targetdatestart, 'Mon DD, YYYY') AS startdate",
+                        "to_char(targetdateend, 'Mon DD, YYYY') AS enddate"
+                      ],
+                    t)
                 ]);
                 //TODO: add signatories and score
             }).then(data => {
@@ -672,23 +672,26 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             });
         },
 
+        /**
+         * Updates the status of GOSM to submitted
+         * @method
+         */
         submitGOSM: (req, res) => {
             logger.debug('submitGOSM()', log_options);
-            logger.debug('Submitting GOSM', log_options);
+
             /**
              * let dbParam = {
-             *      studentorganization:
+             *      studentorganization: req.session.user.organizationSelected.id
              *  };
              * @type {Object}
              */
             let dbParam = Object.create(null);
             dbParam.studentorganization = req.session.user.organizationSelected.id;
 
-            gosmModel.submitGOSM(dbParam)
-                .then(() => {
-                    res.send("1");
-                    logger.debug('GOSM Submitted', log_options);
-                });
+            gosmModel.submitGOSM(dbParam).then(() => {
+                res.send("1");
+                logger.debug('GOSM Submitted', log_options);
+            });
         },
 
         deleteActivity: (req, res) => {
@@ -696,13 +699,12 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             dbParam.id = req.body.dbid;
 
             logger.debug(`Deleting activity: ${req.body.dbid}`, log_options);
-            gosmModel.deleteActivity(dbParam)
-                .then(data => {
-                    return res.send("1");
-                }).catch(error => {
-                    res.send('0');
-                    throw error;
-                });
+            gosmModel.deleteActivity(dbParam).then(data => {
+                res.send("1");
+            }).catch(error => {
+                res.send('0');
+                logger.error(`${error.message}\n${error.stack}`, log_options);
+            });
         },
 
         updateActivity: (req, res) => {
@@ -716,10 +718,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             var objectives = [];
             objectives = req.body['objectives[]'];
 
-
             if (!Array.isArray(objectives)) {
                 objectives = [objectives];
-
             }
 
             var description = req.body.description;
@@ -886,10 +886,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                     projectHeadParam.idNumber = parseInt(item);
                                     projectHeadParam.activityID = parseInt(activity.activityid);
 
-                                    gosmModel.insertActivityProjectHead(projectHeadParam, transaction)
-                                        .then(data => {
-
-                                        });
+                                    gosmModel.insertActivityProjectHead(projectHeadParam, transaction).then(data => {});
                                 }
                                 logger.debug('Inserting project heads', log_options);
                                 return Promise.resolve(activity.activityid);
@@ -924,6 +921,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 throw err;
             });
         },
+
         viewSettingAcl: (req, res) => {
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
@@ -969,7 +967,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         var dbParam = {
                             organization: req.session.user.organizationSelected.id
                         };
-                         let GOSMParam = Object.create(null);
+                        
+                        let GOSMParam = Object.create(null);
 
                         GOSMParam.termID = GOSM[1].termid
                         GOSMParam.studentOrganization = req.session.user.organizationSelected.id;
