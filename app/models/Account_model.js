@@ -178,14 +178,14 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
         let query = squel.select()
             .from('Account', 'a')
-            .left_join('organizationofficer','oo','oo.idNumber = a.idNumber')
+            .left_join(squel.select().from('organizationofficer').where('isactive = ?', true).where('yearid = ?',squel.str('system_get_current_year_id()'))
+                        ,'oo','oo.idNumber = a.idNumber')
             .left_join('organizationrole','oro',' oo.role = oro.id ')
             .left_join('studentorganization','so','so.id = oro.organization')
             .left_join('accounttype','ac','a.type = ac.id')
             .field('ac.name','acname')
             .where('a.status <> ?',2)
-            .where('oo.isactive = ?', true)
-            .where('oo.yearid = ?',squel.str('system_get_current_year_id()'))
+
             .order('a.idNumber',false)
         attachFields(query, fields);
         console.log(query.toString());
@@ -277,12 +277,13 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
         let query = squel.select()
             .from('Account', 'a')
-            .left_join('organizationofficer','oo','oo.idNumber = a.idNumber')
+            .left_join(squel.select().from('organizationofficer').where('isactive = ?',true).where('yearid = ?',squel.str('system_get_current_year_id()'))
+                        ,'oo','oo.idNumber = a.idNumber')
             .left_join('organizationrole','oro','oro.id = oo.role')
             .left_join('studentorganization','so','so.id = oro.organization')
             .left_join('accounttype','aca','aca.id = a.type')
             .where('a.idNumber = ?',idNumber)
-            .where('oo.isactive = ?',true)
+            
 
             .order('a.idNumber',false)
         attachFields(query, fields);
