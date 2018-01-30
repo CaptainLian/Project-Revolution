@@ -215,11 +215,9 @@ $(document).ready(function() {
 				                            '<a class="remove"  data-toggle="tooltip" data-original-title="Remove"> '+
 				                                '<i class="fa fa-trash-o text-danger"></i> '+
 				                            '</a>';
-				         if(accType[0]){
-				        	var active = '<span class="label label-success">Active</span>';	
-				        }else{
-				        	var active = '<span class="label label-warning">Inactive</span>';	
-				        }
+				        
+				        var active = '<span class="label label-success">Active</span>';	
+				        
 				        
 				    	var pos = '<p></p>'
 				        if(accTypeVal[0] ==1){
