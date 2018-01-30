@@ -1556,14 +1556,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 database.tx(t => {
                     return projectProposalModel.submitProjectProposal(dbParam, t).then(data => {
                         if (req.body.status == 1) { // first time nagpasa
-                            return t.task(task => {
+                            return t.task(task => {1
                                 return task.batch([
                                     projectProposalModel.getProjectProposalProjectHeads(dbParam.id, task),
                                     projectProposalModel.getDetails(dbParam.id, ['ga.strategies'], task)
                                 ]);
                             }).then(data => {
-                                let details = data[1];
-                                let description = `Please check ${data[1].strategies}`;
+                                let description = `Please check activity ${data[1].strategies}`;
 
                                 let queries = [postProjectProposalModel.insertPostProjectProposal(dbParam, t)];
                                 for(const projectHead of data[0]){
@@ -2473,8 +2472,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 idNumber: req.session.user.idNumber
 
             }
-            orgresModel.getOrgresList(dbParam)
-                .then(data=>{
+            orgresModel.getOrgresList(dbParam).then(data=>{
                     console.log("DATA NG LIST")
                     console.log(data)
                     renderData.activities = data;
