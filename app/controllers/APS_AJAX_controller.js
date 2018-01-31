@@ -72,7 +72,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
         gosmModel.updateGOSMStatus(GOSMID, statusID, comments)
         .then(status => {
-            logger.debug(`query result: $(status)`, log_options);
+            logger.debug(`query result: ${status}`, log_options);
             return res.send({
                 valid: true,
                 success: true
@@ -87,6 +87,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     };
 
     APS_AJAXController.updateGOSMActivityComment = (req, res) => {
+        logger.debug('updateGOSMActivityComment()', log_options);
         const activityID = parseInt(req.body.activityID ? req.body.activityID : req.query.activityID);
         const comments = req.body.comments ? req.body.comments : req.query.comments;
 
@@ -99,18 +100,21 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
         logger.debug(`Valid input received: activityID: ${activityID}, comments: ${comments}`, log_options);
         gosmModel.updateActivityComment(activityID, comments)
-        .then(data => {
+        .then(() => {
             logger.debug('Success!', log_options);
-            res.send({
+
+            return res.send({
                 valid: true,
                 success: true
             });
         }).catch(error => {
-            res.send({
+            logger.error(`${error.message}\n${error.stack}`, log_options);
+
+            return res.send({
                 valid: true,
                 success: false
             });
-            throw error;
+
         });
     };
 
@@ -384,7 +388,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             return res.render('APS/ActivityChecking', renderData);
         }).catch(err => {
             logger.debug('RENDEIRNG NO ACTIVITY TO CHECK');
-            logger.debug(`${err.message}/n${err.stack}`);
+            logger.warn(`${err.message}/n${err.stack}`);
+
             const renderData = Object.create(null);
             renderData.csrfToken = req.csrfToken();
             renderData.extra_data = req.extra_data;
@@ -555,7 +560,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     logger.debug(`Document: ${DOCUMENT_STRING}\nDigital Signature: ${DIGITAL_SIGNATURE}`, log_options);
 
                     return accountModel.approvePPR(activityID, req.session.user.idNumber, DOCUMENT_STRING, DIGITAL_SIGNATURE);
-                })
+                });
             }break;
 
             case 2: { //Pend
@@ -569,32 +574,29 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                     for(var i = 0; i < req.body.sectionsToBeEdited.length; i++){
 
-                        console.log("AT LEAST LOOPS BRUH")
+                        console.log('AT LEAST LOOPS BRUH');
 
-                        if (req.body.sectionsToBeEdited[i] == "Brief Context") {
+                        if (req.body.sectionsToBeEdited[i] === 'Brief Context') {
                             context = false;
-                            console.log("SHOULD ENTER THIS");
+                            console.log('SHOULD ENTER THIS');
                         }
 
-                        if (req.body.sectionsToBeEdited[i] == "Program Design") {
+                        if (req.body.sectionsToBeEdited[i] === 'Program Design') {
                             sched = false;
                         }
 
-                        if (req.body.sectionsToBeEdited[i] == "Source of Funds") {
+                        if (req.body.sectionsToBeEdited[i] === 'Source of Funds') {
                             expense = false;
-                        }
-                        else if (req.body.sectionsToBeEdited[i] == "Organizational Funds") {
+                        } else if (req.body.sectionsToBeEdited[i] === 'Organizational Funds') {
                             expense = false;
-                        }
-                        else if (req.body.sectionsToBeEdited[i] == "Revenue and Expense Table") {
+                        } else if (req.body.sectionsToBeEdited[i] === 'Revenue and Expense Table') {
                             expense = false;
-                            console.log("ALSO THIS");
+                            console.log('ALSO THIS');
                         }
 
-                        if (req.body.sectionsToBeEdited[i] == "Attachments") {
+                        if (req.body.sectionsToBeEdited[i] === 'Attachments') {
                             attachments = false;
                         }
-
                     }
 
                     var updateParam = {
@@ -604,14 +606,12 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         attachments: attachments,
                         gosmactivity: activityID,
                         status: 4
-                    }
+                    };
 
-                    console.log("UPDATE PARAM IS");
+                    console.log('UPDATE PARAM IS');
                     console.log(updateParam);
 
-
-                    afterProcessing = projectProposalModel.updatePPRCompletion(updateParam).
-                    then(updata => {
+                    afterProcessing = projectProposalModel.updatePPRCompletion(updateParam).then(() => {
                         return accountModel.pendPPR(activityID, req.session.user.idNumber, comments, sections);
                     });
             }break;
@@ -628,16 +628,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             }
         }
 
-        return afterProcessing.then(data => {
+        return afterProcessing.then(() => {
             reply.success = true;
             reply.valid = true;
             reply.reroute = '/APS/Signatory/ActivtiyList';
 
             /**
              * Add notification to the project heads informing them of the evaluation
-             * @method
-             * @param    {pg-task}  t  
-             * @returns  {void}
              */
             database.task(t => {
                 return t.batch([
@@ -648,7 +645,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             }).then(data => {
                 const strategies = data[0].strategies;
                 const projectHeads = data[1];
-                const evaluatorName = data[3].name;
+                const evaluatorName = data[2].name;
 
                 let title = 'Project Proposal Evaluation';
                 let description = null;
