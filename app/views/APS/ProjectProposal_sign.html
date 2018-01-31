@@ -105,7 +105,7 @@
         (() => {
             let storage = localStorage || window.localStorage;
             storage.setItem('GOSMACtivityID', {{activity}});
-        })()
+        })();
     </script>
     <!-- /Page Scripts -->
 {%endblock%}
@@ -357,13 +357,11 @@
                                         {{(disbursement | round(2))-(projectProposal.sourcefundorganizational | round(2))}}
                                     </div>
                                 </div>
-
-
                             </div>
-                            <br/>
+                            <br />
                             <h4 class="text-left">VI.{%if withRevenue%} Revenue and {%endif%} Expense Table</h4>
                             <hr>
-                            <br/>
+                            <br />
                             {%if withRevenue%}
                             <table class="table bg">
                                 <thead>
@@ -472,7 +470,6 @@
                         </div>
                         {% endfor %}
                     </section>
-
 
                      <section id="section-linebox-6">
                         <div class="white-box">

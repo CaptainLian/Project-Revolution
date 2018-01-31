@@ -2,17 +2,29 @@
 
 module.exports = function(configuration, modules, database, queryFiles){
 	const squel = require('squel').useFlavour('postgres');
-	const dbHelper = require('../utility/databaseHelper');
+	
+	const {attachFields, attachReturning} = (() => {
+		const dbHelper = require('../utility/databaseHelper');
+
+		let param = Object.create(null);
+		param.attachFields = dbHelper.attachFields;
+		param.attachReturning = dbHelper.attachReturning;
+
+		return param;
+	})();
+
 	const log_options = Object.create(null);
 	log_options.from = 'Organization-Model';
+
 	const getActivitiesWithPPRSQL = queryFiles.getActivitiesWithPPR;
 	const getActivitiesWithoutPPRSQL = queryFiles.getActivitiesWithoutPPR;
 	const getStudentsOfOrganizationSQL = queryFiles.getStudentsOfOrganization;
 	const getStudentOrganizationSQL = queryFiles.getStudentOrganization;
 
     const logger = modules.logger;
+
 	/**
-	 * The model representing the model, which contains acions a model can do
+	 * The object representing the model, which contains acions a model can do
 	 * @type {Object}
 	 */
 	const OrganizationModel = Object.create(null);
@@ -22,7 +34,7 @@ module.exports = function(configuration, modules, database, queryFiles){
 		let query = squel.select()
 			.from('StudentOrganization')
 			.where('id = ${id}');
-		dbHelper.attachFields(query, fields);
+		attachFields(query, fields);
 
 		let param = Object.create(null);
 		param.id = id;
@@ -198,8 +210,8 @@ module.exports = function(configuration, modules, database, queryFiles){
 				.field('id')
 				.from('"ExecutiveRoles"'));
 
-        if(typeof fields !== 'undefined'){
-            dbHelper.attachFields(query, fields);
+        if(fields){
+            attachFields(query, fields);
         }
 
 		let param = Object.create(null);

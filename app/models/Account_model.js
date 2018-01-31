@@ -83,19 +83,17 @@ module.exports = function(configuration, modules, database, queryFiles) {
                 .set('privateKey', squel.str('${privateKey}'))
                 .set('contactNumber', squel.str('${contactNumber}'));
 
-            let execute = connection.none;
             if (typeof returning !== 'undefined' && returning) {
                 logger.debug('Returning query', log_options);
 
                 attachReturning(query, returning);
-                execute = connection.one;
             }else{
                 logger.debug('Non-returning query', log_options);
             }
 
             query = query.toString();
             logger.debug(`Executing query: ${query}\nParameters: ${JSON.stringify(param)}`, log_options);
-            return execute(query, param);
+            return connection.oneOrNone(query, param);
         });
     };
 
@@ -516,16 +514,14 @@ module.exports = function(configuration, modules, database, queryFiles) {
             .set('"description"', squel.str('${description}'))
             .set('"details"', squel.str('${details}'));
 
-        let execute = connection.none;
         if(returning){
             attachReturning(query, returning);
-            execute = connection.one;
             logger.debug('Returning query', log_options);
         }
 
         query = query.toString();
         logger.debug(`Executing query: ${query}`, log_options);
-        return execute(query, param);
+        return connection.oneOrNone(query, param);
     };
 
     return AccountModel;

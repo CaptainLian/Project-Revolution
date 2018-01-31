@@ -3,7 +3,6 @@ $(document).bind('customGenerated', function() {
         [].slice.call(document.querySelectorAll('.sttabs')).forEach(function(el) {
             new CBPFWTabs(el);
         });
-
     })();
 
     $('#section-linebox-5').css('visibility', "hidden");

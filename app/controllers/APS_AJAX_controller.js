@@ -404,7 +404,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
          *  valid: boolean,
          *  reroute: string (optional)
          * };
-         * @type {[type]}
+         * @type {object}
          */
         const reply = Object.create(null);
 
