@@ -414,11 +414,9 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			logger.debug('submitPreacts()', log_options);
 			console.log(req.body);
 
-			//TODO: gosmactivity to be changed later
 			var dbParam = {
 				gosmactivity: req.body.gosmactivity,
 				submittedBy: req.session.user.idNumber,
-				purpose: req.body.purpose,
 				justification: req.body.nodpjustification
 			};
 			console.log("req.files");
@@ -508,12 +506,42 @@ module.exports = function(configuration, modules, models, database, queryFiles){
             });
 		},
 
-		createPreacts: (req, res) => {
-			const renderData = Object.create(null);
-            renderData.extra_data = req.extra_data;
-			return res.render('Finance/Preacts_DirectPayment', renderData);
-			//next();
+		createPreactsDirectPayment: (req, res) => {
+
+			var dbParam = {
+				projectProposal: req.params.projectproposal
+			};
+
+
+			financeModel.getParticulars(dbParam)
+			.then(data=>{
+
+
+				console.log("Here is the data ----------------------------------");
+				console.log(data);
+				const renderData = Object.create(null);
+            	renderData.extra_data = req.extra_data;
+	            renderData.csrfToken = req.csrfToken();
+	            renderData.particulars = data;
+	            renderData.gosmactivity = req.params.gosmactivity;
+				return res.render('Finance/Preacts_DirectPayment', renderData);
+				//next();
+
+			}).catch(error=>{
+				console.log(error);
+			});
+
+
 		},
+
+		submitPreactsDirectPayment: (req, res) => {
+
+			console.log("Here is direct payment++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+			console.log(req.body);
+
+
+		},
+
 		createPreactsBookTransfer: (req, res) => {
 			const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
