@@ -166,9 +166,11 @@ module.exports = function(configuration, modules, database, queryFiles) {
         let query = squel.select()
             .from('Account', 'a')
             .where('idNumber = ${idNumber}');
-
         attachFields(query, fields);
-        return connection.one(query.toString(), param);
+
+        query = query.toString();
+        logger.debug(`Executing query ${query}`, log_options);
+        return connection.one(query, param);
     };
 
     AccountModel.getAccounts = (fields, connection = database) => {
@@ -178,8 +180,12 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
         let query = squel.select()
             .from('Account', 'a')
-            .left_join(squel.select().from('organizationofficer').where('isactive = ?', true).where('yearid = ?',squel.str('system_get_current_year_id()'))
-                        ,'oo','oo.idNumber = a.idNumber')
+            .left_join(squel.select()
+                .from('organizationofficer')
+                .where('isactive = ?', true)
+                .where('yearid = ?',squel.str('system_get_current_year_id()')),
+                'oo',
+                'oo.idNumber = a.idNumber')
             .left_join('organizationrole','oro',' oo.role = oro.id ')
             .left_join('studentorganization','so','so.id = oro.organization')
             .left_join('accounttype','ac','a.type = ac.id')

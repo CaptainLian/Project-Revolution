@@ -554,12 +554,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                     logger.debug(`Document: ${DOCUMENT_STRING}\nDigital Signature: ${DIGITAL_SIGNATURE}`, log_options);
 
-                    afterProcessing = accountModel.approvePPR(activityID, req.session.user.idNumber, DOCUMENT_STRING, DIGITAL_SIGNATURE);
-                }).then(data => {
-                    return Promise.resolve(true);
-                }).catch(err => {
-                    logger.debug(`${err.message}\n${err.stack}`);
-                });
+                    return accountModel.approvePPR(activityID, req.session.user.idNumber, DOCUMENT_STRING, DIGITAL_SIGNATURE);
+                })
             }break;
 
             case 2: { //Pend
@@ -613,27 +609,17 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     console.log("UPDATE PARAM IS");
                     console.log(updateParam);
 
-                    projectProposalModel.updatePPRCompletion(updateParam)
-                    .then(updata=>{
-                        
-                    }).catch(error=>{
-                        console.log("ERROR 2")
-                        console.log(error);
-                    })
 
-                afterProcessing = accountModel.pendPPR(activityID, req.session.user.idNumber, comments, sections)
-                .then(data => {
-                    return Promise.resolve(true);
-                });
+                    afterProcessing = projectProposalModel.updatePPRCompletion(updateParam).
+                    then(updata => {
+                        return accountModel.pendPPR(activityID, req.session.user.idNumber, comments, sections);
+                    });
             }break;
 
             case 3: { //Deny
                 const comments = req.body.comments;
 
-                afterProcessing = accountModel.denyPPR(activityID, req.session.user.idNumber, comments)
-                .then(data => {
-                    return Promise.resolve(true);
-                });
+                afterProcessing = accountModel.denyPPR(activityID, req.session.user.idNumber, comments);
             }break;
 
             default: {
@@ -646,12 +632,65 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             reply.success = true;
             reply.valid = true;
             reply.reroute = '/APS/Signatory/ActivtiyList';
-            return res.send(reply);
+
+            /**
+             * Add notification to the project heads informing them of the evaluation
+             * @method
+             * @param    {pg-task}  t  
+             * @returns  {void}
+             */
+            database.task(t => {
+                return t.batch([
+                    projectProposalModel.getActivityProjectProposalDetailsGAID(activityID, ['ga.strategies'], t),
+                    projectProposalModel.getProjectHeadsGOSM({gosmid: activityID}, t),
+                    accountModel.getAccountDetails(req.session.user.idNumber, ["(firstname || '' || lastname) AS name"], t)
+                ]);
+            }).then(data => {
+                const strategies = data[0].strategies;
+                const projectHeads = data[1];
+                const evaluatorName = data[3].name;
+
+                let title = 'Project Proposal Evaluation';
+                let description = null;
+                switch(status){
+                    case 1: {
+                        description = `Your activity ${strategies} has been approved by ${evaluatorName}`;
+                    }break;
+
+                    case 2: {
+                        description = `Your activity ${strategies} has been pended by ${evaluatorName}`;
+                    }break;
+
+                    case 3: {
+                        description = `Your activity ${strategies} has been denied by ${evaluatorName}`;
+                    }break;
+                }
+
+                return database.tx(t => {
+                    let queries = [];
+                    for(const user of projectHeads){
+                        queries[queries.length] = accountModel.addNotification(
+                            user.idnumber, //idNumber
+                            title, // title
+                            description, //description
+                            null, // details
+                            null, //returning
+                            t //pg-connection
+                        );
+                    }
+                    return t.batch(queries);
+                });
+            });
+
+            res.send(reply);
+        }).then(() => {
+            logger.debug('Successfully notified project heads', log_options);
         }).catch(err => {
             logger.warn(`${err.message}\n${err.stack}`, log_options);
 
             reply.success = false;
             reply.valid = false;
+
             return res.send(reply);
         });
     };
