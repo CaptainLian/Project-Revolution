@@ -45,27 +45,24 @@ module.exports = function(configuration, modules, database, queryFiles) {
      * @returns {Promise} [description]
      */
     AccountModel.createAccount = (idNumber, email, type, password, firstname, middlename, lastname, contactNumber, connection = database) => {
-        logger.debug('createAccount()', log_options);
-
-        let param = Object.create(null);
-        param.idNumber = idNumber;
-        param.email = email;
-        param.type = type;
-        param.password = password;
-        param.firstname = firstname;
-        param.middlename = middlename;
-        param.lastname = lastname;
-        param.contactNumber = contactNumber;
-
-        logger.debug(`Generating key pair\n\tParameters: bits: ${configuration.security.encryption.bits}, workers: ${configuration.security.encryption.web_workers_amount}`, log_options);
+        logger.debug(`createAccount()\nGenerating key pair\n\tParameters: bits: ${configuration.security.encryption.bits}, workers: ${configuration.security.encryption.web_workers_amount}`, log_options);
         return forge.pki.rsa.generateKeyPair({
             bits: configuration.security.encryption.bits,
             workers: configuration.security.encryption.web_workers_amount
         }).then(pair => {
             pair[0] = forge.forge.pki.publicKeyToPem(pair.publicKey);
             pair[1] = forge.forge.pki.privateKeyToPem(pair.privateKey);
-            logger.debug(`Public key: ${pair[0]}`, log_options);
-            logger.debug(`Private key: ${pair[1]}`, log_options);
+            logger.debug(`Public key: ${pair[0]}\nPrivate key: ${pair[1]}`, log_options);
+
+            let param = Object.create(null);
+            param.idNumber = idNumber;
+            param.email = email;
+            param.type = type;
+            param.password = password;
+            param.firstname = firstname;
+            param.middlename = middlename;
+            param.lastname = lastname;
+            param.contactNumber = contactNumber;
             param.publicKey = pair[0];
             param.privateKey = pair[1];
 
@@ -83,7 +80,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
                 .set('contactNumber', squel.str('${contactNumber}'));
 
             query = query.toString();
-            logger.debug(`Executing query: ${query}\nParameters: ${JSON.stringify(param)}`, log_options);
+            logger.info(`Executing query: ${query}\nParameters: ${JSON.stringify(param)}`, log_options);
             return connection.none(query, param);
         });
     };
@@ -114,8 +111,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
                 lastname,
                 contactNumber,
                 transaction
-            )
-            .then(() => {
+            ).then(() => {
                 let query = squel.insert()
                     .into('OrganizationOfficer')
                     .set('idNumber', squel.str('${idNumber}'))
