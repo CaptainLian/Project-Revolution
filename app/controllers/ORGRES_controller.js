@@ -77,119 +77,65 @@ module.exports = function(configuration, modules, models, database, queryFiles){
             var thirdEnd = req.body.thirdend;
             var thirdEndSplit = thirdEnd.split("/");
 
-            
-            systemModel.getCurrentTermWithYear()
-            .then(data=>{
-
-            	console.log("termyear");
-            	console.log(data);
-
-            	//insert new term values
-            	if (data.startyear == firstStartSplit[2] && data.endyear == thirdEndSplit[2]){
-
-            		var dbParam1 = {
-            			schoolyearid: data.id,
-            			numberid: 1,
-            			datestart: "'" + firstStartSplit[2] + "-" + firstStartSplit[0] + "-" + firstStartSplit[1] + "'",
-            			dateend: "'" + firstEndSplit[2] + "-" + firstEndSplit[0] + "-" + firstEndSplit[1] + "'"
-            		}
-            		
-            		var dbParam2 = {
-            			schoolyearid: data.id,
-            			numberid: 2,
-            			datestart: "'" + secondStartSplit[2] + "-" + secondStartSplit[0] + "-" + secondStartSplit[1] + "'",
-            			dateend: "'" + secondEndSplit[2] + "-" + secondEndSplit[0] + "-" + secondEndSplit[1] + "'"
-            		}
-
-            		var dbParam3 = {
-            			schoolyearid: data.id,
-            			numberid: 3,
-            			datestart: "'" + thirdStartSplit[2] + "-" + thirdStartSplit[0] + "-" + thirdStartSplit[1] + "'",
-            			dateend: "'" + thirdEndSplit[2] + "-" + thirdEndSplit[0] + "-" + thirdEndSplit[1] + "'"
-            		}
-            		
-            		database.task(t => {
-		                return t.batch([
-		                    orgresModel.insertTerm(dbParam1, t),
-		                    orgresModel.insertTerm(dbParam2, t),
-		                    orgresModel.insertTerm(dbParam3, t)
-		                ])
-		            }).then(data1=>{
-
-		            	console.log(data1);
-		            	console.log("Success inserting term");
-          		        res.redirect(`/ORGRES/Manage/Time`);
 
 
-		            }).catch(error=>{
-		            	console.log(error);
-		            })
+          	var dbParam = {
+	         	startyear: firstStartSplit[2],
+		       	endyear: thirdEndSplit[2],
+	           	datestart: "'" + firstStartSplit[2] + "-" + firstStartSplit[0] + "-" + firstStartSplit[1] + "'",
+           		dateend: "'" + thirdEndSplit[2] + "-" + thirdEndSplit[0] + "-" + thirdEndSplit[1] + "'"
+		    }
 
-		            console.log("CORRECT +++++++++++++++++++++++++++++");
+		    orgresModel.insertSchoolYear(dbParam)
+		    .then(datayear=>{
 
-
-            	}// update previous term values
-            	else{
-
-            		var dbParam = {
-		            	startyear: firstStartSplit[2],
-		            	endyear: thirdEndSplit[2]
-		            }
-
-		            orgresModel.insertSchoolYear(dbParam)
-		            .then(datayear=>{
-
-		            	var dbParam1 = {
-	            			schoolyearid: datayear.id,
-	            			numberid: 1,
-	            			datestart: "'" + firstStartSplit[2] + "-" + firstStartSplit[0] + "-" + firstStartSplit[1] + "'",
-	            			dateend: "'" + firstEndSplit[2] + "-" + firstEndSplit[0] + "-" + firstEndSplit[1] + "'"
-	            		}
+		       	var dbParam1 = {
+	       			schoolyearid: datayear.id,
+	           		numberid: 1,
+	       			datestart: "'" + firstStartSplit[2] + "-" + firstStartSplit[0] + "-" + firstStartSplit[1] + "'",
+	       			dateend: "'" + firstEndSplit[2] + "-" + firstEndSplit[0] + "-" + firstEndSplit[1] + "'"
+        		}
 	            		
-	            		var dbParam2 = {
-	            			schoolyearid: datayear.id,
-	            			numberid: 2,
-	            			datestart: "'" + secondStartSplit[2] + "-" + secondStartSplit[0] + "-" + secondStartSplit[1] + "'",
-	            			dateend: "'" + secondEndSplit[2] + "-" + secondEndSplit[0] + "-" + secondEndSplit[1] + "'"
-	            		}
+	          	var dbParam2 = {
+	       			schoolyearid: datayear.id,
+	       			numberid: 2,
+         			datestart: "'" + secondStartSplit[2] + "-" + secondStartSplit[0] + "-" + secondStartSplit[1] + "'",
+	           		dateend: "'" + secondEndSplit[2] + "-" + secondEndSplit[0] + "-" + secondEndSplit[1] + "'"
+	           	}
 
-	            		var dbParam3 = {
-	            			schoolyearid: datayear.id,
-	            			numberid: 3,
-	            			datestart: "'" + thirdStartSplit[2] + "-" + thirdStartSplit[0] + "-" + thirdStartSplit[1] + "'",
-	            			dateend: "'" + thirdEndSplit[2] + "-" + thirdEndSplit[0] + "-" + thirdEndSplit[1] + "'"
-	            		}
+	           	var dbParam3 = {
+	           		schoolyearid: datayear.id,
+	       			numberid: 3,
+	       			datestart: "'" + thirdStartSplit[2] + "-" + thirdStartSplit[0] + "-" + thirdStartSplit[1] + "'",
+        			dateend: "'" + thirdEndSplit[2] + "-" + thirdEndSplit[0] + "-" + thirdEndSplit[1] + "'"
+	       		}
 
-	            		database.task(t => {
-			                return t.batch([
-			                    orgresModel.insertTerm(dbParam1, t),
-			                    orgresModel.insertTerm(dbParam2, t),
-			                    orgresModel.insertTerm(dbParam3, t)
-			                ])
-			            }).then(data1=>{
+	           	database.task(t => {
+		            return t.batch([
+		                orgresModel.insertTerm(dbParam1, t),
+		                orgresModel.insertTerm(dbParam2, t),
+		                orgresModel.insertTerm(dbParam3, t)
+		            ])
+		        }).then(data1=>{
 
-			            	console.log(data1);
-			            	console.log("Success inserting term");
-              			    res.redirect(`/ORGRES/Manage/Time`);
+		           	console.log(data1);
+		           	console.log("Success inserting term");
+          		    res.redirect(`/ORGRES/Manage/Time`);
+
+		        }).catch(error=>{
+		           	console.log("enter error 2");
+		           	console.log(error);
+		        })
+
+		        console.log("CORRECT ---------------------------------");
+
+	        }).catch(error=>{
+		       	console.log("enter error 4");
+	           	console.log(error);
+	        });
 
 
-			            }).catch(error=>{
-			            	console.log(error);
-			            })
-
-			            console.log("CORRECT ---------------------------------");
-
-		            }).catch(error=>{
-		            	console.log(error);
-		            });
-
-
-            	}
-
-            }).catch(error=>{
-            	console.log(error);
-            })
-
+            	
 		},
 
 		viewSubmitResearchActivityForm: (req, res) => {

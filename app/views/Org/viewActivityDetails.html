@@ -100,6 +100,8 @@
     <!-- Page Scripts -->
     {{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
     {{tag.javascript('/js/APS/ActivityChecking.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-daterangepicker/daterangepicker.js', true)}}
     <!-- /Page Scripts -->
 {%endblock%}
 
@@ -139,6 +141,19 @@
                     </div>
                 </div>
                 <!-- /.row -->
+                <hr>
+                <div class="row text-center m-t-10">
+                    <div class="col-md-12">
+                        <p><strong>Date</strong></p>
+
+
+                        {% for date, programs in programDesign | groupby('date') %}
+                            <p>{{date}}</p>
+                        {% endfor %}
+                        <button type="button" class="btn btn-default" id='reschedule'>Reschedule</button>
+
+                    </div>
+                </div>
                 <hr>
                 <!-- .row -->
                 <div class="row text-center m-t-10">

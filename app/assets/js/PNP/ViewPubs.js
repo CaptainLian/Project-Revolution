@@ -78,29 +78,37 @@ $(".approve").on('click',function(){
         if(data){
             swal("Good job!", "Success!", "success");    
         }
-        
-        
     });
 });
 $(".pend").on('click',function(){
-     var pub = $(this);
+    var pub = $(this);
     var question = '<div class="row">'+
-                        '<div class="col-md-12 text-left m-b-20">'+
-                            '<br/>Select the sections that should be change, then explain why.<br/>'+
-                        '</div>'+
-                     
-                        '<div class="form-group col-md-12">'+
-                            '<label class="col-md-12 text-left"><strong>Explanation</strong></label>'+
-                            '<div class="col-md-12">'+
-                                '<textarea class="form-control" rows="5"></textarea>'+
+                            '<div class="col-md-12 text-left m-b-20">'+
+                                '<br/>Select the sections that should be changed, then explain why.<br/>'+
                             '</div>'+
-                        '</div>'+
-                    '</div>';
-    
+                            '<div class="form-group col-md-12">'+
+                                '<label class="col-md-12 text-left"><strong>Reasons for Revision:</strong></label>'+
+                                '<div class="col-md-12">'+
+                                    '<select class="col-md-12" multiple=""s id="select-sec">'+
+                                        
+                                        '<option value="1">Incorrect Grammar</option>'+
+                                        '<option value="1">Unoriginal Design</option>'+
+                                        '<option value="2">Incomplete logos</option>'+
+                                        '<option value="4">Contents not in line with Lasallian Values</option>'+
+                                    '</select>'+
+                                '</div>'+
+                                
+                            '</div>'+
+                            '<div class="form-group col-md-12">'+
+                                '<label class="col-md-12 text-left"><strong>Explanation</strong></label>'+
+                                '<div class="col-md-12">'+
+                                    '<textarea class="form-control" rows="5"></textarea>'+
+                                '</div>'+
+                            '</div>'+
+                        '</div>';
     
     swal({   
-        title: "Defer",   
-        text:"Select the sections that should be change, then explain why.",
+        title: "Pend",   
         html:question,
         focusConfirm:false,
         focusCancel:false,
@@ -132,11 +140,20 @@ $(".pend").on('click',function(){
 
             })
 
-        }
+        },
+         onOpen: function(ele) {
+            $(ele).find("select").select2();
+            console.log("INIT SELECT");
+        },
+        showCancelButton: true,
+        confirmButtonColor: "#FEC107",
+        confirmButtonText: "Pend",
+        cancelButtonText: "Cancel",
          
     }).then(function(data){
         console.log("DATA ON APPROVE");
         console.log(pub.attr("data-id"));
+
         if(data){
             swal("Good job!", "Success!", "success");    
         }
@@ -169,10 +186,6 @@ $(".deny").on('click',function(){
         focusCancel:false,
         reverseButtons:true,
         allowOutsideClick: false,
-        showCancelButton: true,   
-        confirmButtonColor: "#FB9678",   
-        confirmButtonText: "Submit",   
-        cancelButtonText: "Cancel",
         preConfirm: function (data) {
             console.log(data);
             return new Promise(function (resolve, reject) {
@@ -198,7 +211,16 @@ $(".deny").on('click',function(){
 
             })
 
-        }
+        },
+        onOpen: function(ele) {
+            $(ele).find("select").select2();
+            console.log("INIT SELECT");
+        },
+
+        showCancelButton: true,   
+        confirmButtonColor: "#FB9678",   
+        confirmButtonText: "Submit",   
+        cancelButtonText: "Cancel",
          
     }).then(function(data){
         console.log("DATA ON APPROVE");
