@@ -329,7 +329,8 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
         const param = Object.create(null);
         param.idNumber = idNumber;
-
+        
+        logger.debug(`Executing query: ${query_get_student_studentOrganizations}`, log_options);
         return connection.any(query_get_student_studentOrganizations, param);
     };
 
