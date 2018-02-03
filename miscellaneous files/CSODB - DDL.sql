@@ -2053,6 +2053,32 @@ CREATE TABLE "PreActivityDirectPaymentSignatory" (
 
     CONSTRAINT "pk_PreActivityDirectPaymentSignatory" PRIMARY KEY("directPayment", "signatory", "type")
 );
+CREATE OR REPLACE FUNCTION "trigger_after_insert_PreActivityDirectPayment_signatories"()
+RETURNS TRIGGER AS
+$trigger$
+    DECLARE
+        organization INTEGER;
+        organizationPresident INTEGER;
+    BEGIN
+        organization = "PreAct_CashAdvance_get_organization"(NEW."id");
+        organizationPresident = organization_get_president(organization);
+  
+        INSERT INTO "PreActivityDirectPaymentSignatory" ("directPayment", signatory, type)
+                                               VALUES (NEW."id", "PreActCashAdvance_get_organization_next_treasurer_signatory"(organization), 0);
+  
+        INSERT INTO "PreActivityDirectPaymentSignatory" ("directPayment", signatory, type)
+                                               VALUES (NEW."id", organizationPresident, 1);
+                                                 
+        INSERT INTO "PreActivityDirectPaymentSignatory" ("directPayment", signatory, type)
+                                               VALUES (NEW."id", (SELECT a.idNumber FROM Account a WHERE type = 3 ORDER BY idNumber DESC LIMIT 1), 2);  
+  
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER "after_insert_PreActivityDirectPayment_signatories"
+    AFTER INSERT ON "PreActivityDirectPayment"
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_after_insert_PreActivityDirectPayment_signatories"();
 
 DROP TABLE IF EXISTS "PreActivityCashAdvanceSignatory" CASCADE;
 CREATE TABLE "PreActivityCashAdvanceSignatory" (
@@ -2077,7 +2103,7 @@ $trigger$
         organizationPresident INTEGER;
     BEGIN
         organization = "PreAct_CashAdvance_get_organization"(NEW."id");
-	organizationPresident = organization_get_president(organization);
+        organizationPresident = organization_get_president(organization);
 	
         INSERT INTO "PreActivityCashAdvanceSignatory" ("cashAdvance", signatory, type)
                                                VALUES (NEW."id", "PreActCashAdvance_get_organization_next_treasurer_signatory"(organization), 0);
@@ -2100,31 +2126,31 @@ CREATE OR REPLACE FUNCTION "trigger_after_insert_PreActivityCashAdvanceParticula
 RETURNS TRIGGER AS
 $trigger$
     DECLARE
-	totalExpense NUMERIC(12, 2);
+        totalExpense NUMERIC(12, 2);
     BEGIN
-	SELECT SUM(ppe.unitCost*ppe.quantity) INTO totalExpense
-	  FROM ProjectProposalExpenses ppe
-	 WHERE ppe.id IN (SELECT pacap.particular
-	                    FROM "PreActivityCashAdvanceParticular" pacap
-	                   WHERE pacap."cashAdvance" = NEW."cashAdvance");
+        SELECT SUM(ppe.unitCost*ppe.quantity) INTO totalExpense
+	        FROM ProjectProposalExpenses ppe
+	       WHERE ppe.id IN (SELECT pacap.particular
+	                          FROM "PreActivityCashAdvanceParticular" pacap
+	                         WHERE pacap."cashAdvance" = NEW."cashAdvance");
 
-	IF totalExpense > 5000.00 THEN
+	      IF totalExpense > 5000.00 THEN
             INSERT INTO "PreActivityCashAdvanceSignatory" ("cashAdvance", "signatory", "type")
                                                    VALUES (NEW."cashAdvance", (SELECT a.idNumber FROM Account a WHERE a.type = 4 ORDER BY a.idNumber DESC LIMIT 1), 3)
             ON CONFLICT DO NOTHING;
         END IF;
         
-	IF totalExpense > 50000.00 THEN
+	      IF totalExpense > 50000.00 THEN
             INSERT INTO "PreActivityCashAdvanceSignatory" ("cashAdvance", "signatory", "type")
                                                    VALUES (NEW."cashAdvance", (SELECT a.idNumber FROM Account a WHERE a.type = 5 ORDER BY a.idNumber DESC LIMIT 1), 4)
             ON CONFLICT DO NOTHING;
         END IF;
         
-	IF totalExpense > 250000.00 THEN
-	    INSERT INTO "PreActivityCashAdvanceSignatory" ("cashAdvance", "signatory", "type")
+	      IF totalExpense > 250000.00 THEN
+	          INSERT INTO "PreActivityCashAdvanceSignatory" ("cashAdvance", "signatory", "type")
                                                    VALUES (NEW."cashAdvance", (SELECT a.idNumber FROM Account a WHERE a.type = 6 ORDER BY a.idNumber DESC LIMIT 1), 5)
             ON CONFLICT DO NOTHING;
-	END IF;
+	      END IF;
 	
         RETURN NEW;
     END

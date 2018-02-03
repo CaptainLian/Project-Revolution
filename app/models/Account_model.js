@@ -41,11 +41,10 @@ module.exports = function(configuration, modules, database, queryFiles) {
      * @param  {String}          middlename    [description]
      * @param  {String}          lastname      [description]
      * @param  {String}          contactNumber [description]
-     * @param  {[String, Array(String)] (Optional)}                           returning     [description]
      * @param  {[pg-task, pg-connection, pg-transaction] (Optional)}          connection    [description]
      * @returns {Promise} [description]
      */
-    AccountModel.createAccount = (idNumber, email, type, password, firstname, middlename, lastname, contactNumber, returning, connection = database) => {
+    AccountModel.createAccount = (idNumber, email, type, password, firstname, middlename, lastname, contactNumber, connection = database) => {
         logger.debug('createAccount()', log_options);
 
         let param = Object.create(null);
@@ -83,17 +82,9 @@ module.exports = function(configuration, modules, database, queryFiles) {
                 .set('privateKey', squel.str('${privateKey}'))
                 .set('contactNumber', squel.str('${contactNumber}'));
 
-            if (typeof returning !== 'undefined' && returning) {
-                logger.debug('Returning query', log_options);
-
-                attachReturning(query, returning);
-            }else{
-                logger.debug('Non-returning query', log_options);
-            }
-
             query = query.toString();
             logger.debug(`Executing query: ${query}\nParameters: ${JSON.stringify(param)}`, log_options);
-            return connection.oneOrNone(query, param);
+            return connection.none(query, param);
         });
     };
 
@@ -122,7 +113,6 @@ module.exports = function(configuration, modules, database, queryFiles) {
                 middlename,
                 lastname,
                 contactNumber,
-                null,
                 transaction
             )
             .then(() => {
