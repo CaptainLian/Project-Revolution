@@ -213,18 +213,22 @@ module.exports = function(configuration, application, modules, database, queryFi
             logger.debug(`isProjectHead: ${isProjectHead.exists}`, log_options);
             if (isProjectHead.exists && organizationSelected.id !== 0) {
                 const newSidebar = Object.create(null);
-                newSidebar.name = 'Project Proposal';
+                newSidebar.name = 'Pre Activity';
                 newSidebar.link = '/Organization/ProjectProposal/GOSMList';
+                newSidebar.icon = ''
                 sidebars[sidebars.length] = newSidebar;
 
                 const newSidebar2 = Object.create(null);
-                newSidebar2.name = 'Post Project';
+                newSidebar2.name = 'Post Activity';
                 newSidebar2.link = '/Organization/PostProjectProposal/GOSMList';
+                newSidebar2.icon = ''
+                
                 sidebars[sidebars.length] = newSidebar2;
 
                 const newSidebar3 = Object.create(null);
-                newSidebar3.name = 'Activity Research Form';
+                newSidebar3.name = 'Activity Result';
                 newSidebar3.link = '/Organization/Orgres/list';
+                newSidebar3.icon = ''
                 sidebars[sidebars.length] = newSidebar3;
             }
 
@@ -241,8 +245,9 @@ module.exports = function(configuration, application, modules, database, queryFi
             logger.debug(`Has PPR Approved: ${PPRApproved.exists}`, log_options);
             if(PPRApproved.exists){
                 const newSidebar = Object.create(null);
-                newSidebar.name = 'Submit Activity Publicity';
+                newSidebar.name = 'Activity Publicity';
                 newSidebar.link = '/Organization/Publicity/list';
+                newSidebar.icon = ']'
 
                 sidebars[sidebars.length] = newSidebar;
             }

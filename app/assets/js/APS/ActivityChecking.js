@@ -142,7 +142,7 @@ $(document).on('click', '#defer', function() {
         showCancelButton: true,
         confirmButtonColor: "#FEC107",
         confirmButtonText: "Pend",
-        cancelButtonText: "Cancel",,
+        cancelButtonText: "Cancel",
 
 
     }).then(function(data) {
@@ -165,7 +165,8 @@ $(document).on('click', '#defer', function() {
                 activityID: $("#doc").attr("ct"),
                 status: 2,
                 comments: $("#comment").val(),
-                sectionsToBeEdited: $("#select-sec").val(),                
+                sectionsToBeEdited: $("#select-sec").val()
+                
             },
             success: function(data) {
 

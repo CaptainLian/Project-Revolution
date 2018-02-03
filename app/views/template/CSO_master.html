@@ -116,7 +116,7 @@
                             <!-- /input-group -->
                         </li>
                         {%-block sidebar_content%}
-                            {{sidebar_item('Home', '/home')}}
+                            {{sidebar_item('Home', '/home','Z')}}
                             {% for sidebar in extra_data.view.sidebars %}
                                 {{sidebar_item(sidebar.name, sidebar.link, sidebar.icon)}}
                             {% endfor %}
@@ -185,7 +185,7 @@
 {% macro sidebar_item(name='', link='javascript:void(0);', classes='') %}
     <li>
         <a href="{{link}}" class="waves-effect">
-            <i class="{%if(classes)%}{{classes}}{%else%}linea-icon linea-basic fa-fw{%endif%} text-success" data-icon="7"></i>
+            <i class="linea-icon linea-basic fa-fw text-success" data-icon="{{classes}}"></i>
             <span class="hide-menu sideBarText">{{name}}</span>
         </a>
     </li>

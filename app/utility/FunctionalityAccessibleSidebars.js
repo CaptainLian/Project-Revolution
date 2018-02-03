@@ -12,7 +12,7 @@ const functionalitySidebars = Object.create(null);
 
 //View Project Head Dashboard
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.ViewProjectHeadDashboard] = [{
-    name: 'Project Head Dashboard',
+    name: 'Dashboard',
     link: '/Organization/ProjectHead/home'
 }];
 
@@ -86,7 +86,7 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluatePublicityMaterial] = [{
 //Evaluate Post Project
 //NOTE experimental code
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluatePostProject] = [constructSidebar(
-        'Post Project',
+        'Post ProjectHead',
         '/ADM/Activity/List'
 )];
 
