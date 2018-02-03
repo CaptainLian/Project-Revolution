@@ -4,9 +4,10 @@ module.exports = function(configuration, application, modules, database, queryFi
     const Promise = modules.Promise;
 
     const logger = modules.logger;
-    const log_options = {
-        from: 'Student-Navbar-middleware'
-    };
+    const log_options = Object.create(null);
+    log_options.from = 'Student-Navbar-middleware';
+
+    const accountModel = models.Account_model;
 
     /**
      * const StudentAccountAccessControlMiddleware = {
@@ -19,7 +20,14 @@ module.exports = function(configuration, application, modules, database, queryFi
     StudentSidebarAttacher.name = 'Admin sidebar attacher';
     StudentSidebarAttacher.priority = configuration.load_priority.LOW;
     StudentSidebarAttacher.action = (req, res, next) => {
-    logger.debug(`Attaching student navbar data` ,log_options);
+        if(req.method !== 'GET' || !req.session.user || req.session.user.type !== 1)
+            return next();
+
+        logger.debug(`Attaching student navbar data`, log_options);
+        
+        accountModel.getStudentOrganizations(req.session.user.idNumber).then(organizations => {
+            logger.debug(`Organizations: ${JSON.stringify(organizations)}`, log_options);
+        });
 
        return next();
     };
