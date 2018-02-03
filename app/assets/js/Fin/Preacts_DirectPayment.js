@@ -42,6 +42,7 @@
         }
         
     }
+    
     function submit(){
         if($('#ca_particular').val()!=null){
              alert("awyiss");

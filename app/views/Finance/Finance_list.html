@@ -107,22 +107,22 @@
 
                                                         {% for total in transactionTotal %}
 
-                                                        {% if activity.gosmactivity == total.gosmactivity %}
+                                                            {% if activity.gosmactivity == total.gosmactivity %}
 
-                                                            {% set hasTransaction = true %}
+                                                                {% set hasTransaction = true %}
 
-                                                            {% if total.transactiontotal == 1 %}
-                                                            
-                                                                <td>{{total.transactiontotal}} transaction &nbsp;
+                                                                {% if total.transactiontotal == 1 %}
+                                                                
+                                                                    <td>{{total.transactiontotal}} transaction &nbsp;
 
-                                                            {% else %}
-    
-                                                                <td>{{total.transactiontotal}} transactions &nbsp;
+                                                                {% else %}
+        
+                                                                    <td>{{total.transactiontotal}} transactions &nbsp;
+
+                                                                {% endif %}
+
 
                                                             {% endif %}
-
-
-                                                        {% endif %}
 
                                                         {% endfor %}
 
