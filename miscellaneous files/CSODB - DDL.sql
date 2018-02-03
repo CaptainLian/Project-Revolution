@@ -1466,7 +1466,8 @@ INSERT INTO ProjectProposalStatus (id, name)
                                   (2, 'For approval'),
                                   (3, 'Approved'),
                                   (4, 'Pending'),
-                                  (5, 'Denied');
+                                  (5, 'Denied'),
+                                  (6, 'Rescheduled');
 
 DROP TABLE IF EXISTS ProjectProposal CASCADE;
 CREATE TABLE ProjectProposal (

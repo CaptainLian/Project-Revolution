@@ -254,12 +254,12 @@ module.exports = function(configuration, modules, database, queryFiles) {
             }else{
                 query3=query2
             }
+            
             return t.batch([
-                        t.none(query),
-                        t.none(query2),
-                        t.none(query3),
-
-                    ])
+                t.none(query),
+                t.none(query2),
+                t.none(query3)
+            ])
         })
 
         // attachFields(query, fields);
