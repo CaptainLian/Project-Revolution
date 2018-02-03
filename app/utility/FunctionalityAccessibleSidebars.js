@@ -13,7 +13,8 @@ const functionalitySidebars = Object.create(null);
 //View Project Head Dashboard
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.ViewProjectHeadDashboard] = [{
     name: 'Dashboard',
-    link: '/Organization/ProjectHead/home'
+    link: '/Organization/ProjectHead/home',
+    classes:'linea-basic'
 }];
 
 //View APSReport
@@ -44,7 +45,8 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateProjectProposal] = [{
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateActivity_AMT] = [{
     name: 'Evaluate Activity',
     link: '/AMT/AssignActivity',
-    icon: 'X'
+    icon: 'X',
+    classes:'linea-elaborate'
 }];
 
 //Evaluate Activity (OrgRes)
@@ -52,6 +54,7 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateActivity_OrgRes] = [{
     name: 'Research Form',
     link: '/ORGRES/SubmitActivityResearchForm',
     icon: '$',
+    classes:'linea-elaborate',
     sublinks: [
 
     ]
