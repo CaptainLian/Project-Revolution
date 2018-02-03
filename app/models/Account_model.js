@@ -47,7 +47,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
      */
     AccountModel.createAccount = (idNumber, email, type, password, firstname, middlename, lastname, contactNumber, connection = database) => {
         logger.debug('createAccount()', log_options);
-        var returning = undefined;
+        
         let param = Object.create(null);
         param.idNumber = idNumber;
         param.email = email;
