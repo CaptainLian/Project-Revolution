@@ -23,30 +23,28 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     return {
         //Create ProjectProposal
         viewGOSMActivityListProjectProposal: (req, res) => {
-            //TODO: Flatten promises
             systemModel.getCurrentTerm().then(data => {
-                gosmModel.getOrgGOSM(param).then(data1 => {
-                    var dbParam = {
-                        gosm: data1.id,
-                        idnumber: req.session.user.idNumber
-                    };
+                var param = {
+                    termID: data.id,
+                    studentOrganization: req.session.user.organizationSelected.id
+                };
+                return gosmModel.getOrgGOSM(param);
+            }).then(data1 => {
+                var dbParam = {
+                    gosm: data1.id,
+                    idnumber: req.session.user.idNumber
+                };
 
-                    projectProposalModel.getGOSMActivitiesToImplement(dbParam).then(data2 => {
-
-                        const renderData = Object.create(null);
-                        renderData.extra_data = req.extra_data;
-                        renderData.csrfToken = req.csrfToken();
-                        renderData.activities = data2;
-                        console.log(data2);
-                        return res.render('Org/ActivityToImplement', renderData);
-                    }).catch(error => {
-                        logger.warn(`${error.message}\n${error.stack}`, log_options);
-                    });
-                }).catch(error => {
-                    logger.warn(`${error.message}\n${error.stack}`, log_options);
-                });
+                return  projectProposalModel.getGOSMActivitiesToImplement(dbParam);
+            }).then(data2 => {
+                const renderData = Object.create(null);
+                renderData.extra_data = req.extra_data;
+                renderData.csrfToken = req.csrfToken();
+                renderData.activities = data2;
+                console.log(data2);
+                return res.render('Org/ActivityToImplement', renderData);
             }).catch(error => {
-                logger.warn(`${error.message}\n${error.stack}`, log_options);
+                logger.error(`${error.message}\n${error.stack}`, log_options);
             });
         },
 
