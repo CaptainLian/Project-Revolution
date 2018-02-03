@@ -120,6 +120,11 @@ $(document).ready(function() {
 
 
  function clear(){
+ 			$("#account-help").css("display",'none')
+	    	$("#pos-help").css("display",'none')
+	    	$("#edit-account-help").css("display",'none')
+	    	$("#edit-pos-help").css("display",'none')
+
 	    	$("#lastName").val('');
 	    	$("#middleName").val('');
 	    	$("#givenName").val('');
@@ -163,6 +168,17 @@ $(document).ready(function() {
 	    //         ]
 	    //     } );
 	    $("#submit").click(function(){
+	    	var valid =true;
+	    	if($("#acc-type").select2('val') == ''){
+	    		valid = false;
+	    		$("#account-help").css("display",'')
+	    	}
+	    	if($("#acc-type").select2('val')[0] == '1'){
+	    		if($("#add-personInCharge").select2('val') == ''){
+	    				valid = false;
+	    				$("#pos-help").css("display",'')
+	    		}
+	    	}
             console.log("asd");
 	    	var lastName = $("#lastName").val();
 	    	var middleName = $("#middleName").val();
@@ -173,102 +189,105 @@ $(document).ready(function() {
 	    	var number = $("#basic-addon1").val();
 	    	var orgpos = $("#add-personInCharge").select2("val");
 	    	var accType = $("#acc-type").select2("val");
-	    	$.ajax({
-	    		type: 'POST',
-	    		url:'/ORGRES/AJAX/SaveAccount',
-	    		data:{
-	    			lastName:lastName,
-	    			middleName: middleName,
-	    			givenName: givenName ,
-	    			idNumber: idNumber,
-	    			email:email,
-	    			number:number,
-	    			orgpos: orgpos,
-	    			accType:accType
-	    		},
-	    		success:function(data){
-	    			$("#largeModal").modal("hide");
-	    			//data > 0
-	    			if(data.status){
-	    				var first = "<td>"+idNumber+"</td>";
+	    	if(valid){
+	    		$("#account-help").css("display",'none')
+	    		$("#pos-help").css("display",'none')
+		    	$.ajax({
+		    		type: 'POST',
+		    		url:'/ORGRES/AJAX/SaveAccount',
+		    		data:{
+		    			lastName:lastName,
+		    			middleName: middleName,
+		    			givenName: givenName ,
+		    			idNumber: idNumber,
+		    			email:email,
+		    			number:number,
+		    			orgpos: orgpos,
+		    			accType:accType
+		    		},
+		    		success:function(data){
+		    			$("#largeModal").modal("hide");
+		    			//data > 0
+		    			if(data.status){
+		    				var first = "<td>"+idNumber+"</td>";
 
-	    				var orgpos = $("#add-personInCharge").select2("data");
-	    				var accType = $("#acc-type").select2("data");
-	    				var accTypeVal = $("#acc-type").select2("val");
-	    				var com = givenName + ' ' + middleName +' '+ lastName;
-	    				var second = "<td>"+com+"</td>";
-	    				$("#name").val(com);
-	    				
-	    				 $.toast({
-				            heading: 'Success!',
-				            text: 'Successfully Added the account of '+com,
-				            position: 'top-right',
-				            loaderBg:'#ff6849',
-				            icon: 'success',
-				            hideAfter: 3500, 
-				            stack: 6
-				          });
-	    				
-				    	var actions  =      '<a  data-toggle="tooltip" data-original-title="Edit"> '+
-				                                '<i  class="fa fa-pencil text-inverse m-r-10"></i> '+
-				                            '</a>'+
-				                            '<a class="remove"  data-toggle="tooltip" data-original-title="Remove"> '+
-				                                '<i class="fa fa-trash-o text-danger"></i> '+
-				                            '</a>';
-				        
-				        var active = '<span class="label label-success">Active</span>';	
-				        
-				        
-				    	var pos = '<p></p>'
-				        if(accTypeVal[0] ==1){
-				    		for (ctr = 0; ctr < orgpos.length; ctr++) {
-				        		pos += "<p>"+orgpos[ctr].text+"</p>"
-				        	}	
-				    	}else{
-				    		pos += "<p>"+accType[0].text+"</p>"
-				    	}
-				        var third = "<td>"+pos+"</td>";
-				        var fourth = "<td>"+active+"</td>";
-				        var fifth = "<td>"+actions+"</td>";
-						// var row = table.row.add( [
-				  //               		idNumber,
-				  //               		com,
-				  //                       pos,
-				  //               		active,
-				  //                   	actions                        
-				  //               	]).draw().node();
-				  		var newRow = "<tr class='text-center'>"+first+second+third+fourth+fifth+"</tr>";
-						var footable = addrow.data('footable');
-						$("#myTable").append(newRow);
-						$("#myTable").trigger('footable_initialize');
+		    				var orgpos = $("#add-personInCharge").select2("data");
+		    				var accType = $("#acc-type").select2("data");
+		    				var accTypeVal = $("#acc-type").select2("val");
+		    				var com = givenName + ' ' + middleName +' '+ lastName;
+		    				var second = "<td>"+com+"</td>";
+		    				$("#name").val(com);
+		    				
+		    				 $.toast({
+					            heading: 'Success!',
+					            text: 'Successfully Added the account of '+com,
+					            position: 'top-right',
+					            loaderBg:'#ff6849',
+					            icon: 'success',
+					            hideAfter: 3500, 
+					            stack: 6
+					          });
+		    				
+					    	var actions  =      '<a  data-toggle="tooltip" data-original-title="Edit"> '+
+					                                '<i  class="fa fa-pencil text-inverse m-r-10"></i> '+
+					                            '</a>'+
+					                            '<a class="remove"  data-toggle="tooltip" data-original-title="Remove"> '+
+					                                '<i class="fa fa-trash-o text-danger"></i> '+
+					                            '</a>';
+					        
+					        var active = '<span class="label label-success">Active</span>';	
+					        
+					        
+					    	var pos = '<p></p>'
+					        if(accTypeVal[0] ==1){
+					    		for (ctr = 0; ctr < orgpos.length; ctr++) {
+					        		pos += "<p>"+orgpos[ctr].text+"</p>"
+					        	}	
+					    	}else{
+					    		pos += "<p>"+accType[0].text+"</p>"
+					    	}
+					        var third = "<td>"+pos+"</td>";
+					        var fourth = "<td>"+active+"</td>";
+					        var fifth = "<td>"+actions+"</td>";
+							// var row = table.row.add( [
+					  //               		idNumber,
+					  //               		com,
+					  //                       pos,
+					  //               		active,
+					  //                   	actions                        
+					  //               	]).draw().node();
+					  		var newRow = "<tr class='text-center'>"+first+second+third+fourth+fifth+"</tr>";
+							var footable = addrow.data('footable');
+							$("#myTable").append(newRow);
+							$("#myTable").trigger('footable_initialize');
 
-						clear();
-						// $(row).addClass("text-center");
-
-
-
-	    			}else{
-	    				   $.toast({
-				            heading: 'Failed!',
-				            text: 'Account not added.',
-				            position: 'top-right',
-				            loaderBg:'#ff6849',
-				            icon: 'error',
-				            hideAfter: 3500
-				            
-				          });
-	    				
-	    			}
-	    			
-
-	    			
-	    		}
-	    	});	    
-	    		
+							clear();
+							// $(row).addClass("text-center");
 
 
-	    	  
+
+		    			}else{
+		    				   $.toast({
+					            heading: 'Failed!',
+					            text: 'Account not added.',
+					            position: 'top-right',
+					            loaderBg:'#ff6849',
+					            icon: 'error',
+					            hideAfter: 3500
+					            
+					          });
+		    				
+		    			}
+		    			
+
+		    			
+		    		}
+		    	});	    
+	    	}else{
+
+	    	}	
 	    });
+
 	    var editNode, showNode;
 	    $("table").on("click",'tbody td a i.fa-pencil',function(){
 	    	var id = $(this).closest("tr").find("td:first").text();
@@ -363,6 +382,17 @@ $(document).ready(function() {
 	    });
 
 	    $("#edit-submit").click(function(){
+	    	var valid =true;
+	    	if($("#edit-acc-type").select2('val') == ''){
+	    		valid = false;
+	    		$("#edit-account-help").css("display",'')
+	    	}
+	    	if($("#edit-acc-type").select2('val')[0] == '1'){
+	    		if($("#edit-personInCharge").select2('val') == ''){
+	    				valid = false;
+	    				$("#edit-pos-help").css("display",'')
+	    		}
+	    	}
     		var lastName = $("#edit-lastName").val();
 	    	var middleName = $("#edit-middleName").val();
 	    	var givenName = $("#edit-givenName").val();
@@ -374,106 +404,110 @@ $(document).ready(function() {
 	    	var accType = $("#edit-acc-type").select2("val");;
 
 	    	var status2 = $("input[name='optionsRadios2']:checked").val();
-	    	$.ajax({
-	    		type: 'POST',
-	    		url:'/ORGRES/AJAX/UpdateAccount',
-	    		data:{
-	    			id:idNumber,
-	    			lastName:lastName,
-	    			middleName: middleName,
-	    			givenName: givenName ,
-	    			email:email,
-	    			number:number,
-	    			orgpos:orgpos,
-	    			accType:accType[0],
-	    			status:status2
-	    		},
-	    		success:function(data){
-	    			$("#editModal").modal("hide");
-					//data > 0
-					if(data.status){
+	    	if(valid){
+	    		$.ajax({
+		    		type: 'POST',
+		    		url:'/ORGRES/AJAX/UpdateAccount',
+		    		data:{
+		    			id:idNumber,
+		    			lastName:lastName,
+		    			middleName: middleName,
+		    			givenName: givenName ,
+		    			email:email,
+		    			number:number,
+		    			orgpos:orgpos,
+		    			accType:accType[0],
+		    			status:status2
+		    		},
+		    		success:function(data){
+		    			$("#editModal").modal("hide");
+						//data > 0
+						if(data.status){
 
-					 	console.log("STATUS")
-					 	console.log(status2)
-						var first = "<td>"+idNumber+"</td>";
+						 	console.log("STATUS")
+						 	console.log(status2)
+							var first = "<td>"+idNumber+"</td>";
 
-	    				var orgpos = $("#edit-personInCharge").select2("data");
-	    				var accType = $("#edit-acc-type").select2("data");
-	    				var accTypeVal = $("#edit-acc-type").select2("val");
-	    				var com = givenName + ' ' + middleName +' '+ lastName;
-	    				var second = "<td>"+com+"</td>";
-	    				 
-	    				
-	    				 $.toast({
-				            heading: 'Success!',
-				            text: 'Successfully edited the account of '+com,
-				            position: 'top-right',
-				            loaderBg:'#ff6849',
-				            icon: 'success',
-				            hideAfter: 3500, 
-				            stack: 6
-				          });
-	    				editNode.remove()
-	    				if(showNode != 1){
-	    					showNode.remove()	
-	    				}
-	    				
-				    	var actions  =      '<a  data-toggle="tooltip" data-original-title="Edit"> '+
-				                                '<i  class="fa fa-pencil text-inverse m-r-10"></i> '+
-				                            '</a>'+
-				                            '<a class="remove"  data-toggle="tooltip" data-original-title="Remove"> '+
-				                                '<i class="fa fa-trash-o text-danger"></i> '+
-				                            '</a>';
-				        if(status2 == 1){
-				        	var active = '<span class="label label-success">Active</span>';	
-				        }else{
-				        	var active = '<span class="label label-warning">Inactive</span>';	
-				        }
-				        
-				    	var pos = '<p></p>'
-				    	if(accTypeVal[0] ==1){
-				    		for (var ctr = 0; ctr < orgpos.length; ctr++) {
-				        		pos += "<p>"+orgpos[ctr].text+"</p>"
-				        	}	
-				    	}else{
-				    		pos += "<p>"+accType[0].text+"</p>"
-				    	}
-				        
-				        
-				        console.log("PUMASOK SA EDIT SUBMIT")
-				        var third = "<td>"+pos+"</td>";
-				        var fourth = "<td>"+active+"</td>";
-				        var fifth = "<td>"+actions+"</td>";
-						// var row = table.row.add( [
-				  //               		idNumber,
-				  //               		com,
-				  //                       pos,
-				  //               		active,
-				  //                   	actions                        
-				  //               	]).draw().node();
-				  		var newRow = "<tr class='text-center'>"+first+second+third+fourth+fifth+"</tr>";
-						var footable = addrow.data('footable');
-						$("#myTable").append(newRow);
-						$("#myTable").trigger('footable_initialize');
+		    				var orgpos = $("#edit-personInCharge").select2("data");
+		    				var accType = $("#edit-acc-type").select2("data");
+		    				var accTypeVal = $("#edit-acc-type").select2("val");
+		    				var com = givenName + ' ' + middleName +' '+ lastName;
+		    				var second = "<td>"+com+"</td>";
+		    				 
+		    				
+		    				 $.toast({
+					            heading: 'Success!',
+					            text: 'Successfully edited the account of '+com,
+					            position: 'top-right',
+					            loaderBg:'#ff6849',
+					            icon: 'success',
+					            hideAfter: 3500, 
+					            stack: 6
+					          });
+		    				editNode.remove()
+		    				if(showNode != 1){
+		    					showNode.remove()	
+		    				}
+		    				
+					    	var actions  =      '<a  data-toggle="tooltip" data-original-title="Edit"> '+
+					                                '<i  class="fa fa-pencil text-inverse m-r-10"></i> '+
+					                            '</a>'+
+					                            '<a class="remove"  data-toggle="tooltip" data-original-title="Remove"> '+
+					                                '<i class="fa fa-trash-o text-danger"></i> '+
+					                            '</a>';
+					        if(status2 == 1){
+					        	var active = '<span class="label label-success">Active</span>';	
+					        }else{
+					        	var active = '<span class="label label-warning">Inactive</span>';	
+					        }
+					        
+					    	var pos = '<p></p>'
+					    	if(accTypeVal[0] ==1){
+					    		for (var ctr = 0; ctr < orgpos.length; ctr++) {
+					        		pos += "<p>"+orgpos[ctr].text+"</p>"
+					        	}	
+					    	}else{
+					    		pos += "<p>"+accType[0].text+"</p>"
+					    	}
+					        
+					        
+					        console.log("PUMASOK SA EDIT SUBMIT")
+					        var third = "<td>"+pos+"</td>";
+					        var fourth = "<td>"+active+"</td>";
+					        var fifth = "<td>"+actions+"</td>";
+							// var row = table.row.add( [
+					  //               		idNumber,
+					  //               		com,
+					  //                       pos,
+					  //               		active,
+					  //                   	actions                        
+					  //               	]).draw().node();
+					  		var newRow = "<tr class='text-center'>"+first+second+third+fourth+fifth+"</tr>";
+							var footable = addrow.data('footable');
+							$("#myTable").append(newRow);
+							$("#myTable").trigger('footable_initialize');
 
-						clear();
+							clear();
 
-					}else{
-						  $.toast({
-				            heading: 'Failed!',
-				            text: 'Something wrong happened.',
-				            position: 'top-right',
-				            loaderBg:'#ff6849',
-				            icon: 'error',
-				            hideAfter: 3500
-				            
-				          });
-	    			}
-	    			
+						}else{
+							  $.toast({
+					            heading: 'Failed!',
+					            text: 'Something wrong happened.',
+					            position: 'top-right',
+					            loaderBg:'#ff6849',
+					            icon: 'error',
+					            hideAfter: 3500
+					            
+					          });
+		    			}
+		    			
 
-	    			
-	    		}
-	    	});	    
+		    			
+		    		}
+		    	});
+	    	}else{
+
+	    	}    
 
 	    		
 	    });
