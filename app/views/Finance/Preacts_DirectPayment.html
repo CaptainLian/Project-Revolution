@@ -74,13 +74,13 @@
      
     <!-- Page Scripts -->
     {{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
-    {{tag.javascript('/js/Fin/FinancePreacts.js', true)}}
-    {{tag.javascript('/js/Fin/FinancePreacts.js', true)}}
+    {{tag.javascript('/js/Fin/Preacts_DirectPayment.js', true)}}
     <!-- /Page Scripts -->
 {%endblock%}
 
 {%block content%}
-<form action="/transaction/submitPreacts" id="form-id" class="form-horizontal" method="POST">
+<form action="/transaction/submitPreactsDirectPayment" encType="multipart/form-data" id="form-id" class="form-horizontal" method="POST">
+
                         <input type="hidden" name="_csrf" value="{{csrfToken}}">
 
                         <input type="hidden" name="gosmactivity" value="{{gosmactivity}}">
@@ -144,19 +144,19 @@
                                                               </tfoot>
                                                           </table>
                                                           <br>
-                                                          <div class ='col-md-12' id='purpose' style='display: none;'>
-                                                            <div class="col-md-12 m-b-10" >
-                                                                <label  style="">Purpose: </label>
-                                                                <textarea name="purpose" style="width: 100%;" placeholder="ex. Cash advance for [Activity name] to be held on [Activity date]" required=""></textarea>   
-                                                            </div>
-                                                        </div>
+                                                          
                                                         <!-- remove class hidden if the transaction is requested 1 month after the activity-->
-                                                        <div class ='col-md-12 hidden'>
-                                                            <div class="col-md-12 m-b-10" >
-                                                                <label  style="">Justification for Delayed PRS Processing</label>
-                                                                <textarea name="nodpjustification" style="width: 100%;" placeholder="ex. Papers processed late" required=""></textarea>   
+
+                                                        {% if justification %}
+                                                            
+                                                            <div class ='col-md-12'>
+                                                                <div class="col-md-12 m-b-10" >
+                                                                    <label  style="">Justification for Delayed PRS Processing</label>
+                                                                    <textarea name="nodpjustification" style="width: 100%;" placeholder="ex. Papers processed late" required=""></textarea>   
+                                                                </div>
                                                             </div>
-                                                        </div>
+
+                                                        {% endif %}
                                                         
                                                     </div>
                                                     <div class="col-md-12">
@@ -206,8 +206,8 @@
                                         </div>
                                     
                                 </div>
-                                <div class="panel-footer text-center">                                                    
-                                    <button type="submit" class="btn btn-success" id='submitButton' onclick="submit()">Submit</button>
+                                <div class="panel-footer text-center">
+                                    <button type="submit" class="btn btn-success"> Submit</button>
                                     <button type="button" class="btn btn-default">Cancel</button>                                
                                 </div>
                             </div>

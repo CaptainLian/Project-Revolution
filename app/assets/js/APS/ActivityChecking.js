@@ -176,7 +176,96 @@ $(document).on('click', '#defer', function() {
         });
     });
 });
+$(document).on('click', '#reschedule', function() {
+    var question = '<div class="row">' +
+        '<div class="col-md-12 text-left m-b-20">' +
+        '<br/>Select the sections that should be change, then explain why.<br/>' +
+        '</div>' +
+        '<div class="form-group col-md-12">' +
+        '<label class="col-md-12 text-left"><strong>New Schedule/s:</strong></label>' +
+        '<input name="date" class="form-control newDate" id="datepicker-autoclose" placeholder="mm/dd/yyyy">'+
+        '<label class="col-md-12 text-left"><strong>Reason/s:</strong></label>' +
+        '<div class="col-md-12">' +
+        '<select class="col-md-12" multiple="" id="select-sec">' +
 
+        '<option value="Brief Context">Speaker Unavailable</option>' +
+        '<option value="Program Design">Insufficient Participants</option>' +
+        '<option value="Source of Funds">Class Suspension</option>' +
+        '</select>' +
+        '</div>' +
+
+        '</div>' +
+        '</div>';
+
+
+    swal({
+        title: "Reschedule Activity",
+        html: question,
+        focusConfirm: false,
+        focusCancel: false,
+        showLoaderOnConfirm: true,
+        reverseButtons: true,
+        allowOutsideClick: false,
+        preConfirm: function(data) {
+            console.log($("#select-sec").val());
+            console.log("DATA");
+            return new Promise(function(resolve, reject) {
+                setTimeout(function() {
+                    if (data === 'taken@example.com') {
+                        reject('This email is already taken.')
+                    } else {
+                        resolve()
+                    }
+                }, 2000)
+            })
+        },
+        onOpen: function(ele) {
+            $(ele).find("select").select2();
+            $('#datepicker-autoclose').datepicker({
+                autoclose: true,
+                todayHighlight: true,
+                startDate: new Date()
+            });
+            console.log("INIT SELECT");
+        },
+
+        showCancelButton: true,
+        confirmButtonColor: "#FEC107",
+        confirmButtonText: "Confirm",
+        cancelButtonText: "Cancel",
+
+    }).then(function(data) {
+
+        console.log("ASD");
+        $("html, body").animate({
+            scrollTop: 0
+        }, function() {
+            $('#doc').removeClass("bounceOutUp animated").addClass("bounceOutUp   animated").one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+                $(this).removeClass("bounceOutUp animated");
+            });
+        });
+
+
+    }).then(function(data) {
+        $.ajax({
+            type: 'POST',
+            url: '/APS/ajax/SignProjectProposal',
+            data: {
+                activityID: $("#doc").attr("ct"),
+                status: 2,
+                comments: $("#comment").val(),
+                sectionsToBeEdited: $("#select-sec").val()
+            },
+            success: function(data) {
+
+                var doc = $(data).find("#doc");
+
+                $("#doc").replaceWith(doc);
+                $(document).trigger("customGenerated");
+            }
+        });
+    });
+});
 $(document).on('click', '#reject', function() {
     var question = '<div class="row">' +
         '<div class="col-md-12 text-left  m-b-20" style="padding-left:16px">' +
