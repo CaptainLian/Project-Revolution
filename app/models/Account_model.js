@@ -41,32 +41,30 @@ module.exports = function(configuration, modules, database, queryFiles) {
      * @param  {String}          middlename    [description]
      * @param  {String}          lastname      [description]
      * @param  {String}          contactNumber [description]
-     * @param  {[String, Array(String)] (Optional)}                           returning     [description]
      * @param  {[pg-task, pg-connection, pg-transaction] (Optional)}          connection    [description]
      * @returns {Promise} [description]
      */
     AccountModel.createAccount = (idNumber, email, type, password, firstname, middlename, lastname, contactNumber, connection = database) => {
-        logger.debug('createAccount()', log_options);
-        
-        let param = Object.create(null);
-        param.idNumber = idNumber;
-        param.email = email;
-        param.type = type;
-        param.password = password;
-        param.firstname = firstname;
-        param.middlename = middlename;
-        param.lastname = lastname;
-        param.contactNumber = contactNumber;
 
-        logger.debug(`Generating key pair\n\tParameters: bits: ${configuration.security.encryption.bits}, workers: ${configuration.security.encryption.web_workers_amount}`, log_options);
+        logger.debug(`createAccount()\nGenerating key pair\n\tParameters: bits: ${configuration.security.encryption.bits}, workers: ${configuration.security.encryption.web_workers_amount}`, log_options);
+
         return forge.pki.rsa.generateKeyPair({
             bits: configuration.security.encryption.bits,
             workers: configuration.security.encryption.web_workers_amount
         }).then(pair => {
             pair[0] = forge.forge.pki.publicKeyToPem(pair.publicKey);
             pair[1] = forge.forge.pki.privateKeyToPem(pair.privateKey);
-            logger.debug(`Public key: ${pair[0]}`, log_options);
-            logger.debug(`Private key: ${pair[1]}`, log_options);
+            logger.debug(`Public key: ${pair[0]}\nPrivate key: ${pair[1]}`, log_options);
+
+            let param = Object.create(null);
+            param.idNumber = idNumber;
+            param.email = email;
+            param.type = type;
+            param.password = password;
+            param.firstname = firstname;
+            param.middlename = middlename;
+            param.lastname = lastname;
+            param.contactNumber = contactNumber;
             param.publicKey = pair[0];
             param.privateKey = pair[1];
 
@@ -83,19 +81,9 @@ module.exports = function(configuration, modules, database, queryFiles) {
                 .set('privateKey', squel.str('${privateKey}'))
                 .set('contactNumber', squel.str('${contactNumber}'));
 
-            let execute = connection.none;
-            if (typeof returning !== 'undefined') {
-                logger.debug('Returning query', log_options);
-
-                attachReturning(query, returning);
-                execute = connection.one;
-            }else{
-                logger.debug('Non-returning query', log_options);
-            }
-
             query = query.toString();
-            logger.debug(`Executing query: ${query}\nParameters: ${JSON.stringify(param)}`, log_options);
-            return execute(query, param);
+            logger.info(`Executing query: ${query}\nParameters: ${JSON.stringify(param)}`, log_options);
+            return connection.none(query, param);
         });
     };
 
@@ -124,10 +112,8 @@ module.exports = function(configuration, modules, database, queryFiles) {
                 middlename,
                 lastname,
                 contactNumber,
-                null,
                 transaction
-            )
-            .then(() => {
+            ).then(() => {
                 let query = squel.insert()
                     .into('OrganizationOfficer')
                     .set('idNumber', squel.str('${idNumber}'))
@@ -136,7 +122,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
                     .toString();
 
                 logger.debug(`Batch roles\nExecuting query: ${query}`,log_options);
-                
+
                 let queries = [];
                 for(const roleID of roles){
                     let param = Object.create(null);
@@ -168,20 +154,26 @@ module.exports = function(configuration, modules, database, queryFiles) {
         let query = squel.select()
             .from('Account', 'a')
             .where('idNumber = ${idNumber}');
-
         attachFields(query, fields);
-        return connection.one(query.toString(), param);
+
+        query = query.toString();
+        logger.debug(`Executing query ${query}`, log_options);
+        return connection.one(query, param);
     };
 
     AccountModel.getAccounts = (fields, connection = database) => {
         logger.debug('getAccounts()', log_options);
 
         let param = Object.create(null);
-        
+
         let query = squel.select()
             .from('Account', 'a')
-            .left_join(squel.select().from('organizationofficer').where('isactive = ?', true).where('yearid = ?',squel.str('system_get_current_year_id()'))
-                        ,'oo','oo.idNumber = a.idNumber')
+            .left_join(squel.select()
+                .from('organizationofficer')
+                .where('isactive = ?', true)
+                .where('yearid = ?',squel.str('system_get_current_year_id()')),
+                'oo',
+                'oo.idNumber = a.idNumber')
             .left_join('organizationrole','oro',' oo.role = oro.id ')
             .left_join('studentorganization','so','so.id = oro.organization')
             .left_join('accounttype','ac','a.type = ac.id')
@@ -198,7 +190,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
         logger.debug('updateAccount()', log_options);
 
         let param = Object.create(null);
-        
+
         return connection.tx(t=>{
             //update basic info
             let query = squel.update()
@@ -228,7 +220,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
                         .set('idnumber', idNumber)
                         .set('role',orgpos)
                         .set('yearid',squel.str('system_get_current_year_id()'))
-                        .set('isactive',true)                    
+                        .set('isactive',true)
                         .toString();
                 query3 +=" ON CONFLICT (idnumber, role, yearid ) DO UPDATE set isactive=true"
             }else if(Array.isArray(orgpos) && type ==1){
@@ -239,7 +231,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
                             .set('idnumber', idNumber)
                             .set('role',orgpos[ctr])
                             .set('yearid',squel.str('system_get_current_year_id()'))
-                            .set('isactive',true)                    
+                            .set('isactive',true)
                             .toString();
                         query3 +=" ON CONFLICT (idnumber, role, yearid ) DO UPDATE set isactive=true"
 
@@ -250,22 +242,22 @@ module.exports = function(configuration, modules, database, queryFiles) {
             }else{
                 query3=query2
             }
+            
             return t.batch([
-                        t.none(query),
-                        t.none(query2),
-                        t.none(query3),
-
-                    ])
+                t.none(query),
+                t.none(query2),
+                t.none(query3)
+            ])
         })
-      
+
         // attachFields(query, fields);
-     
+
     }
      AccountModel.deleteAccount = (idNumber,status , connection = database) => {
         logger.debug('deleteAccount()', log_options);
 
         let param = Object.create(null);
-        
+
 
         let query = squel.update()
             .table('account')
@@ -300,7 +292,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
         //TODO figure out parameters
         let param = Object.create(null);
-        
+
         let query = squel.select()
             .from('organizationrole','oro')
             .left_join('studentorganization','so','so.id = oro.organization')
@@ -507,7 +499,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
         param.idNumber = idNumber;
         param.title = title;
         param.description = description;
-        param.details = JSON_STRINGIFY(details);
+        param.details = details ? null : JSON_STRINGIFY(details);
 
         let query = squel.insert()
             .into('"AccountNotification"')
@@ -516,16 +508,14 @@ module.exports = function(configuration, modules, database, queryFiles) {
             .set('"description"', squel.str('${description}'))
             .set('"details"', squel.str('${details}'));
 
-        let execute = connection.none;
         if(returning){
             attachReturning(query, returning);
-            execute = connection.one;
             logger.debug('Returning query', log_options);
         }
 
         query = query.toString();
         logger.debug(`Executing query: ${query}`, log_options);
-        return execute(query, param);
+        return connection.oneOrNone(query, param);
     };
 
     return AccountModel;

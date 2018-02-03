@@ -23,30 +23,28 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     return {
         //Create ProjectProposal
         viewGOSMActivityListProjectProposal: (req, res) => {
-            //TODO: Flatten promises
             systemModel.getCurrentTerm().then(data => {
-                gosmModel.getOrgGOSM(param).then(data1 => {
-                    var dbParam = {
-                        gosm: data1.id,
-                        idnumber: req.session.user.idNumber
-                    };
+                var param = {
+                    termID: data.id,
+                    studentOrganization: req.session.user.organizationSelected.id
+                };
+                return gosmModel.getOrgGOSM(param);
+            }).then(data1 => {
+                var dbParam = {
+                    gosm: data1.id,
+                    idnumber: req.session.user.idNumber
+                };
 
-                    projectProposalModel.getGOSMActivitiesToImplement(dbParam).then(data2 => {
-
-                        const renderData = Object.create(null);
-                        renderData.extra_data = req.extra_data;
-                        renderData.csrfToken = req.csrfToken();
-                        renderData.activities = data2;
-                        console.log(data2);
-                        return res.render('Org/ActivityToImplement', renderData);
-                    }).catch(error => {
-                        logger.warn(`${error.message}\n${error.stack}`, log_options);
-                    });
-                }).catch(error => {
-                    logger.warn(`${error.message}\n${error.stack}`, log_options);
-                });
+                return  projectProposalModel.getGOSMActivitiesToImplement(dbParam);
+            }).then(data2 => {
+                const renderData = Object.create(null);
+                renderData.extra_data = req.extra_data;
+                renderData.csrfToken = req.csrfToken();
+                renderData.activities = data2;
+                console.log(data2);
+                return res.render('Org/ActivityToImplement', renderData);
             }).catch(error => {
-                logger.warn(`${error.message}\n${error.stack}`, log_options);
+                logger.error(`${error.message}\n${error.stack}`, log_options);
             });
         },
 
@@ -689,8 +687,31 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             dbParam.studentorganization = req.session.user.organizationSelected.id;
 
             gosmModel.submitGOSM(dbParam).then(() => {
-                res.send("1");
+                res.send('1');
                 logger.debug('GOSM Submitted', log_options);
+
+                return organizationModel.getOrganizationExecutiveBoard(req.session.user.organizationSelected.id, ['oo.idNumber AS "idNumber"']);
+            }).then(executiveBoard => {
+                return database.transaction(t => {
+                    let queries = [];
+
+                    for(const officer in executiveBoard){
+                        queries[queries.length] = accountModel.addNotification(
+                            officer.idNumber,
+                            'GOSM Submission', //title
+                            'GOSM for current has been submitted', //description
+                            null, //details
+                            null, //returning
+                            t //connection
+                        );
+                    }
+
+                    return t.batch(queries);
+                });
+            }).then(() => {
+                logger.debug('Notifications sent to executive board officers', log_options);
+            }).catch(err => {
+                logger.error(`${err.message}\n${err.stack}`, log_options);
             });
         },
 
@@ -967,7 +988,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         var dbParam = {
                             organization: req.session.user.organizationSelected.id
                         };
-                        
+
                         let GOSMParam = Object.create(null);
 
                         GOSMParam.termID = GOSM[1].termid
@@ -1542,7 +1563,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
             logger.debug(`req.body: ${JSON.stringify(req.body)}\nreq.params: ${JSON.stringify(req.params)}`, log_options);
-          
+
             var dbParam = {
                 id: req.body.pprid,
                 preparedby: req.session.user.idNumber,
@@ -1551,7 +1572,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
             if (req.body.context && req.body.program && req.body.expense && req.body.attachment) {
                 console.log("IZ HERE");
-                
+
                 database.tx(t => {
                     return projectProposalModel.submitProjectProposal(dbParam, t).then(data => {
                         if (req.body.status == 1) { // first time nagpasa
@@ -1594,7 +1615,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             }).catch(error=>{
                                 logger.debug(`${error.message}\n${error.stack}`, log_options);
                             });
-                        }    
+                        }
                     });
                 }).catch(error => {
                     logger.debug(`${error.message}\n${error.stack}`, log_options);
