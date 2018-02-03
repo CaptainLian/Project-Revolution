@@ -226,7 +226,7 @@ module.exports = function(configuration, application, modules, database, queryFi
                 sidebars[sidebars.length] = newSidebar2;
 
                 const newSidebar3 = Object.create(null);
-                newSidebar3.name = 'Activity Result';
+                newSidebar3.name = 'Activity Feedback';
                 newSidebar3.link = '/Organization/Orgres/list';
                 newSidebar3.icon = ''
                 sidebars[sidebars.length] = newSidebar3;
@@ -236,8 +236,9 @@ module.exports = function(configuration, application, modules, database, queryFi
             logger.debug(`Has GOSM activity with AMT Evaluation: ${GOSMActivityWithActivityEvaluation.exists}`, log_options);
             if (GOSMActivityWithActivityEvaluation.exists) {
                 const newSidebar = Object.create(null);
-                newSidebar.name = 'View AMT Activity Evaluation';
+                newSidebar.name = 'Activity Grade';
                 newSidebar.link = '/blank';
+                newSidebar.icon = ''
 
                 sidebars[sidebars.length] = newSidebar;
             }

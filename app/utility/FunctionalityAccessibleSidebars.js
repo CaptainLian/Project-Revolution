@@ -24,7 +24,7 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.ViewAPSReport] = [{
 
 //Evaluate GOSM
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateGOSM] = [{
-    name: 'View GOSM Submissions',
+    name: 'GOSM Submissions',
     link: '/APS/viewOrglist'
 }];
 
@@ -42,14 +42,16 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateProjectProposal] = [{
 
 //Evaluate Activity (AMT)
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateActivity_AMT] = [{
-    name: 'Evaluate Activity (AMT)',
-    link: '/AMT/AssignActivity'
+    name: 'Evaluate Activity',
+    link: '/AMT/AssignActivity',
+    icon: 'X'
 }];
 
 //Evaluate Activity (OrgRes)
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateActivity_OrgRes] = [{
-    name: 'Submit Activity Research Form',
+    name: 'Research Form',
     link: '/ORGRES/SubmitActivityResearchForm',
+    icon: '$',
     sublinks: [
 
     ]
@@ -79,8 +81,9 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.SubmitPublicityMaterial] = [{
 
 //Evaluate Publicities for Activity
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluatePublicityMaterial] = [{
-    name: 'Evaluate Publicity Submissions',
-    link: '/PNP/Pubs/List'
+    name: 'Evaluate Pubs',
+    link: '/PNP/Pubs/List',
+    icon: 'X'
 }];
 
 //Evaluate Post Project
