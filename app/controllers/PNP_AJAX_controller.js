@@ -13,7 +13,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			idNumber: req.session.user.idNumber,
 			status: req.body.stat,
 			comment:req.body.comment,
-			id:req.body.id
+			id:req.body.id,
+			revision:req.body.revision
 		}
 		console.log("pubParam");
 		console.log(pubParam);

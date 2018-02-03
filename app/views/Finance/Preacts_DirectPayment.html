@@ -146,12 +146,17 @@
                                                           <br>
                                                           
                                                         <!-- remove class hidden if the transaction is requested 1 month after the activity-->
-                                                        <div class ='col-md-12 hidden'>
-                                                            <div class="col-md-12 m-b-10" >
-                                                                <label  style="">Justification for Delayed PRS Processing</label>
-                                                                <textarea name="nodpjustification" style="width: 100%;" placeholder="ex. Papers processed late" required=""></textarea>   
+
+                                                        {% if justification %}
+                                                            
+                                                            <div class ='col-md-12'>
+                                                                <div class="col-md-12 m-b-10" >
+                                                                    <label  style="">Justification for Delayed PRS Processing</label>
+                                                                    <textarea name="nodpjustification" style="width: 100%;" placeholder="ex. Papers processed late" required=""></textarea>   
+                                                                </div>
                                                             </div>
-                                                        </div>
+
+                                                        {% endif %}
                                                         
                                                     </div>
                                                     <div class="col-md-12">
@@ -202,7 +207,7 @@
                                     
                                 </div>
                                 <div class="panel-footer text-center">
-                                    <button type="submit" class="btn btn-success" id='submitButton' onclick="submit()">Submit</button>
+                                    <button type="submit" class="btn btn-success"> Submit</button>
                                     <button type="button" class="btn btn-default">Cancel</button>                                
                                 </div>
                             </div>

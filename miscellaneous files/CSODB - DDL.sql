@@ -399,6 +399,42 @@ $function$
     END;
 $function$ LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION "PreAct_DirectPayment_get_organization"("param_DPID" INTEGER)
+RETURNS INTEGER AS
+$function$
+    DECLARE
+        "var_organizationID" INTEGER;
+    BEGIN
+         SELECT g.studentOrganization INTO "var_organizationID"
+           FROM GOSM g
+          WHERE g.id = (SELECT ga.GOSM
+                          FROM GOSMActivity ga
+                         WHERE ga.id = (SELECT paca."GOSMActivity"
+                                          FROM "PreActivityDirectPayment" paca 
+                                         WHERE paca.id = "param_DPID"));
+
+        RETURN "var_organizationID";
+    END;
+$function$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION "PreAct_DirectPayment_get_number_to_sign_per_account"()
+RETURNS TABLE (
+    idNumber INTEGER,
+    "numSign" BIGINT
+) AS
+$function$
+    BEGIN
+        RETURN QUERY SELECT preca.signatory AS idNumber, COUNT(preca.id) AS "numSign"
+                       FROM "PreActivityDirectPaymentSignatory" preca
+                      WHERE preca."status" = 0
+                        AND preca."directPayment" IN (SELECT paca.id
+                                                        FROM "PreActivityDirectPayment" paca
+                                                       WHERE paca."GOSMActivity" IN (SELECT ga.id
+                                                                                       FROM "GOSMActivity_get_current_term_activity_ids"() ga))
+                   GROUP BY preca.signatory;
+    END;
+$function$ LANGUAGE plpgsql;
+
 CREATE OR REPLACE FUNCTION "PreAct_CashAdvance_get_organization"("param_CAID" INTEGER)
 RETURNS INTEGER AS
 $function$
@@ -414,6 +450,26 @@ $function$
                                          WHERE paca.id = "param_CAID"));
 
         RETURN "var_organizationID";
+    END;
+$function$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION "PreAct_DirectPayment_get_organization_next_treasurer_signatory"(organizationID INTEGER)
+RETURNS INTEGER AS
+$function$
+    DECLARE
+        treasurerID INTEGER;
+    BEGIN
+         WITH "OrganizationTreasurerNumSign" AS (
+             SELECT ot.idNumber, COALESCE(n."numSign", 0) AS "numSign"
+               FROM organization_get_treasurer_signatories(organizationID) ot LEFT JOIN "PreAct_DirectPayment_get_number_to_sign_per_account"() n
+                                                                                     ON ot.idNumber = n.idNumber
+         )
+          SELECT ot.idNumber INTO treasurerID
+            FROM "OrganizationTreasurerNumSign" ot
+        ORDER BY "numSign" ASC, ot.idNumber DESC
+        LIMIT 1;
+
+        RETURN treasurerID;
     END;
 $function$ LANGUAGE plpgsql;
 
@@ -2060,11 +2116,11 @@ $trigger$
         organization INTEGER;
         organizationPresident INTEGER;
     BEGIN
-        organization = "PreAct_CashAdvance_get_organization"(NEW."id");
+        organization = "PreAct_DirectPayment_get_organization"(NEW."id");
         organizationPresident = organization_get_president(organization);
   
         INSERT INTO "PreActivityDirectPaymentSignatory" ("directPayment", signatory, type)
-                                               VALUES (NEW."id", "PreActCashAdvance_get_organization_next_treasurer_signatory"(organization), 0);
+                                               VALUES (NEW."id", "PreAct_DirectPayment_get_organization_next_treasurer_signatory"(organization), 0);
   
         INSERT INTO "PreActivityDirectPaymentSignatory" ("directPayment", signatory, type)
                                                VALUES (NEW."id", organizationPresident, 1);
@@ -2079,6 +2135,44 @@ CREATE TRIGGER "after_insert_PreActivityDirectPayment_signatories"
     AFTER INSERT ON "PreActivityDirectPayment"
     FOR EACH ROW
     EXECUTE PROCEDURE "trigger_after_insert_PreActivityDirectPayment_signatories"();
+
+CREATE OR REPLACE FUNCTION "trigger_after_insert_PreActivityDirectPaymentParticular_signatories"()
+RETURNS TRIGGER AS
+$trigger$
+    DECLARE
+        totalExpense NUMERIC(12, 2);
+    BEGIN
+        SELECT SUM(ppe.unitCost*ppe.quantity) INTO totalExpense
+          FROM ProjectProposalExpenses ppe
+         WHERE ppe.id IN (SELECT pacap.particular
+                            FROM "PreActivityDirectPaymenteParticular" pacap
+                           WHERE pacap."directPayment" = NEW."directPayment");
+
+        IF totalExpense > 5000.00 THEN
+            INSERT INTO "PreActivityDirectPaymentSignatory" ("directPayment", "signatory", "type")
+                                                     VALUES (NEW."directPayment", (SELECT a.idNumber FROM Account a WHERE a.type = 4 ORDER BY a.idNumber DESC LIMIT 1), 3)
+            ON CONFLICT DO NOTHING;
+        END IF;
+        
+        IF totalExpense > 50000.00 THEN
+            INSERT INTO "PreActivityDirectPaymentSignatory" ("directPayment", "signatory", "type")
+                                                     VALUES (NEW."directPayment", (SELECT a.idNumber FROM Account a WHERE a.type = 5 ORDER BY a.idNumber DESC LIMIT 1), 4)
+            ON CONFLICT DO NOTHING;
+        END IF;
+        
+        IF totalExpense > 250000.00 THEN
+            INSERT INTO "PreActivityDirectPaymentSignatory" ("directPayment", "signatory", "type")
+                                                     VALUES (NEW."directPayment", (SELECT a.idNumber FROM Account a WHERE a.type = 6 ORDER BY a.idNumber DESC LIMIT 1), 5)
+            ON CONFLICT DO NOTHING;
+        END IF;
+  
+        RETURN NEW;
+    END
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER "after_insert_PreActivityDirectPaymentParticular_signatories"
+    AFTER INSERT ON "PreActivityDirectPaymentParticular"
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_after_insert_PreActivityDirectPaymentParticular_signatories"();
 
 DROP TABLE IF EXISTS "PreActivityCashAdvanceSignatory" CASCADE;
 CREATE TABLE "PreActivityCashAdvanceSignatory" (
@@ -2700,6 +2794,21 @@ INSERT INTO "ActivityPublicityStatus" ("id", "name")
                                       (   3, 'Denied'),
                                       (   4, 'Old Version');
 
+-- unoriginal design, incorrect grammer, incomplete logo, contents not in line with la sallian values
+DROP TABLE IF EXISTS "ActivityPublicityRevisionReason" CASCADE;
+CREATE TABLE "ActivityPublicityRevisionReason"(
+    "id" SMALLINT,
+    "name" VARCHAR(45) NOT NULL,
+
+    PRIMARY KEY("id")
+);
+INSERT INTO "ActivityPublicityRevisionReason" ("id", "name")
+                               VALUES (   0, 'Unoriginal design'),
+                                      (   1, 'Incorrect grammar'),
+                                      (   2, 'Incomplete logo'),
+                                      (   3, 'Contents not in line with La Sallian Values'),
+                                      (   4, 'Old Version');
+
 DROP TABLE IF EXISTS "ActivityPublicity" CASCADE;
 CREATE TABLE "ActivityPublicity" (
     "id" SERIAL NOT NULL UNIQUE,
@@ -2718,6 +2827,7 @@ CREATE TABLE "ActivityPublicity" (
     "comments" TEXT,
     "filename" TEXT,
     "filenameToShow" TEXT,
+    "revisionReason" SMALLINT REFERENCES "ActivityPublicityRevisionReason"("id"),
 
     PRIMARY KEY("GOSMActivity", "submissionID", "sequence")
 );

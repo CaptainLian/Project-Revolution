@@ -76,9 +76,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
             var thirdStartSplit = thirdStart.split("/");
             var thirdEnd = req.body.thirdend;
             var thirdEndSplit = thirdEnd.split("/");
-
-
-
+            
           	var dbParam = {
 	         	startyear: firstStartSplit[2],
 		       	endyear: thirdEndSplit[2],
