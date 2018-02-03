@@ -27,9 +27,9 @@ module.exports = function(configuration, application, modules, database, queryFi
         
         accountModel.getStudentOrganizations(req.session.user.idNumber).then(organizations => {
             logger.debug(`Organizations: ${JSON.stringify(organizations)}`, log_options);
-        });
 
-       return next();
+            return next();
+        });
     };
 
     return [StudentSidebarAttacher];
