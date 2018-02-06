@@ -14,7 +14,7 @@ const functionalitySidebars = Object.create(null);
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.ViewProjectHeadDashboard] = [{
     name: 'Dashboard',
     link: '/Organization/ProjectHead/home',
-    classes:'linea-basic'
+    icon:'fa fa-tachometer'
 }];
 
 //View APSReport
@@ -32,30 +32,31 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateGOSM] = [{
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.CreateGOSM] = [{
     name: 'GOSM',
     link: '/Organization/createGOSM',
-    icon: '',
-    classes:'linea-basic'
+    icon: 'fa fa-columns',
+    
 }];
 
 //Evaluate PPR
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateProjectProposal] = [{
-    name: 'Evaluate Project Proposals',
-    link: '/APS/activityChecking'
+    name: 'Evaluate Activity',
+    link: '/APS/activityChecking',
+    icon: 'fa fa-check'
 }];
 
 //Evaluate Activity (AMT)
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateActivity_AMT] = [{
     name: 'Evaluate Activity',
     link: '/AMT/AssignActivity',
-    icon: 'X',
-    classes:'linea-elaborate'
+    icon: 'fa fa-gavel',
+    
 }];
 
 //Evaluate Activity (OrgRes)
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateActivity_OrgRes] = [{
     name: 'Research Form',
     link: '/ORGRES/SubmitActivityResearchForm',
-    icon: '$',
-    classes:'linea-elaborate',
+    icon: 'fa fa-search',
+    
     sublinks: [
 
     ]
@@ -64,18 +65,21 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateActivity_OrgRes] = [{
 //Modify Organizational Structure
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.ModifyOrganizationalStructure] = [{
     name: 'Role Access',
-    link: '/Organization/Setting/ACL',
-    classes:'linea-elaborate',
-    icon :''
+    link: '/Organization/Setting/ACL',    
+    icon :'fa fa-key'
 }, {
-    name: 'Organization Officers',
-    link: '/ORGRES/Manage/Account'
+    name: 'User Account',
+    link: '/ORGRES/Manage/Account',
+    icon :'fa fa-group'
+
+
 }];
 
 //View Publicities for Activity
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.ViewPublicityMaterial] = [{
-    name: 'View Activity Publicities',
+    name: 'Publicity Materials',
     link: '/PNP/ViewPubs'
+
 }];
 
 //Submit Publicities for Activity
@@ -89,7 +93,7 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.SubmitPublicityMaterial] = [{
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluatePublicityMaterial] = [{
     name: 'Evaluate Pubs',
     link: '/PNP/Pubs/List',
-    icon: 'X'
+    icon: 'fa fa-check'
 }];
 
 //Evaluate Post Project

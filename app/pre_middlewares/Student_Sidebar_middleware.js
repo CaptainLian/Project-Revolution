@@ -215,23 +215,23 @@ module.exports = function(configuration, application, modules, database, queryFi
                 const newSidebar = Object.create(null);
                 newSidebar.name = 'Pre Activity';
                 newSidebar.link = '/Organization/ProjectProposal/GOSMList';
-                newSidebar.icon = ''
-                newSidebar.classes = 'linea-basic'
+                newSidebar.icon = 'fa fa-file-o'
+                
                 sidebars[sidebars.length] = newSidebar;
 
                 const newSidebar2 = Object.create(null);
                 newSidebar2.name = 'Post Activity';
                 newSidebar2.link = '/Organization/PostProjectProposal/GOSMList';
-                newSidebar2.icon = ''
-                newSidebar2.classes = 'linea-basic'
+                newSidebar2.icon = 'fa fa-file-text-o'
+                
                 
                 sidebars[sidebars.length] = newSidebar2;
 
                 const newSidebar3 = Object.create(null);
                 newSidebar3.name = 'Activity Feedback';
                 newSidebar3.link = '/Organization/Orgres/list';
-                newSidebar3.icon = '';
-                newSidebar3.classes = 'linea-basic'
+                newSidebar3.icon = 'fa fa-quote-left';
+                
                 sidebars[sidebars.length] = newSidebar3;
             }
 
@@ -241,8 +241,8 @@ module.exports = function(configuration, application, modules, database, queryFi
                 const newSidebar = Object.create(null);
                 newSidebar.name = 'Activity Grade';
                 newSidebar.link = '/blank';
-                newSidebar.icon = ''
-                newSidebar.classes = 'linea-basic'
+                newSidebar.icon = 'fa fa-star'
+                
 
 
                 sidebars[sidebars.length] = newSidebar;
@@ -253,8 +253,8 @@ module.exports = function(configuration, application, modules, database, queryFi
                 const newSidebar = Object.create(null);
                 newSidebar.name = 'Activity Publicity';
                 newSidebar.link = '/Organization/Publicity/list';
-                newSidebar.icon = ']';
-                newSidebar.classes = 'linea-basic'
+                newSidebar.icon = 'fa fa-photo';
+                
 
                 sidebars[sidebars.length] = newSidebar;
             }
@@ -264,8 +264,8 @@ module.exports = function(configuration, application, modules, database, queryFi
                 const newSidebar = Object.create(null);
                 newSidebar.name = 'Financial Documents';
                 newSidebar.link = '/finance/list';
-                newSidebar.icon = '$';
-                newSidebar.classes='linea-ecommerce';
+                newSidebar.icon = 'fa fa-money';
+                
 
 
 
