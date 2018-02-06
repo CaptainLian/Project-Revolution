@@ -1,0 +1,11 @@
+SELECT to_char(datestart, 'MM/DD/YYYY') as datestart, to_char(dateend, 'MM/DD/YYYY') as dateend
+  FROM TERM T 
+ WHERE SCHOOLYEARID IN (SELECT SCHOOLYEARID
+			  FROM TERM
+			 WHERE NOW() >= DATESTART 
+			   AND NUMBER = 1) 
+   AND SCHOOLYEARID IN (SELECT SCHOOLYEARID
+			   FROM TERM
+			  WHERE NOW() <= DATEEND 
+			    AND NUMBER = 3)
+ORDER BY NUMBER ASC;

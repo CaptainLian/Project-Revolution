@@ -2,17 +2,29 @@
 
 module.exports = function(configuration, modules, database, queryFiles){
 	const squel = require('squel').useFlavour('postgres');
-	const dbHelper = require('../utility/databaseHelper');
+	
+	const {attachFields, attachReturning} = (() => {
+		const dbHelper = require('../utility/databaseHelper');
+
+		let param = Object.create(null);
+		param.attachFields = dbHelper.attachFields;
+		param.attachReturning = dbHelper.attachReturning;
+
+		return param;
+	})();
+
 	const log_options = Object.create(null);
 	log_options.from = 'Organization-Model';
+
 	const getActivitiesWithPPRSQL = queryFiles.getActivitiesWithPPR;
 	const getActivitiesWithoutPPRSQL = queryFiles.getActivitiesWithoutPPR;
 	const getStudentsOfOrganizationSQL = queryFiles.getStudentsOfOrganization;
 	const getStudentOrganizationSQL = queryFiles.getStudentOrganization;
 
     const logger = modules.logger;
+
 	/**
-	 * The model representing the model, which contains acions a model can do
+	 * The object representing the model, which contains acions a model can do
 	 * @type {Object}
 	 */
 	const OrganizationModel = Object.create(null);
@@ -22,7 +34,7 @@ module.exports = function(configuration, modules, database, queryFiles){
 		let query = squel.select()
 			.from('StudentOrganization')
 			.where('id = ${id}');
-		dbHelper.attachFields(query, fields);
+		attachFields(query, fields);
 
 		let param = Object.create(null);
 		param.id = id;
@@ -60,6 +72,8 @@ module.exports = function(configuration, modules, database, queryFiles){
 	 * @return {Object}                [description]
 	 */
 	OrganizationModel.getOrganizationStructure = (organizationID, connection = database) => {
+		logger.debug(`getOrganizationStructure(organizationID: ${organizationID})`, log_options);
+
 		/**
 		 * let param = {
 		 * 		organizationID: organizationID
@@ -68,7 +82,6 @@ module.exports = function(configuration, modules, database, queryFiles){
 		 */
 		let param = Object.create(null);
 		param.organizationID = organizationID;
-
 
 		return connection.many('SELECT id, name, masterRole FROM OrganizationRole WHERE organization = ${organizationID} ORDER BY id ASC;', param)
 		.then(data => {
@@ -151,6 +164,62 @@ module.exports = function(configuration, modules, database, queryFiles){
 		return connection.one(hasGOSMSubmittedSQL, {
 			studentOrganization: organizationID
 		});
+	};
+
+	/**
+	 * Gets the information who have roles that are below the organiation president
+	 * Joined tables and their aliases
+	 *     Account a
+	 *     OrganizationOfficer oo
+	 * @method
+	 * @param    {Integer}                   organizationID  [description]
+	 * @param    {pg-connection (Optional)}  connection      [description]
+	 * @returns  {pg-promise}                                [description]
+	 */
+	OrganizationModel.getOrganizationExecutiveBoard = (organizationID, fields, connection = database) => {
+		logger.debug(`getOrganizationExecutiveBoard(organizationID: ${organizationID}`, log_options);
+
+        /**
+         * Query for getting the account who is part of this year's (system_get_current_year_id())
+         * executive board (EB), EB is defined as the positions whose masterRole is
+         * the president of the organization.
+         * The president has NULL as masterRole and has the lowest rank number.
+         * @type {squel_query}
+         */
+		let query = squel.select()
+			.with('"OrganizationRoles"',
+				squel.select()
+				.from('OrganizationRole')
+				.where('organization = ${organizationID}'))
+			.with('"ExecutiveRoles"',
+				squel.select()
+				.from('"OrganizationRoles"', 'oro')
+				.where('oro.masterRole = ?',
+					squel.select()
+					.from('"OrganizationRoles"')
+					.where('masterRole IS NULL')
+					.where('rank = ?',
+						squel.select()
+						.from('"OrganizationRoles"')
+						.field('MIN(rank)'))))
+			.from('OrganizationOfficer', 'oo')
+			.left_join('Account', 'a', 'oo.idNumber = a.idNumber')
+			.where('oo.yearID = system_get_current_year_id()')
+			.where('oo.role IN ?',
+				squel.select()
+				.field('id')
+				.from('"ExecutiveRoles"'));
+
+        if(fields){
+            attachFields(query, fields);
+        }
+
+		let param = Object.create(null);
+		param.organizationID = organizationID;
+
+		query = query.toString();
+		logger.debug(`Executing query: ${query}`, log_options);
+		return connection.any(query, param);
 	};
 
 	return OrganizationModel;

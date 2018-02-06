@@ -53,7 +53,7 @@
                             '<div class="form-group col-md-12">'+
                                 '<label class="col-md-12 text-left"><strong>Sections to be Edited:</strong></label>'+
                                 '<div class="col-md-12">'+
-                                    '<select class="col-md-12" multiple=""s id="select-sec">'+
+                                    '<select class="col-md-12" multiple="" name="sections" id="select-sec">'+
                                         
                                         '<option value="1">I. Particulars</option>'+
                                         '<option value="2">II. Memo</option>'+
@@ -67,7 +67,7 @@
                             '<div class="form-group col-md-12">'+
                                 '<label class="col-md-12 text-left"><strong>Explanation</strong></label>'+
                                 '<div class="col-md-12">'+
-                                    '<textarea class="form-control" rows="5"></textarea>'+
+                                    '<textarea class="form-control" rows="5" name="explain"></textarea>'+
                                 '</div>'+
                             '</div>'+
                         '</div>';

@@ -1,9 +1,12 @@
 'use strict';
+var timediff = require('timediff');
 
 module.exports = function(configuration, modules, models, database, queryFiles){
 	const SIGN = require('../utility/digitalSignature.js').signString;
     const STRINGIFY = require('json-stable-stringify');
-    
+    const path = require('path');
+    const fs = require('fs');
+	var cuid = require('cuid');
 	const logger = modules.logger;
 	const log_options = Object.create(null);
 	log_options.from = 'Finance-Controlelr';
@@ -182,6 +185,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		pendCashAdvance: (req, res) =>{
 
+			console.log(req.body);
 			console.log("pend cash advance");
 			console.log(req.body.cashAdvanceId);
 
@@ -189,6 +193,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				status: 2,
 				id: req.body.cashAdvanceId
 			};
+
 
 			financeModel.updatePreActivityCashAdvanceStatus(dbParam)
 			.then(data=>{
@@ -332,7 +337,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
             	}
             }
 
-
+            // cannot add but can evaluate only
 			if ((renderData.isCso) && (!renderData.toadd)) {
 
 				console.log("is cso is");
@@ -387,6 +392,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				projectProposal: req.params.projectproposal
 			};
 
+
 			financeModel.getParticulars(dbParam)
 			.then(data=>{
 
@@ -404,24 +410,82 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			});
 
 		},
+		//Cash Advance
 		submitPreacts: (req, res) => {
 			logger.debug('submitPreacts()', log_options);
 			console.log(req.body);
 
-			//TODO: gosmactivity to be changed later
 			var dbParam = {
 				gosmactivity: req.body.gosmactivity,
 				submittedBy: req.session.user.idNumber,
-				purpose: req.body.purpose,
 				justification: req.body.nodpjustification
 			};
+			console.log("req.files");
+			console.log(req.files);
+			
 
             let particulars = req.body.particulars;
             if(!Array.isArray(particulars)){
                 particulars = [particulars];
             }
 
+
+            var dir3 = __dirname + '/../assets/upload/';
+            var dir3 = path.join(__dirname, '..', 'assets', 'upload');
+
+            //CHECK IF DIRECTOR EXIST
+            if (!fs.existsSync(dir3)) {
+                fs.mkdirSync(dir3);
+            }
+            var dir = __dirname + '/../assets/upload/finance/';
+            var dir = path.join(__dirname, '..', 'assets', 'upload', 'finance');
+            //CHECK IF DIRECTOR EXIST
+            if (!fs.existsSync(dir)) {
+                fs.mkdirSync(dir);
+            }
+            var dir2 = __dirname + '/../assets/upload/finance/' + req.session.user.idNumber + '/';
+            var dir2 = path.join(__dirname, '..', 'assets', 'upload', 'finance', req.session.user.idNumber + "");
+            //CHECK IF DIRECTOR EXIST
+            if (!fs.existsSync(dir2)) {
+                fs.mkdirSync(dir2);
+            }
+             //  //TEMP SAVING FILEs
+	            // var date = cuid();
+	            // var nFilename = req.files['file'].name.split('.').pop();
+	            // var p = path.normalize(path.join(dir2, date + '.' + nFilename));
+	            //             Promise.all([
+	            //                 req.files['file'].mv(p),
+	            //                 // projectProposalModel.insertProjectProposalAttachment(db)
+
+	            //             ]).then(result => {
+	            //                 console.log(result);
+	            //             }).catch(err => {
+	            //                 console.log(err);
+	            //             });
+
             database.tx(transaction => {
+
+	            //TEMP SAVING FILEs
+	            var date = cuid();
+	            var nFilename = req.files['file'].name.split('.').pop();
+	            var p = path.normalize(path.join(dir2, date + '.' + nFilename));
+	                        Promise.all([
+	                            req.files['file'].mv(p),
+	                            // projectProposalModel.insertProjectProposalAttachment(db)
+
+	                        ]).then(result => {
+	                            console.log(result);
+	                        }).catch(err => {
+	                            console.log(err);
+	                        });
+	                //TO ADD FILE NAME OF FILES
+	              	//TODO: gosmactivity to be changed later
+					// var dbParam = {
+					// 	gosmactivity: req.body.gosmactivity,
+					// 	submittedBy: req.session.user.idNumber,
+					// 	purpose: req.body.purpose,
+					// 	justification: req.body.nodpjustification
+					// };
                 return financeModel.insertPreActivityCashAdvance(dbParam, transaction)
                 .then(data => {
 
@@ -443,12 +507,103 @@ module.exports = function(configuration, modules, models, database, queryFiles){
             });
 		},
 
-		createPreacts: (req, res) => {
-			const renderData = Object.create(null);
-            renderData.extra_data = req.extra_data;
-			return res.render('Finance/Preacts_DirectPayment', renderData);
-			//next();
+		createPreactsDirectPayment: (req, res) => {
+
+			var dbParam = {
+				projectProposal: req.params.projectproposal,
+				gosmactivity: req.params.gosmactivity
+			};
+
+
+			database.task(t=>{
+						return t.batch([projectProposalModel.getProjectProposal(dbParam),
+										financeModel.getParticulars(dbParam)]);
+			})
+			.then(data=>{
+
+				let actualdate = data[0].actualedate;
+	            let currentdate = data[0].currdate;
+
+				console.log("actualdate");
+				console.log(actualdate);
+				console.log("currentdate");
+				console.log(currentdate);
+
+				var diff = timediff(actualdate, currentdate, 'D');
+            	console.log(diff);
+            	console.log("difference")
+
+            	if (diff.days>31){
+            		var justification = true;
+            		console.log("enters here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            	}
+            	else{
+            		var justification = false;
+            		console.log("here instead----------++++++++++++++++++")
+            	}
+
+
+				console.log("Here is the data ----------------------------------");
+				const renderData = Object.create(null);
+            	renderData.extra_data = req.extra_data;
+	            renderData.csrfToken = req.csrfToken();
+	            renderData.particulars = data[1];
+	            renderData.justification = justification;
+	            console.log(renderData.justification);
+	            renderData.gosmactivity = req.params.gosmactivity;
+				return res.render('Finance/Preacts_DirectPayment', renderData);
+				//next();
+
+			}).catch(error=>{
+				console.log(error);
+			});
+
+
 		},
+
+		submitPreactsDirectPayment: (req, res) => {
+
+			console.log(req.body);
+
+			var dbParam = {
+				gosmactivity: req.body.gosmactivity,
+				submittedby: req.session.user.idNumber,
+				reason: req.body.nodpjustification
+			};
+			
+            let particulars = req.body.particulars;
+            if(!Array.isArray(particulars)){
+                particulars = [particulars];
+            }
+
+            database.tx(transaction => {
+
+	            return financeModel.insertPreActivityDirectPayment(dbParam, transaction)
+                .then(data => {
+
+                    for(let index = 0; index < particulars.length; ++index){
+                        financeModel.insertPreActivityDirectPaymentParticular({
+                            directpayment: data.id,
+                            particular: particulars[index]
+                        }, transaction);
+                    }
+
+                    
+                })
+                .catch(error=>{
+                	console.log("error is here++++++++++++++++++++++++++++");
+                	console.log(error);
+                });
+            }).then(data =>{
+                return res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
+            }).catch(err => {
+            	console.log("ERROR---------------------------")
+                return logger.warn(`${err.message}\n${err.stack}`, log_options);
+            });
+
+
+		},
+
 		createPreactsBookTransfer: (req, res) => {
 			const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;

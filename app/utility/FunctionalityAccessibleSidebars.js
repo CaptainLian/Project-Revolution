@@ -28,6 +28,12 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateGOSM] = [{
     link: '/APS/viewOrglist'
 }];
 
+functionalitySidebars[FUNCTIONALITY_SEQUENCES.CreateGOSM] = [{
+    name: 'Organization GOSM',
+    link: '/Organization/createGOSM',
+    icon: 'fa fa-comment-o'
+}];
+
 //Evaluate PPR
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateProjectProposal] = [{
     name: 'Evaluate Project Proposals',
@@ -78,10 +84,11 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluatePublicityMaterial] = [{
 }];
 
 //Evaluate Post Project
-functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluatePostProject] = [{
-    name: 'Post Project',
-    link: '/ADM/Activity/List'
-}];
+//NOTE experimental code
+functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluatePostProject] = [constructSidebar(
+        'Post Project',
+        '/ADM/Activity/List'
+)];
 
 const accessibleRoutes = [];
 for(const functionality in functionalitySidebars){
@@ -100,3 +107,24 @@ accessibleRoutes.sort();
 module.exports = Object.create(null);
 module.exports.functionalitySidebars = functionalitySidebars;
 module.exports.accessibleRoutes = accessibleRoutes;
+
+
+/**
+ * [constructSidebar description]
+ * @method   constructSidebar
+ * @param    {String}                            name      [description]
+ * @param    {String}                            link      [description]
+ * @param    {String}                            icon      [description]
+ * @param    {[Array(String)] Optional}          sublinks  [description]
+ * @returns  {Object}                                      [description]
+ */
+function constructSidebar(name, link, icon, sublinks){
+    const sidebar = Object.create(null);
+
+    sidebar.name = name;
+    sidebar.link = link;
+    sidebar.icon = icon;
+    sidebar.sublinks = sublinks;
+
+    return sidebar;
+}

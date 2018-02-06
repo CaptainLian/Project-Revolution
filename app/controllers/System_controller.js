@@ -50,7 +50,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     };
 
     SystemController.logout = (req, res) => {
-        req.session.user = undefined;
+        req.session.user = null;
         return req.session.destroy((err) => {
             if(err)
                 logger.warn(`${err.message}\n${err.stack}`, log_options);
@@ -92,6 +92,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             credential: input.credential
         }).then(account => {
             logger.debug(`Account found: ${JSON.stringify(account)}`, log_options);
+            console.log("input.password")
+            console.log(account.salt)
             if (account.password === bcrypt.hashSync(input.password, account.salt)) {
 
                 logger.debug('Enter!!', log_options);
@@ -239,8 +241,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         logger.debug(req.session, log_options);
         //let fullname = req.session.user.name.first + " " + req.session.user.name.middle + " " + req.session.user.name.last;
 
-        accountModel.getAccountDetails(11445955, 'privateKey')
-            .then(data => {
+        accountModel.getAccountDetails(11445955, 'privateKey').then(data => {
                 let sampleDocument = {
                     Length: 500,
                     size: 5100,

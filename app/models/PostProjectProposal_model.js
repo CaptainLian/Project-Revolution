@@ -7,7 +7,7 @@ const squel = require('squel').useFlavour('postgres');
 
 module.exports = function(configuration, modules, db, queryFiles) {
 
-	const insertPostProjectProposal = queryFiles.insertPostProjectProposal;
+    const insertPostProjectProposal = queryFiles.insertPostProjectProposal;
 	const updatePostProjectProposal = queryFiles.updatePostProjectProposal;
 	const getPostActsToImplement = queryFiles.getPostActsToImplement;
     const getPostProjectProposalMain = queryFiles.getPostProjectProposalMain;

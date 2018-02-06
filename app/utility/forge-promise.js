@@ -48,7 +48,7 @@ module.exports.pki.rsa = Object.create(null);
 module.exports.pki.rsa.generateKeyPair = (parameters) => {
 	const rsa = forge.pki.rsa;
 	return new Promise((onResolve, onReject) => {
-		rsa.generateKeyPair(parameters, (err, pair) => {
+		return rsa.generateKeyPair(parameters, (err, pair) => {
 			if(err){
 				return onReject(err);
 			}
@@ -56,7 +56,6 @@ module.exports.pki.rsa.generateKeyPair = (parameters) => {
 		});
 	});
 };
-
 
 module.exports.md = Object.create(null);
 
