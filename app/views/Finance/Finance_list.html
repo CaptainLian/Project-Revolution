@@ -24,6 +24,11 @@
     {{tag.style('/css/custom.css')}}
     <!-- color CSS -->
     {{tag.style('/css/colors/default.css', id='theme')}}
+    <style type="text/css">
+        th,td{
+            text-align: center
+        }
+    </style>
 
 {%endblock%}
 
@@ -95,12 +100,12 @@
                                     <tbody>
 
                                         {% for activity in activities %}
-                                            <tr onclick="window.location = '/finance/list/transaction/{{activity.gosmactivity}}'">
+                                            <tr >
                                                 
                                                 {% if isCso and not toadd %}
 
                                                     <td>{{activity.startdate}}</td>
-                                                    <td>{{activity.strategies}}</td>
+                                                    <td><a href='/finance/list/transaction/{{activity.gosmactivity}}' class="btn-link">{{activity.strategies}}</a></td>
 
                                                         {% set hasTransaction = false %}
 
@@ -164,7 +169,7 @@
                                                     {% if activity.organizationid == orgid %}
 
                                                         <td>{{activity.startdate}}</td>
-                                                        <td>{{activity.strategies}}</td>
+                                                         <td><a href='/finance/list/transaction/{{activity.gosmactivity}}' class="btn-link">{{activity.strategies}}</a></td>
 
                                                         {% set hasTransaction = false %}
 
