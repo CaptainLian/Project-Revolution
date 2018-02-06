@@ -20,6 +20,7 @@ module.exports = function(configuration, modules, database, queryFiles){
     const getTransactionTotalPerActivityForSignatorySQL = queryFiles.getTransactionTotalPerActivityForSignatory;
     const insertPreActivityDirectPaymentSQL = queryFiles.insertPreActivityDirectPayment;
     const insertPreActivityDirectPaymentParticularSQL = queryFiles.insertPreActivityDirectPaymentParticular;
+    const getPreActivityDirectPaymentSQL = queryFiles.getPreActivityDirectPayment;
 
     const attachFields = require('../utility/databaseHelper').attachFields;
 	
@@ -87,6 +88,10 @@ module.exports = function(configuration, modules, database, queryFiles){
 
     FinanceModel.insertPreActivityDirectPaymentParticular = function(param, connection = database){
         return connection.none(insertPreActivityDirectPaymentParticularSQL, param);
+    };
+
+    FinanceModel.getPreActivityDirectPayment = function(param, connection = database){
+        return connection.one(getPreActivityDirectPaymentSQL, param);
     };
 
     //Used for signing

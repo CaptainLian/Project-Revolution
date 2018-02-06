@@ -2145,7 +2145,7 @@ $trigger$
         SELECT SUM(ppe.unitCost*ppe.quantity) INTO totalExpense
           FROM ProjectProposalExpenses ppe
          WHERE ppe.id IN (SELECT pacap.particular
-                            FROM "PreActivityDirectPaymenteParticular" pacap
+                            FROM "PreActivityDirectPaymentParticular" pacap
                            WHERE pacap."directPayment" = NEW."directPayment");
 
         IF totalExpense > 5000.00 THEN

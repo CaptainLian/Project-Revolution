@@ -33,8 +33,30 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		evaluateTransaction: (req, res) => {
 			console.log('EvaluateTransaction !!!!-13131231231313123s	');
 			logger.debug('evaluateTransaction()', log_options);
-			// cash advance
-			if (req.params.transaction == 1){
+			
+			// direct payment
+			if (req.params.transaction == 0){
+				
+				var param = {
+					id: req.params.id
+				};
+
+				financeModel.getPreActivityDirectPayment(param)
+				.then(data=>{
+
+					var dbParam = {
+						gosmactivity: data.GOSMActivity
+					};
+
+				}).catch(error=>{
+					console.log(error);
+				});
+
+
+
+
+			} // cash advance
+		 	else if (req.params.transaction == 1){
 				logger.debug('Cash Advance', log_options);
 				var param = {
 					id: req.params.id
@@ -575,6 +597,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
             if(!Array.isArray(particulars)){
                 particulars = [particulars];
             }
+
+            console.log("submits directpayment_____________________________________");
 
             database.tx(transaction => {
 
