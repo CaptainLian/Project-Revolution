@@ -318,8 +318,8 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
         let query = squel.select()
             .from('accounttype');
-
         attachFields(query, fields);
+        
         return connection.many(query.toString(), param);
     };
 
