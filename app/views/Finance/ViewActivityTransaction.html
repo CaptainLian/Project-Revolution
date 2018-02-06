@@ -122,7 +122,7 @@
                                         {% for transaction in transactions %}
 
                                             <!-- if direct payment  -->
-                                            {% if transaction.transaction == 0 %}
+                                            {% if(transaction.transaction == 0)  or (transaction.transaction == 1) %}
 
                                                 <tr onclick="window.location = '/transaction/evaluate/0/{{transaction.id}}'">
 
@@ -134,7 +134,7 @@
 
                                                 <td>{{transaction.startdate}}</td>
 
-                                                {% if transaction.transaction == 0 %}
+                                                {% if (transaction.transaction == 0)  or (transaction.transaction == 1) %}
                                                     <td>Direct Payment</td>
                                                 {% else %}
                                                     <td>Cash Advance</td>
@@ -144,11 +144,11 @@
 
                                                 {% if transaction.status == 0 %}
 
-                                                    {% if transaction.transaction == 1 %}
+                                                    {% if transaction.approval == 0 %}
 
                                                         <td><span class="label label-table label-primary">For Approval</span></td>
 
-                                                    {% elif transaction.transaction == 2 %}
+                                                    {% elif transaction.approval == 1 %}
 
                                                         <td><span class="label label-table label-info">For Approval</span></td>
 
