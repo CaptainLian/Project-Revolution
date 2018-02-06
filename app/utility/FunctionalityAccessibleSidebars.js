@@ -12,8 +12,9 @@ const functionalitySidebars = Object.create(null);
 
 //View Project Head Dashboard
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.ViewProjectHeadDashboard] = [{
-    name: 'Project Head Dashboard',
-    link: '/Organization/ProjectHead/home'
+    name: 'Dashboard',
+    link: '/Organization/ProjectHead/home',
+    classes:'linea-basic'
 }];
 
 //View APSReport
@@ -24,14 +25,15 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.ViewAPSReport] = [{
 
 //Evaluate GOSM
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateGOSM] = [{
-    name: 'View GOSM Submissions',
+    name: 'GOSM Submissions',
     link: '/APS/viewOrglist'
 }];
 
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.CreateGOSM] = [{
-    name: 'Organization GOSM',
+    name: 'GOSM',
     link: '/Organization/createGOSM',
-    icon: 'fa fa-comment-o'
+    icon: '',
+    classes:'linea-basic'
 }];
 
 //Evaluate PPR
@@ -42,14 +44,18 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateProjectProposal] = [{
 
 //Evaluate Activity (AMT)
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateActivity_AMT] = [{
-    name: 'Evaluate Activity (AMT)',
-    link: '/AMT/AssignActivity'
+    name: 'Evaluate Activity',
+    link: '/AMT/AssignActivity',
+    icon: 'X',
+    classes:'linea-elaborate'
 }];
 
 //Evaluate Activity (OrgRes)
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateActivity_OrgRes] = [{
-    name: 'Submit Activity Research Form',
+    name: 'Research Form',
     link: '/ORGRES/SubmitActivityResearchForm',
+    icon: '$',
+    classes:'linea-elaborate',
     sublinks: [
 
     ]
@@ -57,11 +63,13 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateActivity_OrgRes] = [{
 
 //Modify Organizational Structure
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.ModifyOrganizationalStructure] = [{
-    name: 'Modify Organizational Structure',
-    link: '/Organization/Setting/ACL'
+    name: 'Role Access',
+    link: '/Organization/Setting/ACL',
+    classes:'linea-elaborate',
+    icon :''
 }, {
     name: 'Organization Officers',
-    link: '/Organization/Officers'
+    link: '/ORGRES/Manage/Account'
 }];
 
 //View Publicities for Activity
@@ -79,14 +87,15 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.SubmitPublicityMaterial] = [{
 
 //Evaluate Publicities for Activity
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluatePublicityMaterial] = [{
-    name: 'Evaluate Publicity Submissions',
-    link: '/PNP/Pubs/List'
+    name: 'Evaluate Pubs',
+    link: '/PNP/Pubs/List',
+    icon: 'X'
 }];
 
 //Evaluate Post Project
 //NOTE experimental code
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluatePostProject] = [constructSidebar(
-        'Post Project',
+        'Post ProjectHead',
         '/ADM/Activity/List'
 )];
 

@@ -274,7 +274,7 @@
                      	<div class="form-group row">
                             <label for="idNumber" class="col-sm-2 control-label col-form-label">ID Number</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="idNumber" placeholder="ID Number">
+                                <input type="text" class="form-control" id="idNumber" placeholder="ID Number">                               
                             </div>
                         </div>                       
                         <div class="form-group row">
@@ -306,6 +306,7 @@
                                     {% endfor%}
 
                                 </select>
+                                <span class="help-block" id="account-help" style="display: none"><small style="color: #FB9678">Account type cannot be empty</small></span>
                             </div>
                            
                         </div>
@@ -329,16 +330,11 @@
                                         {% else%}
                                             <option value="{{r.orid}}">{{r.soacro}} - {{r.oroname}}</option>
                                         {% endif %}
-
-
-                                        
-                                        
-                                        
+      
                                     {% endfor%}
-                                    
-                                        
- 
+                                         
                                 </select>
+                                <span class="help-block" id="pos-help" style="display: none"><small style="color: #FB9678">Org & Position cannot be empty</small></span>
                             </div>
                            
                         </div>
@@ -411,6 +407,7 @@
                                     {% endfor%}
 
                                 </select>
+                                <span class="help-block" id="edit-account-help" style="display: none"><small style="color: #FB9678">Account type cannot be empty</small></span>
                             </div>                           
                         </div>
 
@@ -442,6 +439,7 @@
                                     
                                
                                 </select>
+                                <span class="help-block" id="edit-pos-help" style="display: none"><small style="color: #FB9678">Org & Position cannot be empty</small></span>
                             </div>
                            
                         </div>

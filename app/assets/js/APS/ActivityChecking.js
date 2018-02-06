@@ -91,7 +91,7 @@ $(document).on('click', '#defer', function() {
         '<div class="form-group col-md-12">' +
         '<label class="col-md-12 text-left"><strong>Sections to be Edited:</strong></label>' +
         '<div class="col-md-12">' +
-        '<select class="col-md-12" multiple=""s id="select-sec">' +
+        '<select class="col-md-12" multiple="" id="select-sec">' +
 
         '<option value="Brief Context">I. Brief Context</option>' +
         '<option value="Program Design">II. Program Design</option>' +
@@ -144,6 +144,7 @@ $(document).on('click', '#defer', function() {
         confirmButtonText: "Pend",
         cancelButtonText: "Cancel",
 
+
     }).then(function(data) {
 
         console.log("ASD");
@@ -165,6 +166,7 @@ $(document).on('click', '#defer', function() {
                 status: 2,
                 comments: $("#comment").val(),
                 sectionsToBeEdited: $("#select-sec").val()
+                
             },
             success: function(data) {
 

@@ -164,6 +164,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         renderData.success = 1;
                         req.session.postSubmitted = false;
                     }
+                    console.log(renderData.activities)
                     return res.render('Org/PostActivityToImplement', renderData);
                 }).catch(error => {
                     logger.warn(`${error.message}\n${error.stack}`, log_options);

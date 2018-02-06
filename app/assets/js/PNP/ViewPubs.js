@@ -91,10 +91,10 @@ $(".pend").on('click',function(){
                                 '<div class="col-md-12">'+
                                     '<select class="col-md-12" multiple=""s id="select-sec">'+
                                         
-                                        '<option value="1">Incorrect Grammar</option>'+
-                                        '<option value="1">Unoriginal Design</option>'+
-                                        '<option value="2">Incomplete logos</option>'+
-                                        '<option value="4">Contents not in line with Lasallian Values</option>'+
+                                        '<option value="Incorrect Grammar">Incorrect Grammar</option>'+
+                                        '<option value="Unoriginal Design">Unoriginal Design</option>'+
+                                        '<option value="Incomplete logos">Incomplete logos</option>'+
+                                        '<option value="Contents not in line with Lasallian Values">Contents not in line with Lasallian Values</option>'+
                                     '</select>'+
                                 '</div>'+
                                 
@@ -124,7 +124,8 @@ $(".pend").on('click',function(){
                         data:{
                             id:pub.attr("data-id"),
                             stat:2,
-                            comment:$("textarea").val()
+                            comment:$("textarea").val(),
+                            revision:$("#select-sec").select2("val")
 
                         },
                         success:function(data){
@@ -140,7 +141,15 @@ $(".pend").on('click',function(){
 
             })
 
-        }
+        },
+         onOpen: function(ele) {
+            $(ele).find("select").select2();
+            console.log("INIT SELECT");
+        },
+        showCancelButton: true,
+        confirmButtonColor: "#FEC107",
+        confirmButtonText: "Pend",
+        cancelButtonText: "Cancel",
          
     }).then(function(data){
         console.log("DATA ON APPROVE");

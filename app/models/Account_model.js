@@ -45,7 +45,9 @@ module.exports = function(configuration, modules, database, queryFiles) {
      * @returns {Promise} [description]
      */
     AccountModel.createAccount = (idNumber, email, type, password, firstname, middlename, lastname, contactNumber, connection = database) => {
+
         logger.debug(`createAccount()\nGenerating key pair\n\tParameters: bits: ${configuration.security.encryption.bits}, workers: ${configuration.security.encryption.web_workers_amount}`, log_options);
+
         return forge.pki.rsa.generateKeyPair({
             bits: configuration.security.encryption.bits,
             workers: configuration.security.encryption.web_workers_amount

@@ -47,24 +47,24 @@ body {
 }
 /*Top Header Part*/
 .top-left-part {
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.04);
 }
 .logo i {
   color: #ffffff;
 }
 .navbar-header {
-  background: #4F5467;
+  background: #03a9f3;
 }
 .navbar-top-links > li > a {
   color: #ffffff;
 }
 /*Right panel*/
 .right-sidebar .rpanel-title {
-  background: #fb9678;
+  background: #03a9f3;
 }
 /*Bread Crumb*/
 .bg-title .breadcrumb .active {
-  color: #fb9678;
+  color: #03a9f3;
 }
 /*Sidebar*/
 .sidebar {
@@ -86,25 +86,25 @@ body {
   background: rgba(0, 0, 0, 0.03);
 }
 #side-menu > li > a.active {
-  border-left: 3px solid #fb9678;
+  border-left: 3px solid #03a9f3;
   color: #2b2b2b;
   font-weight: 500;
 }
 #side-menu > li > a.active i {
-  color: #fb9678;
+  color: #03a9f3;
 }
 #side-menu ul > li > a:hover {
-  color: #fb9678;
+  color: #03a9f3;
 }
 #side-menu ul > li > a.active {
   color: #2b2b2b;
   font-weight: 500;
 }
 .sidebar #side-menu .user-pro .nav-second-level a:hover {
-  color: #fb9678;
+  color: #03a9f3;
 }
 .fix-sidebar .top-left-part {
-  background: #ffffff;
+  background: #00BA8C;
 }
 /*themecolor*/
 .bg-theme {
@@ -115,37 +115,37 @@ body {
 }
 /*Chat widget*/
 .chat-list .odd .chat-text {
-  background: #fb9678;
+  background: #03a9f3;
 }
 /*Button*/
 .btn-custom {
-  background: #fb9678;
-  border: 1px solid #fb9678;
+  background: #03a9f3;
+  border: 1px solid #03a9f3;
   color: #ffffff;
 }
 .btn-custom:hover {
-  background: #fb9678;
+  background: #03a9f3;
   opacity: 0.8;
   color: #ffffff;
-  border: 1px solid #fb9678;
+  border: 1px solid #03a9f3;
 }
 /*Custom tab*/
 .customtab li.active a,
 .customtab li.active a:hover,
 .customtab li.active a:focus {
-  border-bottom: 2px solid #fb9678;
-  color: #fb9678;
+  border-bottom: 2px solid #03a9f3;
+  color: #03a9f3;
 }
 .tabs-vertical li.active a,
 .tabs-vertical li.active a:hover,
 .tabs-vertical li.active a:focus {
-  background: #fb9678;
-  border-right: 2px solid #fb9678;
+  background: #03a9f3;
+  border-right: 2px solid #03a9f3;
 }
 /*Nav-pills*/
 .nav-pills > li.active > a,
 .nav-pills > li.active > a:focus,
 .nav-pills > li.active > a:hover {
-  background: #fb9678;
+  background: #03a9f3;
   color: #ffffff;
 }

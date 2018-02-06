@@ -76,10 +76,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
             var thirdStartSplit = thirdStart.split("/");
             var thirdEnd = req.body.thirdend;
             var thirdEndSplit = thirdEnd.split("/");
-
             
-
-
           	var dbParam = {
 	         	startyear: firstStartSplit[2],
 		       	endyear: thirdEndSplit[2],
@@ -235,10 +232,10 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		    		for(let index = 0, length= req.body['orgpos[]'].length; index < length; ++index){
 		    			req.body['orgpos[]'][index] = Number.parseInt(req.body['orgpos[]'][index]);
 		    		}
-		    		return	accModel.createStudentAccount(req.body.idNumber, req.body.email, password, req.body.givenName, req.body.middleName, req.body.lastName, req.body.number, req.body['orgpos[]'])		    				
+		    		return	accModel.createStudentAccount(req.body.idNumber, req.body.email, password, req.body.givenName, req.body.middleName, req.body.lastName, req.body.number, req.body['orgpos[]'],task)		    				
 		    	}else{
 		    		console.log("createAccount");
-		    		return accModel.createAccount(req.body.idNumber, req.body.email, req.body['accType[]'], password, req.body.givenName, req.body.middleName, req.body.lastName, req.body.number);
+		    		return accModel.createAccount(req.body.idNumber, req.body.email, req.body['accType[]'], password, req.body.givenName, req.body.middleName, req.body.lastName, req.body.number,task);
 		    	}
 		    	
 		    }).then(data =>{
