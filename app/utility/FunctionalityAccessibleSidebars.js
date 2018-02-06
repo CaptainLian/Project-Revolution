@@ -30,9 +30,10 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateGOSM] = [{
 }];
 
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.CreateGOSM] = [{
-    name: 'Organization GOSM',
+    name: 'GOSM',
     link: '/Organization/createGOSM',
-    icon: 'fa fa-comment-o'
+    icon: '',
+    classes:'linea-basic'
 }];
 
 //Evaluate PPR
@@ -62,11 +63,13 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateActivity_OrgRes] = [{
 
 //Modify Organizational Structure
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.ModifyOrganizationalStructure] = [{
-    name: 'Modify Organizational Structure',
-    link: '/Organization/Setting/ACL'
+    name: 'Role Access',
+    link: '/Organization/Setting/ACL',
+    classes:'linea-elaborate',
+    icon :''
 }, {
     name: 'Organization Officers',
-    link: '/Organization/Officers'
+    link: '/ORGRES/Manage/Account'
 }];
 
 //View Publicities for Activity
