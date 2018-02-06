@@ -301,5 +301,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         });
     };
 
+    SystemController.studentChangeOrganization = (req, res) => {
+        logger.debug(`studentChangeOrganization()\n${JSON.stringify(req.params)}`, log_options);
+        //TODO: implementation
+        logger.error('CONTROLLER METHOD NOT YET IMPLEMENTED', log_options);
+        
+        return res.redirect('/home');
+    };
+    
     return SystemController;
 };

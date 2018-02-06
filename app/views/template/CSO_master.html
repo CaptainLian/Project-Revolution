@@ -82,9 +82,12 @@
                     <li class="dropdown">
                         <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false"><b class="hidden-xs">{%if(extra_data.user.name)%}{{extra_data.user.name}}{%else%}Steave{%endif%}</b> </a>
                         <ul class="dropdown-menu dropdown-user scale-up">
-                            <li ><a href="#" class="text-success"><i class="ti-stamp text-success"></i>LSCS</a></li>
+                            {%for organization in extra_data.view.navbar.organizationDropdown%}
+                                <li><a href="/System/ChangeOrganization/{{organization.id}}" class="text-success"><i class="ti-stamp text-success"></i>{{organization.acronym}}</a></li>
+                            {%endfor%}
+                            {#
                             <li><a href="#"><i class="ti-stamp"></i> MooMedia</a></li>
-
+                            #}
                             <li role="separator" class="divider"></li>
                             <li><a href="/logout"><i class="fa fa-power-off"></i> Logout</a></li>
                         </ul>
