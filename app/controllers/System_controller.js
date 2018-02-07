@@ -302,11 +302,21 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     };
 
     SystemController.studentChangeOrganization = (req, res) => {
-        logger.debug(`studentChangeOrganization()\n${JSON.stringify(req.params)}`, log_options);
-        //TODO: implementation
-        logger.error('CONTROLLER METHOD NOT YET IMPLEMENTED', log_options);
+        logger.debug(`studentChangeOrganization()\nParams: ${JSON.stringify(req.params)}`, log_options);
+        logger.info('Controller method implementation not yet complete', log_options);
         
-        return res.redirect('/home');
+        return accountModel.isInOrganization(req.session.user.idNumber, req.params.organization).then(organization => {
+            logger.debug(`Part of organization check: ${organization.isIn}`, log_options);
+
+            if(organization.isIn){
+                //TODO: update other fields as well
+                logger.debug(`Changing organizationSelected.id = ${req.params.organization}`, log_options);
+                req.session.user.organizationSelected.id = req.params.organization; 
+            }
+
+            return res.redirect('/home');
+        });
+        
     };
     
     return SystemController;

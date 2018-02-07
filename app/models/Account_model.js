@@ -287,7 +287,6 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
 
     AccountModel.getOrganizationRoles = (fields,connection = database) => {
-        logger.warn('Unstable function??', log_options);
         logger.debug('getOrganizationRoles()', log_options);
 
         //TODO figure out parameters
@@ -517,6 +516,33 @@ module.exports = function(configuration, modules, database, queryFiles) {
         query = query.toString();
         logger.debug(`Executing query: ${query}`, log_options);
         return connection.oneOrNone(query, param);
+    };
+
+
+    AccountModel.isInOrganization = (idNumber, organizationID, connection = database) => {
+        logger.debug(`isInOrganization(idNumber: ${idNumber}, organizationID: ${organizationID})`, log_options);
+
+        let query = squel.select()
+            .field(squel.str(`EXISTS(${squel.select()
+                    .from('OrganizationRole')
+                    .field('organization')
+                    .where('id IN ?', 
+                        squel.select()
+                            .from('OrganizationOfficer')
+                            .field('role')
+                            .where('yearID = system_get_current_year_id()')
+                            .where('isActive')
+                            .where('idNumber = ${idNumber}'))
+                    .where('organization = ${organizationID}')
+                    .toString()})`), '"isIn"')
+            .toString();
+
+        let param = Object.create(null);
+        param.idNumber = idNumber;
+        param.organizationID = organizationID;
+
+        logger.debug(`Executing query: ${query}`, log_options);
+        return connection.one(query, param);
     };
 
     return AccountModel;
