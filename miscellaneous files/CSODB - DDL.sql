@@ -1177,7 +1177,7 @@ INSERT INTO Functionality (id, name, category)
                           (212019, 'Sign Financial Document Phase' , 212),
                           (108020, 'Evaluate Post Project'         , 108),
                           (212021, 'Evaluate Financial Documents'             , 212),
-                          (212022, 'Auto-approve Financial Documents'          , 212)
+                          (212022, 'Auto-approve Financial Documents'          , 212),
                           -- Account Management
                           (  2023, 'Account Management', 2);
 
