@@ -38,7 +38,7 @@ module.exports = function(configuration, modules, router, controllers){
     router.get(`${base}/PostProjectProposal/Main/:gosmid`, controllers.Organization_controller.viewSubmitPostProjectProposalMain);
     router.get(`${base}/PostProjectProposal/BriefContext/:gosmid`, controllers.Organization_controller.viewSubmitPostProjectProposalBriefContext);
     router.get(`${base}/PostProjectProposal/RequiredDocument/:gosmid`, controllers.Organization_controller.viewSubmitPostProjectProposalOthers);
-    router.get(`${base}/PostProjectProposal/FinanceDocument/:gosmid`, controllers.Organization_controller.viewSubmitPostProjectProposalFinanceDocument);
+    router.get(`${base}/PostProjectProposal/viewSubmitPostProjectProposalFinanceDocument/:gosmid`, controllers.Organization_controller.viewSubmitPostProjectProposalFinanceDocument);
 
     //PNP
     router.get(`${base}/Publicity/list`, controllers.Organization_controller.viewPubs);
