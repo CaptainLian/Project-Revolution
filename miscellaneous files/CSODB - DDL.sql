@@ -1177,7 +1177,9 @@ INSERT INTO Functionality (id, name, category)
                           (212019, 'Sign Financial Document Phase' , 212),
                           (108020, 'Evaluate Post Project'         , 108),
                           (212021, 'Evaluate Financial Documents'             , 212),
-                          (212022, 'Auto-approve Financial Documents'          , 212);
+                          (212022, 'Auto-approve Financial Documents'          , 212)
+                          -- Account Management
+                          (  2023, 'Account Management', 2);
 
 DROP TABLE IF EXISTS OrganizationAccessControl CASCADE;
 CREATE TABLE OrganizationAccessControl (
@@ -1226,7 +1228,10 @@ INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       -- Evaluate Publicity Material
                                       (    5,        108020,      TRUE),
                                       (    6,        108020,      TRUE),
-                                      (    7,        108020,      TRUE);
+                                      (    7,        108020,      TRUE),
+                                      -- Account Management
+                                      (    2,          2023, TRUE), 
+                                      (   21,          2023, TRUE);
 
 /* Organization Default Structure */
 
