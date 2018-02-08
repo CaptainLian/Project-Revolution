@@ -34,6 +34,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			console.log('EvaluateTransaction !!!!-13131231231313123s	');
 			logger.debug('evaluateTransaction()', log_options);
 			
+			// TODO: change payable to in html of evaluate transaction
+
 			// direct payment
 			if (req.params.transaction == 0){
 				
@@ -47,6 +49,71 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 					var dbParam = {
 						gosmactivity: data.GOSMActivity
 					};
+
+
+					database.task(t=>{
+						return t.batch([projectProposalModel.getProjectProposal(dbParam),
+										financeModel.getDirectPaymentParticulars(param)]);
+					})
+					.then(data1=>{
+
+						const renderData = Object.create(null);
+			            renderData.extra_data = req.extra_data;
+	            		renderData.csrfToken = req.csrfToken();
+			            renderData.directPayment = data;
+			            renderData.projectproposal = data1[0];
+			            renderData.particulars = data1[1];
+			            renderData.gosmactivity = data.GOSMActivity;
+			            // transactionType: if 0 direct payment; if 1 cash advance
+			            renderData.transactionType = req.params.transaction;
+
+			            //to evaluate
+			            renderData.isCso = false;
+			            renderData.toadd = false;
+			            if(req.session.user.type >= 3 && req.session.user.type <= 6){
+	                    	renderData.isCso = true;
+	                    }else if(typeof req.extra_data.user.accessControl !== 'undefined'){
+			            	const ACL = req.extra_data.user.accessControl[String(req.session.user.organizationSelected.id)];
+			            	if(typeof ACL !== 'undefined' && req.session.user.type == 1){
+	                    		renderData.isCso = ACL['21'] || false;
+	                    		renderData.toadd = true;
+	                    	}
+			            }
+
+						// to add transaction
+
+						logger.debug(`IsCSO: ${renderData.isCso}\nToAdd: ${renderData.toadd}`, log_options);
+						if (renderData.isCso && renderData.toadd) {
+
+							console.log("CORRECT THIS FAR==============")
+
+							var signatoryParam = {
+								cashadvance: req.params.id,
+								idnumber: req.session.user.idNumber
+							};
+
+							return financeModel.checkCashAdvanceSignatory(signatoryParam)
+							.then(signatory=>{
+
+								console.log(signatory);
+								console.log("inside signatoryquery");
+								if (signatory.length==0) {
+									renderData.isCso = false;
+								}
+
+								return res.render('Finance/EvaluateTransaction', renderData);
+
+							}).catch(error=>{
+								return logger.debug(`${error.message}\n${error.stack}`, log_options);
+							});
+
+						}else{
+							return res.render('Finance/EvaluateTransaction', renderData);
+						}
+					}).catch(error=>{
+						return logger.debug(`${error.message}\n${error.stack}`, log_options);
+					});
+
 
 				}).catch(error=>{
 					console.log(error);
@@ -138,6 +205,56 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			}
 		},
 
+		approveDirectPayment: (req, res) =>{
+			
+			console.log(req.body);
+			console.log("approve direct payment");
+
+
+			var dbParam = {
+				directPayment: req.body.directPaymentId,
+				signatory: req.session.user.idNumber
+			};
+
+			financeModel.approveDirectPayment(dbParam)
+			.then(data=>{
+
+				console.log("successfully approved direct payment");
+				res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
+
+
+			}).catch(error=>{
+				console.log(error)
+			})
+
+
+		},
+
+		pendDirectPayment: (req, res) =>{
+
+			console.log(req.body);
+			console.log("pend direct payment");
+			console.log(req.body.directPaymentId);
+
+			var dbParam = {
+				directPayment: req.body.directPaymentId,
+				signatory: req.session.user.idNumber
+			};
+
+			financeModel.pendDirectPayment(dbParam)
+			.then(data=>{
+
+				console.log("successfully pended direct payment");
+				res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
+
+			}).catch(error=>{
+				console.log(error);
+			});
+
+
+
+		},
+
 		approveCashAdvance: (req, res) => {
 			logger.debug('approveCashAdvance', log_options);
 
@@ -212,15 +329,15 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			console.log(req.body.cashAdvanceId);
 
 			var dbParam = {
-				status: 2,
-				id: req.body.cashAdvanceId
+				signatory: req.session.user.idNumber,
+				cashAdvance: req.body.cashAdvanceId
 			};
 
 
-			financeModel.updatePreActivityCashAdvanceStatus(dbParam)
+			financeModel.pendCashAdvance(dbParam)
 			.then(data=>{
 
-				console.log("successfully pended");
+				console.log("successfully pended cash advance");
 				res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
 
 			}).catch(error=>{
