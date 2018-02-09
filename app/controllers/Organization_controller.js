@@ -2,7 +2,7 @@
 const Promise = require('bluebird');
 const fs = require('fs');
 var cuid = require('cuid');
-
+var timediff = require('timediff');
 
 module.exports = function(configuration, modules, models, database, queryFiles) {
 
@@ -79,6 +79,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                 "to_char(pppd.date, 'Mon DD, YYYY') AS date",
                                 "to_char(pppd.starttime + CURRENT_DATE, 'HH:MI AM') AS starttime",
                                 "to_char(pppd.endtime + CURRENT_DATE, 'HH:MI PM') AS endtime",
+                                "to_char(pppd.date, 'YYYY-MM-DD') AS datestart",
+                                "to_char(CURRENT_DATE, 'YYYY-MM-DD') AS currdate",
                                 'pppd.activity AS activity',
                                 'pppd.activitydescription AS activitydescription',
                                 'pppd.personincharge AS personincharge'
@@ -131,7 +133,10 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     console.log(data[0])
                     console.log("EXPENSE")
 
-
+                    renderData.resched = timediff(data[3][0].datestart, data[3][0].currdate,'D').days
+                    console.log("Date DIFF")
+                    console.log(data[3].currdate)
+                    console.log(renderData.resched)
                     console.log(renderData.attachment);
                     console.log("renderData.attachment");
                     return res.render('Org/viewActivityDetails', renderData);
@@ -608,6 +613,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             database.task(t => {
                 return t.batch([
                     //TODO: Replace hardcoded values
+                    1,
                     projectProposalModel.getProjectProposalsCountPerStatus(1, 5, t),
                     projectProposalModel.getProjectProposalsCountPerStatus(1, 4, t),
                     projectProposalModel.getProjectProposalsCountPerStatus(1, 3, t)

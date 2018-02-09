@@ -150,8 +150,9 @@
                         {% for date, programs in programDesign | groupby('date') %}
                             <p>{{date}}</p>
                         {% endfor %}
+                        {% if resched < 0%}
                         <button type="button" class="btn btn-default" id='reschedule'>Reschedule</button>
-
+                        {%endif%}
                     </div>
                 </div>
                 <hr>
