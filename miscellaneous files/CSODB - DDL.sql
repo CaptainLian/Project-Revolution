@@ -2691,10 +2691,10 @@ CREATE TRIGGER "before_insert_PostProjectReimbursement_sequence"
   
 DROP TABLE IF EXISTS "PostProjectReimbursementParticular" CASCADE;
 CREATE TABLE "PostProjectReimbursementParticular" (
-  "bookTransfer" INTEGER REFERENCES "PostProjectReimbursement"("id"),
+  "reimbursement" INTEGER REFERENCES "PostProjectReimbursement"("id"),
   "particular" INTEGER REFERENCES ProjectProposalExpenses("id"),
 
-  PRIMARY KEY ("bookTransfer", "particular")
+  PRIMARY KEY ("reimbursement", "particular")
 );
 
 DROP TABLE IF EXISTS "PostProjectBookTransferStatus" CASCADE;
