@@ -89,6 +89,7 @@
                         start:start,
                         end: end,
                         allDay: false,
+                        startEditable:false,
                         className: categoryClass
                     }, true);  
                     $this.$modal.modal('hide');
@@ -101,6 +102,7 @@
             });
             $this.$calendarObj.fullCalendar('unselect');
     },
+    
     CalendarApp.prototype.enableDrag = function() {
         //init events
         $(this.$event).each(function () {
@@ -121,7 +123,7 @@
     }
     /* Initializing */
     CalendarApp.prototype.init = function() {
-        this.enableDrag();
+        //this.enableDrag();
         /*  Initialize the calendar  */
         var date = new Date();
         var d = date.getDate();
@@ -131,46 +133,32 @@
         var today = new Date($.now());
 
         var defaultEvents =  [{
-                title: 'Released Ample Admin!',
+                title: 'Ignite!',
                 start: new Date($.now() + 506800000),
-                className: 'bg-info'
+                className: 'bg-info',
+                startEditable:false
             }, {
-                title: 'This is today check date',
+                title: 'No Tech Camp',
                 start: today,
                 end: today,
-                className: 'bg-danger'
+                className: 'bg-success',
+                startEditable:false
             }, {
-                title: 'This is your birthday',
+                title: 'Spark',
                 start: new Date($.now() + 848000000),
-                className: 'bg-info'
+                className: 'bg-danger',
+                startEditable:false
             },{
-                title: 'your meeting with john',
+                title: 'Photoshop Workshop',
                 start: new Date($.now() - 1099000000),
                 end:  new Date($.now() - 919000000),
-                className: 'bg-warning'
-            },{
-                title: 'your meeting with john',
-                start: new Date($.now() - 1199000000),
-                end: new Date($.now() - 1199000000),
-                className: 'bg-purple'
-            },{
-                title: 'your meeting with john',
-                start: new Date($.now() - 399000000),
-                end: new Date($.now() - 219000000),
-                className: 'bg-info'
-            },  
-              {
-                title: 'Hanns birthday',
-                start: new Date($.now() + 868000000),
-                className: 'bg-danger'
-            },{
-                title: 'Like it?',
-                start: new Date($.now() + 348000000),
-                className: 'bg-success'
+                className: 'bg-warning',
+                startEditable:false
             }];
 
         var $this = this;
         $this.$calendarObj = $this.$calendar.fullCalendar({
+            height: 650,
             slotDuration: '00:15:00', /* If we want to split day time each 15minutes */
             minTime: '08:00:00',
             maxTime: '19:00:00',  
@@ -183,10 +171,11 @@
                 right: 'month,agendaWeek,agendaDay'
             },
             events: defaultEvents,
+
             editable: true,
-            droppable: true, // this allows things to be dropped onto the calendar !!!
+            droppable: false, // this allows things to be dropped onto the calendar !!!
             eventLimit: true, // allow "more" link when too many events
-            selectable: true,
+            selectable: false,
             drop: function(date) { $this.onDrop($(this), date); },
             select: function (start, end, allDay) { $this.onSelect(start, end, allDay); },
             eventClick: function(calEvent, jsEvent, view) { $this.onEventClick(calEvent, jsEvent, view); }
