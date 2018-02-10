@@ -179,24 +179,44 @@ $(document).on('click', '#defer', function() {
     });
 });
 $(document).on('click', '#reschedule', function() {
-    var question = '<div class="row">' +
-        '<div class="col-md-12 text-left m-b-20">' +
-        '<br/>Select the sections that should be change, then explain why.<br/>' +
+    var question = 
+        '<div>' +
+        '</div>' +
+        '<div class="form-group col-md-12 >' +
+            '<label class="col-md-12 text-left"  style="float:left" ><strong  style="float:left">New Schedule/s:</strong></label>' +
+            '<input id="datepicker-inline" class="form-control mydatepicker" placeholder="" type="text">'+
         '</div>' +
         '<div class="form-group col-md-12">' +
-        '<label class="col-md-12 text-left"><strong>New Schedule/s:</strong></label>' +
-        '<input name="date" class="form-control newDate" id="datepicker-autoclose" placeholder="mm/dd/yyyy">'+
-        '<label class="col-md-12 text-left"><strong>Reason/s:</strong></label>' +
-        '<div class="col-md-12">' +
-        '<select class="col-md-12" multiple="" id="select-sec">' +
+            '<label class="col-md-12 text-left"><strong>Reason/s:</strong></label>' +
+        
+            // '<select class="col-md-12" multiple="" id="select-sec">' +
 
-        '<option value="Brief Context">Speaker Unavailable</option>' +
-        '<option value="Program Design">Insufficient Participants</option>' +
-        '<option value="Source of Funds">Class Suspension</option>' +
-        '</select>' +
-        '</div>' +
-
-        '</div>' +
+            //     '<option value="Brief Context">Speaker Unavailable</option>' +
+            //     '<option value="Program Design">Insufficient Participants</option>' +
+            //     '<option value="Source of Funds">Class Suspension</option>' +
+            // '</select>' +
+            '<div class="form-check col-md-12"  style="float:left" >'+
+                '<label class="custom-control custom-radio"  style="float:left">'+
+                    '<input id="radio1" name="radio" class="custom-control-input" type="radio"  style="float:left">'+
+                    '<span class="custom-control-indicator"  style="float:left" ></span>'+
+                    '<span class="custom-control-description"  style="float:left">Speaker Unavailable</span>'+
+                '</label>'+
+            '</div>'+
+            '<div class="form-check col-md-12"  style="float:left">'+
+                '<label class="custom-control custom-radio"  style="float:left">'+
+                    '<input id="radio2" name="radio" class="custom-control-input" type="radio"  style="float:left">'+
+                    '<span class="custom-control-indicator"  style="float:left"></span>'+
+                    '<span class="custom-control-description"  style="float:left">Insufficient Participants</span>'+
+                '</label>'+
+            '</div>'+
+            '<div class="form-check col-md-12"  style="float:left">'+
+                '<label class="custom-control custom-radio"  style="float:left">'+
+                    '<input id="radio3" name="radio" class="custom-control-input" type="radio">'+
+                    '<span class="custom-control-indicator"></span>'+
+                    '<span class="custom-control-description">Class Suspension</span>'+
+                '</label>'+
+            '</div>';
+            
         '</div>';
 
 
@@ -209,7 +229,7 @@ $(document).on('click', '#reschedule', function() {
         reverseButtons: true,
         allowOutsideClick: false,
         preConfirm: function(data) {
-            console.log($("#select-sec").val());
+            console.log($("#datepicker-inline").val());
             console.log("DATA");
             return new Promise(function(resolve, reject) {
                 setTimeout(function() {
@@ -223,9 +243,10 @@ $(document).on('click', '#reschedule', function() {
         },
         onOpen: function(ele) {
             $(ele).find("select").select2();
-            $('#datepicker-autoclose').datepicker({
-                autoclose: true,
+            $('#datepicker-inline').datepicker({
+                autoclose: false,
                 todayHighlight: true,
+                multidate:true,
                 startDate: new Date()
             });
             console.log("INIT SELECT");
@@ -249,23 +270,22 @@ $(document).on('click', '#reschedule', function() {
 
 
     }).then(function(data) {
-        // $.ajax({
-        //     type: 'POST',
-        //     url: '/APS/ajax/SignProjectProposal',
-        //     data: {
-        //         activityID: $("#doc").attr("ct"),
-        //         status: 2,
-        //         comments: $("#comment").val(),
-        //         sectionsToBeEdited: $("#select-sec").val()
-        //     },
-        //     success: function(data) {
+        $.ajax({
+            type: 'POST',
+            url: '/APS/ajax/resched',
+            data: {
+                activityID: $("#doc").attr("ct"),
+                date: $('#datepicker-inline').val(),
+                reason: $("#comment").val(),                
+            },
+            success: function(data) {
 
-        //         var doc = $(data).find("#doc");
+                var doc = $(data).find("#doc");
 
-        //         $("#doc").replaceWith(doc);
-        //         $(document).trigger("customGenerated");
-        //     }
-        // });
+                $("#doc").replaceWith(doc);
+                $(document).trigger("customGenerated");
+            }
+        });
     });
 });
 $(document).on('click', '#reject', function() {

@@ -27,6 +27,8 @@
     <!-- Custom CSS -->
     {{tag.style('/plugins/bower_components/custom-select/custom-select.css')}}
     {{tag.style('/plugins/bower_components/bootstrap-select/bootstrap-select.min.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css')}}
+    
     {{tag.style('/css/style.css')}}
     {{tag.style('/css/custom.css')}}
     {{tag.style('/css/doms.css')}}
@@ -99,9 +101,10 @@
 
     <!-- Page Scripts -->
     {{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
-    {{tag.javascript('/js/APS/ActivityChecking.js', true)}}
+    
     {{tag.javascript('/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.js', true)}}
     {{tag.javascript('/plugins/bower_components/bootstrap-daterangepicker/daterangepicker.js', true)}}
+    {{tag.javascript('/js/APS/ActivityChecking.js', true)}}
     <!-- /Page Scripts -->
 {%endblock%}
 
