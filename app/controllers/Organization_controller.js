@@ -605,23 +605,67 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         },
 
         viewProjectHeadHome: (req, res) => {
+
+            //TODO: if account is president
+
             database.task(t => {
                 return t.batch([
-                    //TODO: Replace hardcoded values
-                    projectProposalModel.getProjectProposalsCountPerStatus(1, 5, t),
-                    projectProposalModel.getProjectProposalsCountPerStatus(1, 4, t),
-                    projectProposalModel.getProjectProposalsCountPerStatus(1, 3, t)
+                    projectProposalModel.getProjectProposalCountTotal(req.session.user.organizationSelected.id, 
+                                                                        req.session.user.idNumber, t),
+                    projectProposalModel.getProjectProposalsCountPerStatus(req.session.user.organizationSelected.id, 5, 
+                                                                            req.session.user.idNumber, t),
+                    projectProposalModel.getProjectProposalsCountPerStatus(req.session.user.organizationSelected.id, 4, 
+                                                                            req.session.user.idNumber, t),
+                    projectProposalModel.getProjectProposalsCountPerStatus(req.session.user.organizationSelected.id, 3, 
+                                                                            req.session.user.idNumber, t),
+                    projectProposalModel.getActivitiesApprovedPerHead(req.session.user.organizationSelected.id,
+                                                                        req.session.user.idNumber, t),
+                    projectProposalModel.getProjectProposalCommentsPerStatus(req.session.user.organizationSelected.id, 2,
+                                                                                req.session.user.idNumber, t),
+                    projectProposalModel.getProjectProposalCommentsPerStatus(req.session.user.organizationSelected.id, 3,
+                                                                                req.session.user.idNumber, t)
                 ]);
             }).then(data => {
                 logger.debug(`${JSON.stringify(data)}`, log_options);
                 const renderData = Object.create(null);
                 renderData.extra_data = req.extra_data;
                 renderData.csrfToken = req.csrfToken();
+                renderData.approvedActivities = data[4];
+                renderData.pendedActivities = data[5];
+                renderData.deniedActivities = data[6];
 
-                renderData.allProjects = data[0];
-                renderData.deniedProjects = data[1];
-                renderData.pendingProjects = data[2];
-                renderData.successProjects = data[3];
+
+                if (data[0]==null){
+
+                    renderData.allProjects = 0;
+                
+                }else{
+                    renderData.allProjects = parseInt(data[0].num);
+
+                }
+                if (data[1]==null){
+
+                    renderData.deniedProjects = 0;
+                
+                }
+                else{
+                    renderData.deniedProjects = parseInt(data[1].num);
+
+                }
+                if (data[2]==null){
+                    renderData.pendingProjects = 0;
+                }
+                else{
+                    renderData.pendingProjects = parseInt(data[2].num);
+
+                }
+                if (data[3]==null){
+                    renderData.successProjects = 0;                
+                }else{
+                    renderData.successProjects = parseInt(data[3].num);
+
+                }
+
 
                 return res.render('Org/ProjectHeadHome', renderData);
             }).catch(error => {
