@@ -1,4 +1,4 @@
-﻿DROP EXTENSION IF EXISTS "uuid-ossp" CASCADE;
+DROP EXTENSION IF EXISTS "uuid-ossp" CASCADE;
 DROP EXTENSION IF EXISTS "pgcrypto" CASCADE;
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
@@ -2027,10 +2027,10 @@ CREATE TABLE "PreActivityCashAdvanceStatus" (
   PRIMARY KEY(id)
 );
 INSERT INTO "PreActivityCashAdvanceStatus" ("id", "name")
-                                      VALUES (0, 'For Approval'),
-                                             (1, 'Approved'),
-                                             (2, 'Pend'),
-                                             (3, 'Denied');
+                                    VALUES (0, 'For Approval'),
+                                           (1, 'Approved'),
+                                           (2, 'Pend'),
+                                           (3, 'Denied');
 DROP TABLE IF EXISTS "PreActivityCashAdvance" CASCADE;
 CREATE TABLE "PreActivityCashAdvance" (
     "id" SERIAL NOT NULL UNIQUE,
@@ -2071,8 +2071,6 @@ CREATE TRIGGER "before_insert_PreActivityCashAdvance_sequence"
     BEFORE INSERT ON "PreActivityCashAdvance"
     FOR EACH ROW
     EXECUTE PROCEDURE "trigger_before_insert_PreActivityCashAdvance_sequence"();
-
-
 
 DROP TABLE IF EXISTS "PreActivityCashAdvanceParticular" CASCADE;
 CREATE TABLE "PreActivityCashAdvanceParticular" (
@@ -2301,32 +2299,33 @@ CREATE TRIGGER "after_delete_PreActivityCashAdvanceParticular_signatories"
     FOR EACH ROW
     EXECUTE PROCEDURE "trigger_after_delete_PreActivityCashAdvanceParticular_signatories"();
 
+-- TODO: Put in a generalized function to be reusable
 CREATE OR REPLACE FUNCTION "trigger_after_update_PreActivityCashAdvanceSignatory_completion"()
 RETURNS TRIGGER AS
 $trigger$
     DECLARE
         numSignNeeded INTEGER;
     BEGIN
-	IF NEW.status = 1 THEN
-	    SELECT COUNT(pacas.id) INTO numSignNeeded
+        IF NEW.status = 1 THEN
+	          SELECT COUNT(pacas.id) INTO numSignNeeded
               FROM "PreActivityCashAdvanceSignatory" pacas
              WHERE pacas."cashAdvance" = NEW."cashAdvance"
                AND pacas.status <> 1;
 
-             IF numSignNeeded = 0 THEN
+            IF numSignNeeded = 0 THEN
                 UPDATE "PreActivityCashAdvance"
                    SET status = 1
                  WHERE id = NEW."cashAdvance";
             END IF;
-	ELSIF NEW.status = 2 THEN
+	       ELSIF NEW.status = 2 THEN
             UPDATE "PreActivityCashAdvance"
                SET status = 2
              WHERE id = NEW."cashAdvance";
         ELSIF NEW.status = 3 THEN
-                UPDATE "PreActivityCashAdvance"
-                   SET status = 3
-                 WHERE id = NEW."cashAdvance";
-	END IF;
+            UPDATE "PreActivityCashAdvance"
+               SET status = 3
+             WHERE id = NEW."cashAdvance";
+	      END IF;
         
         RETURN NEW;
     END;
@@ -2335,6 +2334,45 @@ CREATE TRIGGER "after_update_PreActivityCashAdvanceSignatory_completion"
     AFTER UPDATE ON "PreActivityCashAdvanceSignatory"
     FOR EACH ROW WHEN (OLD.status <> NEW.status)
     EXECUTE PROCEDURE "trigger_after_update_PreActivityCashAdvanceSignatory_completion"();
+
+/* Book Transfer */
+DROP TABLE IF EXISTS "PreActivityBookTransferStatus" CASCADE;
+CREATE TABLE "PreActivityBookTransferStatus" (
+    "id" INTEGER,
+    "name" VARCHAR(45) NOT NULL,
+
+    PRIMARY KEY("id")
+);
+INSERT INTO "PreActivityBookTransferStatus" ("id", "name")
+                                     VALUES (0, 'For Approval'),
+                                            (1, 'Approved'),
+                                            (2, 'Pend'),
+                                            (3, 'Denied');
+
+DROP TABLE IF EXISTS "PreActivityBookTransfer" CASCADE;
+CREATE TABLE "PreActivityBookTransfer"(
+    "id" SERIAL UNIQUE,
+    "GOSMActivity" INTEGER REFERENCES GOSMActivity("id"),
+    "submissionID" INTEGER,
+    "sequenceID" INTEGER,
+    "submittedBy" INTEGER REFERENCES Account(idNumber),
+    "dateSubmitted" TIMESTAMP WITH TIME ZONE,
+    "status" SMALLINT NOT NULL DEFAULT 0,
+    "transferAccount" CHARACTER(7),
+
+    PRIMARY KEY ("GOSMActivity", "submissionID", "sequenceID")
+);                    
+
+DROP TABLE IF EXISTS "PreActivityBookTransferSignatory" CASCADE;
+CREATE TABLE "PreActivityBookTransferSignatory" (
+    "id" SERIAL UNIQUE,
+    "bookTransfer" INTEGER REFERENCES "PreActivityBookTransfer"("id"),
+    "signatory" INTEGER REFERENCES Account(idNumber),
+    "type" INTEGER REFERENCES "FinanceSignatoryType"("id"),
+    "status" SMALLINT
+);
+
+/* Book Transfer END */
 /* Organization Treasurer */
     /* AMTActivityEvaluation */
 DROP TABLE IF EXISTS AMTActivityEvaluationStatus CASCADE;
@@ -2705,7 +2743,7 @@ CREATE TABLE "PostProjectBookTransferStatus" (
    PRIMARY KEY ("id")
 );
 INSERT INTO "PostProjectBookTransferStatus" ("id", "name")
-                                     VALUES (  0,  'For approval'),
+                                     VALUES (  0, 'For approval'),
                                             (  1, 'Approved'),
                                             (  2, 'Pend'),
                                             (  3, 'Denied');
@@ -2773,7 +2811,7 @@ INSERT INTO "ActivityPublicityMaterial" ("id", "name")
                                         (   1, 'Tarpualine'),
                                         (   2, 'Banderitas'),
                                         (   3, 'Ticket');
- -- 0 = not applicaable
+
 DROP TABLE IF EXISTS "ActivityPublicityModeOfDistribution" CASCADE;
 CREATE TABLE "ActivityPublicityModeOfDistribution"(
     "id" SMALLINT,
@@ -2799,7 +2837,6 @@ INSERT INTO "ActivityPublicityStatus" ("id", "name")
                                       (   3, 'Denied'),
                                       (   4, 'Old Version');
 
--- unoriginal design, incorrect grammer, incomplete logo, contents not in line with la sallian values
 DROP TABLE IF EXISTS "ActivityPublicityRevisionReason" CASCADE;
 CREATE TABLE "ActivityPublicityRevisionReason"(
     "id" SMALLINT,
