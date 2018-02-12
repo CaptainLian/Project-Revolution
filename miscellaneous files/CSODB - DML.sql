@@ -105,7 +105,7 @@ INSERT INTO public."ActivityVenue"(id, name, capacity, size, rate, "rateType", b
                                   (16, 'Classroom (Full-size)', 45, 0, 620, 0, 0),
                                   (17, 'Classroom (Half-size', 25, 0, 340, 0, 0),
                                   (18, 'Natividad Fajardo-Rosario Gonzalez Auditorium, 18th Flr.', 238, 2, 3000, 0, 0),
-                                  ( 19, 'Neil Room', 12,  3, 700.43,       4,        0);
+                                  ( 19, 'Neil Room', 12,  2, 700.43,       4,        0);
 
 /* Organization Data */
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)

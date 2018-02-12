@@ -1,7 +1,7 @@
 DROP EXTENSION IF EXISTS "uuid-ossp" CASCADE;
-DROP EXTENSION IF EXISTS "pgcrypto" CASCADE;
-
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+DROP EXTENSION IF EXISTS "pgcrypto" CASCADE;
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
 CREATE OR REPLACE FUNCTION trigger_auto_reject()
@@ -112,21 +112,21 @@ $trigger$
         IF totalExpense > 5000.00 THEN
             EXECUTE format('INSERT INTO %I (%I, "signatory", "type")
                                     VALUES (%s, (SELECT a.idNumber FROM Account a WHERE a.type = 4 ORDER BY a.idNumber DESC LIMIT 1), 3)
-                            ON CONFLICT DO NOTHING;')
+                            ON CONFLICT DO NOTHING;', TG_ARGV[3], TG_ARGV[4], TG_ARGV[5])
             USING NEW;
         END IF;
 
 	    IF totalExpense > 50000.00 THEN
             EXECUTE format('INSERT INTO %I (%I, "signatory", "type")
                                     VALUES (%s, (SELECT a.idNumber FROM Account a WHERE a.type = 5 ORDER BY a.idNumber DESC LIMIT 1), 4)
-                            ON CONFLICT DO NOTHING;')
+                            ON CONFLICT DO NOTHING;', TG_ARGV[3], TG_ARGV[4], TG_ARGV[5])
             USING NEW;
         END IF;
 
 	    IF totalExpense > 250000.00 THEN
             EXECUTE format('INSERT INTO %I (%I, "signatory", "type")
                                     VALUES (%s, (SELECT a.idNumber FROM Account a WHERE a.type = 6 ORDER BY a.idNumber DESC LIMIT 1), 5)
-                            ON CONFLICT DO NOTHING;')
+                            ON CONFLICT DO NOTHING;', TG_ARGV[3], TG_ARGV[4], TG_ARGV[5])
             USING NEW;
 	    END IF;
 
@@ -472,6 +472,7 @@ $function$
     END;
 $function$ LANGUAGE plpgsql;
 
+/* PRE ACTIVITY DIRECT PAYMENT */
 CREATE OR REPLACE FUNCTION "PreAct_DirectPayment_get_organization"("param_DPID" INTEGER)
 RETURNS INTEGER AS
 $function$
@@ -508,6 +509,27 @@ $function$
     END;
 $function$ LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION "PreAct_DirectPayment_get_organization_next_treasurer_signatory"(organizationID INTEGER)
+RETURNS INTEGER AS
+$function$
+    DECLARE
+        treasurerID INTEGER;
+    BEGIN
+         WITH "OrganizationTreasurerNumSign" AS (
+             SELECT ot.idNumber, COALESCE(n."numSign", 0) AS "numSign"
+               FROM organization_get_treasurer_signatories(organizationID) ot LEFT JOIN "PreAct_DirectPayment_get_number_to_sign_per_account"() n
+                                                                                     ON ot.idNumber = n.idNumber
+         )
+          SELECT ot.idNumber INTO treasurerID
+            FROM "OrganizationTreasurerNumSign" ot
+        ORDER BY "numSign" ASC, ot.idNumber DESC
+        LIMIT 1;
+
+        RETURN treasurerID;
+    END;
+$function$ LANGUAGE plpgsql;
+
+/* PRE ACTIVITY CASH ADVANCE */
 CREATE OR REPLACE FUNCTION "PreAct_CashAdvance_get_organization"("param_CAID" INTEGER)
 RETURNS INTEGER AS
 $function$
@@ -526,7 +548,25 @@ $function$
     END;
 $function$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION "PreAct_DirectPayment_get_organization_next_treasurer_signatory"(organizationID INTEGER)
+CREATE OR REPLACE FUNCTION "PreActCashAdvance_get_number_to_sign_per_account"()
+RETURNS TABLE (
+    idNumber INTEGER,
+    "numSign" BIGINT
+) AS
+$function$
+    BEGIN
+        RETURN QUERY SELECT preca.signatory AS idNumber, COUNT(preca.id) AS "numSign"
+                       FROM "PreActivityCashAdvanceSignatory" preca
+                      WHERE preca."status" = 0
+                      AND preca."cashAdvance" IN (SELECT paca.id
+                                                    FROM "PreActivityCashAdvance" paca
+                                                   WHERE paca."GOSMActivity" IN (SELECT ga.id
+                                                                                   FROM "GOSMActivity_get_current_term_activity_ids"() ga))
+                   GROUP BY preca.signatory;
+    END;
+$function$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION "PreActCashAdvance_get_organization_next_treasurer_signatory"(organizationID INTEGER)
 RETURNS INTEGER AS
 $function$
     DECLARE
@@ -534,7 +574,7 @@ $function$
     BEGIN
          WITH "OrganizationTreasurerNumSign" AS (
              SELECT ot.idNumber, COALESCE(n."numSign", 0) AS "numSign"
-               FROM organization_get_treasurer_signatories(organizationID) ot LEFT JOIN "PreAct_DirectPayment_get_number_to_sign_per_account"() n
+               FROM organization_get_treasurer_signatories(organizationID) ot LEFT JOIN "PreActCashAdvance_get_number_to_sign_per_account"() n
                                                                                      ON ot.idNumber = n.idNumber
          )
           SELECT ot.idNumber INTO treasurerID
@@ -583,6 +623,7 @@ $function$
         RETURN treasurerID;
     END;
 $function$ LANGUAGE plpgsql;
+
 /*
     Helpful functions end
 */
@@ -1648,7 +1689,7 @@ CREATE TABLE ProjectProposal (
     isBriefContextComplete BOOLEAN NOT NULL DEFAULT FALSE,
     isExpenseComplete BOOLEAN NOT NULL DEFAULT FALSE,
     isProgramComplete BOOLEAN NOT NULL DEFAULT FALSE,
-    
+
     rescheduleReason SMALLINT REFERENCES ProjectProposalRescheduleReason(id),
 
     PRIMARY KEY (GOSMActivity)
@@ -2347,11 +2388,12 @@ CREATE TABLE "PreActivityBookTransfer"(
     "sequenceID" INTEGER,
     "submittedBy" INTEGER REFERENCES Account(idNumber),
     "dateSubmitted" TIMESTAMP WITH TIME ZONE,
-    "status" SMALLINT NOT NULL DEFAULT 0,
+    "status" SMALLINT REFERENCES "PreActivityBookTransferStatus"("id") NOT NULL DEFAULT 0,
     "transferAccount" CHARACTER(7),
 
     PRIMARY KEY ("GOSMActivity", "submissionID", "sequenceID")
 );
+
 DROP TABLE IF EXISTS "PreActivityBookTransferParticular" CASCADE;
 CREATE TABLE "PreActivityBookTransferParticular" (
     "id" SERIAL UNIQUE,
@@ -2386,6 +2428,8 @@ CREATE TRIGGER "after_update_PreActivityBookTransferSignatory_completion"
     AFTER UPDATE ON "PreActivityBookTransferSignatory"
     FOR EACH ROW WHEN (OLD.status <> NEW.status)
     EXECUTE PROCEDURE "trigger_after_update_signatory_completion"('PreActivityBookTransferSignatory', 'pabts', 'pabts."bookTransfer" = $1."bookTransfer"', 'PreActivityBookTransfer', 'pabt', 'pabt.id = $1."bookTransfer"');
+
+-- TODO: Initial signatories
 
 /* Book Transfer END */
 /* Organization Treasurer */
@@ -2718,29 +2762,11 @@ CREATE TABLE "PostProjectReimbursement" (
 
   PRIMARY KEY("GOSMActivity", "submissionID", "sequence")
 );
-CREATE OR REPLACE FUNCTION "trigger_before_insert_PostProjectReimbursement_sequence"()
-RETURNS trigger AS
-$trigger$
-    BEGIN
-        IF NEW."submissionID" IS NULL THEN
-            NEW."sequence" = 1;
-            SELECT COALESCE(MAX("submissionID") + 1, 1) INTO NEW."submissionID"
-              FROM "PostProjectReimbursement"
-             WHERE "GOSMActivity" = NEW."GOSMActivity";
-        ELSE
-            SELECT COALESCE(MAX(sequence) + 1, 1) INTO NEW.sequence
-              FROM "PostProjectReimbursement"
-             WHERE "GOSMActivity" = NEW."GOSMActivity"
-               AND "submissionID" = NEW."submissionID";
-        END IF;
 
-        RETURN NEW;
-    END;
-$trigger$ LANGUAGE plpgsql;
 CREATE TRIGGER "before_insert_PostProjectReimbursement_sequence"
     BEFORE INSERT ON "PostProjectReimbursement"
     FOR EACH ROW
-    EXECUTE PROCEDURE "trigger_before_insert_PostProjectReimbursement_sequence"();
+    EXECUTE PROCEDURE "trigger_before_insert_sequence_versioning"( 'PostProjectReimbursement', 'ppr', 'ppr."GOSMActivity" = $1."GOSMActivity"' );
 
 DROP TABLE IF EXISTS "PostProjectReimbursementParticular" CASCADE;
 CREATE TABLE "PostProjectReimbursementParticular" (
@@ -2781,6 +2807,7 @@ CREATE TABLE "PostProjectBookTransfer" (
 
   PRIMARY KEY("GOSMActivity", "submissionID", "sequence")
 );
+
 DROP TABLE IF EXISTS "PostProjectBookTransferParticular" CASCADE;
 CREATE TABLE "PostProjectBookTransferParticular" (
    "bookTransfer" INTEGER REFERENCES "PostProjectBookTransfer"("id"),
@@ -2788,29 +2815,11 @@ CREATE TABLE "PostProjectBookTransferParticular" (
 
    PRIMARY KEY ("bookTransfer", "particular")
 );
-CREATE OR REPLACE FUNCTION "trigger_before_insert_PostProjectBookTransfer_sequence"()
-RETURNS trigger AS
-$trigger$
-    BEGIN
-        IF NEW."submissionID" IS NULL THEN
-            NEW."sequence" = 1;
-            SELECT COALESCE(MAX("submissionID") + 1, 1) INTO NEW."submissionID"
-              FROM "PostProjectBookTransfer"
-             WHERE "GOSMActivity" = NEW."GOSMActivity";
-        ELSE
-            SELECT COALESCE(MAX(sequence) + 1, 1) INTO NEW.sequence
-              FROM "PostProjectBookTransfer"
-             WHERE "GOSMActivity" = NEW."GOSMActivity"
-               AND "submissionID" = NEW."submissionID";
-        END IF;
 
-        RETURN NEW;
-    END;
-$trigger$ LANGUAGE plpgsql;
 CREATE TRIGGER "before_insert_PostProjectBookTransfer_sequence"
     BEFORE INSERT ON "PostProjectBookTransfer"
     FOR EACH ROW
-    EXECUTE PROCEDURE "trigger_before_insert_PostProjectBookTransfer_sequence"();
+    EXECUTE PROCEDURE "trigger_before_insert_sequence_versioning"( 'PostProjectBookTransfer', 'ppbt', 'ppbt."GOSMActivity" = $1."GOSMActivity"' );
   /* Post Acts END*/
 /* ADM END */
 /* Publicity */
@@ -2888,29 +2897,11 @@ CREATE TABLE "ActivityPublicity" (
 
     PRIMARY KEY("GOSMActivity", "submissionID", "sequence")
 );
-CREATE OR REPLACE FUNCTION "trigger_before_insert_ActivityPublicity_sequence"()
-RETURNS trigger AS
-$trigger$
-    BEGIN
-        IF NEW."submissionID" IS NULL THEN
-            NEW."sequence" = 1;
-            SELECT COALESCE(MAX("submissionID") + 1, 1) INTO NEW."submissionID"
-              FROM "ActivityPublicity"
-             WHERE "GOSMActivity" = NEW."GOSMActivity";
-        ELSE
-            SELECT COALESCE(MAX(sequence) + 1, 1) INTO NEW."sequence"
-              FROM "ActivityPublicity"
-             WHERE "GOSMActivity" = NEW."GOSMActivity"
-               AND "submissionID" = NEW."submissionID";
-        END IF;
 
-        RETURN NEW;
-    END;
-$trigger$ LANGUAGE plpgsql;
 CREATE TRIGGER "before_insert_ActivityPublicity_sequence"
     BEFORE INSERT ON "ActivityPublicity"
     FOR EACH ROW
-    EXECUTE PROCEDURE "trigger_before_insert_ActivityPublicity_sequence"();
+    EXECUTE PROCEDURE "trigger_before_insert_sequence_versioning"( 'ActivityPublicity', 'ap', 'ap."GOSMActivity" = $1."GOSMActivity"' );
 
 /* End of Publicity */
 
