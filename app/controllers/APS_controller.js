@@ -64,7 +64,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             view.extra_data = req.extra_data;
             return res.render('APS/OrganizationSpecificGOSM', view);
         }).catch(error => {
-            throw error;
+            logger.error(`${error.message}: ${error.stack}`, log_options);
         });
     };
 
@@ -81,7 +81,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         }).then(data => {
             return res.send(data);
         }).catch(error => {
-            throw error;
+            logger.error(`${error.message}: ${error.stack}`, log_options);
         });
     };
 

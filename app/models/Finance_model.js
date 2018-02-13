@@ -14,13 +14,16 @@ module.exports = function(configuration, modules, database, queryFiles){
     const getActivityTransactionsSQL = queryFiles.getActivityTransactions;
     const getPreActivityCashAdvanceSQL = queryFiles.getPreActivityCashAdvance;
     const getCashAdvanceParticularsSQL = queryFiles.getCashAdvanceParticulars;
-    const updatePreActivityCashAdvanceStatusSQL = queryFiles.updatePreActivityCashAdvanceStatus;
     const getActivityTransactionsForSignatorySQL = queryFiles.getActivityTransactionsForSignatory;
     const checkCashAdvanceSignatorySQL = queryFiles.checkCashAdvanceSignatory;
     const getTransactionTotalPerActivityForSignatorySQL = queryFiles.getTransactionTotalPerActivityForSignatory;
     const insertPreActivityDirectPaymentSQL = queryFiles.insertPreActivityDirectPayment;
     const insertPreActivityDirectPaymentParticularSQL = queryFiles.insertPreActivityDirectPaymentParticular;
     const getPreActivityDirectPaymentSQL = queryFiles.getPreActivityDirectPayment;
+    const getDirectPaymentParticularsSQL = queryFiles.getDirectPaymentParticulars;
+    const pendDirectPaymentSQL = queryFiles.pendDirectPayment;
+    const approveDirectPaymentSQL = queryFiles.approveDirectPayment;
+    const pendCashAdvanceSQL = queryFiles.pendCashAdvance;
 
     const attachFields = require('../utility/databaseHelper').attachFields;
 	
@@ -66,10 +69,6 @@ module.exports = function(configuration, modules, database, queryFiles){
         return connection.any(getCashAdvanceParticularsSQL, param);
     };
 
-    FinanceModel.updatePreActivityCashAdvanceStatus = function(param, connection = database){
-        return connection.none(updatePreActivityCashAdvanceStatusSQL, param);
-    };
-
     FinanceModel.getActivityTransactionsForSignatory = function(param, connection = database){
         return connection.any(getActivityTransactionsForSignatorySQL, param);
     };
@@ -93,6 +92,22 @@ module.exports = function(configuration, modules, database, queryFiles){
     FinanceModel.getPreActivityDirectPayment = function(param, connection = database){
         return connection.one(getPreActivityDirectPaymentSQL, param);
     };
+
+    FinanceModel.getDirectPaymentParticulars = function(param, connection = database){
+        return connection.any(getDirectPaymentParticularsSQL, param);
+    };
+
+    FinanceModel.pendDirectPayment = function(param, connection = database){
+        return connection.none(pendDirectPaymentSQL, param);
+    };
+
+    FinanceModel.approveDirectPayment = function(param, connection = database){
+        return connection.none(approveDirectPaymentSQL, param);
+    };
+
+    FinanceModel.pendCashAdvance = function(param, connection = database){
+        return connection.none(pendCashAdvanceSQL, param);
+    }
 
     //Used for signing
     FinanceModel.getPreActivityCashAdvanceDetails = (cashAdvanceID, fields, connection = database) => {

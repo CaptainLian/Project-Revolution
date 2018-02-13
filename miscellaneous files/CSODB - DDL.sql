@@ -1290,7 +1290,7 @@ INSERT INTO Functionality (id, name, category)
                           (212019, 'Sign Financial Document Phase' , 212),
                           (108020, 'Evaluate Post Project'         , 108),
                           (212021, 'Evaluate Financial Documents'             , 212),
-                          (212022, 'Auto-approve Financial Documents'          , 212),
+                          (212022, 'Auto-approve Financial Documents'         , 212),
                           -- Account Management
                           (  2023, 'Account Management', 2);
 
@@ -1661,6 +1661,7 @@ CREATE TABLE ProjectProposal (
     id SERIAL UNIQUE,
     GOSMActivity INTEGER REFERENCES GOSMActivity(id),
     status INTEGER NOT NULL REFERENCES ProjectProposalStatus(id) DEFAULT 1,
+
     -- Brief Context
     ENP INTEGER,
     ENMP INTEGER,
@@ -1670,6 +1671,7 @@ CREATE TABLE ProjectProposal (
     context1 TEXT,
     context2 TEXT,
     context3 TEXT,
+
     -- Revenue/Expense on
     isExpense BOOLEAN NOT NULL DEFAULT TRUE,
     sourceFundOther NUMERIC(12, 2),
@@ -1684,6 +1686,7 @@ CREATE TABLE ProjectProposal (
     dateCreated TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     dateSubmitted TIMESTAMP WITH TIME ZONE,
     dateStatusModified TIMESTAMP WITH TIME ZONE,
+    
     -- status
     isAttachmentsComplete BOOLEAN NOT NULL DEFAULT FALSE,
     isBriefContextComplete BOOLEAN NOT NULL DEFAULT FALSE,
@@ -1691,6 +1694,8 @@ CREATE TABLE ProjectProposal (
     isProgramComplete BOOLEAN NOT NULL DEFAULT FALSE,
 
     rescheduleReason SMALLINT REFERENCES ProjectProposalRescheduleReason(id),
+    rescheduleDatesStart DATE[],
+    rescheduleReasonDatesEnd DATE[],
 
     PRIMARY KEY (GOSMActivity)
 );

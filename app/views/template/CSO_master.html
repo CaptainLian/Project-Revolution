@@ -123,6 +123,7 @@
                             {% for sidebar in extra_data.view.sidebars %}
                                 {{sidebar_item(sidebar.name, sidebar.link, sidebar.icon, sidebar.classes)}}
                             {% endfor %}
+                            {{sidebar_item('Sign Project Proposal', '/APS/Signatory/ActivtiyList', 'fa fa-check')}}
                         {%endblock-%}
                     </ul>
                 </div>

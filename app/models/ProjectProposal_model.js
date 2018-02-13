@@ -19,6 +19,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const insertProjectProposalExpensesSQL = queryFiles.insertProjectProposalExpenses;
     const getProjectProposalSQL = queryFiles.getProjectProposal;
     const getProjectProposalsPerStatusSQL = queryFiles.getProjectProposalsCountPerStatus;
+    const getProjectProposalCountTotalSQL = queryFiles.getProjectProposalCountTotal;
     const getPPRProjectedCostSQL = queryFiles.getPPRProjectedCost;
     const getApprovedPPRsSQL = queryFiles.getApprovedPPRs;
     const getNextActivityForApprovalSQL = queryFiles.getNextActivityForApproval;
@@ -43,6 +44,8 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const getActivitiesRelatedToNatureCountSQL = queryFiles.getActivitiesRelatedToNatureCount;
     const getActivitiesNotRelatedToNatureCountSQL = queryFiles.getActivitiesNotRelatedToNatureCount;
     const getGOSMCountPerOrgSQL = queryFiles.getGOSMCountPerOrg;
+    const getActivitiesApprovedPerHeadSQL = queryFiles.getActivitiesApprovedPerHead;
+    const getProjectProposalCommentsPerStatusSQL = queryFiles.getProjectProposalCommentsPerStatus;
 
 
 
@@ -383,7 +386,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
         return connection.none(insertProjectProposalExpensesSQL, param);
     };
 
-    ProjectProposalModel.prototype.getProjectProposalsCountPerStatus = function(gosm, status, connection = this._db) {
+    ProjectProposalModel.prototype.getProjectProposalsCountPerStatus = function(studentorganization, status, idnumber, connection = this._db) {
 
         /**
          * const param = {
@@ -394,10 +397,21 @@ module.exports = function(configuration, modules, db, queryFiles) {
          * @type {Object}
          */
         let param = Object.create(null);
-        param.gosm = gosm;
+        param.studentorganization = studentorganization;
         param.status = status;
+        param.idnumber = idnumber;
 
-        return connection.one(getProjectProposalsPerStatusSQL, param);
+        return connection.oneOrNone(getProjectProposalsPerStatusSQL, param);
+    };
+
+    ProjectProposalModel.prototype.getProjectProposalCountTotal = function(studentorganization, idnumber, connection = this._db) {
+
+
+        let param = Object.create(null);
+        param.studentorganization = studentorganization;
+        param.idnumber = idnumber;
+
+        return connection.oneOrNone(getProjectProposalCountTotalSQL, param);
     };
 
     ProjectProposalModel.prototype.getProjectProposalProjectHeads = function(id, fields, connection = this._db){
@@ -412,6 +426,34 @@ module.exports = function(configuration, modules, db, queryFiles) {
         param.id = id;
 
         return connection.any(queryFiles.getProjectProposalProjectHeads, param);
+    };
+
+    ProjectProposalModel.prototype.getActivitiesApprovedPerHead = function(studentorganization, idnumber, connection = this._db) {
+
+
+        let param = Object.create(null);
+        param.studentorganization = studentorganization;
+        param.idnumber = idnumber;
+
+        return connection.any(getActivitiesApprovedPerHeadSQL, param);
+    };
+
+    ProjectProposalModel.prototype.getProjectProposalCommentsPerStatus = function(studentorganization, status, idnumber, connection = this._db) {
+
+        /**
+         * const param = {
+         *     gosm: gosm,
+         *     status: status
+         * };
+         * @variable param
+         * @type {Object}
+         */
+        let param = Object.create(null);
+        param.studentorganization = studentorganization;
+        param.status = status;
+        param.idnumber = idnumber;
+
+        return connection.any(getProjectProposalCommentsPerStatusSQL, param);
     };
 
     ProjectProposalModel.prototype.getNextActivityForApproval = function(idNumber, connection = this._db){
