@@ -741,7 +741,13 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 
 		},
-
+		
+		createPreactsReimbursement: (req, res) => {
+			const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+			return res.render('Finance/Preacts_Reimbursement', renderData);
+			//next();
+		},
 		createPreactsBookTransfer: (req, res) => {
 			const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
