@@ -24,12 +24,14 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			return res.render('Finance/TransactionMain', renderData);
 			//next();
 		},
+
 		viewFinanceSettings: (req, res) => {
 			const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
 			return res.render('Finance/Finance_Settings', renderData);
 			//next();
 		},
+
 		evaluateTransaction: (req, res) => {
 			console.log('EvaluateTransaction !!!!-13131231231313123s	');
 			logger.debug('evaluateTransaction()', log_options);
@@ -51,10 +53,6 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				}).catch(error=>{
 					console.log(error);
 				});
-
-
-
-
 			} // cash advance
 		 	else if (req.params.transaction == 1){
 				logger.debug('Cash Advance', log_options);
@@ -563,7 +561,6 @@ module.exports = function(configuration, modules, models, database, queryFiles){
             		var justification = false;
             		console.log("here instead----------++++++++++++++++++")
             	}
-
 
 				console.log("Here is the data ----------------------------------");
 				const renderData = Object.create(null);

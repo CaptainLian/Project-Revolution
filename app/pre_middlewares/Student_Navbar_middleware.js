@@ -24,10 +24,9 @@ module.exports = function(configuration, application, modules, database, queryFi
             return next();
 
         logger.debug(`Attaching student navbar data`, log_options);
-        
         accountModel.getStudentOrganizations(req.session.user.idNumber).then(organizations => {
             logger.debug(`Organizations: ${JSON.stringify(organizations)}`, log_options);
-
+            req.extra_data.view.navbar.organizationDropdown = organizations;
             return next();
         });
     };
