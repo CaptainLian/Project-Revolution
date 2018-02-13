@@ -179,21 +179,22 @@
     <div class="col-md-12 col-lg-4 col-sm-12">
         <div class="white-box">
             <h3 class="box-title">  </h3>
-            <div class="comment-center" style="height: 420px;overflow-y: auto">
+            <div class="comment-center" style="height: 420px;overflow-y: auto;margin:0px">
 
                 <!-- PENDING -->
                 {% for activities in pendedActivities %}
                     <div class="comment-body pending">
-                        <div class="user-img"> <img src="/plugins/images/users/pawandeep.jpg" alt="user" class="img-circle"></div>
-                        <div class="mail-contnet">
-                            <h5>{{activities.strategies}}</h5> <span class="mail-desc">
-                            {{activities.firstname}} {{activities.lastname}}: {{activities.comments}}
 
-
-                            </span> 
-                            <span class="label label-rouded label-warning">PENDING</span>
+                        
+                        <div class="mail-contnet" style="padding: 0px">
+                            <h5> {{activities.firstname}} {{activities.lastname}}</h5>
+                            <span class="mail-desc">
+                            For the {{activities.strategies}} Activity,
+                           {{activities.comments}}
+                            </span>
+                            <span class="label label-rouded label-warning">PEND</span>
                             <a href="javacript:void(0)" class="action"></a>
-                            <span class="time pull-right">{{activities.datesigned}}</span>
+                            <span class="time pull-right">{{activities.strategies}} </span>
                         </div>
                     </div>
                 {% endfor %}  
@@ -205,13 +206,14 @@
                     <div class="comment-body denied">
                         <div class="user-img"> <img src="/plugins/images/users/pawandeep.jpg" alt="user" class="img-circle"></div>
                         <div class="mail-contnet">
-                            <h5>{{activities.strategies}}</h5> <span class="mail-desc">
-                            {{activities.firstname}} {{activities.lastname}}: {{activities.comments}}
+                            <h5> {{activities.firstname}} {{activities.lastname}}</h5> <span class="mail-desc">
+                           {{activities.comments}}
                             
-                            </span> 
+                            </span>
                             <span class="label label-rouded label-danger">DENIED</span>
                             <a href="javacript:void(0)" class="action"></a>
-                            <span class="time pull-right">{{activities.datesigned}}</span></div>
+                            <span class="time pull-right">{{activities.strategies}} </span>
+                        </div>
                     </div>        
 
                 {% endfor %}
