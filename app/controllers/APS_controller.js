@@ -64,7 +64,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             view.extra_data = req.extra_data;
             return res.render('APS/OrganizationSpecificGOSM', view);
         }).catch(error => {
-            logger.error(`${error.message}: ${error.stack}`, log_options);
+            throw error;
         });
     };
 
@@ -81,7 +81,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         }).then(data => {
             return res.send(data);
         }).catch(error => {
-            logger.error(`${error.message}: ${error.stack}`, log_options);
+            throw error;
         });
     };
 
@@ -104,7 +104,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         });
     };
 
-    APSController.activityChecking = (req, res) => {
+    APSController.activityChecking = (req, res) => {c
         logger.debug('activityChecking()', log_options);
         var activityId;
         database.task(task => {
@@ -187,7 +187,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         return accountModel.getPPRToSignList(req.session.user.idNumber)
         .then(list => {
             logger.debug(`${JSON.stringify(list, '\n')}`, log_options);
-            console.log(list)
+
             renderData.activities = list;
             return res.render('APS/ProjectProposal_sign_list', renderData);
         }).catch(err => {
