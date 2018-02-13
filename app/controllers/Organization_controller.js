@@ -742,10 +742,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                 return organizationModel.getOrganizationExecutiveBoard(req.session.user.organizationSelected.id, ['oo.idNumber AS "idNumber"']);
             }).then(executiveBoard => {
-                return database.transaction(t => {
+                logger.debug(`Executive Board: ${executiveBoard}`, log_options);
+
+                return database.tx(t => {
                     let queries = [];
 
-                    for(const officer in executiveBoard){
+                    for(const officer of executiveBoard){
+                        logger.debug(`Adding notification to ${officer.idNumber}`, log_options);
                         queries[queries.length] = accountModel.addNotification(
                             officer.idNumber,
                             'GOSM Submission', //title
@@ -1001,59 +1004,54 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             return res.render('Org/Settings_ACL', renderData);
         },
 
-        //TODO Test
         viewCreateGOSM: (req, res) => {
             logger.debug('VIEW CREATE GOSM CONTROLLER', log_options);
 
             database.task(task1 => {
                 logger.debug('Starting database task', log_options);
-                return systemModel.getCurrentTerm('id', task1)
-                    .then(term => {
-                        /**
-                         * const param = {
-                         *      termID: term.id,
-                         *      studentOrganization
-                         * }
-                         * @type {Object}
-                         */
-                        let GOSMParam = Object.create(null);
-                        GOSMParam.termID = term.id;
-                        GOSMParam.studentOrganization = req.session.user.organizationSelected.id;
+                return systemModel.getCurrentTerm('id', task1).then(term => {
+                    /**
+                     * const param = {
+                     *      termID: term.id,
+                     *      studentOrganization
+                     * }
+                     * @type {Object}
+                     */
+                    let GOSMParam = Object.create(null);
+                    GOSMParam.termID = term.id;
+                    GOSMParam.studentOrganization = req.session.user.organizationSelected.id;
 
-                        return gosmModel.getOrgGOSM(GOSMParam, task1)
-                            .then(GOSM => {
-                                /* GOSM Exists */
-                                if (GOSM) {
-                                    return Promise.resolve([GOSM.id,GOSM]);
-                                }
-                                //else
-                                return gosmModel.insertNewGOSM(GOSMParam.termID, GOSMParam.studentOrganization, true, task1)
-                                    .then(data => {
-                                        return Promise.resolve([data.id,data]);
-                                    });
-                            }).catch(err => {
-                                throw err;
-                            });
-                    }).then(GOSM => {
-                        var dbParam = {
-                            organization: req.session.user.organizationSelected.id
-                        };
-
-                        let GOSMParam = Object.create(null);
-
-                        GOSMParam.termID = GOSM[1].termid
-                        GOSMParam.studentOrganization = req.session.user.organizationSelected.id;
-
-                        logger.debug('Starting batch queries', log_options);
-                        return task1.batch([
-                            gosmModel.getGOSMActivities(GOSM[0], undefined, task1),
-                            gosmModel.getAllActivityTypes(['id', 'name'], task1),
-                            gosmModel.getAllActivityNature(['id', 'name'], task1),
-                            organizationModel.getStudentsOfOrganization(dbParam),
-                            gosmModel.getOrgGOSM(GOSMParam, task1)
-                        ])
-
+                    return gosmModel.getOrgGOSM(GOSMParam, task1).then(GOSM => {
+                        /* GOSM Exists */
+                        if (GOSM) {
+                            logger.debug('GOSM already exists', log_options);
+                            return Promise.resolve([GOSM.id,GOSM]);
+                        }
+                        //else
+                        logger.info('Creating new GOSM', log_options);
+                        return gosmModel.insertNewGOSM(GOSMParam.termID, GOSMParam.studentOrganization, true, task1).then(data => {
+                            return Promise.resolve([data.id,data]);
+                        });
                     });
+                }).then(GOSM => {
+                    var dbParam = {
+                        organization: req.session.user.organizationSelected.id
+                    };
+
+                    let GOSMParam = Object.create(null);
+
+                    GOSMParam.termID = GOSM[1].termid
+                    GOSMParam.studentOrganization = req.session.user.organizationSelected.id;
+
+                    logger.debug('Starting batch queries', log_options);
+                    return task1.batch([
+                        gosmModel.getGOSMActivities(GOSM[0], undefined, task1),
+                        gosmModel.getAllActivityTypes(['id', 'name'], task1),
+                        gosmModel.getAllActivityNature(['id', 'name'], task1),
+                        organizationModel.getStudentsOfOrganization(dbParam),
+                        gosmModel.getOrgGOSM(GOSMParam, task1)
+                    ])
+                });
             }).then(data => {
                 logger.debug(`${JSON.stringify(data)}`, log_options);
                 logger.debug(`${JSON.stringify(data[2])}`, log_options);
@@ -1071,9 +1069,10 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 console.log(data[4])
                 console.log("GOSM DATA")
 
+                logger.debug('Rendering page', log_options);
                 return res.render('Org/GOSM', renderData);
             }).catch(err => {
-                throw err;
+                logger.error(`${err.message}\n${err.stack}`, log_options);
             });
         },
 

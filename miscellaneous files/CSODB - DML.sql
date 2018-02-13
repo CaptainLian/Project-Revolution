@@ -105,7 +105,7 @@ INSERT INTO public."ActivityVenue"(id, name, capacity, size, rate, "rateType", b
                                   (16, 'Classroom (Full-size)', 45, 0, 620, 0, 0),
                                   (17, 'Classroom (Half-size', 25, 0, 340, 0, 0),
                                   (18, 'Natividad Fajardo-Rosario Gonzalez Auditorium, 18th Flr.', 238, 2, 3000, 0, 0),
-                                  ( 19, 'Neil Room', 12,  3, 700.43,       4,        0);
+                                  ( 19, 'Neil Room', 12,  2, 700.43,       4,        0);
 
 /* Organization Data */
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
@@ -131,7 +131,7 @@ INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
                  VALUES (10, 'AIESEC', 'AIESEC DLSU', 2, NULL);
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
-                 VALUES (11, NULL, 'Moo Media', 2, NULL);
+                 VALUES (11, 'Moo', 'Moo Media', 2, NULL);
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
                  VALUES (12, 'OC', 'Outdoor Club', 2, NULL);
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
