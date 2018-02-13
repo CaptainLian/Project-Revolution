@@ -196,6 +196,7 @@ module.exports = function(configuration, modules, database, queryFiles){
 				.from('"OrganizationRoles"', 'oro')
 				.where('oro.masterRole = ?',
 					squel.select()
+					.field('id')
 					.from('"OrganizationRoles"')
 					.where('masterRole IS NULL')
 					.where('rank = ?',

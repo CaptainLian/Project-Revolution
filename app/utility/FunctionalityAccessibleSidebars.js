@@ -57,6 +57,7 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateActivity_OrgRes] = [{
     link: '/ORGRES/SubmitActivityResearchForm',
     icon: 'fa fa-search',
     
+    //NOTE: currently useless
     sublinks: [
 
     ]
@@ -67,19 +68,12 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.ModifyOrganizationalStructure] = [
     name: 'Role Access',
     link: '/Organization/Setting/ACL',    
     icon :'fa fa-key'
-}, {
-    name: 'User Account',
-    link: '/ORGRES/Manage/Account',
-    icon :'fa fa-group'
-
-
 }];
 
 //View Publicities for Activity
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.ViewPublicityMaterial] = [{
     name: 'Publicity Materials',
     link: '/PNP/ViewPubs'
-
 }];
 
 //Submit Publicities for Activity
@@ -94,6 +88,13 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluatePublicityMaterial] = [{
     name: 'Evaluate Pubs',
     link: '/PNP/Pubs/List',
     icon: 'fa fa-check'
+}];
+
+//Manage Accounts
+functionalitySidebars[FUNCTIONALITY_SEQUENCES.AccountManagement] = [{
+    name: 'Account Management',
+    link: '/ORGRES/Manage/Account',
+    icon :'fa fa-group'
 }];
 
 //Evaluate Post Project
