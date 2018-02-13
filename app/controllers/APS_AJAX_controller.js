@@ -85,6 +85,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             throw error;
         });
     };
+    APS_AJAXController.resched = (req, res) => {
+        const GOSMID = parseInt(req.body.GOSMID ? req.body.GOSMID : req.query.GOSMID);
+        const statusID = parseInt(req.body.statusID ? req.body.statusID : req.query.statusID);
+        const comments = req.body.comments ? req.body.comments : req.query.comments;
+
+     
+    };
 
     APS_AJAXController.updateGOSMActivityComment = (req, res) => {
         logger.debug('updateGOSMActivityComment()', log_options);

@@ -29,6 +29,11 @@
     <![endif]-->
 
     <!-- Page Styles -->
+    <style type="text/css">
+        th, td{
+            text-align: center
+        }
+    </style>
     <!-- /Page Styles -->
 {%endblock%}
 
@@ -74,16 +79,18 @@
                     <table id="myTable" class="table table-hover" role="grid" aria-describedby="myTable_info">
                         <thead>
                             <tr role="row">
-                                <th class="sorting" tabindex="0" aria-controls="myTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 139px;">Organization Name</th>
-                                <th class="sorting" tabindex="0" aria-controls="myTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 139px;">Date Submitted</th>
-                                <th class="sorting " tabindex="0" aria-controls="myTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 129px;">Status</th>
+                                <th  width="33%">Date </th>
+                                <th class="sorting" tabindex="0" aria-controls="myTable" width="33%">Organization </th>
+                                
+                                <th  width="33%">Status</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for gosm in GOSMList %}
-                                <tr role="row" class="odd denied" onclick="window.location='/APS/viewOrgGOSM/{{gosm.organizationid}}/{{gosm.gosmid}}';">
-                                    <td>{{gosm.organization}}</td>
+                                <tr role="row" class="odd denied" onclick="window.location='';">
+                                    
                                     <td>{{gosm.datesubmitted}}</td>
+                                    <td><a class="btn-link" href="/APS/viewOrgGOSM/{{gosm.organizationid}}/{{gosm.gosmid}}">{{gosm.organization}}</a></td>  
                                     <td>
                                     {% set status = gosm.status.toUpperCase() %}
                                     {% if (status === 'APPROVED' ) %}
