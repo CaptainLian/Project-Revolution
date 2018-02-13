@@ -179,6 +179,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         renderData.extra_data = req.extra_data;
         return res.render('APS/Logs');
     };
+    APSController.resched = (req, res) => {
+        const renderData = Object.create(null);
+        renderData.extra_data = req.extra_data;
+        return res.render('APS/RescheduleChecking');
+    };
 
     APSController.viewPPRListToSign = (req, res) => {
         const renderData = Object.create(null);

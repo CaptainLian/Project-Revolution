@@ -36,7 +36,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		},
 
 		viewManageTime: (req, res) => {
-			orgresModel.getCurrentSchoolYearTerms()=.then(data=>{
+			orgresModel.getCurrentSchoolYearTerms().then(data=>{
 				const renderData = Object.create(null);
     	        renderData.extra_data = req.extra_data;
 	            renderData.csrfToken = req.csrfToken();
