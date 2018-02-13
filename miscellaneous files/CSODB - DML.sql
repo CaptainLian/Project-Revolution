@@ -131,7 +131,7 @@ INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
                  VALUES (10, 'AIESEC', 'AIESEC DLSU', 2, NULL);
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
-                 VALUES (11, NULL, 'Moo Media', 2, NULL);
+                 VALUES (11, 'Moo', 'Moo Media', 2, NULL);
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
                  VALUES (12, 'OC', 'Outdoor Club', 2, NULL);
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
