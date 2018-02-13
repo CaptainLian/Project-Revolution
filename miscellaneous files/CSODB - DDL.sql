@@ -134,6 +134,119 @@ $trigger$
     END
 $trigger$ LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION "trigger_after_delete_finance_signatories"(/* "param_particularTable" (0)TEXT, "param_particularTableAcronym" (1)TEXT, "param_particularWhere" (2)TEXT, "param_signatoryTable" (3)TEXT, "param_signatoryTableAcronym" (4)TEXT, "param_deleteWhere" (5)TEXT */)
+RETURNS TRIGGER AS
+$trigger$
+    DECLARE
+        totalExpense NUMERIC(12, 2);
+    BEGIN
+        EXECUTE format('SELECT SUM(ppe.unitCost*ppe.quantity)
+	                      FROM ProjectProposalExpenses ppe
+	                     WHERE ppe.id IN (SELECT %I.particular
+	                                        FROM %I %I
+	                                       WHERE (%s));', TG_ARGV[1], TG_ARGV[0], TG_ARGV[1], TG_ARGV[2])
+        INTO STRICT totalExpense
+        USING NEW;
+
+        IF totalExpense <= 5000.00 THEN
+            EXECUTE format('DELETE FROM %I %I
+                                  WHERE (%s)
+                                    AND %I.type = 3;', TG_ARGV[3], TG_ARGV[4], TG_ARGV[5], TG_ARGV[4])
+            USING NEW;
+        END IF;
+
+	    IF totalExpense <= 50000.00 THEN
+        EXECUTE format('DELETE FROM %I %I
+                              WHERE (%s)
+                                AND %I.type = 4;', TG_ARGV[3], TG_ARGV[4], TG_ARGV[5], TG_ARGV[4])
+        USING NEW;
+        END IF;
+
+	    IF totalExpense <= 250000.00 THEN
+            EXECUTE format('DELETE FROM %I %I
+                                  WHERE (%s)
+                                    AND %I.type = 5;', TG_ARGV[3], TG_ARGV[4], TG_ARGV[5], TG_ARGV[4])
+            USING NEW;
+	    END IF;
+
+        RETURN NEW;
+    END
+$trigger$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION "signatory_get_to_sign_per_account"("signatoryTable" TEXT, "signatoryTableAcronym" TEXT, "signatoryTableColumn" TEXT, "parentTable" TEXT, "parentTableAcronym" TEXT)
+RETURNS TABLE (
+    idNumber INTEGER,
+    "numSign" BIGINT
+) AS
+$function$
+    BEGIN
+        RETURN QUERY EXECUTE format(
+            'SELECT %I.signatory AS idNumber, COUNT(%I.id) AS "numSign"
+               FROM %I %I
+              WHERE %I."status" = 0
+                AND %I.%I IN (SELECT %I.id
+                                FROM %I %I
+                               WHERE %I."GOSMActivity" IN (SELECT ga.id
+                                                             FROM "GOSMActivity_get_current_term_activity_ids() ga"))
+            GROUP BY %I.signatory;',
+        "signatoryTableAcronym", "signatoryTableAcronym", "signatoryTable", "signatoryTableAcronym", "signatoryTableAcronym", "signatoryTableAcronym", "signatoryTableColumn", "parentTableAcronym", "parentTable", "parentTableAcronym", "parentTableAcronym", "signatoryTableAcronym");
+    END;
+$function$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION "PreAct_finance_get_organization"("uniqueID" INTEGER, "table" TEXT, "tableAcronym" TEXT)
+RETURNS INTEGER AS
+$function$
+    DECLARE
+        "var_organizationID" INTEGER;
+    BEGIN
+        EXECUTE format(
+            'SELECT g.studentOrganization INTO "var_organizationID"
+               FROM GOSM g
+              WHERE g.id = (SELECT ga.GOSM
+                              FROM GOSMActivity ga
+                             WHERE ga.id = (SELECT %I."GOSMActivity"
+                                              FROM %I %I
+                                             WHERE %I.id = "$1"));',
+             "tableAcronym", "table", "tableAcronym", "tableAcronym")
+             INTO STRICT "var_organizationID"
+             USING "uniqueID";
+
+        RETURN "var_organizationID";
+    END;
+$function$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION "trigger_after_insert_finance_signatories_initial"(/* "table" (0)TEXT, "tableAcronym" (1)TEXT, "signatoryTable" (2)TEXT, "signatoryTableColumn" (3)TEXT, "signatoryFunction" (4)TEXT */)
+RETURNS TRIGGER AS
+$trigger$
+    DECLARE
+        organization INTEGER;
+        organizationPresident INTEGER;
+    BEGIN
+        organization = "PreAct_finance_get_organization"(NEW."id", TG_ARGV[0], TG_ARGV[1]);
+        organizationPresident = organization_get_president(organization);
+
+        EXECUTE format(
+            'INSERT INTO "%I" ("%I", signatory, type)
+                    VALUES ($1."id", %I($2), 0);',
+            TG_ARGV[2], TG_ARGV[3], TG_ARGV[4]
+        ) USING NEW, organization;
+
+        EXECUTE format(
+            'INSERT INTO "%I" ("%I", signatory, type)
+                    VALUES ($1."id", $2, 1);',
+            TG_ARGV[2], TG_ARGV[3]
+        ) USING NEW, organizationPresident;
+
+        EXECUTE format(
+            'INSERT INTO "%I" ("%I", signatory, type)
+                    VALUES ($1."id", (SELECT a.idNumber FROM Account a WHERE type = 3 ORDER BY idNumber DESC LIMIT 1), 2);',
+            TG_ARGV[2], TG_ARGV[3]
+        ) USING NEW;
+
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+
 /*
     Helpful functions
 */
@@ -324,6 +437,7 @@ $function$
     END;
 $function$ LANGUAGE plpgsql;
 
+/* SIGNATORY FUNCTIONS */
 CREATE OR REPLACE FUNCTION "PPR_get_number_to_sign_per_account"()
 RETURNS TABLE (
     idNumber INTEGER,
@@ -586,25 +700,8 @@ $function$
     END;
 $function$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION "PreActCashAdvance_get_number_to_sign_per_account"()
-RETURNS TABLE (
-    idNumber INTEGER,
-    "numSign" BIGINT
-) AS
-$function$
-    BEGIN
-        RETURN QUERY SELECT preca.signatory AS idNumber, COUNT(preca.id) AS "numSign"
-                       FROM "PreActivityCashAdvanceSignatory" preca
-                      WHERE preca."status" = 0
-                      AND preca."cashAdvance" IN (SELECT paca.id
-                                                    FROM "PreActivityCashAdvance" paca
-                                                   WHERE paca."GOSMActivity" IN (SELECT ga.id
-                                                                                   FROM "GOSMActivity_get_current_term_activity_ids"() ga))
-                   GROUP BY preca.signatory;
-    END;
-$function$ LANGUAGE plpgsql;
-
-CREATE OR REPLACE FUNCTION "PreActCashAdvance_get_organization_next_treasurer_signatory"(organizationID INTEGER)
+/* Book Transfer */
+CREATE OR REPLACE FUNCTION "PreAct_BookTransfer_get_organization_next_treasurer_signatory"(organizationID INTEGER)
 RETURNS INTEGER AS
 $function$
     DECLARE
@@ -612,13 +709,13 @@ $function$
     BEGIN
          WITH "OrganizationTreasurerNumSign" AS (
              SELECT ot.idNumber, COALESCE(n."numSign", 0) AS "numSign"
-               FROM organization_get_treasurer_signatories(organizationID) ot LEFT JOIN "PreActCashAdvance_get_number_to_sign_per_account"() n
+               FROM organization_get_treasurer_signatories(organizationID) ot LEFT JOIN "signatory_get_to_sign_per_account"('PreActivityBookTransferSignatory', 'pabts', 'bookTransfer', 'PreActivityBookTransfer', 'pabt') n
                                                                                      ON ot.idNumber = n.idNumber
          )
-          SELECT ot.idNumber INTO treasurerID
-            FROM "OrganizationTreasurerNumSign" ot
-        ORDER BY "numSign" ASC, ot.idNumber DESC
-        LIMIT 1;
+         SELECT ot.idNumber INTO treasurerID
+           FROM "OrganizationTreasurerNumSign" ot
+       ORDER BY "numSign" ASC, ot.idNumber DESC
+          LIMIT 1;
 
         RETURN treasurerID;
     END;
@@ -1686,7 +1783,7 @@ CREATE TABLE ProjectProposal (
     dateCreated TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     dateSubmitted TIMESTAMP WITH TIME ZONE,
     dateStatusModified TIMESTAMP WITH TIME ZONE,
-    
+
     -- status
     isAttachmentsComplete BOOLEAN NOT NULL DEFAULT FALSE,
     isBriefContextComplete BOOLEAN NOT NULL DEFAULT FALSE,
@@ -2165,6 +2262,7 @@ INSERT INTO "PreActivityCashAdvanceStatus" ("id", "name")
                                            (1, 'Approved'),
                                            (2, 'Pend'),
                                            (3, 'Denied');
+
 DROP TABLE IF EXISTS "PreActivityCashAdvance" CASCADE;
 CREATE TABLE "PreActivityCashAdvance" (
     "id" SERIAL NOT NULL UNIQUE,
@@ -2325,46 +2423,10 @@ CREATE TRIGGER "after_insert_PreActivityCashAdvanceParticular_signatories"
     FOR EACH ROW
     EXECUTE PROCEDURE "trigger_after_insert_finance_signatories"('PreActivityCashAdvanceParticular', 'pacap', 'pacap."cashAdvance" = $1."cashAdvance"', 'PreActivityCashAdvanceSignatory', 'cashAdvance', '$1."cashAdvance"');
 
-CREATE OR REPLACE FUNCTION "trigger_after_delete_PreActivityCashAdvanceParticular_signatories"()
-RETURNS TRIGGER AS
-$trigger$
-    DECLARE
-	totalExpense NUMERIC(12, 2);
-    BEGIN
-	    SELECT SUM(ppe.unitCost*ppe.quantity) INTO totalExpense
-	      FROM ProjectProposalExpenses ppe
-	     WHERE ppe.id IN (SELECT pacap.particular
-	                        FROM "PreActivityCashAdvanceParticular" pacap
-	                       WHERE pacap."cashAdvance" = NEW."cashAdvance");
-
- 	    IF totalExpense <= 5000.00 THEN
-            DELETE FROM "PreActivityCashAdvanceSignatory" pacas
-                  WHERE pacas."cashAdvance" = OLD."cashAdvance"
-                    AND pacas."signatory" = (SELECT a.idNumber FROM Account a WHERE a.type = 4 ORDER BY a.idNumber DESC LIMIT 1)
-                    AND pacas.type = 3;
-        END IF;
-
-     	IF totalExpense <= 50000.00 THEN
-           DELETE FROM "PreActivityCashAdvanceSignatory" pacas
-            WHERE pacas."cashAdvance" = OLD."cashAdvance"
-              AND pacas."signatory" = (SELECT a.idNumber FROM Account a WHERE a.type = 5 ORDER BY a.idNumber DESC LIMIT 1)
-              AND pacas.type = 4;
-        END IF;
-
-	    IF totalExpense <= 250000.00 THEN
-            DELETE FROM "PreActivityCashAdvanceSignatory" pacas
-            WHERE pacas."cashAdvance" = OLD."cashAdvance"
-              AND pacas."signatory" = (SELECT a.idNumber FROM Account a WHERE a.type = 6 ORDER BY a.idNumber DESC LIMIT 1)
-              AND pacas.type = 5;
-	    END IF;
-
-        RETURN NEW;
-    END
-$trigger$ LANGUAGE plpgsql;
 CREATE TRIGGER "after_delete_PreActivityCashAdvanceParticular_signatories"
     AFTER DELETE ON "PreActivityCashAdvanceParticular"
     FOR EACH ROW
-    EXECUTE PROCEDURE "trigger_after_delete_PreActivityCashAdvanceParticular_signatories"();
+    EXECUTE PROCEDURE  "trigger_after_delete_finance_signatories"('PreActivityCashAdvanceParticular', 'pacap', 'pacap."cashAdvance" = $1."cashAdvance"', 'PreActivityCashAdvanceSignatory', 'pacas', 'pacas."cashAdvance" = $1."cashAdvance"');
 
 CREATE TRIGGER "after_update_PreActivityCashAdvanceSignatory_completion"
     AFTER UPDATE ON "PreActivityCashAdvanceSignatory"
@@ -2423,8 +2485,12 @@ CREATE TABLE "PreActivityBookTransferSignatory" (
 
     PRIMARY KEY ("bookTransfer", "signatory", "type")
 );
+CREATE TRIGGER "after_insert_PreActivityBookTransfer_signatories"
+    AFTER INSERT ON "PreActivityBookTransfer"
+    FOR EACH ROW
+    EXECUTE PROCEDURE  "trigger_after_insert_finance_signatories_initial"('PreActivityBookTransfer', 'pabt', 'PreActivityBookTransferSignatory', 'bookTransfer', 'PreAct_BookTransfer_get_organization_next_treasurer_signatory');
 
-CREATE TRIGGER "after_insert_PreActivityCashAdvanceParticular_signatories"
+CREATE TRIGGER "after_insert_PreActivityBookTransfer_signatories"
     AFTER INSERT ON "PreActivityBookTransferParticular"
     FOR EACH ROW
     EXECUTE PROCEDURE "trigger_after_insert_finance_signatories"('PreActivityBookTransferParticular', 'pabtp', 'pabtp."bookTransfer" = $1."bookTransfer"', 'PreActivityBookTransferSignatory', 'bookTransfer', '$1."bookTransfer"');
@@ -2735,6 +2801,7 @@ CREATE TABLE "PostProjectReimbursementPayment" (
 INSERT INTO "PostProjectReimbursementPayment" (id, name)
                                  VALUES ( 0, 'Payment By Check'),
                                         ( 1, 'Payment By Book Transfer');
+
 DROP TABLE IF EXISTS "PostProjectReimbursementStatus" CASCADE;
 CREATE TABLE "PostProjectReimbursementStatus" (
    "id" SMALLINT,
@@ -2747,6 +2814,7 @@ INSERT INTO "PostProjectReimbursementStatus" ("id", "name")
                                              (  1, 'Approved'),
                                              (  2, 'Pend'),
                                              (  3, 'Denied');
+
 DROP TABLE IF EXISTS "PostProjectReimbursement" CASCADE;
 CREATE TABLE "PostProjectReimbursement" (
   "id" SERIAL NOT NULL UNIQUE,
@@ -2808,7 +2876,6 @@ CREATE TABLE "PostProjectBookTransfer" (
   "idNumber" INTEGER REFERENCES Account(idNumber),
   "dateCreated" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
   "status" SMALLINT REFERENCES "PostProjectBookTransferStatus"("id") DEFAULT 0,
-
 
   PRIMARY KEY("GOSMActivity", "submissionID", "sequence")
 );
@@ -2914,7 +2981,7 @@ CREATE TRIGGER "before_insert_ActivityPublicity_sequence"
 DROP TABLE IF EXISTS session CASCADE;
 CREATE TABLE IF NOT EXISTS session (
     "sid" varchar NOT NULL COLLATE "default",
-    "sess" json NOT NULL,
+    "sess" JSON NOT NULL,
     "expire" timestamp(6) NOT NULL,
 
     PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE
