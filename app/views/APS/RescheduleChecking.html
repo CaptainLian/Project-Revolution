@@ -16,10 +16,11 @@
     <!-- animation CSS -->
     {{tag.style('/css/animate.css')}}
     <!--alerts CSS -->
-    {{tag.style('/plugins/bower_components/sweetalert/sweetalert.css')}}
+    {{tag.style('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.css')}}
     <!-- Custom CSS -->
     {{tag.style('/plugins/bower_components/custom-select/custom-select.css')}}
     {{tag.style('/plugins/bower_components/bootstrap-select/bootstrap-select.min.css')}}
+
     {{tag.style('/css/style.css')}}
     {{tag.style('/css/doms.css')}}
     {{tag.style('/css/custom.css')}}
@@ -43,6 +44,8 @@
     {{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
     {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}}
     {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
+    {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js', true)}}
+
     <!-- Menu Plugin JavaScript -->
     {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
     <!--slimscroll JavaScript -->
@@ -54,7 +57,7 @@
     {{tag.javascript('/js/cbpFWTabs.js', true)}}
     <!-- tabs-->
     
-   {{tag.javascript('/js/APS/ProjectProposal_sign_list.js', true)}}
+   {{tag.javascript('/js/APS/rescheduleChecking.js', true)}}
 {%endblock%}
 
 {%block content%}
@@ -67,21 +70,26 @@
 				<table id="myTable" class="table table-striped">
 					<thead>
 						<tr>
+                            <th>Organization Name</th>
                             <th>Activity Name</th>
-							<th>Date</th>
-							<th>New Date</th>
                             <th>Reason</th>
+                            <th>Actions</th>
 						</tr>
 					</thead>
 					<tbody>
                         
                             <tr>
-                                <td>Photoshop Tutorial</td>
-                                <td>january 26, 2017</td>
-                                <td>January 27, 2017</td>
+                                <td>La Salle Computer Society</td>
+                                <td>Photoshop Seminar</td>
                                 <td>Speaker Unavailable</td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-info" id="view">View</button>
+                                        <button type="button" class="btn btn-success" id="approve">Approve</button>
+                                        <button type="button" class="btn btn-danger" id="deny">Deny</button>
+                                    </div>
+                                </td>
                             </tr>
-                        
 					</tbody>
 				</table>
 			</div>
