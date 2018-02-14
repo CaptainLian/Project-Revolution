@@ -179,6 +179,21 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         renderData.extra_data = req.extra_data;
         return res.render('APS/Logs');
     };
+    APSController.resched = (req, res) => {
+        const renderData = Object.create(null);
+        renderData.extra_data = req.extra_data;
+        projectProposalModel.getReschedActivities()
+        .then(data=>{
+            const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            renderData.activities = data;
+            renderData.csrfToken = req.csrfToken();
+            return res.render('APS/RescheduleChecking', renderData);
+        }).catch(err=>{
+            console.log(err)
+        })
+        // return res.render('APS/RescheduleChecking');
+    };
 
     APSController.viewPPRListToSign = (req, res) => {
         const renderData = Object.create(null);
