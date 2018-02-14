@@ -70,27 +70,24 @@
 				<table id="myTable" class="table table-striped">
 					<thead>
 						<tr>
-                            <th>Organization Name</th>
                             <th>Activity Name</th>
-                            <th>Reason</th>
+                            <th>Original Date</th>
+                            <th>Rescheduled Date</th>
                             <th>Actions</th>
 						</tr>
 					</thead>
 					<tbody>
                         
                             <tr>
-                                <td>La Salle Computer Society</td>
                                 <td>Photoshop Seminar</td>
-                                <td>Speaker Unavailable</td>
+                                <td>September 2, 2018</td>
+                                <td>September 4, 2018</td>
                                 <td>
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-info" id="view">View</button>
-                                        <button type="button" class="btn btn-success" id="approve">Approve</button>
-                                        <button type="button" class="btn btn-danger" id="deny">Deny</button>
-                                    </div>
+                                <i class="fa fa-times text-danger" data-toggle='tooltip' data-original-title="deny" id="deny"></i>
+                                <i class="fa fa-check text-success" data-toggle='tooltip' data-original-title="approve" id="approve"></i>
                                 </td>
                             </tr>
-					</tbody>
+					</tbody> 
 				</table>
 			</div>
 		</div>
