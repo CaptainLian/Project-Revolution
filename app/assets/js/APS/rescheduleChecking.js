@@ -1,14 +1,8 @@
-$(document).bind('customGenerated', function() {
-    (function() {
-        [].slice.call(document.querySelectorAll('.sttabs')).forEach(function(el) {
-            new CBPFWTabs(el);
-        });
+var table = $("table").dataTable();
 
-    })();
-});
-$(document).trigger("customGenerated");
 $(document).on('click', '#approve', function() {
-
+    var id = $(this).attr('act');
+    var dis = $(this)
     swal({
         title: "Are you sure?",
         showCancelButton: true,
@@ -34,121 +28,24 @@ $(document).on('click', '#approve', function() {
         }
 
     }).then(function(data) {
-        console.log("ASD");
-        $("html, body").animate({
-            scrollTop: 0
-        }, function() {
-            $('#doc').removeClass("bounceInRight animated").addClass("bounceInRight   animated").one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-                $(this).removeClass("bounceInRight animated");
-            });
-        });
-
-    }).then(function() {
         $.ajax({
             type: 'POST',
-            url: '/APS/ajax/SignProjectProposal',
+            url: '/APS/ajax/approvalResched',
             data: {
-                activityID: $("#doc").attr("ct"),
+                activityID: id,
                 status: 1
             },
 
             success: function(data) {
-                var doc = $(data).find("#doc");
-                setTimeout(function() {
-                    $("#doc").replaceWith(doc);
-                    $(document).trigger("customGenerated");
-                }, 1000);
+                table.row(dis.parents('tr')).remove().draw()
             }
         });
     });
 });
-$(document).on('click', '#view', function() {
-    var question = 
-        '<div class="row">' +
-            '<div class="form-group col-md-12">' +
-                '<label class="col-md-5 text-left"><strong>Organization</strong></label>' +
-                '<label class="col-md-7 text-left">La Salle Computer Society</label>' +
-            '</div>' +
-            '<div class="form-group col-md-12">' +
-                '<label class="col-md-5 text-left"><strong>Activity Name</strong></label>' +
-                '<label class="col-md-7 text-left">Photoshop Workshop</label>' +
-            '</div>' +
-            '<div class="form-group col-md-12">' +
-                '<label class="col-md-5 text-left"><strong>Old Date</strong></label>' +
-                '<label class="col-md-7 text-left">La Salle Computer Society</label>' +
-            '</div>' +
-            '<div class="form-group col-md-12">' +
-                '<label class="col-md-5 text-left"><strong>New Date</strong></label>' +
-                '<label class="col-md-7 text-left">La Salle Computer Society</label>' +
-            '</div>' +
-            '<div class="form-group col-md-12">' +
-                '<label class="col-md-5 text-left"><strong>Reason</strong></label>' +
-                '<label class="col-md-7 text-left">Unavailable Speaker</label>' +
-            '</div>' +
-        '</div>';
 
-    swal({
-        title: "Activity Details",
-        html: question,
-        focusConfirm: false,
-        focusCancel: false,
-        showLoaderOnConfirm: true,
-        reverseButtons: true,
-        allowOutsideClick: false,
-        preConfirm: function(data) {
-            console.log($("#select-sec").val());
-            console.log("DATA");
-            return new Promise(function(resolve, reject) {
-                setTimeout(function() {
-                    if (data === 'taken@example.com') {
-                        reject('This email is already taken.')
-                    } else {
-                        resolve()
-                    }
-                }, 2000)
-            })
-        },
-        onOpen: function(ele) {
-            $(ele).find("select").select2();
-            console.log("INIT SELECT");
-        },
-
-
-
-    }).then(function(data) {
-
-        console.log("ASD");
-        $("html, body").animate({
-            scrollTop: 0
-        }, function() {
-            $('#doc').removeClass("bounceOutUp animated").addClass("bounceOutUp   animated").one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-                $(this).removeClass("bounceOutUp animated");
-            });
-        });
-
-
-    }).then(function(data) {
-        $.ajax({
-            type: 'POST',
-            url: '/APS/ajax/SignProjectProposal',
-            data: {
-                activityID: $("#doc").attr("ct"),
-                status: 2,
-                comments: $("#comment").val(),
-                sectionsToBeEdited: $("#select-sec").val()
-                
-            },
-            success: function(data) {
-
-                var doc = $(data).find("#doc");
-
-                $("#doc").replaceWith(doc);
-                $(document).trigger("customGenerated");
-            }
-        });
-    });
-});
 $(document).on('click', '#deny', function() {
+    var id = $(this).attr('act');
+    var dis = $(this)
     var question = '<div class="row">' +
         '<div class="col-md-12 text-left  m-b-20" style="padding-left:16px">' +
         '<br/>State the reason for rejection.<br/>' +
@@ -172,44 +69,33 @@ $(document).on('click', '#deny', function() {
         allowOutsideClick: false,
         showCancelButton: true,
         confirmButtonColor: "#FB9678",
-        confirmButtonText: "Submit",
+        confirmButtonText: "Reject",
         cancelButtonText: "Cancel",
-        preConfirm: function(email) {
-            return new Promise(function(resolve, reject) {
-                setTimeout(function() {
-                    if (email === 'taken@example.com') {
-                        reject('This email is already taken.')
-                    } else {
-                        resolve()
-                    }
-                }, 2000)
-            })
-        }
-
-    }).then(function(data) {
-        console.log(data);
-        console.log("REJECT");
-        $("html, body").animate({
-            scrollTop: 0
-        }, function() {
-            $('#doc').removeClass("rotateOutUpLeft animated").addClass("rotateOutUpLeft   animated").one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-                $(this).removeClass("rotateOutUpLeft animated");
-            });
-        });
+        // preConfirm: function(data) {
+        //     console.log(data);
+        //     console.log("DATA");
+        //     return new Promise(function(resolve, reject) {
+        //         setTimeout(function() {
+        //             if (data === 'taken@example.com') {
+        //                 reject('This email is already taken.')
+        //             } else {
+        //                 resolve()
+        //             }
+        //         }, 2000)
+        //     })
+        // }
+        
     }).then(function() {
         $.ajax({
             type: 'POST',
-            url: '/APS/ajax/SignProjectProposal',
+            url: '/APS/ajax/approvalResched',
             data: {
-                activityID: $("#doc").attr("ct"),
-                status: 3,
-                comments: $("#reject-comment").val()
+                activityID: id,
+                comment:$("#reject-comment").val(),
+                status: 2
             },
-
             success: function(data) {
-                var doc = $(data).find("#doc");
-                $("#doc").replaceWith(doc);
-                $(document).trigger("customGenerated");
+                table.row(dis.parents('tr')).remove().draw()
             }
         });
     });
