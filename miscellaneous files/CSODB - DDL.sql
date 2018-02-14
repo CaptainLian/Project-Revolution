@@ -721,6 +721,28 @@ $function$
     END;
 $function$ LANGUAGE plpgsql;
 
+
+/* Post Project Reimbursment */
+CREATE OR REPLACE FUNCTION "PostAct_Reimbursement_get_organization_next_treasurer_signatory"(organizationID INTEGER)
+RETURNS INTEGER AS
+$function$
+    DECLARE
+        treasurerID INTEGER;
+    BEGIN
+         WITH "OrganizationTreasurerNumSign" AS (
+             SELECT ot.idNumber, COALESCE(n."numSign", 0) AS "numSign"
+               FROM organization_get_treasurer_signatories(organizationID) ot LEFT JOIN "signatory_get_to_sign_per_account"('PostProjectReimbursementSignatory', 'pprs', 'reimbursement', 'PostProjectReimbursement', 'ppr') n
+                                                                                     ON ot.idNumber = n.idNumber
+         )
+         SELECT ot.idNumber INTO treasurerID
+           FROM "OrganizationTreasurerNumSign" ot
+       ORDER BY "numSign" ASC, ot.idNumber DESC
+          LIMIT 1;
+
+        RETURN treasurerID;
+    END;
+$function$ LANGUAGE plpgsql;
+
 /*
     Helpful functions end
 */
@@ -770,6 +792,7 @@ CREATE TABLE Account (
     path_profilePicture TEXT,
     dateCreated TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     dateModified TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+
     PRIMARY KEY (idNumber)
 );
     /* Account Table Triggers */
@@ -2490,7 +2513,7 @@ CREATE TRIGGER "after_insert_PreActivityBookTransfer_signatories"
     FOR EACH ROW
     EXECUTE PROCEDURE  "trigger_after_insert_finance_signatories_initial"('PreActivityBookTransfer', 'pabt', 'PreActivityBookTransferSignatory', 'bookTransfer', 'PreAct_BookTransfer_get_organization_next_treasurer_signatory');
 
-CREATE TRIGGER "after_insert_PreActivityBookTransfer_signatories"
+CREATE TRIGGER "after_insert_PreActivityBookTransferParticular_signatories"
     AFTER INSERT ON "PreActivityBookTransferParticular"
     FOR EACH ROW
     EXECUTE PROCEDURE "trigger_after_insert_finance_signatories"('PreActivityBookTransferParticular', 'pabtp', 'pabtp."bookTransfer" = $1."bookTransfer"', 'PreActivityBookTransferSignatory', 'bookTransfer', '$1."bookTransfer"');
@@ -2836,11 +2859,6 @@ CREATE TABLE "PostProjectReimbursement" (
   PRIMARY KEY("GOSMActivity", "submissionID", "sequence")
 );
 
-CREATE TRIGGER "before_insert_PostProjectReimbursement_sequence"
-    BEFORE INSERT ON "PostProjectReimbursement"
-    FOR EACH ROW
-    EXECUTE PROCEDURE "trigger_before_insert_sequence_versioning"( 'PostProjectReimbursement', 'ppr', 'ppr."GOSMActivity" = $1."GOSMActivity"' );
-
 DROP TABLE IF EXISTS "PostProjectReimbursementParticular" CASCADE;
 CREATE TABLE "PostProjectReimbursementParticular" (
   "reimbursement" INTEGER REFERENCES "PostProjectReimbursement"("id"),
@@ -2848,6 +2866,40 @@ CREATE TABLE "PostProjectReimbursementParticular" (
 
   PRIMARY KEY ("reimbursement", "particular")
 );
+
+CREATE TRIGGER "before_insert_PostProjectReimbursement_sequence"
+    BEFORE INSERT ON "PostProjectReimbursement"
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_before_insert_sequence_versioning"( 'PostProjectReimbursement', 'ppr', 'ppr."GOSMActivity" = $1."GOSMActivity"');
+
+DROP TABLE IF EXISTS "PostProjectReimbursementSignatory" CASCADE;
+CREATE TABLE "PostProjectReimbursementSignatory" (
+    "id" SERIAL UNIQUE NOT NULL,
+    "reimbursement" INTEGER REFERENCES "PostProjectReimbursement"("id"),
+    "signatory" INTEGER REFERENCES Account(id),
+    "type" SMALLINT REFERENCES "FinanceSignatoryType"("id"),
+    "status" SMALLINT  REFERENCES SignatoryStatus("id"),
+    comments TEXT,
+    sectionsToEdit VARCHAR(60)[],
+    document JSONB,
+    digitalSignature TEXT,
+    dateSigned TIMESTAMP WITH TIME ZONE
+);
+
+CREATE TRIGGER "after_insert_PostProjectReimbursement_signatories"
+    AFTER INSERT ON "PostProjectReimbursement"
+    FOR EACH ROW
+    EXECUTE PROCEDURE  "trigger_after_insert_finance_signatories_initial"('PostProjectReimbursement', 'ppr', 'PostProjectReimbursementSignatory', 'reimbursement', 'PostAct_Reimbursement_get_organization_next_treasurer_signatory');
+
+CREATE TRIGGER "after_insert_PreActivityBookTransferParticular_signatories"
+    AFTER INSERT ON "PreActivityBookTransferParticular"
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_after_insert_finance_signatories"('PostProjectReimbursement', 'ppr', 'ppr."reimbursement" = $1."reimbursement"', 'PostProjectReimbursementSignatory', 'reimbursement', '$1."reimbursement"');
+
+CREATE TRIGGER "after_update_PreActivityBookTransferSignatory_completion"
+    AFTER UPDATE ON "PreActivityBookTransferSignatory"
+    FOR EACH ROW WHEN (OLD.status <> NEW.status)
+    EXECUTE PROCEDURE "trigger_after_update_signatory_completion"('PostProjectReimbursementSignatory', 'pprs', 'pprs."bookTransfer" = $1."bookTransfer"', 'PostProjectReimbursement', 'ppr', 'ppr.id = $1."bookTransfer"');
 
 DROP TABLE IF EXISTS "PostProjectBookTransferStatus" CASCADE;
 CREATE TABLE "PostProjectBookTransferStatus" (
