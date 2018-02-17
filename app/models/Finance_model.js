@@ -31,12 +31,10 @@ module.exports = function(configuration, modules, database, queryFiles){
     log_options.from = 'Finance-Model';
 
 	FinanceModel.insertPreActivityCashAdvance = function(param, connection = database) {
-
         return connection.one(insertPreActivityCashAdvanceSQL, param);
     };
 
     FinanceModel.insertPreActivityCashAdvanceParticular = function(param, connection = database){
-
         return connection.none(insertPreActivityCashAdvanceParticularSQL, param);
     };
 

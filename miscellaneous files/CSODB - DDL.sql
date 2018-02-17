@@ -660,7 +660,7 @@ $function$
 
         RETURN "var_organizationID";
     END;
-$function$ LANGUAGE plpgsql;
+$function$ LANGUAGE plpgsql STABLE;
 
 CREATE OR REPLACE FUNCTION "PreActCashAdvance_get_number_to_sign_per_account"()
 RETURNS TABLE (
@@ -678,7 +678,7 @@ $function$
                                                                                    FROM "GOSMActivity_get_current_term_activity_ids"() ga))
                    GROUP BY preca.signatory;
     END;
-$function$ LANGUAGE plpgsql;
+$function$ LANGUAGE plpgsql STABLE;
 
 CREATE OR REPLACE FUNCTION "PreActCashAdvance_get_organization_next_treasurer_signatory"(organizationID INTEGER)
 RETURNS INTEGER AS
@@ -698,7 +698,7 @@ $function$
 
         RETURN treasurerID;
     END;
-$function$ LANGUAGE plpgsql;
+$function$ LANGUAGE plpgsql STABLE;
 
 /* Book Transfer */
 CREATE OR REPLACE FUNCTION "PreAct_BookTransfer_get_organization_next_treasurer_signatory"(organizationID INTEGER)
@@ -719,7 +719,7 @@ $function$
 
         RETURN treasurerID;
     END;
-$function$ LANGUAGE plpgsql;
+$function$ LANGUAGE plpgsql STABLE;
 
 
 /* Post Project Reimbursment */
@@ -741,8 +741,32 @@ $function$
 
         RETURN treasurerID;
     END;
-$function$ LANGUAGE plpgsql;
+$function$ LANGUAGE plpgsql STABLE;
 
+/*
+EXTREMELY DANGEROUS FUNCTION
+SQL INJECTION POSSIBLE EXPLOITABLE
+ */
+CREATE OR REPLACE FUNCTION "system_get_next_finance_signatory"("signatoryTable" TEXT, "signatoryTableAcronym" TEXT, "where" TEXT)
+RETURNS INTEGER AS
+$function$
+    DECLARE
+        signatoryID INTEGER;
+    BEGIN
+        EXECUTE format(
+            'SELECT *
+              FROM %I %I LEFT JOIN "FinanceSignatoryType" "fst"
+                                ON "%I"."type" = "fst"."id"
+             WHERE "%I"."status" = 0
+               AND (%s)
+          ORDER BY "fst"."lineup" ASC
+             LIMIT 1;',
+        "signatoryTable", "signatoryTableAcronym", "signatoryTableAcronym", "signatoryTableAcronym", "where"
+        ) INTO STRICT signatoryID;
+
+        RETURN signatoryID;
+    END;
+$function$ LANGUAGE plpgsql STABLE;
 /*
     Helpful functions end
 */
@@ -2876,7 +2900,7 @@ DROP TABLE IF EXISTS "PostProjectReimbursementSignatory" CASCADE;
 CREATE TABLE "PostProjectReimbursementSignatory" (
     "id" SERIAL UNIQUE NOT NULL,
     "reimbursement" INTEGER REFERENCES "PostProjectReimbursement"("id"),
-    "signatory" INTEGER REFERENCES Account(id),
+    "signatory" INTEGER REFERENCES Account(idNumber),
     "type" SMALLINT REFERENCES "FinanceSignatoryType"("id"),
     "status" SMALLINT  REFERENCES SignatoryStatus("id"),
     comments TEXT,
@@ -2891,12 +2915,12 @@ CREATE TRIGGER "after_insert_PostProjectReimbursement_signatories"
     FOR EACH ROW
     EXECUTE PROCEDURE  "trigger_after_insert_finance_signatories_initial"('PostProjectReimbursement', 'ppr', 'PostProjectReimbursementSignatory', 'reimbursement', 'PostAct_Reimbursement_get_organization_next_treasurer_signatory');
 
-CREATE TRIGGER "after_insert_PreActivityBookTransferParticular_signatories"
+CREATE TRIGGER "after_insert_PreActivityReimbursementParticular_signatories"
     AFTER INSERT ON "PreActivityBookTransferParticular"
     FOR EACH ROW
     EXECUTE PROCEDURE "trigger_after_insert_finance_signatories"('PostProjectReimbursement', 'ppr', 'ppr."reimbursement" = $1."reimbursement"', 'PostProjectReimbursementSignatory', 'reimbursement', '$1."reimbursement"');
 
-CREATE TRIGGER "after_update_PreActivityBookTransferSignatory_completion"
+CREATE TRIGGER "after_update_PreActivityReimbursementSignatory_completion"
     AFTER UPDATE ON "PreActivityBookTransferSignatory"
     FOR EACH ROW WHEN (OLD.status <> NEW.status)
     EXECUTE PROCEDURE "trigger_after_update_signatory_completion"('PostProjectReimbursementSignatory', 'pprs', 'pprs."bookTransfer" = $1."bookTransfer"', 'PostProjectReimbursement', 'ppr', 'ppr.id = $1."bookTransfer"');

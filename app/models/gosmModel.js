@@ -1,10 +1,7 @@
 'use strict';
-
-
-
-const squel = require('squel').useFlavour('postgres');
-
 module.exports = function(configuration, modules, db, queryFiles) {
+    const squel = require('squel').useFlavour('postgres');
+
     const insertProposedActivitySQL = queryFiles.insertProposedActivity;
     const insertActivityProjectHeadSQL = queryFiles.insertActivityProjectHead;
     const getSchoolYearSQL = queryFiles.getSchoolYear;

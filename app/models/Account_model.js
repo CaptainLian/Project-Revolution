@@ -24,7 +24,6 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
     const AccountModel = Object.create(null);
 
-
     /**
      * [createAccount description]
      * @method  createAccount
@@ -40,7 +39,6 @@ module.exports = function(configuration, modules, database, queryFiles) {
      * @returns {Promise} [description]
      */
     AccountModel.createAccount = (idNumber, email, type, password, firstname, middlename, lastname, contactNumber, connection = database) => {
-
         logger.debug(`createAccount()\nGenerating key pair\n\tParameters: bits: ${configuration.security.encryption.bits}, workers: ${configuration.security.encryption.web_workers_amount}`, log_options);
 
         return forge.pki.rsa.generateKeyPair({
@@ -558,7 +556,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
         return connection.none(approvePreActDirectPaymentSQL, param);
     };
 
-    const pendPreActDirectPaymentSQL = queryFiles.account_PPR_pend;
+    const pendPreActDirectPaymentSQL = queryFiles.account_PreActDirectPayment_pend;
     AccountModel.pendDirectPayment = (directPaymentID, idNumber, comments, sections, connection = database) => {
         const param = Object.create(null);
         param.directPayment = directPaymentID;

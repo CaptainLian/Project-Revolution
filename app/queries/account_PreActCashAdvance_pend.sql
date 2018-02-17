@@ -1,4 +1,3 @@
--- TODO: revert to earlier code
 UPDATE "PreActivityCashAdvanceSignatory"
    SET "status" = 2,
        "comments" = ${comments},
