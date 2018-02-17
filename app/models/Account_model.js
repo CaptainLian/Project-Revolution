@@ -1,10 +1,5 @@
-
 'use strict';
 
-/**
- * Query Files Used:
- *     account_insert.sql
- */
 module.exports = function(configuration, modules, database, queryFiles) {
     const squel = require('squel').useFlavour('postgres');
 
@@ -549,6 +544,29 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
         logger.debug(`Executing query: ${query}`, log_options);
         return connection.one(query, param);
+    };
+
+    const approvePreActDirectPaymentSQL = queryFiles.account_PreActDirectPayment_approve;
+    AccountModel.approveDirectPayment = (directPaymentID, idNumber, document, digitalSignature, connection = database) => {
+        logger.debug(`approveDirectPayment(directPaymentID: ${directPaymentID}, idNumber: ${idNumber})`)
+
+        let param = Object.create(null);
+        param.directPayment = directPaymentID;
+        param.signatory = idNumber;
+        param.document = document;
+        param.digitalSignature = digitalSignature;
+        return connection.none(approvePreActDirectPaymentSQL, param);
+    };
+
+    const pendPreActDirectPaymentSQL = queryFiles.account_PPR_pend;
+    AccountModel.pendDirectPayment = (directPaymentID, idNumber, comments, sections, connection = database) => {
+        const param = Object.create(null);
+        param.directPayment = directPaymentID;
+        param.idNumber = idNumber;
+        param.comments = comments;
+        param.sections = sections;
+
+        return connection.none(pendPreActDirectPaymentSQL, param);
     };
 
     return AccountModel;
