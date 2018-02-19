@@ -272,7 +272,7 @@ $(document).on('click', '#reschedule', function() {
     }).then(function(data) {
         $.ajax({
             type: 'POST',
-            url: '/APS/ajax/resched',
+            url: '/APS/ajax/approvalResched',
             data: {
                 activityID: $("#doc").attr("ct"),
                 date: $('#datepicker-inline').val(),
