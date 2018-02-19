@@ -1436,9 +1436,12 @@ INSERT INTO Functionality (id, name, category)
                           (212021, 'Evaluate Financial Documents'             , 212),
                           (212022, 'Auto-approve Financial Documents'         , 212),
                           -- Account Management
-                          (  2023, 'Account Management', 2)
+                          (  2023, 'Account Management', 2),
                           -- PPR Signing (President) 
-                          (211024, 'Sign Project Proposal as President', 211);
+                          (211024, 'Sign Project Proposal as President', 211),
+                          -- Finance Signatory 
+                          (211025, 'Sign Finance Transaction as President', 211),
+                          (211026, 'Sign Finance Transaction as Treasurer', 211);
 
 DROP TABLE IF EXISTS OrganizationAccessControl CASCADE;
 CREATE TABLE OrganizationAccessControl (
@@ -1489,8 +1492,8 @@ INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       (    6,        108020,      TRUE),
                                       (    7,        108020,      TRUE),
                                       -- Account Management
-                                      (    2,          2023, TRUE),
-                                      (   21,          2023, TRUE);
+                                      (    2,          2023,      TRUE),
+                                      (   21,          2023,      TRUE);
 
 /* Organization Default Structure */
 
@@ -1521,7 +1524,9 @@ $trigger$
                                               (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 19)), TRUE),
                                               (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 21)), TRUE),
                                               -- Sign PPR as President
-                                              (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 24)), TRUE);
+                                              (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 24)), TRUE),
+                                              -- Sign Finance Transaction as President
+                                              (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 25)), TRUE);
 
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole, rank)
                              VALUES (NEW.id, 'Executive Secretariat', TRUE, presidentRoleID, 10)
@@ -1572,7 +1577,9 @@ $trigger$
                                               (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 19)), TRUE),
                                               -- Evaluate
                                               (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 21)), TRUE),
-                                              (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 22)), TRUE);
+                                              (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 22)), TRUE),
+                                              -- Sign Finance Transaction as Treasurer
+                                              (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 26)), TRUE);
 
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole, home_url, rank)
                              VALUES (NEW.id, 'Associate Vice President of Finance', FALSE, vpfRoleID, '/Organization/treasurer/dashboard', 30)
