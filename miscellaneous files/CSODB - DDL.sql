@@ -1850,6 +1850,7 @@ CREATE TABLE ProjectProposal (
 
     rescheduleReason SMALLINT REFERENCES ProjectProposalRescheduleReason(id),
     rescheduleDates DATE[],
+    reschedRejectReason TEXT,
     
     PRIMARY KEY (GOSMActivity)
 );
