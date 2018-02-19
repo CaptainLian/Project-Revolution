@@ -526,7 +526,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
                         financeModel.getActivityTransactions(dbParam),
 						gosmModel.getGOSMActivity(dbParam),
 						projectProposalModel.getProjectProposal(dbParam)
-                    );
+                    ]);
 				}).then(data=>{
 		            renderData.transactions = data[0];
 		            renderData.gosmactivity = data[1];
@@ -706,7 +706,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
             console.log("submits directpayment_____________________________________");
 
             database.tx(transaction => {
-	            return financeModel.insertPreActivityDirectPayment(dbParam, transaction)then(data => {
+	            return financeModel.insertPreActivityDirectPayment(dbParam, transaction).then(data => {
                     for(let index = 0; index < particulars.length; ++index){
                         financeModel.insertPreActivityDirectPaymentParticular({
                             directpayment: data.id,
