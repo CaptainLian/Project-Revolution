@@ -226,6 +226,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			})
 
 
+
 		},
 
 		pendDirectPayment: (req, res) =>{
@@ -348,109 +349,80 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			console.log("My user type is");
 			console.log(req.session.user.type);
 
-			if((req.session.user.type >= 3 && req.session.user.type <= 6) || req.extra_data.user.accessibleFunctionalitiesList['21']){
+			// old code
 
-				var signatoryParam = {
-					idnumber: req.session.user.idNumber
-				}
+			// checks if student
 
-                database.task(t =>{
-					return t.batch([financeModel.getActivitiesWithFinancialDocuments(),
-									financeModel.getTransactionTotalPerActivityForSignatory(signatoryParam)]);
-				})
-				.then(data=>{
+				// var signatoryParam = {
+				// 	idnumber: req.session.user.idNumber
+				// }
 
-					console.log("DITO AKO ----------------------------------------------")
+    //             database.task(t =>{
+				// 	return t.batch([financeModel.getActivitiesWithFinancialDocuments(),
+				// 					financeModel.getTransactionTotalPerActivityForSignatory(signatoryParam)]);
+				// })
+				// .then(data=>{
 
-					const renderData = Object.create(null);
-	            	renderData.extra_data = req.extra_data;
-	                
-	                //to evaluate
-		            renderData.isCso = false;
-		            renderData.toadd = false;
-		            if(req.session.user.type >= 3 && req.session.user.type <= 6){
-                    	renderData.isCso = true;
-                    }else if(typeof req.extra_data.user.accessControl !== 'undefined'){
-		            	const ACL = req.extra_data.user.accessControl[String(req.session.user.organizationSelected.id)];
-		            	if(typeof ACL !== 'undefined' && req.session.user.type == 1){
-                    		renderData.isCso = ACL['21'] || false;
-                    		renderData.toadd = true;
-                    	}
-		            }
+				
 
-	            	renderData.activities = data[0];
-	            	renderData.transactionTotal = data[1];
-	            	renderData.approvedTransactionTotal = null;
 
-	            	if(!renderData.isCso){
-	            		renderData.orgid = req.session.user.organizationSelected.id;
-	            	}
-	            	else if (renderData.isCso && renderData.toadd){
-	            		renderData.orgid = req.session.user.organizationSelected.id;
-	            	}
+            database.task(t =>{
+				return t.batch([financeModel.getActivitiesWithFinancialDocuments(),
+								financeModel.getTransactionTotalPerActivity(),
+								financeModel.getApprovedTransactionTotalPerActivity()]);
+			})
+			.then(data=>{
 
-	            	console.log("orgid is ");
-	            	console.log(renderData.orgid);
+				const renderData = Object.create(null);
+	           	renderData.extra_data = req.extra_data;
 
-					return res.render('Finance/Finance_list', renderData);
-					//next();
+	           	//checks if student
+	           	if (req.session.user.type == 1 && req.session.user.organizationSelected.id != 0){
+		        	renderData.isCso = false;
+		            renderData.toadd = true;
 
-				}).catch(error=>{
-					console.log(error);
-				});
-            }
-            else{
+	           	}else{
+	           		renderData.isCso = true;
+	           		renderData.toadd = false;
+	           	}
+		       
 
-            	database.task(t =>{
-					return t.batch([financeModel.getActivitiesWithFinancialDocuments(),
-									financeModel.getTransactionTotalPerActivity(),
-									financeModel.getApprovedTransactionTotalPerActivity()]);
-				})
-				.then(data=>{
+	           	renderData.activities = data[0];
+	           	renderData.transactionTotal = data[1];
+	           	renderData.approvedTransactionTotal = data[2];
 
-					const renderData = Object.create(null);
-	            	renderData.extra_data = req.extra_data;
-	                //to evaluate
-		            renderData.isCso = false;
-		            renderData.toadd = false;
-		            if(req.session.user.type >= 3 && req.session.user.type <= 6){
-                    	renderData.isCso = true;
-                    }else if(typeof req.extra_data.user.accessControl !== 'undefined'){
-		            	const ACL = req.extra_data.user.accessControl[String(req.session.user.organizationSelected.id)];
-		            	if(typeof ACL !== 'undefined' && req.session.user.type == 1){
-                    		renderData.isCso = ACL['21'] || false;
-                    		renderData.toadd = true;
-                    	}
-		            }
+	           	if(!renderData.isCso){
+	           		renderData.orgid = req.session.user.organizationSelected.id;
+	           	}
+	           	else if (renderData.isCso && renderData.toadd){
+	           		renderData.orgid = req.session.user.organizationSelected.id;
+	           	}
 
-	            	renderData.activities = data[0];
-	            	renderData.transactionTotal = data[1];
-	            	renderData.approvedTransactionTotal = data[2];
 
-	            	if(!renderData.isCso){
-	            		renderData.orgid = req.session.user.organizationSelected.id;
-	            	}
-	            	else if (renderData.isCso && renderData.toadd){
-	            		renderData.orgid = req.session.user.organizationSelected.id;
-	            	}
+	           	// sample session var
+   				// req.session.pprid =1;
 
-	            	console.log("orgid is ");
-	            	console.log(renderData.orgid);
 
-					return res.render('Finance/Finance_list', renderData);
-					//next();
+	           	console.log("orgid is ");
+	           	console.log(renderData.orgid);
 
-				}).catch(error=>{
-					console.log(error);
-				});
+				return res.render('Finance/Finance_list', renderData);
+				//next();
 
-            }
+			}).catch(error=>{
+				console.log(error);
+			});
+
+            
 
 			
 		},
 
 		viewTransaction: (req, res) => {
 
+
+			//TODO: error check if user may enter page
+			// current assumes user is authorized to view activity
 			var dbParam = {
 				gosmactivity: req.params.gosmactivity,
 				idnumber: req.session.user.idNumber
@@ -461,17 +433,24 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			const renderData = Object.create(null);
 	        renderData.extra_data = req.extra_data;
 
+
            	//to evaluate
             renderData.isCso = null;
             renderData.toadd = null;
             if(req.session.user.type >= 3 && req.session.user.type <= 6){
-                renderData.isCso = true;
-            }else if(typeof req.extra_data.user.accessControl !== 'undefined'){
-            	const ACL = req.extra_data.user.accessControl[String(req.session.user.organizationSelected.id)];
-            	if(typeof ACL !== 'undefined' && req.session.user.type == 1){
-            		renderData.isCso = ACL['21'] || false;
-            		renderData.toadd = true;
-            	}
+            	renderData.isCso = true;
+            	renderData.toadd = false;
+            } else{
+
+            	//checks if student and not cso
+	           	if (req.session.user.type == 1 && req.session.user.organizationSelected.id != 0){
+		        	renderData.isCso = false;
+		            renderData.toadd = true;
+
+	           	}else{
+	           		//TODO: redirect cannot enter page
+	           	}
+
             }
 
             // cannot add but can evaluate only
