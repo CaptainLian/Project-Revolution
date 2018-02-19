@@ -1,10 +1,5 @@
-
 'use strict';
 
-/**
- * Query Files Used:
- *     account_insert.sql
- */
 module.exports = function(configuration, modules, database, queryFiles) {
     const squel = require('squel').useFlavour('postgres');
 
@@ -29,7 +24,6 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
     const AccountModel = Object.create(null);
 
-
     /**
      * [createAccount description]
      * @method  createAccount
@@ -45,7 +39,6 @@ module.exports = function(configuration, modules, database, queryFiles) {
      * @returns {Promise} [description]
      */
     AccountModel.createAccount = (idNumber, email, type, password, firstname, middlename, lastname, contactNumber, connection = database) => {
-
         logger.debug(`createAccount()\nGenerating key pair\n\tParameters: bits: ${configuration.security.encryption.bits}, workers: ${configuration.security.encryption.web_workers_amount}`, log_options);
 
         return forge.pki.rsa.generateKeyPair({
@@ -549,6 +542,29 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
         logger.debug(`Executing query: ${query}`, log_options);
         return connection.one(query, param);
+    };
+
+    const approvePreActDirectPaymentSQL = queryFiles.account_PreActDirectPayment_approve;
+    AccountModel.approveDirectPayment = (directPaymentID, idNumber, document, digitalSignature, connection = database) => {
+        logger.debug(`approveDirectPayment(directPaymentID: ${directPaymentID}, idNumber: ${idNumber})`)
+
+        let param = Object.create(null);
+        param.directPayment = directPaymentID;
+        param.signatory = idNumber;
+        param.document = document;
+        param.digitalSignature = digitalSignature;
+        return connection.none(approvePreActDirectPaymentSQL, param);
+    };
+
+    const pendPreActDirectPaymentSQL = queryFiles.account_PreActDirectPayment_pend;
+    AccountModel.pendDirectPayment = (directPaymentID, idNumber, comments, sections, connection = database) => {
+        const param = Object.create(null);
+        param.directPayment = directPaymentID;
+        param.idNumber = idNumber;
+        param.comments = comments;
+        param.sections = sections;
+
+        return connection.none(pendPreActDirectPaymentSQL, param);
     };
 
     return AccountModel;

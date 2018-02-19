@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function(configuration, modules, database, queryFiles){	
+module.exports = function(configuration, modules, database, queryFiles){
 	const OrgresModel = Object.create(null);
 
     const getActivitiesForResearchFormSQL = queryFiles.getActivitiesForResearchForm;
@@ -13,45 +13,43 @@ module.exports = function(configuration, modules, database, queryFiles){
     const insertTermSQL = queryFiles.insertTerm;
     const insertSchoolYearSQL = queryFiles.insertSchoolYear;
     const getCurrentSchoolYearTermsSQL = queryFiles.getCurrentSchoolYearTerms;
-    
-	
+
+
 	OrgresModel.getActivitiesForResearchForm = function(connection = database) {
-        
         return connection.any(getActivitiesForResearchFormSQL);
     };
 
     OrgresModel.getOrganizationsForResearchForm = function(connection = database) {
-
         return connection.any(getOrganizationsForResearchFormSQL);
     };
 
     OrgresModel.insertActivityResearchForm = function(param, connection = database) {
         return connection.none(insertActivityResearchFormSQL, param);
     };
+
     OrgresModel.getOrgresList = function(param, connection = database) {
         return connection.any(getOrgresList, param);
     };
+
     OrgresModel.getOrgresOtherDetails = function(param, connection = database) {
         return connection.any(getOrgresOtherDetails, param);
     };
+
     OrgresModel.calculate_peractivity = function(param, connection = database) {
         return connection.any(calculate_peractivity, param);
     };
 
     OrgresModel.insertTerm  = function (param, connection = database) {
-        
         return connection.none(insertTermSQL, param);
     };
 
     OrgresModel.insertSchoolYear = function (param, connection = database) {
-
         return connection.one(insertSchoolYearSQL, param);
     };
 
     OrgresModel.getCurrentSchoolYearTerms = function (connection = database){
         return connection.any(getCurrentSchoolYearTermsSQL);
     };
-
 
 	return OrgresModel;
 };

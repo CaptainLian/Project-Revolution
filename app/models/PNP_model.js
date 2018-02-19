@@ -18,41 +18,45 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const getPubDetails = queryFiles.getPubDetails;
     const updatePubsToPend = queryFiles.updatePubsToPend;
 
-    
 	return{
 		getUnapprovePubsToCheck:function ( connection = db) {
             return connection.any(getUnapprovePubsToCheck);
         },
+
         getMypubs:function (param, connection = db) {
             return connection.any(getMypubs, param);
         },
+
         updatePublicityStatus:function (param, connection = db) {
             return connection.none(updatePublicityStatus, param);
         },
+
         getPubsOfActivity:function (param, connection = db) {
             return connection.any(getPubsOfActivity, param);
         },
+
         getActivityDetailsforPubs:function (param, connection = db) {
             return connection.one(getActivityDetailsforPubs, param);
         },
+
         getPubDetails:function (param, connection = db) {
             return connection.one(getPubDetails, param);
         },
+
         getPubsNumberToApprove:function ( connection = db) {
             return connection.any(getPubsNumberToApprove);
         },
+
         insertActivityPublicity:function (param, connection = db) {
             return connection.one(insertActivityPublicity, param);
         },
+
         getSpecificPubSeq:function (param, connection = db) {
             return connection.one(getSpecificPubSeq, param);
         },
+        
         updatePubsToPend:function (param, connection = db) {
             return connection.none(updatePubsToPend, param);
-        },
-
-
-
-        
+        }
 	};
 }
