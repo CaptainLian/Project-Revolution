@@ -1849,9 +1849,8 @@ CREATE TABLE ProjectProposal (
     isProgramComplete BOOLEAN NOT NULL DEFAULT FALSE,
 
     rescheduleReason SMALLINT REFERENCES ProjectProposalRescheduleReason(id),
-    rescheduleDatesStart DATE[],
-    rescheduleReasonDatesEnd DATE[],
-
+    rescheduleDates DATE[],
+    
     PRIMARY KEY (GOSMActivity)
 );
 CREATE OR REPLACE FUNCTION trigger_before_update_ProjectProposal()
