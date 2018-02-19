@@ -1436,7 +1436,9 @@ INSERT INTO Functionality (id, name, category)
                           (212021, 'Evaluate Financial Documents'             , 212),
                           (212022, 'Auto-approve Financial Documents'         , 212),
                           -- Account Management
-                          (  2023, 'Account Management', 2);
+                          (  2023, 'Account Management', 2)
+                          -- PPR Signing (President) 
+                          (211024, 'Sign Project Proposal as President', 211);
 
 DROP TABLE IF EXISTS OrganizationAccessControl CASCADE;
 CREATE TABLE OrganizationAccessControl (
@@ -1517,7 +1519,9 @@ $trigger$
                                               (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE),
                                               (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 15)), TRUE),
                                               (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 19)), TRUE),
-                                              (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 21)), TRUE);
+                                              (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 21)), TRUE),
+                                              -- Sign PPR as President
+                                              (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 24)), TRUE);
 
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole, rank)
                              VALUES (NEW.id, 'Executive Secretariat', TRUE, presidentRoleID, 10)
