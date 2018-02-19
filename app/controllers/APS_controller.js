@@ -143,7 +143,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             const renderData = Object.create(null);
             renderData.csrfToken = req.csrfToken();
             renderData.extra_data = req.extra_data;
-            console.log(data[0])
+            console.log("data[4]")
+            console.log(data[4])
             renderData.projectProposal = data[0];
             renderData.expenses = data[1];
             renderData.activity = activityId;
@@ -276,6 +277,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.activity = activityID;
             renderData.projectedIncome = data[2];
             renderData.programDesign = data[3];
+            console.log("data[4]")
+            console.log(data[4])
             renderData.projectHeads = data[4];
             renderData.attachment = data[5];
             renderData.signatories = data[6];

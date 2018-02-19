@@ -426,7 +426,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
         return connection.oneOrNone(getProjectProposalCountTotalSQL, param);
     };
 
-    ProjectProposalModel.prototype.getProjectProposalProjectHeads = function(id, fields, connection = this._db){
+    ProjectProposalModel.prototype.getProjectProposalProjectHeads = function(id, connection = this._db){
         /**
          * const param = {
          *     id: id
