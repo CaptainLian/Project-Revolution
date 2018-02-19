@@ -2967,7 +2967,7 @@ CREATE TABLE "PostProjectBookTransferParticular" (
 CREATE TRIGGER "before_insert_PostProjectBookTransfer_sequence"
     BEFORE INSERT ON "PostProjectBookTransfer"
     FOR EACH ROW
-    EXECUTE PROCEDURE "trigger_before_insert_sequence_versioning"( 'PostProjectBookTransfer', 'ppbt', 'ppbt."GOSMActivity" = $1."GOSMActivity"' );
+    EXECUTE PROCEDURE "trigger_before_insert_sequence_versioning"('PostProjectBookTransfer', 'ppbt', 'ppbt."GOSMActivity" = $1."GOSMActivity"');
   /* Post Acts END*/
 /* ADM END */
 /* Publicity */
