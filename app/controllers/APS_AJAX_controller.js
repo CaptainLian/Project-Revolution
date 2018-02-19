@@ -90,7 +90,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         const statusID = parseInt(req.body.statusID ? req.body.statusID : req.query.statusID);
         const comments = req.body.comments ? req.body.comments : req.query.comments;
 
-     
+
     };
     APS_AJAXController.approvalResched = (req, res) => {
         console.log(req.body)
@@ -332,8 +332,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 const sections = req.body.sectionsToBeEdited;
                 const comments = req.body.comments;
 
-                afterProcessing = accountModel.pendPPR(activityID, req.session.user.idNumber, comments, sections)
-                .then(data => {
+                afterProcessing = accountModel.pendPPR(activityID, req.session.user.idNumber, comments, sections).then(data => {
                     return Promise.resolve(true);
                 });
             }break;
@@ -341,8 +340,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             case 3: { //Deny
                 const comments = req.body.comments;
 
-                afterProcessing = accountModel.denyPPR(activityID, req.session.user.idNumber, comments)
-                .then(data => {
+                afterProcessing = accountModel.denyPPR(activityID, req.session.user.idNumber, comments).then(data => {
                     return Promise.resolve(true);
                 });
             }break;

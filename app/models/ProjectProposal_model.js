@@ -47,8 +47,6 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const getActivitiesApprovedPerHeadSQL = queryFiles.getActivitiesApprovedPerHead;
     const getProjectProposalCommentsPerStatusSQL = queryFiles.getProjectProposalCommentsPerStatus;
 
-
-
     const updatePPRSignatoryStatusSQL = queryFiles.updatePPRSignatoryStatus;
     const getPPRDetailsSQL = queryFiles.getPPRDetails;
 
@@ -556,7 +554,6 @@ module.exports = function(configuration, modules, db, queryFiles) {
         });
     };
 
-
     const getTotalExpenseSQL = queryFiles.PPR_get_total_expense;
     ProjectProposalModel.prototype.getTotalExpenseSQL = function(activityID, connection = this._db){
         logger.debug(`getSignatories(activityID: ${activityID})`, log_options);
@@ -595,7 +592,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
 
         query = query.toString();
         logger.debug(`Executing query: ${query}`, log_options);
-        
+
         return connection.oneOrNone(query, param);
     };
 
