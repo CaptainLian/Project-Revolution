@@ -140,7 +140,7 @@
                         <p>{{projectProposal.venue}}</p>
                     </div>
                     <div class="col-md-6"><strong>ENMP / ENP</strong>
-                        <p>{{projectProposal.enmp}}/ {{projectProposal.enp}}</p>
+                        <p>{{projectProposal.enmp}} / {{projectProposal.enp}}</p>
                     </div>
                 </div>
                 <!-- /.row -->
@@ -157,7 +157,7 @@
                        
 
                     </div>
-                    {%if projectProposal.rescheddates|length %}
+                    {%if projectProposal.rescheddates|length and projectProposal.status != 7 %}
                         
                         <div class="col-md-12">
                             <p><strong>Reschedule Date /s</strong></p>
@@ -173,6 +173,13 @@
                                 {%endfor%}
                             
                             
+                        </div>
+                    {%endif%}
+
+                    {% if projectProposal.status == 7%}
+                        <div class="col-md-12">
+                            <p><strong style="color:#FB9678">Rescheduled Denied!</strong></p>
+                            <p>{{projectProposal.reschedreasonreject}}</p>
                         </div>
                     {%endif%}
 

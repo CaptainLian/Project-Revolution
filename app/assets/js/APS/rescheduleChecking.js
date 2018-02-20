@@ -93,7 +93,7 @@ $(document).on('click', '#deny', function() {
             data: {
                 activityID: id,
                 comment:$("#reject-comment").val(),
-                status: 2
+                status: 7
             },
             success: function(data) {
                 table.row(dis.parents('tr')).remove().draw()
