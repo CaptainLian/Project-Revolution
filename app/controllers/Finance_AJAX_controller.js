@@ -1,4 +1,4 @@
-//const dateFormat = require('dateformat');
+'use strict';
 
 module.exports = function(configuration, modules, models, database, queryFiles){
 	return {};

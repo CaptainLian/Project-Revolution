@@ -113,7 +113,7 @@ $(document).on('click', '#defer', function() {
 
 
     swal({
-        title: "Pend",
+        title: "Activity Details",
         text: "Select the sections that should be change, then explain why.",
         html: question,
         focusConfirm: false,
@@ -140,9 +140,7 @@ $(document).on('click', '#defer', function() {
         },
 
         showCancelButton: true,
-        confirmButtonColor: "#FEC107",
-        confirmButtonText: "Pend",
-        cancelButtonText: "Cancel",
+        cancelButtonText: "Close",
 
 
     }).then(function(data) {
@@ -197,21 +195,21 @@ $(document).on('click', '#reschedule', function() {
             // '</select>' +
             '<div class="form-check col-md-12"  style="float:left" >'+
                 '<label class="custom-control custom-radio"  style="float:left">'+
-                    '<input id="radio1" name="radio" class="custom-control-input" type="radio"  style="float:left">'+
+                    '<input id="radio1" value="3" name="radio" class="custom-control-input" type="radio"  style="float:left">'+
                     '<span class="custom-control-indicator"  style="float:left" ></span>'+
                     '<span class="custom-control-description"  style="float:left">Speaker Unavailable</span>'+
                 '</label>'+
             '</div>'+
             '<div class="form-check col-md-12"  style="float:left">'+
                 '<label class="custom-control custom-radio"  style="float:left">'+
-                    '<input id="radio2" name="radio" class="custom-control-input" type="radio"  style="float:left">'+
+                    '<input id="radio2" value="2" name="radio" class="custom-control-input" type="radio"  style="float:left">'+
                     '<span class="custom-control-indicator"  style="float:left"></span>'+
                     '<span class="custom-control-description"  style="float:left">Insufficient Participants</span>'+
                 '</label>'+
             '</div>'+
             '<div class="form-check col-md-12"  style="float:left">'+
                 '<label class="custom-control custom-radio"  style="float:left">'+
-                    '<input id="radio3" name="radio" class="custom-control-input" type="radio">'+
+                    '<input id="radio3" value="1" name="radio" class="custom-control-input" type="radio">'+
                     '<span class="custom-control-indicator"></span>'+
                     '<span class="custom-control-description">Class Suspension</span>'+
                 '</label>'+
@@ -272,18 +270,19 @@ $(document).on('click', '#reschedule', function() {
     }).then(function(data) {
         $.ajax({
             type: 'POST',
-            url: '/APS/ajax/resched',
+            url: '/APS/ajax/approvalResched',
             data: {
                 activityID: $("#doc").attr("ct"),
                 date: $('#datepicker-inline').val(),
-                reason: $("#comment").val(),                
+                reason:  $( 'input[name=radio]:checked' ).val(),               
             },
             success: function(data) {
+                if(data.status){
+                    swal("Good job!", "You clicked the button!", "success")
+                }else{
 
-                var doc = $(data).find("#doc");
-
-                $("#doc").replaceWith(doc);
-                $(document).trigger("customGenerated");
+                }
+                
             }
         });
     });

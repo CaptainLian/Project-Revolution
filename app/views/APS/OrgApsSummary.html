@@ -1,0 +1,307 @@
+{% extends '../template/CSO_master.html' %}
+{% import '../template/tags_macro.html' as tag %}
+
+{%block page_title%}CSO - View Rescheduled Activities{%-endblock%}
+
+
+{%block style%}
+    {{super()}}
+    <!-- Bootstrap Core CSS -->
+    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
+    {{tag.style('/plugins/bower_components/datatables/jquery.dataTables.min.css')}}
+    {{tag.style('/plugins/bower_components/nestable/nestable.css')}}
+    <!-- Menu CSS -->
+    {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
+    <!-- animation CSS -->
+    {{tag.style('/css/animate.css')}}
+    <!--alerts CSS -->
+    {{tag.style('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.css')}}
+    <!-- Custom CSS -->
+    {{tag.style('/plugins/bower_components/custom-select/custom-select.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-select/bootstrap-select.min.css')}}
+
+    {{tag.style('/css/style.css')}}
+    {{tag.style('/css/doms.css')}}
+    {{tag.style('/css/custom.css')}}
+    <!-- color CSS -->
+    {{tag.style('/css/colors/blue.css')}}
+    {{tag.style('/css/btn_lnk.css')}}
+    <style type="text/css">
+        th, td{
+            text-align: center
+        }
+    </style>
+
+{%endblock%}
+
+{%block defer_script%}
+    {{super()}}
+    <!-- jQuery -->
+    {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
+    <!-- Bootstrap Core JavaScript -->
+    {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
+    {{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
+    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
+    {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js', true)}}
+
+    <!-- Menu Plugin JavaScript -->
+    {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
+    <!--slimscroll JavaScript -->
+    {{tag.javascript('/js/jquery.slimscroll.js', true)}}
+    <!--Wave Effects -->
+    {{tag.javascript('/js/waves.js', true)}}
+    <!-- Custom Theme JavaScript -->
+    {{tag.javascript('/js/custom.min.js', true)}}
+    {{tag.javascript('/js/cbpFWTabs.js', true)}}
+    <!-- tabs-->
+    
+   {{tag.javascript('/js/APS/rescheduleChecking.js', true)}}
+{%endblock%}
+
+{%block content%}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="white-box">
+
+            <br>
+            <section>
+                <div class="sttabs tabs-style-bar">
+                    <nav>
+                        <ul>
+                            <li class="tab-current"><a href="#section-bar-1" class="fa fa-file"><span>&nbsp; La Salle Computer Society Pre-Activity Status</span></a></li>
+                        </ul>
+                    </nav>
+                    <div class="content-wrap">
+                        <section id="section-bar-1" class="content-current">
+                        <div class="row row-in">
+                            <div class="col-lg-3 col-sm-6 row-in-br">
+                                <div class="col-in row">
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <h5 class="text-muted vb">EARLY APPROVED</h5>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <h3 class="counter text-right m-t-15 text-success">
+                                            12
+                                        </h3>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
+                                <div class="col-in row">
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <h5 class="text-muted vb">LATE APPROVED</h5>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <h3 class="counter text-right m-t-15 text-success">
+                                            12
+                                        </h3>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-6 row-in-br">
+                                <div class="col-in row">
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <h5 class="text-muted vb">TOTAL APPROVED</h5>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <h3 class="counter text-right m-t-15 text-success">
+                                            12
+                                        </h3>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%">
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-6 row-in-br">
+                                <div class="col-in row">
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <h5 class="text-muted vb">DENIED</h5>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <h3 class="counter text-right m-t-15 text-success">
+                                            12
+                                        </h3>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%">
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-in">
+                            <div class="col-lg-3 col-sm-6 row-in-br">
+                                <div class="col-in row">
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <h5 class="text-muted vb">PUNCTUALITY</h5>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <h3 class="counter text-right m-t-15 text-success">
+                                            12
+                                        </h3>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
+                                <div class="col-in row">
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <h5 class="text-muted vb">TOTAL TIMES PENDED</h5>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <h3 class="counter text-right m-t-15 text-success">
+                                            12
+                                        </h3>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-6 row-in-br">
+                                <div class="col-in row">
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <h5 class="text-muted vb">COMPLETENESS</h5>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <h3 class="counter text-right m-t-15 text-success">
+                                            12
+                                        </h3>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%">
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-6 row-in-br">
+                                <div class="col-in row">
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <h5 class="text-muted vb">DENIED ACTIVITIES</h5>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <h3 class="counter text-right m-t-15 text-success">
+                                            12
+                                        </h3>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%">
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-in">
+                            
+                            <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
+                                <div class="col-in row">
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <h5 class="text-muted vb">60-40 RATIO</h5>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <h3 class="counter text-right m-t-15 text-success">
+                                            12
+                                        </h3>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-6 row-in-br">
+                                <div class="col-in row">
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <h5 class="text-muted vb">TIMING RATIO</h5>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <h3 class="counter text-right m-t-15 text-success">
+                                            12
+                                        </h3>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%">
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-6 row-in-br">
+                                <div class="col-in row">
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <h5 class="text-muted vb">PUSHED-THROUGH RATIO</h5>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <h3 class="counter text-right m-t-15 text-success">
+                                            12
+                                        </h3>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%">
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </section>
+
+                    </div>
+                    <!-- /content -->
+                </div>
+                <!-- /tabs -->
+            </section>
+        </div>
+    </div>
+    <div class="col-sm-12">
+
+    </div>
+    <div class="col-sm-12">
+
+    </div>
+</div>
+{%endblock%}
+    

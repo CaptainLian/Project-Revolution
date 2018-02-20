@@ -27,6 +27,16 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			})
 		
 		},
+		officerSurveyForm: (req, res) => {
+	        const renderData = Object.create(null);
+	        renderData.extra_data = req.extra_data;
+	        return res.render('Orgres/officerSurveyForm');
+    	},
+    	memberSurveyForm: (req, res) => {
+	        const renderData = Object.create(null);
+	        renderData.extra_data = req.extra_data;
+	        return res.render('Orgres/memberSurveyForm');
+    	},
 
 		viewManageOrg: (req, res) => {
 			const renderData = Object.create(null);
@@ -36,7 +46,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		},
 
 		viewManageTime: (req, res) => {
-			orgresModel.getCurrentSchoolYearTerms()=.then(data=>{
+			orgresModel.getCurrentSchoolYearTerms().then(data=>{
 				const renderData = Object.create(null);
     	        renderData.extra_data = req.extra_data;
 	            renderData.csrfToken = req.csrfToken();

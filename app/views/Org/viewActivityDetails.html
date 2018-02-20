@@ -153,10 +153,31 @@
                         {% for date, programs in programDesign | groupby('date') %}
                             <p>{{date}}</p>
                         {% endfor %}
-                        {% if resched < 0%}
+                        {% if resched < 0 and projectProposal.status !== 6%}
                         <button type="button" class="btn btn-default" id='reschedule'>Reschedule</button>
                         {%endif%}
+                       
+
                     </div>
+                    {%if projectProposal.rescheddates|length %}
+                        <div></div>
+                        <div class="col-md-12">
+                            <p><strong>Reschedule Date /s</strong></p>
+
+
+                                {%for date in projectProposal.rescheddates  %}
+                                    <p>
+                                    
+                                    {%filter replace('00:00:00 GMT+0800 (+08)','')%}
+                                        {{date}}
+                                    {%endfilter%}
+                                    </p>
+                                {%endfor%}
+                            
+                            
+                        </div>
+                    {%endif%}
+                    
                 </div>
                 <hr>
                 <!-- .row -->
@@ -165,7 +186,7 @@
                         <p><strong>Project Heads</strong></p>
 
 
-                        {% for head in projectHeads %}
+                        {% for head in projectHeads %}                            
                             <p>{{head.name}}</p>
                             <p>{{head.contactnumber}}</p>
                         {% endfor %}

@@ -1,3 +1,14 @@
+'use strict';
+
+/**
+ * Contains configurations for the webserver
+ * how to connect, what directories, etc.
+ *
+ * The current working directory is the file of the config.js
+ * The paths are manually transformed to absoulute paths at the bottom of this script. 
+ *
+ * @type  {Object}
+ */
 const configuration = {
     "security": {
         "routes_ignore_login_required": [
@@ -77,7 +88,7 @@ const configuration = {
     },
     "database": {
         "host": "localhost",
-        "port": 5432,
+        "port": 5433,
         "database": "CSODB",
         "username": "postgres",
         "password": "1234",
@@ -92,20 +103,24 @@ const configuration = {
     }
 };
 
-const path = require('path');
+/**
+ * Module to be use to resolve to absolute paths
+ * @type  {function}
+ */
+const resolve = require('path').resolve;
 
 /* Preprocessing of configuration data */
 configuration.security.routes_ignore_login_required.sort();
-
-configuration.webserver.controllers.path = path.resolve(configuration.webserver.controllers.path);
-configuration.webserver.pre_middlewares.path = path.resolve(configuration.webserver.pre_middlewares.path);
-configuration.webserver.post_middlewares.path = path.resolve(configuration.webserver.post_middlewares.path);
-configuration.webserver.core_modules.path = path.resolve(configuration.webserver.core_modules.path);
-configuration.webserver.core_middlewares.path = path.resolve(configuration.webserver.core_middlewares.path);
-configuration.webserver.assets.path = path.resolve(configuration.webserver.assets.path);
-configuration.webserver.views.path = path.resolve(configuration.webserver.views.path);
-
-configuration.database.query_files.path = path.resolve(configuration.database.query_files.path);
-configuration.database.models.path = path.resolve(configuration.database.models.path);
+/* Webserver path */
+configuration.webserver.controllers.path = resolve(configuration.webserver.controllers.path);
+configuration.webserver.pre_middlewares.path = resolve(configuration.webserver.pre_middlewares.path);
+configuration.webserver.post_middlewares.path = resolve(configuration.webserver.post_middlewares.path);
+configuration.webserver.core_modules.path = resolve(configuration.webserver.core_modules.path);
+configuration.webserver.core_middlewares.path = resolve(configuration.webserver.core_middlewares.path);
+configuration.webserver.assets.path = resolve(configuration.webserver.assets.path);
+configuration.webserver.views.path = resolve(configuration.webserver.views.path);
+/* Database paths */
+configuration.database.query_files.path = resolve(configuration.database.query_files.path);
+configuration.database.models.path = resolve(configuration.database.models.path);
 
 module.exports = configuration;

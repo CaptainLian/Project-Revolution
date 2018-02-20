@@ -6,7 +6,6 @@ log_options.from = 'Post Project Proposal-Model';
 const squel = require('squel').useFlavour('postgres');
 
 module.exports = function(configuration, modules, db, queryFiles) {
-
     const insertPostProjectProposal = queryFiles.insertPostProjectProposal;
 	const updatePostProjectProposal = queryFiles.updatePostProjectProposal;
 	const getPostActsToImplement = queryFiles.getPostActsToImplement;
@@ -21,7 +20,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
 
     const updatePostProjectFinanceCompleteness = queryFiles.updatePostProjectFinanceCompleteness;
     const updatePostProjectRequiredCompleteness = queryFiles.updatePostProjectRequiredCompleteness;
-    
+
     const updatePostProjectProposalCompleteness = queryFiles.updatePostProjectProposalCompleteness;
 
     const insertPostBT = queryFiles.insertPostBT;
@@ -38,81 +37,102 @@ module.exports = function(configuration, modules, db, queryFiles) {
 
     const updatePostPPR = queryFiles.updatePostPPR;
     const updatePostStatus = queryFiles.updatePostStatus;
-        
-
 
 	return {
         insertPostBT:function (param, connection = db) {
             return connection.none(insertPostBT, param);
         },
+
         insertPostReim:function (param, connection = db) {
             return connection.none(insertPostReim, param);
         },
+
         insertPostDP:function (param, connection = db) {
             return connection.none(insertPostDP, param);
         },
+
 		updatePostProjectProposal:function (param, connection = db) {
         	return connection.none(updatePostProjectProposal, param);
     	},
+
         updatePostProjectProposalCompleteness:function (param, connection = db) {
             return connection.any(updatePostProjectProposalCompleteness, param);
         },
+
         updatePostPPR:function (param, connection = db) {
             return connection.any(updatePostPPR, param);
         },
+
         getPostActsToCheck:function (param, connection = db) {
             return connection.any(getPostActsToCheck, param);
         },
+
         updatePostProjectRequiredCompleteness:function (param, connection = db) {
             return connection.any(updatePostProjectRequiredCompleteness, param);
         },
+
         updatePostProjectFinanceCompleteness:function (param, connection = db) {
             return connection.any(updatePostProjectFinanceCompleteness, param);
         },
+
         updatePostProjectProposalFinanceDocumentStatus:function (param, connection = db) {
             return connection.none(updatePostProjectProposalFinanceDocumentStatus, param);
         },
+
         updatePostStatus:function (param, connection = db) {
             return connection.none(updatePostStatus, param);
         },
+
         insertPostProjectProposalGals:function (param, connection = db) {
             return connection.none(insertPostProjectProposalGals, param);
         },
+
         insertPostProjectProposalEventPictures:function (param, connection = db) {
             return connection.none(insertPostProjectProposalEventPictures, param);
         },
+
     	insertPostProjectProposal:function (param, connection = db) {
         	return connection.any(insertPostProjectProposal, param);
     	},
+
         getPostBriefContext:function (param, connection = db) {
             return connection.one(getPostBriefContext, param);
         },
+
         getPostProjectProposal:function (param, connection = db) {
             return connection.one(getPostProjectProposal, param);
         },
+
     	getPostActsToImplement:function (param, connection = db) {
         	return connection.any(getPostActsToImplement, param);
     	},
+
         getPostProjectProposalMain:function (param, connection = db) {
             return connection.one(getPostProjectProposalMain, param);
         },
+
         getPostActsDetails:function (param, connection = db) {
             return connection.one(getPostActsDetails, param);
         },
+
         getEventPictureMaxSubmission:function (param, connection = db) {
             return connection.any(getEventPictureMaxSubmission, param);
         },
+
         getLatestEventPicture:function (param, connection = db) {
             return connection.any(getLatestEventPicture, param);
         },
+
         getLatestPostExpense:function (param, connection = db) {
             return connection.any(getLatestPostExpense, param);
         },
+
         getPostExpenseMaxSubmissionID:function (param, connection = db) {
             return connection.any(getPostExpenseMaxSubmissionID, param);
         },
+
         insertPostProjectExpense:function (param, connection = db) {
             return connection.none(insertPostExpense, param);
-        },
+        }
 	};
 }
