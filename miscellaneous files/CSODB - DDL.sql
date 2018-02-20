@@ -747,7 +747,7 @@ $function$ LANGUAGE plpgsql STABLE;
 EXTREMELY DANGEROUS FUNCTION
 SQL INJECTION POSSIBLE EXPLOITABLE
  */
-CREATE OR REPLACE FUNCTION "system_get_next_finance_signatory"("signatoryTable" TEXT, "signatoryTableAcronym" TEXT, "where" TEXT)
+CREATE OR REPLACE FUNCTION "'system_get_next_finance_signatory'"("signatoryTable" TEXT, "signatoryTableAcronym" TEXT, "where" TEXT)
 RETURNS INTEGER AS
 $function$
     DECLARE
@@ -756,13 +756,13 @@ $function$
         EXECUTE format(
             'SELECT *
               FROM %I %I LEFT JOIN "FinanceSignatoryType" "fst"
-                                ON "%I"."type" = "fst"."id"
-             WHERE "%I"."status" = 0
+                                ON %I."type" = "fst"."id"
+             WHERE %I."status" = 0
                AND (%s)
           ORDER BY "fst"."lineup" ASC
              LIMIT 1;',
         "signatoryTable", "signatoryTableAcronym", "signatoryTableAcronym", "signatoryTableAcronym", "where"
-        ) INTO STRICT signatoryID;
+        ) INTO signatoryID;
 
         RETURN signatoryID;
     END;
@@ -1850,6 +1850,7 @@ CREATE TABLE ProjectProposal (
 
     rescheduleReason SMALLINT REFERENCES ProjectProposalRescheduleReason(id),
     rescheduleDates DATE[],
+    reschedRejectReason TEXT,
     
     PRIMARY KEY (GOSMActivity)
 );

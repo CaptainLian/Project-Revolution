@@ -1,5 +1,5 @@
 
-SELECT COUNT(PP.ID) AS num
+SELECT COUNT(GA.ID) AS num
   FROM PROJECTPROPOSAL PP JOIN GOSMACTIVITY GA 
   							ON PP.GOSMACTIVITY=GA.ID
   						  JOIN gosmactivityprojecthead GAPH
@@ -19,4 +19,4 @@ SELECT COUNT(PP.ID) AS num
                     	                    FROM TERM
                          	               WHERE NOW() >= DATESTART
                               		         AND NOW() <= DATEEND )  )  )
- GROUP BY PP.ID;
+ GROUP BY G.ID;

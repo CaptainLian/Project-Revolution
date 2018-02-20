@@ -4,15 +4,9 @@ module.exports = function(configuration, modules, database, queryFiles){
     const squel = require('squel').useFlavour('postgres');
 
 	const FinanceModel = Object.create(null);
-
-    const insertPreActivityCashAdvanceSQL = queryFiles.insertPreActivityCashAdvance;
-    const insertPreActivityCashAdvanceParticularSQL = queryFiles.insertPreActivityCashAdvanceParticular;
-    const getParticularsSQL = queryFiles.getParticulars;
-    const getActivitiesWithFinancialDocumentsSQL = queryFiles.getActivitiesWithFinancialDocuments;
-    const getTransactionTotalPerActivitySQL = queryFiles.getTransactionTotalPerActivity;
-    const getApprovedTransactionTotalPerActivitySQL = queryFiles.getApprovedTransactionTotalPerActivity;
-    const getActivityTransactionsSQL = queryFiles.getActivityTransactions;
-    const getPreActivityCashAdvanceSQL = queryFiles.getPreActivityCashAdvance;
+    
+    
+    
     const getCashAdvanceParticularsSQL = queryFiles.getCashAdvanceParticulars;
     const getActivityTransactionsForSignatorySQL = queryFiles.getActivityTransactionsForSignatory;
     const checkCashAdvanceSignatorySQL = queryFiles.checkCashAdvanceSignatory;
@@ -30,34 +24,42 @@ module.exports = function(configuration, modules, database, queryFiles){
     const log_options = Object.create(null);
     log_options.from = 'Finance-Model';
 
+    const insertPreActivityCashAdvanceSQL = queryFiles.insertPreActivityCashAdvance;
 	FinanceModel.insertPreActivityCashAdvance = function(param, connection = database) {
         return connection.one(insertPreActivityCashAdvanceSQL, param);
     };
 
+    const insertPreActivityCashAdvanceParticularSQL = queryFiles.insertPreActivityCashAdvanceParticular;
     FinanceModel.insertPreActivityCashAdvanceParticular = function(param, connection = database){
         return connection.none(insertPreActivityCashAdvanceParticularSQL, param);
     };
 
+    const getParticularsSQL = queryFiles.getParticulars;
     FinanceModel.getParticulars = function(param, connection = database){
         return connection.any(getParticularsSQL, param);
     };
 
+    const getActivitiesWithFinancialDocumentsSQL = queryFiles.getActivitiesWithFinancialDocuments;
     FinanceModel.getActivitiesWithFinancialDocuments = function(connection = database){
         return connection.any(getActivitiesWithFinancialDocumentsSQL);
     };
 
+    const getTransactionTotalPerActivitySQL = queryFiles.getTransactionTotalPerActivity;
     FinanceModel.getTransactionTotalPerActivity = function(connection = database){
         return connection.any(getTransactionTotalPerActivitySQL);
     };
 
+    const getApprovedTransactionTotalPerActivitySQL = queryFiles.getApprovedTransactionTotalPerActivity;
     FinanceModel.getApprovedTransactionTotalPerActivity = function(connection = database){
         return connection.any(getApprovedTransactionTotalPerActivitySQL);
     };
 
+    const getActivityTransactionsSQL = queryFiles.getActivityTransactions;
     FinanceModel.getActivityTransactions = function(param, connection = database){
         return connection.any(getActivityTransactionsSQL, param);
     };
 
+    const getPreActivityCashAdvanceSQL = queryFiles.getPreActivityCashAdvance;
     FinanceModel.getPreActivityCashAdvance = function(param, connection = database){
         return connection.one(getPreActivityCashAdvanceSQL, param);
     };
