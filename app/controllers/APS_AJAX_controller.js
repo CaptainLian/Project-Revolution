@@ -87,7 +87,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     };
     APS_AJAXController.resched = (req, res) => {
         var comment = " " + req.body.comment;
-        projectProposalModel.updatePPResched(req.body.activityID, req.body.comment,req.body.status)
+        console.log(req.body)
+        projectProposalModel.approvePPResched(req.body.activityID, comment,req.body.status)
                             .then(data=>{
                                 res.json({status:1})
                             }).catch(err=>{

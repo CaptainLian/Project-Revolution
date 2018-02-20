@@ -153,14 +153,12 @@
                         {% for date, programs in programDesign | groupby('date') %}
                             <p>{{date}}</p>
                         {% endfor %}
-                        {% if resched < 0 and projectProposal.status !== 6%}
-                        <button type="button" class="btn btn-default" id='reschedule'>Reschedule</button>
-                        {%endif%}
+                       
                        
 
                     </div>
                     {%if projectProposal.rescheddates|length %}
-                        <div></div>
+                        
                         <div class="col-md-12">
                             <p><strong>Reschedule Date /s</strong></p>
 
@@ -176,6 +174,13 @@
                             
                             
                         </div>
+                    {%endif%}
+
+                    {% if resched < 0 and projectProposal.status !== 6%}
+                        <div class="col-md-12">
+                            <button type="button" class="btn btn-default" id='reschedule'>Reschedule</button>    
+                        </div>
+                        
                     {%endif%}
                     
                 </div>

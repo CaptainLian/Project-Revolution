@@ -33,7 +33,7 @@ $(document).on('click', '#approve', function() {
             url: '/APS/ajax/resched',
             data: {
                 activityID: id,
-                status: 1
+                status: 3
             },
 
             success: function(data) {

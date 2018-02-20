@@ -310,10 +310,11 @@ module.exports = function(configuration, modules, db, queryFiles) {
         return connection.any(query.toString());
     };
     ProjectProposalModel.prototype.approvePPResched =  function(id, comment, status, connection = this._db){
+        
         let query = squel.update()
                          .table("ProjectProposal")
                          .set("status",status)
-                         .set("reschedulereason", comment)                         
+                         .set("reschedrejectreason", comment)                         
                          .where("id = ?",id)
 
       
