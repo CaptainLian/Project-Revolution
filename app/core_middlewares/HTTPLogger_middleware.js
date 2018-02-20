@@ -1,8 +1,8 @@
 'use strict';
 module.exports = (configuration, mainApplication, modules) => {
-    const middlewareMaker = require('../utility/middleware_maker.js');
+  const middlewareMaker = require('../utility/middleware_maker.js');
 
-    const logger = modules.logger;
+  const logger = modules.logger;
 
 	const loggerMiddleware = middlewareMaker(
         'HTTP Logger',

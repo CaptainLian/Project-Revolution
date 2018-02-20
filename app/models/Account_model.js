@@ -1,10 +1,5 @@
-
 'use strict';
 
-/**
- * Query Files Used:
- *     account_insert.sql
- */
 module.exports = function(configuration, modules, database, queryFiles) {
     const squel = require('squel').useFlavour('postgres');
 
@@ -29,7 +24,6 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
     const AccountModel = Object.create(null);
 
-
     /**
      * [createAccount description]
      * @method  createAccount
@@ -45,7 +39,6 @@ module.exports = function(configuration, modules, database, queryFiles) {
      * @returns {Promise} [description]
      */
     AccountModel.createAccount = (idNumber, email, type, password, firstname, middlename, lastname, contactNumber, connection = database) => {
-
         logger.debug(`createAccount()\nGenerating key pair\n\tParameters: bits: ${configuration.security.encryption.bits}, workers: ${configuration.security.encryption.web_workers_amount}`, log_options);
 
         return forge.pki.rsa.generateKeyPair({
@@ -179,9 +172,9 @@ module.exports = function(configuration, modules, database, queryFiles) {
             .left_join('accounttype','ac','a.type = ac.id')
             .field('ac.name','acname')
             .where('a.status <> ?',2)
-
-            .order('a.idNumber',false)
+            .order('a.idNumber',false);
         attachFields(query, fields);
+
         console.log(query.toString());
         return connection.many(query.toString(), param);
     };
@@ -211,7 +204,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
                         .set("isactive",false)
                         .where('idNumber = ?', idNumber)
                         .where('yearid = system_get_current_year_id()').toString();
-            let query3 =''
+            let query3 ='';
             if(!Array.isArray(orgpos) && type ==1){
                 console.log("IF");
 
@@ -222,10 +215,10 @@ module.exports = function(configuration, modules, database, queryFiles) {
                         .set('yearid',squel.str('system_get_current_year_id()'))
                         .set('isactive',true)
                         .toString();
-                query3 +=" ON CONFLICT (idnumber, role, yearid ) DO UPDATE set isactive=true"
+                query3 +=" ON CONFLICT (idnumber, role, yearid ) DO UPDATE set isactive=true";
             }else if(Array.isArray(orgpos) && type ==1){
-                console.log("ELSE");                
-                for(var ctr = 0; ctr < orgpos.length; ctr++){                    
+                console.log("ELSE");
+                for(var ctr = 0; ctr < orgpos.length; ctr++){
                      query3+=squel.insert()
                             .into('organizationofficer')
                             .set('idnumber', idNumber)
@@ -233,26 +226,27 @@ module.exports = function(configuration, modules, database, queryFiles) {
                             .set('yearid',squel.str('system_get_current_year_id()'))
                             .set('isactive',true)
                             .toString();
-                        query3 +=" ON CONFLICT (idnumber, role, yearid ) DO UPDATE set isactive=true"
+                        query3 +=" ON CONFLICT (idnumber, role, yearid ) DO UPDATE set isactive=true";
 
                     // if(ctr+1 != orgpos.length)
-                        query3+=';'
+                        query3+=';';
                 }
 
             }else{
-                query3=query2
+                query3=query2;
             }
-            
+
             return t.batch([
                 t.none(query),
                 t.none(query2),
                 t.none(query3)
-            ])
-        })
+            ]);
+        });
 
         // attachFields(query, fields);
 
-    }
+    };
+
      AccountModel.deleteAccount = (idNumber,status , connection = database) => {
         logger.debug('deleteAccount()', log_options);
 
@@ -265,23 +259,27 @@ module.exports = function(configuration, modules, database, queryFiles) {
             .where('idNumber = ?', idNumber);
         // attachFields(query, fields);
         return connection.none(query.toString());
-    }
+    };
      AccountModel.getSpecificAccount = (idNumber,fields, connection = database) => {
         logger.debug('getSpecificAccount()', log_options);
 
         let param = Object.create(null);
         let query = squel.select()
             .from('Account', 'a')
-            .left_join(squel.select().from('organizationofficer').where('isactive = ?',true).where('yearid = ?',squel.str('system_get_current_year_id()'))
-                        ,'oo','oo.idNumber = a.idNumber')
+            .left_join(squel.select()
+                .from('organizationofficer')
+                .where('isactive = ?',true)
+                .where('yearid = ?',
+                    squel.str('system_get_current_year_id()')),
+                    'oo',
+                    'oo.idNumber = a.idNumber')
             .left_join('organizationrole','oro','oro.id = oo.role')
             .left_join('studentorganization','so','so.id = oro.organization')
             .left_join('accounttype','aca','aca.id = a.type')
             .where('a.idNumber = ?',idNumber)
-            
-
-            .order('a.idNumber',false)
+            .order('a.idNumber',false);
         attachFields(query, fields);
+
         return connection.many(query.toString(), param);
     };
 
@@ -318,7 +316,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
         let query = squel.select()
             .from('accounttype');
         attachFields(query, fields);
-        
+
         return connection.many(query.toString(), param);
     };
 
@@ -328,7 +326,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
         const param = Object.create(null);
         param.idNumber = idNumber;
-        
+
         logger.debug(`Executing query: ${query_get_student_studentOrganizations}`, log_options);
         return connection.any(query_get_student_studentOrganizations, param);
     };
@@ -400,6 +398,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
         return connection.one(hasPPRToSignSQL, param);
     };
 
+    //TODO: Display signed PPR as well.
     const getPPRsToSignSQL = queryFiles.account_PPR_get_to_sign;
     AccountModel.getPPRToSignList = (idNumber, connection = database) => {
         const param = Object.create(null);
@@ -526,7 +525,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
             .field(squel.str(`EXISTS(${squel.select()
                     .from('OrganizationRole')
                     .field('organization')
-                    .where('id IN ?', 
+                    .where('id IN ?',
                         squel.select()
                             .from('OrganizationOfficer')
                             .field('role')
@@ -543,6 +542,29 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
         logger.debug(`Executing query: ${query}`, log_options);
         return connection.one(query, param);
+    };
+
+    const approvePreActDirectPaymentSQL = queryFiles.account_PreActDirectPayment_approve;
+    AccountModel.approveDirectPayment = (directPaymentID, idNumber, document, digitalSignature, connection = database) => {
+        logger.debug(`approveDirectPayment(directPaymentID: ${directPaymentID}, idNumber: ${idNumber})`)
+
+        let param = Object.create(null);
+        param.directPayment = directPaymentID;
+        param.signatory = idNumber;
+        param.document = document;
+        param.digitalSignature = digitalSignature;
+        return connection.none(approvePreActDirectPaymentSQL, param);
+    };
+
+    const pendPreActDirectPaymentSQL = queryFiles.account_PreActDirectPayment_pend;
+    AccountModel.pendDirectPayment = (directPaymentID, idNumber, comments, sections, connection = database) => {
+        const param = Object.create(null);
+        param.directPayment = directPaymentID;
+        param.idNumber = idNumber;
+        param.comments = comments;
+        param.sections = sections;
+
+        return connection.none(pendPreActDirectPaymentSQL, param);
     };
 
     return AccountModel;

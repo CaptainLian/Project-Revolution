@@ -22,8 +22,7 @@ module.exports = function(configuration, application, modules, database, queryFi
         priority: configuration.load_priority.NORMAL,
         action: function(req, res, next) {
             logger.warning(`Error 404 original URL: ${req.originalUrl}, url: ${req.url}`, log_options);
-            var err = new Error('Not Found');
-            err.status = 404;
+            res.status(404);
             return res.render('System/404');
         }
     }, {
