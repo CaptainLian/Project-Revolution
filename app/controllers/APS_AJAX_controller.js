@@ -92,6 +92,18 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
 
     };
+    APS_AJAXController.approvalResched = (req, res) => {
+        console.log(req.body)
+        projectProposalModel.updatePPResched(req.body.activityID, req.body.reason, req.body.date, 6)
+                            .then(data=>{
+                                res.json({status:1})
+                            }).catch(err=>{
+                                console.log(err)
+                                res.json({status:0})
+                            })
+
+     
+    };
 
     APS_AJAXController.updateGOSMActivityComment = (req, res) => {
         logger.debug('updateGOSMActivityComment()', log_options);
