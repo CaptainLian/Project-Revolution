@@ -1809,7 +1809,8 @@ INSERT INTO ProjectProposalRescheduleReason (id, name)
                          VALUES (1, 'Class suspension'),
                                 (2, 'Insufficient participnts'),
                                 (3, 'Speaker unavailable'),
-                                (4, 'Corrupt members');
+                                (4, 'Others'),
+                                (5, 'Corrupt members');
 
 DROP TABLE IF EXISTS ProjectProposal CASCADE;
 CREATE TABLE ProjectProposal (
@@ -1849,9 +1850,10 @@ CREATE TABLE ProjectProposal (
     isProgramComplete BOOLEAN NOT NULL DEFAULT FALSE,
 
     rescheduleReason SMALLINT REFERENCES ProjectProposalRescheduleReason(id),
+    reschedReasonOther TEXT,
     rescheduleDates DATE[],
     reschedRejectReason TEXT,
-    
+
     PRIMARY KEY (GOSMActivity)
 );
 CREATE OR REPLACE FUNCTION trigger_before_update_ProjectProposal()
