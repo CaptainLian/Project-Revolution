@@ -705,7 +705,6 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
             database.tx(transaction => {
 	            return financeModel.insertPreActivityDirectPayment(dbParam, transaction).then(data => {
-
 	            	let query = [];
 
                     for(let index = 0; index < particulars.length; ++index){

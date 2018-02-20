@@ -113,7 +113,7 @@ $(document).on('click', '#defer', function() {
 
 
     swal({
-        title: "Pend",
+        title: "Activity Details",
         text: "Select the sections that should be change, then explain why.",
         html: question,
         focusConfirm: false,
@@ -140,9 +140,7 @@ $(document).on('click', '#defer', function() {
         },
 
         showCancelButton: true,
-        confirmButtonColor: "#FEC107",
-        confirmButtonText: "Pend",
-        cancelButtonText: "Cancel",
+        cancelButtonText: "Close",
 
 
     }).then(function(data) {

@@ -197,6 +197,16 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         })
         // return res.render('APS/RescheduleChecking');
     };
+    APSController.home = (req, res) => {
+        const renderData = Object.create(null);
+        renderData.extra_data = req.extra_data;
+        return res.render('APS/APSHome');
+    };
+    APSController.orgSummary = (req, res) => {
+        const renderData = Object.create(null);
+        renderData.extra_data = req.extra_data;
+        return res.render('APS/OrgApsSummary');
+    };
 
     APSController.viewPPRListToSign = (req, res) => {
         const renderData = Object.create(null);
