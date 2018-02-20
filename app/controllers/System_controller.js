@@ -156,9 +156,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     return new Promise((resolve, reject) => {
                         try {
                           return req.session.save(err => {
-                                if(err){
-                                    throw err;
-                                }
+                                if(err)
+                                    return reject(err);
 
                                 const reply = Object.create(null);
                                 reply.url = '/home';
@@ -226,7 +225,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     req.session.user.organizationSelected.id,
                     'home_url'
                 ).then(data => {
-                    return res.redirect(data.home_url || '/Organization/ProjectHead/home');
+                    if(data.home_url){
+                        return res.redirect(data.home_url);
+                    }else if(req.session.organizationSelected.id !== 0){
+                        return res.redirect('/Organization/ProjectHead/home');
+                    }else{
+                        return res.redirect('/blank');
+                    }
                 });
             default:
                 return res.redirect('/blank');

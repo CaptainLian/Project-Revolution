@@ -5,7 +5,7 @@
   * column - The column used for comparison, usually the "parent" primary key 
   * value - the value used for the column comparison
   */
-  SELECT *
+  SELECT signatory AS "idNumber"
     FROM "${financeTable}" "${tableAcronym}" LEFT JOIN "FinanceSignatoryType" "fst"
                                                   ON "${tableAcronym}"."type" = "fst"."id"
    WHERE "${tableAcronym}"."status" = 0
