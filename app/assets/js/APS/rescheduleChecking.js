@@ -30,7 +30,7 @@ $(document).on('click', '#approve', function() {
     }).then(function(data) {
         $.ajax({
             type: 'POST',
-            url: '/APS/ajax/approvalResched',
+            url: '/APS/ajax/resched',
             data: {
                 activityID: id,
                 status: 1
@@ -89,7 +89,7 @@ $(document).on('click', '#deny', function() {
     }).then(function() {
         $.ajax({
             type: 'POST',
-            url: '/APS/ajax/approvalResched',
+            url: '/APS/ajax/resched',
             data: {
                 activityID: id,
                 comment:$("#reject-comment").val(),
