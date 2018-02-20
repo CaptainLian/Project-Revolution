@@ -3,15 +3,13 @@
 module.exports = function(configuration, modules, database, queryFiles){
     const squel = require('squel').useFlavour('postgres');
 
-	const FinanceModel = Object.create(null);
-    
-
-
     const attachFields = require('../utility/databaseHelper').attachFields;
 
     const logger = modules.logger;
     const log_options = Object.create(null);
     log_options.from = 'Finance-Model';
+
+    const FinanceModel = Object.create(null);
 
     const insertPreActivityCashAdvanceSQL = queryFiles.insertPreActivityCashAdvance;
 	FinanceModel.insertPreActivityCashAdvance = function(param, connection = database) {
