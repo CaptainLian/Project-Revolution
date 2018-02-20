@@ -298,16 +298,37 @@ module.exports = function(configuration, modules, db, queryFiles) {
         param.id = id;
         return connection.any(query, param);
     };
+    ProjectProposalModel.prototype.updatePPResched =  function(id, reason, dates, status, connection = this._db){
+        let query = squel.update()
+                         .table("ProjectProposal")
+                         .set("status",status)
+                         .set("reschedulereason", reason)
+                         .set("rescheduledates", "{"+dates+"}")
+                         .where("id = ?",id)
+
+      
+        return connection.any(query.toString());
+    };
+    ProjectProposalModel.prototype.approvePPResched =  function(id, comment, status, connection = this._db){
+        let query = squel.update()
+                         .table("ProjectProposal")
+                         .set("status",status)
+                         .set("reschedulereason", comment)                         
+                         .where("id = ?",id)
+
+      
+        return connection.any(query.toString());
+    };
+
     ProjectProposalModel.prototype.getReschedActivities =  function(connection = this._db){
         
         let query = squel.select()
                         .from('GOSM', 'G')
                         .left_join('GOSMACTIVITY','GA',' G.ID = GA.GOSM')
                         .left_join('PROJECTPROPOSAL','PP',' GA.ID = PP.GOSMACTIVITY')
-                        .where('G.termID = ?',squel.select().from('Term').where('schoolYearID = ?',squel.str('system_get_current_year_id()')).where('number = ?',squel.str('system_get_current_term_id()')).field('id'))                        
-        
-        query = query.toString();
-        
+                        .where('G.termID = ?',squel.str('system_get_current_term_id()'))
+                        .where('PP.STATUS = 6')                                
+        query = query.toString();        
         return connection.any(query);
     };
 

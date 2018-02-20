@@ -1,6 +1,5 @@
 'use strict';
 
-
 module.exports = function(configuration, modules, models, database, queryFiles) {
     const logger = modules.logger;
 
@@ -185,10 +184,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         renderData.extra_data = req.extra_data;
         projectProposalModel.getReschedActivities()
         .then(data=>{
+            console.log(data)
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
             renderData.activities = data;
             renderData.csrfToken = req.csrfToken();
+
+
             return res.render('APS/RescheduleChecking', renderData);
         }).catch(err=>{
             console.log(err)

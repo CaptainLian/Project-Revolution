@@ -37,6 +37,7 @@ $(document).on('click', '#approve', function() {
             },
 
             success: function(data) {
+                swal("Success!", "", "success")
                 table.row(dis.parents('tr')).remove().draw()
             }
         });
