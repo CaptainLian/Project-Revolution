@@ -155,6 +155,17 @@
                                     <td><span class="label label-danger">Denied</span></td>      
                                 </tr>
 
+                            
+                             {% elif activity.status == 6 %}
+
+                                <tr>
+                                    <td>{{activity.startdate}}</td>      
+                                    <td><a href="/Organization/projectproposal/projectproposaldetails/{{activity.id}}" class="btn-link">{{activity.strategies}}</a></td>      
+                                    
+                                    
+                                    <td><span class="label label-info">For Reschedule Approval</span></td>      
+                                </tr>
+
                             {% endif %}
                              
 

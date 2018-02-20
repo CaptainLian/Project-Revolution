@@ -226,7 +226,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     req.session.user.organizationSelected.id,
                     'home_url'
                 ).then(data => {
-                    return res.redirect(data.home_url || '/blank');
+                    return res.redirect(data.home_url || '/Organization/ProjectHead/home');
                 });
             default:
                 return res.redirect('/blank');

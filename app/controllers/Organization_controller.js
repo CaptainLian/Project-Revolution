@@ -116,7 +116,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     const renderData = Object.create(null);
                     renderData.csrfToken = req.csrfToken();
                     renderData.extra_data = req.extra_data;
-
+                    console.log("data[4]")
+                    console.log(data[4])
                     renderData.projectProposal = data[0];
                     renderData.expenses = data[1];
                     renderData.activity = activityId;
