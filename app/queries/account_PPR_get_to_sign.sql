@@ -1,8 +1,7 @@
 WITH "CurrentTermPPR" AS (
     SELECT ppr.GOSMActivity
       FROM ProjectProposal ppr
-      WHERE ppr.status = 2
-        AND GOSMActivity IN (SELECT id
+      WHERE GOSMActivity IN (SELECT id
                                FROM GOSMActivity ga
                               WHERE ga.GOSM IN (SELECT id
                                                   FROM GOSM g
