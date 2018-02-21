@@ -7,7 +7,7 @@ $(document).ready(function(){
 				fixedColumns:   {
 					leftColumns: 1,
 				},
-				"ordering": false,
+				
 			    columnDefs: [{
 			      orderable: false,
 			      

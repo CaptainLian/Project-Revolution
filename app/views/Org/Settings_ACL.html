@@ -118,13 +118,16 @@
                                          </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>CSO - President</td>
-                                            {%for f in functionality%}
-                                                <td class="text-center"><input type="checkbox" name=""></td>
-                                            {%endfor %}
-                                            
-                                        </tr>
+                                        {%for org in orgrole%}
+                                            <tr>
+                                                <td>{{org.acronym}} - {{org.name}}</td>
+                                                {%for f in functionality%}
+                                                    <td class="text-center"><input type="checkbox" name=""></td>
+                                                {%endfor %}
+                                                
+                                            </tr>
+                                        {%endfor %}
+                                        
 
                                     </tbody>
                                 </table>
