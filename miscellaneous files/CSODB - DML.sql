@@ -146,7 +146,7 @@ INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
                  VALUES (17, 'BSS', 'Behavioral Sciences Society', 3, NULL);
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
-                 VALUES (18, NULL, 'Cultura', 3, NULL);
+                 VALUES (18, 'Cultura', 'Cultura', 3, NULL);
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
                  VALUES (19, 'DANUM', 'Dalubhasaan ng mga Umuusbong na Mag-aaral ng Araling Pilipino', 1, NULL);
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
