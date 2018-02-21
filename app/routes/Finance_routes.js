@@ -9,11 +9,14 @@ module.exports = function(configuration, modules, router, controllers, models, d
 	router.get('/transaction/preacts/cashadvance/:gosmactivity/:projectproposal', controllers.Finance_controller.createPreactsCashAdvance);
 	router.get('/transaction/preacts/directpayment/:gosmactivity/:projectproposal', controllers.Finance_controller.createPreactsDirectPayment);
 	router.get('/transaction/preacts/booktransfer/:gosmactivity', controllers.Finance_controller.createPreactsBookTransfer);
+	router.get('/transaction/preacts/reimbursement/:gosmactivity', controllers.Finance_controller.createPreactsReimbursement);
 
 	router.post('/transaction/submitPreacts', controllers.Finance_controller.submitPreacts);
 	router.post('/transaction/submitPreactsDirectPayment', controllers.Finance_controller.submitPreactsDirectPayment);
 	router.post('/transaction/approveCashAdvance', controllers.Finance_controller.approveCashAdvance);
 	router.post('/transaction/pendCashAdvance', controllers.Finance_controller.pendCashAdvance);
+	router.post('/transaction/approveDirectPayment', controllers.Finance_controller.approveDirectPayment);
+	router.post('/transaction/pendDirectPayment', controllers.Finance_controller.pendDirectPayment);
 
 	router.get('/finance/list', controllers.Finance_controller.viewFinanceList);
 	router.get('/finance/list/transaction/:gosmactivity', controllers.Finance_controller.viewTransaction);

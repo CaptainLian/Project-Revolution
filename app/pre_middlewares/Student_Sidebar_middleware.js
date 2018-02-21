@@ -98,15 +98,6 @@ module.exports = function(configuration, application, modules, database, queryFi
             return next();
         }
 
-        /*
-        if (!req.session.user.organizationSelected) {
-            req.extra_data.system.sidebars = Object.create(null);
-            req.extra_data.system.sidebars.canAttach = false;
-            logger.debug(`Can attach sidebars: ${req.extra_data.system.sidebars.canAttach}, due to organization not selected`, log_options);
-            return next();
-        }
-        */
-
         if (req.method !== 'GET') {
             logger.debug(`Can attach sidebars: ${req.extra_data.system.sidebars.canAttach}, due to method not GET`, log_options);
             return next();
@@ -203,7 +194,8 @@ module.exports = function(configuration, application, modules, database, queryFi
                 organizationModel.hasGOSMSubmitted(organizationSelected.id)
             ]);
         }).then(data => {
-            const [isProjectHead,
+            const [
+                isProjectHead,
                 GOSMActivityWithActivityEvaluation,
                 PPRApproved,
                 hasPPRWithoutPostProjectProposal,
@@ -223,7 +215,6 @@ module.exports = function(configuration, application, modules, database, queryFi
                 newSidebar2.name = 'Post Activity';
                 newSidebar2.link = '/Organization/PostProjectProposal/GOSMList';
                 newSidebar2.icon = 'fa fa-file-text-o'
-                
                 
                 sidebars[sidebars.length] = newSidebar2;
 
@@ -266,9 +257,6 @@ module.exports = function(configuration, application, modules, database, queryFi
                 newSidebar.link = '/finance/list';
                 newSidebar.icon = 'fa fa-money';
                 
-
-
-
                 sidebars[sidebars.length] = newSidebar;
             }
 

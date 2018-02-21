@@ -37,11 +37,13 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.CreateGOSM] = [{
 }];
 
 //Evaluate PPR
+/*
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateProjectProposal] = [{
     name: 'Evaluate Activity',
     link: '/APS/activityChecking',
     icon: 'fa fa-check'
 }];
+*/
 
 //Evaluate Activity (AMT)
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateActivity_AMT] = [{

@@ -19,6 +19,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const insertProjectProposalExpensesSQL = queryFiles.insertProjectProposalExpenses;
     const getProjectProposalSQL = queryFiles.getProjectProposal;
     const getProjectProposalsPerStatusSQL = queryFiles.getProjectProposalsCountPerStatus;
+    const getProjectProposalCountTotalSQL = queryFiles.getProjectProposalCountTotal;
     const getPPRProjectedCostSQL = queryFiles.getPPRProjectedCost;
     const getApprovedPPRsSQL = queryFiles.getApprovedPPRs;
     const getNextActivityForApprovalSQL = queryFiles.getNextActivityForApproval;
@@ -43,8 +44,8 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const getActivitiesRelatedToNatureCountSQL = queryFiles.getActivitiesRelatedToNatureCount;
     const getActivitiesNotRelatedToNatureCountSQL = queryFiles.getActivitiesNotRelatedToNatureCount;
     const getGOSMCountPerOrgSQL = queryFiles.getGOSMCountPerOrg;
-
-
+    const getActivitiesApprovedPerHeadSQL = queryFiles.getActivitiesApprovedPerHead;
+    const getProjectProposalCommentsPerStatusSQL = queryFiles.getProjectProposalCommentsPerStatus;
 
     const updatePPRSignatoryStatusSQL = queryFiles.updatePPRSignatoryStatus;
     const getPPRDetailsSQL = queryFiles.getPPRDetails;
@@ -297,6 +298,40 @@ module.exports = function(configuration, modules, db, queryFiles) {
         param.id = id;
         return connection.any(query, param);
     };
+    ProjectProposalModel.prototype.updatePPResched =  function(id, reason, dates, status, connection = this._db){
+        let query = squel.update()
+                         .table("ProjectProposal")
+                         .set("status",status)
+                         .set("reschedulereason", reason)
+                         .set("rescheduledates", "{"+dates+"}")
+                         .where("id = ?",id)
+
+      
+        return connection.any(query.toString());
+    };
+    ProjectProposalModel.prototype.approvePPResched =  function(id, comment, status, connection = this._db){
+        
+        let query = squel.update()
+                         .table("ProjectProposal")
+                         .set("status",status)
+                         .set("reschedrejectreason", comment)                         
+                         .where("id = ?",id)
+
+      
+        return connection.any(query.toString());
+    };
+
+    ProjectProposalModel.prototype.getReschedActivities =  function(connection = this._db){
+        
+        let query = squel.select()
+                        .from('GOSM', 'G')
+                        .left_join('GOSMACTIVITY','GA',' G.ID = GA.GOSM')
+                        .left_join('PROJECTPROPOSAL','PP',' GA.ID = PP.GOSMACTIVITY')
+                        .where('G.termID = ?',squel.str('system_get_current_term_id()'))
+                        .where('PP.STATUS = 6')                                
+        query = query.toString();        
+        return connection.any(query);
+    };
 
     ProjectProposalModel.prototype.getProjectProposalAttachment = function(id, fields, connection = this._db){
         let query = squel.select()
@@ -383,7 +418,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
         return connection.none(insertProjectProposalExpensesSQL, param);
     };
 
-    ProjectProposalModel.prototype.getProjectProposalsCountPerStatus = function(gosm, status, connection = this._db) {
+    ProjectProposalModel.prototype.getProjectProposalsCountPerStatus = function(studentorganization, status, idnumber, connection = this._db) {
 
         /**
          * const param = {
@@ -394,13 +429,24 @@ module.exports = function(configuration, modules, db, queryFiles) {
          * @type {Object}
          */
         let param = Object.create(null);
-        param.gosm = gosm;
+        param.studentorganization = studentorganization;
         param.status = status;
+        param.idnumber = idnumber;
 
-        return connection.one(getProjectProposalsPerStatusSQL, param);
+        return connection.oneOrNone(getProjectProposalsPerStatusSQL, param);
     };
 
-    ProjectProposalModel.prototype.getProjectProposalProjectHeads = function(id, fields, connection = this._db){
+    ProjectProposalModel.prototype.getProjectProposalCountTotal = function(studentorganization, idnumber, connection = this._db) {
+
+
+        let param = Object.create(null);
+        param.studentorganization = studentorganization;
+        param.idnumber = idnumber;
+
+        return connection.oneOrNone(getProjectProposalCountTotalSQL, param);
+    };
+
+    ProjectProposalModel.prototype.getProjectProposalProjectHeads = function(id, connection = this._db){
         /**
          * const param = {
          *     id: id
@@ -412,6 +458,34 @@ module.exports = function(configuration, modules, db, queryFiles) {
         param.id = id;
 
         return connection.any(queryFiles.getProjectProposalProjectHeads, param);
+    };
+
+    ProjectProposalModel.prototype.getActivitiesApprovedPerHead = function(studentorganization, idnumber, connection = this._db) {
+
+
+        let param = Object.create(null);
+        param.studentorganization = studentorganization;
+        param.idnumber = idnumber;
+
+        return connection.any(getActivitiesApprovedPerHeadSQL, param);
+    };
+
+    ProjectProposalModel.prototype.getProjectProposalCommentsPerStatus = function(studentorganization, status, idnumber, connection = this._db) {
+
+        /**
+         * const param = {
+         *     gosm: gosm,
+         *     status: status
+         * };
+         * @variable param
+         * @type {Object}
+         */
+        let param = Object.create(null);
+        param.studentorganization = studentorganization;
+        param.status = status;
+        param.idnumber = idnumber;
+
+        return connection.any(getProjectProposalCommentsPerStatusSQL, param);
     };
 
     ProjectProposalModel.prototype.getNextActivityForApproval = function(idNumber, connection = this._db){
@@ -502,7 +576,6 @@ module.exports = function(configuration, modules, db, queryFiles) {
         });
     };
 
-
     const getTotalExpenseSQL = queryFiles.PPR_get_total_expense;
     ProjectProposalModel.prototype.getTotalExpenseSQL = function(activityID, connection = this._db){
         logger.debug(`getSignatories(activityID: ${activityID})`, log_options);
@@ -541,7 +614,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
 
         query = query.toString();
         logger.debug(`Executing query: ${query}`, log_options);
-        
+
         return connection.oneOrNone(query, param);
     };
 

@@ -5,7 +5,6 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 	const systemModel = models.System_model;
 	const accModel = models.Account_model;
 
-
 	return {
 		viewManageAccount: (req, res) => {
 			const renderData = Object.create(null);
@@ -24,34 +23,40 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				console.log(data[2]);
 				return res.render('Orgres/ManageAccount', renderData);
 			}).catch(err =>{
-				console.log("ERROR");
-				console.log(err);
+				logger.error(`${err.message}: ${err.stack}`, log_options);
 			})
 		
 		},
+		officerSurveyForm: (req, res) => {
+	        const renderData = Object.create(null);
+	        renderData.extra_data = req.extra_data;
+	        return res.render('Orgres/officerSurveyForm');
+    	},
+    	memberSurveyForm: (req, res) => {
+	        const renderData = Object.create(null);
+	        renderData.extra_data = req.extra_data;
+	        return res.render('Orgres/memberSurveyForm');
+    	},
+
 		viewManageOrg: (req, res) => {
 			const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
 			return res.render('Orgres/ManageOrg', renderData);
 		},
+
 		viewManageTime: (req, res) => {
-
-			orgresModel.getCurrentSchoolYearTerms()
-			.then(data=>{
-
-				
+			orgresModel.getCurrentSchoolYearTerms().then(data=>{
 				const renderData = Object.create(null);
     	        renderData.extra_data = req.extra_data;
 	            renderData.csrfToken = req.csrfToken();
 	            renderData.termdates = data;
 				return res.render('Orgres/ManageTime', renderData);
-
-
 			}).catch(error=>{
-				console.log(error);
+				logger.error(`${error.message}: ${error.stack}`, log_options);
 			});
 		},
+		
 		submitTime: (req, res) => {
 			const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
@@ -84,9 +89,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
            		dateend: "'" + thirdEndSplit[2] + "-" + thirdEndSplit[0] + "-" + thirdEndSplit[1] + "'"
 		    }
 
-		    orgresModel.insertSchoolYear(dbParam)
-		    .then(datayear=>{
-
+		    orgresModel.insertSchoolYear(dbParam).then(datayear=>{
 		       	var dbParam1 = {
 	       			schoolyearid: datayear.id,
 	           		numberid: 1,
@@ -115,21 +118,16 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		                orgresModel.insertTerm(dbParam3, t)
 		            ])
 		        }).then(data1=>{
-
 		           	console.log(data1);
 		           	console.log("Success inserting term");
           		    res.redirect(`/ORGRES/Manage/Time`);
-
 		        }).catch(error=>{
-		           	console.log("enter error 2");
-		           	console.log(error);
+		           	logger.error(`${error.message}: ${error.stack}`, log_options);
 		        })
 
 		        console.log("CORRECT ---------------------------------");
-
 	        }).catch(error=>{
-		       	console.log("enter error 4");
-	           	console.log(error);
+		       logger.error(`${error.message}: ${error.stack}`, log_options);
 	        });
 
 
@@ -137,13 +135,11 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		},
 
 		viewSubmitResearchActivityForm: (req, res) => {
-
-
 			database.task(task => {
-                        return task.batch([
-							orgresModel.getActivitiesForResearchForm(),
-							orgresModel.getOrganizationsForResearchForm()
-                        ]);
+                return task.batch([
+					orgresModel.getActivitiesForResearchForm(),
+					orgresModel.getOrganizationsForResearchForm()
+                ]);
             }).then(data=>{
             	const renderData = Object.create(null);
 	            renderData.extra_data = req.extra_data;
@@ -151,17 +147,13 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 	            renderData.activities = data[0];
 	            renderData.organizations = data[1];
 
-
 				return res.render('Orgres/SubmitActivityResearchForm', renderData);
-
             }).catch(error=>{
-            	console.log(error);
+            	logger.error(`${error.message}: ${error.stack}`, log_options);
             });
-
 		},
 
 		submitResearchActivityForm: (req, res) =>{
-
 			console.log("enters this");
 			console.log(req.body); 
 
@@ -185,7 +177,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 				return res.redirect('/Orgres/SubmitActivityResearchForm');
 			}).catch(error=>{
-				console.log(error);
+				logger.error(`${error.message}: ${error.stack}`, log_options);
 			});	
 		},
 
@@ -219,10 +211,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		            console.log(error);
 		        }		        		             
 		    });
+
 		    var password = cuid();
-
-		    
-
 		    database.task(task=>{
 		    	if(req.body['accType[]'] == 1){
 		    		console.log("createStudentAccount");
@@ -237,12 +227,11 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		    		console.log("createAccount");
 		    		return accModel.createAccount(req.body.idNumber, req.body.email, req.body['accType[]'], password, req.body.givenName, req.body.middleName, req.body.lastName, req.body.number,task);
 		    	}
-		    	
 		    }).then(data =>{
 		    	res.json({status:1});
 		    }).catch(err=>{
-		    	console.log(err)
 		    	res.json({status:0});
+		    	logger.error(`${err.message}: ${err.stack}`, log_options);
 		    });
 		},
 		
@@ -268,15 +257,13 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				res.json({
 					status:0					
 				})
-				console.log(err);
+				logger.error(`${err.message}: ${err.stack}`, log_options);
 			})
-			
 		},
 
 		deleteAccount: (req, res) =>{
 			console.log(req.body.id)
-			accModel.deleteAccount(req.body.id,2)
-			.then(data=>{
+			accModel.deleteAccount(req.body.id,2).then(data=>{
 				console.log(data)
 				res.json({status:1});	
 			}).catch(err=>{
@@ -287,13 +274,12 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		},
 		updateAccount: (req, res) =>{
 			console.log(req.body)
-			accModel.updateAccount(req.body.id, req.body.email, req.body.accType, req.body.status, req.body.givenName,req.body.middleName,req.body.lastName,req.body.number, req.body['orgpos[]'])
-			.then(data=>{
+			accModel.updateAccount(req.body.id, req.body.email, req.body.accType, req.body.status, req.body.givenName,req.body.middleName,req.body.lastName,req.body.number, req.body['orgpos[]']).then(data=>{
 				console.log(data)
 				res.json({status:1});	
 			}).catch(err=>{
-				console.log(err)
 				res.json({status:0});	
+				logger.error(`${error.message}: ${error.stack}`, log_options);
 			})
 		},
 

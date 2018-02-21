@@ -89,9 +89,8 @@
                                             <th>Activity Name</th>
                                             <th>Transactions</th>
                                             
-                                            {% if isCso and toadd %}
-
-                                            {% elif isCso %}
+                                            
+                                            {% if isCso and not toadd %}
                                                 <th>Organization</th>
                                             {% endif %}
 
@@ -155,7 +154,7 @@
 
                                                         {% else %}
 
-                                                            <td>0 transactions &nbsp;</td>
+                                                            <td>No transactions &nbsp;</td>
 
                                                         {% endif %}
 
@@ -219,7 +218,7 @@
 
                                                         {% else %}
 
-                                                            <td>0 transactions &nbsp;</td>
+                                                            <td>No transactions &nbsp;</td>
 
                                                         {% endif %}
 

@@ -27,6 +27,8 @@
     <!-- Custom CSS -->
     {{tag.style('/plugins/bower_components/custom-select/custom-select.css')}}
     {{tag.style('/plugins/bower_components/bootstrap-select/bootstrap-select.min.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css')}}
+    
     {{tag.style('/css/style.css')}}
     {{tag.style('/css/custom.css')}}
     {{tag.style('/css/doms.css')}}
@@ -99,9 +101,10 @@
 
     <!-- Page Scripts -->
     {{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
-    {{tag.javascript('/js/APS/ActivityChecking.js', true)}}
+    
     {{tag.javascript('/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.js', true)}}
     {{tag.javascript('/plugins/bower_components/bootstrap-daterangepicker/daterangepicker.js', true)}}
+    {{tag.javascript('/js/APS/ActivityChecking.js', true)}}
     <!-- /Page Scripts -->
 {%endblock%}
 
@@ -137,7 +140,7 @@
                         <p>{{projectProposal.venue}}</p>
                     </div>
                     <div class="col-md-6"><strong>ENMP / ENP</strong>
-                        <p>{{projectProposal.enmp}}/ {{projectProposal.enp}}</p>
+                        <p>{{projectProposal.enmp}} / {{projectProposal.enp}}</p>
                     </div>
                 </div>
                 <!-- /.row -->
@@ -150,9 +153,43 @@
                         {% for date, programs in programDesign | groupby('date') %}
                             <p>{{date}}</p>
                         {% endfor %}
-                        <button type="button" class="btn btn-default" id='reschedule'>Reschedule</button>
+                       
+                       
 
                     </div>
+                    {%if projectProposal.rescheddates|length and projectProposal.status != 7 %}
+                        
+                        <div class="col-md-12">
+                            <p><strong>Reschedule Date /s</strong></p>
+
+
+                                {%for date in projectProposal.rescheddates  %}
+                                    <p>
+                                    
+                                    {%filter replace('00:00:00 GMT+0800 (+08)','')%}
+                                        {{date}}
+                                    {%endfilter%}
+                                    </p>
+                                {%endfor%}
+                            
+                            
+                        </div>
+                    {%endif%}
+
+                    {% if projectProposal.status == 7%}
+                        <div class="col-md-12">
+                            <p><strong style="color:#FB9678">Rescheduled Denied!</strong></p>
+                            <p>{{projectProposal.reschedreasonreject}}</p>
+                        </div>
+                    {%endif%}
+
+                    {% if resched < 0 and projectProposal.status !== 6%}
+                        <div class="col-md-12">
+                            <button type="button" class="btn btn-default" id='reschedule'>Reschedule</button>    
+                        </div>
+                        
+                    {%endif%}
+                    
                 </div>
                 <hr>
                 <!-- .row -->
@@ -161,7 +198,7 @@
                         <p><strong>Project Heads</strong></p>
 
 
-                        {% for head in projectHeads %}
+                        {% for head in projectHeads %}                            
                             <p>{{head.name}}</p>
                             <p>{{head.contactnumber}}</p>
                         {% endfor %}
@@ -480,8 +517,9 @@
                         </div>
                     </section>
                     {%endif%}
-
-                    <section id="section-linebox-5" style="display: block;visibility:hidden;">
+                    <!-- OLD THING -->
+                    <!-- <section id="section-linebox-5" style="display: block;visibility:hidden;"> -->
+                    <section id="section-linebox-5" >
                      <h4 class="text-left">VII. Attachments</h4>
                             <hr>
 
