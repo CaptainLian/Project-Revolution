@@ -86,9 +86,15 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         });
     };
     APS_AJAXController.resched = (req, res) => {
-        const GOSMID = parseInt(req.body.GOSMID ? req.body.GOSMID : req.query.GOSMID);
-        const statusID = parseInt(req.body.statusID ? req.body.statusID : req.query.statusID);
-        const comments = req.body.comments ? req.body.comments : req.query.comments;
+        var comment = " " + req.body.comment;
+        console.log(req.body)
+        projectProposalModel.approvePPResched(req.body.activityID, comment,req.body.status)
+                            .then(data=>{
+                                res.json({status:1})
+                            }).catch(err=>{
+                                console.log(err)
+                                res.json({status:0})
+                            })
 
 
     };
