@@ -1011,6 +1011,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.csrfToken = req.csrfToken();
                 renderData.functionality = data[0]
                 renderData.orgrole = data[1]
+                console.log(data[1])
                 return res.render('Org/Settings_ACL', renderData);
             }).catch(err=>{
                 console.log(err);

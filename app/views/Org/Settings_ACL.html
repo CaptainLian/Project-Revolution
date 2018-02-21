@@ -43,6 +43,7 @@
         table.dataTable.table-striped.DTFC_Cloned tbody tr:nth-of-type(even) {
             background-color: white;
         }
+      
     </style>
 {%endblock%}
 
@@ -120,9 +121,9 @@
                                     <tbody>
                                         {%for org in orgrole%}
                                             <tr>
-                                                <td>{{org.acronym}} - {{org.name}}</td>
+                                                <td >{{org.acronym}} - {{org.shortname}}</td>
                                                 {%for f in functionality%}
-                                                    <td class="text-center"><input type="checkbox" name=""></td>
+                                                    <td class="text-center"><input type="checkbox" name="" checked></td>
                                                 {%endfor %}
                                                 
                                             </tr>
