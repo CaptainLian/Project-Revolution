@@ -618,5 +618,16 @@ module.exports = function(configuration, modules, db, queryFiles) {
         return connection.oneOrNone(query, param);
     };
 
+    const getNextSignatorySQL = queryFiles.PPR_get_next_signatory;
+    ProjectProposalModel.prototype.getNextSignatory = (GOSMActivityID, connection = this._db) => {
+        logger.debug(`getNextSignatory(GOSMActivity: ${GOSMActivityID})`, log_options);
+
+        let param = Object.create(null);
+        param.activityID = GOSMActivityID;
+
+
+        return connection.oneOrNone(getNextSignatorySQL, param);
+    };
+
     return new ProjectProposalModel(db, modules);
 };
