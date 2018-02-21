@@ -280,7 +280,6 @@ module.exports = function(configuration, modules, models, database, queryFiles){
             	const nextSignatory = data[2];
             	const currentSignatoryDetails = data[3];
 
-            	//TODO continue coding the project heads
             	return database.task(t => {
             		let queries = [];
             		if(nextSignatory){
