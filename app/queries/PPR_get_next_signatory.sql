@@ -1,4 +1,4 @@
-  SELECT *
+  SELECT signatory AS "idNumber"
     FROM ProjectProposalSignatory pps LEFT JOIN SignatoryType st
                                              ON pps.type = st.id
    WHERE pps.status = 0

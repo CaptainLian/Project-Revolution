@@ -663,12 +663,14 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 return t.batch([
                     projectProposalModel.getActivityProjectProposalDetailsGAID(activityID, ['ga.strategies'], t),
                     projectProposalModel.getProjectHeadsGOSM({gosmid: activityID}, t),
-                    accountModel.getAccountDetails(req.session.user.idNumber, ["(firstname || '' || lastname) AS name"], t)
+                    accountModel.getAccountDetails(req.session.user.idNumber, ["(firstname || '' || lastname) AS name"], t),
+                    projectProposalModel.getNextSignatory(activityID, t)
                 ]);
             }).then(data => {
                 const strategies = data[0].strategies;
                 const projectHeads = data[1];
                 const evaluatorName = data[2].name;
+                const signatory = data[3];
 
                 let title = 'Project Proposal Evaluation';
                 let description = null;
@@ -688,14 +690,38 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                 return database.tx(t => {
                     let queries = [];
+
+                    if(signatory){
+                        queries[0] = accountModel.addNotification(
+                            //idNumber
+                            signatory.idNumber,
+                            // title
+                            'Project Proposal Evaluation',
+                            //description
+                            `Please evaluate ${strategies}`,
+                            // details
+                            null, 
+                            //returning
+                            null, 
+                            //connenection
+                            t
+                        );
+                    }
+                    
                     for(const user of projectHeads){
                         queries[queries.length] = accountModel.addNotification(
-                            user.idnumber, //idNumber
-                            title, // title
-                            description, //description
-                            null, // details
-                            null, //returning
-                            t //pg-connection
+                            //idNumber
+                            user.idnumber, 
+                            // title
+                            title, 
+                            //description
+                            description, 
+                            // details
+                            null, 
+                            //returning
+                            null, 
+                            //pg-connection
+                            t 
                         );
                     }
                     return t.batch(queries);

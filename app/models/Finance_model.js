@@ -175,11 +175,31 @@ module.exports = function(configuration, modules, database, queryFiles){
         return connection.any(query, param);
     };
 
+    
+    const getNextSignantorySQL = queryFiles.finance_get_next_signatory;
     FinanceModel.getPreActivityDirectPaymentNextSignatory = (directPaymentID, connection = database) => {
-        logger.debug(`getPreActivityDirectPaymentNextSignatory(${directPaymentID})`, log_options);
-        logger.error('Not yet implemented function', log_options);
+        logger.debug(`getPreActivityDirectPaymentNextSignatory(directPaymentID: ${directPaymentID})`, log_options);
 
-        //TODO: implementation
+        let param = Object.create(null);
+        param.financeTable = 'PreActivityDirectPaymentSignatory';
+        param.tableAcronym = 'padps';
+        param.column = 'bookTransfer';
+        param.value = directPaymentID;
+
+        return connection.oneOrNone(getNextSignantorySQL, param);
     };
+
+    FinanceModel.getPreActivityCashAdvanceNextSignatory = (cashAdvanceID, connection = database) => {
+        logger.debug(`getPreActivityCashAdvanceNextSignatory(cashAdvanceID: ${directPaymentID})`, log_options);
+
+        let param = Object.create(null);
+        param.financeTable = 'PreActivityCashAdvanceSignatory';
+        param.tableAcronym = 'pacas';
+        param.column = 'cashAdvance';
+        param.value = cashAdvanceID;
+
+        return connection.oneOrNone(getNextSignantorySQL, param);
+    };
+
 	return FinanceModel;
 };
