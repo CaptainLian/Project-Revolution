@@ -30,10 +30,10 @@ $(document).on('click', '#approve', function() {
     }).then(function(data) {
         $.ajax({
             type: 'POST',
-            url: '/APS/ajax/approvalResched',
+            url: '/APS/ajax/resched',
             data: {
                 activityID: id,
-                status: 1
+                status: 3
             },
 
             success: function(data) {
@@ -89,11 +89,11 @@ $(document).on('click', '#deny', function() {
     }).then(function() {
         $.ajax({
             type: 'POST',
-            url: '/APS/ajax/approvalResched',
+            url: '/APS/ajax/resched',
             data: {
                 activityID: id,
                 comment:$("#reject-comment").val(),
-                status: 2
+                status: 7
             },
             success: function(data) {
                 table.row(dis.parents('tr')).remove().draw()
