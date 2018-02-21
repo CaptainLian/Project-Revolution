@@ -227,7 +227,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 ).then(data => {
                     if(data.home_url){
                         return res.redirect(data.home_url);
-                    }else if(req.session.organizationSelected.id !== 0){
+                    }else if(req.session.user.organizationSelected.id !== 0){
                         return res.redirect('/Organization/ProjectHead/home');
                     }else{
                         return res.redirect('/blank');
