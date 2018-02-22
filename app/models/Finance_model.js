@@ -23,6 +23,8 @@ module.exports = function(configuration, modules, database, queryFiles){
     const getDirectPaymentParticularsSQL = queryFiles.getDirectPaymentParticulars;
     const pendDirectPaymentSQL = queryFiles.pendDirectPayment;
     const pendCashAdvanceSQL = queryFiles.pendCashAdvance;
+    const getExpensesWithoutTransactionCountSQL = queryFiles.getExpensesWithoutTransactionCount;
+    const getDirectPaymentSignatorySQL = queryFiles.getDirectPaymentSignatory;
 
     const attachFields = require('../utility/databaseHelper').attachFields;
 
@@ -100,7 +102,15 @@ module.exports = function(configuration, modules, database, queryFiles){
 
     FinanceModel.pendCashAdvance = function(param, connection = database){
         return connection.none(pendCashAdvanceSQL, param);
-    }
+    };
+
+    FinanceModel.getExpensesWithoutTransactionCount = function(param, connection = database){
+        return connection.one(getExpensesWithoutTransactionCountSQL, param);
+    };
+
+    FinanceModel.getDirectPaymentSignatory = function(param, connection = database){
+        return connection.oneOrNone(getDirectPaymentSignatory, param);
+    };
 
     //Used for signing
     FinanceModel.getPreActivityCashAdvanceDetails = (cashAdvanceID, fields, connection = database) => {

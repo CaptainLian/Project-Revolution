@@ -54,7 +54,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 					database.task(t=>{
 						return t.batch([
                             projectProposalModel.getProjectProposal(dbParam),
-							financeModel.getDirectPaymentParticulars(param)]);
+							financeModel.getDirectPaymentParticulars(param),
+							financeModel.getDirectPaymentSignatory(param)]);
 					}).then(data1=>{
 						const renderData = Object.create(null);
 			            renderData.extra_data = req.extra_data;
@@ -65,43 +66,21 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			            renderData.gosmactivity = data.GOSMActivity;
 			            // transactionType: if 0 direct payment; if 1 cash advance
 			            renderData.transactionType = req.params.transaction;
+			            
 			            //to evaluate
-			            renderData.isCso = false;
-			            renderData.toadd = false;
-			            if(req.session.user.type >= 3 && req.session.user.type <= 6){
-	                    	renderData.isCso = true;
-	                    }else if(typeof req.extra_data.user.accessControl !== 'undefined'){
-			            	const ACL = req.extra_data.user.accessControl[String(req.session.user.organizationSelected.id)];
-			            	if(typeof ACL !== 'undefined' && req.session.user.type == 1){
-	                    		renderData.isCso = ACL['21'] || false;
-	                    		renderData.toadd = true;
-	                    	}
-			            }
-						// to add transaction
-						logger.debug(`IsCSO: ${renderData.isCso}\nToAdd: ${renderData.toadd}`, log_options);
-						if (renderData.isCso && renderData.toadd) {
+			           	
+			           	if(data1[2].signatory == req.session.user.idNumber){
+			           		renderData.toEvaluate = true; 
+			           	}
+			           	else{
+			           		renderData.toEvaluate = false;
+			           	}
 
-							console.log("CORRECT THIS FAR==============")
 
-							var signatoryParam = {
-								cashadvance: req.params.id,
-								idnumber: req.session.user.idNumber
-							};
+			           	return res.render('Finance/EvaluateTransaction', renderData);
 
-							return financeModel.checkCashAdvanceSignatory(signatoryParam).then(signatory=>{
-								console.log(signatory);
-								console.log("inside signatoryquery");
-								if (signatory.length==0) {
-									renderData.isCso = false;
-								}
 
-								return res.render('Finance/EvaluateTransaction', renderData);
-							}).catch(error=>{
-								return logger.debug(`${error.message}\n${error.stack}`, log_options);
-							});
-						}else{
-							return res.render('Finance/EvaluateTransaction', renderData);
-						}
+
 					}).catch(error=>{
 						return logger.debug(`${error.message}\n${error.stack}`, log_options);
 					});
@@ -123,7 +102,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 					logger.debug('starting tasks', log_options);
 					database.task(t=>{
 						return t.batch([projectProposalModel.getProjectProposal(dbParam),
-										financeModel.getCashAdvanceParticulars(param)]);
+										financeModel.getCashAdvanceParticulars(param),
+										financeModel.checkCashAdvanceSignatory(param)]);
 					}).then(data1=>{
 						const renderData = Object.create(null);
 			            renderData.extra_data = req.extra_data;
@@ -134,46 +114,23 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			            renderData.gosmactivity = data.GOSMActivity;
 			            // transactionType: if 0 direct payment; if 1 cash advance
 			            renderData.transactionType = req.params.transaction;
+			            
+
 			            //to evaluate
-			            renderData.isCso = false;
-			            renderData.toadd = false;
 
-			            if(req.session.user.type >= 3 && req.session.user.type <= 6){
-	                    	renderData.isCso = true;
-	                    }else if(typeof req.extra_data.user.accessControl !== 'undefined'){
-			            	const ACL = req.extra_data.user.accessControl[String(req.session.user.organizationSelected.id)];
-			            	if(typeof ACL !== 'undefined' && req.session.user.type == 1){
-	                    		renderData.isCso = ACL['21'] || false;
-	                    		renderData.toadd = true;
-	                    	}
-			            }
+			            if(data1[2].signatory == req.session.user.idNumber){
+			           		renderData.toEvaluate = true; 
+			           	}
+			           	else{
+			           		renderData.toEvaluate = false;
+			           	}
+			           
+			           
+						return res.render('Finance/EvaluateTransaction', renderData);
 
-						// to add transaction
-						logger.debug(`IsCSO: ${renderData.isCso}\nToAdd: ${renderData.toadd}`, log_options);
-						if (renderData.isCso && renderData.toadd) {
-							console.log("CORRECT THIS FAR==============")
 
-							var signatoryParam = {
-								cashadvance: req.params.id,
-								idnumber: req.session.user.idNumber
-							};
 
-							return financeModel.checkCashAdvanceSignatory(signatoryParam).then(signatory=>{
-								console.log(signatory);
-								console.log("inside signatoryquery");
-								if (signatory.length==0) {
-									renderData.isCso = false;
-								}
-
-								return res.render('Finance/EvaluateTransaction', renderData);
-
-							}).catch(error=>{
-								return logger.debug(`${error.message}\n${error.stack}`, log_options);
-							});
-
-						}else{
-							return res.render('Finance/EvaluateTransaction', renderData);
-						}
+						
 					}).catch(error=>{
 						return logger.debug(`${error.message}\n${error.stack}`, log_options);
 					});
@@ -483,26 +440,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
             if(req.session.user.type >= 3 && req.session.user.type <= 6){
             	renderData.isCso = true;
             	renderData.toadd = false;
-            } else{
 
-            	//checks if student and not cso
-	           	if (req.session.user.type == 1 && req.session.user.organizationSelected.id != 0){
-		        	renderData.isCso = false;
-		            renderData.toadd = true;
-
-	           	}else{
-	           		//TODO: redirect cannot enter page
-	           	}
-
-            }
-
-            // cannot add but can evaluate only
-			if ((renderData.isCso) && (!renderData.toadd)) {
-				console.log("is cso is");
-				console.log(renderData.isCso);
-				console.log("too add is ");
-				console.log(renderData.toadd);
-				console.log("it renders this one");
 
 				database.task(t =>{
 					return t.batch([
@@ -515,28 +453,92 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		            renderData.gosmactivity = data[1];
 		            renderData.projectProposal = data[2];
 
-					return res.render('Finance/ViewActivityTransaction', renderData);
-				}).catch(error=>{
-					console.log(error);
-				});
-			}else{
-				console.log("nope its this one");
-				database.task(t =>{
-					return t.batch([
-                        financeModel.getActivityTransactions(dbParam),
-						gosmModel.getGOSMActivity(dbParam),
-						projectProposalModel.getProjectProposal(dbParam)
-                    ]);
-				}).then(data=>{
-		            renderData.transactions = data[0];
-		            renderData.gosmactivity = data[1];
-		            renderData.projectProposal = data[2];
+
 
 					return res.render('Finance/ViewActivityTransaction', renderData);
 				}).catch(error=>{
 					console.log(error);
 				});
-			}
+
+            } else{
+
+            	//checks if student and president/treasurer
+            	const ACL = req.extra_data.user.accessControl[req.session.user.organizationSelected.id];
+	           	if (req.session.user.type == 1 && (ACL[25] || ACL[26])){
+		        	renderData.isCso = false;
+		            renderData.toadd = true;
+
+		            gosmModel.getGOSMActivityOrg(dbParam)
+		            .then(data=>{
+
+		            	if(req.session.user.organizationSelected.id == data.studentorganization){
+
+		            		console.log("nope its this one");
+							database.task(t =>{
+								return t.batch([
+			                        financeModel.getActivityTransactions(dbParam),
+									gosmModel.getGOSMActivity(dbParam),
+									projectProposalModel.getProjectProposal(dbParam),
+									financeModel.getExpensesWithoutTransactionCount(dbParam)
+			                    ]);
+							}).then(data=>{
+					            renderData.transactions = data[0];
+					            renderData.gosmactivity = data[1];
+					            renderData.projectProposal = data[2];
+
+					            let actualdate = data[3].dateend;
+					            let currentdate = data[3].currdate;
+
+								console.log("actualdate");
+								console.log(actualdate);
+								console.log("currentdate");
+								console.log(currentdate);
+
+								var diff = timediff(actualdate, currentdate, 'D');
+				            	console.log(diff);
+				            	console.log("difference")
+
+				            	if (diff.days>0){
+				            		renderData.reimbursement = true;
+				            	}
+				            	else{
+				            		renderData.reimbursement = false;
+				            	}
+
+				            	if (data[3].expensestotal > 0){
+				            		renderData.toadd = true;
+				            	}
+				            	else{
+				            		renderData.toadd = false;
+				            	}
+
+
+
+								return res.render('Finance/ViewActivityTransaction', renderData);
+							}).catch(error=>{
+								console.log(error);
+
+							});
+
+		            	} else{
+		
+			           		//TODO: redirect cannot enter page
+
+		            	}
+
+		            }).catch(error=>{
+		            	console.log("error is in the new query 1");
+		            	console.log(error);
+		            });
+
+
+	           	}else{
+	           		//TODO: redirect cannot enter page
+
+	           	}
+
+            }
+
 		},
 
 		createPreactsCashAdvance: (req, res) => {
