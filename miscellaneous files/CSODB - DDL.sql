@@ -1023,6 +1023,7 @@ VALUES (0, 0, FALSE),
        (0, 1, FALSE),
        (1, 2, FALSE),
        (2, 3, FALSE),
+       (3, 3, FALSE),
        (3, 4, FALSE),
        (4, 3, FALSE),
        (4, 5, FALSE),
@@ -1053,23 +1054,15 @@ CREATE TABLE ActivityNature (
     PRIMARY KEY(id)
 );
 INSERT INTO ActivityNature (id, name)
-                    VALUES (1, 'Academic');
-INSERT INTO ActivityNature (id, name)
-                    VALUES (2, 'Special Interest');
-INSERT INTO ActivityNature (id, name)
-                    VALUES (3, 'Departmental Initiative');
-INSERT INTO ActivityNature (id, name)
-                    VALUES (4, 'Fundraising');
-INSERT INTO ActivityNature (id, name)
-                    VALUES (5, 'Community Development');
-INSERT INTO ActivityNature (id, name)
-                    VALUES (6, 'Organizational Development');
-INSERT INTO ActivityNature (id, name)
-                    VALUES (7, 'Issue Advocacy');
-INSERT INTO ActivityNature (id, name)
-                    VALUES (8, 'Lasallian Formation/Spiritual Growth');
-INSERT INTO ActivityNature (id, name)
-                    VALUES (9, 'Outreach');
+                    VALUES ( 1, 'Academic'),
+                           ( 2, 'Special Interest'),
+                           ( 3, 'Departmental Initiative'),
+                           ( 4, 'Fundraising'),
+                           ( 5, 'Community Development'),
+                           ( 6, 'Organizational Development'),
+                           ( 7, 'Issue Advocacy'),
+                           ( 8, 'Lasallian Formation/Spiritual Growth'),
+                           ( 9, 'Outreach');
 
 /* Organizations */
 /*
@@ -1157,10 +1150,11 @@ CREATE TABLE OrganizationRole (
 	organization INTEGER REFERENCES StudentOrganization(id) ON UPDATE CASCADE,
 	sequence INTEGER DEFAULT -1,
 	name VARCHAR(100),
+	shortname VARCHAR(16),
 	rank INTEGER,
 	uniquePosition BOOLEAN NOT NULL DEFAULT FALSE,
 	masterRole INTEGER REFERENCES OrganizationRole(id) ON DELETE CASCADE ON UPDATE CASCADE,
-  home_url TEXT,
+    home_url TEXT,
 
 	PRIMARY KEY (organization, sequence)
 );
@@ -1184,76 +1178,68 @@ CREATE TRIGGER before_insert_OrganizationRole
     FOR EACH ROW
     EXECUTE PROCEDURE trigger_before_insert_OrganizationRole();
 
--- 1
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
-                      VALUES (           0, 'Chairperson', TRUE, NULL, 0);
--- 2
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
-                      VALUES (           0, 'Executive Vice Chairperson for Internals', TRUE, 0, 10);
--- 3
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
-                      VALUES (           0, 'Executive Vice Chairperson for Externals', TRUE, 0, 10);
--- 4
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
-                      VALUES (           0, 'Executive Vice Chairperson for Activities and Documentation', TRUE, 0, 10);
--- 5
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
-                      VALUES (           0, 'Executive Vice Chairperson for Finance', TRUE, 0, 10);
--- 6
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
-                      VALUES (           0, 'Vice Chairperson for Activity Documentations and Management', TRUE, 2, 20);
--- 7
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
-                      VALUES (           0, 'Associate Vice Chairperson for Activity Documentations and Management', FALSE, 5, 30);
--- 8
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
-                      VALUES (           0, 'Associate for Activity Documentations and Management', FALSE, 6, 40);
--- 9
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
-                      VALUES (           0, 'Vice Chairperson for Activity Monitoring Team', TRUE, 2, 20);
--- 10
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
-                      VALUES (           0, 'Associate Vice Chairperson for Activity Monitoring Team', FALSE, 9, 30);
--- 11
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
-                      VALUES (           0, 'Associate for Activity Monitoring Team', FALSE, 10, 40);
--- 12
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
-                      VALUES (           0, 'Vice Chairperson for Activity Processing and Screening', TRUE, 2, 20);
--- 13
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
-                      VALUES (           0, 'Associate Vice Chairperson for Activity Processing and Screening', FALSE, 11, 30);
--- 14
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
-                      VALUES (           0, 'Associate Activity Processing and Screening', FALSE, 12, 40);
--- 15
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
-                      VALUES (           0, 'Vice Chairperson for Finance', TRUE, 2, 20);
--- 16
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
-                      VALUES (           0, 'Associate Vice Chairperson for Finance', FALSE, 14, 30);
--- 17
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
-                      VALUES (           0, 'Associate for Finance', FALSE, 15, 40);
--- 18
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
-                      VALUES (           0, 'Vice Chairperson for Publicity and Productions', TRUE, 3, 20);
--- 19
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
-                      VALUES (           0, 'Associate Vice Chairperson for Publicity and Productions', FALSE, 18, 30);
--- 20
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
-                      VALUES (           0, 'Associate for Publicity and Productions', FALSE, 19, 40);
--- 21
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
-                      VALUES (           0, 'Vice Chairperson for Organizational Research and Analysis', TRUE, 2, 20);
--- 22
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
-                      VALUES (           0, 'Associate Vice Chairperson for Organizational Research and Analysis', FALSE, 21, 30);
--- 23
-INSERT INTO OrganizationRole (organization, name, uniquePosition, masterRole, rank)
-                      VALUES (           0, 'Associate for Organizational Research and Analysis', FALSE, 22, 40);
 
+INSERT INTO OrganizationRole (organization, name, shortname, uniquePosition, masterRole, rank)
+                      VALUES 
+                      		 -- 0
+                      		 ( 0, 'Chairperson', 'Chair', TRUE, NULL, 0),
+                      		 /* Executive board */
+                             -- 1
+                             ( 0, 'Executive Vice Chairperson for Internals',                     'EVC - Interals',  TRUE, 0, 10),
+                             -- 2
+                             ( 0, 'Executive Vice Chairperson for Externals',                     'EVC - Externals', TRUE, 0, 10),
+                             -- 3
+                             ( 0, 'Executive Vice Chairperson for Activities and Documentations', 'EVC - AND',       TRUE, 0, 10),
+                             -- 4
+                             ( 0, 'Executive Vice Chairperson for Finance',                       'EVC - Finance',   TRUE, 0, 10),
+
+                             /* Activity Documentations and Management */
+                             -- 5
+                             ( 0, 'Vice Chairperson for Activity Documentations and Management',            'VC - AND',  TRUE, 2, 20),
+                             -- 6
+                             ( 0, 'Associate Vice Chairperson for Activity Documentations and Management', 'AVC - AND', FALSE, 5, 30),
+                             -- 7
+                             ( 0, 'Associate for Activity Documentations and Management',                  'AVC - AND', FALSE, 6, 40),
+
+                             /* Activity Monitoring Team */
+                             -- 8
+                             ( 0, 'Vice Chairperson for Activity Monitoring Team',            'VC - AMT',  TRUE, 2, 20),
+                             -- 9
+                             ( 0, 'Associate Vice Chairperson for Activity Monitoring Team', 'AVC - AMT', FALSE, 9, 30),
+                             -- 10
+                             ( 0, 'Associate for Activity Monitoring Team',                    'A - AMT', FALSE, 10, 40),
+
+                             /* Activity Processing and Screening */
+                             -- 11
+                             ( 0, 'Vice Chairperson for Activity Processing and Screening',            'VC - APS',  TRUE, 2, 20),
+                             -- 12
+                             ( 0, 'Associate Vice Chairperson for Activity Processing and Screening', 'AVC - APS', FALSE, 11, 30),
+                             -- 13
+                             ( 0, 'Associate Activity Processing and Screening',                        'A - APS', FALSE, 12, 40),
+
+                             /* Finance */
+                             -- 14
+                             ( 0, 'Vice Chairperson for Finance',            'VC - Finance',  TRUE, 2, 20),
+                             -- 15
+                             ( 0, 'Associate Vice Chairperson for Finance', 'AVC - Finance', FALSE, 14, 30),
+                             -- 16
+                             ( 0, 'Associate for Finance',                    'A - Finance', FALSE, 15, 40),
+
+                             /* Publicity and Productions */
+                             -- 17
+                             ( 0, 'Vice Chairperson for Publicity and Productions',            'VC - PNP',  TRUE, 3, 20),
+                             -- 18
+                             ( 0, 'Associate Vice Chairperson for Publicity and Productions', 'AVC - PNP', FALSE, 18, 30),
+                             -- 19
+                             ( 0, 'Associate for Publicity and Productions',                    'A - PNP', FALSE, 19, 40),
+
+                             /* Organizational Research and Analysis */
+                             -- 20
+                             ( 0, 'Vice Chairperson for Organizational Research and Analysis',            'VC - OrgRes', TRUE, 2, 20),
+                             -- 21
+                             ( 0, 'Associate Vice Chairperson for Organizational Research and Analysis', 'AVC - OrgRes', FALSE, 21, 30),
+                             -- 22
+                             ( 0, 'Associate for Organizational Research and Analysis',                    'A - OrgRes', FALSE, 22, 40);
 
 DROP TABLE IF EXISTS OrganizationOfficer CASCADE;
 CREATE TABLE OrganizationOfficer (
@@ -1630,7 +1616,7 @@ CREATE TABLE GOSM (
     dateSubmitted TIMESTAMP WITH TIME ZONE,
     dateStatusModified TIMESTAMP WITH TIME ZONE,
     preparedBy INTEGER REFERENCES Account(idNumber),
-    statusModifier INTEGER REFERENCES Account(idNumber),
+    statusEvaluator INTEGER REFERENCES Account(idNumber),
     comments TEXT,
 
     PRIMARY KEY (termID, studentOrganization)
@@ -1796,7 +1782,8 @@ INSERT INTO ProjectProposalStatus (id, name)
                                   (3, 'Approved'),
                                   (4, 'Pending'),
                                   (5, 'Denied'),
-                                  (6, 'Rescheduled');
+                                  (6, 'Rescheduled'),
+                                  (7, 'Rescheduled Denied');
 
 DROP TABLE IF EXISTS ProjectProposalRescheduleReason CASCADE;
 CREATE TABLE ProjectProposalRescheduleReason (
