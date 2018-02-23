@@ -2,6 +2,8 @@
 var timediff = require('timediff');
 
 module.exports = function(configuration, modules, models, database, queryFiles){
+	const Promise = modules.Promise;
+
 	const SIGN = require('../utility/digitalSignature.js').signString;
     const STRINGIFY = require('json-stable-stringify');
 
@@ -226,13 +228,14 @@ module.exports = function(configuration, modules, models, database, queryFiles){
                 logger.debug('Direct payment successfully approved', log_options);
                 res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
 
-                //TODO: notifications, project heads and next signatory if any
                 return database.task(t => {
                 	return t.batch([
                 		projectProposalModel.getActivityProjectProposalDetailsGAID(dpDetails.activityID, [
                 			'ga.strategies'
                 		], t),
-                		projectProposalModel.getProjectHeadsGOSM({gosmid: dpDetails.activityID}, t),
+                		gosmModel.getActivityProjectHeads(dpDetails.activityID, [
+                			'a.idNumber "idNumber"'
+                		], t),
                 		financeModel.getPreActivityDirectPaymentNextSignatory(dpDetails.id, t),
                 		accountModel.getAccountDetails(req.session.idNumber, [
                 			'a.idnumber AS "idNumber"',
@@ -249,6 +252,10 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
             	return database.task(t => {
             		let queries = [];
+
+            		let details = Object.create(null);
+            		details.directPaymentID = dpDetails.id;
+
             		if(nextSignatory){
             			queries[0] = accountModel.addNotification(
             				nextSignatory.idNumber,
@@ -257,25 +264,21 @@ module.exports = function(configuration, modules, models, database, queryFiles){
             				//description
             				`Please evaluate the direct payment for ${strategy}`,
             				//Details
-            				{
-            					directPaymentID: dpDetails.id
-            				},
+            				details,
             				//fields
             				null,
             				t
             			);
             		}
 
+            		details.signatory = currentSignatoryDetails.idNumber;
             		for(const projectHead of projectHeads){
             			queries[queries.length] = accountModel.addNotification(
             				projectHead.idNumber,
             				//title
             				'Evaluatation of Direct Payment',
             				`Your direct payment for ${strategy} has be approved by ${currentSignatoryDetails.name}`,
-            				{
-            					directPaymentID: dpDetails.id,
-            					signatory: currentSignatoryDetails.idNumber
-            				},
+            				details,
             				null,
             				t
             			);
@@ -312,7 +315,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		},
 
 		approveCashAdvance: (req, res) => {
-			logger.debug('approveCashAdvance', log_options);
+			logger.debug('approveCashAdvance()', log_options);
 
 			database.task(t => {
 				return t.batch([
@@ -362,8 +365,6 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 					particularObj.Type = particular.type;
 
 					documentObj.Particulars[documentObj.Particulars.length] = particularObj;
-
-
 				}
 
 				const DOCUMENT_STRING = STRINGIFY(documentObj);
@@ -371,13 +372,83 @@ module.exports = function(configuration, modules, models, database, queryFiles){
                 const {signature: DIGITAL_SIGNATURE} = SIGN(DOCUMENT_STRING, data[0].privatekey);
                 logger.debug(`Document: ${DOCUMENT_STRING}\n\nDigital Signature: ${DIGITAL_SIGNATURE}`, log_options);
 
-                return accountModel.approvePreActCashAdvance(req.body.cashAdvanceId, req.session.user.idNumber, DOCUMENT_STRING, DIGITAL_SIGNATURE);
+                return Promise.all([
+                	accountModel.approvePreActCashAdvance(req.body.cashAdvanceId, req.session.user.idNumber, DOCUMENT_STRING, DIGITAL_SIGNATURE),
+                	Promise.resolve(data[1].GOSMActivity),
+                	Promise.resolve(data[1].cashadvance)
+                ]);
+			}).then(([signing, GAID, cashAdvanceID]) => {
+				res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
+				logger.debug('successfully approved', log_options);
 
-			}).then(data => {
-				console.log("successfully approved");
-				return res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
+
+				return database.task(t => {
+					return t.batch([
+						//0
+						projectProposalModel.getActivityProjectProposalDetailsGAID(GAID, [
+                			'ga.strategies'
+                		], t),
+                		//1
+						gosmModel.getActivityProjectHeads(GAID, [
+							'a.idnumber AS "idNumber"'
+						], t),
+						//2
+						financeModel.getPreActivityCashAdvanceNextSignatory(cashAdvanceID, t),
+						//3
+						accountModel.getAccountDetails(req.session.idNumber, [
+							'a.idnumber AS "idNumber"',
+							'a.firstname || \' \' || a.lastname AS "name"'
+						], t),
+						//4
+						Promise.resolve(cashAdvanceID)
+					]);
+				});
+			}).then(([GOSMDetails, projectHeads, nextSignatory, currentSignatoryDetails, cashAdvanceID]) => {
+				logger.debug('Adding notifications', log_options);
+
+				const strategy = GOSMDetails.strategies;
+
+				return database.task(t => {
+					let queries = [];
+
+					let details = Object.create(null);
+        			details.cashAdvanceID = cashAdvanceID;
+
+					if(nextSignatory){
+						queries[0] = accountModel.addNotification(
+        					nextSignatory.idNumber,
+	        				//title
+	        				'Evaluate Cash Advance',
+	        				//description
+	        				`Please evaluate the cash advance for ${strategy}`,
+	        				//Details
+	        				details,
+	        				//fields
+	        				null,
+	        				t
+        				);
+					}
+
+
+					details.signatory = currentSignatoryDetails.idNumber;
+	        		for(const projectHead of projectHeads){
+	        			queries[queries.length] = accountModel.addNotification(
+	        				projectHead.idNumber,
+	        				//title
+	        				'Evaluatation of Cash Advance',
+	        				`Your cash advance for ${strategy} has be approved by ${currentSignatoryDetails.name}`,
+	        				details,
+	        				null,
+	        				t
+	        			);
+	        		}
+
+					return t.batch(queries);
+				});
+			}).then(() => {
+				return logger.debug('successfully added notifications', log_options);
 			}).catch(err => {
-				logger.warn(`${err.message}\n${err.stack}`);
+				return logger.error(`${err.message}\n${err.stack}`, log_options);
 			});
 		},
 
@@ -392,15 +463,14 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			};
 
 			financeModel.pendCashAdvance(dbParam).then(data=>{
-
 				console.log("successfully pended cash advance");
 				res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
-
-			}).catch(error=>{
-				console.log(error);
+			}).catch(error => {
+				logger.error(`${err.message}\n${err.stack}`);
 			});
 
 		},
+
 		viewFinanceList: (req, res) => {
 
 			console.log("My user type is");

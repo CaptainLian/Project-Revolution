@@ -25,8 +25,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         renderData.csrfToken = req.csrfToken();
 
         logger.debug(`extra_data: ${JSON.stringify(req.extra_data)}`, log_options);
-        postProjectProposalModel.getPostActsToCheck()
-        .then(data => {
+        postProjectProposalModel.getPostActsToCheck().then(data => {
             console.log(data);
             console.log("data");
             renderData.postacts = data;
@@ -78,11 +77,6 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     if (sections[x] == "4") {
                         stat.otherFinance = false;
                     }
-                    
-
-                    // if(sections[x] == 5){
-                    //     stat.briefContext = false
-                    // }
                 }
             }else{
                 console.log("asd3");
@@ -103,33 +97,24 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     }
             }
 
-            // var
             console.log("asd2");
         }
-        console.log("DBPARAM");
-        console.log(dbParam);
-        console.log(stat);
-        database.task(t => {
+
+        return database.task(t => {
             return t.batch([
                 postProjectProposalModel.updatePostPPR(dbParam, t),
                 postProjectProposalModel.updatePostStatus(stat, t)
             ])
         }).then(data => {
-            res.json({
+            return res.json({
                 status: 1
             })
         }).catch(err => {
-            console.log(err)
-        })
-        console.log("DB PARAM");
-        console.log(req.body)
-
-
-
-
+            return logger.debug(`${err.message}:\n${err.stack}`, log_options);
+        });
     };
-    ADM_controller.viewActivity = (req, res) => {
 
+    ADM_controller.viewActivity = (req, res) => {
         database.task(t => {
             var dbParam = {
                 gosmid: req.params.id
