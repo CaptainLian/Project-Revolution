@@ -183,7 +183,7 @@
                         </div>
                     {%endif%}
 
-                    {% if resched < 0 and projectProposal.status !== 6%}
+                    {% if resched <= 0 and projectProposal.status !== 6%}
                         <div class="col-md-12">
                             <button type="button" class="btn btn-default" id='reschedule'>Reschedule</button>    
                         </div>

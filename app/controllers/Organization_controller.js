@@ -47,6 +47,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 logger.error(`${error.message}\n${error.stack}`, log_options);
             });
         },
+        viewGOSMList: (req, res) => {
+            const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            return res.render('Org/GOSMList');
+        },
 
         viewActivityDetails: (req, res) => {
                 logger.debug('viewActivityDetails()', log_options);
