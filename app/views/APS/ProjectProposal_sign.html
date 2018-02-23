@@ -129,7 +129,7 @@
             <div class="">
                 <!-- .row -->
                 <div class="row button-box text-center m-b-30 " >
-
+                    {%if status.status != 1 %}
                     <div class="col-lg-4 col-sm-4 col-xs-12 text-center">
                         <button id="reject" class="btn btn-block btn-danger">Reject</button>
                     </div>
@@ -139,7 +139,7 @@
                     <div class="col-lg-4 col-sm-4 col-xs-12 text-center">
                         <button id="approve" class="btn btn-block   btn-success">Approve</button>
                     </div>
-
+                    {%endif%}
                 </div>
                 <div class="row text-center ">
                     <div class="col-md-6 b-r"><strong>Type</strong>
