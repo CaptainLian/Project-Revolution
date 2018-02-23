@@ -60,7 +60,17 @@ module.exports = function(configuration, modules, database, queryFiles){
 	OrganizationModel.getStudentsOfOrganization = (param, fields, connection = database) => {
 		return connection.any(getStudentsOfOrganizationSQL, param);
 	};
-
+	OrganizationModel.getFunctionality = (connection = database) => {
+		var query = squel.select()
+						.from("functionality")
+		return connection.any(query.toString());
+	};
+	OrganizationModel.getOrgRole = (connection = database) => {
+		var query = squel.select()
+						.from("studentOrganization", "so")
+						.left_join("OrganizationRole","orr","so.id = orr.organization")
+		return connection.any(query.toString());
+	};
 	/**
 	 * Retrives AND parses the input into an organization chart object
 	 * This is a computationally EXPENSIVE operation, please use it sparringly

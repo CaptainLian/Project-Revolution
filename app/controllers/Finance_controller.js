@@ -154,6 +154,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
                     ], t),
                     //1
                     financeModel.getPreActivityDirectPaymentDetails(req.body.directPaymentId, [
+                    	'padp.id ',
                         'padp."GOSMActivity" as "activityID"',
                         'padp."submissionID"',
                         'padp."sequence"',
@@ -178,6 +179,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
                 const documentObject = Object.create(null);
                 const dpDetails = data[1];
 
+                documentObject.ID = dpDetails.id;
                 documentObject.ActivityID = dpDetails.activityID;
                 documentObject.SubmissionID = dpDetails.submissionID;
                 documentObject.Sequence = dpDetails.sequence;
@@ -212,12 +214,69 @@ module.exports = function(configuration, modules, models, database, queryFiles){
                 );
             }).then(() => {
                 logger.debug('Direct payment successfully approved', log_options);
+                res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
 
                 //TODO: notifications, project heads and next signatory if any
+                return database.task(t => {
+                	return t.batch([
+                		projectProposalModel.getActivityProjectProposalDetailsGAID(dpDetails.activityID, [
+                			'ga.strategies'
+                		], t),
+                		projectProposalModel.getProjectHeadsGOSM({gosmid: dpDetails.activityID}, t),
+                		financeModel.getPreActivityDirectPaymentNextSignatory(dpDetails.id, t),
+                		accountModel.getAccountDetails(req.session.idNumber, [
+                			'a.idnumber AS "idNumber"',
+                			'a.firstname || \' \' || a.lastname'
+                		], t),
 
-                return res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
+                	]);
+                });
+            }).then(data => {
+            	const strategy = data[0].strategies;
+            	const projectHeads = data[1];
+            	const nextSignatory = data[2];
+            	const currentSignatoryDetails = data[3];
+
+            	return database.task(t => {
+            		let queries = [];
+            		if(nextSignatory){
+            			queries[0] = accountModel.addNotification(
+            				nextSignatory.idNumber,
+            				//title
+            				'Evaluate Direct Payment',
+            				//description
+            				`Please evaluate the direct payment for ${strategy}`,
+            				//Details
+            				{
+            					directPaymentID: dpDetails.id
+            				},
+            				//fields
+            				null,
+            				t
+            			);
+            		}
+
+            		for(const projectHead of projectHeads){
+            			queries[queries.length] = accountModel.addNotification(
+            				projectHead.idNumber,
+            				//title
+            				'Evaluatation of Direct Payment',
+            				`Your direct payment for ${strategy} has be approved by ${currentSignatoryDetails.name}`,
+            				{
+            					directPaymentID: dpDetails.id,
+            					signatory: currentSignatoryDetails.idNumber
+            				},
+            				null,
+            				t
+            			);
+            		}
+
+            		return t.batch(queries);
+            	});
+            }).then(() => {
+            	return logger.debug('Notifications successfully added', log_options);
             }).catch(err => {
-                logger.error(`${err.message}\n${err.stack}`, log_options);
+                return logger.error(`${err.message}\n${err.stack}`, log_options);
             });
 		},
 
