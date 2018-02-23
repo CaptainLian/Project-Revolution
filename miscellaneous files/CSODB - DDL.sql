@@ -747,7 +747,7 @@ $function$ LANGUAGE plpgsql STABLE;
 EXTREMELY DANGEROUS FUNCTION
 SQL INJECTION POSSIBLE EXPLOITABLE
  */
-CREATE OR REPLACE FUNCTION "system_get_next_finance_signatory"("signatoryTable" TEXT, "signatoryTableAcronym" TEXT, "where" TEXT)
+CREATE OR REPLACE FUNCTION "'system_get_next_finance_signatory'"("signatoryTable" TEXT, "signatoryTableAcronym" TEXT, "where" TEXT)
 RETURNS INTEGER AS
 $function$
     DECLARE
@@ -756,13 +756,13 @@ $function$
         EXECUTE format(
             'SELECT *
               FROM %I %I LEFT JOIN "FinanceSignatoryType" "fst"
-                                ON "%I"."type" = "fst"."id"
-             WHERE "%I"."status" = 0
+                                ON %I."type" = "fst"."id"
+             WHERE %I."status" = 0
                AND (%s)
           ORDER BY "fst"."lineup" ASC
              LIMIT 1;',
         "signatoryTable", "signatoryTableAcronym", "signatoryTableAcronym", "signatoryTableAcronym", "where"
-        ) INTO STRICT signatoryID;
+        ) INTO signatoryID;
 
         RETURN signatoryID;
     END;
@@ -1809,7 +1809,8 @@ INSERT INTO ProjectProposalRescheduleReason (id, name)
                          VALUES (1, 'Class suspension'),
                                 (2, 'Insufficient participnts'),
                                 (3, 'Speaker unavailable'),
-                                (4, 'Corrupt members');
+                                (4, 'Others'),
+                                (5, 'Corrupt members');
 
 DROP TABLE IF EXISTS ProjectProposal CASCADE;
 CREATE TABLE ProjectProposal (
@@ -1849,8 +1850,10 @@ CREATE TABLE ProjectProposal (
     isProgramComplete BOOLEAN NOT NULL DEFAULT FALSE,
 
     rescheduleReason SMALLINT REFERENCES ProjectProposalRescheduleReason(id),
+    reschedReasonOther TEXT,
     rescheduleDates DATE[],
-    
+    reschedRejectReason TEXT,
+
     PRIMARY KEY (GOSMActivity)
 );
 CREATE OR REPLACE FUNCTION trigger_before_update_ProjectProposal()

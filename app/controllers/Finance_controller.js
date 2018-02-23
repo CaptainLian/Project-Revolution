@@ -692,7 +692,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		},
 
 		submitPreactsDirectPayment: (req, res) => {
-			console.log(req.body);
+			logger.debug('submitPreactsDirectPayment()', log_options);
 
 			var dbParam = {
 				gosmactivity: req.body.gosmactivity,
@@ -705,25 +705,24 @@ module.exports = function(configuration, modules, models, database, queryFiles){
                 particulars = [particulars];
             }
 
-            console.log("submits directpayment_____________________________________");
-
             database.tx(transaction => {
 	            return financeModel.insertPreActivityDirectPayment(dbParam, transaction).then(data => {
+	            	let query = [];
+
                     for(let index = 0; index < particulars.length; ++index){
-                        financeModel.insertPreActivityDirectPaymentParticular({
+                    	query[query.length] = financeModel.insertPreActivityDirectPaymentParticular({
                             directpayment: data.id,
                             particular: particulars[index]
                         }, transaction);
                     }
-                }).catch(error=>{
-                	console.log("error is here++++++++++++++++++++++++++++");
-                	console.log(error);
+
+                    return transaction.batch(query);
                 });
             }).then(data =>{
                 return res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
             }).catch(err => {
             	console.log("ERROR---------------------------")
-                return logger.warn(`${err.message}\n${err.stack}`, log_options);
+                return logger.err(`${err.message}\n${err.stack}`, log_options);
             });
 		},
 		

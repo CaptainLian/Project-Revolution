@@ -1,0 +1,97 @@
+{% extends '../template/CSO_master.html' %}
+{% import '../template/tags_macro.html' as tag %}
+
+{%block page_title%}CSO - View Rescheduled Activities{%-endblock%}
+
+
+{%block style%}
+    {{super()}}
+    <!-- Bootstrap Core CSS -->
+    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
+    {{tag.style('/plugins/bower_components/datatables/jquery.dataTables.min.css')}}
+    {{tag.style('/plugins/bower_components/nestable/nestable.css')}}
+    <!-- Menu CSS -->
+    {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
+    <!-- animation CSS -->
+    {{tag.style('/css/animate.css')}}
+    <!--alerts CSS -->
+    {{tag.style('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.css')}}
+    <!-- Custom CSS -->
+    {{tag.style('/plugins/bower_components/custom-select/custom-select.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-select/bootstrap-select.min.css')}}
+
+    {{tag.style('/css/style.css')}}
+    {{tag.style('/css/doms.css')}}
+    {{tag.style('/css/custom.css')}}
+    <!-- color CSS -->
+    {{tag.style('/css/colors/blue.css')}}
+    {{tag.style('/css/btn_lnk.css')}}
+    <style type="text/css">
+        th, td{
+            text-align: center
+        }
+    </style>
+
+{%endblock%}
+
+{%block defer_script%}
+    {{super()}}
+    <!-- jQuery -->
+    {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
+    <!-- Bootstrap Core JavaScript -->
+    {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
+    {{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
+    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
+    {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js', true)}}
+
+    <!-- Menu Plugin JavaScript -->
+    {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
+    <!--slimscroll JavaScript -->
+    {{tag.javascript('/js/jquery.slimscroll.js', true)}}
+    <!--Wave Effects -->
+    {{tag.javascript('/js/waves.js', true)}}
+    <!-- Custom Theme JavaScript -->
+    {{tag.javascript('/js/custom.min.js', true)}}
+    {{tag.javascript('/js/cbpFWTabs.js', true)}}
+    <!-- tabs-->
+    
+   {{tag.javascript('/js/APS/rescheduleChecking.js', true)}}
+{%endblock%}
+
+{%block content%}
+<div class="row">
+	<div class="col-sm-12">
+		<div class="white-box">
+			<h3 class="box-title m-b-0">APS HOME</h3>
+            
+			<div class="table-responsive">
+				<table id="myTable" class="table table-striped">
+					<thead>
+						<tr>
+                            <th>Organization Name</th>
+                            <th>Punctuality</th>
+                            <th>Completeness</th>
+                            <th>Timing ratio</th>
+                            <th>Pushed-through ratio</th>
+                            <th>60/40 ratio</th>
+						</tr>
+					</thead>
+					<tbody>
+                            <tr>
+                                <td>La Salle Computer Society</td>
+                                <td>2.5%</td>
+                                <td>2.5%</td>
+                                <td>1.5%</td>
+                                <td>0.15%</td>
+                                <td>10%</td>
+                            </tr>
+					</tbody> 
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+{%endblock%}
+    

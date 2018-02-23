@@ -88,7 +88,7 @@ const configuration = {
     },
     "database": {
         "host": "localhost",
-        "port": 5432,
+        "port": 5433,
         "database": "CSODB",
         "username": "postgres",
         "password": "1234",
