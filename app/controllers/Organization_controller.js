@@ -1030,7 +1030,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         }
                         //else
                         logger.info('Creating new GOSM', log_options);
-                        return gosmModel.insertNewGOSM(GOSMParam.termID, GOSMParam.studentOrganization, true, task1).then(data => {
+                        return gosmModel.insertNewGOSM(
+                            GOSMParam.termID, 
+                            GOSMParam.studentOrganization, 
+                            req.session.user.idNumber, 
+                            true, 
+                            task1).then(data => {
+                            
                             return Promise.resolve([data.id,data]);
                         });
                     });

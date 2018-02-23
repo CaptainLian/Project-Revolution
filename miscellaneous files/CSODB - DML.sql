@@ -1,4 +1,4 @@
-﻿ROLLBACK;
+ROLLBACK;
 
 START TRANSACTION;
 /* 2015 - 2016 */
@@ -940,7 +940,7 @@ INSERT INTO OrganizationOfficer (idNumber, role, yearID, dateAssigned)
 
 INSERT INTO OrganizationFacultyAdviser(organization, faculty, yearID)
 VALUES (1, 2011111, system_get_current_year_id()),
-(1, 2011112, system_get_current_year_id());
+       (1, 2011112, system_get_current_year_id());
 
 UPDATE StudentOrganization
    SET operationalFunds = 12000,
