@@ -6,29 +6,6 @@ module.exports = function(configuration, modules, database, queryFiles){
 	const FinanceModel = Object.create(null);
     
 
-
-    const insertPreActivityCashAdvanceSQL = queryFiles.insertPreActivityCashAdvance;
-    const insertPreActivityCashAdvanceParticularSQL = queryFiles.insertPreActivityCashAdvanceParticular;
-    const getParticularsSQL = queryFiles.getParticulars;
-    const getActivitiesWithFinancialDocumentsSQL = queryFiles.getActivitiesWithFinancialDocuments;
-    const getTransactionTotalPerActivitySQL = queryFiles.getTransactionTotalPerActivity;
-    const getApprovedTransactionTotalPerActivitySQL = queryFiles.getApprovedTransactionTotalPerActivity;
-    const getActivityTransactionsSQL = queryFiles.getActivityTransactions;
-    const getPreActivityCashAdvanceSQL = queryFiles.getPreActivityCashAdvance;
-    const getCashAdvanceParticularsSQL = queryFiles.getCashAdvanceParticulars;
-    const getActivityTransactionsForSignatorySQL = queryFiles.getActivityTransactionsForSignatory;
-    const checkCashAdvanceSignatorySQL = queryFiles.checkCashAdvanceSignatory;
-    const getTransactionTotalPerActivityForSignatorySQL = queryFiles.getTransactionTotalPerActivityForSignatory;
-    const insertPreActivityDirectPaymentSQL = queryFiles.insertPreActivityDirectPayment;
-    const insertPreActivityDirectPaymentParticularSQL = queryFiles.insertPreActivityDirectPaymentParticular;
-    const getPreActivityDirectPaymentSQL = queryFiles.getPreActivityDirectPayment;
-    const getDirectPaymentParticularsSQL = queryFiles.getDirectPaymentParticulars;
-    const pendDirectPaymentSQL = queryFiles.pendDirectPayment;
-    const pendCashAdvanceSQL = queryFiles.pendCashAdvance;
-    const getExpensesWithoutTransactionCountSQL = queryFiles.getExpensesWithoutTransactionCount;
-    const getDirectPaymentSignatorySQL = queryFiles.getDirectPaymentSignatory;
-
-
     const attachFields = require('../utility/databaseHelper').attachFields;
 
     const logger = modules.logger;
@@ -125,12 +102,14 @@ module.exports = function(configuration, modules, database, queryFiles){
         return connection.none(pendCashAdvanceSQL, param);
     };
 
+    const getExpensesWithoutTransactionCountSQL = queryFiles.getExpensesWithoutTransactionCount;
     FinanceModel.getExpensesWithoutTransactionCount = function(param, connection = database){
         return connection.one(getExpensesWithoutTransactionCountSQL, param);
     };
 
+    const getDirectPaymentSignatorySQL = queryFiles.getDirectPaymentSignatory;
     FinanceModel.getDirectPaymentSignatory = function(param, connection = database){
-        return connection.oneOrNone(getDirectPaymentSignatory, param);
+        return connection.oneOrNone(getDirectPaymentSignatorySQL, param);
     };
 
     //Used for signing

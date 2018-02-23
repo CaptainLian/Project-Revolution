@@ -45,6 +45,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 					id: req.params.id
 				};
 
+				console.log("is direct payment");
+
                 //TODO: flatten promise
 				financeModel.getPreActivityDirectPayment(param).then(data=>{
 					var dbParam = {
@@ -137,6 +139,14 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				}).catch(error=>{
 					return logger.debug(`${error.message}\n${error.stack}`, log_options);
 				});
+
+
+			}// book transfer
+			else if(req.params.transaction==2){
+
+			}// reimbursement
+			else if(req.params.transaction==3){
+
 			}
 		},
 
@@ -351,69 +361,95 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				// })
 				// .then(data=>{
 
+			const renderData = Object.create(null);
+	       	renderData.extra_data = req.extra_data;
+
+	        //to evaluate
+	        renderData.isCso = false;
+		    renderData.toadd = false;
+
+		    var financeList = false;
+
+		    if (req.session.user.type == 1){
+
+		    	const ACL = req.extra_data.user.accessControl[req.session.user.organizationSelected.id];
+		    	if(ACL[25] || ACL[26]){
+		    		financeList = true;
+		    	}
+		    	else{
+		    		financeList = false;
+		    	}
+
+		    }
+		    else if(req.session.user.type >= 3 && req.session.user.type <= 6){
+
+		    	financeList = true;
+
+		    }
+		    else{
+		    	financeList = false;
+		    }
+
+	        if (financeList){
+
+		        database.task(t =>{
+					return t.batch([financeModel.getActivitiesWithFinancialDocuments(),
+									financeModel.getTransactionTotalPerActivity(),
+									financeModel.getApprovedTransactionTotalPerActivity()]);
+				})
+				.then(data=>{
+
 					const renderData = Object.create(null);
-	            	renderData.extra_data = req.extra_data;
+		           	renderData.extra_data = req.extra_data;
 
-	                //to evaluate
-		            renderData.isCso = false;
-		            renderData.toadd = false;
-		            if(req.session.user.type >= 3 && req.session.user.type <= 6){
-                    	renderData.isCso = true;
-                    }else if(typeof req.extra_data.user.accessControl !== 'undefined'){
-		            	const ACL = req.extra_data.user.accessControl[String(req.session.user.organizationSelected.id)];
-		            	if(typeof ACL !== 'undefined' && req.session.user.type == 1){
-                    		renderData.isCso = ACL['21'] || false;
-                    		renderData.toadd = true;
-                    	}
-		            }
+		           	//checks if student
+		           	if (req.session.user.type == 1 && req.session.user.organizationSelected.id != 0){
+			        	renderData.isCso = false;
+			            renderData.toadd = true;
+			            console.log("it enters this if");
 
+		           	}else{
+		           		renderData.isCso = true;
+		           		renderData.toadd = false;
+		           		console.log("Is in this if actually");
+		           	}
+			       
 
-            database.task(t =>{
-				return t.batch([financeModel.getActivitiesWithFinancialDocuments(),
-								financeModel.getTransactionTotalPerActivity(),
-								financeModel.getApprovedTransactionTotalPerActivity()]);
-			})
-			.then(data=>{
+		           	renderData.activities = data[0];
+		           	renderData.transactionTotal = data[1];
+		           	renderData.approvedTransactionTotal = data[2];
 
-				const renderData = Object.create(null);
-	           	renderData.extra_data = req.extra_data;
-
-	           	//checks if student
-	           	if (req.session.user.type == 1 && req.session.user.organizationSelected.id != 0){
-		        	renderData.isCso = false;
-		            renderData.toadd = true;
-
-	           	}else{
-	           		renderData.isCso = true;
-	           		renderData.toadd = false;
-	           	}
-		       
-
-	           	renderData.activities = data[0];
-	           	renderData.transactionTotal = data[1];
-	           	renderData.approvedTransactionTotal = data[2];
-
-	           	if(!renderData.isCso){
-	           		renderData.orgid = req.session.user.organizationSelected.id;
-	           	}
-	           	else if (renderData.isCso && renderData.toadd){
-	           		renderData.orgid = req.session.user.organizationSelected.id;
-	           	}
+		           	if(!renderData.isCso){
+		           		renderData.orgid = req.session.user.organizationSelected.id;
+		           	}
+		           	else if (renderData.isCso && renderData.toadd){
+		           		renderData.orgid = req.session.user.organizationSelected.id;
+		           	}
 
 
-	           	// sample session var
-   				// req.session.pprid =1;
+		           	// sample session var
+	   				// req.session.pprid =1;
 
 
-	           	console.log("orgid is ");
-	           	console.log(renderData.orgid);
+		           	console.log("orgid is ");
+		           	console.log(renderData.orgid);
 
-				return res.render('Finance/Finance_list', renderData);
-				//next();
+					return res.render('Finance/Finance_list', renderData);
+					//next();
 
-			}).catch(error=>{
-				console.log(error);
-			});
+				}).catch(error=>{
+					console.log(error);
+				});
+
+	        }
+	    	else{
+
+
+	    		//TODO: redirect
+	    	}
+
+
+            
 
 
 		},
@@ -441,10 +477,11 @@ module.exports = function(configuration, modules, models, database, queryFiles){
             	renderData.isCso = true;
             	renderData.toadd = false;
 
+            	console.log("User type is between 3 and 6");
 
 				database.task(t =>{
 					return t.batch([
-                        financeModel.getActivityTransactionsForSignatory(dbParam),
+                        financeModel.getActivityTransactions(dbParam),
                         gosmModel.getGOSMActivity(dbParam),
 						projectProposalModel.getProjectProposal(dbParam)
                     ]);
@@ -462,18 +499,38 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
             } else{
 
-            	//checks if student and president/treasurer
-            	const ACL = req.extra_data.user.accessControl[req.session.user.organizationSelected.id];
-	           	if (req.session.user.type == 1 && (ACL[25] || ACL[26])){
+            	console.log("user reaches this point of if");
+
+
+            	var viewTransaction = false;
+
+			    if (req.session.user.type == 1){
+
+			    	const ACL = req.extra_data.user.accessControl[req.session.user.organizationSelected.id];
+			    	if(ACL[25] || ACL[26]){
+			    		viewTransaction = true;
+			    	}
+			    	else{
+			    		viewTransaction = false;
+			    	}
+
+			    }
+			    else{
+			    	viewTransaction = false;
+			    }
+
+	           	if (viewTransaction){
 		        	renderData.isCso = false;
 		            renderData.toadd = true;
+
+		            console.log("User is student and is president/treasurer");
 
 		            gosmModel.getGOSMActivityOrg(dbParam)
 		            .then(data=>{
 
 		            	if(req.session.user.organizationSelected.id == data.studentorganization){
 
-		            		console.log("nope its this one");
+		            		console.log("its this one");
 							database.task(t =>{
 								return t.batch([
 			                        financeModel.getActivityTransactions(dbParam),

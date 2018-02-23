@@ -7,6 +7,6 @@ SELECT COUNT(PPE.ID) as expensestotal, to_char(actualdateend, 'YYYY-MM-DD') as d
  					   UNION (SELECT PABTP.particular
  					   	 		FROM "PreActivityBookTransferParticular" PABTP)
  					   UNION (SELECT PACAP.particular
- 					   			FROM "PreActivityCashAdvanceParticular" PACAP)   ))
+ 					   			FROM "PreActivityCashAdvanceParticular" PACAP)   ) P)
    AND PP.GOSMACTIVITY=${gosmactivity}
  GROUP BY PP.GOSMACTIVITY
