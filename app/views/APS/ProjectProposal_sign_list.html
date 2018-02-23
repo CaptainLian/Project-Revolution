@@ -77,7 +77,17 @@
                             <tr>
                                 <td >{{activity.actualdatestart}}</td>
                                 <td ><a href="/APS/Signatory/Activtiy/{{activity.gosmactivity}}" class="btn-lnk">{{activity.strategies}}</a></td>
-                                <td></td>
+                                {%if activity.status == 0%}                                    
+                                    <td><span class="label label-info">For Approval</span></td>     
+                                {%elif activity.status == 1%}                                    
+                                    <td><span class="label label-success">Approved</span></td>      
+                                {%elif activity.status == 2%}                                    
+                                    <td><span class="label label-warning">Pended</span></td>      
+                                {%elif activity.status == 3%}                                    
+                                    <td><span class="label label-danger">Denied</span></td>      
+                                {#{%elif activity.status == 3%}                                    
+                                    <td><span class="label label-danger">Force Signed</span></td>      #}    
+                                {%endif%}
                             </tr>
                         {%endfor%}
 					</tbody>

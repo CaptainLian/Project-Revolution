@@ -1,4 +1,4 @@
-﻿ROLLBACK;
+ROLLBACK;
 
 START TRANSACTION;
 /* 2015 - 2016 */
@@ -146,7 +146,7 @@ INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
                  VALUES (17, 'BSS', 'Behavioral Sciences Society', 3, NULL);
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
-                 VALUES (18, NULL, 'Cultura', 3, NULL);
+                 VALUES (18, 'Cultura', 'Cultura', 3, NULL);
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
                  VALUES (19, 'DANUM', 'Dalubhasaan ng mga Umuusbong na Mag-aaral ng Araling Pilipino', 1, NULL);
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
@@ -940,7 +940,7 @@ INSERT INTO OrganizationOfficer (idNumber, role, yearID, dateAssigned)
 
 INSERT INTO OrganizationFacultyAdviser(organization, faculty, yearID)
 VALUES (1, 2011111, system_get_current_year_id()),
-(1, 2011112, system_get_current_year_id());
+       (1, 2011112, system_get_current_year_id());
 
 UPDATE StudentOrganization
    SET operationalFunds = 12000,
