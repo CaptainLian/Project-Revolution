@@ -130,9 +130,17 @@
                                                     
                                                     
                                                     <td class="text-center"><input type="checkbox" name="{{org.id}}+{{f.id}}" 
-                                                        
-                                                        
-                                                    ></td>
+                                                        {%for access in checked[org.id]%}
+                                                            {%if access == f.id%}
+                                                                checked
+                                                            {%endif%}
+                                                        {%endfor%}
+                                                    >
+                                                    
+
+
+                                                    </td>
+
                                                     {% set y= y+ 1 %}
                                                 {%endfor %}
                                                 

@@ -1017,9 +1017,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.csrfToken = req.csrfToken();
                 renderData.functionality = data[0]
                 renderData.orgrole = data[1]
-                renderData.checked = data[1]
+                for(var role in data[2][0].json_object){
+                   data[2][0].json_object[role] = JSON.parse(data[2][0].json_object[role])
+                }
+                renderData.checked = (data[2][0].json_object)
+
                 console.log("DOOOOOOOOOOOOOOOOOOOOMS")
-                console.log(data[2][0].json_object[0])
+                // console.log(renderData.checked)  
                 return res.render('Org/Settings_ACL', renderData);
             }).catch(err=>{
                 console.log(err);

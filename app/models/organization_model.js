@@ -76,9 +76,8 @@ module.exports = function(configuration, modules, database, queryFiles){
 			`SELECT json_object(array_agg(z.role)::text[], array_agg(z.rw)::text[])
 			   FROM (
 			   		  SELECT role, ( 
-			   		  					SELECT json_build_array(array_agg(
-			   		  											(t.functionality
-			   		  											)
+			   		  					SELECT array_to_json(array_agg(
+			   		  											(t.functionality)
 			   		  											)
 			   		  									)
 			   		  					  from (select functionality from organizationaccesscontrol where role=oac.role) t 
@@ -88,6 +87,8 @@ module.exports = function(configuration, modules, database, queryFiles){
 			   		     FROM  organizationaccesscontrol oac
 			   		     Group by role
 			   		 ) z`
+
+			
 
 		   //  `SELECT json_build_object('role',q.role,'functionality',
 		   //      (SELECT json_agg(json_build_array(functionality))
