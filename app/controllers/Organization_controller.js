@@ -1018,7 +1018,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.functionality = data[0]
                 renderData.orgrole = data[1]
                 renderData.checked = data[1]
-                console.log(data[2][0])
+                console.log("DOOOOOOOOOOOOOOOOOOOOMS")
+                console.log(data[2][0].json_object[0])
                 return res.render('Org/Settings_ACL', renderData);
             }).catch(err=>{
                 console.log(err);

@@ -129,7 +129,10 @@
                                                 {%for f in functionality%}
                                                     
                                                     
-                                                    <td class="text-center"><input type="checkbox" name="{{org.id}}+{{f.id}}"{{checked[x].functionalities[f.id]}}></td>
+                                                    <td class="text-center"><input type="checkbox" name="{{org.id}}+{{f.id}}" 
+                                                        
+                                                        
+                                                    ></td>
                                                     {% set y= y+ 1 %}
                                                 {%endfor %}
                                                 

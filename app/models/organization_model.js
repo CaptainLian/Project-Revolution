@@ -73,13 +73,41 @@ module.exports = function(configuration, modules, database, queryFiles){
 	};
 	OrganizationModel.getTestJson = (connection = database) => {
 		var query =
-		    `SELECT json_build_object('role',q.role,'functionalities',
-		        (SELECT json_agg(json_build_object(functionality,isallowed))
-		         FROM organizationaccesscontrol oac WHERE oac.role = q.role)) json
-		    FROM organizationaccesscontrol q`;
+			`SELECT json_object(array_agg(z.role)::text[], array_agg(z.rw)::text[])
+			   FROM (
+			   		  SELECT role, ( 
+			   		  					SELECT json_build_array(array_agg(
+			   		  											(t.functionality
+			   		  											)
+			   		  											)
+			   		  									)
+			   		  					  from (select functionality from organizationaccesscontrol where role=oac.role) t 
+			   		  					  
+			   		  					  group by role
+			   		  			    ) rw
+			   		     FROM  organizationaccesscontrol oac
+			   		     Group by role
+			   		 ) z`
+
+		   //  `SELECT json_build_object('role',q.role,'functionality',
+		   //      (SELECT json_agg(json_build_array(functionality))
+		   //       FROM organizationaccesscontrol oac WHERE oac.role = q.role)) json
+		   //  FROM organizationaccesscontrol q GROUP BY q.role`;
+
+		   //  `select json_object(array_agg(id)::text[],array_agg(rw)::text[])
+			  // from ( select id
+			  //          , ( select to_json(array_agg(row_to_json(t)
+			  //          								)
+			  //          	  				  )
+			  //          		 from (select typ,prop from bgb where id=b.id) t 
+			  //       	  ) rw
+			  //     	 			 from bgb b
+			  //       	group by id 
+			  //       ) z;`
 
 	
-		return connection.map(query, [], a => a.json);
+		// return connection.map(query, [], a => a.z);
+		return connection.any(query);
 	};
 	/**
 	 * Retrives AND parses the input into an organization chart object
