@@ -12,8 +12,6 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const getOrgGOSMSQL = queryFiles.getOrgGOSM;
     const query_getSubmissionYears = queryFiles.gosm_getSubmissionYears;
     const query_getAll = queryFiles.gosm_getAll;
-    const insertGOSM = queryFiles.gosm_insert;
-    const insertGOSM_Returning = queryFiles.gosm_insert_returning;
     const getGOSMActivityProjectHeadsSQL = queryFiles.getGOSMActivityProjectHeads;
     const getGOSMActivitySQL = queryFiles.getGOSMActivity;
     const getGOSMActivityOrgSQL = queryFiles.getGOSMActivityOrg;
@@ -38,7 +36,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
                     dontQuote: true
                 });
 
-            return connection.none (query.toString(), {activityID: activityID});
+            return connection.none(query.toString(), {activityID: activityID});
         },
 
         insertProjectHead:(activityID, projectHead, connection = db) => {
