@@ -71,6 +71,16 @@ module.exports = function(configuration, modules, database, queryFiles){
 						.left_join("OrganizationRole","orr","so.id = orr.organization")
 		return connection.any(query.toString());
 	};
+	OrganizationModel.getTestJson = (connection = database) => {
+		var query =
+		    `SELECT json_build_object('role',q.role,'functionalities',
+		        (SELECT json_agg(json_build_object(functionality,isallowed))
+		         FROM organizationaccesscontrol oac WHERE oac.role = q.role)) json
+		    FROM organizationaccesscontrol q`;
+
+	
+		return connection.map(query, [], a => a.json);
+	};
 	/**
 	 * Retrives AND parses the input into an organization chart object
 	 * This is a computationally EXPENSIVE operation, please use it sparringly

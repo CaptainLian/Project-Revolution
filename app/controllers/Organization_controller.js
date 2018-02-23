@@ -1003,7 +1003,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                 return t.batch([
                             organizationModel.getFunctionality(),
-                            organizationModel.getOrgRole()
+                            organizationModel.getOrgRole(),
+                            organizationModel.getTestJson()
                             ])
             }).then(data=>{
                 const renderData = Object.create(null);
@@ -1011,7 +1012,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.csrfToken = req.csrfToken();
                 renderData.functionality = data[0]
                 renderData.orgrole = data[1]
-                console.log(data[1])
+                renderData.checked = data[1]
+                console.log(data[2][0])
                 return res.render('Org/Settings_ACL', renderData);
             }).catch(err=>{
                 console.log(err);
