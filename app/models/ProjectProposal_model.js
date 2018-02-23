@@ -310,10 +310,11 @@ module.exports = function(configuration, modules, db, queryFiles) {
         return connection.any(query.toString());
     };
     ProjectProposalModel.prototype.approvePPResched =  function(id, comment, status, connection = this._db){
+        
         let query = squel.update()
                          .table("ProjectProposal")
                          .set("status",status)
-                         .set("reschedulereason", comment)                         
+                         .set("reschedrejectreason", comment)                         
                          .where("id = ?",id)
 
       
@@ -330,6 +331,16 @@ module.exports = function(configuration, modules, db, queryFiles) {
                         .where('PP.STATUS = 6')                                
         query = query.toString();        
         return connection.any(query);
+    };
+
+    ProjectProposalModel.prototype.getSignatoryStatus =  function(idNumber, gosmactivity, connection = this._db){
+        
+        let query = squel.select()
+                        .from('projectProposalsignatory')                                                
+                        .where('gosmactivity = ?',gosmactivity)                                
+                        .where('signatory = ?',idNumber)                                
+        query = query.toString();        
+        return connection.one(query);
     };
 
     ProjectProposalModel.prototype.getProjectProposalAttachment = function(id, fields, connection = this._db){
@@ -615,6 +626,17 @@ module.exports = function(configuration, modules, db, queryFiles) {
         logger.debug(`Executing query: ${query}`, log_options);
 
         return connection.oneOrNone(query, param);
+    };
+
+    const getNextSignatorySQL = queryFiles.PPR_get_next_signatory;
+    ProjectProposalModel.prototype.getNextSignatory = (GOSMActivityID, connection = this._db) => {
+        logger.debug(`getNextSignatory(GOSMActivity: ${GOSMActivityID})`, log_options);
+
+        let param = Object.create(null);
+        param.activityID = GOSMActivityID;
+
+
+        return connection.oneOrNone(getNextSignatorySQL, param);
     };
 
     return new ProjectProposalModel(db, modules);

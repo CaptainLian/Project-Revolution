@@ -998,11 +998,25 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         },
 
         viewSettingAcl: (req, res) => {
-            const renderData = Object.create(null);
-            renderData.extra_data = req.extra_data;
-            renderData.csrfToken = req.csrfToken();
+            
+            database.tx(t =>{
 
-            return res.render('Org/Settings_ACL', renderData);
+                return t.batch([
+                            organizationModel.getFunctionality(),
+                            organizationModel.getOrgRole()
+                            ])
+            }).then(data=>{
+                const renderData = Object.create(null);
+                renderData.extra_data = req.extra_data;
+                renderData.csrfToken = req.csrfToken();
+                renderData.functionality = data[0]
+                renderData.orgrole = data[1]
+                console.log(data[1])
+                return res.render('Org/Settings_ACL', renderData);
+            }).catch(err=>{
+                console.log(err);
+            })
+            
         },
 
         viewCreateGOSM: (req, res) => {
