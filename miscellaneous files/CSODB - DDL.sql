@@ -1185,17 +1185,17 @@ INSERT INTO OrganizationRole (organization, name, shortname, uniquePosition, mas
                       		 ( 0, 'Chairperson', 'Chair', TRUE, NULL, 0),
                       		 /* Executive board */
                              -- 1
-                             ( 0, 'Executive Vice Chairperson for Internals',                     'EVC - Interals', TRUE, 0, 10),
+                             ( 0, 'Executive Vice Chairperson for Internals',                     'EVC - Interals',  TRUE, 0, 10),
                              -- 2
                              ( 0, 'Executive Vice Chairperson for Externals',                     'EVC - Externals', TRUE, 0, 10),
                              -- 3
-                             ( 0, 'Executive Vice Chairperson for Activities and Documentations', 'EVC - AND',TRUE, 0, 10),
+                             ( 0, 'Executive Vice Chairperson for Activities and Documentations', 'EVC - AND',       TRUE, 0, 10),
                              -- 4
-                             ( 0, 'Executive Vice Chairperson for Finance',                       'EVC - Finance', TRUE, 0, 10),
+                             ( 0, 'Executive Vice Chairperson for Finance',                       'EVC - Finance',   TRUE, 0, 10),
 
                              /* Activity Documentations and Management */
                              -- 5
-                             ( 0, 'Vice Chairperson for Activity Documentations and Management',            'VC - AND', TRUE, 2, 20),
+                             ( 0, 'Vice Chairperson for Activity Documentations and Management',            'VC - AND',  TRUE, 2, 20),
                              -- 6
                              ( 0, 'Associate Vice Chairperson for Activity Documentations and Management', 'AVC - AND', FALSE, 5, 30),
                              -- 7
@@ -1203,7 +1203,7 @@ INSERT INTO OrganizationRole (organization, name, shortname, uniquePosition, mas
 
                              /* Activity Monitoring Team */
                              -- 8
-                             ( 0, 'Vice Chairperson for Activity Monitoring Team',            'VC - AMT', TRUE, 2, 20),
+                             ( 0, 'Vice Chairperson for Activity Monitoring Team',            'VC - AMT',  TRUE, 2, 20),
                              -- 9
                              ( 0, 'Associate Vice Chairperson for Activity Monitoring Team', 'AVC - AMT', FALSE, 9, 30),
                              -- 10
@@ -1211,7 +1211,7 @@ INSERT INTO OrganizationRole (organization, name, shortname, uniquePosition, mas
 
                              /* Activity Processing and Screening */
                              -- 11
-                             ( 0, 'Vice Chairperson for Activity Processing and Screening',            'VC - APS', TRUE, 2, 20),
+                             ( 0, 'Vice Chairperson for Activity Processing and Screening',            'VC - APS',  TRUE, 2, 20),
                              -- 12
                              ( 0, 'Associate Vice Chairperson for Activity Processing and Screening', 'AVC - APS', FALSE, 11, 30),
                              -- 13
@@ -1219,7 +1219,7 @@ INSERT INTO OrganizationRole (organization, name, shortname, uniquePosition, mas
 
                              /* Finance */
                              -- 14
-                             ( 0, 'Vice Chairperson for Finance',            'VC - Finance', TRUE, 2, 20),
+                             ( 0, 'Vice Chairperson for Finance',            'VC - Finance',  TRUE, 2, 20),
                              -- 15
                              ( 0, 'Associate Vice Chairperson for Finance', 'AVC - Finance', FALSE, 14, 30),
                              -- 16
@@ -1227,7 +1227,7 @@ INSERT INTO OrganizationRole (organization, name, shortname, uniquePosition, mas
 
                              /* Publicity and Productions */
                              -- 17
-                             ( 0, 'Vice Chairperson for Publicity and Productions',            'VC - PNP', TRUE, 3, 20),
+                             ( 0, 'Vice Chairperson for Publicity and Productions',            'VC - PNP',  TRUE, 3, 20),
                              -- 18
                              ( 0, 'Associate Vice Chairperson for Publicity and Productions', 'AVC - PNP', FALSE, 18, 30),
                              -- 19
@@ -1565,7 +1565,7 @@ $trigger$
                                               (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 21)), TRUE),
                                               (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 22)), TRUE),
                                               -- Sign Finance Transaction as Treasurer
-                                              (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 26)), TRUE);
+                                              (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 26)), TRUE);
 
         INSERT INTO OrganizationRole(organization, name, uniquePosition, masterRole, home_url, rank)
                              VALUES (NEW.id, 'Associate Vice President of Finance', FALSE, vpfRoleID, '/Organization/treasurer/dashboard', 30)
@@ -1616,7 +1616,7 @@ CREATE TABLE GOSM (
     dateSubmitted TIMESTAMP WITH TIME ZONE,
     dateStatusModified TIMESTAMP WITH TIME ZONE,
     preparedBy INTEGER REFERENCES Account(idNumber),
-    statusModifier INTEGER REFERENCES Account(idNumber),
+    statusEvaluator INTEGER REFERENCES Account(idNumber),
     comments TEXT,
 
     PRIMARY KEY (termID, studentOrganization)

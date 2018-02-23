@@ -47,6 +47,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 logger.error(`${error.message}\n${error.stack}`, log_options);
             });
         },
+        viewGOSMList: (req, res) => {
+            const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            return res.render('Org/GOSMList');
+        },
 
         viewActivityDetails: (req, res) => {
                 logger.debug('viewActivityDetails()', log_options);
@@ -1044,7 +1049,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         }
                         //else
                         logger.info('Creating new GOSM', log_options);
-                        return gosmModel.insertNewGOSM(GOSMParam.termID, GOSMParam.studentOrganization, true, task1).then(data => {
+                        return gosmModel.insertNewGOSM(
+                            GOSMParam.termID, 
+                            GOSMParam.studentOrganization, 
+                            req.session.user.idNumber, 
+                            true, 
+                            task1).then(data => {
+                            
                             return Promise.resolve([data.id,data]);
                         });
                     });
