@@ -26,7 +26,3 @@ Contributors
 - Cbk
 - Cloud
 - Cite4D
-
-<script src="/javascripts/application.js" type="text/javascript">
-	console.log('Aguy');
-</script>
