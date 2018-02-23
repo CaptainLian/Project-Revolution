@@ -1030,6 +1030,28 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             })
             
         },
+        saveAcl: (req, res) => {
+            
+          console.log("req.body")
+          var data = req.body;
+          delete data["_csrf"];
+          delete data["myTable_length"];
+          console.log(data)
+          res.redirect('/Organization/Setting/ACL/Save')
+          // database.tx(t=>{
+
+          //   return t.batch([
+          //               accountModel.deleteAcl(t),
+
+
+          //           ])
+          // }).then(data=>{
+
+          // }).catch(err=>{
+
+          // })
+            
+        },
 
         viewCreateGOSM: (req, res) => {
             logger.debug('VIEW CREATE GOSM CONTROLLER', log_options);
