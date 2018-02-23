@@ -1037,19 +1037,19 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
           delete data["_csrf"];
           delete data["myTable_length"];
           console.log(data)
-          res.redirect('/Organization/Setting/ACL/Save')
-          // database.tx(t=>{
 
-          //   return t.batch([
-          //               accountModel.deleteAcl(t),
+          database.tx(t=>{
 
+            return t.batch([
+                        accountModel.deleteAcl(t),
+                        accountModel.insertACL(data,t)
 
-          //           ])
-          // }).then(data=>{
-
-          // }).catch(err=>{
-
-          // })
+                    ])
+          }).then(data=>{
+                return res.redirect('/Organization/Setting/ACL')
+          }).catch(err=>{
+            console.log(err)
+          })
             
         },
 
