@@ -1,6 +1,5 @@
-![test](./README/cso.png)
-# Council of Student Organizations Activity Monitoring System
-Web-based Information System for the Council of Student Organizations of De La Salle University.
+<img src=".\README\cso.png" alt="CSO"><h1>Council of Student Organizations Activity Monitoring System</h1>
+<p>Web-based Information System for the Council of Student Organizations of De La Salle University.</p>
 
 Contributors
 ======================================
@@ -18,3 +17,4 @@ Contributors
 - Modz
 - Cbk
 - Cloud
+- Cite4D
