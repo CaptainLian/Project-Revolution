@@ -6,18 +6,18 @@
 
 Contributors
 ======================================
-#### Developers
+### Developers
 
 <img src="./README/elite_proletariats.png" height=10% width=10% alt="Elite Proletariats" /> 
 
-Elite Proletariats are:
+**Elite Proletariats** are:
 
 - [@NeilMD](https://github.com/NeilMD)
 - [@Nicdomo](https://github.com/Nicdomo)
 - [@markusflores44](https://github.com/markusflores44)
 - [@CaptainLian](https://github.com/CaptainLian)
 
-#### Special Mentions
+### Special Mentions
 (Nicknames used for undescriptiveness of people)
 - Lou
 - Doc Tiamy
