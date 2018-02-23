@@ -14,12 +14,15 @@ module.exports = function(configuration, modules, database, queryFiles){
 	ActivityMonitoringModel.insertAMTActivityEvaluation = function(param, connection = database) {
         return connection.none(insertAMTActivityEvaluationSQL, param);
     };
+
     ActivityMonitoringModel.updateAMTActivityEvaluation = function(param, connection = database) {
         return connection.none(updateAMTActivityEvaluationSQL, param);
     };
+
     ActivityMonitoringModel.getAvailableActivityToCheck = function(param, connection = database){
     	return connection.any(getAvailableActivityToCheck, param);
     };
+    
     ActivityMonitoringModel.getActivityToCheck = function(param, connection = database){
     	return connection.any(getAvailableActivityToCheck, param);
     };

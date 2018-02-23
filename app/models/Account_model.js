@@ -498,7 +498,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
         param.idNumber = idNumber;
         param.title = title;
         param.description = description;
-        param.details = details ? null : JSON_STRINGIFY(details);
+        param.details = JSON_STRINGIFY(details);
 
         let query = squel.insert()
             .into('"AccountNotification"')

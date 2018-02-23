@@ -187,12 +187,13 @@ $(document).on('click', '#reschedule', function() {
         '<div class="form-group col-md-12">' +
             '<label class="col-md-12 text-left"><strong>Reason/s:</strong></label>' +
         
-            // '<select class="col-md-12" multiple="" id="select-sec">' +
-
-            //     '<option value="Brief Context">Speaker Unavailable</option>' +
-            //     '<option value="Program Design">Insufficient Participants</option>' +
-            //     '<option value="Source of Funds">Class Suspension</option>' +
-            // '</select>' +
+             '<select class="col-md-12" id="select-sec">' +
+                 '<option value="Brief Context">Speaker Unavailable</option>' +
+                 '<option value="Program Design">Insufficient Participants</option>' +
+                 '<option value="Source of Funds">Class Suspension</option>' +
+                 '<option value="others">Others</option>' +
+             '</select>' +
+             /*
             '<div class="form-check col-md-12"  style="float:left" >'+
                 '<label class="custom-control custom-radio"  style="float:left">'+
                     '<input id="radio1" value="3" name="radio" class="custom-control-input" type="radio"  style="float:left">'+
@@ -213,7 +214,12 @@ $(document).on('click', '#reschedule', function() {
                     '<span class="custom-control-indicator"></span>'+
                     '<span class="custom-control-description">Class Suspension</span>'+
                 '</label>'+
-            '</div>';
+            '</div>'+
+            */
+            '<div class="form-group col-md-12" id="reason" style= "display:none">' +
+                '<label class="col-md-12 text-left"  style="float:left" ><strong  style="float:left">Other Reason:</strong></label>' +
+                '<input id="" class="form-control" placeholder="" type="text">'+
+            '</div>' +
             
         '</div>';
 
@@ -247,7 +253,16 @@ $(document).on('click', '#reschedule', function() {
                 multidate:true,
                 startDate: new Date()
             });
+
+            $('select').change(function(event) {
+                value = $(this).val()
+                if(value == "others"){
+                    $('#reason').show()
+                    console.log('yeys')
+                }
+            });
             console.log("INIT SELECT");
+
         },
 
         showCancelButton: true,
@@ -352,4 +367,20 @@ $(document).on('click', '#reject', function() {
             }
         });
     });
+    $("select-sec").change(function(event) {
+        if($("select-sec").val()=="others"){
+            
+        }
+        
+    });
+    function showOthers(){
+        if(that.value=="others"){
+           document.getElementById("reason").style.display = "block";
+           console.log('block');
+        }else {
+            document.getElementById("reason").style.display = "none";
+            console.log('none');
+        }
+
+    }
 });

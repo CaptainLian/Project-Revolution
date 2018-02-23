@@ -114,10 +114,10 @@
                 <div class="col-lg-2 col-md-3  col-sm-4 col-xs-12 inbox-panel">
                     <div>
 
-                        
-                        <a href="#" id="approve" class="btn btn-success btn-block waves-effect waves-light ">Approve</a>
-                        <a href="#" id="defer" class="btn btn-warning btn-block waves-effect waves-light ca-pend">Pend</a>
-                        
+                        {% if toEvaluate %}
+                            <a href="#" id="approve" class="btn btn-success btn-block waves-effect waves-light ">Approve</a>
+                            <a href="#" id="defer" class="btn btn-warning btn-block waves-effect waves-light ca-pend">Pend</a>
+                        {% endif %}
                         <!--                       
                         <a href="#" class="btn btn-danger btn-block waves-effect waves-light ca-deny">Deny</a>
                         -->

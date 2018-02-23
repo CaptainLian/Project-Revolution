@@ -1,4 +1,4 @@
-SELECT *
+SELECT * --  0 approval is to be signed by current user
   FROM ((SELECT PADP.id as id, PADP."GOSMActivity" as gosmactivity, 0 as transaction, to_char(PP.ACTUALDATESTART, 'MonthDD, YYYY') AS startdate, SUM(PPE.quantity*PPE.unitcost) as amount, PADP.status, 0 as approval
 	   	   FROM "PreActivityDirectPayment" PADP JOIN "PreActivityDirectPaymentParticular" PADPP
 	   	   										  ON PADP.id=PADPP."directPayment"

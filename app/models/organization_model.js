@@ -103,8 +103,7 @@ module.exports = function(configuration, modules, database, queryFiles){
 		let param = Object.create(null);
 		param.organizationID = organizationID;
 
-		return connection.many('SELECT id, name, masterRole FROM OrganizationRole WHERE organization = ${organizationID} ORDER BY id ASC;', param)
-		.then(data => {
+		return connection.many('SELECT id, name, masterRole FROM OrganizationRole WHERE organization = ${organizationID} ORDER BY id ASC;', param).then(data => {
 			let organizationStructure = Object.create(null);
 
 			let lookup = Object.create(null);
@@ -184,6 +183,22 @@ module.exports = function(configuration, modules, database, queryFiles){
 		return connection.one(hasGOSMSubmittedSQL, {
 			studentOrganization: organizationID
 		});
+	};
+
+	OrganizationModel.getOrganzationPresident = (organizationID, fields, connection = database) => {
+		logger.debug(`getOrganzationPresident$(${organizationID})`, log_options);
+
+		let query = squel.select()
+			.from('Account a')
+			.where('a.idnumber = organization_get_president(${organizationID})');
+		attachFields(query, fields);
+
+		let param = Object.create(null);
+		param.organizationID = organizationID;
+
+		query = query.toString();
+		logger.debug(`Executing query: ${query}`, log_options);
+		return connection.one(query, param);
 	};
 
 	/**
