@@ -1,8 +1,8 @@
 var oTable = $('#myTable').DataTable(   {
 	scrollY:        "300px",
 	scrollX:        true,
-	scrollCollapse: true,
-	paging:         false,
+	scrollCollapse: false,
+	paging:         true,
 	fixedColumns:   {
 		leftColumns: 1,
 	},

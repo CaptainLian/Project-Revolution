@@ -333,6 +333,16 @@ module.exports = function(configuration, modules, db, queryFiles) {
         return connection.any(query);
     };
 
+    ProjectProposalModel.prototype.getSignatoryStatus =  function(idNumber, gosmactivity, connection = this._db){
+        
+        let query = squel.select()
+                        .from('projectProposalsignatory')                                                
+                        .where('gosmactivity = ?',gosmactivity)                                
+                        .where('signatory = ?',idNumber)                                
+        query = query.toString();        
+        return connection.one(query);
+    };
+
     ProjectProposalModel.prototype.getProjectProposalAttachment = function(id, fields, connection = this._db){
         let query = squel.select()
         .from('ProjectProposalAttachment', 'ppa')

@@ -1,0 +1,4 @@
+SELECT G.STUDENTORGANIZATION as studentorganization
+  FROM GOSMACTIVITY GA JOIN GOSM G
+  						 ON GA.GOSM=G.ID
+ WHERE GA.ID=${gosmactivity};

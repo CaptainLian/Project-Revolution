@@ -214,6 +214,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
         return accountModel.getPPRToSignList(req.session.user.idNumber)
         .then(list => {
+            console.log(list)
             logger.debug(`${JSON.stringify(list, '\n')}`, log_options);
 
             renderData.activities = list;
@@ -281,7 +282,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 // 5
                 projectProposalModel.getLatestProjectProposalAttachment({projectId: activityID}),
                 // 6
-                projectProposalModel.getSignatories(activityID)
+                projectProposalModel.getSignatories(activityID),
+                //7
+                projectProposalModel.getSignatoryStatus(req.session.user.idNumber,activityID)
             ]);
         }).then(data => {
             renderData.projectProposal = data[0];
@@ -296,7 +299,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.signatories = data[6];
             renderData.withExpense = data[0].expense;
             renderData.withRevenue = data[2].length >0;
-
+            renderData.status = data[7]
             console.log(data[2].length > 0)
             console.log("REVENUE")
             console.log(data[0].expense)

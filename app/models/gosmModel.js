@@ -16,6 +16,10 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const insertGOSM_Returning = queryFiles.gosm_insert_returning;
     const getGOSMActivityProjectHeadsSQL = queryFiles.getGOSMActivityProjectHeads;
     const getGOSMActivitySQL = queryFiles.getGOSMActivity;
+    const getGOSMActivityOrgSQL = queryFiles.getGOSMActivityOrg;
+
+    const insertGOSM = queryFiles.gosm_insert;
+    const insertGOSM_Returning = queryFiles.gosm_insert_returning;
     const dbHelper = require('../utility/databaseHelper');
     const attachFields = dbHelper.attachFields;
 
@@ -182,6 +186,10 @@ module.exports = function(configuration, modules, db, queryFiles) {
 
         getOrgGOSM: function(param, connection = db) {
             return connection.oneOrNone(getOrgGOSMSQL, param);
+        },
+
+        getGOSMActivityOrg: function(param, connection = db) {
+            return connection.oneOrNone(getGOSMActivityOrgSQL, param);
         },
 
         getActivitiesFromID: (GOSMID, fields, connection = db) => {
