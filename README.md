@@ -1,5 +1,5 @@
 <center>
-<img src="./README/cso.png" height=128 width=128 alt="CSO" /><h1>Council of Student Organizations Activity Monitoring System</h1>
+	<img src="./README/cso.png" height=128 width=128 alt="CSO" /><h1>Council of Student Organizations Activity Monitoring System</h1>
 </center>
 <p>Web-based Information System for the Council of Student Organizations of De La Salle University.</p>
 
