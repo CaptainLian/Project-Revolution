@@ -16,6 +16,9 @@
     {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
 
     {{tag.style('/plugins/bower_components/bootstrap-table/dist/bootstrap-table.min.css')}}
+
+    {{tag.style('/plugins/bower_components/calendar/dist/fullcalendar.css')}}
+    
     <!-- Menu CSS -->
     {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
     <!-- animation CSS -->
@@ -67,6 +70,12 @@
     <!--Style Switcher -->
     {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
 
+    
+    {{tag.javascript('/plugins/bower_components/moment/moment.js', true)}}
+    {{tag.javascript('/plugins/bower_components/calendar/dist/fullcalendar.min.js', true)}}
+    <!-- {{tag.javascript('/plugins/bower_components/calendar/dist/cal-init.js', true)}} -->
+
+
     {{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
     {{tag.javascript('/js/Organization/ProjectHeadHome.js', true)}}
 
@@ -103,6 +112,27 @@
 <!-- /row -->
 <!--row -->
 <div class="row">
+    <div class="col-md-12">
+        <div class="white-box">
+            <div id="calendar"></div>
+        </div>
+    </div>
+    <div class="modal none-border" id="my-event">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title"><strong>Add Event</strong></h4>
+                            </div>
+                            <div class="modal-body"></div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-white waves-effect" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-success save-event waves-effect waves-light">Create event</button>
+                                <button type="button" class="btn btn-danger delete-event waves-effect waves-light" data-dismiss="modal">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
     <div class="col-md-8 ">
         <div class="white-box">
             <h3 class="box-title">Activity
@@ -121,8 +151,8 @@
                     <thead>
                         <tr>
                             <th width="40%" >Activity</th>
-                            <th width="" class="text-center">Date Start</th>
-                            <th width="" class="text-center">Actions</th>
+                            <th width="30%" class="text-center">Date Start</th>
+                            <th width="30%" class="text-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody >
