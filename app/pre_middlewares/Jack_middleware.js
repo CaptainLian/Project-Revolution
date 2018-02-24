@@ -1,4 +1,5 @@
 'use strict';
+
 //configuration, mainApplication, modules, database, queryFiles, models
 module.exports = function(configuration, application, modules, database, queryFiles, models) {
     const CONSTANTS_admin_sidebars = require('../utility/CONSTANTS_admin_sidebars.json');
