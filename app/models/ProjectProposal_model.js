@@ -338,7 +338,8 @@ module.exports = function(configuration, modules, db, queryFiles) {
         let query = squel.select()
                         .from('projectProposalsignatory')                                                
                         .where('gosmactivity = ?',gosmactivity)                                
-                        .where('signatory = ?',idNumber)                                
+                        .where('signatory = ?',idNumber)
+                        .limit(1)                                
         query = query.toString();        
         return connection.one(query);
     };
