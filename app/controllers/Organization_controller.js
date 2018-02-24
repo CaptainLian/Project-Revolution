@@ -1008,7 +1008,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                 return t.batch([
                             organizationModel.getFunctionality(),
-                            organizationModel.getOrgRole()
+                            organizationModel.getOrgRole(),
+                            organizationModel.getTestJson()
                             ])
             }).then(data=>{
                 const renderData = Object.create(null);
@@ -1016,11 +1017,39 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.csrfToken = req.csrfToken();
                 renderData.functionality = data[0]
                 renderData.orgrole = data[1]
-                console.log(data[1])
+                for(var role in data[2][0].json_object){
+                   data[2][0].json_object[role] = JSON.parse(data[2][0].json_object[role])
+                }
+                renderData.checked = (data[2][0].json_object)
+
+                console.log("DOOOOOOOOOOOOOOOOOOOOMS")
+                // console.log(renderData.checked)  
                 return res.render('Org/Settings_ACL', renderData);
             }).catch(err=>{
                 console.log(err);
             })
+            
+        },
+        saveAcl: (req, res) => {
+            
+          console.log("req.body")
+          var data = req.body;
+          delete data["_csrf"];
+          delete data["myTable_length"];
+          console.log(data)
+
+          database.tx(t=>{
+
+            return t.batch([
+                        accountModel.deleteAcl(t),
+                        accountModel.insertACL(data,t)
+
+                    ])
+          }).then(data=>{
+                return res.redirect('/Organization/Setting/ACL')
+          }).catch(err=>{
+            console.log(err)
+          })
             
         },
 
