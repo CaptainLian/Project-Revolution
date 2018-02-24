@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = function(configuration, modules, models, database, queryFiles) {
     const Promise = module.Promise;
 
@@ -138,7 +140,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 title,
                 description,
                 details,
-                null,
+                null
             );
         }).then(() => {
             return logger.debug('Notifications added to president', log_options);

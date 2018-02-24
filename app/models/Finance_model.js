@@ -66,7 +66,7 @@ module.exports = function(configuration, modules, database, queryFiles){
 
     const checkCashAdvanceSignatorySQL = queryFiles.checkCashAdvanceSignatory;
     FinanceModel.checkCashAdvanceSignatory = function(param, connection = database){
-        return connection.any(checkCashAdvanceSignatorySQL, param);
+        return connection.oneOrNone(checkCashAdvanceSignatorySQL, param);
     };
 
     const getTransactionTotalPerActivityForSignatorySQL = queryFiles.getTransactionTotalPerActivityForSignatory;
