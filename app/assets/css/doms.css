@@ -75,3 +75,17 @@
 	max-width:600px;
     word-wrap:break-word;
 }
+.newDate{
+	height: 40px;
+	width:430px;
+	margin: 0;
+    position: relative;
+    display: inline-block;
+    /* inline-block for ie7 */
+    zoom: 1;
+    *display: inline;
+    vertical-align: middle;
+}
+#btnGOSM{
+	margin-bottom: 20px;
+}

@@ -82,58 +82,37 @@
                 <div class="white-box p-l-20 p-r-20">
                     <h3 class="box-title text-center">Activity Research Form</h3>
                     <hr>
-                    <br>
+                    <br />
                     <div class="col-xs-12">
-                         
-                                <div class="form-group m-b-40">
-                                    <select class="form-control select2" name="position" id="org-select">
-                                        <option selected="true" disabled="disabled">Select an Organization</option>
-                                            <option value="0">Officer</option>
-                                            <option value="1">Member</option>
-                                            <option value="2">Non-member</option>
-                                    </select>
-                                    <span class="highlight"></span> <span class="bar"></span>
-                                    <label for="input6">Position in the Organization</label>
-                                </div>
-                          
+                        <div class="form-group m-b-40">
+                            <select class="form-control select2" name="position" id="org-select">
+                                <option selected="true" disabled="disabled">Select an Organization</option>
+                                <option value="0">Officer</option>
+                                <option value="1">Member</option>
+                                <option value="2">Non-member</option>
+                            </select>
+                            <span class="highlight"></span> <span class="bar"></span>
+                            <label for="input6">Position in the Organization</label>
+                        </div>
                     </div>
                     <div class="row">
-
-                        
                         <div class="col-md-6">
-
-                                <div class="form-group m-b-40">
-                                    <select class="form-control select2" name="activity" id ="transaction">
-                                        <option selected="true" disabled="disabled" >Select</option>
-
-
+                            <div class="form-group m-b-40">
+                                <select class="form-control select2" name="activity" id ="transaction">
+                                    <option selected="true" disabled="disabled">Select</option>
                                         {% for organization in organizations %}
-
                                             <optgroup label="{{organization.name}}">
-
                                             {% for activity in activities %}
-
                                                 {% if activity.organization == organization.id %}
-
                                                    <option value="{{activity.id}}">{{organization.name}} - {{activity.strategies}}</option>
-
                                                 {% endif %}
-                                            
                                             {% endfor %}
-
-                                        
-                                    
                                             </optgroup>
-
                                         {% endfor %}
-
-                                            
-
-
-                                    </select>
-                                    <span class="highlight"></span> <span class="bar"></span>
-                                    <label for="input6">Activity</label>
-                                    <span class="help-block"><small>Select the Activity to be evaluated.</small></span>
+                                </select>
+                                <span class="highlight"></span> <span class="bar"></span>
+                                <label for="input6">Activity</label>
+                                <span class="help-block"><small>Select the Activity to be evaluated.</small></span>
                                 </div>
                         </div>
                     </div>

@@ -31,6 +31,7 @@
           page. However, you can choose any other skin from folder css / colors .
     -->
     {{tag.style('/css/colors/default.css')}}
+    {{tag.style('/css/colors/blue.css')}}
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -38,6 +39,11 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+        <style type="text/css">
+            th, td{
+                text-align: center
+            }
+        </style>
 {%endblock%}
 
 {%block defer_script%}
@@ -70,17 +76,18 @@
 <div class="row">
     <div class="col-sm-12">
         <div class="white-box">
-            <h3 class="box-title m-b-0">Activity </h3>
-            <p class="text-muted m-b-30">A table showing the list of activity you need to implement</p>
+            <h3 class="box-title m-b-0">Activity Feedback </h3>
+            <p class="text-muted m-b-30">List activities that have been evaluated by the participants</p>
             <div class="table-responsive">
 
                 <table id="myTable" class="table table-hover" role="grid" aria-describedby="myTable_info">
                     <thead>
                         <tr>
-                            <th>Activity Name</th>
-                            <th>Date of Event</th>
+                            <th width="33%">Date of Event</th>
+                            <th  width="33%">Activity Name</th>
+                          
                            
-                            <th>Status</th>
+                            <th  width="33%">Status</th>
                         </tr>
                        
 
@@ -91,9 +98,9 @@
                         
 
                                 <tr>
-                                    <td><a href="/Organization/Orgres/Specific/{{activity.gosmactivity}}" class="btn-link">{{activity.strategies}}</a></td>      
+                                 
                                     <td>{{activity.adate}}</td>      
-                                    
+                                    <td><a href="/Organization/Orgres/Specific/{{activity.gosmactivity}}" class="btn-link">{{activity.strategies}}</a></td>         
                                     <td><span class="label" style="color:black">Unprocessed</span></td>      
                                 </tr>
                                                 

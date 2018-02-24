@@ -100,9 +100,9 @@ module.exports = (configuration, logger) => {
         Setting-up view engine
      */
     logger.info('Setting-up nunjucks view engine');
-    require(`${configuration.webserver.core_modules.path}/view_engine.js`)(configuration, application);
+    var nunjucks = require(`${configuration.webserver.core_modules.path}/view_engine.js`)(configuration, application);
     logger.info('Set-up complete\n');
-
+    
     /*
         Setting-up core middlewares
      */

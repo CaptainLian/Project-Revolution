@@ -6,6 +6,7 @@ module.exports = function(configuration, modules, router, controllers){
 
 	router.get(`${base}/Officers`,controllers.Organization_controller.viewOfficers);
 	router.get(`${base}/createGOSM`, controllers.Organization_controller.viewCreateGOSM);
+    router.get(`${base}/viewGOSMList`, controllers.Organization_controller.viewGOSMList);
 	router.get(`${base}/activityRequirements`, controllers.Organization_controller.createActivityRequirements);
 
     router.get(`${base}/ProjectProposal/GOSMList`, controllers.Organization_controller.viewGOSMActivityListProjectProposal);
@@ -16,6 +17,7 @@ module.exports = function(configuration, modules, router, controllers){
     router.get(`${base}/ProjectProposal/ProgramDesign/:id/:status`, controllers.Organization_controller.viewSubmitProjectProposalProgramDesign);
 
     router.get(`${base}/Setting/ACL`, controllers.Organization_controller.viewSettingAcl);
+    router.post(`${base}/Setting/ACL/Save`, controllers.Organization_controller.saveAcl);
 
     router.post(`${base}/projectproposal/SaveContext`, controllers.Organization_controller.saveContext);
     router.post(`${base}/projectproposal/SaveExpenses`, controllers.Organization_controller.saveExpenses);
@@ -38,7 +40,7 @@ module.exports = function(configuration, modules, router, controllers){
     router.get(`${base}/PostProjectProposal/Main/:gosmid`, controllers.Organization_controller.viewSubmitPostProjectProposalMain);
     router.get(`${base}/PostProjectProposal/BriefContext/:gosmid`, controllers.Organization_controller.viewSubmitPostProjectProposalBriefContext);
     router.get(`${base}/PostProjectProposal/RequiredDocument/:gosmid`, controllers.Organization_controller.viewSubmitPostProjectProposalOthers);
-    router.get(`${base}/PostProjectProposal/FinanceDocument/:gosmid`, controllers.Organization_controller.viewSubmitPostProjectProposalFinanceDocument);
+    router.get(`${base}/PostProjectProposal/viewSubmitPostProjectProposalFinanceDocument/:gosmid`, controllers.Organization_controller.viewSubmitPostProjectProposalFinanceDocument);
 
     //PNP
     router.get(`${base}/Publicity/list`, controllers.Organization_controller.viewPubs);

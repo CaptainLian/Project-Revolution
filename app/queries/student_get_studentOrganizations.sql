@@ -4,4 +4,4 @@ SELECT so.id, so.acronym, so.path_profilePicture
          WHERE yearID = system_get_current_year_id() 
          AND idNumber = ${idNumber}) oo LEFT JOIN StudentOrganization so
                                                ON oo.organization = so.id
-ORDER BY oo.dateAssigned DESC;
+ORDER BY so.id DESC, oo.dateAssigned DESC;

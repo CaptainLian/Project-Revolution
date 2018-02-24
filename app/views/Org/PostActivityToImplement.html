@@ -30,14 +30,20 @@
     <!-- We have chosen the skin-blue (blue.css) for this starter
           page. However, you can choose any other skin from folder css / colors .
     -->
+    
     {{tag.style('/css/colors/default.css')}}
-
+    {{tag.style('/css/colors/blue.css')}}
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+      <style type="text/css">
+        th, td{
+            text-align: center
+        }
+    </style>
 {%endblock%}
 
 {%block defer_script%}
@@ -79,17 +85,18 @@
 <div class="row">
     <div class="col-sm-12">
         <div class="white-box">
-            <h3 class="box-title m-b-0">Activity </h3>
-            <p class="text-muted m-b-30">A table showing the list of activity you need to implement</p>
+            <h3 class="box-title m-b-0">Finished Activities</h3>
+            <p class="text-muted m-b-30">List of activities that require post activity documents</p>
             <div class="table-responsive">
 
                 <table id="myTable" class="table table-hover" role="grid" aria-describedby="myTable_info">
                     <thead>
                         <tr>
-                            <th>Activity Name</th>
+                            <th width="33%">Date</th>
+                            <th width="33%">Activity Name</th>
                             
                            
-                            <th>Status</th>
+                            <th width="33%">Status</th>
                         </tr>
                        
 
@@ -101,6 +108,7 @@
                             {% if activity.status == 0 %}
 
                                 <tr>
+                                    <td>{{activity.startdate}}</td>
                                     <td><a href="/Organization/PostProjectProposal/Main/{{activity.id}}" class="btn-link">{{activity.strategies}}</a></td>      
                                   
                                     
@@ -117,6 +125,7 @@
                             {% elif activity.status == 2 %}
 
                                 <tr>
+                                    <td>{{activity.startdate}}</td>
                                     <td><a href="/Organization/PostProjectProposal/Main/{{activity.id}}" class="btn-link">{{activity.strategies}}</a></td>      
                                    
                                     
@@ -127,6 +136,7 @@
                             {% elif activity.status == 3 %}
 
                                 <tr>
+                                    <td>{{activity.startdate}}</td>
                                     <td><a href="/Organization/PostProjectProposal/Completed/{{activity.id}}" class="btn-link">{{activity.strategies}}</a></td>      
                                    
                                     
@@ -135,6 +145,7 @@
                             {% elif activity.status == 4 %}
 
                                 <tr>
+                                    <td>{{activity.startdate}}</td>
                                     <td><a href="/Organization/PostProjectProposal/Completed/{{activity.id}}" class="btn-link">{{activity.strategies}}</a></td>      
                                    
                                     
@@ -143,6 +154,7 @@
                              {% elif activity.status == 5 %}
 
                                 <tr>
+                                    <td>{{activity.startdate}}</td>
                                     <td><a href="/Organization/PostProjectProposal/Main/{{activity.id}}" class="btn-link">{{activity.strategies}}</a></td>      
                                    
                                     

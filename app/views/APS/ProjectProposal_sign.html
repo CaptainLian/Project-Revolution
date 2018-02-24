@@ -105,7 +105,7 @@
         (() => {
             let storage = localStorage || window.localStorage;
             storage.setItem('GOSMACtivityID', {{activity}});
-        })()
+        })();
     </script>
     <!-- /Page Scripts -->
 {%endblock%}
@@ -129,7 +129,7 @@
             <div class="">
                 <!-- .row -->
                 <div class="row button-box text-center m-b-30 " >
-
+                    {%if status.status != 1 %}
                     <div class="col-lg-4 col-sm-4 col-xs-12 text-center">
                         <button id="reject" class="btn btn-block btn-danger">Reject</button>
                     </div>
@@ -139,7 +139,7 @@
                     <div class="col-lg-4 col-sm-4 col-xs-12 text-center">
                         <button id="approve" class="btn btn-block   btn-success">Approve</button>
                     </div>
-
+                    {%endif%}
                 </div>
                 <div class="row text-center ">
                     <div class="col-md-6 b-r"><strong>Type</strong>
@@ -220,7 +220,7 @@
                             </p>
 
                             <p class="m-t-30">
-                            {{projectProposal.context2}}
+                            {{projectProposal.context3}}
                             </p>
 
 
@@ -357,13 +357,11 @@
                                         {{(disbursement | round(2))-(projectProposal.sourcefundorganizational | round(2))}}
                                     </div>
                                 </div>
-
-
                             </div>
-                            <br/>
+                            <br />
                             <h4 class="text-left">VI.{%if withRevenue%} Revenue and {%endif%} Expense Table</h4>
                             <hr>
-                            <br/>
+                            <br />
                             {%if withRevenue%}
                             <table class="table bg">
                                 <thead>
@@ -472,7 +470,6 @@
                         </div>
                         {% endfor %}
                     </section>
-
 
                      <section id="section-linebox-6">
                         <div class="white-box">

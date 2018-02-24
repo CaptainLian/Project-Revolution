@@ -4,8 +4,6 @@ module.exports = function(configuration, modules, router, controllers, models, d
 
 	router.get(`${base}/Activity/List`, controllers.ADM_controller.viewActivityToCheck);
 	router.get(`${base}/Activity/:id`, controllers.ADM_controller.viewActivity);
-
-
 	router.post(`${base}/Activity/Save`, controllers.ADM_controller.updateStatus);
 };
 

@@ -13,8 +13,8 @@ module.exports = function(configuration, application, modules, database, queryFi
      * const StudentAccountAccessControlMiddleware = {
      *     name: StudentAccount-AccessControl-Middleware',
      *     priority: HIGHEST
-     * }
      * @type {Object}
+     * }
      */
     const StudentAccountAccessControlMiddleware = Object.create(null);
     StudentAccountAccessControlMiddleware.name = 'StudentAccount-AccessControl-Middleware';
@@ -85,39 +85,24 @@ module.exports = function(configuration, application, modules, database, queryFi
     Sidebar_data_attacher_middleware.name = 'Student extra_data sidebar attacher';
     Sidebar_data_attacher_middleware.priority = configuration.load_priority.HIGH;
     Sidebar_data_attacher_middleware.action = (req, res, next) => {
+        req.extra_data.system.sidebars = Object.create(null);
+        req.extra_data.system.sidebars.canAttach = false;
 
         if (!req.extra_data.view) {
-            req.extra_data.system.sidebars = Object.create(null);
-            req.extra_data.system.sidebars.canAttach = false;
             logger.debug(`Can attach sidebars: ${req.extra_data.system.sidebars.canAttach}, due to extra_data uninitialized`, log_options);
             return next();
         }
 
         if (!req.session.user) {
-            req.extra_data.system.sidebars = Object.create(null);
-            req.extra_data.system.sidebars.canAttach = false;
             logger.debug(`Can attach sidebars: ${req.extra_data.system.sidebars.canAttach}, due to session not existent`, log_options);
             return next();
         }
 
-        /*
-        if (!req.session.user.organizationSelected) {
-            req.extra_data.system.sidebars = Object.create(null);
-            req.extra_data.system.sidebars.canAttach = false;
-            logger.debug(`Can attach sidebars: ${req.extra_data.system.sidebars.canAttach}, due to organization not selected`, log_options);
-            return next();
-        }
-        */
-
         if (req.method !== 'GET') {
-            req.extra_data.system.sidebars = Object.create(null);
-            req.extra_data.system.sidebars.canAttach = false;
             logger.debug(`Can attach sidebars: ${req.extra_data.system.sidebars.canAttach}, due to method not GET`, log_options);
             return next();
         }
 
-
-        req.extra_data.system.sidebars = Object.create(null);
         req.extra_data.system.sidebars.canAttach = true;
         logger.debug(`Can attach sidebars: ${req.extra_data.system.sidebars.canAttach}`, log_options);
         return next();
@@ -172,10 +157,10 @@ module.exports = function(configuration, application, modules, database, queryFi
                 if (accessibleSidebars[functionality]) {
                     for (const sidebar of accessibleSidebars[functionality]) {
                         sidebars[sidebars.length] = sidebar;
-                    }
-                }
-            }
-        }
+                    }//for
+                } //if (accessibleSidebars[functionality])
+            }// if (ACL)
+        }//for
 
         return next();
     };
@@ -209,7 +194,8 @@ module.exports = function(configuration, application, modules, database, queryFi
                 organizationModel.hasGOSMSubmitted(organizationSelected.id)
             ]);
         }).then(data => {
-            const [isProjectHead,
+            const [
+                isProjectHead,
                 GOSMActivityWithActivityEvaluation,
                 PPRApproved,
                 hasPPRWithoutPostProjectProposal,
@@ -219,18 +205,24 @@ module.exports = function(configuration, application, modules, database, queryFi
             logger.debug(`isProjectHead: ${isProjectHead.exists}`, log_options);
             if (isProjectHead.exists && organizationSelected.id !== 0) {
                 const newSidebar = Object.create(null);
-                newSidebar.name = 'Project Proposal';
+                newSidebar.name = 'Pre Activity';
                 newSidebar.link = '/Organization/ProjectProposal/GOSMList';
+                newSidebar.icon = 'fa fa-file-o'
+                
                 sidebars[sidebars.length] = newSidebar;
 
                 const newSidebar2 = Object.create(null);
-                newSidebar2.name = 'Post Project';
+                newSidebar2.name = 'Post Activity';
                 newSidebar2.link = '/Organization/PostProjectProposal/GOSMList';
+                newSidebar2.icon = 'fa fa-file-text-o'
+                
                 sidebars[sidebars.length] = newSidebar2;
 
                 const newSidebar3 = Object.create(null);
-                newSidebar3.name = 'Activity Research Form';
+                newSidebar3.name = 'Activity Feedback';
                 newSidebar3.link = '/Organization/Orgres/list';
+                newSidebar3.icon = 'fa fa-quote-left';
+                
                 sidebars[sidebars.length] = newSidebar3;
             }
 
@@ -238,8 +230,11 @@ module.exports = function(configuration, application, modules, database, queryFi
             logger.debug(`Has GOSM activity with AMT Evaluation: ${GOSMActivityWithActivityEvaluation.exists}`, log_options);
             if (GOSMActivityWithActivityEvaluation.exists) {
                 const newSidebar = Object.create(null);
-                newSidebar.name = 'View AMT Activity Evaluation';
+                newSidebar.name = 'Activity Grade';
                 newSidebar.link = '/blank';
+                newSidebar.icon = 'fa fa-star'
+                
+
 
                 sidebars[sidebars.length] = newSidebar;
             }
@@ -247,31 +242,21 @@ module.exports = function(configuration, application, modules, database, queryFi
             logger.debug(`Has PPR Approved: ${PPRApproved.exists}`, log_options);
             if(PPRApproved.exists){
                 const newSidebar = Object.create(null);
-                newSidebar.name = 'Submit Activity Publicity';
+                newSidebar.name = 'Activity Publicity';
                 newSidebar.link = '/Organization/Publicity/list';
+                newSidebar.icon = 'fa fa-photo';
+                
 
                 sidebars[sidebars.length] = newSidebar;
             }
-
-            if(!hasSubmittedGOSM.exists && req.extra_data.user.accessibleFunctionalitiesList[0]){
-                logger.debug('CAN SUBMIT GOSM', log_options);
-                const newSidebar = Object.create(null);
-                newSidebar.name = 'Organization GOSM';
-                newSidebar.link = '/Organization/createGOSM';
-                newSidebar.icon = 'fa fa-comment-o';
-
-                sidebars[sidebars.length] = newSidebar;
-            }else{
-                logger.debug('CANNOT SUBMIT GOSM', log_options);
-            }
-
 
             if(req.extra_data.user.accessibleFunctionalitiesList['21'] || req.extra_data.user.accessibleFunctionalitiesList['18']){
                 logger.debug('CAN VIEW FINANCIAL DOCU', log_options);
                 const newSidebar = Object.create(null);
                 newSidebar.name = 'Financial Documents';
                 newSidebar.link = '/finance/list';
-
+                newSidebar.icon = 'fa fa-money';
+                
                 sidebars[sidebars.length] = newSidebar;
             }
 
@@ -283,7 +268,8 @@ module.exports = function(configuration, application, modules, database, queryFi
 
     };
 
-    return [StudentAccountAccessControlMiddleware,
+    return [
+        StudentAccountAccessControlMiddleware,
         Sidebar_data_attacher_middleware,
         Student_sidebar_checker,
         Sidebar_view_attacher_Middleware,

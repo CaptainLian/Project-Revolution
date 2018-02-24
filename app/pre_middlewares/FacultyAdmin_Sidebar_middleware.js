@@ -19,12 +19,12 @@ module.exports = function(configuration, application, modules, database, queryFi
     SidebarAttacher.name = 'Faculty Admin sidebar attacher';
     SidebarAttacher.priority = configuration.load_priority.LOW;
     SidebarAttacher.action = (req, res, next) => {
-        logger.debug(`Attaching admin sidebars` ,log_options);
         if(!req.extra_data.system.sidebars.canAttach || (req.session.user.type < 3 || req.session.user.type > 6))
             return next();
 
-        const sidebars = req.extra_data.view.sidebars;
-            
+        logger.debug(`Attaching admin sidebars` ,log_options);
+
+        const sidebars = req.extra_data.view.sidebars;    
         for(const sidebar of CONSTANTS_FACULTYADMIN_SIDEBARS){
             sidebars[sidebars.length] = sidebar;
         }

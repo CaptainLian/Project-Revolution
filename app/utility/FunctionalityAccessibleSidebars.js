@@ -12,8 +12,9 @@ const functionalitySidebars = Object.create(null);
 
 //View Project Head Dashboard
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.ViewProjectHeadDashboard] = [{
-    name: 'Project Head Dashboard',
-    link: '/Organization/ProjectHead/home'
+    name: 'Dashboard',
+    link: '/Organization/ProjectHead/home',
+    icon:'fa fa-tachometer'
 }];
 
 //View APSReport
@@ -24,26 +25,41 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.ViewAPSReport] = [{
 
 //Evaluate GOSM
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateGOSM] = [{
-    name: 'View GOSM Submissions',
+    name: 'GOSM Submissions',
     link: '/APS/viewOrglist'
 }];
 
-//Evaluate PPR
-functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateProjectProposal] = [{
-    name: 'Evaluate Project Proposals',
-    link: '/APS/activityChecking'
+functionalitySidebars[FUNCTIONALITY_SEQUENCES.CreateGOSM] = [{
+    name: 'GOSM',
+    link: '/Organization/createGOSM',
+    icon: 'fa fa-columns',
+    
 }];
+
+//Evaluate PPR
+/*
+functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateProjectProposal] = [{
+    name: 'Evaluate Activity',
+    link: '/APS/activityChecking',
+    icon: 'fa fa-check'
+}];
+*/
 
 //Evaluate Activity (AMT)
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateActivity_AMT] = [{
-    name: 'Evaluate Activity (AMT)',
-    link: '/AMT/AssignActivity'
+    name: 'Evaluate Activity',
+    link: '/AMT/AssignActivity',
+    icon: 'fa fa-gavel',
+    
 }];
 
 //Evaluate Activity (OrgRes)
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateActivity_OrgRes] = [{
-    name: 'Submit Activity Research Form',
+    name: 'Research Form',
     link: '/ORGRES/SubmitActivityResearchForm',
+    icon: 'fa fa-search',
+    
+    //NOTE: currently useless
     sublinks: [
 
     ]
@@ -51,16 +67,14 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateActivity_OrgRes] = [{
 
 //Modify Organizational Structure
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.ModifyOrganizationalStructure] = [{
-    name: 'Modify Organizational Structure',
-    link: '/Organization/Setting/ACL'
-}, {
-    name: 'Organization Officers',
-    link: '/Organization/Officers'
+    name: 'Role Access',
+    link: '/Organization/Setting/ACL',    
+    icon :'fa fa-key'
 }];
 
 //View Publicities for Activity
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.ViewPublicityMaterial] = [{
-    name: 'View Activity Publicities',
+    name: 'Publicity Materials',
     link: '/PNP/ViewPubs'
 }];
 
@@ -73,15 +87,24 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.SubmitPublicityMaterial] = [{
 
 //Evaluate Publicities for Activity
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluatePublicityMaterial] = [{
-    name: 'Evaluate Publicity Submissions',
-    link: '/PNP/Pubs/List'
+    name: 'Evaluate Pubs',
+    link: '/PNP/Pubs/List',
+    icon: 'fa fa-check'
+}];
+
+//Manage Accounts
+functionalitySidebars[FUNCTIONALITY_SEQUENCES.AccountManagement] = [{
+    name: 'Account Management',
+    link: '/ORGRES/Manage/Account',
+    icon :'fa fa-group'
 }];
 
 //Evaluate Post Project
-functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluatePostProject] = [{
-    name: 'Post Project',
-    link: '/ADM/Activity/List'
-}];
+//NOTE experimental code
+functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluatePostProject] = [constructSidebar(
+        'Post ProjectHead',
+        '/ADM/Activity/List'
+)];
 
 const accessibleRoutes = [];
 for(const functionality in functionalitySidebars){
@@ -100,3 +123,24 @@ accessibleRoutes.sort();
 module.exports = Object.create(null);
 module.exports.functionalitySidebars = functionalitySidebars;
 module.exports.accessibleRoutes = accessibleRoutes;
+
+
+/**
+ * [constructSidebar description]
+ * @method   constructSidebar
+ * @param    {String}                            name      [description]
+ * @param    {String}                            link      [description]
+ * @param    {String}                            icon      [description]
+ * @param    {[Array(String)] Optional}          sublinks  [description]
+ * @returns  {Object}                                      [description]
+ */
+function constructSidebar(name, link, icon, sublinks){
+    const sidebar = Object.create(null);
+
+    sidebar.name = name;
+    sidebar.link = link;
+    sidebar.icon = icon;
+    sidebar.sublinks = sublinks;
+
+    return sidebar;
+}

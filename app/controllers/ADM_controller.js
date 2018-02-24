@@ -16,58 +16,6 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     const projectProposalModel = models.ProjectProposal_model;
     const postProjectProposalModel = models.PostProjectProposal_model;
     const gosmModel = models.gosmModel;
-// <<<<<<< HEAD
-    
-//     const path = require('path');
-
-// 	ADM_controller.viewActivityToCheck = (req, res) => {
-		
-
-// 		let renderData = Object.create(null);
-// 		renderData = req.extra_data;
-// 		renderData.csrfToken = req.csrfToken();
-		
-		
-		
-		
-// 	};
-// 	ADM_controller.viewActivity = (req, res) => {
-		
-
-// 		database.task(t=>{
-//                 var dbParam = {
-//                     gosmid:req.params.id
-//                 }
-                
-//                 return t.batch([
-//                         postProjectProposalModel.getPostActsDetails(dbParam,t),
-//                         postProjectProposalModel.getLatestEventPicture(dbParam,t),
-//                         postProjectProposalModel.getLatestPostExpense(dbParam,t)
-//                         // projectProposalModel.getProjectProposalProjectHeads(3)
-//                         ]);
-//             }).then(data=>{
-//                 console.log(data);
-//                 console.log("data[1]");
-                
-//                 const renderData = Object.create(null);
-//                 renderData.activity = data[0]
-//                 renderData.pictures=data[1]
-//                 renderData.expense = data[2];
-//                 renderData.extra_data = req.extra_data;
-//                 renderData.csrfToken = req.csrfToken();
-//                 res.render('ADM/ActivityToCheck',renderData)
-//             }).catch(err=>{
-//                 console.log(err);
-//             })
-		
-		
-		
-		
-// 	};
-	
-	
-// 	return ADM_controller;
-// =======
 
     const path = require('path');
 
@@ -77,8 +25,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         renderData.csrfToken = req.csrfToken();
 
         logger.debug(`extra_data: ${JSON.stringify(req.extra_data)}`, log_options);
-        postProjectProposalModel.getPostActsToCheck()
-        .then(data => {
+        postProjectProposalModel.getPostActsToCheck().then(data => {
             console.log(data);
             console.log("data");
             renderData.postacts = data;
@@ -130,11 +77,6 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     if (sections[x] == "4") {
                         stat.otherFinance = false;
                     }
-                    
-
-                    // if(sections[x] == 5){
-                    //     stat.briefContext = false
-                    // }
                 }
             }else{
                 console.log("asd3");
@@ -155,33 +97,24 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     }
             }
 
-            // var
             console.log("asd2");
         }
-        console.log("DBPARAM");
-        console.log(dbParam);
-        console.log(stat);
-        database.task(t => {
+
+        return database.task(t => {
             return t.batch([
                 postProjectProposalModel.updatePostPPR(dbParam, t),
                 postProjectProposalModel.updatePostStatus(stat, t)
             ])
         }).then(data => {
-            res.json({
+            return res.json({
                 status: 1
             })
         }).catch(err => {
-            console.log(err)
-        })
-        console.log("DB PARAM");
-        console.log(req.body)
-
-
-
-
+            return logger.debug(`${err.message}:\n${err.stack}`, log_options);
+        });
     };
-    ADM_controller.viewActivity = (req, res) => {
 
+    ADM_controller.viewActivity = (req, res) => {
         database.task(t => {
             var dbParam = {
                 gosmid: req.params.id

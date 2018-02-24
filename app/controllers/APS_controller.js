@@ -1,6 +1,5 @@
 'use strict';
 
-
 module.exports = function(configuration, modules, models, database, queryFiles) {
     const logger = modules.logger;
 
@@ -104,7 +103,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         });
     };
 
-    APSController.activityChecking = (req, res) => {
+    APSController.activityChecking = (req, res) => {c
         logger.debug('activityChecking()', log_options);
         var activityId;
         database.task(task => {
@@ -143,7 +142,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             const renderData = Object.create(null);
             renderData.csrfToken = req.csrfToken();
             renderData.extra_data = req.extra_data;
-            console.log(data[0])
+            console.log("data[4]")
+            console.log(data[4])
             renderData.projectProposal = data[0];
             renderData.expenses = data[1];
             renderData.activity = activityId;
@@ -179,6 +179,34 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         renderData.extra_data = req.extra_data;
         return res.render('APS/Logs');
     };
+    APSController.resched = (req, res) => {
+        const renderData = Object.create(null);
+        renderData.extra_data = req.extra_data;
+        projectProposalModel.getReschedActivities()
+        .then(data=>{
+            console.log(data)
+            const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            renderData.activities = data;
+            renderData.csrfToken = req.csrfToken();
+
+
+            return res.render('APS/RescheduleChecking', renderData);
+        }).catch(err=>{
+            console.log(err)
+        })
+        // return res.render('APS/RescheduleChecking');
+    };
+    APSController.home = (req, res) => {
+        const renderData = Object.create(null);
+        renderData.extra_data = req.extra_data;
+        return res.render('APS/APSHome');
+    };
+    APSController.orgSummary = (req, res) => {
+        const renderData = Object.create(null);
+        renderData.extra_data = req.extra_data;
+        return res.render('APS/OrgApsSummary');
+    };
 
     APSController.viewPPRListToSign = (req, res) => {
         const renderData = Object.create(null);
@@ -186,6 +214,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
         return accountModel.getPPRToSignList(req.session.user.idNumber)
         .then(list => {
+            console.log(list)
             logger.debug(`${JSON.stringify(list, '\n')}`, log_options);
 
             renderData.activities = list;
@@ -253,7 +282,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 // 5
                 projectProposalModel.getLatestProjectProposalAttachment({projectId: activityID}),
                 // 6
-                projectProposalModel.getSignatories(activityID)
+                projectProposalModel.getSignatories(activityID),
+                //7
+                projectProposalModel.getSignatoryStatus(req.session.user.idNumber,activityID)
             ]);
         }).then(data => {
             renderData.projectProposal = data[0];
@@ -261,12 +292,14 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.activity = activityID;
             renderData.projectedIncome = data[2];
             renderData.programDesign = data[3];
+            console.log("data[4]")
+            console.log(data[4])
             renderData.projectHeads = data[4];
             renderData.attachment = data[5];
             renderData.signatories = data[6];
             renderData.withExpense = data[0].expense;
             renderData.withRevenue = data[2].length >0;
-
+            renderData.status = data[7]
             console.log(data[2].length > 0)
             console.log("REVENUE")
             console.log(data[0].expense)

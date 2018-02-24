@@ -1,0 +1,282 @@
+{% extends './Orgres_master.html' %}
+{% import '../template/tags_macro.html' as tag %}
+
+
+{%block style%}
+    {{super()}}
+
+    <!-- Bootstrap Core CSS -->
+    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
+    <!-- Wizard CSS -->
+    {{tag.style('/plugins/bower_components/jquery-wizard-master/css/wizard.css')}}
+    <!-- datatables -->
+    {{tag.style('/plugins/bower_components/datatables/jquery.dataTables.min.css')}}
+
+    <!-- Menu CSS -->
+    {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
+    <!-- animation CSS -->
+    {{tag.style('/css/animate.css')}}
+    <!-- Custom CSS -->
+    {{tag.style('/plugins/bower_components/custom-select/custom-select.css')}}
+    {{tag.style('/css/style.css')}}
+    {{tag.style('/css/custom.css')}}
+    <!-- color CSS -->
+    {{tag.style('/css/colors/blue.css')}}
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+{%endblock%}
+
+
+{%block defer_script%}
+    {{super()}}
+    <!-- jQuery -->
+    {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
+    <!-- Bootstrap Core JavaScript -->
+    {{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
+    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
+    <!-- Menu Plugin JavaScript -->
+    {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
+    <!--slimscroll JavaScript -->
+    {{tag.javascript('/js/jquery.slimscroll.js', true)}}
+    <!--Wave Effects -->
+    {{tag.javascript('/js/waves.js', true)}}
+    <!-- Custom Theme JavaScript -->
+    {{tag.javascript('/js/custom.min.js', true)}}
+    {{tag.javascript('/js/cbpFWTabs.js', true)}}
+    <!-- tabs-->
+    {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}  
+    <!--Style Switcher -->
+    {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
+    {{tag.javascript('/plugins/bower_components/switchery/dist/switchery.min.js', true)}}
+
+    {{tag.javascript('/plugins/bower_components/custom-select/custom-select.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-select/bootstrap-select.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/multiselect/js/jquery.multi-select.js', true)}}
+
+    <!-- Page Scripts -->
+    {{tag.javascript('/js/Orgres/SubmitActivityResearchForm.js', true)}}
+    <!-- /Page Scripts -->
+{%endblock%}
+
+
+{%block content%}
+<form action="" id="form-id" method="POST">
+<input type="hidden" name="_csrf" value="{{csrfToken}}">
+
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="white-box">
+        <!--content-->
+        <!-- .row -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="white-box p-l-20 p-r-20">
+                    <h3 class="box-title text-center">Officer Survey Form</h3>
+                    <hr>
+                    <br />
+                    <div class="col-md-12">
+                        <div class="form-group m-b-40">
+                        <label>Organization</label>
+                            <select class="form-control select2" name="position" id="org-select" required="">
+                                <option selected="true" disabled="disabled">Select an Organization</option>
+                                <option value="0">La Salle Computer Society</option>
+                                <option value="1">Moo Media</option>
+                                <option value="2">Young Entrepreneur Society</option>
+                            </select>
+                            <span class="highlight"></span> <span class="bar"></span>
+                        </div>
+                        <div class="form-group m-b-40">
+                        <label>ID Number</label>
+                            <select class="form-control select2" name="position" id="org-select" required="">
+                                <option selected="true" disabled="disabled">Select an Organization</option>
+                                <option value="0">La Salle Computer Society</option>
+                                <option value="1">Moo Media</option>
+                                <option value="2">Young Entrepreneur Society</option>
+                            </select>
+                            <span class="highlight"></span> <span class="bar"></span>
+                        </div>
+                        <div class="form-group col-xs-12">
+                                <label class="col-xs-12">1. I believe that the organization has prepared us, officers, well for our positions.</label>
+                                <hr>
+                                <div class="text-center">
+                                    <label class="">Strongly Disagree </label>&nbsp;
+                                        <input  type="radio" name="radio3" id="inlineRadio1" value="1" required="">&nbsp;
+                                        <input  type="radio" name="radio3" id="inlineRadio1" value="2" required="">&nbsp;
+                                        <input  type="radio" name="radio3" id="inlineRadio1" value="3" required="">&nbsp;
+                                        <input  type="radio" name="radio3" id="inlineRadio1" value="4" required="">&nbsp;
+                                        <input  type="radio" name="radio3" id="inlineRadio1" value="5" required="">&nbsp;
+                                    <label class=""> Strongly Agree</label>
+                                </div>
+                                <hr>                                                     
+                            </div>
+                            <div class="form-group col-xs-12">
+                                <label class="col-xs-12">2. Sufficient training(leadership development, activity/project management, development of skills specific to position) was provided.</label>
+                                <hr>
+                                <div class="text-center">
+                                    <label class="">Strongly Disagree </label>&nbsp;
+                                        <input  type="radio" name="radio3" id="inlineRadio1" value="1" required="">&nbsp;
+                                        <input  type="radio" name="radio3" id="inlineRadio1" value="2" required="">&nbsp;
+                                        <input  type="radio" name="radio3" id="inlineRadio1" value="3" required="">&nbsp;
+                                        <input  type="radio" name="radio3" id="inlineRadio1" value="4" required="">&nbsp;
+                                        <input  type="radio" name="radio3" id="inlineRadio1" value="5" required="">&nbsp;
+                                    <label class=""> Strongly Agree</label>
+                                </div>
+                                <hr>                                                      
+                            </div>
+                            <div class="form-group col-xs-12">
+                                <label class="col-xs-12">3. All of the officers were able to apply the leadership gained from the training activities in managing the organization.</label>
+                                <hr>
+                                <div class="text-center">
+                                    <label class="">Strongly Disagree </label>&nbsp;
+                                        <input  type="radio" name="radio3" id="inlineRadio1" value="1" required="">&nbsp;
+                                        <input  type="radio" name="radio3" id="inlineRadio1" value="2" required="">&nbsp;
+                                        <input  type="radio" name="radio3" id="inlineRadio1" value="3" required="">&nbsp;
+                                        <input  type="radio" name="radio3" id="inlineRadio1" value="4" required="">&nbsp;
+                                        <input  type="radio" name="radio3" id="inlineRadio1" value="5" required="">&nbsp;
+                                    <label class=""> Strongly Agree</label>
+                                </div>
+                                <hr>                                                     
+                            </div>
+                            <div class="form-group col-xs-12">
+                                <label class="col-xs-12">4. Officers who underwent special training(Going to seminars/competition to represent the organization, and the liek) echoed their learning to fellow officers.</label>
+                                <hr>
+                                <div class="text-center">
+                                    <label class="">Strongly Disagree </label>&nbsp;
+                                        <input  type="radio" name="radio3" id="inlineRadio1" value="1" required="">&nbsp;
+                                        <input  type="radio" name="radio3" id="inlineRadio1" value="2" required="">&nbsp;
+                                        <input  type="radio" name="radio3" id="inlineRadio1" value="3" required="">&nbsp;
+                                        <input  type="radio" name="radio3" id="inlineRadio1" value="4" required="">&nbsp;
+                                        <input  type="radio" name="radio3" id="inlineRadio1" value="5" required="">&nbsp;
+                                    <label class=""> Strongly Agree</label>
+                                </div>
+                                <hr>                                                     
+                            </div>
+                            <div class="form-group col-xs-12">
+                                <label class="col-xs-12">5. Officers are able to identify ways to recognize the contributions of the members of the organization.</label>
+                                <hr>
+                                <div class="text-center">
+                                    <label class="">Strongly Disagree </label>&nbsp;
+                                        <input  type="radio" name="radio3" id="inlineRadio1" value="1" required="">&nbsp;
+                                        <input  type="radio" name="radio3" id="inlineRadio1" value="2" required="">&nbsp;
+                                        <input  type="radio" name="radio3" id="inlineRadio1" value="3" required="">&nbsp;
+                                        <input  type="radio" name="radio3" id="inlineRadio1" value="4" required="">&nbsp;
+                                        <input  type="radio" name="radio3" id="inlineRadio1" value="5" required="">&nbsp;
+                                    <label class=""> Strongly Agree</label>
+                                </div>
+                                <hr>                                                     
+                            </div>
+                             <div class="form-group col-xs-12">
+                                <label class="col-xs-12">6. The organization has evaluation meetings after major activities to identify strengths, weak areas and develope corrective measures.</label>
+                                <hr>
+                                <div class="text-center">
+                                    <label class="">Strongly Disagree </label>&nbsp;
+                                        <input  type="radio" name="radio3" id="inlineRadio1" value="1" required="">&nbsp;
+                                        <input  type="radio" name="radio3" id="inlineRadio1" value="2" required="">&nbsp;
+                                        <input  type="radio" name="radio3" id="inlineRadio1" value="3" required="">&nbsp;
+                                        <input  type="radio" name="radio3" id="inlineRadio1" value="4" required="">&nbsp;
+                                        <input  type="radio" name="radio3" id="inlineRadio1" value="5" required="">&nbsp;
+                                    <label class=""> Strongly Agree</label>
+                                </div>
+                                <hr>                                                       
+                            </div>
+                            <div class="form-group col-xs-12">
+                                <label class="col-xs-12">7. The organization has evaluation meetings with the faculty adviser/s afer each term to identify strengths, weak areas and develop corrective measures.</label>
+                                <hr>
+                                <div class="text-center">
+                                    <label class="">Strongly Disagree </label>&nbsp;
+                                        <input  type="radio" name="radio3" id="inlineRadio1" value="1" required="">&nbsp;
+                                        <input  type="radio" name="radio3" id="inlineRadio1" value="2" required="">&nbsp;
+                                        <input  type="radio" name="radio3" id="inlineRadio1" value="3" required="">&nbsp;
+                                        <input  type="radio" name="radio3" id="inlineRadio1" value="4" required="">&nbsp;
+                                        <input  type="radio" name="radio3" id="inlineRadio1" value="5" required="">&nbsp;
+                                    <label class=""> Strongly Agree</label>
+                                </div>
+                                <hr>                                                    
+                            </div>
+                            <div class="form-group col-xs-12">
+                                <label class="col-xs-12">8.I am satisfied and fulfilled with my position in the organization.</label>
+                                <hr>
+                                <div class="text-center">
+                                    <label class="">Strongly Disagree </label>&nbsp;
+                                        <input  type="radio" name="radio3" id="inlineRadio1" value="1" required="">&nbsp;
+                                        <input  type="radio" name="radio3" id="inlineRadio1" value="2" required="">&nbsp;
+                                        <input  type="radio" name="radio3" id="inlineRadio1" value="3" required="">&nbsp;
+                                        <input  type="radio" name="radio3" id="inlineRadio1" value="4" required="">&nbsp;
+                                        <input  type="radio" name="radio3" id="inlineRadio1" value="5" required="">&nbsp;
+                                    <label class=""> Strongly Agree</label>
+                                </div>
+                                <hr>                                                     
+                            </div>
+                            <div class="form-group col-xs-12">
+                                <label class="col-xs-12">9. I believe that positions in the organization are well defined and has no overlaps of responsibilities.</label>
+                                <hr>
+                                <div class="text-center">
+                                    <label class="">Strongly Disagree </label>&nbsp;
+                                        <input  type="radio" name="radio3" id="inlineRadio1" value="1" required="">&nbsp;
+                                        <input  type="radio" name="radio3" id="inlineRadio1" value="2" required="">&nbsp;
+                                        <input  type="radio" name="radio3" id="inlineRadio1" value="3" required="">&nbsp;
+                                        <input  type="radio" name="radio3" id="inlineRadio1" value="4" required="">&nbsp;
+                                        <input  type="radio" name="radio3" id="inlineRadio1" value="5" required="">&nbsp;
+                                    <label class=""> Strongly Agree</label>
+                                </div>
+                                <hr>                                                    
+                            </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="text-center" id=""><button type="submit" class="btn btn-success">Submit</button></div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
+        </div>
+    </div>
+</div>
+</form>
+{%endblock%}
+
+{%block post_content%}
+<!-- Modals-->
+<div class="modal fade" id="settingsModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Settings</h4>
+            </div>
+            <div class="modal-body">
+                    <fieldset class="form-group">
+                        <label for="exampleSelect1">Academic Year</label>
+                        <select class="form-control" id="eexampleSelect11">
+                            <option>2016-2017</option>
+                            <option>2017-2018</option>
+                        </select>
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <label for="exampleSelect1">Term</label>
+                        <select class="form-control" id="eexampleSelect11">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                        </select>
+                    </fieldset>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Modals-->
+{%endblock%}

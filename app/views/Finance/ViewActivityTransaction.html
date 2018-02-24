@@ -85,11 +85,18 @@
 
                                                 <button aria-expanded="false" data-toggle="dropdown" class="fixedWidth finadd btn btn-info btn-block  waves-effect waves-light" type="button"><i class="fa fa-plus"></i> Add <span class="caret"></span></button>
                                                     <ul role="menu" class="dropdown-menu">
-                                                        <li><a href="/transaction/preacts/directpayment/{{gosmactivity.id}}">Direct Payment</a></li>
+                                                        
+                                                        <li><a href="/transaction/preacts/directpayment/{{gosmactivity.id}}/{{projectProposal.id}}">Direct Payment</a></li>
                                                         
                                                         <li><a href="/transaction/preacts/cashadvance/{{gosmactivity.id}}/{{projectProposal.id}}">Cash Advance</a></li>
 
                                                         <li><a href="/transaction/preacts/booktransfer/">Book Transfer</a></li>
+
+                                                        {% if reimbursement %}
+
+                                                            <li><a href="/transaction/preacts/reimbursement/{{projectProposal.id}}">Reimbursement</a></li>
+
+                                                        {% endif %}
                                                     </ul>
 
                                                 {% endif %}
@@ -122,7 +129,7 @@
                                         {% for transaction in transactions %}
 
                                             <!-- if direct payment  -->
-                                            {% if transaction.transaction == 0 %}
+                                            {% if(transaction.transaction == 0)  or (transaction.transaction == 1) %}
 
                                                 <tr onclick="window.location = '/transaction/evaluate/0/{{transaction.id}}'">
 
@@ -134,7 +141,7 @@
 
                                                 <td>{{transaction.startdate}}</td>
 
-                                                {% if transaction.transaction == 0 %}
+                                                {% if (transaction.transaction == 0)  or (transaction.transaction == 1) %}
                                                     <td>Direct Payment</td>
                                                 {% else %}
                                                     <td>Cash Advance</td>
@@ -144,11 +151,11 @@
 
                                                 {% if transaction.status == 0 %}
 
-                                                    {% if transaction.transaction == 1 %}
+                                                    {% if transaction.approval == 0 %}
 
                                                         <td><span class="label label-table label-primary">For Approval</span></td>
 
-                                                    {% elif transaction.transaction == 2 %}
+                                                    {% elif transaction.approval == 1 %}
 
                                                         <td><span class="label label-table label-info">For Approval</span></td>
 

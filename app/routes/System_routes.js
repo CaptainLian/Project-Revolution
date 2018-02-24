@@ -29,4 +29,6 @@ module.exports = function(configuration, modules, router, controllers){
         
         return res.render('System/blank', renderData);
     });
+
+    router.get('/System/ChangeOrganization/:organization', controllers.System_controller.studentChangeOrganization);
 };

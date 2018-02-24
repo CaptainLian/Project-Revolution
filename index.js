@@ -6,34 +6,6 @@
 */
 const dateFormat = require('dateformat');
 
-const formatter = function(options){
-  // Return string will be passed to logger.
-  var colour = '';
-  switch (options.level) {
-    case 'error':
-      colour =  '\x1b[41m';
-      break;
-    case 'warning':
-      colour =  '\x1b[43m';
-      break;
-    case 'warning':
-    case 'warn':
-      colour =  '\x1b[43m';
-      break;
-    case 'info':
-      colour =  '\x1b[44m';
-      break;
-    case 'debug':
-      colour =  '\x1b[46m';
-      break;
-  }
-
-  let from = typeof options.meta.from === 'string' ? `[${options.meta.from}]` : '';
-  from = typeof options.meta.color === 'string' ? `${options.meta.color}${from}\x1b[0m` : `\x1b[42m${from}`;
-  let pre = typeof options.meta.pre === 'string' ? `${options.meta.pre}` : '';
-  return `${colour}[${dateFormat(Date.now(), 'yyyy-mmm-dd hh:mm:ss TT')}][${options.level.toUpperCase()}]${from}${pre}\x1b[0m: ${options.message ? options.message : ''}`;
-};
-
 const winston = require('winston');
 const logger = new (winston.Logger)({
   emitErrs: false,
@@ -41,7 +13,7 @@ const logger = new (winston.Logger)({
   transports: [
      new (winston.transports.File)({
        filename: 'system.log',
-       formatter: function(options){
+       formatter: options => {
          let from = '';
          if(typeof options.meta === 'string'){
            from = `[${options.meta}]`;
@@ -52,17 +24,44 @@ const logger = new (winston.Logger)({
          return `[${dateFormat(Date.now(), 'yyyy-mmm-dd hh:mm:ss TT')}][${options.level.toUpperCase()}]${from}: ${options.message ? options.message : ''}`;
        }
      }),
+
      new(winston.transports.Console)({
        colorize: true,
-       formatter: formatter
+       formatter: options => {
+          // Return string will be passed to logger.
+          var colour = '';
+          switch (options.level) {
+            case 'error':
+              colour =  '\x1b[41m';
+              break;
+
+            case 'warning':
+            case 'warn':
+              colour =  '\x1b[43m';
+              break;
+
+            case 'info':
+              colour =  '\x1b[44m';
+              break;
+
+            case 'debug':
+              colour =  '\x1b[46m';
+              break;
+          }
+
+          let from = typeof options.meta.from === 'string' ? `[${options.meta.from}]` : '';
+          from = typeof options.meta.color === 'string' ? `${options.meta.color}${from}\x1b[0m` : `\x1b[42m${from}`;
+          let pre = typeof options.meta.pre === 'string' ? `${options.meta.pre}` : '';
+          return `${colour}[${dateFormat(Date.now(), 'yyyy-mmm-dd hh:mm:ss TT')}][${options.level.toUpperCase()}]${from}${pre}\x1b[0m: ${options.message ? options.message : ''}`;
+       }
      })
   ],
   levels: {
-    error: 0,
+    error:   0,
     warning: 1,
-    warn: 1,
-    info: 2,
-    debug: 3
+    warn:    1,
+    info:    2,
+    debug:   3
   }
 });
 
@@ -87,27 +86,23 @@ console.log('Server Configuration Loaded\n');
 /**
  * Module dependencies.
  */
-
 const app = require('./application')(configuration, logger);
 var http = require('http');
 
 /**
  * Get port from environment and store in Express.
  */
-
 var port = normalizePort(process.env.PORT || configuration.webserver.port);
 app.set('port', port);
 
 /**
  * Create HTTP server.
  */
-
 var server = http.createServer(app);
 
 /**
  * Listen on provided port, on all network interfaces.
  */
-
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
@@ -115,7 +110,6 @@ server.on('listening', onListening);
 /**
  * Normalize a port into a number, string, or false.
  */
-
 function normalizePort(val) {
   var port = parseInt(val, 10);
 
@@ -135,7 +129,6 @@ function normalizePort(val) {
 /**
  * Event listener for HTTP server "error" event.
  */
-
 function onError(error) {
   if (error.syscall !== 'listen') {
     throw error;
@@ -163,7 +156,6 @@ function onError(error) {
 /**
  * Event listener for HTTP server "listening" event.
  */
-
 function onListening() {
   var addr = server.address();
   var bind = typeof addr === 'string'

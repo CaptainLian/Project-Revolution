@@ -1,4 +1,8 @@
+'use strict';
+
 module.exports = function(configuration, modules, models, database, queryFiles) {
+    const Promise = module.Promise;
+
     const SIGN = require('../utility/digitalSignature.js').signString;
     const STRINGIFY = require('json-stable-stringify');
 
@@ -13,6 +17,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     const gosmModel = models.gosmModel;
     const accountModel = models.Account_model;
     const projectProposalModel = models.ProjectProposal_model;
+    const organizationModel = models.Organization_model;
 
     const APS_AJAXController = Object.create(null);
 
@@ -25,6 +30,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 valid: false
             });
         }
+
         logger.debug(`Getting Activity Details of id: ${activityID}`, log_options);
 
         database.task(t => {
@@ -45,6 +51,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             ]);
         }).then(data => {
             logger.debug(`activity: ${JSON.stringify(data)}`, log_options);
+
             return res.send({
                 valid: true,
                 activityDetails: data[0],
@@ -59,34 +66,121 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     };
 
     APS_AJAXController.updateGOSM = (req, res) => {
+        logger.debug('updateGOSM()', log_options);
+
         const GOSMID = parseInt(req.body.GOSMID ? req.body.GOSMID : req.query.GOSMID);
         const statusID = parseInt(req.body.statusID ? req.body.statusID : req.query.statusID);
         const comments = req.body.comments ? req.body.comments : req.query.comments;
 
         if (isNaN(GOSMID) || isNaN(statusID)) {
             logger.debug(`Invalid input: GOSMID = ${GOSMID}, statusID = ${statusID}`, log_options);
+
             return res.send({
                 valid: false
             });
         }
 
-        gosmModel.updateGOSMStatus(GOSMID, statusID, comments)
-        .then(status => {
-            logger.debug(`query result: $(status)`, log_options);
-            return res.send({
+        let isStatusSent = false;
+        return gosmModel.updateGOSMStatus(GOSMID, statusID, req.session.user.idNumber, comments).then(GOSMStatus => {
+            logger.debug('gosm status updated', log_options);
+
+            res.send({
                 valid: true,
                 success: true
             });
-        }).catch(error => {
-            res.send({
-                valid: true,
-                success: false
+            isStatusSent = true;
+
+            //Next set of promises, these set gets details needed for notifications
+            return database.task(t => {
+                return t.batch([
+                    gosmModel.getGOSM(GOSMID, [
+                        'preparedBy AS pb'
+                    ], t),
+
+                    accountModel.getAccountDetails(
+                        req.session.user.idNumber, [
+                        'a.firstname || \' \' || a.lastname AS "name"'
+                    ], t)
+                ]);
             });
-            throw error;
+        }).then(data => {
+            //Notifications processed here
+            const GOSM = data[0];
+            const evaluator = data[1];
+
+            let title = null;
+            let description = null;
+
+            title = 'GOSM Evaluation';
+            switch(statusID){
+                //Approved
+                case 3: {
+                    description = `The organization's GOSM have been approved by ${evaluator.name}`;
+                }break;
+
+                //Pending
+                case 4: {
+                    description = `The organization's GOSM have been peended by ${evaluator.name}`;
+                }break;
+
+                //Denied
+                case 5: {
+                    description = `The organization's GOSM have been denied by ${evaluator.name}`;
+                }break;
+            }
+
+            let details = Object.create(null);
+            details.GOSMID = GOSMID;
+            details.statusID = statusID;
+            details.comments = comments;
+            details.evaluator = req.session.user.idNumber;
+
+            return accountModel.addNotification(
+                GOSM.pb,
+                title,
+                description,
+                details,
+                null
+            );
+        }).then(() => {
+            return logger.debug('Notifications added to president', log_options);
+        }).catch(error => {
+            if(!isStatusSent){
+                res.send({
+                    valid: true,
+                    success: false
+                });   
+            }else{
+                logger.error('Error in adding notifications', log_options);
+            }
+
+            return logger.error(`${error.message}\n${error.stack}`, log_options);
         });
     };
 
+    APS_AJAXController.resched = (req, res) => {
+        var comment = ' ' + req.body.comment;
+        return projectProposalModel.approvePPResched(req.body.activityID, comment,req.body.status).then(data=>{
+            res.json({status:1});
+        }).catch(err=>{
+            res.json({status:0});
+            return logger.error(`${err.message}\n${err.stack}`, log_options);
+        })
+    };
+
+    APS_AJAXController.approvalResched = (req, res) => {
+        logger.debug('approvalResched()', log_options);
+
+        return projectProposalModel.updatePPResched(req.body.activityID, req.body.reason, req.body.date, 6).then(data=>{
+            res.json({status:1});
+        }).catch(err=>{
+            res.json({status:0});
+            return logger.error(`${err.message}\n${err.stack}`);
+        })
+    };
+
     APS_AJAXController.updateGOSMActivityComment = (req, res) => {
+        logger.debug('updateGOSMActivityComment()', log_options);
         const activityID = parseInt(req.body.activityID ? req.body.activityID : req.query.activityID);
         const comments = req.body.comments ? req.body.comments : req.query.comments;
 
@@ -98,10 +192,10 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         }
 
         logger.debug(`Valid input received: activityID: ${activityID}, comments: ${comments}`, log_options);
-        gosmModel.updateActivityComment(activityID, comments)
-        .then(data => {
+        return gosmModel.updateActivityComment(activityID, comments).then(() => {
             logger.debug('Success!', log_options);
-            res.send({
+
+            return res.send({
                 valid: true,
                 success: true
             });
@@ -110,11 +204,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 valid: true,
                 success: false
             });
-            throw error;
+
+            return logger.error(`${error.message}\n${error.stack}`, log_options);
         });
     };
 
     APS_AJAXController.getProjectProposalActivityDetails = (req, res) => {
+        logger.debug('getProjectProposalActivityDetails()', log_options);
         const PPRID = req.body.PPRID ? req.body.PPRID : req.query.PPRID;
         logger.debug(`PPR ID: ${PPRID}`, log_options);
 
@@ -316,8 +412,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 const sections = req.body.sectionsToBeEdited;
                 const comments = req.body.comments;
 
-                afterProcessing = accountModel.pendPPR(activityID, req.session.user.idNumber, comments, sections)
-                .then(data => {
+                afterProcessing = accountModel.pendPPR(activityID, req.session.user.idNumber, comments, sections).then(data => {
                     return Promise.resolve(true);
                 });
             }break;
@@ -325,8 +420,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             case 3: { //Deny
                 const comments = req.body.comments;
 
-                afterProcessing = accountModel.denyPPR(activityID, req.session.user.idNumber, comments)
-                .then(data => {
+                afterProcessing = accountModel.denyPPR(activityID, req.session.user.idNumber, comments).then(data => {
                     return Promise.resolve(true);
                 });
             }break;
@@ -384,7 +478,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             return res.render('APS/ActivityChecking', renderData);
         }).catch(err => {
             logger.debug('RENDEIRNG NO ACTIVITY TO CHECK');
-            logger.debug(`${err.message}/n${err.stack}`);
+            logger.warn(`${err.message}/n${err.stack}`);
+
             const renderData = Object.create(null);
             renderData.csrfToken = req.csrfToken();
             renderData.extra_data = req.extra_data;
@@ -404,7 +499,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
          *  valid: boolean,
          *  reroute: string (optional)
          * };
-         * @type {[type]}
+         * @type {object}
          */
         const reply = Object.create(null);
 
@@ -554,11 +649,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                     logger.debug(`Document: ${DOCUMENT_STRING}\nDigital Signature: ${DIGITAL_SIGNATURE}`, log_options);
 
-                    afterProcessing = accountModel.approvePPR(activityID, req.session.user.idNumber, DOCUMENT_STRING, DIGITAL_SIGNATURE);
-                }).then(data => {
-                    return Promise.resolve(true);
-                }).catch(err => {
-                    logger.debug(`${err.message}\n${err.stack}`);
+                    return accountModel.approvePPR(activityID, req.session.user.idNumber, DOCUMENT_STRING, DIGITAL_SIGNATURE);
                 });
             }break;
 
@@ -573,32 +664,29 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                     for(var i = 0; i < req.body.sectionsToBeEdited.length; i++){
 
-                        console.log("AT LEAST LOOPS BRUH")
+                        console.log('AT LEAST LOOPS BRUH');
 
-                        if (req.body.sectionsToBeEdited[i] == "Brief Context") {
+                        if (req.body.sectionsToBeEdited[i] === 'Brief Context') {
                             context = false;
-                            console.log("SHOULD ENTER THIS");
+                            console.log('SHOULD ENTER THIS');
                         }
 
-                        if (req.body.sectionsToBeEdited[i] == "Program Design") {
+                        if (req.body.sectionsToBeEdited[i] === 'Program Design') {
                             sched = false;
                         }
 
-                        if (req.body.sectionsToBeEdited[i] == "Source of Funds") {
+                        if (req.body.sectionsToBeEdited[i] === 'Source of Funds') {
                             expense = false;
-                        }
-                        else if (req.body.sectionsToBeEdited[i] == "Organizational Funds") {
+                        } else if (req.body.sectionsToBeEdited[i] === 'Organizational Funds') {
                             expense = false;
-                        }
-                        else if (req.body.sectionsToBeEdited[i] == "Revenue and Expense Table") {
+                        } else if (req.body.sectionsToBeEdited[i] === 'Revenue and Expense Table') {
                             expense = false;
-                            console.log("ALSO THIS");
+                            console.log('ALSO THIS');
                         }
 
-                        if (req.body.sectionsToBeEdited[i] == "Attachments") {
+                        if (req.body.sectionsToBeEdited[i] === 'Attachments') {
                             attachments = false;
                         }
-
                     }
 
                     var updateParam = {
@@ -608,34 +696,20 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         attachments: attachments,
                         gosmactivity: activityID,
                         status: 4
-                    }
+                    };
 
-                    console.log("UPDATE PARAM IS");
+                    console.log('UPDATE PARAM IS');
                     console.log(updateParam);
 
-                    projectProposalModel.updatePPRCompletion(updateParam)
-                    .then(updata=>{
-                        
-                       
-                        
-                    }).catch(error=>{
-                        console.log("ERROR 2")
-                        console.log(error);
-                    })
-
-                afterProcessing = accountModel.pendPPR(activityID, req.session.user.idNumber, comments, sections)
-                .then(data => {
-                    return Promise.resolve(true);
-                });
+                    afterProcessing = projectProposalModel.updatePPRCompletion(updateParam).then(() => {
+                        return accountModel.pendPPR(activityID, req.session.user.idNumber, comments, sections);
+                    });
             }break;
 
             case 3: { //Deny
                 const comments = req.body.comments;
 
-                afterProcessing = accountModel.denyPPR(activityID, req.session.user.idNumber, comments)
-                .then(data => {
-                    return Promise.resolve(true);
-                });
+                afterProcessing = accountModel.denyPPR(activityID, req.session.user.idNumber, comments);
             }break;
 
             default: {
@@ -644,16 +718,92 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             }
         }
 
-        return afterProcessing.then(data => {
+        return afterProcessing.then(() => {
             reply.success = true;
             reply.valid = true;
             reply.reroute = '/APS/Signatory/ActivtiyList';
-            return res.send(reply);
+
+            /**
+             * Add notification to the project heads informing them of the evaluation
+             */
+            database.task(t => {
+                return t.batch([
+                    projectProposalModel.getActivityProjectProposalDetailsGAID(activityID, ['ga.strategies'], t),
+                    projectProposalModel.getProjectHeadsGOSM({gosmid: activityID}, t),
+                    accountModel.getAccountDetails(req.session.user.idNumber, ["(firstname || '' || lastname) AS name"], t),
+                    projectProposalModel.getNextSignatory(activityID, t)
+                ]);
+            }).then(data => {
+                const strategies = data[0].strategies;
+                const projectHeads = data[1];
+                const evaluatorName = data[2].name;
+                const signatory = data[3];
+
+                let title = 'Project Proposal Evaluation';
+                let description = null;
+                switch(status){
+                    case 1: {
+                        description = `Your activity ${strategies} has been approved by ${evaluatorName}`;
+                    }break;
+
+                    case 2: {
+                        description = `Your activity ${strategies} has been pended by ${evaluatorName}`;
+                    }break;
+
+                    case 3: {
+                        description = `Your activity ${strategies} has been denied by ${evaluatorName}`;
+                    }break;
+                }
+
+                return database.tx(t => {
+                    let queries = [];
+
+                    if(signatory){
+                        queries[0] = accountModel.addNotification(
+                            //idNumber
+                            signatory.idNumber,
+                            // title
+                            'Project Proposal Evaluation',
+                            //description
+                            `Please evaluate ${strategies}`,
+                            // details
+                            null, 
+                            //returning
+                            null, 
+                            //connenection
+                            t
+                        );
+                    }
+                    
+                    for(const user of projectHeads){
+                        queries[queries.length] = accountModel.addNotification(
+                            //idNumber
+                            user.idnumber, 
+                            // title
+                            title, 
+                            //description
+                            description, 
+                            // details
+                            null, 
+                            //returning
+                            null, 
+                            //pg-connection
+                            t 
+                        );
+                    }
+                    return t.batch(queries);
+                });
+            });
+
+            res.send(reply);
+        }).then(() => {
+            logger.debug('Successfully notified project heads', log_options);
         }).catch(err => {
             logger.warn(`${err.message}\n${err.stack}`, log_options);
 
             reply.success = false;
             reply.valid = false;
+
             return res.send(reply);
         });
     };

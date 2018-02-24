@@ -3,6 +3,12 @@
 
 {%block page_title%}CSO - ACL Setting{%-endblock%}
 
+
+{%block meta%}
+    {{super()}}
+    <meta data-name="csrf" data-token="{{csrfToken}}" />
+{%endblock%}
+
 {%block style%}
 	{{super()}}
 	<!-- Bootstrap Core CSS -->
@@ -43,6 +49,7 @@
         table.dataTable.table-striped.DTFC_Cloned tbody tr:nth-of-type(even) {
             background-color: white;
         }
+      
     </style>
 {%endblock%}
 
@@ -99,7 +106,8 @@
     <div class="col-md-12">
         <div class="panel panel-info">                                                    
             <div class="panel-body">
-                <form action="#">
+                <form action="/Organization/Setting/ACL/Save" method="POST">
+                    <input type="hidden" name="_csrf" value="{{csrfToken}}">
                     <div class="form-body">
                         <h3 class="box-title">Organization Access Rights </h3>
                         <hr>
@@ -109,267 +117,44 @@
                                     <thead>
                                         <tr>
                                             <th >Position</th>
-                                            <th class="no-sort">Time Settings</th>
-                                            <th class="no-sort">Create Position</th>
-                                            <th class="no-sort">Edit Position</th>
-                                            <th class="no-sort">Delete Position</th>
-                                            <th class="no-sort">View Organization Structure</th>
-
-                                            <th class="no-sort">Create Organization</th>
-                                            <th class="no-sort">Edit Organization</th>
-                                            <th class="no-sort">Delete Organization</th>
-
-                                            <th class="no-sort">Assign Evaluator for Publicity Material</th>
-                                            <th class="no-sort">Evaluate Publicity Material</th>
-                                            <th class="no-sort" >View Publicity Material</th>
-
-                                            <th class="no-sort">Evaluate GOSM Activity</th>
-
+                                            {%for f in functionality%}
+                                                <th >{{f.name}}</th>
+                                            {%endfor %}
+                                            
+                                            
                              
                                          </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>President</td>
-                                            <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
+                                        
+                                        {%for org in orgrole%}
+                                            
+                                            
+                                            <tr>
+                                                <td >{{org.acronym}} - {{org.shortname}}</td>
+                                        
+                                                {%for f in functionality%}
+                                                    
+                                                    
+                                                    <td class="text-center"><input type="checkbox" name="{{org.id}}+{{f.id}}" 
+                                                        {%for access in checked[org.id]%}
+                                                            {%if access == f.id%}
+                                                                checked
+                                                            {%endif%}
+                                                        {%endfor%}
+                                                    >
+                                                    
 
-                                            <td class="text-center"><input type="checkbox" name=""></td>
-                                            <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                            <td class="text-center"><input type="checkbox" name=""></td>
-                                          
-                                        </tr>
 
-                                         <tr>
-                                            <td> Vice President</td>
-                                            <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
+                                                    </td>
 
-                                            <td class="text-center"><input type="checkbox" name=""></td>
-                                            <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                              <td class="text-center"><input type="checkbox" name=""></td>      
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                          
-                                        </tr>
-                                          <tr>
-                                            <td> VP of External Affairs</td>
-                                            <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
+                                        
+                                                {%endfor %}
+                                                
+                                            </tr>                                        
+                                        {%endfor %}
+                                        
 
-                                            <td class="text-center"><input type="checkbox" name=""></td>
-                                            <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                              <td class="text-center"><input type="checkbox" name=""></td>      
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                          
-                                        </tr>
-                                         <tr>
-                                            <td> VP of External Affairs</td>
-                                            <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-
-                                            <td class="text-center"><input type="checkbox" name=""></td>
-                                            <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                              <td class="text-center"><input type="checkbox" name=""></td>      
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                          
-                                        </tr>
-                                         <tr>
-                                            <td> VP of External Affairs</td>
-                                            <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-
-                                            <td class="text-center"><input type="checkbox" name=""></td>
-                                            <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                              <td class="text-center"><input type="checkbox" name=""></td>      
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                          
-                                        </tr>
-                                         <tr>
-                                            <td> VP of External Affairs</td>
-                                            <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-
-                                            <td class="text-center"><input type="checkbox" name=""></td>
-                                            <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                              <td class="text-center"><input type="checkbox" name=""></td>      
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                          
-                                        </tr>
-
-                                         <tr>
-                                            <td> VP of External Affairs</td>
-                                            <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-
-                                            <td class="text-center"><input type="checkbox" name=""></td>
-                                            <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                              <td class="text-center"><input type="checkbox" name=""></td>      
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                          
-                                        </tr>
-
-                                         <tr>
-                                            <td> VP of External Affairs</td>
-                                            <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-
-                                            <td class="text-center"><input type="checkbox" name=""></td>
-                                            <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                              <td class="text-center"><input type="checkbox" name=""></td>      
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                          
-                                        </tr>
-                                         <tr>
-                                            <td> VP of External Affairs</td>
-                                            <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-
-                                            <td class="text-center"><input type="checkbox" name=""></td>
-                                            <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                              <td class="text-center"><input type="checkbox" name=""></td>      
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                          
-                                        </tr>
-                                         <tr>
-                                            <td> VP of External Affairs</td>
-                                            <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-
-                                            <td class="text-center"><input type="checkbox" name=""></td>
-                                            <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                              <td class="text-center"><input type="checkbox" name=""></td>      
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                          
-                                        </tr>
-                                         <tr>
-                                            <td> VP of External Affairs</td>
-                                            <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-
-                                            <td class="text-center"><input type="checkbox" name=""></td>
-                                            <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                              <td class="text-center"><input type="checkbox" name=""></td>      
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                          
-                                        </tr>
-                                         <tr>
-                                            <td> VP of External Affairs</td>
-                                            <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-
-                                            <td class="text-center"><input type="checkbox" name=""></td>
-                                            <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                              <td class="text-center"><input type="checkbox" name=""></td>      
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                          
-                                        </tr>
-                                         <tr>
-                                            <td> VP of External Affairs</td>
-                                            <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-
-                                            <td class="text-center"><input type="checkbox" name=""></td>
-                                            <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                              <td class="text-center"><input type="checkbox" name=""></td>      
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                          
-                                        </tr>
-                                         <tr>
-                                            <td> VP of External Affairs</td>
-                                            <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-
-                                            <td class="text-center"><input type="checkbox" name=""></td>
-                                            <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                              <td class="text-center"><input type="checkbox" name=""></td>      
-                                             <td class="text-center"><input type="checkbox" name=""></td>
-                                          
-                                        </tr>
                                     </tbody>
                                 </table>
                             </div>

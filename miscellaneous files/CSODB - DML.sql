@@ -1,6 +1,34 @@
-﻿ROLLBACK;
+ROLLBACK;
 
 START TRANSACTION;
+/* 2015 - 2016 */
+INSERT INTO SchoolYear(startYear, endYear, dateStart, dateEnd)
+               VALUES (2015, 2016, '2015-08-24', '2016-08-27');
+INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
+          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2015 AND endYear = 2016), 1, '2015-08-24', '2015-12-08');
+INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
+          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2015 AND endYear = 2016), 2, '2016-01-06', '2016-04-16');
+INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
+          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2015 AND endYear = 2016), 3, '2016-05-23', '2016-08-27');
+/* 2016 - 2017 */
+INSERT INTO SchoolYear(id, startYear, endYear, dateStart, dateEnd)
+               VALUES (2, 2016, 2017, '2016-09-12', '2017-08-19');
+INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
+          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2016 AND endYear = 2017), 1, '2016-09-12', '2016-12-17');
+INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
+          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2016 AND endYear = 2017), 2, '2016-01-04', '2016-04-11');
+INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
+          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2016 AND endYear = 2017), 3, '2017-05-15', '2017-08-19');
+/* 2017 - 2018 */
+INSERT INTO SchoolYear(id, startYear, endYear, dateStart, dateEnd)
+               VALUES (3, 2017, 2018, '2017-09-11', '2018-08-28');
+INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
+          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2017 AND endYear = 2018), 1, '2017-09-11', '2017-12-16');
+INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
+          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2017 AND endYear = 2018), 2, '2018-01-08', '2018-04-21');
+INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
+          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2017 AND endYear = 2018), 3, '2018-05-24', '2018-08-28');
+
 INSERT INTO public."Building"(
             id, name)
     VALUES (0, 'Br. Andrew Gonzales Building');
@@ -77,7 +105,7 @@ INSERT INTO public."ActivityVenue"(id, name, capacity, size, rate, "rateType", b
                                   (16, 'Classroom (Full-size)', 45, 0, 620, 0, 0),
                                   (17, 'Classroom (Half-size', 25, 0, 340, 0, 0),
                                   (18, 'Natividad Fajardo-Rosario Gonzalez Auditorium, 18th Flr.', 238, 2, 3000, 0, 0),
-                                  ( 19, 'Neil Room', 12,  3, 700.43,       4,        0);
+                                  ( 19, 'Neil Room', 12,  2, 700.43,       4,        0);
 
 /* Organization Data */
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
@@ -103,7 +131,7 @@ INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
                  VALUES (10, 'AIESEC', 'AIESEC DLSU', 2, NULL);
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
-                 VALUES (11, NULL, 'Moo Media', 2, NULL);
+                 VALUES (11, 'Moo', 'Moo Media', 2, NULL);
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
                  VALUES (12, 'OC', 'Outdoor Club', 2, NULL);
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
@@ -118,7 +146,7 @@ INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
                  VALUES (17, 'BSS', 'Behavioral Sciences Society', 3, NULL);
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
-                 VALUES (18, NULL, 'Cultura', 3, NULL);
+                 VALUES (18, 'Cultura', 'Cultura', 3, NULL);
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
                  VALUES (19, 'DANUM', 'Dalubhasaan ng mga Umuusbong na Mag-aaral ng Araling Pilipino', 1, NULL);
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
@@ -912,7 +940,7 @@ INSERT INTO OrganizationOfficer (idNumber, role, yearID, dateAssigned)
 
 INSERT INTO OrganizationFacultyAdviser(organization, faculty, yearID)
 VALUES (1, 2011111, system_get_current_year_id()),
-(1, 2011112, system_get_current_year_id());
+       (1, 2011112, system_get_current_year_id());
 
 UPDATE StudentOrganization
    SET operationalFunds = 12000,

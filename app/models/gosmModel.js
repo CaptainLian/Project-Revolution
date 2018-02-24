@@ -1,10 +1,7 @@
 'use strict';
-
-
-
-const squel = require('squel').useFlavour('postgres');
-
 module.exports = function(configuration, modules, db, queryFiles) {
+    const squel = require('squel').useFlavour('postgres');
+
     const insertProposedActivitySQL = queryFiles.insertProposedActivity;
     const insertActivityProjectHeadSQL = queryFiles.insertActivityProjectHead;
     const getSchoolYearSQL = queryFiles.getSchoolYear;
@@ -17,6 +14,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const query_getAll = queryFiles.gosm_getAll;
     const getGOSMActivityProjectHeadsSQL = queryFiles.getGOSMActivityProjectHeads;
     const getGOSMActivitySQL = queryFiles.getGOSMActivity;
+    const getGOSMActivityOrgSQL = queryFiles.getGOSMActivityOrg;
 
     const insertGOSM = queryFiles.gosm_insert;
     const insertGOSM_Returning = queryFiles.gosm_insert_returning;
@@ -38,7 +36,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
                     dontQuote: true
                 });
 
-            return connection.none (query.toString(), {activityID: activityID});
+            return connection.none(query.toString(), {activityID: activityID});
         },
 
         insertProjectHead:(activityID, projectHead, connection = db) => {
@@ -47,8 +45,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
                 .into('GOSMActivityProjectHead')
                 .set('activityID', '${activityID}', {
                     dontQuote: true
-                })
-                .set('idNumber', '${idNumber}', {
+                }).set('idNumber', '${idNumber}', {
                     dontQuote: true
                 });
 
@@ -122,9 +119,9 @@ module.exports = function(configuration, modules, db, queryFiles) {
 
         getGOSMActivityAttachmentRequirement: function(type, fields = 'activityType', connection = db) {
             let query= squel.select()
-            .from('ActivityAttachmentRequirement','aar')
-            .left_join('DocumentAttachmentRequirement', 'dar', 'aar.attachment = dar.id')
-            .where('aar.activitytype = ${type}');
+                .from('ActivityAttachmentRequirement','aar')
+                .left_join('DocumentAttachmentRequirement', 'dar', 'aar.attachment = dar.id')
+                .where('aar.activitytype = ${type}');
             attachFields(query, fields);
 
             let param = Object.create(null);
@@ -150,24 +147,31 @@ module.exports = function(configuration, modules, db, queryFiles) {
         getAllCurrent: function() {
             return db.any(query_getAll);
         },
+
         /**
-         * [insertNewGOSM description]
-         * @method  insertNewGOSM
-         * @param   {Integer}      termID              [description]
-         * @param   {Integer}      studentOrganization [description]
-         * @param   {Boolean}      returning           [description]
-         * @param   {[pg-connection, pg-task, pg-transaction] (Optional)}      connection          [description]
-         * @returns {Promise}                          [description]
+         * 
+         * @method   insertNewGOSM
+         * @param    {integer}           termID               [description]
+         * @param    {integer}           studentOrganization  [description]
+         * @param    {integer}           preparedBy           [description]
+         * @param    {boolean}           returnID             If the id of the newly created GOSM should be returned
+         * @param    {pg-connection}     connection           What task or transaction to use if any, defaults to the pg-database
+         * @returns  {pg-promise}                             [description]
          */
-        insertNewGOSM: function(termID, studentOrganization, returning, connection = db) {
+        insertNewGOSM: function(termID, studentOrganization, preparedBy, returnID, connection = db) {
+            logger.debug(`insertNewGOSM(termID: ${termID}, studentOrganization: ${studentOrganization}, preparedBy: ${preparedBy}, returnID: ${returnID})`, log_options);
+
             let param = Object.create(null);
             param.termID = termID;
             param.studentOrganization = studentOrganization;
-            if(returning){
+            param.preparedBy = preparedBy;
+            
+            if(returnID){
                 return connection.one(insertGOSM_Returning, param);
             }
             return connection.none(insertGOSM, param);
         },
+
         deleteActivity: function(param) {
             return db.none(deleteActivitySQL, param);
         },
@@ -180,6 +184,10 @@ module.exports = function(configuration, modules, db, queryFiles) {
 
         getOrgGOSM: function(param, connection = db) {
             return connection.oneOrNone(getOrgGOSMSQL, param);
+        },
+
+        getGOSMActivityOrg: function(param, connection = db) {
+            return connection.oneOrNone(getGOSMActivityOrgSQL, param);
         },
 
         getActivitiesFromID: (GOSMID, fields, connection = db) => {
@@ -240,7 +248,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
             attachFields(query, fields);
 
             query = query.toString();
-             logger.debug(`Executing query: ${query}`, log_options);
+            logger.debug(`Executing query: ${query}`, log_options);
             /*
                 let param = {
                     activityID: id
@@ -251,10 +259,17 @@ module.exports = function(configuration, modules, db, queryFiles) {
             return connection.any(query, param);
         },
 
-        updateGOSMStatus: function(id, statusID, comments, connection = db) {
+        updateGOSMStatus: function(id, statusID, preparedBy, comments, connection = db) {
+            logger.debug(`updateGOSMStatus(id: ${id}, statusID: ${statusID}, preparedBy: ${preparedBy}, comments: ${comments})`, log_options);
+
+            let dontQuote = {
+                dontQuote: true
+            };
+
             let query = squel.update()
                 .table('GOSM')
-                .set('status', '${statusID}')
+                .set('status', '${statusID}', dontQuote)
+                .set('statusEvaluator', '${preparedBy}', dontQuote)
                 .where('id = ${id}');
 
             /*
@@ -267,16 +282,15 @@ module.exports = function(configuration, modules, db, queryFiles) {
             let param = Object.create(null);
             param.id = id;
             param.statusID = statusID;
+            param.preparedBy = preparedBy;
 
             if (typeof comments === 'string') {
-                query.set('comments', '${comments}', {
-                    dontQuote: true
-                });
+                query.set('comments', '${comments}', dontQuote);
                 param.comments = comments;
             }
 
             query = query.toString();
-             logger.debug(`Executing query: ${query} with parameters ${JSON.stringify(param)}`, log_options);
+            logger.debug(`Executing query: ${query}`, log_options);
             return connection.none(query, param);
         },
 
@@ -285,41 +299,31 @@ module.exports = function(configuration, modules, db, queryFiles) {
                 .table('GOSMActivity')
                 .set('comments', '${comments}', {
                     dontQuote: true
-                })
-                .where('id = ${id}');
-
+                }).where('id = ${id}');
             query = query.toString();
-             logger.debug(`Executing query: ${query}`, log_options);
 
-            /*
-                let param = {
-                    id: id,
-                    comments: comments
-                };
-            */
             let param = Object.create(null);
             param.id = id;
             param.comments = comments;
+
+            logger.debug(`Executing query: ${query}`, log_options);
             return connection.none(query, param);
         },
 
         getGOSM: function(id, fields, connection = db) {
+            logger.debug(`getGOSM(id: ${id})`, log_options);
+
             let query = squel.select()
                 .from('GOSM', 'g')
                 .where('id = ${id}');
             attachFields(query, fields);
-
             query = query.toString();
-             logger.debug(`Executing query: ${query}`, log_options);
-
-            /*
-                let param = {
-                    id: id
-                };
-            */
+            
             let param = Object.create(null);
             param.id = id;
+
+            logger.debug(`Executing query: ${query}`, log_options);
             return connection.one(query, param);
-        }
+        },
     };
 };
