@@ -3,6 +3,12 @@
 
 {%block page_title%}CSO - ACL Setting{%-endblock%}
 
+
+{%block meta%}
+    {{super()}}
+    <meta data-name="csrf" data-token="{{csrfToken}}" />
+{%endblock%}
+
 {%block style%}
 	{{super()}}
 	<!-- Bootstrap Core CSS -->
@@ -100,7 +106,8 @@
     <div class="col-md-12">
         <div class="panel panel-info">                                                    
             <div class="panel-body">
-                <form action="#">
+                <form action="/Organization/Setting/ACL/Save" method="POST">
+                    <input type="hidden" name="_csrf" value="{{csrfToken}}">
                     <div class="form-body">
                         <h3 class="box-title">Organization Access Rights </h3>
                         <hr>
@@ -119,14 +126,32 @@
                                          </tr>
                                     </thead>
                                     <tbody>
+                                        
                                         {%for org in orgrole%}
+                                            
+                                            
                                             <tr>
                                                 <td >{{org.acronym}} - {{org.shortname}}</td>
+                                        
                                                 {%for f in functionality%}
-                                                    <td class="text-center"><input type="checkbox" name="" checked></td>
+                                                    
+                                                    
+                                                    <td class="text-center"><input type="checkbox" name="{{org.id}}+{{f.id}}" 
+                                                        {%for access in checked[org.id]%}
+                                                            {%if access == f.id%}
+                                                                checked
+                                                            {%endif%}
+                                                        {%endfor%}
+                                                    >
+                                                    
+
+
+                                                    </td>
+
+                                        
                                                 {%endfor %}
                                                 
-                                            </tr>
+                                            </tr>                                        
                                         {%endfor %}
                                         
 

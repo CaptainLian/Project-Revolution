@@ -248,7 +248,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
             attachFields(query, fields);
 
             query = query.toString();
-             logger.debug(`Executing query: ${query}`, log_options);
+            logger.debug(`Executing query: ${query}`, log_options);
             /*
                 let param = {
                     activityID: id

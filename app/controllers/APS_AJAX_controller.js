@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = function(configuration, modules, models, database, queryFiles) {
     const Promise = module.Promise;
 
