@@ -114,6 +114,56 @@ module.exports = function(configuration, modules, database, queryFiles){
         return connection.oneOrNone(getDirectPaymentSignatorySQL, param);
     };
 
+    const insertReimbursementSQL = queryFiles.insertReimbursement;
+    FinanceModel.insertReimbursement = function(param, connection = database){
+        return connection.one(insertReimbursementSQL, param);
+    };
+
+    const insertReimbursementParticularSQL = queryFiles.insertReimbursementParticular;
+    FinanceModel.insertReimbursementParticular = function(param, connection = database){
+        return connection.none(insertReimbursementParticularSQL, param);
+    };
+
+    const insertPreActivityBookTransferSQL = queryFiles.insertPreActivityBookTransfer;
+    FinanceModel.insertPreActivityBookTransfer = function(param, connection = database){
+        return connection.one(insertPreActivityBookTransferSQL, param);
+    };
+
+    const insertPreActivityBookTransferParticularSQL = queryFiles.insertPreActivityBookTransferParticular;
+    FinanceModel.insertPreActivityBookTransferParticular = function(param, connection = database){
+        return connection.none(insertPreActivityBookTransferParticularSQL, param);
+    };
+
+    const getPreActivityBookTransferSQL = queryFiles.getPreActivityBookTransfer;
+    FinanceModel.getPreActivityBookTransfer = function(param, connection = database){
+        return connection.one(getPreActivityBookTransferSQL, param);
+    };
+
+    const getPostProjectReimbursementSQL = queryFiles.getPostProjectReimbursement;
+    FinanceModel.getPostProjectReimbursement = function(param, connection = database){
+        return connection.one(getPostProjectReimbursementSQL, param);
+    };
+
+    const getBookTransferSignatorySQL = queryFiles.getBookTransferSignatory;
+    FinanceModel.getBookTransferSignatory = function(param, connection = database){
+        return connection.oneOrNone(getBookTransferSignatorySQL, param);
+    };
+
+    const getReimbursementSignatorySQL = queryFiles.getReimbursementSignatory;
+    FinanceModel.getReimbursementSignatory = function(param, connection = database){
+        return connection.oneOrNone(getReimbursementSignatorySQL, param);
+    };
+
+    const getBookTransferParticularsSQL = queryFiles.getBookTransferSignatory;
+    FinanceModel.getBookTransferParticulars = function(param, connection = database){
+        return connection.any(getBookTransferParticularsSQL, param);
+    };
+
+    const getReimbursementParticularsSQL = queryFiles.getReimbursementParticulars;
+    FinanceModel.getReimbursementParticulars = function(param, connection = database){
+        return connection.any(getReimbursementParticularsSQL, param);
+    };
+
     //Used for signing
     FinanceModel.getPreActivityCashAdvanceDetails = (cashAdvanceID, fields, connection = database) => {
         logger.debug(`getPreActivityCashAdvanceDetails(cashAdvanceID: ${cashAdvanceID})`, log_options);

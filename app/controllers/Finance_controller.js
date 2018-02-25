@@ -179,9 +179,118 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				}// book transfer
 				else if(req.params.transaction==2){
 
+					logger.debug('Book Transfer', log_options);
+					var param = {
+						id: req.params.id
+					};
+
+					financeModel.getPreActivityBookTransfer(param).then(data=>{
+						var dbParam = {
+							gosmactivity: data.GOSMActivity
+						};
+
+						logger.debug('starting tasks', log_options);
+						database.task(t=>{
+							return t.batch([projectProposalModel.getProjectProposal(dbParam),
+											financeModel.getBookTransferParticulars(param),
+											financeModel.getBookTransferSignatory(param)]);
+						}).then(data1=>{
+							const renderData = Object.create(null);
+				            renderData.extra_data = req.extra_data;
+		            		renderData.csrfToken = req.csrfToken();
+				            renderData.bookTransfer = data;
+				            renderData.projectproposal = data1[0];
+				            renderData.particulars = data1[1];
+				            renderData.gosmactivity = data.GOSMActivity;
+				            // transactionType: if 0 direct payment; if 1 cash advance; if 2 book transfer; if 3 reimbursement
+				            renderData.transactionType = req.params.transaction;
+				            
+
+				            //to evaluate
+
+				            if(data1[2].signatory == req.session.user.idNumber){
+				           		renderData.toEvaluate = true; 
+				           	}
+				           	else{
+				           		renderData.toEvaluate = false;
+				           	}
+				           
+				           
+							if(data.orgid == req.session.user.organizationSelected.id){
+					           	return res.render('Finance/EvaluateTransaction', renderData);
+				           	}
+				           	else{
+				           		//TODO: redirect cannot enter
+				           	}
+
+
+							
+						}).catch(error=>{
+							return logger.debug(`${error.message}\n${error.stack}`, log_options);
+						});
+					}).catch(error=>{
+						return logger.debug(`${error.message}\n${error.stack}`, log_options);
+					});
+
 				}// reimbursement
 				else if(req.params.transaction==3){
 
+					logger.debug('Reimbursement', log_options);
+					var param = {
+						id: req.params.id
+					};
+
+					financeModel.getPostProjectReimbursement(param).then(data=>{
+						var dbParam = {
+							gosmactivity: data.GOSMActivity
+						};
+
+						logger.debug('starting tasks', log_options);
+						database.task(t=>{
+							return t.batch([projectProposalModel.getProjectProposal(dbParam),
+											financeModel.getReimbursementParticulars(param),
+											financeModel.getReimbursementSignatory(param)]);
+						}).then(data1=>{
+							const renderData = Object.create(null);
+				            renderData.extra_data = req.extra_data;
+		            		renderData.csrfToken = req.csrfToken();
+				            renderData.reimbursement = data;
+				            renderData.projectproposal = data1[0];
+				            renderData.particulars = data1[1];
+				            renderData.gosmactivity = data.GOSMActivity;
+				            // transactionType: if 0 direct payment; if 1 cash advance; if 2 book transfer; if 3 reimbursement
+				            renderData.transactionType = req.params.transaction;
+				            
+
+				            //to evaluate
+
+				            if(data1[2].signatory == req.session.user.idNumber){
+				           		renderData.toEvaluate = true; 
+				           	}
+				           	else{
+				           		renderData.toEvaluate = false;
+				           	}
+				           
+				           
+							if(data.orgid == req.session.user.organizationSelected.id){
+					           	return res.render('Finance/EvaluateTransaction', renderData);
+				           	}
+				           	else{
+				           		//TODO: redirect cannot enter
+				           	}
+
+
+							
+						}).catch(error=>{
+							return logger.debug(`${error.message}\n${error.stack}`, log_options);
+						});
+					}).catch(error=>{
+						return logger.debug(`${error.message}\n${error.stack}`, log_options);
+					});
+
+				}
+				else{
+					//TODO: page does not exist
 				}
 
 		    }
@@ -513,24 +622,35 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		},
 
+		approveReimbursement: (req, res) =>{
+
+			req.body.reimbursementId
+			req.body.gosmactivity
+		},
+
+		pendReimbursement: (req, res) =>{
+			req.body.reimbursementId
+			req.body.gosmactivity
+		},
+
+		approveBookTransfer: (req, res) =>{
+
+			req.body.bookTransferId
+			req.body.gosmactivity
+
+		},
+
+		pendBookTransfer: (req, res) =>{
+
+			req.body.bookTransferId
+			req.body.gosmactivity
+
+		},
+
 		viewFinanceList: (req, res) => {
 
 			console.log("My user type is");
 			console.log(req.session.user.type);
-
-			// old code
-
-			// checks if student
-
-				// var signatoryParam = {
-				// 	idnumber: req.session.user.idNumber
-				// }
-
-    //             database.task(t =>{
-				// 	return t.batch([financeModel.getActivitiesWithFinancialDocuments(),
-				// 					financeModel.getTransactionTotalPerActivityForSignatory(signatoryParam)]);
-				// })
-				// .then(data=>{
 
 			const renderData = Object.create(null);
 	       	renderData.extra_data = req.extra_data;
@@ -1135,6 +1255,44 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		},
 
+		submitReimbursement: (req, res) =>{
+
+			//TODO: add submitted by to reimbursement table in db
+			var dbParam = {
+				gosmactivity: req.body.gosmactivity,
+				submittedby: req.session.user.idNumber
+			};
+
+            let particulars = req.body.particulars;
+            if(!Array.isArray(particulars)){
+                particulars = [particulars];
+            }
+
+            console.log(dbParam);
+            console.log(particulars);
+
+            database.tx(transaction => {
+	            return financeModel.insertReimbursement(dbParam, transaction).then(data => {
+	            	let query = [];
+
+                    for(let index = 0; index < particulars.length; ++index){
+                    	query[query.length] = financeModel.insertReimbursementParticular({
+                            reimbursement: data.id,
+                            particular: particulars[index]
+                        }, transaction);
+                    }
+
+                    return transaction.batch(query);
+                });
+            }).then(data =>{
+                return res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
+            }).catch(error => {
+            	console.log("ERROR---------------------------")
+            	console.log(error);
+            });
+
+		},
+
 		createPreactsBookTransfer: (req, res) => {
 
 			var dbParam = {
@@ -1202,6 +1360,46 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		    else{
 		    	//TODO: redirect cannot enter
 		    }
+
+		},
+
+		submitPreactsBookTransfer: (req, res) =>{
+
+			console.log(req.body);
+
+			// TODO: recipient??
+			var dbParam = {
+				gosmactivity: req.body.gosmactivity,
+				submittedby: req.session.user.idNumber
+			};
+
+            let particulars = req.body.particulars;
+            if(!Array.isArray(particulars)){
+                particulars = [particulars];
+            }
+
+            console.log(dbParam);
+            console.log(particulars);
+
+            database.tx(transaction => {
+	            return financeModel.insertPreActivityBookTransfer(dbParam, transaction).then(data => {
+	            	let query = [];
+
+                    for(let index = 0; index < particulars.length; ++index){
+                    	query[query.length] = financeModel.insertPreActivityBookTransferParticular({
+                            booktransfer: data.id,
+                            particular: particulars[index]
+                        }, transaction);
+                    }
+
+                    return transaction.batch(query);
+                });
+            }).then(data =>{
+                return res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
+            }).catch(error => {
+            	console.log("ERROR---------------------------")
+            	console.log(error);
+            });
 
 		}
 	};

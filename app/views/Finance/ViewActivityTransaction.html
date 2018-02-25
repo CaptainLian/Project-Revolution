@@ -133,9 +133,18 @@
 
                                                 <tr onclick="window.location = '/transaction/evaluate/0/{{transaction.id}}'">
 
-                                            {% else %} <!-- if cash advance -->
+                                            {% elif (transaction.transaction == 2) or (transaction.transaction == 3) %} <!-- if cash advance -->
                                                 
                                                 <tr onclick="window.location = '/transaction/evaluate/1/{{transaction.id}}'">
+
+                                            {% elif (transaction.transaction == 4) or (transaction.transaction == 5) %} <!-- if book transfer -->
+
+                                                <tr onclick="window.location = '/transaction/evaluate/2/{{transaction.id}}'">
+
+
+                                            {% elif (transaction.transaction == 6) or (transaction.transaction == 7) %} <!-- if reimbursement -->
+
+                                                <tr onclick="window.location = '/transaction/evaluate/3/{{transaction.id}}'">
 
                                             {% endif %}
 
@@ -143,8 +152,12 @@
 
                                                 {% if (transaction.transaction == 0)  or (transaction.transaction == 1) %}
                                                     <td>Direct Payment</td>
-                                                {% else %}
+                                                {% elif (transaction.transaction == 2)  or (transaction.transaction == 3) %}
                                                     <td>Cash Advance</td>
+                                                {% elif (transaction.transaction == 4)  or (transaction.transaction == 5) %}
+                                                    <td>Book Transfer</td>
+                                                {% elif (transaction.transaction == 2)  or (transaction.transaction == 3) %}
+                                                    <td>Reimbursement</td>
                                                 {% endif %}
                                                 
                                                 <td>Php {{transaction.amount | round(2)}}</td>

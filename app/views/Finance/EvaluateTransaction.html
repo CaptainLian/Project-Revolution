@@ -105,6 +105,36 @@
     <input type="hidden" name="cashAdvanceId" value="{{cashAdvance.id}}">
     <input type="hidden" name="gosmactivity" value="{{gosmactivity}}">
 
+{% elif transactionType ==2 %}
+
+    <form action="/transaction/approveBookTransfer" id="form-id" class="form-horizontal" method="POST">
+    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+    <input type="hidden" name="bookTransferId" value="{{bookTransfer.id}}">
+    <input type="hidden" name="transactionType" value="{{transactionType}}">
+    <input type="hidden" name="gosmactivity" value="{{gosmactivity}}">
+
+    </form>
+
+    <form action="/transaction/pendBookTransfer" id="form-id2" class="form-horizontal" method="POST">
+    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+    <input type="hidden" name="bookTransferId" value="{{bookTransfer.id}}">
+    <input type="hidden" name="gosmactivity" value="{{gosmactivity}}">
+
+{% elif transactionType ==3 %}
+
+    <form action="/transaction/approveReimbursement" id="form-id" class="form-horizontal" method="POST">
+    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+    <input type="hidden" name="reimbursementId" value="{{reimbursement.id}}">
+    <input type="hidden" name="transactionType" value="{{transactionType}}">
+    <input type="hidden" name="gosmactivity" value="{{gosmactivity}}">
+
+    </form>
+
+    <form action="/transaction/pendReimbursement" id="form-id2" class="form-horizontal" method="POST">
+    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+    <input type="hidden" name="reimbursementId" value="{{reimbursement.id}}">
+    <input type="hidden" name="gosmactivity" value="{{gosmactivity}}">
+
 {% endif %}
 <div class="row">
     <!-- Left sidebar -->
@@ -133,7 +163,7 @@
                     <div class="media m-b-30 p-t-20">
                         {% if transactionType == 0 %}
 
-                            <h4 class="font-bold m-t-0">Cash Advance for {{directPayment.strategies}} to be held on {{projectproposal.startdate}}</h4> 
+                            <h4 class="font-bold m-t-0">Direct Payment for {{directPayment.strategies}} to be held on {{projectproposal.startdate}}</h4> 
 
                             <hr>
                             <a class="pull-left" href="#"> <img class="media-object thumb-sm img-circle" src="../plugins/images/users/pawandeep.jpg" alt=""> </a>
@@ -152,7 +182,28 @@
                                 <h4 class="text-danger m-0">{{cashAdvance.organization}} &nbsp;({{cashAdvance.orgid}})</h4>
                                 
                                 <span class="media-meta pull-right">{{cashAdvance.submissiondate}}</span>
-                        {% else %}
+                        
+                        {% elif transactionType == 2 %}
+
+                             <h4 class="font-bold m-t-0">Book Transfer for {{bookTransfer.strategies}} to be held on {{projectproposal.startdate}}</h4> 
+
+                            <hr>
+                            <a class="pull-left" href="#"> <img class="media-object thumb-sm img-circle" src="../plugins/images/users/pawandeep.jpg" alt=""> </a>
+                            <div class="media-body"> <span class="media-meta pull-right">{{bookTransfer.submittime}}</span>
+                                <h4 class="text-danger m-0">{{bookTransfer.organization}} &nbsp;({{bookTransfer.orgid}})</h4>
+                                
+                                <span class="media-meta pull-right">{{bookTransfer.submissiondate}}</span>
+
+                        {% elif transactionType == 3 %}
+
+                            <h4 class="font-bold m-t-0">Reimbursement for {{reimbursement.strategies}} to be held on {{projectproposal.startdate}}</h4> 
+
+                            <hr>
+                            <a class="pull-left" href="#"> <img class="media-object thumb-sm img-circle" src="../plugins/images/users/pawandeep.jpg" alt=""> </a>
+                            <div class="media-body"> <span class="media-meta pull-right">{{reimbursement.submittime}}</span>
+                                <h4 class="text-danger m-0">{{reimbursement.organization}} &nbsp;({{reimbursement.orgid}})</h4>
+                                
+                                <span class="media-meta pull-right">{{reimbursement.submissiondate}}</span>
 
                         {% endif %}
                         
@@ -191,6 +242,14 @@
 
                                     <label style="">From: {{cashAdvance.firstname}} {{cashAdvance.lastname}}</label>
 
+                                {% elif transactionType == 2 %}
+
+                                    <label style="">From: {{bookTransfer.firstname}} {{bookTransfer.lastname}}</label>
+
+                                {% elif transactionType == 3 %}
+
+                                    <label style="">From: {{reimbursement.firstname}} {{reimbursement.lastname}}</label>
+
 
                                 {% endif %}    
                                 </div>
@@ -210,6 +269,14 @@
                         {% elif transactionType == 1 %}
     
                             <h3 class="box-title m-t-40">Cash Advance Memo</h3>
+
+                        {% elif transactionType == 2 %}
+    
+                            <h3 class="box-title m-t-40">Book Transfer Memo</h3>
+
+                        {% elif transactionType == 3 %}
+    
+                            <h3 class="box-title m-t-40">Reimbursement Memo</h3>
 
                         {% endif %}
 

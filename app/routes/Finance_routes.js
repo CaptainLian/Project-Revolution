@@ -21,8 +21,8 @@ module.exports = function(configuration, modules, router, controllers, models, d
 	router.post('/transaction/pendDirectPayment', controllers.Finance_controller.pendDirectPayment);
 	router.post('/transaction/approveBookTransfer', controllers.Finance_controller.approveBookTransfer);
 	router.post('/transaction/pendBookTransfer', controllers.Finance_controller.pendBookTransfer);
-	router.post('transaction/approveReimbursement' controllers.Finance_controller.approveReimbursement);
-	router.post('transaction/pendReimbursemnet', controllers.Finance_controller.pendReimbursemnet);
+	router.post('transaction/approveReimbursement', controllers.Finance_controller.approveReimbursement);
+	router.post('transaction/pendReimbursement', controllers.Finance_controller.pendReimbursement);
 
 	router.get('/finance/list', controllers.Finance_controller.viewFinanceList);
 	router.get('/finance/list/transaction/:gosmactivity', controllers.Finance_controller.viewTransaction);
