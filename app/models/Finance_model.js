@@ -164,6 +164,26 @@ module.exports = function(configuration, modules, database, queryFiles){
         return connection.any(getReimbursementParticularsSQL, param);
     };
 
+    const approveReimbursementSQL  = queryFiles.approveReimbursement;
+    FinanceModel.approveReimbursement = function(param, connection = database){
+        return connection.none(approveReimbursementSQL, param);
+    };
+
+    const pendReimbursementSQL = queryFiles.pendReimbursement;
+    FinanceModel.pendReimbursement = function(param, connection = database){
+        return connection.none(pendReimbursementSQL, param);
+    };
+
+    const approveBookTransferSQL = queryFiles.approveBookTransfer;
+    FinanceModel.approveBookTransfer = function(param, connection = database){
+        return connection.none(approvebookTransferSQL, param);
+    };
+
+    const pendBookTransferSQL = queryFiles.pendbookTransfer;
+    FinanceModel.pendBookTransfer = function(param, connection = database){
+        return connection.none(pendBookTransferSQL, param);
+    };
+
     //Used for signing
     FinanceModel.getPreActivityCashAdvanceDetails = (cashAdvanceID, fields, connection = database) => {
         logger.debug(`getPreActivityCashAdvanceDetails(cashAdvanceID: ${cashAdvanceID})`, log_options);

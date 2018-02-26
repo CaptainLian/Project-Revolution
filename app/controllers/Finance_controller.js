@@ -624,26 +624,85 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		approveReimbursement: (req, res) =>{
 
-			req.body.reimbursementId
-			req.body.gosmactivity
+			
+			var dbParam = {
+				reimbursement: req.body.reimbursementId,
+				gosmactivity: req.body.gosmactivity,
+				idnumber: req.session.user.idNumber
+			}
+
+			financeModel.approveReimbursement(dbParam)
+			.then(data=>{
+
+				console.log("successfully approved reimbursement");
+				res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
+
+			}).catch(error=>{
+				console.log(error);
+			});
 		},
 
 		pendReimbursement: (req, res) =>{
-			req.body.reimbursementId
-			req.body.gosmactivity
+			
+
+			var dbParam = {
+				reimbursement: req.body.reimbursementId,
+				gosmactivity: req.body.gosmactivity,
+				idnumber: req.session.user.idNumber
+			}
+
+			financeModel.pendReimbursement(dbParam)
+			.then(data=>{
+
+				console.log("successfully pended reimbursement");
+				res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
+
+			}).catch(error=>{
+				console.log(error);
+			});
 		},
 
 		approveBookTransfer: (req, res) =>{
 
-			req.body.bookTransferId
-			req.body.gosmactivity
+
+			var dbParam = {
+				booktransfer: req.body.bookTransferId,
+				gosmactivity: req.body.gosmactivity,
+				idnumber: req.session.user.idNumber
+			}
+
+			financeModel.approveBookTransfer(dbParam)
+			.then(data=>{
+
+				console.log("successfully approved book transfer");
+				res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
+
+
+			}).catch(error=>{
+				console.log(error);
+			});
 
 		},
 
 		pendBookTransfer: (req, res) =>{
 
-			req.body.bookTransferId
-			req.body.gosmactivity
+
+			var dbParam = {
+				booktransfer: req.body.bookTransferId,
+				gosmactivity: req.body.gosmactivity,
+				idnumber: req.session.user.idNumber
+			}
+
+			financeModel.pendBookTransfer(dbParam)
+			.then(data=>{
+
+				console.log("successfully pended book transfer");
+				res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
+
+
+			}).catch(error=>{
+				console.log(error);
+			});
 
 		},
 
