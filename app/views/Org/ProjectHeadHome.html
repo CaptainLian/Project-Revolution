@@ -93,11 +93,18 @@
                             id:{{event.id}},
                             title:"{{event.strategies}}",
                             start:"{{event.targetdatestart}}",
-                            color:'#00C292'
+                            className:'bg-success'
                         },
                     {%endfor%}
 
-                ]
+                ],
+                eventClick: function(calEvent, jsEvent, view) { 
+                                var $this = this;
+                                $('#event-title').text(calEvent.title)
+
+                                 $('#my-event').modal('show');
+
+                            }
             });
 
 
@@ -147,21 +154,19 @@
         </div>
     </div>
     <div class="modal none-border" id="my-event">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                <h4 class="modal-title"><strong>Add Event</strong></h4>
-                            </div>
-                            <div class="modal-body"></div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-white waves-effect" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-success save-event waves-effect waves-light">Create event</button>
-                                <button type="button" class="btn btn-danger delete-event waves-effect waves-light" data-dismiss="modal">Delete</button>
-                            </div>
-                        </div>
-                    </div>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title"><strong id="event-title">Add Event</strong></h4>
                 </div>
+                <div class="modal-body"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white waves-effect" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="col-md-8 ">
         <div class="white-box">
             <h3 class="box-title">Activity
@@ -278,5 +283,6 @@
         </div>
     </div>
 </div>
+ 
 {%endblock%}
 
