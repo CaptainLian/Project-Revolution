@@ -1,7 +1,7 @@
 $(document).ready(function() {
+    
+    $('select').val('all');
     $('select').trigger('change');
-    $('select').val('den');
-
 
     $("select").change(function() {
         if ($(this).val() == 'pen') {
@@ -39,11 +39,20 @@ $(document).ready(function() {
                     function() {
                         $(this).removeClass("shake animated");
                     });
+        }else if ($(this).val() == 'den') {
+            $("tr.pen").css('display', '');
+            $("tr.app").css('display', '');
+            $("tr.den").css('display', '');
+
+
+            $("div.pending").css('display', '');
+            $("div.denied").css('display', '');
+
+           
         }
     });
 
-    $('#calendar').fullCalendar({
-        height:450
-    });
+    
+
 });
 
