@@ -97,9 +97,14 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				            renderData.transactionType = req.params.transaction;
 				            
 				            //to evaluate
-				           	
-				           	if(data1[2].signatory == req.session.user.idNumber){
-				           		renderData.toEvaluate = true; 
+				           
+				           	if(data.status==0){
+				           		if(data1[2].signatory == req.session.user.idNumber){
+				           			renderData.toEvaluate = true; 
+					           	}
+					           	else{
+					           		renderData.toEvaluate = false;
+					           	}
 				           	}
 				           	else{
 				           		renderData.toEvaluate = false;
@@ -151,8 +156,13 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 				            //to evaluate
 
-				            if(data1[2].signatory == req.session.user.idNumber){
-				           		renderData.toEvaluate = true; 
+				            if(data.status==0){
+				           		if(data1[2].signatory == req.session.user.idNumber){
+				           			renderData.toEvaluate = true; 
+					           	}
+					           	else{
+					           		renderData.toEvaluate = false;
+					           	}
 				           	}
 				           	else{
 				           		renderData.toEvaluate = false;
@@ -208,8 +218,15 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 				            //to evaluate
 
-				            if(data1[2].signatory == req.session.user.idNumber){
-				           		renderData.toEvaluate = true; 
+				            if(data.status==0){
+				           		
+				           		if(data1[2].signatory == req.session.user.idNumber){
+				           			renderData.toEvaluate = true; 
+					           	}
+					           	else{
+					           		renderData.toEvaluate = false;
+					           	}
+
 				           	}
 				           	else{
 				           		renderData.toEvaluate = false;
@@ -264,8 +281,15 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 				            //to evaluate
 
-				            if(data1[2].signatory == req.session.user.idNumber){
-				           		renderData.toEvaluate = true; 
+				            if(data.status==0){
+				           		
+				           		if(data1[2].signatory == req.session.user.idNumber){
+				           			renderData.toEvaluate = true; 
+					           	}
+					           	else{
+					           		renderData.toEvaluate = false;
+					           	}
+					           	
 				           	}
 				           	else{
 				           		renderData.toEvaluate = false;
