@@ -46,47 +46,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             }).catch(error => {
                 logger.error(`${error.message}\n${error.stack}`, log_options);
             });
-        },//
+        },
         viewGOSMList: (req, res) => {
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
             return res.render('Org/GOSMList');
         },
-        viewGOSMDetails: (req, res) => {
-            const renderData = Object.create(null);
-            renderData.extra_data = req.extra_data;
-            return res.render('Org/gosmDetails');
-        },
-        viewNotInGosmList: (req, res) => {
-            const renderData = Object.create(null);
-            renderData.extra_data = req.extra_data;
-            return res.render('Org/NotInGosmList');
-        },
-        viewNotInGosmMain: (req, res) => {
-            const renderData = Object.create(null);
-            renderData.extra_data = req.extra_data;
-            return res.render('Org/submitNotInGosm_main');
-        },
-        viewNotInGosmAttachments: (req, res) => {
-            const renderData = Object.create(null);
-            renderData.extra_data = req.extra_data;
-            return res.render('Org/GOSMList');
-        },
-        viewNotInGosmBriefContext: (req, res) => {
-            const renderData = Object.create(null);
-            renderData.extra_data = req.extra_data;
-            return res.render('Org/SubmitNotInGosm_briefContext');
-        },
-        viewNotInGosmExpense: (req, res) => {
-            const renderData = Object.create(null);
-            renderData.extra_data = req.extra_data;
-            return res.render('Org/GOSMList');
-        },
-        viewNotInGosmProgramDesign: (req, res) => {
-            const renderData = Object.create(null);
-            renderData.extra_data = req.extra_data;
-            return res.render('Org/GOSMList');
-        },
+
         viewActivityDetails: (req, res) => {
                 logger.debug('viewActivityDetails()', log_options);
                 var activityId;
@@ -1167,7 +1133,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                 logger.debug('Rendering page', log_options);
                 if(renderData.status ==3){
-                    return res.redirect('/Organization/viewGOSMDetails')
+                    return res.redirect('/Organization/viewGOSM`')
                 }else{
                     return res.render('Org/GOSM', renderData);    
                 }
