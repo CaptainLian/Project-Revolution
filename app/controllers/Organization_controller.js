@@ -1133,7 +1133,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                 logger.debug('Rendering page', log_options);
                 if(renderData.status ==3){
-                    return res.redirect('/Organization/viewGOSM`')
+                    return res.redirect('/Organization/viewGOSMDetails')
                 }else{
                     return res.render('Org/GOSM', renderData);    
                 }
@@ -1143,6 +1143,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             });
         },
 
+        viewGOSMDetails:(req, res) => {
+            const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            return res.render('Org/viewGOSMDetails', renderData);    
+        },
 
         saveContext: (req, res) => {
             console.log(req.body);
