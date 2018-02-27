@@ -618,6 +618,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         viewProjectHeadHome: (req, res) => {
 
             //TODO: if account is president
+           console.log(req.session.user.organizationSelected.id)
 
             database.task(t => {
                 return t.batch([
@@ -634,7 +635,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     projectProposalModel.getProjectProposalCommentsPerStatus(req.session.user.organizationSelected.id, 2,
                                                                                 req.session.user.idNumber, t),
                     projectProposalModel.getProjectProposalCommentsPerStatus(req.session.user.organizationSelected.id, 3,
-                                                                                req.session.user.idNumber, t)
+                                                                                req.session.user.idNumber, t),
+                    projectProposalModel.getAllOrgProposal(req.session.user.organizationSelected.id,t)
                 ]);
             }).then(data => {
                 logger.debug(`${JSON.stringify(data)}`, log_options);
@@ -644,7 +646,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.approvedActivities = data[4];
                 renderData.pendedActivities = data[5];
                 renderData.deniedActivities = data[6];
-
+                renderData.events = data[7];
+                console.log(data[7])
 
                 if (data[0]==null){
 
@@ -677,7 +680,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                 }
 
-
+                console.log(renderData.successProjects)
                 return res.render('Org/ProjectHeadHome', renderData);
             }).catch(error => {
                 throw error;

@@ -14,6 +14,11 @@
     <!-- Bootstrap Core CSS -->
     {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
     {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
+
+    {{tag.style('/plugins/bower_components/bootstrap-table/dist/bootstrap-table.min.css')}}
+
+    {{tag.style('/plugins/bower_components/calendar/dist/fullcalendar.css')}}
+    
     <!-- Menu CSS -->
     {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
     <!-- animation CSS -->
@@ -26,62 +31,89 @@
     {{tag.style('/plugins/bower_components/sweetalert/sweetalert.css')}}
     <!-- page CSS -->
     {{tag.style('/css/custom.css')}}
+    
 
-    <!-- morris CSS -->
-    {{tag.style('/plugins/bower_components/morrisjs/morris.css')}}
-    {{tag.style('/plugins/bower_components/css-chart/css-chart.css')}}
-    <!--Owl carousel CSS -->
-    {{tag.style('/plugins/bower_components/owl.carousel/owl.carousel.min.css')}}
-    {{tag.style('/plugins/bower_components/owl.carousel/owl.theme.default.css')}}
-
+    
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style type="text/css">
+             th,td{
+                text-align: center
+             }
+
+    </style>
 {%endblock%}
-	
+
+    
 {%block defer_script%}
-	{{super()}}    
+    {{super()}}    
 
     <!-- jQuery -->
-    {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js')}}
     <!-- Bootstrap Core JavaScript -->
-    {{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
-    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}}
-    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
+    {{tag.javascript('/bootstrap/dist/js/tether.min.js')}}
+    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js')}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js')}}
+
+    {{tag.javascript('/plugins/bower_components/bootstrap-table/dist/bootstrap-table.min.js')}}
     <!-- Menu Plugin JavaScript -->
-    {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js')}}
     <!--slimscroll JavaScript -->
-    {{tag.javascript('/js/jquery.slimscroll.js', true)}}
+    {{tag.javascript('/js/jquery.slimscroll.js')}}
     <!--Wave Effects -->
-    {{tag.javascript('/js/waves.js', true)}}
+    {{tag.javascript('/js/waves.js')}}
     <!-- Custom Theme JavaScript -->
-    {{tag.javascript('/js/custom.min.js', true)}}
-    {{tag.javascript('/js/widget.js', true)}}
-
-    <!--weather icon -->
-    {{tag.javascript('/plugins/bower_components/skycons/skycons.js', true)}}
-    <!--Morris JavaScript -->
-    {{tag.javascript('/plugins/bower_components/raphael/raphael-min.js', true)}}
-    {{tag.javascript('/plugins/bower_components/morrisjs/morris.js', true)}}
-    <!-- jQuery for carousel -->
-    {{tag.javascript('/plugins/bower_components/owl.carousel/owl.carousel.min.js', true)}}
-    {{tag.javascript('/plugins/bower_components/owl.carousel/owl.custom.js', true)}}
-    <!-- Sparkline chart JavaScript -->
-    {{tag.javascript('/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js', true)}}
-    {{tag.javascript('/plugins/bower_components/jquery-sparkline/jquery.charts-sparkline.js', true)}}
-    <!--Counter js -->
-    {{tag.javascript('/plugins/bower_components/waypoints/lib/jquery.waypoints.js', true)}}
-    {{tag.javascript('/plugins/bower_components/counterup/jquery.counterup.min.js', true)}}
-
+    {{tag.javascript('/js/custom.min.js')}} 
 
     <!--Style Switcher -->
-    {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
+    {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js')}}
 
-    {{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
-    {{tag.javascript('/js/Organization/ProjectHeadHome.js', true)}}
+    
+    {{tag.javascript('/plugins/bower_components/moment/moment.js')}}
+    {{tag.javascript('/plugins/bower_components/calendar/dist/fullcalendar.min.js')}}
+    <!-- {{tag.javascript('/plugins/bower_components/calendar/dist/cal-init.js', true)}} -->
+
+
+    {{tag.javascript('/js/system/AJAX_CSRF.js')}}
+    {{tag.javascript('/js/Organization/ProjectHeadHome.js')}}
+    <script type="text/javascript">
+       $(document).ready(function(){
+
+
+          $('#calendar').fullCalendar({
+                height:500,
+                events:[
+                    
+                    {%for event in events%}
+                        {
+                            id:{{event.id}},
+                            title:"{{event.strategies}}",
+                            start:"{{event.targetdatestart}}",
+                            className:'bg-success'
+                        },
+                    {%endfor%}
+
+                ],
+                eventClick: function(calEvent, jsEvent, view) { 
+                                var $this = this;
+                                $('#event-title').text(calEvent.title)
+
+                                 $('#my-event').modal('show');
+
+                            }
+            });
+
+
+
+       })
+        
+    </script>
+
+    
 {%endblock%}
 
 {%block content%}
@@ -92,10 +124,10 @@
             <p class="text-white">Projects</p>
         </div>
     </div>
-    <div class="col-md-3 col-xs-12 col-sm-6">
-        <div class="white-box text-center bg-danger">
-            <h1 class="text-white counter">{{deniedProjects}}</h1>
-            <p class="text-white">Denied</p>
+     <div class="col-md-3 col-xs-12 col-sm-6">
+        <div class="white-box text-center bg-success">
+            <h1 class="text-white counter">{{successProjects}}</h1>
+            <p class="text-white">Success</p>
         </div>
     </div>
     <div class="col-md-3 col-xs-12 col-sm-6">
@@ -105,43 +137,70 @@
         </div>
     </div>
     <div class="col-md-3 col-xs-12 col-sm-6">
-        <div class="white-box text-center bg-success">
-            <h1 class="text-white counter">{{successProjects}}</h1>
-            <p class="text-white">Success</p>
+        <div class="white-box text-center bg-danger">
+            <h1 class="text-white counter">{{deniedProjects}}</h1>
+            <p class="text-white">Denied</p>
         </div>
     </div>
+    
+   
 </div>
 <!-- /row -->
 <!--row -->
 <div class="row">
-    <div class="col-md-12 col-lg-8 col-sm-12">
+    <div class="col-md-12">
+        <div class="white-box">
+            <div id="calendar"></div>
+        </div>
+    </div>
+    <div class="modal none-border" id="my-event">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title"><strong id="event-title">Add Event</strong></h4>
+                </div>
+                <div class="modal-body"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white waves-effect" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8 ">
         <div class="white-box">
             <h3 class="box-title">Activity
-              <div class="col-md-3 col-sm-3 col-xs-3 pull-right">
+              <div class="col-md-3 pull-right">
                 <select id="project-status" class="form-control pull-right row b-none">
-                  
-                  <option value="den">Denied</option>
-                  <option value="pen">Pending</option>
+                  <option value="all" selected="selected">All</option>
                   <option value="app">Approved</option>
+                  <option value="pen">Pending</option>
+                  <option value="den">Denied</option>
+                  
+                  
                 </select>
               </div>
             </h3>
             
-            <div class="table-responsive">
-                <table class="table table-hover">
+            <div class=""  >
+                <table data-toggle="table" data-height="390" data-mobile-responsive="false" class="table-striped" >
                     <thead>
                         <tr>
-                            <th width="85%">NAME</th>
-                            <th width="15%" class="text-center">Actions</th>
+                            <th width="40%" >Activity</th>
+                            <th width="30%" class="text-center">Date Start</th>
+                            <th width="30%" class="text-center">Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody >
+                        
 
+                           
                         {% for activities in deniedActivities %}
                         
                             <tr class="den">                           
-                                <td class="txt-oflo">{{activities.strategies}}</td>                                          
-                                <td class="text-center">
+                                <td width="40%" class="txt-oflo">{{activities.strategies}}</td>     
+                                <td width="30%" class="txt-oflo">Date</td>                                     
+                                <td class="text-center" width="30%">
                                     <a  data-toggle="tooltip" data-original-title="View Comments"> <i db-id="{{activities.id}}" db-startyear="{{activities.startyear}}" db-endyear="{{activities.endyear}}" db-studentorg="{{activities.studentorganization}}" class="fa fa-comment-o text-inverse m-r-10"></i> </a>
                                 </td>
                             </tr>
@@ -151,9 +210,10 @@
                         {% for activities in approvedActivities %}
                             <tr class="app">
                                
-                                <td class="txt-oflo">{{activities.strategies}}</td>
-                                <td class="text-center">
-                                   &nbsp;
+                                <td class="txt-oflo" width="40%">{{activities.strategies}}</td>
+                                <td class="txt-oflo" width="30%">Date</td>
+                                <td class="text-center" width="30%">
+                                   &nbsp;asd
                                 </td>
                             </tr>
                         {% endfor %}
@@ -162,8 +222,9 @@
                         
                             <tr class="pen">
                                
-                                <td class="txt-oflo">{{activities.strategies}}</td>
-                                <td class="text-center">
+                                <td class="txt-oflo" width="40%">{{activities.strategies}}</td>
+                                <td class="txt-oflo" width="30%">Date</td>
+                                <td class="text-center" width="30%">
                                     <a  data-toggle="tooltip" data-original-title="View Comments"> <i db-id="{{activities.id}}" db-startyear="{{activities.startyear}}" db-endyear="{{activities.endyear}}" db-studentorg="{{activities.studentorganization}}" class="fa fa-comment-o text-inverse m-r-10"></i> </a>
                                 </td>                                          
                             </tr>
@@ -176,9 +237,9 @@
                 </div>
         </div>
     </div>
-    <div class="col-md-12 col-lg-4 col-sm-12">
+    <div class="col-md-4 ">
         <div class="white-box">
-            <h3 class="box-title">  </h3>
+            <h3 class="box-title"> Comments </h3>
             <div class="comment-center" style="height: 420px;overflow-y: auto;margin:0px">
 
                 <!-- PENDING -->
@@ -222,4 +283,6 @@
         </div>
     </div>
 </div>
+ 
 {%endblock%}
+
