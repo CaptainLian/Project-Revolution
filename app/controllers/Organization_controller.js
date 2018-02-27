@@ -70,7 +70,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         viewNotInGosmAttachments: (req, res) => {
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
-            return res.render('Org/GOSMList');
+            return res.render('Org/submitNotInGosm_attachments');
         },
         viewNotInGosmBriefContext: (req, res) => {
             const renderData = Object.create(null);
@@ -80,12 +80,12 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         viewNotInGosmExpense: (req, res) => {
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
-            return res.render('Org/GOSMList');
+            return res.render('Org/submitNotInGosm_expense');
         },
         viewNotInGosmProgramDesign: (req, res) => {
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
-            return res.render('Org/GOSMList');
+            return res.render('Org/submitNotInGosm_programdesign');
         },
         viewActivityDetails: (req, res) => {
                 logger.debug('viewActivityDetails()', log_options);
