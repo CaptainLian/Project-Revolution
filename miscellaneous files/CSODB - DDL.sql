@@ -846,6 +846,8 @@ $trigger$
         IF OLD.password <> crypt(NEW.password, OLD.salt) THEN
             SELECT gen_salt('bf') INTO NEW.salt;
             SELECT crypt(NEW.password, NEW.salt) INTO NEW.password;
+
+            NEW.passwordExpiration = CURRENT_TIMESTAMP + (INTERVAL '3 MONTH');
         END IF;
         
         NEW.dateModified = CURRENT_TIMESTAMP;
@@ -1128,7 +1130,7 @@ CREATE TABLE StudentOrganization (
     */
     id INTEGER UNIQUE,
     name VARCHAR(128),
-    status SMALLINT REFERENCES StudentOrganization(id),
+    status SMALLINT REFERENCES StudentOrganization(id) DEFAULT 0,
     cluster SMALLINT REFERENCES OrganizationCluster(id),
     nature SMALLINT REFERENCES OrganizationNature(id),
     college CHAR(3) REFERENCES College(shortAcronym),
@@ -1426,8 +1428,8 @@ INSERT INTO Functionality (id, name, category)
                           -- PPR Signing
                           (211011, 'Sign Project Proposal as Treasurer'     , 211),
                           (211012, 'Sign Project Proposal as Documentations', 211),
-                          (104013, 'Sign Project Proposal Phase - 1'        , 104),
-                          (104014, 'Sign Project Proposal Phase - 2'        , 104),
+                          (104013, 'Sign Project Proposal CSO Phase - 1'        , 104),
+                          (104014, 'Sign Project Proposal CSO Phase - 2'        , 104),
                           (211015, 'Force Sign Project Proposal'            , 211),
                           -- Publicity
                           (210016, 'Submit Publicity Material'              , 210),
@@ -1445,7 +1447,9 @@ INSERT INTO Functionality (id, name, category)
                           (211024, 'Sign Project Proposal as President', 211),
                           -- Finance Signatory 
                           (211025, 'Sign Finance Transaction as President', 211),
-                          (211026, 'Sign Finance Transaction as Treasurer', 211);
+                          (211026, 'Sign Finance Transaction as Treasurer', 211),
+
+                          (214027, 'Submit Officer Survey Form', 214);
 
 DROP TABLE IF EXISTS OrganizationAccessControl CASCADE;
 CREATE TABLE OrganizationAccessControl (
@@ -1514,6 +1518,7 @@ $trigger$
         avpfRoleID INTEGER;
         -- Internal Executive Vice President
         ievpRoleID INTEGER;
+        joRoleID INTEGER;
     BEGIN
         INSERT INTO OrganizationRole(organization, name, shortname, uniquePosition, masterRole, rank)
                              VALUES (NEW.id, 'President', 'P', TRUE, NULL, 0)
@@ -1530,28 +1535,36 @@ $trigger$
                                               -- Sign PPR as President
                                               (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 24)), TRUE),
                                               -- Sign Finance Transaction as President
-                                              (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 25)), TRUE);
+                                              (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 25)), TRUE),
+                                              -- Submit Officer Survey Form  
+                                              (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 27)), TRUE);
 
         INSERT INTO OrganizationRole(organization, name, shortname, uniquePosition, masterRole, rank)
                              VALUES (NEW.id, 'Executive Secretariat','ES', TRUE, presidentRoleID, 10)
         RETURNING id INTO executiveSecretariatRoleID;
         INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       VALUES (executiveSecretariatRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
-                                             (executiveSecretariatRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE);
+                                             (executiveSecretariatRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE),
+                                              -- Submit Officer Survey Form  
+                                             (executiveSecretariatRoleID, (SELECT id FROM functionality WHERE(id%1000 = 27)), TRUE);
 
         INSERT INTO OrganizationRole(organization, name, shortname, uniquePosition, masterRole, rank)
                              VALUES (NEW.id, 'External Executive Vice President', 'E-EVP', TRUE, presidentRoleID, 10)
         RETURNING id INTO eevpRoleID;
         INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       VALUES  (eevpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
-                                              (eevpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE);
+                                              (eevpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE),
+                                              -- Submit Officer Survey Form  
+                                              (eevpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 27)), TRUE);
 
         INSERT INTO OrganizationRole(organization, name, shortname, uniquePosition, masterRole, rank)
                              VALUES (NEW.id, 'Internal Executive Vice President', 'I-EVP',TRUE, presidentRoleID, 10)
         RETURNING id INTO ievpRoleID;
         INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       VALUES  (ievpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
-                                              (ievpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE);
+                                              (ievpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE),
+                                              -- Submit Officer Survey Form  
+                                              (ievpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 27)), TRUE);
 
         INSERT INTO OrganizationRole(organization, name, shortname, uniquePosition, masterRole, rank)
                              VALUES (NEW.id, 'Vice President of Documentations', 'VP-D', TRUE, executiveSecretariatRoleID, 20)
@@ -1560,14 +1573,18 @@ $trigger$
                                       VALUES  (vpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
                                               (vpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE),
                                               -- Sign PPR as Documentation
-                                              (vpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 12)), TRUE);
+                                              (vpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 12)), TRUE),
+                                              -- Submit Officer Survey Form  
+                                              (vpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 27)), TRUE);
 
         INSERT INTO OrganizationRole(organization, name, shortname, uniquePosition, masterRole, rank)
                              VALUES (NEW.id, 'Associate Vice President of Documentations', 'AVP-D', FALSE, vpdRoleID, 30)
         RETURNING id INTO avpdRoleID;
         INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       VALUES  (avpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
-                                              (avpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE);
+                                              (avpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE),
+                                              -- Submit Officer Survey Form  
+                                              (avpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 27)), TRUE);
 
         INSERT INTO OrganizationRole(organization, name, shortname, uniquePosition, masterRole, home_url, rank)
                              VALUES (NEW.id, 'Vice President of Finance', 'VP-F', TRUE, ievpRoleID, '/Organization/treasurer/dashboard', 20)
@@ -1583,7 +1600,9 @@ $trigger$
                                               (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 21)), TRUE),
                                               (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 22)), TRUE),
                                               -- Sign Finance Transaction as Treasurer
-                                              (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 26)), TRUE);
+                                              (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 26)), TRUE),
+                                              -- Submit Officer Survey Form  
+                                              (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 27)), TRUE);
 
         INSERT INTO OrganizationRole(organization, name, shortname, uniquePosition, masterRole, home_url, rank)
                              VALUES (NEW.id, 'Associate Vice President of Finance', 'AVP-F',FALSE, vpfRoleID, '/Organization/treasurer/dashboard', 30)
@@ -1591,7 +1610,9 @@ $trigger$
         INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       VALUES  (avpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
                                               (avpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE),
-                                              (avpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 18)), TRUE);
+                                              (avpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 18)), TRUE),
+                                              -- Submit Officer Survey Form  
+                                              (avpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 27)), TRUE);
 
         RETURN NEW;
     END;
