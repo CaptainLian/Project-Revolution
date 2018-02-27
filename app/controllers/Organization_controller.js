@@ -1057,7 +1057,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         },
 
         viewCreateGOSM: (req, res) => {
-            logger.debug('VIEW CREATE GOSM CONTROLLER', log_options);
+            console.log("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDd")
 
             database.task(task1 => {
                 logger.debug('Starting database task', log_options);
@@ -1111,8 +1111,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     ])
                 });
             }).then(data => {
-                logger.debug(`${JSON.stringify(data)}`, log_options);
-                logger.debug(`${JSON.stringify(data[2])}`, log_options);
+                console.log("TTTTTTTTTTTTTTTTTTTTTTTTTTT")
                 const renderData = Object.create(null);
                 renderData.extra_data = req.extra_data;
                 renderData.csrfToken = req.csrfToken();
@@ -1120,15 +1119,25 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.activityTypes = data[1];
                 renderData.activityNature = data[2];
                 renderData.gosmActivities = data[0];
-                renderData.members = data[3];
-                renderData.status = data[4].status;
-                renderData.comments = data[4].comments;
 
-                console.log(data[4])
+                renderData.members = data[3];
+
+                if(data[4] != undefined){
+                    renderData.status = data[4].status;
+                    renderData.comments = data[4].comments;
+
+                    console.log(data[4])    
+                }
+                
                 console.log("GOSM DATA")
 
                 logger.debug('Rendering page', log_options);
-                return res.render('Org/GOSM', renderData);
+                if(renderData.status ==3){
+                    return res.redirect('/Organization/viewGOSMList')
+                }else{
+                    return res.render('Org/GOSM', renderData);    
+                }
+                
             }).catch(err => {
                 logger.error(`${err.message}\n${err.stack}`, log_options);
             });
