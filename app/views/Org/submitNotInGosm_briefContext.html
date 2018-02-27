@@ -1,0 +1,398 @@
+{% extends '../template/CSO_master.html' %}
+{% import '../template/tags_macro.html' as tag %}
+
+{%block page_title%}CSO - Evaluate Activity{%-endblock%}
+
+{%block style%}
+	{{super()}}
+    <!-- Bootstrap Core CSS -->
+    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
+   	{{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
+    <!-- animation CSS -->
+    {{tag.style('/css/animate.css')}}
+    <!-- Menu CSS -->
+    {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
+    <!-- page CSS -->
+    {{tag.style('/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css')}}
+    {{tag.style('/plugins/bower_components/custom-select/custom-select.css')}}
+    {{tag.style('/plugins/bower_components/switchery/dist/switchery.min.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-select/bootstrap-select.min.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.css')}}
+     {{tag.style('/plugins/bower_components/bootstrap-daterangepicker/daterangepicker.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css')}}
+    {{tag.style('/plugins/bower_components/multiselect/css/multi-select.css')}}
+    <!-- animation CSS -->
+    {{tag.style('/css/animate.css')}}
+    <!-- Custom CSS -->
+    {{tag.style('/css/style.css')}}
+    <!-- color CSS -->
+    {{tag.style('/css/colors/blue.css')}}
+    {{tag.style('/css/custom.css')}}
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+{%endblock%}
+	
+{%block defer_script%}
+	{{super()}}
+    <!-- jQuery -->
+    {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
+    <!-- Bootstrap Core JavaScript -->
+    {{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
+    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
+    <!-- Menu Plugin JavaScript -->
+    {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
+    <!--slimscroll JavaScript -->
+    {{tag.javascript('/js/jquery.slimscroll.js', true)}}
+    {{- tag.javascript('/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.js', true)}}
+    {{- tag.javascript('/plugins/bower_components/bootstrap-daterangepicker/daterangepicker.js', true)}}
+    <!--Wave Effects -->
+    {{tag.javascript('/plugins/bower_components/custom-select/custom-select.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-select/bootstrap-select.min.js', true)}}
+    {{tag.javascript('/js/waves.js', true)}}
+    <!-- Custom Theme JavaScript -->
+     {{tag.javascript('/js/custom.min.js', true)}}
+    <!--Style Switcher -->
+    {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
+
+    {{tag.javascript('/js/Organization/SubmitProjectProposal_briefcontext.js', true)}}
+    
+{%endblock%}
+
+{%block content%}
+<form action="/Organization/projectproposal/SaveContext" method="POST">
+<input type="hidden" name="_csrf" value="{{csrfToken}}">
+<input type="hidden" name="status" value="{{status}}">
+<input type="hidden" name="id" value="{{gosmactivity.gosmactivity}}">
+<input type="hidden" name="ppr" value="{{projectProposal.id}}">
+
+
+
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-info">
+			<div class="panel-heading"> Brief Context</div>
+			<div class="panel-wrapper collapse in" aria-expanded="true">
+			
+			
+				<form action="#" class="form-horizontal">
+						<div class="panel-body">
+							<div class="form-body">
+								<h3 class="box-title text-center">Activity Info</h3>
+								<hr class="m-t-0 m-b-40">
+
+								<div class="row">
+								<div class="col-md-2"></div>
+									<div class="col-md-8">
+										<div class="row m-t-10">
+											<div class="col-md-12">
+												 <div class="form-group">
+													<label class="control-label col-md-12">Activity Title</label>
+													<div class="col-md-12">
+														<input type="number" min="0" value="{{projectProposal.enp}}" name="enp" class="form-control">
+														<span class="help-block"></span>
+													</div>
+												</div>
+											</div>		
+										</div>
+										<div class="row m-t-10">
+											<div class="col-md-12">
+												<div class="form-group">
+													<label class="control-label col-md-12">Project Heads</label>
+													<div class="col-md-12">
+														<select class="form-control"  name="adviser">
+
+															{% for adviser in advisers %}
+
+																{% if adviser.idnumber == projectProposal.facultyadviser %}
+
+																		<option value="{{adviser.idnumber}}" selected>{{adviser.firstname}} {{adviser.lastname}}</option>
+
+																{% else %}
+
+																	<option value="{{adviser.idnumber}}">{{adviser.firstname}} {{adviser.lastname}}</option>
+
+																{% endif %}
+
+
+															{% endfor %}
+
+															
+														</select> 
+														<span class="help-block"></span>
+													</div>
+												</div>
+											</div>		
+										<!--/span-->
+										</div>
+										<div class="row m-t-10">
+											<div class="col-md-12">
+												<div class="form-group">
+													<label class="control-label col-md-12">Activity Nature</label>
+													<div class="col-md-12">
+														<select class="form-control"  name="adviser">
+
+															{% for adviser in advisers %}
+
+																{% if adviser.idnumber == projectProposal.facultyadviser %}
+
+																		<option value="{{adviser.idnumber}}" selected>{{adviser.firstname}} {{adviser.lastname}}</option>
+
+																{% else %}
+
+																	<option value="{{adviser.idnumber}}">{{adviser.firstname}} {{adviser.lastname}}</option>
+
+																{% endif %}
+
+
+															{% endfor %}
+
+															
+														</select> 
+														<span class="help-block"></span>
+													</div>
+												</div>
+											</div>
+				
+										<!--/span-->
+										</div>
+										<div class="row m-t-10">
+											<div class="col-md-12">
+												<div class="form-group">
+													<label class="control-label col-md-12">Activity Type</label>
+													<div class="col-md-12">
+														<select class="form-control"  name="adviser">
+
+															{% for adviser in advisers %}
+
+																{% if adviser.idnumber == projectProposal.facultyadviser %}
+
+																		<option value="{{adviser.idnumber}}" selected>{{adviser.firstname}} {{adviser.lastname}}</option>
+
+																{% else %}
+
+																	<option value="{{adviser.idnumber}}">{{adviser.firstname}} {{adviser.lastname}}</option>
+
+																{% endif %}
+
+
+															{% endfor %}
+
+															
+														</select> 
+														<span class="help-block"></span>
+													</div>
+												</div>
+											</div>		
+										</div>
+										<div class="row m-t-10">
+											<div class="col-md-12">
+												 <div class="form-group">
+						                            <label class="control-label col-md-12">Actual Date</label>
+						                            <div class="input-daterange input-group col-md-12" id="date-range">
+						                                <input name="actualDateStart" id="targetDateStart" class="form-control" readonly="" placeholder="mm/dd/yyyy" name="start" type="text" value="{{projectProposal.actualdatestart}}">
+						                                <span class="input-group-addon bg-info b-0 text-white">to</span>
+						                                <input name="actualDateEnd" id="targetDateEnd" class="form-control" readonly="" name="end" type="text" placeholder="mm/dd/yyyy" value="{{projectProposal.actualdateend}}">
+						                            </div>
+						                             
+						                        </div>
+											</div>		
+										</div>
+
+										<div class="row m-t-10">
+											<div class="col-md-12">
+												<div class="form-group">
+													<label class="control-label col-md-12">ENP</label>
+													<div class="col-md-12">
+														<input type="number" min="0" value="{{projectProposal.enp}}" name="enp" class="form-control">
+														<span class="help-block"> Expected number of Participants</span>
+													</div>
+												</div>
+											</div>
+											<!--/span-->
+											<!--/span-->
+										</div>
+										<div class="row m-t-10">
+											<!--/span-->
+											<div class="col-md-12">
+												<div class="form-group">
+													<label class="control-label col-md-12">ENMP</label>
+													<div class="col-md-12">
+														<input type="number" name="enmp" min="0" value="{{projectProposal.enmp}}" class="form-control">
+														<span class="help-block"> Expected number of Member Participants</span>
+													</div>
+												</div>
+											</div>
+											<!--/span-->
+										</div>
+										<div class="row m-t-10">
+											<div class="col-md-12">
+												<div class="form-group">
+													<label class="control-label col-md-12">Venue</label>
+													<div class="col-md-12">
+														<select class="form-control" name="venue" data-placeholder="Choose a Category" tabindex="1">
+
+														{% for venue in venues %}
+															{% if venue.id == projectProposal.venue %}
+
+																<option value="{{venue.id}}" selected>{{venue.name}}</option>
+
+															{% else %}
+																
+																<option value="{{venue.id}}">{{venue.name}}</option>
+
+															{% endif %}
+
+														{% endfor %}
+
+														</select>
+													</div>
+												</div>
+											</div>		
+										</div>
+										
+											<!--/row-->
+										<div class="row m-t-10">
+											<div class="col-md-12">
+												<div class="form-group">
+													<label class="control-label col-md-12">Faculty Adviser</label>
+													<div class="col-md-12">
+														<select class="form-control"  name="adviser">
+
+															{% for adviser in advisers %}
+
+																{% if adviser.idnumber == projectProposal.facultyadviser %}
+
+																		<option value="{{adviser.idnumber}}" selected>{{adviser.firstname}} {{adviser.lastname}}</option>
+
+																{% else %}
+
+																	<option value="{{adviser.idnumber}}">{{adviser.firstname}} {{adviser.lastname}}</option>
+
+																{% endif %}
+
+
+															{% endfor %}
+
+															
+														</select> 
+														<span class="help-block"></span>
+													</div>
+												</div>
+											</div>		
+										<!--/span-->
+										</div>
+
+										<div class="row m-t-10">
+											<div class="col-md-12">
+												<div class="form-group">
+													<label class="control-label col-md-12">Expense</label>
+													<div class="col-md-12">
+														<div class="radio-list">
+		                                                    <label class="radio-inline p-0">
+		                                                       {% if projectProposal.isexpense %}
+
+		                                                      		<div class="radio radio-info">
+			                                                      		<input name="expense" id="radio1" value="true" type="radio" checked="checked">
+			                                                            <label for="radio1">Yes</label>
+			                                                        </div>
+			                                                    </label>
+			                                                    <label class="radio-inline">
+			                                                        <div class="radio radio-info">
+			                                                            <input name="expense" id="radio2" value="false" type="radio">
+			                                                            <label for="radio2">No </label>
+			                                                        </div>
+
+		                                                       	{% else %}
+
+		                                                       		<div class="radio radio-info">
+			                                                      		<input name="expense" id="radio1" value="true" type="radio">
+			                                                            <label for="radio1">Yes</label>
+			                                                        </div>
+			                                                    </label>
+			                                                    <label class="radio-inline">
+			                                                        <div class="radio radio-info">
+			                                                            <input name="expense" id="radio2" value="false" type="radio" checked="checked">
+			                                                            <label for="radio2">No </label>
+			                                                        </div>
+
+		                                                       	{% endif %}
+		                                                            
+		                                                    </label>
+		                                                </div>
+													</div>
+												</div>
+											</div>		
+										<!--/span-->
+										</div>
+										<!--/row-->
+									</div>
+								<div class="col-md-2"></div>
+								</div>
+								<div class="row">
+
+								<h3 class="box-title ">Context</h3>
+								<hr class="m-t-0 m-b-40">
+								<!--/row-->
+								<div class="row">
+									<div class="col-md-12  m-t-20">
+										<div class="form-group">
+											<label class="control-label col-md-4 m text-left">What are the problems you found in society that relates to your activity?</label>
+											<div class="col-md-8">
+												<textarea style="width: 100%" rows="3" name="context1">{{projectProposal.context1}}</textarea>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-12  m-t-20">
+										<div class="form-group">
+											<label class="control-label col-md-4 text-left">Why is there a problem? What can we discover and realize?</label>
+											<div class="col-md-8">
+												<textarea style="width: 100%" rows="3" name="context2">{{projectProposal.context2}}</textarea>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!--/row-->
+								<div class="row">
+									<div class="col-md-12  m-t-20">
+										<div class="form-group">
+											<label class="control-label col-md-4 text-left">What this activity? What will you commit in your response you have stated previously</label>
+											<div class="col-md-8">
+												<textarea style="width: 100%" rows="3" name="context3">{{projectProposal.context3}}</textarea>
+											</div>
+										</div>
+									</div>
+								</div>
+								</div>
+
+
+							
+
+
+							</div>
+						<div class="form-actions">
+						</div>	
+					</div>
+					<div class="panel-footer text-center">
+						<button type="submit" class="btn btn-success"> <i class="fa fa-save"></i>&nbsp;Save</button>
+						<button type="button" class="btn btn-default">Cancel</button>	
+					</div>
+				</form>
+			
+			
+
+			</div>
+		</div>
+		
+
+	</div>
+</div>
+</form>
+{%endblock%}
