@@ -15,7 +15,9 @@ const configuration = {
             "",
             "/",
             "/system/AJAX/checkLogin",
-            "/logout"
+            "/logout",
+            "/ORGRES/officerSurveyForm",
+            "/ORGRES/memberSurveyForm"
         ],
         "encryption": {
             "bits": 1024,

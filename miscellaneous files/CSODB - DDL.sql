@@ -263,7 +263,7 @@ $function$
 
         RETURN termID;
     END;
-$function$ LANGUAGE plpgsql;
+$function$ LANGUAGE plpgsql STABLE;
 
 
 CREATE OR REPLACE FUNCTION system_get_current_year_id()
@@ -279,7 +279,7 @@ $function$
 
         RETURN yearID;
     END;
-$function$ LANGUAGE plpgsql;
+$function$ LANGUAGE plpgsql STABLE;
 
 CREATE OR REPLACE FUNCTION organization_get_highest_role_id(param_organization INTEGER)
 RETURNS INTEGER AS
@@ -296,7 +296,7 @@ $function$
 
         RETURN roleID;
     END;
-$function$ LANGUAGE plpgsql;
+$function$ LANGUAGE plpgsql STABLE;
 
 CREATE OR REPLACE FUNCTION organization_get_president(organization INTEGER)
 RETURNS INTEGER AS
@@ -311,7 +311,7 @@ $function$
 
         RETURN presidentID;
     END;
-$function$ LANGUAGE plpgsql;
+$function$ LANGUAGE plpgsql STABLE;
 
     CREATE OR REPLACE FUNCTION organization_get_role_id_above_account(param_IDNumber INTEGER, param_organizationID INTEGER)
 RETURNS INTEGER AS
@@ -328,7 +328,7 @@ $function$
                             AND oo.yearID = system_get_current_year_id());
         RETURN roleID;
     END;
-$function$ LANGUAGE plpgsql;
+$function$ LANGUAGE plpgsql STABLE;
 
 CREATE OR REPLACE FUNCTION organization_get_officers_with_role_id(roleID INTEGER)
 RETURNS TABLE (
@@ -341,7 +341,7 @@ $function$
                       WHERE oo.role = roleID
                         AND oo.yearID = system_get_current_year_id();
     END;
-$function$ LANGUAGE plpgsql;
+$function$ LANGUAGE plpgsql STABLE;
 
 CREATE OR REPLACE FUNCTION organization_get_treasurer_signatories(organizationID INTEGER)
 RETURNS TABLE (
@@ -421,7 +421,7 @@ $function$
 
         RETURN organizationID;
     END;
-$function$ LANGUAGE plpgsql;
+$function$ LANGUAGE plpgsql STABLE;
 
 CREATE OR REPLACE FUNCTION "GOSMActivity_get_current_term_activity_ids"()
 RETURNS TABLE (
@@ -435,7 +435,7 @@ $function$
                                        FROM GOSM g
                                        WHERE termId = system_get_current_term_id());
     END;
-$function$ LANGUAGE plpgsql;
+$function$ LANGUAGE plpgsql STABLE;
 
 /* SIGNATORY FUNCTIONS */
 CREATE OR REPLACE FUNCTION "PPR_get_number_to_sign_per_account"()
@@ -495,7 +495,7 @@ $function$
 
         RETURN immediateSupervisorID;
     END;
-$function$ LANGUAGE plpgsql;
+$function$ LANGUAGE plpgsql STABLE;
 
 CREATE OR REPLACE FUNCTION "PPR_get_organization_next_documentation_signatory"(organizationID INTEGER)
 RETURNS INTEGER AS
@@ -515,7 +515,7 @@ $function$
 
         RETURN documentationID;
     END;
-$function$ LANGUAGE plpgsql;
+$function$ LANGUAGE plpgsql STABLE;
 
 CREATE OR REPLACE FUNCTION "PPR_get_cso_next_first_phase_signatory"()
 RETURNS INTEGER AS
@@ -535,7 +535,7 @@ $function$
 
         RETURN csoOfficerID;
     END;
-$function$ LANGUAGE plpgsql;
+$function$ LANGUAGE plpgsql STABLE;
 
 CREATE OR REPLACE FUNCTION "PPR_get_cso_next_second_phase_signatory"()
 RETURNS INTEGER AS
@@ -555,7 +555,7 @@ $function$
 
         RETURN csoOfficerID;
     END;
-$function$ LANGUAGE plpgsql;
+$function$ LANGUAGE plpgsql STABLE;
 
 
 CREATE OR REPLACE FUNCTION "PPR_get_GOSMActivity_id_from_PPRID"(param_PPRID INTEGER)
@@ -570,7 +570,7 @@ $function$
 
         RETURN var_GOSMActivity;
     END;
-$function$ LANGUAGE plpgsql;
+$function$ LANGUAGE plpgsql STABLE;
 
 CREATE OR REPLACE FUNCTION "system_get_functionality_id"(param_sequenceID INTEGER)
 RETURNS INTEGER AS
@@ -584,7 +584,7 @@ $function$
 
         RETURN var_FunctionalityID;
     END;
-$function$ LANGUAGE plpgsql;
+$function$ LANGUAGE plpgsql STABLE;
 
 /* PRE ACTIVITY DIRECT PAYMENT */
 CREATE OR REPLACE FUNCTION "PreAct_DirectPayment_get_organization"("param_DPID" INTEGER)
@@ -603,7 +603,7 @@ $function$
 
         RETURN "var_organizationID";
     END;
-$function$ LANGUAGE plpgsql;
+$function$ LANGUAGE plpgsql STABLE;
 
 CREATE OR REPLACE FUNCTION "PreAct_DirectPayment_get_number_to_sign_per_account"()
 RETURNS TABLE (
@@ -621,7 +621,7 @@ $function$
                                                                                        FROM "GOSMActivity_get_current_term_activity_ids"() ga))
                    GROUP BY preca.signatory;
     END;
-$function$ LANGUAGE plpgsql;
+$function$ LANGUAGE plpgsql STABLE;
 
 CREATE OR REPLACE FUNCTION "PreAct_DirectPayment_get_organization_next_treasurer_signatory"(organizationID INTEGER)
 RETURNS INTEGER AS
@@ -641,7 +641,7 @@ $function$
 
         RETURN treasurerID;
     END;
-$function$ LANGUAGE plpgsql;
+$function$ LANGUAGE plpgsql STABLE;
 
 /* PRE ACTIVITY CASH ADVANCE */
 CREATE OR REPLACE FUNCTION "PreAct_CashAdvance_get_organization"("param_CAID" INTEGER)
@@ -816,6 +816,7 @@ CREATE TABLE Account (
     path_profilePicture TEXT,
     dateCreated TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     dateModified TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    passwordExpiration TIMESTAMP WITH TIME ZONE,
 
     PRIMARY KEY (idNumber)
 );
@@ -829,6 +830,7 @@ $trigger$
 
         NEW.dateCreated = CURRENT_TIMESTAMP;
         NEW.dateModified = NEW.dateCreated;
+        NEW.passwordExpiration = CURRENT_TIMESTAMP + (INTERVAL '3 MONTH');
         RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
@@ -836,13 +838,16 @@ CREATE TRIGGER before_insert_Account
     BEFORE INSERT ON Account
     FOR EACH ROW
     EXECUTE PROCEDURE trigger_before_insert_Account();
-/*
+
 CREATE OR REPLACE FUNCTION trigger_before_update_Account()
 RETURNS trigger AS
 $trigger$
     BEGIN
-        SELECT gen_salt('bf') INTO NEW.salt;
-        SELECT crypt(NEW.password, NEW.salt) INTO NEW.password;
+        IF OLD.password <> crypt(NEW.password, OLD.salt) THEN
+            SELECT gen_salt('bf') INTO NEW.salt;
+            SELECT crypt(NEW.password, NEW.salt) INTO NEW.password;
+        END IF;
+        
         NEW.dateModified = CURRENT_TIMESTAMP;
         RETURN NEW;
     END;
@@ -851,7 +856,7 @@ CREATE TRIGGER before_update_Account
     BEFORE UPDATE ON Account
     FOR EACH ROW
     EXECUTE PROCEDURE trigger_before_update_Account();
-*/
+
     /* Account Table Triggers End */
 
     /* Account Notifications */
@@ -1099,6 +1104,18 @@ INSERT INTO OrganizationCluster (id, name, acronym)
                                 (4, 'Engineering Alliance Geared Towards Excellence', 'ENGAGE'),
                                 (5, 'Alliance of Professional Organizations of Business and Economics', 'PROBE');
 
+DROP TABLE IF EXISTS OrganizationStatus CASCADE;
+CREATE TABLE OrganizationStatus (
+    id SMALLINT,
+    name VARCHAR(45),
+
+    PRIMARY KEY(id)
+);
+INSERT INTO OrganizationStatus (id, name)
+                        VALUES ( 0, 'Active'), 
+                               ( 1, 'Suspended'),
+                               ( 3, 'Dissolved');
+
 DROP TABLE IF EXISTS StudentOrganization CASCADE;
 CREATE TABLE StudentOrganization (
     /*
@@ -1111,6 +1128,7 @@ CREATE TABLE StudentOrganization (
     */
     id INTEGER UNIQUE,
     name VARCHAR(128),
+    status SMALLINT REFERENCES StudentOrganization(id),
     cluster SMALLINT REFERENCES OrganizationCluster(id),
     nature SMALLINT REFERENCES OrganizationNature(id),
     college CHAR(3) REFERENCES College(shortAcronym),
@@ -1618,6 +1636,8 @@ CREATE TABLE GOSM (
     preparedBy INTEGER REFERENCES Account(idNumber),
     statusEvaluator INTEGER REFERENCES Account(idNumber),
     comments TEXT,
+
+    isInGOSM BOOLEAN DEFAULT TRUE,
 
     PRIMARY KEY (termID, studentOrganization)
 );
@@ -3050,8 +3070,42 @@ CREATE TRIGGER "before_insert_ActivityPublicity_sequence"
     BEFORE INSERT ON "ActivityPublicity"
     FOR EACH ROW
     EXECUTE PROCEDURE "trigger_before_insert_sequence_versioning"( 'ActivityPublicity', 'ap', 'ap."GOSMActivity" = $1."GOSMActivity"' );
-
 /* End of Publicity */
+
+DROP TABLE IF EXISTS "OfficerSurveyForm" CASCADE;
+CREATE TABLE "OfficerSurveyForm" (
+    "termID" INTEGER REFERENCES Term(id),
+    "organizationID" INTEGER REFERENCES StudentOrganization(id),
+    "officer" INTEGER REFERENCES Account(idNumber),
+    "field1" SMALLINT NOT NULL,
+    "field2" SMALLINT NOT NULL,
+    "field3" SMALLINT NOT NULL,
+    "field4" SMALLINT NOT NULL,
+    "field5" SMALLINT NOT NULL,
+    "field6" SMALLINT NOT NULL,
+    "field7" SMALLINT NOT NULL,
+    "field8" SMALLINT NOT NULL,  
+    "field9" SMALLINT NOT NULL,
+
+    PRIMARY KEY("termID", "organizationID", "officer")    
+);
+
+DROP TABLE IF EXISTS "MemberSurveyForm" CASCADE;
+CREATE TABLE "MemberSurveyForm" (
+    "termID" INTEGER REFERENCES Term(id),
+    "organizationID" INTEGER REFERENCES StudentOrganization(id),
+    "field1" SMALLINT NOT NULL,
+    "field2" SMALLINT NOT NULL,
+    "field3" SMALLINT NOT NULL,
+    "field4" SMALLINT NOT NULL,
+    "field5" SMALLINT NOT NULL,
+    "field6" SMALLINT NOT NULL,
+    "field7" SMALLINT NOT NULL,
+    "field8" SMALLINT NOT NULL,  
+    "field9" SMALLINT NOT NULL,
+
+    PRIMARY KEY("termID", "organizationID")    
+);
 
 /* SESSION TABLE */
 DROP TABLE IF EXISTS session CASCADE;
