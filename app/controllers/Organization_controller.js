@@ -1133,7 +1133,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                 logger.debug('Rendering page', log_options);
                 if(renderData.status ==3){
-                    return res.redirect('/Organization/viewGOSMList')
+                    return res.redirect('/Organization/viewGOSMDetails')
                 }else{
                     return res.render('Org/GOSM', renderData);    
                 }
