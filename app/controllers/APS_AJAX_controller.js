@@ -171,9 +171,10 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     APS_AJAXController.approvalResched = (req, res) => {
         logger.debug('approvalResched()', log_options);
 
-        return projectProposalModel.updatePPResched(req.body.activityID, req.body.reason, req.body.date, 6).then(data=>{
+        return projectProposalModel.updatePPResched(req.body.activityID, req.body.reason, req.body.date, req.body.others, 6).then(data=>{
             res.json({status:1});
         }).catch(err=>{
+            console.log(err)
             res.json({status:0});
             return logger.error(`${err.message}\n${err.stack}`);
         })
