@@ -20,6 +20,7 @@ module.exports = function(configuration, modules, database, queryFiles){
 	const getActivitiesWithoutPPRSQL = queryFiles.getActivitiesWithoutPPR;
 	const getStudentsOfOrganizationSQL = queryFiles.getStudentsOfOrganization;
 	const getStudentOrganizationSQL = queryFiles.getStudentOrganization;
+	const getAllStudentOrganizationsSQL = queryFiles.getAllStudentOrganizations;
 
     const logger = modules.logger;
 
@@ -60,6 +61,11 @@ module.exports = function(configuration, modules, database, queryFiles){
 	OrganizationModel.getStudentsOfOrganization = (param, fields, connection = database) => {
 		return connection.any(getStudentsOfOrganizationSQL, param);
 	};
+
+	OrganizationModel.getAllStudentOrganizations = (connection = database) => {
+		return connection.any(getAllStudentOrganizationsSQL);
+	};
+
 	OrganizationModel.getFunctionality = (connection = database) => {
 		var query = squel.select()
 						.from("functionality")

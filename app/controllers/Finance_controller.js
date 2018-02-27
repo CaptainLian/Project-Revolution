@@ -114,7 +114,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 					           	return res.render('Finance/EvaluateTransaction', renderData);
 				           	}
 				           	else{
-				           		//TODO: redirect cannot enter
+	    						return res.render('System/403');
 				           	}
 
 
@@ -173,7 +173,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 					           	return res.render('Finance/EvaluateTransaction', renderData);
 				           	}
 				           	else{
-				           		//TODO: redirect cannot enter
+	    						return res.render('System/403');
 				           	}
 
 
@@ -237,7 +237,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 					           	return res.render('Finance/EvaluateTransaction', renderData);
 				           	}
 				           	else{
-				           		//TODO: redirect cannot enter
+	    						return res.render('System/403');
 				           	}
 
 
@@ -300,7 +300,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 					           	return res.render('Finance/EvaluateTransaction', renderData);
 				           	}
 				           	else{
-				           		//TODO: redirect cannot enter
+	    						return res.render('System/403');
 				           	}
 
 
@@ -314,13 +314,13 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 				}
 				else{
-					//TODO: page does not exist
+	    			return res.render('System/404');
 				}
 
 		    }
 		    else{
 
-		    	//TODO: redirect cannot enter page
+	    		return res.render('System/403');
 
 		    }
 
@@ -819,7 +819,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 	    	else{
 
 
-	    		//TODO: redirect
+	    		return res.render('System/403');
+
 	    	}
 
 
@@ -953,7 +954,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		            	} else{
 		
-			           		//TODO: redirect cannot enter page
+	    					return res.render('System/403');
 
 		            	}
 
@@ -964,7 +965,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 
 	           	}else{
-	           		//TODO: redirect cannot enter page
+
+	    			return res.render('System/403');
 
 	           	}
 
@@ -1027,7 +1029,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		        	}
 		        	else{
-		        		//TODO: redirect cannot enter
+	    				return res.render('System/403');
 				    }
 
 		    	}).catch(error=>{
@@ -1036,7 +1038,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		    }
 		    else{
-		    	//TODO: redirect cannot enter
+	    		return res.render('System/403');
 		    }
 
 			
@@ -1210,7 +1212,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		        	}
 		        	else{
-		        		//TODO: redirect cannot enter
+	    				return res.render('System/403');
 				    }
 
 		    	}).catch(error=>{
@@ -1219,7 +1221,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		    }
 		    else{
-		    	//TODO: redirect cannot enter
+	    		return res.render('System/403');
 		    }
 
 
@@ -1323,7 +1325,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		        	}
 		        	else{
-		        		//TODO: redirect cannot enter
+	    				return res.render('System/403');
 				    }
 
 		    	}).catch(error=>{
@@ -1332,7 +1334,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		    }
 		    else{
-		    	//TODO: redirect cannot enter
+	    		return res.render('System/403');
 		    }
 
 
@@ -1432,7 +1434,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		        	}
 		        	else{
-		        		//TODO: redirect cannot enter
+	    				return res.render('System/403');
 				    }
 
 		    	}).catch(error=>{
@@ -1441,7 +1443,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		    }
 		    else{
-		    	//TODO: redirect cannot enter
+	    		return res.render('System/403');
 		    }
 
 		},

@@ -4,6 +4,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 	const orgresModel = models.Orgres_model;
 	const systemModel = models.System_model;
 	const accModel = models.Account_model;
+	const organizationModel = models.organization_model;
 
 	return {
 		viewManageAccount: (req, res) => {
@@ -27,15 +28,41 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			})
 		
 		},
+
 		officerSurveyForm: (req, res) => {
-	        const renderData = Object.create(null);
-	        renderData.extra_data = req.extra_data;
-	        return res.render('Orgres/officerSurveyForm');
+
+			organizationModel.getAllStudentOrganizations()
+			.then(data=>{
+
+				const renderData = Object.create(null);
+				renderData.organizations = data;
+		        renderData.extra_data = req.extra_data;
+		        renderData.csrfToken = req.csrfToken();
+		        return res.render('Orgres/officerSurveyForm', renderData);
+
+
+			}).catch(error=>{
+				console.log(error);
+			});
+
     	},
+
     	memberSurveyForm: (req, res) => {
-	        const renderData = Object.create(null);
-	        renderData.extra_data = req.extra_data;
-	        return res.render('Orgres/memberSurveyForm');
+
+    		organizationModel.getAllStudentOrganizations()
+    		.then(data=>{
+
+    			const renderData = Object.create(null);
+    			renderData.organizations = data;
+		        renderData.extra_data = req.extra_data;
+		        renderData.csrfToken = req.csrfToken();
+		        return res.render('Orgres/memberSurveyForm', renderData);
+
+
+    		}).catch(error=>{
+    			console.log(error);
+    		});
+
     	},
 
 		viewManageOrg: (req, res) => {
@@ -179,6 +206,63 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			}).catch(error=>{
 				logger.error(`${error.message}: ${error.stack}`, log_options);
 			});	
+		},
+
+		submitOfficerSurveyForm: (req, res) =>{
+
+			console.log(req.body);
+
+			var dbParam = {
+				organizationid: req.session.user.organizationSelected.id,
+				officer: req.session.user.idNumber,
+				field1: req.body.r1,
+				field2: req.body.r2,
+				field3: req.body.r3,
+				field4: req.body.r4,
+				field5: req.body.r5,
+				field6: req.body.r6,
+				field7: req.body.r7,
+				field8: req.body.r8,
+				field9: req.body.r9
+			};
+
+			orgresModel.insertOfficerSurveyForm(dbParam)
+			.then(data=>{
+
+				return res.redirect('/home');
+			
+			}).catch(error=>{
+				console.log(error);
+			});
+
+		},
+
+		submitMemberSurveyForm: (req, res) =>{
+
+			console.log(req.body);
+
+			var dbParam = {
+				organizationid: req.body.organization,
+				field1: req.body.radio1,
+				field2: req.body.radio2,
+				field3: req.body.radio3,
+				field4: req.body.radio4,
+				field5: req.body.radio5,
+				field6: req.body.radio6,
+				field7: req.body.radio7,
+				field8: req.body.radio8,
+				field9: req.body.radio9
+			};
+
+			orgresModel.insertMemberSurveyForm(dbParam)
+			.then(data=>{
+
+				return res.redirect('/home');
+			
+			}).catch(error=>{
+				console.log(error);
+			});
+
 		},
 
 		saveAccount: (req, res) =>{
