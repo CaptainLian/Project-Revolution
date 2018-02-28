@@ -3,10 +3,11 @@
 module.exports = function(configuration, modules, router, controllers, models, database, queryFiles){
 	router.get('/Finance/Settings', controllers.Finance_controller.viewFinanceSettings);
 	router.get('/transaction', controllers.Finance_controller.createTransaction);
-
+	router.get('/transaction/preacts/', controllers.Finance_controller.viewFinanceList);
 	router.get('/transaction/evaluate/:transaction/:id', controllers.Finance_controller.evaluateTransaction);
 
-	router.get('/transaction/preacts/cashadvance/:gosmactivity', controllers.Finance_controller.createPreactsCashAdvance);
+	router.get('/transaction/preacts/edit/', controllers.Treasurer_controller.editPreactsCashAdvance);
+
 	router.get('/transaction/preacts/directpayment/:gosmactivity', controllers.Finance_controller.createPreactsDirectPayment);
 	router.get('/transaction/preacts/booktransfer/:gosmactivity', controllers.Finance_controller.createPreactsBookTransfer);
 	router.get('/transaction/preacts/reimbursement/:gosmactivity', controllers.Finance_controller.createPreactsReimbursement);

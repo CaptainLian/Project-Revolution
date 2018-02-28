@@ -1,0 +1,184 @@
+{% import '../template/CSO_master.html' as tag %}
+{% import '../template/tags_macro.html' as tag %}
+
+{%block style%}
+    {{super()}}
+    <!-- Bootstrap Core CSS -->
+    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
+    {{tag.style('/plugins/bower_components/datatables/jquery.dataTables.min.css')}}
+    {{tag.style('/plugins/bower_components/nestable/nestable.css')}}
+    {{tag.style('https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css')}}
+    {{tag.style('https://cdnjs.cloudflare.com/ajax/libs/nestable2/1.5.0/jquery.nestable.min.CSS')}}
+
+    <!-- Menu CSS -->
+    {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
+    <!-- animation CSS -->
+    {{tag.style('/css/animate.css')}}
+    <!--alerts CSS -->
+    {{tag.style('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.css')}}
+    <!-- Custom CSS -->
+    {{tag.style('/plugins/bower_components/custom-select/custom-select.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-select/bootstrap-select.min.css')}}
+    {{tag.style('/css/style.css')}}
+    {{tag.style('/css/custom.css')}}
+	{{tag.style('/plugins/bower_components/jquery-datatables-editable/datatables.css')}}
+    
+    <!-- color CSS -->
+    {{tag.style('/css/colors/default.css', id='theme')}}
+
+{%endblock%}
+
+
+{%block defer_script%}
+    {{super()}}
+    <!-- jQuery -->
+    {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
+    <!-- Bootstrap Core JavaScript -->
+    {{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
+    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
+    <!-- Menu Plugin JavaScript -->
+    {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
+    <!--slimscroll JavaScript -->
+    {{tag.javascript('/js/jquery.slimscroll.js', true)}}
+    <!--Wave Effects -->
+    {{tag.javascript('/js/waves.js', true)}}
+    <!-- Custom Theme JavaScript -->
+    {{tag.javascript('/js/custom.min.js', true)}}
+    {{tag.javascript('/js/cbpFWTabs.js', true)}}
+    <!-- tabs-->
+    {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
+    <!-- Sweet-Alert  -->
+    {{tag.javascript('/plugins/bower_components/sweetalert/sweetalert.min.js', true)}}
+    <!--Style Switcher -->
+    {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
+
+    {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js', true)}}
+    {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js', true)}}
+    {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js', true)}}
+    {{tag.javascript('https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js', true)}}
+    {{tag.javascript('https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js', true)}}
+    {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js', true)}}
+    {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js', true)}}
+    {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js', true)}}
+    {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/nestable2/1.5.0/jquery.nestable.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/custom-select/custom-select.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-select/bootstrap-select.min.js', true)}}
+
+
+    {{tag.javascript('/plugins/bower_components/jquery-datatables-editable/jquery.dataTables.js', true)}}
+    {{tag.javascript('/plugins/bower_components/datatables/dataTables.bootstrap.js', true)}}
+    {{tag.javascript('/plugins/bower_components/tiny-editable/mindmup-editabletable.js', true)}}
+    {{tag.javascript('/plugins/bower_components/tiny-editable/numeric-input-example.js', true)}}
+     
+    <!-- Page Scripts -->
+    {{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
+    {{tag.javascript('/js/Fin/FinancePreacts2.js', true)}}
+    <!-- /Page Scripts -->
+{%endblock%}
+
+{%block content%}
+<div class="white-box">
+    
+</div>
+<form action="/transaction/submitPreactsBookTransfer" encType="multipart/form-data" id="form-id" class="form-horizontal" method="POST">
+                        <input type="hidden" name="_csrf" value="{{csrfToken}}">
+
+                        <input type="hidden" name="gosmactivity" value="{{gosmactivity}}">
+<div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-success">
+                            <div class="panel-heading">Book Transfer</div>
+                            <div class="panel-wrapper collapse in" aria-expanded="true">
+                                <div class="panel-body">
+                                   
+                                        <div class="form-body">
+                                            <div class="row" >
+                                                        <div class="col-sm-12">
+                                                            <h3 class="box-title m-t-40">Payment Requisition Slip<span class="badge btn-circle btn-xs btn-success pull-right" data-toggle="tooltip" title="Click on the particulars field to add an expense to the cash advance request"><span class="fa fa-question"></span></span></h3>
+                                                            <hr>
+                                                            <div class="row">
+                                                                <div class="col-md-12 ">
+                                                                    <div class="form-group row form-inline">
+                                                                        <label class="col-md-3">Particulars</label>
+                                                                        <!-- food, accomodation, others, venue, transportation, honorarium, cash prize, cor -->
+                                                                        <select id="ca_particular" class="col-md-9 select2 m-b-10 select2-multiple"  multiple="multiple" data-placeholder="Choose" name="particulars">
+                                                                            <!-- data-item ="name of particular" data-type="expense type" <>data-item<>-->
+                                                                           
+
+                                                                            {% for particular in particulars %}
+    
+                                                                                <option value="{{particular.id}}" data-item="{{particular.material}}" data-amount="{{particular.unitcost}}" data-quantity ="{{particular.quantity}}" data-type="{{particular.name}}">{{particular.material}}</option>
+
+                                                                            {% endfor %}
+
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-12 ">
+                                                            <div class="form-group row form-inline">
+                                                                <label class="col-md-3">Recipient</label>
+                                                                <!-- food, accomodation, others, venue, transportation, honorarium, cash prize, cor -->
+                                                                <select id="rec" multiple="multiple" class="col-md-9 m-b-10  select2-multiple " data-placeholder="Choose" name="recipient">
+                                                                        <!-- data-item ="name of particular" data-type="expense type" <>data-item<>-->
+                                                                        <option value="0" data-item="Food Expense" data-amount="1000" data-quantity ="3" data-type="food">Food Expense</option>
+                                                                        <option value="1" data-item="Token" data-amount ="3000.25" data-quantity ="3" data-type="honorarium">Token</option>
+                                                                        <option value="2" data-item="Accomodation Expense" data-amount ="3000" data-quantity ="3" data-type="accomodation">Accomodation Expense</option>
+                                                                        <option value="3" data-item="Honorarium" data-amount ="3000" data-quantity ="3" data-type="cash prize">Cash Prize</option>
+
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                                <div class="col-md-12 ">
+                                                                    <div class="form-group row form-inline">
+                                                                        <label class="col-md-3">Total Amount</label>
+                                                                        <p id='ca_amount' class="col-md-9 tab-2" ></p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="col-sm-12">
+                                                            <h3 class="box-title m-t-40">Memo</h3>
+                                                            <hr>
+                                                            <br>
+                                                            <table id="memoTable" class="table table-bordered m-b-0">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Particulars</th>
+                                                                        <th>Amount</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody id='memo_body'>
+                                                                   <tr>
+
+                                                                  </tr>
+                                                              </tbody>
+                                                              <tfoot>
+                                                              </tfoot>
+                                                          </table>
+                                                          <br>
+                                                    
+                                                            
+                                                        </div>
+                                                        
+                                                    </div>
+                                        </div>
+                                        <div class="form-actions">
+                                            
+                                        </div>
+                                    
+                                </div>
+                                <div class="panel-footer text-center">                                                    
+                                    <button type="submit" class="btn btn-success" id='submitButton' onclick="submit()">Submit</button>
+                                    <button type="button" class="btn btn-default">Cancel</button>                                
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </form>
+{%endblock%}
