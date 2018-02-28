@@ -91,8 +91,24 @@ module.exports = function(configuration, modules, db, queryFiles) {
         },
         getBuffer: function(orgid, connection = db) {
             let query= squel.select()
-            .from('GOSMActivity',"G")
+            .from('GOSM',"G")            
+            .field('COUNT(GA.ID) AS CGAID')
+            .left_join("GOSMActivity",'GA','G.ID = GA.GOSM')            
+            .where('GA.isInGOSM = FALSE')            
+            .where('G.studentOrganization = ?',orgid)
+            .group('G.ID');
+            query = query.toString();
             
+            return connection.any(query);
+        },
+
+        getGOSMActivities: function(GOSMID, fields, connection = db) {
+            let query= squel.select()
+            .from('GOSMActivity',"G")
+        
+            .field("TO_CHAR(G.targetdatestart,'Mon DD, YYYY') as startdate")
+            .field("*")
+            .field("G.ID AS GID")
             .left_join("ProjectProposal",'P','P.GOSMActivity = G.ID')
             .field('P.ID AS PID')
             .field('P.STATUS AS PSTATUS')
@@ -101,16 +117,18 @@ module.exports = function(configuration, modules, db, queryFiles) {
             query = query.toString();
             return connection.any(query);
         },
-
-        getGOSMActivities: function(GOSMID, fields, connection = db) {
+        getnotinGOSMActivities: function(GOSMID, fields, connection = db) {
             let query= squel.select()
             .from('GOSMActivity',"G")
+        
             .field("TO_CHAR(G.targetdatestart,'Mon DD, YYYY') as startdate")
             .field("*")
+            .field("G.ID AS GID")
             .left_join("ProjectProposal",'P','P.GOSMActivity = G.ID')
             .field('P.ID AS PID')
             .field('P.STATUS AS PSTATUS')
-            .where('GOSM = ?',GOSMID);
+            .where('GOSM = ?',GOSMID)
+            .where('G.isingosm = false');
 
             query = query.toString();
             return connection.any(query);
@@ -240,7 +258,13 @@ module.exports = function(configuration, modules, db, queryFiles) {
             activityType = at
         */
         getActivityDetails: function(id, fields, connection = db) {
+
+
+            let param = Object.create(null);
+            param.activityID = id;
+            
             let query = squel.select()
+
                 .from('GOSMActivity', 'ga')
                 .left_join('ActivityNature', 'an', 'ga.activityNature = an.id')
                 .left_join('ActivityType', 'at', 'ga.activityType = at.id')
@@ -249,15 +273,8 @@ module.exports = function(configuration, modules, db, queryFiles) {
             attachFields(query, fields);
 
             query = query.toString();
-             logger.debug(`Executing query: ${query}`, log_options);
+             logger.debug(`Executing query: 1 ${query}`, log_options);
 
-            /*
-                let param = {
-                    activityID: id
-                };
-            */
-            let param = Object.create(null);
-            param.activityID = id;
             return connection.oneOrNone(query, param);
         },
 
