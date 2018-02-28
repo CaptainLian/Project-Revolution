@@ -89,8 +89,17 @@ module.exports = function(configuration, modules, db, queryFiles) {
         getObjectives: function(param, connection = db) {
             return connection.one(getObjectives,param);
         },
-        getBuffer: function(param, connection = db) {
-            return connection.one(getObjectives,param);
+        getBuffer: function(orgid, connection = db) {
+            let query= squel.select()
+            .from('GOSMActivity',"G")
+            
+            .left_join("ProjectProposal",'P','P.GOSMActivity = G.ID')
+            .field('P.ID AS PID')
+            .field('P.STATUS AS PSTATUS')
+            .where('GOSM = ?',GOSMID);
+
+            query = query.toString();
+            return connection.any(query);
         },
 
         getGOSMActivities: function(GOSMID, fields, connection = db) {
