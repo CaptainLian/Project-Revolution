@@ -27,7 +27,12 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			return res.render('Finance/TransactionMain', renderData);
 			//next();
 		},
-
+		viewPended: (req, res) => {
+			const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+			return res.render('Finance/', renderData);
+			//next();
+		},
 		viewFinanceSettings: (req, res) => {
 			const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
@@ -114,7 +119,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 					           	return res.render('Finance/EvaluateTransaction', renderData);
 				           	}
 				           	else{
-				           		//TODO: redirect cannot enter
+	    						return res.render('System/403');
 				           	}
 
 
@@ -173,7 +178,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 					           	return res.render('Finance/EvaluateTransaction', renderData);
 				           	}
 				           	else{
-				           		//TODO: redirect cannot enter
+	    						return res.render('System/403');
 				           	}
 
 
@@ -237,7 +242,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 					           	return res.render('Finance/EvaluateTransaction', renderData);
 				           	}
 				           	else{
-				           		//TODO: redirect cannot enter
+	    						return res.render('System/403');
 				           	}
 
 
@@ -300,7 +305,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 					           	return res.render('Finance/EvaluateTransaction', renderData);
 				           	}
 				           	else{
-				           		//TODO: redirect cannot enter
+	    						return res.render('System/403');
 				           	}
 
 
@@ -314,13 +319,13 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 				}
 				else{
-					//TODO: page does not exist
+	    			return res.render('System/404');
 				}
 
 		    }
 		    else{
 
-		    	//TODO: redirect cannot enter page
+	    		return res.render('System/403');
 
 		    }
 
@@ -819,7 +824,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 	    	else{
 
 
-	    		//TODO: redirect
+	    		return res.render('System/403');
+
 	    	}
 
 
@@ -917,8 +923,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 					            renderData.gosmactivity = data[1];
 					            renderData.projectProposal = data[2];
 
-					            let actualdate = data[3].dateend;
-					            let currentdate = data[3].currdate;
+					            let actualdate = data[2].actualedate;
+					            let currentdate = data[2].currdate;
 
 								console.log("actualdate");
 								console.log(actualdate);
@@ -936,7 +942,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				            		renderData.reimbursement = false;
 				            	}
 
-				            	if (data[3].expensestotal > 0){
+				            	if (data[3].expensestotal == null){
 				            		renderData.toadd = true;
 				            	}
 				            	else{
@@ -953,7 +959,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		            	} else{
 		
-			           		//TODO: redirect cannot enter page
+	    					return res.render('System/403');
 
 		            	}
 
@@ -964,7 +970,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 
 	           	}else{
-	           		//TODO: redirect cannot enter page
+
+	    			return res.render('System/403');
 
 	           	}
 
@@ -1027,7 +1034,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		        	}
 		        	else{
-		        		//TODO: redirect cannot enter
+	    				return res.render('System/403');
 				    }
 
 		    	}).catch(error=>{
@@ -1036,7 +1043,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		    }
 		    else{
-		    	//TODO: redirect cannot enter
+	    		return res.render('System/403');
 		    }
 
 			
@@ -1210,7 +1217,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		        	}
 		        	else{
-		        		//TODO: redirect cannot enter
+	    				return res.render('System/403');
 				    }
 
 		    	}).catch(error=>{
@@ -1219,7 +1226,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		    }
 		    else{
-		    	//TODO: redirect cannot enter
+	    		return res.render('System/403');
 		    }
 
 
@@ -1323,7 +1330,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		        	}
 		        	else{
-		        		//TODO: redirect cannot enter
+	    				return res.render('System/403');
 				    }
 
 		    	}).catch(error=>{
@@ -1332,7 +1339,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		    }
 		    else{
-		    	//TODO: redirect cannot enter
+	    		return res.render('System/403');
 		    }
 
 
@@ -1432,7 +1439,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		        	}
 		        	else{
-		        		//TODO: redirect cannot enter
+	    				return res.render('System/403');
 				    }
 
 		    	}).catch(error=>{
@@ -1441,7 +1448,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		    }
 		    else{
-		    	//TODO: redirect cannot enter
+	    		return res.render('System/403');
 		    }
 
 		},

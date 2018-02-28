@@ -106,7 +106,7 @@ module.exports = function(configuration, modules, database, queryFiles){
 
     const getExpensesWithoutTransactionCountSQL = queryFiles.getExpensesWithoutTransactionCount;
     FinanceModel.getExpensesWithoutTransactionCount = function(param, connection = database){
-        return connection.one(getExpensesWithoutTransactionCountSQL, param);
+        return connection.oneOrNone(getExpensesWithoutTransactionCountSQL, param);
     };
 
     const getDirectPaymentSignatorySQL = queryFiles.getDirectPaymentSignatory;
