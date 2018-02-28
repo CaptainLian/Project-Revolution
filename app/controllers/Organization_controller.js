@@ -60,7 +60,41 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                      })
             
         },
-
+        viewGOSMDetails: (req, res) => {
+            const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            return res.render('Org/gosmDetails');
+        },
+        viewNotInGosmList: (req, res) => {
+            const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            return res.render('Org/NotInGosmList');
+        },
+        viewNotInGosmMain: (req, res) => {
+            const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            return res.render('Org/submitNotInGosm_main');
+        },
+        viewNotInGosmAttachments: (req, res) => {
+            const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            return res.render('Org/submitNotInGosm_attachments');
+        },
+        viewNotInGosmBriefContext: (req, res) => {
+            const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            return res.render('Org/SubmitNotInGosm_briefContext');
+        },
+        viewNotInGosmExpense: (req, res) => {
+            const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            return res.render('Org/submitNotInGosm_expense');
+        },
+        viewNotInGosmProgramDesign: (req, res) => {
+            const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            return res.render('Org/submitNotInGosm_programdesign');
+        },
         viewActivityDetails: (req, res) => {
                 logger.debug('viewActivityDetails()', log_options);
                 var activityId;

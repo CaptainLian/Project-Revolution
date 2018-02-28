@@ -21,6 +21,8 @@
      {{tag.style('/plugins/bower_components/bootstrap-daterangepicker/daterangepicker.css')}}
     {{tag.style('/plugins/bower_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css')}}
     {{tag.style('/plugins/bower_components/multiselect/css/multi-select.css')}}
+    {{tag.style('/plugins/bower_components/datatables/jquery.dataTables.min.css')}}
+    {{tag.style('http://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css')}}
     <!-- animation CSS -->
     {{tag.style('/css/animate.css')}}
     <!-- Custom CSS -->
@@ -57,9 +59,11 @@
     <!-- Custom Theme JavaScript -->
      {{tag.javascript('/js/custom.min.js', true)}}
     <!--Style Switcher -->
-    {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
 
+    {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
+    {{- tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
     {{tag.javascript('/js/Organization/SubmitProjectProposal_briefcontext.js', true)}}
+    {{tag.javascript('/js/Organization/gosmDetails.js', true)}}
     
 {%endblock%}
 
@@ -75,10 +79,19 @@
 
 <div class="row">
 	<div class="col-md-12">
-		<div class="panel panel-info">
-			<div class="panel-heading"> Brief Context</div>
+		
+			
 			<div class="panel-wrapper collapse in" aria-expanded="true">
 			<div class="white-box">
+
+            <div>
+                <h3 class="box-title m-b-0">List of GOSM
+                    
+                </h3>
+                <p class="text-muted m-b-30">List of activities that require pre activity documents
+                </p>
+            
+            </div>
 				<div class="table-responsive">
                 <table id="myTable" class="table table-hover"  role="grid" aria-describedby="myTable_info">
                     <thead>
@@ -177,7 +190,7 @@
 			
 
 			</div>
-		</div>
+		
 	</div>
 </div>
 </form>

@@ -46,6 +46,10 @@
     {{tag.javascript('/js/jquery.slimscroll.js', true)}}
     <!--Wave Effects -->
     {{tag.javascript('/js/waves.js', true)}}
+     <!--Wave Effects -->
+    {{tag.javascript('/js/validator.js', true)}}
+    {{tag.javascript('/js/mask.js', true)}}
+
     <!-- Custom Theme JavaScript -->
     {{tag.javascript('/js/custom.min.js', true)}}
     {{tag.javascript('/js/cbpFWTabs.js', true)}}
@@ -68,7 +72,7 @@
 
 
 {%block content%}
-<form action="" id="form-id" method="POST">
+<form action="/ORGRES/submitOfficerSurveyForm" id="form-id" method="POST">
 <input type="hidden" name="_csrf" value="{{csrfToken}}">
 
 
@@ -84,36 +88,38 @@
                     <hr>
                     <br />
                     <div class="col-md-12">
-                        <div class="form-group m-b-40">
+                        <!-- <div class="form-group m-b-40">
                         <label>Organization</label>
-                            <select class="form-control select2" name="position" id="org-select" required="">
+                            <select class="form-control select2" name="organization" id="org-select" required="">
                                 <option selected="true" disabled="disabled">Select an Organization</option>
-                                <option value="0">La Salle Computer Society</option>
-                                <option value="1">Moo Media</option>
-                                <option value="2">Young Entrepreneur Society</option>
+                                
+                                {% for organization in organizations %}
+                                    {% if organization.id != 0 %}
+
+                                        <option value="{{organization.id}}">{{organization.name}}</option>
+                                    
+                                    {% endif %}
+                                {% endfor %}
+                                
                             </select>
                             <span class="highlight"></span> <span class="bar"></span>
-                        </div>
-                        <div class="form-group m-b-40">
+                        </div> -->
+                        <!-- <div class="form-group m-b-40">
                         <label>ID Number</label>
-                            <select class="form-control select2" name="position" id="org-select" required="">
-                                <option selected="true" disabled="disabled">Select an Organization</option>
-                                <option value="0">La Salle Computer Society</option>
-                                <option value="1">Moo Media</option>
-                                <option value="2">Young Entrepreneur Society</option>
-                            </select>
+                        <input type="text" placeholder="" data-mask="99999999" required="" class="form-control">
+                        <span class="help-block">Minimum of 8 characters</span>
                             <span class="highlight"></span> <span class="bar"></span>
-                        </div>
+                        </div> -->
                         <div class="form-group col-xs-12">
                                 <label class="col-xs-12">1. I believe that the organization has prepared us, officers, well for our positions.</label>
                                 <hr>
                                 <div class="text-center">
                                     <label class="">Strongly Disagree </label>&nbsp;
-                                        <input  type="radio" name="radio3" id="inlineRadio1" value="1" required="">&nbsp;
-                                        <input  type="radio" name="radio3" id="inlineRadio1" value="2" required="">&nbsp;
-                                        <input  type="radio" name="radio3" id="inlineRadio1" value="3" required="">&nbsp;
-                                        <input  type="radio" name="radio3" id="inlineRadio1" value="4" required="">&nbsp;
-                                        <input  type="radio" name="radio3" id="inlineRadio1" value="5" required="">&nbsp;
+                                        <input  type="radio" name="r1" id="inlineRadio1" value="1" required="">&nbsp;
+                                        <input  type="radio" name="r1" id="inlineRadio1" value="2" required="">&nbsp;
+                                        <input  type="radio" name="r1" id="inlineRadio1" value="3" required="">&nbsp;
+                                        <input  type="radio" name="r1" id="inlineRadio1" value="4" required="">&nbsp;
+                                        <input  type="radio" name="r1" id="inlineRadio1" value="5" required="">&nbsp;
                                     <label class=""> Strongly Agree</label>
                                 </div>
                                 <hr>                                                     
@@ -123,11 +129,11 @@
                                 <hr>
                                 <div class="text-center">
                                     <label class="">Strongly Disagree </label>&nbsp;
-                                        <input  type="radio" name="radio3" id="inlineRadio1" value="1" required="">&nbsp;
-                                        <input  type="radio" name="radio3" id="inlineRadio1" value="2" required="">&nbsp;
-                                        <input  type="radio" name="radio3" id="inlineRadio1" value="3" required="">&nbsp;
-                                        <input  type="radio" name="radio3" id="inlineRadio1" value="4" required="">&nbsp;
-                                        <input  type="radio" name="radio3" id="inlineRadio1" value="5" required="">&nbsp;
+                                        <input  type="radio" name="r2" id="inlineRadio1" value="1" required="">&nbsp;
+                                        <input  type="radio" name="r2" id="inlineRadio1" value="2" required="">&nbsp;
+                                        <input  type="radio" name="r2" id="inlineRadio1" value="3" required="">&nbsp;
+                                        <input  type="radio" name="r2" id="inlineRadio1" value="4" required="">&nbsp;
+                                        <input  type="radio" name="r2" id="inlineRadio1" value="5" required="">&nbsp;
                                     <label class=""> Strongly Agree</label>
                                 </div>
                                 <hr>                                                      
@@ -137,11 +143,11 @@
                                 <hr>
                                 <div class="text-center">
                                     <label class="">Strongly Disagree </label>&nbsp;
-                                        <input  type="radio" name="radio3" id="inlineRadio1" value="1" required="">&nbsp;
-                                        <input  type="radio" name="radio3" id="inlineRadio1" value="2" required="">&nbsp;
-                                        <input  type="radio" name="radio3" id="inlineRadio1" value="3" required="">&nbsp;
-                                        <input  type="radio" name="radio3" id="inlineRadio1" value="4" required="">&nbsp;
-                                        <input  type="radio" name="radio3" id="inlineRadio1" value="5" required="">&nbsp;
+                                        <input  type="radio" name="r3" id="inlineRadio1" value="1" required="">&nbsp;
+                                        <input  type="radio" name="r3" id="inlineRadio1" value="2" required="">&nbsp;
+                                        <input  type="radio" name="r3" id="inlineRadio1" value="3" required="">&nbsp;
+                                        <input  type="radio" name="r3" id="inlineRadio1" value="4" required="">&nbsp;
+                                        <input  type="radio" name="r3" id="inlineRadio1" value="5" required="">&nbsp;
                                     <label class=""> Strongly Agree</label>
                                 </div>
                                 <hr>                                                     
@@ -151,11 +157,11 @@
                                 <hr>
                                 <div class="text-center">
                                     <label class="">Strongly Disagree </label>&nbsp;
-                                        <input  type="radio" name="radio3" id="inlineRadio1" value="1" required="">&nbsp;
-                                        <input  type="radio" name="radio3" id="inlineRadio1" value="2" required="">&nbsp;
-                                        <input  type="radio" name="radio3" id="inlineRadio1" value="3" required="">&nbsp;
-                                        <input  type="radio" name="radio3" id="inlineRadio1" value="4" required="">&nbsp;
-                                        <input  type="radio" name="radio3" id="inlineRadio1" value="5" required="">&nbsp;
+                                        <input  type="radio" name="r4" id="inlineRadio1" value="1" required="">&nbsp;
+                                        <input  type="radio" name="r4" id="inlineRadio1" value="2" required="">&nbsp;
+                                        <input  type="radio" name="r4" id="inlineRadio1" value="3" required="">&nbsp;
+                                        <input  type="radio" name="r4" id="inlineRadio1" value="4" required="">&nbsp;
+                                        <input  type="radio" name="r4" id="inlineRadio1" value="5" required="">&nbsp;
                                     <label class=""> Strongly Agree</label>
                                 </div>
                                 <hr>                                                     
@@ -165,11 +171,11 @@
                                 <hr>
                                 <div class="text-center">
                                     <label class="">Strongly Disagree </label>&nbsp;
-                                        <input  type="radio" name="radio3" id="inlineRadio1" value="1" required="">&nbsp;
-                                        <input  type="radio" name="radio3" id="inlineRadio1" value="2" required="">&nbsp;
-                                        <input  type="radio" name="radio3" id="inlineRadio1" value="3" required="">&nbsp;
-                                        <input  type="radio" name="radio3" id="inlineRadio1" value="4" required="">&nbsp;
-                                        <input  type="radio" name="radio3" id="inlineRadio1" value="5" required="">&nbsp;
+                                        <input  type="radio" name="r5" id="inlineRadio1" value="1" required="">&nbsp;
+                                        <input  type="radio" name="r5" id="inlineRadio1" value="2" required="">&nbsp;
+                                        <input  type="radio" name="r5" id="inlineRadio1" value="3" required="">&nbsp;
+                                        <input  type="radio" name="r5" id="inlineRadio1" value="4" required="">&nbsp;
+                                        <input  type="radio" name="r5" id="inlineRadio1" value="5" required="">&nbsp;
                                     <label class=""> Strongly Agree</label>
                                 </div>
                                 <hr>                                                     
@@ -179,11 +185,11 @@
                                 <hr>
                                 <div class="text-center">
                                     <label class="">Strongly Disagree </label>&nbsp;
-                                        <input  type="radio" name="radio3" id="inlineRadio1" value="1" required="">&nbsp;
-                                        <input  type="radio" name="radio3" id="inlineRadio1" value="2" required="">&nbsp;
-                                        <input  type="radio" name="radio3" id="inlineRadio1" value="3" required="">&nbsp;
-                                        <input  type="radio" name="radio3" id="inlineRadio1" value="4" required="">&nbsp;
-                                        <input  type="radio" name="radio3" id="inlineRadio1" value="5" required="">&nbsp;
+                                        <input  type="radio" name="r6" id="inlineRadio1" value="1" required="">&nbsp;
+                                        <input  type="radio" name="r6" id="inlineRadio1" value="2" required="">&nbsp;
+                                        <input  type="radio" name="r6" id="inlineRadio1" value="3" required="">&nbsp;
+                                        <input  type="radio" name="r6" id="inlineRadio1" value="4" required="">&nbsp;
+                                        <input  type="radio" name="r6" id="inlineRadio1" value="5" required="">&nbsp;
                                     <label class=""> Strongly Agree</label>
                                 </div>
                                 <hr>                                                       
@@ -193,11 +199,11 @@
                                 <hr>
                                 <div class="text-center">
                                     <label class="">Strongly Disagree </label>&nbsp;
-                                        <input  type="radio" name="radio3" id="inlineRadio1" value="1" required="">&nbsp;
-                                        <input  type="radio" name="radio3" id="inlineRadio1" value="2" required="">&nbsp;
-                                        <input  type="radio" name="radio3" id="inlineRadio1" value="3" required="">&nbsp;
-                                        <input  type="radio" name="radio3" id="inlineRadio1" value="4" required="">&nbsp;
-                                        <input  type="radio" name="radio3" id="inlineRadio1" value="5" required="">&nbsp;
+                                        <input  type="radio" name="r7" id="inlineRadio1" value="1" required="">&nbsp;
+                                        <input  type="radio" name="r7" id="inlineRadio1" value="2" required="">&nbsp;
+                                        <input  type="radio" name="r7" id="inlineRadio1" value="3" required="">&nbsp;
+                                        <input  type="radio" name="r7" id="inlineRadio1" value="4" required="">&nbsp;
+                                        <input  type="radio" name="r7" id="inlineRadio1" value="5" required="">&nbsp;
                                     <label class=""> Strongly Agree</label>
                                 </div>
                                 <hr>                                                    
@@ -207,11 +213,11 @@
                                 <hr>
                                 <div class="text-center">
                                     <label class="">Strongly Disagree </label>&nbsp;
-                                        <input  type="radio" name="radio3" id="inlineRadio1" value="1" required="">&nbsp;
-                                        <input  type="radio" name="radio3" id="inlineRadio1" value="2" required="">&nbsp;
-                                        <input  type="radio" name="radio3" id="inlineRadio1" value="3" required="">&nbsp;
-                                        <input  type="radio" name="radio3" id="inlineRadio1" value="4" required="">&nbsp;
-                                        <input  type="radio" name="radio3" id="inlineRadio1" value="5" required="">&nbsp;
+                                        <input  type="radio" name="r8" id="inlineRadio1" value="1" required="">&nbsp;
+                                        <input  type="radio" name="r8" id="inlineRadio1" value="2" required="">&nbsp;
+                                        <input  type="radio" name="r8" id="inlineRadio1" value="3" required="">&nbsp;
+                                        <input  type="radio" name="r8" id="inlineRadio1" value="4" required="">&nbsp;
+                                        <input  type="radio" name="r8" id="inlineRadio1" value="5" required="">&nbsp;
                                     <label class=""> Strongly Agree</label>
                                 </div>
                                 <hr>                                                     
@@ -221,11 +227,11 @@
                                 <hr>
                                 <div class="text-center">
                                     <label class="">Strongly Disagree </label>&nbsp;
-                                        <input  type="radio" name="radio3" id="inlineRadio1" value="1" required="">&nbsp;
-                                        <input  type="radio" name="radio3" id="inlineRadio1" value="2" required="">&nbsp;
-                                        <input  type="radio" name="radio3" id="inlineRadio1" value="3" required="">&nbsp;
-                                        <input  type="radio" name="radio3" id="inlineRadio1" value="4" required="">&nbsp;
-                                        <input  type="radio" name="radio3" id="inlineRadio1" value="5" required="">&nbsp;
+                                        <input  type="radio" name="r9" id="inlineRadio1" value="1" required="">&nbsp;
+                                        <input  type="radio" name="r9" id="inlineRadio1" value="2" required="">&nbsp;
+                                        <input  type="radio" name="r9" id="inlineRadio1" value="3" required="">&nbsp;
+                                        <input  type="radio" name="r9" id="inlineRadio1" value="4" required="">&nbsp;
+                                        <input  type="radio" name="r9" id="inlineRadio1" value="5" required="">&nbsp;
                                     <label class=""> Strongly Agree</label>
                                 </div>
                                 <hr>                                                    

@@ -14,6 +14,9 @@ module.exports = function(configuration, modules, database, queryFiles){
     const insertSchoolYearSQL = queryFiles.insertSchoolYear;
     const getCurrentSchoolYearTermsSQL = queryFiles.getCurrentSchoolYearTerms;
 
+    const insertOfficerSurveyFormSQL = queryFiles.insertOfficerSurveyForm;
+    const insertMemberSurveyFormSQL = queryFiles.insertMemberSurveyForm;
+
 
 	OrgresModel.getActivitiesForResearchForm = function(connection = database) {
         return connection.any(getActivitiesForResearchFormSQL);
@@ -49,6 +52,14 @@ module.exports = function(configuration, modules, database, queryFiles){
 
     OrgresModel.getCurrentSchoolYearTerms = function (connection = database){
         return connection.any(getCurrentSchoolYearTermsSQL);
+    };
+
+    OrgresModel.insertOfficerSurveyForm = function(param, connection = database){
+        return connection.none(insertOfficerSurveyFormSQL, param);
+    };
+
+    OrgresModel.insertMemberSurveyForm = function(param, connection = database){
+        return connection.none(insertMemberSurveyFormSQL, param);
     };
 
 	return OrgresModel;
