@@ -50,7 +50,15 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         viewGOSMList: (req, res) => {
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
-            return res.render('Org/GOSMList');
+            gosmModel.getOrgAllGOSM(req.session.user.organizationSelected.id)
+                     .then(data=>{
+                        renderData.gosms = data
+                        console.log(data)
+                        return res.render('Org/GOSMList', renderData);            
+                     }).catch(err=>{
+                        console.log(err)
+                     })
+            
         },
 
         viewActivityDetails: (req, res) => {
@@ -1133,7 +1141,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                 logger.debug('Rendering page', log_options);
                 if(renderData.status ==3){
-                    return res.redirect('/Organization/viewGOSMDetails')
+                    return res.redirect('/Organization/viewGOSMList')
                 }else{
                     return res.render('Org/GOSM', renderData);    
                 }
@@ -1146,7 +1154,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         viewGOSMDetails:(req, res) => {
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
-            return res.render('Org/viewActivityDetails', renderData);    
+
+            return res.render('Org/gosmDetails', renderData);    
         },
 
         saveContext: (req, res) => {
