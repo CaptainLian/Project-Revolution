@@ -554,7 +554,7 @@ $("#add-gosm").click(function(e) {
             "personInCharge": personInCharge,
             "isRelatedToOrganization": isRelatedToOrganization,
             "budget": budget,
-            "notingosm":true
+            "notingosm":false
         },
 
         success: function(data) {
