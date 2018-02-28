@@ -2936,17 +2936,13 @@ DROP TABLE IF EXISTS "PostProjectReimbursement" CASCADE;
 CREATE TABLE "PostProjectReimbursement" (
   "id" SERIAL NOT NULL UNIQUE,
   "GOSMActivity" INTEGER REFERENCES "PostProjectProposal"("GOSMActivity"),
-  "submissionID" INTEGER,
+  "submissionID" INTEGER DEFAULT -1,
   "sequence" INTEGER DEFAULT -1,
-  "nameOfEstablishment" VARCHAR(60),
-  "amount" NUMERIC(12, 2),
-  "paymentBy" SMALLINT REFERENCES "PostProjectReimbursementPayment"("id"),
-  "foodExpense" VARCHAR(60),
-  "NUCAODP" TEXT,
-  "delayedProcessing" TEXT,
+  "justificationFDPP" TEXT,
+  "justificationFNUCADP" TEXT,
   "filenames" TEXT[],
   "filenamesToShow" TEXT[],
-  "idNumber" INTEGER REFERENCES Account(idNumber),
+  "submittedBy" INTEGER REFERENCES Account(idNumber),
   "dateCreated" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
   "status" SMALLINT REFERENCES "PostProjectReimbursementStatus"("id") DEFAULT 0,
 
@@ -2980,6 +2976,8 @@ CREATE TABLE "PostProjectReimbursementSignatory" (
     dateSigned TIMESTAMP WITH TIME ZONE
 );
 
+
+
 CREATE TRIGGER "after_insert_PostProjectReimbursement_signatories"
     AFTER INSERT ON "PostProjectReimbursement"
     FOR EACH ROW
@@ -2988,7 +2986,7 @@ CREATE TRIGGER "after_insert_PostProjectReimbursement_signatories"
 CREATE TRIGGER "after_insert_PreActivityReimbursementParticular_signatories"
     AFTER INSERT ON "PostProjectReimbursement"
     FOR EACH ROW
-    EXECUTE PROCEDURE "trigger_after_insert_finance_signatories"('PostProjectReimbursement', 'ppr', 'ppr."reimbursement" = $1."reimbursement"', 'PostProjectReimbursementSignatory', 'reimbursement', '$1."reimbursement"');
+    EXECUTE PROCEDURE "trigger_after_insert_finance_signatories"('PostProjectReimbursementParticular', 'pprp', 'pprp."reimbursement" = $1."reimbursement"', 'PostProjectReimbursementSignatory', 'reimbursement', '$1."reimbursement"')
 
 CREATE TRIGGER "after_update_PreActivityReimbursementSignatory_completion"
     AFTER UPDATE ON "PostProjectReimbursementSignatory"
