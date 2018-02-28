@@ -97,6 +97,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
             .field("*")
             .left_join("ProjectProposal",'P','P.GOSMActivity = G.ID')
             .field('P.ID AS PID')
+            .field('P.STATUS AS PSTATUS')
             .where('GOSM = ?',GOSMID);
 
             query = query.toString();

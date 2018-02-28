@@ -113,14 +113,17 @@
                             {%for gosm in gosmactivity%}
                                 <tr>
                                     <td>{{gosm.startdate}}</td>
-                                    {%if gosm.pid|length%}
+
+                                    {%if gosm.pid != null %}
                                         <td><a class="btn-link" href="/Organization/projectproposal/projectproposaldetails/{{gosm.id}}"> {{gosm.strategies}}</a></td>    
                                     {%else %}
                                         <td><a class="btn-link" > {{gosm.strategies}}</a></td>    
                                     {%endif%}
                                     
-                                    {%if gosm.status == 5%}
+                                    {%if gosm.pstatus == 5%}
                                         <td><span class="label label-danger">Denied</span></td>        
+                                    {%elif gosm.pstatus == 2%}
+                                    <td><span class="label label-info">For Approval</span></td>        
                                     {%else%}
                                         <td><span class="label label-success">Approved</span></td>    
                                     {%endif%}
