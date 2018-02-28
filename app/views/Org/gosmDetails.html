@@ -124,6 +124,8 @@
                                         <td><span class="label label-danger">Denied</span></td>        
                                     {%elif gosm.pstatus == 2%}
                                     <td><span class="label label-info">For Approval</span></td>        
+                                    {%elif gosm.pid ==  null%}
+                                    <td><span class="label " style="color: black">Unprocessed</span></td>        
                                     {%else%}
                                         <td><span class="label label-success">Approved</span></td>    
                                     {%endif%}
