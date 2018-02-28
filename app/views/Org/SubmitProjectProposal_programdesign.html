@@ -16,6 +16,8 @@
    	<!-- Bootstrap Core CSS -->
    	{{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
    	{{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
+
+   	{{tag.style('/plugins/bower_components/calendar/dist/fullcalendar.css')}}
    <!-- Menu CSS -->
    {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
    {{tag.style('/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css')}}
@@ -74,6 +76,13 @@
               text-overflow: ellipsis;
               white-space: nowrap;
         }
+
+        th.fc-today{
+        	background: #9675CE !important;
+        	color: black !important
+
+
+        }
        /* .wizard-content{
           border-color: white!important;
         }*/
@@ -83,7 +92,7 @@
 {%block defer_script%}
 	{{super()}}
 
-	{{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
+	{{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js')}}
     {{tag.javascript('/plugins/bower_components/jqueryui/jquery-ui.min.js', true)}}
 	<!-- Bootstrap Core JavaScript -->
 	{{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
@@ -118,12 +127,52 @@
 
 
 	{{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
+	{{tag.javascript('/plugins/bower_components/moment/moment.js')}}
+	{{tag.javascript('/plugins/bower_components/calendar/dist/fullcalendar.min.js',true)}}
+
 	<script type="text/javascript">
     	var gid = {{gosmactivity.gosmactivity}};
     	var id = {{projectProposal.id}};
     	var status = {{status}};
     </script>
-    {{tag.javascript('/js/Organization/SubmitProjectProposal_programdesign.js', true)}}
+
+     <script type="text/javascript">
+       $(document).ready(function(){
+
+
+          $('#calendar').fullCalendar({
+                height:500,
+                defaultView: 'agendaWeek',
+                defaultDate: '2018-02-07',
+		      	editable: true,
+		      	selectable: true,
+		      	 week:     'week',
+                events:[
+                     
+
+                ],
+                customButtons: {
+			        add_event: {
+			            text: 'Add',
+			            click: function() {
+			               alert(); 
+			            }
+			        }
+			    },
+			    header: {
+			        right: 'list agendaWeek month  prev,next',
+			        center: 'title',
+			        left: 'add_event'
+			    },
+                 
+            });
+
+
+
+       })
+        
+    </script>
+    
 {%endblock%}
 
 {%block content%}
@@ -138,150 +187,7 @@
 			<div class="panel-heading"> Program Design</div>
 				<div class="panel-wrapper collapse in" aria-expanded="true">
 					<div class="panel-body">
-						<div data-example-id="togglable-tabs" class="bs-example bs-example-tabs" style="padding-top: 25px">
-							<ul role="tablist" class="nav nav-tabs" id="myTabs">
-								<li class="active nav-item" id="t0" role="presentation">
-									<a aria-expanded="true" class="nav-link" aria-controls="home" data-toggle="tab" role="tab" id="tab-0" href="#ctab0">
-										Day 1
-									</a>
-								</li>
-								<!--    <li class=" nav-item" id="t1" role="presentation"><a aria-expanded="true" class="nav-link" aria-controls="home" data-toggle="tab" role="tab" id="tab-1" href="#ctab1">Day 2</a></li> -->
-								<!-- <li role="presentation" class="nav-item panel-success"><a aria-controls="profile" class="nav-link" id="add-tab" href="tab-" role="tab"  aria-expanded="false"></a></li> -->
-								<li role="presentation" class="nav-item ">
-									<a aria-controls="profile" class="nav-link" id="add-tab" href="#" role="tab"  aria-expanded="false">
-										<i class="text-success fa fa-plus">
-										</i>
-									</a>
-								</li>
-								<!--  <li role="presentation" class="nav-item "><a style="border-color: white white #ddd white" aria-controls="profile" class="nav-link" id="delete-tab" href="#" role="tab"   aria-expanded="false"><i class="text-danger fa fa-times"></i></a></li> -->
-							</ul>
-							<div class="tab-content" id="myTabContent">
-								<div aria-labelledby="tab-0" id="ctab0" class="tab-pane fade active in" role="tabpanel">
-									<div class="row">
-										<div class="col-md-12" id="clone-question"  style="padding: 25px;position: relative; ">
-											<!-- pangcancel ng auto open datepicker -->
-											<input style="height:0px; top:-1000px; position:absolute;display: none" type="text" value="">
-											<div class="col-md-12">
-												<label class="form-control-label">Date</label>
-												<div class="input-group  ">
-													<input name="date" readonly="" class="form-control" id="datepicker-autoclose" placeholder="mm/dd/yyyy">
-													<span class="input-group-addon"><i class="icon-calender"></i></span>
-												</div>
-												<div>
-													<span id="datepicker-autoclose-help" class="help-block">
-														Date of the Activity could only be set once
-													</span>
-												</div>
-											</div>
-										</div>
-										<!--/span-->
-										<div class=" col-xs-12 col-md-8  " id="clone-table" style="padding-top: 30px">
-											<div class="table-responsive"  style="overflow-x:auto;">
-												<table id="program-tables" style="table-layout: fixed" class=" table program color-bordered-table success-bordered-table" >
-													<thead>
-														<tr>
-															<th width="25%" class="text-center" >Time</th>
-															<!--  <th width="10%">Duration</th> -->
-															<th width="65%"  class="text-center">Activity</th>
-															<th width="10%" data-field="state" data-checkbox="true"></th>
-														</tr>
-													</thead>
-													<tbody>
-														<tr class="no-records-found">
-															<td ></td>
-															<!--  <td></td> -->
-															<td></td>
-															<td></td>
-														</tr>
-													</tbody>
-												</table>
-											</div>
-										</div>
-										<div class="col-md-4 " style="margin-top: 50px;">
-											<div>&nbsp;</div>
-												<div class="form-group">
-													<label class="form-control-label" for="start-time">
-														Time
-													</label>
-													<div class="input-group clockpicker " data-autoclose="true">
-														<input name="timeStart" type="text" id="start-time" class="form-control" value="00:00" readonly="">
-														<span class=" input-group-addon bg-info b-0 text-white">
-															to
-														</span>
-														<input name="timeEnd" type="text" id="end-time" class="form-control" value="00:00" readonly="">
-													</div>
-													<div>
-														<span class="help-block" id="time-help"></span>
-													</div>
-												</div>
-												<div class="form-group">
-													<label class="form-control-label">
-														Activity
-													</label>
-													<input name="activity" id="act0"  type="text" class="form-control">
-													<div>
-														<span class="help-block" id="act-help"></span>
-													</div>
-												</div>
-											<div class="form-group">
-												<label class="form-control-label">
-													Description
-												</label>
-												<textarea name="description" id="desc0" class="form-control" rows="2" >
-												</textarea>
-												<div>
-													<span class="help-block" id="desc-help"></span>
-												</div>
-											</div>
-											<div class="form-group">
-												<label class="form-control-label">
-													Person in Charge
-												</label>
-												<select name="personInCharge" id="sel0" class="form-control select2">
-
-												{% for head in projectHeads %}
-
-													<option value="{{head.idnumber}}">{{head.firstname}} {{head.lastname}}</option>
-
-												{% endfor %}
-
-												</select>
-												<div>
-													<span class="help-block" id="time-help"></span>
-												</div>
-											</div>
-											<div class="m-t-5 form-group text-center">
-												<button type="button" id="insert-button" class="btn btn-info">Insert </button>
-											</div>
-										</div>
-										<div class="col-md-12" style="margin-top:32px;padding:20px;border: 1px solid grey;border-radius: 2px">
-											<h3 class="text-center">Activity Details</h3>
-											<label style=" position: absolute;right: 20px;top:20px">Time</label>
-											<p  style="word-break: break-all; position: absolute;right: 20px;top:40px" class="form-control-static"  id="time-preview"></p>
-											
-											<label>
-												Activity
-											</label>
-											<p  style="word-break: break-all;" class="form-control-static" id="activity-preview" ></p>
-											<div>&nbsp;</div>
-											<label>
-												Description
-											</label>
-											<p style="word-break: break-all;" id="description-preview"></p>
-											<div>&nbsp;</div>
-											<label>Person in Charge</label>
-											<p style="word-break: break-all;" class="form-control-static"  id="person-preview"></p>
-											<div>
-												&nbsp;
-											</div>
-										</div>
-									<!--/span-->
-								</div>
-							</div>
-							<!-- <div aria-labelledby="tab-1" id="ctab1" class="tab-pane" role="tabpanel">
-								asd
-							</div> -->
-						</div>
+						<div id="calendar"></div>
 					</div>
 				</div>
 				<div class="panel-footer text-center">
@@ -291,5 +197,38 @@
 			</div>
 		</div>
 	</div>
+</div>
+
+<div id="createEventModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span> <span class="sr-only">close</span></button>
+                <h4>Add an Event</h4>
+            </div>
+            <div id="modalBody" class="modal-body">
+               <div class="form-group">
+                    <input class="form-control" type="text" placeholder="Event Name">
+                </div>
+
+                <div class="form-group form-inline">
+                    <div class="input-group date" data-provide="datepicker">
+                        <input type="text" class="form-control" placeholder="Due Date mm/dd/yyyy">
+                        <div class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <textarea class="form-control" type="text" rows="4" placeholder="Event Description"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                <button type="submit" class="btn btn-primary" id="submitButton">Save</button>
+            </div>
+        </div>
+    </div>
 </div>
 {%endblock%}
