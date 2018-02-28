@@ -1445,8 +1445,10 @@ INSERT INTO Functionality (id, name, category)
                           -- PPR Signing (President) 
                           (211024, 'Sign Project Proposal as President', 211),
                           -- Finance Signatory 
-                          (211025, 'Sign Finance Transaction as President', 211),
-                          (211026, 'Sign Finance Transaction as Treasurer', 211),
+                          -- mistakes were made in the design of ACLs, the two ACLS can be compressed into a single ACL
+                          -- But for sanity and backwards compatability, they're retained
+                          (211025, 'View/Submit Financial Documents as President', 211),
+                          (211026, 'View/Submit Financial Documents as Treasurer', 211),
 
                           (214027, 'Submit Officer Survey Form', 214),
 
@@ -1626,6 +1628,8 @@ $trigger$
                                       VALUES  (avpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
                                               (avpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE),
                                               (avpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 18)), TRUE),
+                                              -- Sign Finance Transaction as Treasurer
+                                              (avpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 26)), TRUE),
                                               -- Submit Officer Survey Form  
                                               (avpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 27)), TRUE),
                                               -- Submit Not in GOSM Activity 28
@@ -2559,9 +2563,9 @@ CREATE TABLE "PreActivityBookTransfer"(
     "id" SERIAL UNIQUE,
     "GOSMActivity" INTEGER REFERENCES GOSMActivity("id"),
     "submissionID" INTEGER,
-    "sequenceID" INTEGER,
+    "sequence" INTEGER,
     "submittedBy" INTEGER REFERENCES Account(idNumber),
-    "dateSubmitted" TIMESTAMP WITH TIME ZONE,
+    "dateSubmitted" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "status" SMALLINT REFERENCES "PreActivityBookTransferStatus"("id") NOT NULL DEFAULT 0,
     "transferAccount" CHARACTER(7),
 
@@ -2932,17 +2936,13 @@ DROP TABLE IF EXISTS "PostProjectReimbursement" CASCADE;
 CREATE TABLE "PostProjectReimbursement" (
   "id" SERIAL NOT NULL UNIQUE,
   "GOSMActivity" INTEGER REFERENCES "PostProjectProposal"("GOSMActivity"),
-  "submissionID" INTEGER,
+  "submissionID" INTEGER DEFAULT -1,
   "sequence" INTEGER DEFAULT -1,
-  "nameOfEstablishment" VARCHAR(60),
-  "amount" NUMERIC(12, 2),
-  "paymentBy" SMALLINT REFERENCES "PostProjectReimbursementPayment"("id"),
-  "foodExpense" VARCHAR(60),
-  "NUCAODP" TEXT,
-  "delayedProcessing" TEXT,
+  "justificationFDPP" TEXT,
+  "justificationFNUCADP" TEXT,
   "filenames" TEXT[],
   "filenamesToShow" TEXT[],
-  "idNumber" INTEGER REFERENCES Account(idNumber),
+  "submittedBy" INTEGER REFERENCES Account(idNumber),
   "dateCreated" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
   "status" SMALLINT REFERENCES "PostProjectReimbursementStatus"("id") DEFAULT 0,
 
@@ -2976,6 +2976,8 @@ CREATE TABLE "PostProjectReimbursementSignatory" (
     dateSigned TIMESTAMP WITH TIME ZONE
 );
 
+
+
 CREATE TRIGGER "after_insert_PostProjectReimbursement_signatories"
     AFTER INSERT ON "PostProjectReimbursement"
     FOR EACH ROW
@@ -2984,7 +2986,7 @@ CREATE TRIGGER "after_insert_PostProjectReimbursement_signatories"
 CREATE TRIGGER "after_insert_PreActivityReimbursementParticular_signatories"
     AFTER INSERT ON "PostProjectReimbursement"
     FOR EACH ROW
-    EXECUTE PROCEDURE "trigger_after_insert_finance_signatories"('PostProjectReimbursement', 'ppr', 'ppr."reimbursement" = $1."reimbursement"', 'PostProjectReimbursementSignatory', 'reimbursement', '$1."reimbursement"');
+    EXECUTE PROCEDURE "trigger_after_insert_finance_signatories"('PostProjectReimbursementParticular', 'pprp', 'pprp."reimbursement" = $1."reimbursement"', 'PostProjectReimbursementSignatory', 'reimbursement', '$1."reimbursement"')
 
 CREATE TRIGGER "after_update_PreActivityReimbursementSignatory_completion"
     AFTER UPDATE ON "PostProjectReimbursementSignatory"
