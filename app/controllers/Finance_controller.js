@@ -933,7 +933,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 								var diff = timediff(actualdate, currentdate, 'D');
 				            	console.log(diff);
-				            	console.log("difference")
+				            	console.log("difference");
 
 				            	if (diff.days>0){
 				            		renderData.reimbursement = true;
