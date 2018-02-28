@@ -935,7 +935,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 								var diff = timediff(actualdate, currentdate, 'D');
 				            	console.log(diff);
-				            	console.log("difference")
+				            	console.log("difference");
 
 				            	if (diff.days>0){
 				            		renderData.reimbursement = true;
@@ -1458,10 +1458,13 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		submitPreactsBookTransfer: (req, res) =>{
 			logger.debug('submitPreactsBookTransfer()', log_options);
 
+			console.log(req.body);
+
 			// TODO: recipient??
 			var dbParam = {
 				gosmactivity: req.body.gosmactivity,
-				submittedby: req.session.user.idNumber
+				submittedby: req.session.user.idNumber,
+				transferaccount: req.body.recipient
 			};
 
             let particulars = req.body.particulars;
