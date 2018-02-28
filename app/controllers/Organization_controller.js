@@ -62,6 +62,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         },
         viewGOSMDetails: (req, res) => {
             const renderData = Object.create(null);
+            console.log(req.param)
             renderData.extra_data = req.extra_data;
             return res.render('Org/gosmDetails');
         },
@@ -1188,8 +1189,16 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         viewGOSMDetails:(req, res) => {
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
-
-            return res.render('Org/gosmDetails', renderData);    
+            console.log(req.params.orgid)
+            gosmModel.getGOSMActivities(req.params.orgid)
+                     .then(data=>{
+                        console.log(data)
+                        renderData.gosmactivity = data
+                        return res.render('Org/gosmDetails', renderData);    
+                     }).catch(err=>{
+                        console.log(err)
+                     })
+            
         },
 
         saveContext: (req, res) => {
