@@ -2592,7 +2592,13 @@ CREATE TABLE "PreActivityBookTransferSignatory" (
 
     PRIMARY KEY ("bookTransfer", "signatory", "type")
 );
-CREATE TRIGGER "after_insert_PreActivityBookTransfer_signatories"
+
+CREATE TRIGGER "before_insert_PreActivityBookTransfer"
+    BEFORE INSERT ON "PreActivityBookTransfer"
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_before_insert_sequence_versioning"('PreActivityBookTransfer', 'pabt', '"pabt"."GOSMActivity" = $1."GOSMActivity"');
+
+CREATE TRIGGER "after_insert_PreActivityBookTransfer_signatories" 
     AFTER INSERT ON "PreActivityBookTransfer"
     FOR EACH ROW
     EXECUTE PROCEDURE  "trigger_after_insert_finance_signatories_initial"('PreActivityBookTransfer', 'pabt', 'PreActivityBookTransferSignatory', 'bookTransfer', 'PreAct_BookTransfer_get_organization_next_treasurer_signatory');
@@ -2954,7 +2960,7 @@ CREATE TABLE "PostProjectReimbursementParticular" (
 CREATE TRIGGER "before_insert_PostProjectReimbursement_sequence"
     BEFORE INSERT ON "PostProjectReimbursement"
     FOR EACH ROW
-    EXECUTE PROCEDURE "trigger_before_insert_sequence_versioning"( 'PostProjectReimbursement', 'ppr', 'ppr."GOSMActivity" = $1."GOSMActivity"');
+    EXECUTE PROCEDURE "trigger_before_insert_sequence_versioning"('PostProjectReimbursement', 'ppr', 'ppr."GOSMActivity" = $1."GOSMActivity"');
 
 DROP TABLE IF EXISTS "PostProjectReimbursementSignatory" CASCADE;
 CREATE TABLE "PostProjectReimbursementSignatory" (
@@ -2976,14 +2982,14 @@ CREATE TRIGGER "after_insert_PostProjectReimbursement_signatories"
     EXECUTE PROCEDURE  "trigger_after_insert_finance_signatories_initial"('PostProjectReimbursement', 'ppr', 'PostProjectReimbursementSignatory', 'reimbursement', 'PostAct_Reimbursement_get_organization_next_treasurer_signatory');
 
 CREATE TRIGGER "after_insert_PreActivityReimbursementParticular_signatories"
-    AFTER INSERT ON "PreActivityBookTransferParticular"
+    AFTER INSERT ON "PostProjectReimbursement"
     FOR EACH ROW
     EXECUTE PROCEDURE "trigger_after_insert_finance_signatories"('PostProjectReimbursement', 'ppr', 'ppr."reimbursement" = $1."reimbursement"', 'PostProjectReimbursementSignatory', 'reimbursement', '$1."reimbursement"');
 
 CREATE TRIGGER "after_update_PreActivityReimbursementSignatory_completion"
-    AFTER UPDATE ON "PreActivityBookTransferSignatory"
+    AFTER UPDATE ON "PostProjectReimbursementSignatory"
     FOR EACH ROW WHEN (OLD.status <> NEW.status)
-    EXECUTE PROCEDURE "trigger_after_update_signatory_completion"('PostProjectReimbursementSignatory', 'pprs', 'pprs."bookTransfer" = $1."bookTransfer"', 'PostProjectReimbursement', 'ppr', 'ppr.id = $1."bookTransfer"');
+    EXECUTE PROCEDURE "trigger_after_update_signatory_completion"('PostProjectReimbursementSignatory', 'pprs', 'pprs."reimbursement" = $1."reimbursement"', 'PostProjectReimbursement', 'ppr', 'ppr.id = $1."reimbursement"');
 
 DROP TABLE IF EXISTS "PostProjectBookTransferStatus" CASCADE;
 CREATE TABLE "PostProjectBookTransferStatus" (
