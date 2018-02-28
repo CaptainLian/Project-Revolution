@@ -1135,7 +1135,8 @@ CREATE TABLE StudentOrganization (
     depositoryFunds NUMERIC(16, 2) NOT NULL DEFAULT 0.0,
     depositryFunds NUMERIC(16, 2) NOT NULL DEFAULT 0.0,
     path_profilePicture TEXT,
-
+    accountNumber CHAR(7),
+    
     PRIMARY KEY (id)
 );
 INSERT INTO StudentOrganization (id, acronym, name, description, path_profilePicture)
