@@ -187,7 +187,7 @@ $function$
                 AND %I.%I IN (SELECT %I.id
                                 FROM %I %I
                                WHERE %I."GOSMActivity" IN (SELECT ga.id
-                                                             FROM "GOSMActivity_get_current_term_activity_ids() ga"))
+                                                             FROM "GOSMActivity_get_current_term_activity_ids"() ga))
             GROUP BY %I.signatory;',
         "signatoryTableAcronym", "signatoryTableAcronym", "signatoryTable", "signatoryTableAcronym", "signatoryTableAcronym", "signatoryTableAcronym", "signatoryTableColumn", "parentTableAcronym", "parentTable", "parentTableAcronym", "parentTableAcronym", "signatoryTableAcronym");
     END;
@@ -200,13 +200,13 @@ $function$
         "var_organizationID" INTEGER;
     BEGIN
         EXECUTE format(
-            'SELECT g.studentOrganization INTO "var_organizationID"
+            'SELECT g.studentOrganization
                FROM GOSM g
               WHERE g.id = (SELECT ga.GOSM
                               FROM GOSMActivity ga
                              WHERE ga.id = (SELECT %I."GOSMActivity"
                                               FROM %I %I
-                                             WHERE %I.id = "$1"));',
+                                             WHERE %I.id = $1));',
              "tableAcronym", "table", "tableAcronym", "tableAcronym")
              INTO STRICT "var_organizationID"
              USING "uniqueID";
@@ -226,20 +226,20 @@ $trigger$
         organizationPresident = organization_get_president(organization);
 
         EXECUTE format(
-            'INSERT INTO "%I" ("%I", signatory, type)
+            'INSERT INTO %I (%I, signatory, type)
                     VALUES ($1."id", %I($2), 0);',
             TG_ARGV[2], TG_ARGV[3], TG_ARGV[4]
         ) USING NEW, organization;
 
         EXECUTE format(
-            'INSERT INTO "%I" ("%I", signatory, type)
+            'INSERT INTO %I (%I, signatory, type)
                     VALUES ($1."id", $2, 1);',
             TG_ARGV[2], TG_ARGV[3]
         ) USING NEW, organizationPresident;
 
         EXECUTE format(
-            'INSERT INTO "%I" ("%I", signatory, type)
-                    VALUES ($1."id", (SELECT a.idNumber FROM Account a WHERE type = 3 ORDER BY idNumber DESC LIMIT 1), 2);',
+            'INSERT INTO %I (%I, signatory, type)
+                     VALUES ($1."id", (SELECT a.idNumber FROM Account a WHERE type = 3 ORDER BY idNumber DESC LIMIT 1), 2);',
             TG_ARGV[2], TG_ARGV[3]
         ) USING NEW;
 

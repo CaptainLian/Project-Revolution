@@ -1,5 +1,5 @@
 INSERT INTO public."PreActivityBookTransfer"(
             "GOSMActivity", "submittedBy", 
-            "dateSubmitted", status)
-    VALUES (${gosmactivity}, ${submittedby}, NOW(), 0)
+            "dateSubmitted", status, "transferAccount")
+    VALUES (${gosmactivity}, ${submittedby}, NOW(), 0, ${transferaccount})
 RETURNING id;
