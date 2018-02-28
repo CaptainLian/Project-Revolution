@@ -287,10 +287,11 @@ $function$
     DECLARE
         roleID INTEGER;
     BEGIN
-        SELECT id INTO roleID
-          FROM OrganizationRole
-         WHERE organization = param_organization
-         ORDER BY sequence ASC
+        SELECT oro.id INTO roleID
+          FROM OrganizationRole oro
+         WHERE oro.masterRole IS NULL
+           AND oro.organization = param_organization
+      ORDER BY oro.rank ASC
          LIMIT 1;
 
         RETURN roleID;
@@ -303,12 +304,15 @@ $function$
     DECLARE
         presidentID INTEGER;
     BEGIN
-          SELECT oro.id INTO presidentID
-            FROM OrganizationRole oro
-           WHERE oro.masterRole IS NULL
-             AND oro.organization = param_organization
-        ORDER BY oro.rank ASC
-           LIMIT 1;
+        SELECT oo.idNumber INTO presidentID
+          FROM OrganizationOfficer oo 
+         WHERE oo.yearID = system_get_current_year_id()
+           AND oo.role = (SELECT oro.id
+                            FROM OrganizationRole oro
+                           WHERE oro.masterRole IS NULL
+                             AND oro.organization = param_organization
+                        ORDER BY oro.rank ASC
+                           LIMIT 1); 
 
         RETURN presidentID;
     END;
