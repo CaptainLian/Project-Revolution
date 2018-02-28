@@ -185,6 +185,17 @@ module.exports = function(configuration, modules, db, queryFiles) {
         getOrgGOSM: function(param, connection = db) {
             return connection.oneOrNone(getOrgGOSMSQL, param);
         },
+        getOrgAllGOSM: function(orgid, connection = db) {
+            let query = squel.select()
+                .from('GOSM','G')
+                .field('*')                
+                .left_join('Term','T','G.TERMID = T.ID')                
+                .field("CONCAT(SUBSTR(CAST(T.schoolyearid AS TEXT),0,5),' - ',SUBSTR(CAST(T.schoolyearid AS TEXT),5,4)  ) AS YUGA")
+                .field('*')
+                .where('G.studentOrganization = ?',orgid);
+                console.log(query.toString())
+            return connection.any(query.toString());
+        },
 
         getGOSMActivityOrg: function(param, connection = db) {
             return connection.oneOrNone(getGOSMActivityOrgSQL, param);

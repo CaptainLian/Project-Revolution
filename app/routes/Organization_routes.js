@@ -10,13 +10,6 @@ module.exports = function(configuration, modules, router, controllers){
 	router.get(`${base}/activityRequirements`, controllers.Organization_controller.createActivityRequirements);
     router.get(`${base}/viewGOSMDetails`, controllers.Organization_controller.viewGOSMDetails);//shows the list of approved gosm for the school year
 
-    //NOT IN GOSM
-    router.get(`${base}/notInGosm/notInGosmList`, controllers.Organization_controller.viewNotInGosmList);//shows the list of submitted not in gosm activity as well as its status
-    router.get(`${base}/notInGosm/Main`, controllers.Organization_controller.viewNotInGosmMain);//shows the list of submitted not in gosm activity as well as its status   
-    router.get(`${base}/notInGosm/Attachments`, controllers.Organization_controller.viewNotInGosmAttachments);//shows the list of submitted not in gosm activity as well as its status   
-    router.get(`${base}/notInGosm/BriefContext`, controllers.Organization_controller.viewNotInGosmBriefContext);//shows the list of submitted not in gosm activity as well as its status   
-    router.get(`${base}/notInGosm/Expense`, controllers.Organization_controller.viewNotInGosmExpense);//shows the list of submitted not in gosm activity as well as its status   
-    router.get(`${base}/notInGosm/ProgramDesign`, controllers.Organization_controller.viewNotInGosmProgramDesign);//shows the list of submitted not in gosm activity as well as its status   
 
     router.get(`${base}/ProjectProposal/GOSMList`, controllers.Organization_controller.viewGOSMActivityListProjectProposal);
     router.get(`${base}/ProjectProposal/Main/:id/:status`, controllers.Organization_controller.viewSubmitProjectProposalMain);

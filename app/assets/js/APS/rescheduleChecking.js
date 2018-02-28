@@ -37,7 +37,9 @@ $(document).on('click', '#approve', function() {
             },
 
             success: function(data) {
-                swal("Success!", "", "success")
+                swal("Success!", "", "success").then(function(){
+                    location.reload()
+                })
                 table.row(dis.parents('tr')).remove().draw()
             }
         });
@@ -96,6 +98,9 @@ $(document).on('click', '#deny', function() {
                 status: 7
             },
             success: function(data) {
+                 swal("Success!", "", "success").then(function(){
+                    location.reload()
+                })
                 table.row(dis.parents('tr')).remove().draw()
             }
         });
