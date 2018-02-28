@@ -89,6 +89,9 @@ module.exports = function(configuration, modules, db, queryFiles) {
         getObjectives: function(param, connection = db) {
             return connection.one(getObjectives,param);
         },
+        getBuffer: function(param, connection = db) {
+            return connection.one(getObjectives,param);
+        },
 
         getGOSMActivities: function(GOSMID, fields, connection = db) {
             let query= squel.select()

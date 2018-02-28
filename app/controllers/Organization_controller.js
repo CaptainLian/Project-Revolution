@@ -1185,7 +1185,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 logger.error(`${err.message}\n${err.stack}`, log_options);
             });
         },
-
+        additional():(req, res) => {
+            const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            console.log(req.params.orgid)
+             
+            
+        },
         viewGOSMDetails:(req, res) => {
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;

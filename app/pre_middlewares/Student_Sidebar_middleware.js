@@ -266,7 +266,7 @@ module.exports = function(configuration, application, modules, database, queryFi
 
                 const newSidebar = Object.create(null);
                 newSidebar.name = 'Not in GOSM';
-                newSidebar.link = '/blank';
+                newSidebar.link = '/Organization/additional';
                 newSidebar.icon = 'fa fa-group';
                 
                 sidebars[sidebars.length] = newSidebar;
