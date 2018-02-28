@@ -5,9 +5,13 @@ module.exports = function(configuration, modules, router, controllers){
 	router.get(`${base}/ProjectHead/home`, controllers.Organization_controller.viewProjectHeadHome);
 
 	router.get(`${base}/Officers`,controllers.Organization_controller.viewOfficers);
-	router.get(`${base}/createGOSM`, controllers.Organization_controller.viewCreateGOSM);
-    router.get(`${base}/viewGOSMList`, controllers.Organization_controller.viewGOSMList);
+	router.get(`${base}/createGOSM`, controllers.Organization_controller.viewCreateGOSM); 
+    router.get(`${base}/viewGOSMList`, controllers.Organization_controller.viewGOSMList);//shows the list of approved gosm for the school year
 	router.get(`${base}/activityRequirements`, controllers.Organization_controller.createActivityRequirements);
+    router.get(`${base}/viewGOSMDetails/:orgid`, controllers.Organization_controller.viewGOSMDetails);//shows the list of approved gosm for the school year
+
+    router.get(`${base}/additional`, controllers.Organization_controller.additional);
+
 
     router.get(`${base}/ProjectProposal/GOSMList`, controllers.Organization_controller.viewGOSMActivityListProjectProposal);
     router.get(`${base}/ProjectProposal/Main/:id/:status`, controllers.Organization_controller.viewSubmitProjectProposalMain);

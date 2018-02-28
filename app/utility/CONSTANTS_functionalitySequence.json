@@ -19,5 +19,7 @@
 
     "EvaluatePostProject": 20,
 
-    "AccountManagement": 23
+    "AccountManagement": 23,
+
+    "SubmitNotInGOSMActivity": 28
 }

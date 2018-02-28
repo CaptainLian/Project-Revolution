@@ -89,19 +89,49 @@ module.exports = function(configuration, modules, db, queryFiles) {
         getObjectives: function(param, connection = db) {
             return connection.one(getObjectives,param);
         },
+        getBuffer: function(orgid, connection = db) {
+            let query= squel.select()
+            .from('GOSM',"G")            
+            .field('COUNT(GA.ID) AS CGAID')
+            .left_join("GOSMActivity",'GA','G.ID = GA.GOSM')            
+            .where('GA.isInGOSM = FALSE')            
+            .where('G.studentOrganization = ?',orgid)
+            .group('G.ID');
+            query = query.toString();
+            
+            return connection.any(query);
+        },
 
         getGOSMActivities: function(GOSMID, fields, connection = db) {
             let query= squel.select()
-            .from('GOSMActivity')
-            .where('GOSM = ${GOSMID}');
-            attachFields(query, fields);
-
-            let param = Object.create(null);
-            param.GOSMID = GOSMID;
+            .from('GOSMActivity',"G")
+        
+            .field("TO_CHAR(G.targetdatestart,'Mon DD, YYYY') as startdate")
+            .field("*")
+            .field("G.ID AS GID")
+            .left_join("ProjectProposal",'P','P.GOSMActivity = G.ID')
+            .field('P.ID AS PID')
+            .field('P.STATUS AS PSTATUS')
+            .where('GOSM = ?',GOSMID);
 
             query = query.toString();
-             logger.debug(`Executing query: ${query}`, log_options);
-            return connection.any(query, param);
+            return connection.any(query);
+        },
+        getnotinGOSMActivities: function(GOSMID, fields, connection = db) {
+            let query= squel.select()
+            .from('GOSMActivity',"G")
+        
+            .field("TO_CHAR(G.targetdatestart,'Mon DD, YYYY') as startdate")
+            .field("*")
+            .field("G.ID AS GID")
+            .left_join("ProjectProposal",'P','P.GOSMActivity = G.ID')
+            .field('P.ID AS PID')
+            .field('P.STATUS AS PSTATUS')
+            .where('GOSM = ?',GOSMID)
+            .where('G.isingosm = false');
+
+            query = query.toString();
+            return connection.any(query);
         },
         getGOSMActivityType: function(GOSMID, fields = 'activityType', connection = db) {
             let query= squel.select()
@@ -185,6 +215,18 @@ module.exports = function(configuration, modules, db, queryFiles) {
         getOrgGOSM: function(param, connection = db) {
             return connection.oneOrNone(getOrgGOSMSQL, param);
         },
+        getOrgAllGOSM: function(orgid, connection = db) {
+            let query = squel.select()
+                .from('GOSM','G')
+                .field('*')
+                .field('G.ID','GID')                
+                .left_join('Term','T','G.TERMID = T.ID')                
+                .field("CONCAT(SUBSTR(CAST(T.schoolyearid AS TEXT),0,5),' - ',SUBSTR(CAST(T.schoolyearid AS TEXT),5,4)  ) AS YUGA")
+                .field('*')
+                .where('G.studentOrganization = ?',orgid);
+                console.log(query.toString())
+            return connection.any(query.toString());
+        },
 
         getGOSMActivityOrg: function(param, connection = db) {
             return connection.oneOrNone(getGOSMActivityOrgSQL, param);
@@ -216,7 +258,13 @@ module.exports = function(configuration, modules, db, queryFiles) {
             activityType = at
         */
         getActivityDetails: function(id, fields, connection = db) {
+
+
+            let param = Object.create(null);
+            param.activityID = id;
+            
             let query = squel.select()
+
                 .from('GOSMActivity', 'ga')
                 .left_join('ActivityNature', 'an', 'ga.activityNature = an.id')
                 .left_join('ActivityType', 'at', 'ga.activityType = at.id')
@@ -225,15 +273,8 @@ module.exports = function(configuration, modules, db, queryFiles) {
             attachFields(query, fields);
 
             query = query.toString();
-             logger.debug(`Executing query: ${query}`, log_options);
+             logger.debug(`Executing query: 1 ${query}`, log_options);
 
-            /*
-                let param = {
-                    activityID: id
-                };
-            */
-            let param = Object.create(null);
-            param.activityID = id;
             return connection.oneOrNone(query, param);
         },
 

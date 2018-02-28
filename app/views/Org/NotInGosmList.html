@@ -78,11 +78,11 @@
     <div class="col-sm-12">
         <div class="white-box">
         <div>
-            <h3 class="box-title m-b-0">List of GOSM
+            <h3 class="box-title m-b-0">Activitiies not in GOSM
                 
             </h3>
-            <p class="text-muted m-b-30">
-                
+            <p class="text-muted m-b-30">List of submitted activities that are not in GOSM
+                <button class="btn btn-success pull-right" >Create Activity Not in GOSM</button>
             </p>
             
         </div>
@@ -91,8 +91,7 @@
                 <table id="myTable" class="table table-hover"  role="grid" aria-describedby="myTable_info">
                     <thead>
                         <tr>
-                            <th width="33%">School Year</th>
-                            <th width="33%">Term</th>
+                            <th width="33%">Activity Name</th>
                             <th width="33%">Status</th>
                         </tr>
                        
@@ -101,23 +100,75 @@
                     <tbody> 
 
                         
-                           {%for gosm in gosms%}
+                            {% if activity.status == 0 %}
+
                                 <tr>
-                                    <td>{{gosm.yuga}}</td>
-                                    <td><a class="btn-link" href="/Organization/viewGOSMDetails/{{gosm.gid}}"> {{gosm.number}}</a></td>
-                                    {%if gosm.status == 2%}
-                                        <td><span class="label label-info">For Approval</span></td>      
-                                    {%elif gosm.status == 3%}
-                                        <td><span class="label label-success">Approved</span></td>    
-                                    {%endif%}
+                                    <td>Test</td>      
+                                    <td><span class="label" style="color:black">Unprocessed</span></td>      
                                 </tr>
-                           {%endfor%}
+                            
+                            {% elif activity.status == 1 %}
+
+                                <tr>    
+                                    <td><a href="/Organization/ProjectProposal/Main/{{activity.id}}/{{activity.status}}" class="btn-link">{{activity.strategies}}</a></td>      
+                                    <td><span class="label label-primary">In Progress</span></td>      
+                                </tr>
+
+                            {% elif activity.status == 2 %}
+
+                                <tr>   
+                                    <td><a href="/Organization/projectproposal/projectproposaldetails/{{activity.id}}" class="btn-link">{{activity.strategies}}</a></td>      
+                                    <td><span class="label label-info">For Approval</span></td>      
+                                </tr>
+
+                            {% elif activity.status == 3 %}
+
+                                <tr> 
+                                    <td><a href="/Organization/projectproposal/projectproposaldetails/{{activity.id}}" class="btn-link">{{activity.strategies}}</a></td>      
+                                    
+                                    
+                                    <td><span class="label label-success">Approved</span></td>      
+                                </tr>
+
+                            {% elif activity.status == 4 %}
+
+                                <tr>
+                                    <td><a href="/Organization/ProjectProposal/Main/{{activity.id}}/{{activity.status}}" class="btn-link">{{activity.strategies}}</a></td>      
+                                    
+                                    
+                                    <td><span class="label label-warning">Pended</span></td>      
+                                </tr>
+
+                            {% elif activity.status == 5 %}
+
+                                <tr>
+                                    <td><a href="/Organization/projectproposal/projectproposaldetails/{{activity.id}}" class="btn-link">{{activity.strategies}}</a></td>      
+                                    
+                                    
+                                    <td><span class="label label-danger">Denied</span></td>      
+                                </tr>
+
+                            
+                             {% elif activity.status == 6 %}
+
+                                <tr>
+                                    <td><a href="/Organization/projectproposal/projectproposaldetails/{{activity.id}}" class="btn-link">{{activity.strategies}}</a></td>      
+                                    
+                                    
+                                    <td><span class="label label-info">Rescheduled</span></td>      
+                                </tr>
+                             {% elif activity.status == 7 %}
+
+                                <tr>
+                                    <td><a href="/Organization/projectproposal/projectproposaldetails/{{activity.id}}" class="btn-link">{{activity.strategies}}</a></td>      
+                                    <td><span class="label label-success">Approved</span></td>      
+                                </tr>
+
+                            {% endif %}
                              
 
                         
                     </tbody>
-                           
-                           
                 </table>
 
             </div>

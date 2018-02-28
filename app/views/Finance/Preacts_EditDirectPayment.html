@@ -74,36 +74,35 @@
      
     <!-- Page Scripts -->
     {{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
-    {{tag.javascript('/js/Fin/FinancePreacts2.js', true)}}
+    {{tag.javascript('/js/Fin/Preacts_DirectPayment.js', true)}}
     <!-- /Page Scripts -->
 {%endblock%}
 
 {%block content%}
-<div class="col-md-12">
-    <div class="panel panel-warning">
-        <div class="panel-heading"> Pended
-            <div class="pull-right"><a href="#" data-perform="panel-collapse"><i class="ti-minus"></i></a> <a href="#" data-perform="panel-dismiss"><i class="ti-close"></i></a> </div>
-        </div>
-        <div class="panel-wrapper collapse in" aria-expanded="true">
-            <div class="panel-body">
-                <h3>Pended By:</h3>
-                <p>John Doe</p>
-                <h3>Date:</h3>
-                <p>John Doe</p>
-                <h3>Reason:</h3>
-                <p>John Doe</p>
-            </div>
-        </div>
-    </div>
-</div>
-<form action="/transaction/submitPreactsBookTransfer" encType="multipart/form-data" id="form-id" class="form-horizontal" method="POST">
+<form action="/transaction/submitPreactsDirectPayment" encType="multipart/form-data" id="form-id" class="form-horizontal" method="POST">
+
                         <input type="hidden" name="_csrf" value="{{csrfToken}}">
 
                         <input type="hidden" name="gosmactivity" value="{{gosmactivity}}">
-<div class="row">
+                <div class="row">
                     <div class="col-md-12">
+                        <div class="panel panel-warning">
+                            <div class="panel-heading">Evaluation Status
+                                <div class="pull-right"><a href="#" data-perform="panel-collapse"><i class="ti-minus"></i></a> <a href="#" data-perform="panel-dismiss"><i class="ti-close"></i></a> </div>
+                            </div>
+                            <div class="panel-wrapper collapse in" aria-expanded="true">
+                                <div class="panel-body">
+                                    <p>Status:Pended</p>
+                                    <p>Checked by: Dominique E. Dagunton</p>
+                                    <p>Date Checked: September 12, 2019</p>
+                                    <p>Sections to be edited: Particulars, Memo, Attachments</p>
+                                    <p>Explanation: explanation</p>
+                                    
+                                </div>
+                            </div>
+                        </div>
                         <div class="panel panel-success">
-                            <div class="panel-heading">Book Transfer</div>
+                            <div class="panel-heading">Pre-Activity Finance Documents</div>
                             <div class="panel-wrapper collapse in" aria-expanded="true">
                                 <div class="panel-body">
                                    
@@ -130,21 +129,6 @@
                                                                         </select>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-md-12 ">
-                                                            <div class="form-group row form-inline">
-                                                                <label class="col-md-3">Recipient</label>
-                                                                <!-- food, accomodation, others, venue, transportation, honorarium, cash prize, cor -->
-                                                                <select id="rec" multiple="multiple" class="col-md-9 m-b-10  select2-multiple " data-placeholder="Choose" name="recipient">
-                                                                        <!-- data-item ="name of particular" data-type="expense type" <>data-item<>-->
-                                                                        <option value="0" data-item="Food Expense" data-amount="1000" data-quantity ="3" data-type="food">Food Expense</option>
-                                                                        <option value="1" data-item="Token" data-amount ="3000.25" data-quantity ="3" data-type="honorarium">Token</option>
-                                                                        <option value="2" data-item="Accomodation Expense" data-amount ="3000" data-quantity ="3" data-type="accomodation">Accomodation Expense</option>
-                                                                        <option value="3" data-item="Honorarium" data-amount ="3000" data-quantity ="3" data-type="cash prize">Cash Prize</option>
-
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        
                                                                 <div class="col-md-12 ">
                                                                     <div class="form-group row form-inline">
                                                                         <label class="col-md-3">Total Amount</label>
@@ -175,19 +159,70 @@
                                                               </tfoot>
                                                           </table>
                                                           <br>
-                                                    
+                                                          
+                                                        <!-- remove class hidden if the transaction is requested 1 month after the activity-->
+
+                                                        {% if justification %}
                                                             
-                                                        </div>
+                                                            <div class ='col-md-12'>
+                                                                <div class="col-md-12 m-b-10" >
+                                                                    <label  style="">Justification for Delayed PRS Processing</label>
+                                                                    <textarea name="nodpjustification" style="width: 100%;" placeholder="ex. Papers processed late" required=""></textarea>   
+                                                                </div>
+                                                            </div>
+
+                                                        {% endif %}
                                                         
                                                     </div>
+                                                    <div class="col-md-12">
+                                                        <h3 class="box-title m-t-40">Required attachments <span class="badge btn-circle btn-xs btn-success pull-right" data-toggle="tooltip" title="click the browse button to upload the following documents"><span class="fa fa-question"></span></span></h3>
+                                                        <hr>
+                                                        <br>
+                                                        <div class="col-md-12 m-10">
+                                                            <div class="col-md-4  text-left"  >  
+                                                                <label  style="">Formal Quotation</label>    
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <input multiple="" style="" type="file" accept=".pdf, .odt, .odp, .ods" name="...">    
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12 m-10">
+                                                            <div class="col-md-4  text-left"  >  
+                                                                <label  style="">Final Review Form</label>    
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <input multiple="" style="" type="file" accept=".pdf, .odt, .odp, .ods" name="...">    
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12 m-10" id='fq' style='display: none;'>
+                                                            <div class="col-md-4  text-left"  >  
+                                                                <label  style="">Formal Quotation</label>    
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <input multiple="" style="" type="file" accept=".pdf, .odt, .odp, .ods" name="...">    
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-12 m-10" id='elop' style='display: none;'>
+                                                            <div class="col-md-4  text-left" >
+                                                                <label  style="">Estimated List of Participants</label>    
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <input multiple="" style="" type="file" accept=".pdf, .odt, .odp, .ods" name="...">    
+                                                            </div>
+                                                        </div>
+                                                        
+
+                                                    </div> 
+                                                </div>
                                         </div>
                                         <div class="form-actions">
                                             
                                         </div>
                                     
                                 </div>
-                                <div class="panel-footer text-center">                                                    
-                                    <button type="submit" class="btn btn-success" id='submitButton' onclick="submit()">Submit</button>
+                                <div class="panel-footer text-center">
+                                    <button type="submit" class="btn btn-success"> Submit</button>
                                     <button type="button" class="btn btn-default">Cancel</button>                                
                                 </div>
                             </div>

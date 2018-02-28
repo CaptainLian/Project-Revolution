@@ -27,7 +27,12 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			return res.render('Finance/TransactionMain', renderData);
 			//next();
 		},
-
+		viewPended: (req, res) => {
+			const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+			return res.render('Finance/', renderData);
+			//next();
+		},
 		viewFinanceSettings: (req, res) => {
 			const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
@@ -937,11 +942,11 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				            		renderData.reimbursement = false;
 				            	}
 
-				            	if (data[3].expensestotal == null){
-				            		renderData.toadd = true;
+				            	if (data[3] == null){
+				            		renderData.toadd = false;
 				            	}
 				            	else{
-				            		renderData.toadd = false;
+				            		renderData.toadd = true;
 				            	}
 
 
