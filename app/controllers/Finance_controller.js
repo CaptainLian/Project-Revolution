@@ -206,9 +206,11 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 						logger.debug('starting tasks', log_options);
 						database.task(t=>{
-							return t.batch([projectProposalModel.getProjectProposal(dbParam),
-											financeModel.getBookTransferParticulars(param),
-											financeModel.getBookTransferSignatory(param)]);
+							return t.batch([
+								projectProposalModel.getProjectProposal(dbParam),
+								financeModel.getBookTransferParticulars(param),
+								financeModel.getBookTransferSignatory(param)
+							]);
 						}).then(data1=>{
 							const renderData = Object.create(null);
 				            renderData.extra_data = req.extra_data;
@@ -1454,8 +1456,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		},
 
 		submitPreactsBookTransfer: (req, res) =>{
-
-			console.log(req.body);
+			logger.debug('submitPreactsBookTransfer()', log_options);
 
 			// TODO: recipient??
 			var dbParam = {
@@ -1487,8 +1488,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
             }).then(data =>{
                 return res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
             }).catch(error => {
-            	console.log("ERROR---------------------------")
-            	console.log(error);
+            	logger.error(`${error.message}\n${error.stack}`);
             });
 
 		}

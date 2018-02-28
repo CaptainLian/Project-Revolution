@@ -1,7 +1,7 @@
 {% extends "../template/master.html" %}
 
 {%block meta%}
-    {{super()}}
+    {{-super()}}
     <meta data-name="csrf" data-token="{{csrfToken}}">
 {%endblock%}
 
@@ -25,13 +25,7 @@
 {%endblock%}
 
 {%block defer_script%} 
-    {{super()}}
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    {{-super()}}
     <!-- jQuery -->
     <script src="/plugins/bower_components/jquery/dist/jquery.min.js" defer="defer"></script>
     <!-- Bootstrap Core JavaScript -->
@@ -51,10 +45,18 @@
     
     <script src="/plugins/bower_components/toast-master/js/jquery.toast.js" defer="defer"></script>
     <script src="/js/system/login.js" defer="defer"></script>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 {%endblock%}
 
 {%block body%}
-    {{super()}}
+    {{-super()}}
+    
     <!-- Preloader -->
     <div class="preloader">
         <div class="cssload-speeding-wheel"></div>

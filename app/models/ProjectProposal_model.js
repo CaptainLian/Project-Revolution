@@ -398,7 +398,11 @@ module.exports = function(configuration, modules, db, queryFiles) {
         return connection.none(updatePPRBriefContextSQL, param);
     };
 
+
     ProjectProposalModel.prototype.insertProjectProposal  = function(param, connection = this._db){
+        logger.debug(`insertProjectProposal(${JSON.stringify(param)})`, log_options);
+
+        logger.debug(`Executing query: ${insertProjectProposalSQL}`, log_options);
         return connection.one(insertProjectProposalSQL, param);
     };
 
