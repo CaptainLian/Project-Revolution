@@ -2569,7 +2569,7 @@ CREATE TABLE "PreActivityBookTransfer"(
     "status" SMALLINT REFERENCES "PreActivityBookTransferStatus"("id") NOT NULL DEFAULT 0,
     "transferAccount" CHARACTER(7),
 
-    PRIMARY KEY ("GOSMActivity", "submissionID", "sequenceID")
+    PRIMARY KEY ("GOSMActivity", "submissionID", "sequence")
 );
 
 DROP TABLE IF EXISTS "PreActivityBookTransferParticular" CASCADE;
@@ -2986,7 +2986,7 @@ CREATE TRIGGER "after_insert_PostProjectReimbursement_signatories"
 CREATE TRIGGER "after_insert_PreActivityReimbursementParticular_signatories"
     AFTER INSERT ON "PostProjectReimbursement"
     FOR EACH ROW
-    EXECUTE PROCEDURE "trigger_after_insert_finance_signatories"('PostProjectReimbursementParticular', 'pprp', 'pprp."reimbursement" = $1."reimbursement"', 'PostProjectReimbursementSignatory', 'reimbursement', '$1."reimbursement"')
+    EXECUTE PROCEDURE "trigger_after_insert_finance_signatories"('PostProjectReimbursementParticular', 'pprp', 'pprp."reimbursement" = $1."reimbursement"', 'PostProjectReimbursementSignatory', 'reimbursement', '$1."reimbursement"');
 
 CREATE TRIGGER "after_update_PreActivityReimbursementSignatory_completion"
     AFTER UPDATE ON "PostProjectReimbursementSignatory"
