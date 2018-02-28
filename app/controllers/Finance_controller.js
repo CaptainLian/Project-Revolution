@@ -937,11 +937,11 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				            		renderData.reimbursement = false;
 				            	}
 
-				            	if (data[3].expensestotal == null){
-				            		renderData.toadd = true;
+				            	if (data[3] == null){
+				            		renderData.toadd = false;
 				            	}
 				            	else{
-				            		renderData.toadd = false;
+				            		renderData.toadd = true;
 				            	}
 
 
