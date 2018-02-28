@@ -228,31 +228,26 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         },
 
         viewSubmitProjectProposalMain: (req, res) => {
+            logger.debug(`viewSubmitProjectProposalMain()`, log_options);
 
-            console.log("ITPO");
             //still no ppr or rejected ppr
             if (req.params.status == 0) {
-
+                logger.debug('Status 0', log_options);
                 var orgParam = {
                     studentorganization: req.session.user.organizationSelected.id
                 };
 
-                organizationModel.getStudentOrganization(orgParam)
-                .then(orgdata=>{
-
-                    console.log("ENTER 0");
+                organizationModel.getStudentOrganization(orgParam).then(orgdata=>{
 
                     var dbParam = {
                         gosmactivity: req.params.id,
                         preparedby: req.session.user.idNumber,
                         operationalfunds: orgdata.operationalfunds,
                         depositoryfunds: orgdata.depositryfunds
-                    };
-                    console.log(dbParam);
+                    }; 
 
-                    projectProposalModel.insertProjectProposal(dbParam)
-                    .then(data=>{
 
+                    projectProposalModel.insertProjectProposal(dbParam).then(data=>{
                         database.task(task => {
                             return task.batch([
                                 gosmModel.getGOSMActivity(dbParam),
