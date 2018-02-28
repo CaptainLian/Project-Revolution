@@ -188,10 +188,10 @@ $(document).on('click', '#reschedule', function() {
             '<label class="col-md-12 text-left"><strong>Reason/s:</strong></label>' +
         
              '<select class="col-md-12" id="select-sec">' +
-                 '<option value="Brief Context">Speaker Unavailable</option>' +
-                 '<option value="Program Design">Insufficient Participants</option>' +
-                 '<option value="Source of Funds">Class Suspension</option>' +
-                 '<option value="others">Others</option>' +
+                 '<option value="3">Speaker Unavailable</option>' +
+                 '<option value="2">Insufficient Participants</option>' +
+                 '<option value="1">Class Suspension</option>' +
+                 '<option value="4">Others</option>' +
              '</select>' +
              /*
             '<div class="form-check col-md-12"  style="float:left" >'+
@@ -217,8 +217,8 @@ $(document).on('click', '#reschedule', function() {
             '</div>'+
             */
             '<div class="form-group col-md-12" id="reason" style= "display:none">' +
-                '<label class="col-md-12 text-left"  style="float:left" ><strong  style="float:left">Other Reason:</strong></label>' +
-                '<input id="" class="form-control" placeholder="" type="text">'+
+                '<label class="col-md-12 text-left"  style="float:left" ><strong style="float:left">Other Reason:</strong></label>' +
+                '<input id="others" class="form-control" placeholder="" type="text">'+
             '</div>' +
             
         '</div>';
@@ -247,6 +247,13 @@ $(document).on('click', '#reschedule', function() {
         },
         onOpen: function(ele) {
             $(ele).find("select").select2();
+            $("#select-sec").change(function(event) {
+                console.log("asd")
+                if($("#select-sec").select2('val')=="4"){
+                    $("#reason").css("display",'')
+                }   
+                
+            });
             $('#datepicker-inline').datepicker({
                 autoclose: false,
                 todayHighlight: true,
@@ -283,19 +290,26 @@ $(document).on('click', '#reschedule', function() {
 
 
     }).then(function(data) {
+       
         $.ajax({
             type: 'POST',
             url: '/APS/ajax/approvalResched',
             data: {
                 activityID: $("#doc").attr("ct"),
                 date: $('#datepicker-inline').val(),
-                reason:  $( 'input[name=radio]:checked' ).val(),               
+                reason:  $("#select-sec").select2('val'),
+                others:$("#others").val()
             },
             success: function(data) {
                 if(data.status){
-                    swal("Good job!", "You clicked the button!", "success")
-                }else{
+                    swal("Good job!", " ", "success").then(function(){
+                        location.reload()
+                    })
 
+                }else{
+                    //    swal("Good job!", " ", "success").then(function(){
+                    //     location.reload()
+                    // })
                 }
                 
             }
@@ -367,20 +381,6 @@ $(document).on('click', '#reject', function() {
             }
         });
     });
-    $("select-sec").change(function(event) {
-        if($("select-sec").val()=="others"){
-            
-        }
-        
-    });
-    function showOthers(){
-        if(that.value=="others"){
-           document.getElementById("reason").style.display = "block";
-           console.log('block');
-        }else {
-            document.getElementById("reason").style.display = "none";
-            console.log('none');
-        }
 
-    }
+
 });

@@ -313,12 +313,13 @@ module.exports = function(configuration, modules, db, queryFiles) {
         param.id = id;
         return connection.any(query, param);
     };
-    ProjectProposalModel.prototype.updatePPResched =  function(id, reason, dates, status, connection = this._db){
+    ProjectProposalModel.prototype.updatePPResched =  function(id, reason, dates, other, status, connection = this._db){
         let query = squel.update()
                          .table("ProjectProposal")
                          .set("status",status)
                          .set("reschedulereason", reason)
                          .set("rescheduledates", "{"+dates+"}")
+                         .set("reschedreasonother", other)
                          .where("id = ?",id)
 
       
@@ -342,6 +343,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
                         .from('GOSM', 'G')
                         .left_join('GOSMACTIVITY','GA',' G.ID = GA.GOSM')
                         .left_join('PROJECTPROPOSAL','PP',' GA.ID = PP.GOSMACTIVITY')
+                        .left_join('PROJECTPROPOSALRESCHEDULEREASON','PPRR',' PP.RESCHEDULEREASON = PPRR.ID')
                         .where('G.termID = ?',squel.str('system_get_current_term_id()'))
                         .where('PP.STATUS = 6')                                
         query = query.toString();        
