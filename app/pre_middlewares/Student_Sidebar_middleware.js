@@ -3,6 +3,7 @@
 module.exports = function(configuration, application, modules, database, queryFiles, models) {
     const Promise = modules.Promise;
     const accessControlModel = models.AccessControl_model;
+    const gosmModel = models.gosmModel;
     const organizationModel = models.organization_model;
     const logger = modules.logger;
     const log_options = {
@@ -191,7 +192,8 @@ module.exports = function(configuration, application, modules, database, queryFi
                 accountModel.hasGOSMACtivityWithAMTActivityEvaluation(user.idNumber),
                 accountModel.hasPPRApproved(user.idNumber),
                 accountModel.hasPPRWithoutPostProjectProposal(user.idNumber),
-                organizationModel.hasGOSMSubmitted(organizationSelected.id)
+                organizationModel.hasGOSMSubmitted(organizationSelected.id),
+                gosmModel.getBuffer(organizationSelected.id)
             ]);
         }).then(data => {
             const [
@@ -256,6 +258,27 @@ module.exports = function(configuration, application, modules, database, queryFi
                 newSidebar.name = 'Financial Documents';
                 newSidebar.link = '/finance/list';
                 newSidebar.icon = 'fa fa-money';
+                
+                sidebars[sidebars.length] = newSidebar;
+            }
+
+
+            if(req.extra_data.user.accessControl[organizationSelected.id][28]){
+                logger.debug('Can submit not in GOSM activities', log_options);
+
+                const newSidebar = Object.create(null);
+                console.log("ASDASDJASKLDJASLKDJ")
+                console.log(data[5][0])
+                var ctr = 0 ;
+                if(data[5][0] === undefined){
+                    ctr = 0
+                }else{
+                    ctr =  data[5][0].cgaid
+                }
+                req.session.notingosm = ctr;
+                newSidebar.name = 'Not in GOSM ('+ctr+'/10)';
+                newSidebar.link = '/Organization/additional';
+                newSidebar.icon = 'fa fa-group';
                 
                 sidebars[sidebars.length] = newSidebar;
             }
