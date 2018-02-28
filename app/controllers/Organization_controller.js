@@ -1146,7 +1146,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         viewGOSMDetails:(req, res) => {
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
-            return res.render('Org/viewGOSMDetails', renderData);    
+            return res.render('Org/viewActivityDetails', renderData);    
         },
 
         saveContext: (req, res) => {
