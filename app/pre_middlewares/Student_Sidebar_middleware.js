@@ -260,6 +260,18 @@ module.exports = function(configuration, application, modules, database, queryFi
                 sidebars[sidebars.length] = newSidebar;
             }
 
+
+            if(req.extra_data.user.accessControl[organizationSelected.id][28]){
+                logger.debug('Can submit not in GOSM activities', log_options);
+
+                const newSidebar = Object.create(null);
+                newSidebar.name = 'Not in GOSM';
+                newSidebar.link = '/blank';
+                newSidebar.icon = 'fa fa-group';
+                
+                sidebars[sidebars.length] = newSidebar;
+            }
+
             return next();
         }).catch(err => {
             logger.warn(`${err.message}\n${err.stack}`, log_options);

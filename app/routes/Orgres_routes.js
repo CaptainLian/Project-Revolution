@@ -7,6 +7,10 @@ module.exports = function (configuration, modules, router, controllers, models, 
 	router.get('/ORGRES/officerSurveyForm', controllers.ORGRES_controller.officerSurveyForm);
 	router.get('/ORGRES/memberSurveyForm', controllers.ORGRES_controller.memberSurveyForm);
 
+	router.post('/ORGRES/submitOfficerSurveyForm', controllers.ORGRES_controller.submitOfficerSurveyForm);
+	router.post('/ORGRES/submitMemberSurveyForm', controllers.ORGRES_controller.submitMemberSurveyForm);
+	
+
 	router.get('/ORGRES/SubmitActivityResearchForm', controllers.ORGRES_controller.viewSubmitResearchActivityForm);
 	router.post('/ORGRES/SubmitResearchForm', controllers.ORGRES_controller.submitResearchActivityForm);
 	router.post('/orgres/time/submit',controllers.ORGRES_controller.submitTime);

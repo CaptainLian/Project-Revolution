@@ -27,7 +27,12 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			return res.render('Finance/TransactionMain', renderData);
 			//next();
 		},
-
+		viewPended: (req, res) => {
+			const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+			return res.render('Finance/', renderData);
+			//next();
+		},
 		viewFinanceSettings: (req, res) => {
 			const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
@@ -114,7 +119,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 					           	return res.render('Finance/EvaluateTransaction', renderData);
 				           	}
 				           	else{
-				           		//TODO: redirect cannot enter
+	    						return res.render('System/403');
 				           	}
 
 
@@ -173,7 +178,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 					           	return res.render('Finance/EvaluateTransaction', renderData);
 				           	}
 				           	else{
-				           		//TODO: redirect cannot enter
+	    						return res.render('System/403');
 				           	}
 
 
@@ -201,9 +206,11 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 						logger.debug('starting tasks', log_options);
 						database.task(t=>{
-							return t.batch([projectProposalModel.getProjectProposal(dbParam),
-											financeModel.getBookTransferParticulars(param),
-											financeModel.getBookTransferSignatory(param)]);
+							return t.batch([
+								projectProposalModel.getProjectProposal(dbParam),
+								financeModel.getBookTransferParticulars(param),
+								financeModel.getBookTransferSignatory(param)
+							]);
 						}).then(data1=>{
 							const renderData = Object.create(null);
 				            renderData.extra_data = req.extra_data;
@@ -237,7 +244,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 					           	return res.render('Finance/EvaluateTransaction', renderData);
 				           	}
 				           	else{
-				           		//TODO: redirect cannot enter
+	    						return res.render('System/403');
 				           	}
 
 
@@ -300,7 +307,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 					           	return res.render('Finance/EvaluateTransaction', renderData);
 				           	}
 				           	else{
-				           		//TODO: redirect cannot enter
+	    						return res.render('System/403');
 				           	}
 
 
@@ -314,13 +321,13 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 				}
 				else{
-					//TODO: page does not exist
+	    			return res.render('System/404');
 				}
 
 		    }
 		    else{
 
-		    	//TODO: redirect cannot enter page
+	    		return res.render('System/403');
 
 		    }
 
@@ -819,7 +826,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 	    	else{
 
 
-	    		//TODO: redirect
+	    		return res.render('System/403');
+
 	    	}
 
 
@@ -917,8 +925,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 					            renderData.gosmactivity = data[1];
 					            renderData.projectProposal = data[2];
 
-					            let actualdate = data[3].dateend;
-					            let currentdate = data[3].currdate;
+					            let actualdate = data[2].actualedate;
+					            let currentdate = data[2].currdate;
 
 								console.log("actualdate");
 								console.log(actualdate);
@@ -936,11 +944,11 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				            		renderData.reimbursement = false;
 				            	}
 
-				            	if (data[3].expensestotal > 0){
-				            		renderData.toadd = true;
+				            	if (data[3] == null){
+				            		renderData.toadd = false;
 				            	}
 				            	else{
-				            		renderData.toadd = false;
+				            		renderData.toadd = true;
 				            	}
 
 
@@ -953,7 +961,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		            	} else{
 		
-			           		//TODO: redirect cannot enter page
+	    					return res.render('System/403');
 
 		            	}
 
@@ -964,7 +972,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 
 	           	}else{
-	           		//TODO: redirect cannot enter page
+
+	    			return res.render('System/403');
 
 	           	}
 
@@ -1027,7 +1036,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		        	}
 		        	else{
-		        		//TODO: redirect cannot enter
+	    				return res.render('System/403');
 				    }
 
 		    	}).catch(error=>{
@@ -1036,7 +1045,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		    }
 		    else{
-		    	//TODO: redirect cannot enter
+	    		return res.render('System/403');
 		    }
 
 			
@@ -1210,7 +1219,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		        	}
 		        	else{
-		        		//TODO: redirect cannot enter
+	    				return res.render('System/403');
 				    }
 
 		    	}).catch(error=>{
@@ -1219,7 +1228,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		    }
 		    else{
-		    	//TODO: redirect cannot enter
+	    		return res.render('System/403');
 		    }
 
 
@@ -1323,7 +1332,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		        	}
 		        	else{
-		        		//TODO: redirect cannot enter
+	    				return res.render('System/403');
 				    }
 
 		    	}).catch(error=>{
@@ -1332,7 +1341,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		    }
 		    else{
-		    	//TODO: redirect cannot enter
+	    		return res.render('System/403');
 		    }
 
 
@@ -1432,7 +1441,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		        	}
 		        	else{
-		        		//TODO: redirect cannot enter
+	    				return res.render('System/403');
 				    }
 
 		    	}).catch(error=>{
@@ -1441,14 +1450,13 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		    }
 		    else{
-		    	//TODO: redirect cannot enter
+	    		return res.render('System/403');
 		    }
 
 		},
 
 		submitPreactsBookTransfer: (req, res) =>{
-
-			console.log(req.body);
+			logger.debug('submitPreactsBookTransfer()', log_options);
 
 			// TODO: recipient??
 			var dbParam = {
@@ -1480,8 +1488,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
             }).then(data =>{
                 return res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
             }).catch(error => {
-            	console.log("ERROR---------------------------")
-            	console.log(error);
+            	logger.error(`${error.message}\n${error.stack}`);
             });
 
 		}
