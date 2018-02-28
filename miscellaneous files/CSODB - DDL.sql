@@ -1675,8 +1675,6 @@ CREATE TABLE GOSM (
     statusEvaluator INTEGER REFERENCES Account(idNumber),
     comments TEXT,
 
-    isInGOSM BOOLEAN DEFAULT TRUE,
-
     PRIMARY KEY (termID, studentOrganization)
 );
 CREATE OR REPLACE FUNCTION trigger_before_insert_GOSM()
@@ -1751,6 +1749,7 @@ CREATE TABLE GOSMActivity (
     isRelatedToOrganizationNature BOOLEAN NOT NULL,
     budget NUMERIC(12, 2) NOT NULL DEFAULT 0.0,
     comments TEXT,
+    isInGOSM BOOLEAN DEFAULT TRUE,
 
     PRIMARY KEY (GOSM, sequence),
     CONSTRAINT targetdate_start_end_value CHECK(targetDateStart <= targetDateEnd)
