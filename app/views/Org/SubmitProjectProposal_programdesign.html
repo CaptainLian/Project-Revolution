@@ -151,7 +151,8 @@
                 height:500,
                 defaultView: 'listYear',
                 defaultDate: '2018-03-01',
-    		      	editable: false  ,
+    		      	editable: false,
+                overlap:false,
     		      	selectable: true,
     		      	 week:     'week',
                     events:[
@@ -159,7 +160,7 @@
                           id:1,
                           title:'Neil',
                           start: start.toISOString(),
-                          
+                          description: 'asdasdjhaskjd asdjkhaskdjhaskdjha asdjkhaskjdhaksjdh asdkjahsdkjashd asdasd',
                           end:end.toISOString()
                          }  
                     ],
@@ -183,7 +184,10 @@
 
                      $('#my-event').modal('show');
 
-                },
+              },
+              eventRender: function(event, element) { 
+                  element.find('.fc-title').append("<br/>" + event.description); 
+              } 
                 
                                 
 
