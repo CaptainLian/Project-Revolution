@@ -187,7 +187,7 @@ $function$
                 AND %I.%I IN (SELECT %I.id
                                 FROM %I %I
                                WHERE %I."GOSMActivity" IN (SELECT ga.id
-                                                             FROM "GOSMActivity_get_current_term_activity_ids() ga"))
+                                                             FROM "GOSMActivity_get_current_term_activity_ids"() ga))
             GROUP BY %I.signatory;',
         "signatoryTableAcronym", "signatoryTableAcronym", "signatoryTable", "signatoryTableAcronym", "signatoryTableAcronym", "signatoryTableAcronym", "signatoryTableColumn", "parentTableAcronym", "parentTable", "parentTableAcronym", "parentTableAcronym", "signatoryTableAcronym");
     END;
@@ -200,13 +200,13 @@ $function$
         "var_organizationID" INTEGER;
     BEGIN
         EXECUTE format(
-            'SELECT g.studentOrganization INTO "var_organizationID"
+            'SELECT g.studentOrganization
                FROM GOSM g
               WHERE g.id = (SELECT ga.GOSM
                               FROM GOSMActivity ga
                              WHERE ga.id = (SELECT %I."GOSMActivity"
                                               FROM %I %I
-                                             WHERE %I.id = "$1"));',
+                                             WHERE %I.id = $1));',
              "tableAcronym", "table", "tableAcronym", "tableAcronym")
              INTO STRICT "var_organizationID"
              USING "uniqueID";
@@ -226,20 +226,20 @@ $trigger$
         organizationPresident = organization_get_president(organization);
 
         EXECUTE format(
-            'INSERT INTO "%I" ("%I", signatory, type)
+            'INSERT INTO %I (%I, signatory, type)
                     VALUES ($1."id", %I($2), 0);',
             TG_ARGV[2], TG_ARGV[3], TG_ARGV[4]
         ) USING NEW, organization;
 
         EXECUTE format(
-            'INSERT INTO "%I" ("%I", signatory, type)
+            'INSERT INTO %I (%I, signatory, type)
                     VALUES ($1."id", $2, 1);',
             TG_ARGV[2], TG_ARGV[3]
         ) USING NEW, organizationPresident;
 
         EXECUTE format(
-            'INSERT INTO "%I" ("%I", signatory, type)
-                    VALUES ($1."id", (SELECT a.idNumber FROM Account a WHERE type = 3 ORDER BY idNumber DESC LIMIT 1), 2);',
+            'INSERT INTO %I (%I, signatory, type)
+                     VALUES ($1."id", (SELECT a.idNumber FROM Account a WHERE type = 3 ORDER BY idNumber DESC LIMIT 1), 2);',
             TG_ARGV[2], TG_ARGV[3]
         ) USING NEW;
 
@@ -263,7 +263,7 @@ $function$
 
         RETURN termID;
     END;
-$function$ LANGUAGE plpgsql;
+$function$ LANGUAGE plpgsql STABLE;
 
 
 CREATE OR REPLACE FUNCTION system_get_current_year_id()
@@ -279,7 +279,7 @@ $function$
 
         RETURN yearID;
     END;
-$function$ LANGUAGE plpgsql;
+$function$ LANGUAGE plpgsql STABLE;
 
 CREATE OR REPLACE FUNCTION organization_get_highest_role_id(param_organization INTEGER)
 RETURNS INTEGER AS
@@ -287,31 +287,36 @@ $function$
     DECLARE
         roleID INTEGER;
     BEGIN
-        SELECT id INTO roleID
-          FROM OrganizationRole
-         WHERE masterRole IS NULL
-           AND organization = param_organization
-         ORDER BY sequence DESC
+        SELECT oro.id INTO roleID
+          FROM OrganizationRole oro
+         WHERE oro.masterRole IS NULL
+           AND oro.organization = param_organization
+      ORDER BY oro.rank ASC
          LIMIT 1;
 
         RETURN roleID;
     END;
-$function$ LANGUAGE plpgsql;
+$function$ LANGUAGE plpgsql STABLE;
 
-CREATE OR REPLACE FUNCTION organization_get_president(organization INTEGER)
+CREATE OR REPLACE FUNCTION organization_get_president(param_organization INTEGER)
 RETURNS INTEGER AS
 $function$
     DECLARE
         presidentID INTEGER;
     BEGIN
         SELECT oo.idNumber INTO presidentID
-          FROM OrganizationOfficer oo
-         WHERE role = organization_get_highest_role_id(organization)
-         LIMIT 1;
+          FROM OrganizationOfficer oo 
+         WHERE oo.yearID = system_get_current_year_id()
+           AND oo.role = (SELECT oro.id
+                            FROM OrganizationRole oro
+                           WHERE oro.masterRole IS NULL
+                             AND oro.organization = param_organization
+                        ORDER BY oro.rank ASC
+                           LIMIT 1); 
 
         RETURN presidentID;
     END;
-$function$ LANGUAGE plpgsql;
+$function$ LANGUAGE plpgsql STABLE;
 
     CREATE OR REPLACE FUNCTION organization_get_role_id_above_account(param_IDNumber INTEGER, param_organizationID INTEGER)
 RETURNS INTEGER AS
@@ -328,7 +333,7 @@ $function$
                             AND oo.yearID = system_get_current_year_id());
         RETURN roleID;
     END;
-$function$ LANGUAGE plpgsql;
+$function$ LANGUAGE plpgsql STABLE;
 
 CREATE OR REPLACE FUNCTION organization_get_officers_with_role_id(roleID INTEGER)
 RETURNS TABLE (
@@ -341,7 +346,7 @@ $function$
                       WHERE oo.role = roleID
                         AND oo.yearID = system_get_current_year_id();
     END;
-$function$ LANGUAGE plpgsql;
+$function$ LANGUAGE plpgsql STABLE;
 
 CREATE OR REPLACE FUNCTION organization_get_treasurer_signatories(organizationID INTEGER)
 RETURNS TABLE (
@@ -421,7 +426,7 @@ $function$
 
         RETURN organizationID;
     END;
-$function$ LANGUAGE plpgsql;
+$function$ LANGUAGE plpgsql STABLE;
 
 CREATE OR REPLACE FUNCTION "GOSMActivity_get_current_term_activity_ids"()
 RETURNS TABLE (
@@ -435,7 +440,7 @@ $function$
                                        FROM GOSM g
                                        WHERE termId = system_get_current_term_id());
     END;
-$function$ LANGUAGE plpgsql;
+$function$ LANGUAGE plpgsql STABLE;
 
 /* SIGNATORY FUNCTIONS */
 CREATE OR REPLACE FUNCTION "PPR_get_number_to_sign_per_account"()
@@ -495,7 +500,7 @@ $function$
 
         RETURN immediateSupervisorID;
     END;
-$function$ LANGUAGE plpgsql;
+$function$ LANGUAGE plpgsql STABLE;
 
 CREATE OR REPLACE FUNCTION "PPR_get_organization_next_documentation_signatory"(organizationID INTEGER)
 RETURNS INTEGER AS
@@ -515,7 +520,7 @@ $function$
 
         RETURN documentationID;
     END;
-$function$ LANGUAGE plpgsql;
+$function$ LANGUAGE plpgsql STABLE;
 
 CREATE OR REPLACE FUNCTION "PPR_get_cso_next_first_phase_signatory"()
 RETURNS INTEGER AS
@@ -535,7 +540,7 @@ $function$
 
         RETURN csoOfficerID;
     END;
-$function$ LANGUAGE plpgsql;
+$function$ LANGUAGE plpgsql STABLE;
 
 CREATE OR REPLACE FUNCTION "PPR_get_cso_next_second_phase_signatory"()
 RETURNS INTEGER AS
@@ -555,7 +560,7 @@ $function$
 
         RETURN csoOfficerID;
     END;
-$function$ LANGUAGE plpgsql;
+$function$ LANGUAGE plpgsql STABLE;
 
 
 CREATE OR REPLACE FUNCTION "PPR_get_GOSMActivity_id_from_PPRID"(param_PPRID INTEGER)
@@ -570,7 +575,7 @@ $function$
 
         RETURN var_GOSMActivity;
     END;
-$function$ LANGUAGE plpgsql;
+$function$ LANGUAGE plpgsql STABLE;
 
 CREATE OR REPLACE FUNCTION "system_get_functionality_id"(param_sequenceID INTEGER)
 RETURNS INTEGER AS
@@ -584,7 +589,7 @@ $function$
 
         RETURN var_FunctionalityID;
     END;
-$function$ LANGUAGE plpgsql;
+$function$ LANGUAGE plpgsql STABLE;
 
 /* PRE ACTIVITY DIRECT PAYMENT */
 CREATE OR REPLACE FUNCTION "PreAct_DirectPayment_get_organization"("param_DPID" INTEGER)
@@ -603,7 +608,7 @@ $function$
 
         RETURN "var_organizationID";
     END;
-$function$ LANGUAGE plpgsql;
+$function$ LANGUAGE plpgsql STABLE;
 
 CREATE OR REPLACE FUNCTION "PreAct_DirectPayment_get_number_to_sign_per_account"()
 RETURNS TABLE (
@@ -621,7 +626,7 @@ $function$
                                                                                        FROM "GOSMActivity_get_current_term_activity_ids"() ga))
                    GROUP BY preca.signatory;
     END;
-$function$ LANGUAGE plpgsql;
+$function$ LANGUAGE plpgsql STABLE;
 
 CREATE OR REPLACE FUNCTION "PreAct_DirectPayment_get_organization_next_treasurer_signatory"(organizationID INTEGER)
 RETURNS INTEGER AS
@@ -641,7 +646,7 @@ $function$
 
         RETURN treasurerID;
     END;
-$function$ LANGUAGE plpgsql;
+$function$ LANGUAGE plpgsql STABLE;
 
 /* PRE ACTIVITY CASH ADVANCE */
 CREATE OR REPLACE FUNCTION "PreAct_CashAdvance_get_organization"("param_CAID" INTEGER)
@@ -747,7 +752,7 @@ $function$ LANGUAGE plpgsql STABLE;
 EXTREMELY DANGEROUS FUNCTION
 SQL INJECTION POSSIBLE EXPLOITABLE
  */
-CREATE OR REPLACE FUNCTION "'system_get_next_finance_signatory'"("signatoryTable" TEXT, "signatoryTableAcronym" TEXT, "where" TEXT)
+CREATE OR REPLACE FUNCTION "system_get_next_finance_signatory"("signatoryTable" TEXT, "signatoryTableAcronym" TEXT, "where" TEXT)
 RETURNS INTEGER AS
 $function$
     DECLARE
@@ -816,6 +821,7 @@ CREATE TABLE Account (
     path_profilePicture TEXT,
     dateCreated TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     dateModified TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    passwordExpiration TIMESTAMP WITH TIME ZONE,
 
     PRIMARY KEY (idNumber)
 );
@@ -829,6 +835,7 @@ $trigger$
 
         NEW.dateCreated = CURRENT_TIMESTAMP;
         NEW.dateModified = NEW.dateCreated;
+        NEW.passwordExpiration = CURRENT_TIMESTAMP + (INTERVAL '3 MONTH');
         RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
@@ -836,13 +843,18 @@ CREATE TRIGGER before_insert_Account
     BEFORE INSERT ON Account
     FOR EACH ROW
     EXECUTE PROCEDURE trigger_before_insert_Account();
-/*
+
 CREATE OR REPLACE FUNCTION trigger_before_update_Account()
 RETURNS trigger AS
 $trigger$
     BEGIN
-        SELECT gen_salt('bf') INTO NEW.salt;
-        SELECT crypt(NEW.password, NEW.salt) INTO NEW.password;
+        IF OLD.password <> crypt(NEW.password, OLD.salt) THEN
+            SELECT gen_salt('bf') INTO NEW.salt;
+            SELECT crypt(NEW.password, NEW.salt) INTO NEW.password;
+
+            NEW.passwordExpiration = CURRENT_TIMESTAMP + (INTERVAL '3 MONTH');
+        END IF;
+        
         NEW.dateModified = CURRENT_TIMESTAMP;
         RETURN NEW;
     END;
@@ -851,7 +863,7 @@ CREATE TRIGGER before_update_Account
     BEFORE UPDATE ON Account
     FOR EACH ROW
     EXECUTE PROCEDURE trigger_before_update_Account();
-*/
+
     /* Account Table Triggers End */
 
     /* Account Notifications */
@@ -945,21 +957,14 @@ CREATE TABLE College (
     PRIMARY KEY (shortAcronym)
 );
 INSERT INTO College (shortAcronym, fullAcronym, name)
-             VALUES ('CED', 'BAGCED', 'Br. Andrew Gonzalez FSC College of Education');
-INSERT INTO College (shortAcronym, fullAcronym, name)
-             VALUES ('CCS', NULL, 'College of Computer Studies');
-INSERT INTO College (shortAcronym, fullAcronym, name)
-             VALUES ('COL', NULL, 'College of Law');
-INSERT INTO College (shortAcronym, fullAcronym, name)
-             VALUES ('CLA', NULL, 'College of Liberal Arts');
-INSERT INTO College (shortAcronym, fullAcronym, name)
-             VALUES ('COS', null, 'College of Science');
-INSERT INTO College (shortAcronym, fullAcronym, name)
-             VALUES ('COE', 'GCOE', 'Gokongwei College of Engineering');
-INSERT INTO College (shortAcronym, fullAcronym, name)
-             VALUES ('COB', 'RVRCOB', 'Ramon V. del Rosario College of Business');
-INSERT INTO College (shortAcronym, fullAcronym, name)
-             VALUES ('SOE', null, 'School of Economics');
+             VALUES ('CED', 'BAGCED', 'Br. Andrew Gonzalez FSC College of Education'),
+                    ('CCS', NULL, 'College of Computer Studies'),
+                    ('COL', NULL, 'College of Law'),
+                    ('CLA', NULL, 'College of Liberal Arts'),
+                    ('COS', null, 'College of Science'),
+                    ('COE', 'GCOE', 'Gokongwei College of Engineering'),
+                    ('COB', 'RVRCOB', 'Ramon V. del Rosario College of Business'),
+                    ('SOE', null, 'School of Economics');
 
 DROP TABLE IF EXISTS ActivityType CASCADE;
 CREATE TABLE ActivityType (
@@ -969,16 +974,16 @@ CREATE TABLE ActivityType (
     PRIMARY KEY(id)
 );
 INSERT INTO ActivityType (id, name)
-VALUES (0, 'Competition'),
-       (1, 'Distribution'),
-       (2, 'General Assembly'),
-       (3, 'Seminar/Workshop'),
-       (4, 'Publicity/Awareness Campaign'),
-       (5, 'Meetings'),
-       (6, 'Spiritual Activity'),
-       (7, 'Recruitment/Audition'),
-       (8, 'Recreation'),
-       (9, 'Others');
+                  VALUES (0, 'Competition'),
+                         (1, 'Distribution'),
+                         (2, 'General Assembly'),
+                         (3, 'Seminar/Workshop'),
+                         (4, 'Publicity/Awareness Campaign'),
+                         (5, 'Meetings'),
+                         (6, 'Spiritual Activity'),
+                         (7, 'Recruitment/Audition'),
+                         (8, 'Recreation'),
+                         (9, 'Others');
 
 /* Activity Requirements */
 DROP TABLE IF EXISTS DocumentAttachmentRequirement CASCADE;
@@ -989,18 +994,18 @@ CREATE TABLE DocumentAttachmentRequirement (
     PRIMARY KEY(id)
 );
 INSERT INTO DocumentAttachmentRequirement (id, name)
-VALUES (0, 'Mechanics'),
-       (1, 'Letter for use of Different Venues in Campus'),
-       (2, 'Sample Design'),
-       (3, 'Venue Reservation Ticket'),
-       (4, 'Credentials of Speaker'),
-       (5, 'Sample Publicity'),
-       (6, 'Agenda'),
-       (7, 'LSPO Form'),
-       (8, 'Sample Application Form'),
-       (9, 'Informal Quotation'),
-       (10, 'Estimated List of Participants'),
-       (11, 'Mechanics of Competition');
+                                   VALUES (0, 'Mechanics'),
+                                          (1, 'Letter for use of Different Venues in Campus'),
+                                          (2, 'Sample Design'),
+                                          (3, 'Venue Reservation Ticket'),
+                                          (4, 'Credentials of Speaker'),
+                                          (5, 'Sample Publicity'),
+                                          (6, 'Agenda'),
+                                          (7, 'LSPO Form'),
+                                          (8, 'Sample Application Form'),
+                                          (9, 'Informal Quotation'),
+                                          (10, 'Estimated List of Participants'),
+                                          (11, 'Mechanics of Competition');
 
 DROP TABLE IF EXISTS ActivityAttachmentRequirement CASCADE;
 CREATE TABLE ActivityAttachmentRequirement (
@@ -1099,6 +1104,18 @@ INSERT INTO OrganizationCluster (id, name, acronym)
                                 (4, 'Engineering Alliance Geared Towards Excellence', 'ENGAGE'),
                                 (5, 'Alliance of Professional Organizations of Business and Economics', 'PROBE');
 
+DROP TABLE IF EXISTS OrganizationStatus CASCADE;
+CREATE TABLE OrganizationStatus (
+    id SMALLINT,
+    name VARCHAR(45),
+
+    PRIMARY KEY(id)
+);
+INSERT INTO OrganizationStatus (id, name)
+                        VALUES ( 0, 'Active'), 
+                               ( 1, 'Suspended'),
+                               ( 3, 'Dissolved');
+
 DROP TABLE IF EXISTS StudentOrganization CASCADE;
 CREATE TABLE StudentOrganization (
     /*
@@ -1111,6 +1128,7 @@ CREATE TABLE StudentOrganization (
     */
     id INTEGER UNIQUE,
     name VARCHAR(128),
+    status SMALLINT REFERENCES StudentOrganization(id) DEFAULT 0,
     cluster SMALLINT REFERENCES OrganizationCluster(id),
     nature SMALLINT REFERENCES OrganizationNature(id),
     college CHAR(3) REFERENCES College(shortAcronym),
@@ -1121,7 +1139,8 @@ CREATE TABLE StudentOrganization (
     depositoryFunds NUMERIC(16, 2) NOT NULL DEFAULT 0.0,
     depositryFunds NUMERIC(16, 2) NOT NULL DEFAULT 0.0,
     path_profilePicture TEXT,
-
+    accountNumber CHAR(7),
+    
     PRIMARY KEY (id)
 );
 INSERT INTO StudentOrganization (id, acronym, name, description, path_profilePicture)
@@ -1408,8 +1427,8 @@ INSERT INTO Functionality (id, name, category)
                           -- PPR Signing
                           (211011, 'Sign Project Proposal as Treasurer'     , 211),
                           (211012, 'Sign Project Proposal as Documentations', 211),
-                          (104013, 'Sign Project Proposal Phase - 1'        , 104),
-                          (104014, 'Sign Project Proposal Phase - 2'        , 104),
+                          (104013, 'Sign Project Proposal CSO Phase - 1'    , 104),
+                          (104014, 'Sign Project Proposal CSO Phase - 2'    , 104),
                           (211015, 'Force Sign Project Proposal'            , 211),
                           -- Publicity
                           (210016, 'Submit Publicity Material'              , 210),
@@ -1426,8 +1445,14 @@ INSERT INTO Functionality (id, name, category)
                           -- PPR Signing (President) 
                           (211024, 'Sign Project Proposal as President', 211),
                           -- Finance Signatory 
-                          (211025, 'Sign Finance Transaction as President', 211),
-                          (211026, 'Sign Finance Transaction as Treasurer', 211);
+                          -- mistakes were made in the design of ACLs, the two ACLS can be compressed into a single ACL
+                          -- But for sanity and backwards compatability, they're retained
+                          (211025, 'View/Submit Financial Documents as President', 211),
+                          (211026, 'View/Submit Financial Documents as Treasurer', 211),
+
+                          (214027, 'Submit Officer Survey Form', 214),
+
+                          (104028, 'Submit Not in GOSM Activities',  104);
 
 DROP TABLE IF EXISTS OrganizationAccessControl CASCADE;
 CREATE TABLE OrganizationAccessControl (
@@ -1496,6 +1521,7 @@ $trigger$
         avpfRoleID INTEGER;
         -- Internal Executive Vice President
         ievpRoleID INTEGER;
+        joRoleID INTEGER;
     BEGIN
         INSERT INTO OrganizationRole(organization, name, shortname, uniquePosition, masterRole, rank)
                              VALUES (NEW.id, 'President', 'P', TRUE, NULL, 0)
@@ -1512,28 +1538,44 @@ $trigger$
                                               -- Sign PPR as President
                                               (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 24)), TRUE),
                                               -- Sign Finance Transaction as President
-                                              (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 25)), TRUE);
+                                              (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 25)), TRUE),
+                                              -- Submit Officer Survey Form  
+                                              (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 27)), TRUE),
+                                              -- Submit Not in GOSM Activity 28
+                                              (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE);
 
         INSERT INTO OrganizationRole(organization, name, shortname, uniquePosition, masterRole, rank)
                              VALUES (NEW.id, 'Executive Secretariat','ES', TRUE, presidentRoleID, 10)
         RETURNING id INTO executiveSecretariatRoleID;
         INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       VALUES (executiveSecretariatRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
-                                             (executiveSecretariatRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE);
+                                             (executiveSecretariatRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE),
+                                              -- Submit Officer Survey Form  
+                                             (executiveSecretariatRoleID, (SELECT id FROM functionality WHERE(id%1000 = 27)), TRUE),
+                                              -- Submit Not in GOSM Activity 28
+                                             (executiveSecretariatRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE);
 
         INSERT INTO OrganizationRole(organization, name, shortname, uniquePosition, masterRole, rank)
                              VALUES (NEW.id, 'External Executive Vice President', 'E-EVP', TRUE, presidentRoleID, 10)
         RETURNING id INTO eevpRoleID;
         INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       VALUES  (eevpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
-                                              (eevpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE);
+                                              (eevpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE),
+                                              -- Submit Officer Survey Form  
+                                              (eevpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 27)), TRUE),
+                                              -- Submit Not in GOSM Activity 28
+                                              (eevpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE);
 
         INSERT INTO OrganizationRole(organization, name, shortname, uniquePosition, masterRole, rank)
                              VALUES (NEW.id, 'Internal Executive Vice President', 'I-EVP',TRUE, presidentRoleID, 10)
         RETURNING id INTO ievpRoleID;
         INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       VALUES  (ievpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
-                                              (ievpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE);
+                                              (ievpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE),
+                                              -- Submit Officer Survey Form  
+                                              (ievpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 27)), TRUE),
+                                              -- Submit Not in GOSM Activity 28
+                                              (ievpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE);
 
         INSERT INTO OrganizationRole(organization, name, shortname, uniquePosition, masterRole, rank)
                              VALUES (NEW.id, 'Vice President of Documentations', 'VP-D', TRUE, executiveSecretariatRoleID, 20)
@@ -1542,14 +1584,22 @@ $trigger$
                                       VALUES  (vpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
                                               (vpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE),
                                               -- Sign PPR as Documentation
-                                              (vpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 12)), TRUE);
+                                              (vpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 12)), TRUE),
+                                              -- Submit Officer Survey Form  
+                                              (vpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 27)), TRUE),
+                                              -- Submit Not in GOSM Activity 28
+                                              (vpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE);
 
         INSERT INTO OrganizationRole(organization, name, shortname, uniquePosition, masterRole, rank)
                              VALUES (NEW.id, 'Associate Vice President of Documentations', 'AVP-D', FALSE, vpdRoleID, 30)
         RETURNING id INTO avpdRoleID;
         INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       VALUES  (avpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
-                                              (avpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE);
+                                              (avpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE),
+                                              -- Submit Officer Survey Form  
+                                              (avpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 27)), TRUE),
+                                              -- Submit Not in GOSM Activity 28
+                                              (avpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE);
 
         INSERT INTO OrganizationRole(organization, name, shortname, uniquePosition, masterRole, home_url, rank)
                              VALUES (NEW.id, 'Vice President of Finance', 'VP-F', TRUE, ievpRoleID, '/Organization/treasurer/dashboard', 20)
@@ -1565,7 +1615,11 @@ $trigger$
                                               (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 21)), TRUE),
                                               (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 22)), TRUE),
                                               -- Sign Finance Transaction as Treasurer
-                                              (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 26)), TRUE);
+                                              (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 26)), TRUE),
+                                              -- Submit Officer Survey Form  
+                                              (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 27)), TRUE),
+                                              -- Submit Not in GOSM Activity 28
+                                              (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE);
 
         INSERT INTO OrganizationRole(organization, name, shortname, uniquePosition, masterRole, home_url, rank)
                              VALUES (NEW.id, 'Associate Vice President of Finance', 'AVP-F',FALSE, vpfRoleID, '/Organization/treasurer/dashboard', 30)
@@ -1573,8 +1627,19 @@ $trigger$
         INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       VALUES  (avpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
                                               (avpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE),
-                                              (avpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 18)), TRUE);
+                                              (avpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 18)), TRUE),
+                                              -- Sign Finance Transaction as Treasurer
+                                              (avpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 26)), TRUE),
+                                              -- Submit Officer Survey Form  
+                                              (avpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 27)), TRUE),
+                                              -- Submit Not in GOSM Activity 28
+                                              (avpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE);
 
+        INSERT INTO OrganizationRole(organization, name, shortname, uniquePosition, rank)
+                             VALUES (      NEW.id, 'Junior Officer', 'JO', FALSE, 40)
+        RETURNING id INTO joRoleID;
+        INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
+                                       VALUES (joRoleID, (SELECT id FROM functionality WHERE(id%1000 = 27)), TRUE);
         RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
@@ -1693,6 +1758,7 @@ CREATE TABLE GOSMActivity (
     isRelatedToOrganizationNature BOOLEAN NOT NULL,
     budget NUMERIC(12, 2) NOT NULL DEFAULT 0.0,
     comments TEXT,
+    isInGOSM BOOLEAN DEFAULT TRUE,
 
     PRIMARY KEY (GOSM, sequence),
     CONSTRAINT targetdate_start_end_value CHECK(targetDateStart <= targetDateEnd)
@@ -1796,8 +1862,7 @@ INSERT INTO ProjectProposalRescheduleReason (id, name)
                          VALUES (1, 'Class suspension'),
                                 (2, 'Insufficient participnts'),
                                 (3, 'Speaker unavailable'),
-                                (4, 'Others'),
-                                (5, 'Corrupt members');
+                                (4, 'Others');
 
 DROP TABLE IF EXISTS ProjectProposal CASCADE;
 CREATE TABLE ProjectProposal (
@@ -1945,8 +2010,7 @@ INSERT INTO ExpenseType (id, name)
                         (3, 'Venue Expense'),
                         (4, 'Transport Expense'),
                         (5, 'Honorarium'),
-                        (6, 'Cash Prize'),
-                        (7, 'Corruption Expense');
+                        (6, 'Cash Prize');
 
 DROP TABLE IF EXISTS "ExpenseTypeAttachmentRequirement" CASCADE;
 CREATE TABLE "ExpenseTypeAttachmentRequirement" (
@@ -2499,13 +2563,13 @@ CREATE TABLE "PreActivityBookTransfer"(
     "id" SERIAL UNIQUE,
     "GOSMActivity" INTEGER REFERENCES GOSMActivity("id"),
     "submissionID" INTEGER,
-    "sequenceID" INTEGER,
+    "sequence" INTEGER,
     "submittedBy" INTEGER REFERENCES Account(idNumber),
-    "dateSubmitted" TIMESTAMP WITH TIME ZONE,
+    "dateSubmitted" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "status" SMALLINT REFERENCES "PreActivityBookTransferStatus"("id") NOT NULL DEFAULT 0,
     "transferAccount" CHARACTER(7),
 
-    PRIMARY KEY ("GOSMActivity", "submissionID", "sequenceID")
+    PRIMARY KEY ("GOSMActivity", "submissionID", "sequence")
 );
 
 DROP TABLE IF EXISTS "PreActivityBookTransferParticular" CASCADE;
@@ -2532,7 +2596,13 @@ CREATE TABLE "PreActivityBookTransferSignatory" (
 
     PRIMARY KEY ("bookTransfer", "signatory", "type")
 );
-CREATE TRIGGER "after_insert_PreActivityBookTransfer_signatories"
+
+CREATE TRIGGER "before_insert_PreActivityBookTransfer"
+    BEFORE INSERT ON "PreActivityBookTransfer"
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_before_insert_sequence_versioning"('PreActivityBookTransfer', 'pabt', '"pabt"."GOSMActivity" = $1."GOSMActivity"');
+
+CREATE TRIGGER "after_insert_PreActivityBookTransfer_signatories" 
     AFTER INSERT ON "PreActivityBookTransfer"
     FOR EACH ROW
     EXECUTE PROCEDURE  "trigger_after_insert_finance_signatories_initial"('PreActivityBookTransfer', 'pabt', 'PreActivityBookTransferSignatory', 'bookTransfer', 'PreAct_BookTransfer_get_organization_next_treasurer_signatory');
@@ -2840,10 +2910,10 @@ CREATE TABLE "PostProjectDirectPaymentParticular" (
 
 DROP TABLE IF EXISTS "PostProjectReimbursementPayment" CASCADE;
 CREATE TABLE "PostProjectReimbursementPayment" (
-  id INTEGER,
-  name VARCHAR(45),
+  "id" INTEGER,
+  "name" VARCHAR(45),
 
-  PRIMARY KEY (id)
+  PRIMARY KEY ("id")
 );
 INSERT INTO "PostProjectReimbursementPayment" (id, name)
                                  VALUES ( 0, 'Payment By Check'),
@@ -2865,18 +2935,14 @@ INSERT INTO "PostProjectReimbursementStatus" ("id", "name")
 DROP TABLE IF EXISTS "PostProjectReimbursement" CASCADE;
 CREATE TABLE "PostProjectReimbursement" (
   "id" SERIAL NOT NULL UNIQUE,
-  "GOSMActivity" INTEGER REFERENCES "PostProjectProposal"("GOSMActivity"),
-  "submissionID" INTEGER,
+  "GOSMActivity" INTEGER REFERENCES ProjectProposal(GOSMActivity),
+  "submissionID" INTEGER DEFAULT -1,
   "sequence" INTEGER DEFAULT -1,
-  "nameOfEstablishment" VARCHAR(60),
-  "amount" NUMERIC(12, 2),
-  "paymentBy" SMALLINT REFERENCES "PostProjectReimbursementPayment"("id"),
-  "foodExpense" VARCHAR(60),
-  "NUCAODP" TEXT,
-  "delayedProcessing" TEXT,
+  "justificationFDPP" TEXT,
+  "justificationFNUCADP" TEXT,
   "filenames" TEXT[],
   "filenamesToShow" TEXT[],
-  "idNumber" INTEGER REFERENCES Account(idNumber),
+  "submittedBy" INTEGER REFERENCES Account(idNumber),
   "dateCreated" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
   "status" SMALLINT REFERENCES "PostProjectReimbursementStatus"("id") DEFAULT 0,
 
@@ -2885,8 +2951,9 @@ CREATE TABLE "PostProjectReimbursement" (
 
 DROP TABLE IF EXISTS "PostProjectReimbursementParticular" CASCADE;
 CREATE TABLE "PostProjectReimbursementParticular" (
-  "reimbursement" INTEGER REFERENCES "PostProjectReimbursement"("id"),
-  "particular" INTEGER REFERENCES ProjectProposalExpenses("id"),
+    "id" SERIAL NOT NULL UNIQUE,
+    "reimbursement" INTEGER REFERENCES "PostProjectReimbursement"("id"),
+    "particular" INTEGER REFERENCES ProjectProposalExpenses("id"),
 
   PRIMARY KEY ("reimbursement", "particular")
 );
@@ -2894,7 +2961,7 @@ CREATE TABLE "PostProjectReimbursementParticular" (
 CREATE TRIGGER "before_insert_PostProjectReimbursement_sequence"
     BEFORE INSERT ON "PostProjectReimbursement"
     FOR EACH ROW
-    EXECUTE PROCEDURE "trigger_before_insert_sequence_versioning"( 'PostProjectReimbursement', 'ppr', 'ppr."GOSMActivity" = $1."GOSMActivity"');
+    EXECUTE PROCEDURE "trigger_before_insert_sequence_versioning"('PostProjectReimbursement', 'ppr', 'ppr."GOSMActivity" = $1."GOSMActivity"');
 
 DROP TABLE IF EXISTS "PostProjectReimbursementSignatory" CASCADE;
 CREATE TABLE "PostProjectReimbursementSignatory" (
@@ -2916,14 +2983,14 @@ CREATE TRIGGER "after_insert_PostProjectReimbursement_signatories"
     EXECUTE PROCEDURE  "trigger_after_insert_finance_signatories_initial"('PostProjectReimbursement', 'ppr', 'PostProjectReimbursementSignatory', 'reimbursement', 'PostAct_Reimbursement_get_organization_next_treasurer_signatory');
 
 CREATE TRIGGER "after_insert_PreActivityReimbursementParticular_signatories"
-    AFTER INSERT ON "PreActivityBookTransferParticular"
+    AFTER INSERT ON "PostProjectReimbursement"
     FOR EACH ROW
-    EXECUTE PROCEDURE "trigger_after_insert_finance_signatories"('PostProjectReimbursement', 'ppr', 'ppr."reimbursement" = $1."reimbursement"', 'PostProjectReimbursementSignatory', 'reimbursement', '$1."reimbursement"');
+    EXECUTE PROCEDURE "trigger_after_insert_finance_signatories"('PostProjectReimbursementParticular', 'pprp', 'pprp."reimbursement" = $1."reimbursement"', 'PostProjectReimbursementSignatory', 'reimbursement', '$1."reimbursement"');
 
 CREATE TRIGGER "after_update_PreActivityReimbursementSignatory_completion"
-    AFTER UPDATE ON "PreActivityBookTransferSignatory"
+    AFTER UPDATE ON "PostProjectReimbursementSignatory"
     FOR EACH ROW WHEN (OLD.status <> NEW.status)
-    EXECUTE PROCEDURE "trigger_after_update_signatory_completion"('PostProjectReimbursementSignatory', 'pprs', 'pprs."bookTransfer" = $1."bookTransfer"', 'PostProjectReimbursement', 'ppr', 'ppr.id = $1."bookTransfer"');
+    EXECUTE PROCEDURE "trigger_after_update_signatory_completion"('PostProjectReimbursementSignatory', 'pprs', 'pprs."reimbursement" = $1."reimbursement"', 'PostProjectReimbursement', 'ppr', 'ppr.id = $1."reimbursement"');
 
 DROP TABLE IF EXISTS "PostProjectBookTransferStatus" CASCADE;
 CREATE TABLE "PostProjectBookTransferStatus" (
@@ -3050,8 +3117,49 @@ CREATE TRIGGER "before_insert_ActivityPublicity_sequence"
     BEFORE INSERT ON "ActivityPublicity"
     FOR EACH ROW
     EXECUTE PROCEDURE "trigger_before_insert_sequence_versioning"( 'ActivityPublicity', 'ap', 'ap."GOSMActivity" = $1."GOSMActivity"' );
-
 /* End of Publicity */
+
+DROP TABLE IF EXISTS "OfficerSurveyForm" CASCADE;
+CREATE TABLE "OfficerSurveyForm" (
+    "id" SERIAL UNIQUE,
+    "termID" INTEGER REFERENCES Term(id),
+    "organizationID" INTEGER REFERENCES StudentOrganization(id),
+    "officer" INTEGER REFERENCES Account(idNumber),
+    "field1" SMALLINT NOT NULL,
+    "field2" SMALLINT NOT NULL,
+    "field3" SMALLINT NOT NULL,
+    "field4" SMALLINT NOT NULL,
+    "field5" SMALLINT NOT NULL,
+    "field6" SMALLINT NOT NULL,
+    "field7" SMALLINT NOT NULL,
+    "field8" SMALLINT NOT NULL,  
+    "field9" SMALLINT NOT NULL,
+
+    PRIMARY KEY("termID", "organizationID", "officer")    
+);
+
+DROP TABLE IF EXISTS "MemberSurveyForm" CASCADE;
+CREATE TABLE "MemberSurveyForm" (
+    "id" SERIAL UNIQUE,
+    "termID" INTEGER REFERENCES Term(id),
+    "organizationID" INTEGER REFERENCES StudentOrganization(id),
+    "sequence" INTEGER DEFAULT -1,
+    "field1" SMALLINT NOT NULL,
+    "field2" SMALLINT NOT NULL,
+    "field3" SMALLINT NOT NULL,
+    "field4" SMALLINT NOT NULL,
+    "field5" SMALLINT NOT NULL,
+    "field6" SMALLINT NOT NULL,
+    "field7" SMALLINT NOT NULL,
+    "field8" SMALLINT NOT NULL,  
+    "field9" SMALLINT NOT NULL,
+
+    PRIMARY KEY("termID", "organizationID", "sequence")    
+);
+CREATE TRIGGER "before_insert_MemberSurveyForm_sequence"
+    BEFORE INSERT ON "MemberSurveyForm"
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_before_insert_increment_sequence"('MemberSurveyForm', 'msf', '(msf."termID" = $1."termID") AND (msf."organizationID" = $1."organizationID")' );
 
 /* SESSION TABLE */
 DROP TABLE IF EXISTS session CASCADE;
@@ -3073,3 +3181,18 @@ WITH (OIDS=FALSE);
     |  |     /  _____  \  |  |\  \----.|  `--'  | |  |_)  |  /  _____  \  .----)   |   |  .  \  |  | |  |_)  |  /  _____  \  .----)   |
     |__|    /__/     \__\ | _| `._____| \______/  |______/  /__/     \__\ |_______/    |__|\__\ |__| |______/  /__/     \__\ |_______/
  */
+    
+CREATE OR REPLACE VIEW "ProjectExpensesWithoutTransaction" AS 
+SELECT *
+  FROM ProjectProposalExpenses ppe 
+ WHERE ppe.id NOT IN ((SELECT "particular"
+                        FROM "PreActivityDirectPaymentParticular")
+                       UNION
+                      (SELECT "particular"
+                         FROM "PreActivityCashAdvanceParticular")
+                      UNION
+                      (SELECT "particular"
+                         FROM "PreActivityBookTransferParticular")
+                      UNION 
+                      (SELECT "particular"
+                         FROM "PostProjectReimbursementParticular"));

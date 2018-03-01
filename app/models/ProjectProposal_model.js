@@ -256,6 +256,21 @@ module.exports = function(configuration, modules, db, queryFiles) {
         return connection.any(query, param);
     };
 
+
+    ProjectProposalModel.prototype.getAllOrgProposal = function(orgid, fields, connection = this._db){
+        let query = squel.select()
+        .from('GOSM', 'G')
+        .left_join('GOSMActivity','GA','G.id = GA.Gosm')
+        .left_join('ProjectProposal','PP','GA.ID = PP.GosmActivity')
+        .where('G.termID = ?',squel.str('system_get_current_term_id()'))
+        .where('G.studentorganization = ?',orgid)
+        
+
+        query = query.toString();
+        
+        return connection.any(query);
+    };
+    
     ProjectProposalModel.prototype.getProjectProposalExpenses = function(id, fields, connection = this._db){
         console.log('ProjectProposalExpenses()');
         let query = squel.select()
@@ -298,12 +313,13 @@ module.exports = function(configuration, modules, db, queryFiles) {
         param.id = id;
         return connection.any(query, param);
     };
-    ProjectProposalModel.prototype.updatePPResched =  function(id, reason, dates, status, connection = this._db){
+    ProjectProposalModel.prototype.updatePPResched =  function(id, reason, dates, other, status, connection = this._db){
         let query = squel.update()
                          .table("ProjectProposal")
                          .set("status",status)
                          .set("reschedulereason", reason)
                          .set("rescheduledates", "{"+dates+"}")
+                         .set("reschedreasonother", other)
                          .where("id = ?",id)
 
       
@@ -327,6 +343,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
                         .from('GOSM', 'G')
                         .left_join('GOSMACTIVITY','GA',' G.ID = GA.GOSM')
                         .left_join('PROJECTPROPOSAL','PP',' GA.ID = PP.GOSMACTIVITY')
+                        .left_join('PROJECTPROPOSALRESCHEDULEREASON','PPRR',' PP.RESCHEDULEREASON = PPRR.ID')
                         .where('G.termID = ?',squel.str('system_get_current_term_id()'))
                         .where('PP.STATUS = 6')                                
         query = query.toString();        
@@ -381,7 +398,11 @@ module.exports = function(configuration, modules, db, queryFiles) {
         return connection.none(updatePPRBriefContextSQL, param);
     };
 
+
     ProjectProposalModel.prototype.insertProjectProposal  = function(param, connection = this._db){
+        logger.debug(`insertProjectProposal(${JSON.stringify(param)})`, log_options);
+
+        logger.debug(`Executing query: ${insertProjectProposalSQL}`, log_options);
         return connection.one(insertProjectProposalSQL, param);
     };
 

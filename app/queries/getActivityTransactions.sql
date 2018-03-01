@@ -75,5 +75,81 @@ UNION (SELECT PACA.id as id, PACA."GOSMActivity" as gosmactivity, 3 as transacti
 												WHERE PACAS.status=0
 						      					  AND PACAA."GOSMActivity"=${gosmactivity}
 						 					 GROUP BY PACAS."cashAdvance"))
-	 GROUP BY PACA."GOSMActivity", PP.ACTUALDATESTART, PACA.STATUS, PACA.id)	) U
+	 GROUP BY PACA."GOSMActivity", PP.ACTUALDATESTART, PACA.STATUS, PACA.id)
+----------------------------------------------------------------------------------------------
+UNION (SELECT PABT.id as id, PABT."GOSMActivity" as gosmactivity, 4 as transaction, to_char(PP.ACTUALDATESTART, 'MonthDD, YYYY') AS startdate, SUM(PPE.quantity*PPE.unitcost) as amount, PABT.status, 0 as approval
+	   	   FROM "PreActivityBookTransfer" PABT JOIN "PreActivityBookTransferParticular" PABTP
+	   	   										  ON PABT.id=PABTP."bookTransfer"
+	   	   										JOIN PROJECTPROPOSALEXPENSES PPE
+	   	   										  ON PABTP.particular=PPE.id
+												JOIN PROJECTPROPOSAL PP
+												  ON PPE.PROJECTPROPOSAL=PP.ID
+	 	  WHERE PABT."GOSMActivity"=${gosmactivity}
+  	        AND PABT.id IN (SELECT PABTSI."bookTransfer"
+  	        				  FROM "PreActivityBookTransferSignatory" PABTSI
+  	        				 WHERE PABTSI.signatory=${idnumber}
+  	        				   AND PABTSI.id IN (SELECT MIN(PABTS.id)
+  	        				   					   FROM "PreActivityBookTransferSignatory" PABTS JOIN "PreActivityBookTransfer" PABTR
+  	        				   					   												   ON PABTR.id=PABTS."bookTransfer"
+  	        				   					  WHERE PABTS.status=0
+  	        				   					    AND PABTR."GOSMActivity"=${gosmactivity}
+  	        				   				   GROUP BY PABTS."bookTransfer"))
+  	   GROUP BY PABT."GOSMActivity", PP.ACTUALDATESTART, PABT.STATUS, PABT.id)     
+
+UNION (SELECT PABT.id as id, PABT."GOSMActivity" as gosmactivity, 5 as transaction, to_char(PP.ACTUALDATESTART, 'MonthDD, YYYY') AS startdate, SUM(PPE.quantity*PPE.unitcost) as amount, PABT.status, 1 as approval
+	   	   FROM "PreActivityBookTransfer" PABT JOIN "PreActivityBookTransferParticular" PABTP
+	   	   										  ON PABT.id=PABTP."bookTransfer"
+	   	   										JOIN PROJECTPROPOSALEXPENSES PPE
+	   	   										  ON PABTP.particular=PPE.id
+												JOIN PROJECTPROPOSAL PP
+												  ON PPE.PROJECTPROPOSAL=PP.ID
+	 	  WHERE PABT."GOSMActivity"=${gosmactivity}
+  	        AND PABT.id NOT IN (SELECT PABTSI."bookTransfer"
+  	        				  FROM "PreActivityBookTransferSignatory" PABTSI
+  	        				 WHERE PABTSI.signatory=${idnumber}
+  	        				   AND PABTSI.id IN (SELECT MIN(PABTS.id)
+  	        				   					   FROM "PreActivityBookTransferSignatory" PABTS JOIN "PreActivityBookTransfer" PABTR
+  	        				   					   												   ON PABTR.id=PABTS."bookTransfer"
+  	        				   					  WHERE PABTS.status=0
+  	        				   					    AND PABTR."GOSMActivity"=${gosmactivity}
+  	        				   				   GROUP BY PABTS."bookTransfer"))
+  	   GROUP BY PABT."GOSMActivity", PP.ACTUALDATESTART, PABT.STATUS, PABT.id)
+
+UNION (SELECT PPRE.id as id, PPRE."GOSMActivity" as gosmactivity, 6 as transaction, to_char(PP.ACTUALDATESTART, 'MonthDD, YYYY') AS startdate, SUM(PPE.quantity*PPE.unitcost) as amount, PPRE.status, 0 as approval
+	   	   FROM "PostProjectReimbursement" PPRE JOIN "PostProjectReimbursementParticular" PPREP
+	   	   										  ON PPRE.id=PPREP."reimbursement"
+	   	   										JOIN PROJECTPROPOSALEXPENSES PPE
+	   	   										  ON PPREP.particular=PPE.id
+												JOIN PROJECTPROPOSAL PP
+												  ON PPE.PROJECTPROPOSAL=PP.ID
+	 	  WHERE PPRE."GOSMActivity"=${gosmactivity}
+  	        AND PPRE.id IN (SELECT PPRESI."reimbursement"
+  	        				  FROM "PostProjectReimbursementSignatory" PPRESI
+  	        				 WHERE PPRESI.signatory=${idnumber}
+  	        				   AND PPRESI.id IN (SELECT MIN(PPRES.id)
+  	        				   					   FROM "PostProjectReimbursementSignatory" PPRES JOIN "PostProjectReimbursement" PPREM
+  	        				   					   													ON PPREM.id=PPRES."reimbursement"
+  	        				   					  WHERE PPRES.status=0
+  	        				   					    AND PPREM."GOSMActivity"=${gosmactivity}
+  	        				   				   GROUP BY PPRES."reimbursement"))
+  	   GROUP BY PPRE."GOSMActivity", PP.ACTUALDATESTART, PPRE.STATUS, PPRE.id)
+
+UNION (SELECT PPRE.id as id, PPRE."GOSMActivity" as gosmactivity, 7 as transaction, to_char(PP.ACTUALDATESTART, 'MonthDD, YYYY') AS startdate, SUM(PPE.quantity*PPE.unitcost) as amount, PPRE.status, 1 as approval
+	   	   FROM "PostProjectReimbursement" PPRE JOIN "PostProjectReimbursementParticular" PPREP
+	   	   										  ON PPRE.id=PPREP."reimbursement"
+	   	   										JOIN PROJECTPROPOSALEXPENSES PPE
+	   	   										  ON PPREP.particular=PPE.id
+												JOIN PROJECTPROPOSAL PP
+												  ON PPE.PROJECTPROPOSAL=PP.ID
+	 	  WHERE PPRE."GOSMActivity"=${gosmactivity}
+  	        AND PPRE.id NOT IN (SELECT PPRESI."reimbursement"
+  	        				  FROM "PostProjectReimbursementSignatory" PPRESI
+  	        				 WHERE PPRESI.signatory=${idnumber}
+  	        				   AND PPRESI.id IN (SELECT MIN(PPRES.id)
+  	        				   					   FROM "PostProjectReimbursementSignatory" PPRES JOIN "PostProjectReimbursement" PPREM
+  	        				   					   													ON PPREM.id=PPRES."reimbursement"
+  	        				   					  WHERE PPRES.status=0
+  	        				   					    AND PPREM."GOSMActivity"=${gosmactivity}
+  	        				   				   GROUP BY PPRES."reimbursement"))
+  	   GROUP BY PPRE."GOSMActivity", PP.ACTUALDATESTART, PPRE.STATUS, PPRE.id)	) U
 ORDER BY approval ASC, startdate ASC;

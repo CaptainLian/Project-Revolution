@@ -106,12 +106,85 @@ module.exports = function(configuration, modules, database, queryFiles){
 
     const getExpensesWithoutTransactionCountSQL = queryFiles.getExpensesWithoutTransactionCount;
     FinanceModel.getExpensesWithoutTransactionCount = function(param, connection = database){
-        return connection.one(getExpensesWithoutTransactionCountSQL, param);
+        return connection.oneOrNone(getExpensesWithoutTransactionCountSQL, param);
     };
 
     const getDirectPaymentSignatorySQL = queryFiles.getDirectPaymentSignatory;
     FinanceModel.getDirectPaymentSignatory = function(param, connection = database){
         return connection.oneOrNone(getDirectPaymentSignatorySQL, param);
+    };
+
+    const insertReimbursementSQL = queryFiles.insertReimbursement;
+    FinanceModel.insertReimbursement = function(param, connection = database){
+        return connection.one(insertReimbursementSQL, param);
+    };
+
+    const insertReimbursementParticularSQL = queryFiles.insertReimbursementParticular;
+    FinanceModel.insertReimbursementParticular = function(param, connection = database){
+        return connection.none(insertReimbursementParticularSQL, param);
+    };
+
+    const insertPreActivityBookTransferSQL = queryFiles.insertPreActivityBookTransfer;
+    FinanceModel.insertPreActivityBookTransfer = function(param, connection = database){
+        logger.debug(`insertPreActivityBookTransfer(${JSON.stringify(param)})`, log_options);
+
+        logger.debug(`Executing query: ${insertPreActivityBookTransferSQL}`, log_options);
+        return connection.one(insertPreActivityBookTransferSQL, param);
+    };
+
+    const insertPreActivityBookTransferParticularSQL = queryFiles.insertPreActivityBookTransferParticular;
+    FinanceModel.insertPreActivityBookTransferParticular = function(param, connection = database){
+        return connection.none(insertPreActivityBookTransferParticularSQL, param);
+    };
+
+    const getPreActivityBookTransferSQL = queryFiles.getPreActivityBookTransfer;
+    FinanceModel.getPreActivityBookTransfer = function(param, connection = database){
+        return connection.one(getPreActivityBookTransferSQL, param);
+    };
+
+    const getPostProjectReimbursementSQL = queryFiles.getPostProjectReimbursement;
+    FinanceModel.getPostProjectReimbursement = function(param, connection = database){
+        return connection.one(getPostProjectReimbursementSQL, param);
+    };
+
+    const getBookTransferSignatorySQL = queryFiles.getBookTransferSignatory;
+    FinanceModel.getBookTransferSignatory = function(param, connection = database){
+        return connection.oneOrNone(getBookTransferSignatorySQL, param);
+    };
+
+    const getReimbursementSignatorySQL = queryFiles.getReimbursementSignatory;
+    FinanceModel.getReimbursementSignatory = function(param, connection = database){
+        return connection.oneOrNone(getReimbursementSignatorySQL, param);
+    };
+
+    const getBookTransferParticularsSQL = queryFiles.getBookTransferSignatory;
+    FinanceModel.getBookTransferParticulars = function(param, connection = database){
+        return connection.any(getBookTransferParticularsSQL, param);
+    };
+
+    const getReimbursementParticularsSQL = queryFiles.getReimbursementParticulars;
+    FinanceModel.getReimbursementParticulars = function(param, connection = database){
+        return connection.any(getReimbursementParticularsSQL, param);
+    };
+
+    const approveReimbursementSQL  = queryFiles.approveReimbursement;
+    FinanceModel.approveReimbursement = function(param, connection = database){
+        return connection.none(approveReimbursementSQL, param);
+    };
+
+    const pendReimbursementSQL = queryFiles.pendReimbursement;
+    FinanceModel.pendReimbursement = function(param, connection = database){
+        return connection.none(pendReimbursementSQL, param);
+    };
+
+    const approveBookTransferSQL = queryFiles.approveBookTransfer;
+    FinanceModel.approveBookTransfer = function(param, connection = database){
+        return connection.none(approvebookTransferSQL, param);
+    };
+
+    const pendBookTransferSQL = queryFiles.pendbookTransfer;
+    FinanceModel.pendBookTransfer = function(param, connection = database){
+        return connection.none(pendBookTransferSQL, param);
     };
 
     //Used for signing

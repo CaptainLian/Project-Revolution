@@ -11,11 +11,14 @@ const FUNCTIONALITY_SEQUENCES = require('./CONSTANTS_functionalitySequence.json'
 const functionalitySidebars = Object.create(null);
 
 //View Project Head Dashboard
+/*
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.ViewProjectHeadDashboard] = [{
     name: 'Dashboard',
     link: '/Organization/ProjectHead/home',
     icon:'fa fa-tachometer'
 }];
+*/
+
 
 //View APSReport
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.ViewAPSReport] = [{
@@ -33,7 +36,6 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.CreateGOSM] = [{
     name: 'GOSM',
     link: '/Organization/createGOSM',
     icon: 'fa fa-columns',
-    
 }];
 
 //Evaluate PPR

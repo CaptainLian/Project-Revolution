@@ -50,9 +50,52 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         viewGOSMList: (req, res) => {
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
-            return res.render('Org/GOSMList');
+            gosmModel.getOrgAllGOSM(req.session.user.organizationSelected.id)
+                     .then(data=>{
+                        renderData.gosms = data
+                        console.log(data)
+                        return res.render('Org/GOSMList', renderData);            
+                     }).catch(err=>{
+                        console.log(err)
+                     })
+            
         },
-
+        viewGOSMDetails: (req, res) => {
+            const renderData = Object.create(null);
+            console.log(req.param)
+            renderData.extra_data = req.extra_data;
+            return res.render('Org/gosmDetails');
+        },
+        viewNotInGosmList: (req, res) => {
+            const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            return res.render('Org/NotInGosmList');
+        },
+        viewNotInGosmMain: (req, res) => {
+            const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            return res.render('Org/submitNotInGosm_main');
+        },
+        viewNotInGosmAttachments: (req, res) => {
+            const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            return res.render('Org/submitNotInGosm_attachments');
+        },
+        viewNotInGosmBriefContext: (req, res) => {
+            const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            return res.render('Org/SubmitNotInGosm_briefContext');
+        },
+        viewNotInGosmExpense: (req, res) => {
+            const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            return res.render('Org/submitNotInGosm_expense');
+        },
+        viewNotInGosmProgramDesign: (req, res) => {
+            const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            return res.render('Org/submitNotInGosm_programdesign');
+        },
         viewActivityDetails: (req, res) => {
                 logger.debug('viewActivityDetails()', log_options);
                 var activityId;
@@ -185,31 +228,26 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         },
 
         viewSubmitProjectProposalMain: (req, res) => {
+            logger.debug(`viewSubmitProjectProposalMain()`, log_options);
 
-            console.log("ITPO");
             //still no ppr or rejected ppr
             if (req.params.status == 0) {
-
+                logger.debug('Status 0', log_options);
                 var orgParam = {
                     studentorganization: req.session.user.organizationSelected.id
                 };
 
-                organizationModel.getStudentOrganization(orgParam)
-                .then(orgdata=>{
-
-                    console.log("ENTER 0");
+                organizationModel.getStudentOrganization(orgParam).then(orgdata=>{
 
                     var dbParam = {
                         gosmactivity: req.params.id,
                         preparedby: req.session.user.idNumber,
                         operationalfunds: orgdata.operationalfunds,
                         depositoryfunds: orgdata.depositryfunds
-                    };
-                    console.log(dbParam);
+                    }; 
 
-                    projectProposalModel.insertProjectProposal(dbParam)
-                    .then(data=>{
 
+                    projectProposalModel.insertProjectProposal(dbParam).then(data=>{
                         database.task(task => {
                             return task.batch([
                                 gosmModel.getGOSMActivity(dbParam),
@@ -618,6 +656,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         viewProjectHeadHome: (req, res) => {
 
             //TODO: if account is president
+           console.log(req.session.user.organizationSelected.id)
 
             database.task(t => {
                 return t.batch([
@@ -634,7 +673,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     projectProposalModel.getProjectProposalCommentsPerStatus(req.session.user.organizationSelected.id, 2,
                                                                                 req.session.user.idNumber, t),
                     projectProposalModel.getProjectProposalCommentsPerStatus(req.session.user.organizationSelected.id, 3,
-                                                                                req.session.user.idNumber, t)
+                                                                                req.session.user.idNumber, t),
+                    projectProposalModel.getAllOrgProposal(req.session.user.organizationSelected.id,t)
                 ]);
             }).then(data => {
                 logger.debug(`${JSON.stringify(data)}`, log_options);
@@ -644,7 +684,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.approvedActivities = data[4];
                 renderData.pendedActivities = data[5];
                 renderData.deniedActivities = data[6];
-
+                renderData.events = data[7];
+                console.log(data[7])
 
                 if (data[0]==null){
 
@@ -677,7 +718,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                 }
 
-
+                console.log(renderData.successProjects)
                 return res.render('Org/ProjectHeadHome', renderData);
             }).catch(error => {
                 throw error;
@@ -889,6 +930,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             }
 
             let description = req.body.description;
+            let notingosm = req.body.notingosm;
             let measures = req.body.measures;
             let startDate = req.body.targetDateStart;
             let startDateSplit = startDate.split("/");
@@ -899,6 +941,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             let natureType = req.body['nature-type'];
             let personInCharge = [];
             personInCharge = req.body['personInCharge[]'];
+
+
 
             if (!Array.isArray(personInCharge)) {
                 personInCharge = [personInCharge];
@@ -938,7 +982,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             activityType: activityType,
                             activityTypeOtherDescription: others,
                             isRelatedToOrganizationNature: isRelatedToOrganization,
-                            budget: budget
+                            budget: budget,
+                            notingosm:notingosm
                         };
 
                         if (activityType == 10 && others == null) {
@@ -1052,9 +1097,97 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
           })
             
         },
+         additional:(req, res) => {
+              console.log("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDd")
+              console.log(req.session.notingosm )
+            if(req.session.notingosm >=10){
+                return res.redirect('/Organization/ProjectHead/home')
+            }else{
+                database.task(task1 => {
+                    logger.debug('Starting database task', log_options);
+                    return systemModel.getCurrentTerm('id', task1).then(term => {
+                        /**
+                         * const param = {
+                         *      termID: term.id,
+                         *      studentOrganization
+                         * }
+                         * @type {Object}
+                         */
+                        let GOSMParam = Object.create(null);
+                        GOSMParam.termID = term.id;
+                        GOSMParam.studentOrganization = req.session.user.organizationSelected.id;
 
+                        return gosmModel.getOrgGOSM(GOSMParam, task1).then(GOSM => {
+                            /* GOSM Exists */
+                            if (GOSM) {
+                                logger.debug('GOSM already exists', log_options);
+                                return Promise.resolve([GOSM.id,GOSM]);
+                            }
+                            //else
+                            logger.info('Creating new GOSM', log_options);
+                            return gosmModel.insertNewGOSM(
+                                GOSMParam.termID, 
+                                GOSMParam.studentOrganization, 
+                                req.session.user.idNumber, 
+                                true, 
+                                task1).then(data => {
+                                
+                                return Promise.resolve([data.id,data]);
+                            });
+                        });
+                    }).then(GOSM => {
+                        var dbParam = {
+                            organization: req.session.user.organizationSelected.id
+                        };
+
+                        let GOSMParam = Object.create(null);
+
+                        GOSMParam.termID = GOSM[1].termid
+                        GOSMParam.studentOrganization = req.session.user.organizationSelected.id;
+
+                        logger.debug('Starting batch queries', log_options);
+                        return task1.batch([
+                            gosmModel.getnotinGOSMActivities(GOSM[0], undefined, task1),
+                            gosmModel.getAllActivityTypes(['id', 'name'], task1),
+                            gosmModel.getAllActivityNature(['id', 'name'], task1),
+                            organizationModel.getStudentsOfOrganization(dbParam),
+                            gosmModel.getOrgGOSM(GOSMParam, task1)
+                        ])
+                    });
+                }).then(data => {
+                    console.log("TTTTTTTTTTTTTTTTTTTTTTTTTTT")
+                    const renderData = Object.create(null);
+                    renderData.extra_data = req.extra_data;
+                    renderData.csrfToken = req.csrfToken();
+
+                    renderData.activityTypes = data[1];
+                    renderData.activityNature = data[2];
+                    renderData.gosmActivities = data[0];
+
+                    renderData.members = data[3];
+
+                    if(data[4] != undefined){
+                        renderData.status = data[4].status;
+                        renderData.comments = data[4].comments;
+
+                        console.log(data[4])    
+                    }
+                    
+                    console.log("GOSM DATA")
+
+                    logger.debug('Rendering page', log_options);
+                    return res.render('Org/notInGOSM', renderData);    
+                    
+                }).catch(err => {
+                    logger.error(`${err.message}\n${err.stack}`, log_options);
+                });    
+            }
+            
+             
+            
+        },
         viewCreateGOSM: (req, res) => {
-            logger.debug('VIEW CREATE GOSM CONTROLLER', log_options);
+            console.log("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDd")
 
             database.task(task1 => {
                 logger.debug('Starting database task', log_options);
@@ -1108,8 +1241,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     ])
                 });
             }).then(data => {
-                logger.debug(`${JSON.stringify(data)}`, log_options);
-                logger.debug(`${JSON.stringify(data[2])}`, log_options);
+                console.log("TTTTTTTTTTTTTTTTTTTTTTTTTTT")
+                console.log(data[0])
                 const renderData = Object.create(null);
                 renderData.extra_data = req.extra_data;
                 renderData.csrfToken = req.csrfToken();
@@ -1117,20 +1250,44 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.activityTypes = data[1];
                 renderData.activityNature = data[2];
                 renderData.gosmActivities = data[0];
-                renderData.members = data[3];
-                renderData.status = data[4].status;
-                renderData.comments = data[4].comments;
 
-                console.log(data[4])
+                renderData.members = data[3];
+
+                if(data[4] != undefined){
+                    renderData.status = data[4].status;
+                    renderData.comments = data[4].comments;
+
+                    console.log(data[4])    
+                }
+                
                 console.log("GOSM DATA")
 
                 logger.debug('Rendering page', log_options);
-                return res.render('Org/GOSM', renderData);
+                if(renderData.status ==3){
+                    return res.redirect('/Organization/viewGOSMList')
+                }else{
+                    return res.render('Org/GOSM', renderData);    
+                }
+                
             }).catch(err => {
                 logger.error(`${err.message}\n${err.stack}`, log_options);
             });
         },
-
+       
+        viewGOSMDetails:(req, res) => {
+            const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            console.log(req.params.orgid)
+            gosmModel.getGOSMActivities(req.params.orgid)
+                     .then(data=>{
+                        console.log(data)
+                        renderData.gosmactivity = data
+                        return res.render('Org/gosmDetails', renderData);    
+                     }).catch(err=>{
+                        console.log(err)
+                     })
+            
+        },
 
         saveContext: (req, res) => {
             console.log(req.body);

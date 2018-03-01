@@ -32,7 +32,7 @@ module.exports = (configuration, mainApplication, modules) => {
                 }
               );
             });
-            next();
+            return next();
         }
     );
 

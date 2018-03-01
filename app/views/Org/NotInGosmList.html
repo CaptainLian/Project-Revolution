@@ -1,0 +1,184 @@
+{% extends "./Organization_master.html" %}
+{% import '../template/tags_macro.html' as tag%}
+
+{%block meta%}
+    {{super()}}
+    <meta data-name="csrf" data-token="{{csrfToken}}" />
+{%endblock%}
+
+{%block style%}
+    {{super()}}
+
+    <!-- Bootstrap Core CSS -->
+    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
+    <!-- Menu CSS -->
+    {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css')}}
+
+    {{tag.style('/plugins/bower_components/sweetalert/sweetalert.css')}}
+    <!-- Animation CSS -->
+    {{tag.style('/css/animate.css')}}
+    <!-- Custom CSS -->
+    
+
+    {{tag.style('/plugins/bower_components/datatables/jquery.dataTables.min.css')}}
+    {{tag.style('http://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css')}}
+    {{tag.style('/css/custom.css')}}
+    {{tag.style('/css/doms.css')}}
+    {{tag.style('/css/style.css')}}
+    <!-- color CSS you can use different color css from css/colors folder -->
+    <!-- We have chosen the skin-blue (blue.css) for this starter
+          page. However, you can choose any other skin from folder css / colors .
+    -->
+    
+    {{tag.style('/css/colors/default.css')}}
+    {{tag.style('/css/colors/blue.css')}}
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style type="text/css">
+        th, td{
+            text-align: center
+        }
+    </style>
+{%endblock%}
+
+{%block defer_script%}
+    {{super()}}
+    <!-- jQuery -->
+    {{- tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
+    <!-- Bootstrap Core JavaScript -->
+    {{- tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
+    {{- tag.javascript('/bootstrap/dist/js/bootstrap-3.3.7.min.js', true)}}
+    {{- tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
+    <!-- Menu Plugin JavaScript -->
+    {{- tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
+    <!--slimscroll JavaScript -->
+    {{- tag.javascript('/js/jquery.slimscroll.js', true)}}
+    <!--Wave Effects -->    
+    {{- tag.javascript('/plugins/bower_components/sweetalert/sweetalert.min.js', true)}}
+    {{- tag.javascript('/plugins/bower_components/sweetalert/jquery.sweet-alert.custom.js', true)}}
+    {{- tag.javascript('/js/waves.js', true)}}
+    {{- tag.javascript('/js/custom.min.js', true)}}
+    {{- tag.javascript('/js/cbpFWTabs.js', true)}}
+    <!--Style Switcher -->
+    {{- tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
+
+    {{- tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
+    {{- tag.javascript('/js/Organization/ActivityToImplement.js', true)}}
+{%endblock%}
+
+{%block content%}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="white-box">
+        <div>
+            <h3 class="box-title m-b-0">Activitiies not in GOSM
+                
+            </h3>
+            <p class="text-muted m-b-30">List of submitted activities that are not in GOSM
+                <button class="btn btn-success pull-right" >Create Activity Not in GOSM</button>
+            </p>
+            
+        </div>
+            
+            <div class="table-responsive">
+                <table id="myTable" class="table table-hover"  role="grid" aria-describedby="myTable_info">
+                    <thead>
+                        <tr>
+                            <th width="33%">Activity Name</th>
+                            <th width="33%">Status</th>
+                        </tr>
+                       
+
+                    </thead>
+                    <tbody> 
+
+                        
+                            {% if activity.status == 0 %}
+
+                                <tr>
+                                    <td>Test</td>      
+                                    <td><span class="label" style="color:black">Unprocessed</span></td>      
+                                </tr>
+                            
+                            {% elif activity.status == 1 %}
+
+                                <tr>    
+                                    <td><a href="/Organization/ProjectProposal/Main/{{activity.id}}/{{activity.status}}" class="btn-link">{{activity.strategies}}</a></td>      
+                                    <td><span class="label label-primary">In Progress</span></td>      
+                                </tr>
+
+                            {% elif activity.status == 2 %}
+
+                                <tr>   
+                                    <td><a href="/Organization/projectproposal/projectproposaldetails/{{activity.id}}" class="btn-link">{{activity.strategies}}</a></td>      
+                                    <td><span class="label label-info">For Approval</span></td>      
+                                </tr>
+
+                            {% elif activity.status == 3 %}
+
+                                <tr> 
+                                    <td><a href="/Organization/projectproposal/projectproposaldetails/{{activity.id}}" class="btn-link">{{activity.strategies}}</a></td>      
+                                    
+                                    
+                                    <td><span class="label label-success">Approved</span></td>      
+                                </tr>
+
+                            {% elif activity.status == 4 %}
+
+                                <tr>
+                                    <td><a href="/Organization/ProjectProposal/Main/{{activity.id}}/{{activity.status}}" class="btn-link">{{activity.strategies}}</a></td>      
+                                    
+                                    
+                                    <td><span class="label label-warning">Pended</span></td>      
+                                </tr>
+
+                            {% elif activity.status == 5 %}
+
+                                <tr>
+                                    <td><a href="/Organization/projectproposal/projectproposaldetails/{{activity.id}}" class="btn-link">{{activity.strategies}}</a></td>      
+                                    
+                                    
+                                    <td><span class="label label-danger">Denied</span></td>      
+                                </tr>
+
+                            
+                             {% elif activity.status == 6 %}
+
+                                <tr>
+                                    <td><a href="/Organization/projectproposal/projectproposaldetails/{{activity.id}}" class="btn-link">{{activity.strategies}}</a></td>      
+                                    
+                                    
+                                    <td><span class="label label-info">Rescheduled</span></td>      
+                                </tr>
+                             {% elif activity.status == 7 %}
+
+                                <tr>
+                                    <td><a href="/Organization/projectproposal/projectproposaldetails/{{activity.id}}" class="btn-link">{{activity.strategies}}</a></td>      
+                                    <td><span class="label label-success">Approved</span></td>      
+                                </tr>
+
+                            {% endif %}
+                             
+
+                        
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        
+    </div>
+    <div class="col-sm-12">
+        
+    </div>
+</div>
+{%endblock%}

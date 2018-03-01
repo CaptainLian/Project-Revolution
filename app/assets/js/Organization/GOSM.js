@@ -553,7 +553,8 @@ $("#add-gosm").click(function(e) {
             "nature-type": natureType,
             "personInCharge": personInCharge,
             "isRelatedToOrganization": isRelatedToOrganization,
-            "budget": budget
+            "budget": budget,
+            "notingosm":true
         },
 
         success: function(data) {
