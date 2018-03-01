@@ -11,6 +11,7 @@ module.exports = function(configuration, modules, router, controllers){
     router.get(`${base}/viewGOSMDetails/:orgid`, controllers.Organization_controller.viewGOSMDetails);//shows the list of approved gosm for the school year
 
     router.get(`${base}/additional`, controllers.Organization_controller.additional);
+    router.get(`${base}/changePassword`, controllers.Organization_controller.viewChangePassword);//shows the list of approved gosm for the school year
 
 
     router.get(`${base}/ProjectProposal/GOSMList`, controllers.Organization_controller.viewGOSMActivityListProjectProposal);

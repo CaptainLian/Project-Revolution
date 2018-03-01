@@ -60,6 +60,12 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                      })
             
         },
+        viewChangePassword: (req, res) => {
+            const renderData = Object.create(null);
+            console.log(req.param)
+            renderData.extra_data = req.extra_data;
+            return res.render('Org/changePassword');
+        },
         viewGOSMDetails: (req, res) => {
             const renderData = Object.create(null);
             console.log(req.param)
