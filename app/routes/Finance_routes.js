@@ -18,6 +18,11 @@ module.exports = function(configuration, modules, router, controllers, models, d
 	router.get('/transaction/preacts/editBookTransfer/:id', controllers.Finance_controller.editPreactsBookTransfer);
 	router.get('/transaction/editreimbursement/id:', controllers.Finance_controller.editReimbursement);
 
+	router.post('/transaction/submitEditCashAdvance', controllers.Finance_controller.submitEditCashAdvance);
+	router.post('/transaction/submitEditDirectPayment', controllers.Finance_controller.submitEditDirectPayment);
+	router.post('/transaction/submitEditBookTransfer', controllers.Finance_controller.submitEditBookTransfer);
+	router.post('/transaction/submitEditReimbursement', controllers.Finance_controller.submitEditReimbursement);
+
 	router.post('/transaction/submitPreacts', controllers.Finance_controller.submitPreacts);
 	router.post('/transaction/submitPreactsDirectPayment', controllers.Finance_controller.submitPreactsDirectPayment);
 	router.post('/transaction/submitPreactsBookTransfer', controllers.Finance_controller.submitPreactsBookTransfer);

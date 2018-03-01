@@ -187,6 +187,11 @@ module.exports = function(configuration, modules, database, queryFiles){
         return connection.none(pendBookTransferSQL, param);
     };
 
+    const getCashAdvancePendSignatorySQL = queryFiles.getCashAdvancePendSignatory;
+    FinanceModel.getCashAdvancePendSignatory = function(param, connection = database){
+        return connection.one(getCashAdvancePendSignatorySQL, param);
+    };
+
     //Used for signing
     FinanceModel.getPreActivityCashAdvanceDetails = (cashAdvanceID, fields, connection = database) => {
         logger.debug(`getPreActivityCashAdvanceDetails(cashAdvanceID: ${cashAdvanceID})`, log_options);

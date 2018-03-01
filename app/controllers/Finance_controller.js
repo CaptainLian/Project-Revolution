@@ -1534,10 +1534,73 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		editPreactsCashAdvance: (req, res) =>{
 
-	    	const renderData = Object.create(null);
-	        renderData.extra_data = req.extra_data;
+			var dbParam = {
+				id: req.params.id
+			};
 
-			return res.render('Finance/Preacts_EditCashAdvance', renderData);
+			database.task(t=>{
+				return t.batch([
+	                            financeModel.getPreActivityCashAdvance(dbParam),
+	                            financeModel.getCashAdvanceParticulars(dbParam),
+	                            financeModel.getCashAdvancePendSignatory(dbParam)]);
+			}).then(data=>{
+
+				if (data[0].status == 2 && data[0].submittedBy == req.session.user.idNumber){
+
+					const renderData = Object.create(null);
+			        renderData.extra_data = req.extra_data;
+			        renderData.cashAdvance = data[0];
+			        renderData.cashAdvanceParticulars = data[1]
+			        renderData.signatory = data[2];
+
+			        if(data[0].purpose == null){
+			        	renderData.purpose = false;
+			        }
+			        else{
+			        	renderData.purpose = true;
+			        }
+
+			        if(data[0].justification == null){
+			        	renderData.justification = false;
+			        }
+			        else{
+			        	renderData.justification = true;
+			        }
+
+			        console.log(data[1]);
+
+			        var param = {
+			        	projectproposal: data[1][0].projectproposal
+			        };
+
+			        financeModel.getParticulars(param)
+			        .then(data1=>{
+
+			        	console.log(data1);
+
+			        	renderData.particulars = data1;
+			            renderData.csrfToken = req.csrfToken();
+
+
+
+						return res.render('Finance/Preacts_EditCashAdvance', renderData);
+
+
+			        }).catch(error=>{
+
+			        });
+
+				}
+				else{
+	    			return res.render('System/403');
+				}
+				
+
+			}).catch(error=>{
+				console.log(error);
+			});
+
+	    	
 		},
 
 		editPreactsDirectPayment: (req, res) =>{
@@ -1562,6 +1625,24 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 	        renderData.extra_data = req.extra_data;
 
 			return res.render('Finance/Preacts_EditReimbursement', renderData);
+		},
+
+		submitEditCashAdvance: (req, res) =>{
+
+			console.log(req.body);
+
+		},
+
+		submitEditDirectPayment: (req, res) =>{
+
+		},
+
+		submitEditBookTransfer: (req, res) =>{
+
+		},
+
+		submitEditReimbursement: (req, res) =>{
+
 		}
 
 	};
