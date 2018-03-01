@@ -1605,18 +1605,97 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		editPreactsDirectPayment: (req, res) =>{
 
-	    	const renderData = Object.create(null);
-	        renderData.extra_data = req.extra_data;
+	    	var dbParam = {
+				id: req.params.id
+			};
 
-			return res.render('Finance/Preacts_DirectPayment', renderData);
+			database.task(t=>{
+				return t.batch([
+	                            financeModel.getPreActivityDirectPayment(dbParam),
+	                            financeModel.getDirectPaymentParticulars(dbParam),
+	                            financeModel.getDirectPaymentPendSignatory(dbParam)]);
+			}).then(data=>{
+
+				if (data[0].status == 2 && data[0].submittedBy == req.session.user.idNumber){
+
+					const renderData = Object.create(null);
+			        renderData.extra_data = req.extra_data;
+			        renderData.directPayment = data[0];
+			        renderData.directPaymentParticulars = data[1]
+			        renderData.signatory = data[2];
+
+			        console.log(data);
+
+   			        if(data[0].reasonForDelayedPRSProcessing == null){
+   			        	renderData.justification = false;
+   			        }
+   			        else{
+   			        	renderData.justification = true;
+   			        }
+
+
+
+		
+		            renderData.csrfToken = req.csrfToken();
+
+
+						return res.render('Finance/Preacts_EditDirectPayment', renderData);
+
+				}
+				else{
+	    			return res.render('System/403');
+				}
+				
+
+			}).catch(error=>{
+				console.log(error);
+			});
+
 		},
 
 		editPreactsBookTransfer: (req, res) =>{
 
-	    	const renderData = Object.create(null);
-	        renderData.extra_data = req.extra_data;
+			var dbParam = {
+				id: req.params.id
+			};
 
-			return res.render('Finance/Preacts_EditBookTransfer', renderData);
+			database.task(t=>{
+				return t.batch([
+	                            financeModel.getPreActivityBookTransfer(dbParam),
+	                            financeModel.getBookTransferParticulars(dbParam),
+	                            financeModel.getBookTransferPendSignatory(dbParam)]);
+			}).then(data=>{
+
+				if (data[0].status == 2 && data[0].submittedBy == req.session.user.idNumber){
+
+					const renderData = Object.create(null);
+			        renderData.extra_data = req.extra_data;
+			        renderData.bookTransfer = data[0];
+			        renderData.bookTransferParticulars = data[1]
+			        renderData.signatory = data[2];
+
+			        console.log(data);
+
+   			       
+
+
+
+		
+		            renderData.csrfToken = req.csrfToken();
+
+
+					return res.render('Finance/Preacts_EditBookTransfer', renderData);
+
+				}
+				else{
+	    			return res.render('System/403');
+				}
+				
+
+			}).catch(error=>{
+				console.log(error);
+			});
+
 		},
 
 		editReimbursement: (req, res) =>{
