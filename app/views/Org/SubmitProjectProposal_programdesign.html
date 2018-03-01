@@ -21,6 +21,7 @@
    <!-- Menu CSS -->
    {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
    {{tag.style('/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css')}}
+
    {{tag.style('/plugins/bower_components/jquery-wizard-master/css/wizard.css')}}
    {{tag.style('/plugins/bower_components/clockpicker/dist/jquery-clockpicker.min.css')}}
    {{tag.style('/plugins/bower_components/lobipanel/dist/css/lobipanel.min.css')}}
@@ -35,7 +36,7 @@
    {{tag.style('/css/custom.css')}}
     <!-- color CSS -->
     {{tag.style('/css/colors/default.css')}}
-    
+   {{tag.style('/plugins/bower_components/lobipanel/dist/css/lobipanel.min.css')}} 
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 	<!--[if lt IE 9]>
@@ -70,8 +71,8 @@
           color: #fb9678;  
         }
         .clockpicker-popover {
-    z-index: 999999;
-}
+            z-index: 999999;
+        }
         td{
             text-align: center
             
@@ -81,8 +82,8 @@
         }
 
         th.fc-today{
-        	background: #9675CE !important;
-        	color: black !important
+        /*	background: #9675CE !important;
+        	color: black !important*/
 
 
         }
@@ -96,7 +97,7 @@
 	{{super()}}
 
 	{{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js')}}
-    {{tag.javascript('/plugins/bower_components/jqueryui/jquery-ui.min.js')}}
+  {{tag.javascript('/plugins/bower_components/jqueryui/jquery-ui.min.js')}}
 	<!-- Bootstrap Core JavaScript -->
 	{{tag.javascript('/bootstrap/dist/js/tether.min.js')}}
 	{{tag.javascript('/bootstrap/dist/js/bootstrap.min.js')}}
@@ -128,10 +129,11 @@
     {{tag.javascript('/plugins/bower_components/tiny-editable/mindmup-editabletable.js')}}
     {{tag.javascript('/plugins/bower_components/tiny-editable/numeric-input-example.js')}}
 
-
+  
 	{{tag.javascript('/js/system/AJAX_CSRF.js')}}
 	{{tag.javascript('/plugins/bower_components/moment/moment.js')}}
 	{{tag.javascript('/plugins/bower_components/calendar/dist/fullcalendar.min.js')}}
+  {{tag.javascript('/plugins/bower_components/toast-master/js/jquery.toast.js')}}
   <!--  -->
 	<script type="text/javascript">
     	var gid = {{gosmactivity.gosmactivity}};
@@ -139,75 +141,104 @@
     	var status = {{status}};
     </script>
 
-     <script type="text/javascript">
-       $(document).ready(function(){
-          var start = new Date("3/01/2018")
-          start.setMinutes("0")
-              start.setHours("17")
-              var end = new Date("3/01/2018")
-          end.setMinutes("0")
-              end.setHours("17")
-          $('#calendar').fullCalendar({
-                height:500,
-                defaultView: 'listYear',
-                defaultDate: '2018-03-01',
-    		      	editable: false,
-                overlap:false,
-    		      	selectable: true,
-    		      	 week:     'week',
-                    events:[
-                         {
-                          id:1,
-                          title:'Activity Name',
-                          start: start.toISOString(),
-                          description: 'asdasdjhaskjd asdjkhaskdjhaskdjha asdjkhaskjdhaksjdh asdkjahsdkjashd asdasd',
-                          end:end.toISOString()
-                         }  
-                    ],
-                    customButtons: {
-    			        add_event: {
-    			            text: 'Add',
-    			            click: function() {
-    			               $('#createEventModal').modal('show');
-
-    			            }
-    			        }
-    			    },
-    			    header: {
-    			        right: 'listYear agendaWeek month  prev,next',
-    			        center: 'title',
-    			        left: 'add_event'
-    			    },
-              eventClick: function(calEvent, jsEvent, view) { 
-                    var $this = this;
-                    $('#event-title').text(calEvent.title)
-
-                     $('#my-event').modal('show');
-
-              },
-              eventRender: function(event, element) { 
-                  element.find('.fc-title').append("<br/>" + event.description); 
-              } 
-                
-                                
-
-            });
-
-          $("select").select2();
-    			$('#createEventModal').modal({ show: false})
-    			$('.clockpicker').clockpicker({
-  		        donetext: 'Done',
-  		    }).find('input').change(function() {
-  		        console.log(this.value);
-  		    });
-			   
+   <script type="text/javascript">
+     $(document).ready(function(){
 
 
+        var start = new Date("3/01/2018")
+        start.setMinutes("0")
+            start.setHours("17")
+        var end = new Date("3/01/2018")
+        end.setMinutes("0")
+        end.setHours("19")
+        $('#calendar').fullCalendar({
+              height:500,
+              defaultView: 'listYear',
+              defaultDate: '2018-03-01',
+  		      	editable: false,
+              overlap:false,
+  		      	selectable: true,
+  		      	 week:     'week',
+                  events:[
+                       {
+                        id:1,
+                        title:'Activity Name',
+                        start: start.toISOString(),
+                        description: 'asdasdjhaskjd asdjkhaskdjhaskdjha asdjkhaskjdhaksjdh asdkjahsdkjashd asdasd',
+                        person:'Neil Capisterano',
+                        end:end.toISOString()
+                       }  
+                  ],
+                  customButtons: {
+  			        add_event: {
+  			            text: 'Add',
+  			            click: function() {
+  			               $('#createEventModal').modal('show');
 
-       })
+  			            }
+  			        }
+  			    },
+  			    header: {
+  			        right: 'listYear agendaWeek month  prev,next',
+  			        center: 'title',
+  			        left: 'add_event'
+  			    },
+            eventClick: function(calEvent, jsEvent, view) { 
+                  var $this = this;
+                  $('#date').text(new Date(calEvent.start).toString().substr(0,16))
+                  $('#event-title').text(calEvent.title)
+                  $('#pos').text(calEvent.person)
+                  
+                  $('#desc').text(calEvent.description)
+                  $('#start-time').text(new Date(calEvent.start).toTimeString().split(" ")[0])
+                  $('#end-time').text(new Date(calEvent.end).toTimeString().split(" ")[0])
+                   $('#my-event').modal('show');
 
-        
-    </script>
+            },
+            eventRender: function(event, element) { 
+                element.find('.fc-title').append("<br/>" + event.description); 
+            } 
+              
+                              
+
+          });
+
+        $("select").select2();
+  			$('#createEventModal').modal({ show: false})
+  			$('.clockpicker').clockpicker({
+		        donetext: 'Done',
+		    }).find('input').change(function() {
+		        console.log(this.value);
+		    });
+
+        $("#delete").on('click',function(){
+
+        })
+		   $("#edit").on('click',function(){
+            console.log("asd")
+            $('#my-event').modal('hide');
+            $('#createEventModal').modal('show');
+
+              $.toast({
+                heading: 'Welcome to my Elite admin',
+                text: 'Use the predefined ones, or specify a custom position object.',
+                position: 'top-right',
+                loaderBg:'#ff6849',
+                icon: 'warning',
+                hideAfter: 3500, 
+                stack: 6
+              });
+        })
+       
+
+     })
+      
+
+
+
+
+      
+  </script>
     
 {%endblock%}
 
@@ -242,17 +273,19 @@
                   <h4 class="modal-title"><strong id="event-title">Event Name</strong></h4>
               </div>
               <div class="modal-body">
-                <p><strong>Date:</strong> TEST</p>
+                <p><strong>Date:</strong> <a id="date">TEST</a></p>
                 <div class="row">
-                  <p class="col-md-6"><strong>Start Time:</strong> TEST</p>
-                  <p class="col-md-6"><strong>End Time:</strong> TEST</p>
-                  <p class="col-md-12"><strong>Description</strong> TEST</p>
-                  <p class="col-md-12"><strong>Person Responsible</strong> TEST</p>
+                  <p class="col-md-6" ><strong>Start Time:</strong> <a id="start-time">TEST</a></p>
+                  <p class="col-md-6"><strong>End Time:</strong> <a id="end-time">TEST</a></p>
+                  <p class="col-md-12"><strong>Description</strong> <a id="desc">TEST</a></p>
+                  <p class="col-md-12"><strong>Person Responsible</strong> <a id="pos">TEST</a></p>
                 </div>
                 
               </div>
               <div class="modal-footer">
-                  <button type="button" class="btn btn-white waves-effect" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-white waves-effect" data-dismiss="modal">Close</button>                  
+                  <button type="button" id="delete" class="btn btn-danger delete-event waves-effect waves-light" data-dismiss="modal">Delete</button>
+                  <button type="button" id="edit" class="btn btn-warning save-event waves-effect waves-light">Edit</button>
                   
               </div>
           </div>
