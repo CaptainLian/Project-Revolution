@@ -8,9 +8,15 @@ module.exports = function(configuration, modules, router, controllers, models, d
 
 	router.get('/transaction/preacts/edit/', controllers.Treasurer_controller.editPreactsCashAdvance);
 
+	router.get('/transaction/preacts/cashadvance/:gosmactivity', controllers.Finance_controller.createPreactsCashAdvance);
 	router.get('/transaction/preacts/directpayment/:gosmactivity', controllers.Finance_controller.createPreactsDirectPayment);
 	router.get('/transaction/preacts/booktransfer/:gosmactivity', controllers.Finance_controller.createPreactsBookTransfer);
-	router.get('/transaction/preacts/reimbursement/:gosmactivity', controllers.Finance_controller.createPreactsReimbursement);
+	router.get('/transaction/reimbursement/:gosmactivity', controllers.Finance_controller.createReimbursement);
+
+	router.get('/transaction/preacts/editCashAdvance/:id', controllers.Finance_controller.editPreactsCashAdvance);
+	router.get('/transaction/preacts/editDirectPayment/:id', controllers.Finance_controller.editPreactsDirectPayment);
+	router.get('/transaction/preacts/editBookTransfer/:id', controllers.Finance_controller.editPreactsBookTransfer);
+	router.get('/transaction/editreimbursement/id:', controllers.Finance_controller.editReimbursement);
 
 	router.post('/transaction/submitPreacts', controllers.Finance_controller.submitPreacts);
 	router.post('/transaction/submitPreactsDirectPayment', controllers.Finance_controller.submitPreactsDirectPayment);

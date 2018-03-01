@@ -182,7 +182,7 @@ module.exports = function(configuration, modules, database, queryFiles){
         return connection.none(approvebookTransferSQL, param);
     };
 
-    const pendBookTransferSQL = queryFiles.pendbookTransfer;
+    const pendBookTransferSQL = queryFiles.pendBookTransfer;
     FinanceModel.pendBookTransfer = function(param, connection = database){
         return connection.none(pendBookTransferSQL, param);
     };
