@@ -157,7 +157,7 @@
                     events:[
                          {
                           id:1,
-                          title:'Neil',
+                          title:'Activity Name',
                           start: start.toISOString(),
                           
                           end:end.toISOString()
@@ -233,18 +233,23 @@
 <div class="modal none-border" id="my-event">
       <div class="modal-dialog">
           <div class="modal-content">
-              <div class="modal-header">
+              <div class="modal-header text-info">
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                  <h4 class="modal-title"><strong id="event-title">Add Event</strong></h4>
+                  <h4 class="modal-title"><strong id="event-title">Event Name</strong></h4>
               </div>
               <div class="modal-body">
-                <p><strong>Description:</strong> TEST</p>
                 <p><strong>Date:</strong> TEST</p>
+                <div class="row">
+                  <p class="col-md-6"><strong>Start Time:</strong> TEST</p>
+                  <p class="col-md-6"><strong>End Time:</strong> TEST</p>
+                  <p class="col-md-12"><strong>Description</strong> TEST</p>
+                  <p class="col-md-12"><strong>Person Responsible</strong> TEST</p>
+                </div>
+                
               </div>
               <div class="modal-footer">
                   <button type="button" class="btn btn-white waves-effect" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-success save-event waves-effect waves-light">Create event</button>
-                  <button type="button" class="btn btn-danger delete-event waves-effect waves-light" data-dismiss="modal">Delete</button>
+                  
               </div>
           </div>
       </div>
@@ -271,14 +276,14 @@
                     </div>
                   </div>
 
-                  <div class="form-group">
+                  <div class="form-group col-md-6" >
                     <label class="form-control-label">Start Time</label>
                     <div class="input-group clockpicker " data-placement="bottom" data-align="top" data-autoclose="true">
                         <input class="form-control" pe="text" > <span class="input-group-addon"> <span class="glyphicon glyphicon-time"></span> </span>
 
                     </div>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group col-md-6">
                     <label class="form-control-label">End Time</label>
                     <div class="input-group clockpicker " data-placement="bottom" data-align="top" data-autoclose="true">
                         <input class="form-control" pe="text" > <span class="input-group-addon"> <span class="glyphicon glyphicon-time"></span> </span>
