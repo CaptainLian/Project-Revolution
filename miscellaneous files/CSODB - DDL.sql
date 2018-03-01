@@ -2910,10 +2910,10 @@ CREATE TABLE "PostProjectDirectPaymentParticular" (
 
 DROP TABLE IF EXISTS "PostProjectReimbursementPayment" CASCADE;
 CREATE TABLE "PostProjectReimbursementPayment" (
-  id INTEGER,
-  name VARCHAR(45),
+  "id" INTEGER,
+  "name" VARCHAR(45),
 
-  PRIMARY KEY (id)
+  PRIMARY KEY ("id")
 );
 INSERT INTO "PostProjectReimbursementPayment" (id, name)
                                  VALUES ( 0, 'Payment By Check'),
@@ -2935,7 +2935,7 @@ INSERT INTO "PostProjectReimbursementStatus" ("id", "name")
 DROP TABLE IF EXISTS "PostProjectReimbursement" CASCADE;
 CREATE TABLE "PostProjectReimbursement" (
   "id" SERIAL NOT NULL UNIQUE,
-  "GOSMActivity" INTEGER REFERENCES "PostProjectProposal"("GOSMActivity"),
+  "GOSMActivity" INTEGER REFERENCES ProjectProposal(GOSMActivity),
   "submissionID" INTEGER DEFAULT -1,
   "sequence" INTEGER DEFAULT -1,
   "justificationFDPP" TEXT,
@@ -2951,8 +2951,9 @@ CREATE TABLE "PostProjectReimbursement" (
 
 DROP TABLE IF EXISTS "PostProjectReimbursementParticular" CASCADE;
 CREATE TABLE "PostProjectReimbursementParticular" (
-  "reimbursement" INTEGER REFERENCES "PostProjectReimbursement"("id"),
-  "particular" INTEGER REFERENCES ProjectProposalExpenses("id"),
+    "id" SERIAL NOT NULL UNIQUE,
+    "reimbursement" INTEGER REFERENCES "PostProjectReimbursement"("id"),
+    "particular" INTEGER REFERENCES ProjectProposalExpenses("id"),
 
   PRIMARY KEY ("reimbursement", "particular")
 );
@@ -2975,8 +2976,6 @@ CREATE TABLE "PostProjectReimbursementSignatory" (
     digitalSignature TEXT,
     dateSigned TIMESTAMP WITH TIME ZONE
 );
-
-
 
 CREATE TRIGGER "after_insert_PostProjectReimbursement_signatories"
     AFTER INSERT ON "PostProjectReimbursement"
@@ -3182,7 +3181,7 @@ WITH (OIDS=FALSE);
     |  |     /  _____  \  |  |\  \----.|  `--'  | |  |_)  |  /  _____  \  .----)   |   |  .  \  |  | |  |_)  |  /  _____  \  .----)   |
     |__|    /__/     \__\ | _| `._____| \______/  |______/  /__/     \__\ |_______/    |__|\__\ |__| |______/  /__/     \__\ |_______/
  */
-
+    
 CREATE OR REPLACE VIEW "ProjectExpensesWithoutTransaction" AS 
 SELECT *
   FROM ProjectProposalExpenses ppe 
