@@ -26,6 +26,8 @@
    {{tag.style('/plugins/bower_components/lobipanel/dist/css/lobipanel.min.css')}}
    {{tag.style('/plugins/bower_components/custom-select/custom-select.css')}}
    {{tag.style('/plugins/bower_components/bootstrap-daterangepicker/daterangepicker.css')}}
+      {{tag.style('/plugins/bower_components/timepicker/bootstrap-timepicker.min.css')}}
+
    {{tag.style('/plugins/bower_components/jquery-datatables-editable/datatables.css')}}
    <!-- Animation CSS -->
    {{tag.style('/css/animate.css')}}
@@ -129,7 +131,7 @@
 	{{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
 	{{tag.javascript('/plugins/bower_components/moment/moment.js')}}
 	{{tag.javascript('/plugins/bower_components/calendar/dist/fullcalendar.min.js',true)}}
-
+  {{tag.javascript('/js/Organization/SubmitProjectProposal_programdesign.js', true)}}
 	<script type="text/javascript">
     	var gid = {{gosmactivity.gosmactivity}};
     	var id = {{projectProposal.id}};
@@ -155,7 +157,8 @@
 			        add_event: {
 			            text: 'Add',
 			            click: function() {
-			               alert(); 
+			               $('#createEventModal').modal('show');
+
 			            }
 			        }
 			    },
@@ -207,26 +210,55 @@
                 <h4>Add an Event</h4>
             </div>
             <div id="modalBody" class="modal-body">
-               <div class="form-group">
-                    <input class="form-control" type="text" placeholder="Event Name">
-                </div>
+               
 
-                <div class="form-group form-inline">
+                  
+
+                  <div class="form-group">
                     <div class="input-group date" data-provide="datepicker">
-                        <input type="text" class="form-control" placeholder="Due Date mm/dd/yyyy">
+                        <input type="text" class="form-control" placeholder="Date">
                         <div class="input-group-addon">
                             <span class="glyphicon glyphicon-calendar"></span>
                         </div>
                     </div>
-                </div>
+                  </div>
 
+                  <div class="form-group">
+                    <div class="input-group clockpicker " data-placement="bottom" data-align="top" data-autoclose="true">
+                        <input class="form-control" pe="text" placeholder="Time"> <span class="input-group-addon"> <span class="glyphicon glyphicon-time"></span> </span>
+                    </div>
+                  </div>
                 <div class="form-group">
-                    <textarea class="form-control" type="text" rows="4" placeholder="Event Description"></textarea>
+                    <input class="form-control" type="text" placeholder="Event Name">
                 </div>
+                <div class="form-group">
+                    <textarea class="form-control" type="text" rows="4" placeholder="Description"></textarea>
+                </div>
+                <div class="form-group ">
+                <label class="form-control-label">Person Responsible</label>
+                <select name="typeOfItem[]" id="sel0" class="form-control select2">
+                  
+                  {% for type in expenseTypes %}
+
+                    {% if type.id == 3%}
+
+                    {% else %}
+                      
+                      <option value="{{type.id}}" >{{type.name}}</option>
+
+                    {% endif %}
+
+                  {% endfor %}
+                  
+                </select>
+                <div>
+                  <span class="help-block" id="time-help"></span>
+                </div>
+              </div>
             </div>
             <div class="modal-footer">
                 <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
-                <button type="submit" class="btn btn-primary" id="submitButton">Save</button>
+                <button type="submit" class="btn btn-primary" id="submitButton">Add </button>
             </div>
         </div>
     </div>
