@@ -1,3 +1,7 @@
+
+$('#date-range').datepicker({
+        toggleActive: true
+      });
 $("select").select2();
 $('#createEventModal').modal({ show: false})
 $('#single-input').clockpicker({

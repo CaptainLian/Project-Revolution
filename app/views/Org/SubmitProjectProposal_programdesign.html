@@ -114,6 +114,7 @@
 	{{tag.javascript('/js/waves.js')}}
 	{{tag.javascript('/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.js')}}
 	{{tag.javascript('/plugins/bower_components/bootstrap-daterangepicker/daterangepicker.js')}}
+
 	{{tag.javascript('/plugins/bower_components/jquery-wizard-master/dist/jquery-wizard.min.js')}}
 	<!-- Custom Theme JavaScript -->
 	{{tag.javascript('/js/custom.min.js')}}
@@ -129,20 +130,30 @@
 	{{tag.javascript('/plugins/bower_components/clockpicker/dist/jquery-clockpicker.min.js')}}
 	{{tag.javascript('/plugins/bower_components/jquery-wizard-master/dist/jquery-wizard.min.js')}}
 	{{tag.javascript('/plugins/bower_components/jquery-datatables-editable/jquery.dataTables.js')}}
-    {{tag.javascript('/plugins/bower_components/datatables/dataTables.bootstrap.js')}}
-    {{tag.javascript('/plugins/bower_components/tiny-editable/mindmup-editabletable.js')}}
-    {{tag.javascript('/plugins/bower_components/tiny-editable/numeric-input-example.js')}}
+  {{tag.javascript('/plugins/bower_components/datatables/dataTables.bootstrap.js')}}
+  {{tag.javascript('/plugins/bower_components/tiny-editable/mindmup-editabletable.js')}}
+  {{tag.javascript('/plugins/bower_components/tiny-editable/numeric-input-example.js')}}
 
   
 	{{tag.javascript('/js/system/AJAX_CSRF.js')}}
 	{{tag.javascript('/plugins/bower_components/moment/moment.js')}}
 	{{tag.javascript('/plugins/bower_components/calendar/dist/fullcalendar.min.js')}}
+
   {{tag.javascript('/plugins/bower_components/toast-master/js/jquery.toast.js')}}
+
   <!--  -->
 	<script type="text/javascript">
     	var gid = {{gosmactivity.gosmactivity}};
     	var id = {{projectProposal.id}};
     	var status = {{status}};
+      $('#date-range').datepicker({
+        toggleActive: true
+      });
+      $('.input-daterange-datepicker').daterangepicker({
+        buttonClasses: ['btn', 'btn-sm'],
+        applyClass: 'btn-danger',
+        cancelClass: 'btn-inverse'
+    });
     </script>
 
    <script type="text/javascript">
@@ -252,7 +263,7 @@
             },
             success:function(data){
                 if(data.success){
-                  calendar.fullCalendar('removeEvents',id);
+                  $("#calendar").fullCalendar('removeEvents',id);
                   addEvent(data)
                 }else{
                     $.toast({
@@ -311,7 +322,7 @@
             },
             success:function(data){
               if(data.success){
-                calendar.fullCalendar('removeEvents',id);
+                $("#calendar").fullCalendar('removeEvents',id);
 
               }else{
                   $.toast({
@@ -343,7 +354,7 @@
                   posid:$("#inp-pos").select2('val')
                   
           }
-          calendar.fullCalendar('renderEvent',event);
+          $("#calendar").fullCalendar('renderEvent',event);
 
            $.toast({
             heading: 'Success!',          
@@ -473,19 +484,13 @@
                     </div>
                   </div>
 
-                  <div class="form-group col-md-6" >
-                    <label class="form-control-label">Start Time</label>
-                    <div class="input-group clockpicker " data-placement="bottom" data-align="top" data-autoclose="true">
-                        <input class="form-control" id="inp-start" pe="text" > <span class="input-group-addon"> <span class="glyphicon glyphicon-time"></span> </span>
 
-                    </div>
-                  </div>
-                  <div class="form-group col-md-6">
-                    <label class="form-control-label">End Time</label>
-                    <div class="input-group clockpicker " data-placement="bottom" data-align="top" data-autoclose="true">
-                        <input class="form-control" id="inp-end" pe="text" > <span class="input-group-addon"> <span class="glyphicon glyphicon-time"></span> </span>
+                  <div class="form-group">
+                  <label class="form-control-label">Date Range</label>
+                      <div class="input-daterange input-group" id="date-range">
+                          <input type="text" class="form-control" id="inp-start" name="start" /> <span class="input-group-addon bg-info b-0 text-white">to</span>
+                          <input type="text" class="form-control" id="inp-end" name="end" /> </div>
 
-                    </div>
                   </div>
                 <div class="form-group">
                     <label class="form-control-label">Event Name</label>
