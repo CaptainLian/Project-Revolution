@@ -33,30 +33,39 @@ const configuration = {
     "webserver": {
         "port": 3000,
         "url": "",
+
         "controllers": {
             "path": "./app/controllers"
         },
+
         "core_middlewares": {
             "path": "./app/core_middlewares"
         },
+
         "core_modules": {
             "path": "./app/core_modules"
         },
+
         "pre_middlewares": {
             "path": "./app/pre_middlewares"
         },
+
         "routes": {
             "path": "./app/routes"
         },
+
         "post_middlewares": {
             "path": "./app/post_middlewares"
         },
+
         "assets": {
             "path": "./app/assets"
         },
+
         "views": {
             "path": "./app/views"
         },
+
         "session": {
             "proxy": false,
             "name": "CSO",
@@ -76,9 +85,11 @@ const configuration = {
                 "secret": "this is a place holder secret, would be replaced by an auto generated secret, kapag inimplement nalang siguro ako mag iisip :/"
             }
         },
+
         "easter_eggs":{
             "enable_footer_quotes": true
         },
+
         "email": {
         	"host": "smtp.gmail.com",
         	"port": 465,
@@ -86,6 +97,14 @@ const configuration = {
         	"connectionTimeout": "10000",
         	"username": "dlsum.facultyattendance@gmail.com",
         	"password": "01234567891011"
+        },
+        /* 
+            Configuration on the parsing of http requests 
+        */
+        "parsing": {
+            "extended": true /* Default false */, 
+            "limit": "1mb" /* Default 100kb */,
+            "parameterLimit": 1000000 /* Default 1000 */ 
         }
     },
     "database": {

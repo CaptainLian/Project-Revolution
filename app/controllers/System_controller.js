@@ -247,23 +247,23 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         //let fullname = req.session.user.name.first + " " + req.session.user.name.middle + " " + req.session.user.name.last;
 
         accountModel.getAccountDetails(11445955, 'privateKey').then(data => {
-                let sampleDocument = {
-                    Length: 500,
-                    size: 5100,
-                    comments: 'Ganda, laki ng saging'
-                };
-                sampleDocument = JSON.stringify(sampleDocument);
+            let sampleDocument = {
+                Length: 500,
+                size: 5100,
+                comments: 'Ganda, laki ng saging'
+            };
+            sampleDocument = JSON.stringify(sampleDocument);
 
-                let messageDigest = forgePromise.forge.md.sha512.create();
-                messageDigest.update(sampleDocument);
+            let messageDigest = forgePromise.forge.md.sha512.create();
+            messageDigest.update(sampleDocument);
 
-                const privateKey = forgePromise.forge.pki.privateKeyFromPem(data.privatekey);
+            const privateKey = forgePromise.forge.pki.privateKeyFromPem(data.privatekey);
 
-                const signature = privateKey.sign(messageDigest);
+            const signature = privateKey.sign(messageDigest);
 
-                console.log(signature);
-                return res.send(typeof signature);
-            });
+            console.log(signature);
+            return res.send(typeof signature);
+        });
     };
 
     SystemController.createAccount = (req, res) => {
@@ -321,7 +321,15 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
             return res.redirect('/home');
         });
+    };
+
+    SystemController.viewChangePassword = (req, res) => {
+        logger.debug('viewChangePassword()', log_options);
+
+        const renderData = Object.create(null);
+        renderData.extra_data = req.extra_data;
         
+        return res.render('System/ChangePassword');
     };
     
     return SystemController;

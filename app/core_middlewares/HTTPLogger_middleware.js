@@ -7,7 +7,7 @@ module.exports = (configuration, mainApplication, modules) => {
 	const loggerMiddleware = middlewareMaker(
         'HTTP Logger',
         'Logs HTTP/s based transactions',
-        configuration.load_priority.HIGHEST,
+        configuration.load_priority.CORE + 1,
         (req, res, next) => {
             const responseStart = Date.now();
 

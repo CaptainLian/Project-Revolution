@@ -31,4 +31,5 @@ module.exports = function(configuration, modules, router, controllers){
     });
 
     router.get('/System/ChangeOrganization/:organization', controllers.System_controller.studentChangeOrganization);
+    router.get('/System/changePassword', controllers.System_controller.viewChangePassword);
 };

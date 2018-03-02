@@ -48,24 +48,20 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             });
         },
         viewGOSMList: (req, res) => {
+            logger.debug('viewGOSMList()', log_options);
+            
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
-            gosmModel.getOrgAllGOSM(req.session.user.organizationSelected.id)
-                     .then(data=>{
-                        renderData.gosms = data
-                        console.log(data)
-                        return res.render('Org/GOSMList', renderData);            
-                     }).catch(err=>{
-                        console.log(err)
-                     })
+
+            gosmModel.getOrgAllGOSM(req.session.user.organizationSelected.id).then(data=>{
+                renderData.gosms = data;
+                return res.render('Org/GOSMList', renderData);            
+             }).catch(error => {
+                logger.error(`${error.message}\n${error.stack}`, log_options);
+             });
             
         },
-        viewChangePassword: (req, res) => {
-            const renderData = Object.create(null);
-            console.log(req.param)
-            renderData.extra_data = req.extra_data;
-            return res.render('Org/changePassword');
-        },
+
         viewGOSMDetails: (req, res) => {
             const renderData = Object.create(null);
             console.log(req.param)
