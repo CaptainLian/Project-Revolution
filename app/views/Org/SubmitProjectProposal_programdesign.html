@@ -152,11 +152,11 @@
 
         var start = new Date("3/01/2018")
         start.setMinutes("0")
-            start.setHours("17")
+        start.setHours("17")
         var end = new Date("3/01/2018")
         end.setMinutes("0")
         end.setHours("19")
-        $('#calendar').fullCalendar({
+        var calendar  = $('#calendar').fullCalendar({
               height:500,
               defaultView: 'listYear',
               defaultDate: '2018-03-01',
@@ -217,47 +217,184 @@
 		    }).find('input').change(function() {
 		        console.log(this.value);
 		    });
-
-        $("#delete").on('click',function(){
-            $.ajax({
-              type:'POST',
-              url:'',
-              data:{},
-              success:function(data){
-
-              }
-
-            })
-        })
+       
 		   $("#edit").on('click',function(){
             console.log("asd")
+            console.log(data)
             $('#my-event').modal('hide');
-            $("inp-date").val(data.start)
-            $("inp-start").val(data.start)
-            $("inp-end").val(data.end)
-            $("inp-name").val(data.title)
-            $("inp-desc").val(data.description)
-            $("inp-pos").val(data.posid)
-            $('#createEventModal').modal('show');
 
-              $.toast({
-                heading: 'Welcome to my Elite admin',
-                text: 'Use the predefined ones, or specify a custom position object.',
-                position: 'top-right',
-                loaderBg:'#ff6849',
-                icon: 'success',
-                bgColor:'#00C292',
-                hideAfter: 3500, 
-                stack: 6
-              });
-        })
+            $("#inp-date").val(getDate(data.start))
+            $("#inp-start").val(getTime(data.start))
+            $("#inp-end").val(getTime(data.end))
+            $("#inp-name").val(data.title)
+            $("#inp-desc").val(data.description)
+            $("#inp-pos").select2('val',data.posid)
+            $('#createEventModal').modal('show');
+            $("#editButton").css('display','')
+            $("#submitButton").css('display','none')
+              // Success Message
+           
+        });
+
+      $("#editButton").on('click',function(){
+          $.ajax({
+            type:'POST',
+            url:'',
+            data:{
+              eventName:$("#inp-name").val(),
+              description:$("#inp-desc").val(),
+              start: $("#inp-start").val(),
+              end:$("#inp-end").val(),
+              pos:$("#inp-pos").select2('val'),
+              date:$("#inp-date").val(),              
+              id: data.id,
+              pid: $("#data-route").attr("pid")
+            },
+            success:function(data){
+                if(data.success){
+                  calendar.fullCalendar('removeEvents',id);
+                  addEvent(data)
+                }else{
+                    $.toast({
+                    heading: 'Failed',                    
+                    position: 'top-right',
+                    loaderBg:'#ff6849',
+                    icon: 'error',
+                    bgColor:'#FB9678',
+                    hideAfter: 3500, 
+                    stack: 6
+                  });
+                }
+            }
+
+          })
+      });
+      $("#submitButton").on('click',function(){
+        addEvent(1)
+          $.ajax({
+            type:'POST',
+            url:'',
+            data:{
+              eventName:$("#inp-name").val(),
+              description:$("#inp-desc").val(),
+              start: $("#inp-start").val(),
+              end:$("#inp-end").val(),
+              pos:$("#inp-pos").select2('val'),
+              date:$("#inp-date").val(),                                      
+            },
+            success:function(data){
+              if(data.success){
+                addEvent(data)
+              }else{
+                 $.toast({
+                    heading: 'Failed',                    
+                    position: 'top-right',
+                    loaderBg:'#ff6849',
+                    icon: 'error',
+                    bgColor:'#FB9678',
+                    hideAfter: 3500, 
+                    stack: 6
+                  });
+              }
+
+            }
+
+          })
+      });
+      $("#delete").on('click',function(){
+          var id = data.id
+          $.ajax({
+            type:'POST',
+            url:'',
+            data:{
+              id: data.id
+            },
+            success:function(data){
+              if(data.success){
+                calendar.fullCalendar('removeEvents',id);
+
+              }else{
+                  $.toast({
+                    heading: 'Failed',                    
+                    position: 'top-right',
+                    loaderBg:'#ff6849',
+                    icon: 'error',
+                    bgColor:'#FB9678',
+                    hideAfter: 3500, 
+                    stack: 6
+                  });
+              }
+            }
+
+          })
+      })
+
+
+
+
+         function addEvent(data){
+          var event = {                  
+                  id:data.id,
+                  title:$("#inp-name").val(),
+                  start: setTime($("#inp-date").val(), $("#inp-start").val()),
+                  end: setTime($("#inp-date").val(), $("#inp-end").val()),
+                  description: $("#inp-desc").val(),
+                  person:$("#inp-pos").select2('data'),
+                  posid:$("#inp-pos").select2('val')
+                  
+          }
+          calendar.fullCalendar('renderEvent',event);
+
+           $.toast({
+            heading: 'Success!',          
+            position: 'top-right',
+            loaderBg:'#ff6849',
+            icon: 'success',
+            bgColor:'#00C292',
+            hideAfter: 3500, 
+            stack: 6
+          });
+
+
+       }
+
+       function setTime(date , time){
+          date = new Date(date);
+          var arr = time.split(":")
+          date.setHours(arr[0])
+          date.setMinutes(arr[1])
+          return date
+
+       }
+       function clear(){
+              $("#inp-date").val('')
+              $("#inp-start").val('')
+              $("#inp-end").val('')
+              $("#inp-name").val('')
+              $("#inp-desc").val('')
+              $("#inp-pos").select2('val',data.posid) 
+              $("#editButton").css('display','none')
+              $("#submitButton").css('display','')
+       }
+        
+       function getTime(time){
+          time = new Date(time)
+          return time.getHours()+':'+time.getMinutes()
+
+       }
+       function getDate(date){
+          date = new Date(date)
+          return date.getMonth()+'/'+date.getDay()+'/'+date.getFullYear()
+
+       }
+
        
 
-     })
-      
+    })
 
 
 
+  
 
       
   </script>
@@ -268,6 +405,7 @@
 
 <input type="hidden" name="_csrf" value="{{csrfToken}}">
 <input type="hidden" name="status" value="{{status}}">
+
 
 
 <div class="row" id="data-route" gid="{{gosmactivity.gosmactivity}}"  pid="{{projectProposal.id}}" status="{{status}}">
@@ -381,6 +519,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                <button type="submit" class="btn btn-primary" id="editButton" style="display: none">Add </button>
                 <button type="submit" class="btn btn-primary" id="submitButton">Add </button>
             </div>
         </div>
