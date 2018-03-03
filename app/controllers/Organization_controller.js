@@ -3990,7 +3990,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             }).then(([pubs, activities, heads]) => {
                 renderData.pubs = pubs;
                 renderData.activities = activities;
-                console.log(heads)
+                var pubstime = timediff(new Date(), activities.actualdatestart,'D').days;
+                console.log("pubstime")
+                console.log(pubstime);
+                renderData.pubstime = false;
+                if(pubstime >= 0){
+                    renderData.pubstime = true;
+                }
                 renderData.heads = heads;
                 renderData.gosmid = req.params.gosmid
                 return res.render('Org/CreatePubs', renderData);
