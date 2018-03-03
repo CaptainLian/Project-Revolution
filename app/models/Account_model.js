@@ -262,11 +262,9 @@ module.exports = function(configuration, modules, database, queryFiles) {
           logger.debug('deleteAccount()', log_options);
         return connection.any(query.toString());
     };
+    
     AccountModel.deleteAcl = ( connection = database) => {
-
-
         let param = Object.create(null);
-
 
         let query = squel.delete()
                          .from("organizationaccesscontrol")
@@ -274,24 +272,24 @@ module.exports = function(configuration, modules, database, queryFiles) {
         return connection.any(query.toString());
       
     };
+
     AccountModel.insertACL = (acls ,connection = database) => {
 
         let query = ""
         
         for( var acl in acls){
             var data = acl.split("+");
-            query+= squel.insert()
-                         .into("organizationaccesscontrol")
-                         .set("role",data[0])
-                         .set("functionality",data[1])
-                         .set("isallowed",true).toString()+";"
+            query += squel.insert()
+                .into("organizationaccesscontrol")
+                .set("role",data[0])
+                .set("functionality",data[1])
+                .set("isallowed",true)
+                .toString() + ";"
         }
 
-        
-        // attachFields(query, fields);
         return connection.any(query.toString());
-      
     };
+
      AccountModel.getSpecificAccount = (idNumber,fields, connection = database) => {
         logger.debug('getSpecificAccount()', log_options);
 

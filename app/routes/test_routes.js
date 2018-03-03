@@ -16,6 +16,9 @@ module.exports = function(configuration, modules, router, controllers){
 		router.get('/account', controllers.test_controller.account);
 		configuration.security.routes_ignore_login_required.push('/notification');
 		router.get('/notification', controllers.test_controller.notification);
+		configuration.security.routes_ignore_login_required.push('/account');
+		router.get('/account', controllers.test_controller.account);
+		
 		configuration.security.routes_ignore_login_required.sort();
 	}
 };

@@ -9,7 +9,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		.then(data => {
 			return res.send(data);
 		}).catch(err => {
-			return console.log(err);
+			return logger.error(`${err.message}\n${err.stack}`);
 		});
 	};
 
@@ -50,6 +50,24 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		}).catch(err => {
 			console.log(err);
 			return res.send('Error');
+		});
+	};
+
+	testController.account = (req, res) => {
+		const accountModel = models.Account_model;
+
+		return accountModel.getAccountDetails(1111111, [
+			'password ',
+			'passwordExpiration AS "passwordExpiration"'
+		]).then(data => {
+			const ngayon = Date.now();
+
+			data.passwordExpirationType = typeof data.passwordExpiration;
+			data.distance = ngayon >= data.passwordExpiration;
+
+			return res.send(data);
+		}).catch(err => {
+			return res.send(err);
 		});
 	};
 

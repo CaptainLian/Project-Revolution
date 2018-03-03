@@ -3172,16 +3172,25 @@ CREATE TABLE IF NOT EXISTS session (
 )
 WITH (OIDS=FALSE);
 /* End of SESSION TABLE */
+   
+DROP TABLE IF EXISTS "SystemConfiguration" CASCADE;
+CREATE TABLE IF NOT EXISTS "SystemConfiguration" (
+    "name" VARCHAR(20),
+    "value" JSON NOT NULL /*JSON IS USED INSTEAD OF JSONB BECAUSE OF */,
+    "description" JSON NOT NULL,
 
-/*
-.___________.    ___      .______       __    __  .______        ___           _______. __  ___  __  .______        ___           _______.
-|           |   /   \     |   _  \     |  |  |  | |   _  \      /   \         /       ||  |/  / |  | |   _  \      /   \         /       |
-`---|  |----`  /  ^  \    |  |_)  |    |  |  |  | |  |_)  |    /  ^  \       |   (----`|  '  /  |  | |  |_)  |    /  ^  \       |   (----`
-    |  |      /  /_\  \   |      /     |  |  |  | |   _  <    /  /_\  \       \   \    |    <   |  | |   _  <    /  /_\  \       \   \
-    |  |     /  _____  \  |  |\  \----.|  `--'  | |  |_)  |  /  _____  \  .----)   |   |  .  \  |  | |  |_)  |  /  _____  \  .----)   |
-    |__|    /__/     \__\ | _| `._____| \______/  |______/  /__/     \__\ |_______/    |__|\__\ |__| |______/  /__/     \__\ |_______/
- */
-    
+    PRIMARY KEY("name")
+);
+
+INSERT INTO "SystemConfiguration"(
+    "name", 
+    "value", 
+    "description")
+VALUES ('PASSWORD', 
+        '{"EXPIRATION_TIME": {"DAYS": 0, "MONTHS": 3}}'::JSONB::JSON,
+        '{"EXPIRATION_TIME": "Contains values on much time a password is before its expiration" }'::JSONB::JSON);
+
+/* Useful views */ 
 CREATE OR REPLACE VIEW "ProjectExpensesWithoutTransaction" AS 
 SELECT *
   FROM ProjectProposalExpenses ppe 
@@ -3196,3 +3205,13 @@ SELECT *
                       UNION 
                       (SELECT "particular"
                          FROM "PostProjectReimbursementParticular"));
+
+
+/*
+.___________.    ___      .______       __    __  .______        ___           _______. __  ___  __  .______        ___           _______.
+|           |   /   \     |   _  \     |  |  |  | |   _  \      /   \         /       ||  |/  / |  | |   _  \      /   \         /       |
+`---|  |----`  /  ^  \    |  |_)  |    |  |  |  | |  |_)  |    /  ^  \       |   (----`|  '  /  |  | |  |_)  |    /  ^  \       |   (----`
+    |  |      /  /_\  \   |      /     |  |  |  | |   _  <    /  /_\  \       \   \    |    <   |  | |   _  <    /  /_\  \       \   \
+    |  |     /  _____  \  |  |\  \----.|  `--'  | |  |_)  |  /  _____  \  .----)   |   |  .  \  |  | |  |_)  |  /  _____  \  .----)   |
+    |__|    /__/     \__\ | _| `._____| \______/  |______/  /__/     \__\ |_______/    |__|\__\ |__| |______/  /__/     \__\ |_______/
+ */

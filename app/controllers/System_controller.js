@@ -68,6 +68,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             .from('Account')
             .field('idNumber')
             .field('email')
+            .field('passwordExpiration')
             .field('password')
             .field('salt')
             .field('Firstname')
@@ -88,16 +89,19 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             query.where('idNumber=${credential}');
         }
 
-        database.one(query.toString(), {
+        query = query.toString();
+        logger.debug(`Executing query: ${query}`, log_options);
+        database.one(query, {
             credential: input.credential
         }).then(account => {
             logger.debug(`Account found: ${JSON.stringify(account)}`, log_options);
-            console.log("input.password")
-            console.log(account.salt)
             if (account.password === bcrypt.hashSync(input.password, account.salt)) {
+                logger.debug('Valid!', log_options);
 
-                logger.debug('Enter!!', log_options);
-
+                logger.debug('Checking for password expiration', log_options);
+                
+                
+                
                 /**
                  * Session Contents
                  * {
@@ -128,11 +132,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 req.session.user = user;
                 req.session.valid = true;
 
-                logger.debug('Determining user type', log_options);
-
                 let step = Promise.resolve(true);
                 if(req.session.user.type === 1){
-                    logger.debug('Student type account', log_options);
+                    logger.debug('Student type account fetching and adding more data to session', log_options);
                     step = accountModel.getStudentOrganizations(req.session.user.idNumber).then(data => {
                         logger.debug(`${JSON.stringify(data)}`, log_options);
 
@@ -171,6 +173,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         }
                     });
                 });
+
             } else {
                 logger.debug('Incorrect password', log_options);
                 return res.send({
