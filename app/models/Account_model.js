@@ -39,7 +39,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
      * @returns {Promise} [description]
      */
     AccountModel.createAccount = (idNumber, email, type, password, firstname, middlename, lastname, contactNumber, connection = database) => {
-        logger.debug(`createAccount()\nGenerating key pair\n\tParameters: bits: ${configuration.security.encryption.bits}, workers: ${configuration.security.encryption.web_workers_amount}`, log_options);
+        logger.info(`createAccount()\nGenerating key pair\n\tParameters: bits: ${configuration.security.encryption.bits}, workers: ${configuration.security.encryption.web_workers_amount}`, log_options);
 
         return forge.pki.rsa.generateKeyPair({
             bits: configuration.security.encryption.bits,
@@ -94,7 +94,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
      * @returns  {pg-promise}                    [description]
      */
     AccountModel.createStudentAccount = (idNumber, email, password, firstname, middlename, lastname, contactNumber, roles, connection = database) => {
-        logger.debug('createStudentAccount()', log_options);
+        logger.info('createStudentAccount()', log_options);
         return connection.tx(transaction => {
             AccountModel.createAccount(
                 idNumber,
@@ -139,7 +139,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
      * @returns {Promise}  [description]
      */
     AccountModel.getAccountDetails = (idNumber, fields, connection = database) => {
-        logger.debug('getAccountDetails()', log_options);
+        logger.info('getAccountDetails()', log_options);
 
         let param = Object.create(null);
         param.idNumber = idNumber;
@@ -154,8 +154,39 @@ module.exports = function(configuration, modules, database, queryFiles) {
         return connection.one(query, param);
     };
 
+    /**
+     *
+     * @param  {[type]} idNumber              [description]
+     * @param  {Object} fields                A key value pair of, the columns and the value to update
+     * @param  {[type]} [connection=database] [description]
+     * @return {[type]}                       [description]
+     */
+    AccountModel.updateAccountDetails = (idNumber, fields, connection = database) => {
+        logger.info(`updateAccountDetails(idNumber: ${idNumber}, fields: ${JSON.stringify(fields)})`, log_options);
+
+        const DONT_QUOTE = Object.create(null);
+        DONT_QUOTE.dontQuote = true;
+
+        let query = squel.update()
+            .table('Account a')
+            .where('idNumber = ${idNumber}');
+
+        let param = Object.create(null);
+        param.idNumber = idNumber;
+
+        for(const key in fields){
+            param[key] = fields[key];
+            query.set(key, '${' + key + '}', DONT_QUOTE);
+        }
+
+        query = query.toString();
+
+        logger.debug(`Executing query: ${query}`, log_options);
+        return connection.none(query, param);
+    };
+
     AccountModel.getAccounts = (fields, connection = database) => {
-        logger.debug('getAccounts()', log_options);
+        logger.info('getAccounts()', log_options);
 
         let param = Object.create(null);
 
@@ -262,7 +293,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
           logger.debug('deleteAccount()', log_options);
         return connection.any(query.toString());
     };
-    
+
     AccountModel.deleteAcl = ( connection = database) => {
         let param = Object.create(null);
 
@@ -270,13 +301,13 @@ module.exports = function(configuration, modules, database, queryFiles) {
                          .from("organizationaccesscontrol")
         // attachFields(query, fields);
         return connection.any(query.toString());
-      
+
     };
 
     AccountModel.insertACL = (acls ,connection = database) => {
 
         let query = ""
-        
+
         for( var acl in acls){
             var data = acl.split("+");
             query += squel.insert()
@@ -493,7 +524,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
     const isProjectHeadSQL = queryFiles.account_is_project_head;
     AccountModel.isProjectHead = (idNumber, connection = database) => {
-        logger.debug(`isProjectHead(idNumber: ${idNumber})`, log_options);
+        logger.info(`isProjectHead(idNumber: ${idNumber})`, log_options);
         logger.debug(isProjectHeadSQL, log_options);
 
         const param = Object.create(null);
@@ -504,7 +535,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
     const getNotifcationsSQL = queryFiles.account_get_notifications;
     AccountModel.getNotifications = (idNumber, connection = database) => {
-        logger.debug(`getNotifications(idNumber: ${idNumber})`, log_options);
+        logger.info(`getNotifications(idNumber: ${idNumber})`, log_options);
         logger.debug(`Executing query: ${getNotifcationsSQL}`, log_options);
 
         const param = Object.create(null);
@@ -522,7 +553,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
      * @param {pg-connection} connection [description]
      */
     AccountModel.addNotification = (idNumber, title, description, details, returning, connection = database) => {
-        logger.debug('addNotification()', log_options);
+        logger.info('addNotification()', log_options);
 
         let param = Object.create(null);
         param.idNumber = idNumber;
@@ -549,7 +580,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
 
     AccountModel.isInOrganization = (idNumber, organizationID, connection = database) => {
-        logger.debug(`isInOrganization(idNumber: ${idNumber}, organizationID: ${organizationID})`, log_options);
+        logger.info(`isInOrganization(idNumber: ${idNumber}, organizationID: ${organizationID})`, log_options);
 
         let query = squel.select()
             .field(squel.str(`EXISTS(${squel.select()
@@ -576,7 +607,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
     const approvePreActDirectPaymentSQL = queryFiles.account_PreActDirectPayment_approve;
     AccountModel.approveDirectPayment = (directPaymentID, idNumber, document, digitalSignature, connection = database) => {
-        logger.debug(`approveDirectPayment(directPaymentID: ${directPaymentID}, idNumber: ${idNumber})`)
+        logger.info(`approveDirectPayment(directPaymentID: ${directPaymentID}, idNumber: ${idNumber})`)
 
         let param = Object.create(null);
         param.directPayment = directPaymentID;

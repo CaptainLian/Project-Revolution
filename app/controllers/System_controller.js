@@ -35,6 +35,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     const SystemController = Object.create(null);
 
     SystemController.viewLogin = (req, res) => {
+        logger.info('viewLogin()', log_options);
         logger.debug(`Extra-data contents: ${JSON.stringify(req.extra_data)}`, log_options);
 
         if(req.session.user){
@@ -50,6 +51,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     };
 
     SystemController.logout = (req, res) => {
+        logger.info('logout()', log_options);
         req.session.user = null;
         return req.session.destroy((err) => {
             if(err)
@@ -59,6 +61,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     };
 
     SystemController.checkLogin = (req, res) => {
+        logger.info('checkLogin()', log_options);
         let input = req.body;
         logger.debug(`Login attempt input: ${JSON.stringify(input)}`, log_options);
         //parse id number
@@ -98,10 +101,44 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             if (account.password === bcrypt.hashSync(input.password, account.salt)) {
                 logger.debug('Valid!', log_options);
 
-                logger.debug('Checking for password expiration', log_options);
-                
-                
-                
+
+                /**
+                 * Part of the sessions that contains the user credentials
+                 * Only the idNumber and non-sensitive information is stored
+                 * @type {Object}
+                 */
+                let user = Object.create(null);
+                /**
+                 * The account's idNumber
+                 * @type {Integer}
+                 */
+                user.idNumber = account.idnumber;
+                /**
+                 * The name of the user compromising of 3 properties:
+                 * The firstname
+                 * The middlename
+                 * The lastname
+                 * @type {Object}
+                 */
+                user.name = Object.create(null);
+                /**
+                 * @type {String}
+                 */
+                user.name.first = account.firstname;
+                /**
+                 * @type {String}
+                 */
+                user.name.middle = account.middlename;
+                /**
+                 * @type {String}
+                 */
+                user.name.last = account.lastname;
+                /**
+                 * The account type, see AccountType database table for a list of values
+                 * @type {Integer}
+                 */
+                user.type = account.type;
+
                 /**
                  * Session Contents
                  * {
@@ -115,24 +152,23 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                  *         type
                  *         organizationSelected{
                  *              id,
-                 *
                  *              path_profilePicture
-                 *         } (Optional)
+                 *         } (For student types)
                  *     }
                  * }
-                 * @type Object
+                 * @type {Object}
                  */
-                let user = Object.create(null);
-                user.idNumber = account.idnumber;
-                user.name = Object.create(null);
-                user.name.first = account.firstname;
-                user.name.middle = account.middlename;
-                user.name.last = account.lastname;
-                user.type = account.type;
                 req.session.user = user;
+                /**
+                 * Validity of the session
+                 * @type {Boolean}
+                 */
                 req.session.valid = true;
 
                 let step = Promise.resolve(true);
+                /**
+                 * Account is student
+                 */
                 if(req.session.user.type === 1){
                     logger.debug('Student type account fetching and adding more data to session', log_options);
                     step = accountModel.getStudentOrganizations(req.session.user.idNumber).then(data => {
@@ -173,7 +209,6 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         }
                     });
                 });
-
             } else {
                 logger.debug('Incorrect password', log_options);
                 return res.send({
@@ -189,56 +224,73 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     };
 
     SystemController.viewHome = (req, res) => {
-        logger.debug('viewHome()', log_options);
-        logger.debug('Determining user type', log_options);
-        switch (req.session.user.type) {
-            // Admin
-            case 0:
-                //TODO: implementation
-                return res.redirect('/blank');
+        logger.info('viewHome()', log_options);
 
-            // Faculty Adviser Account
-            case 2:
-                //TODO: implementation
-                return res.redirect('/blank');
-            // Director of S-Life Account
-            case 3:
-                //TODO: implementation
-                return res.redirect('/blank');
-            // Dean of Student Affairs Account
-            case 4:
-                //TODO: implementation
-                return res.redirect('/blank');
+        logger.debug('Checking for password expiration', log_options);
+        accountModel.getAccountDetails(req.session.user.idNumber, [
+            'passwordExpiration AS "passwordExpiration"'
+        ]).then(account => {
+            const ngayon = Date.now();
 
-            // Vice President for Lasallian Mission Account
-            case 5:
-                //TODO: implementation
-                return res.redirect('/blank');
+            if(ngayon >= account.passwordExpiration){
+                logger.debug('Password expired', log_options);
+                return res.redirect('/System/ChangePassword');
+            }else{
+                logger.debug('Password NOT expired', log_options);
 
-            // President
-            case 6:
-                //TODO: implementation
-                return res.redirect('/blank');
-
-            // Student Account
-            case 1:
-                logger.debug('Student Account', log_options);
-                return accountModel.getRoleDetailsInOrganization(
-                    req.session.user.idNumber,
-                    req.session.user.organizationSelected.id,
-                    'home_url'
-                ).then(data => {
-                    if(data.home_url){
-                        return res.redirect(data.home_url);
-                    }else if(req.session.user.organizationSelected.id !== 0){
-                        return res.redirect('/Organization/ProjectHead/home');
-                    }else{
+                logger.debug('Determining user type', log_options);
+                switch (req.session.user.type) {
+                    // Admin
+                    case 0:
+                        //TODO: implementation
                         return res.redirect('/blank');
-                    }
-                });
-            default:
-                return res.redirect('/blank');
-        }
+
+                    // Faculty Adviser Account
+                    case 2:
+                        //TODO: implementation
+                        return res.redirect('/blank');
+                    // Director of S-Life Account
+                    case 3:
+                        //TODO: implementation
+                        return res.redirect('/blank');
+                    // Dean of Student Affairs Account
+                    case 4:
+                        //TODO: implementation
+                        return res.redirect('/blank');
+
+                    // Vice President for Lasallian Mission Account
+                    case 5:
+                        //TODO: implementation
+                        return res.redirect('/blank');
+
+                    // President
+                    case 6:
+                        //TODO: implementation
+                        return res.redirect('/blank');
+
+                    // Student Account
+                    case 1:
+                        logger.debug('Student Account', log_options);
+                        return accountModel.getRoleDetailsInOrganization(
+                            req.session.user.idNumber,
+                            req.session.user.organizationSelected.id,
+                            'home_url'
+                        ).then(data => {
+                            if(data.home_url){
+                                return res.redirect(data.home_url);
+                            }else if(req.session.user.organizationSelected.id !== 0){
+                                return res.redirect('/Organization/ProjectHead/home');
+                            }else{
+                                return res.redirect('/blank');
+                            }
+                        });
+                    default:
+                        return res.redirect('/blank');
+                }
+            }
+        });
+
+
     };
 
     SystemController.documentSign = (req, res) => {
@@ -270,6 +322,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     };
 
     SystemController.createAccount = (req, res) => {
+        logger.info('createAccount()', log_options)
         const input = req.body;
 
         forgePromise.pki.rsa.generateKeyPair({
@@ -302,6 +355,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 valid: true
             });
         }).catch(err => {
+            logger.error(`${err.message}\n${err.stack}`, log_options);
             return res.send({
                 success: false,
                 valid: true
@@ -310,16 +364,16 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     };
 
     SystemController.studentChangeOrganization = (req, res) => {
-        logger.debug(`studentChangeOrganization()\nParams: ${JSON.stringify(req.params)}`, log_options);
+        logger.info(`studentChangeOrganization()\nParams: ${JSON.stringify(req.params)}`, log_options);
         logger.info('Controller method implementation not yet complete', log_options);
-        
+
         return accountModel.isInOrganization(req.session.user.idNumber, req.params.organization).then(organization => {
             logger.debug(`Part of organization check: ${organization.isIn}`, log_options);
 
             if(organization.isIn){
                 //TODO: update other fields as well
                 logger.debug(`Changing organizationSelected.id = ${req.params.organization}`, log_options);
-                req.session.user.organizationSelected.id = req.params.organization; 
+                req.session.user.organizationSelected.id = req.params.organization;
             }
 
             return res.redirect('/home');
@@ -327,13 +381,66 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     };
 
     SystemController.viewChangePassword = (req, res) => {
-        logger.debug('viewChangePassword()', log_options);
+        logger.info('viewChangePassword()', log_options);
 
         const renderData = Object.create(null);
         renderData.extra_data = req.extra_data;
-        
-        return res.render('System/ChangePassword');
+        renderData.csrfToken = req.csrfToken();
+
+        return res.render('System/ChangePassword', renderData);
     };
-    
+
+    SystemController.updatePassword = (req, res) => {
+        //TODO: Check if new password is the same as old password
+        logger.info('updatePassword()', log_options);
+
+        const input = req.body;
+        const inputOldPassword = input.oldPassword;
+        const inputNewPassword1 = input.newPassword1;
+        const inputNewPassword2 = input.newPassword2;
+
+        let reply = Object.create(null);
+        reply.valid = false;
+        reply.success = true;
+
+        if(inputNewPassword1 !== inputNewPassword2){
+            logger.debug(`Password mismatch between new passwords, 1: "${inputNewPassword1}" 2: "${inputNewPassword2}"`, log_options);
+
+            reply.failureReason = 0;
+            return res.send(reply);
+        }
+
+        return accountModel.getAccountDetails(req.session.user.idNumber, [
+            'password',
+            'salt'
+        ]).then(account => {
+            if(account.password === bcrypt.hashSync(inputOldPassword, account.salt)){
+                return accountModel.updateAccountDetails(req.session.user.idNumber, {
+                    password: inputNewPassword1
+                });
+            }else{
+                logger.debug('Password mismatch between input and stored password', log_options);
+                return Promise.resolve({mismatch: true});
+            }
+        }).then(data => {
+            if(data && data.mismatch === true){
+                reply.valid = false;
+                reply.failureReason = 2;
+            }else{
+                reply.valid = true;
+                reply.url = '\\home';
+            }
+
+            return res.send(reply);
+        }).catch(err => {
+            reply.valid = null;
+            reply.success = false;
+            reply.failureReason = 1;
+
+            res.send(reply);
+            return logger.error(`${err.message}: ${err.stack}`, log_options);
+        });
+    };
+
     return SystemController;
 };

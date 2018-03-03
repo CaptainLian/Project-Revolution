@@ -305,14 +305,14 @@ $function$
         presidentID INTEGER;
     BEGIN
         SELECT oo.idNumber INTO presidentID
-          FROM OrganizationOfficer oo 
+          FROM OrganizationOfficer oo
          WHERE oo.yearID = system_get_current_year_id()
            AND oo.role = (SELECT oro.id
                             FROM OrganizationRole oro
                            WHERE oro.masterRole IS NULL
                              AND oro.organization = param_organization
                         ORDER BY oro.rank ASC
-                           LIMIT 1); 
+                           LIMIT 1);
 
         RETURN presidentID;
     END;
@@ -835,7 +835,7 @@ $trigger$
 
         NEW.dateCreated = CURRENT_TIMESTAMP;
         NEW.dateModified = NEW.dateCreated;
-        NEW.passwordExpiration = CURRENT_TIMESTAMP + (INTERVAL '3 MONTH');
+        NEW.passwordExpiration = NEW.dateCreated + (INTERVAL '3 MONTH');
         RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
@@ -848,13 +848,13 @@ CREATE OR REPLACE FUNCTION trigger_before_update_Account()
 RETURNS trigger AS
 $trigger$
     BEGIN
-        IF OLD.password <> crypt(NEW.password, OLD.salt) THEN
+        IF OLD.password <> NEW.password THEN
             SELECT gen_salt('bf') INTO NEW.salt;
             SELECT crypt(NEW.password, NEW.salt) INTO NEW.password;
 
             NEW.passwordExpiration = CURRENT_TIMESTAMP + (INTERVAL '3 MONTH');
         END IF;
-        
+
         NEW.dateModified = CURRENT_TIMESTAMP;
         RETURN NEW;
     END;
@@ -1112,7 +1112,7 @@ CREATE TABLE OrganizationStatus (
     PRIMARY KEY(id)
 );
 INSERT INTO OrganizationStatus (id, name)
-                        VALUES ( 0, 'Active'), 
+                        VALUES ( 0, 'Active'),
                                ( 1, 'Suspended'),
                                ( 3, 'Dissolved');
 
@@ -1140,7 +1140,7 @@ CREATE TABLE StudentOrganization (
     depositryFunds NUMERIC(16, 2) NOT NULL DEFAULT 0.0,
     path_profilePicture TEXT,
     accountNumber CHAR(7),
-    
+
     PRIMARY KEY (id)
 );
 INSERT INTO StudentOrganization (id, acronym, name, description, path_profilePicture)
@@ -1199,7 +1199,7 @@ CREATE TRIGGER before_insert_OrganizationRole
 
 
 INSERT INTO OrganizationRole (organization, name, shortname, uniquePosition, masterRole, rank)
-                      VALUES 
+                      VALUES
                       		 -- 0
                       		 ( 0, 'Chairperson', 'Chair', TRUE, NULL, 0),
                       		 /* Executive board */
@@ -1442,9 +1442,9 @@ INSERT INTO Functionality (id, name, category)
                           (212022, 'Auto-approve Financial Documents'         , 212),
                           -- Account Management
                           (  2023, 'Account Management', 2),
-                          -- PPR Signing (President) 
+                          -- PPR Signing (President)
                           (211024, 'Sign Project Proposal as President', 211),
-                          -- Finance Signatory 
+                          -- Finance Signatory
                           -- mistakes were made in the design of ACLs, the two ACLS can be compressed into a single ACL
                           -- But for sanity and backwards compatability, they're retained
                           (211025, 'View/Submit Financial Documents as President', 211),
@@ -1539,7 +1539,7 @@ $trigger$
                                               (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 24)), TRUE),
                                               -- Sign Finance Transaction as President
                                               (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 25)), TRUE),
-                                              -- Submit Officer Survey Form  
+                                              -- Submit Officer Survey Form
                                               (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 27)), TRUE),
                                               -- Submit Not in GOSM Activity 28
                                               (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE);
@@ -1550,7 +1550,7 @@ $trigger$
         INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       VALUES (executiveSecretariatRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
                                              (executiveSecretariatRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE),
-                                              -- Submit Officer Survey Form  
+                                              -- Submit Officer Survey Form
                                              (executiveSecretariatRoleID, (SELECT id FROM functionality WHERE(id%1000 = 27)), TRUE),
                                               -- Submit Not in GOSM Activity 28
                                              (executiveSecretariatRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE);
@@ -1561,7 +1561,7 @@ $trigger$
         INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       VALUES  (eevpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
                                               (eevpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE),
-                                              -- Submit Officer Survey Form  
+                                              -- Submit Officer Survey Form
                                               (eevpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 27)), TRUE),
                                               -- Submit Not in GOSM Activity 28
                                               (eevpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE);
@@ -1572,7 +1572,7 @@ $trigger$
         INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       VALUES  (ievpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
                                               (ievpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE),
-                                              -- Submit Officer Survey Form  
+                                              -- Submit Officer Survey Form
                                               (ievpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 27)), TRUE),
                                               -- Submit Not in GOSM Activity 28
                                               (ievpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE);
@@ -1585,7 +1585,7 @@ $trigger$
                                               (vpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE),
                                               -- Sign PPR as Documentation
                                               (vpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 12)), TRUE),
-                                              -- Submit Officer Survey Form  
+                                              -- Submit Officer Survey Form
                                               (vpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 27)), TRUE),
                                               -- Submit Not in GOSM Activity 28
                                               (vpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE);
@@ -1596,7 +1596,7 @@ $trigger$
         INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       VALUES  (avpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
                                               (avpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE),
-                                              -- Submit Officer Survey Form  
+                                              -- Submit Officer Survey Form
                                               (avpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 27)), TRUE),
                                               -- Submit Not in GOSM Activity 28
                                               (avpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE);
@@ -1616,7 +1616,7 @@ $trigger$
                                               (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 22)), TRUE),
                                               -- Sign Finance Transaction as Treasurer
                                               (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 26)), TRUE),
-                                              -- Submit Officer Survey Form  
+                                              -- Submit Officer Survey Form
                                               (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 27)), TRUE),
                                               -- Submit Not in GOSM Activity 28
                                               (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE);
@@ -1630,7 +1630,7 @@ $trigger$
                                               (avpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 18)), TRUE),
                                               -- Sign Finance Transaction as Treasurer
                                               (avpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 26)), TRUE),
-                                              -- Submit Officer Survey Form  
+                                              -- Submit Officer Survey Form
                                               (avpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 27)), TRUE),
                                               -- Submit Not in GOSM Activity 28
                                               (avpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE);
@@ -2602,7 +2602,7 @@ CREATE TRIGGER "before_insert_PreActivityBookTransfer"
     FOR EACH ROW
     EXECUTE PROCEDURE "trigger_before_insert_sequence_versioning"('PreActivityBookTransfer', 'pabt', '"pabt"."GOSMActivity" = $1."GOSMActivity"');
 
-CREATE TRIGGER "after_insert_PreActivityBookTransfer_signatories" 
+CREATE TRIGGER "after_insert_PreActivityBookTransfer_signatories"
     AFTER INSERT ON "PreActivityBookTransfer"
     FOR EACH ROW
     EXECUTE PROCEDURE  "trigger_after_insert_finance_signatories_initial"('PreActivityBookTransfer', 'pabt', 'PreActivityBookTransferSignatory', 'bookTransfer', 'PreAct_BookTransfer_get_organization_next_treasurer_signatory');
@@ -3132,10 +3132,10 @@ CREATE TABLE "OfficerSurveyForm" (
     "field5" SMALLINT NOT NULL,
     "field6" SMALLINT NOT NULL,
     "field7" SMALLINT NOT NULL,
-    "field8" SMALLINT NOT NULL,  
+    "field8" SMALLINT NOT NULL,
     "field9" SMALLINT NOT NULL,
 
-    PRIMARY KEY("termID", "organizationID", "officer")    
+    PRIMARY KEY("termID", "organizationID", "officer")
 );
 
 DROP TABLE IF EXISTS "MemberSurveyForm" CASCADE;
@@ -3151,10 +3151,10 @@ CREATE TABLE "MemberSurveyForm" (
     "field5" SMALLINT NOT NULL,
     "field6" SMALLINT NOT NULL,
     "field7" SMALLINT NOT NULL,
-    "field8" SMALLINT NOT NULL,  
+    "field8" SMALLINT NOT NULL,
     "field9" SMALLINT NOT NULL,
 
-    PRIMARY KEY("termID", "organizationID", "sequence")    
+    PRIMARY KEY("termID", "organizationID", "sequence")
 );
 CREATE TRIGGER "before_insert_MemberSurveyForm_sequence"
     BEFORE INSERT ON "MemberSurveyForm"
@@ -3172,7 +3172,7 @@ CREATE TABLE IF NOT EXISTS session (
 )
 WITH (OIDS=FALSE);
 /* End of SESSION TABLE */
-   
+
 DROP TABLE IF EXISTS "SystemConfiguration" CASCADE;
 CREATE TABLE IF NOT EXISTS "SystemConfiguration" (
     "name" VARCHAR(20),
@@ -3183,17 +3183,17 @@ CREATE TABLE IF NOT EXISTS "SystemConfiguration" (
 );
 
 INSERT INTO "SystemConfiguration"(
-    "name", 
-    "value", 
+    "name",
+    "value",
     "description")
-VALUES ('PASSWORD', 
+VALUES ('PASSWORD',
         '{"EXPIRATION_TIME": {"DAYS": 0, "MONTHS": 3}}'::JSONB::JSON,
         '{"EXPIRATION_TIME": "Contains values on much time a password is before its expiration" }'::JSONB::JSON);
 
-/* Useful views */ 
-CREATE OR REPLACE VIEW "ProjectExpensesWithoutTransaction" AS 
+/* Useful views */
+CREATE OR REPLACE VIEW "ProjectExpensesWithoutTransaction" AS
 SELECT *
-  FROM ProjectProposalExpenses ppe 
+  FROM ProjectProposalExpenses ppe
  WHERE ppe.id NOT IN ((SELECT "particular"
                         FROM "PreActivityDirectPaymentParticular")
                        UNION
@@ -3202,7 +3202,7 @@ SELECT *
                       UNION
                       (SELECT "particular"
                          FROM "PreActivityBookTransferParticular")
-                      UNION 
+                      UNION
                       (SELECT "particular"
                          FROM "PostProjectReimbursementParticular"));
 
