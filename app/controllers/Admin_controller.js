@@ -5,8 +5,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 	const accountModel = models.Account_model;
 
 	AdminController.viewAccountLogs = (req, res) => {
-		accountModel.getAccountLogs()
-		.then(data=>{
+		accountModel.getAccountLogs().then(data=>{
 			const renderData = Object.create(null);
 			renderData.extra_data = req.extra_data;
 			renderData.accountLogs = data;

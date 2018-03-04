@@ -25,21 +25,20 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		}
 		database.task(t=>{
 			return t.batch([
-					pnpModel.getPubsOfActivity(gosmParam,t),
-					pnpModel.getActivityDetailsforPubs(gosmParam,t),
-					gosmModel.getGOSMActivityProjectHeads(gosmParam2,t)
-
-				])
+				pnpModel.getPubsOfActivity(gosmParam,t),
+				pnpModel.getActivityDetailsforPubs(gosmParam,t),
+				gosmModel.getGOSMActivityProjectHeads(gosmParam2,t)
+			]);
 		}).then(pubs=>{
 				console.log(pubs[0]);
-				renderData.pubs = pubs[0];
-				renderData.activities = pubs[1];
-				renderData.heads = pubs[2];
-				return res.render('PNP/ViewPubs', renderData);
-			}).catch(err=>{
-				console.log("ERROR VIEW PUB");
-				console.log(err);	
-			})
+			renderData.pubs = pubs[0];
+			renderData.activities = pubs[1];
+			renderData.heads = pubs[2];
+			return res.render('PNP/ViewPubs', renderData);
+		}).catch(err=>{
+			console.log("ERROR VIEW PUB");
+			console.log(err);	
+		})
 		
 	};	
 

@@ -4,7 +4,6 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
     const projectProposalModel = models.ProjectProposal_model;
 
-
 	TreasurerController.viewDashboard = (req, res) => {
     	const renderData = Object.create(null);
         renderData.extra_data = req.extra_data;
@@ -23,10 +22,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 	TreasurerController.newTransaction = (req, res) => {
 		database.task(t => {
 			return t.batch([
-
-			//TODO: replace activity ID
-			projectProposalModel.getApprovedPPRs(0)
-
+				//TODO: replace activity ID
+				projectProposalModel.getApprovedPPRs(0)
 			]);
 		}).then(data => {
 			const renderData = Object.create(null);

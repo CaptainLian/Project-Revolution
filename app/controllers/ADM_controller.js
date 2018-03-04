@@ -34,6 +34,10 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     };
 
     ADM_controller.updateStatus = (req, res) => {
+        logger.info('updateStatus', log_options);
+        logger.warn('Not fully tested for req.body["sections[]"] and req.body.sections error', log_options);
+
+        //TODO: FIX req.body["sections[]"] and req.body.sections
         console.log(req.body)
         console.log(req.params)
         var sections = []
@@ -45,22 +49,23 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         }
         if ( req.body.status == '4') {
             sections.push(req.body.sections)
+
             dbParam = {
                 gosmid: req.body.gosmid,
                 status: 4,
                 comments: "",
                 sections: sections
             }
+            
             console.log("asd");
         } else {
-
             dbParam = {
                 gosmid: req.body.gosmid,
                 status: 5,
                 comments: req.body.comment,
                 sections: req.body["sections[]"]
-
             }
+
             var sections = req.body["sections[]"];
             if(Array.isArray(req.body["sections[]"]) ){
                 for (var x = 0; x < sections.length; x++) {

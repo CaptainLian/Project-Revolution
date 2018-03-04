@@ -272,6 +272,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		saveAccount: (req, res) =>{
 			console.log(req.body)
+
 			console.log(req.body['accType[]'] ==1)
 
 			console.log("req.body")
@@ -303,24 +304,49 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		    var password = cuid();
 		    database.task(task=>{
-		    	if(req.body['accType[]'] == 1){
+		    	let accType = req.body['accType[]'] ? req.body['accType[]'] : req.body.accType;
+
+		    	if(accType == 1){
 		    		console.log("createStudentAccount");
-		    		if(!Array.isArray(req.body['orgpos[]'])){
-		    			req.body['orgpos[]'] = [req.body['orgpos[]']];
+
+		    		let orgpos = req.body['orgpos[]'] ? req.body['orgpos[]'] : req.body.orgpos;
+		    		if(!Array.isArray(orgpos)){
+		    			orgpos = [orgpos];
 		    		}
-		    		for(let index = 0, length= req.body['orgpos[]'].length; index < length; ++index){
-		    			req.body['orgpos[]'][index] = Number.parseInt(req.body['orgpos[]'][index]);
+
+		    		for(let index = 0, length = orgpos.length; index < length; ++index){
+		    			orgpos[index] = Number.parseInt(orgpos[index]);
 		    		}
-		    		return	accModel.createStudentAccount(req.body.idNumber, req.body.email, password, req.body.givenName, req.body.middleName, req.body.lastName, req.body.number, req.body['orgpos[]'],task)
+
+		    		return accModel.createStudentAccount(
+		    			req.body.idNumber, 
+		    			req.body.email, 
+		    			password, 
+		    			req.body.givenName, 
+		    			req.body.middleName, 
+		    			req.body.lastName,
+		    			req.body.number,
+		    			orgpos, 
+		    			task
+		    		);
 		    	}else{
 		    		console.log("createAccount");
-		    		return accModel.createAccount(req.body.idNumber, req.body.email, req.body['accType[]'], password, req.body.givenName, req.body.middleName, req.body.lastName, req.body.number,task);
+		    		return accModel.createAccount(
+		    			req.body.idNumber, 
+		    			req.body.email,
+		    			accType,
+		    			password, 
+		    			req.body.givenName, 
+		    			req.body.middleName, 
+		    			req.body.lastName, 
+		    			req.body.number,task
+		    		);
 		    	}
 		    }).then(data =>{
-		    	res.json({status:1});
+		    	return res.json({status:1});
 		    }).catch(err=>{
 		    	res.json({status:0});
-		    	logger.error(`${err.message}: ${err.stack}`, log_options);
+		    	return logger.error(`${err.message}: ${err.stack}`, log_options);
 		    });
 		},
 
@@ -377,6 +403,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		updateAccount: (req, res) =>{
             logger.info('updateAccount()', log_options);
 
+            let orgpos = req.body['orgpos[]'] ? req.body['orgpos[]'] : req.body.orgpos;
 			logger.debug(req.body, log_options);
 			accModel.updateAccount(
                 req.body.id,
@@ -387,7 +414,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
                 req.body.middleName,
                 req.body.lastName,
                 req.body.number,
-                req.body['orgpos[]']
+                orgpos
             ).then(data => {
 				res.json({status:1});
                 return logger.debug(data, log_options);
