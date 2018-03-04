@@ -1072,7 +1072,9 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			var dbParam = {
 				gosmactivity: req.body.gosmactivity,
 				submittedBy: req.session.user.idNumber,
-				justification: req.body.nodpjustification
+				justification: req.body.nodpjustification,
+				purpose: req.body.cpjustification
+
 			};
 			console.log("req.files");
 			console.log(req.files);
@@ -1383,7 +1385,6 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		submitReimbursement: (req, res) =>{
 
-			//TODO: add submitted by to reimbursement table in db
 			var dbParam = {
 				gosmactivity: req.body.gosmactivity,
 				justificationfdpp: req.body.justificationdelay,
@@ -1709,6 +1710,20 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		submitEditCashAdvance: (req, res) =>{
 
 			console.log(req.body);
+
+			var dbParam = {
+				id: req.body.id,
+				gosmactivity: req.body.gosmactivity,
+				submittedBy: req.session.user.idNumber,
+				justification: req.body.nodpjustification,
+				purpose: req.body.cpjustification
+			};
+
+
+
+
+
+
 
 		},
 
