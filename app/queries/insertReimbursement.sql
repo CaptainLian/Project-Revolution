@@ -1,4 +1,7 @@
 INSERT INTO public."PostProjectReimbursement"(
-            "GOSMActivity", "idNumber", "dateCreated", status)
-    VALUES (${gosmactivity}, ${submittedby}, NOW(), 0)
+            "GOSMActivity", "justificationFDPP", 
+            "justificationFNUCADP", "submittedBy", 
+             status)
+    VALUES (${gosmactivity}, ${justificationfdpp},
+    		${justificationfnucadp}, ${submittedby}, 0)
 RETURNING id;

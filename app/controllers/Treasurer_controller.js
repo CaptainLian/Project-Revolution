@@ -4,18 +4,19 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
     const projectProposalModel = models.ProjectProposal_model;
 
-    TreasurerController.editPreactsCashAdvance = (req, res) => {
-    	const renderData = Object.create(null);
-        renderData.extra_data = req.extra_data;
-
-		return res.render('Org/Treasurer/finance_pend');
-	};
 
 	TreasurerController.viewDashboard = (req, res) => {
     	const renderData = Object.create(null);
         renderData.extra_data = req.extra_data;
 
 		return res.render('Org/Treasurer/Dashboard', renderData);
+	};
+
+	TreasurerController.editPreactsCashAdvance = (req, res) => {
+    	const renderData = Object.create(null);
+        renderData.extra_data = req.extra_data;
+
+		return res.render('Org/Treasurer/finance_pend');
 	};
 
 

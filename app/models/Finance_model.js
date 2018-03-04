@@ -157,7 +157,7 @@ module.exports = function(configuration, modules, database, queryFiles){
         return connection.oneOrNone(getReimbursementSignatorySQL, param);
     };
 
-    const getBookTransferParticularsSQL = queryFiles.getBookTransferSignatory;
+    const getBookTransferParticularsSQL = queryFiles.getBookTransferParticulars;
     FinanceModel.getBookTransferParticulars = function(param, connection = database){
         return connection.any(getBookTransferParticularsSQL, param);
     };
@@ -182,9 +182,24 @@ module.exports = function(configuration, modules, database, queryFiles){
         return connection.none(approvebookTransferSQL, param);
     };
 
-    const pendBookTransferSQL = queryFiles.pendbookTransfer;
+    const pendBookTransferSQL = queryFiles.pendBookTransfer;
     FinanceModel.pendBookTransfer = function(param, connection = database){
         return connection.none(pendBookTransferSQL, param);
+    };
+
+    const getCashAdvancePendSignatorySQL = queryFiles.getCashAdvancePendSignatory;
+    FinanceModel.getCashAdvancePendSignatory = function(param, connection = database){
+        return connection.one(getCashAdvancePendSignatorySQL, param);
+    };
+
+    const getDirectPaymentPendSignatorySQL = queryFiles.getDirectPaymentPendSignatory;
+    FinanceModel.getDirectPaymentPendSignatory = function(param, connection = database){
+        return connection.one(getDirectPaymentPendSignatorySQL, param);
+    };
+
+    const getBookTransferPendSignatorySQL = queryFiles.getBookTransferPendSignatory;
+    FinanceModel.getBookTransferPendSignatory = function(param, connection = database){
+        return connection.one(getBookTransferPendSignatorySQL, param);
     };
 
     //Used for signing

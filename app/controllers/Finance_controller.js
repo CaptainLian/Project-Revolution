@@ -204,6 +204,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 							gosmactivity: data.GOSMActivity
 						};
 
+
 						logger.debug('starting tasks', log_options);
 						database.task(t=>{
 							return t.batch([
@@ -758,6 +759,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		    		financeList = true;
 		    	}
 		    	else{
+
+		    		//TODO: if projecthead
 		    		financeList = false;
 		    	}
 
@@ -888,6 +891,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 			    if (req.session.user.type == 1){
 
+			    	renderData.isStudent = true;
+
 			    	const ACL = req.extra_data.user.accessControl[req.session.user.organizationSelected.id];
 			    	if(ACL[25] || ACL[26]){
 			    		viewTransaction = true;
@@ -898,6 +903,9 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 			    }
 			    else{
+
+			    	renderData.isStudent = false;
+
 			    	viewTransaction = false;
 			    }
 
@@ -951,6 +959,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				            		renderData.toadd = true;
 				            	}
 
+				            	renderData.idnumber = req.session.user.idNumber;
 
 
 								return res.render('Finance/ViewActivityTransaction', renderData);
@@ -1008,6 +1017,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		    	financeModel.getExpensesWithoutTransactionCount(dbParam)
 		    	.then(transactionCount=>{
+
+		    		console.log("eyyyyyyyyyyyyy");
 
 		    		if (transactionCount.expensestotal > 0){
 		           		
@@ -1275,7 +1286,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
             });
 		},
 		
-		createPreactsReimbursement: (req, res) => {
+		createReimbursement: (req, res) => {
 
 
 			var dbParam = {
@@ -1313,9 +1324,32 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 								projectproposal: data.id
 							};
 
+							let actualdate = data.actualedate;
+					        let currentdate = data.currdate;
+
+							console.log("actualdate");
+							console.log(actualdate);
+							console.log("currentdate");
+							console.log(currentdate);
+
+							var diff = timediff(actualdate, currentdate, 'D');
+				           	console.log(diff);
+				           	console.log("difference");
+
+				           	
+
 							financeModel.getParticulars(param)
 							.then(data1=>{
+								
 								const renderData = Object.create(null);
+
+								if (diff.days>30){
+					           		renderData.justification = true;
+					           	}
+					           	else{
+					           		renderData.justification = false;
+					           	}
+
 					            renderData.extra_data = req.extra_data;
 					            renderData.csrfToken = req.csrfToken();
 					            renderData.particulars = data1;
@@ -1352,6 +1386,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			//TODO: add submitted by to reimbursement table in db
 			var dbParam = {
 				gosmactivity: req.body.gosmactivity,
+				justificationfdpp: req.body.justificationdelay,
+				justificationfnucadp: req.body.nodpjustification,
 				submittedby: req.session.user.idNumber
 			};
 
@@ -1494,6 +1530,199 @@ module.exports = function(configuration, modules, models, database, queryFiles){
             	logger.error(`${error.message}\n${error.stack}`);
             });
 
+		},
+
+		editPreactsCashAdvance: (req, res) =>{
+
+			var dbParam = {
+				id: req.params.id
+			};
+
+			database.task(t=>{
+				return t.batch([
+	                            financeModel.getPreActivityCashAdvance(dbParam),
+	                            financeModel.getCashAdvanceParticulars(dbParam),
+	                            financeModel.getCashAdvancePendSignatory(dbParam)]);
+			}).then(data=>{
+
+				if (data[0].status == 2 && data[0].submittedBy == req.session.user.idNumber){
+
+					const renderData = Object.create(null);
+			        renderData.extra_data = req.extra_data;
+			        renderData.cashAdvance = data[0];
+			        renderData.cashAdvanceParticulars = data[1]
+			        renderData.signatory = data[2];
+
+			        if(data[0].purpose == null){
+			        	renderData.purpose = false;
+			        }
+			        else{
+			        	renderData.purpose = true;
+			        }
+
+			        if(data[0].justification == null){
+			        	renderData.justification = false;
+			        }
+			        else{
+			        	renderData.justification = true;
+			        }
+
+			        console.log(data[1]);
+
+			        var param = {
+			        	projectproposal: data[1][0].projectproposal
+			        };
+
+			        financeModel.getParticulars(param)
+			        .then(data1=>{
+
+			        	console.log(data1);
+
+			        	renderData.particulars = data1;
+			            renderData.csrfToken = req.csrfToken();
+
+
+
+						return res.render('Finance/Preacts_EditCashAdvance', renderData);
+
+
+			        }).catch(error=>{
+
+			        });
+
+				}
+				else{
+	    			return res.render('System/403');
+				}
+				
+
+			}).catch(error=>{
+				console.log(error);
+			});
+
+	    	
+		},
+
+		editPreactsDirectPayment: (req, res) =>{
+
+	    	var dbParam = {
+				id: req.params.id
+			};
+
+			database.task(t=>{
+				return t.batch([
+	                            financeModel.getPreActivityDirectPayment(dbParam),
+	                            financeModel.getDirectPaymentParticulars(dbParam),
+	                            financeModel.getDirectPaymentPendSignatory(dbParam)]);
+			}).then(data=>{
+
+				if (data[0].status == 2 && data[0].submittedBy == req.session.user.idNumber){
+
+					const renderData = Object.create(null);
+			        renderData.extra_data = req.extra_data;
+			        renderData.directPayment = data[0];
+			        renderData.directPaymentParticulars = data[1]
+			        renderData.signatory = data[2];
+
+			        console.log(data);
+
+   			        if(data[0].reasonForDelayedPRSProcessing == null){
+   			        	renderData.justification = false;
+   			        }
+   			        else{
+   			        	renderData.justification = true;
+   			        }
+
+
+
+		
+		            renderData.csrfToken = req.csrfToken();
+
+
+						return res.render('Finance/Preacts_EditDirectPayment', renderData);
+
+				}
+				else{
+	    			return res.render('System/403');
+				}
+				
+
+			}).catch(error=>{
+				console.log(error);
+			});
+
+		},
+
+		editPreactsBookTransfer: (req, res) =>{
+
+			var dbParam = {
+				id: req.params.id
+			};
+
+			database.task(t=>{
+				return t.batch([
+	                            financeModel.getPreActivityBookTransfer(dbParam),
+	                            financeModel.getBookTransferParticulars(dbParam),
+	                            financeModel.getBookTransferPendSignatory(dbParam)]);
+			}).then(data=>{
+
+				if (data[0].status == 2 && data[0].submittedBy == req.session.user.idNumber){
+
+					const renderData = Object.create(null);
+			        renderData.extra_data = req.extra_data;
+			        renderData.bookTransfer = data[0];
+			        renderData.bookTransferParticulars = data[1]
+			        renderData.signatory = data[2];
+
+			        console.log(data);
+
+   			       
+
+
+
+		
+		            renderData.csrfToken = req.csrfToken();
+
+
+					return res.render('Finance/Preacts_EditBookTransfer', renderData);
+
+				}
+				else{
+	    			return res.render('System/403');
+				}
+				
+
+			}).catch(error=>{
+				console.log(error);
+			});
+
+		},
+
+		editReimbursement: (req, res) =>{
+
+	    	const renderData = Object.create(null);
+	        renderData.extra_data = req.extra_data;
+
+			return res.render('Finance/Preacts_EditReimbursement', renderData);
+		},
+
+		submitEditCashAdvance: (req, res) =>{
+
+			console.log(req.body);
+
+		},
+
+		submitEditDirectPayment: (req, res) =>{
+
+		},
+
+		submitEditBookTransfer: (req, res) =>{
+
+		},
+
+		submitEditReimbursement: (req, res) =>{
+
 		}
+
 	};
 };
