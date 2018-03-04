@@ -2983,7 +2983,7 @@ CREATE TRIGGER "after_insert_PostProjectReimbursement_signatories"
     EXECUTE PROCEDURE  "trigger_after_insert_finance_signatories_initial"('PostProjectReimbursement', 'ppr', 'PostProjectReimbursementSignatory', 'reimbursement', 'PostAct_Reimbursement_get_organization_next_treasurer_signatory');
 
 CREATE TRIGGER "after_insert_PreActivityReimbursementParticular_signatories"
-    AFTER INSERT ON "PostProjectReimbursement"
+    AFTER INSERT ON "PostProjectReimbursementParticular"
     FOR EACH ROW
     EXECUTE PROCEDURE "trigger_after_insert_finance_signatories"('PostProjectReimbursementParticular', 'pprp', 'pprp."reimbursement" = $1."reimbursement"', 'PostProjectReimbursementSignatory', 'reimbursement', '$1."reimbursement"');
 

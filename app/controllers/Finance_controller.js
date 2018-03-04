@@ -1077,7 +1077,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			console.log("req.files");
 			console.log(req.files);
 
-            let particulars = req.body.particulars;
+            let particulars = req.body['particulars[]'] ? req.body['particulars[]'] : req.body.particulars;
             if(!Array.isArray(particulars)){
                 particulars = [particulars];
             }
