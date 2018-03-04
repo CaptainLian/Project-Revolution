@@ -2199,7 +2199,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 isExpenseComplete: true
             };
 
-            console.log(req.body['item[]'].length);
+            console.log(req.body['item'].length);
 
 
 
@@ -2223,15 +2223,15 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         console.log(error);
                     });
 
-                for (var i = 0; i < req.body['item[]'].length - 1; i++) {
+                for (var i = 0; i < req.body['item'].length - 1; i++) {
 
-                    if (req.body['optionsRadios2[]'][i] == 'Revenue') {
+                    if (req.body['optionsRadios2'][i] == 'Revenue') {
 
                         var dbParam3 = {
                             projectProposal: req.body.ppr,
-                            item: req.body['item[]'][i],
-                            quantity: req.body['quantity[]'][i],
-                            sellingPrice: req.body['price[]'][i]
+                            item: req.body['item'][i],
+                            quantity: req.body['quantity'][i],
+                            sellingPrice: req.body['price'][i]
                         };
 
 
@@ -2250,10 +2250,10 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                         var dbParam3 = {
                             projectProposal: req.body.ppr,
-                            material: req.body['item[]'][i],
-                            quantity: req.body['quantity[]'][i],
-                            unitCost: req.body['price[]'][i],
-                            type: req.body['typeOfItem[]'][i]
+                            material: req.body['item'][i],
+                            quantity: req.body['quantity'][i],
+                            unitCost: req.body['price'][i],
+                            type: req.body['typeOfItem'][i]
                         };
 
                         console.log("expense loop");
