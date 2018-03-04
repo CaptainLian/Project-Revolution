@@ -39,7 +39,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         logger.debug(`Extra-data contents: ${JSON.stringify(req.extra_data)}`, log_options);
 
         if(req.session.user){
-            return  res.redirect('/home');
+            return res.redirect('/home');
         }
 
         const renderData = Object.create(null);
@@ -56,7 +56,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         return req.session.destroy((err) => {
             if(err)
                 logger.warn(`${err.message}\n${err.stack}`, log_options);
-            return res.redirect("/");
+            return res.redirect('/');
         });
     };
 
@@ -322,7 +322,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     };
 
     SystemController.createAccount = (req, res) => {
-        logger.info('createAccount()', log_options)
+        logger.info('createAccount()', log_options);
         const input = req.body;
 
         forgePromise.pki.rsa.generateKeyPair({

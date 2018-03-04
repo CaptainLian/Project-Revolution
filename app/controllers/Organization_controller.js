@@ -5,6 +5,9 @@ var cuid = require('cuid');
 var timediff = require('timediff');
 
 module.exports = function(configuration, modules, models, database, queryFiles) {
+    const logger = modules.logger;
+    const log_options = Object.create(null);
+    log_options.from = 'Organization-Controller';
 
     const systemModel = models.System_model;
     const pnpModel = models.PNP_model;
@@ -13,13 +16,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     const postProjectProposalModel = models.PostProjectProposal_model;
     const gosmModel = models.gosmModel;
     const orgresModel = models.Orgres_model;
-    const logger = modules.logger;
+
     const accountModel = models.Account_model;
+
     const path = require('path');
-
-    const log_options = Object.create(null);
-    log_options.from = 'Organization-Controller';
-
+    
     return {
         //Create ProjectProposal
         viewGOSMActivityListProjectProposal: (req, res) => {
@@ -61,13 +62,6 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 logger.error(`${error.message}\n${error.stack}`, log_options);
              });
 
-        },
-
-        viewGOSMDetails: (req, res) => {
-            const renderData = Object.create(null);
-            console.log(req.param)
-            renderData.extra_data = req.extra_data;
-            return res.render('Org/gosmDetails');
         },
 
         viewNotInGosmList: (req, res) => {
@@ -1030,7 +1024,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.gosmActivity = data[0];
                 renderData.projectHeads = data[1];
 
-                return res.render("Org/ActivityRequirements", renderData);
+                return res.render('Org/ActivityRequirements', renderData);
             }).catch(error => {
                 return logger.error(`${error.message}\n${error.stack}`, log_options);
             });
@@ -1262,15 +1256,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
             console.log(req.params.orgid)
-            gosmModel.getGOSMActivities(req.params.orgid)
-                     .then(data=>{
-                        console.log(data)
-                        renderData.gosmactivity = data
-                        return res.render('Org/gosmDetails', renderData);
-                     }).catch(err=>{
-                        console.log(err)
-                     })
-
+            gosmModel.getGOSMActivities(req.params.orgid).then(data=>{
+                console.log(data)
+                renderData.gosmactivity = data
+                return res.render('Org/gosmDetails', renderData);
+             }).catch(err=>{
+                console.log(err)
+            });
         },
 
         saveContext: (req, res) => {
@@ -1307,7 +1299,6 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 !(req.body.context3).trim()) {
 
                 dbParam.isBriefContextComplete = false;
-
             }
 
             if (!(req.body.actualDateStart).trim()) {
@@ -1327,24 +1318,14 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             }
 
             console.log(req.body.id);
-
             console.log(dbParam);
-
-            projectProposalModel.updatePPRBriefContext(dbParam)
-
-                .then(data => {
-
-
+            projectProposalModel.updatePPRBriefContext(dbParam).then(data => {
                 res.redirect(`/Organization/ProjectProposal/Main/${req.body.id}/${req.body.status}`);
-
-                }).catch(error => {
-                    console.log(error);
-                });
-
-
-
-
+            }).catch(error => {
+                console.log(error);
+            });
         },
+
         postSaveContext: (req, res) =>{
             console.log(req.body);
 
@@ -2758,24 +2739,24 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.csrfToken = req.csrfToken();
             var dbParam = {
                 gosmid :req.params.id
-            }
+            };
             database.task(t=>{
                 return t.batch([
                     pnpModel.getActivityDetailsforPubs(dbParam,t),
                     projectProposalModel.getProjectHeadsGOSM(dbParam,t),
                     orgresModel.getOrgresOtherDetails(dbParam,t),
                     orgresModel.calculate_peractivity(dbParam,t)
-                    ])
+                ]);
             }).then(data=>{
-                renderData.projectProposal = data[0]
-                renderData.projectHeads = data[1]
-                renderData.others = data[2]
-                renderData.scores = data[3][0]
+                renderData.projectProposal = data[0];
+                renderData.projectHeads = data[1];
+                renderData.others = data[2];
+                renderData.scores = data[3][0];
 
                 res.render('Orgres/orgresSpecificActivity', renderData);
             }).catch(err=>{
-                console.log(err)
-            })
+                console.log(err);
+            });
         },
 
         apsReport:(req, res)=>{
@@ -2856,7 +2837,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     renderData.hasgosm = true
                     renderData.gosm = data[5];
                 }
-                
+
                 return res.render('Org/apsreport', renderData);
             }).catch(err=>{
                 return logger.error(`${err.message}\n${err.stack}`);

@@ -1,6 +1,11 @@
 module.exports = function(configuration, modules, models, database, queryFiles){
+    const logger = modules.logger;
+    const log_options = Object.create(null);
+    log_options.from = 'ORGRES-Controller';
+
 	const nodemailer = require('nodemailer');
 	var cuid = require('cuid');
+
 	const orgresModel = models.Orgres_model;
 	const systemModel = models.System_model;
 	const accModel = models.Account_model;
@@ -19,14 +24,14 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				]);
 			}).then(data=>{
 				renderData.roles = data[0]
-				renderData.type = data[1]			
-				renderData.accounts = data[2]			
+				renderData.type = data[1]
+				renderData.accounts = data[2]
 				console.log(data[2]);
 				return res.render('Orgres/ManageAccount', renderData);
 			}).catch(err =>{
 				logger.error(`${err.message}: ${err.stack}`, log_options);
 			})
-		
+
 		},
 
 		officerSurveyForm: (req, res) => {
@@ -83,7 +88,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				logger.error(`${error.message}: ${error.stack}`, log_options);
 			});
 		},
-		
+
 		submitTime: (req, res) => {
 			const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
@@ -108,7 +113,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
             var thirdStartSplit = thirdStart.split("/");
             var thirdEnd = req.body.thirdend;
             var thirdEndSplit = thirdEnd.split("/");
-            
+
           	var dbParam = {
 	         	startyear: firstStartSplit[2],
 		       	endyear: thirdEndSplit[2],
@@ -123,7 +128,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 	       			datestart: "'" + firstStartSplit[2] + "-" + firstStartSplit[0] + "-" + firstStartSplit[1] + "'",
 	       			dateend: "'" + firstEndSplit[2] + "-" + firstEndSplit[0] + "-" + firstEndSplit[1] + "'"
         		}
-	            		
+
 	          	var dbParam2 = {
 	       			schoolyearid: datayear.id,
 	       			numberid: 2,
@@ -158,7 +163,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 	        });
 
 
-            	
+
 		},
 
 		viewSubmitResearchActivityForm: (req, res) => {
@@ -182,7 +187,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		submitResearchActivityForm: (req, res) =>{
 			console.log("enters this");
-			console.log(req.body); 
+			console.log(req.body);
 
 			var dbParam = {
 				gosmactivity: req.body.activity,
@@ -205,7 +210,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				return res.redirect('/Orgres/SubmitActivityResearchForm');
 			}).catch(error=>{
 				logger.error(`${error.message}: ${error.stack}`, log_options);
-			});	
+			});
 		},
 
 		submitOfficerSurveyForm: (req, res) =>{
@@ -230,7 +235,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			.then(data=>{
 
 				return res.redirect('/home');
-			
+
 			}).catch(error=>{
 				console.log(error);
 			});
@@ -258,7 +263,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			.then(data=>{
 
 				return res.redirect('/home');
-			
+
 			}).catch(error=>{
 				console.log(error);
 			});
@@ -270,12 +275,12 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			console.log(req.body['accType[]'] ==1)
 
 			console.log("req.body")
-			
-			let transporter = nodemailer.createTransport({		
+
+			let transporter = nodemailer.createTransport({
 			    host: 'smtp.gmail.com',
-		        port: 465,		     
-		        secure:true,  
-		        connectionTimeout : "10000",	    
+		        port: 465,
+		        secure:true,
+		        connectionTimeout : "10000",
 			    auth: {
 			        user:'dlsum.facultyattendance@gmail.com',
 			        pass:'01234567891011'
@@ -293,7 +298,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		        if (error) {
 		        	console.log("IMAP2");
 		            console.log(error);
-		        }		        		             
+		        }
 		    });
 
 		    var password = cuid();
@@ -306,7 +311,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		    		for(let index = 0, length= req.body['orgpos[]'].length; index < length; ++index){
 		    			req.body['orgpos[]'][index] = Number.parseInt(req.body['orgpos[]'][index]);
 		    		}
-		    		return	accModel.createStudentAccount(req.body.idNumber, req.body.email, password, req.body.givenName, req.body.middleName, req.body.lastName, req.body.number, req.body['orgpos[]'],task)		    				
+		    		return	accModel.createStudentAccount(req.body.idNumber, req.body.email, password, req.body.givenName, req.body.middleName, req.body.lastName, req.body.number, req.body['orgpos[]'],task)
 		    	}else{
 		    		console.log("createAccount");
 		    		return accModel.createAccount(req.body.idNumber, req.body.email, req.body['accType[]'], password, req.body.givenName, req.body.middleName, req.body.lastName, req.body.number,task);
@@ -318,54 +323,79 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		    	logger.error(`${err.message}: ${err.stack}`, log_options);
 		    });
 		},
-		
+
 		getSpecificAccount: (req, res) =>{
 			database.task(task=>{
 				return task.batch([
-					accModel.getSpecificAccount(req.body.idNumber,['a.idnumber','a.firstname','a.middlename','a.lastname','oro.name','a.email','so.acronym','a.idNumber','a.contactNumber','aca.id','a.status']),
+					accModel.getSpecificAccount(
+                        req.body.idNumber, [
+                            'a.idnumber',
+                            'a.firstname',
+                            'a.middlename',
+                            'a.lastname',
+                            'oro.name',
+                            'a.email',
+                            'so.acronym',
+                            'a.idNumber',
+                            'a.contactNumber',
+                            'aca.id',
+                            'a.status'
+                        ]),
 					accModel.getSpecificAccount(req.body.idNumber,['oo.role'])
-				])
+				]);
 			}).then(result=>{
-				console.log("result[1]")
+				console.log("result[1]");
 				var array2=[];
 				for(var x = 0; x < result[1].length; x++){
-					array2.push(result[1][x].role)
+					array2.push(result[1][x].role);
 				}
-				console.log(result[1])
+				console.log(result[1]);
 				res.json({
 					status:1,
 					details:result[0][0],
 					position:array2
-				})
+				});
 			}).catch(err=>{
 				res.json({
-					status:0					
-				})
+					status:0
+				});
 				logger.error(`${err.message}: ${err.stack}`, log_options);
-			})
+			});
 		},
 
 		deleteAccount: (req, res) =>{
-			console.log(req.body.id)
+			console.log(req.body.id);
 			accModel.deleteAccount(req.body.id,2).then(data=>{
-				console.log(data)
-				res.json({status:1});	
+				console.log(data);
+				res.json({status:1});
 			}).catch(err=>{
-				console.log(err)
-				res.json({status:0});	
-			})
-			
+				console.log(err);
+				res.json({status:0});
+			});
 		},
+
 		updateAccount: (req, res) =>{
-			console.log(req.body)
-			accModel.updateAccount(req.body.id, req.body.email, req.body.accType, req.body.status, req.body.givenName,req.body.middleName,req.body.lastName,req.body.number, req.body['orgpos[]']).then(data=>{
-				console.log(data)
-				res.json({status:1});	
-			}).catch(err=>{
-				res.json({status:0});	
-				logger.error(`${error.message}: ${error.stack}`, log_options);
-			})
-		},
+            logger.info('updateAccount()', log_options);
+
+			logger.debug(req.body, log_options);
+			accModel.updateAccount(
+                req.body.id,
+                req.body.email,
+                req.body.accType,
+                req.body.status,
+                req.body.givenName,
+                req.body.middleName,
+                req.body.lastName,
+                req.body.number,
+                req.body['orgpos[]']
+            ).then(data => {
+				res.json({status:1});
+                return logger.debug(data, log_options);
+			}).catch(error =>{
+				res.json({status:0});
+				return logger.error(`${error.message}: ${error.stack}`, log_options);
+			});
+		}
 
 	};
 };
