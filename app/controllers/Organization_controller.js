@@ -922,7 +922,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             let activityType = req.body['activity-type'];
             let others = req.body.otherDescription;
             let natureType = req.body['nature-type'];
-            let personInCharge = req.body['personInCharge[]'] ? req.body.['personInCharge[]'] : req.body.personInCharge;
+            let personInCharge = req.body['personInCharge[]'] ? req.body['personInCharge[]'] : req.body.personInCharge;
 
             if (!Array.isArray(personInCharge)) {
                 personInCharge = [personInCharge];
