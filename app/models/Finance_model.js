@@ -202,6 +202,26 @@ module.exports = function(configuration, modules, database, queryFiles){
         return connection.one(getBookTransferPendSignatorySQL, param);
     };
 
+    const getReimbursementPendSignatorySQL = queryFiles.getReimbursementPendSignatory;
+    FinanceModel.getReimbursementPendSignatory = function(param, connection = database){
+        return connection.one(getReimbursementPendSignatorySQL, param);
+    };
+
+    const resubmitCashAdvanceSQL = queryFiles.resubmitCashAdvance;
+    FinanceModel.resubmitCashAdvance = function(param, connection = database){
+        return connection.none(resubmitCashAdvanceSQL, param);
+    };
+
+    const deleteCashAdvanceParticularsSQL = queryFiles.deleteCashAdvanceParticulars;
+    FinanceModel.deleteCashAdvanceParticulars = function(param, connection = database){
+        return connection.none(deleteCashAdvanceParticularsSQL, param);
+    };
+
+    const resubmitCashAdvanceSignatorySQL = queryFiles.resubmitCashAdvanceSignatory;
+    FinanceModel.resubmitCashAdvanceSignatory = function(param, connection = database){
+        return connection.none(resubmitCashAdvanceSignatorySQL, param);
+    };
+
     //Used for signing
     FinanceModel.getPreActivityCashAdvanceDetails = (cashAdvanceID, fields, connection = database) => {
         logger.debug(`getPreActivityCashAdvanceDetails(cashAdvanceID: ${cashAdvanceID})`, log_options);

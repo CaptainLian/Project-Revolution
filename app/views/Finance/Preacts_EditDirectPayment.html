@@ -79,11 +79,10 @@
 {%endblock%}
 
 {%block content%}
-<form action="/transaction/submitPreactsDirectPayment" encType="multipart/form-data" id="form-id" class="form-horizontal" method="POST">
-
-                        <input type="hidden" name="_csrf" value="{{csrfToken}}">
-
-                        <input type="hidden" name="gosmactivity" value="{{gosmactivity}}">
+<form action="/transaction/submitEditDirectPayment" encType="multipart/form-data" id="form-id" class="form-horizontal" method="POST">
+    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+    <input type="hidden" name="id" value="{{directPayment.id}}">
+    <input type="hidden" name="gosmactivity" value="{{gosmactivity}}">  
                 <div class="row">
                     <div class="col-md-12">
                         <div class="panel panel-warning">

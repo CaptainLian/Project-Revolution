@@ -2221,7 +2221,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     price = [price];
                 }
 
-                let typeOfItem = req.body['typeOfItem[]'] ? req.body['typeOfItem[]'] : typeOfItem = req.body.typeOfItem;
+                let typeOfItem = req.body['typeOfItem[]'] ? req.body['typeOfItem[]'] : req.body.typeOfItem;
                 if (!Array.isArray(typeOfItem)) {
                     typeOfItem = [typeOfItem];
                 }

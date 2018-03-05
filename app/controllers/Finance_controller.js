@@ -290,7 +290,12 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				            //to evaluate
 
 				            if(data.status==0){
-				           		
+
+				            	console.log(data[2]);
+				            	console.log("This is the signatory");
+
+
+				           		//TODO: if all has signed
 				           		if(data1[2].signatory == req.session.user.idNumber){
 				           			renderData.toEvaluate = true; 
 					           	}
@@ -1553,6 +1558,13 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			        renderData.cashAdvance = data[0];
 			        renderData.cashAdvanceParticulars = data[1]
 			        renderData.signatory = data[2];
+			        renderData.gosmactivity = data[0].GOSMActivity;
+
+			        console.log("id");
+			        console.log(renderData.cashAdvance.id);
+			        console.log("gosmactivity");
+			        console.log(renderData.gosmactivity);
+
 
 			        if(data[0].purpose == null){
 			        	renderData.purpose = false;
@@ -1624,6 +1636,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			        renderData.directPayment = data[0];
 			        renderData.directPaymentParticulars = data[1]
 			        renderData.signatory = data[2];
+			        renderData.gosmactivity = data[0].GOSMActivity;
 
 			        console.log(data);
 
@@ -1674,13 +1687,10 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			        renderData.bookTransfer = data[0];
 			        renderData.bookTransferParticulars = data[1]
 			        renderData.signatory = data[2];
+   			        renderData.gosmactivity = data[0].GOSMActivity;
+
 
 			        console.log(data);
-
-   			       
-
-
-
 		
 		            renderData.csrfToken = req.csrfToken();
 
@@ -1701,10 +1711,58 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		editReimbursement: (req, res) =>{
 
-	    	const renderData = Object.create(null);
-	        renderData.extra_data = req.extra_data;
+			var dbParam = {
+				id: req.params.id
+			};
 
-			return res.render('Finance/Preacts_EditReimbursement', renderData);
+			database.task(t=>{
+				return t.batch([
+	                            financeModel.getPostProjectReimbursement(dbParam),
+	                            financeModel.getReimbursementParticulars(dbParam),
+	                            financeModel.getReimbursementPendSignatory(dbParam)]);
+			}).then(data=>{
+
+				if (data[0].status == 2 && data[0].submittedby == req.session.user.idNumber){
+
+					const renderData = Object.create(null);
+			        renderData.extra_data = req.extra_data;
+			        renderData.reimbursement = data[0];
+			        renderData.reimbursementParticulars = data[1];
+			        renderData.signatory = data[2];
+			        renderData.gosmactivity = data[0].GOSMActivity;
+
+			        console.log(data);
+		
+		            renderData.csrfToken = req.csrfToken();
+
+		            if(data[0].justificationfdpp == null){
+   			        	renderData.justification = false;
+   			        }
+   			        else{
+   			        	renderData.justification = true;
+   			        }
+
+   			        if(data[0].justificationfnucadp == null){
+   			        	renderData.justificationfnu = false;
+   			        }
+   			        else{
+   			        	renderData.justificationfnu = true;
+   			        }
+
+
+					return res.render('Finance/Preacts_EditReimbursement', renderData);
+
+				}
+				else{
+	    			return res.render('System/403');
+				}
+				
+
+			}).catch(error=>{
+				console.log(error);
+			});
+
+
 		},
 
 		submitEditCashAdvance: (req, res) =>{
@@ -1714,14 +1772,42 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			var dbParam = {
 				id: req.body.id,
 				gosmactivity: req.body.gosmactivity,
-				submittedBy: req.session.user.idNumber,
+				submittedby: req.session.user.idNumber,
 				justification: req.body.nodpjustification,
 				purpose: req.body.cpjustification
 			};
 
+			var dbParam2 = {
+				cashadvance: req.body.id
+			};
 
+			let particulars = req.body['particulars[]'] ? req.body['particulars[]'] : req.body.particulars;
+            if(!Array.isArray(particulars)){
+                particulars = [particulars];
+            }
 
+            database.tx(t => {
+            	let query = [
+            		financeModel.resubmitCashAdvance(dbParam),
+					financeModel.deleteCashAdvanceParticulars(dbParam2)
+				];
 
+                for(let index = 0; index < particulars.length; ++index){
+                    query.push(
+                        financeModel.insertPreActivityCashAdvanceParticular({
+                            cashAdvance: req.body.id,
+                            particular: particulars[index]
+                    }, transaction));
+                }
+
+                return t.batch(query);
+            }).then(data => {
+
+                return res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
+
+			}).catch(error=>{
+				console.log(error);
+			});
 
 
 
@@ -1729,13 +1815,19 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		submitEditDirectPayment: (req, res) =>{
 
+			console.log(req.body);
+
 		},
 
 		submitEditBookTransfer: (req, res) =>{
 
+			console.log(req.body);
+
 		},
 
 		submitEditReimbursement: (req, res) =>{
+
+			console.log(req.body);
 
 		}
 

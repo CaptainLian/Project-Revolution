@@ -150,7 +150,7 @@
 
                                                     {% elif (transaction.transaction == 6) or (transaction.transaction == 7) %} <!-- if reimbursement -->
 
-                                                        <tr onclick="window.location = '/transaction/preacts/editReimbursement/{{transaction.id}}'">
+                                                        <tr onclick="window.location = '/transaction/editReimbursement/{{transaction.id}}'">
 
                                                     {% endif %}
 
@@ -162,7 +162,7 @@
                                                             <td>Cash Advance</td>
                                                         {% elif (transaction.transaction == 4)  or (transaction.transaction == 5) %}
                                                             <td>Book Transfer</td>
-                                                        {% elif (transaction.transaction == 2)  or (transaction.transaction == 3) %}
+                                                        {% elif (transaction.transaction == 6)  or (transaction.transaction == 7) %}
                                                             <td>Reimbursement</td>
                                                         {% endif %}
                                                         
@@ -244,7 +244,7 @@
                                                             <td>Cash Advance</td>
                                                         {% elif (transaction.transaction == 4)  or (transaction.transaction == 5) %}
                                                             <td>Book Transfer</td>
-                                                        {% elif (transaction.transaction == 2)  or (transaction.transaction == 3) %}
+                                                        {% elif (transaction.transaction == 6)  or (transaction.transaction == 7) %}
                                                             <td>Reimbursement</td>
                                                         {% endif %}
                                                         
@@ -323,7 +323,7 @@
                                                         <td>Cash Advance</td>
                                                     {% elif (transaction.transaction == 4)  or (transaction.transaction == 5) %}
                                                         <td>Book Transfer</td>
-                                                    {% elif (transaction.transaction == 2)  or (transaction.transaction == 3) %}
+                                                    {% elif (transaction.transaction == 6)  or (transaction.transaction == 7) %}
                                                         <td>Reimbursement</td>
                                                     {% endif %}
                                                     
