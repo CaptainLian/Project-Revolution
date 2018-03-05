@@ -2559,16 +2559,35 @@ INSERT INTO "PreActivityBookTransferStatus" ("id", "name")
                                             (2, 'Pend'),
                                             (3, 'Denied');
 
+DROP TABLE IF EXISTS "BookTransferEstablishment" CASCADE; 
+CREATE TABLE "BookTransferEstablishment" ( 
+    "id" SMALLINT, 
+    "name" VARCHAR(45) NOT NULL, 
+    "transferAccount" CHAR(6), 
+ 
+    PRIMARY KEY("id") 
+); 
+INSERT INTO "BookTransferEstablishment" ("id", "name") 
+                                 VALUES (   0, 'Physical Facilities Development Fund'), 
+                                        (   1, 'Perico\'s Grill'), 
+                                        (   2, 'La Casita De Roja Restaurant'), 
+                                        (   3, 'CopyCare Phils.'), 
+                                        (   4, 'MRU'), 
+                                        (   5, 'Scoop'), 
+                                        (   6, 'Animo Bookstore'), 
+                                        (   7, 'The Store'), 
+                                        (   8, 'Salikneta'); 
+
 DROP TABLE IF EXISTS "PreActivityBookTransfer" CASCADE;
 CREATE TABLE "PreActivityBookTransfer"(
     "id" SERIAL UNIQUE,
     "GOSMActivity" INTEGER REFERENCES GOSMActivity("id"),
-    "submissionID" INTEGER,
-    "sequence" INTEGER,
-    "submittedBy" INTEGER REFERENCES Account(idNumber),
+    "submissionID" INTEGER DEFAULT -1,
+    "sequence" INTEGER DEFAULT -1,
+    "submittedBy" INTEGER REFERENCES Account(idNumber) NOT NULL,
     "dateSubmitted" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "status" SMALLINT REFERENCES "PreActivityBookTransferStatus"("id") NOT NULL DEFAULT 0,
-    "transferAccount" CHARACTER(7),
+    "establishment" SMALLINT REFERENCES "BookTransferEstablishment" NOT NULL,
 
     PRIMARY KEY ("GOSMActivity", "submissionID", "sequence")
 );
