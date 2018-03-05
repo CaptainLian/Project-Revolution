@@ -1,7 +1,7 @@
-SELECT PPRE.id, PPRE."GOSMActivity", PPRE."submissionID", PPRE.sequence, PPRE."nameOfEstablishment", 
-       PPRE.amount, PPRE."paymentBy", PPRE."foodExpense", PPRE."NUCAODP", PPRE."delayedProcessing", 
-       PPRE.filenames, PPRE."filenamesToShow", PPRE."idNumber" as submittedBy, 
-       PPRE."dateCreated" as dateSubmitted, PPRE.status,
+SELECT PPRE.id, PPRE."GOSMActivity", PPRE."submissionID", PPRE.sequence, PPRE."justificationFDPP", 
+       PPRE."justificationFNUCADP", 
+       PPRE.filenames, PPRE."filenamesToShow", PPRE."submittedBy" as submittedBy, 
+       PPRE."dateCreated" as dateSubmitted, PPRE.status, PPE.unitcost, PPE.quantity,
        (PPE.quantity*PPE.unitcost) as amount, PPE.material
   FROM public."PostProjectReimbursement" PPRE JOIN "PostProjectReimbursementParticular" PPREP
 										       ON PPRE.id=PPREP."reimbursement"
