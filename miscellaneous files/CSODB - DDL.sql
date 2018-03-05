@@ -39,19 +39,21 @@ RETURNS TRIGGER AS
 $trigger$
     BEGIN
         IF NEW."submissionID" IS NULL THEN
-            NEW.sequence = 1;
-            EXECUTE format('SELECT COALESCE(MAX("submissionID") + 1, 1)
+            NEW."sequence" = 1;
+            EXECUTE format('SELECT COALESCE(MAX(%I."submissionID") + 1, 1)
+                              FROM %I %I
+                             WHERE (%s);',
+                             TG_ARGV[1], TG_ARGV[0], TG_ARGV[1], TG_ARGV[2])
+            INTO NEW."submissionID"
+            USING NEW;
+            
+        ELSE
+            EXECUTE format('SELECT COALESCE(MAX(%I."sequence") + 1, 1)
                               FROM %I %I
                              WHERE (%s)
-                               AND %I."sequence" = $1."sequence"', TG_ARGV[0], TG_ARGV[1], TG_ARGV[2], TG_ARGV[1])
-            INTO STRICT NEW."submissionID"
-            USING NEW;
-        ELSE
-            EXECUTE format ('SELECT COALESCE(MAX("sequence") + 1, 1)
-                               FROM %I %I
-                              WHERE "submissionID" = $1."submissionID"
-                                AND (%s);', TG_ARGV[0], TG_ARGV[1], TG_ARGV[2])
-            INTO STRICT NEW."sequence"
+                               AND %I."submissionID" = $1."submissionID";',
+                            TG_ARGV[1],  TG_ARGV[0], TG_ARGV[1], TG_ARGV[2], TG_ARGV[1])
+            INTO NEW."sequence"
             USING NEW;
         END IF;
 
@@ -68,23 +70,40 @@ RETURNS TRIGGER AS
 $trigger$
     DECLARE
         numSignNeeded INTEGER;
+        numPend INTEGER;
+        numApprove INTEGER;
         newStatus SMALLINT;
     BEGIN
-        IF NEW.status = 1 THEN
-            EXECUTE format ('SELECT COUNT(%I.id)
-                               FROM %I %I
-                              WHERE (%s)
-                                AND %I.status <> 1;', TG_ARGV[1], TG_ARGV[0], TG_ARGV[1], TG_ARGV[2], TG_ARGV[1])
-            INTO STRICT numSignNeeded
-            USING NEW;
+        EXECUTE format('SELECT COUNT(%I.id)
+                          FROM %I %I
+                         WHERE (%s)
+                           AND %I.status = 2;',
+            TG_ARGV[1], TG_ARGV[0], TG_ARGV[1], TG_ARGV[2], TG_ARGV[1])
+        INTO STRICT numPend
+        USING NEW;
 
-            IF numSignNeeded = 0 THEN
-                 newStatus := 1;
-            END IF;
-	    ELSIF NEW.status = 2 THEN
+        EXECUTE format('SELECT COUNT(%I.id)
+                          FROM %I %I
+                         WHERE (%s)
+                           AND %I.status = 1;',
+            TG_ARGV[1], TG_ARGV[0], TG_ARGV[1], TG_ARGV[2], TG_ARGV[1])
+        INTO STRICT numApprove
+        USING NEW;
+
+        EXECUTE format('SELECT COUNT(%I.id)
+                          FROM %I %I
+                         WHERE (%s);',
+            TG_ARGV[1], TG_ARGV[0], TG_ARGV[1], TG_ARGV[2])
+        INTO STRICT numSignNeeded
+        USING NEW;
+
+
+        IF numSignNeeded = newStatus THEN
+            newStatus := 1;
+	    ELSIF NEW.status = 2 OR numPend > 0 THEN
              newStatus := 2;
-        ELSIF NEW.status = 3 THEN
-             newStatus := 3;
+        ELSE
+            newStatus := 0;
 	    END IF;
 
         EXECUTE format('UPDATE %I %I
@@ -2392,6 +2411,7 @@ CREATE TABLE "PreActivityCashAdvance" (
 
     PRIMARY KEY ("GOSMActivity", "submissionID", "sequence")
 );
+/*
 CREATE OR REPLACE FUNCTION "trigger_before_insert_PreActivityCashAdvance_sequence"()
 RETURNS TRIGGER AS
 $trigger$
@@ -2411,10 +2431,11 @@ $trigger$
         RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
+*/
 CREATE TRIGGER "before_insert_PreActivityCashAdvance_sequence"
     BEFORE INSERT ON "PreActivityCashAdvance"
     FOR EACH ROW
-    EXECUTE PROCEDURE "trigger_before_insert_PreActivityCashAdvance_sequence"();
+    EXECUTE PROCEDURE "trigger_before_insert_sequence_versioning"('PreActivityCashAdvance', 'paca', '"paca"."GOSMActivity" = $1."GOSMActivity"');
 
 DROP TABLE IF EXISTS "PreActivityCashAdvanceParticular" CASCADE;
 CREATE TABLE "PreActivityCashAdvanceParticular" (
@@ -2947,7 +2968,7 @@ CREATE TABLE "PostProjectReimbursement" (
   "filenamesToShow" TEXT[],
   "submittedBy" INTEGER REFERENCES Account(idNumber),
   "dateCreated" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  "status" SMALLINT REFERENCES "PostProjectReimbursementStatus"("id") DEFAULT 0,
+  "status" SMALLINT REFERENCES "PostProjectReimbursementStatus"("id") NOT NULL DEFAULT 0,
 
   PRIMARY KEY("GOSMActivity", "submissionID", "sequence")
 );
@@ -2964,7 +2985,7 @@ CREATE TABLE "PostProjectReimbursementParticular" (
 CREATE TRIGGER "before_insert_PostProjectReimbursement_sequence"
     BEFORE INSERT ON "PostProjectReimbursement"
     FOR EACH ROW
-    EXECUTE PROCEDURE "trigger_before_insert_sequence_versioning"('PostProjectReimbursement', 'ppr', 'ppr."GOSMActivity" = $1."GOSMActivity"');
+    EXECUTE PROCEDURE "trigger_before_insert_sequence_versioning"('PostProjectReimbursement', 'ppr', '"ppr"."GOSMActivity" = $1."GOSMActivity"');
 
 DROP TABLE IF EXISTS "PostProjectReimbursementSignatory" CASCADE;
 CREATE TABLE "PostProjectReimbursementSignatory" (
