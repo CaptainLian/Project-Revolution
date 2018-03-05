@@ -42,11 +42,12 @@ $trigger$
             NEW.sequence = 1;
             EXECUTE format('SELECT COALESCE(MAX("submissionID") + 1, 1)
                               FROM %I %I
-                             WHERE (%s)', TG_ARGV[0], TG_ARGV[1], TG_ARGV[2])
+                             WHERE (%s)
+                               AND %I."sequence" = $1."sequence"', TG_ARGV[0], TG_ARGV[1], TG_ARGV[2], TG_ARGV[1])
             INTO STRICT NEW."submissionID"
             USING NEW;
         ELSE
-            EXECUTE format ('SELECT COALESCE(MAX(sequence) + 1, 1)
+            EXECUTE format ('SELECT COALESCE(MAX("sequence") + 1, 1)
                                FROM %I %I
                               WHERE "submissionID" = $1."submissionID"
                                 AND (%s);', TG_ARGV[0], TG_ARGV[1], TG_ARGV[2])
@@ -2446,7 +2447,7 @@ CREATE TABLE "PreActivityDirectPaymentSignatory" (
     "directPayment" INTEGER REFERENCES "PreActivityDirectPayment"("id"),
     "signatory" INTEGER REFERENCES Account(idNumber),
     "type" SMALLINT NOT NULL REFERENCES "FinanceSignatoryType"("id"),
-    "status" SMALLINT NOT NULL REFERENCES SignatoryStatus(id) DEFAULT 0,
+    "status" SMALLINT NOT NULL REFERENCES SignatoryStatus(id) NOT NULL DEFAULT 0,
     "comments" TEXT,
     "sectionsToEdit" VARCHAR(60)[],
     "document" JSONB,
@@ -2587,7 +2588,7 @@ CREATE TABLE "PreActivityBookTransferSignatory" (
     "bookTransfer" INTEGER REFERENCES "PreActivityBookTransfer"("id"),
     "signatory" INTEGER REFERENCES Account(idNumber),
     "type" SMALLINT NOT NULL REFERENCES "FinanceSignatoryType"("id"),
-    "status" SMALLINT NOT NULL REFERENCES SignatoryStatus(id) DEFAULT 0,
+    "status" SMALLINT NOT NULL REFERENCES SignatoryStatus(id) NOT NULL DEFAULT 0,
     "comments" TEXT,
     "sectionsToEdit" VARCHAR(60)[],
     "document" JSONB,
@@ -2969,7 +2970,7 @@ CREATE TABLE "PostProjectReimbursementSignatory" (
     "reimbursement" INTEGER REFERENCES "PostProjectReimbursement"("id"),
     "signatory" INTEGER REFERENCES Account(idNumber),
     "type" SMALLINT REFERENCES "FinanceSignatoryType"("id"),
-    "status" SMALLINT  REFERENCES SignatoryStatus("id"),
+    "status" SMALLINT  REFERENCES SignatoryStatus("id") NOT NULL DEFAULT 0,
     comments TEXT,
     sectionsToEdit VARCHAR(60)[],
     document JSONB,
