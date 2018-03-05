@@ -41,12 +41,9 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		},
 
 		evaluateTransaction: (req, res) => {
-			console.log('EvaluateTransaction !!!!-13131231231313123s	');
-			logger.debug('evaluateTransaction()', log_options);
-
+			logger.info('evaluateTransaction()', log_options);
 
 			var viewEvaluation = false;
-
 		    if (req.session.user.type == 1){
 
 		    	const ACL = req.extra_data.user.accessControl[req.session.user.organizationSelected.id];
@@ -56,12 +53,9 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		    	else{
 		    		viewEvaluation = false;
 		    	}
-
 		    }
 		    else if(req.session.user.type >= 3 && req.session.user.type <= 6){
-
 		    	viewEvaluation = true;
-
 		    }
 		    else{
 		    	viewEvaluation = false;
@@ -324,19 +318,14 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				else{
 	    			return res.render('System/404');
 				}
-
 		    }
 		    else{
-
 	    		return res.render('System/403');
-
 		    }
-
-			
 		},
 
 		approveDirectPayment: (req, res) =>{
-            logger.debug('approveDirectPayment()', log_options);
+            logger.info('approveDirectPayment()', log_options);
 
             /**
              * Gets all needed details for the digital signature
@@ -655,22 +644,17 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		},
 
 		approveReimbursement: (req, res) =>{
-
-			
 			var dbParam = {
 				reimbursement: req.body.reimbursementId,
 				gosmactivity: req.body.gosmactivity,
 				idnumber: req.session.user.idNumber
 			}
 
-			financeModel.approveReimbursement(dbParam)
-			.then(data=>{
-
+			financeModel.approveReimbursement(dbParam).then(data=>{
 				console.log("successfully approved reimbursement");
-				res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
-
+				return res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
 			}).catch(error=>{
-				console.log(error);
+				logger.error(`${error.message}: ${error.stack}`, log_options);
 			});
 		},
 

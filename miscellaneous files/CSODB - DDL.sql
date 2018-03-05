@@ -2936,9 +2936,11 @@ INSERT INTO "PostProjectReimbursementStatus" ("id", "name")
 DROP TABLE IF EXISTS "PostProjectReimbursement" CASCADE;
 CREATE TABLE "PostProjectReimbursement" (
   "id" SERIAL NOT NULL UNIQUE,
+  /* Primary Keys */
   "GOSMActivity" INTEGER REFERENCES ProjectProposal(GOSMActivity),
   "submissionID" INTEGER DEFAULT -1,
   "sequence" INTEGER DEFAULT -1,
+
   "justificationFDPP" TEXT,
   "justificationFNUCADP" TEXT,
   "filenames" TEXT[],
