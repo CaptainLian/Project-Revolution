@@ -2569,7 +2569,7 @@ CREATE TABLE "BookTransferEstablishment" (
 ); 
 INSERT INTO "BookTransferEstablishment" ("id", "name") 
                                  VALUES (   0, 'Physical Facilities Development Fund'), 
-                                        (   1, 'Perico\'s Grill'), 
+                                        (   1, E'Perico\'s Grill'), 
                                         (   2, 'La Casita De Roja Restaurant'), 
                                         (   3, 'CopyCare Phils.'), 
                                         (   4, 'MRU'), 
