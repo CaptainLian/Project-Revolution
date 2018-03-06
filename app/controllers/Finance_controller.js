@@ -1803,11 +1803,50 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 			console.log(req.body);
 
+			var dbParam = {
+				id: req.body.id,
+				gosmactivity: req.body.gosmactivity,
+				reason: req.body.reasonForDelayedPRSProcessing
+			};
+
+			database.task(t=>{
+				return t.batch([
+	                financeModel.resubmitDirectPaymentSignatory(dbParam, t),
+	                financeModel.resubmitDirectPayment(dbParam, t)
+				]);
+			}).then(data=>{
+
+				return res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
+
+			}).catch(error=>{
+				console.log(error);
+			});
+
 		},
 
 		submitEditBookTransfer: (req, res) =>{
 
 			console.log(req.body);
+
+			var dbParam = {
+				id: req.body.id,
+				gosmactivity: req.body.gosmactivity,
+				transferaccount: req.body.recipient
+			};
+
+			database.task(t=>{
+				return t.batch([
+	                financeModel.resubmitBookTransferSignatory(dbParam, t),
+	                financeModel.resubmitBookTransfer(dbParam, t)
+				]);
+			}).then(data=>{
+
+				return res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
+
+			}).catch(error=>{
+				console.log(error);
+			});
+
 
 		},
 
