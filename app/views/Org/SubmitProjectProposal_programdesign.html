@@ -142,19 +142,6 @@
   {{tag.javascript('/plugins/bower_components/toast-master/js/jquery.toast.js')}}
 
   <!--  -->
-	<script type="text/javascript">
-    	var gid = {{gosmactivity.gosmactivity}};
-    	var id = {{projectProposal.id}};
-    	var status = {{status}};
-      $('#date-range').datepicker({
-        toggleActive: true
-      });
-      $('.input-daterange-datepicker').daterangepicker({
-        buttonClasses: ['btn', 'btn-sm'],
-        applyClass: 'btn-danger',
-        cancelClass: 'btn-inverse'
-    });
-    </script>
 
    <script type="text/javascript">
      var data;
@@ -225,9 +212,9 @@
 
         $("select").select2();
   			$('#createEventModal').modal({ show: false})
-  			$('.clockpicker').clockpicker({
-		        donetext: 'Done',
-            autoClose:true
+  			$('#start-time, #end-times').clockpicker({
+		        autoclose: true
+
 		    }).find('input').change(function() {
 		        console.log(this.value);
 		    });
@@ -463,9 +450,11 @@
 
                   <div class="form-group">
                   <label class="form-control-label">Date Range</label>
-                      <div class="input-daterange clockpicker input-group" id="date-range">
-                          <input type="text" class="form-control" id="inp-start" name="start" /> <span class="input-group-addon bg-info b-0 text-white">to</span>
-                          <input type="text" class="form-control" id="inp-end" name="end" /> </div>
+                      <div class="input-daterange clockpicker input-group" id="date-range" >
+                          <label><input type="text" class="form-control" id="inp-start" name="start" data-placement="bottom" data-align="top" data-autoclose="true" /> </label>
+                          <span class="input-group-addon bg-info b-0 text-white">to</span>
+                          <input type="text" class="form-control" id="inp-end" name="end" data-placement="bottom" data-align="top" data-autoclose="true" /> 
+                      </div>
 
                   </div>
                 <div class="form-group">
