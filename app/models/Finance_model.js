@@ -99,11 +99,6 @@ module.exports = function(configuration, modules, database, queryFiles){
         return connection.none(pendDirectPaymentSQL, param);
     };
 
-    const pendCashAdvanceSQL = queryFiles.pendCashAdvance;
-    FinanceModel.pendCashAdvance = function(param, connection = database){
-        return connection.none(pendCashAdvanceSQL, param);
-    };
-
     const getExpensesWithoutTransactionCountSQL = queryFiles.getExpensesWithoutTransactionCount;
     FinanceModel.getExpensesWithoutTransactionCount = function(param, connection = database){
         return connection.oneOrNone(getExpensesWithoutTransactionCountSQL, param);
@@ -234,43 +229,43 @@ module.exports = function(configuration, modules, database, queryFiles){
 
     //Used for signing
     FinanceModel.getPreActivityCashAdvanceDetails = (cashAdvanceID, fields, connection = database) => {
-        logger.debug(`getPreActivityCashAdvanceDetails(cashAdvanceID: ${cashAdvanceID})`, log_options);
+        logger.info(`getPreActivityCashAdvanceDetails(cashAdvanceID: ${cashAdvanceID})`, log_options);
         let query = squel.select()
         .from('"PreActivityCashAdvance"', 'preca')
          .left_join('"PreActivityCashAdvanceStatus"', 'pacas', 'preca.status = pacas.id')
          .left_join('Account', 'a', 'preca."submittedBy" = a.idNumber')
         .where('preca."id" = ${cashAdvanceID}');
         attachFields(query, fields);
-
         query = query.toString();
 
-        logger.debug(query, log_options);
-        return connection.one(query, {
-            cashAdvanceID: cashAdvanceID
-        });
+        let param = Object.create(null);
+        param.cashAdvanceID = cashAdvanceID;
+
+        logger.debug(`Executing query: ${query}`, log_options);
+        return connection.one(query, param);
     };
 
     //Used for signing
     FinanceModel.getPreActivityCashAdvanceParticularDetails = (cashAdvanceID, fields, connection = database) => {
-        logger.debug(`getPreActivityCashAdvanceDetails(cashAdvanceID: ${cashAdvanceID})`, log_options);
+        logger.info(`getPreActivityCashAdvanceDetails(cashAdvanceID: ${cashAdvanceID})`, log_options);
         let query = squel.select()
         .from('"PreActivityCashAdvanceParticular"', 'precap')
          .left_join('ProjectProposalExpenses', 'ppe', 'precap."particular" = ppe.id')
          .left_join('ExpenseType', 'et', 'ppe.type = et.id')
         .where('precap."cashAdvance" = ${cashAdvanceID}');
         attachFields(query, fields);
-
         query = query.toString();
 
-        logger.debug(query, log_options);
-        return connection.any(query, {
-            cashAdvanceID: cashAdvanceID
-        });
+        let param = Object.create(null);
+        param.cashAdvanceID = cashAdvanceID;
+
+        logger.debug(`Executing query: ${query}`, log_options);
+        return connection.any(query, param);
     };
 
     //Used for signing
     FinanceModel.getPreActivityDirectPaymentDetails = (directPaymentID, fields, connection = database) => {
-        logger.debug(`getPreActivityDirectPaymentDetails(directPaymentID: ${directPaymentID})`, log_options);
+        logger.info(`getPreActivityDirectPaymentDetails(directPaymentID: ${directPaymentID})`, log_options);
 
         let query = squel.select()
             .from('"PreActivityDirectPayment"', 'padp')
@@ -289,7 +284,7 @@ module.exports = function(configuration, modules, database, queryFiles){
 
     //Used for signing
     FinanceModel.getPreActivityDirectPaymentParticularDetails = (directPaymentID, fields, connection = database) => {
-        logger.debug(`getPreActivityDirectPaymentParticularDetails(directPaymentID: ${directPaymentID})`, log_options);
+        logger.info(`getPreActivityDirectPaymentParticularDetails(directPaymentID: ${directPaymentID})`, log_options);
 
         let query = squel.select()
             .from('"PreActivityDirectPaymentParticular"', 'padpp')
@@ -302,14 +297,15 @@ module.exports = function(configuration, modules, database, queryFiles){
         let param = Object.create(null);
         param.directPaymentID = directPaymentID;
 
-        logger.debug(query, log_options);
+        logger.debug(`Executing query: ${query}`, log_options);
         return connection.any(query, param);
     };
 
     
     const getNextSignantorySQL = queryFiles.finance_get_next_signatory;
+
     FinanceModel.getPreActivityDirectPaymentNextSignatory = (directPaymentID, connection = database) => {
-        logger.debug(`getPreActivityDirectPaymentNextSignatory(directPaymentID: ${directPaymentID})`, log_options);
+        logger.info(`getPreActivityDirectPaymentNextSignatory(directPaymentID: ${directPaymentID})`, log_options);
 
         let param = Object.create(null);
         param.financeTable = 'PreActivityDirectPaymentSignatory';
@@ -317,11 +313,12 @@ module.exports = function(configuration, modules, database, queryFiles){
         param.column = 'bookTransfer';
         param.value = directPaymentID;
 
+        logger.debug(`Executing query: ${getNextSignantorySQL}`, log_options);
         return connection.oneOrNone(getNextSignantorySQL, param);
     };
 
     FinanceModel.getPreActivityCashAdvanceNextSignatory = (cashAdvanceID, connection = database) => {
-        logger.debug(`getPreActivityCashAdvanceNextSignatory(cashAdvanceID: ${directPaymentID})`, log_options);
+        logger.info(`getPreActivityCashAdvanceNextSignatory(cashAdvanceID: ${directPaymentID})`, log_options);
 
         let param = Object.create(null);
         param.financeTable = 'PreActivityCashAdvanceSignatory';
@@ -329,6 +326,7 @@ module.exports = function(configuration, modules, database, queryFiles){
         param.column = 'cashAdvance';
         param.value = cashAdvanceID;
 
+        logger.debug(`Executing query: ${getNextSignantorySQL}`, log_options);
         return connection.oneOrNone(getNextSignantorySQL, param);
     };
 

@@ -1356,10 +1356,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 !(req.body.learning).trim() ||
                 !(req.body.develop).trim() ||
                 !(req.body.learning).trim() ||
-
                 !(req.body.mistakes).trim()
-                // ||
-                // obj.length != (req.body['obj[]']).length
             ) {
 
 

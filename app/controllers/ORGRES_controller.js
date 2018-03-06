@@ -259,11 +259,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				field9: req.body.radio9
 			};
 
-			orgresModel.insertMemberSurveyForm(dbParam)
-			.then(data=>{
-
+			orgresModel.insertMemberSurveyForm(dbParam).then(data=>{
 				return res.redirect('/home');
-
 			}).catch(error=>{
 				console.log(error);
 			});

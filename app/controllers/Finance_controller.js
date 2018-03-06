@@ -119,14 +119,11 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				           	else{
 	    						return res.render('System/403');
 				           	}
-
-
-
-						}).catch(error=>{
+						}).catch(error => {
 							return logger.debug(`${error.message}\n${error.stack}`, log_options);
 						});
-					}).catch(error=>{
-						console.log(error);
+					}).catch(error => {
+						return logger.debug(`${error.message}\n${error.stack}`, log_options);
 					});
 				} // cash advance
 			 	else if (req.params.transaction == 1){
@@ -475,9 +472,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		},
 
 		pendDirectPayment: (req, res) =>{
-			console.log(req.body);
-			console.log("pend direct payment");
-			console.log(req.body.directPaymentId);
+			logger.info('call pendDirectPayment()', log_options);
 
 			var dbParam = {
 				directPayment: req.body.directPaymentId,
@@ -496,12 +491,14 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		},
 
 		approveCashAdvance: (req, res) => {
-			logger.debug('approveCashAdvance()', log_options);
+			logger.info('call approveCashAdvance()', log_options);
 
 			database.task(t => {
 				return t.batch([
                     //0
-					accountModel.getAccountDetails(req.session.user.idNumber, ['a.privateKey'], t),
+					accountModel.getAccountDetails(req.session.user.idNumber, [
+						'a.privateKey'
+						], t),
                     //1
 					financeModel.getPreActivityCashAdvanceDetails(req.body.cashAdvanceId, [
 						'preca.id AS cashadvance',
@@ -560,9 +557,9 @@ module.exports = function(configuration, modules, models, database, queryFiles){
                 ]);
 			}).then(([signing, GAID, cashAdvanceID]) => {
 				res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
-				logger.debug('successfully approved', log_options);
+				logger.debug('Successfully approved cash advance', log_options);
 
-
+				logger.debug('Adding notifications', log_options);
 				return database.task(t => {
 					return t.batch([
 						//0
@@ -585,8 +582,6 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 					]);
 				});
 			}).then(([GOSMDetails, projectHeads, nextSignatory, currentSignatoryDetails, cashAdvanceID]) => {
-				logger.debug('Adding notifications', log_options);
-
 				const strategy = GOSMDetails.strategies;
 
 				return database.task(t => {
@@ -610,12 +605,10 @@ module.exports = function(configuration, modules, models, database, queryFiles){
         				);
 					}
 
-
 					details.signatory = currentSignatoryDetails.idNumber;
 	        		for(const projectHead of projectHeads){
 	        			queries[queries.length] = accountModel.addNotification(
 	        				projectHead.idNumber,
-	        				//title
 	        				'Evaluatation of Cash Advance',
 	        				`Your cash advance for ${strategy} has be approved by ${currentSignatoryDetails.name}`,
 	        				details,
@@ -634,20 +627,21 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		},
 
 		pendCashAdvance: (req, res) =>{
+			logger.info('call pendCashAdvance()', log_options);
+
 			console.log(req.body);
 			console.log("pend cash advance");
 			console.log(req.body.cashAdvanceId);
 
-			var dbParam = {
-				signatory: req.session.user.idNumber,
-				cashAdvance: req.body.cashAdvanceId
-			};
+			accountModel.pendCashAdvance(
+				req.body.cashAdvanceId, 
+				req.session.user.idNumber
+			).then(data => {
+				logger.debug('Successfully pended cash advance', log_options);
 
-			financeModel.pendCashAdvance(dbParam).then(data=>{
-				console.log("successfully pended cash advance");
 				res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
 			}).catch(error => {
-				logger.error(`${err.message}\n${err.stack}`);
+				return logger.error(`${err.message}\n${err.stack}`);
 			});
 
 		},
@@ -676,8 +670,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				idnumber: req.session.user.idNumber
 			}
 
-			financeModel.pendReimbursement(dbParam)
-			.then(data=>{
+			financeModel.pendReimbursement(dbParam).then(data=>{
 
 				console.log("successfully pended reimbursement");
 				res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
@@ -1448,7 +1441,6 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		        	else{
 	    				return res.render('System/403');
 				    }
-
 		    	}).catch(error=>{
 		    		console.log(error);
 		    	});
@@ -1557,13 +1549,9 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			        	renderData.particulars = data1;
 			            renderData.csrfToken = req.csrfToken();
 
-
-
 						return res.render('Finance/Preacts_EditCashAdvance', renderData);
-
-
 			        }).catch(error=>{
-
+			        	return logger.error(`${error.message}\n${error.stack}`, log_options);
 			        });
 
 				}
@@ -1587,9 +1575,10 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 			database.task(t=>{
 				return t.batch([
-	                            financeModel.getPreActivityDirectPayment(dbParam),
-	                            financeModel.getDirectPaymentParticulars(dbParam),
-	                            financeModel.getDirectPaymentPendSignatory(dbParam)]);
+                    financeModel.getPreActivityDirectPayment(dbParam),
+                    financeModel.getDirectPaymentParticulars(dbParam),
+                    financeModel.getDirectPaymentPendSignatory(dbParam)
+                ]);
 			}).then(data=>{
 
 				if (data[0].status == 2 && data[0].submittedBy == req.session.user.idNumber){

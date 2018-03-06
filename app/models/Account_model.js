@@ -628,6 +628,10 @@ module.exports = function(configuration, modules, database, queryFiles) {
         return connection.one(query, param);
     };
 
+    /********************************
+     * FINANCE ACCOUNTING SIGNATORY *
+     ********************************/
+    
     const approvePreActDirectPaymentSQL = queryFiles.account_PreActDirectPayment_approve;
     AccountModel.approveDirectPayment = (directPaymentID, idNumber, document, digitalSignature, connection = database) => {
         logger.info(`call approveDirectPayment(directPaymentID: ${directPaymentID}, idNumber: ${idNumber})`)
@@ -655,6 +659,19 @@ module.exports = function(configuration, modules, database, queryFiles) {
         logger.debug(`Executing query: ${pendPreActDirectPaymentSQL}`, log_options);
         return connection.none(pendPreActDirectPaymentSQL, param);
     };
+
+    const pendCashAdvanceSQL = queryFiles.pendCashAdvance;
+    AccountModel.pendCashAdvance = function(cashAdvance, signatory, connection = database){
+        logger.info(`call pendCashAdvance(cashAdvance: ${cashAdvance}, signatory: ${signatory})`, log_options);
+
+        let param = Object.create(null);
+        param.signatory = signatory;
+        param.cashAdvance = cashAdvance;
+
+        logger.debug(`Executing query: ${pendCashAdvanceSQL}`, log_options);
+        return connection.none(pendCashAdvanceSQL, param);
+    };
+
 
     return AccountModel;
 };

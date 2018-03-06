@@ -72,16 +72,8 @@ $trigger$
         numSignNeeded INTEGER;
         numPend INTEGER;
         numApprove INTEGER;
-        newStatus SMALLINT;
+        newStatus SMALLINT DEFAULT 0;
     BEGIN
-        EXECUTE format('SELECT COUNT(%I.id)
-                          FROM %I %I
-                         WHERE (%s)
-                           AND %I.status = 2;',
-            TG_ARGV[1], TG_ARGV[0], TG_ARGV[1], TG_ARGV[2], TG_ARGV[1])
-        INTO STRICT numPend
-        USING NEW;
-
         EXECUTE format('SELECT COUNT(%I.id)
                           FROM %I %I
                          WHERE (%s)
@@ -92,27 +84,35 @@ $trigger$
 
         EXECUTE format('SELECT COUNT(%I.id)
                           FROM %I %I
+                         WHERE (%s)
+                           AND %I.status = 2;',
+            TG_ARGV[1], TG_ARGV[0], TG_ARGV[1], TG_ARGV[2], TG_ARGV[1])
+        INTO STRICT numPend
+        USING NEW;
+
+        EXECUTE format('SELECT COUNT(%I.id)
+                          FROM %I %I
                          WHERE (%s);',
             TG_ARGV[1], TG_ARGV[0], TG_ARGV[1], TG_ARGV[2])
         INTO STRICT numSignNeeded
         USING NEW;
 
-
-        IF numSignNeeded = newStatus THEN
+        /* All has signed */
+        IF numSignNeeded = numApprove THEN
             newStatus := 1;
-	    ELSIF NEW.status = 2 OR numPend > 0 THEN
+        /* This person pended or a pend exists */
+	    ELSEIF NEW.status = 2 OR numPend > 0 THEN
              newStatus := 2;
-        ELSE
-            newStatus := 0;
 	    END IF;
 
         EXECUTE format('UPDATE %I %I
                            SET status = $2
-                         WHERE (%s)', TG_ARGV[3], TG_ARGV[4], TG_ARGV[5])
+                         WHERE (%s);', 
+            TG_ARGV[3], TG_ARGV[4], TG_ARGV[5])
         USING NEW, newStatus;
 
         RETURN NEW;
-    END;
+    END
 $trigger$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION "trigger_after_insert_finance_signatories"(/* "param_particularTable" (0)TEXT, "param_particularTableAcronym" (1)TEXT, "param_particularWhere" (2)TEXT, "param_signatoryTable" (3)TEXT, "param_columnInsert" (4)TEXT, "param_columnInsertValue" (5)TEXT */)
@@ -2658,8 +2658,6 @@ CREATE TRIGGER "after_update_PreActivityBookTransferSignatory_completion"
     FOR EACH ROW WHEN (OLD.status <> NEW.status)
     EXECUTE PROCEDURE "trigger_after_update_signatory_completion"('PreActivityBookTransferSignatory', 'pabts', 'pabts."bookTransfer" = $1."bookTransfer"', 'PreActivityBookTransfer', 'pabt', 'pabt.id = $1."bookTransfer"');
 
--- TODO: Initial signatories
-
 /* Book Transfer END */
 /* Organization Treasurer */
     /* AMTActivityEvaluation */
@@ -3004,7 +3002,7 @@ CREATE TABLE "PostProjectReimbursementParticular" (
 CREATE TRIGGER "before_insert_PostProjectReimbursement_sequence"
     BEFORE INSERT ON "PostProjectReimbursement"
     FOR EACH ROW
-    EXECUTE PROCEDURE "trigger_before_insert_sequence_versioning"('PostProjectReimbursement', 'ppr', '"ppr"."GOSMActivity" = $1."GOSMActivity"');
+    EXECUTE PROCEDURE "trigger_before_insert_sequence_versioning"('PostProjectReimbursement', 'pprojr', '"pprojr"."GOSMActivity" = $1."GOSMActivity"');
 
 DROP TABLE IF EXISTS "PostProjectReimbursementSignatory" CASCADE;
 CREATE TABLE "PostProjectReimbursementSignatory" (
