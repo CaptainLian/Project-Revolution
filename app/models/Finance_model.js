@@ -227,6 +227,26 @@ module.exports = function(configuration, modules, database, queryFiles){
         return connection.none(resubmitReimbursementSignatorySQL, param);
     };
 
+    const resubmitDirectPaymentSQL = queryFiles.resubmitDirectPayment;
+    FinanceModel.resubmitDirectPayment = function(param, connection = database){
+        return connection.none(resubmitDirectPaymentSQL, param);
+    };
+
+    const resubmitDirectPaymentSignatorySQL = queryFiles.resubmitDirectPaymentSignatory;
+    FinanceModel.resubmitDirectPaymentSignatory = function(param, connection = database){
+        return connection.none(resubmitDirectPaymentSignatorySQL, param);
+    };
+
+    const resubmitBookTransferSQL = queryFiles.resubmitBookTransfer;
+    FinanceModel.resubmitBookTransfer = function(param, connection = database){
+        return connection.none(resubmitBookTransferSQL, param);
+    };
+
+    const resubmitBookTransferSignatorySQL = queryFiles.resubmitBookTransferSignatory;
+    FinanceModel.resubmitBookTransferSignatory = function(param, connection = database){
+        return connection.none(resubmitBookTransferSignatorySQL, param);
+    };
+
     //Used for signing
     FinanceModel.getPreActivityCashAdvanceDetails = (cashAdvanceID, fields, connection = database) => {
         logger.info(`getPreActivityCashAdvanceDetails(cashAdvanceID: ${cashAdvanceID})`, log_options);
