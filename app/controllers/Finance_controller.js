@@ -1733,6 +1733,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
    			        	renderData.justificationfnu = true;
    			        }
 
+   			        console.log(data[0].justificationfnucadp);
+
 
 					return res.render('Finance/Preacts_EditReimbursement', renderData);
 
@@ -1772,8 +1774,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
             database.tx(t => {
             	let query = [
-            		financeModel.resubmitCashAdvance(dbParam),
-					financeModel.deleteCashAdvanceParticulars(dbParam2)
+            		financeModel.resubmitCashAdvance(dbParam, t),
+					financeModel.deleteCashAdvanceParticulars(dbParam2, t)
 				];
 
                 for(let index = 0; index < particulars.length; ++index){
@@ -1781,7 +1783,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
                         financeModel.insertPreActivityCashAdvanceParticular({
                             cashAdvance: req.body.id,
                             particular: particulars[index]
-                    }, transaction));
+                    }, t));
                 }
 
                 return t.batch(query);
@@ -1812,6 +1814,26 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		submitEditReimbursement: (req, res) =>{
 
 			console.log(req.body);
+
+			var dbParam = {
+				id: req.body.id,
+				gosmactivity: req.body.gosmactivity,
+				justificationfdpp: req.body.justificationdelay,
+				justificationfnucadp: req.body.nodpjustification
+			}
+
+			database.task(t=>{
+				return t.batch([
+	                financeModel.resubmitReimbursementSignatory(dbParam, t),
+	                financeModel.resubmitReimbursement(dbParam, t)
+				]);
+			}).then(data=>{
+
+				return res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
+
+			}).catch(error=>{
+				console.log(error);
+			});
 
 		}
 
