@@ -39,7 +39,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
      * @returns {Promise} [description]
      */
     AccountModel.createAccount = (idNumber, email, type, password, firstname, middlename, lastname, contactNumber, connection = database) => {
-        logger.info(`createAccount()\nGenerating key pair\n\tParameters: bits: ${configuration.security.encryption.bits}, workers: ${configuration.security.encryption.web_workers_amount}`, log_options);
+        logger.info(`call createAccount()\nGenerating key pair\n\tParameters: bits: ${configuration.security.encryption.bits}, workers: ${configuration.security.encryption.web_workers_amount}`, log_options);
 
         return forge.pki.rsa.generateKeyPair({
             bits: configuration.security.encryption.bits,
@@ -75,7 +75,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
                 .set('contactNumber', squel.str('${contactNumber}'));
 
             query = query.toString();
-            logger.info(`Executing query: ${query}\nParameters: ${JSON.stringify(param)}`, log_options);
+            logger.debug(`Executing query: ${query}\nParameters: ${JSON.stringify(param)}`, log_options);
             return connection.none(query, param);
         });
     };
@@ -94,7 +94,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
      * @returns  {pg-promise}                    [description]
      */
     AccountModel.createStudentAccount = (idNumber, email, password, firstname, middlename, lastname, contactNumber, roles, connection = database) => {
-        logger.info('createStudentAccount()', log_options);
+        logger.info('call createStudentAccount()', log_options);
         return connection.tx(transaction => {
             AccountModel.createAccount(
                 idNumber,
@@ -139,7 +139,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
      * @returns {Promise}  [description]
      */
     AccountModel.getAccountDetails = (idNumber, fields, connection = database) => {
-        logger.info('getAccountDetails()', log_options);
+        logger.info('call getAccountDetails()', log_options);
 
         let param = Object.create(null);
         param.idNumber = idNumber;
@@ -162,7 +162,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
      * @return {[pg_promise}                  void
      */
     AccountModel.updateAccountDetails = (idNumber, fields, connection = database) => {
-        logger.info(`updateAccountDetails(idNumber: ${idNumber}, fields: ${JSON.stringify(fields)})`, log_options);
+        logger.info(`call updateAccountDetails(idNumber: ${idNumber}, fields: ${JSON.stringify(fields)})`, log_options);
 
         const DONT_QUOTE = Object.create(null);
         DONT_QUOTE.dontQuote = true;
@@ -186,7 +186,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
     };
 
     AccountModel.getAccounts = (fields, connection = database) => {
-        logger.info('getAccounts()', log_options);
+        logger.info('call getAccounts()', log_options);
 
         let param = Object.create(null);
 
@@ -212,7 +212,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
     };
 
     AccountModel.updateAccount = (idNumber,email,type,status,firstname,middlename,lastname,contactNumber, orgpos, connection = database) => {
-        logger.info('updateAccount()', log_options);
+        logger.info('call updateAccount()', log_options);
 
         let param = Object.create(null);
 
@@ -278,7 +278,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
     };
 
      AccountModel.deleteAccount = (idNumber,status , connection = database) => {
-        logger.info('deleteAccount()', log_options);
+        logger.info('call deleteAccount()', log_options);
 
         let param = Object.create(null);
         let query = squel.update()
@@ -292,7 +292,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
     };
 
     AccountModel.deleteAcl = (connection = database) => {
-    	logger.info(`deleteAcl()`, log_options);
+    	logger.info(`call deleteAcl()`, log_options);
 
         let param = Object.create(null);	
         let query = squel.delete()
@@ -303,7 +303,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
     };
 
     AccountModel.insertACL = (acls ,connection = database) => {
-    	logger.info(`insertACL()`, log_options);
+    	logger.info(`call insertACL()`, log_options);
         let query = ""
 
         for( var acl in acls){
@@ -320,7 +320,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
     };
 
      AccountModel.getSpecificAccount = (idNumber,fields, connection = database) => {
-        logger.info('getSpecificAccount()', log_options);
+        logger.info('call getSpecificAccount()', log_options);
 
         let param = Object.create(null);
         let query = squel.select()
@@ -344,7 +344,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
 
     AccountModel.getOrganizationRoles = (fields,connection = database) => {
-        logger.info('getOrganizationRoles()', log_options);
+        logger.info('call getOrganizationRoles()', log_options);
 
         //TODO figure out parameters
         let param = Object.create(null);
@@ -367,7 +367,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
     };
 
     AccountModel.getAccountType = (fields, connection = database) => {
-        logger.info('getAccountType()', log_options);
+        logger.info('call getAccountType()', log_options);
 
         let param = Object.create(null);
 
@@ -381,7 +381,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
     const query_get_student_studentOrganizations = queryFiles.student_get_studentOrganizations;
     AccountModel.getStudentOrganizations = (idNumber, connection = database) => {
-        logger.info(`getStudentOrganizations(idNumber: ${idNumber})`, log_options);
+        logger.info(`call getStudentOrganizations(idNumber: ${idNumber})`, log_options);
 
         const param = Object.create(null);
         param.idNumber = idNumber;
@@ -391,7 +391,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
     };
 
     AccountModel.getRoleDetailsInOrganization = (idNumber, organization, fields, connection = database) => {
-    	logger.info(`getRoleDetailsInOrganization(idNumber: ${idNumber}, organization: ${organization})`, log_options);
+    	logger.info(`call getRoleDetailsInOrganization(idNumber: ${idNumber}, organization: ${organization})`, log_options);
 
         const param = Object.create(null);
         param.idNumber = idNumber;
@@ -420,7 +420,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
     const hasGOSMActivityWithoutPPRSQL = queryFiles.account_GOSMActivity_has_without_PPR;
     AccountModel.hasGOSMActivityWithoutPPR = (idNumber, connection = database) => {
-    	logger.info(`hasGOSMActivityWithoutPPR(idNumber: ${idNumber})`, log_options);
+    	logger.info(`call hasGOSMActivityWithoutPPR(idNumber: ${idNumber})`, log_options);
 
         const param = Object.create(null);
         param.idNumber = idNumber;
@@ -430,7 +430,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
     const hasGOSMActivityWithAMTActivityEvaluationSQL = queryFiles.account_has_gosmactivity_with_AMTActivityEvaluation;
     AccountModel.hasGOSMACtivityWithAMTActivityEvaluation = (idNumber, organizationID, connection = database) => {
-    	logger.info(`hasGOSMACtivityWithAMTActivityEvaluation(idNumber: ${idNumber}, organizationID: ${organizationID})`, log_options);
+    	logger.info(`call hasGOSMACtivityWithAMTActivityEvaluation(idNumber: ${idNumber}, organizationID: ${organizationID})`, log_options);
 
         const param = Object.create(null);
         param.idNumber = idNumber;
@@ -441,7 +441,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
     const hasPPRWithoutPostProjectProposal = queryFiles.account_PPR_has_without_PostProjectProposal;
     AccountModel.hasPPRWithoutPostProjectProposal = (idNumber, connection = database) => {
-    	logger.info(`hasPPRWithoutPostProjectProposal(idNumber: ${idNumber})`, log_options);
+    	logger.info(`call hasPPRWithoutPostProjectProposal(idNumber: ${idNumber})`, log_options);
 
         const param = Object.create(null);
         param.idNumber = idNumber;
@@ -451,7 +451,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
     const hasPPRApprovedSQL = queryFiles.account_PPR_has_approved;
     AccountModel.hasPPRApproved = (idNumber, connection = database) => {
-    	logger.info(`hasPPRApproved(idNumber: ${idNumber})`, log_options);
+    	logger.info(`call hasPPRApproved(idNumber: ${idNumber})`, log_options);
 
         const param = Object.create(null);
         param.idNumber = idNumber;
@@ -472,7 +472,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
     //TODO: Display signed PPR as well.
     const getPPRsToSignSQL = queryFiles.account_PPR_get_to_sign;
     AccountModel.getPPRToSignList = (idNumber, connection = database) => {
-    	logger.info(`getPPRToSignList(idNumber: ${idNumber})`, log_options);
+    	logger.info(`call getPPRToSignList(idNumber: ${idNumber})`, log_options);
 
         const param = Object.create(null);
         param.idNumber = idNumber;
@@ -482,7 +482,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
     const approvePPRSQL = queryFiles.account_PPR_approve;
     AccountModel.approvePPR = (activityID, idNumber, document, digitalSignature, connection = database) => {
-    	logger.info(`approvePPR(activityID: ${activityID}, idNumber: ${idNumber})`, log_options);
+    	logger.info(`call approvePPR(activityID: ${activityID}, idNumber: ${idNumber})`, log_options);
 
         const param = Object.create(null);
         param.activityID = activityID;
@@ -495,7 +495,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
     const pendPPRSQL = queryFiles.account_PPR_pend;
     AccountModel.pendPPR = (activityID, idNumber, comments, sections, connection = database) => {
-    	logger.info(`pendPPR(activityID: ${activityID}, idNumber: ${idNumber}, comments: ${comments}, sections: ${sections})`, log_options);
+    	logger.info(`call pendPPR(activityID: ${activityID}, idNumber: ${idNumber}, comments: ${comments}, sections: ${sections})`, log_options);
 
         const param = Object.create(null);
         param.activityID = activityID;
@@ -508,7 +508,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
     const denyPPRSQL = queryFiles.account_PPR_deny;
     AccountModel.denyPPR = (activityID, idNumber, comments, connection = database) => {
-    	logger.info(`denyPPR(activityID: ${activityID}, idNumber: ${idNumber}, comments: ${comments})`, log_options);
+    	logger.info(`call denyPPR(activityID: ${activityID}, idNumber: ${idNumber}, comments: ${comments})`, log_options);
 
         const param = Object.create(null);
         param.activityID = activityID;
@@ -520,7 +520,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
     const approvePreActCashAdvanceSQL = queryFiles.account_PreActCashAdvance_approve;
     AccountModel.approvePreActCashAdvance = (cashAdvance, idNumber, document, digitalSignature, connection = database) => {
-    	logger.info(`approvePreActCashAdvance(cashAdvance: ${cashAdvance}, idNumber: ${idNumber})`, log_options);
+    	logger.info(`call approvePreActCashAdvance(cashAdvance: ${cashAdvance}, idNumber: ${idNumber})`, log_options);
 
         const param = Object.create(null);
         param.cashAdvance = cashAdvance;
@@ -533,7 +533,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
     const pendPreActCashAdvanceSQL = queryFiles.account_PreActCashAdvance_approve;
     AccountModel.pendPreActCashAdvance = (cashAdvance, idNumber, comments, sections, connection = database) => {
-    	logger.info(`pendPreActCashAdvance(cashAdvance: ${cashAdvance}, idNumber: ${idNumber}, comments: ${comments}, sections: ${sections})`, log_options);
+    	logger.info(`call pendPreActCashAdvance(cashAdvance: ${cashAdvance}, idNumber: ${idNumber}, comments: ${comments}, sections: ${sections})`, log_options);
 
         const param = Object.create(null);
         param.cashAdvance = cashAdvance;
@@ -546,18 +546,19 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
     const isProjectHeadSQL = queryFiles.account_is_project_head;
     AccountModel.isProjectHead = (idNumber, connection = database) => {
-        logger.info(`isProjectHead(idNumber: ${idNumber})`, log_options);
+        logger.info(`call isProjectHead(idNumber: ${idNumber})`, log_options);
         logger.debug(isProjectHeadSQL, log_options);
 
         const param = Object.create(null);
         param.idNumber = idNumber;
 
+        logger.debug(`Executing query: ${isProjectHeadSQL}`, log_options);
         return connection.one(isProjectHeadSQL, param);
     };
 
     const getNotifcationsSQL = queryFiles.account_get_notifications;
     AccountModel.getNotifications = (idNumber, connection = database) => {
-        logger.info(`getNotifications(idNumber: ${idNumber})`, log_options);
+        logger.info(`call getNotifications(idNumber: ${idNumber})`, log_options);
         logger.debug(`Executing query: ${getNotifcationsSQL}`, log_options);
 
         const param = Object.create(null);
@@ -575,7 +576,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
      * @param {pg-connection} connection [description]
      */
     AccountModel.addNotification = (idNumber, title, description, details, returning, connection = database) => {
-        logger.info('addNotification()', log_options);
+        logger.info('call addNotification()', log_options);
 
         let param = Object.create(null);
         param.idNumber = idNumber;
@@ -602,7 +603,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
 
     AccountModel.isInOrganization = (idNumber, organizationID, connection = database) => {
-        logger.info(`isInOrganization(idNumber: ${idNumber}, organizationID: ${organizationID})`, log_options);
+        logger.info(`call isInOrganization(idNumber: ${idNumber}, organizationID: ${organizationID})`, log_options);
 
         let query = squel.select()
             .field(squel.str(`EXISTS(${squel.select()
@@ -629,19 +630,21 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
     const approvePreActDirectPaymentSQL = queryFiles.account_PreActDirectPayment_approve;
     AccountModel.approveDirectPayment = (directPaymentID, idNumber, document, digitalSignature, connection = database) => {
-        logger.info(`approveDirectPayment(directPaymentID: ${directPaymentID}, idNumber: ${idNumber})`)
+        logger.info(`call approveDirectPayment(directPaymentID: ${directPaymentID}, idNumber: ${idNumber})`)
 
         let param = Object.create(null);
         param.directPayment = directPaymentID;
         param.signatory = idNumber;
         param.document = document;
         param.digitalSignature = digitalSignature;
+
+        logger.debug(`Executing query: ${approvePreActDirectPaymentSQL}`, log_options);
         return connection.none(approvePreActDirectPaymentSQL, param);
     };
 
     const pendPreActDirectPaymentSQL = queryFiles.account_PreActDirectPayment_pend;
     AccountModel.pendDirectPayment = (directPaymentID, idNumber, comments, sections, connection = database) => {
-    	logger.info('pendDirectPayment()', log_options);
+    	logger.info('call pendDirectPayment()', log_options);
 
         const param = Object.create(null);
         param.directPayment = directPaymentID;
@@ -649,6 +652,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
         param.comments = comments;
         param.sections = sections;
 
+        logger.debug(`Executing query: ${pendPreActDirectPaymentSQL}`, log_options);
         return connection.none(pendPreActDirectPaymentSQL, param);
     };
 

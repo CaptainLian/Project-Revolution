@@ -51,7 +51,7 @@ module.exports = function(configuration, application, modules, database, queryFi
         FooterAttacher.name = 'Quote-footer-middleware';
         FooterAttacher.priority = configuration.load_priority.LOW;
         FooterAttacher.action = (req, res, next) => {
-            if(req.method === 'GET'){
+            if(req.method === 'GET' && req.extra_data.system.sidebars.canAttach){
                 logger.debug(`Attaching footer data`, log_options);
                 req.extra_data.view.footer = QUOTES[Math.floor(Math.random() * (QUOTES.length))];
                 logger.debug(`Chosen quote: ${req.extra_data.view.footer}`, log_options);

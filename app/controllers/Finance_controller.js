@@ -22,26 +22,30 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 	return {
 		createTransaction: (req, res) => {
+			logger.info('call createTransaction()', log_options);
+
 			const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
 			return res.render('Finance/TransactionMain', renderData);
-			//next();
 		},
+
 		viewPended: (req, res) => {
+			logger.info('call viewPended()', log_options);
+
 			const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
 			return res.render('Finance/', renderData);
-			//next();
 		},
 		viewFinanceSettings: (req, res) => {
+			logger.info('call viewFinanceSettings()', log_options);
+
 			const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
 			return res.render('Finance/Finance_Settings', renderData);
-			//next();
 		},
 
 		evaluateTransaction: (req, res) => {
-			logger.info('evaluateTransaction()', log_options);
+			logger.info('call 3evaluateTransaction()', log_options);
 
 			var viewEvaluation = false;
 		    if (req.session.user.type == 1){
@@ -330,7 +334,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		},
 
 		approveDirectPayment: (req, res) =>{
-            logger.info('approveDirectPayment()', log_options);
+            logger.info('call approveDirectPayment()', log_options);
 
             /**
              * Gets all needed details for the digital signature
@@ -1227,19 +1231,10 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		    	}).catch(error=>{
 		    		console.log(error);
 		    	});
-
 		    }
 		    else{
 	    		return res.render('System/403');
 		    }
-
-
-
-			
-			
-
-			
-			
 		},
 
 		submitPreactsDirectPayment: (req, res) => {
@@ -1303,13 +1298,9 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		    if(addTransaction){
 
-		    	financeModel.getExpensesWithoutTransactionCount(dbParam)
-		    	.then(transactionCount=>{
-
+		    	financeModel.getExpensesWithoutTransactionCount(dbParam).then(transactionCount => {
 		    		if (transactionCount.expensestotal > 0){
-		           		
-						projectProposalModel.getProjectProposal(dbParam)
-						.then(data=>{
+						projectProposalModel.getProjectProposal(dbParam).then(data => {
 
 							var param ={
 								projectproposal: data.id
@@ -1327,10 +1318,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				           	console.log(diff);
 				           	console.log("difference");
 
-				           	
-
-							financeModel.getParticulars(param)
-							.then(data1=>{
+							financeModel.getParticulars(param).then(data1=>{
 								
 								const renderData = Object.create(null);
 
@@ -1354,7 +1342,6 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 						}).catch(error=>{
 							console.log(error);
 						});	
-
 		        	}
 		        	else{
 	    				return res.render('System/403');
@@ -1363,17 +1350,13 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		    	}).catch(error=>{
 		    		console.log(error);
 		    	});
-
 		    }
 		    else{
 	    		return res.render('System/403');
 		    }
-
-
 		},
 
 		submitReimbursement: (req, res) =>{
-
 			var dbParam = {
 				gosmactivity: req.body.gosmactivity,
 				justificationfdpp: req.body.justificationdelay,
@@ -1428,28 +1411,24 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		    	else{
 		    		addTransaction = false;
 		    	}
-
 		    }
 		    else{
 		    	addTransaction = false;
 		    }
 
 		    if(addTransaction){
-
-		    	financeModel.getExpensesWithoutTransactionCount(dbParam)
-		    	.then(transactionCount=>{
+				//TODO: Flatten promises
+		    	financeModel.getExpensesWithoutTransactionCount(dbParam).then(transactionCount=>{
 
 		    		if (transactionCount.expensestotal > 0){
 		           		
-						projectProposalModel.getProjectProposal(dbParam)
-						.then(data=>{
+						projectProposalModel.getProjectProposal(dbParam).then(data=>{
 
 							var param ={
 								projectproposal: data.id
 							};
 
-							financeModel.getParticulars(param)
-							.then(data1=>{
+							financeModel.getParticulars(param).then(data1=>{
 								const renderData = Object.create(null);
 					            renderData.extra_data = req.extra_data;
 					            renderData.csrfToken = req.csrfToken();
