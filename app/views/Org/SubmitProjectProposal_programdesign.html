@@ -257,20 +257,37 @@
             $('#my-event').modal('hide');
 
             $("#inp-date").val(getDate(data.start))
-            $("#inp-start").val(getTime(data.start))
-            $("#inp-end").val(getTime(data.end))
+            $("#inp-start").val(moment(data.start).format('HH:mm'))
+            $("#inp-end").val(moment(data.end).format('HH:mm'))
             $("#inp-name").val(data.title)
             $("#inp-desc").val(data.description)
             $("#inp-pos").select2('val',data.posid)
             $('#createEventModal').modal('show');
             $("#editButton").css('display','')
             $("#submitButton").css('display','none')
+            $("#edit-label").css('display','')
+            $("#add-label").css('display','none')
               // Success Message
            
         });
 
       $("#editButton").on('click',function(){
+          var id = data.id
           
+          johnRemoved = sched[data.date].filter(function(el) {
+              
+              return el.id != data.id 
+          });
+          console.log("DATA ID :"+id);
+          $("#calendar").fullCalendar('removeEvents',data.id);
+          sched[data.date] = johnRemoved
+          if(johnRemoved.length == 0){
+             delete sched[data.date]
+          }
+
+
+        id +=1;
+        addEvent({id:id}) 
       });
       $("#submitButton").on('click',function(){
         id +=1;
@@ -371,8 +388,16 @@
           });
 
 
+
        }
 
+       $('#createEventModal').on('hidden.bs.modal', function () {
+         clear()
+         $("#editButton").css('display','none')
+            $("#submitButton").css('display','')
+            $("#edit-label").css('display','none')
+            $("#add-label").css('display','')
+      })
        function setTime(date , time){
           date = new Date(date);
           var arr = time.split(":")
@@ -510,7 +535,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span> <span class="sr-only">close</span></button>
-                <h4>Add an Event</h4>
+                <h4 id="add-label">Add an Event</h4>
+                <h4 id="edit-label" style="display: none">Edit</h4>
             </div>
             <div id="modalBody" class="modal-body">
                
@@ -568,7 +594,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
-                <button type="submit" class="btn btn-primary" id="editButton" style="display: none">Add </button>
+                <button type="submit" class="btn btn-primary" id="editButton" style="display: none">Edit </button>
                 <button type="submit" class="btn btn-primary" id="submitButton">Add </button>
             </div>
         </div>
