@@ -158,6 +158,7 @@
 
    <script type="text/javascript">
      var data;
+     var sched = {};
      $(document).ready(function(){
       
 
@@ -179,6 +180,7 @@
                        {
                         id:1,
                         title:'Activity Name',
+                        date:'03/02/2018',
                         start: start.toISOString(),
                         description: 'asdasdjhaskjd asdjkhaskdjhaskdjha asdjkhaskjdhaksjdh asdkjahsdkjashd asdasd',
                         person:'Neil Capisterano',
@@ -225,6 +227,7 @@
   			$('#createEventModal').modal({ show: false})
   			$('.clockpicker').clockpicker({
 		        donetext: 'Done',
+            autoClose:true
 		    }).find('input').change(function() {
 		        console.log(this.value);
 		    });
@@ -248,105 +251,78 @@
         });
 
       $("#editButton").on('click',function(){
-          $.ajax({
-            type:'POST',
-            url:'',
-            data:{
-              eventName:$("#inp-name").val(),
-              description:$("#inp-desc").val(),
-              start: $("#inp-start").val(),
-              end:$("#inp-end").val(),
-              pos:$("#inp-pos").select2('val'),
-              date:$("#inp-date").val(),              
-              id: data.id,
-              pid: $("#data-route").attr("pid")
-            },
-            success:function(data){
-                if(data.success){
-                  $("#calendar").fullCalendar('removeEvents',id);
-                  addEvent(data)
-                }else{
-                    $.toast({
-                    heading: 'Failed',                    
-                    position: 'top-right',
-                    loaderBg:'#ff6849',
-                    icon: 'error',
-                    bgColor:'#FB9678',
-                    hideAfter: 3500, 
-                    stack: 6
-                  });
-                }
-            }
-
-          })
+          
       });
       $("#submitButton").on('click',function(){
         addEvent(1)
-          $.ajax({
-            type:'POST',
-            url:'',
-            data:{
-              eventName:$("#inp-name").val(),
-              description:$("#inp-desc").val(),
-              start: $("#inp-start").val(),
-              end:$("#inp-end").val(),
-              pos:$("#inp-pos").select2('val'),
-              date:$("#inp-date").val(),                                      
-            },
-            success:function(data){
-              if(data.success){
-                addEvent(data)
-              }else{
-                 $.toast({
-                    heading: 'Failed',                    
-                    position: 'top-right',
-                    loaderBg:'#ff6849',
-                    icon: 'error',
-                    bgColor:'#FB9678',
-                    hideAfter: 3500, 
-                    stack: 6
-                  });
-              }
 
-            }
-
-          })
       });
       $("#delete").on('click',function(){
           var id = data.id
-          $.ajax({
-            type:'POST',
-            url:'',
-            data:{
-              id: data.id
-            },
-            success:function(data){
-              if(data.success){
-                $("#calendar").fullCalendar('removeEvents',id);
+                   
+          johnRemoved = sched[data.date].filter(function(el) {
+              return el.start !== data.start;
+          });
 
-              }else{
-                  $.toast({
-                    heading: 'Failed',                    
-                    position: 'top-right',
-                    loaderBg:'#ff6849',
-                    icon: 'error',
-                    bgColor:'#FB9678',
-                    hideAfter: 3500, 
-                    stack: 6
-                  });
-              }
-            }
-
-          })
+          console.log(JSON.stringify(johnRemoved, null, ' '));
       })
 
 
+        $("#submit-but").click(function(){
+            $.ajax({
+                type:'POST',
+                url:'/Organization/projectproposal/SaveDesign',
+                data:{"sched":JSON.stringify(sched), gid:$("#data-route").attr("gid"),pid:$("#data-route").attr("pid")},
+                success:function(data){
+                    if(parseInt(data))
+                    window.location.href="/organization/projectproposal/main/"+$("#data-route").attr("gid")+'/'+$("#data-route").attr("status");
+                }
+            })
+        })
+        $("#cancel-but").click(function(){
+            window.location.href="/organization/projectproposal/main";
+                
+        })
 
 
          function addEvent(data){
+          var dateInp = $("#inp-date").val();
+          var startInp = $("#inp-start").val();
+          var actInp = $("#inp-name").val();
+          var descInp = $("#inp-desc").val();
+          var selInp = $("#inp-pos").select2('val');
+          if( dateInp in sched){
+             var act = {
+
+                    'start': startInp,
+                    'end': endInp,
+                    'act': actInp,
+                    'desc': descInp,
+                    'person': selInp
+
+                };
+
+                sched[dateInp].push(act);
+          }else{
+              var act = {
+
+                    'start': startInp,
+                    'end': endInp,
+                    'act': actInp,
+                    'desc': descInp,
+                    'person': selInp
+
+                };
+                sched[dateInp] = [];
+                sched[dateInp].push(act);
+          }
+
+
+
           var event = {                  
                   id:data.id,
                   title:$("#inp-name").val(),
+                  date:$("#inp-date").val(),
                   start: setTime($("#inp-date").val(), $("#inp-start").val()),
                   end: setTime($("#inp-date").val(), $("#inp-end").val()),
                   description: $("#inp-desc").val(),
@@ -445,7 +421,7 @@
               </div>
               <div class="modal-body">
                 <p><strong>Date:</strong> <a id="date">TEST</a></p>
-                <div class="row">
+                <div class="row cloc">
                   <p class="col-md-6" ><strong>Start Time:</strong> <a id="start-time">TEST</a></p>
                   <p class="col-md-6"><strong>End Time:</strong> <a id="end-time">TEST</a></p>
                   <p class="col-md-12"><strong>Description</strong> <a id="desc">TEST</a></p>
@@ -487,7 +463,7 @@
 
                   <div class="form-group">
                   <label class="form-control-label">Date Range</label>
-                      <div class="input-daterange input-group" id="date-range">
+                      <div class="input-daterange clockpicker input-group" id="date-range">
                           <input type="text" class="form-control" id="inp-start" name="start" /> <span class="input-group-addon bg-info b-0 text-white">to</span>
                           <input type="text" class="form-control" id="inp-end" name="end" /> </div>
 
