@@ -212,12 +212,28 @@
 
         $("select").select2();
   			$('#createEventModal').modal({ show: false})
-  			$('#start-time, #end-times').clockpicker({
-		        autoclose: true
+  			
+        $('.clockpicker1').clockpicker({
 
-		    }).find('input').change(function() {
-		        console.log(this.value);
-		    });
+            donetext: 'Done',
+
+        }).find('input').change(function() {
+
+            console.log(this.value);
+
+        });
+
+
+
+        $('.clockpicker2').clockpicker({
+
+            donetext: 'Done',
+
+        }).find('input').change(function() {
+
+            console.log(this.value);
+
+        });
        
 		   $("#edit").on('click',function(){
             console.log("asd")
@@ -451,9 +467,17 @@
                   <div class="form-group">
                   <label class="form-control-label">Date Range</label>
                       <div class="input-daterange clockpicker input-group" id="date-range" >
-                          <label><input type="text" class="form-control" id="inp-start" name="start" data-placement="bottom" data-align="top" data-autoclose="true" /> </label>
-                          <span class="input-group-addon bg-info b-0 text-white">to</span>
-                          <input type="text" class="form-control" id="inp-end" name="end" data-placement="bottom" data-align="top" data-autoclose="true" /> 
+                                       <div class="input-group clockpicker1" data-placement="bottom" data-align="top" data-autoclose="true">
+ 
+                        <input type="text" class="form-control" id="inp-start" value=""> 
+ 
+                    </div><span class="input-group-addon bg-info b-0 text-white">to</span>
+ 
+                    <div class="input-group clockpicker2" data-placement="bottom" data-align="top" data-autoclose="true">
+ 
+                        <input type="text" class="form-control" value="" id="inp-end">  
+ 
+                    </div>
                       </div>
 
                   </div>
