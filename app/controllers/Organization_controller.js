@@ -623,12 +623,14 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         gosmModel.getGOSMActivityProjectHeads(dbParam),
                         projectProposalModel.getProjectProposalProgramDesign(req.params.id, [
                             'pppd.dayid AS dayid',
-                            "to_char(pppd.date, 'Mon DD, YYYY') AS date",
-                            "to_char(pppd.starttime + CURRENT_DATE, 'HH:MI') AS starttime",
-                            "to_char(pppd.endtime + CURRENT_DATE, 'HH:MI') AS endtime",
+                            "to_char(pppd.date, 'MM/DD/YYYY') AS date",
+                            "to_char(pppd.starttime + CURRENT_DATE, 'HH24:MI') AS starttime",
+                            "to_char(pppd.endtime + CURRENT_DATE, 'HH24:MI') AS endtime",
                             'pppd.activity AS activity',
                             'pppd.activitydescription AS activitydescription',
-                            'pppd.personincharge AS personincharge'
+                            'pppd.personincharge AS personincharge',
+                            "concat(acc.firstname,' ',acc.middlename,' ',acc.lastname) AS name"
+
                         ])
                     ]);
                 })
@@ -642,9 +644,10 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.projectHeads = data[1];
                 renderData.programDesign = data[2];
                 renderData.status = req.params.status;
-
-                    console.log(renderData.gosmactivity);
-                    console.log(renderData.projectProposal);
+                    console.log("renderData.programDesign");
+                    console.log(renderData.programDesign);
+                    console.log("renderData.projectHeads");
+                    console.log(renderData.projectHeads);
 
                     return res.render('Org/SubmitProjectProposal_programdesign', renderData);
                 }).catch(error => {

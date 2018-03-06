@@ -136,6 +136,8 @@
 
   
 	{{tag.javascript('/js/system/AJAX_CSRF.js')}}
+  
+  {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.21.0/moment.min.js')}}
 	{{tag.javascript('/plugins/bower_components/moment/moment.js')}}
 	{{tag.javascript('/plugins/bower_components/calendar/dist/fullcalendar.min.js')}}
 
@@ -175,6 +177,19 @@
                        //  person:'Neil Capisterano',
                        //  posid:1 
                        // }  
+                       {%for event in programDesign%}
+                       {% set xctr = loop.index %}
+                        {
+                        id:{{loop.index}},
+                        title:'{{event.activity}}',
+                        date:'{{event.date}}',
+                        start: '{{event.date}} {{event.starttime}}',
+                        end: '{{event.date}} {{event.endtime}}',
+                        description: '{{event.activitydescription}}',
+                        person:'{{event.name}}',
+                        posid:{{event.personincharge}}
+                       },
+                       {%endfor%}
                   ],
                   customButtons: {
   			        add_event: {
@@ -211,7 +226,8 @@
                               
 
           });
-
+        id = {{programDesign.length +1}}
+        setSched()
         $("select").select2();
   			$('#createEventModal').modal({ show: false})
   			
@@ -381,7 +397,9 @@
           return time.getHours()+':'+time.getMinutes()
 
        }
+
        function getDate(date){
+          
           date = new Date(date)
           return date.getMonth()+'/'+date.getDay()+'/'+date.getFullYear()
 
@@ -396,28 +414,28 @@
             if(events[ctr].date in sched){
                  var act = {
                     'id':events[ctr].id,
-                    'start': events[ctr].start,
-                    'end': events[ctr].end,
+                    'start': moment((events[ctr].start)).format('HH:mm'),
+                    'end': moment((events[ctr].end)).format('HH:mm'),
                     "date":getDate(events[ctr].start),
                     'act': events[ctr].title,
                     'desc': events[ctr].description,
                     'person': events[ctr].posid
 
                 };
-                sched[dateInp].push(act);
+                sched[events[ctr].date].push(act);
             }else{
                  var act = {
                     'id':events[ctr].id,
-                    'start': events[ctr].start,
-                    'end': events[ctr].end,
+                    'start': moment((events[ctr].start)).format('HH:mm'),
+                    'end': moment((events[ctr].end)).format('HH:mm'),
                     "date":getDate(events[ctr].start),
                     'act': events[ctr].title,
                     'desc': events[ctr].description,
                     'person': events[ctr].posid
 
                 };
-                sched[dateInp] = [];
-                sched[dateInp].push(act);
+                sched[events[ctr].date] = [];
+                sched[events[ctr].date].push(act);
             }
         }
 
@@ -537,18 +555,9 @@
                 </div>
                 <div class="form-group ">
                 <label class="form-control-label">Person Responsible</label>
-                <select name="typeOfItem[]" id="inp-pos" class="form-control select2">
-                  <option value="1111114" >Neil Capistrano</option>
-                  {% for type in expenseTypes %}
-
-                    {% if type.id == 3%}
-
-                    {% else %}
-                      
-                      <option value="{{type.id}}" >{{type.name}}</option>
-
-                    {% endif %}
-
+                <select name="typeOfItem[]" id="inp-pos" class="form-control select2">                  
+                  {% for p in projectHeads %}
+                      <option value="{{p.idnumber}}" >{{p.firstname}} {{p.lastname}}</option>
                   {% endfor %}
                   
                 </select>

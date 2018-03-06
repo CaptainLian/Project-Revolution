@@ -244,6 +244,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
     ProjectProposalModel.prototype.getProjectProposalProgramDesign = function(id, fields, connection = this._db){
         let query = squel.select()
         .from('ProjectProposalProgramDesign', 'pppd')
+        .left_join('account','acc','pppd.personincharge = acc.idnumber')
         .where('projectProposal = ?', squel.select()
             .from('ProjectProposal')
             .where('GOSMActivity = ${id}')
