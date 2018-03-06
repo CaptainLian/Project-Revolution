@@ -144,11 +144,12 @@
   <!--  -->
 
    <script type="text/javascript">
-     var data;
-     var sched = {};
+      var sched = {};  
+      var data
      $(document).ready(function(){
-      
-
+        data;
+        var id = 1;
+        sched = {}
         var start = new Date("3/01/2018")
         start.setMinutes("0")
         start.setHours("17")
@@ -162,18 +163,18 @@
   		      	editable: false,
               overlap:false,
   		      	selectable: true,
-  		      	 week:     'week',
+  		      	 week:'week',
                   events:[
-                       {
-                        id:1,
-                        title:'Activity Name',
-                        date:'03/02/2018',
-                        start: start.toISOString(),
-                        description: 'asdasdjhaskjd asdjkhaskdjhaskdjha asdjkhaskjdhaksjdh asdkjahsdkjashd asdasd',
-                        person:'Neil Capisterano',
-                        posid:1,
-                        end:end.toISOString()
-                       }  
+                       // {
+                       //  id:1,
+                       //  title:'Activity Name',
+                       //  date:'03/02/2018',
+                       //  start: start.toISOString(),
+                       //  end:end.toISOString(),
+                       //  description: 'asdasdjhaskjd asdjkhaskdjhaskdjha asdjkhaskjdhaksjdh asdkjahsdkjashd asdasd',
+                       //  person:'Neil Capisterano',
+                       //  posid:1 
+                       // }  
                   ],
                   customButtons: {
   			        add_event: {
@@ -199,6 +200,7 @@
                   $('#start-time').text(new Date(calEvent.start).toTimeString().split(" ")[0])
                   $('#end-time').text(new Date(calEvent.end).toTimeString().split(" ")[0])
                   data = calEvent
+                  console.log(data)
                    $('#my-event').modal('show');
 
             },
@@ -235,9 +237,7 @@
 
         });
        
-		   $("#edit").on('click',function(){
-            console.log("asd")
-            console.log(data)
+		   $("#edit").on('click',function(){            
             $('#my-event').modal('hide');
 
             $("#inp-date").val(getDate(data.start))
@@ -257,17 +257,24 @@
           
       });
       $("#submitButton").on('click',function(){
-        addEvent(1)
+        id +=1;
+        addEvent({id:id})
 
       });
       $("#delete").on('click',function(){
           var id = data.id
-                   
+          
           johnRemoved = sched[data.date].filter(function(el) {
-              return el.start !== data.start;
+              
+              return el.id != data.id 
           });
-
-          console.log(JSON.stringify(johnRemoved, null, ' '));
+          console.log("DATA ID :"+id);
+          $("#calendar").fullCalendar('removeEvents',data.id);
+          sched[data.date] = johnRemoved
+          if(johnRemoved.length == 0){
+             delete sched[data.date]
+          }
+           
       })
 
 
@@ -291,37 +298,38 @@
          function addEvent(data){
           var dateInp = $("#inp-date").val();
           var startInp = $("#inp-start").val();
+          var endInp = $("#inp-end").val();
           var actInp = $("#inp-name").val();
           var descInp = $("#inp-desc").val();
           var selInp = $("#inp-pos").select2('val');
           if( dateInp in sched){
              var act = {
-
+                    'id':data.id,
                     'start': startInp,
                     'end': endInp,
+                    "date":dateInp,
                     'act': actInp,
                     'desc': descInp,
                     'person': selInp
 
                 };
-
                 sched[dateInp].push(act);
-          }else{
-              var act = {
 
+
+          }else{  
+              var act = {
+                    'id':data.id,
                     'start': startInp,
                     'end': endInp,
                     'act': actInp,
                     'desc': descInp,
+                    "date":dateInp,
                     'person': selInp
 
                 };
                 sched[dateInp] = [];
                 sched[dateInp].push(act);
           }
-
-
-
           var event = {                  
                   id:data.id,
                   title:$("#inp-name").val(),
@@ -331,6 +339,7 @@
                   description: $("#inp-desc").val(),
                   person:$("#inp-pos").select2('data'),
                   posid:$("#inp-pos").select2('val')
+                  
                   
           }
           $("#calendar").fullCalendar('renderEvent',event);
@@ -377,6 +386,43 @@
           return date.getMonth()+'/'+date.getDay()+'/'+date.getFullYear()
 
        }
+
+
+
+      function setSched(){
+
+        var events = $("#calendar").fullCalendar('clientEvents');
+        for(var ctr = 0; ctr < events.length; ctr++){
+            if(events[ctr].date in sched){
+                 var act = {
+                    'id':events[ctr].id,
+                    'start': events[ctr].start,
+                    'end': events[ctr].end,
+                    "date":getDate(events[ctr].start),
+                    'act': events[ctr].title,
+                    'desc': events[ctr].description,
+                    'person': events[ctr].posid
+
+                };
+                sched[dateInp].push(act);
+            }else{
+                 var act = {
+                    'id':events[ctr].id,
+                    'start': events[ctr].start,
+                    'end': events[ctr].end,
+                    "date":getDate(events[ctr].start),
+                    'act': events[ctr].title,
+                    'desc': events[ctr].description,
+                    'person': events[ctr].posid
+
+                };
+                sched[dateInp] = [];
+                sched[dateInp].push(act);
+            }
+        }
+
+
+      }
 
        
 
@@ -465,19 +511,19 @@
 
 
                   <div class="form-group">
-                  <label class="form-control-label">Date Range</label>
+                  <label class="form-control-label">Time Range</label>
                       <div class="input-daterange clockpicker input-group" id="date-range" >
                                        <div class="input-group clockpicker1" data-placement="bottom" data-align="top" data-autoclose="true">
  
-                        <input type="text" class="form-control" id="inp-start" value=""> 
- 
-                    </div><span class="input-group-addon bg-info b-0 text-white">to</span>
- 
-                    <div class="input-group clockpicker2" data-placement="bottom" data-align="top" data-autoclose="true">
- 
-                        <input type="text" class="form-control" value="" id="inp-end">  
- 
-                    </div>
+                                          <input type="text" class="form-control" id="inp-start" value=""> 
+                   
+                                      </div><span class="input-group-addon bg-info b-0 text-white">to</span>
+                   
+                                      <div class="input-group clockpicker2" data-placement="bottom" data-align="top" data-autoclose="true">
+                   
+                                          <input type="text" class="form-control" value="" id="inp-end">  
+                   
+                                      </div>
                       </div>
 
                   </div>
@@ -491,8 +537,8 @@
                 </div>
                 <div class="form-group ">
                 <label class="form-control-label">Person Responsible</label>
-                <select name="typeOfItem[]" id="sel0" id="inp-pos" class="form-control select2">
-                  
+                <select name="typeOfItem[]" id="inp-pos" class="form-control select2">
+                  <option value="1111114" >Neil Capistrano</option>
                   {% for type in expenseTypes %}
 
                     {% if type.id == 3%}
