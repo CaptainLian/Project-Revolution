@@ -76,11 +76,12 @@
                         {%for activity in activities%}
                             <tr>
                                 <td >{{activity.actualdatestart}}</td>
-                                <td ><a href="/APS/Signatory/Activtiy/{{activity.gosmactivity}}" class="btn-lnk">{{activity.strategies}}</a></td>
-                                {%if activity.status == 0%}                                    
+                                <td >{%if activity.pstatus != 1%}<a href="/APS/Signatory/Activtiy/{{activity.gosmactivity}}" class="btn-lnk">{{activity.strategies}}</a>{%else%}{{activity.strategies}}{%endif%}</td>
+                                
+                                {%if activity.status == 1 or activity.pstatus == 1%}                                    
+                                    <td><span class="label label-primary">In progress</span></td>      
+                                {%elif activity.status == 0%}                                    
                                     <td><span class="label label-info">For Approval</span></td>     
-                                {%elif activity.status == 1%}                                    
-                                    <td><span class="label label-success">Approved</span></td>      
                                 {%elif activity.status == 2%}                                    
                                     <td><span class="label label-warning">Pended</span></td>      
                                 {%elif activity.status == 3%}                                    

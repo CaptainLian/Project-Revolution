@@ -1,3 +1,26 @@
+
+$('#date-range').datepicker({
+        toggleActive: true
+      });
+$("select").select2();
+$('#createEventModal').modal({ show: false})
+$('#single-input').clockpicker({
+        placement: 'bottom',
+        align: 'left',
+        autoclose: true,
+        'default': 'now'
+    });
+    $('.clockpicker').clockpicker({
+        donetext: 'Done',
+    }).find('input').change(function() {
+        console.log(this.value);
+    });
+    $('#check-minutes').click(function(e) {
+        // Have to stop propagation here
+        e.stopPropagation();
+        input.clockpicker('show').clockpicker('toggleView', 'minutes');
+    });
+$('#responsible')
 $(".wizard-back").clone().appendTo(".buttons");
 var sched = {};
 var revenueLess = 0;
@@ -546,7 +569,7 @@ $("#insert-button").click(function() {
     $("#start-time").closest("div.form-group").removeClass("has-error");
     $("#time-help").text("");
     $("#act0").closest("div.form-group").removeClass("has-error");
-    $("#desc0").closest("div.form-group").removeClass("has-error");
+    $("#trdesc0").closest("div.form-group").removeClass("has-error");
     $("#desc-help").text("");
     $("#act-help").text("");
 
