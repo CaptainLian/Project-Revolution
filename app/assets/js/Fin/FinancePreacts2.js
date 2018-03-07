@@ -111,10 +111,10 @@
      }
 
     //show justification for not using direct payment if sum is greater than 2000
-    if(sum>2000){
-        $('#justification_dp').show();
+    if(sum>1000){
+        $('#justification').show();
     }else{
-        $('#justification_dp').hide();
+        $('#justification').hide();
     }
 
     showAttachments(attachments);

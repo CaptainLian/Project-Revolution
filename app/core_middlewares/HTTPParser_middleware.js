@@ -38,7 +38,11 @@ module.exports = (configuration, mainApplication, modules) => {
         'urlEncoded Body Parser',
         undefined,
         configuration.load_priority.CORE,
-        bodyParser.urlencoded({extended: false})
+        bodyParser.urlencoded({
+            extended: configuration.webserver.parsing.extended,
+            limit: configuration.webserver.parsing.limit,
+            parameterLimit: configuration.webserver.parsing.parameterLimit
+        })
     );
 
     /**

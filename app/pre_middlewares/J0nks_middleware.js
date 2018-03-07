@@ -1,12 +1,34 @@
 'use strict';
+
 //configuration, mainApplication, modules, database, queryFiles, models
 module.exports = function(configuration, application, modules, database, queryFiles, models) {
-    if (configuration.webserver.easter_eggs.enable_footer_quotes) {
-        const logger = modules.logger;
-        const log_options = {
-            from: 'Quote-footer-middleware'
-        };
+    const CONSTANTS_admin_sidebars = require('../utility/CONSTANTS_admin_sidebars.json');
 
+    let middlewares = [];
+
+    const logger = modules.logger;
+    const log_options = Object.create(null);
+    log_options.from = 'J0nks-Middleware';
+
+    /**
+     * Function named jack called by the JackMiddleware
+     * @method
+     */
+    function jack(next){
+        logger.debug('call Jack()', log_options);
+
+        return next();
+    }
+    const JackMiddleware = Object.create(null);
+    JackMiddleware.name = 'Jack Middleware';
+    JackMiddleware.priority = configuration.load_priority.LOW - 10;
+    JackMiddleware.action = (req, res, next) => {
+        return jack(next);
+    };
+
+    middlewares[0] = JackMiddleware;
+
+    if (configuration.webserver.easter_eggs.enable_footer_quotes) {
         logger.warn('Communist/Marxist footer quotes activated', log_options);
 
         const QUOTES = [
@@ -29,14 +51,19 @@ module.exports = function(configuration, application, modules, database, queryFi
         FooterAttacher.name = 'Quote-footer-middleware';
         FooterAttacher.priority = configuration.load_priority.LOW;
         FooterAttacher.action = (req, res, next) => {
-            if(req.method === 'GET'){
+            if(req.method === 'GET' && req.extra_data.system.sidebars.canAttach){
                 logger.debug(`Attaching footer data`, log_options);
                 req.extra_data.view.footer = QUOTES[Math.floor(Math.random() * (QUOTES.length))];
                 logger.debug(`Chosen quote: ${req.extra_data.view.footer}`, log_options);
             }//method === 'GET'
+
             return next();
         };//FooterAttacher.action
-        return [FooterAttacher];
+
+        middlewares[middlewares.length] = FooterAttacher;
     }//if(quotesenabled)
-    return [];
-};//module.exports;
+
+
+
+    return middlewares;
+};

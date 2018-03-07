@@ -79,11 +79,10 @@
 {%endblock%}
 
 {%block content%}
-<form action="/transaction/submitPreactsDirectPayment" encType="multipart/form-data" id="form-id" class="form-horizontal" method="POST">
-
-                        <input type="hidden" name="_csrf" value="{{csrfToken}}">
-
-                        <input type="hidden" name="gosmactivity" value="{{gosmactivity}}">
+<form action="/transaction/submitEditDirectPayment" encType="multipart/form-data" id="form-id" class="form-horizontal" method="POST">
+    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+    <input type="hidden" name="id" value="{{directPayment.id}}">
+    <input type="hidden" name="gosmactivity" value="{{gosmactivity}}">  
                 <div class="row">
                     <div class="col-md-12">
                         <div class="panel panel-warning">
@@ -92,11 +91,23 @@
                             </div>
                             <div class="panel-wrapper collapse in" aria-expanded="true">
                                 <div class="panel-body">
-                                    <p>Status:Pended</p>
-                                    <p>Checked by: Dominique E. Dagunton</p>
-                                    <p>Date Checked: September 12, 2019</p>
-                                    <p>Sections to be edited: Particulars, Memo, Attachments</p>
-                                    <p>Explanation: explanation</p>
+                                    <p>Status: Pended</p>
+                                    <p>Checked by: {{signatory.firstname}} {{signatory.lastname}}</p>
+                                    <p>Date Checked: {{signatory.datesigned}}</p>
+                                    <p>Sections to be edited: 
+
+                                    {% for edit in signatory.sectionsToEdit %}
+                                        {% if edit == 0 %}
+                                            Particulars
+                                        {% elif edit == 1  %}
+                                            Memo
+                                        {% elif edit == 2 %}
+                                            Attachments
+                                        {% endif %}
+
+                                    {% endfor %}
+                                    </p>
+                                    <p>Explanation: {{signatory.comments}}</p>
                                     
                                 </div>
                             </div>
@@ -116,13 +127,13 @@
                                                                     <div class="form-group row form-inline">
                                                                         <label class="col-md-3">Particulars</label>
                                                                         <!-- food, accomodation, others, venue, transportation, honorarium, cash prize, cor -->
-                                                                        <select id="ca_particular" class="col-md-9 select2 m-b-10 select2-multiple"  multiple="multiple" data-placeholder="Choose" name="particulars">
+                                                                        <select disabled="" id="ca_particular" class="col-md-9 select2 m-b-10 select2-multiple"  multiple="multiple" data-placeholder="Choose" name="particulars">
                                                                             <!-- data-item ="name of particular" data-type="expense type" <>data-item<>-->
                                                                            
 
-                                                                            {% for particular in particulars %}
-    
-                                                                                <option value="{{particular.id}}" data-item="{{particular.material}}" data-amount="{{particular.unitcost}}" data-quantity ="{{particular.quantity}}" data-type="{{particular.name}}">{{particular.material}}</option>
+                                                                            {% for particular in directPaymentParticulars %}
+
+                                                                                <option selected value="{{particular.expenseid}}" data-item="{{particular.material}}" data-amount="{{particular.unitcost}}" data-quantity ="{{particular.quantity}}" data-type="{{particular.name}}">{{particular.material}}</option>
 
                                                                             {% endfor %}
 
@@ -167,7 +178,7 @@
                                                             <div class ='col-md-12'>
                                                                 <div class="col-md-12 m-b-10" >
                                                                     <label  style="">Justification for Delayed PRS Processing</label>
-                                                                    <textarea name="nodpjustification" style="width: 100%;" placeholder="ex. Papers processed late" required=""></textarea>   
+                                                                    <textarea name="reasonForDelayedPRSProcessing" style="width: 100%;" placeholder="ex. Papers processed late" required="" value="{{directPayment.reasonForDelayedPRSProcessing}}"></textarea>   
                                                                 </div>
                                                             </div>
 

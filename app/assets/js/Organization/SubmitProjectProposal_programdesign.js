@@ -546,7 +546,7 @@ $("#insert-button").click(function() {
     $("#start-time").closest("div.form-group").removeClass("has-error");
     $("#time-help").text("");
     $("#act0").closest("div.form-group").removeClass("has-error");
-    $("#desc0").closest("div.form-group").removeClass("has-error");
+    $("#trdesc0").closest("div.form-group").removeClass("has-error");
     $("#desc-help").text("");
     $("#act-help").text("");
 

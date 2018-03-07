@@ -18,14 +18,11 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		}
 		console.log("pubParam");
 		console.log(pubParam);
-		pnpModel.updatePublicityStatus(pubParam)
-				.then(data=>{
-					res.jsonp([1]); 
-				})
-				.catch(err=>{
-					console.log(err);
-				})
-		
+		return pnpModel.updatePublicityStatus(pubParam).then(data=>{
+			return res.jsonp([1]); 
+		}).catch(err=>{
+			console.log(err);
+		});
 	};	
 
 	

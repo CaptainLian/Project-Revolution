@@ -225,122 +225,290 @@
 
 {%block content%}
 <div class="row">
-                    <div class="col-sm-12">
-                        <div class="white-box">
-
-                            <br>
-                            <section>
-                                <div class="sttabs tabs-style-bar">
-                                    <nav>
-                                        <ul>
-                                            <li class="tab-current"><a href="#section-bar-1" class="fa fa-file"><span>&nbsp; Documentation Report</span></a></li>
-                                        </ul>
-                                    </nav>
-                                    <div class="content-wrap">
-                                        <section id="section-bar-1" class="content-current">
-                                        <div class="row row-in">
-                                            <div class="col-lg-4 col-sm-6 row-in-br">
-                                                <div class="col-in row">
-                                                    <div class="col-md-6 col-sm-6 col-xs-6"> <i data-icon="" class="linea-icon linea-aerrow"></i>
-                                                        <h5 class="text-muted vb">APPROVED ACTIVITIES</h5>
-                                                    </div>
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h3 class="counter text-right m-t-15 text-success">
-                                                        {% if hasapproved %}
-                                                            {{approved.approved}}
-                                                        {% else %}
-                                                            {{approved}}
-                                                        {% endif %}</h3>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="progress">
-                                                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 col-sm-6 row-in-br  b-r-none">
-                                                <div class="col-in row">
-                                                    <div class="col-md-6 col-sm-6 col-xs-6"> <i class="linea-icon linea-aerrow" data-icon="&#xe016;"></i>
-                                                        <h5 class="text-muted vb">PENDED ACTIVITIES</h5>
-                                                    </div>
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h3 class="counter text-right m-t-15 text-warning">
-                                                        {% if haspend %}
-                                                            {{pended.pended}}
-                                                        {% else %}
-                                                            {{pended}}
-                                                        {% endif %}</h3>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="progress">
-                                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 100%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 col-sm-6 row-in-br">
-                                                <div class="col-in row">
-                                                    <div class="col-md-6 col-sm-6 col-xs-6"> <i class="linea-icon linea-aerrow" data-icon="&#xe00e;"></i>
-                                                        <h5 class="text-muted vb">DENIED ACTIVITIES</h5>
-                                                    </div>
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h3 class="counter text-right m-t-15 text-danger">
-                                                        {% if hasdenied %}
-                                                            {{denied.denied}}
-                                                        {% else %}
-                                                            {{denied}}
-                                                        {% endif %}</h3>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="progress">
-                                                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="white-box">
+                    <h4 class="text-center">Pre-activity Document Summary</h4>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="col-md-12 row-in-br">
+                                    <div class="col-in row">
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h5 class="text-muted vb">COMPLETENESS</h5>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h3 class="counter text-right m-t-15 text-danger">2%</h3>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
                                             </div>
                                         </div>
-                                        <
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                <div class="white-box text-center">
-                                                    <h3 class="box-title">60/40 ratio</h3>
-                                                    <div>
-                                                        <canvas id="chart3" height="150"></canvas>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="white-box text-center">
-                                                    <h3 class="box-title">Push-through ratio</h3>
-                                                    <div>
-                                                        <canvas id="chart4" height="150"> </canvas>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                           <!--  <div class="col-lg-4">
-                                                <div class="white-box text-center">
-                                                    <h3 class="box-title">Timing grade</h3>
-                                                    <div>
-                                                        <canvas id="chart5" height="150"> </canvas>
-                                                    </div>
-                                                </div>
-                                            </div> -->
-                                        </div>
-                                        </section>
-
                                     </div>
-                                    <!-- /content -->
                                 </div>
-                                <!-- /tabs -->
-                            </section>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-md-12 ">
+                                    <div class="col-in row">
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h5 class="text-muted vb">PUNCTUALITY</h5>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h3 class="counter text-right m-t-15 text-danger">9%</h3>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-sm-12">
+                        
 
-                    </div>
-                    <div class="col-sm-12">
-
-                    </div>
                 </div>
+            </div>
+            <div class="col-md-6">
+                <div class="white-box">
+                    <h4 class="text-center">Post-activity Document Summary</h4>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="col-md-12 row-in-br">
+                                    <div class="col-in row">
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h5 class="text-muted vb">COMPLETENESS</h5>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h3 class="counter text-right m-t-15 text-danger">2%</h3>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-md-12 ">
+                                    <div class="col-in row">
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h5 class="text-muted vb">PUNCTUALITY</h5>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h3 class="counter text-right m-t-15 text-danger">9%</h3>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="white-box">
+  
+            <br>
+            <section>
+                <div class="sttabs tabs-style-bar">
+                    <nav>
+                        <ul>
+                            <li class="tab-current"><a href="#section-bar-1" class="fa fa-file"><span>&nbsp; Documentation Report</span></a></li>
+                            <li class=""><a href="#section-bar-2" class="fa fa-file"><span>&nbsp; Publicity Report</span></a></li>
+                            <li class=""><a href="#section-bar-3" class="fa fa-file"><span>&nbsp; Activity Summary</span></a></li>
+                            <li class=""><a href="#section-bar-4" class="fa fa-file"><span>&nbsp; Finance Summary</span></a></li>
+                        </ul>
+                    </nav>
+                    <div class="content-wrap">
+                        <section id="section-bar-1" class="content-current">
+                        <div class="row">
+                            <h4 class="text-center col-md-6">Pre-activity Document Summary</h4>
+                            <h4 class="text-center col-md-6">Post-activity Document Summary</h4>
+                        </div>
+                        
+                        <div class="row row-in">
+                            <div class="col-lg-3 col-sm-6 ">
+                                <div class="col-in row">
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <h5 class="text-muted vb">Punctuality</h5>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <h3 class="counter text-right m-t-15 text-success">23</h3>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
+                                <div class="col-in row">
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <h5 class="text-muted vb">Completeness</h5>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <h3 class="counter text-right m-t-15 text-warning">169</h3>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-6">
+                                <div class="col-in row">
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <h5 class="text-muted vb">Punctuality</h5>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <h3 class="counter text-right m-t-15 text-danger">157</h3>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-6  b-0">
+                                <div class="col-in row">
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <h5 class="text-muted vb">Completeness</h5>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <h3 class="counter text-right m-t-15 text-danger">431</h3>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row row-in">
+
+                            <div class="col-lg-3 col-sm-6 row-in-br">
+                                <div class="col-in row">
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <h5 class="text-muted vb">Timing Ratio</h5>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <h3 class="counter text-right m-t-15 text-success">23</h3>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
+                                <div class="col-in row">
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <h5 class="text-muted vb">GOSM Submission</h5>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <h3 class="counter text-right m-t-15 text-warning">169</h3>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-6 row-in-br">
+                                <div class="col-in row">
+                                    <div class="col-md-6 col-sm-6 col-xs-6"> 
+                                        <h5 class="text-muted vb">Pushed Through</h5>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <h3 class="counter text-right m-t-15 text-danger">157</h3>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-6  b-0">
+                                <div class="col-in row">
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <h5 class="text-muted vb">Not in GOSM Compliance</h5>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <h3 class="counter text-right m-t-15 text-danger">431</h3>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="white-box text-center">
+                                    <h3 class="box-title">60/40 ratio</h3>
+                                    <div>
+                                        <canvas id="chart3" height="150"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="white-box text-center">
+                                    <h3 class="box-title">Push-through ratio</h3>
+                                    <div>
+                                        <canvas id="chart4" height="150"> </canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="white-box text-center">
+                                    <h3 class="box-title">Timing grade</h3>
+                                    <div>
+                                        <canvas id="chart5" height="150"> </canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </section>
+                        <section id="section-bar-2">
+                            <h3>2</h3>
+                        </section>
+                        <section id="section-bar-3">
+                            <h3>3</h3>
+                        </section>
+                        <section id="section-bar-4">
+                            <h3>4</h3>
+                        </section>
+                        
+                        
+                    </div>
+                    <!-- /content -->
+                </div>
+                <!-- /tabs -->
+            </section>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        
+    </div>
+    <div class="col-sm-12">
+        
+    </div>
+</div>
 {%endblock%}

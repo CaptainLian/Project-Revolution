@@ -116,14 +116,350 @@
     {{tag.javascript('/plugins/bower_components/tiny-editable/mindmup-editabletable.js', true)}}
     {{tag.javascript('/plugins/bower_components/tiny-editable/numeric-input-example.js', true)}}
 
+  
+	{{tag.javascript('/js/system/AJAX_CSRF.js')}}
+  
+  {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.21.0/moment.min.js')}}
+	{{tag.javascript('/plugins/bower_components/moment/moment.js')}}
+	{{tag.javascript('/plugins/bower_components/calendar/dist/fullcalendar.min.js')}}
 
-	{{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
-	<script type="text/javascript">
-    	var gid = {{gosmactivity.gosmactivity}};
-    	var id = {{projectProposal.id}};
-    	var status = {{status}};
-    </script>
-    {{tag.javascript('/js/Organization/SubmitProjectProposal_programdesign.js', true)}}
+  {{tag.javascript('/plugins/bower_components/toast-master/js/jquery.toast.js')}}
+
+  <!--  -->
+
+   <script type="text/javascript">
+      var sched = {};  
+      var data
+     $(document).ready(function(){
+        data;
+        var id = 1;
+        sched = {}
+        var start = new Date("3/01/2018")
+        start.setMinutes("0")
+        start.setHours("17")
+        var end = new Date("3/01/2018")
+        end.setMinutes("0")
+        end.setHours("19")
+        var calendar  = $('#calendar').fullCalendar({
+              height:500,
+              defaultView: 'listYear',
+              defaultDate: '2018-03-01',
+  		      	editable: false,
+              overlap:false,
+  		      	selectable: true,
+  		      	 week:'week',
+                  events:[
+                       // {
+                       //  id:1,
+                       //  title:'Activity Name',
+                       //  date:'03/02/2018',
+                       //  start: start.toISOString(),
+                       //  end:end.toISOString(),
+                       //  description: 'asdasdjhaskjd asdjkhaskdjhaskdjha asdjkhaskjdhaksjdh asdkjahsdkjashd asdasd',
+                       //  person:'Neil Capisterano',
+                       //  posid:1 
+                       // }  
+                       {%for event in programDesign%}
+                       {% set xctr = loop.index %}
+                        {
+                        id:{{loop.index}},
+                        title:'{{event.activity}}',
+                        date:'{{event.date}}',
+                        start: '{{event.date}} {{event.starttime}}',
+                        end: '{{event.date}} {{event.endtime}}',
+                        description: '{{event.activitydescription}}',
+                        person:'{{event.name}}',
+                        posid:{{event.personincharge}}
+                       },
+                       {%endfor%}
+                  ],
+                  customButtons: {
+  			        add_event: {
+  			            text: 'Add',
+  			            click: function() {
+  			               $('#createEventModal').modal('show');
+
+  			            }
+  			        }
+  			    },
+  			    header: {
+  			        right: 'listYear agendaWeek month  prev,next',
+  			        center: 'title',
+  			        left: 'add_event'
+  			    },
+            eventClick: function(calEvent, jsEvent, view) { 
+                  var $this = this;
+                  $('#date').text(new Date(calEvent.start).toString().substr(0,16))
+                  $('#event-title').text(calEvent.title)
+                  $('#pos').text(calEvent.person)
+                  
+                  $('#desc').text(calEvent.description)
+                  $('#start-time').text(new Date(calEvent.start).toTimeString().split(" ")[0])
+                  $('#end-time').text(new Date(calEvent.end).toTimeString().split(" ")[0])
+                  data = calEvent
+                  console.log(data)
+                   $('#my-event').modal('show');
+
+            },
+            eventRender: function(event, element) { 
+                element.find('.fc-title').append("<br/>" + event.description); 
+            } 
+              
+                              
+
+          });
+        id = {{programDesign.length +1}}
+        setSched()
+        $("select").select2();
+  			$('#createEventModal').modal({ show: false})
+  			
+        $('.clockpicker1').clockpicker({
+
+            donetext: 'Done',
+
+        }).find('input').change(function() {
+
+            console.log(this.value);
+
+        });
+
+
+
+        $('.clockpicker2').clockpicker({
+
+            donetext: 'Done',
+
+        }).find('input').change(function() {
+
+            console.log(this.value);
+
+        });
+       
+		   $("#edit").on('click',function(){            
+            $('#my-event').modal('hide');
+
+            $("#inp-date").val(getDate(data.start))
+            $("#inp-start").val(moment(data.start).format('HH:mm'))
+            $("#inp-end").val(moment(data.end).format('HH:mm'))
+            $("#inp-name").val(data.title)
+            $("#inp-desc").val(data.description)
+            $("#inp-pos").select2('val',data.posid)
+            $('#createEventModal').modal('show');
+            $("#editButton").css('display','')
+            $("#submitButton").css('display','none')
+            $("#edit-label").css('display','')
+            $("#add-label").css('display','none')
+              // Success Message
+           
+        });
+
+      $("#editButton").on('click',function(){
+          var id = data.id
+          
+          johnRemoved = sched[data.date].filter(function(el) {
+              
+              return el.id != data.id 
+          });
+          console.log("DATA ID :"+id);
+          $("#calendar").fullCalendar('removeEvents',data.id);
+          sched[data.date] = johnRemoved
+          if(johnRemoved.length == 0){
+             delete sched[data.date]
+          }
+
+
+        id +=1;
+        addEvent({id:id}) 
+      });
+      $("#submitButton").on('click',function(){
+        id +=1;
+        addEvent({id:id})
+
+      });
+      $("#delete").on('click',function(){
+          var id = data.id
+          
+          johnRemoved = sched[data.date].filter(function(el) {
+              
+              return el.id != data.id 
+          });
+          console.log("DATA ID :"+id);
+          $("#calendar").fullCalendar('removeEvents',data.id);
+          sched[data.date] = johnRemoved
+          if(johnRemoved.length == 0){
+             delete sched[data.date]
+          }
+           
+      })
+
+
+        $("#submit-but").click(function(){
+            $.ajax({
+                type:'POST',
+                url:'/Organization/projectproposal/SaveDesign',
+                data:{"sched":JSON.stringify(sched), gid:$("#data-route").attr("gid"),pid:$("#data-route").attr("pid")},
+                success:function(data){
+                    if(parseInt(data))
+                    window.location.href="/organization/projectproposal/main/"+$("#data-route").attr("gid")+'/'+$("#data-route").attr("status");
+                }
+            })
+        })
+        $("#cancel-but").click(function(){
+            window.location.href="/organization/projectproposal/main";
+                
+        })
+
+
+         function addEvent(data){
+          var dateInp = $("#inp-date").val();
+          var startInp = $("#inp-start").val();
+          var endInp = $("#inp-end").val();
+          var actInp = $("#inp-name").val();
+          var descInp = $("#inp-desc").val();
+          var selInp = $("#inp-pos").select2('val');
+          if( dateInp in sched){
+             var act = {
+                    'id':data.id,
+                    'start': startInp,
+                    'end': endInp,
+                    "date":dateInp,
+                    'act': actInp,
+                    'desc': descInp,
+                    'person': selInp
+
+                };
+                sched[dateInp].push(act);
+
+
+          }else{  
+              var act = {
+                    'id':data.id,
+                    'start': startInp,
+                    'end': endInp,
+                    'act': actInp,
+                    'desc': descInp,
+                    "date":dateInp,
+                    'person': selInp
+
+                };
+                sched[dateInp] = [];
+                sched[dateInp].push(act);
+          }
+          var event = {                  
+                  id:data.id,
+                  title:$("#inp-name").val(),
+                  date:$("#inp-date").val(),
+                  start: setTime($("#inp-date").val(), $("#inp-start").val()),
+                  end: setTime($("#inp-date").val(), $("#inp-end").val()),
+                  description: $("#inp-desc").val(),
+                  person:$("#inp-pos").select2('data'),
+                  posid:$("#inp-pos").select2('val')
+                  
+                  
+          }
+          $("#calendar").fullCalendar('renderEvent',event);
+
+           $.toast({
+            heading: 'Success!',          
+            position: 'top-right',
+            loaderBg:'#ff6849',
+            icon: 'success',
+            bgColor:'#00C292',
+            hideAfter: 3500, 
+            stack: 6
+          });
+
+
+
+       }
+
+       $('#createEventModal').on('hidden.bs.modal', function () {
+         clear()
+         $("#editButton").css('display','none')
+            $("#submitButton").css('display','')
+            $("#edit-label").css('display','none')
+            $("#add-label").css('display','')
+      })
+       function setTime(date , time){
+          date = new Date(date);
+          var arr = time.split(":")
+          date.setHours(arr[0])
+          date.setMinutes(arr[1])
+          return date
+
+       }
+       function clear(){
+              $("#inp-date").val('')
+              $("#inp-start").val('')
+              $("#inp-end").val('')
+              $("#inp-name").val('')
+              $("#inp-desc").val('')
+              $("#inp-pos").select2('val',data.posid) 
+              $("#editButton").css('display','none')
+              $("#submitButton").css('display','')
+       }
+        
+       function getTime(time){
+          time = new Date(time)
+          return time.getHours()+':'+time.getMinutes()
+
+       }
+
+       function getDate(date){
+          
+          date = new Date(date)
+          return date.getMonth()+'/'+date.getDay()+'/'+date.getFullYear()
+
+       }
+
+
+
+      function setSched(){
+
+        var events = $("#calendar").fullCalendar('clientEvents');
+        for(var ctr = 0; ctr < events.length; ctr++){
+            if(events[ctr].date in sched){
+                 var act = {
+                    'id':events[ctr].id,
+                    'start': moment((events[ctr].start)).format('HH:mm'),
+                    'end': moment((events[ctr].end)).format('HH:mm'),
+                    "date":getDate(events[ctr].start),
+                    'act': events[ctr].title,
+                    'desc': events[ctr].description,
+                    'person': events[ctr].posid
+
+                };
+                sched[events[ctr].date].push(act);
+            }else{
+                 var act = {
+                    'id':events[ctr].id,
+                    'start': moment((events[ctr].start)).format('HH:mm'),
+                    'end': moment((events[ctr].end)).format('HH:mm'),
+                    "date":getDate(events[ctr].start),
+                    'act': events[ctr].title,
+                    'desc': events[ctr].description,
+                    'person': events[ctr].posid
+
+                };
+                sched[events[ctr].date] = [];
+                sched[events[ctr].date].push(act);
+            }
+        }
+
+
+      }
+
+       
+
+    })
+
+
+
+  
+
+      
+  </script>
+    
 {%endblock%}
 
 {%block content%}
@@ -291,5 +627,101 @@
 			</div>
 		</div>
 	</div>
+</div>
+<div class="modal none-border" id="my-event">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header text-info">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                  <h4 class="modal-title"><strong id="event-title">Event Name</strong></h4>
+              </div>
+              <div class="modal-body">
+                <p><strong>Date:</strong> <a id="date">TEST</a></p>
+                <div class="row cloc">
+                  <p class="col-md-6" ><strong>Start Time:</strong> <a id="start-time">TEST</a></p>
+                  <p class="col-md-6"><strong>End Time:</strong> <a id="end-time">TEST</a></p>
+                  <p class="col-md-12"><strong>Description</strong> <a id="desc">TEST</a></p>
+                  <p class="col-md-12"><strong>Person Responsible</strong> <a id="pos">TEST</a></p>
+                </div>
+                
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-white waves-effect" data-dismiss="modal">Close</button>                  
+                  <button type="button" id="delete" class="btn btn-danger delete-event waves-effect waves-light" data-dismiss="modal">Delete</button>
+                  <button type="button" id="edit" class="btn btn-warning save-event waves-effect waves-light">Edit</button>
+                  
+              </div>
+          </div>
+      </div>
+  </div>
+<div id="createEventModal" class="modal fade">
+    <div class="modal-dialog"  style="top: 150px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span> <span class="sr-only">close</span></button>
+                <h4 id="add-label">Add an Event</h4>
+                <h4 id="edit-label" style="display: none">Edit</h4>
+            </div>
+            <div id="modalBody" class="modal-body">
+               
+
+                  
+
+                  <div class="form-group">
+                    <label class="form-control-label"> Date</label>
+                    <div class="input-group date" data-provide="datepicker">
+                        <input type="text" id="inp-date" class="form-control">
+                        <div class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </div>
+                    </div>
+                  </div>
+
+
+                  <div class="form-group">
+                  <label class="form-control-label">Time Range</label>
+                      <div class="input-daterange clockpicker input-group" id="date-range" >
+                                       <div class="input-group clockpicker1" data-placement="bottom" data-align="top" data-autoclose="true">
+ 
+                                          <input type="text" class="form-control" id="inp-start" value=""> 
+                   
+                                      </div><span class="input-group-addon bg-info b-0 text-white">to</span>
+                   
+                                      <div class="input-group clockpicker2" data-placement="bottom" data-align="top" data-autoclose="true">
+                   
+                                          <input type="text" class="form-control" value="" id="inp-end">  
+                   
+                                      </div>
+                      </div>
+
+                  </div>
+                <div class="form-group">
+                    <label class="form-control-label">Event Name</label>
+                    <input class="form-control" id="inp-name" type="text" >
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label">Description</label>
+                    <textarea class="form-control" id="inp-desc" type="text" rows="4"></textarea>
+                </div>
+                <div class="form-group ">
+                <label class="form-control-label">Person Responsible</label>
+                <select name="typeOfItem[]" id="inp-pos" class="form-control select2">                  
+                  {% for p in projectHeads %}
+                      <option value="{{p.idnumber}}" >{{p.firstname}} {{p.lastname}}</option>
+                  {% endfor %}
+                  
+                </select>
+                <div>
+                  <span class="help-block" id="time-help"></span>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                <button type="submit" class="btn btn-primary" id="editButton" style="display: none">Edit </button>
+                <button type="submit" class="btn btn-primary" id="submitButton">Add </button>
+            </div>
+        </div>
+    </div>
 </div>
 {%endblock%}

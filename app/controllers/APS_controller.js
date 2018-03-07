@@ -14,8 +14,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     const APSController = Object.create(null);
 
     APSController.viewOrglist = (req, res) => {
-        gosmModel.getAllCurrent()
-        .then(GOSMList => {
+        gosmModel.getAllCurrent().then(GOSMList => {
             logger.debug(`Displaying GOSM list: ${JSON.stringify(GOSMList)}`, log_options);
             const renderData = Object.create(null);
             renderData.GOSMList = GOSMList,

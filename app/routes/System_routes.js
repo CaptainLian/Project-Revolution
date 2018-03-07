@@ -26,9 +26,12 @@ module.exports = function(configuration, modules, router, controllers){
         const renderData = Object.create(null);
         renderData.extra_data = req.extra_data;
         renderData.csrfToken = req.csrfToken();
-        
+
         return res.render('System/blank', renderData);
     });
 
     router.get('/System/ChangeOrganization/:organization', controllers.System_controller.studentChangeOrganization);
+
+    router.get('/System/ChangePassword', controllers.System_controller.viewChangePassword);
+    router.post('/System/UpdatePassword', controllers.System_controller.updatePassword);
 };

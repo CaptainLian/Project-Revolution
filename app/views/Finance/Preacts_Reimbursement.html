@@ -75,6 +75,7 @@
     <!-- Page Scripts -->
     {{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
     {{tag.javascript('/js/Fin/FinancePreacts2.js', true)}}
+    {{tag.javascript('/js/Fin/Preacts_Reimbursement.js', true)}}
     <!-- /Page Scripts -->
 {%endblock%}
 
@@ -147,7 +148,26 @@
                                                               </tfoot>
                                                           </table>
                                                           <br>
-                                                    
+                                                          <!-- COMMENT: Only show this div if the reimbursement is requested 30 days after the activity-->
+
+                                                            {% if justification %}
+
+                                                                <div class ='col-md-12' >
+                                                                    <div class="col-md-12 m-b-10" >
+                                                                        <label  style="">Justification for Delayed PRS Processing</label>
+                                                                        <textarea name="justificationdelay" style="width: 100%;"  required=""></textarea>   
+                                                                    </div>
+                                                                </div>
+
+                                                            {% endif %}
+                                                            
+                                                            <!-- COMMENT: Only show this div if the particulars selected amounts to >1000-->
+                                                            <div class ='col-md-12' style="display: none" id="justification">
+                                                                <div class="col-md-12 m-b-10" >
+                                                                    <label  style="">Justification for not using Cash Advance/Direct Payment</label>
+                                                                    <textarea id="justificationinput" name="nodpjustification" style="width: 100%;"  required=""></textarea>   
+                                                                </div>
+                                                            </div>
                                                             
                                                         </div>
                                                         

@@ -8,6 +8,9 @@ module.exports = (configuration, mainApplication) => {
     mainApplication.set('view engine', 'html');
     nunjucks.configure(configuration.webserver.views.path, {
         autoescape: true,
+        lstripBlocks: true,
+        trimBlocks: true,
+        watch: configuration.debug.enabled,
         express: mainApplication
     });
 };
