@@ -15,8 +15,8 @@ WITH "CurrentTermPPR" AS (
      WHERE pps.signatory = ${idNumber}
        AND pps.GOSMActivity IN (SELECT GOSMActivity FROM "CurrentTermPPR")
 )
-SELECT pp.GOSMActivity, to_char(pp.actualDateStart, 'Mon DD, YYYY') AS actualDateStart, ga.strategies, pp.status, pp.pstatus as pstatus
-  FROM (SELECT pp.actualDateStart, pp.GOSMActivity, ats.status, pp.status as pstatus
+SELECT pp.GOSMActivity, to_char(pp.actualDateStart, 'Mon DD, YYYY') AS actualDateStart, ga.strategies, pp.status
+  FROM (SELECT pp.actualDateStart, pp.GOSMActivity, ats.status
           FROM ProjectProposal PP RIGHT JOIN "AccountToSign" ATS
                                           ON PP.GOSMActivity = ATS.GOSMActivity) pp LEFT JOIN GOSMActivity ga
                                                                        ON pp.GOSMActivity = ga.id;
