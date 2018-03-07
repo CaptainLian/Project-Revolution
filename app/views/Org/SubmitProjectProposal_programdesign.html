@@ -212,8 +212,8 @@
                   $('#pos').text(calEvent.person)
                   
                   $('#desc').text(calEvent.description)
-                  $('#start-time').text(new Date(calEvent.start).toTimeString().split(" ")[0])
-                  $('#end-time').text(new Date(calEvent.end).toTimeString().split(" ")[0])
+                  $('#start-time').text(moment(calEvent.start).format('HH:mm'))
+                  $('#end-time').text(moment(calEvent.end).format("HH:mm"))
                   data = calEvent
                   console.log(data)
                    $('#my-event').modal('show');
@@ -386,6 +386,7 @@
             hideAfter: 3500, 
             stack: 6
           });
+          $('#createEventModal').modal('hide');
 
 
 
