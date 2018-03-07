@@ -261,8 +261,8 @@ module.exports = function(configuration, modules, db, queryFiles) {
     ProjectProposalModel.prototype.getAllOrgProposal = function(orgid, fields, connection = this._db){
         let query = squel.select()
         .from('GOSM', 'G')
-        .left_join('GOSMActivity','GA','G.id = GA.Gosm')
-        .left_join('ProjectProposal','PP','GA.ID = PP.GosmActivity')
+        .join('GOSMActivity','GA','G.id = GA.Gosm')
+        .join('ProjectProposal','PP','GA.ID = PP.GosmActivity')
         .where('G.termID = ?',squel.str('system_get_current_term_id()'))
         .where('G.studentorganization = ?',orgid)
         

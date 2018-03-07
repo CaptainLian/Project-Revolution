@@ -711,10 +711,23 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                 }
 
-                console.log(renderData.successProjects)
+                if (data[7].length > 0){
+                    renderData.calendar = true;
+                    console.log("YOOOOOOOOOOOOOO");
+                }
+                else{
+                    console.log("NOOOOOOOOPEEEEEE");
+                    renderData.calendar = false;
+                }
+
+                                console.log(data[7]);
+
+
+                console.log(renderData.successProjects);
+                console.log("HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
                 return res.render('Org/ProjectHeadHome', renderData);
             }).catch(error => {
-                throw error;
+                console.log(error);
             });
         },
 
