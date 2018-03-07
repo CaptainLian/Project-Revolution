@@ -27,7 +27,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 	};
 
 	AdminController.import = (req, res) => {
-		var tool = new PgTools();
+		// var tool = new PgTools();
+		console.log("test")
 		//  tool.restoreDatabase({
 		//     host: 'localhost'
 		//     , port: 5432
