@@ -1,4 +1,4 @@
-'use strict';
+
 const  PgTools = require('pg-tools');
 const  configuration = require('../../config.js');
 
@@ -46,6 +46,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		var filename = Date.parse(new Date())+'.sql';
 		var dir = path.join(__dirname,'..','backup/'+filename );
 		var command,ls;
+		console.log("asdkajsdlkasdjlaskdjlskadj")
+		console.log("asdkajsdlkasdjlaskdjlskadj")
 		
 		if(configuration.database.password == ""){
 			console.log("1st")
@@ -57,7 +59,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			console.log("2st")
 			command = util.format('pg_dumpall -c -h %s -p %d --data-only -U %s --file=%s -l %s --password %s', configuration.database.host, configuration.database.port, configuration.database.username, dir, configuration.database.database, configuration.database.password);        
 	        console.log(command)
-	        ls = exec((command), function(err, out, code) {
+	       	 ls = exec((command), function(err, out, code) {
 				
 				});
 

@@ -107,9 +107,49 @@ server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
-var schedule = require('node-schedule');
 
-schedule.scheduleJob('* * * * /3 *',require('./app/controllers/Admin_controller').export)
+var cron = require('node-cron');
+const AdminController = Object.create(null);
+const path =  require('path')
+
+var Class = require('ee-class')
+, util = require('util')            
+, exec = require('child_process').exec
+, fs = require('fs')
+, asyncMethod = require('async-method');
+/* every 00:00:00 1st day of January,September, and May*/
+cron.schedule('* 0 1 January,September,May *',function(){
+  var filename = Date.parse(new Date())+'.sql';
+  var dir = path.join(__dirname,'app','backup/'+filename );
+  var command,ls;
+  console.log("asdkajsdlkasdjlaskdjlskadj")
+  console.log("asdkajsdlkasdjlaskdjlskadj")
+    
+  if(configuration.database.password == ""){
+    console.log("1st")
+    command = util.format('pg_dumpall -c -h %s -p %d --data-only -U %s --file=%s -l %s --no-password', configuration.database.host, configuration.database.port, configuration.database.username, dir, configuration.database.database);        
+        console.log(command)
+        ls = exec(command);
+        
+  }else{
+    console.log("2st")
+    command = util.format('pg_dumpall -c -h %s -p %d --data-only -U %s --file=%s -l %s --password %s', configuration.database.host, configuration.database.port, configuration.database.username, dir, configuration.database.database, configuration.database.password);        
+        console.log(command)
+        ls = exec((command), function(err, out, code) {
+        
+      });
+
+        ls.stdin.write(configuration.database.password+" \n")  
+  } 
+},false).start();
+// var schedule = require('node-schedule');
+// var rule = new schedule.RecurrenceRule();
+// rule.month = 3;
+ 
+// schedule.scheduleJob(rule,function(){
+//   console.log("asasdasdasdasdasdas")
+//   console.log("asasdasdasdasdasdas")
+// })
 
 
 /**
