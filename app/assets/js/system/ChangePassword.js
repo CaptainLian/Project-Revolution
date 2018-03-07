@@ -9,7 +9,12 @@
     const divError_PasswordMismatch = document.createElement('div');
     divError_PasswordMismatch.setAttribute('class', 'alert alert-danger fade in');
     divError_PasswordMismatch.setAttribute('id', '#ErrorAlert_NewPasswordMismatch');
-    divError_PasswordMismatch.innerHTML = '<strong>Error</strong> New password mismatch.';
+    divError_PasswordMismatch.innerHTML = '<strong>Error</strong> New passwords does not match.';
+
+    const divError_PasswordMatchOld = document.createElement('div');
+    divError_PasswordMatchOld.setAttribute('class', 'alert alert-danger fade in');
+    divError_PasswordMatchOld.setAttribute('id', '#ErrorAlert_PasswordMatchOld');
+    divError_PasswordMatchOld.innerHTML = '<strong>Error</strong> New password matches old.';
 
     let currentAlert = null;
     const removeAlert = () => {
@@ -28,7 +33,7 @@
     btnSubmit.addEventListener('click', event => {
         let ajax = Object.create(null);
         ajax.type = 'POST';
-        ajax.url = '/System/UpdatePassword';
+        ajax.url = '/System/AJAX/UpdatePassword';
         ajax.async = true;
         ajax.data = {
             oldPassword: inputOldPassword.value,
@@ -64,14 +69,16 @@
 
         $.ajax(ajax);
     });
-
-    //TODO: Check if new password is the same as old password
+    
     /**
      * @type {function}
      */
     const onNewPasswordChange = event => {
         if(inputNewPassword1.value !== inputNewPassword2.value){
             setCurrentAlert(divError_PasswordMismatch);
+            btnSubmit.setAttribute('disabled', 'disabled');
+        }else if(inputNewPassword1.value === inputOldPassword.value){
+            setCurrentAlert(divError_PasswordMatchOld);
             btnSubmit.setAttribute('disabled', 'disabled');
         }else{
             removeAlert();
