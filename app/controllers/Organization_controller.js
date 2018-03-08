@@ -1528,7 +1528,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
-
+            console.log(req.body)
             // var date = new Date().toJSON();
 
 
