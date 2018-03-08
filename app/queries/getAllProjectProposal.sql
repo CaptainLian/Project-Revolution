@@ -1,4 +1,4 @@
-SELECT G.studentorganization, PPR.status, GA.isingosm
+SELECT G.studentorganization, PPR.status, GA.isingosm, PPR.timespended
   FROM PROJECTPROPOSAL PPR JOIN GOSMACTIVITY GA
 			     ON PPR.GOSMACTIVITY=GA.ID
 			   JOIN GOSM G
