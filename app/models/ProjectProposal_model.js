@@ -272,6 +272,24 @@ module.exports = function(configuration, modules, db, queryFiles) {
         
         return connection.any(query);
     };
+
+    ProjectProposalModel.prototype.getProjectProposalExpensesPPRID = function(pprid, connection = this._db){
+        let query = squel.select()
+        .from('ProjectProposalExpenses', 'PPE')
+        .left_join('ExpenseType',"EE","PPE.type = EE.id")
+        .where('PPE.projectProposal = ?',pprid)
+        query = query.toString();
+        
+        return connection.any(query);
+    };
+    ProjectProposalModel.prototype.getProjectProposalRevenuePPRID = function(pprid, connection = this._db){
+        let query = squel.select()
+        .from('ProjectProposalProjectedIncome', 'PPPI')
+        .where('PPPI.projectProposal = ?',pprid)
+        query = query.toString();
+        
+        return connection.any(query);
+    };
     
     ProjectProposalModel.prototype.getProjectProposalExpenses = function(id, fields, connection = this._db){
         console.log('ProjectProposalExpenses()');

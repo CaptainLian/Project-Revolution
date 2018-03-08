@@ -682,18 +682,21 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 orgId: orgID
             };
 
-            database.task(task => {
-                    return task.batch([
-                        projectProposalModel.getProjectProposal(dbParam),
-                        projectProposalModel.getProjectProposalExpenses(req.params.id),
+            database.tx(transaction => {
+                    return projectProposalModel.getProjectProposal(dbParam).then(data=>{
+                        return Promise.all([
+                            Promise.resolve(data),
+                            projectProposalModel.getProjectProposalExpenses(req.params.id,transaction),
+                            projectProposalModel.getExpenseTypes(transaction),
+                            projectProposalModel.getProjectProposalExpensesPPRID(data.id,transaction),
+                            projectProposalModel.getProjectProposalRevenuePPRID(data.id,transaction)
 
-                        projectProposalModel.getExpenseTypes()
-                        // projectProposalModel.getPPRSectionsToEdit(dbParam)
 
-                    ]);
+                        ]);    
+                    })
+                    
                 })
-                .then(data => {
-
+                .then(data => {                     
                     const renderData = Object.create(null);
                     renderData.extra_data = req.extra_data;
                     renderData.csrfToken = req.csrfToken();
@@ -701,10 +704,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     renderData.projectProposal = data[0];
                     renderData.expenses = data[1];
                     renderData.revenue = req.params.revenue;
-
                     renderData.expenseTypes = data[2];
                     renderData.status = req.params.status;
+                    renderData.listexpenses = data[3]
+                    renderData.listrevenues = data[4]
+
                     // renderData.sectionsToEdit = data[3];
+
 
                     console.log(renderData.gosmactivity);
                     console.log(renderData.projectProposal);

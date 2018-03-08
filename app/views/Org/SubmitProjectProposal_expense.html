@@ -203,6 +203,66 @@
 										</tr>
 									</thead>
 									<tbody>
+										{#{%for exp in listexpenses%}
+										<div id="{{loop.index0}}" class="col-md-4 m-t-40" style="display: none">
+											<div class="form-group ">
+												<label class="form-control-label">
+													Item Name
+												</label>
+												<input id="item" value="{{exp.material}}" name="item[]" type="text" class="form-control">
+												<div>
+													<span class="help-block" id="item-help"></span>
+												</div>
+											</div>
+											<div class="form-group toi">
+												<label class="form-control-label">Type of Item</label>
+												<select name="typeOfItem[]" id="sel0" class="form-control select2">
+													
+													
+															
+															<option value="{{exp.type}}"  selected="selected">{{exp.type}}</option>
+
+													
+													
+												</select>
+												<div>
+													<span class="help-block" id="time-help"></span>
+												</div>
+											</div>
+											<div class="form-group ">
+												<label class="form-control-label">Price</label>
+												<div class="input-group">
+													<span class="input-group-addon" id="basic-addon1" step='0.01'>₱</span>
+													<input id="price" value="{{exp.unitcost}}" type="text" name="price[]" class="form-control">
+												</div>
+												<div>
+													<span class="help-block" id="price-help"></span>
+												</div>
+											</div>
+											<div class="form-group ">
+												<label class="form-control-label">Quantity</label>
+												<div class="input-group">
+													<input id="quantity" min="1" value="{{exp.quantity}}" name="quantity[]"  type="text" class="form-control">
+													<span class="input-group-addon"  id="basic-addon1" step='0.01'>pcs</span>
+												</div>	
+												<div>
+													<span class="help-block" id="quantity-help"></span>
+												</div>
+											</div>
+											<div class="form-group" >
+												<div class="radio-list text-center">
+													
+													<label class="radio-inline expense">
+														<input id="exp" name="optionsRadios2[]" value="Expense" type="radio" checked="checked"> 
+														Expense 
+													</label>
+												</div>
+											</div>		
+											<div class="m-t-5 form-group text-center ">
+												<button type="button" id="insert-button" class="btn btn-info">Insert </button>
+											</div>			
+										</div>
+										{%endfor%}#}
 										<tr class="fund" id="tot-rev" {%if revenue ==0 %}style="display:none" {%endif%}>
 											<td class="text-right" ><strong>Total Assets</strong></td>
 											<!--  <td></td> -->
@@ -210,7 +270,12 @@
 											<td></td>
 											<td></td>
 										</tr>
-									
+
+										{%for exp in listexpenses%}
+										<tr type="exp" id="{{loop.index0}}"><td>{{exp.material}}</td><td></td><td class="text-right"><strong>₱</strong>1</td><td class="text-center"><span class="mytooltip tooltip-effect-1"><span class="tooltip-item" style="background-color:white;padding:0px"><i class="fa fa-comment-o view-details"></i>  </span><span class="tooltip-content clearfix"><span class="tooltip-text p-10"><p>Quantity: {{exp.quantity}} pcs</p><p>Price: ₱ {{exp.unitcost}}</p><p>Type: {{exp.name}}</p></span> </span></span> <i data-id="{{loop.index0}}" "="" class="fa fa-times text-danger  remove-time"></i></td></tr>
+										{%endfor%}
+
+
 										<tr id="tot-exp" class="panel-error">
 											<td  class="text-right"><strong>Total Expenses</strong></td>
 											<td></td>
@@ -227,72 +292,72 @@
 								</table>
 							</div>
 							<div id="clone" class="col-md-4 m-t-40">
-							<div class="form-group ">
-								<label class="form-control-label">
-									Item Name
-								</label>
-								<input id="item" name="item[]" type="text" class="form-control">
-								<div>
-									<span class="help-block" id="item-help"></span>
-								</div>
-							</div>
-							<div class="form-group toi">
-								<label class="form-control-label">Type of Item</label>
-								<select name="typeOfItem[]" id="sel0" class="form-control select2">
-									
-									{% for type in expenseTypes %}
-
-										{% if type.id == 3%}
-
-										{% else %}
-											
-											<option value="{{type.id}}" >{{type.name}}</option>
-
-										{% endif %}
-
-									{% endfor %}
-									
-								</select>
-								<div>
-									<span class="help-block" id="time-help"></span>
-								</div>
-							</div>
-							<div class="form-group ">
-								<label class="form-control-label">Price</label>
-								<div class="input-group">
-									<span class="input-group-addon" id="basic-addon1" step='0.01'>₱</span>
-									<input id="price"  type="text" name="price[]" class="form-control">
-								</div>
-								<div>
-									<span class="help-block" id="price-help"></span>
-								</div>
-							</div>
-							<div class="form-group ">
-								<label class="form-control-label">Quantity</label>
-								<div class="input-group">
-									<input id="quantity" min="1" name="quantity[]"  type="text" class="form-control">
-									<span class="input-group-addon"  id="basic-addon1" step='0.01'>pcs</span>
-								</div>	
-								<div>
-									<span class="help-block" id="quantity-help"></span>
-								</div>
-							</div>
-							<div class="form-group" {%if revenue ==0 %}style="display:none" {%endif%}>
-								<div class="radio-list text-center">
-									<label class="radio-inline fund" >
-										<input name="optionsRadios2[]" id="rev-opt"  value="Revenue" type="radio">
-										Revenue
+								<div class="form-group ">
+									<label class="form-control-label">
+										Item Name
 									</label>
-									<label class="radio-inline expense">
-										<input id="exp" name="optionsRadios2[]" value="Expense" type="radio"> 
-										Expense 
-									</label>
+									<input id="item" name="item[]" type="text" class="form-control">
+									<div>
+										<span class="help-block" id="item-help"></span>
+									</div>
 								</div>
-							</div>		
-							<div class="m-t-5 form-group text-center ">
-								<button type="button" id="insert-button" class="btn btn-info">Insert </button>
-							</div>			
-						</div>
+								<div class="form-group toi">
+									<label class="form-control-label">Type of Item</label>
+									<select name="typeOfItem[]" id="sel0" class="form-control select2">
+										
+										{% for type in expenseTypes %}
+
+											{% if type.id == 3%}
+
+											{% else %}
+												
+												<option value="{{type.id}}" >{{type.name}}</option>
+
+											{% endif %}
+
+										{% endfor %}
+										
+									</select>
+									<div>
+										<span class="help-block" id="time-help"></span>
+									</div>
+								</div>
+								<div class="form-group ">
+									<label class="form-control-label">Price</label>
+									<div class="input-group">
+										<span class="input-group-addon" id="basic-addon1" step='0.01'>₱</span>
+										<input id="price"  type="text" name="price[]" class="form-control">
+									</div>
+									<div>
+										<span class="help-block" id="price-help"></span>
+									</div>
+								</div>
+								<div class="form-group ">
+									<label class="form-control-label">Quantity</label>
+									<div class="input-group">
+										<input id="quantity" min="1" name="quantity[]"  type="text" class="form-control">
+										<span class="input-group-addon"  id="basic-addon1" step='0.01'>pcs</span>
+									</div>	
+									<div>
+										<span class="help-block" id="quantity-help"></span>
+									</div>
+								</div>
+								<div class="form-group" {%if revenue ==0 %}style="display:none" {%endif%}>
+									<div class="radio-list text-center">
+										<label class="radio-inline fund" >
+											<input name="optionsRadios2[]" id="rev-opt"  value="Revenue" type="radio">
+											Revenue
+										</label>
+										<label class="radio-inline expense">
+											<input id="exp" name="optionsRadios2[]" value="Expense" type="radio"> 
+											Expense 
+										</label>
+									</div>
+								</div>		
+								<div class="m-t-5 form-group text-center ">
+									<button type="button" id="insert-button" class="btn btn-info">Insert </button>
+								</div>			
+							</div>
 						</div>
 						
 					</div>
