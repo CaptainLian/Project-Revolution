@@ -5,9 +5,6 @@ var cuid = require('cuid');
 var timediff = require('timediff');
 
 module.exports = function(configuration, modules, models, database, queryFiles) {
-    const logger = modules.logger;
-    const log_options = Object.create(null);
-    log_options.from = 'Organization-Controller';
 
     const systemModel = models.System_model;
     const pnpModel = models.PNP_model;
@@ -16,15 +13,16 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     const postProjectProposalModel = models.PostProjectProposal_model;
     const gosmModel = models.gosmModel;
     const orgresModel = models.Orgres_model;
-
+    const logger = modules.logger;
     const accountModel = models.Account_model;
-
     const path = require('path');
+
+    const log_options = Object.create(null);
+    log_options.from = 'Organization-Controller';
 
     return {
         //Create ProjectProposal
         viewGOSMActivityListProjectProposal: (req, res) => {
-            logger.info('viewGOSMActivityListProjectProposal()', log_options);
             systemModel.getCurrentTerm().then(data => {
                 var param = {
                     termID: data.id,
@@ -37,7 +35,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     idnumber: req.session.user.idNumber
                 };
 
-                return projectProposalModel.getGOSMActivitiesToImplement(dbParam);
+                return  projectProposalModel.getGOSMActivitiesToImplement(dbParam);
             }).then(data2 => {
                 const renderData = Object.create(null);
                 renderData.extra_data = req.extra_data;
@@ -50,18 +48,17 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             });
         },
         viewGOSMList: (req, res) => {
-            logger.info('viewGOSMList()', log_options);
-
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
-
-            gosmModel.getOrgAllGOSM(req.session.user.organizationSelected.id).then(data => {
-                renderData.gosms = data;
-                return res.render('Org/GOSMList', renderData);
-            }).catch(error => {
-                logger.error(`${error.message}\n${error.stack}`, log_options);
-            });
-
+            gosmModel.getOrgAllGOSM(req.session.user.organizationSelected.id)
+                     .then(data=>{
+                        renderData.gosms = data
+                        console.log(data)
+                        return res.render('Org/GOSMList', renderData);            
+                     }).catch(err=>{
+                        console.log(err)
+                     })
+            
         },
         viewChangePassword: (req, res) => {
             const renderData = Object.create(null);
@@ -212,108 +209,110 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             return res.render('Org/submitNotInGosm_programdesign');
         },
         viewActivityDetails: (req, res) => {
-            logger.info('viewActivityDetails()', log_options);
-            var activityId;
-            database.task(task => {
-                var dbParam = {
-                    gosmactivity: req.params.gosmactivity
-                }
-                return projectProposalModel.getPPRDetails(dbParam, task).then(data => {
-                    activityId = data.id;
-                    logger.debug(`Activity ID: ${activityId}`);
-                    var pa = {
-                        projectId: data.id
-                    };
+                logger.debug('viewActivityDetails()', log_options);
+                var activityId;
+                database.task(task => {
 
-                    return task.batch([
-                        //0
-                        Promise.resolve(data),
-                        //1
-                        projectProposalModel.getProjectProposalExpenses(req.params.gosmactivity),
-                        //2
-                        projectProposalModel.getProjectProposalProjectedIncome(req.params.gosmactivity),
-                        //3
-                        projectProposalModel.getProjectProposalProgramDesign(req.params.gosmactivity, [
-                            'pppd.dayid AS dayid',
-                            "to_char(pppd.date, 'Mon DD, YYYY') AS date",
-                            "to_char(pppd.starttime + CURRENT_DATE, 'HH:MI AM') AS starttime",
-                            "to_char(pppd.endtime + CURRENT_DATE, 'HH:MI PM') AS endtime",
-                            "to_char(pppd.date, 'YYYY-MM-DD') AS datestart",
-                            "to_char(CURRENT_DATE, 'YYYY-MM-DD') AS currdate",
-                            'pppd.activity AS activity',
-                            'pppd.activitydescription AS activitydescription',
-                            'pppd.personincharge AS personincharge'
-                        ]),
-                        //4
-                        projectProposalModel.getProjectProposalProjectHeads(data.id),
-                        //5
-                        projectProposalModel.getLatestProjectProposalAttachment({
-                            projectId: req.params.gosmactivity
-                        }),
-                        //6 TODO: Remove raw query
-                        database.any(`SELECT
-                                        a.idNumber as signatory,
-                                        a.firstname || ' ' || a.lastname AS signatoryName,
-                                        st.name AS type, ss.name AS status,
-                                        pps.digitalSignature,
-                                        TO_CHAR(pps.dateSigned, 'Mon DD, YYYY') AS dateSigned
-                                      FROM (SELECT *
-                                              FROM ProjectProposalSignatory pps
-                                             WHERE pps.GOSMActivity = (SELECT gosmactivity
-                                                                         FROM ProjectProposal
-                                                                         WHERE id = \$\{projectId\})) pps LEFT JOIN SignatoryType st
-                                                                                                              ON pps.type = st.id
-                                                                                                       LEFT JOIN SignatoryStatus ss
-                                                                                                              ON pps.status = ss.id
-                                                                                                       LEFT JOIN Account a
-                                                                                                              ON pps.signatory = a.idNumber
-                                    ORDER BY st.lineup ASC, a.idNumber DESC;`, pa)
-                    ]);
+                    var dbParam = {
+                        gosmactivity: req.params.gosmactivity
+                    }
+
+                    return projectProposalModel.getPPRDetails(dbParam, task)
+                    .then(data => {
+                        activityId = data.id;
+                        logger.debug(`Activity ID: ${activityId}`);
+
+                        var pa = {
+                            projectId:data.id
+                        };
+
+                        return task.batch([
+                            //0
+                            Promise.resolve(data),
+                            //1
+                            projectProposalModel.getProjectProposalExpenses(req.params.gosmactivity),
+                            //2
+                            projectProposalModel.getProjectProposalProjectedIncome(req.params.gosmactivity),
+                            //3
+                            projectProposalModel.getProjectProposalProgramDesign(req.params.gosmactivity, [
+                                'pppd.dayid AS dayid',
+                                "to_char(pppd.date, 'Mon DD, YYYY') AS date",
+                                "to_char(pppd.starttime + CURRENT_DATE, 'HH:MI AM') AS starttime",
+                                "to_char(pppd.endtime + CURRENT_DATE, 'HH:MI PM') AS endtime",
+                                "to_char(pppd.date, 'YYYY-MM-DD') AS datestart",
+                                "to_char(CURRENT_DATE, 'YYYY-MM-DD') AS currdate",
+                                'pppd.activity AS activity',
+                                'pppd.activitydescription AS activitydescription',
+                                'pppd.personincharge AS personincharge'
+                            ]),
+                            //4
+                            projectProposalModel.getProjectProposalProjectHeads(data.id),
+                            //5
+                            projectProposalModel.getLatestProjectProposalAttachment({projectId:req.params.gosmactivity}),
+                            //6 TODO: Remove raw query
+                            database.any(`SELECT
+                                            a.idNumber as signatory,
+                                            a.firstname || ' ' || a.lastname AS signatoryName,
+                                            st.name AS type, ss.name AS status,
+                                            pps.digitalSignature,
+                                            TO_CHAR(pps.dateSigned, 'Mon DD, YYYY') AS dateSigned
+                                          FROM (SELECT *
+                                                  FROM ProjectProposalSignatory pps
+                                                 WHERE pps.GOSMActivity = (SELECT gosmactivity
+                                                                             FROM ProjectProposal
+                                                                             WHERE id = \$\{projectId\})) pps LEFT JOIN SignatoryType st
+                                                                                                                  ON pps.type = st.id
+                                                                                                           LEFT JOIN SignatoryStatus ss
+                                                                                                                  ON pps.status = ss.id
+                                                                                                           LEFT JOIN Account a
+                                                                                                                  ON pps.signatory = a.idNumber
+                                        ORDER BY st.lineup ASC, a.idNumber DESC;`, pa)
+                        ]);
+                    }).catch(err=>{
+                        return logger.warn(`Unhandled error: ${err.message}\n${err.stack} `, log_options);
+                    });
+                }).then(data => {
+                    logger.debug(`${JSON.stringify(data[3])}`, log_options);
+                    const renderData = Object.create(null);
+                    renderData.csrfToken = req.csrfToken();
+                    renderData.extra_data = req.extra_data;
+                    console.log("data[4]")
+                    console.log(data[4])
+                    renderData.projectProposal = data[0];
+                    renderData.expenses = data[1];
+                    renderData.activity = activityId;
+                    renderData.projectedIncome = data[2];
+                    renderData.programDesign = data[3];
+                    renderData.projectHeads = data[4];
+                    renderData.attachment = data[5];
+                    renderData.signatories = data[6];
+                    renderData.withExpense = data[1].length >0;
+                    renderData.withRevenue = data[2].length >0;
+
+                    console.log(data[2].length > 0)
+                    console.log("REVENUE")
+                    console.log(data[0])
+                    console.log("EXPENSE")
+
+                    renderData.resched = timediff(data[3][0].datestart, data[3][0].currdate,'D').days
+                    console.log("Date DIFF")
+                    console.log(data[3].currdate)
+                    console.log(renderData.resched)
+                    console.log(renderData.attachment);
+                    console.log("renderData.attachment");
+                    return res.render('Org/viewActivityDetails', renderData);
                 }).catch(err => {
-                    return logger.warn(`Unhandled error: ${err.message}\n${err.stack} `, log_options);
+                    logger.debug(`${err.message}\n${err.stack}`, log_options);
+                    const renderData = Object.create(null);
+                    renderData.csrfToken = req.csrfToken();
+                    renderData.extra_data = req.extra_data;
+                    return res.render('template/APS/NoActivityToCheck', renderData);
                 });
-            }).then(data => {
-                logger.debug(`${JSON.stringify(data[3])}`, log_options);
-                const renderData = Object.create(null);
-                renderData.csrfToken = req.csrfToken();
-                renderData.extra_data = req.extra_data;
-                console.log("data[4]")
-                console.log(data[4])
-                renderData.projectProposal = data[0];
-                renderData.expenses = data[1];
-                renderData.activity = activityId;
-                renderData.projectedIncome = data[2];
-                renderData.programDesign = data[3];
-                renderData.projectHeads = data[4];
-                renderData.attachment = data[5];
-                renderData.signatories = data[6];
-                renderData.withExpense = data[1].length > 0;
-                renderData.withRevenue = data[2].length > 0;
-
-                console.log(data[2].length > 0)
-                console.log("REVENUE")
-                console.log(data[0])
-                console.log("EXPENSE")
-
-                renderData.resched = timediff(data[3][0].datestart, data[3][0].currdate, 'D').days
-                console.log("Date DIFF")
-                console.log(data[3].currdate)
-                console.log(renderData.resched)
-                console.log(renderData.attachment);
-                console.log("renderData.attachment");
-                return res.render('Org/viewActivityDetails', renderData);
-            }).catch(err => {
-                logger.debug(`${err.message}\n${err.stack}`, log_options);
-                const renderData = Object.create(null);
-                renderData.csrfToken = req.csrfToken();
-                renderData.extra_data = req.extra_data;
-                return res.render('template/APS/NoActivityToCheck', renderData);
-            });
         },
 
         viewGOSMActivityListPostProjectProposal: (req, res) => {
-            logger.info('viewGOSMActivityListPostProjectProposal()', log_options);
 
+            //TODO: session of gosm id??
             var dbParam = {
                 idNumber: req.session.user.idNumber
             };
@@ -341,7 +340,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         },
 
         viewSubmitProjectProposalMain: (req, res) => {
-            logger.info(`viewSubmitProjectProposalMain()`, log_options);
+            logger.debug(`viewSubmitProjectProposalMain()`, log_options);
 
             //still no ppr or rejected ppr
             if (req.params.status == 0) {
@@ -350,17 +349,17 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     studentorganization: req.session.user.organizationSelected.id
                 };
 
-                organizationModel.getStudentOrganization(orgParam).then(orgdata => {
+                organizationModel.getStudentOrganization(orgParam).then(orgdata=>{
 
                     var dbParam = {
                         gosmactivity: req.params.id,
                         preparedby: req.session.user.idNumber,
                         operationalfunds: orgdata.operationalfunds,
                         depositoryfunds: orgdata.depositryfunds
-                    };
+                    }; 
 
 
-                    projectProposalModel.insertProjectProposal(dbParam).then(data => {
+                    projectProposalModel.insertProjectProposal(dbParam).then(data=>{
                         database.task(task => {
                             return task.batch([
                                 gosmModel.getGOSMActivity(dbParam),
@@ -379,14 +378,14 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             renderData.status = 1;
                             renderData.gosmid = req.params.id;
 
-                            return res.render('Org/SubmitProjectProposal_main', renderData);
+                            return res.render('Org/SubmitProjectProposal_main',renderData);
                         }).catch(err => {
-                            logger.error(`${err.message}\n${err.stack}`, log_options);
+                            logger.warn(`${err.message}\n${err.stack}`, log_options);
 
                         });
                     })
 
-                }).catch(error => {
+                }).catch(error=>{
 
                 });
 
@@ -422,10 +421,12 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                     return res.render('Org/SubmitProjectProposal_main', renderData);
                 }).catch(err => {
-                    logger.error(`${err.message}\n${err.stack}`, log_options);
+                    logger.warn(`${err.message}\n${err.stack}`, log_options);
                 });
 
-            } else if (req.params.status == 4) {
+            }
+            else if (req.params.status == 4){
+
                 console.log("ENTER 2");
 
                 var dbParam = {
@@ -453,18 +454,21 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     console.log(renderData.gosmActivity);
                     console.log("KAHITANONGMESSAGE");
 
-                    return res.render('Org/SubmitProjectProposal_main', renderData);
+                     return res.render('Org/SubmitProjectProposal_main',renderData);
+
+
+
+
                 }).catch(err => {
                     console.log("ERROR 1");
                     console.log(err);
                     logger.warn(`${err.message}\n${err.stack}`, log_options);
                 });
             }
+
+
         },
-
         viewSubmitPostProjectProposalMain: (req, res) => {
-            logger.info('viewSubmitPostProjectProposalMain()', log_options);
-
             var dbParam = {
                 idNumber: req.session.user.idNumber,
                 gosmid: req.params.gosmid
@@ -512,7 +516,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 console.log(renderData.projectHeads);
                 return res.render('Org/SubmitPostProjectProposal_main', renderData);
             }).catch(err => {
-                logger.error(`${err.message}\n${err.stack}`, log_options);
+                logger.warn(`${err.message}\n${err.stack}`, log_options);
             });
             // postProjectProposalModel.getPostProjectProposalMain(dbParam)
             // .then(data=>{
@@ -567,7 +571,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 console.log(data[1]);
                 return res.render('Org/SubmitProjectProposal_attachments', renderData);
             }).catch(error => {
-                logger.error(`${error.message}\n${error.stack}`, log_options);
+                logger.warn(`${error.message}\n${error.stack}`, log_options);
             });
 
         },
@@ -593,14 +597,14 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 ]);
             }).then(data => {
 
-                const renderData = Object.create(null);
-                renderData.extra_data = req.extra_data;
-                renderData.csrfToken = req.csrfToken();
-                renderData.projectProposal = data[0];
-                renderData.venues = data[1];
-                renderData.advisers = data[2];
-                renderData.gosmactivity = dbParam;
-                renderData.status = req.params.status;
+                    const renderData = Object.create(null);
+                    renderData.extra_data = req.extra_data;
+                    renderData.csrfToken = req.csrfToken();
+                    renderData.projectProposal = data[0];
+                    renderData.venues = data[1];
+                    renderData.advisers = data[2];
+                    renderData.gosmactivity = dbParam;
+                    renderData.status = req.params.status;
 
                 return res.render('Org/SubmitProjectProposal_briefcontext', renderData);
             }).catch(error => {
@@ -677,29 +681,29 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 orgId: orgID
             };
 
-            database.task(task => {
-                    return task.batch([
-                        projectProposalModel.getProjectProposal(dbParam),
-                        projectProposalModel.getProjectProposalExpenses(req.params.id),
+            database.task(task=>{
+                return task.batch([
+                    projectProposalModel.getProjectProposal(dbParam),
+                    projectProposalModel.getProjectProposalExpenses(req.params.id),
 
-                        projectProposalModel.getExpenseTypes()
-                        // projectProposalModel.getPPRSectionsToEdit(dbParam)
+                    projectProposalModel.getExpenseTypes()
+                    // projectProposalModel.getPPRSectionsToEdit(dbParam)
 
-                    ]);
-                })
-                .then(data => {
+                ]);
+            })
+            .then(data=>{
 
-                    const renderData = Object.create(null);
-                    renderData.extra_data = req.extra_data;
-                    renderData.csrfToken = req.csrfToken();
-                    renderData.gosmactivity = dbParam;
-                    renderData.projectProposal = data[0];
-                    renderData.expenses = data[1];
-                    renderData.revenue = req.params.revenue;
+                const renderData = Object.create(null);
+                renderData.extra_data = req.extra_data;
+                renderData.csrfToken = req.csrfToken();
+                renderData.gosmactivity = dbParam;
+                renderData.projectProposal = data[0];
+                renderData.expenses = data[1];
+                renderData.revenue = req.params.revenue;
 
-                    renderData.expenseTypes = data[2];
-                    renderData.status = req.params.status;
-                    // renderData.sectionsToEdit = data[3];
+                renderData.expenseTypes = data[2];
+                renderData.status = req.params.status;
+                // renderData.sectionsToEdit = data[3];
 
                     console.log(renderData.gosmactivity);
                     console.log(renderData.projectProposal);
@@ -757,7 +761,6 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     console.log("renderData.projectHeads");
                     console.log(renderData.projectHeads);
 
-
                     return res.render('Org/SubmitProjectProposal_programdesign', renderData);
                 }).catch(error => {
                     console.log(error);
@@ -768,25 +771,25 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         viewProjectHeadHome: (req, res) => {
 
             //TODO: if account is president
-            console.log(req.session.user.organizationSelected.id)
+           console.log(req.session.user.organizationSelected.id)
 
             database.task(t => {
                 return t.batch([
-                    projectProposalModel.getProjectProposalCountTotal(req.session.user.organizationSelected.id,
-                        req.session.user.idNumber, t),
-                    projectProposalModel.getProjectProposalsCountPerStatus(req.session.user.organizationSelected.id, 5,
-                        req.session.user.idNumber, t),
-                    projectProposalModel.getProjectProposalsCountPerStatus(req.session.user.organizationSelected.id, 4,
-                        req.session.user.idNumber, t),
-                    projectProposalModel.getProjectProposalsCountPerStatus(req.session.user.organizationSelected.id, 3,
-                        req.session.user.idNumber, t),
+                    projectProposalModel.getProjectProposalCountTotal(req.session.user.organizationSelected.id, 
+                                                                        req.session.user.idNumber, t),
+                    projectProposalModel.getProjectProposalsCountPerStatus(req.session.user.organizationSelected.id, 5, 
+                                                                            req.session.user.idNumber, t),
+                    projectProposalModel.getProjectProposalsCountPerStatus(req.session.user.organizationSelected.id, 4, 
+                                                                            req.session.user.idNumber, t),
+                    projectProposalModel.getProjectProposalsCountPerStatus(req.session.user.organizationSelected.id, 3, 
+                                                                            req.session.user.idNumber, t),
                     projectProposalModel.getActivitiesApprovedPerHead(req.session.user.organizationSelected.id,
-                        req.session.user.idNumber, t),
+                                                                        req.session.user.idNumber, t),
                     projectProposalModel.getProjectProposalCommentsPerStatus(req.session.user.organizationSelected.id, 2,
-                        req.session.user.idNumber, t),
+                                                                                req.session.user.idNumber, t),
                     projectProposalModel.getProjectProposalCommentsPerStatus(req.session.user.organizationSelected.id, 3,
-                        req.session.user.idNumber, t),
-                    projectProposalModel.getAllOrgProposal(req.session.user.organizationSelected.id, t)
+                                                                                req.session.user.idNumber, t),
+                    projectProposalModel.getAllOrgProposal(req.session.user.organizationSelected.id,t)
                 ]);
             }).then(data => {
                 logger.debug(`${JSON.stringify(data)}`, log_options);
@@ -799,52 +802,41 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.events = data[7];
                 console.log(data[7])
 
-                if (data[0] == null) {
+                if (data[0]==null){
 
                     renderData.allProjects = 0;
-
-                } else {
+                
+                }else{
                     renderData.allProjects = parseInt(data[0].num);
 
                 }
-                if (data[1] == null) {
+                if (data[1]==null){
 
                     renderData.deniedProjects = 0;
-
-                } else {
+                
+                }
+                else{
                     renderData.deniedProjects = parseInt(data[1].num);
 
                 }
-                if (data[2] == null) {
+                if (data[2]==null){
                     renderData.pendingProjects = 0;
-                } else {
+                }
+                else{
                     renderData.pendingProjects = parseInt(data[2].num);
 
                 }
-                if (data[3] == null) {
-                    renderData.successProjects = 0;
-                } else {
+                if (data[3]==null){
+                    renderData.successProjects = 0;                
+                }else{
                     renderData.successProjects = parseInt(data[3].num);
 
                 }
 
-                if (data[7].length > 0){
-                    renderData.calendar = true;
-                    console.log("YOOOOOOOOOOOOOO");
-                }
-                else{
-                    console.log("NOOOOOOOOPEEEEEE");
-                    renderData.calendar = false;
-                }
-
-                                console.log(data[7]);
-
-
-                console.log(renderData.successProjects);
-                console.log("HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+                console.log(renderData.successProjects)
                 return res.render('Org/ProjectHeadHome', renderData);
             }).catch(error => {
-                console.log(error);
+                throw error;
             });
         },
 
@@ -868,12 +860,12 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     organizationModel.getActivitiesWithoutPPR(param, t),
                     projectProposalModel.getPPRProjectedCost(param, t),
                     gosmModel.getGOSMActivities(param.gosm, [
-                            'budget AS budget',
-                            'strategies AS strategies',
-                            "to_char(targetdatestart, 'Mon DD, YYYY') AS startdate",
-                            "to_char(targetdateend, 'Mon DD, YYYY') AS enddate"
-                        ],
-                        t)
+                        'budget AS budget',
+                        'strategies AS strategies',
+                        "to_char(targetdatestart, 'Mon DD, YYYY') AS startdate",
+                        "to_char(targetdateend, 'Mon DD, YYYY') AS enddate"
+                      ],
+                    t)
                 ]);
                 //TODO: add signatories and score
             }).then(data => {
@@ -917,7 +909,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 return database.tx(t => {
                     let queries = [];
 
-                    for (const officer of executiveBoard) {
+                    for(const officer of executiveBoard){
                         logger.debug(`Adding notification to ${officer.idNumber}`, log_options);
                         queries[queries.length] = accountModel.addNotification(
                             officer.idNumber,
@@ -952,13 +944,16 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         },
 
         updateActivity: (req, res) => {
-            logger.info('updateActivity()', log_options);
+
+            console.log(req.body);
+
             var id = req.body.id;
 
             var strategy = req.body.strategy;
             var goals = req.body.goals;
+            var objectives = [];
+            objectives = req.body['objectives[]'];
 
-            var objectives = objectives = req.body['objectives[]'] ? req.body['objectives[]'] : req.body.objectives;
             if (!Array.isArray(objectives)) {
                 objectives = [objectives];
             }
@@ -972,7 +967,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             var activityType = req.body['activity-type'];
             var others = req.body.othersDescription;
             var natureType = req.body['nature-type'];
-            var personInCharge = req.body['personInCharge[]'] ? req.body['personInCharge[]'] : req.body.personInCharge;
+            var personInCharge = req.body.personInCharge;
+            personInCharge = req.body['personInCharge[]'];
 
             if (!Array.isArray(personInCharge)) {
                 personInCharge = [personInCharge];
@@ -998,23 +994,25 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             };
 
             logger.debug('starting transaction', log_options);
-            //TODO: flatten promises
             database.tx(transaction => {
-                return gosmModel.updateActivity(dbParam, transaction).then(data => {
+                return gosmModel.updateActivity(dbParam, transaction)
+                .then(data => {
                     return Promise.all([
                         Promise.resolve(data.id),
                         gosmModel.clearProjectHeads(id, transaction)
                     ]);
+
                 }).then(data => {
-                    for (const projectHead of personInCharge) {
-                        gosmModel.insertProjectHead(id, projectHead, transaction).then(() => {});
+                    for(const projectHead of personInCharge){
+                        gosmModel.insertProjectHead(id, projectHead, transaction)
+                        .then(() => {});
                     }
 
                     logger.debug(`ID: ${data[0].id}`, log_options);
-
+                    console.log(data.id)
                     return res.send(String(data.id));
                 }).catch(err => {
-                    logger.error(`${err.message}\n${err.stack}`, log_options);
+                    logger.warn(`${err.message}\n${err.stack}`, log_options);
                     return res.send("0");
                 });
             }).catch(err => {
@@ -1031,16 +1029,16 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
          * @returns {[type]}     [description]
          */
         inputCreateGOSM: (req, res) => {
-            logger.info('inputCreateGOSM(): ', log_options);
-
-            /* TODO Validate input */
+            logger.debug('inputCreateGOSM(): ', log_options);
+            /* Validate input */
             logger.warning('inputCreateGOSM - Input not yet validated!', log_options);
-            logger.debug(`req.body: ${JSON.stringify(req.body)}`, log_options);
+            logger.debug(`${JSON.stringify(req.body)}`, log_options);
 
             /* Parse input*/
             let strategy = req.body.strategy;
             let goals = req.body.goals;
-            let objectives = req.body['objectives[]'] ? req.body['objectives[]'] : req.body.objectives;
+            let objectives = [];
+            objectives = req.body['objectives[]'];
 
             if (!Array.isArray(objectives)) {
                 objectives = [objectives];
@@ -1056,7 +1054,10 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             let activityType = req.body['activity-type'];
             let others = req.body.otherDescription;
             let natureType = req.body['nature-type'];
-            let personInCharge = req.body['personInCharge[]'] ? req.body['personInCharge[]'] : req.body.personInCharge;
+            let personInCharge = [];
+            personInCharge = req.body['personInCharge[]'];
+
+
 
             if (!Array.isArray(personInCharge)) {
                 personInCharge = [personInCharge];
@@ -1065,73 +1066,78 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             let isRelatedToOrganization = req.body.isRelatedToOrganization;
             let budget = req.body.budget;
 
-            return systemModel.getCurrentTerm('id').then(term => {
-                logger.debug(`Current termID: ${term.id}`, log_options);
+            systemModel.getCurrentTerm('id')
+                .then(term => {
+                    logger.debug(`Current termID: ${term.id}`, log_options);
 
-                /**
-                 * const param = {
-                 *      termID: term.id,
-                 *      studentOrganization
-                 * }
-                 * @type {Object}
-                 */
-                let param = Object.create(null);
-                param.termID = term.id;
-                param.studentOrganization = req.session.user.organizationSelected.id;
-                return gosmModel.getOrgGOSM(param);
-            }).then(gosm => {
-                logger.debug('starting transaction', log_options);
-                return database.tx(transaction => {
-                    const dbParam = {
-                        GOSM: gosm.id,
-                        goals: goals,
-                        objectives: objectives,
-                        strategies: strategy,
-                        description: description,
-                        measures: measures,
-                        targetDateStart: `${startDateSplit[2]}-${startDateSplit[0]}-${startDateSplit[1]}`,
-                        targetDateEnd: `${endDateSplit[2]}-${endDateSplit[0]}-${endDateSplit[1]}`,
-                        activityNature: natureType,
-                        activityType: activityType,
-                        activityTypeOtherDescription: others,
-                        isRelatedToOrganizationNature: isRelatedToOrganization,
-                        budget: budget,
-                        notingosm: notingosm
-                    };
+                    /**
+                     * const param = {
+                     *      termID: term.id,
+                     *      studentOrganization
+                     * }
+                     * @type {Object}
+                     */
+                    let param = Object.create(null);
+                    param.termID = term.id;
+                    param.studentOrganization = req.session.user.organizationSelected.id;
+                    return gosmModel.getOrgGOSM(param);
+                }).then(gosm => {
+                    logger.debug('starting transaction', log_options);
+                    return database.tx(transaction => {
+                        const dbParam = {
+                            GOSM: gosm.id,
+                            goals: goals,
+                            objectives: objectives,
+                            strategies: strategy,
+                            description: description,
+                            measures: measures,
+                            targetDateStart: `${startDateSplit[2]}-${startDateSplit[0]}-${startDateSplit[1]}`,
+                            targetDateEnd: `${endDateSplit[2]}-${endDateSplit[0]}-${endDateSplit[1]}`,
+                            activityNature: natureType,
+                            activityType: activityType,
+                            activityTypeOtherDescription: others,
+                            isRelatedToOrganizationNature: isRelatedToOrganization,
+                            budget: budget,
+                            notingosm:notingosm
+                        };
 
-                    if (activityType == 10 && others == null) {
-                        throw new Error('Error activity type others empty');
-                    }
-
-                    logger.debug('Inserting GOSM Activity', log_options);
-                    return gosmModel.insertProposedActivity(dbParam, transaction).then(activity => {
-                        logger.debug(`ActivityID: ${activity.activityid}, person-in-charge_length: ${personInCharge.length}`, log_options);
-
-                        let queries = [Promise.resolve(activity.activityid)];
-
-                        logger.debug('Inserting project heads', log_options);
-                        for (const projectHead of personInCharge) {
-                            const projectHeadParam = Object.create(null);
-                            projectHeadParam.idNumber = parseInt(projectHead);
-                            projectHeadParam.activityID = parseInt(activity.activityid);
-
-                            logger.debug(`${projectHead}`, log_options);
-                            queries[queries.length] = gosmModel.insertActivityProjectHead(projectHeadParam, transaction);
+                        if (activityType == 10 && others == null) {
+                            throw new Error('Error activity type others empty');
                         }
+                        logger.debug('Inserting GOSM Activity', log_options);
+                        return gosmModel.insertProposedActivity(dbParam, transaction)
+                            .then(activity => {
+                                logger.debug(`ActivityID: ${activity.activityid}, person-in-charge_length: ${personInCharge.length}`, log_options);
 
-                        logger.debug('Batching queries', log_options);
-                        return transaction.batch(queries);
+                                for (let index = personInCharge.length + 1; --index;) {
+                                    const item = personInCharge[personInCharge.length - index];
+                                    console.log("Inside the loop");
+                                    console.log(item);
+
+                                    /**
+                                     * const projectHeadParam = {
+                                     *      idNumber: parseInt(item),
+                                     *      activityID: activity.activityid
+                                     *  };
+                                     * @variable projectHeadParam
+                                     * @type {Object}
+                                     */
+                                    const projectHeadParam = Object.create(null);
+                                    projectHeadParam.idNumber = parseInt(item);
+                                    projectHeadParam.activityID = parseInt(activity.activityid);
+
+                                    gosmModel.insertActivityProjectHead(projectHeadParam, transaction).then(data => {});
+                                }
+                                logger.debug('Inserting project heads', log_options);
+                                return Promise.resolve(activity.activityid);
+                            });
                     });
+                }).then(data => {
+                    return res.send(String(data));
                 });
-            }).then(([data]) => {
-                return res.send(String(data));
-            }).catch(error => {
-                return logger.error(`${error.message}\n${error.stack}`, log_options);
-            });
         },
 
         createActivityRequirements: (req, res) => {
-            logger.info('createActivityRequirements()', log_options);
 
             const dbParam = {};
             //TODO CHANGE ID
@@ -1150,63 +1156,68 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.gosmActivity = data[0];
                 renderData.projectHeads = data[1];
 
-                return res.render('Org/ActivityRequirements', renderData);
-            }).catch(error => {
-                return logger.error(`${error.message}\n${error.stack}`, log_options);
+                return res.render("Org/ActivityRequirements", renderData);
+            }).catch(err => {
+                throw err;
             });
         },
 
         viewSettingAcl: (req, res) => {
-            database.tx(t => {
+            
+            database.tx(t =>{
+
                 return t.batch([
-                    organizationModel.getFunctionality(),
-                    organizationModel.getOrgRole(),
-                    organizationModel.getTestJson()
-                ]);
-            }).then(data => {
+                            organizationModel.getFunctionality(),
+                            organizationModel.getOrgRole(),
+                            organizationModel.getTestJson()
+                            ])
+            }).then(data=>{
                 const renderData = Object.create(null);
                 renderData.extra_data = req.extra_data;
                 renderData.csrfToken = req.csrfToken();
                 renderData.functionality = data[0]
                 renderData.orgrole = data[1]
-                for (var role in data[2][0].json_object) {
-                    data[2][0].json_object[role] = JSON.parse(data[2][0].json_object[role])
+                for(var role in data[2][0].json_object){
+                   data[2][0].json_object[role] = JSON.parse(data[2][0].json_object[role])
                 }
                 renderData.checked = (data[2][0].json_object)
 
                 console.log("DOOOOOOOOOOOOOOOOOOOOMS")
-                    // console.log(renderData.checked)
+                // console.log(renderData.checked)  
                 return res.render('Org/Settings_ACL', renderData);
-            }).catch(err => {
-                console.error(err);
+            }).catch(err=>{
+                console.log(err);
             })
+            
         },
-
         saveAcl: (req, res) => {
-            console.log("req.body");
-            var data = req.body;
-            delete data["_csrf"];
-            delete data["myTable_length"];
-            console.log(data);
+            
+          console.log("req.body")
+          var data = req.body;
+          delete data["_csrf"];
+          delete data["myTable_length"];
+          console.log(data)
 
-            database.tx(t => {
-                return t.batch([
-                    accountModel.deleteAcl(t),
-                    accountModel.insertACL(data, t)
-                ]);
-            }).then(data => {
+          database.tx(t=>{
+
+            return t.batch([
+                        accountModel.deleteAcl(t),
+                        accountModel.insertACL(data,t)
+
+                    ])
+          }).then(data=>{
                 return res.redirect('/Organization/Setting/ACL')
-            }).catch(err => {
-                console.error(err)
-            })
-
+          }).catch(err=>{
+            console.log(err)
+          })
+            
         },
-        additional: (req, res) => {
-            console.log("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDd")
-            console.log(req.session.notingosm)
-            if (req.session.notingosm >= 10) {
+         additional:(req, res) => {
+              console.log("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDd")
+              console.log(req.session.notingosm )
+            if(req.session.notingosm >=10){
                 return res.redirect('/Organization/ProjectHead/home')
-            } else {
+            }else{
                 database.task(task1 => {
                     logger.debug('Starting database task', log_options);
                     return systemModel.getCurrentTerm('id', task1).then(term => {
@@ -1225,18 +1236,18 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             /* GOSM Exists */
                             if (GOSM) {
                                 logger.debug('GOSM already exists', log_options);
-                                return Promise.resolve([GOSM.id, GOSM]);
+                                return Promise.resolve([GOSM.id,GOSM]);
                             }
                             //else
                             logger.info('Creating new GOSM', log_options);
                             return gosmModel.insertNewGOSM(
-                                GOSMParam.termID,
-                                GOSMParam.studentOrganization,
-                                req.session.user.idNumber,
-                                true,
+                                GOSMParam.termID, 
+                                GOSMParam.studentOrganization, 
+                                req.session.user.idNumber, 
+                                true, 
                                 task1).then(data => {
-
-                                return Promise.resolve([data.id, data]);
+                                
+                                return Promise.resolve([data.id,data]);
                             });
                         });
                     }).then(GOSM => {
@@ -1270,25 +1281,25 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                     renderData.members = data[3];
 
-                    if (data[4] != undefined) {
+                    if(data[4] != undefined){
                         renderData.status = data[4].status;
                         renderData.comments = data[4].comments;
 
-                        console.log(data[4])
+                        console.log(data[4])    
                     }
-
+                    
                     console.log("GOSM DATA")
 
                     logger.debug('Rendering page', log_options);
-                    return res.render('Org/notInGOSM', renderData);
-
+                    return res.render('Org/notInGOSM', renderData);    
+                    
                 }).catch(err => {
                     logger.error(`${err.message}\n${err.stack}`, log_options);
-                });
+                });    
             }
-
-
-
+            
+             
+            
         },
         viewCreateGOSM: (req, res) => {
             console.log("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDd")
@@ -1311,18 +1322,18 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         /* GOSM Exists */
                         if (GOSM) {
                             logger.debug('GOSM already exists', log_options);
-                            return Promise.resolve([GOSM.id, GOSM]);
+                            return Promise.resolve([GOSM.id,GOSM]);
                         }
                         //else
                         logger.info('Creating new GOSM', log_options);
                         return gosmModel.insertNewGOSM(
-                            GOSMParam.termID,
-                            GOSMParam.studentOrganization,
-                            req.session.user.idNumber,
-                            true,
+                            GOSMParam.termID, 
+                            GOSMParam.studentOrganization, 
+                            req.session.user.idNumber, 
+                            true, 
                             task1).then(data => {
-
-                            return Promise.resolve([data.id, data]);
+                            
+                            return Promise.resolve([data.id,data]);
                         });
                     });
                 }).then(GOSM => {
@@ -1357,38 +1368,40 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                 renderData.members = data[3];
 
-                if (data[4] != undefined) {
+                if(data[4] != undefined){
                     renderData.status = data[4].status;
                     renderData.comments = data[4].comments;
 
-                    console.log(data[4])
+                    console.log(data[4])    
                 }
-
+                
                 console.log("GOSM DATA")
 
                 logger.debug('Rendering page', log_options);
-                if (renderData.status == 3) {
+                if(renderData.status ==3){
                     return res.redirect('/Organization/viewGOSMList')
-                } else {
-                    return res.render('Org/GOSM', renderData);
+                }else{
+                    return res.render('Org/GOSM', renderData);    
                 }
-
+                
             }).catch(err => {
                 logger.error(`${err.message}\n${err.stack}`, log_options);
             });
         },
-
-        viewGOSMDetails: (req, res) => {
+       
+        viewGOSMDetails:(req, res) => {
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
             console.log(req.params.orgid)
-            gosmModel.getGOSMActivities(req.params.orgid).then(data => {
-                console.log(data)
-                renderData.gosmactivity = data
-                return res.render('Org/gosmDetails', renderData);
-            }).catch(err => {
-                console.log(err)
-            });
+            gosmModel.getGOSMActivities(req.params.orgid)
+                     .then(data=>{
+                        console.log(data)
+                        renderData.gosmactivity = data
+                        return res.render('Org/gosmDetails', renderData);    
+                     }).catch(err=>{
+                        console.log(err)
+                     })
+            
         },
 
         saveContext: (req, res) => {
@@ -1399,8 +1412,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
 
             var dbParam = {
-                actualDateStart: "'" + startDateSplit[2] + "-" + startDateSplit[0] + "-" + startDateSplit[1] + "'",
-                actualDateEnd: "'" + endDateSplit[2] + "-" + endDateSplit[0] + "-" + endDateSplit[1] + "'",
+                actualDateStart:  "'" + startDateSplit[2] + "-" + startDateSplit[0] + "-" + startDateSplit[1] + "'",
+                actualDateEnd:  "'" + endDateSplit[2] + "-" + endDateSplit[0] + "-" + endDateSplit[1] + "'",
                 id: req.body.ppr,
                 enp: req.body.enp,
                 enmp: req.body.enmp,
@@ -1425,6 +1438,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 !(req.body.context3).trim()) {
 
                 dbParam.isBriefContextComplete = false;
+
             }
 
             if (!(req.body.actualDateStart).trim()) {
@@ -1444,54 +1458,64 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             }
 
             console.log(req.body.id);
-            console.log(dbParam);
-            projectProposalModel.updatePPRBriefContext(dbParam).then(data => {
-                res.redirect(`/Organization/ProjectProposal/Main/${req.body.id}/${req.body.status}`);
-            }).catch(error => {
-                console.log(error);
-            });
-        },
 
-        postSaveContext: (req, res) => {
-            logger.info('postSaveContext()', log_options);
+            console.log(dbParam);
+
+            projectProposalModel.updatePPRBriefContext(dbParam)
+
+                .then(data => {
+
+
+                res.redirect(`/Organization/ProjectProposal/Main/${req.body.id}/${req.body.status}`);
+
+                }).catch(error => {
+                    console.log(error);
+                });
+
+
+
+
+        },
+        postSaveContext: (req, res) =>{
+            console.log(req.body);
 
             // TODO: change id, to come from selected activity
-            let inputObjectives = req.body['obj[]'] ? req.body['obj[]'] : req.body.obj;
+            if(typeof req.body['obj[]'] !== 'undefined' && req.body['obj[]'] && req.body['obj[]'].constructor === Array){
+                var obj = req.body['obj[]'].filter(function(e){return e});
+            }else{
 
-            var paramObjectives = null;
-            if (typeof inputObjectives !== 'undefined' && inputObjectives && inputObjectives.constructor === Array) {
-                paramObjectives = inputObjectives.filter(function(e) {
-                    return e
-                });
-            } else {
-                paramObjectives = [];
-                paramObjectives.push(inputObjectives);
+                var obj = [];
+                obj.push(req.body['obj[]']);
+
             }
             console.log(obj)
 
             var dbParam = {
                 id: req.body.gosmid,
-                anmp: req.body.anmp,
-                anp: req.body.anp,
+                anmp:req.body.anmp,
+                anp:req.body.anp,
                 well: req.body.wentWell,
                 learning: req.body.learning,
                 develop: req.body.develop,
                 mistakes: req.body.mistakes,
 
-                objectives: paramObjectives,
+                objectives:obj,
 
                 isBriefContextComplete: true
             };
 
             console.log(dbParam)
-
-            console.log(paramObjectives != inputObjectives.length)
+            console.log(obj.length != (req.body['obj[]']).length)
             if (!(req.body.wentWell).trim() ||
                 !(req.body.learning).trim() ||
                 !(req.body.develop).trim() ||
                 !(req.body.learning).trim() ||
+
                 !(req.body.mistakes).trim()
-            ) {
+                // ||
+                // obj.length != (req.body['obj[]']).length
+                )
+            {
 
 
                 dbParam.isBriefContextComplete = false;
@@ -1501,15 +1525,16 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             console.log(dbParam);
             var dbParam3 = {
                 gosmid: req.body.gosmid,
-                status: 2
+                status:2
             }
             postProjectProposalModel.updatePostProjectProposalCompleteness(dbParam3);
 
-            postProjectProposalModel.updatePostProjectProposal(dbParam).then(data => {
-                return res.redirect(`/Organization/PostProjectProposal/Main/${req.body.gosmid}`)
-            }).catch(err => {
-                console.log(err);
-            });
+            postProjectProposalModel.updatePostProjectProposal(dbParam)
+                .then(data => {
+                    return res.redirect(`/Organization/PostProjectProposal/Main/${req.body.gosmid}`)
+                }).catch(err => {
+                    console.log(err);
+                });
 
             // return res.redirect(`Organization/postprojectproposal/main/${req.bod}`)
         },
@@ -1569,77 +1594,74 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             // console.log(expenseSubmissionID)
             // console.log(req.files);
 
-            database.tx(t => {
+            database.tx(t=>{
 
                 var dbParam3 = {
                     gosmid: req.body.gosmid,
-                    status: 2
+                    status:2
                 }
-                postProjectProposalModel.updatePostProjectProposalCompleteness(dbParam3, t);
+                 postProjectProposalModel.updatePostProjectProposalCompleteness(dbParam3,t);
 
                 return t.batch([
-                        postProjectProposalModel.getPostExpenseMaxSubmissionID({
-                            gosmid: req.body.gosmid
-                        }),
-                        postProjectProposalModel.getEventPictureMaxSubmission(dbParam3, t)
-                    ])
-                    .then(data => {
+                    postProjectProposalModel.getPostExpenseMaxSubmissionID({gosmid: req.body.gosmid}),
+                    postProjectProposalModel.getEventPictureMaxSubmission(dbParam3,t)])
+                        .then(data=>{
                         console.log(data[0][0].max);
                         console.log("data")
                         var submissionID = 0;
-                        if (data[1][0].max != null) {
-                            submissionID = data[1][0].max + 1
+                        if(data[1][0].max !=null){
+                            submissionID = data[1   ][0].max+1
                         }
                         var expenseID = 0;
-                        if (data[0][0].max != null) {
-                            expenseID = data[0][0].max + 1
+                        if(data[0][0].max !=null){
+                            expenseID = data[0][0].max+1
                         }
                         console.log(submissionID)
                         console.log("expenseID");
                         console.log("data")
 
-                        //NORMAL THINGS TO INSERT
-                        var statParam = {
-                            dp: dp,
-                            bt: bt,
-                            reim: reim
+                                    //NORMAL THINGS TO INSERT
+                        var statParam ={
+                            dp:dp,
+                            bt:bt,
+                            reim:reim
                         };
                         var finParam = {
-                            gosmid: req.body.gosmid,
-                            status: true
+                            gosmid : req.body.gosmid,
+                            status:true
                         }
                         console.log("GALS");
-                        console.log(req.files['gals']);
+                        console.log( req.files['gals']);
                         console.log(typeof req.files['gals']);
-                        if (typeof req.files['gals'] == 'object') {
+                        if(typeof req.files['gals'] == 'object'){
                             var galsFilename = cuid() + path.extname(req.files['gals'].name);
                             var galsFilenameToShow = (req.files['gals'].name);
-                            var pg = path.join(dir5, galsFilename);
-                            var galsParam = {
-                                gosmid: req.body.gosmid,
-                                filename: galsFilename,
-                                filenameToShow: galsFilenameToShow,
-                                idNumber: req.session.user.idNumber
+                            var pg = path.join(dir5,galsFilename);
+                            var galsParam ={
+                                 gosmid: req.body.gosmid,
+                                 filename : galsFilename,
+                                 filenameToShow: galsFilenameToShow,
+                                 idNumber:req.session.user.idNumber
                             };
 
                             Promise.all([
-                                postProjectProposalModel.insertPostProjectProposalGals(galsParam, t),
+                                postProjectProposalModel.insertPostProjectProposalGals(galsParam,t),
                                 req.files['gals'].mv(pg)
-                            ]).then(data => {
-                                console.log("")
-                                console.log("========IF1============");
-                            }).catch(err => {
-                                console.log("========PROMISE PICTURE1============");
-                                console.log(err)
+                                ]).then(data=>{
+                                    console.log("")
+                                    console.log("========IF1============");
+                                }).catch(err=>{
+                                    console.log("========PROMISE PICTURE1============");
+                                    console.log(err)
 
 
 
-                            });
-                        } else {
+                                });
+                        }else{
                             finParam.status = false;
                         }
 
-                        console.log("========TAs33333333333  Sd=========");
+                       console.log("========TAs33333333333  Sd=========");
                         console.log(finParam);
                         //EXPENSES MAY VARY
                         // console.log(typeof req.files['file[]'])
@@ -1716,72 +1738,70 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                         console.log("========TA22222222222=========");
                         console.log(finParam);
-                        let pictures = req.files['pictures[]'] ? req.files['pictures[]'] : req.files.pictures;
-                        let pictureCaptions = req.body['pictureCaption[]'] ? req.body['pictureCaption[]'] : req.body.pictureCaption;
-                        if (typeof pictures == 'object') {
-                            console.log(typeof pictures[Symbol.iterator]);
-                            if (typeof pictures[Symbol.iterator] == 'function') {
-                                for (var ctr = 0; ctr < PICTURES.length; ctr++) {
-                                    var orignalFileName = pictures[ctr].name;
+                        if(typeof req.files['pictures[]'] == 'object'){
+                        console.log(typeof req.files['pictures[]'][Symbol.iterator] );
+                            if(typeof req.files['pictures[]'][Symbol.iterator] == 'function'){
+                                for(var ctr = 0; ctr < req.body['pictureCaption[]'].length; ctr++){
+                                    var orignalFileName = req.files['pictures[]'][ctr].name;
                                     var ftype = path.extname(orignalFileName);
                                     console.log(ftype);
-                                    var fname = cuid() + ftype;
+                                    var fname = cuid()+ftype;
                                     var pictureParam = {
                                         gosmid: req.body.gosmid,
-                                        submissionID: submissionID,
-                                        filename: fname,
-                                        filenameToShow: pictures.name,
-                                        idNumber: req.session.user.idNumber,
-                                        description: pictureCaptions[ctr]
+                                        submissionID:submissionID,
+                                        filename : fname,
+                                        filenameToShow:req.files['pictures[]'].name,
+                                        idNumber:req.session.user.idNumber,
+                                        description: req.body["pictureCaption[]"][ctr]
                                     }
-                                    var p = path.join(dir5, fname);
+                                    var p = path.join(dir5,fname);
                                     Promise.all([
-                                        pictures[ctr].mv(p),
-                                        postProjectProposalModel.insertPostProjectProposalEventPictures(pictureParam, t)
-                                    ]).then(result => {
+                                            req.files['pictures[]'][ctr].mv(p),
+                                            postProjectProposalModel.insertPostProjectProposalEventPictures(pictureParam,t)
+                                        ]).then(result =>{
 
-                                    }).catch(err => {
-                                        console.log("========PROMISE=========");
-                                        console.log(err);
-                                    })
+                                        }).catch(err =>{
+                                            console.log("========PROMISE=========");
+                                            console.log(err);
+                                        })
 
                                 }
-                            } else {
-                                var orignalFileName = pictures.name;
-                                var ftype = path.extname(orignalFileName);
-                                console.log(ftype);
-                                var fname = cuid() + ftype;
-                                var pictureParam = {
-                                    gosmid: req.body.gosmid,
-                                    submissionID: submissionID,
-                                    filename: fname,
-                                    filenameToShow: pictures.name,
-                                    idNumber: req.session.user.idNumber,
-                                    description: pictureCaptions
-                                }
-                                var p = path.join(dir5, fname);
-                                Promise.all([
-                                    pictures.mv(p),
-                                    postProjectProposalModel.insertPostProjectProposalEventPictures(pictureParam, t)
-                                ]).then(result => {
+                            }else{
+                                 var orignalFileName = req.files['pictures[]'].name;
+                                    var ftype = path.extname(orignalFileName);
+                                    console.log(ftype);
+                                    var fname = cuid()+ftype;
+                                    var pictureParam = {
+                                        gosmid: req.body.gosmid,
+                                        submissionID:submissionID,
+                                        filename : fname,
+                                        filenameToShow:req.files['pictures[]'].name,
+                                        idNumber:req.session.user.idNumber,
+                                        description: req.body["pictureCaption[]"]
+                                    }
+                                    var p = path.join(dir5,fname);
+                                    Promise.all([
+                                            req.files['pictures[]'].mv(p),
+                                            postProjectProposalModel.insertPostProjectProposalEventPictures(pictureParam,t)
+                                        ]).then(result =>{
 
-                                }).catch(err => {
-                                    console.log("========PROMISE=========");
-                                    console.log(err);
-                                })
+                                        }).catch(err =>{
+                                            console.log("========PROMISE=========");
+                                            console.log(err);
+                                        })
 
                             }
-                        } else {
+                        }else{
                             finParam.status = false;
                         }
-                        console.log("+++++++++++++++++++++++++++++++");
+                         console.log("+++++++++++++++++++++++++++++++");
                         console.log(statParam)
-                        postProjectProposalModel.updatePostProjectProposalFinanceDocumentStatus(statParam, t);
+                        postProjectProposalModel.updatePostProjectProposalFinanceDocumentStatus(statParam,t);
                         console.log("========TAsdASDASd=========");
                         console.log(finParam);
-                        postProjectProposalModel.updatePostProjectRequiredCompleteness(finParam, t);
+                        postProjectProposalModel.updatePostProjectRequiredCompleteness(finParam,t);
                         //PICTURES MAY VARY
-                    });
+                });
 
 
             }).then(data => {
@@ -1932,8 +1952,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 database.tx(t => {
                     return projectProposalModel.submitProjectProposal(dbParam, t).then(data => {
                         if (req.body.status == 1) { // first time nagpasa
-                            return t.task(task => {
-                                1
+                            return t.task(task => {1
                                 return task.batch([
                                     projectProposalModel.getProjectProposalProjectHeads(dbParam.id, task),
                                     projectProposalModel.getDetails(dbParam.id, ['ga.strategies'], task)
@@ -1942,7 +1961,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                 let description = `Please check activity ${data[1].strategies}`;
 
                                 let queries = [postProjectProposalModel.insertPostProjectProposal(dbParam, t)];
-                                for (const projectHead of data[0]) {
+                                for(const projectHead of data[0]){
                                     logger.debug(`adding notification to ${JSON.stringify(projectHead)}`, log_options);
                                     queries[queries.length] = accountModel.addNotification(
                                         projectHead.idnumber,
@@ -1967,9 +1986,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                 gosmactivity: req.body.gosmactivity
                             };
 
-                            return projectProposalModel.updatePPRSignatoryStatus(signatoryParam, t).then(data => {
+                            return projectProposalModel.updatePPRSignatoryStatus(signatoryParam, t).then(data=>{
                                 return res.redirect(`/Organization/ProjectProposal/gosmlist/`);
-                            }).catch(error => {
+                            }).catch(error=>{
                                 logger.debug(`${error.message}\n${error.stack}`, log_options);
                             });
                         }
@@ -1985,10 +2004,10 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         },
 
 
-        postSaveAttachments: (req, res) => {
+        postSaveAttachments: (req, res) =>{
             var dbParam3 = {
                 gosmid: req.body.gosmid,
-                status: 2
+                status:2
             }
             postProjectProposalModel.updatePostProjectProposalCompleteness(dbParam3);
 
@@ -2311,93 +2330,88 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 isExpenseComplete: true
             };
 
-            let item = req.body['item[]'] ? req.body['item[]'] : req.body.item;
-            if (!Array.isArray(item)) {
-                item = [item];
-            }
-
-            console.log(item.length);
+            console.log(req.body['item[]'].length);
 
 
 
             database.tx(transaction => {
-                projectProposalModel.updatePPRExpenses(dbParam, transaction).then(data => {
 
-                }).catch(error => {
-                    console.error(error);
-                });
+                projectProposalModel.updatePPRExpenses(dbParam, transaction)
+                    .then(data => {
+
+                    }).catch(error => {
+                        console.log(error);
+                    });
 
                 var dbParam2 = {
                     projectproposal: req.body.ppr
                 };
 
-                projectProposalModel.deleteExpenses(dbParam2, transaction).then(data => {
+                projectProposalModel.deleteExpenses(dbParam2, transaction)
+                    .then(data => {
 
-                }).catch(error => {
-                    console.error(error);
-                });
+                    }).catch(error => {
+                        console.log(error);
+                    });
 
-                let optionsRadios2 = req.body['optionsRadios2[]'] ? req.body['optionsRadios2[]'] : req.body.optionsRadios2;
-                if (!Array.isArray(optionsRadios2)) {
-                    optionsRadios2 = [optionsRadios2];
-                }
+                for (var i = 0; i < req.body['item[]'].length - 1; i++) {
 
-                let quantity = req.body['quantity[]'] ? req.body['quantity[]'] : req.body.quantity;
-                if (!Array.isArray(quantity)) {
-                    quantity = [quantity];
-                }
+                    if (req.body['optionsRadios2[]'][i] == 'Revenue') {
 
-                let price = req.body['price[]'] ? req.body['price[]'] : req.body.price;
-                if (!Array.isArray(price)) {
-                    price = [price];
-                }
-
-                let typeOfItem = req.body['typeOfItem[]'] ? req.body['typeOfItem[]'] : req.body.typeOfItem;
-                if (!Array.isArray(typeOfItem)) {
-                    typeOfItem = [typeOfItem];
-                }
-
-                for (var i = 0; i < item.length - 1; i++) {
-                    if (optionsRadios2[i] == 'Revenue') {
                         var dbParam3 = {
                             projectProposal: req.body.ppr,
-                            item: item[i],
-                            quantity: quantity[i],
-                            sellingPrice: price[i]
+                            item: req.body['item[]'][i],
+                            quantity: req.body['quantity[]'][i],
+                            sellingPrice: req.body['price[]'][i]
                         };
+
 
                         console.log("revenue loop");
                         console.log(dbParam3);
 
-                        projectProposalModel.insertProjectProposalProjectedIncome(dbParam3, transaction).then(data => {
+                        projectProposalModel.insertProjectProposalProjectedIncome(dbParam3, transaction)
+                            .then(data => {
 
-                        }).catch(error => {
-                            console.error(error);
-                        });
+                            }).catch(error => {
+                                console.log(error);
+                            });
+
+
                     } else {
+
                         var dbParam3 = {
                             projectProposal: req.body.ppr,
-                            material: item[i],
-                            quantity: quantity[i],
-                            unitCost: price[i],
-                            type: typeOfItem[i]
+                            material: req.body['item[]'][i],
+                            quantity: req.body['quantity[]'][i],
+                            unitCost: req.body['price[]'][i],
+                            type: req.body['typeOfItem[]'][i]
                         };
 
                         console.log("expense loop");
                         console.log(dbParam3);
 
-                        projectProposalModel.insertProjectProposalExpenses(dbParam3, transaction).then(data => {
+                        projectProposalModel.insertProjectProposalExpenses(dbParam3, transaction)
+                            .then(data => {
 
-                        }).catch(error => {
-                            console.error(error);
-                        });
-                    } //else
-                } //for each item
+                            }).catch(error => {
+                                console.log(error);
+                            });
+
+                    }
+
+
+                }
+
             }).then(data => {
-                return res.redirect(`/Organization/ProjectProposal/Main/${req.body.id}/${req.body.status}`);
+
+                res.redirect(`/Organization/ProjectProposal/Main/${req.body.id}/${req.body.status}`);
+
             }).catch(error => {
-                console.error(error);
+                console.log(error);
             });
+
+
+
         },
 
         saveAttachments: (req, res) => {
@@ -2433,12 +2447,12 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             console.log(req.body);
             console.log(req.session.user.idNumber);
 
-            var dt = [
-                'application/vnd.oasis.opendocument.text',
+            var dt = ['application/vnd.oasis.opendocument.text',
                 'application/vnd.oasis.opendocument.spreadsheet',
                 'application/vnd.oasis.opendocument.presentation',
                 'application/pdf'
             ];
+
 
             database.task(task => {
 
@@ -2451,18 +2465,14 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 });
 
             }).then(data => {
+
+
                 var ctr = 0;
-
-                let files = req.files['uploadfile[]'] ? req.files['uploadfile[]'] : req.files.uploadFile;
-                if (!Array.isArray(files)) {
-                    files = [files];
-                }
-
-                console.log(files);
+                console.log(req.files['uploadfile[]']);
                 console.log("TYPE OF ONE UPLOAD");
-                console.log(typeof files[Symbol.iterator]);
-                if (typeof files[Symbol.iterator] == 'function') {
-                    for (var file of files) {
+                console.log(typeof req.files['uploadfile[]'][Symbol.iterator]);
+                if (typeof req.files['uploadfile[]'][Symbol.iterator] == 'function') {
+                    for (var file of req.files['uploadfile[]']) {
                         // console.log(file);
                         // console.log("file");
                         // console.log(data[ctr].id);
@@ -2494,8 +2504,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         });
                         ctr++
                     }
-                } else if (typeof files[Symbol.iterator] == 'undefined') {
-                    var file = files;
+                } else if (typeof req.files['uploadfile[]'][Symbol.iterator] == 'undefined') {
+                    var file = req.files['uploadfile[]'];
                     var nFilename = file.name.split('.').pop();
                     console.log("new File name");
                     var date = cuid();
@@ -2530,10 +2540,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 // renderData.attachments = data;
                 console.log("ACT ID ");
                 console.log(req.body.activityId);
-                return res.redirect(`/Organization/ProjectProposal/main/${req.body.activityId}/${req.body.status}`);
-            }).catch(error => {
-                console.log(error);
-            });
+
+                        return res.redirect(`/Organization/ProjectProposal/main/${req.body.activityId}/${req.body.status}`);
+                    }).catch(error => {
+                        console.log(error);
+                    });
 
             var dbParam = {
                 id: req.body.pid
@@ -2820,90 +2831,93 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             })
 
         },
-        viewCompletedPostActs: (req, res) => {
-            database.task(t => {
+        viewCompletedPostActs: (req, res)=>{
+            database.task(t=>{
                 var dbParam = {
-                    gosmid: req.params.gosmid
+                    gosmid:req.params.gosmid
                 }
 
                 return t.batch([
-                    postProjectProposalModel.getPostActsDetails(dbParam, t),
-                    postProjectProposalModel.getLatestEventPicture(dbParam, t),
-                    postProjectProposalModel.getLatestPostExpense(dbParam, t),
-                    projectProposalModel.getProjectHeadsGOSM(dbParam, t)
-                    // projectProposalModel.getProjectProposalProjectHeads(3)
-                ]);
-            }).then(data => {
+                        postProjectProposalModel.getPostActsDetails(dbParam,t),
+                        postProjectProposalModel.getLatestEventPicture(dbParam,t),
+                        postProjectProposalModel.getLatestPostExpense(dbParam,t),
+                        projectProposalModel.getProjectHeadsGOSM(dbParam,t)
+                        // projectProposalModel.getProjectProposalProjectHeads(3)
+                        ]);
+            }).then(data=>{
                 console.log(data);
                 console.log("data[1]");
 
                 const renderData = Object.create(null);
                 renderData.activity = data[0]
-                renderData.pictures = data[1]
+                renderData.pictures=data[1]
                 renderData.expense = data[2];
                 renderData.heads = data[3];
                 renderData.extra_data = req.extra_data;
                 renderData.csrfToken = req.csrfToken();
                 res.render('Org/PostActsCompleted', renderData)
-            }).catch(err => {
+            }).catch(err=>{
                 console.log(err);
             })
         },
-
-        orgresLists: (req, res) => {
+        orgresLists:(req, res)=>{
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
-
             var dbParam = {
                 idNumber: req.session.user.idNumber
+
             }
+            orgresModel.getOrgresList(dbParam).then(data=>{
+                    console.log("DATA NG LIST")
+                    console.log(data)
+                    renderData.activities = data;
+                    console.log(data)
+                    res.render('Orgres/OrgresList', renderData);
+                }).catch(err=>{
+                    console.log("ERROR")
+                    console.log(err)
+                })
 
-            orgresModel.getOrgresList(dbParam).then(data => {
-                console.log("DATA NG LIST")
-                console.log(data)
-                renderData.activities = data;
-                console.log(data)
-                res.render('Orgres/OrgresList', renderData);
-            }).catch(err => {
-                console.log("ERROR")
-                console.log(err)
-            })
+
         },
-
-        orgresSpecficActivity: (req, res) => {
+        orgresSpecficActivity:(req, res)=>{
 
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
             var dbParam = {
-                gosmid: req.params.id
-            };
-            database.task(t => {
+                gosmid :req.params.id
+            }
+            database.task(t=>{
                 return t.batch([
-                    pnpModel.getActivityDetailsforPubs(dbParam, t),
-                    projectProposalModel.getProjectHeadsGOSM(dbParam, t),
-                    orgresModel.getOrgresOtherDetails(dbParam, t),
-                    orgresModel.calculate_peractivity(dbParam, t)
-                ]);
-            }).then(data => {
-                renderData.projectProposal = data[0];
-                renderData.projectHeads = data[1];
-                renderData.others = data[2];
-                renderData.scores = data[3][0];
+                    pnpModel.getActivityDetailsforPubs(dbParam,t),
+                    projectProposalModel.getProjectHeadsGOSM(dbParam,t),
+                    orgresModel.getOrgresOtherDetails(dbParam,t),
+                    orgresModel.calculate_peractivity(dbParam,t)
+                    ])
+            }).then(data=>{
+                    renderData.projectProposal = data[0]
+                    renderData.projectHeads = data[1]
+                    renderData.others = data[2]
+                    renderData.scores = data[3][0]
 
-                res.render('Orgres/orgresSpecificActivity', renderData);
-            }).catch(err => {
-                console.log(err);
-            });
+                    res.render('Orgres/orgresSpecificActivity', renderData);
+                }).catch(err=>{
+                    console.log(err)
+                })
+
+
+
+
+
         },
-
-        apsReport: (req, res) => {
+        apsReport:(req, res)=>{
             var param = {
                 org: req.session.user.organizationSelected.id
             };
 
-            return database.task(t => {
+            return database.task(t=>{
                 return t.batch([
                     projectProposalModel.getPendedPPRCountPerOrg(param, t),
                     projectProposalModel.getApprovedPPRCountPerOrg(param, t),
@@ -2912,7 +2926,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     projectProposalModel.getActivitiesNotRelatedToNatureCount(param, t),
                     projectProposalModel.getGOSMCountPerOrg(param, t)
                 ])
-            }).then(data => {
+            }).then(data=>{
 
                 const renderData = Object.create(null);
                 renderData.extra_data = req.extra_data;
@@ -2928,51 +2942,58 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.hasnorelated = false;
                 renderData.hasgosm = false;
 
-                if (data[0] == null) {
+                if (data[0]==null) {
                     console.log("enter this");
                     renderData.pended = 0;
-                } else {
+                }
+                else{
                     renderData.haspend = true
                     renderData.pended = data[0];
                 }
 
                 if (data[1] == null) {
                     renderData.approved = 0;
-                } else {
+                }
+                else{
                     renderData.hasapproved = true
                     renderData.approved = data[1];
                 }
 
                 if (data[2] == null) {
                     renderData.denied = 0
-                } else {
+                }
+                else{
                     renderData.hasdenied = true
                     renderData.denied = data[2];
                 }
 
                 if (data[3] == null) {
                     renderData.related = 0
-                } else {
+                }
+                else{
                     renderData.hasrelated = true
                     renderData.related = data[3];
                 }
 
                 if (data[4] == null) {
                     renderData.norelated = 0
-                } else {
+                }
+                else{
                     renderData.hasnorelated = true
                     renderData.norelated = data[4];
                 }
 
-                if (data[5] == null) {
+                if (data[5]== null) {
                     renderData.gosm = 0
-                } else {
+                }
+                else{
                     renderData.hasgosm = true
                     renderData.gosm = data[5];
                 }
 
+
                 return res.render('Org/apsreport', renderData);
-            }).catch(err => {
+            }).catch(err=>{
                 return logger.error(`${err.message}\n${err.stack}`);
             })
         }

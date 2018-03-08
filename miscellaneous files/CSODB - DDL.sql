@@ -46,7 +46,7 @@ $trigger$
                              TG_ARGV[1], TG_ARGV[0], TG_ARGV[1], TG_ARGV[2])
             INTO NEW."submissionID"
             USING NEW;
-            
+
         ELSE
             EXECUTE format('SELECT COALESCE(MAX(%I."sequence") + 1, 1)
                               FROM %I %I
@@ -107,7 +107,7 @@ $trigger$
 
         EXECUTE format('UPDATE %I %I
                            SET status = $2
-                         WHERE (%s);', 
+                         WHERE (%s);',
             TG_ARGV[3], TG_ARGV[4], TG_ARGV[5])
         USING NEW, newStatus;
 
@@ -822,14 +822,15 @@ CREATE TABLE "AccountStatus" (
 INSERT INTO "AccountStatus" ("id", "name")
                      VALUES (   0, 'Active'),
                             (   1, 'Disabled si Neil'),
-                            (   2, 'Deleted');
+                            (   2, 'Deleted'),
+                            (   3, 'Virgin Account');
 
 DROP TABLE IF EXISTS Account CASCADE;
 CREATE TABLE Account (
     idNumber INTEGER,
     email VARCHAR(255) NULL UNIQUE,
     type SMALLINT REFERENCES AccountType(id) DEFAULT 1,
-    status SMALLINT REFERENCES "AccountStatus"("id") DEFAULT 0,
+    status SMALLINT REFERENCES "AccountStatus"("id") DEFAULT 3,
     password CHAR(60) NOT NULL,
     salt CHAR(29),
     firstname VARCHAR(45),
@@ -1289,6 +1290,16 @@ CREATE TABLE OrganizationOfficer (
         isActive BOOLEAN DEFAULT TRUE,
 
 	PRIMARY KEY(idNumber, role, yearID)
+);
+
+DROP TABLE IF EXISTS "OrganizationMember" CASCADE;
+CREATE TABLE "OrganizationMember" (
+    "id" SERIAL UNIQUE,
+	"idNumber" INTEGER,
+	"yearID" INTEGER REFERENCES SchoolYear(id),
+	"dateAdded" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+
+	PRIMARY KEY("idNumber", "yearID")
 );
 
     /* Organization Structure End */
@@ -1925,6 +1936,8 @@ CREATE TABLE ProjectProposal (
     reschedReasonOther TEXT,
     rescheduleDates DATE[],
     reschedRejectReason TEXT,
+
+    timesPended INTEGER NOT NULL DEFAULT 0,
 
     PRIMARY KEY (GOSMActivity)
 );
@@ -2580,24 +2593,24 @@ INSERT INTO "PreActivityBookTransferStatus" ("id", "name")
                                             (2, 'Pend'),
                                             (3, 'Denied');
 
-DROP TABLE IF EXISTS "BookTransferEstablishment" CASCADE; 
-CREATE TABLE "BookTransferEstablishment" ( 
-    "id" SMALLINT, 
-    "name" VARCHAR(45) NOT NULL, 
-    "transferAccount" CHAR(6), 
- 
-    PRIMARY KEY("id") 
-); 
-INSERT INTO "BookTransferEstablishment" ("id", "name") 
-                                 VALUES (   0, 'Physical Facilities Development Fund'), 
-                                        (   1, E'Perico\'s Grill'), 
-                                        (   2, 'La Casita De Roja Restaurant'), 
-                                        (   3, 'CopyCare Phils.'), 
-                                        (   4, 'MRU'), 
-                                        (   5, 'Scoop'), 
-                                        (   6, 'Animo Bookstore'), 
-                                        (   7, 'The Store'), 
-                                        (   8, 'Salikneta'); 
+DROP TABLE IF EXISTS "BookTransferEstablishment" CASCADE;
+CREATE TABLE "BookTransferEstablishment" (
+    "id" SMALLINT,
+    "name" VARCHAR(45) NOT NULL,
+    "transferAccount" CHAR(6),
+
+    PRIMARY KEY("id")
+);
+INSERT INTO "BookTransferEstablishment" ("id", "name")
+                                 VALUES (   0, 'Physical Facilities Development Fund'),
+                                        (   1, E'Perico\'s Grill'),
+                                        (   2, 'La Casita De Roja Restaurant'),
+                                        (   3, 'CopyCare Phils.'),
+                                        (   4, 'MRU'),
+                                        (   5, 'Scoop'),
+                                        (   6, 'Animo Bookstore'),
+                                        (   7, 'The Store'),
+                                        (   8, 'Salikneta');
 
 DROP TABLE IF EXISTS "PreActivityBookTransfer" CASCADE;
 CREATE TABLE "PreActivityBookTransfer"(
