@@ -261,7 +261,7 @@
             $("#inp-end").val(moment(data.end).format('HH:mm'))
             $("#inp-name").val(data.title)
             $("#inp-desc").val(data.description)
-            $("#inp-pos").select2('val',data.posid)
+            $("#inp-pos").val(data.posid)
             $('#createEventModal').modal('show');
             $("#editButton").css('display','')
             $("#submitButton").css('display','none')
@@ -334,7 +334,7 @@
           var endInp = $("#inp-end").val();
           var actInp = $("#inp-name").val();
           var descInp = $("#inp-desc").val();
-          var selInp = $("#inp-pos").select2('val');
+          var selInp = $("#inp-pos").val();
           if( dateInp in sched){
              var act = {
                     'id':data.id,
@@ -371,7 +371,7 @@
                   end: setTime($("#inp-date").val(), $("#inp-end").val()),
                   description: $("#inp-desc").val(),
                   person:$("#inp-pos").select2('data'),
-                  posid:$("#inp-pos").select2('val')
+                  posid:$("#inp-pos").val()
                   
                   
           }
