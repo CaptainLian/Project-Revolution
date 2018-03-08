@@ -46,6 +46,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const getGOSMCountPerOrgSQL = queryFiles.getGOSMCountPerOrg;
     const getActivitiesApprovedPerHeadSQL = queryFiles.getActivitiesApprovedPerHead;
     const getProjectProposalCommentsPerStatusSQL = queryFiles.getProjectProposalCommentsPerStatus;
+    const getApprovedActivitiesSQL = queryFiles.getApprovedActivities;
 
     const updatePPRSignatoryStatusSQL = queryFiles.updatePPRSignatoryStatus;
     const getPPRDetailsSQL = queryFiles.getPPRDetails;
@@ -600,6 +601,15 @@ module.exports = function(configuration, modules, db, queryFiles) {
 
     ProjectProposalModel.prototype.getGOSMCountPerOrg = function(param, connection = this._db){
         return connection.oneOrNone(getGOSMCountPerOrgSQL, param);
+    };
+
+    ProjectProposalModel.prototype.getApprovedActivities = function(connection = this._db){
+        return connection.any(getApprovedActivitiesSQL);
+    };
+
+    const getAllProjectProposalSQL = queryFiles.getAllProjectProposal;
+    ProjectProposalModel.prototype.getAllProjectProposal = function(connection = this._db){
+        return connection.any(getAllProjectProposalSQL);
     };
 
     const getSignatoriesSQL = queryFiles.PPR_get_signatories;
