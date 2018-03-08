@@ -1,3 +1,4 @@
+
 $(document).ready(function(){
     //START 
     // <<<<<<< HEAD
@@ -29,7 +30,7 @@ $(document).ready(function(){
            
         }
     })
-
+    
     // >>>>>>> lian
     //END KPAG FUNDRAISING
     var item = {};
@@ -205,6 +206,8 @@ $(document).ready(function(){
                 item["exp"][key] = obj;
                 $("#exp").prop("checked",true);
                 $("#texp").text(exp().toLocaleString());
+                $("#org-exp").val(parseFloat(exp()));
+                $("#org-exp").trigger('change')
                 $("#tfin").text((rev() - exp()).toLocaleString());
 
 
@@ -267,6 +270,8 @@ $(document).ready(function(){
             
             tr.remove();
             $("#texp").text(exp().toLocaleString());
+            $("#org-exp").val(parseFloat(exp()));
+            $("#org-exp").trigger('change')
             $("#trev").text(rev().toLocaleString());
             $("#tfin").text((rev() - exp()).toLocaleString());
             console.log(item);
@@ -286,6 +291,8 @@ $(document).ready(function(){
             
             tr.remove();
             $("#texp").text(exp().toLocaleString());
+            $("#org-exp").val(parseFloat(exp()));
+            $("#org-exp").trigger('change')
             $("#trev").text(rev().toLocaleString());
             $("#tfin").text((rev() - exp()).toLocaleString());
             console.log(item);
@@ -307,14 +314,19 @@ $(document).ready(function(){
         var oth = parseFloat($("#oth2-exp").val());
         return result = result + ope + dep + oth;
     }
+    
 
-
-    $("#ope-fund, #dep-fund, #oth-fund, #org-exp, #pat-exp, #oth2-exp").keyup(function() {
+    $("#ope-fund, #dep-fund, #oth-fund, #org-exp, #pat-exp, #oth2-exp").change(function() {
         $("#tcd").text(fund().toLocaleString());
         $("#tpe").text(exp2().toLocaleString());
         $("#rb").text((fund() - exp2()).toLocaleString())
     });
-    $("#ope-fund").trigger("keyup");
+    $("#ope-fund").trigger("change");
+
+
+    
+
+
     $("#save").click(function(e) {
             e.preventDefault();
             console.log("asd");
@@ -379,8 +391,18 @@ $(document).ready(function(){
             $("#oth2-exp").closest("div.form-group").addClass("has-error");
             err = 1;
         }
-        if(parseFloat($("#texp").text()) != parseFloat($("#tpe").text())){
-            $("#tpe2").text("Projected Expense and the expense breakdown should be equal!");
+        if(parseFloat($("#texp").text()) > parseFloat($("#tcd").text())){
+            $.toast({
+                heading: 'Failed!',    
+                text:   'Expense should not be greater than Total Cash Disbursement.',
+                position: 'top-right',
+                loaderBg:'#ff6849',
+                icon: 'error',
+                bgColor:'#FB9678',
+                hideAfter: 5500, 
+                stack: 6
+              });
+             
             $("#tpe2").closest("div.form-group").addClass("has-error");
             err = 1;   
         }
@@ -406,6 +428,10 @@ $(document).ready(function(){
     });
 
     $("#texp").text(exp().toLocaleString());
+    $("#org-exp").val(parseFloat(exp()));
+    $("#org-exp").trigger('change')
                 $("#trev").text(rev().toLocaleString());
                 $("#tfin").text((rev() - exp()).toLocaleString());
+
+    
 })

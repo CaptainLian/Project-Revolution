@@ -25,6 +25,8 @@
     {{tag.style('/plugins/bower_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css')}}
     {{tag.style('/plugins/bower_components/multiselect/css/multi-select.css')}}
     {{tag.style('/css/custom.css')}}
+
+    {{tag.style('/plugins/bower_components/toast-master/css/jquery.toast.css')}}
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 	<!--[if lt IE 9]>
@@ -61,7 +63,7 @@
     {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
 
     {{tag.javascript('/js/custom.min.js', true)}}
-
+    {{tag.javascript('/plugins/bower_components/toast-master/js/jquery.toast.js',true)}}
     <script>
 
 
@@ -141,7 +143,7 @@
 								</div>
 								<div class="form-group row">
 									<label for="example-month-input"  class="col-md-12 text-center col-form-label">
-										Sources Funds
+										Sources of Funds
 									</label>
 								</div>
 								<div class="form-group row">
@@ -149,11 +151,11 @@
 										Organization Funds
 									</label>
 									<div class="col-md-6">
-										<input class="form-control" dir="rtl" id="org-exp" name="org" type="text" value="{{projectProposal.sourcefundorganizational | round(2)}}">
+										<input class="form-control" dir="rtl" readonly="" id="org-exp" name="org" type="text" value="{{projectProposal.sourcefundorganizational | round(2)}}">
 										<span id="org-help" class="help-block"> </span>
 									</div>
 								</div>
-								<div class="form-group row ">
+								<div class="form-group row " style="display: none">
 									<label for="example-month-input"  class="col-md-5 text-left offset-md-1 col-form-label">
 										Participant's Fee
 									</label>
@@ -162,7 +164,7 @@
 										<span id="pat-help" class="help-block">  </span>
 									</div>
 								</div>
-								<div class="form-group row">
+								<div class="form-group row" style="display: none">
 									<label for="example-month-input" class="col-md-5 text-left offset-md-1 col-form-label">
 										Others
 									</label>
