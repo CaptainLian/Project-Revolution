@@ -822,14 +822,15 @@ CREATE TABLE "AccountStatus" (
 INSERT INTO "AccountStatus" ("id", "name")
                      VALUES (   0, 'Active'),
                             (   1, 'Disabled si Neil'),
-                            (   2, 'Deleted');
+                            (   2, 'Deleted'),
+                            (   3, 'Virgin Account');
 
 DROP TABLE IF EXISTS Account CASCADE;
 CREATE TABLE Account (
     idNumber INTEGER,
     email VARCHAR(255) NULL UNIQUE,
     type SMALLINT REFERENCES AccountType(id) DEFAULT 1,
-    status SMALLINT REFERENCES "AccountStatus"("id") DEFAULT 0,
+    status SMALLINT REFERENCES "AccountStatus"("id") DEFAULT 3,
     password CHAR(60) NOT NULL,
     salt CHAR(29),
     firstname VARCHAR(45),
