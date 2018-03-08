@@ -140,12 +140,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 var preactsPunctualityGrade = ((((parseFloat(preactsEarlyApprovedActivities)/parseFloat(preactsApprovedActivities))*100)-parseFloat(preactsDeniedActivities))*0.025);
                 var preactsTimingRatioGrade = ((parseFloat(preactsTimingRatio)/parseFloat(totalActivities))*0.015);
 
-                if (preactsPunctualityGrade === NaN){
-                    console.log("IM HERER BOIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII");
+                if (preactsApprovedActivities == 0){
                     preactsPunctualityGrade = 0;
                 }
 
-                if(preactsTimingRatioGrade === NaN){
+                if(totalActivities == 0){
                     preactsTimingRatioGrade = 0;
                 }
 
