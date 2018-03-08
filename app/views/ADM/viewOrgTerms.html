@@ -1,0 +1,107 @@
+{% extends '../template/CSO_master.html' %}
+{% import '../template/tags_macro.html' as tag %}
+
+{%block page_title%}CSO - View Activity List{%-endblock%}
+
+
+{%block style%}
+    {{super()}}
+    <!-- Bootstrap Core CSS -->
+    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
+    {{tag.style('/plugins/bower_components/datatables/jquery.dataTables.min.css')}}
+    {{tag.style('/plugins/bower_components/nestable/nestable.css')}}
+    
+    <!-- Menu CSS -->
+    {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
+    <!-- animation CSS -->
+    
+    <!--alerts CSS -->
+    {{tag.style('/plugins/bower_components/sweetalert/sweetalert.css')}}
+    <!-- Custom CSS -->
+    {{tag.style('/plugins/bower_components/custom-select/custom-select.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-select/bootstrap-select.min.css')}}
+   
+    {{tag.style('/plugins/bower_components/Magnific-Popup-master/dist/magnific-popup.css')}}
+     {{tag.style('/css/style.css')}}
+     {{tag.style('/css/animate.css')}}
+    {{tag.style('/css/custom.css')}}
+    <!-- color CSS -->
+    {{tag.style('/css/colors/blue.css')}}
+    {{tag.style('/css/btn_lnk.css')}}
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- IMPORTANT -->
+
+{%endblock%}
+
+{%block defer_script%}
+    {{super()}}
+    <!-- jQuery -->
+    {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
+    <!-- Bootstrap Core JavaScript -->
+    {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
+    {{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
+    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
+    <!-- Menu Plugin JavaScript -->
+    {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
+    <!--slimscroll JavaScript -->
+    {{tag.javascript('/plugins/bower_components/Magnific-Popup-master/dist/jquery.magnific-popup.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/Magnific-Popup-master/dist/jquery.magnific-popup-init.js', true)}}
+    {{tag.javascript('/js/jquery.slimscroll.js', true)}}
+    <!--Wave Effects -->
+    {{tag.javascript('/js/waves.js', true)}}
+    <!-- Custom Theme JavaScript -->
+    {{tag.javascript('/js/custom.min.js', true)}}
+    {{tag.javascript('/js/cbpFWTabs.js', true)}}
+    {{tag.javascript('/js/ADM/viewActivityToCheck.js', true)}}
+    <!-- tabs-->
+    
+  <!--  {{tag.javascript('/js/PNP/PubsToCheck.js', true)}} -->
+{%endblock%}
+
+{%block content%}
+<div class="row">
+	<div class="col-sm-12">
+		<div class="white-box">
+			<h3 class="box-title m-b-0">ADM HOME</h3>
+
+			<div class="table-responsive">
+				<table id="myTable3" class="table table-striped">
+					<thead>
+						<tr>
+							<th class="text-center" width="33%">Term</th>
+                            <th class="text-center" width="33%">Action</th>							
+						</tr>
+					</thead>
+					<tbody>
+                         
+						<tr>
+							<td class="text-center">Term 1</td>
+                            <td class="text-center text-nowrap">
+                                <a data-toggle="tooltip" data-original-title="view Dashboard"> 
+                                    <i db-id="2" class="fa fa-dashboard text-inverse m-r-10"></i> 
+                                </a>
+                                <a data-toggle="tooltip" data-original-title="view Calendar"> 
+                                    <i db-id="2" class="fa fa-calendar text-inverse m-r-10"></i> 
+                                </a>
+                                <a class="remove" data-toggle="tooltip" data-original-title="view GOSM"> 
+                                    <i db-id="2" class="fa fa-file "></i> 
+                                </a>
+                            </td>
+						</tr>
+
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+{%endblock%}
+    
