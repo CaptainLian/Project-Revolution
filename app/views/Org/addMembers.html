@@ -1,0 +1,157 @@
+{% extends "./Organization_master.html" %}
+{% import '../template/tags_macro.html' as tag%}
+
+{%block meta%}
+    {{super()}}
+    <meta data-name="csrf" data-token="{{csrfToken}}" />
+{%endblock%}
+
+{%block style%}
+    {{super()}}
+
+    <!-- Bootstrap Core CSS -->
+    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
+    <!-- Menu CSS -->
+    {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css')}}
+
+    {{tag.style('/plugins/bower_components/sweetalert/sweetalert.css')}}
+    <!-- Animation CSS -->
+    {{tag.style('/css/animate.css')}}
+    <!-- Custom CSS -->
+    
+
+    {{tag.style('/plugins/bower_components/datatables/jquery.dataTables.min.css')}}
+    {{tag.style('http://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css')}}
+    {{tag.style('/css/custom.css')}}
+    {{tag.style('/css/doms.css')}}
+    {{tag.style('/css/style.css')}}
+    <!-- color CSS you can use different color css from css/colors folder -->
+    <!-- We have chosen the skin-blue (blue.css) for this starter
+          page. However, you can choose any other skin from folder css / colors .
+    -->
+    
+    {{tag.style('/css/colors/default.css')}}
+    {{tag.style('/css/colors/blue.css')}}
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style type="text/css">
+        th, td{
+            text-align: center
+        }
+    </style>
+
+    
+{%endblock%}
+
+{%block defer_script%}
+    {{super()}}
+   <!-- jQuery -->
+    {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js')}}
+    <!-- Bootstrap Core JavaScript -->
+    {{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
+    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
+    <!-- Menu Plugin JavaScript -->
+    {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
+    <!--slimscroll JavaScript -->
+    {{tag.javascript('/js/jquery.slimscroll.js', true)}}
+    <!--Wave Effects -->
+    {{tag.javascript('/js/waves.js', true)}}
+    <!-- Custom Theme JavaScript -->
+    {{tag.javascript('/js/custom.min.js', true)}}
+    {{tag.javascript('/js/cbpFWTabs.js', true)}}
+    <!-- tabs-->
+    {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
+    <!-- Sweet-Alert  -->
+    {{tag.javascript('/plugins/bower_components/sweetalert/sweetalert.min.js', true)}}
+    <!--Style Switcher -->
+    {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
+
+    {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js', true)}}
+    {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js', true)}}
+    {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js', true)}}
+    {{tag.javascript('https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js', true)}}
+    {{tag.javascript('https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js', true)}}
+    {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js', true)}}
+    {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js', true)}}
+    {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js', true)}}
+    {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/nestable2/1.5.0/jquery.nestable.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/custom-select/custom-select.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-select/bootstrap-select.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/Magnific-Popup-master/dist/jquery.magnific-popup.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/Magnific-Popup-master/dist/jquery.magnific-popup-init.js', true)}}
+    <!-- Page Scripts -->
+
+    {{tag.javascript('/plugins/bower_components/Chart.js/Chart.min.js', true)}}
+    {{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
+    {{- tag.javascript('/js/mask.js', true)}}
+    {{tag.style('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.css')}}
+    {{tag.javascript('/js/Organization/addMembers.js', true)}}
+
+{%endblock%}
+
+{%block content%}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="white-box">
+        <div>
+        
+        <div>
+           <fieldset class="form-group col-md-5">
+                    <label for="exampleInputEmail1">Full Name</label>
+                    <input type="text" class="form-control" id="name" placeholder="Enter Name" >
+                </fieldset>
+
+                <fieldset class="form-group col-md-5">
+                    <label for="exampleInputEmail1">ID Number</label>
+                    <input data-mask="99999999" type="text" class="form-control" id="idnumber" placeholder="eg. 11456789">
+                </fieldset>
+                
+                    <button type="submit" class="form-group btn btn-success addmember col-md-2" id="approve">Add member</button> 
+        </div>
+                
+        
+            
+                        
+        </div>
+            
+            <div class="table-responsive">
+            <h3 class="box-title m-b-0">List of Members
+            </h3>
+
+                <table id="myTable" class="table table-hover"  role="grid" aria-describedby="myTable_info">
+                    <thead>
+                        <tr>
+                            <th width="33%">Name</th>
+                            <th width="33%">ID Number</th>
+                        </tr>
+                    
+                    </thead>
+                    <tbody> 
+                        <tr>
+                            <td></td>
+                            <td></td>                            
+                        </tr>
+                    </tbody> 
+                </table>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        
+    </div>
+    <div class="col-sm-12">
+        
+    </div>
+    
+    
+</div>
+
+{%endblock%}
