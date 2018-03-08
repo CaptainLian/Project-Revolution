@@ -357,6 +357,16 @@ module.exports = function(configuration, modules, db, queryFiles) {
         return connection.any(query.toString());
     };
 
+
+     ProjectProposalModel.prototype.deleteRevenue =  function(id, connection = this._db){
+        
+        let query = squel.delete()
+                        .from("ProjectProposalProjectedIncome")
+                        .where("projectProposal = ?",id)
+        query = query.toString();        
+        return connection.any(query);
+    };
+
     ProjectProposalModel.prototype.getReschedActivities =  function(connection = this._db){
         
         let query = squel.select()

@@ -2348,6 +2348,12 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     console.error(error);
                 });
 
+                projectProposalModel.deleteRevenue(req.body.ppr, transaction).then(data => {
+
+                }).catch(error => {
+                    console.error(error);
+                });
+
                 let optionsRadios2 = req.body['optionsRadios2[]'] ? req.body['optionsRadios2[]'] : req.body.optionsRadios2;
                 if (!Array.isArray(optionsRadios2)) {
                     optionsRadios2 = [optionsRadios2];
