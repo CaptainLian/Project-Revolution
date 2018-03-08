@@ -1109,6 +1109,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 	            var date = cuid();
 	            var nFilename = req.files['file'].name.split('.').pop();
 	            var p = path.normalize(path.join(dir2, date + '.' + nFilename));
+	            dbParam["filename"] = date + '.' + nFilename;
+	            dbParam["filenameToShow"] = req.files['file'].name.split('.')[0]+'.'+nFilename
                 Promise.all([
                     req.files['file'].mv(p),
                     // projectProposalModel.insertProjectProposalAttachment(db)
@@ -1233,10 +1235,37 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		submitPreactsDirectPayment: (req, res) => {
 			logger.debug('submitPreactsDirectPayment()', log_options);
 
+			var dir3 = __dirname + '/../assets/upload/';
+            var dir3 = path.join(__dirname, '..', 'assets', 'upload');
+            console.log(req.files)
+            console.log(req.files['frf'] != undefined)
+            //CHECK IF DIRECTOR EXIST
+            if (!fs.existsSync(dir3)) {
+                fs.mkdirSync(dir3);
+            }
+            var dir = __dirname + '/../assets/upload/finance/';
+            var dir = path.join(__dirname, '..', 'assets', 'upload', 'finance');
+            //CHECK IF DIRECTOR EXIST
+            if (!fs.existsSync(dir)) {
+                fs.mkdirSync(dir);
+            }
+            var dir2 = __dirname + '/../assets/upload/finance/' + req.session.user.idNumber + '/';
+            var dir2 = path.join(__dirname, '..', 'assets', 'upload', 'finance', req.session.user.idNumber + "");
+            //CHECK IF DIRECTOR EXIST
+            if (!fs.existsSync(dir2)) {
+                fs.mkdirSync(dir2);
+            }
+
 			var dbParam = {
 				gosmactivity: req.body.gosmactivity,
 				submittedby: req.session.user.idNumber,
-				reason: req.body.nodpjustification
+				reason: req.body.nodpjustification,
+				fqfn:'',
+				fqfts:'',
+				roffn:'',
+				roffts:'',
+				galfn:'',
+				galfts:''
 			};
 
             let particulars = req.body.particulars;
@@ -1245,6 +1274,66 @@ module.exports = function(configuration, modules, models, database, queryFiles){
             }
 
             database.tx(transaction => {
+
+            	  //TEMP SAVING FILEs
+            	console.log("FQ ")
+
+            	
+	            var date = cuid();
+	            var nFilename = req.files['fq'].name.split('.').pop();
+	            dbParam["fqfn"] = date + '.' + nFilename;
+	            dbParam["fqfts"] = req.files['fq'].name.split('.')[0]+'.'+nFilename
+	            var p = path.normalize(path.join(dir2, date + '.' + nFilename));
+	            req.files['fq'].mv(p,function(err){
+	            	if(err){
+	            		console.log("FQ ERROR")
+	            		return err;
+	            	}
+	            })
+	            console.log("FRF ")
+	            if(req.files['frf'] != undefined){
+	            	
+		            var date2 = cuid();
+		            var nFilename2 = req.files['frf'].name.split('.').pop();
+		            var p2 = path.normalize(path.join(dir2, date2 + '.' + nFilename2));
+		            dbParam["roffn"] = date2 + '.' + nFilename;
+		            dbParam["roffts"] = req.files['frf'].name.split('.')[0]+'.'+nFilename2	
+		            req.files['frf'].mv(p2,function(err){
+		            	if(err){
+		            		console.log("FRF ERROR")
+		            		return err;
+		            	}
+		            })
+
+	            }
+	            
+	            console.log("ELP ")
+	            if(req.files['elp'] != undefined){
+		            var date3 = cuid();
+		            var nFilename3 = req.files['elp'].name.split('.').pop();
+		            var p3 = path.normalize(path.join(dir2, date3 + '.' + nFilename3));
+		            dbParam["galfn"] = date3 + '.' + nFilename;
+		            dbParam["galfts"] = req.files['elp'].name.split('.')[0]+'.'+nFilename3	
+		            req.files['elp'].mv(p2,function(err){
+		            	if(err){
+		            		console.log("ELP ERROR")
+		            		return err;
+		            	}
+		            })
+
+	            }
+	            
+
+	            
+	           
+
+
+	            
+                 
+
+
+
+
 	            return financeModel.insertPreActivityDirectPayment(dbParam, transaction).then(data => {
 	            	let query = [];
 
@@ -1261,7 +1350,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
                 return res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
             }).catch(err => {
             	console.log("ERROR---------------------------")
-                return logger.err(`${err.message}\n${err.stack}`, log_options);
+                console.log(err)
             });
 		},
 		
@@ -1740,7 +1829,45 @@ module.exports = function(configuration, modules, models, database, queryFiles){
                 particulars = [particulars];
             }
 
+             var dir3 = __dirname + '/../assets/upload/';
+            var dir3 = path.join(__dirname, '..', 'assets', 'upload');
+
+            //CHECK IF DIRECTOR EXIST
+            if (!fs.existsSync(dir3)) {
+                fs.mkdirSync(dir3);
+            }
+            var dir = __dirname + '/../assets/upload/finance/';
+            var dir = path.join(__dirname, '..', 'assets', 'upload', 'finance');
+            //CHECK IF DIRECTOR EXIST
+            if (!fs.existsSync(dir)) {
+                fs.mkdirSync(dir);
+            }
+            var dir2 = __dirname + '/../assets/upload/finance/' + req.session.user.idNumber + '/';
+            var dir2 = path.join(__dirname, '..', 'assets', 'upload', 'finance', req.session.user.idNumber + "");
+            //CHECK IF DIRECTOR EXIST
+            if (!fs.existsSync(dir2)) {
+                fs.mkdirSync(dir2);
+            }
+
+
+
             database.tx(t => {
+
+            	var date = cuid();
+	            var nFilename = req.files['file'].name.split('.').pop();
+	            var p = path.normalize(path.join(dir2, date + '.' + nFilename));
+	            dbParam["filename"] = date + '.' + nFilename;
+	            dbParam["filenameToShow"] = req.files['file'].name.split('.')[0]+'.'+nFilename
+                Promise.all([
+                    req.files['file'].mv(p),
+                    // projectProposalModel.insertProjectProposalAttachment(db)
+                ]).then(result => {
+                    console.log(result);
+                }).catch(err => {
+                    console.log(err);
+                });
+
+
             	let query = [
             		financeModel.resubmitCashAdvance(dbParam, t),
 					financeModel.deleteCashAdvanceParticulars(dbParam2, t)
@@ -1774,10 +1901,88 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			var dbParam = {
 				id: req.body.id,
 				gosmactivity: req.body.gosmactivity,
-				reason: req.body.reasonForDelayedPRSProcessing
+				reason: req.body.reasonForDelayedPRSProcessing,
+				fqfn:'',
+				fqfts:'',
+				roffn:'',
+				roffts:'',
+				galfn:'',
+				galfts:''
 			};
 
+
+			 
+             var dir3 = __dirname + '/../assets/upload/';
+            var dir3 = path.join(__dirname, '..', 'assets', 'upload');
+
+            //CHECK IF DIRECTOR EXIST
+            if (!fs.existsSync(dir3)) {
+                fs.mkdirSync(dir3);
+            }
+            var dir = __dirname + '/../assets/upload/finance/';
+            var dir = path.join(__dirname, '..', 'assets', 'upload', 'finance');
+            //CHECK IF DIRECTOR EXIST
+            if (!fs.existsSync(dir)) {
+                fs.mkdirSync(dir);
+            }
+            var dir2 = __dirname + '/../assets/upload/finance/' + req.session.user.idNumber + '/';
+            var dir2 = path.join(__dirname, '..', 'assets', 'upload', 'finance', req.session.user.idNumber + "");
+            //CHECK IF DIRECTOR EXIST
+            if (!fs.existsSync(dir2)) {
+                fs.mkdirSync(dir2);
+            }
+
+
+
+
 			database.task(t=>{
+
+
+	            var date = cuid();
+	            var nFilename = req.files['fq'].name.split('.').pop();
+	            dbParam["fqfn"] = date + '.' + nFilename;
+	            dbParam["fqfts"] = req.files['fq'].name.split('.')[0]+'.'+nFilename
+	            var p = path.normalize(path.join(dir2, date + '.' + nFilename));
+	            req.files['fq'].mv(p,function(err){
+	            	if(err){
+	            		console.log("FQ ERROR")
+	            		return err;
+	            	}
+	            })
+	            console.log("FRF ")
+	            if(req.files['frf'] != undefined){
+	            	
+		            var date2 = cuid();
+		            var nFilename2 = req.files['frf'].name.split('.').pop();
+		            var p2 = path.normalize(path.join(dir2, date2 + '.' + nFilename2));
+		            dbParam["roffn"] = date2 + '.' + nFilename;
+		            dbParam["roffts"] = req.files['frf'].name.split('.')[0]+'.'+nFilename2	
+		            req.files['frf'].mv(p2,function(err){
+		            	if(err){
+		            		console.log("FRF ERROR")
+		            		return err;
+		            	}
+		            })
+
+	            }
+	            
+	            console.log("ELP ")
+	            if(req.files['elp'] != undefined){
+		            var date3 = cuid();
+		            var nFilename3 = req.files['elp'].name.split('.').pop();
+		            var p3 = path.normalize(path.join(dir2, date3 + '.' + nFilename3));
+		            dbParam["galfn"] = date3 + '.' + nFilename;
+		            dbParam["galfts"] = req.files['elp'].name.split('.')[0]+'.'+nFilename3	
+		            req.files['elp'].mv(p2,function(err){
+		            	if(err){
+		            		console.log("ELP ERROR")
+		            		return err;
+		            	}
+		            })
+
+	            }
+	            
+
 				return t.batch([
 	                financeModel.resubmitDirectPaymentSignatory(dbParam, t),
 	                financeModel.resubmitDirectPayment(dbParam, t)

@@ -33,7 +33,7 @@ module.exports = function(configuration, modules, database, queryFiles){
     FinanceModel.getActivitiesWithFinancialDocuments = function(connection = database){
         return connection.any(getActivitiesWithFinancialDocumentsSQL);
     };
-
+   
     const getTransactionTotalPerActivitySQL = queryFiles.getTransactionTotalPerActivity;
     FinanceModel.getTransactionTotalPerActivity = function(connection = database){
         return connection.any(getTransactionTotalPerActivitySQL);
