@@ -5,6 +5,8 @@ var cuid = require('cuid');
 var timediff = require('timediff');
 
 module.exports = function(configuration, modules, models, database, queryFiles) {
+    const ACL_SEQUENCES = require('./../utility/CONSTANTS_functionalitySequence.json');
+
     const logger = modules.logger;
     const log_options = Object.create(null);
     log_options.from = 'Organization-Controller';
@@ -2615,25 +2617,20 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     pnpModel.getMypubs(gosmParam, t),
                     pnpModel.getActivityDetailsforPubs(gosmParam, t),
                     gosmModel.getGOSMActivityProjectHeads(gosmParam2, t)
-
-                ])
-            }).then(pubs => {
-                console.log(pubs[0]);
-                console.log("pubs[0]");
-                renderData.pubs = pubs[0];
-                renderData.activities = pubs[1];
-                renderData.heads = pubs[2];
+                ]);
+            }).then(([pubs, activities, heads]) => {
+                renderData.pubs = pubs;
+                renderData.activities = activities;
+                renderData.heads = heads;
                 renderData.gosmid = req.params.gosmid
                 return res.render('Org/CreatePubs', renderData);
-            }).catch(err => {
-                console.log("ERROR VIEW PUB");
-                console.log(err);
-            })
-
-
-
+            }).catch(error => {
+                return logger.error(`${error.message}: ${error.stack}`, log_options);
+            });
         },
+
         insertPubs: (req, res) => {
+            logger.info('call insertPubs', log_options);
 
             var dir3 = __dirname + '/../assets/upload/';
             var dir3 = path.join(__dirname, '..', 'assets', 'upload');
@@ -2655,76 +2652,105 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 fs.mkdirSync(dir2);
             }
 
-
             dir2 = path.normalize(dir2);
             console.log("req.files");
             console.log(req.body);
 
-            const renderData = Object.create(null);
-            renderData.extra_data = req.extra_data;
-            renderData.csrfToken = req.csrfToken();
-            //GOSM ID OF PICTURES
-            var gParam = {
-                gosmid: req.body.gosmid
-            };
             console.log(req.body);
             console.log(req.files);
-            var filename = cuid() + path.extname(req.files['pubs'].name);
+            var filename = cuid() + path.extname(req.files.pubs.name);
+            //to show
             var filenameTS = req.files['pubs'].name;
-            if (req.body['optionsRadios2'] != 'null') {
-                var mod = req.body['optionsRadios2'];
-            } else {
-                var mod = 0;
-            }
-            pnpModel.getSpecificPubSeq(gParam).then(data => {
-                database.task(t => {
+            var mod = req.body.optionsRadios2 ? req.body.optionsRadios2 : 0; 
 
+            let isResponseSent = false;
+            pnpModel.getSpecificPubSeq({
+                gosmid: req.body.gosmid
+            }).then(data => {
+                //save file
+                req.files.pubs.mv(path.join(dir2, filename));
 
+                return pnpModel.insertActivityPublicity({
+                    gosmid: req.body.gosmid,
+                    sid: data.seq + 1,
+                    mod: mod,
+                    tpd: req.body['posting-date'],
+                    sb: req.session.user.idNumber,
+                    ds: req.body.title,
+                    status: 0,
+                    filename: filename,
+                    filenameToShow: filenameTS
+                });
+            }).then(result => {
+                logger.debug(`result: ${result}`, log_options);
+                
+                isResponseSent = true;
+                res.json({
+                    status: 1,
+                    path: `/upload/pubs/${req.session.user.idNumber}/${filename}`,
+                    description: req.body.title,
+                    id: result.id,
+                    type: mod
+                 });
+                
+                logger.debug('Adding notifications', log_options);
+                return database.task(t => {
+                    return t.batch([
+                        gosmModel.getActivityDetails(req.body.gosmid, [
+                            'strategies'
+                        ], t),
+                        gosmModel.getActivityProjectHeads(req.body.gosmid, [
+                            'ph.idNumber AS "idNumber"'
+                        ], t),
+                        organizationModel.getAccountWithAccessControlSequence(ACL_SEQUENCES.EvaluatePublicityMaterial, 0, [
+                            'a.idNumber AS "idNumber'
+                        ], t)
+                    ]);
+                });
+            }).then(([activityDetails, projectHeads, evaluators]) => {
+                return database.tx(t => {
+                    let queries = [];
 
-                    console.log(data)
+                    const details = Object.create(null);
+                    details.GOSMActivtyID = req.body.gosmid;
 
-                    var insertParam = {
-                        gosmid: req.body.gosmid,
-                        sid: data.seq + 1,
-                        mod: mod,
-                        tpd: req.body['posting-date'],
-                        sb: req.session.user.idNumber,
-                        ds: req.body.title,
-                        status: 0,
-                        filename: filename,
-                        filenameToShow: filenameTS
+                    for(const projectHead of projectHeads){
+                        queries[queries.length] = accountModel.addNotification(
+                            projectHead.idNumber,
+                            'Activtiy Publicity',
+                            `A publicty item has been added to the activity ${activityDetails.strategies}`,
+                            details,
+                            null,
+                            t
+                        );
+                     }
+
+                     for(const evaluator of evaluators){
+                        queries[queries.length] = accountModel.addNotification(
+                            evaluator.idNumber,
+                            'Publicity Evaluation',
+                            `A publicty item has been added to the activity ${activityDetails.strategies}`,
+                            details,
+                            null,
+                            t
+                        );
                     }
-                    console.log(insertParam);
 
-                    req.files['pubs'].mv(path.join(dir2, filename))
-                    return pnpModel.insertActivityPublicity(insertParam, t)
-                        .catch(err => {
-                            console.log(err)
-                            console.log("err")
-                        })
-                }).then(result => {
-                    // console.logr()
-                    console.log("result");
-                    console.log(result);
-                    res.json({
-                        status: 1,
-                        path: '/upload/pubs/' + req.session.user.idNumber + '/' + filename,
-                        description: req.body.title,
-                        id: result.id,
-                        type: mod
+                    return t.batch(queries);
+                });
+            }).then(data => {
+                return logger.debug('Notifications added', log_options);
+            }).catch(error => {
+                logger.error(`${error.message}: ${error.stack}`, log_options);
+                
+                if(!isResponseSent){
+                    return res.json({
+                        status: 0
                     });
-                }).catch(err => {
-                    console.log("rrD")
-                    res.json({
-                        status: 1
-                    });
-                    console.log(err)
-                })
+                }
             });
-
-
-
         },
+
         viewPubDetails: (req, res) => {
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
@@ -2733,23 +2759,23 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 id: req.body.id
             }
             console.log(dbParam)
-            pnpModel.getPubDetails(dbParam)
-                .then(data => {
-                    console.log(data);
-                    renderData.activity = data
-                    console.log("TPYE");
-                    console.log(req.body.type);
-                    if (req.body.type == 1) {
-                        console.log("ONE TYPE");
-                        res.render('section/PNP/approveModal', renderData);
-                    } else {
-                        console.log("SECOND TYPE");
-                        res.render('section/PNP/pendModal', renderData);
-                    }
-                }).catch(err => {
-                    console.log(err);
-                })
+            pnpModel.getPubDetails(dbParam).then(data => {
+                console.log(data);
+                renderData.activity = data
+                console.log("TPYE");
+                console.log(req.body.type);
+                if (req.body.type == 1) {
+                    console.log("ONE TYPE");
+                    res.render('section/PNP/approveModal', renderData);
+                } else {
+                    console.log("SECOND TYPE");
+                    res.render('section/PNP/pendModal', renderData);
+                }
+            }).catch(err => {
+                console.log(err);
+            })
         },
+
         reuploadPubs: (req, res) => {
             var dir3 = __dirname + '/../assets/upload/';
             var dir3 = path.join(__dirname, '..', 'assets', 'upload');
@@ -2871,8 +2897,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 console.log(data)
                 res.render('Orgres/OrgresList', renderData);
             }).catch(err => {
-                console.log("ERROR")
-                console.log(err)
+                return logger.error(`${err.message}: ${err.stack}`, log_options);
             })
         },
 
@@ -2899,7 +2924,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                 res.render('Orgres/orgresSpecificActivity', renderData);
             }).catch(err => {
-                console.log(err);
+                return logger.error(`${err.message}: ${err.stack}`, log_options);
             });
         },
 
@@ -2916,7 +2941,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     projectProposalModel.getActivitiesRelatedToNatureCount(param, t),
                     projectProposalModel.getActivitiesNotRelatedToNatureCount(param, t),
                     projectProposalModel.getGOSMCountPerOrg(param, t)
-                ])
+                ]);
             }).then(data => {
 
                 const renderData = Object.create(null);

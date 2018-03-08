@@ -2799,6 +2799,7 @@ CREATE TABLE "PostProjectProposal" (
   "preparedBy" INTEGER REFERENCES Account(idNumber),
   "status" SMALLINT NOT NULL DEFAULT 0 REFERENCES "PostProjectProposalStatus"("id"),
   "dateCreated" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "dateSubmitted" TIMESTAMP WITH TIME ZONE,
   "ANP" INTEGER,
   "ANMP" INTEGER,
   "objectives" TEXT[],

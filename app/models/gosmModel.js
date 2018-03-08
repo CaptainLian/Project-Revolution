@@ -258,23 +258,20 @@ module.exports = function(configuration, modules, db, queryFiles) {
             activityType = at
         */
         getActivityDetails: function(id, fields, connection = db) {
-
+            logger.info(`call getActivityDetails(id: ${id}, fields: ${JSON.stringify(fields)})`, log_options);
 
             let param = Object.create(null);
             param.activityID = id;
             
             let query = squel.select()
-
                 .from('GOSMActivity', 'ga')
                 .left_join('ActivityNature', 'an', 'ga.activityNature = an.id')
                 .left_join('ActivityType', 'at', 'ga.activityType = at.id')
                 .where('ga.id = ${activityID}');
-
             attachFields(query, fields);
 
             query = query.toString();
-             logger.debug(`Executing query: 1 ${query}`, log_options);
-
+            logger.debug(`Executing query: ${query}`, log_options);
             return connection.oneOrNone(query, param);
         },
 
@@ -282,14 +279,15 @@ module.exports = function(configuration, modules, db, queryFiles) {
 
         */
         getActivityProjectHeads: function(id, fields, connection = db) {
+            logger.info(`call getActivityProjectHeads(id: ${id}, fields: ${JSON.stringify(fields)})`, log_options);
+
             let query = squel.select()
                 .from('GOSMActivityProjectHead', 'ph')
                     .left_join('Account', 'a', 'ph.idNumber = a.idNumber')
                 .where('ph.activityid = ${activityID}');
             attachFields(query, fields);
-
             query = query.toString();
-            logger.debug(`Executing query: ${query}`, log_options);
+            
             /*
                 let param = {
                     activityID: id
@@ -297,6 +295,8 @@ module.exports = function(configuration, modules, db, queryFiles) {
             */
             let param = Object.create(null);
             param.activityID = id;
+            
+            logger.debug(`Executing query: ${query}`, log_options);
             return connection.any(query, param);
         },
 

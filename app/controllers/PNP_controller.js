@@ -39,7 +39,6 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			console.log("ERROR VIEW PUB");
 			console.log(err);	
 		})
-		
 	};	
 
 	PNPController.viewPubsList = (req, res) => {
@@ -48,22 +47,19 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		renderData.extra_data = req.extra_data;
 		database.task(t=>{
 			return t.batch([
-					pnpModel.getUnapprovePubsToCheck(),
-					pnpModel.getPubsNumberToApprove()
-				])
+				pnpModel.getUnapprovePubsToCheck(),
+				pnpModel.getPubsNumberToApprove()
+			]);
 		}).then(pubs=>{
-				console.log(pubs);
-				renderData.pubs = pubs[0];
-				renderData.number = pubs[1];
-				return res.render('PNP/PubsToCheck', renderData);
-			}).catch(err=>{
-				console.log("ERROR VIEW PUB");
-				console.log(err);	
-			})
-		
+			console.log(pubs);
+			renderData.pubs = pubs[0];
+			renderData.number = pubs[1];
 			
-
-		
+			return res.render('PNP/PubsToCheck', renderData);
+		}).catch(err=>{
+			console.log("ERROR VIEW PUB");
+			console.log(err);	
+		});
 	};	
 	
 	return PNPController;

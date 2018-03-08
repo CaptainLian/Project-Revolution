@@ -293,5 +293,36 @@ module.exports = function(configuration, modules, database, queryFiles){
 		return connection.any(query, param);
 	};
 
+	OrganizationModel.getAccountWithAccessControlSequence = (ACLSequence, organizationID, fields, connection = database) => {
+		logger.info(`call getAccountWithAccessControlSequence(ACLSequence: ${ACLSequence}, organizationID: ${organizationID})`, log_options);
+		
+		let query = squel.select()
+			.from('Account a')
+			.where('a.idNumber IN ?', squel.select()
+				.field('oo.idNumber')
+				.from('OrganizationOfficer oo')
+				.where('oo.yearID = system_get_current_year_id()')
+				.where('oo.role IN ?', squel.select()
+					.field('id')
+					.from('OrganizationRole oro')
+					.where('organization = ${organizationID}')
+					.where('id IN ?', squel.select()
+						.field('role')
+						.from('OrganizationAccessControl oac')
+						.where('functionality = ?', squel.select()
+							.field('id')
+							.from('functionality')
+							.where('id%1000 = ${ACLSequence}')))));
+		attachFields(query, fields);
+
+		let param = Object.create(null);
+		param.ACLSequence = ACLSequence;
+		param.organizationID = organizationID;
+
+		query = query.toString();
+		logger.debug(`Executing query: ${query}`, log_options);
+		return connection.any(query, param);
+	};
+
 	return OrganizationModel;
 };
