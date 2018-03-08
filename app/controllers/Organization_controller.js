@@ -68,110 +68,253 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         },
         viewReport: (req, res) => {
 
-            database.task(task => {
-                    return task.batch([
-                        projectProposalModel.getApprovedActivities(),
-                        projectProposalModel.getAllProjectProposal()
-                    ]);
-            }).then(data=>{
+            if (req.session.user.type == 1) {
+                var organizationid = req.session.user.organizationSelected.id;
+            }
+            else{
+                var organizationid = req.params.id;
+            }
 
-                var preactsApprovedActivities = 0;
-                var preactsEarlyApprovedActivities = 0;
-                var preactsLateApprovedActivities = 0;
-                var preactsDeniedActivities = 0;
-                var totalActivities = 0;
-                var preactsTimingRatio = 0;
+            systemModel.getCurrentTerm([
+                'id',
+                'dateStart AS "dateStart"',
+                'dateEnd AS "dateEnd"'
+            ]).then(term=>{
 
-                //approved activities
-                for(var i = 0; data[0].length > i; i++){
+                var dbParam = {
+                    studentOrganization: organizationid,
+                    termID: term.id
+                }
 
-                    //TODO: change depending on org??
-                    if(data[0][i].studentorganization == req.session.user.organizationSelected.id &&
-                        data[0][i].isingosm == true){
+                let termstart = term.dateStart;
 
-                        preactsApprovedActivities = preactsApprovedActivities + 1;
+                database.task(task => {
+                        return task.batch([
+                            projectProposalModel.getApprovedActivities(),
+                            projectProposalModel.getAllProjectProposal(),
+                            gosmModel.getOrgGOSM(dbParam),
+                            postProjectProposalModel.getAllPostProjectProposal()
+                        ]);
+                }).then(data=>{
 
+                    // preacts grade
+                    var preactsApprovedActivities = 0;
+                    var preactsEarlyApprovedActivities = 0;
+                    var preactsLateApprovedActivities = 0;
+                    var preactsDeniedActivities = 0;
+                    var totalActivities = 0;
+                    var preactsTimingRatio = 0;
+                    var preactsPendCount = 0;
+                    var gosmSubmissionGrade = 0;
+                    var isRelatedToOrganizationCount = 0;
+                    var sixtyFortyGrade = 0;
 
-                        let actualdatestart = data[0][i].actualdatestart;
-                        let datesigned = data[0][i].datesigned;
-                        let targetdatestart = data[0][i].targetdatestart;
+                    if(data[2] != null){
 
-                        var diff = timediff(actualdatestart, datesigned, 'D');
+                        if(data[2].dateSubmitted == null){
 
-
-                        if (diff.days>2){
-                            preactsEarlyApprovedActivities = preactsEarlyApprovedActivities + 1;
                         }
                         else{
-                            preactsLateApprovedActivities = preactsLateApprovedActivities + 1;
-                        }
 
-                        var timingdiff = timediff(targetdatestart, actualdatestart, 'D');
+                            let orggosmsubmitted = data[2].datesubmitted;
 
-                        if (timingdiff.days < 7 && timingdiff.days > -7){
-                            preactsTimingRatio = preactsTimingRatio + 1;
-                        }
+                            var gosmdiff = timediff(termstart, orggosmsubmitted, 'D');
 
+                            if(gosmdiff.days > 14){
+                                gosmSubmissionGrade = 0.075;
+                            }
 
-                    }
-
-                }
-
-                // all activities
-                for (var i = 0; data[1].length > i; i++){
-
-                    //TODO: change depending on org??
-                    if(data[1][i].studentorganization == req.session.user.organizationSelected.id &&
-                        data[1][i].isingosm == true){
-
-                        totalActivities = totalActivities + 1;
-
-                        if(data[1][i].status==5){
-                            preactsDeniedActivities = preactsDeniedActivities + 1;
                         }
 
                     }
 
-                }
-
-                var preactsPunctualityGrade = ((((parseFloat(preactsEarlyApprovedActivities)/parseFloat(preactsApprovedActivities))*100)-parseFloat(preactsDeniedActivities))*0.025);
-                var preactsTimingRatioGrade = ((parseFloat(preactsTimingRatio)/parseFloat(totalActivities))*0.015);
-
-                if (preactsApprovedActivities == 0){
-                    preactsPunctualityGrade = 0;
-                }
-
-                if(totalActivities == 0){
-                    preactsTimingRatioGrade = 0;
-                }
+                    
 
 
-                const renderData = Object.create(null);
+                    //approved activities
+                    for(var i = 0; data[0].length > i; i++){
 
-                renderData.preactsPunctualityGrade = preactsPunctualityGrade;
+                        //TODO: change depending on org??
+                        if(data[0][i].studentorganization == organizationid &&
+                            data[0][i].isingosm == true){
 
-                renderData.preactsApprovedActivities = preactsApprovedActivities;
-                renderData.preactsEarlyApprovedActivities = preactsEarlyApprovedActivities;
-                renderData.preactsLateApprovedActivities = preactsLateApprovedActivities;
-                renderData.preactsDeniedActivities = preactsDeniedActivities;
-                renderData.totalActivities = totalActivities;
-                renderData.preactsTimingRatio = preactsTimingRatio;
-                renderData.preactsTimingRatioGrade = preactsTimingRatioGrade;
+                            preactsApprovedActivities = preactsApprovedActivities + 1;
 
-                console.log("preacts timing ratio gradeeeeeeeeeeeeeeeeeeeeee+++++++++++++");
-                console.log(preactsTimingRatioGrade);
 
-                console.log(renderData)
-                renderData.extra_data = req.extra_data;
-                return res.render('Org/report', renderData);
+                            let actualdatestart = data[0][i].actualdatestart;
+                            let datesigned = data[0][i].datesigned;
+                            let targetdatestart = data[0][i].targetdatestart;
+
+                            var diff = timediff(actualdatestart, datesigned, 'D');
+
+
+                            if (diff.days>2){
+                                preactsEarlyApprovedActivities = preactsEarlyApprovedActivities + 1;
+                            }
+                            else{
+                                preactsLateApprovedActivities = preactsLateApprovedActivities + 1;
+                            }
+
+                            var timingdiff = timediff(targetdatestart, actualdatestart, 'D');
+
+                            if (timingdiff.days < 7 && timingdiff.days > -7){
+                                preactsTimingRatio = preactsTimingRatio + 1;
+                            }
+
+
+                            if(data[0][i].isrelatedtoorganization == true){
+                                isRelatedToOrganizationCount = isRelatedToOrganizationCount + 1;
+                            }
+
+
+                        }
+
+                    }
+
+                    // all activities
+                    for (var i = 0; data[1].length > i; i++){
+
+                        //TODO: change depending on org??
+                        if(data[1][i].studentorganization == organizationid &&
+                            data[1][i].isingosm == true){
+
+                            totalActivities = totalActivities + 1;
+
+                            preactsPendCount = preactsPendCount + data[1][i].timespended;
+
+
+                            if(data[1][i].status==5){
+                                preactsDeniedActivities = preactsDeniedActivities + 1;
+                            }
+
+                        }
+
+                    }
+
+                    var preactsPunctualityGrade = ((((parseFloat(preactsEarlyApprovedActivities)/parseFloat(preactsApprovedActivities))*100)-parseFloat(preactsDeniedActivities))*0.025);
+                    var preactsTimingRatioGrade = ((parseFloat(preactsTimingRatio)/parseFloat(totalActivities))*0.015);
+                    var preactsCompletenessGrade = (100 - (parseFloat(preactsPendCount)*0.5))*0.025;
+
+                    var sixtyFortyRatioPercentage = isRelatedToOrganizationCount/preactsApprovedActivities;
+
+
+                    if (preactsApprovedActivities == 0){
+                        preactsPunctualityGrade = 0;
+                        sixtyFortyRatioPercentage = 0;
+                    }
+
+                    if(totalActivities == 0){
+                        preactsTimingRatioGrade = 0;
+                    }
+
+
+                    var sixFourGradeRange = 0
+
+                    var sixtyFortyGradeFound = true;
+
+                    var gradeStart = 57;
+                    var gradeEnd = 63;
+
+                    while(sixtyFortyGradeFound){
+
+                        console.log("THE GRADE RANGE IS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                        console.log(sixFourGradeRange);
+                        console.log("okay the ratio percentage is!!!!!");
+                        console.log(sixtyFortyRatioPercentage);
+
+                        if(sixtyFortyRatioPercentage >= gradeStart && sixtyFortyRatioPercentage <= gradeEnd){
+
+                            sixtyFortyGradeFound = false;
+
+                        }
+                        else{
+                            sixFourGradeRange = sixFourGradeRange + 1;
+                            gradeStart = gradeStart - 4;
+                            gradeEnd = gradeEnd + 4;
+                        }
+
+                    }
+
+                    var sixtyFortyGrade = (100-(parseFloat(sixFourGradeRange)*4))*0.10;
+
+                    //postacts grade
+                    var postactsEarlyApprovedActivities = 0;
+                    var postactsTotalActivities = 0;
+                    var postactsApprovedActivities = 0;
+                    var postactsLateApprovedActivities = 0;
+
+                    for (var i = 0; i < data[3]; i++){
+
+                        postactsTotalActivities = postactsTotalActivities + 1;
+
+                        // if approved
+                        if(data[3][i].status==4){
+
+                            postactsApprovedActivities = postactsApprovedActivities + 1;
+
+
+                            let actualdatestart = data[3][i].actualdatestart;
+                            let datesubmitted = data[3][i].datesubmitted;
+
+                            var diff = timediff(actualdatestart, datesubmitted, 'D');
+
+
+                            if (diff.days>30){
+                                postactsEarlyApprovedActivities = postactsEarlyApprovedActivities + 1;
+                            }
+                            else{
+                                postactsLateApprovedActivities = postactsLateApprovedActivities + 1;
+                            }
+
+                        }
+
+                    }
+
+                    var postactsPunctualityGrade = ((((parseFloat(postactsEarlyApprovedActivities)/parseFloat(postactsApprovedActivities))*100)-parseFloat(preactsDeniedActivities))*0.025);
+                    var postactsCompletenessGrade = (parseFloat(postactsApprovedActivities)/parseFloat(preactsApprovedActivities))*0.025;
+
+
+
+
+
+                    const renderData = Object.create(null);
+
+                    renderData.preactsPunctualityGrade = preactsPunctualityGrade;
+
+                    renderData.preactsApprovedActivities = preactsApprovedActivities;
+                    renderData.preactsEarlyApprovedActivities = preactsEarlyApprovedActivities;
+                    renderData.preactsLateApprovedActivities = preactsLateApprovedActivities;
+                    renderData.preactsDeniedActivities = preactsDeniedActivities;
+                    renderData.totalActivities = totalActivities;
+                    renderData.preactsTimingRatio = preactsTimingRatio;
+                    renderData.preactsTimingRatioGrade = preactsTimingRatioGrade;
+                    renderData.preactsPendCount = preactsPendCount;
+                    renderData.preactsCompletenessGrade = preactsCompletenessGrade;
+                    renderData.gosmSubmissionGrade = gosmSubmissionGrade;
+                    renderData.sixtyFortyGrade = sixtyFortyGrade;
+
+                    console.log("preacts timing ratio gradeeeeeeeeeeeeeeeeeeeeee+++++++++++++");
+                    console.log(preactsTimingRatioGrade);
+
+                    console.log(renderData)
+                    renderData.extra_data = req.extra_data;
+                    return res.render('Org/report', renderData);
+
+
+                }).catch(error=>{
+                    console.log(error);
+                });
+
 
 
             }).catch(error=>{
                 console.log(error);
             });
-            
-            
+
+    
         },
+
+
         viewGOSMDetails: (req, res) => {
             const renderData = Object.create(null);
             console.log(req.param)
