@@ -231,8 +231,8 @@
                                         <h3 class="box-title">{{pub.description}}</h3>
                                         <div class="col-md-12 text-center actions" style="visibility: hidden;">
                                             <div class="btn-group" role="group" aria-label="Basic example">
-                                            {% if pub.status == 4 %}
-                                            {% else %}
+                                            {% if pub.status == 0 %}
+                                            
                                                 <button type="button" data-id="{{pub.id}}" class="btn btn-success approve" data-toggle="tooltip" data-original-title="Approve Publicity Material"><i class="fa fa-check"></i></button>
                                                 <button type="button" data-id="{{pub.id}}" class="btn btn-warning pend" data-toggle="tooltip" data-original-title="Pend Publicity Material"><i class="fa fa-history"></i></button>
                                                 <button type="button" data-id="{{pub.id}}" class="btn btn-danger deny" data-toggle="tooltip" data-original-title="Deny Publicity Material"><i class="fa fa-times"></i></button>

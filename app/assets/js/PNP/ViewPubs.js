@@ -1,6 +1,6 @@
 
 
-        $(".select2").select2();
+        $(".select2").select2({maximumSelectionSize: 1});
         $('.selectpicker').selectpicker();
    
 
@@ -61,7 +61,7 @@ $(".approve").on('click',function(){
                             addRibbon(pub,1)
                             console.log(data);
                             resolve(data[0]);
-                           
+                            pub.closest("div.text-center").remove()
                         }
                          
                     });
@@ -89,7 +89,7 @@ $(".pend").on('click',function(){
                             '<div class="form-group col-md-12">'+
                                 '<label class="col-md-12 text-left"><strong>Reasons for Revision:</strong></label>'+
                                 '<div class="col-md-12">'+
-                                    '<select class="col-md-12" multiple=""s id="select-sec">'+
+                                    '<select class="col-md-12" multiple="" id="select-sec">'+
                                         
                                         '<option value="1">Incorrect Grammar</option>'+
                                         '<option value="0">Unoriginal Design</option>'+
@@ -119,7 +119,9 @@ $(".pend").on('click',function(){
             console.log(data);
             var arr = []
             var sec = $("#select-sec").select2("val");
-            
+            if(sec != undefined){
+                sec = parseInt(sec)
+            }
             console.log(arr)
             return new Promise(function (resolve, reject) {
                     $.ajax({
@@ -129,13 +131,14 @@ $(".pend").on('click',function(){
                             id:pub.attr("data-id"),
                             stat:2,
                             comment:$("textarea").val(),
-                            revision:sec
+                            revision:(sec)
 
                         },
                         success:function(data){
                             addRibbon(pub,2)
                             console.log(data);
                             resolve(data[0]);
+                            pub.closest("div.text-center").remove()
                            
                         }
                          
@@ -147,7 +150,7 @@ $(".pend").on('click',function(){
 
         },
          onOpen: function(ele) {
-            $(ele).find("select").select2();
+            $(ele).find("select").select2({maximumSelectionSize: 1});
             console.log("INIT SELECT");
         },
         showCancelButton: true,
@@ -207,6 +210,7 @@ $(".deny").on('click',function(){
                             addRibbon(pub,3)
                             console.log(data);
                             resolve(data[0]);
+                            pub.closest("div.text-center").remove()
                            
                         }
                          
@@ -218,7 +222,7 @@ $(".deny").on('click',function(){
 
         },
         onOpen: function(ele) {
-            $(ele).find("select").select2();
+            $(ele).find("select").select2({maximumSelectionSize: 1});
             console.log("INIT SELECT");
         },
 

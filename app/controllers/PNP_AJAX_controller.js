@@ -16,7 +16,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			status: req.body.stat,
 			comment:req.body.comment,
 			id:req.body.id,
-			revision:(req.body.revision).map(SMALLINT)
+			revision:(req.body.revision)
 		}
 		console.log("pubParam");
 		console.log(pubParam);
