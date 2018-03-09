@@ -400,11 +400,11 @@ module.exports = function(configuration, modules, db, queryFiles) {
             .where('GOSMActivity = ${id}')
             .field('id'));
         this._attachFields(query, fields);
-
         query = query.toString();
 
         let param = Object.create(null);
         param.id = id;
+            
         return connection.any(query, param);
     };
 
@@ -416,6 +416,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
     };
 
     ProjectProposalModel.prototype.getGOSMActivitiesToImplement = function(param, connection = this._db) {
+        logger.info('call getGOSMActivitiesToImplement()', log_options);
         return connection.any(getGOSMActivitiesToImplementSQL, param);
     };
 

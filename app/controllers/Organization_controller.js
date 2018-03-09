@@ -26,12 +26,14 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     return {
         //Create ProjectProposal
         viewGOSMActivityListProjectProposal: (req, res) => {
-            logger.info('viewGOSMActivityListProjectProposal()', log_options);
-            systemModel.getCurrentTerm().then(data => {
+            logger.info('call viewGOSMActivityListProjectProposal()', log_options);
+
+            systemModel.getCurrentTerm().then(term => {
                 var param = {
-                    termID: data.id,
+                    termID: term.id,
                     studentOrganization: req.session.user.organizationSelected.id
                 };
+
                 return gosmModel.getOrgGOSM(param);
             }).then(data1 => {
                 var dbParam = {
@@ -39,18 +41,29 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     idnumber: req.session.user.idNumber
                 };
 
-                return projectProposalModel.getGOSMActivitiesToImplement(dbParam);
-            }).then(data2 => {
+                return database.task(t => {
+                    return t.batch([
+                        projectProposalModel.getGOSMActivitiesToImplement(dbParam),
+                        gosmModel.getCurrentTermGOSM(req.session.user.organizationSelected.id, [
+                            'status'
+                         ])
+                    ]);
+                });
+            }).then(([activities, gosm]) => {
                 const renderData = Object.create(null);
                 renderData.extra_data = req.extra_data;
                 renderData.csrfToken = req.csrfToken();
-                renderData.activities = data2;
-                console.log(data2);
+
+                renderData.activities = activities;
+                renderData.GOSMStatus = gosm.status;
+
+                logger.debug('Rendering Org/ActivityToImplement', log_options);
                 return res.render('Org/ActivityToImplement', renderData);
             }).catch(error => {
                 logger.error(`${error.message}\n${error.stack}`, log_options);
             });
         },
+
         viewGOSMList: (req, res) => {
             logger.info('viewGOSMList()', log_options);
 
@@ -2177,7 +2190,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         },
 
         savePPR: (req, res) => {
-            logger.debug('savePPR()', log_options);
+            logger.info('call savePPR()', log_options);
+
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
