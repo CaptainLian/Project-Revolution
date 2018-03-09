@@ -904,6 +904,28 @@ YzHusqxgGvoiJVkUQgkCQGXabuOyLicPFhwAVhlUkXHUgGd7KNsSFASAvjeBbsJp
 4F8HMpP+ChUqgW10mdON7mhsXoziRTmAnlLkYKOYlEw=
 -----END RSA PRIVATE KEY-----', 6);
 
+INSERT INTO Account(email, idNumber, password, firstname, lastname, contactNumber, publicKey, privateKey, type, status)
+        VALUES('juliano_laguio@yahoo.com.ph', 11445955, '1234', 'Juliano', 'Laguio', '9266386421', '-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCkKPYp18u+O2e3bvrvXLBSs+6z
+QKcouWUyuvIEzWDawz2zYSkrEhoilcCedOU8BkdATjehebGGCDDB1s/VDNT3Zmj8
+RMuXO+ltBxsxrABZEVhv+bTguMysDDQBPz3LrlesNpLFaXocSEeaqpxmDhZS1w4f
+7kyMwenO80F+UxAahQIDAQAB
+-----END PUBLIC KEY-----', '-----BEGIN RSA PRIVATE KEY-----
+MIICXAIBAAKBgQCkKPYp18u+O2e3bvrvXLBSs+6zQKcouWUyuvIEzWDawz2zYSkr
+EhoilcCedOU8BkdATjehebGGCDDB1s/VDNT3Zmj8RMuXO+ltBxsxrABZEVhv+bTg
+uMysDDQBPz3LrlesNpLFaXocSEeaqpxmDhZS1w4f7kyMwenO80F+UxAahQIDAQAB
+AoGAMHdbfi0VHTwCuhiNA6B0+mXfQpMDBzX9V8Xz8FEGmG/uRoiYE/xLNQzLirzu
+dRNRc/3j1MvOCsleQ8x9HeSk91BefJ1VUM93+fQLI+9Zfm/XSPZeUendfBmbX4kB
+xbc5htJvk4Oq+diU2IIxJIM2MDpwERtirD5bp7cqqtv0XuECQQDisjjHBlhw+rcE
+snc5H3iuv580k2UZk9HKi+OGmMoGDhz9gNQymvYgsaZl3lTvgAsRUab0NuoVjFY0
+j+23vu39AkEAuWFOmc6jHEOeqDOD0BiRMfpawdUmyNcoaKQlIBqvAWflkRM9UFjx
+lPRXKs0/EJsu4JPLWFDwrkxS4ZCHDyYBKQJAKEKMkNQQqufrzvq+77cmIKrJZHX0
+04kMDhOv8bx6zH5/KYpSpTYeFgpWyeqlXO95h7bflqmWAwOsX6NcDXDsJQJBAJXX
+Vn4yLVuSOLMCeMACq5H3J9bXILNkXlA+pZeOmfiL715Va9D/I75fxfldz2Tv2nNC
+YzHusqxgGvoiJVkUQgkCQGXabuOyLicPFhwAVhlUkXHUgGd7KNsSFASAvjeBbsJp
+4F8HMpP+ChUqgW10mdON7mhsXoziRTmAnlLkYKOYlEw=
+-----END RSA PRIVATE KEY-----', 1, 1);
+
 INSERT INTO OrganizationOfficer (idNumber, role, yearID, dateAssigned)
                   VALUES (1111111, 10023, system_get_current_year_id(), CURRENT_TIMESTAMP),
                          (1111112, 10026, system_get_current_year_id(), CURRENT_TIMESTAMP),
