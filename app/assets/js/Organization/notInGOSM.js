@@ -3,6 +3,9 @@
         new CBPFWTabs(el);
     });
 })();
+
+var con = $(document.createElement('div')).addClass("dy-obj");
+var cObj = 0;
 function removeError(){
         $("#help-strat").text("");
         $("#strategy").closest("div.form-group").removeClass("has-error");
