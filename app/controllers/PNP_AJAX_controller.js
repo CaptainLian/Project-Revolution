@@ -9,12 +9,14 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		let renderData = Object.create(null);
 		renderData.csrfToken = req.csrfToken();
 		renderData.extra_data = req.extra_data;
+		console.log("ASDASDASDASDASDASDASDASDASDASDASD")
+
 		var pubParam = {
 			idNumber: req.session.user.idNumber,
 			status: req.body.stat,
 			comment:req.body.comment,
 			id:req.body.id,
-			revision:req.body.revision
+			revision:(req.body.revision).map(SMALLINT)
 		}
 		console.log("pubParam");
 		console.log(pubParam);
