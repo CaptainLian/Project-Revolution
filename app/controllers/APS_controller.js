@@ -215,7 +215,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         return accountModel.getPPRToSignList(req.session.user.idNumber)
         .then(list => {
             console.log(list)
-            logger.debug(`${JSON.stringify(list, '\n')}`, log_options);
+            console.log("asdasdas")
 
             renderData.activities = list;
             return res.render('APS/ProjectProposal_sign_list', renderData);
