@@ -280,7 +280,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     "to_char(pppd.endtime + CURRENT_DATE, 'HH:MI PM') AS endtime",
                     'pppd.activity AS activity',
                     'pppd.activitydescription AS activitydescription',
-                    'pppd.personincharge AS personincharge'
+                    'pppd.personincharge AS personincharge',
+                    'acc.firstname AS firstname',
+                    'acc.lastname AS lastname'
                 ]),
                 // 4
                 projectProposalModel.getProjectProposalProjectHeads(activityID),

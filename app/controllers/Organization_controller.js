@@ -412,7 +412,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             "to_char(CURRENT_DATE, 'YYYY-MM-DD') AS currdate",
                             'pppd.activity AS activity',
                             'pppd.activitydescription AS activitydescription',
-                            'pppd.personincharge AS personincharge'
+                            'pppd.personincharge AS personincharge',
+                            'acc.firstname AS firstname',
+                            'acc.lastname AS lastname'
                         ]),
                         //4
                         projectProposalModel.getProjectProposalProjectHeads(data.id),
@@ -1708,8 +1710,44 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
             console.log(req.body.id);
             console.log(dbParam);
+
+
+
             projectProposalModel.updatePPRBriefContext(dbParam).then(data => {
-                res.redirect(`/Organization/ProjectProposal/Main/${req.body.id}/${req.body.status}`);
+
+                if (req.body.expense == false) {
+
+                    var expenseParam = {
+                        id: req.body.ppr,
+                        accumulatedOperationalFunds: req.body.ope,
+                        accumulatedDepositoryFunds: req.body.dep,
+                        organizationFundOtherSource: req.body.otherfunds,
+                        sourceFundOrganizational: req.body.org,
+                        sourceFundParticipantFee: req.body.par,
+                        sourceFundOther: req.body.others,
+                        isExpenseComplete: true
+                    };
+
+                    projectProposalModel.updatePPRExpenses(expenseParam)
+                    .then(expenseData=>{
+
+                        res.redirect(`/Organization/ProjectProposal/Main/${req.body.id}/${req.body.status}`);
+
+
+                    }).catch(error=>{
+
+                    });
+
+
+                }
+                else{
+
+                    res.redirect(`/Organization/ProjectProposal/Main/${req.body.id}/${req.body.status}`);
+
+                }
+
+            
+
             }).catch(error => {
                 console.log(error);
             });
@@ -2580,6 +2618,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             }
 
             console.log(item.length);
+
+            if(item.length < 2){
+                console.log("asdaddddddddddddddddddddddddddddddddddddd duti asdadasdasdad");
+                dbParam.isExpenseComplete = false;
+            }
 
 
 
