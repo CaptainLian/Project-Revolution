@@ -4,13 +4,19 @@
     });
 })();
 function removeError(){
-     $("#help-strat").text("");
+        $("#help-strat").text("");
         $("#strategy").closest("div.form-group").removeClass("has-error");
         $("#help-goals").text("");
+        $("#help-desc").text("");
+        $("#help-rto").text("");
+        $("#help-pic").text("");
         $("#goals").closest("div.form-group").removeClass("has-error");
         $("#help-measure").text("");
         $("#measures").closest("div.form-group").removeClass("has-error");
         $("#objectives").closest("div.form-group").removeClass("has-error");
+        $("select").closest("div.form-group").removeClass("has-error");
+        
+        $("textarea").closest("div.form-group").removeClass("has-error");
         $("#help-date").text("");
         $("#targetDateStart").closest("div.form-group").removeClass("has-error");
         $("#help-rto").text();
@@ -18,97 +24,26 @@ function removeError(){
         $("#help-budget").text("");
         $("#budget").closest("div.form-group").removeClass("has-error");
 }
-var con = $(document.createElement('div')).addClass("dy-obj");
-var cObj = 0;
+
 $("#objectives-add").click(function() {
     cObj++;
     $(con).append('<div class="temp"> <label class="control-label col-md-3">&nbsp</label><div class="col-md-8" id="div-objectives"><input name="objectives[]" type="text" placeholder="" class="form-control"><span class="help-block">&nbsp</span></div><div class="col-md-1" style="margin-top: 8px" > <i class="fa fa-times text-danger remove" data-toggle="tooltip" title="Remove"></i> </div></div>');
     $("#div-after-objectives").after(con);
 
 });
-$("#nature-type").select2();
-$("#activity-type").select2();
-$("#personInCharge").select2();
+
+$("select").select2();
+
 $("body").on('click', "i.remove", function() {
     console.log($(this).parent());
     $(this).closest("div.temp").empty().remove();
 });
-$(function() {
-    $('.panel').lobiPanel({
-        sortable: false,
-        reload: false,
-        editTitle: false,
-        unpin: false,
-        minimize: false,
-        expand: {
-            icon: 'fa fa-expand',
-            icon2: 'fa fa-expand',
-            tooltip: 'Fullscreen'
-        },
-        close: false
-    });
-});
+
 $('#date-range').datepicker({
     toggleActive: true
 });
 
-$("#activity-type").change(function() {
-    if ($(this).val() == "10") {
-        $("#activity-others").val("");
 
-        $("#div-space").css("display", "");
-        $("#act-others-label").css("display", "");
-        $("#div-others").css("display", "");
-        $("#activity-others").css("display", "");
-
-    } else {
-        $("#activity-others").val("");
-
-
-        $("#div-space").css("display", "none");
-        $("#act-others-label").css("display", "none");
-        $("#div-others").css("display", "none");
-        $("#activity-others").css("display", "none");
-    }
-});
-
-$(document).ready(function() {
-    if ($("#activity-type").val() == "10") {
-        $("#activity-others").val("");
-        $("#div-space").css("display", "");
-        $("#act-others-label").css("display", "");
-        $("#div-others").css("display", "");
-        $("#activity-others").css("display", "");
-    }
-});
-$('#exampleBasic').wizard({
-    onFinish: function() {
-        alert('finish');
-    }
-});
-
-// $("table tbody tr").on('click',function(){
-//     console.log("EDIT");
-//     $(this).find("i.fa-eye").click();
-// });
-function fillObj(data) {
-    console.log("OBJ");
-    var con = $(document.createElement('div')).addClass("dy-obj");
-    var cObj = 0;
-    $("#objectives").val(data[0]);
-    data.shift();
-    for (var x = 0; x < data.length; x++) {
-        console.log("OBJ LOOP");
-        $(con).append('<div class="temp"> <label class="control-label col-md-3">&nbsp</label><div class="col-md-8" id="div-objectives"><input name="objectives[]" value="' + data[x] + '" type="text" placeholder="" class="form-control"><span class="help-block">&nbsp</span></div><div class="col-md-1" style="margin-top: 8px" > <i class="fa fa-times text-danger remove" data-toggle="tooltip" title="Remove"></i> </div></div>');
-        $("#div-after-objectives").after(con);
-    }
-
-
-
-}
-
-
-//CLEAR INPUT
 function clear() {
     $("#strategy").val('');
     $("#goals").val('');
@@ -118,14 +53,12 @@ function clear() {
     $("#targetDateStart").val('');
     $("#targetDateEnd").val('');
     $("#objectives").val('');
-    $('input[name="isRelatedToOrganization"]').prop('checked', false);
-    // var activityType = $("#activity-type").val();
-    // var othersDescription = $("#othersDescription").val();
-    // var natureType =  $("#nature-type").val();
+    $('input[name="isRelatedToOrganization"]').prop('checked', false);    
     $("#personInCharge").val('').trigger('change');
-    /*$("#isRelatedToOrganization").val(data[0].isrelatedorganizationnature);*/
     $("#budget").val('');
 }
+
+
 $("#edit").on('click', function() {
     tPencil.trigger('click');
     $("#myModal").modal('hide');
@@ -140,6 +73,8 @@ $("#edit").on('click', function() {
     });
 
 });
+
+
 $("#edit-gosm").click(function() {
     removeError();
     $("#add-gosm").css("display", "");
@@ -165,8 +100,76 @@ $("#edit-gosm").click(function() {
         }).get();
     var isRelatedToOrganization = $("input[name='isRelatedToOrganization']:checked").val();
     var budget = $("#budget").val();
+    var err =0;
 
+      if ($.trim(strategy) < 1) {
+        $("#help-strat").text("Strategy cannot be empty!");
+        $("#strategy").closest("div.form-group").addClass("has-error");
+        err = 1;
 
+    }
+    
+    if ($.trim(goals) < 1) {
+        $("#help-goals").text("Goals cannot be empty!");
+        $("#goals").closest("div.form-group").addClass("has-error");
+        err = 1;
+
+    }
+   
+    if ($.trim(measures) < 1) {
+        $("#help-measure").text("Measures cannot be empty!");
+        $("#measures").closest("div.form-group").addClass("has-error");
+        err = 1;
+
+    }
+
+    if (objectives.length == 1 && objectives[0] == "") {
+        // $("#help-obj").text("Objectives cannot be empty!");
+        $("#objectives").closest("div.form-group").addClass("has-error");
+        err = 1;
+
+    }
+    if ($.trim(description) < 1) {
+        $("#help-desc").text("Description cannot be empty!");
+        $("textarea").closest("div.form-group").addClass("has-error");
+        err = 1;
+
+    }
+    
+    if ($.trim(targetDateStart) < 1) {
+        $("#help-date").text("Date cannot be empty!");
+        $("#targetDateStart").closest("div.form-group").addClass("has-error");
+        err = 1;
+
+    }
+     if ($.trim(personInCharge) < 1) {
+        $("#help-pic").text("Person in charge cannot be empty!");
+        $("#personInCharge").closest("div.form-group").addClass("has-error");
+        err = 1;
+
+    }
+    
+     if ($.trim(isRelatedToOrganization) == '') {
+        $("#help-rto").text("Field cannot be empty!");
+        $("input[name='isRelatedToOrganization']").closest("div.form-group").addClass("has-error");
+        err = 1;
+
+    }
+    
+    if ($.trim(budget) < 1) {
+    //     $("#help-budget").text("Budget cannot be empty!");
+    //     $("#budget").closest("div.form-group").addClass("has-error");
+    //     err = 1;
+        $("#budget").val(0)
+
+    }
+    if(err){
+          $("html, body").animate({
+                    scrollTop: 0
+                }, "fast");
+
+    }else{
+        removeError()
     $.ajax({
         type: 'POST',
         url: '/Organization/AJAX/updateActivity',
@@ -188,8 +191,8 @@ $("#edit-gosm").click(function() {
 
         },
         success: function(data) {
-            data = parseInt(data)
-            if (data > 0) {
+            
+            if (data.id > 0) {
                 console.log("CLEAR")
                 $("html, body").animate({
                     scrollTop: 0
@@ -200,7 +203,27 @@ $("#edit-gosm").click(function() {
                     $("#edit-gosm").css("display", "none");
                     $("#cancel-gosm").css("display", "none");
                 });
+                $.toast({
+                    heading: 'Success!',    
+                    text:   'Edit is successful.',
+                    position: 'top-right',
+                    loaderBg:'#ff6849',
+                    icon: 'success',
+                    bgColor:'#00C292',
+                    hideAfter: 3500, 
+                    stack: 6
+                  });
             } else {
+                 $.toast({
+                    heading: 'Failed!',    
+                    
+                    position: 'top-right',
+                    loaderBg:'#ff6849',
+                    icon: 'error',
+                    bgColor:'#FB9678',
+                    hideAfter: 3500, 
+                    stack: 6
+                  });
                  $("html, body").animate({
                     scrollTop: 0
                 }, function() {
@@ -214,7 +237,9 @@ $("#edit-gosm").click(function() {
 
         }
     });
+    }
 });
+
 $("#cancel-gosm").click(function() {
     removeError();
     $("#add-gosm").css("display", "");
@@ -225,8 +250,6 @@ $("#cancel-gosm").click(function() {
     $("html, body").animate({
         scrollTop: 0
     }, function() {});
-
-
 });
 
 
@@ -273,7 +296,7 @@ $(document).on('click', "i.fa-pencil", function() {
                 // $("#isRelatedToOrganization").val(data[0].isrelatedorganizationnature);
                 $("#budget").val(data[0].budget);
                 console.log(data[0].isrelatedtoorganizationnature);
-                $("input[name='isRelatedToOrganization'][value='" + data[0].isrelatedtoorganizationnature + "']").attr('checked', 'checked');
+                $("input[name='isRelatedToOrganization'][value='" + data[0].isrelatedtoorganizationnature + "']").prop('checked', 'checked');
                 data = data[0];
                 data.targetdatestart = data.targetdatestart.substring(0, 10);
                 console.log(data.targetdatestart);
@@ -356,6 +379,7 @@ function dNat(val) {
 }
 var currentID = 0;
 var tPencil;
+
 $(document).on('click', 'i.fa-eye', function() {
     $("#myModal").modal('show');
     tPencil = $(this).closest("i.fa-pencil");
@@ -428,19 +452,33 @@ $(document).on('click', 'i.fa-close', function() {
             if (data == "1") {
 
                 trR.remove();
-                $(".myadmin-alert").hide();
-                $("#alerttopright-success-delete").fadeToggle(350);
+                $.toast({
+                    heading: 'Success!',    
+                    text:   'Deletion is successful.',
+                    position: 'top-right',
+                    loaderBg:'#ff6849',
+                    icon: 'success',
+                    bgColor:'#00C292',
+                    hideAfter: 3500, 
+                    stack: 6
+                  });
+                 
 
             } else {
+                 $.toast({
+                    heading: 'Failed!',    
+                    
+                    position: 'top-right',
+                    loaderBg:'#ff6849',
+                    icon: 'error',
+                    bgColor:'#FB9678',
+                    hideAfter: 3500, 
+                    stack: 6
+                  });
 
             }
         }
     });
-});
-
-$(".myadmin-alert .closed").click(function(event) {
-    $(this).parents(".myadmin-alert").fadeToggle(350);
-    return false;
 });
 
 $("#add-gosm").click(function(e) {
@@ -587,19 +625,34 @@ $("#add-gosm").click(function(e) {
                 $("#strategy-name").html(strategy);
                 //Hide Current Toast
                 clear();
-                $(".myadmin-alert").hide();
+                
                 $("html, body").animate({
                     scrollTop: 0
                 }, "slow");
-                $("#alerttopright-success").fadeToggle(350);
+                $.toast({
+                    heading: 'Success!',    
+                    text:   'Activity is added in GOSM.',
+                    position: 'top-right',
+                    loaderBg:'#ff6849',
+                    icon: 'success',
+                    bgColor:'#00C292',
+                    hideAfter: 3500, 
+                    stack: 6
+                  });
 
             } else {
                 console.log("consol2");
                 //Hide Current Toast
-                $(".myadmin-alert").hide();
-
-
-                $("#alerttopright-fail").fadeToggle(350);
+               $.toast({
+                    heading: 'Failed!',    
+                    text:   'Activity is not added in the GOSM.',
+                    position: 'top-right',
+                    loaderBg:'#ff6849',
+                    icon: 'error',
+                    bgColor:'#FB9678',
+                    hideAfter: 3500, 
+                    stack: 6
+                  });
 
                 // $("#alerttopright-fail").fadeToggle(350);
                 $("html, body").animate({
@@ -611,6 +664,21 @@ $("#add-gosm").click(function(e) {
     }
 
 });
+function fillObj(data) {
+    console.log("OBJ");
+    var con = $(document.createElement('div')).addClass("dy-obj");
+    var cObj = 0;
+    $("#objectives").val(data[0]);
+    data.shift();
+    for (var x = 0; x < data.length; x++) {
+        console.log("OBJ LOOP");
+        $(con).append('<div class="temp"> <label class="control-label col-md-3">&nbsp</label><div class="col-md-8" id="div-objectives"><input name="objectives[]" value="' + data[x] + '" type="text" placeholder="" class="form-control"><span class="help-block">&nbsp</span></div><div class="col-md-1" style="margin-top: 8px" > <i class="fa fa-times text-danger remove" data-toggle="tooltip" title="Remove"></i> </div></div>');
+        $("#div-after-objectives").after(con);
+    }
+
+
+
+}
 
 $("#submit-gosm").click(function() {
     console.log("PUMASOK");

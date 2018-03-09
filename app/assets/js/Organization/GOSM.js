@@ -7,10 +7,14 @@ function removeError(){
         $("#help-strat").text("");
         $("#strategy").closest("div.form-group").removeClass("has-error");
         $("#help-goals").text("");
+        $("#help-desc").text("");
+        $("#help-rto").text("");
+        $("#help-pic").text("");
         $("#goals").closest("div.form-group").removeClass("has-error");
         $("#help-measure").text("");
         $("#measures").closest("div.form-group").removeClass("has-error");
         $("#objectives").closest("div.form-group").removeClass("has-error");
+        $("select").closest("div.form-group").removeClass("has-error");
         
         $("textarea").closest("div.form-group").removeClass("has-error");
         $("#help-date").text("");
@@ -98,6 +102,76 @@ $("#edit-gosm").click(function() {
     var budget = $("#budget").val();
 
 
+    var err =0;
+
+      if ($.trim(strategy) < 1) {
+        $("#help-strat").text("Strategy cannot be empty!");
+        $("#strategy").closest("div.form-group").addClass("has-error");
+        err = 1;
+
+    }
+    
+    if ($.trim(goals) < 1) {
+        $("#help-goals").text("Goals cannot be empty!");
+        $("#goals").closest("div.form-group").addClass("has-error");
+        err = 1;
+
+    }
+   
+    if ($.trim(measures) < 1) {
+        $("#help-measure").text("Measures cannot be empty!");
+        $("#measures").closest("div.form-group").addClass("has-error");
+        err = 1;
+
+    }
+
+    if (objectives.length == 1 && objectives[0] == "") {
+        // $("#help-obj").text("Objectives cannot be empty!");
+        $("#objectives").closest("div.form-group").addClass("has-error");
+        err = 1;
+
+    }
+    if ($.trim(description) < 1) {
+        $("#help-desc").text("Description cannot be empty!");
+        $("textarea").closest("div.form-group").addClass("has-error");
+        err = 1;
+
+    }
+    
+    if ($.trim(targetDateStart) < 1) {
+        $("#help-date").text("Date cannot be empty!");
+        $("#targetDateStart").closest("div.form-group").addClass("has-error");
+        err = 1;
+
+    }
+     if ($.trim(personInCharge) < 1) {
+        $("#help-pic").text("Person in charge cannot be empty!");
+        $("#personInCharge").closest("div.form-group").addClass("has-error");
+        err = 1;
+
+    }
+    
+     if ($.trim(isRelatedToOrganization) == '') {
+        $("#help-rto").text("Field cannot be empty!");
+        $("input[name='isRelatedToOrganization']").closest("div.form-group").addClass("has-error");
+        err = 1;
+
+    }
+    
+    if ($.trim(budget) < 1) {
+    //     $("#help-budget").text("Budget cannot be empty!");
+    //     $("#budget").closest("div.form-group").addClass("has-error");
+    //     err = 1;
+        $("#budget").val(0)
+
+    }
+    if(err){
+          $("html, body").animate({
+                    scrollTop: 0
+                }, "fast");
+
+    }else{
+        removeError()
     $.ajax({
         type: 'POST',
         url: '/Organization/AJAX/updateActivity',
@@ -165,6 +239,7 @@ $("#edit-gosm").click(function() {
 
         }
     });
+    }
 });
 
 $("#cancel-gosm").click(function() {
@@ -222,8 +297,10 @@ $(document).on('click', "i.fa-pencil", function() {
                 //       .map(function(){return $(this).val();}).get();
                 // $("#isRelatedToOrganization").val(data[0].isrelatedorganizationnature);
                 $("#budget").val(data[0].budget);
+                console.log("RTO")
                 console.log(data[0].isrelatedtoorganizationnature);
-                $("input[name='isRelatedToOrganization'][value='" + data[0].isrelatedtoorganizationnature + "']").attr('checked', 'checked');
+
+                $("input[name='isRelatedToOrganization'][value='" + data[0].isrelatedtoorganizationnature + "']").prop('checked', 'checked');
                 data = data[0];
                 data.targetdatestart = data.targetdatestart.substring(0, 10);
                 console.log(data.targetdatestart);
