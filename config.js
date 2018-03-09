@@ -109,10 +109,10 @@ const configuration = {
     },
     "database": {
         "host": "localhost",
-        "port": 5432,
+        "port": 5433,
         "database": "CSODB",
         "username": "postgres",
-        "password": "",
+        "password": "1234",
         "query_files": {
             "path": "./app/queries",
             "compress": true,
