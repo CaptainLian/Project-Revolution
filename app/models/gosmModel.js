@@ -352,7 +352,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
         },
 
         getGOSM: function(id, fields, connection = db) {
-            logger.debug(`getGOSM(id: ${id})`, log_options);
+            logger.info(`getGOSM(id: ${id})`, log_options);
 
             let query = squel.select()
                 .from('GOSM', 'g')
@@ -362,6 +362,23 @@ module.exports = function(configuration, modules, db, queryFiles) {
             
             let param = Object.create(null);
             param.id = id;
+
+            logger.debug(`Executing query: ${query}`, log_options);
+            return connection.one(query, param);
+        },
+
+        getCurrentTermGOSM: function(organizationID, fields, connection = db) {
+            logger.info(`getCurrentTermGOSM(organizationID: ${organizationID})`, log_options);
+
+            let query = squel.select()
+                .from('GOSM', 'g')
+                .where('studentOrganization = ${organizationID}')
+                .where('termID = system_get_current_term_id()');
+            attachFields(query, fields);
+            query = query.toString();
+            
+            let param = Object.create(null);
+            param.organizationID = organizationID;
 
             logger.debug(`Executing query: ${query}`, log_options);
             return connection.one(query, param);

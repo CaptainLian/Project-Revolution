@@ -26,12 +26,14 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     return {
         //Create ProjectProposal
         viewGOSMActivityListProjectProposal: (req, res) => {
-            logger.info('viewGOSMActivityListProjectProposal()', log_options);
-            systemModel.getCurrentTerm().then(data => {
+            logger.info('call viewGOSMActivityListProjectProposal()', log_options);
+
+            systemModel.getCurrentTerm().then(term => {
                 var param = {
-                    termID: data.id,
+                    termID: term.id,
                     studentOrganization: req.session.user.organizationSelected.id
                 };
+
                 return gosmModel.getOrgGOSM(param);
             }).then(data1 => {
                 var dbParam = {
@@ -39,18 +41,29 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     idnumber: req.session.user.idNumber
                 };
 
-                return projectProposalModel.getGOSMActivitiesToImplement(dbParam);
-            }).then(data2 => {
+                return database.task(t => {
+                    return t.batch([
+                        projectProposalModel.getGOSMActivitiesToImplement(dbParam),
+                        gosmModel.getCurrentTermGOSM(req.session.user.organizationSelected.id, [
+                            'status'
+                         ])
+                    ]);
+                });
+            }).then(([activities, gosm]) => {
                 const renderData = Object.create(null);
                 renderData.extra_data = req.extra_data;
                 renderData.csrfToken = req.csrfToken();
-                renderData.activities = data2;
-                console.log(data2);
+
+                renderData.activities = activities;
+                renderData.GOSMStatus = gosm.status;
+
+                logger.debug('Rendering Org/ActivityToImplement', log_options);
                 return res.render('Org/ActivityToImplement', renderData);
             }).catch(error => {
                 logger.error(`${error.message}\n${error.stack}`, log_options);
             });
         },
+
         viewGOSMList: (req, res) => {
             logger.info('viewGOSMList()', log_options);
 
@@ -412,7 +425,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             "to_char(CURRENT_DATE, 'YYYY-MM-DD') AS currdate",
                             'pppd.activity AS activity',
                             'pppd.activitydescription AS activitydescription',
-                            'pppd.personincharge AS personincharge'
+                            'pppd.personincharge AS personincharge',
+                            'acc.firstname AS firstname',
+                            'acc.lastname AS lastname'
                         ]),
                         //4
                         projectProposalModel.getProjectProposalProjectHeads(data.id),
@@ -1038,30 +1053,38 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         },
 
         viewProjectHeadHome: (req, res) => {
+            logger.info('call viewProjectHeadHome()', log_options);
 
             //TODO: if account is president
-            console.log(req.session.user.organizationSelected.id)
-
             database.task(t => {
                 return t.batch([
-                    projectProposalModel.getProjectProposalCountTotal(req.session.user.organizationSelected.id,
+                    projectProposalModel.getProjectProposalCountTotal(
+                        req.session.user.organizationSelected.id,
                         req.session.user.idNumber, t),
-                    projectProposalModel.getProjectProposalsCountPerStatus(req.session.user.organizationSelected.id, 5,
+                    projectProposalModel.getProjectProposalsCountPerStatus(
+                        req.session.user.organizationSelected.id, 
+                        5,
                         req.session.user.idNumber, t),
-                    projectProposalModel.getProjectProposalsCountPerStatus(req.session.user.organizationSelected.id, 4,
+                    projectProposalModel.getProjectProposalsCountPerStatus(
+                        req.session.user.organizationSelected.id, 
+                        4,
                         req.session.user.idNumber, t),
-                    projectProposalModel.getProjectProposalsCountPerStatus(req.session.user.organizationSelected.id, 3,
+                    projectProposalModel.getProjectProposalsCountPerStatus(
+                        req.session.user.organizationSelected.id,
+                        3,
                         req.session.user.idNumber, t),
-                    projectProposalModel.getActivitiesApprovedPerHead(req.session.user.organizationSelected.id,
+                    projectProposalModel.getActivitiesApprovedPerHead(
+                        req.session.user.organizationSelected.id,
                         req.session.user.idNumber, t),
-                    projectProposalModel.getProjectProposalCommentsPerStatus(req.session.user.organizationSelected.id, 2,
+                    projectProposalModel.getProjectProposalCommentsPerStatus(
+                        req.session.user.organizationSelected.id, 
+                        2,
                         req.session.user.idNumber, t),
                     projectProposalModel.getProjectProposalCommentsPerStatus(req.session.user.organizationSelected.id, 3,
                         req.session.user.idNumber, t),
-                    projectProposalModel.getAllOrgProposal(req.session.user.organizationSelected.id, t)
+                    projectProposalModel.getAllOrgProposal(req.session.user.organizationSelected.id, null, t)
                 ]);
             }).then(data => {
-                logger.debug(`${JSON.stringify(data)}`, log_options);
                 const renderData = Object.create(null);
                 renderData.extra_data = req.extra_data;
                 renderData.csrfToken = req.csrfToken();
@@ -1069,54 +1092,43 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.pendedActivities = data[5];
                 renderData.deniedActivities = data[6];
                 renderData.events = data[7];
-                console.log(data[7])
+
+                logger.debug(`Events: ${JSON.stringify(data[7])}`, log_options);
 
                 if (data[0] == null) {
-
                     renderData.allProjects = 0;
-
                 } else {
                     renderData.allProjects = parseInt(data[0].num);
-
                 }
                 if (data[1] == null) {
-
                     renderData.deniedProjects = 0;
-
                 } else {
                     renderData.deniedProjects = parseInt(data[1].num);
-
                 }
+
                 if (data[2] == null) {
                     renderData.pendingProjects = 0;
                 } else {
                     renderData.pendingProjects = parseInt(data[2].num);
-
                 }
+
                 if (data[3] == null) {
                     renderData.successProjects = 0;
                 } else {
                     renderData.successProjects = parseInt(data[3].num);
-
                 }
 
                 if (data[7].length > 0){
                     renderData.calendar = true;
-                    console.log("YOOOOOOOOOOOOOO");
                 }
                 else{
-                    console.log("NOOOOOOOOPEEEEEE");
                     renderData.calendar = false;
                 }
 
-                                console.log(data[7]);
-
-
-                console.log(renderData.successProjects);
-                console.log("HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+                logger.debug('Rendering Org/ProjectHeadHome', log_options);
                 return res.render('Org/ProjectHeadHome', renderData);
             }).catch(error => {
-                console.log(error);
+                logger.error(`${error.message}\n${error.stack}`, log_options);
             });
         },
 
@@ -1708,8 +1720,44 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
             console.log(req.body.id);
             console.log(dbParam);
+
+
+
             projectProposalModel.updatePPRBriefContext(dbParam).then(data => {
-                res.redirect(`/Organization/ProjectProposal/Main/${req.body.id}/${req.body.status}`);
+
+                if (req.body.expense == false) {
+
+                    var expenseParam = {
+                        id: req.body.ppr,
+                        accumulatedOperationalFunds: req.body.ope,
+                        accumulatedDepositoryFunds: req.body.dep,
+                        organizationFundOtherSource: req.body.otherfunds,
+                        sourceFundOrganizational: req.body.org,
+                        sourceFundParticipantFee: req.body.par,
+                        sourceFundOther: req.body.others,
+                        isExpenseComplete: true
+                    };
+
+                    projectProposalModel.updatePPRExpenses(expenseParam)
+                    .then(expenseData=>{
+
+                        res.redirect(`/Organization/ProjectProposal/Main/${req.body.id}/${req.body.status}`);
+
+
+                    }).catch(error=>{
+
+                    });
+
+
+                }
+                else{
+
+                    res.redirect(`/Organization/ProjectProposal/Main/${req.body.id}/${req.body.status}`);
+
+                }
+
+            
+
             }).catch(error => {
                 console.log(error);
             });
@@ -2177,7 +2225,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         },
 
         savePPR: (req, res) => {
-            logger.debug('savePPR()', log_options);
+            logger.info('call savePPR()', log_options);
+
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
@@ -2580,6 +2629,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             }
 
             console.log(item.length);
+
+            if(item.length < 2){
+                console.log("asdaddddddddddddddddddddddddddddddddddddd duti asdadasdasdad");
+                dbParam.isExpenseComplete = false;
+            }
 
 
 
