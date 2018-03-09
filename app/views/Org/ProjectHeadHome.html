@@ -90,12 +90,15 @@
                     
                     {% if calendar %}
                         {% for event in events%}
+                            {%if event.actualdatestart != undefined%}
                             {
                                 id:"{{event.id}}" ,
                                 title:"{{event.strategies}}",
                                 start:"{{event.actualdatestart}}",
+                                start:"{{event.actualdateend}}",
                                 className:'bg-success'
                             },
+                            {%endif%}
                         {%endfor%}
                     {% endif %}
 

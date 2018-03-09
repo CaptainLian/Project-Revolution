@@ -91,10 +91,10 @@ $(".pend").on('click',function(){
                                 '<div class="col-md-12">'+
                                     '<select class="col-md-12" multiple=""s id="select-sec">'+
                                         
-                                        '<option value="Incorrect Grammar">Incorrect Grammar</option>'+
-                                        '<option value="Unoriginal Design">Unoriginal Design</option>'+
-                                        '<option value="Incomplete logos">Incomplete logos</option>'+
-                                        '<option value="Contents not in line with Lasallian Values">Contents not in line with Lasallian Values</option>'+
+                                        '<option value="1">Incorrect Grammar</option>'+
+                                        '<option value="0">Unoriginal Design</option>'+
+                                        '<option value="2">Incomplete logos</option>'+
+                                        '<option value="3">Contents not in line with Lasallian Values</option>'+
                                     '</select>'+
                                 '</div>'+
                                 
@@ -117,6 +117,10 @@ $(".pend").on('click',function(){
         allowOutsideClick: false,
         preConfirm: function (data) {
             console.log(data);
+            var arr = []
+            var sec = $("#select-sec").select2("val");
+            
+            console.log(arr)
             return new Promise(function (resolve, reject) {
                     $.ajax({
                         type:'POST',
@@ -125,7 +129,7 @@ $(".pend").on('click',function(){
                             id:pub.attr("data-id"),
                             stat:2,
                             comment:$("textarea").val(),
-                            revision:$("#select-sec").select2("val")
+                            revision:sec
 
                         },
                         success:function(data){

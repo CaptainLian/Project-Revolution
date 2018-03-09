@@ -272,6 +272,24 @@ module.exports = function(configuration, modules, db, queryFiles) {
         
         return connection.any(query);
     };
+
+    ProjectProposalModel.prototype.getProjectProposalExpensesPPRID = function(pprid, connection = this._db){
+        let query = squel.select()
+        .from('ProjectProposalExpenses', 'PPE')
+        .left_join('ExpenseType',"EE","PPE.type = EE.id")
+        .where('PPE.projectProposal = ?',pprid)
+        query = query.toString();
+        
+        return connection.any(query);
+    };
+    ProjectProposalModel.prototype.getProjectProposalRevenuePPRID = function(pprid, connection = this._db){
+        let query = squel.select()
+        .from('ProjectProposalProjectedIncome', 'PPPI')
+        .where('PPPI.projectProposal = ?',pprid)
+        query = query.toString();
+        
+        return connection.any(query);
+    };
     
     ProjectProposalModel.prototype.getProjectProposalExpenses = function(id, fields, connection = this._db){
         console.log('ProjectProposalExpenses()');
@@ -337,6 +355,16 @@ module.exports = function(configuration, modules, db, queryFiles) {
 
       
         return connection.any(query.toString());
+    };
+
+
+     ProjectProposalModel.prototype.deleteRevenue =  function(id, connection = this._db){
+        
+        let query = squel.delete()
+                        .from("ProjectProposalProjectedIncome")
+                        .where("projectProposal = ?",id)
+        query = query.toString();        
+        return connection.any(query);
     };
 
     ProjectProposalModel.prototype.getReschedActivities =  function(connection = this._db){
@@ -610,6 +638,11 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const getAllProjectProposalSQL = queryFiles.getAllProjectProposal;
     ProjectProposalModel.prototype.getAllProjectProposal = function(connection = this._db){
         return connection.any(getAllProjectProposalSQL);
+    };
+
+    const getNextPPRSignatorySQL = queryFiles.getNextPPRSignatory;
+    ProjectProposalModel.prototype.getNextPPRSignatory = function(param, connection = this._db){
+        return connection.oneOrNone(getNextPPRSignatorySQL, param);
     };
 
     const getSignatoriesSQL = queryFiles.PPR_get_signatories;

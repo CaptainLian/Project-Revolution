@@ -135,3 +135,8 @@
      console.log(attachments);
      $('#ca_amount').html("Php "+ sum.toLocaleString(undefined, {maximumFractionDigits:2}));
    });//end change function
+
+    $(document).ready(function(){
+        
+  $('select').trigger('change');
+ });

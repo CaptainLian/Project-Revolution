@@ -17,6 +17,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		renderData.csrfToken = req.csrfToken();
 		renderData.extra_data = req.extra_data;
 
+
 		var pubParam = {
 			idNumber: req.session.user.idNumber,
 			  status: req.body.stat,
@@ -24,6 +25,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			      id: req.body.id,
 			revision: req.body.revision
 		};
+
 
 		console.log("pubParam");
 		console.log(pubParam);

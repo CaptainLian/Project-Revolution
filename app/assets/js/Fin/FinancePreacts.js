@@ -1,3 +1,7 @@
+$(document).ready(function(){
+  $('select').trigger('change');
+ });
+
  $("select").select2();
         $('.selectpicker').selectpicker();
         (function() {

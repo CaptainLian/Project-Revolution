@@ -98,6 +98,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.csrfToken = req.csrfToken();
             renderData.extra_data = req.extra_data;
             renderData.proposals = data;
+            console.log(data)
             return res.render('APS/ActivityList', renderData);
         });
     };
@@ -214,7 +215,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         return accountModel.getPPRToSignList(req.session.user.idNumber)
         .then(list => {
             console.log(list)
-            logger.debug(`${JSON.stringify(list, '\n')}`, log_options);
+            console.log("asdasdas")
 
             renderData.activities = list;
             return res.render('APS/ProjectProposal_sign_list', renderData);
@@ -236,6 +237,10 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         const renderData = Object.create(null);
         renderData.extra_data = req.extra_data;
         renderData.csrfToken = req.csrfToken();
+
+        var dbParam = {
+            gosmactivity: req.params.activityID
+        }
 
         return database.task(task => {
             logger.debug('Executing batch queries', log_options);
@@ -260,7 +265,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     'PP.ACCUMULATEDOPERATIONALFUNDS as accumulatedoperationalfunds',
                     'PP.ACCUMULATEDDEPOSITORYFUNDS AS accumulateddepositoryfunds',
                     'PP.ORGANIZATIONFUNDOTHERSOURCE AS organizationfundothersource',
-                    'PP.isExpense as expense'
+                    'PP.isExpense as expense',
+                    'PP.status as status'
                 ]),
                 // 1
                 projectProposalModel.getProjectProposalExpenses(activityID),
@@ -283,7 +289,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 // 6
                 projectProposalModel.getSignatories(activityID),
                 //7
-                projectProposalModel.getSignatoryStatus(req.session.user.idNumber,activityID)
+                projectProposalModel.getSignatoryStatus(req.session.user.idNumber,activityID),
+                //8
+                projectProposalModel.getNextPPRSignatory(dbParam)
             ]);
         }).then(data => {
             renderData.projectProposal = data[0];
@@ -298,11 +306,31 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.signatories = data[6];
             renderData.withExpense = data[0].expense;
             renderData.withRevenue = data[2].length >0;
-            renderData.status = data[7]
-            console.log(data[2].length > 0)
-            console.log("REVENUE")
-            console.log(data[0].expense)
-            console.log("EXPENSE")
+            renderData.status = data[7];
+            console.log(data[2].length > 0);
+            console.log("REVENUE");
+            console.log(data[0].expense);
+            console.log("EXPENSE");
+
+            console.log(data[0].status);
+            console.log(data[8])
+
+            if(data[8]==null){
+                renderData.showActions = false;
+            }
+            else{
+
+                if(data[8].signatory == req.session.user.idNumber && data[0].status==2){
+                    renderData.showActions = true;
+                }
+                else{
+                    renderData.showActions = false;
+                }
+
+            }
+
+            
+
             logger.debug(`Signatories: ${JSON.stringify(renderData.signatories)}`, log_options);
             logger.debug('rendering page', log_options);
             return res.render('APS/ProjectProposal_sign', renderData);

@@ -841,18 +841,21 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 orgId: orgID
             };
 
-            database.task(task => {
-                    return task.batch([
-                        projectProposalModel.getProjectProposal(dbParam),
-                        projectProposalModel.getProjectProposalExpenses(req.params.id),
+            database.tx(transaction => {
+                    return projectProposalModel.getProjectProposal(dbParam).then(data=>{
+                        return Promise.all([
+                            Promise.resolve(data),
+                            projectProposalModel.getProjectProposalExpenses(req.params.id,transaction),
+                            projectProposalModel.getExpenseTypes(transaction),
+                            projectProposalModel.getProjectProposalExpensesPPRID(data.id,transaction),
+                            projectProposalModel.getProjectProposalRevenuePPRID(data.id,transaction)
 
-                        projectProposalModel.getExpenseTypes()
-                        // projectProposalModel.getPPRSectionsToEdit(dbParam)
 
-                    ]);
+                        ]);    
+                    })
+                    
                 })
-                .then(data => {
-
+                .then(data => {                     
                     const renderData = Object.create(null);
                     renderData.extra_data = req.extra_data;
                     renderData.csrfToken = req.csrfToken();
@@ -860,10 +863,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     renderData.projectProposal = data[0];
                     renderData.expenses = data[1];
                     renderData.revenue = req.params.revenue;
-
                     renderData.expenseTypes = data[2];
                     renderData.status = req.params.status;
+                    renderData.listexpenses = data[3]
+                    renderData.listrevenues = data[4]
+
                     // renderData.sectionsToEdit = data[3];
+
 
                     console.log(renderData.gosmactivity);
                     console.log(renderData.projectProposal);
@@ -1176,14 +1182,16 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                     logger.debug(`ID: ${data[0].id}`, log_options);
 
-                    return res.send(String(data.id));
+
                 }).catch(err => {
                     logger.error(`${err.message}\n${err.stack}`, log_options);
-                    return res.send("0");
+
                 });
+            }).then(data=>{
+                return res.json({id:1});
             }).catch(err => {
                 logger.warn(`${err.message}\n${err.stack}`, log_options);
-                return res.send("0");
+                return res.json({id:0});
             });
         },
 
@@ -1620,7 +1628,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 paramObjectives = [];
                 paramObjectives.push(inputObjectives);
             }
-            console.log(obj)
+            
 
             var dbParam = {
                 id: req.body.gosmid,
@@ -1670,7 +1678,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
-
+            console.log(req.body)
             // var date = new Date().toJSON();
 
 
@@ -2485,6 +2493,12 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 };
 
                 projectProposalModel.deleteExpenses(dbParam2, transaction).then(data => {
+
+                }).catch(error => {
+                    console.error(error);
+                });
+
+                projectProposalModel.deleteRevenue(req.body.ppr, transaction).then(data => {
 
                 }).catch(error => {
                     console.error(error);
