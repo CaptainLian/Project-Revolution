@@ -2,7 +2,7 @@
  $("#rec").select2({
     maximumSelectionSize:1
  });
-        $('.selectpicker').selectpicker();
+    $('.selectpicker').selectpicker();
         (function() {
             $('#mainTable').editableTableWidget().numericInputExample().find('td:first').focus();
             [].slice.call(document.querySelectorAll('.sttabs')).forEach(function(el) {
@@ -124,3 +124,5 @@
      console.log(attachments);
      $('#ca_amount').html("Php "+ sum.toLocaleString(undefined, {maximumFractionDigits:2}));
    });//end change function
+
+

@@ -43,7 +43,18 @@
                         </div>
                         <label class="control-label col-md-4">Reason:</label>
                         <div class="col-md-8">
-                            <p class="control-label">{{activity.revisionReason}} - {{activity.comments}}</p>
+                            <p class="control-label">
+                            {%if activity.revisionReason == 0%} 
+                                Unoriginal design
+                            {%elif activity.revisionReason == 1%}
+                                Incorrect grammar
+                            {%elif activity.revisionReason == 2%}
+                                Incomplete logo
+                            {%elif activity.revisionReason == 3%}
+                                Contents not in line with La Sallian Values
+                            {%endif%}
+                             - {{activity.comments}}</p>
+                            
                         </div>
                         <label class="control-label col-md-4">Checked by</label>
                         <div class="col-md-8">

@@ -101,11 +101,17 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.AccountManagement] = [{
     icon :'fa fa-group'
 }];
 
+functionalitySidebars[FUNCTIONALITY_SEQUENCES.ViewActivityFeedback] = [constructSidebar(
+    'View Activity Feedback',
+    '/Organization/Orgres/list',
+    'fa fa-quote-left'
+)];
+
 //Evaluate Post Project
 //NOTE experimental code
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluatePostProject] = [constructSidebar(
-        'Post ProjectHead',
-        '/ADM/Activity/List'
+    'Post ProjectHead',
+    '/ADM/Activity/List'
 )];
 
 const accessibleRoutes = [];

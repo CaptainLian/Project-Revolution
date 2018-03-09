@@ -38,6 +38,9 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const updatePostPPR = queryFiles.updatePostPPR;
     const updatePostStatus = queryFiles.updatePostStatus;
 
+    const getAllPostProjectProposalSQL = queryFiles.getAllPostProjectProposal;
+
+
 	return {
         insertPostBT:function (param, connection = db) {
             return connection.none(insertPostBT, param);
@@ -133,6 +136,10 @@ module.exports = function(configuration, modules, db, queryFiles) {
 
         insertPostProjectExpense:function (param, connection = db) {
             return connection.none(insertPostExpense, param);
+        },
+
+        getAllPostProjectProposal:function(connection = db){
+            return connection.any(getAllPostProjectProposalSQL);
         }
 	};
 }

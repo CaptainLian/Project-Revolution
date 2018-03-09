@@ -243,8 +243,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		},
 
 		submitMemberSurveyForm: (req, res) =>{
-
-			console.log(req.body);
+			logger.info('call submitMemberSurveyForm()', log_options);
 
 			var dbParam = {
 				organizationid: req.body.organization,
@@ -259,49 +258,21 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				field9: req.body.radio9
 			};
 
-			orgresModel.insertMemberSurveyForm(dbParam).then(data=>{
+			orgresModel.insertMemberSurveyForm(dbParam).then(data => {
 				return res.redirect('/home');
-			}).catch(error=>{
+			}).catch(error => {
+				return logger.error(`${error.message}\n${error.stack}`, log_options);
 				console.log(error);
 			});
 
 		},
 
 		saveAccount: (req, res) =>{
-			console.log(req.body)
+			logger.info(`call saveAccount()`, log_options);
+			var password = cuid();
 
-			console.log(req.body['accType[]'] ==1)
-
-			console.log("req.body")
-
-			let transporter = nodemailer.createTransport({
-			    host: 'smtp.gmail.com',
-		        port: 465,
-		        secure:true,
-		        connectionTimeout : "10000",
-			    auth: {
-			        user:'dlsum.facultyattendance@gmail.com',
-			        pass:'01234567891011'
-			    }
-			});
-
-			let mailOptions = {
-		          from: 'dlsum.facultyattendance@gmail.com', // sender address
-		          to: "dominique_dagunton@dlsu.edu.ph", // list of receivers
-		          subject: "[IMPORTANT] Google Hacking incident", // Subject line
-		          html: '<h3>IMPORTANT</h3><p>Security Breach Found!</p><p>Due to recent access to malicious websites</p>' // html body
-		      };
-
-		    transporter.sendMail(mailOptions, (error, info) => {
-		        if (error) {
-		        	console.log("IMAP2");
-		            console.log(error);
-		        }
-		    });
-
-		    var password = cuid();
 		    database.task(task=>{
-		    	let accType = req.body['accType[]'] ? req.body['accType[]'] : req.body.accType;
+		    	let accType = Number.parseInt((req.body['accType[]'] ? req.body['accType[]'] : req.body.accType)[0]);
 
 		    	if(accType == 1){
 		    		console.log("createStudentAccount");
@@ -336,14 +307,44 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		    			req.body.givenName, 
 		    			req.body.middleName, 
 		    			req.body.lastName, 
-		    			req.body.number,task
+		    			req.body.number,
+		    			task
 		    		);
 		    	}
 		    }).then(data =>{
-		    	return res.json({status:1});
+				res.json({status:1});
+
+				let transporter = nodemailer.createTransport({
+				    host: 'smtp.gmail.com',
+			        port: 465,
+			        secure:true,
+			        connectionTimeout : "10000",
+				    auth: {
+				        user:'dlsum.facultyattendance@gmail.com',
+				        pass:'01234567891011'
+				    }
+				});
+
+				let mailOptions = {
+		        	from: 'dlsum.facultyattendance@gmail.com', // sender address
+		        	to: req.body.email, // list of receivers
+		        	subject: '[CSO - Information System] Account Activation', // Subject line
+		        	html: `<p>You just signed up for an account in the CSO Information System</p>
+		        	<p>Your account is disabled initially,</p>
+		        	<p>to activate it, login using your email OR id number and use this as the password <strong><u>${password}</u></strong></p>` // html body
+			    };
+
+			    return transporter.sendMail(mailOptions, (error, info) => {
+			        if (error) {
+			            return logger.warn(`${error}`, log_options);
+			        }
+			        return logger.debug('Mail sent', log_options);
+			    });
+
+
 		    }).catch(err=>{
 		    	res.json({status:0});
-		    	return logger.error(`${err.message}: ${err.stack}`, log_options);
+		    	return logger.error(`${err.message}\n${err.stack}`, log_options);
 		    });
 		},
 
@@ -351,20 +352,22 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			database.task(task=>{
 				return task.batch([
 					accModel.getSpecificAccount(
-                        req.body.idNumber, [
-                            'a.idnumber',
-                            'a.firstname',
-                            'a.middlename',
-                            'a.lastname',
-                            'oro.name',
-                            'a.email',
-                            'so.acronym',
-                            'a.idNumber',
-                            'a.contactNumber',
-                            'aca.id',
-                            'a.status'
-                        ]),
-					accModel.getSpecificAccount(req.body.idNumber,['oo.role'])
+	                    req.body.idNumber, [
+	                        'a.idnumber',
+	                        'a.firstname',
+	                        'a.middlename',
+	                        'a.lastname',
+	                        'oro.name',
+	                        'a.email',
+	                        'so.acronym',
+	                        'a.idNumber',
+	                        'a.contactNumber',
+	                        'aca.id',
+	                        'a.status'
+	                    ], task),
+					accModel.getSpecificAccount(req.body.idNumber, [
+						'oo.role'
+					], task)
 				]);
 			}).then(result=>{
 				console.log("result[1]");
@@ -373,7 +376,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 					array2.push(result[1][x].role);
 				}
 				console.log(result[1]);
-				res.json({
+				return res.json({
 					status:1,
 					details:result[0][0],
 					position:array2
@@ -382,7 +385,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				res.json({
 					status:0
 				});
-				logger.error(`${err.message}: ${err.stack}`, log_options);
+
+				return logger.error(`${err.message}: ${err.stack}`, log_options);
 			});
 		},
 
