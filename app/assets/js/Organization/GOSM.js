@@ -4,13 +4,15 @@
     });
 })();
 function removeError(){
-     $("#help-strat").text("");
+        $("#help-strat").text("");
         $("#strategy").closest("div.form-group").removeClass("has-error");
         $("#help-goals").text("");
         $("#goals").closest("div.form-group").removeClass("has-error");
         $("#help-measure").text("");
         $("#measures").closest("div.form-group").removeClass("has-error");
         $("#objectives").closest("div.form-group").removeClass("has-error");
+        
+        $("textarea").closest("div.form-group").removeClass("has-error");
         $("#help-date").text("");
         $("#targetDateStart").closest("div.form-group").removeClass("has-error");
         $("#help-rto").text();
@@ -18,97 +20,26 @@ function removeError(){
         $("#help-budget").text("");
         $("#budget").closest("div.form-group").removeClass("has-error");
 }
-var con = $(document.createElement('div')).addClass("dy-obj");
-var cObj = 0;
+
 $("#objectives-add").click(function() {
     cObj++;
     $(con).append('<div class="temp"> <label class="control-label col-md-3">&nbsp</label><div class="col-md-8" id="div-objectives"><input name="objectives[]" type="text" placeholder="" class="form-control"><span class="help-block">&nbsp</span></div><div class="col-md-1" style="margin-top: 8px" > <i class="fa fa-times text-danger remove" data-toggle="tooltip" title="Remove"></i> </div></div>');
     $("#div-after-objectives").after(con);
 
 });
-$("#nature-type").select2();
-$("#activity-type").select2();
-$("#personInCharge").select2();
+
+$("select").select2();
+
 $("body").on('click', "i.remove", function() {
     console.log($(this).parent());
     $(this).closest("div.temp").empty().remove();
 });
-$(function() {
-    $('.panel').lobiPanel({
-        sortable: false,
-        reload: false,
-        editTitle: false,
-        unpin: false,
-        minimize: false,
-        expand: {
-            icon: 'fa fa-expand',
-            icon2: 'fa fa-expand',
-            tooltip: 'Fullscreen'
-        },
-        close: false
-    });
-});
+
 $('#date-range').datepicker({
     toggleActive: true
 });
 
-$("#activity-type").change(function() {
-    if ($(this).val() == "10") {
-        $("#activity-others").val("");
 
-        $("#div-space").css("display", "");
-        $("#act-others-label").css("display", "");
-        $("#div-others").css("display", "");
-        $("#activity-others").css("display", "");
-
-    } else {
-        $("#activity-others").val("");
-
-
-        $("#div-space").css("display", "none");
-        $("#act-others-label").css("display", "none");
-        $("#div-others").css("display", "none");
-        $("#activity-others").css("display", "none");
-    }
-});
-
-$(document).ready(function() {
-    if ($("#activity-type").val() == "10") {
-        $("#activity-others").val("");
-        $("#div-space").css("display", "");
-        $("#act-others-label").css("display", "");
-        $("#div-others").css("display", "");
-        $("#activity-others").css("display", "");
-    }
-});
-$('#exampleBasic').wizard({
-    onFinish: function() {
-        alert('finish');
-    }
-});
-
-// $("table tbody tr").on('click',function(){
-//     console.log("EDIT");
-//     $(this).find("i.fa-eye").click();
-// });
-function fillObj(data) {
-    console.log("OBJ");
-    var con = $(document.createElement('div')).addClass("dy-obj");
-    var cObj = 0;
-    $("#objectives").val(data[0]);
-    data.shift();
-    for (var x = 0; x < data.length; x++) {
-        console.log("OBJ LOOP");
-        $(con).append('<div class="temp"> <label class="control-label col-md-3">&nbsp</label><div class="col-md-8" id="div-objectives"><input name="objectives[]" value="' + data[x] + '" type="text" placeholder="" class="form-control"><span class="help-block">&nbsp</span></div><div class="col-md-1" style="margin-top: 8px" > <i class="fa fa-times text-danger remove" data-toggle="tooltip" title="Remove"></i> </div></div>');
-        $("#div-after-objectives").after(con);
-    }
-
-
-
-}
-
-
-//CLEAR INPUT
 function clear() {
     $("#strategy").val('');
     $("#goals").val('');
@@ -118,14 +49,12 @@ function clear() {
     $("#targetDateStart").val('');
     $("#targetDateEnd").val('');
     $("#objectives").val('');
-    $('input[name="isRelatedToOrganization"]').prop('checked', false);
-    // var activityType = $("#activity-type").val();
-    // var othersDescription = $("#othersDescription").val();
-    // var natureType =  $("#nature-type").val();
+    $('input[name="isRelatedToOrganization"]').prop('checked', false);    
     $("#personInCharge").val('').trigger('change');
-    /*$("#isRelatedToOrganization").val(data[0].isrelatedorganizationnature);*/
     $("#budget").val('');
 }
+
+
 $("#edit").on('click', function() {
     tPencil.trigger('click');
     $("#myModal").modal('hide');
@@ -140,6 +69,8 @@ $("#edit").on('click', function() {
     });
 
 });
+
+
 $("#edit-gosm").click(function() {
     removeError();
     $("#add-gosm").css("display", "");
@@ -188,8 +119,8 @@ $("#edit-gosm").click(function() {
 
         },
         success: function(data) {
-            data = parseInt(data)
-            if (data > 0) {
+            
+            if (data.id > 0) {
                 console.log("CLEAR")
                 $("html, body").animate({
                     scrollTop: 0
@@ -200,7 +131,27 @@ $("#edit-gosm").click(function() {
                     $("#edit-gosm").css("display", "none");
                     $("#cancel-gosm").css("display", "none");
                 });
+                $.toast({
+                    heading: 'Success!',    
+                    text:   'Edit is successful.',
+                    position: 'top-right',
+                    loaderBg:'#ff6849',
+                    icon: 'success',
+                    bgColor:'#00C292',
+                    hideAfter: 3500, 
+                    stack: 6
+                  });
             } else {
+                 $.toast({
+                    heading: 'Failed!',    
+                    
+                    position: 'top-right',
+                    loaderBg:'#ff6849',
+                    icon: 'error',
+                    bgColor:'#FB9678',
+                    hideAfter: 3500, 
+                    stack: 6
+                  });
                  $("html, body").animate({
                     scrollTop: 0
                 }, function() {
@@ -215,6 +166,7 @@ $("#edit-gosm").click(function() {
         }
     });
 });
+
 $("#cancel-gosm").click(function() {
     removeError();
     $("#add-gosm").css("display", "");
@@ -225,8 +177,6 @@ $("#cancel-gosm").click(function() {
     $("html, body").animate({
         scrollTop: 0
     }, function() {});
-
-
 });
 
 
@@ -356,6 +306,7 @@ function dNat(val) {
 }
 var currentID = 0;
 var tPencil;
+
 $(document).on('click', 'i.fa-eye', function() {
     $("#myModal").modal('show');
     tPencil = $(this).closest("i.fa-pencil");
@@ -428,19 +379,33 @@ $(document).on('click', 'i.fa-close', function() {
             if (data == "1") {
 
                 trR.remove();
-                $(".myadmin-alert").hide();
-                $("#alerttopright-success-delete").fadeToggle(350);
+                $.toast({
+                    heading: 'Success!',    
+                    text:   'Deletion is successful.',
+                    position: 'top-right',
+                    loaderBg:'#ff6849',
+                    icon: 'success',
+                    bgColor:'#00C292',
+                    hideAfter: 3500, 
+                    stack: 6
+                  });
+                 
 
             } else {
+                 $.toast({
+                    heading: 'Failed!',    
+                    
+                    position: 'top-right',
+                    loaderBg:'#ff6849',
+                    icon: 'error',
+                    bgColor:'#FB9678',
+                    hideAfter: 3500, 
+                    stack: 6
+                  });
 
             }
         }
     });
-});
-
-$(".myadmin-alert .closed").click(function(event) {
-    $(this).parents(".myadmin-alert").fadeToggle(350);
-    return false;
 });
 
 $("#add-gosm").click(function(e) {
@@ -587,19 +552,34 @@ $("#add-gosm").click(function(e) {
                 $("#strategy-name").html(strategy);
                 //Hide Current Toast
                 clear();
-                $(".myadmin-alert").hide();
+                
                 $("html, body").animate({
                     scrollTop: 0
                 }, "slow");
-                $("#alerttopright-success").fadeToggle(350);
+                $.toast({
+                    heading: 'Success!',    
+                    text:   'Activity is added in GOSM.',
+                    position: 'top-right',
+                    loaderBg:'#ff6849',
+                    icon: 'success',
+                    bgColor:'#00C292',
+                    hideAfter: 3500, 
+                    stack: 6
+                  });
 
             } else {
                 console.log("consol2");
                 //Hide Current Toast
-                $(".myadmin-alert").hide();
-
-
-                $("#alerttopright-fail").fadeToggle(350);
+               $.toast({
+                    heading: 'Failed!',    
+                    text:   'Activity is not added in the GOSM.',
+                    position: 'top-right',
+                    loaderBg:'#ff6849',
+                    icon: 'error',
+                    bgColor:'#FB9678',
+                    hideAfter: 3500, 
+                    stack: 6
+                  });
 
                 // $("#alerttopright-fail").fadeToggle(350);
                 $("html, body").animate({
@@ -611,6 +591,21 @@ $("#add-gosm").click(function(e) {
     }
 
 });
+function fillObj(data) {
+    console.log("OBJ");
+    var con = $(document.createElement('div')).addClass("dy-obj");
+    var cObj = 0;
+    $("#objectives").val(data[0]);
+    data.shift();
+    for (var x = 0; x < data.length; x++) {
+        console.log("OBJ LOOP");
+        $(con).append('<div class="temp"> <label class="control-label col-md-3">&nbsp</label><div class="col-md-8" id="div-objectives"><input name="objectives[]" value="' + data[x] + '" type="text" placeholder="" class="form-control"><span class="help-block">&nbsp</span></div><div class="col-md-1" style="margin-top: 8px" > <i class="fa fa-times text-danger remove" data-toggle="tooltip" title="Remove"></i> </div></div>');
+        $("#div-after-objectives").after(con);
+    }
+
+
+
+}
 
 $("#submit-gosm").click(function() {
     console.log("PUMASOK");

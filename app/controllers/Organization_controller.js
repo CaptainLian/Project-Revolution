@@ -1023,14 +1023,16 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                     logger.debug(`ID: ${data[0].id}`, log_options);
 
-                    return res.send(String(data.id));
+
                 }).catch(err => {
                     logger.error(`${err.message}\n${err.stack}`, log_options);
-                    return res.send("0");
+
                 });
+            }).then(data=>{
+                return res.json({id:1});
             }).catch(err => {
                 logger.warn(`${err.message}\n${err.stack}`, log_options);
-                return res.send("0");
+                return res.json({id:0});
             });
         },
 
