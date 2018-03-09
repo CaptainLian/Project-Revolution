@@ -73,6 +73,12 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.extra_data = req.extra_data;
             return res.render('Org/changePassword');
         },
+        viewAddMember: (req, res) => {
+            const renderData = Object.create(null);
+            console.log(req.param)
+            renderData.extra_data = req.extra_data;
+            return res.render('Org/addMembers');
+        },
         viewReport: (req, res) => {
 
             if (req.session.user.type == 1) {
