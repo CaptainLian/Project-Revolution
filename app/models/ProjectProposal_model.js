@@ -356,7 +356,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
                          .table("ProjectProposal")
                          .set("status",status)
                          .set("reschedrejectreason", comment)                         
-                         .where("id = ?",id)
+                         .where("gosmactivity = ?",id)
 
       
         return connection.any(query.toString());
@@ -378,7 +378,9 @@ module.exports = function(configuration, modules, db, queryFiles) {
                         .from('GOSM', 'G')
                         .left_join('GOSMACTIVITY','GA',' G.ID = GA.GOSM')
                         .left_join('PROJECTPROPOSAL','PP',' GA.ID = PP.GOSMACTIVITY')
+
                         .left_join('PROJECTPROPOSALRESCHEDULEREASON','PPRR',' PP.RESCHEDULEREASON = PPRR.ID')
+
                         .where('G.termID = ?',squel.str('system_get_current_term_id()'))
                         .where('PP.STATUS = 6')                                
         query = query.toString();        

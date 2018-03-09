@@ -37,10 +37,14 @@ $(document).on('click', '#approve', function() {
             },
 
             success: function(data) {
-                swal("Success!", "", "success").then(function(){
-                    location.reload()
-                })
-                table.row(dis.parents('tr')).remove().draw()
+                if(data.status){
+                    console.log(data)
+                    swal("Success!", "", "success").then(function(){
+                        location.reload()
+                    })
+                    table.row(dis.parents('tr')).remove().draw()    
+                }
+                
             }
         });
     });
