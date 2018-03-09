@@ -260,17 +260,22 @@ module.exports = function(configuration, modules, db, queryFiles) {
 
 
     ProjectProposalModel.prototype.getAllOrgProposal = function(orgid, fields, connection = this._db){
-        let query = squel.select()
-        .from('GOSM', 'G')
-        .join('GOSMActivity','GA','G.id = GA.Gosm')
-        .join('ProjectProposal','PP','GA.ID = PP.GosmActivity')
-        .where('G.termID = ?',squel.str('system_get_current_term_id()'))
-        .where('G.studentorganization = ?',orgid)
-        
+        logger.info(`call getAllOrgProposal(orgid: ${orgid})`, log_options);
 
+        let query = squel.select()
+            .from('GOSM', 'G')
+            .left_join('GOSMActivity','GA','G.id = GA.Gosm')
+            .left_join('ProjectProposal','PP','GA.ID = PP.GosmActivity')
+            .where('G.termID = ?',squel.str('system_get_current_term_id()'))
+            .where('G.studentorganization = ${organizationID}');
+        this._attachFields(query, fields);
         query = query.toString();
+
+        let param = Object.create(null);
+        param.organizationID = orgid;
         
-        return connection.any(query);
+        logger.debug(`Executing query: ${query}`, log_options);
+        return connection.any(query, param);
     };
 
     ProjectProposalModel.prototype.getProjectProposalExpensesPPRID = function(pprid, connection = this._db){

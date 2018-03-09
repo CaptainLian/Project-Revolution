@@ -96,7 +96,19 @@
                                 title:"{{event.strategies}}",
                                 start:"{{event.actualdatestart}}",
                                 start:"{{event.actualdateend}}",
-                                className:'bg-success'
+                                
+                                {%if(event.status == 2)%}
+                                    className:'bg-info'
+                                {%elif (event.status == 3)%}
+                                    className:'bg-success'
+                                {%elif (event.status == 4)%}
+                                    className:'bg-warning'
+                                {%elif (event.status == 5)%}
+                                    className:'bg-danger'
+                                {%else%}
+                                    className:'bg-secondary'
+                                {%endif%}
+                                
                             },
                             {%endif%}
                         {%endfor%}
@@ -197,9 +209,6 @@
                         </tr>
                     </thead>
                     <tbody >
-                        
-
-                           
                         {% for activities in deniedActivities %}
                         
                             <tr class="den">                           
