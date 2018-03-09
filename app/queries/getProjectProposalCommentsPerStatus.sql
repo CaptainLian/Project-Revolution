@@ -1,5 +1,5 @@
 SELECT GA.STRATEGIES, PPS.COMMENTS, A.FIRSTNAME, A.LASTNAME, to_char(PPS.DATESIGNED, 'MonthDD, YYYY') AS datesigned,
-       to_char(PP.actualdatestart, 'MonthDD, YYYY') AS actualdatestart
+       to_char(PP.actualdatestart, 'MonthDD, YYYY') AS actualdatestart, GA.id as gosmactivity
   FROM PROJECTPROPOSAL PP JOIN GOSMACTIVITY GA 
   							ON PP.GOSMACTIVITY=GA.ID
   						  JOIN gosmactivityprojecthead GAPH
