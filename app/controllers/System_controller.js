@@ -65,13 +65,17 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
         logger.debug('Checking for password expiration', log_options);
         accountModel.getAccountDetails(req.session.user.idNumber, [
-            'passwordExpiration AS "passwordExpiration"'
+            'passwordExpiration AS "passwordExpiration"',
+            'status'
         ]).then(account => {
             const ngayon = Date.now();
 
             if(ngayon >= account.passwordExpiration){
                 logger.debug('Password expired', log_options);
                 return res.redirect('/System/ChangeExpiredPassword');
+            }else if(account.status == 3){
+                logger.debug('First time sign-in', log_options);
+                return res.redirect('/System/NewAccountPassword');
             }else{
                 logger.debug('Password NOT expired', log_options);
 
@@ -80,34 +84,41 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     // Admin
                     case 0:
                         //TODO: implementation
+                        logger.debug('', log_options);
                         return res.redirect('/blank');
 
                     // Faculty Adviser Account
                     case 2:
                         //TODO: implementation
+                        logger.debug('', log_options);
                         return res.redirect('/blank');
                     // Director of S-Life Account
                     case 3:
                         //TODO: implementation
+                        logger.debug('', log_options);
                         return res.redirect('/blank');
                     // Dean of Student Affairs Account
                     case 4:
                         //TODO: implementation
+                        logger.debug('', log_options);
                         return res.redirect('/blank');
 
                     // Vice President for Lasallian Mission Account
                     case 5:
                         //TODO: implementation
+                        logger.debug('Vice President for Lasallian Mission Account', log_options);
                         return res.redirect('/blank');
 
                     // President
                     case 6:
                         //TODO: implementation
+                        logger.debug('President of La Salle', log_options);
                         return res.redirect('/blank');
 
                     // Student Account
                     case 1:
-                        logger.debug('Student Account', log_options);
+                        logger.debug('Student', log_options);
+
                         return accountModel.getRoleDetailsInOrganization(
                             req.session.user.idNumber,
                             req.session.user.organizationSelected.id,
@@ -121,10 +132,20 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                 return res.redirect('/blank');
                             }
                         });
+
                     default:
+                        logger.warn('Unknown user account', log_options);
+
                         return res.redirect('/blank');
                 }
             }
+        }).catch(error => {
+            logger.error(`${error.message}: ${error.stack}`, log_options);
+            
+            return res.send({
+                success: false,
+                valid: true
+            });
         });
     };
 
@@ -223,8 +244,21 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         renderData.csrfToken = req.csrfToken();
         renderData.showExpiredPassword = true;
 
+        logger.debug('Rendering ChangePassword page', log_options);
         return res.render('System/ChangePassword', renderData);
     };
+
+    SystemController.viewNewAccountPassword = (req, res) => {
+        logger.info('call viewNewAccountPassword()', log_options);
+
+        const renderData = Object.create(null);
+        renderData.extra_data = req.extra_data;
+        renderData.csrfToken = req.csrfToken();
+        renderData.showNewPassword = true;
+
+        logger.debug('Rendering ChangePassword page', log_options);
+        return res.render('System/ChangePassword', renderData);
+    }
 
     SystemController.viewChangePassword = (req, res) => {
         logger.info('call viewChangePassword()', log_options);
@@ -234,6 +268,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         renderData.csrfToken = req.csrfToken();
         renderData.showSidebar = true;
         
+        logger.debug('Rendering ChangePassword page', log_options);
         return res.render('System/ChangePassword', renderData);
     };
 

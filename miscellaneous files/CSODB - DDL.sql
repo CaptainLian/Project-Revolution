@@ -874,6 +874,10 @@ $trigger$
             SELECT crypt(NEW.password, NEW.salt) INTO NEW.password;
 
             NEW.passwordExpiration = CURRENT_TIMESTAMP + (INTERVAL '3 MONTH');
+
+            IF OLD.status = 3 THEN
+                NEW.status = 1;
+            END IF;     
         END IF;
 
         NEW.dateModified = CURRENT_TIMESTAMP;
@@ -1450,7 +1454,9 @@ INSERT INTO Functionality (id, name, category)
                           (104003, 'Evaluate Project Proposal'          , 104),
                           (108004, 'Evaluate Activity (AMT)'            , 108),
                           (106005, 'View Publicity Material'            , 106),
-                          (109006, 'Submit Activity Research Form (ARF)', 109), -- Evaluate Activity
+                          -- Evaluate Activity
+                          (109006, 'Submit Activity Research Form (ARF)', 109),
+                          -- ACLs
                           (214007, 'Modify Organizational Structure'    , 214),
                           (003008, 'Manage Organizations'               ,   3),
                           (211009, 'View Project Head Dashboard'        , 211),
@@ -1483,7 +1489,8 @@ INSERT INTO Functionality (id, name, category)
 
                           (214027, 'Submit Officer Survey Form', 214),
 
-                          (104028, 'Submit Not in GOSM Activities',  104);
+                          (104028, 'Submit Not in GOSM Activities',  104),
+                          (109029, 'View Activity Feedback', 109);
 
 DROP TABLE IF EXISTS OrganizationAccessControl CASCADE;
 CREATE TABLE OrganizationAccessControl (
@@ -1535,7 +1542,12 @@ INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       (    7,        108020,      TRUE),
                                       -- Account Management
                                       (    2,          2023,      TRUE),
-                                      (   21,          2023,      TRUE);
+                                      (   20,          2023,      TRUE),
+                                      (   21,          2023,      TRUE),
+                                      -- View Activity Feedback
+                                      (   20,        109029,      TRUE),
+                                      (   21,        109029,      TRUE),
+                                      (   22,        109029,      TRUE);
 
 /* Organization Default Structure */
 
@@ -1560,7 +1572,6 @@ $trigger$
 
         INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                        VALUES (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 0)), TRUE),
-                                              (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 7)), TRUE),
                                               (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
                                               (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE),
                                               (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 15)), TRUE),
@@ -2009,13 +2020,13 @@ $trigger$
           FROM ProjectProposalProgramDesign
          WHERE projectProposal = NEW.projectProposal;
 
-        IF NEW.date < minDate THEN
+        IF NEW.date < minDate OR minDate IS NULL THEN
             UPDATE ProjectProposal
                SET actualDateStart = NEW.date
             WHERE id = NEW.projectProposal;
         END IF;
 
-        IF NEW.date > maxDate THEN
+        IF NEW.date > maxDate OR maxDate IS NULL THEN
             UPDATE ProjectProposal
                SET actualDateEnd = NEW.date
              WHERE id = NEW.projectProposal;
