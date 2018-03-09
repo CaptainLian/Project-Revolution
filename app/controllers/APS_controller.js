@@ -98,6 +98,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.csrfToken = req.csrfToken();
             renderData.extra_data = req.extra_data;
             renderData.proposals = data;
+            console.log(data)
             return res.render('APS/ActivityList', renderData);
         });
     };
