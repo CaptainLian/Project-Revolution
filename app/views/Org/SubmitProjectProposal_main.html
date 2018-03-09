@@ -696,7 +696,11 @@
 			</div>
 			
 			<div class=" col-md-12 form-group text-center">
-				<button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Submit</button>
+				{% if submitbutton %}
+					<button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Submit</button>
+				{% else %}
+					<button type="submit" disabled="" class="btn btn-success"> <i class="fa fa-check"></i> Submit</button>
+				{% endif %}
 				<button type="button" class="btn btn-default">Cancel</button>
 				
 			</div>

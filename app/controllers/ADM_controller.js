@@ -35,7 +35,24 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             return res.render('ADM/ActivityList', renderData);
         });
     };
+    ADM_controller.viewHome = (req, res) => {
+        logger.info('call viewActivityToCheck()', log_options);
 
+        let renderData = Object.create(null);
+        renderData.extra_data = req.extra_data;
+        renderData.csrfToken = req.csrfToken();
+        return res.render('ADM/mainADM');
+        
+    };
+    ADM_controller.viewOrgTerms = (req, res) => {
+        logger.info('call viewActivityToCheck()', log_options);
+
+        let renderData = Object.create(null);
+        renderData.extra_data = req.extra_data;
+        renderData.csrfToken = req.csrfToken();
+        return res.render('ADM/viewOrgTerms');
+        
+    };
     ADM_controller.updateStatus = (req, res) => {
         logger.info('call updateStatus()', log_options);
 

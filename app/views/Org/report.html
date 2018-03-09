@@ -59,12 +59,13 @@
         }
         .custom-class:focus { overflow: hidden; }
     </style>
+
 {%endblock%}
 
 {%block defer_script%}
     {{super()}}
     <!-- jQuery -->
-    {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js')}}
+    {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
     <!-- Bootstrap Core JavaScript -->
     {{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
     {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}}
@@ -78,7 +79,6 @@
     <!-- Custom Theme JavaScript -->
     {{tag.javascript('/js/custom.min.js', true)}}
     {{tag.javascript('/js/cbpFWTabs.js', true)}}
-    {{tag.javascript('/js/report.js', true)}}
     <!-- tabs-->
     {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
     <!-- Sweet-Alert  -->
@@ -97,19 +97,151 @@
     {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/nestable2/1.5.0/jquery.nestable.min.js', true)}}
     {{tag.javascript('/plugins/bower_components/custom-select/custom-select.min.js', true)}}
     {{tag.javascript('/plugins/bower_components/bootstrap-select/bootstrap-select.min.js', true)}}
-    {{tag.javascript('/plugins/bower_components/Magnific-Popup-master/dist/jquery.magnific-popup.min.js', true)}}
-    {{tag.javascript('/plugins/bower_components/Magnific-Popup-master/dist/jquery.magnific-popup-init.js', true)}}
     <!-- Page Scripts -->
 
     {{tag.javascript('/plugins/bower_components/Chart.js/Chart.min.js', true)}}
     {{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
+    {{tag.javascript('/js/Organization/report.js', true)}}
 
-    <script type="text/javascript">
-        (function() {
-            [].slice.call(document.querySelectorAll('.sttabs')).forEach(function(el) {
-                new CBPFWTabs(el);
-            });
-        })();
+
+
+        <script >
+        $( document ).ready(function() {
+
+
+
+    var ctx3 = document.getElementById("chart3").getContext("2d");
+    var data3 = [
+        {
+            
+            value:25,
+            color:"#01579b",
+            highlight: "#0277bd",
+            label: "Academic"
+        },
+        {
+            value:25,
+            color: "#edf1f5",
+            highlight: "#FB9678",
+            label: "Non-Academic"
+        }
+    ];
+
+    var myPieChart = new Chart(ctx3).Pie(data3,{
+        segmentShowStroke : true,
+        segmentStrokeColor : "#fff",
+        segmentStrokeWidth : 0,
+        animationSteps : 100,
+        tooltipCornerRadius: 0,
+        animationEasing : "easeOutBounce",
+        animateRotate : true,
+        animateScale : false,
+
+        responsive: true
+    });
+
+
+    var ctx4 = document.getElementById("chart4").getContext("2d");
+    var data4 = [
+        {
+            value:25,
+            color: "#b8edf0",
+            highlight: "#b8edf0",
+            label: "pushed through"
+        },
+        {
+            value:25,            
+            color: "#006064",
+            highlight: "#00838f",
+            label: "not pushed through"
+        }
+    ];
+
+    var myPieChart = new Chart(ctx4).Pie(data4,{
+        segmentShowStroke : true,
+        segmentStrokeColor : "#fff",
+        segmentStrokeWidth : 0,
+        animationSteps : 100,
+        tooltipCornerRadius: 0,
+        animationEasing : "easeOutBounce",
+        animateRotate : true,
+        animateScale : false,
+
+        responsive: true
+    });
+
+    var ctx5 = document.getElementById("chart5").getContext("2d");
+    var data5 = [
+        {
+            value: 50,
+            color: "#FF443C",
+            highlight: "#FF443C",
+            label: "Academic Contest"
+        },
+        {
+            value: 100,
+            color: "#9837E8",
+            highlight: "#9837E8",
+            label: "Distribution"
+        },
+        {
+            value: 100,
+            color: "#3C9EFF",
+            highlight: "#3C9EFF",
+            label: "General Assembly"
+        },
+        {
+            value: 100,
+            color: "#2BE87B",
+            highlight: "#2BE87B",
+            label: "Seminar/Workshop"
+        },
+        {
+            value: 100,
+            color: "#E1FF3C",
+            highlight: "#E1FF3C",
+            label: "Publicity"
+        },
+        {
+            value: 100,
+            color: "#4C53FF",
+            highlight: "#4C53FF",
+            label: "Meetings"
+        },
+        {
+            value: 100,
+            color: "#45E8DC",
+            highlight: "#45E8DC",
+            label: "Spiritual Activity"
+        },
+        {
+            value: 100,
+            color: "#E8DD42",
+            highlight: "#E8DD42",
+            label: "Recruitment"
+        },
+        {
+            value: 100,
+            color: "#E83658",
+            highlight: "#E83658",
+            label: "Recreation"
+        },
+    ];
+
+    var myPieChart = new Chart(ctx5).Pie(data5,{
+        segmentShowStroke : true,
+        segmentStrokeColor : "#fff",
+        segmentStrokeWidth : 0,
+        animationSteps : 100,
+        tooltipCornerRadius: 0,
+        animationEasing : "easeOutBounce",
+        animateRotate : true,
+        animateScale : false,
+
+        responsive: true
+    });
+
+});
     </script>
     <!-- /Page Scripts -->
 {%endblock%}
@@ -716,32 +848,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-lg-4">
-                                                <div class="white-box text-center">
-                                                    <h3 class="box-title">60/40 ratio</h3>
-                                                    <div>
-                                                        <canvas id="chart3" height="150"></canvas>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4">
-                                                <div class="white-box text-center">
-                                                    <h3 class="box-title">Push-through ratio</h3>
-                                                    <div>
-                                                        <canvas id="chart4" height="150"> </canvas>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4">
-                                                <div class="white-box text-center">
-                                                    <h3 class="box-title">Timing grade</h3>
-                                                    <div>
-                                                        <canvas id="chart5" height="150"> </canvas>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        
                                         </section>
                                         <section id="section-bar-3">
                                             <h3>3</h3>

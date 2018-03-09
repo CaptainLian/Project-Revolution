@@ -30,5 +30,6 @@ module.exports = function(configuration, modules, router, controllers){
     router.get('/System/ChangeOrganization/:organization', controllers.System_controller.studentChangeOrganization);
 
     router.get('/System/ChangeExpiredPassword', controllers.System_controller.viewChangeExpiredPassword);
+    router.get('/System/NewAccountPassword', controllers.System_controller.viewNewAccountPassword);
     router.get('/System/ChangePassword', controllers.System_controller.viewChangePassword);
 };

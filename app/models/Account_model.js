@@ -63,6 +63,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
             let query = squel.insert()
                 .into('Account')
+                .set('status', 3)
                 .set('idNumber', squel.str('${idNumber}'))
                 .set('email', squel.str('${email}'))
                 .set('type', squel.str('${type}'))
