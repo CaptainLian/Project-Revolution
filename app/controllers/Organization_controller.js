@@ -286,12 +286,19 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     var postactsPunctualityGrade = ((((parseFloat(postactsEarlyApprovedActivities)/parseFloat(postactsApprovedActivities))*100)-parseFloat(preactsDeniedActivities))*0.025);
                     var postactsCompletenessGrade = (parseFloat(postactsApprovedActivities)/parseFloat(preactsApprovedActivities))*0.025;
 
+                    if(postactsApprovedActivities == 0){
+                        postactsPunctualityGrade =0;
+                    }
 
+                    if(preactsApprovedActivities==0){
+                        postactsCompletenessGrade = 0;
+                    }
 
 
 
                     const renderData = Object.create(null);
 
+                    //preacts
                     renderData.preactsPunctualityGrade = preactsPunctualityGrade;
 
                     renderData.preactsApprovedActivities = preactsApprovedActivities;
@@ -305,6 +312,14 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     renderData.preactsCompletenessGrade = preactsCompletenessGrade;
                     renderData.gosmSubmissionGrade = gosmSubmissionGrade;
                     renderData.sixtyFortyGrade = sixtyFortyGrade;
+
+                    //postacts
+                    renderData.postactsEarlyApprovedActivities = postactsEarlyApprovedActivities;
+                    renderData.postactsTotalActivities = postactsTotalActivities;
+                    renderData.postactsApprovedActivities = postactsApprovedActivities;
+                    renderData.postactsLateApprovedActivities = postactsLateApprovedActivities;
+                    renderData.postactsPunctualityGrade = postactsPunctualityGrade;
+                    renderData.postactsCompletenessGrade = postactsCompletenessGrade;
 
                     console.log("preacts timing ratio gradeeeeeeeeeeeeeeeeeeeeee+++++++++++++");
                     console.log(preactsTimingRatioGrade);
@@ -534,6 +549,38 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             renderData.status = 1;
                             renderData.gosmid = req.params.id;
 
+                            if(data[2].isattachmentscomplete == false){
+                                
+                                renderData.submitbutton = false;
+                                console.log("DITOOOOOOOOOO");
+
+                            }
+                            else if(data[2].isbriefcontextcomplete == false){
+
+                                renderData.submitbutton = false;
+                                console.log("2aadasdasdasd");
+
+                            }
+                            else if(data[2].isexpensecomplete == false){
+
+                                renderData.submitbutton = false;
+                                console.log("3asdasdasdasdasdasdasdasdas");
+
+                            }
+                            else if(data[2].isprogramcomplete == false){
+
+                                renderData.submitbutton = false;
+                                console.log("4fadadadasdadasdasdasda");
+
+                            }
+                            else{
+
+                                console.log("DITO DAPAT AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+                                renderData.submitbutton = true;
+
+                            }
+
+
                             return res.render('Org/SubmitProjectProposal_main', renderData);
                         }).catch(err => {
                             logger.error(`${err.message}\n${err.stack}`, log_options);
@@ -575,6 +622,37 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     console.log(renderData.gosmActivity);
                     console.log("KAHITANONGMESSAGE");
 
+                    if(data[2].isattachmentscomplete == false){
+                                
+                        renderData.submitbutton = false;
+                        console.log("DITOOOOOOOOOO");
+
+                    }
+                    else if(data[2].isbriefcontextcomplete == false){
+
+                        renderData.submitbutton = false;
+                        console.log("2aadasdasdasd");
+
+                    }
+                    else if(data[2].isexpensecomplete == false){
+
+                        renderData.submitbutton = false;
+                        console.log("3asdasdasdasdasdasdasdasdas");
+
+                    }
+                    else if(data[2].isprogramcomplete == false){
+
+                        renderData.submitbutton = false;
+                        console.log("4fadadadasdadasdasdasda");
+
+                    }
+                    else{
+
+                        console.log("DITO DAPAT AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+                        renderData.submitbutton = true;
+
+                    }
+
                     return res.render('Org/SubmitProjectProposal_main', renderData);
                 }).catch(err => {
                     logger.error(`${err.message}\n${err.stack}`, log_options);
@@ -607,6 +685,39 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     renderData.gosmid = req.params.id;
                     console.log(renderData.gosmActivity);
                     console.log("KAHITANONGMESSAGE");
+
+                    if(data[2].isattachmentscomplete == false){
+                                
+                        renderData.submitbutton = false;
+                        console.log("DITOOOOOOOOOO");
+
+                    }
+                    else if(data[2].isbriefcontextcomplete == false){
+
+                        renderData.submitbutton = false;
+                        console.log("2aadasdasdasd");
+
+                    }
+                    else if(data[2].isexpensecomplete == false){
+
+                        renderData.submitbutton = false;
+                        console.log("3asdasdasdasdasdasdasdasdas");
+
+                    }
+                    else if(data[2].isprogramcomplete == false){
+
+                        renderData.submitbutton = false;
+                        console.log("4fadadadasdadasdasdasda");
+
+                    }
+                    else{
+
+                        console.log("DITO DAPAT AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+                        renderData.submitbutton = true;
+
+                    }
+
+
 
                     return res.render('Org/SubmitProjectProposal_main', renderData);
                 }).catch(err => {
@@ -1557,13 +1668,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         saveContext: (req, res) => {
             console.log(req.body);
 
-            let startDateSplit = req.body.actualDateStart.split("/");
-            let endDateSplit = req.body.actualDateEnd.split("/");
+            // let startDateSplit = req.body.actualDateStart.split("/");
+            // let endDateSplit = req.body.actualDateEnd.split("/");
 
 
             var dbParam = {
-                actualDateStart: "'" + startDateSplit[2] + "-" + startDateSplit[0] + "-" + startDateSplit[1] + "'",
-                actualDateEnd: "'" + endDateSplit[2] + "-" + endDateSplit[0] + "-" + endDateSplit[1] + "'",
                 id: req.body.ppr,
                 enp: req.body.enp,
                 enmp: req.body.enmp,
@@ -1576,9 +1685,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 isBriefContextComplete: true
             };
 
-            if (!(req.body.actualDateStart).trim() ||
-                !(req.body.actualDateEnd).trim() ||
-                !(req.body.enp).trim() ||
+            if (!(req.body.enp).trim() ||
                 !(req.body.enmp).trim() ||
                 !(req.body.venue).trim() ||
                 !(req.body.adviser).trim() ||
@@ -1590,13 +1697,6 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 dbParam.isBriefContextComplete = false;
             }
 
-            if (!(req.body.actualDateStart).trim()) {
-                dbParam.actualDateStart = null;
-            }
-
-            if (!(req.body.actualDateEnd).trim()) {
-                dbParam.actualDateEnd = null;
-            }
 
             if (!(req.body.enp).trim()) {
                 dbParam.enp = null;

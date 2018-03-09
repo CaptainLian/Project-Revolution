@@ -640,6 +640,11 @@ module.exports = function(configuration, modules, db, queryFiles) {
         return connection.any(getAllProjectProposalSQL);
     };
 
+    const getNextPPRSignatorySQL = queryFiles.getNextPPRSignatory;
+    ProjectProposalModel.prototype.getNextPPRSignatory = function(param, connection = this._db){
+        return connection.oneOrNone(getNextPPRSignatorySQL, param);
+    };
+
     const getSignatoriesSQL = queryFiles.PPR_get_signatories;
     ProjectProposalModel.prototype.getSignatories = function(activityID, connection = this._db){
         return connection.many(getSignatoriesSQL, {
