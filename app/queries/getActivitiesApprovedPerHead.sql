@@ -1,4 +1,4 @@
-SELECT GA.STRATEGIES
+SELECT GA.STRATEGIES, to_char(PP.actualdatestart, 'MonthDD, YYYY') AS actualdatestart
   FROM PROJECTPROPOSAL PP JOIN GOSMACTIVITY GA 
   							ON PP.GOSMACTIVITY=GA.ID
   						  JOIN gosmactivityprojecthead GAPH
