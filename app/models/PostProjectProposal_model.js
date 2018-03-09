@@ -139,7 +139,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
         },
 
         getAllPostProjectProposal:function(connection = db){
-            return connection.any(getAllPostPRojectProposalSQL);
+            return connection.any(getAllPostProjectProposalSQL);
         }
 	};
 }

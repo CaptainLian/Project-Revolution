@@ -10,5 +10,5 @@ SELECT PPP."GOSMActivity", PPP."preparedBy", PPP.status, PPP."dateCreated", PPP.
                                         JOIN GOSM G
                                           ON G.id=GA.GOSM
                                         JOIN PROJECTPROPOSAL PPR
-                                          ON PPR.GOSMACTIVITY
+                                          ON PPR.GOSMACTIVITY=GA.id
  WHERE G.TERMID=system_get_current_term_id();
