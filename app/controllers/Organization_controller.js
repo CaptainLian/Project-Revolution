@@ -543,6 +543,38 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             renderData.status = 1;
                             renderData.gosmid = req.params.id;
 
+                            if(data[2].isattachmentscomplete == false){
+                                
+                                renderData.submitbutton = false;
+                                console.log("DITOOOOOOOOOO");
+
+                            }
+                            else if(data[2].isbriefcontextcomplete == false){
+
+                                renderData.submitbutton = false;
+                                console.log("2aadasdasdasd");
+
+                            }
+                            else if(data[2].isexpensecomplete == false){
+
+                                renderData.submitbutton = false;
+                                console.log("3asdasdasdasdasdasdasdasdas");
+
+                            }
+                            else if(data[2].isprogramcomplete == false){
+
+                                renderData.submitbutton = false;
+                                console.log("4fadadadasdadasdasdasda");
+
+                            }
+                            else{
+
+                                console.log("DITO DAPAT AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+                                renderData.submitbutton = true;
+
+                            }
+
+
                             return res.render('Org/SubmitProjectProposal_main', renderData);
                         }).catch(err => {
                             logger.error(`${err.message}\n${err.stack}`, log_options);
@@ -584,6 +616,37 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     console.log(renderData.gosmActivity);
                     console.log("KAHITANONGMESSAGE");
 
+                    if(data[2].isattachmentscomplete == false){
+                                
+                        renderData.submitbutton = false;
+                        console.log("DITOOOOOOOOOO");
+
+                    }
+                    else if(data[2].isbriefcontextcomplete == false){
+
+                        renderData.submitbutton = false;
+                        console.log("2aadasdasdasd");
+
+                    }
+                    else if(data[2].isexpensecomplete == false){
+
+                        renderData.submitbutton = false;
+                        console.log("3asdasdasdasdasdasdasdasdas");
+
+                    }
+                    else if(data[2].isprogramcomplete == false){
+
+                        renderData.submitbutton = false;
+                        console.log("4fadadadasdadasdasdasda");
+
+                    }
+                    else{
+
+                        console.log("DITO DAPAT AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+                        renderData.submitbutton = true;
+
+                    }
+
                     return res.render('Org/SubmitProjectProposal_main', renderData);
                 }).catch(err => {
                     logger.error(`${err.message}\n${err.stack}`, log_options);
@@ -616,6 +679,39 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     renderData.gosmid = req.params.id;
                     console.log(renderData.gosmActivity);
                     console.log("KAHITANONGMESSAGE");
+
+                    if(data[2].isattachmentscomplete == false){
+                                
+                        renderData.submitbutton = false;
+                        console.log("DITOOOOOOOOOO");
+
+                    }
+                    else if(data[2].isbriefcontextcomplete == false){
+
+                        renderData.submitbutton = false;
+                        console.log("2aadasdasdasd");
+
+                    }
+                    else if(data[2].isexpensecomplete == false){
+
+                        renderData.submitbutton = false;
+                        console.log("3asdasdasdasdasdasdasdasdas");
+
+                    }
+                    else if(data[2].isprogramcomplete == false){
+
+                        renderData.submitbutton = false;
+                        console.log("4fadadadasdadasdasdasda");
+
+                    }
+                    else{
+
+                        console.log("DITO DAPAT AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+                        renderData.submitbutton = true;
+
+                    }
+
+
 
                     return res.render('Org/SubmitProjectProposal_main', renderData);
                 }).catch(err => {
