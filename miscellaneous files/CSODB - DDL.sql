@@ -1993,6 +1993,41 @@ CREATE TRIGGER before_insert_ProjectProposalProgramDesign
     BEFORE INSERT ON ProjectProposalProgramDesign
     FOR EACH ROW
     EXECUTE PROCEDURE trigger_before_insert_ProjectProposalProgramDesign();
+    
+CREATE OR REPLACE FUNCTION "trigger_after_insert_ProjectProposalProgramDesign"()
+RETURNS TRIGGER AS
+$trigger$
+    DECLARE
+        minDate DATE;
+        maxDate DATE;
+    BEGIN
+        SELECT MIN(date) INTO STRICT minDate
+          FROM ProjectProposalProgramDesign
+         WHERE projectProposal = NEW.projectProposal;
+
+        SELECT MAX(date) INTO STRICT minDate
+          FROM ProjectProposalProgramDesign
+         WHERE projectProposal = NEW.projectProposal;
+
+        IF NEW.date < minDate THEN
+            UPDATE ProjectProposal
+               SET actualDateStart = NEW.date
+            WHERE id = NEW.projectProposal;
+        END IF;
+
+        IF NEW.date > maxDate THEN
+            UPDATE ProjectProposal
+               SET actualDateEnd = NEW.date
+             WHERE id = NEW.projectProposal;
+        END IF;
+
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER "after_insert_ProjectProposalProgramDesign"
+    BEFORE INSERT ON ProjectProposalProgramDesign
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_after_insert_ProjectProposalProgramDesign"();
 
 DROP TABLE IF EXISTS ProjectProposalProgramDesignPersonInCharge CASCADE;
 CREATE TABLE ProjectProposalProgramDesignPersonInCharge (
