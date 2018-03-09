@@ -5,6 +5,8 @@ var cuid = require('cuid');
 var timediff = require('timediff');
 
 module.exports = function(configuration, modules, models, database, queryFiles) {
+    const ACL_SEQUENCES = require('./../utility/CONSTANTS_functionalitySequence.json');
+
     const logger = modules.logger;
     const log_options = Object.create(null);
     log_options.from = 'Organization-Controller';
@@ -73,111 +75,268 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         },
         viewReport: (req, res) => {
 
-            database.task(task => {
-                    return task.batch([
-                        projectProposalModel.getApprovedActivities(),
-                        projectProposalModel.getAllProjectProposal()
-                    ]);
-            }).then(data=>{
+            if (req.session.user.type == 1) {
+                var organizationid = req.session.user.organizationSelected.id;
+            }
+            else{
+                var organizationid = req.params.id;
+            }
 
-                var preactsApprovedActivities = 0;
-                var preactsEarlyApprovedActivities = 0;
-                var preactsLateApprovedActivities = 0;
-                var preactsDeniedActivities = 0;
-                var totalActivities = 0;
-                var preactsTimingRatio = 0;
+            systemModel.getCurrentTerm([
+                'id',
+                'dateStart AS "dateStart"',
+                'dateEnd AS "dateEnd"'
+            ]).then(term=>{
 
-                //approved activities
-                for(var i = 0; data[0].length > i; i++){
+                var dbParam = {
+                    studentOrganization: organizationid,
+                    termID: term.id
+                }
 
-                    //TODO: change depending on org??
-                    if(data[0][i].studentorganization == req.session.user.organizationSelected.id &&
-                        data[0][i].isingosm == true){
+                let termstart = term.dateStart;
 
-                        preactsApprovedActivities = preactsApprovedActivities + 1;
+                database.task(task => {
+                        return task.batch([
+                            projectProposalModel.getApprovedActivities(),
+                            projectProposalModel.getAllProjectProposal(),
+                            gosmModel.getOrgGOSM(dbParam),
+                            postProjectProposalModel.getAllPostProjectProposal()
+                        ]);
+                }).then(data=>{
 
+                    // preacts grade
+                    var preactsApprovedActivities = 0;
+                    var preactsEarlyApprovedActivities = 0;
+                    var preactsLateApprovedActivities = 0;
+                    var preactsDeniedActivities = 0;
+                    var totalActivities = 0;
+                    var preactsTimingRatio = 0;
+                    var preactsPendCount = 0;
+                    var gosmSubmissionGrade = 0;
+                    var isRelatedToOrganizationCount = 0;
+                    var sixtyFortyGrade = 0;
 
-                        let actualdatestart = data[0][i].actualdatestart;
-                        let datesigned = data[0][i].datesigned;
-                        let targetdatestart = data[0][i].targetdatestart;
+                    if(data[2] != null){
 
-                        var diff = timediff(actualdatestart, datesigned, 'D');
+                        if(data[2].dateSubmitted == null){
 
-
-                        if (diff.days>2){
-                            preactsEarlyApprovedActivities = preactsEarlyApprovedActivities + 1;
                         }
                         else{
-                            preactsLateApprovedActivities = preactsLateApprovedActivities + 1;
-                        }
 
-                        var timingdiff = timediff(targetdatestart, actualdatestart, 'D');
+                            let orggosmsubmitted = data[2].datesubmitted;
 
-                        if (timingdiff.days < 7 && timingdiff.days > -7){
-                            preactsTimingRatio = preactsTimingRatio + 1;
-                        }
+                            var gosmdiff = timediff(termstart, orggosmsubmitted, 'D');
 
+                            if(gosmdiff.days > 14){
+                                gosmSubmissionGrade = 0.075;
+                            }
 
-                    }
-
-                }
-
-                // all activities
-                for (var i = 0; data[1].length > i; i++){
-
-                    //TODO: change depending on org??
-                    if(data[1][i].studentorganization == req.session.user.organizationSelected.id &&
-                        data[1][i].isingosm == true){
-
-                        totalActivities = totalActivities + 1;
-
-                        if(data[1][i].status==5){
-                            preactsDeniedActivities = preactsDeniedActivities + 1;
                         }
 
                     }
 
-                }
-
-                var preactsPunctualityGrade = ((((parseFloat(preactsEarlyApprovedActivities)/parseFloat(preactsApprovedActivities))*100)-parseFloat(preactsDeniedActivities))*0.025);
-                var preactsTimingRatioGrade = ((parseFloat(preactsTimingRatio)/parseFloat(totalActivities))*0.015);
-
-                if (preactsPunctualityGrade === NaN){
-                    console.log("IM HERER BOIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII");
-                    preactsPunctualityGrade = 0;
-                }
-
-                if(preactsTimingRatioGrade === NaN){
-                    preactsTimingRatioGrade = 0;
-                }
+                    
 
 
-                const renderData = Object.create(null);
+                    //approved activities
+                    for(var i = 0; data[0].length > i; i++){
 
-                renderData.preactsPunctualityGrade = preactsPunctualityGrade;
+                        //TODO: change depending on org??
+                        if(data[0][i].studentorganization == organizationid &&
+                            data[0][i].isingosm == true){
 
-                renderData.preactsApprovedActivities = preactsApprovedActivities;
-                renderData.preactsEarlyApprovedActivities = preactsEarlyApprovedActivities;
-                renderData.preactsLateApprovedActivities = preactsLateApprovedActivities;
-                renderData.preactsDeniedActivities = preactsDeniedActivities;
-                renderData.totalActivities = totalActivities;
-                renderData.preactsTimingRatio = preactsTimingRatio;
-                renderData.preactsTimingRatioGrade = preactsTimingRatioGrade;
+                            preactsApprovedActivities = preactsApprovedActivities + 1;
 
-                console.log("preacts timing ratio gradeeeeeeeeeeeeeeeeeeeeee+++++++++++++");
-                console.log(preactsTimingRatioGrade);
 
-                console.log(renderData)
-                renderData.extra_data = req.extra_data;
-                return res.render('Org/report', renderData);
+                            let actualdatestart = data[0][i].actualdatestart;
+                            let datesigned = data[0][i].datesigned;
+                            let targetdatestart = data[0][i].targetdatestart;
+
+                            var diff = timediff(actualdatestart, datesigned, 'D');
+
+
+                            if (diff.days>2){
+                                preactsEarlyApprovedActivities = preactsEarlyApprovedActivities + 1;
+                            }
+                            else{
+                                preactsLateApprovedActivities = preactsLateApprovedActivities + 1;
+                            }
+
+                            var timingdiff = timediff(targetdatestart, actualdatestart, 'D');
+
+                            if (timingdiff.days < 7 && timingdiff.days > -7){
+                                preactsTimingRatio = preactsTimingRatio + 1;
+                            }
+
+
+                            if(data[0][i].isrelatedtoorganization == true){
+                                isRelatedToOrganizationCount = isRelatedToOrganizationCount + 1;
+                            }
+
+
+                        }
+
+                    }
+
+                    // all activities
+                    for (var i = 0; data[1].length > i; i++){
+
+                        //TODO: change depending on org??
+                        if(data[1][i].studentorganization == organizationid &&
+                            data[1][i].isingosm == true){
+
+                            totalActivities = totalActivities + 1;
+
+                            preactsPendCount = preactsPendCount + data[1][i].timespended;
+
+
+                            if(data[1][i].status==5){
+                                preactsDeniedActivities = preactsDeniedActivities + 1;
+                            }
+
+                        }
+
+                    }
+
+                    var preactsPunctualityGrade = ((((parseFloat(preactsEarlyApprovedActivities)/parseFloat(preactsApprovedActivities))*100)-parseFloat(preactsDeniedActivities))*0.025);
+                    var preactsTimingRatioGrade = ((parseFloat(preactsTimingRatio)/parseFloat(totalActivities))*0.015);
+                    var preactsCompletenessGrade = (100 - (parseFloat(preactsPendCount)*0.5))*0.025;
+
+                    var sixtyFortyRatioPercentage = isRelatedToOrganizationCount/preactsApprovedActivities;
+
+
+                    if (preactsApprovedActivities == 0){
+                        preactsPunctualityGrade = 0;
+                        sixtyFortyRatioPercentage = 0;
+                    }
+
+                    if(totalActivities == 0){
+                        preactsTimingRatioGrade = 0;
+                    }
+
+
+                    var sixFourGradeRange = 0
+
+                    var sixtyFortyGradeFound = true;
+
+                    var gradeStart = 57;
+                    var gradeEnd = 63;
+
+                    while(sixtyFortyGradeFound){
+
+                        console.log("THE GRADE RANGE IS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                        console.log(sixFourGradeRange);
+                        console.log("okay the ratio percentage is!!!!!");
+                        console.log(sixtyFortyRatioPercentage);
+
+                        if(sixtyFortyRatioPercentage >= gradeStart && sixtyFortyRatioPercentage <= gradeEnd){
+
+                            sixtyFortyGradeFound = false;
+
+                        }
+                        else{
+                            sixFourGradeRange = sixFourGradeRange + 1;
+                            gradeStart = gradeStart - 4;
+                            gradeEnd = gradeEnd + 4;
+                        }
+
+                    }
+
+                    var sixtyFortyGrade = (100-(parseFloat(sixFourGradeRange)*4))*0.10;
+
+                    //postacts grade
+                    var postactsEarlyApprovedActivities = 0;
+                    var postactsTotalActivities = 0;
+                    var postactsApprovedActivities = 0;
+                    var postactsLateApprovedActivities = 0;
+
+                    for (var i = 0; i < data[3]; i++){
+
+                        postactsTotalActivities = postactsTotalActivities + 1;
+
+                        // if approved
+                        if(data[3][i].status==4){
+
+                            postactsApprovedActivities = postactsApprovedActivities + 1;
+
+
+                            let actualdatestart = data[3][i].actualdatestart;
+                            let datesubmitted = data[3][i].datesubmitted;
+
+                            var diff = timediff(actualdatestart, datesubmitted, 'D');
+
+
+                            if (diff.days>30){
+                                postactsEarlyApprovedActivities = postactsEarlyApprovedActivities + 1;
+                            }
+                            else{
+                                postactsLateApprovedActivities = postactsLateApprovedActivities + 1;
+                            }
+
+                        }
+
+                    }
+
+                    var postactsPunctualityGrade = ((((parseFloat(postactsEarlyApprovedActivities)/parseFloat(postactsApprovedActivities))*100)-parseFloat(preactsDeniedActivities))*0.025);
+                    var postactsCompletenessGrade = (parseFloat(postactsApprovedActivities)/parseFloat(preactsApprovedActivities))*0.025;
+
+                    if(postactsApprovedActivities == 0){
+                        postactsPunctualityGrade =0;
+                    }
+
+                    if(preactsApprovedActivities==0){
+                        postactsCompletenessGrade = 0;
+                    }
+
+
+
+                    const renderData = Object.create(null);
+
+                    //preacts
+                    renderData.preactsPunctualityGrade = preactsPunctualityGrade;
+
+                    renderData.preactsApprovedActivities = preactsApprovedActivities;
+                    renderData.preactsEarlyApprovedActivities = preactsEarlyApprovedActivities;
+                    renderData.preactsLateApprovedActivities = preactsLateApprovedActivities;
+                    renderData.preactsDeniedActivities = preactsDeniedActivities;
+                    renderData.totalActivities = totalActivities;
+                    renderData.preactsTimingRatio = preactsTimingRatio;
+                    renderData.preactsTimingRatioGrade = preactsTimingRatioGrade;
+                    renderData.preactsPendCount = preactsPendCount;
+                    renderData.preactsCompletenessGrade = preactsCompletenessGrade;
+                    renderData.gosmSubmissionGrade = gosmSubmissionGrade;
+                    renderData.sixtyFortyGrade = sixtyFortyGrade;
+
+                    //postacts
+                    renderData.postactsEarlyApprovedActivities = postactsEarlyApprovedActivities;
+                    renderData.postactsTotalActivities = postactsTotalActivities;
+                    renderData.postactsApprovedActivities = postactsApprovedActivities;
+                    renderData.postactsLateApprovedActivities = postactsLateApprovedActivities;
+                    renderData.postactsPunctualityGrade = postactsPunctualityGrade;
+                    renderData.postactsCompletenessGrade = postactsCompletenessGrade;
+
+                    console.log("preacts timing ratio gradeeeeeeeeeeeeeeeeeeeeee+++++++++++++");
+                    console.log(preactsTimingRatioGrade);
+
+                    console.log(renderData)
+                    renderData.extra_data = req.extra_data;
+                    return res.render('Org/report', renderData);
+
+
+                }).catch(error=>{
+                    console.log(error);
+                });
+
 
 
             }).catch(error=>{
                 console.log(error);
             });
-            
-            
+
+    
         },
+
+
         viewGOSMDetails: (req, res) => {
             const renderData = Object.create(null);
             console.log(req.param)
@@ -1407,13 +1566,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         saveContext: (req, res) => {
             console.log(req.body);
 
-            let startDateSplit = req.body.actualDateStart.split("/");
-            let endDateSplit = req.body.actualDateEnd.split("/");
+            // let startDateSplit = req.body.actualDateStart.split("/");
+            // let endDateSplit = req.body.actualDateEnd.split("/");
 
 
             var dbParam = {
-                actualDateStart: "'" + startDateSplit[2] + "-" + startDateSplit[0] + "-" + startDateSplit[1] + "'",
-                actualDateEnd: "'" + endDateSplit[2] + "-" + endDateSplit[0] + "-" + endDateSplit[1] + "'",
                 id: req.body.ppr,
                 enp: req.body.enp,
                 enmp: req.body.enmp,
@@ -1426,9 +1583,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 isBriefContextComplete: true
             };
 
-            if (!(req.body.actualDateStart).trim() ||
-                !(req.body.actualDateEnd).trim() ||
-                !(req.body.enp).trim() ||
+            if (!(req.body.enp).trim() ||
                 !(req.body.enmp).trim() ||
                 !(req.body.venue).trim() ||
                 !(req.body.adviser).trim() ||
@@ -1440,13 +1595,6 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 dbParam.isBriefContextComplete = false;
             }
 
-            if (!(req.body.actualDateStart).trim()) {
-                dbParam.actualDateStart = null;
-            }
-
-            if (!(req.body.actualDateEnd).trim()) {
-                dbParam.actualDateEnd = null;
-            }
 
             if (!(req.body.enp).trim()) {
                 dbParam.enp = null;
@@ -2629,25 +2777,20 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     pnpModel.getMypubs(gosmParam, t),
                     pnpModel.getActivityDetailsforPubs(gosmParam, t),
                     gosmModel.getGOSMActivityProjectHeads(gosmParam2, t)
-
-                ])
-            }).then(pubs => {
-                console.log(pubs[0]);
-                console.log("pubs[0]");
-                renderData.pubs = pubs[0];
-                renderData.activities = pubs[1];
-                renderData.heads = pubs[2];
+                ]);
+            }).then(([pubs, activities, heads]) => {
+                renderData.pubs = pubs;
+                renderData.activities = activities;
+                renderData.heads = heads;
                 renderData.gosmid = req.params.gosmid
                 return res.render('Org/CreatePubs', renderData);
-            }).catch(err => {
-                console.log("ERROR VIEW PUB");
-                console.log(err);
-            })
-
-
-
+            }).catch(error => {
+                return logger.error(`${error.message}: ${error.stack}`, log_options);
+            });
         },
+
         insertPubs: (req, res) => {
+            logger.info('call insertPubs', log_options);
 
             var dir3 = __dirname + '/../assets/upload/';
             var dir3 = path.join(__dirname, '..', 'assets', 'upload');
@@ -2669,76 +2812,105 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 fs.mkdirSync(dir2);
             }
 
-
             dir2 = path.normalize(dir2);
             console.log("req.files");
             console.log(req.body);
 
-            const renderData = Object.create(null);
-            renderData.extra_data = req.extra_data;
-            renderData.csrfToken = req.csrfToken();
-            //GOSM ID OF PICTURES
-            var gParam = {
-                gosmid: req.body.gosmid
-            };
             console.log(req.body);
             console.log(req.files);
-            var filename = cuid() + path.extname(req.files['pubs'].name);
+            var filename = cuid() + path.extname(req.files.pubs.name);
+            //to show
             var filenameTS = req.files['pubs'].name;
-            if (req.body['optionsRadios2'] != 'null') {
-                var mod = req.body['optionsRadios2'];
-            } else {
-                var mod = 0;
-            }
-            pnpModel.getSpecificPubSeq(gParam).then(data => {
-                database.task(t => {
+            var mod = req.body.optionsRadios2 ? req.body.optionsRadios2 : 0; 
 
+            let isResponseSent = false;
+            pnpModel.getSpecificPubSeq({
+                gosmid: req.body.gosmid
+            }).then(data => {
+                //save file
+                req.files.pubs.mv(path.join(dir2, filename));
 
+                return pnpModel.insertActivityPublicity({
+                    gosmid: req.body.gosmid,
+                    sid: data.seq + 1,
+                    mod: mod,
+                    tpd: req.body['posting-date'],
+                    sb: req.session.user.idNumber,
+                    ds: req.body.title,
+                    status: 0,
+                    filename: filename,
+                    filenameToShow: filenameTS
+                });
+            }).then(result => {
+                logger.debug(`result: ${result}`, log_options);
+                
+                isResponseSent = true;
+                res.json({
+                    status: 1,
+                    path: `/upload/pubs/${req.session.user.idNumber}/${filename}`,
+                    description: req.body.title,
+                    id: result.id,
+                    type: mod
+                 });
+                
+                logger.debug('Adding notifications', log_options);
+                return database.task(t => {
+                    return t.batch([
+                        gosmModel.getActivityDetails(req.body.gosmid, [
+                            'strategies'
+                        ], t),
+                        gosmModel.getActivityProjectHeads(req.body.gosmid, [
+                            'ph.idNumber AS "idNumber"'
+                        ], t),
+                        organizationModel.getAccountWithAccessControlSequence(ACL_SEQUENCES.EvaluatePublicityMaterial, 0, [
+                            'a.idNumber AS "idNumber'
+                        ], t)
+                    ]);
+                });
+            }).then(([activityDetails, projectHeads, evaluators]) => {
+                return database.tx(t => {
+                    let queries = [];
 
-                    console.log(data)
+                    const details = Object.create(null);
+                    details.GOSMActivtyID = req.body.gosmid;
 
-                    var insertParam = {
-                        gosmid: req.body.gosmid,
-                        sid: data.seq + 1,
-                        mod: mod,
-                        tpd: req.body['posting-date'],
-                        sb: req.session.user.idNumber,
-                        ds: req.body.title,
-                        status: 0,
-                        filename: filename,
-                        filenameToShow: filenameTS
+                    for(const projectHead of projectHeads){
+                        queries[queries.length] = accountModel.addNotification(
+                            projectHead.idNumber,
+                            'Activtiy Publicity',
+                            `A publicty item has been added to the activity ${activityDetails.strategies}`,
+                            details,
+                            null,
+                            t
+                        );
+                     }
+
+                     for(const evaluator of evaluators){
+                        queries[queries.length] = accountModel.addNotification(
+                            evaluator.idNumber,
+                            'Publicity Evaluation',
+                            `A publicty item has been added to the activity ${activityDetails.strategies}`,
+                            details,
+                            null,
+                            t
+                        );
                     }
-                    console.log(insertParam);
 
-                    req.files['pubs'].mv(path.join(dir2, filename))
-                    return pnpModel.insertActivityPublicity(insertParam, t)
-                        .catch(err => {
-                            console.log(err)
-                            console.log("err")
-                        })
-                }).then(result => {
-                    // console.logr()
-                    console.log("result");
-                    console.log(result);
-                    res.json({
-                        status: 1,
-                        path: '/upload/pubs/' + req.session.user.idNumber + '/' + filename,
-                        description: req.body.title,
-                        id: result.id,
-                        type: mod
+                    return t.batch(queries);
+                });
+            }).then(data => {
+                return logger.debug('Notifications added', log_options);
+            }).catch(error => {
+                logger.error(`${error.message}: ${error.stack}`, log_options);
+                
+                if(!isResponseSent){
+                    return res.json({
+                        status: 0
                     });
-                }).catch(err => {
-                    console.log("rrD")
-                    res.json({
-                        status: 1
-                    });
-                    console.log(err)
-                })
+                }
             });
-
-
-
         },
+
         viewPubDetails: (req, res) => {
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
@@ -2747,23 +2919,23 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 id: req.body.id
             }
             console.log(dbParam)
-            pnpModel.getPubDetails(dbParam)
-                .then(data => {
-                    console.log(data);
-                    renderData.activity = data
-                    console.log("TPYE");
-                    console.log(req.body.type);
-                    if (req.body.type == 1) {
-                        console.log("ONE TYPE");
-                        res.render('section/PNP/approveModal', renderData);
-                    } else {
-                        console.log("SECOND TYPE");
-                        res.render('section/PNP/pendModal', renderData);
-                    }
-                }).catch(err => {
-                    console.log(err);
-                })
+            pnpModel.getPubDetails(dbParam).then(data => {
+                console.log(data);
+                renderData.activity = data
+                console.log("TPYE");
+                console.log(req.body.type);
+                if (req.body.type == 1) {
+                    console.log("ONE TYPE");
+                    res.render('section/PNP/approveModal', renderData);
+                } else {
+                    console.log("SECOND TYPE");
+                    res.render('section/PNP/pendModal', renderData);
+                }
+            }).catch(err => {
+                console.log(err);
+            })
         },
+
         reuploadPubs: (req, res) => {
             var dir3 = __dirname + '/../assets/upload/';
             var dir3 = path.join(__dirname, '..', 'assets', 'upload');
@@ -2885,8 +3057,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 console.log(data)
                 res.render('Orgres/OrgresList', renderData);
             }).catch(err => {
-                console.log("ERROR")
-                console.log(err)
+                return logger.error(`${err.message}: ${err.stack}`, log_options);
             })
         },
 
@@ -2913,7 +3084,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                 res.render('Orgres/orgresSpecificActivity', renderData);
             }).catch(err => {
-                console.log(err);
+                return logger.error(`${err.message}: ${err.stack}`, log_options);
             });
         },
 
@@ -2930,7 +3101,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     projectProposalModel.getActivitiesRelatedToNatureCount(param, t),
                     projectProposalModel.getActivitiesNotRelatedToNatureCount(param, t),
                     projectProposalModel.getGOSMCountPerOrg(param, t)
-                ])
+                ]);
             }).then(data => {
 
                 const renderData = Object.create(null);

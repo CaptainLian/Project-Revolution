@@ -1,4 +1,5 @@
-SELECT G.studentorganization, PPR.gosmactivity, PPR.actualdatestart, PPRS.datesigned, GA.targetdatestart, GA.isingosm
+SELECT G.studentorganization, PPR.gosmactivity, PPR.actualdatestart, PPRS.datesigned, GA.targetdatestart, GA.isingosm,
+		GA.isrelatedtoorganizationnature as isrelatedtoorganization
   FROM PROJECTPROPOSAL PPR JOIN (SELECT GOSMACTIVITY, MAX(TYPE), DATESIGNED
 				 				   FROM PROJECTPROPOSALSIGNATORY
 								  GROUP BY GOSMACTIVITY, DATESIGNED) PPRS

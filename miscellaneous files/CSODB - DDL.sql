@@ -2239,6 +2239,20 @@ CREATE TRIGGER after_update_ProjectProposalSignatory_completion
     FOR EACH ROW WHEN (OLD.status <> NEW.status)
     EXECUTE PROCEDURE "trigger_after_update_ProjectProposalSignatory_completion"();
 
+CREATE OR REPLACE FUNCTION "trigger_after_update_ProjectProposalSignatory_counter"()
+RETURNS TRIGGER AS
+$trigger$
+    BEGIN
+        UPDATE ProjectProposal
+           SET timesPended = timesPended + 1
+         WHERE GOSMActivity = NEW.GOSMActivityID;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER "after_update_ProjectProposalSignatory_completion"
+    AFTER UPDATE ON ProjectProposalSignatory
+    FOR EACH ROW WHEN (NEW.status = 4)
+    EXECUTE PROCEDURE "trigger_after_update_ProjectProposalSignatory_counter"();
+
     /* Load balancing of Proposals */
 CREATE OR REPLACE FUNCTION "trigger_after_insert_ProjectProposal_signatories"()
 RETURNS trigger AS
@@ -2785,6 +2799,7 @@ CREATE TABLE "PostProjectProposal" (
   "preparedBy" INTEGER REFERENCES Account(idNumber),
   "status" SMALLINT NOT NULL DEFAULT 0 REFERENCES "PostProjectProposalStatus"("id"),
   "dateCreated" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "dateSubmitted" TIMESTAMP WITH TIME ZONE,
   "ANP" INTEGER,
   "ANMP" INTEGER,
   "objectives" TEXT[],
