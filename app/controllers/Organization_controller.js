@@ -1350,7 +1350,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 paramObjectives = [];
                 paramObjectives.push(inputObjectives);
             }
-            console.log(obj)
+            
 
             var dbParam = {
                 id: req.body.gosmid,
