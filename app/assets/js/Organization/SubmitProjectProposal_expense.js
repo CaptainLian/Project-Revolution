@@ -391,7 +391,9 @@ $(document).ready(function(){
             $("#oth2-exp").closest("div.form-group").addClass("has-error");
             err = 1;
         }
-        if(parseFloat($("#texp").text()) > parseFloat($("#tcd").text())){
+        console.log("exp() :"+exp())
+        console.log("fund() :"+fund())
+        if(exp() > fund()){
             $.toast({
                 heading: 'Failed!',    
                 text:   'Expense should not be greater than Total Cash Disbursement.',
