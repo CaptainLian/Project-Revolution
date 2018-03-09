@@ -61,7 +61,8 @@ module.exports = function(configuration, modules, database, queryFiles){
 
 		logger.debug(`Executing query: ${query}`, log_options);
 		return connection.oneOrNone(query);
-	}
+	};
+
 
 	return SystemModel;
 };

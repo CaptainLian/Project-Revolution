@@ -1993,6 +1993,41 @@ CREATE TRIGGER before_insert_ProjectProposalProgramDesign
     BEFORE INSERT ON ProjectProposalProgramDesign
     FOR EACH ROW
     EXECUTE PROCEDURE trigger_before_insert_ProjectProposalProgramDesign();
+    
+CREATE OR REPLACE FUNCTION "trigger_after_insert_ProjectProposalProgramDesign"()
+RETURNS TRIGGER AS
+$trigger$
+    DECLARE
+        minDate DATE;
+        maxDate DATE;
+    BEGIN
+        SELECT MIN(date) INTO STRICT minDate
+          FROM ProjectProposalProgramDesign
+         WHERE projectProposal = NEW.projectProposal;
+
+        SELECT MAX(date) INTO STRICT minDate
+          FROM ProjectProposalProgramDesign
+         WHERE projectProposal = NEW.projectProposal;
+
+        IF NEW.date < minDate THEN
+            UPDATE ProjectProposal
+               SET actualDateStart = NEW.date
+            WHERE id = NEW.projectProposal;
+        END IF;
+
+        IF NEW.date > maxDate THEN
+            UPDATE ProjectProposal
+               SET actualDateEnd = NEW.date
+             WHERE id = NEW.projectProposal;
+        END IF;
+
+        RETURN NEW;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER "after_insert_ProjectProposalProgramDesign"
+    BEFORE INSERT ON ProjectProposalProgramDesign
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_after_insert_ProjectProposalProgramDesign"();
 
 DROP TABLE IF EXISTS ProjectProposalProgramDesignPersonInCharge CASCADE;
 CREATE TABLE ProjectProposalProgramDesignPersonInCharge (
@@ -2238,6 +2273,20 @@ CREATE TRIGGER after_update_ProjectProposalSignatory_completion
     AFTER UPDATE ON ProjectProposalSignatory
     FOR EACH ROW WHEN (OLD.status <> NEW.status)
     EXECUTE PROCEDURE "trigger_after_update_ProjectProposalSignatory_completion"();
+
+CREATE OR REPLACE FUNCTION "trigger_after_update_ProjectProposalSignatory_counter"()
+RETURNS TRIGGER AS
+$trigger$
+    BEGIN
+        UPDATE ProjectProposal
+           SET timesPended = timesPended + 1
+         WHERE GOSMActivity = NEW.GOSMActivityID;
+    END;
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER "after_update_ProjectProposalSignatory_completion"
+    AFTER UPDATE ON ProjectProposalSignatory
+    FOR EACH ROW WHEN (NEW.status = 4)
+    EXECUTE PROCEDURE "trigger_after_update_ProjectProposalSignatory_counter"();
 
     /* Load balancing of Proposals */
 CREATE OR REPLACE FUNCTION "trigger_after_insert_ProjectProposal_signatories"()
@@ -2785,6 +2834,7 @@ CREATE TABLE "PostProjectProposal" (
   "preparedBy" INTEGER REFERENCES Account(idNumber),
   "status" SMALLINT NOT NULL DEFAULT 0 REFERENCES "PostProjectProposalStatus"("id"),
   "dateCreated" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "dateSubmitted" TIMESTAMP WITH TIME ZONE,
   "ANP" INTEGER,
   "ANMP" INTEGER,
   "objectives" TEXT[],
