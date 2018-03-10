@@ -176,14 +176,14 @@
                         </div>
                     {%endif%}
 
-                    {% if projectProposal.status == 7%}
+                    {% if  projectProposal.reschedrejectreason|length > 1  %}
                         <div class="col-md-12">
                             <p><strong style="color:#FB9678">Rescheduled Denied!</strong></p>
                             <p style="color:#FB9678">Reason : {{projectProposal.reschedrejectreason}}</p>
                         </div>
                     {%endif%}
 
-                    {% if resched <= 0 and projectProposal.status !== 6%}
+                    {% if resched <= 0  and projectProposal.status == 3%}
                         <div class="col-md-12">
                             <button type="button" class="btn btn-default" id='reschedule'>Reschedule</button>    
                         </div>

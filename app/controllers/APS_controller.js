@@ -224,6 +224,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.activities = list[0];
 
             renderData.projectProposal = list[1];
+            console.log(list[0])
             return res.render('APS/ProjectProposal_sign_list', renderData);
         }).catch(err => {
             return logger.warn(`${err.message}\n${err.stack}`, log_options);
