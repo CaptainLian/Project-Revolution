@@ -160,17 +160,20 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
     APS_AJAXController.resched = (req, res) => {
         var comment = ' ' + req.body.comment;
+        console.log("asdasdasdasdasdklajsdlkajsdlakjsdlkasjdlaskjdalksjd")
+        console.log(req.body)
         return projectProposalModel.approvePPResched(req.body.activityID, comment,req.body.status).then(data=>{
             res.json({status:1});
         }).catch(err=>{
             res.json({status:0});
-            return logger.error(`${err.message}\n${err.stack}`, log_options);
+            console.log(err)
+            // return logger.error(`${err.message}\n${err.stack}`, log_options);
         })
     };
 
     APS_AJAXController.approvalResched = (req, res) => {
         logger.debug('approvalResched()', log_options);
-
+        
         return projectProposalModel.updatePPResched(req.body.activityID, req.body.reason, req.body.date, req.body.others, 6).then(data=>{
             res.json({status:1});
         }).catch(err=>{

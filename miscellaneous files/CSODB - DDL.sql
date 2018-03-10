@@ -1946,7 +1946,7 @@ CREATE TABLE ProjectProposal (
     rescheduleReason SMALLINT REFERENCES ProjectProposalRescheduleReason(id),
     reschedReasonOther TEXT,
     rescheduleDates DATE[],
-    reschedRejectReason TEXT,
+    reschedRejectReason TEXT DEFAULT '',
 
     timesPended INTEGER NOT NULL DEFAULT 0,
 

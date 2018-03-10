@@ -31,7 +31,7 @@ module.exports = function(configuration, modules, database, queryFiles){
 	const OrganizationModel = Object.create(null);
 
 	OrganizationModel.getOrganizationInformation = (id, fields, connection = database) => {
-		 logger.debug(`Invoked, fields: ${JSON.stringify(fields)}`, log_options);
+		logger.debug(`Invoked, fields: ${JSON.stringify(fields)}`, log_options);
 		let query = squel.select()
 			.from('StudentOrganization')
 			.where('id = ${id}');

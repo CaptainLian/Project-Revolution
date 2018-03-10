@@ -329,68 +329,82 @@
 
 
          function addEvent(data){
-          var dateInp = $("#inp-date").val();
           var startInp = $("#inp-start").val();
-          var endInp = $("#inp-end").val();
-          var actInp = $("#inp-name").val();
-          var descInp = $("#inp-desc").val();
-          var selInp = $("#inp-pos").val();
-          if( dateInp in sched){
-             var act = {
-                    'id':data.id,
-                    'start': startInp,
-                    'end': endInp,
-                    "date":dateInp,
-                    'act': actInp,
-                    'desc': descInp,
-                    'person': selInp
+                    var endInp = $("#inp-end").val();
+                    var actInp = $("#inp-name").val();
+                    var descInp = $("#inp-desc").val();
+                    var selInp = $("#inp-pos").val();
+          if(startInp < endInp){
+                    var dateInp = $("#inp-date").val();
+                    
+                    if( dateInp in sched){
+                       var act = {
+                              'id':data.id,
+                              'start': startInp,
+                              'end': endInp,
+                              "date":dateInp,
+                              'act': actInp,
+                              'desc': descInp,
+                              'person': selInp
+          
+                          };
+                          sched[dateInp].push(act);
+          
+          
+                    }else{  
+                        var act = {
+                              'id':data.id,
+                              'start': startInp,
+                              'end': endInp,
+                              'act': actInp,
+                              'desc': descInp,
+                              "date":dateInp,
+                              'person': selInp
+          
+                          };
+                          sched[dateInp] = [];
+                          sched[dateInp].push(act);
+                    }
+                    var event = {                  
+                            id:data.id,
+                            title:$("#inp-name").val(),
+                            date:$("#inp-date").val(),
+                            start: setTime($("#inp-date").val(), $("#inp-start").val()),
+                            end: setTime($("#inp-date").val(), $("#inp-end").val()),
+                            description: $("#inp-desc").val(),
+                            person:$("#inp-pos").select2('data'),
+                            posid:$("#inp-pos").val()
+                            
+                            
+                    }
+                    $("#calendar").fullCalendar('renderEvent',event);
+          
+                     $.toast({
+                      heading: 'Success!',          
+                      position: 'top-right',
+                      loaderBg:'#ff6849',
+                      icon: 'success',
+                      bgColor:'#00C292',
+                      hideAfter: 3500, 
+                      stack: 6
+                    });
+                    $('#createEventModal').modal('hide');
+          
+            }else{
+              $.toast({
+                      heading: 'Failed!',          
+                      text:'End time is less than start time.',
+                      position: 'top-right',
+                      loaderBg:'#ff6849',
+                      icon: 'error',
+                      bgColor:'#FB9678',
+                      hideAfter: 3500, 
+                      stack: 6
+                    });
+                
+            }
 
-                };
-                sched[dateInp].push(act);
-
-
-          }else{  
-              var act = {
-                    'id':data.id,
-                    'start': startInp,
-                    'end': endInp,
-                    'act': actInp,
-                    'desc': descInp,
-                    "date":dateInp,
-                    'person': selInp
-
-                };
-                sched[dateInp] = [];
-                sched[dateInp].push(act);
-          }
-          var event = {                  
-                  id:data.id,
-                  title:$("#inp-name").val(),
-                  date:$("#inp-date").val(),
-                  start: setTime($("#inp-date").val(), $("#inp-start").val()),
-                  end: setTime($("#inp-date").val(), $("#inp-end").val()),
-                  description: $("#inp-desc").val(),
-                  person:$("#inp-pos").select2('data'),
-                  posid:$("#inp-pos").val()
-                  
-                  
-          }
-          $("#calendar").fullCalendar('renderEvent',event);
-
-           $.toast({
-            heading: 'Success!',          
-            position: 'top-right',
-            loaderBg:'#ff6849',
-            icon: 'success',
-            bgColor:'#00C292',
-            hideAfter: 3500, 
-            stack: 6
-          });
-          $('#createEventModal').modal('hide');
-
-
-
-       }
+        }
 
        $('#createEventModal').on('hidden.bs.modal', function () {
          clear()
@@ -499,7 +513,7 @@
 				</div>
 				<div class="panel-footer text-center">
 					<button type="submit" id="submit-but" class="btn btn-success"> <i class="fa fa-save"></i>&nbsp;Save</button>
-					<button type="button" id="cancel-but" class="btn btn-default">Cancel</button>			
+					<a href="/Organization/ProjectProposal/Main/{{gosmactivity.gosmactivity}}/{{status}}" type="button" id="cancel-but" class="btn btn-default">Cancel</a>			
 				</div>
 			</div>
 		</div>

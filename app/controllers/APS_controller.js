@@ -212,12 +212,19 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         const renderData = Object.create(null);
         renderData.extra_data = req.extra_data;
 
-        return accountModel.getPPRToSignList(req.session.user.idNumber)
-        .then(list => {
+        database.task(t => {
+            return t.batch([ 
+                accountModel.getPPRToSignList(req.session.user.idNumber, t),
+                projectProposalModel.getAllProjectProposal(t)
+            ]);    
+        }).then(list => {
             console.log(list)
             console.log("asdasdas")
 
-            renderData.activities = list;
+            renderData.activities = list[0];
+
+            renderData.projectProposal = list[1];
+            console.log(list[0])
             return res.render('APS/ProjectProposal_sign_list', renderData);
         }).catch(err => {
             return logger.warn(`${err.message}\n${err.stack}`, log_options);
@@ -280,7 +287,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     "to_char(pppd.endtime + CURRENT_DATE, 'HH:MI PM') AS endtime",
                     'pppd.activity AS activity',
                     'pppd.activitydescription AS activitydescription',
-                    'pppd.personincharge AS personincharge'
+                    'pppd.personincharge AS personincharge',
+                    'acc.firstname AS firstname',
+                    'acc.lastname AS lastname'
                 ]),
                 // 4
                 projectProposalModel.getProjectProposalProjectHeads(activityID),
