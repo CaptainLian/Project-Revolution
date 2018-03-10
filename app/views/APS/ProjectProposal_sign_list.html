@@ -76,7 +76,7 @@
                         {%for activity in activities%}
                             <tr>
                                 <td >{{activity.actualdatestart}}</td>
-                                <td >{%if activity.status != 1%}<a href="/APS/Signatory/Activtiy/{{activity.gosmactivity}}" class="btn-lnk">{{activity.strategies}}</a>{%else%}{{activity.strategies}}{%endif%}</td>
+                                <td ><a href="/APS/Signatory/Activtiy/{{activity.gosmactivity}}" class="btn-lnk">{{activity.strategies}}</a></td>
 
                                 {% for project in projectProposal %}
 
