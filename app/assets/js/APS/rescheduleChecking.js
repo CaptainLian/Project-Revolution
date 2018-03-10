@@ -28,12 +28,14 @@ $(document).on('click', '#approve', function() {
         }
 
     }).then(function(data) {
+         
         $.ajax({
             type: 'POST',
             url: '/APS/ajax/resched',
             data: {
                 activityID: id,
-                status: 3
+                status: 3,
+                comment:null
             },
 
             success: function(data) {
@@ -93,12 +95,14 @@ $(document).on('click', '#deny', function() {
         // }
         
     }).then(function() {
+        var comment = $("#reject-comment").val()
+
         $.ajax({
             type: 'POST',
             url: '/APS/ajax/resched',
             data: {
                 activityID: id,
-                comment:$("#reject-comment").val(),
+                comment:comment,
                 status: 3
             },
             success: function(data) {

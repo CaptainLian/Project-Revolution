@@ -346,12 +346,18 @@ module.exports = function(configuration, modules, db, queryFiles) {
                          .set("rescheduledates", "{"+dates+"}")
                          .set("reschedreasonother", other)
                          .set("reschedrejectreason", '')
-                         .where("id = ?",id)
+                         .where("GosmActivity = ?",id)
 
-      
+        console.log(query.toString())
         return connection.any(query.toString());
     };
     ProjectProposalModel.prototype.approvePPResched =  function(id, comment, status, connection = this._db){
+        console.log("============================")
+        console.log(comment)
+        if(comment === ''){
+            console.log("PASDSd")
+            comment = null
+        }
         
         let query = squel.update()
                          .table("ProjectProposal")
