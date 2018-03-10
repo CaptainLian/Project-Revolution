@@ -99,7 +99,7 @@ $(document).on('click', '#deny', function() {
             data: {
                 activityID: id,
                 comment:$("#reject-comment").val(),
-                status: 7
+                status: 3
             },
             success: function(data) {
                  swal("Success!", "", "success").then(function(){

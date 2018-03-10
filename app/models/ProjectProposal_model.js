@@ -345,6 +345,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
                          .set("reschedulereason", reason)
                          .set("rescheduledates", "{"+dates+"}")
                          .set("reschedreasonother", other)
+                         .set("reschedrejectreason", '')
                          .where("id = ?",id)
 
       
