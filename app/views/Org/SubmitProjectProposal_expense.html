@@ -25,6 +25,8 @@
     {{tag.style('/plugins/bower_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css')}}
     {{tag.style('/plugins/bower_components/multiselect/css/multi-select.css')}}
     {{tag.style('/css/custom.css')}}
+
+    {{tag.style('/plugins/bower_components/toast-master/css/jquery.toast.css')}}
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 	<!--[if lt IE 9]>
@@ -61,7 +63,7 @@
     {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
 
     {{tag.javascript('/js/custom.min.js', true)}}
-
+    {{tag.javascript('/plugins/bower_components/toast-master/js/jquery.toast.js',true)}}
     <script>
 
 
@@ -141,7 +143,7 @@
 								</div>
 								<div class="form-group row">
 									<label for="example-month-input"  class="col-md-12 text-center col-form-label">
-										Sources Funds
+										Sources of Funds
 									</label>
 								</div>
 								<div class="form-group row">
@@ -149,11 +151,11 @@
 										Organization Funds
 									</label>
 									<div class="col-md-6">
-										<input class="form-control" dir="rtl" id="org-exp" name="org" type="text" value="{{projectProposal.sourcefundorganizational | round(2)}}">
+										<input class="form-control" dir="rtl" readonly="" id="org-exp" name="org" type="text" value="{{projectProposal.sourcefundorganizational | round(2)}}">
 										<span id="org-help" class="help-block"> </span>
 									</div>
 								</div>
-								<div class="form-group row ">
+								<div class="form-group row " style="display: none">
 									<label for="example-month-input"  class="col-md-5 text-left offset-md-1 col-form-label">
 										Participant's Fee
 									</label>
@@ -162,7 +164,7 @@
 										<span id="pat-help" class="help-block">  </span>
 									</div>
 								</div>
-								<div class="form-group row">
+								<div class="form-group row" style="display: none">
 									<label for="example-month-input" class="col-md-5 text-left offset-md-1 col-form-label">
 										Others
 									</label>
@@ -203,6 +205,130 @@
 										</tr>
 									</thead>
 									<tbody>
+										{%for exp in listexpenses%}
+										<div id="{{loop.index0}}-exp" class="col-md-4 m-t-40 expe" style="display: none" >
+											<div class="form-group ">
+												<label class="form-control-label">
+													Item Name
+												</label>
+												<input id="{{loop.index0}}-expitem" value="{{exp.material}}" name="item[]" type="text" class="form-control">
+												<div>
+													<span class="help-block" id="item-help"></span>
+												</div>
+											</div>
+											<div class="form-group toi">
+												<label class="form-control-label">Type of Item</label>
+												<select name="typeOfItem[]" id="{{loop.index0}}-expsel0" class="form-control select2">
+													
+													
+															
+															<option value="{{exp.type}}"  selected="selected">{{exp.type}}</option>
+
+													
+													
+												</select>
+												<div>
+													<span class="help-block" id="time-help"></span>
+												</div>
+											</div>
+											<div class="form-group ">
+												<label class="form-control-label">Price</label>
+												<div class="input-group">
+													<span class="input-group-addon" id="basic-addon1" step='0.01'>₱</span>
+													<input id="{{loop.index0}}-expprice" value="{{exp.unitcost}}" type="text" name="price[]" class="form-control">
+												</div>
+												<div>
+													<span class="help-block" id="price-help"></span>
+												</div>
+											</div>
+											<div class="form-group ">
+												<label class="form-control-label">Quantity</label>
+												<div class="input-group">
+													<input id="{{loop.index0}}-expquantity" min="1" value="{{exp.quantity}}" name="quantity[]"  type="text" class="form-control">
+													<span class="input-group-addon"  id="basic-addon1" step='0.01'>pcs</span>
+												</div>	
+												<div>
+													<span class="help-block" id="quantity-help"></span>
+												</div>
+											</div>
+											<div class="form-group" >
+												<div class="radio-list text-center">
+													
+													<label class="radio-inline expense">
+														<input id="{{loop.index0}}-expexp" name="optionsRadios2[]" value="Expense" type="text" > 
+														Expense 
+													</label>
+												</div>
+											</div>		
+											<div class="m-t-5 form-group text-center ">
+												<button type="button" id="{{loop.index0}}-expinsert-button" class="btn btn-info">Insert </button>
+											</div>			
+										</div>
+										{%endfor%}
+
+
+										<!-- BUG -->
+
+										{%for rev in listrevenues%}
+										<div id="{{loop.index0}}-rev" class="col-md-4 m-t-40 reve" style="display: none">
+											<div class="form-group ">
+												<label class="form-control-label">
+													Item Name
+												</label>
+												<input id="{{loop.index0}}-revitem" value="{{rev.item}}" name="item[]" type="text" class="form-control">
+												<div>
+													<span class="help-block" id="item-help"></span>
+												</div>
+											</div>
+											 
+											<div class="form-group ">
+												<label class="form-control-label">Price</label>
+												<div class="input-group">
+													<span class="input-group-addon" id="basic-addon1" step='0.01'>₱</span>
+													<input id="{{loop.index0}}-revprice" value="{{rev.sellingprice}}" type="text" name="price[]" class="form-control">
+												</div>
+												<div>
+													<span class="help-block" id="price-help"></span>
+												</div>
+											</div>
+											<div class="form-group ">
+												<label class="form-control-label">Quantity</label>
+												<div class="input-group">
+													<input id="{{loop.index0}}-revquantity" min="1" value="{{rev.quantity}}" name="quantity[]"  type="text" class="form-control">
+													<span class="input-group-addon"  id="basic-addon1" step='0.01'>pcs</span>
+												</div>	
+												<div>
+													<span class="help-block" id="quantity-help"></span>
+												</div>
+											</div>
+											<div class="form-group" >
+												<div class="radio-list text-center">
+													
+													<label class="radio-inline expense">
+														<input id="{{loop.index0}}-rev" name="optionsRadios2[]" value="Revenue" type="text"  > 
+														Expense 
+													</label>
+												</div>
+											</div>		
+											<div class="m-t-5 form-group text-center ">
+												<button type="button" id="{{loop.index0}}-revenueinsert-button" class="btn btn-info">Insert </button>
+											</div>			
+										</div>
+										{%endfor%}
+										{%for rev in listrevenues%}
+										<tr type="rev" id="{{loop.index0}}-rev-td">
+											<td>{{rev.item}}</td>
+											<td></td>
+											<td class="text-right">
+												<strong>₱</strong>{{rev.quantity*rev.sellingprice}}
+											</td>
+											<td class="text-center">
+												<span class="mytooltip tooltip-effect-1"><span class="tooltip-item" style="background-color:white;padding:0px"><i class="fa fa-comment-o view-details"></i>  </span><span class="tooltip-content clearfix"><span class="tooltip-text p-10"><p>Quantity: {{rev.quantity}} pcs</p><p>Price: ₱ {{rev.sellingcost}}</p></span> </span></span> <i data-id="{{loop.index0}}-rev" class="fa fa-times text-danger  remove-time"></i>
+											</td>
+										</tr>
+										{%endfor%}
+
+
 										<tr class="fund" id="tot-rev" {%if revenue ==0 %}style="display:none" {%endif%}>
 											<td class="text-right" ><strong>Total Assets</strong></td>
 											<!--  <td></td> -->
@@ -210,13 +336,27 @@
 											<td></td>
 											<td></td>
 										</tr>
-									
+
+										{%for exp in listexpenses%}
+										<tr type="exp" id="{{loop.index0}}-exp-td">
+											<td>{{exp.material}}</td>
+											<td></td>
+											<td class="text-right"><strong>₱</strong>{{exp.quantity*exp.unitcost}}</td>
+											<td class="text-center">
+												<span class="mytooltip tooltip-effect-1"><span class="tooltip-item" style="background-color:white;padding:0px"><i class="fa fa-comment-o view-details"></i>  </span><span class="tooltip-content clearfix"><span class="tooltip-text p-10"><p>Quantity: {{exp.quantity}} pcs</p><p>Price: ₱ {{exp.unitcost}}</p><p>Type: {{exp.name}}</p></span> </span></span> <i data-id="{{loop.index0}}-exp"  class="fa fa-times text-danger  remove-time"></i>
+											</td>
+										</tr>
+										{%endfor%}
+
+
 										<tr id="tot-exp" class="panel-error">
 											<td  class="text-right"><strong>Total Expenses</strong></td>
 											<td></td>
 											<td class="text-right text-danger">₱<span id="texp"></span></td>
 											<td></td>
 										</tr>
+
+
 										<tr class="fund" {%if revenue ==0 %}style="display:none" {%endif%}>
 											<td class="text-right"><strong>Total Revenue </strong></td>
 											<td class="text-right text-success">₱<span id="tfin"></span></td>
@@ -227,79 +367,79 @@
 								</table>
 							</div>
 							<div id="clone" class="col-md-4 m-t-40">
-							<div class="form-group ">
-								<label class="form-control-label">
-									Item Name
-								</label>
-								<input id="item" name="item[]" type="text" class="form-control">
-								<div>
-									<span class="help-block" id="item-help"></span>
-								</div>
-							</div>
-							<div class="form-group toi">
-								<label class="form-control-label">Type of Item</label>
-								<select name="typeOfItem[]" id="sel0" class="form-control select2">
-									
-									{% for type in expenseTypes %}
-
-										{% if type.id == 3%}
-
-										{% else %}
-											
-											<option value="{{type.id}}" >{{type.name}}</option>
-
-										{% endif %}
-
-									{% endfor %}
-									
-								</select>
-								<div>
-									<span class="help-block" id="time-help"></span>
-								</div>
-							</div>
-							<div class="form-group ">
-								<label class="form-control-label">Price</label>
-								<div class="input-group">
-									<span class="input-group-addon" id="basic-addon1" step='0.01'>₱</span>
-									<input id="price"  type="text" name="price[]" class="form-control">
-								</div>
-								<div>
-									<span class="help-block" id="price-help"></span>
-								</div>
-							</div>
-							<div class="form-group ">
-								<label class="form-control-label">Quantity</label>
-								<div class="input-group">
-									<input id="quantity" min="1" name="quantity[]"  type="text" class="form-control">
-									<span class="input-group-addon"  id="basic-addon1" step='0.01'>pcs</span>
-								</div>	
-								<div>
-									<span class="help-block" id="quantity-help"></span>
-								</div>
-							</div>
-							<div class="form-group" {%if revenue ==0 %}style="display:none" {%endif%}>
-								<div class="radio-list text-center">
-									<label class="radio-inline fund" >
-										<input name="optionsRadios2[]" id="rev-opt"  value="Revenue" type="radio">
-										Revenue
+								<div class="form-group ">
+									<label class="form-control-label">
+										Item Name
 									</label>
-									<label class="radio-inline expense">
-										<input id="exp" name="optionsRadios2[]" value="Expense" type="radio"> 
-										Expense 
-									</label>
+									<input id="item" name="item[]" type="text" class="form-control">
+									<div>
+										<span class="help-block" id="item-help"></span>
+									</div>
 								</div>
-							</div>		
-							<div class="m-t-5 form-group text-center ">
-								<button type="button" id="insert-button" class="btn btn-info">Insert </button>
-							</div>			
-						</div>
+								<div class="form-group toi">
+									<label class="form-control-label">Type of Item</label>
+									<select name="typeOfItem[]" id="sel0" class="form-control select2">
+										
+										{% for type in expenseTypes %}
+
+											{% if type.id == 3%}
+
+											{% else %}
+												
+												<option value="{{type.id}}" >{{type.name}}</option>
+
+											{% endif %}
+
+										{% endfor %}
+										
+									</select>
+									<div>
+										<span class="help-block" id="time-help"></span>
+									</div>
+								</div>
+								<div class="form-group ">
+									<label class="form-control-label">Price</label>
+									<div class="input-group">
+										<span class="input-group-addon" id="basic-addon1" step='0.01'>₱</span>
+										<input id="price"  type="text" name="price[]" class="form-control">
+									</div>
+									<div>
+										<span class="help-block" id="price-help"></span>
+									</div>
+								</div>
+								<div class="form-group ">
+									<label class="form-control-label">Quantity</label>
+									<div class="input-group">
+										<input id="quantity" min="1" name="quantity[]"  type="text" class="form-control">
+										<span class="input-group-addon"  id="basic-addon1" step='0.01'>pcs</span>
+									</div>	
+									<div>
+										<span class="help-block" id="quantity-help"></span>
+									</div>
+								</div>
+								<div class="form-group" {%if revenue ==0 %}style="display:none" {%endif%}>
+									<div class="radio-list text-center">
+										<label class="radio-inline fund" >
+											<input name="optionsRadios2[]" id="rev-opt"  value="Revenue" type="radio">
+											Revenue
+										</label>
+										<label class="radio-inline expense">
+											<input id="exp" name="optionsRadios2[]" value="Expense" type="radio"> 
+											Expense 
+										</label>
+									</div>
+								</div>		
+								<div class="m-t-5 form-group text-center ">
+									<button type="button" id="insert-button" class="btn btn-info">Insert </button>
+								</div>			
+							</div>
 						</div>
 						
 					</div>
 				</div>
 				<div class="panel-footer text-center">
 					<button type="submit" id="save" class="btn btn-success"><i class="fa fa-save"></i>&nbsp;Save</button>
-					<button type="button" class="btn btn-default">Cancel</button>		
+					<a href="/Organization/ProjectProposal/Main/{{gosmactivity.gosmactivity}}/{{status}}" type="button" class="btn btn-default">Cancel</a>		
 				</div>
 			
 		</div>

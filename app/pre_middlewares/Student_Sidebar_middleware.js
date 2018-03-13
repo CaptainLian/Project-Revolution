@@ -3,11 +3,12 @@
 module.exports = function(configuration, application, modules, database, queryFiles, models) {
     const Promise = modules.Promise;
     const accessControlModel = models.AccessControl_model;
+    const gosmModel = models.gosmModel;
     const organizationModel = models.organization_model;
+
     const logger = modules.logger;
-    const log_options = {
-        from: 'Student-AccessControl-Middleware'
-    };
+    const log_options = Object.create(null);
+    log_options.from = 'Student-AccessControl-Middleware';
 
     /**
      * const StudentAccountAccessControlMiddleware = {
@@ -20,55 +21,55 @@ module.exports = function(configuration, application, modules, database, queryFi
     StudentAccountAccessControlMiddleware.name = 'StudentAccount-AccessControl-Middleware';
     StudentAccountAccessControlMiddleware.priority = configuration.load_priority.HIGHEST;
     StudentAccountAccessControlMiddleware.action = (req, res, next) => {
-        logger.debug(`Extra-data contents: ${JSON.stringify(req.extra_data)}`, log_options);
         const user = req.session.user;
         if (!user || user.type !== 1 || req.method !== 'GET') {
             logger.debug(`Not valid user`, log_options);
             return next();
         }
 
+        logger.info('StudentAccount-AccessControl-Middleware', log_options);
+
         try {
             logger.debug(`Logged-in user: ${user.idNumber}, type: student`, log_options);
             logger.debug(`\tSelected Organization: ${JSON.stringify(user.organizationSelected)}`, log_options);
-            return accessControlModel.getAccountAccessControl(user.idNumber)
-                .then(data => {
-                    const accessControl = Object.create(null);
-                    const accessibleFunctionalitiesList = Object.create(null);
+            return accessControlModel.getAccountAccessControl(user.idNumber).then(data => {
+                const accessControl = Object.create(null);
+                const accessibleFunctionalitiesList = Object.create(null);
 
-                    for (let index = data.length; index--;) {
-                        const row = data[index];
-                        /* ES6 object destructuring */
-                        const {
-                            organization,
-                            functionalitySequence,
-                            isAllowed
-                        } = row;
+                for (let index = data.length; index--;) {
+                    const row = data[index];
+                    /* ES6 object destructuring */
+                    const {
+                        organization,
+                        functionalitySequence,
+                        isAllowed
+                    } = row;
 
-                        if (accessControl[organization]) {
-                            accessControl[organization][functionalitySequence] = isAllowed;
-                        } else {
-                            const orgData = Object.create(null);
-                            orgData[functionalitySequence] = isAllowed;
+                    if (accessControl[organization]) {
+                        accessControl[organization][functionalitySequence] = isAllowed;
+                    } else {
+                        const orgData = Object.create(null);
+                        orgData[functionalitySequence] = isAllowed;
 
-                            accessControl[organization] = orgData;
-                        }
-
-                        if (accessibleFunctionalitiesList[functionalitySequence]) {
-                            accessibleFunctionalitiesList[functionalitySequence] = accessibleFunctionalitiesList[functionalitySequence] || isAllowed;
-                        } else {
-                            accessibleFunctionalitiesList[functionalitySequence] = isAllowed;
-                        }
+                        accessControl[organization] = orgData;
                     }
 
-                    logger.debug(`\tUser access control: ${JSON.stringify(accessControl)}`, log_options);
-                    logger.debug(`\tAccessible functions list: ${JSON.stringify(accessibleFunctionalitiesList)}`, log_options);
-                    req.extra_data.user.accessControl = accessControl;
-                    req.extra_data.user.accessibleFunctionalitiesList = accessibleFunctionalitiesList;
+                    if (accessibleFunctionalitiesList[functionalitySequence]) {
+                        accessibleFunctionalitiesList[functionalitySequence] = accessibleFunctionalitiesList[functionalitySequence] || isAllowed;
+                    } else {
+                        accessibleFunctionalitiesList[functionalitySequence] = isAllowed;
+                    }
+                }
 
-                    return next();
-                }).catch(error => {
-                    return next(error);
-                });
+                logger.debug(`\tUser access control: ${JSON.stringify(accessControl)}`, log_options);
+                logger.debug(`\tAccessible functions list: ${JSON.stringify(accessibleFunctionalitiesList)}`, log_options);
+                req.extra_data.user.accessControl = accessControl;
+                req.extra_data.user.accessibleFunctionalitiesList = accessibleFunctionalitiesList;
+
+                return next();
+            }).catch(error => {
+                return next(error);
+            });
         } catch (err) {
             return next(err);
         }
@@ -141,6 +142,8 @@ module.exports = function(configuration, application, modules, database, queryFi
             return next();
         }
 
+        logger.info('Student sidebar attacher', log_options);
+
         const user = req.session.user;
         const organizationSelected = user.organizationSelected;
         logger.debug('Organization selected detected', log_options);
@@ -180,6 +183,8 @@ module.exports = function(configuration, application, modules, database, queryFi
             return next();
         }
 
+        logger.info('Submit Project Proposal Attacher', log_options);
+
         const user = req.session.user;
         const organizationSelected = user.organizationSelected;
         const sidebars = req.extra_data.view.sidebars;
@@ -187,11 +192,12 @@ module.exports = function(configuration, application, modules, database, queryFi
         logger.debug('Performing sidebar checks', log_options);
         return database.task(task => {
             return task.batch([
-                accountModel.isProjectHead(user.idNumber),
-                accountModel.hasGOSMACtivityWithAMTActivityEvaluation(user.idNumber),
-                accountModel.hasPPRApproved(user.idNumber),
-                accountModel.hasPPRWithoutPostProjectProposal(user.idNumber),
-                organizationModel.hasGOSMSubmitted(organizationSelected.id)
+                accountModel.isProjectHead(user.idNumber, task),
+                accountModel.hasGOSMACtivityWithAMTActivityEvaluation(user.idNumber, user.organizationSelected.id, task),
+                accountModel.hasPPRApproved(user.idNumber, task),
+                accountModel.hasPPRWithoutPostProjectProposal(user.idNumber, task),
+                organizationModel.hasGOSMSubmitted(organizationSelected.id, task),
+                gosmModel.getBuffer(organizationSelected.id, task)
             ]);
         }).then(data => {
             const [
@@ -260,12 +266,32 @@ module.exports = function(configuration, application, modules, database, queryFi
                 sidebars[sidebars.length] = newSidebar;
             }
 
+
+            if(req.extra_data.user.accessControl[organizationSelected.id][28]){
+                logger.debug('Can submit not in GOSM activities', log_options);
+
+                const newSidebar = Object.create(null);
+                console.log("ASDASDJASKLDJASLKDJ")
+                console.log(data[5][0])
+                var ctr = 0 ;
+                if(data[5][0] === undefined){
+                    ctr = 0
+                }else{
+                    ctr =  data[5][0].cgaid
+                }
+                req.session.notingosm = ctr;
+                newSidebar.name = 'Not in GOSM ('+ctr+'/10)';
+                newSidebar.link = '/Organization/additional';
+                newSidebar.icon = 'fa fa-group';
+                
+                sidebars[sidebars.length] = newSidebar;
+            }
+
             return next();
         }).catch(err => {
-            logger.warn(`${err.message}\n${err.stack}`, log_options);
+            logger.error(`${err.message}\n${err.stack}`, log_options);
             return next(err);
         });
-
     };
 
     return [

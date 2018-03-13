@@ -1,9 +1,15 @@
 module.exports = function(configuration, modules, models, database, queryFiles){
+    const logger = modules.logger;
+    const log_options = Object.create(null);
+    log_options.from = 'ORGRES-Controller';
+
 	const nodemailer = require('nodemailer');
 	var cuid = require('cuid');
+
 	const orgresModel = models.Orgres_model;
 	const systemModel = models.System_model;
 	const accModel = models.Account_model;
+	const organizationModel = models.organization_model;
 
 	return {
 		viewManageAccount: (req, res) => {
@@ -18,24 +24,50 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				]);
 			}).then(data=>{
 				renderData.roles = data[0]
-				renderData.type = data[1]			
-				renderData.accounts = data[2]			
+				renderData.type = data[1]
+				renderData.accounts = data[2]
 				console.log(data[2]);
 				return res.render('Orgres/ManageAccount', renderData);
 			}).catch(err =>{
 				logger.error(`${err.message}: ${err.stack}`, log_options);
 			})
-		
+
 		},
+
 		officerSurveyForm: (req, res) => {
-	        const renderData = Object.create(null);
-	        renderData.extra_data = req.extra_data;
-	        return res.render('Orgres/officerSurveyForm');
+
+			organizationModel.getAllStudentOrganizations()
+			.then(data=>{
+
+				const renderData = Object.create(null);
+				renderData.organizations = data;
+		        renderData.extra_data = req.extra_data;
+		        renderData.csrfToken = req.csrfToken();
+		        return res.render('Orgres/officerSurveyForm', renderData);
+
+
+			}).catch(error=>{
+				console.log(error);
+			});
+
     	},
+
     	memberSurveyForm: (req, res) => {
-	        const renderData = Object.create(null);
-	        renderData.extra_data = req.extra_data;
-	        return res.render('Orgres/memberSurveyForm');
+
+    		organizationModel.getAllStudentOrganizations()
+    		.then(data=>{
+
+    			const renderData = Object.create(null);
+    			renderData.organizations = data;
+		        renderData.extra_data = req.extra_data;
+		        renderData.csrfToken = req.csrfToken();
+		        return res.render('Orgres/memberSurveyForm', renderData);
+
+
+    		}).catch(error=>{
+    			console.log(error);
+    		});
+
     	},
 
 		viewManageOrg: (req, res) => {
@@ -56,7 +88,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				logger.error(`${error.message}: ${error.stack}`, log_options);
 			});
 		},
-		
+
 		submitTime: (req, res) => {
 			const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
@@ -81,7 +113,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
             var thirdStartSplit = thirdStart.split("/");
             var thirdEnd = req.body.thirdend;
             var thirdEndSplit = thirdEnd.split("/");
-            
+
           	var dbParam = {
 	         	startyear: firstStartSplit[2],
 		       	endyear: thirdEndSplit[2],
@@ -96,7 +128,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 	       			datestart: "'" + firstStartSplit[2] + "-" + firstStartSplit[0] + "-" + firstStartSplit[1] + "'",
 	       			dateend: "'" + firstEndSplit[2] + "-" + firstEndSplit[0] + "-" + firstEndSplit[1] + "'"
         		}
-	            		
+
 	          	var dbParam2 = {
 	       			schoolyearid: datayear.id,
 	       			numberid: 2,
@@ -131,7 +163,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 	        });
 
 
-            	
+
 		},
 
 		viewSubmitResearchActivityForm: (req, res) => {
@@ -155,7 +187,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		submitResearchActivityForm: (req, res) =>{
 			console.log("enters this");
-			console.log(req.body); 
+			console.log(req.body);
 
 			var dbParam = {
 				gosmactivity: req.body.activity,
@@ -178,110 +210,220 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				return res.redirect('/Orgres/SubmitActivityResearchForm');
 			}).catch(error=>{
 				logger.error(`${error.message}: ${error.stack}`, log_options);
-			});	
+			});
+		},
+
+		submitOfficerSurveyForm: (req, res) =>{
+
+			console.log(req.body);
+
+			var dbParam = {
+				organizationid: req.session.user.organizationSelected.id,
+				officer: req.session.user.idNumber,
+				field1: req.body.r1,
+				field2: req.body.r2,
+				field3: req.body.r3,
+				field4: req.body.r4,
+				field5: req.body.r5,
+				field6: req.body.r6,
+				field7: req.body.r7,
+				field8: req.body.r8,
+				field9: req.body.r9
+			};
+
+			orgresModel.insertOfficerSurveyForm(dbParam)
+			.then(data=>{
+
+				return res.redirect('/home');
+
+			}).catch(error=>{
+				console.log(error);
+			});
+
+		},
+
+		submitMemberSurveyForm: (req, res) =>{
+			logger.info('call submitMemberSurveyForm()', log_options);
+
+			var dbParam = {
+				organizationid: req.body.organization,
+				field1: req.body.radio1,
+				field2: req.body.radio2,
+				field3: req.body.radio3,
+				field4: req.body.radio4,
+				field5: req.body.radio5,
+				field6: req.body.radio6,
+				field7: req.body.radio7,
+				field8: req.body.radio8,
+				field9: req.body.radio9
+			};
+
+			orgresModel.insertMemberSurveyForm(dbParam).then(data => {
+				return res.redirect('/home');
+			}).catch(error => {
+				return logger.error(`${error.message}\n${error.stack}`, log_options);
+				console.log(error);
+			});
+
 		},
 
 		saveAccount: (req, res) =>{
-			console.log(req.body)
-			console.log(req.body['accType[]'] ==1)
+			logger.info(`call saveAccount()`, log_options);
+			var password = cuid();
 
-			console.log("req.body")
-			
-			let transporter = nodemailer.createTransport({		
-			    host: 'smtp.gmail.com',
-		        port: 465,		     
-		        secure:true,  
-		        connectionTimeout : "10000",	    
-			    auth: {
-			        user:'dlsum.facultyattendance@gmail.com',
-			        pass:'01234567891011'
-			    }
-			});
-
-			let mailOptions = {
-		          from: 'dlsum.facultyattendance@gmail.com', // sender address
-		          to: "dominique_dagunton@dlsu.edu.ph", // list of receivers
-		          subject: "[IMPORTANT] Google Hacking incident", // Subject line
-		          html: '<h3>IMPORTANT</h3><p>Security Breach Found!</p><p>Due to recent access to malicious websites</p>' // html body
-		      };
-
-		    transporter.sendMail(mailOptions, (error, info) => {
-		        if (error) {
-		        	console.log("IMAP2");
-		            console.log(error);
-		        }		        		             
-		    });
-
-		    var password = cuid();
 		    database.task(task=>{
-		    	if(req.body['accType[]'] == 1){
+		    	let accType = Number.parseInt((req.body['accType[]'] ? req.body['accType[]'] : req.body.accType)[0]);
+
+		    	if(accType == 1){
 		    		console.log("createStudentAccount");
-		    		if(!Array.isArray(req.body['orgpos[]'])){
-		    			req.body['orgpos[]'] = [req.body['orgpos[]']];
+
+		    		let orgpos = req.body['orgpos[]'] ? req.body['orgpos[]'] : req.body.orgpos;
+		    		if(!Array.isArray(orgpos)){
+		    			orgpos = [orgpos];
 		    		}
-		    		for(let index = 0, length= req.body['orgpos[]'].length; index < length; ++index){
-		    			req.body['orgpos[]'][index] = Number.parseInt(req.body['orgpos[]'][index]);
+
+		    		for(let index = 0, length = orgpos.length; index < length; ++index){
+		    			orgpos[index] = Number.parseInt(orgpos[index]);
 		    		}
-		    		return	accModel.createStudentAccount(req.body.idNumber, req.body.email, password, req.body.givenName, req.body.middleName, req.body.lastName, req.body.number, req.body['orgpos[]'],task)		    				
+
+		    		return accModel.createStudentAccount(
+		    			req.body.idNumber, 
+		    			req.body.email, 
+		    			password, 
+		    			req.body.givenName, 
+		    			req.body.middleName, 
+		    			req.body.lastName,
+		    			req.body.number,
+		    			orgpos, 
+		    			task
+		    		);
 		    	}else{
 		    		console.log("createAccount");
-		    		return accModel.createAccount(req.body.idNumber, req.body.email, req.body['accType[]'], password, req.body.givenName, req.body.middleName, req.body.lastName, req.body.number,task);
+		    		return accModel.createAccount(
+		    			req.body.idNumber, 
+		    			req.body.email,
+		    			accType,
+		    			password, 
+		    			req.body.givenName, 
+		    			req.body.middleName, 
+		    			req.body.lastName, 
+		    			req.body.number,
+		    			task
+		    		);
 		    	}
 		    }).then(data =>{
-		    	res.json({status:1});
+				res.json({status:1});
+
+				let transporter = nodemailer.createTransport({
+				    host: 'smtp.gmail.com',
+			        port: 465,
+			        secure:true,
+			        connectionTimeout : "10000",
+				    auth: {
+				        user:'dlsum.facultyattendance@gmail.com',
+				        pass:'01234567891011'
+				    }
+				});
+
+				let mailOptions = {
+		        	from: 'dlsum.facultyattendance@gmail.com', // sender address
+		        	to: req.body.email, // list of receivers
+		        	subject: '[CSO - Information System] Account Activation', // Subject line
+		        	html: `<p>You just signed up for an account in the CSO Information System</p>
+		        	<p>Your account is disabled initially,</p>
+		        	<p>to activate it, login using your email OR id number and use this as the password <strong><u>${password}</u></strong></p>` // html body
+			    };
+
+			    return transporter.sendMail(mailOptions, (error, info) => {
+			        if (error) {
+			            return logger.warn(`${error}`, log_options);
+			        }
+			        return logger.debug('Mail sent', log_options);
+			    });
+
+
 		    }).catch(err=>{
 		    	res.json({status:0});
-		    	logger.error(`${err.message}: ${err.stack}`, log_options);
+		    	return logger.error(`${err.message}\n${err.stack}`, log_options);
 		    });
 		},
-		
+
 		getSpecificAccount: (req, res) =>{
 			database.task(task=>{
 				return task.batch([
-					accModel.getSpecificAccount(req.body.idNumber,['a.idnumber','a.firstname','a.middlename','a.lastname','oro.name','a.email','so.acronym','a.idNumber','a.contactNumber','aca.id','a.status']),
-					accModel.getSpecificAccount(req.body.idNumber,['oo.role'])
-				])
+					accModel.getSpecificAccount(
+	                    req.body.idNumber, [
+	                        'a.idnumber',
+	                        'a.firstname',
+	                        'a.middlename',
+	                        'a.lastname',
+	                        'oro.name',
+	                        'a.email',
+	                        'so.acronym',
+	                        'a.idNumber',
+	                        'a.contactNumber',
+	                        'aca.id',
+	                        'a.status'
+	                    ], task),
+					accModel.getSpecificAccount(req.body.idNumber, [
+						'oo.role'
+					], task)
+				]);
 			}).then(result=>{
-				console.log("result[1]")
+				console.log("result[1]");
 				var array2=[];
 				for(var x = 0; x < result[1].length; x++){
-					array2.push(result[1][x].role)
+					array2.push(result[1][x].role);
 				}
-				console.log(result[1])
-				res.json({
+				console.log(result[1]);
+				return res.json({
 					status:1,
 					details:result[0][0],
 					position:array2
-				})
+				});
 			}).catch(err=>{
 				res.json({
-					status:0					
-				})
-				logger.error(`${err.message}: ${err.stack}`, log_options);
-			})
+					status:0
+				});
+
+				return logger.error(`${err.message}: ${err.stack}`, log_options);
+			});
 		},
 
 		deleteAccount: (req, res) =>{
-			console.log(req.body.id)
+			console.log(req.body.id);
 			accModel.deleteAccount(req.body.id,2).then(data=>{
-				console.log(data)
-				res.json({status:1});	
+				console.log(data);
+				res.json({status:1});
 			}).catch(err=>{
-				console.log(err)
-				res.json({status:0});	
-			})
-			
+				console.log(err);
+				res.json({status:0});
+			});
 		},
+
 		updateAccount: (req, res) =>{
-			console.log(req.body)
-			accModel.updateAccount(req.body.id, req.body.email, req.body.accType, req.body.status, req.body.givenName,req.body.middleName,req.body.lastName,req.body.number, req.body['orgpos[]']).then(data=>{
-				console.log(data)
-				res.json({status:1});	
-			}).catch(err=>{
-				res.json({status:0});	
-				logger.error(`${error.message}: ${error.stack}`, log_options);
-			})
-		},
+            logger.info('updateAccount()', log_options);
+
+            let orgpos = req.body['orgpos[]'] ? req.body['orgpos[]'] : req.body.orgpos;
+			logger.debug(req.body, log_options);
+			accModel.updateAccount(
+                req.body.id,
+                req.body.email,
+                req.body.accType,
+                req.body.status,
+                req.body.givenName,
+                req.body.middleName,
+                req.body.lastName,
+                req.body.number,
+                orgpos
+            ).then(data => {
+				res.json({status:1});
+                return logger.debug(data, log_options);
+			}).catch(error =>{
+				res.json({status:0});
+				return logger.error(`${error.message}: ${error.stack}`, log_options);
+			});
+		}
 
 	};
 };

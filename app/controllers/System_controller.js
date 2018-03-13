@@ -35,10 +35,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     const SystemController = Object.create(null);
 
     SystemController.viewLogin = (req, res) => {
+        logger.info('viewLogin()', log_options);
         logger.debug(`Extra-data contents: ${JSON.stringify(req.extra_data)}`, log_options);
 
         if(req.session.user){
-            return  res.redirect('/home');
+            return res.redirect('/home');
         }
 
         const renderData = Object.create(null);
@@ -50,192 +51,102 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     };
 
     SystemController.logout = (req, res) => {
+        logger.info('logout()', log_options);
         req.session.user = null;
         return req.session.destroy((err) => {
             if(err)
                 logger.warn(`${err.message}\n${err.stack}`, log_options);
-            return res.redirect("/");
-        });
-    };
-
-    SystemController.checkLogin = (req, res) => {
-        let input = req.body;
-        logger.debug(`Login attempt input: ${JSON.stringify(input)}`, log_options);
-        //parse id number
-        let credential = parseInt(input.credential);
-
-        let query = squel.select()
-            .from('Account')
-            .field('idNumber')
-            .field('email')
-            .field('password')
-            .field('salt')
-            .field('Firstname')
-            .field('Lastname')
-            .field('Middlename')
-            .field('type');
-
-        if (isNaN(credential)) {
-            //this is email. possibly invalid
-            query.where('email=${credential}');
-        } else if (!Number.isInteger(credential)) {
-            //this is a decimal number or invalid value
-            logger.debug('Aguy input');
-            return res.send({
-                valid: false
-            });
-        } else {
-            query.where('idNumber=${credential}');
-        }
-
-        database.one(query.toString(), {
-            credential: input.credential
-        }).then(account => {
-            logger.debug(`Account found: ${JSON.stringify(account)}`, log_options);
-            console.log("input.password")
-            console.log(account.salt)
-            if (account.password === bcrypt.hashSync(input.password, account.salt)) {
-
-                logger.debug('Enter!!', log_options);
-
-                /**
-                 * Session Contents
-                 * {
-                 *     user: {
-                 *         idNumber
-                 *         name: {
-                 *             first
-                 *             middle
-                 *             last
-                 *         },
-                 *         type
-                 *         organizationSelected{
-                 *              id,
-                 *
-                 *              path_profilePicture
-                 *         } (Optional)
-                 *     }
-                 * }
-                 * @type Object
-                 */
-                let user = Object.create(null);
-                user.idNumber = account.idnumber;
-                user.name = Object.create(null);
-                user.name.first = account.firstname;
-                user.name.middle = account.middlename;
-                user.name.last = account.lastname;
-                user.type = account.type;
-                req.session.user = user;
-                req.session.valid = true;
-
-                logger.debug('Determining user type', log_options);
-
-                let step = Promise.resolve(true);
-                if(req.session.user.type === 1){
-                    logger.debug('Student type account', log_options);
-                    step = accountModel.getStudentOrganizations(req.session.user.idNumber).then(data => {
-                        logger.debug(`${JSON.stringify(data)}`, log_options);
-
-                        let organization = data.shift();
-                        logger.debug(`organizationSelected: ${JSON.stringify(organization)}`, log_options);
-                        logger.debug(`${JSON.stringify(organization)}`, log_options);
-
-                        let organizationSelected = Object.create(null);
-                        organizationSelected.id = organization.id;
-                        organizationSelected.path_profilePicture = organization.path_profilepicture || '';
-                        organizationSelected.acronym = data.acronym;
-
-                        req.session.user.organizationSelected = organizationSelected;
-
-                        return Promise.resolve(true);
-                    });
-                }
-
-                return step.then(() => {
-                    logger.debug('Rerouting user to /home', log_options);
-                    return new Promise((resolve, reject) => {
-                        try {
-                          return req.session.save(err => {
-                                if(err)
-                                    return reject(err);
-
-                                const reply = Object.create(null);
-                                reply.url = '/home';
-                                reply.reroute = true;
-                                reply.valid = true;
-                                res.send(reply);
-                                return resolve(true);
-                            });
-                        } catch(err) {
-                            return reject(err);
-                        }
-                    });
-                });
-            } else {
-                logger.debug('Incorrect password', log_options);
-                return res.send({
-                    valid: false
-                });
-            }
-        }).catch(err => {
-            logger.debug(`Account not exists? err: ${err.message}\n${err.stack}`, log_options);
-            return res.send({
-                valid: false
-            });
+            return res.redirect('/');
         });
     };
 
     SystemController.viewHome = (req, res) => {
-        logger.debug('viewHome()', log_options);
-        logger.debug('Determining user type', log_options);
-        switch (req.session.user.type) {
-            // Admin
-            case 0:
-                //TODO: implementation
-                return res.redirect('/blank');
+        logger.info('viewHome()', log_options);
 
-            // Faculty Adviser Account
-            case 2:
-                //TODO: implementation
-                return res.redirect('/blank');
-            // Director of S-Life Account
-            case 3:
-                //TODO: implementation
-                return res.redirect('/blank');
-            // Dean of Student Affairs Account
-            case 4:
-                //TODO: implementation
-                return res.redirect('/blank');
+        logger.debug('Checking for password expiration', log_options);
+        accountModel.getAccountDetails(req.session.user.idNumber, [
+            'passwordExpiration AS "passwordExpiration"',
+            'status'
+        ]).then(account => {
+            const ngayon = Date.now();
 
-            // Vice President for Lasallian Mission Account
-            case 5:
-                //TODO: implementation
-                return res.redirect('/blank');
+            if(ngayon >= account.passwordExpiration){
+                logger.debug('Password expired', log_options);
+                return res.redirect('/System/ChangeExpiredPassword');
+            }else if(account.status == 3){
+                logger.debug('First time sign-in', log_options);
+                return res.redirect('/System/NewAccountPassword');
+            }else{
+                logger.debug('Password NOT expired', log_options);
 
-            // President
-            case 6:
-                //TODO: implementation
-                return res.redirect('/blank');
-
-            // Student Account
-            case 1:
-                logger.debug('Student Account', log_options);
-                return accountModel.getRoleDetailsInOrganization(
-                    req.session.user.idNumber,
-                    req.session.user.organizationSelected.id,
-                    'home_url'
-                ).then(data => {
-                    if(data.home_url){
-                        return res.redirect(data.home_url);
-                    }else if(req.session.user.organizationSelected.id !== 0){
-                        return res.redirect('/Organization/ProjectHead/home');
-                    }else{
+                logger.debug('Determining user type', log_options);
+                switch (req.session.user.type) {
+                    // Admin
+                    case 0:
+                        //TODO: implementation
+                        logger.debug('', log_options);
                         return res.redirect('/blank');
-                    }
-                });
-            default:
-                return res.redirect('/blank');
-        }
+
+                    // Faculty Adviser Account
+                    case 2:
+                        //TODO: implementation
+                        logger.debug('', log_options);
+                        return res.redirect('/blank');
+                    // Director of S-Life Account
+                    case 3:
+                        //TODO: implementation
+                        logger.debug('', log_options);
+                        return res.redirect('/blank');
+                    // Dean of Student Affairs Account
+                    case 4:
+                        //TODO: implementation
+                        logger.debug('', log_options);
+                        return res.redirect('/blank');
+
+                    // Vice President for Lasallian Mission Account
+                    case 5:
+                        //TODO: implementation
+                        logger.debug('Vice President for Lasallian Mission Account', log_options);
+                        return res.redirect('/blank');
+
+                    // President
+                    case 6:
+                        //TODO: implementation
+                        logger.debug('President of La Salle', log_options);
+                        return res.redirect('/blank');
+
+                    // Student Account
+                    case 1:
+                        logger.debug('Student', log_options);
+
+                        return accountModel.getRoleDetailsInOrganization(
+                            req.session.user.idNumber,
+                            req.session.user.organizationSelected.id,
+                            'home_url'
+                        ).then(data => {
+                            if(data.home_url){
+                                return res.redirect(data.home_url);
+                            }else if(req.session.user.organizationSelected.id !== 0){
+                                return res.redirect('/Organization/ProjectHead/home');
+                            }else{
+                                return res.redirect('/blank');
+                            }
+                        });
+
+                    default:
+                        logger.warn('Unknown user account', log_options);
+
+                        return res.redirect('/blank');
+                }
+            }
+        }).catch(error => {
+            logger.error(`${error.message}: ${error.stack}`, log_options);
+            
+            return res.send({
+                success: false,
+                valid: true
+            });
+        });
     };
 
     SystemController.documentSign = (req, res) => {
@@ -247,26 +158,27 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         //let fullname = req.session.user.name.first + " " + req.session.user.name.middle + " " + req.session.user.name.last;
 
         accountModel.getAccountDetails(11445955, 'privateKey').then(data => {
-                let sampleDocument = {
-                    Length: 500,
-                    size: 5100,
-                    comments: 'Ganda, laki ng saging'
-                };
-                sampleDocument = JSON.stringify(sampleDocument);
+            let sampleDocument = {
+                Length: 500,
+                size: 5100,
+                comments: 'Ganda, laki ng saging'
+            };
+            sampleDocument = JSON.stringify(sampleDocument);
 
-                let messageDigest = forgePromise.forge.md.sha512.create();
-                messageDigest.update(sampleDocument);
+            let messageDigest = forgePromise.forge.md.sha512.create();
+            messageDigest.update(sampleDocument);
 
-                const privateKey = forgePromise.forge.pki.privateKeyFromPem(data.privatekey);
+            const privateKey = forgePromise.forge.pki.privateKeyFromPem(data.privatekey);
 
-                const signature = privateKey.sign(messageDigest);
+            const signature = privateKey.sign(messageDigest);
 
-                console.log(signature);
-                return res.send(typeof signature);
-            });
+            console.log(signature);
+            return res.send(typeof signature);
+        });
     };
 
     SystemController.createAccount = (req, res) => {
+        logger.info('createAccount()', log_options);
         const input = req.body;
 
         forgePromise.pki.rsa.generateKeyPair({
@@ -299,6 +211,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 valid: true
             });
         }).catch(err => {
+            logger.error(`${err.message}\n${err.stack}`, log_options);
             return res.send({
                 success: false,
                 valid: true
@@ -307,22 +220,57 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     };
 
     SystemController.studentChangeOrganization = (req, res) => {
-        logger.debug(`studentChangeOrganization()\nParams: ${JSON.stringify(req.params)}`, log_options);
+        logger.info(`studentChangeOrganization()\nParams: ${JSON.stringify(req.params)}`, log_options);
         logger.info('Controller method implementation not yet complete', log_options);
-        
+
         return accountModel.isInOrganization(req.session.user.idNumber, req.params.organization).then(organization => {
             logger.debug(`Part of organization check: ${organization.isIn}`, log_options);
 
             if(organization.isIn){
                 //TODO: update other fields as well
                 logger.debug(`Changing organizationSelected.id = ${req.params.organization}`, log_options);
-                req.session.user.organizationSelected.id = req.params.organization; 
+                req.session.user.organizationSelected.id = req.params.organization;
             }
 
             return res.redirect('/home');
         });
-        
     };
-    
+
+    SystemController.viewChangeExpiredPassword = (req, res) => {
+        logger.info('call viewChangeExpiredPassword()', log_options);
+
+        const renderData = Object.create(null);
+        renderData.extra_data = req.extra_data;
+        renderData.csrfToken = req.csrfToken();
+        renderData.showExpiredPassword = true;
+
+        logger.debug('Rendering ChangePassword page', log_options);
+        return res.render('System/ChangePassword', renderData);
+    };
+
+    SystemController.viewNewAccountPassword = (req, res) => {
+        logger.info('call viewNewAccountPassword()', log_options);
+
+        const renderData = Object.create(null);
+        renderData.extra_data = req.extra_data;
+        renderData.csrfToken = req.csrfToken();
+        renderData.showNewPassword = true;
+
+        logger.debug('Rendering ChangePassword page', log_options);
+        return res.render('System/ChangePassword', renderData);
+    }
+
+    SystemController.viewChangePassword = (req, res) => {
+        logger.info('call viewChangePassword()', log_options);
+
+        const renderData = Object.create(null);
+        renderData.extra_data = req.extra_data;
+        renderData.csrfToken = req.csrfToken();
+        renderData.showSidebar = true;
+        
+        logger.debug('Rendering ChangePassword page', log_options);
+        return res.render('System/ChangePassword', renderData);
+    };
+
     return SystemController;
 };

@@ -1,13 +1,15 @@
 'use strict';
 module.exports = (configuration, mainApplication) => {
-
     const path = require('path');
-    const nunjucks = require('nunjucks');
+    const expressNunjucks = require('express-nunjucks');
 
     mainApplication.set('views', path.join(configuration.webserver.views.path));
     mainApplication.set('view engine', 'html');
-    nunjucks.configure(configuration.webserver.views.path, {
+
+    let njk = expressNunjucks(mainApplication, {
+        watch: configuration.debug.enabled,
         autoescape: true,
-        express: mainApplication
+        lstripBlocks: true,
+        trimBlocks:true
     });
 };

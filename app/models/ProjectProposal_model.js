@@ -46,6 +46,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const getGOSMCountPerOrgSQL = queryFiles.getGOSMCountPerOrg;
     const getActivitiesApprovedPerHeadSQL = queryFiles.getActivitiesApprovedPerHead;
     const getProjectProposalCommentsPerStatusSQL = queryFiles.getProjectProposalCommentsPerStatus;
+    const getApprovedActivitiesSQL = queryFiles.getApprovedActivities;
 
     const updatePPRSignatoryStatusSQL = queryFiles.updatePPRSignatoryStatus;
     const getPPRDetailsSQL = queryFiles.getPPRDetails;
@@ -244,6 +245,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
     ProjectProposalModel.prototype.getProjectProposalProgramDesign = function(id, fields, connection = this._db){
         let query = squel.select()
         .from('ProjectProposalProgramDesign', 'pppd')
+        .left_join('account','acc','pppd.personincharge = acc.idnumber')
         .where('projectProposal = ?', squel.select()
             .from('ProjectProposal')
             .where('GOSMActivity = ${id}')
@@ -256,6 +258,44 @@ module.exports = function(configuration, modules, db, queryFiles) {
         return connection.any(query, param);
     };
 
+
+    ProjectProposalModel.prototype.getAllOrgProposal = function(orgid, fields, connection = this._db){
+        logger.info(`call getAllOrgProposal(orgid: ${orgid})`, log_options);
+
+        let query = squel.select()
+            .from('GOSM', 'G')
+            .left_join('GOSMActivity','GA','G.id = GA.Gosm')
+            .left_join('ProjectProposal','PP','GA.ID = PP.GosmActivity')
+            .where('G.termID = ?',squel.str('system_get_current_term_id()'))
+            .where('G.studentorganization = ${organizationID}');
+        this._attachFields(query, fields);
+        query = query.toString();
+
+        let param = Object.create(null);
+        param.organizationID = orgid;
+        
+        logger.debug(`Executing query: ${query}`, log_options);
+        return connection.any(query, param);
+    };
+
+    ProjectProposalModel.prototype.getProjectProposalExpensesPPRID = function(pprid, connection = this._db){
+        let query = squel.select()
+        .from('ProjectProposalExpenses', 'PPE')
+        .left_join('ExpenseType',"EE","PPE.type = EE.id")
+        .where('PPE.projectProposal = ?',pprid)
+        query = query.toString();
+        
+        return connection.any(query);
+    };
+    ProjectProposalModel.prototype.getProjectProposalRevenuePPRID = function(pprid, connection = this._db){
+        let query = squel.select()
+        .from('ProjectProposalProjectedIncome', 'PPPI')
+        .where('PPPI.projectProposal = ?',pprid)
+        query = query.toString();
+        
+        return connection.any(query);
+    };
+    
     ProjectProposalModel.prototype.getProjectProposalExpenses = function(id, fields, connection = this._db){
         console.log('ProjectProposalExpenses()');
         let query = squel.select()
@@ -298,27 +338,45 @@ module.exports = function(configuration, modules, db, queryFiles) {
         param.id = id;
         return connection.any(query, param);
     };
-    ProjectProposalModel.prototype.updatePPResched =  function(id, reason, dates, status, connection = this._db){
+    ProjectProposalModel.prototype.updatePPResched =  function(id, reason, dates, other, status, connection = this._db){
         let query = squel.update()
                          .table("ProjectProposal")
                          .set("status",status)
                          .set("reschedulereason", reason)
                          .set("rescheduledates", "{"+dates+"}")
-                         .where("id = ?",id)
+                         .set("reschedreasonother", other)
+                         .set("reschedrejectreason", '')
+                         .where("GosmActivity = ?",id)
 
-      
+        console.log(query.toString())
         return connection.any(query.toString());
     };
     ProjectProposalModel.prototype.approvePPResched =  function(id, comment, status, connection = this._db){
+        console.log("============================")
+        console.log(comment)
+        if(comment === ''){
+            console.log("PASDSd")
+            comment = null
+        }
         
         let query = squel.update()
                          .table("ProjectProposal")
                          .set("status",status)
                          .set("reschedrejectreason", comment)                         
-                         .where("id = ?",id)
+                         .where("gosmactivity = ?",id)
 
       
         return connection.any(query.toString());
+    };
+
+
+     ProjectProposalModel.prototype.deleteRevenue =  function(id, connection = this._db){
+        
+        let query = squel.delete()
+                        .from("ProjectProposalProjectedIncome")
+                        .where("projectProposal = ?",id)
+        query = query.toString();        
+        return connection.any(query);
     };
 
     ProjectProposalModel.prototype.getReschedActivities =  function(connection = this._db){
@@ -327,6 +385,9 @@ module.exports = function(configuration, modules, db, queryFiles) {
                         .from('GOSM', 'G')
                         .left_join('GOSMACTIVITY','GA',' G.ID = GA.GOSM')
                         .left_join('PROJECTPROPOSAL','PP',' GA.ID = PP.GOSMACTIVITY')
+
+                        .left_join('PROJECTPROPOSALRESCHEDULEREASON','PPRR',' PP.RESCHEDULEREASON = PPRR.ID')
+
                         .where('G.termID = ?',squel.str('system_get_current_term_id()'))
                         .where('PP.STATUS = 6')                                
         query = query.toString();        
@@ -353,11 +414,11 @@ module.exports = function(configuration, modules, db, queryFiles) {
             .where('GOSMActivity = ${id}')
             .field('id'));
         this._attachFields(query, fields);
-
         query = query.toString();
 
         let param = Object.create(null);
         param.id = id;
+            
         return connection.any(query, param);
     };
 
@@ -369,6 +430,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
     };
 
     ProjectProposalModel.prototype.getGOSMActivitiesToImplement = function(param, connection = this._db) {
+        logger.info('call getGOSMActivitiesToImplement()', log_options);
         return connection.any(getGOSMActivitiesToImplementSQL, param);
     };
 
@@ -381,7 +443,11 @@ module.exports = function(configuration, modules, db, queryFiles) {
         return connection.none(updatePPRBriefContextSQL, param);
     };
 
+
     ProjectProposalModel.prototype.insertProjectProposal  = function(param, connection = this._db){
+        logger.debug(`insertProjectProposal(${JSON.stringify(param)})`, log_options);
+
+        logger.debug(`Executing query: ${insertProjectProposalSQL}`, log_options);
         return connection.one(insertProjectProposalSQL, param);
     };
 
@@ -578,6 +644,20 @@ module.exports = function(configuration, modules, db, queryFiles) {
 
     ProjectProposalModel.prototype.getGOSMCountPerOrg = function(param, connection = this._db){
         return connection.oneOrNone(getGOSMCountPerOrgSQL, param);
+    };
+
+    ProjectProposalModel.prototype.getApprovedActivities = function(connection = this._db){
+        return connection.any(getApprovedActivitiesSQL);
+    };
+
+    const getAllProjectProposalSQL = queryFiles.getAllProjectProposal;
+    ProjectProposalModel.prototype.getAllProjectProposal = function(connection = this._db){
+        return connection.any(getAllProjectProposalSQL);
+    };
+
+    const getNextPPRSignatorySQL = queryFiles.getNextPPRSignatory;
+    ProjectProposalModel.prototype.getNextPPRSignatory = function(param, connection = this._db){
+        return connection.oneOrNone(getNextPPRSignatorySQL, param);
     };
 
     const getSignatoriesSQL = queryFiles.PPR_get_signatories;

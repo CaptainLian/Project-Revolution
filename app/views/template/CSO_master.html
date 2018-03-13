@@ -124,6 +124,7 @@
                                 {{sidebar_item(sidebar.name, sidebar.link, sidebar.icon, sidebar.classes)}}
                             {% endfor %}
                             {{sidebar_item('Sign Project Proposal', '/APS/Signatory/ActivtiyList', 'fa fa-check')}}
+                            {{sidebar_item('Change Password', '/System/ChangePassword', 'fa fa-check')}}
                         {%endblock-%}
                     </ul>
                 </div>
@@ -169,7 +170,7 @@
                     {%if(extra_data.view.footer)%}
                         {{-extra_data.view.footer-}}
                     {%else%}
-                        2017 © CSO Event Management brought to you by Elite Proletariats
+                        2017 © CSO Activity Monitoring System brought to you by the Elite Proletariats
                     {%endif%}
                 {%endblock-%}
             </footer>

@@ -33,7 +33,7 @@ module.exports = function(configuration, modules, database, queryFiles){
     FinanceModel.getActivitiesWithFinancialDocuments = function(connection = database){
         return connection.any(getActivitiesWithFinancialDocumentsSQL);
     };
-
+   
     const getTransactionTotalPerActivitySQL = queryFiles.getTransactionTotalPerActivity;
     FinanceModel.getTransactionTotalPerActivity = function(connection = database){
         return connection.any(getTransactionTotalPerActivitySQL);
@@ -99,14 +99,9 @@ module.exports = function(configuration, modules, database, queryFiles){
         return connection.none(pendDirectPaymentSQL, param);
     };
 
-    const pendCashAdvanceSQL = queryFiles.pendCashAdvance;
-    FinanceModel.pendCashAdvance = function(param, connection = database){
-        return connection.none(pendCashAdvanceSQL, param);
-    };
-
     const getExpensesWithoutTransactionCountSQL = queryFiles.getExpensesWithoutTransactionCount;
     FinanceModel.getExpensesWithoutTransactionCount = function(param, connection = database){
-        return connection.one(getExpensesWithoutTransactionCountSQL, param);
+        return connection.oneOrNone(getExpensesWithoutTransactionCountSQL, param);
     };
 
     const getDirectPaymentSignatorySQL = queryFiles.getDirectPaymentSignatory;
@@ -114,45 +109,183 @@ module.exports = function(configuration, modules, database, queryFiles){
         return connection.oneOrNone(getDirectPaymentSignatorySQL, param);
     };
 
+    const insertReimbursementSQL = queryFiles.insertReimbursement;
+    FinanceModel.insertReimbursement = function(param, connection = database){
+        return connection.one(insertReimbursementSQL, param);
+    };
+
+    const insertReimbursementParticularSQL = queryFiles.insertReimbursementParticular;
+    FinanceModel.insertReimbursementParticular = function(param, connection = database){
+        return connection.none(insertReimbursementParticularSQL, param);
+    };
+
+    const insertPreActivityBookTransferSQL = queryFiles.insertPreActivityBookTransfer;
+    FinanceModel.insertPreActivityBookTransfer = function(param, connection = database){
+        logger.debug(`insertPreActivityBookTransfer(${JSON.stringify(param)})`, log_options);
+
+        logger.debug(`Executing query: ${insertPreActivityBookTransferSQL}`, log_options);
+        return connection.one(insertPreActivityBookTransferSQL, param);
+    };
+
+    const insertPreActivityBookTransferParticularSQL = queryFiles.insertPreActivityBookTransferParticular;
+    FinanceModel.insertPreActivityBookTransferParticular = function(param, connection = database){
+        return connection.none(insertPreActivityBookTransferParticularSQL, param);
+    };
+
+    const getPreActivityBookTransferSQL = queryFiles.getPreActivityBookTransfer;
+    FinanceModel.getPreActivityBookTransfer = function(param, connection = database){
+        return connection.one(getPreActivityBookTransferSQL, param);
+    };
+
+    const getPostProjectReimbursementSQL = queryFiles.getPostProjectReimbursement;
+    FinanceModel.getPostProjectReimbursement = function(param, connection = database){
+        return connection.one(getPostProjectReimbursementSQL, param);
+    };
+
+    const getBookTransferSignatorySQL = queryFiles.getBookTransferSignatory;
+    FinanceModel.getBookTransferSignatory = function(param, connection = database){
+        return connection.oneOrNone(getBookTransferSignatorySQL, param);
+    };
+
+    const getReimbursementSignatorySQL = queryFiles.getReimbursementSignatory;
+    FinanceModel.getReimbursementSignatory = function(param, connection = database){
+        return connection.oneOrNone(getReimbursementSignatorySQL, param);
+    };
+
+    const getBookTransferParticularsSQL = queryFiles.getBookTransferParticulars;
+    FinanceModel.getBookTransferParticulars = function(param, connection = database){
+        return connection.any(getBookTransferParticularsSQL, param);
+    };
+
+    const getReimbursementParticularsSQL = queryFiles.getReimbursementParticulars;
+    FinanceModel.getReimbursementParticulars = function(param, connection = database){
+        return connection.any(getReimbursementParticularsSQL, param);
+    };
+
+    const approveReimbursementSQL  = queryFiles.approveReimbursement;
+    FinanceModel.approveReimbursement = function(param, connection = database){
+        return connection.none(approveReimbursementSQL, param);
+    };
+
+    const pendReimbursementSQL = queryFiles.pendReimbursement;
+    FinanceModel.pendReimbursement = function(param, connection = database){
+        return connection.none(pendReimbursementSQL, param);
+    };
+
+    const approveBookTransferSQL = queryFiles.approveBookTransfer;
+    FinanceModel.approveBookTransfer = function(param, connection = database){
+        return connection.none(approvebookTransferSQL, param);
+    };
+
+    const pendBookTransferSQL = queryFiles.pendBookTransfer;
+    FinanceModel.pendBookTransfer = function(param, connection = database){
+        return connection.none(pendBookTransferSQL, param);
+    };
+
+    const getCashAdvancePendSignatorySQL = queryFiles.getCashAdvancePendSignatory;
+    FinanceModel.getCashAdvancePendSignatory = function(param, connection = database){
+        return connection.one(getCashAdvancePendSignatorySQL, param);
+    };
+
+    const getDirectPaymentPendSignatorySQL = queryFiles.getDirectPaymentPendSignatory;
+    FinanceModel.getDirectPaymentPendSignatory = function(param, connection = database){
+        return connection.one(getDirectPaymentPendSignatorySQL, param);
+    };
+
+    const getBookTransferPendSignatorySQL = queryFiles.getBookTransferPendSignatory;
+    FinanceModel.getBookTransferPendSignatory = function(param, connection = database){
+        return connection.one(getBookTransferPendSignatorySQL, param);
+    };
+
+    const getReimbursementPendSignatorySQL = queryFiles.getReimbursementPendSignatory;
+    FinanceModel.getReimbursementPendSignatory = function(param, connection = database){
+        return connection.one(getReimbursementPendSignatorySQL, param);
+    };
+
+    const resubmitCashAdvanceSQL = queryFiles.resubmitCashAdvance;
+    FinanceModel.resubmitCashAdvance = function(param, connection = database){
+        return connection.none(resubmitCashAdvanceSQL, param);
+    };
+
+    const deleteCashAdvanceParticularsSQL = queryFiles.deleteCashAdvanceParticulars;
+    FinanceModel.deleteCashAdvanceParticulars = function(param, connection = database){
+        return connection.none(deleteCashAdvanceParticularsSQL, param);
+    };
+
+    const resubmitCashAdvanceSignatorySQL = queryFiles.resubmitCashAdvanceSignatory;
+    FinanceModel.resubmitCashAdvanceSignatory = function(param, connection = database){
+        return connection.none(resubmitCashAdvanceSignatorySQL, param);
+    };
+
+    const resubmitReimbursementSQL = queryFiles.resubmitReimbursement;
+    FinanceModel.resubmitReimbursement = function(param, connection = database){
+        return connection.none(resubmitReimbursementSQL, param);
+    };
+
+    const resubmitReimbursementSignatorySQL = queryFiles.resubmitReimbursementSignatory;
+    FinanceModel.resubmitReimbursementSignatory = function(param, connection = database){
+        return connection.none(resubmitReimbursementSignatorySQL, param);
+    };
+
+    const resubmitDirectPaymentSQL = queryFiles.resubmitDirectPayment;
+    FinanceModel.resubmitDirectPayment = function(param, connection = database){
+        return connection.none(resubmitDirectPaymentSQL, param);
+    };
+
+    const resubmitDirectPaymentSignatorySQL = queryFiles.resubmitDirectPaymentSignatory;
+    FinanceModel.resubmitDirectPaymentSignatory = function(param, connection = database){
+        return connection.none(resubmitDirectPaymentSignatorySQL, param);
+    };
+
+    const resubmitBookTransferSQL = queryFiles.resubmitBookTransfer;
+    FinanceModel.resubmitBookTransfer = function(param, connection = database){
+        return connection.none(resubmitBookTransferSQL, param);
+    };
+
+    const resubmitBookTransferSignatorySQL = queryFiles.resubmitBookTransferSignatory;
+    FinanceModel.resubmitBookTransferSignatory = function(param, connection = database){
+        return connection.none(resubmitBookTransferSignatorySQL, param);
+    };
+
     //Used for signing
     FinanceModel.getPreActivityCashAdvanceDetails = (cashAdvanceID, fields, connection = database) => {
-        logger.debug(`getPreActivityCashAdvanceDetails(cashAdvanceID: ${cashAdvanceID})`, log_options);
+        logger.info(`getPreActivityCashAdvanceDetails(cashAdvanceID: ${cashAdvanceID})`, log_options);
         let query = squel.select()
         .from('"PreActivityCashAdvance"', 'preca')
          .left_join('"PreActivityCashAdvanceStatus"', 'pacas', 'preca.status = pacas.id')
          .left_join('Account', 'a', 'preca."submittedBy" = a.idNumber')
         .where('preca."id" = ${cashAdvanceID}');
         attachFields(query, fields);
-
         query = query.toString();
 
-        logger.debug(query, log_options);
-        return connection.one(query, {
-            cashAdvanceID: cashAdvanceID
-        });
+        let param = Object.create(null);
+        param.cashAdvanceID = cashAdvanceID;
+
+        logger.debug(`Executing query: ${query}`, log_options);
+        return connection.one(query, param);
     };
 
     //Used for signing
     FinanceModel.getPreActivityCashAdvanceParticularDetails = (cashAdvanceID, fields, connection = database) => {
-        logger.debug(`getPreActivityCashAdvanceDetails(cashAdvanceID: ${cashAdvanceID})`, log_options);
+        logger.info(`getPreActivityCashAdvanceDetails(cashAdvanceID: ${cashAdvanceID})`, log_options);
         let query = squel.select()
         .from('"PreActivityCashAdvanceParticular"', 'precap')
          .left_join('ProjectProposalExpenses', 'ppe', 'precap."particular" = ppe.id')
          .left_join('ExpenseType', 'et', 'ppe.type = et.id')
         .where('precap."cashAdvance" = ${cashAdvanceID}');
         attachFields(query, fields);
-
         query = query.toString();
 
-        logger.debug(query, log_options);
-        return connection.any(query, {
-            cashAdvanceID: cashAdvanceID
-        });
+        let param = Object.create(null);
+        param.cashAdvanceID = cashAdvanceID;
+
+        logger.debug(`Executing query: ${query}`, log_options);
+        return connection.any(query, param);
     };
 
     //Used for signing
     FinanceModel.getPreActivityDirectPaymentDetails = (directPaymentID, fields, connection = database) => {
-        logger.debug(`getPreActivityDirectPaymentDetails(directPaymentID: ${directPaymentID})`, log_options);
+        logger.info(`getPreActivityDirectPaymentDetails(directPaymentID: ${directPaymentID})`, log_options);
 
         let query = squel.select()
             .from('"PreActivityDirectPayment"', 'padp')
@@ -171,7 +304,7 @@ module.exports = function(configuration, modules, database, queryFiles){
 
     //Used for signing
     FinanceModel.getPreActivityDirectPaymentParticularDetails = (directPaymentID, fields, connection = database) => {
-        logger.debug(`getPreActivityDirectPaymentParticularDetails(directPaymentID: ${directPaymentID})`, log_options);
+        logger.info(`getPreActivityDirectPaymentParticularDetails(directPaymentID: ${directPaymentID})`, log_options);
 
         let query = squel.select()
             .from('"PreActivityDirectPaymentParticular"', 'padpp')
@@ -184,14 +317,15 @@ module.exports = function(configuration, modules, database, queryFiles){
         let param = Object.create(null);
         param.directPaymentID = directPaymentID;
 
-        logger.debug(query, log_options);
+        logger.debug(`Executing query: ${query}`, log_options);
         return connection.any(query, param);
     };
 
     
     const getNextSignantorySQL = queryFiles.finance_get_next_signatory;
+
     FinanceModel.getPreActivityDirectPaymentNextSignatory = (directPaymentID, connection = database) => {
-        logger.debug(`getPreActivityDirectPaymentNextSignatory(directPaymentID: ${directPaymentID})`, log_options);
+        logger.info(`getPreActivityDirectPaymentNextSignatory(directPaymentID: ${directPaymentID})`, log_options);
 
         let param = Object.create(null);
         param.financeTable = 'PreActivityDirectPaymentSignatory';
@@ -199,11 +333,12 @@ module.exports = function(configuration, modules, database, queryFiles){
         param.column = 'bookTransfer';
         param.value = directPaymentID;
 
+        logger.debug(`Executing query: ${getNextSignantorySQL}`, log_options);
         return connection.oneOrNone(getNextSignantorySQL, param);
     };
 
     FinanceModel.getPreActivityCashAdvanceNextSignatory = (cashAdvanceID, connection = database) => {
-        logger.debug(`getPreActivityCashAdvanceNextSignatory(cashAdvanceID: ${directPaymentID})`, log_options);
+        logger.info(`getPreActivityCashAdvanceNextSignatory(cashAdvanceID: ${directPaymentID})`, log_options);
 
         let param = Object.create(null);
         param.financeTable = 'PreActivityCashAdvanceSignatory';
@@ -211,6 +346,7 @@ module.exports = function(configuration, modules, database, queryFiles){
         param.column = 'cashAdvance';
         param.value = cashAdvanceID;
 
+        logger.debug(`Executing query: ${getNextSignantorySQL}`, log_options);
         return connection.oneOrNone(getNextSignantorySQL, param);
     };
 

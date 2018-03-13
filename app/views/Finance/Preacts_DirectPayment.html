@@ -1,4 +1,4 @@
-{% extends './Finance_master.html' %}
+{% extends '../template/CSO_master.html' %}
 {% import '../template/tags_macro.html' as tag %}
 
 {%block style%}
@@ -84,7 +84,7 @@
                         <input type="hidden" name="_csrf" value="{{csrfToken}}">
 
                         <input type="hidden" name="gosmactivity" value="{{gosmactivity}}">
-<div class="row">
+                <div class="row">
                     <div class="col-md-12">
                         <div class="panel panel-success">
                             <div class="panel-heading">Pre-Activity Finance Documents</div>
@@ -168,7 +168,7 @@
                                                                 <label  style="">Formal Quotation</label>    
                                                             </div>
                                                             <div class="col-md-8">
-                                                                <input multiple="" style="" type="file" accept=".pdf, .odt, .odp, .ods" name="...">    
+                                                                <input style="" type="file" accept=".pdf, .odt, .odp, .ods" name="fq">    
                                                             </div>
                                                         </div>
                                                         <div class="col-md-12 m-10">
@@ -176,24 +176,17 @@
                                                                 <label  style="">Final Review Form</label>    
                                                             </div>
                                                             <div class="col-md-8">
-                                                                <input multiple="" style="" type="file" accept=".pdf, .odt, .odp, .ods" name="...">    
+                                                                <input style="" type="file" accept=".pdf, .odt, .odp, .ods" name="frf">    
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-12 m-10" id='fq' style='display: none;'>
-                                                            <div class="col-md-4  text-left"  >  
-                                                                <label  style="">Formal Quotation</label>    
-                                                            </div>
-                                                            <div class="col-md-8">
-                                                                <input multiple="" style="" type="file" accept=".pdf, .odt, .odp, .ods" name="...">    
-                                                            </div>
-                                                        </div>
+                                                        
 
                                                         <div class="col-md-12 m-10" id='elop' style='display: none;'>
                                                             <div class="col-md-4  text-left" >
                                                                 <label  style="">Estimated List of Participants</label>    
                                                             </div>
                                                             <div class="col-md-8">
-                                                                <input multiple="" style="" type="file" accept=".pdf, .odt, .odp, .ods" name="...">    
+                                                                <input style="" type="file" accept=".pdf, .odt, .odp, .ods" name="elp">    
                                                             </div>
                                                         </div>
                                                         

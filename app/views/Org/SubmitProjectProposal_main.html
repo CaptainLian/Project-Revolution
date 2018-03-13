@@ -696,8 +696,12 @@
 			</div>
 			
 			<div class=" col-md-12 form-group text-center">
-				<button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Submit</button>
-				<button type="button" class="btn btn-default">Cancel</button>
+				{% if submitbutton %}
+					<button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Submit</button>
+				{% else %}
+					<button type="submit" disabled="" class="btn btn-success"> <i class="fa fa-check"></i> Submit</button>
+				{% endif %}
+				<a href="/Organization/ProjectHead/Home" type="button" class="btn btn-default">Cancel</a>
 				
 			</div>
 		</div>

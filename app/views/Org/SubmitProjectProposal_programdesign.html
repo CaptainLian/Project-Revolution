@@ -16,22 +16,31 @@
    	<!-- Bootstrap Core CSS -->
    	{{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
    	{{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
+
+   	{{tag.style('/plugins/bower_components/calendar/dist/fullcalendar.css')}}
    <!-- Menu CSS -->
    {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
    {{tag.style('/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css')}}
+
    {{tag.style('/plugins/bower_components/jquery-wizard-master/css/wizard.css')}}
    {{tag.style('/plugins/bower_components/clockpicker/dist/jquery-clockpicker.min.css')}}
    {{tag.style('/plugins/bower_components/lobipanel/dist/css/lobipanel.min.css')}}
    {{tag.style('/plugins/bower_components/custom-select/custom-select.css')}}
+   
+   
    {{tag.style('/plugins/bower_components/bootstrap-daterangepicker/daterangepicker.css')}}
+      {{tag.style('/plugins/bower_components/timepicker/bootstrap-timepicker.min.css')}}
+
    {{tag.style('/plugins/bower_components/jquery-datatables-editable/datatables.css')}}
    <!-- Animation CSS -->
    {{tag.style('/css/animate.css')}}
    {{tag.style('/css/style.css')}}
    {{tag.style('/css/custom.css')}}
     <!-- color CSS -->
+    {{tag.style('/plugins/bower_components/toast-master/css/jquery.toast.css')}}
     {{tag.style('/css/colors/default.css')}}
-    
+   {{tag.style('/plugins/bower_components/lobipanel/dist/css/lobipanel.min.css')}} 
+
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 	<!--[if lt IE 9]>
@@ -65,14 +74,22 @@
         .remove-time:hover{
           color: #fb9678;  
         }
+        .clockpicker-popover {
+            z-index: 999999;
+        }
         td{
             text-align: center
             
             border: 1px solid black;
           /*     display: block;*/
-              overflow: hidden;
-              text-overflow: ellipsis;
-              white-space: nowrap;
+              
+        }
+
+        th.fc-today{
+        /*	background: #9675CE !important;
+        	color: black !important*/
+
+
         }
        /* .wizard-content{
           border-color: white!important;
@@ -83,47 +100,399 @@
 {%block defer_script%}
 	{{super()}}
 
-	{{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
-    {{tag.javascript('/plugins/bower_components/jqueryui/jquery-ui.min.js', true)}}
+	{{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js')}}
+  {{tag.javascript('/plugins/bower_components/jqueryui/jquery-ui.min.js')}}
 	<!-- Bootstrap Core JavaScript -->
-	{{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
-	{{tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}}
-	{{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
+	{{tag.javascript('/bootstrap/dist/js/tether.min.js')}}
+	{{tag.javascript('/bootstrap/dist/js/bootstrap.min.js')}}
+	{{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js')}}
 	<!-- Menu Plugin JavaScript -->
-	{{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
+	{{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js')}}
 	<!--slimscroll JavaScript -->
-	{{tag.javascript('/js/jquery.slimscroll.js', true)}}
+	{{tag.javascript('/js/jquery.slimscroll.js')}}
 	<!--Wave Effects -->
-	{{tag.javascript('/js/waves.js', true)}}
-	{{tag.javascript('/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.js', true)}}
-	{{tag.javascript('/plugins/bower_components/bootstrap-daterangepicker/daterangepicker.js', true)}}
-	{{tag.javascript('/plugins/bower_components/jquery-wizard-master/dist/jquery-wizard.min.js', true)}}
+	{{tag.javascript('/js/waves.js')}}
+	{{tag.javascript('/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.js')}}
+	{{tag.javascript('/plugins/bower_components/bootstrap-daterangepicker/daterangepicker.js')}}
+
+	{{tag.javascript('/plugins/bower_components/jquery-wizard-master/dist/jquery-wizard.min.js')}}
 	<!-- Custom Theme JavaScript -->
-	{{tag.javascript('/js/custom.min.js', true)}}
-	{{tag.javascript('/js/jasny-bootstrap.js', true)}}
+	{{tag.javascript('/js/custom.min.js')}}
+	{{tag.javascript('/js/jasny-bootstrap.js')}}
 	<!--Style Switcher -->
-	{{tag.javascript('/plugins/bower_components/custom-select/custom-select.min.js', true)}}
-	{{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
+	{{tag.javascript('/plugins/bower_components/custom-select/custom-select.min.js')}}
+	{{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js')}}
 	<!-- Custom Theme JavaScript -->
-	{{tag.javascript('/plugins/bower_components/bootstrap-table/dist/bootstrap-table.min.js', true)}}
-	{{tag.javascript('/plugins/bower_components/bootstrap-table/dist/bootstrap-table.ints.js', true)}}
-	{{tag.javascript('/plugins/bower_components/lobipanel/dist/js/lobipanel.min.js', true)}}
-	{{tag.javascript('/js/cbpFWTabs.js', true)}}
-	{{tag.javascript('/plugins/bower_components/clockpicker/dist/jquery-clockpicker.min.js', true)}}
-	{{tag.javascript('/plugins/bower_components/jquery-wizard-master/dist/jquery-wizard.min.js', true)}}
-	{{tag.javascript('/plugins/bower_components/jquery-datatables-editable/jquery.dataTables.js', true)}}
-    {{tag.javascript('/plugins/bower_components/datatables/dataTables.bootstrap.js', true)}}
-    {{tag.javascript('/plugins/bower_components/tiny-editable/mindmup-editabletable.js', true)}}
-    {{tag.javascript('/plugins/bower_components/tiny-editable/numeric-input-example.js', true)}}
+	{{tag.javascript('/plugins/bower_components/bootstrap-table/dist/bootstrap-table.min.js')}}
+	{{tag.javascript('/plugins/bower_components/bootstrap-table/dist/bootstrap-table.ints.js')}}
+	{{tag.javascript('/plugins/bower_components/lobipanel/dist/js/lobipanel.min.js')}}
+	{{tag.javascript('/js/cbpFWTabs.js')}}
+	{{tag.javascript('/plugins/bower_components/clockpicker/dist/jquery-clockpicker.min.js')}}
+	{{tag.javascript('/plugins/bower_components/jquery-wizard-master/dist/jquery-wizard.min.js')}}
+	{{tag.javascript('/plugins/bower_components/jquery-datatables-editable/jquery.dataTables.js')}}
+  {{tag.javascript('/plugins/bower_components/datatables/dataTables.bootstrap.js')}}
+  {{tag.javascript('/plugins/bower_components/tiny-editable/mindmup-editabletable.js')}}
+  {{tag.javascript('/plugins/bower_components/tiny-editable/numeric-input-example.js')}}
+
+  
+	{{tag.javascript('/js/system/AJAX_CSRF.js')}}
+  
+  {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.21.0/moment.min.js')}}
+	{{tag.javascript('/plugins/bower_components/moment/moment.js')}}
+	{{tag.javascript('/plugins/bower_components/calendar/dist/fullcalendar.min.js')}}
+
+  {{tag.javascript('/plugins/bower_components/toast-master/js/jquery.toast.js')}}
+
+  <!--  -->
+
+   <script type="text/javascript">
+      var sched = {};  
+      var data
+     $(document).ready(function(){
+        data;
+        var id = 1;
+        sched = {}
+        var start = new Date("3/01/2018")
+        start.setMinutes("0")
+        start.setHours("17")
+        var end = new Date("3/01/2018")
+        end.setMinutes("0")
+        end.setHours("19")
+        var calendar  = $('#calendar').fullCalendar({
+              height:500,
+              defaultView: 'listYear',
+              defaultDate: '2018-03-01',
+  		      	editable: false,
+              overlap:false,
+  		      	selectable: true,
+  		      	 week:'week',
+                  events:[
+                       // {
+                       //  id:1,
+                       //  title:'Activity Name',
+                       //  date:'03/02/2018',
+                       //  start: start.toISOString(),
+                       //  end:end.toISOString(),
+                       //  description: 'asdasdjhaskjd asdjkhaskdjhaskdjha asdjkhaskjdhaksjdh asdkjahsdkjashd asdasd',
+                       //  person:'Neil Capisterano',
+                       //  posid:1 
+                       // }  
+                       {%for event in programDesign%}
+                       {% set xctr = loop.index %}
+                        {
+                        id:{{loop.index}},
+                        title:'{{event.activity}}',
+                        date:'{{event.date}}',
+                        start: '{{event.date}} {{event.starttime}}',
+                        end: '{{event.date}} {{event.endtime}}',
+                        description: '{{event.activitydescription}}',
+                        person:'{{event.name}}',
+                        posid:{{event.personincharge}}
+                       },
+                       {%endfor%}
+                  ],
+                  customButtons: {
+  			        add_event: {
+  			            text: 'Add',
+  			            click: function() {
+  			               $('#createEventModal').modal('show');
+
+  			            }
+  			        }
+  			    },
+  			    header: {
+  			        right: 'listYear agendaWeek month  prev,next',
+  			        center: 'title',
+  			        left: 'add_event'
+  			    },
+            eventClick: function(calEvent, jsEvent, view) { 
+                  var $this = this;
+                  $('#date').text(new Date(calEvent.start).toString().substr(0,16))
+                  $('#event-title').text(calEvent.title)
+                  $('#pos').text(calEvent.person)
+                  
+                  $('#desc').text(calEvent.description)
+                  $('#start-time').text(moment(calEvent.start).format('HH:mm'))
+                  $('#end-time').text(moment(calEvent.end).format("HH:mm"))
+                  data = calEvent
+                  console.log(data)
+                   $('#my-event').modal('show');
+
+            },
+            eventRender: function(event, element) { 
+                element.find('.fc-title').append("<br/>" + event.description); 
+            } 
+              
+                              
+
+          });
+        id = {{programDesign.length +1}}
+        setSched()
+        $("select").select2();
+  			$('#createEventModal').modal({ show: false})
+  			
+        $('.clockpicker1').clockpicker({
+
+            donetext: 'Done',
+
+        }).find('input').change(function() {
+
+            console.log(this.value);
+
+        });
 
 
-	{{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
-	<script type="text/javascript">
-    	var gid = {{gosmactivity.gosmactivity}};
-    	var id = {{projectProposal.id}};
-    	var status = {{status}};
-    </script>
-    {{tag.javascript('/js/Organization/SubmitProjectProposal_programdesign.js', true)}}
+
+        $('.clockpicker2').clockpicker({
+
+            donetext: 'Done',
+
+        }).find('input').change(function() {
+
+            console.log(this.value);
+
+        });
+       
+		   $("#edit").on('click',function(){            
+            $('#my-event').modal('hide');
+
+            $("#inp-date").val(getDate(data.start))
+            $("#inp-start").val(moment(data.start).format('HH:mm'))
+            $("#inp-end").val(moment(data.end).format('HH:mm'))
+            $("#inp-name").val(data.title)
+            $("#inp-desc").val(data.description)
+            $("#inp-pos").val(data.posid)
+            $('#createEventModal').modal('show');
+            $("#editButton").css('display','')
+            $("#submitButton").css('display','none')
+            $("#edit-label").css('display','')
+            $("#add-label").css('display','none')
+              // Success Message
+           
+        });
+
+      $("#editButton").on('click',function(){
+          var id = data.id
+          
+          johnRemoved = sched[data.date].filter(function(el) {
+              
+              return el.id != data.id 
+          });
+          console.log("DATA ID :"+id);
+          $("#calendar").fullCalendar('removeEvents',data.id);
+          sched[data.date] = johnRemoved
+          if(johnRemoved.length == 0){
+             delete sched[data.date]
+          }
+
+
+        id +=1;
+        addEvent({id:id}) 
+      });
+      $("#submitButton").on('click',function(){
+        id +=1;
+        addEvent({id:id})
+
+      });
+      $("#delete").on('click',function(){
+          var id = data.id
+          
+          johnRemoved = sched[data.date].filter(function(el) {
+              
+              return el.id != data.id 
+          });
+          console.log("DATA ID :"+id);
+          $("#calendar").fullCalendar('removeEvents',data.id);
+          sched[data.date] = johnRemoved
+          if(johnRemoved.length == 0){
+             delete sched[data.date]
+          }
+           
+      })
+
+
+        $("#submit-but").click(function(){
+            $.ajax({
+                type:'POST',
+                url:'/Organization/projectproposal/SaveDesign',
+                data:{"sched":JSON.stringify(sched), gid:$("#data-route").attr("gid"),pid:$("#data-route").attr("pid")},
+                success:function(data){
+                    if(parseInt(data))
+                    window.location.href="/organization/projectproposal/main/"+$("#data-route").attr("gid")+'/'+$("#data-route").attr("status");
+                }
+            })
+        })
+        $("#cancel-but").click(function(){
+            window.location.href="/organization/projectproposal/main";
+                
+        })
+
+
+         function addEvent(data){
+          var startInp = $("#inp-start").val();
+                    var endInp = $("#inp-end").val();
+                    var actInp = $("#inp-name").val();
+                    var descInp = $("#inp-desc").val();
+                    var selInp = $("#inp-pos").val();
+          if(startInp < endInp){
+                    var dateInp = $("#inp-date").val();
+                    
+                    if( dateInp in sched){
+                       var act = {
+                              'id':data.id,
+                              'start': startInp,
+                              'end': endInp,
+                              "date":dateInp,
+                              'act': actInp,
+                              'desc': descInp,
+                              'person': selInp
+          
+                          };
+                          sched[dateInp].push(act);
+          
+          
+                    }else{  
+                        var act = {
+                              'id':data.id,
+                              'start': startInp,
+                              'end': endInp,
+                              'act': actInp,
+                              'desc': descInp,
+                              "date":dateInp,
+                              'person': selInp
+          
+                          };
+                          sched[dateInp] = [];
+                          sched[dateInp].push(act);
+                    }
+                    var event = {                  
+                            id:data.id,
+                            title:$("#inp-name").val(),
+                            date:$("#inp-date").val(),
+                            start: setTime($("#inp-date").val(), $("#inp-start").val()),
+                            end: setTime($("#inp-date").val(), $("#inp-end").val()),
+                            description: $("#inp-desc").val(),
+                            person:$("#inp-pos").select2('data'),
+                            posid:$("#inp-pos").val()
+                            
+                            
+                    }
+                    $("#calendar").fullCalendar('renderEvent',event);
+          
+                     $.toast({
+                      heading: 'Success!',          
+                      position: 'top-right',
+                      loaderBg:'#ff6849',
+                      icon: 'success',
+                      bgColor:'#00C292',
+                      hideAfter: 3500, 
+                      stack: 6
+                    });
+                    $('#createEventModal').modal('hide');
+          
+            }else{
+              $.toast({
+                      heading: 'Failed!',          
+                      text:'End time is less than start time.',
+                      position: 'top-right',
+                      loaderBg:'#ff6849',
+                      icon: 'error',
+                      bgColor:'#FB9678',
+                      hideAfter: 3500, 
+                      stack: 6
+                    });
+                
+            }
+
+        }
+
+       $('#createEventModal').on('hidden.bs.modal', function () {
+         clear()
+         $("#editButton").css('display','none')
+            $("#submitButton").css('display','')
+            $("#edit-label").css('display','none')
+            $("#add-label").css('display','')
+      })
+       function setTime(date , time){
+          date = new Date(date);
+          var arr = time.split(":")
+          date.setHours(arr[0])
+          date.setMinutes(arr[1])
+          return date
+
+       }
+       function clear(){
+              $("#inp-date").val('')
+              $("#inp-start").val('')
+              $("#inp-end").val('')
+              $("#inp-name").val('')
+              $("#inp-desc").val('')
+              $("#inp-pos").val('') 
+              $("#editButton").css('display','none')
+              $("#submitButton").css('display','')
+       }
+        
+       function getTime(time){
+          time = new Date(time)
+          return time.getHours()+':'+time.getMinutes()
+
+       }
+
+       function getDate(date){
+          
+          date = new Date(date)
+          return date.getMonth()+'/'+date.getDay()+'/'+date.getFullYear()
+
+       }
+
+
+
+      function setSched(){
+
+        var events = $("#calendar").fullCalendar('clientEvents');
+        for(var ctr = 0; ctr < events.length; ctr++){
+            if(events[ctr].date in sched){
+                 var act = {
+                    'id':events[ctr].id,
+                    'start': moment((events[ctr].start)).format('HH:mm'),
+                    'end': moment((events[ctr].end)).format('HH:mm'),
+                    "date":getDate(events[ctr].start),
+                    'act': events[ctr].title,
+                    'desc': events[ctr].description,
+                    'person': events[ctr].posid
+
+                };
+                sched[events[ctr].date].push(act);
+            }else{
+                 var act = {
+                    'id':events[ctr].id,
+                    'start': moment((events[ctr].start)).format('HH:mm'),
+                    'end': moment((events[ctr].end)).format('HH:mm'),
+                    "date":getDate(events[ctr].start),
+                    'act': events[ctr].title,
+                    'desc': events[ctr].description,
+                    'person': events[ctr].posid
+
+                };
+                sched[events[ctr].date] = [];
+                sched[events[ctr].date].push(act);
+            }
+        }
+
+
+      }
+
+       
+
+    })
+
+
+
+  
+
+      
+  </script>
+    
 {%endblock%}
 
 {%block content%}
@@ -132,164 +501,118 @@
 <input type="hidden" name="status" value="{{status}}">
 
 
+
 <div class="row" id="data-route" gid="{{gosmactivity.gosmactivity}}"  pid="{{projectProposal.id}}" status="{{status}}">
 	<div class="col-md-12">
 		<div class="panel panel-info">
 			<div class="panel-heading"> Program Design</div>
 				<div class="panel-wrapper collapse in" aria-expanded="true">
 					<div class="panel-body">
-						<div data-example-id="togglable-tabs" class="bs-example bs-example-tabs" style="padding-top: 25px">
-							<ul role="tablist" class="nav nav-tabs" id="myTabs">
-								<li class="active nav-item" id="t0" role="presentation">
-									<a aria-expanded="true" class="nav-link" aria-controls="home" data-toggle="tab" role="tab" id="tab-0" href="#ctab0">
-										Day 1
-									</a>
-								</li>
-								<!--    <li class=" nav-item" id="t1" role="presentation"><a aria-expanded="true" class="nav-link" aria-controls="home" data-toggle="tab" role="tab" id="tab-1" href="#ctab1">Day 2</a></li> -->
-								<!-- <li role="presentation" class="nav-item panel-success"><a aria-controls="profile" class="nav-link" id="add-tab" href="tab-" role="tab"  aria-expanded="false"></a></li> -->
-								<li role="presentation" class="nav-item ">
-									<a aria-controls="profile" class="nav-link" id="add-tab" href="#" role="tab"  aria-expanded="false">
-										<i class="text-success fa fa-plus">
-										</i>
-									</a>
-								</li>
-								<!--  <li role="presentation" class="nav-item "><a style="border-color: white white #ddd white" aria-controls="profile" class="nav-link" id="delete-tab" href="#" role="tab"   aria-expanded="false"><i class="text-danger fa fa-times"></i></a></li> -->
-							</ul>
-							<div class="tab-content" id="myTabContent">
-								<div aria-labelledby="tab-0" id="ctab0" class="tab-pane fade active in" role="tabpanel">
-									<div class="row">
-										<div class="col-md-12" id="clone-question"  style="padding: 25px;position: relative; ">
-											<!-- pangcancel ng auto open datepicker -->
-											<input style="height:0px; top:-1000px; position:absolute;display: none" type="text" value="">
-											<div class="col-md-12">
-												<label class="form-control-label">Date</label>
-												<div class="input-group  ">
-													<input name="date" readonly="" class="form-control" id="datepicker-autoclose" placeholder="mm/dd/yyyy">
-													<span class="input-group-addon"><i class="icon-calender"></i></span>
-												</div>
-												<div>
-													<span id="datepicker-autoclose-help" class="help-block">
-														Date of the Activity could only be set once
-													</span>
-												</div>
-											</div>
-										</div>
-										<!--/span-->
-										<div class=" col-xs-12 col-md-8  " id="clone-table" style="padding-top: 30px">
-											<div class="table-responsive"  style="overflow-x:auto;">
-												<table id="program-tables" style="table-layout: fixed" class=" table program color-bordered-table success-bordered-table" >
-													<thead>
-														<tr>
-															<th width="25%" class="text-center" >Time</th>
-															<!--  <th width="10%">Duration</th> -->
-															<th width="65%"  class="text-center">Activity</th>
-															<th width="10%" data-field="state" data-checkbox="true"></th>
-														</tr>
-													</thead>
-													<tbody>
-														<tr class="no-records-found">
-															<td ></td>
-															<!--  <td></td> -->
-															<td></td>
-															<td></td>
-														</tr>
-													</tbody>
-												</table>
-											</div>
-										</div>
-										<div class="col-md-4 " style="margin-top: 50px;">
-											<div>&nbsp;</div>
-												<div class="form-group">
-													<label class="form-control-label" for="start-time">
-														Time
-													</label>
-													<div class="input-group clockpicker " data-autoclose="true">
-														<input name="timeStart" type="text" id="start-time" class="form-control" value="00:00" readonly="">
-														<span class=" input-group-addon bg-info b-0 text-white">
-															to
-														</span>
-														<input name="timeEnd" type="text" id="end-time" class="form-control" value="00:00" readonly="">
-													</div>
-													<div>
-														<span class="help-block" id="time-help"></span>
-													</div>
-												</div>
-												<div class="form-group">
-													<label class="form-control-label">
-														Activity
-													</label>
-													<input name="activity" id="act0"  type="text" class="form-control">
-													<div>
-														<span class="help-block" id="act-help"></span>
-													</div>
-												</div>
-											<div class="form-group">
-												<label class="form-control-label">
-													Description
-												</label>
-												<textarea name="description" id="desc0" class="form-control" rows="2" >
-												</textarea>
-												<div>
-													<span class="help-block" id="desc-help"></span>
-												</div>
-											</div>
-											<div class="form-group">
-												<label class="form-control-label">
-													Person in Charge
-												</label>
-												<select name="personInCharge" id="sel0" class="form-control select2">
-
-												{% for head in projectHeads %}
-
-													<option value="{{head.idnumber}}">{{head.firstname}} {{head.lastname}}</option>
-
-												{% endfor %}
-
-												</select>
-												<div>
-													<span class="help-block" id="time-help"></span>
-												</div>
-											</div>
-											<div class="m-t-5 form-group text-center">
-												<button type="button" id="insert-button" class="btn btn-info">Insert </button>
-											</div>
-										</div>
-										<div class="col-md-12" style="margin-top:32px;padding:20px;border: 1px solid grey;border-radius: 2px">
-											<h3 class="text-center">Activity Details</h3>
-											<label style=" position: absolute;right: 20px;top:20px">Time</label>
-											<p  style="word-break: break-all; position: absolute;right: 20px;top:40px" class="form-control-static"  id="time-preview"></p>
-											
-											<label>
-												Activity
-											</label>
-											<p  style="word-break: break-all;" class="form-control-static" id="activity-preview" ></p>
-											<div>&nbsp;</div>
-											<label>
-												Description
-											</label>
-											<p style="word-break: break-all;" id="description-preview"></p>
-											<div>&nbsp;</div>
-											<label>Person in Charge</label>
-											<p style="word-break: break-all;" class="form-control-static"  id="person-preview"></p>
-											<div>
-												&nbsp;
-											</div>
-										</div>
-									<!--/span-->
-								</div>
-							</div>
-							<!-- <div aria-labelledby="tab-1" id="ctab1" class="tab-pane" role="tabpanel">
-								asd
-							</div> -->
-						</div>
+						<div id="calendar"></div>
 					</div>
 				</div>
 				<div class="panel-footer text-center">
 					<button type="submit" id="submit-but" class="btn btn-success"> <i class="fa fa-save"></i>&nbsp;Save</button>
-					<button type="button" id="cancel-but" class="btn btn-default">Cancel</button>			
+					<a href="/Organization/ProjectProposal/Main/{{gosmactivity.gosmactivity}}/{{status}}" type="button" id="cancel-but" class="btn btn-default">Cancel</a>			
 				</div>
 			</div>
 		</div>
 	</div>
+</div>
+<div class="modal none-border" id="my-event">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header text-info">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                  <h4 class="modal-title"><strong id="event-title">Activity Name</strong></h4>
+              </div>
+              <div class="modal-body">
+                <p><strong>Date:</strong> <a id="date">TEST</a></p>
+                <div class="row cloc">
+                  <p class="col-md-6" ><strong>Start Time:</strong> <a id="start-time">TEST</a></p>
+                  <p class="col-md-6"><strong>End Time:</strong> <a id="end-time">TEST</a></p>
+                  <p class="col-md-12"><strong>Description</strong> <a id="desc">TEST</a></p>
+                  <p class="col-md-12"><strong>Person Responsible</strong> <a id="pos">TEST</a></p>
+                </div>
+                
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-white waves-effect" data-dismiss="modal">Close</button>                  
+                  <button type="button" id="delete" class="btn btn-danger delete-event waves-effect waves-light" data-dismiss="modal">Delete</button>
+                  <button type="button" id="edit" class="btn btn-warning save-event waves-effect waves-light">Edit</button>
+                  
+              </div>
+          </div>
+      </div>
+  </div>
+<div id="createEventModal" class="modal fade">
+    <div class="modal-dialog"  style="top: 150px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span> <span class="sr-only">close</span></button>
+                <h4 id="add-label">Add an Event</h4>
+                <h4 id="edit-label" style="display: none">Edit</h4>
+            </div>
+            <div id="modalBody" class="modal-body">
+               
+
+                  
+
+                  <div class="form-group">
+                    <label class="form-control-label"> Date</label>
+                    <div class="input-group date" data-provide="datepicker">
+                        <input type="text" id="inp-date" class="form-control">
+                        <div class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </div>
+                    </div>
+                  </div>
+
+
+                  <div class="form-group">
+                  <label class="form-control-label">Time Range</label>
+                      <div class="input-daterange clockpicker input-group" id="date-range" >
+                                       <div class="input-group clockpicker1" data-placement="bottom" data-align="top" data-autoclose="true">
+ 
+                                          <input type="text" class="form-control" id="inp-start" value=""> 
+                   
+                                      </div><span class="input-group-addon bg-info b-0 text-white">to</span>
+                   
+                                      <div class="input-group clockpicker2" data-placement="bottom" data-align="top" data-autoclose="true">
+                   
+                                          <input type="text" class="form-control" value="" id="inp-end">  
+                   
+                                      </div>
+                      </div>
+
+                  </div>
+                <div class="form-group">
+                    <label class="form-control-label">Activity Name</label>
+                    <input class="form-control" id="inp-name" type="text" >
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label">Description</label>
+                    <textarea class="form-control" id="inp-desc" type="text" rows="4"></textarea>
+                </div>
+                <div class="form-group ">
+                <label class="form-control-label">Person Responsible</label>
+                <select name="typeOfItem[]" id="inp-pos" class="form-control select2">                  
+                  {% for p in projectHeads %}
+                      <option value="{{p.idnumber}}" >{{p.firstname}} {{p.lastname}}</option>
+                  {% endfor %}
+                  
+                </select>
+                <div>
+                  <span class="help-block" id="time-help"></span>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                <button type="submit" class="btn btn-primary" id="editButton" style="display: none">Edit </button>
+                <button type="submit" class="btn btn-primary" id="submitButton">Add </button>
+            </div>
+        </div>
+    </div>
 </div>
 {%endblock%}

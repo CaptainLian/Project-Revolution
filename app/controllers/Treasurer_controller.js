@@ -4,21 +4,26 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
     const projectProposalModel = models.ProjectProposal_model;
 
-    TreasurerController.viewDashboard = (req, res) => {
+	TreasurerController.viewDashboard = (req, res) => {
     	const renderData = Object.create(null);
         renderData.extra_data = req.extra_data;
 
 		return res.render('Org/Treasurer/Dashboard', renderData);
 	};
 
+	TreasurerController.editPreactsCashAdvance = (req, res) => {
+    	const renderData = Object.create(null);
+        renderData.extra_data = req.extra_data;
+
+		return res.render('Org/Treasurer/finance_pend');
+	};
+
 
 	TreasurerController.newTransaction = (req, res) => {
 		database.task(t => {
 			return t.batch([
-
-			//TODO: replace activity ID
-			projectProposalModel.getApprovedPPRs(0)
-
+				//TODO: replace activity ID
+				projectProposalModel.getApprovedPPRs(0)
 			]);
 		}).then(data => {
 			const renderData = Object.create(null);

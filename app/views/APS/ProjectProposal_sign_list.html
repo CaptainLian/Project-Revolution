@@ -77,17 +77,45 @@
                             <tr>
                                 <td >{{activity.actualdatestart}}</td>
                                 <td ><a href="/APS/Signatory/Activtiy/{{activity.gosmactivity}}" class="btn-lnk">{{activity.strategies}}</a></td>
-                                {%if activity.status == 0%}                                    
-                                    <td><span class="label label-info">For Approval</span></td>     
-                                {%elif activity.status == 1%}                                    
-                                    <td><span class="label label-success">Approved</span></td>      
-                                {%elif activity.status == 2%}                                    
-                                    <td><span class="label label-warning">Pended</span></td>      
-                                {%elif activity.status == 3%}                                    
-                                    <td><span class="label label-danger">Denied</span></td>      
-                                {#{%elif activity.status == 3%}                                    
-                                    <td><span class="label label-danger">Force Signed</span></td>      #}    
-                                {%endif%}
+
+                                {% for project in projectProposal %}
+
+                                    {% if activity.gosmactivity == project.gosmactivity %}
+
+                                        {#{%if project.status == 0 or activity.pstatus == 1%}                                    
+                                            <td><span class="label label-primary">In progress</span></td>      #}
+                                        
+                                        {%if project.status == 2%}                                    
+
+                                            {#{%if activity.status == 0 or activity.pstatus == 1%}                                    
+                                                <td><span class="label label-primary">In progress</span></td>      #}
+                                            {%if activity.status == 0%}                                    
+                                                <td><span class="label label-info">For Approval</span></td>
+                                            {%elif activity.status == 1%}                                    
+                                                <td><span class="label label-success">Approved</span></td>         
+                                            {%elif activity.status == 2%}                                    
+                                                <td><span class="label label-warning">Pended</span></td>      
+                                            {%elif activity.status == 3%}                                    
+                                                <td><span class="label label-danger">Denied</span></td>      
+                                            {#{%elif activity.status == 3%}                                    
+                                                <td><span class="label label-danger">Force Signed</span></td>      #}    
+                                            {%endif%}
+
+                                        {%elif project.status == 3%}                                    
+                                            <td><span class="label label-success">Approved</span></td>         
+                                        {%elif project.status == 4%}                                    
+                                            <td><span class="label label-warning">Pended</span></td>      
+                                        {%elif project.status == 5%}                                    
+                                            <td><span class="label label-danger">Denied</span></td>      
+                                        {#{%elif project.status == 3%}                                    
+                                            <td><span class="label label-danger">Force Signed</span></td>      #}    
+                                        {%endif%}
+
+                                    {% endif %}
+
+                                {% endfor %}
+                                
+                                
                             </tr>
                         {%endfor%}
 					</tbody>

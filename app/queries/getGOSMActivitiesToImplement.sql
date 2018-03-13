@@ -1,4 +1,5 @@
-SELECT id, strategies, to_char(G.targetdatestart, 'Mon DD, YYYY') AS startdate, status
+-- TODO: optimizable query
+SELECT G.id, G.strategies, to_char(G.targetdatestart, 'Mon DD, YYYY') AS startdate, G.status
   FROM ((SELECT GA.*, 0 as status
   		  FROM gosmactivity GA JOIN GOSMACTIVITYPROJECTHEAD GAPH
   		  						 ON GAPH.ACTIVITYID=GA.ID
@@ -11,4 +12,7 @@ SELECT id, strategies, to_char(G.targetdatestart, 'Mon DD, YYYY') AS startdate, 
  		  					   JOIN GOSMACTIVITYPROJECTHEAD GAPH
  		  					     ON GAPH.ACTIVITYID=GA.ID
  		 WHERE GAPH.idnumber = ${idnumber})) G
- WHERE gosm=${gosm};
+   JOIN GOSM
+     ON g.gosm = gosm.id
+ WHERE g.gosm=${gosm}
+   AND gosm.status = 3;

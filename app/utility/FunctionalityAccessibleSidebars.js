@@ -11,11 +11,14 @@ const FUNCTIONALITY_SEQUENCES = require('./CONSTANTS_functionalitySequence.json'
 const functionalitySidebars = Object.create(null);
 
 //View Project Head Dashboard
+/*
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.ViewProjectHeadDashboard] = [{
     name: 'Dashboard',
     link: '/Organization/ProjectHead/home',
     icon:'fa fa-tachometer'
 }];
+*/
+
 
 //View APSReport
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.ViewAPSReport] = [{
@@ -33,7 +36,6 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.CreateGOSM] = [{
     name: 'GOSM',
     link: '/Organization/createGOSM',
     icon: 'fa fa-columns',
-    
 }];
 
 //Evaluate PPR
@@ -99,11 +101,17 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.AccountManagement] = [{
     icon :'fa fa-group'
 }];
 
+functionalitySidebars[FUNCTIONALITY_SEQUENCES.ViewActivityFeedback] = [constructSidebar(
+    'View Activity Feedback',
+    '/Organization/Orgres/list',
+    'fa fa-quote-left'
+)];
+
 //Evaluate Post Project
 //NOTE experimental code
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluatePostProject] = [constructSidebar(
-        'Post ProjectHead',
-        '/ADM/Activity/List'
+    'Post ProjectHead',
+    '/ADM/Activity/List'
 )];
 
 const accessibleRoutes = [];

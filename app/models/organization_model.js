@@ -20,6 +20,7 @@ module.exports = function(configuration, modules, database, queryFiles){
 	const getActivitiesWithoutPPRSQL = queryFiles.getActivitiesWithoutPPR;
 	const getStudentsOfOrganizationSQL = queryFiles.getStudentsOfOrganization;
 	const getStudentOrganizationSQL = queryFiles.getStudentOrganization;
+	const getAllStudentOrganizationsSQL = queryFiles.getAllStudentOrganizations;
 
     const logger = modules.logger;
 
@@ -30,7 +31,7 @@ module.exports = function(configuration, modules, database, queryFiles){
 	const OrganizationModel = Object.create(null);
 
 	OrganizationModel.getOrganizationInformation = (id, fields, connection = database) => {
-		 logger.debug(`Invoked, fields: ${JSON.stringify(fields)}`, log_options);
+		logger.debug(`Invoked, fields: ${JSON.stringify(fields)}`, log_options);
 		let query = squel.select()
 			.from('StudentOrganization')
 			.where('id = ${id}');
@@ -60,6 +61,11 @@ module.exports = function(configuration, modules, database, queryFiles){
 	OrganizationModel.getStudentsOfOrganization = (param, fields, connection = database) => {
 		return connection.any(getStudentsOfOrganizationSQL, param);
 	};
+
+	OrganizationModel.getAllStudentOrganizations = (connection = database) => {
+		return connection.any(getAllStudentOrganizationsSQL);
+	};
+
 	OrganizationModel.getFunctionality = (connection = database) => {
 		var query = squel.select()
 						.from("functionality")
@@ -280,6 +286,37 @@ module.exports = function(configuration, modules, database, queryFiles){
         }
 
 		let param = Object.create(null);
+		param.organizationID = organizationID;
+
+		query = query.toString();
+		logger.debug(`Executing query: ${query}`, log_options);
+		return connection.any(query, param);
+	};
+
+	OrganizationModel.getAccountWithAccessControlSequence = (ACLSequence, organizationID, fields, connection = database) => {
+		logger.info(`call getAccountWithAccessControlSequence(ACLSequence: ${ACLSequence}, organizationID: ${organizationID})`, log_options);
+		
+		let query = squel.select()
+			.from('Account a')
+			.where('a.idNumber IN ?', squel.select()
+				.field('oo.idNumber')
+				.from('OrganizationOfficer oo')
+				.where('oo.yearID = system_get_current_year_id()')
+				.where('oo.role IN ?', squel.select()
+					.field('id')
+					.from('OrganizationRole oro')
+					.where('organization = ${organizationID}')
+					.where('id IN ?', squel.select()
+						.field('role')
+						.from('OrganizationAccessControl oac')
+						.where('functionality = ?', squel.select()
+							.field('id')
+							.from('functionality')
+							.where('id%1000 = ${ACLSequence}')))));
+		attachFields(query, fields);
+
+		let param = Object.create(null);
+		param.ACLSequence = ACLSequence;
 		param.organizationID = organizationID;
 
 		query = query.toString();
