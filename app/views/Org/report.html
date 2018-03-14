@@ -104,10 +104,9 @@
     {{tag.javascript('/js/Organization/report.js', true)}}
 
 
-
-        <script >
-        $( document ).ready(function() {
-
+<!-- 
+<script >
+        
 
 
     var ctx3 = document.getElementById("chart3").getContext("2d");
@@ -241,8 +240,8 @@
         responsive: true
     });
 
-});
-    </script>
+</script> -->
+
     <!-- /Page Scripts -->
 {%endblock%}
 
@@ -716,20 +715,22 @@
                                             </div>
                                         </div>
                                         </section>
-                                        <section id="section-bar-2" class="content-current">
-                                        <div class="row">
-                                             <h4 class="text-center text-megna col-md-6"><strong>Pre-activity Document Summary</strong></h4>
-                                            <h4 class="text-center text-megna col-md-6"><strong>Post-activity Document Summary</strong></h4>
+                                        <section id="section-bar-2" class="">
+                                        <div class="row text-center">
+                                            <div class="col-md-12">
+                                                <h4 class="text text-megna col-md-12"><strong>Publicity and Production Grade</strong></h4>
+                                            </div>
                                         </div>
-                                        
                                         <div class="row row-in">
-                                            <div class="col-lg-3 col-sm-6 ">
+
+                                            <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
                                                 <div class="col-in row">
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h5 class="text-muted vb">On-Campus Publicity</h5>
+                                                    <div class="col-md-6 col-sm-6 col-xs-6 ">
+                                                        <!--  -->
+                                                        <h5 class="text-muted vb text-center">University Publicity Instrument</h5>
                                                     </div>
                                                     <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h3 class="counter text-right m-t-15 text-megna">23</h3>
+                                                        <h3 class="counter text-right m-t-15 text-megna">{{preactsPunctualityGrade}}</h3>
                                                     </div>
                                                     <div class="col-md-12 col-sm-12 col-xs-12">
                                                         <div class="progress">
@@ -741,10 +742,10 @@
                                             <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
                                                 <div class="col-in row">
                                                     <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h5 class="text-muted vb">Ticket</h5>
+                                                        <h5 class="text-muted vb">News Letters, Publications</h5>
                                                     </div>
                                                     <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h3 class="counter text-right m-t-15 text-megna">169</h3>
+                                                        <h3 class="counter text-right m-t-15 text-megna">2.5</h3>
                                                     </div>
                                                     <div class="col-md-12 col-sm-12 col-xs-12">
                                                         <div class="progress">
@@ -753,13 +754,13 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-3 col-sm-6">
+                                            <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
                                                 <div class="col-in row">
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h5 class="text-muted vb">Punctuality</h5>
+                                                    <div class="col-md-6 col-sm-6 col-xs-6 ">
+                                                        <h5 class="text-muted vb">Online Publicity</h5>
                                                     </div>
                                                     <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h3 class="counter text-right m-t-15 text-megna">157</h3>
+                                                        <h3 class="counter text-right m-t-15 text-megna">2.5</h3>
                                                     </div>
                                                     <div class="col-md-12 col-sm-12 col-xs-12">
                                                         <div class="progress">
@@ -771,83 +772,57 @@
                                             <div class="col-lg-3 col-sm-6  b-0">
                                                 <div class="col-in row">
                                                     <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h5 class="text-muted vb">Completeness</h5>
+                                                        <h5 class="text-muted vb">Compliance</h5>
                                                     </div>
                                                     <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h3 class="counter text-right m-t-15 text-megna">431</h3>
+                                                        <h3 class="counter text-right m-t-15 text-megna">2.5</h3>
                                                     </div>
                                                     <div class="col-md-12 col-sm-12 col-xs-12">
                                                         <div class="progress">
                                                             <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row row-in">
+
+                                            <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
+                                                <div class="col-in row">
+                                                    <div class="col-md-6 col-sm-6 col-xs-6 ">
+                                                        
+                                                        <h5 class="text-muted vb text-center">Members' Evaluation</h5>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                                        <h3 class="counter text-right m-t-15 text-megna">{{preactsTimingRatioGrade}}</h3>
+                                                    </div>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                                        <div class="progress">
+                                                            <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        
+                                            <div class="col-lg-3 col-sm-6  row-in-br  b-r-none">
+                                                <div class="col-in row">
+                                                    <div class="col-md-6 col-sm-6 col-xs-6 text-center">
+                                                        <div data-icon="&#xe013;" class="linea-icon linea-basic text-center"></div>
+                                                        <h5 class="text-muted vb">PNP Grade</h5>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                                        <h3 class="counter text-right m-t-15 text-warning">30</h3>
+                                                    </div>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                                        <div class="progress">
+                                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         
-                                        <div class="row row-in">
-
-                                            <div class="col-lg-3 col-sm-6 row-in-br">
-                                                <div class="col-in row">
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h5 class="text-muted vb">Timing</h5>
-                                                    </div>
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h3 class="counter text-right m-t-15 text-success">23</h3>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="progress">
-                                                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
-                                                <div class="col-in row">
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h5 class="text-muted vb">GOSM Submission</h5>
-                                                    </div>
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h3 class="counter text-right m-t-15 text-success">169</h3>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="progress">
-                                                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 100%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-6 row-in-br">
-                                                <div class="col-in row">
-                                                    <div class="col-md-6 col-sm-6 col-xs-6"> 
-                                                        <h5 class="text-muted vb">Pushed Through</h5>
-                                                    </div>
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h3 class="counter text-right m-t-15 text-success">157</h3>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="progress">
-                                                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-6  b-0">
-                                                <div class="col-in row">
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h5 class="text-muted vb">Not in GOSM Compliance</h5>
-                                                    </div>
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h3 class="counter text-right m-t-15 text-success">431</h3>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="progress">
-                                                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <!--/ADM -->
                                         
                                         </section>
                                         <section id="section-bar-3">
@@ -875,4 +850,5 @@
                         
                     </div>
                 </div>
+
 {%endblock%}

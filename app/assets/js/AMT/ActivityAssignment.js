@@ -100,7 +100,7 @@ $(document).ready(function(){
 
                     // $('.tooltip').hide();
                     // $('[data-toggle="tooltip"]').tooltip('hide');
-                    var actions  =      '<a activity-id="'+id+'" href="#" data-toggle="tooltip" data-title="Evaluate Activity"> '+
+                    var actions  =      '<a activity-id="'+id+'" href="/AMT/EvaluateActivity/'+id+'" data-toggle="tooltip" data-title="Evaluate Activity"> '+
                                             '<i  class="fa  fa-clipboard m-r-10 text-inverse "></i> '+
                                         '</a>'+                                   
                                          '<a activity-id="'+id+'"  venue-id="'+vid+'"  class="remove-activity"  data-toggle="tooltip" data-title="Remove from My Activity"> '+
