@@ -32,7 +32,8 @@
                 <ul class="nav navbar-top-links navbar-left hidden-xs">
                     <li><a href="javascript:void(0)" class="open-close hidden-xs waves-effect waves-light"><i class="ti-menu"></i></a></li>
                 </ul>
-                <ul class="nav navbar-top-links navbar-right pull-right">
+                <ul class="nav navbar-top-links navbar-right pull-right" 
+                >
 
                     <!-- /.dropdown -->
                     <li class="dropdown">
@@ -44,7 +45,9 @@
                                 <span class="point"></span>
                             </div>
                         </a>
-                        <ul class="dropdown-menu dropdown-tasks scale-up">
+                        <ul class="dropdown-menu dropdown-tasks scale-up scrollable-menu" role="menu" style="height: auto;
+                            max-height: 200px;
+                            overflow-x: hidden;">
                             <li>
                                 <div class="message-center">
                                     {%- block navbar_notifications %}
