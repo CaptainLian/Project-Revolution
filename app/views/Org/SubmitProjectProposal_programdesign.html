@@ -209,7 +209,7 @@
                   var $this = this;
                   $('#date').text(new Date(calEvent.start).toString().substr(0,16))
                   $('#event-title').text(calEvent.title)
-                  $('#pos').text(calEvent.person)
+                  $('#pos').text(calEvent.person.text)
                   
                   $('#desc').text(calEvent.description)
                   $('#start-time').text(moment(calEvent.start).format('HH:mm'))
