@@ -103,7 +103,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
             systemModel.getCurrentTerm([
                 'id',
-                'dateStart AS "dateStart"',
+                'to_char(dateStart, \'Month DD, YYYY\') AS "dateStart"',
                 'dateEnd AS "dateEnd"'
             ]).then(term=>{
 
@@ -134,19 +134,22 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     var gosmSubmissionGrade = 0;
                     var isRelatedToOrganizationCount = 0;
                     var sixtyFortyGrade = 0;
+                    var preactsAllApprovedTotal = 0;
+                    var notInGOSM = false;
+                    var lasallianFormationCompliance = false;
 
                     if(data[2] != null){
 
-                        if(data[2].dateSubmitted == null){
+                        if(data[2].orggosmsubmitted == null){
 
                         }
                         else{
 
-                            let orggosmsubmitted = data[2].datesubmitted;
+                            let orggosmsubmitted = data[2].orggosmsubmitted;
 
                             var gosmdiff = timediff(termstart, orggosmsubmitted, 'D');
 
-                            if(gosmdiff.days > 14){
+                            if(gosmdiff.days <= 14){
                                 gosmSubmissionGrade = 0.075;
                             }
 
@@ -165,6 +168,10 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             data[0][i].isingosm == true){
 
                             preactsApprovedActivities = preactsApprovedActivities + 1;
+
+                            if(data[0][i].activitynature == 8){
+                                lasallianFormationCompliance = true
+                            }
 
 
                             let actualdatestart = data[0][i].actualdatestart;
@@ -187,13 +194,14 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                 preactsTimingRatio = preactsTimingRatio + 1;
                             }
 
-
-                            if(data[0][i].isrelatedtoorganization == true){
-                                isRelatedToOrganizationCount = isRelatedToOrganizationCount + 1;
-                            }
-
-
                         }
+
+                        if(data[0][i].studentorganization == organizationid &&
+                            data[0][i].isrelatedtoorganization == true){
+                                isRelatedToOrganizationCount = isRelatedToOrganizationCount + 1;
+                        }
+
+                        preactsAllApprovedTotal = preactsAllApprovedTotal + 1;
 
                     }
 
@@ -214,6 +222,12 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             }
 
                         }
+                        else if(data[1][i].studentorganization == organizationid &&
+                            data[1][i].isingosm == false){
+
+                            notInGOSM = true;
+
+                        }
 
                     }
 
@@ -221,16 +235,15 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     var preactsTimingRatioGrade = ((parseFloat(preactsTimingRatio)/parseFloat(totalActivities))*0.015);
                     var preactsCompletenessGrade = (100 - (parseFloat(preactsPendCount)*0.5))*0.025;
 
-                    var sixtyFortyRatioPercentage = isRelatedToOrganizationCount/preactsApprovedActivities;
+                    var sixtyFortyRatioPercentage = isRelatedToOrganizationCount/preactsAllApprovedTotal;
 
 
                     if (preactsApprovedActivities == 0){
                         preactsPunctualityGrade = 0;
-                        sixtyFortyRatioPercentage = 0;
                     }
 
-                    if(totalActivities == 0){
-                        preactsTimingRatioGrade = 0;
+                    if (preactsAllApprovedTotal == 0){
+                        sixtyFortyRatioPercentage = 0;
                     }
 
 
@@ -307,6 +320,33 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         postactsCompletenessGrade = 0;
                     }
 
+                    var pushedThroughGrade = (parseFloat(preactsApprovedActivities)/parseFloat(totalActivities))*0.0015;
+
+                    if(totalActivities == 0){
+
+                        preactsTimingRatioGrade = 0;
+                        pushedThroughGrade = 0;
+
+                    }
+
+                    if(notInGOSM){
+
+                        var notInGOSMGrade = 0.0015;
+
+                    }
+                    else{
+
+                        var notInGOSMGrade = 0;
+
+                    }
+
+                    if(lasallianFormationCompliance){
+                        var lasallianFormationComplianceGrade = 6;
+                    }
+                    else{
+                        var lasallianFormationComplianceGrade = 0;
+                    }
+
 
 
                     const renderData = Object.create(null);
@@ -333,6 +373,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     renderData.postactsLateApprovedActivities = postactsLateApprovedActivities;
                     renderData.postactsPunctualityGrade = postactsPunctualityGrade;
                     renderData.postactsCompletenessGrade = postactsCompletenessGrade;
+                    renderData.pushedThroughGrade = pushedThroughGrade;
+                    renderData.notInGOSMGrade = notInGOSMGrade;
+                    renderData.lasallianFormationComplianceGrade = lasallianFormationComplianceGrade;
 
                     console.log("preacts timing ratio gradeeeeeeeeeeeeeeeeeeeeee+++++++++++++");
                     console.log(preactsTimingRatioGrade);

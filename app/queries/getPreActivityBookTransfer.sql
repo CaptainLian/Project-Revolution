@@ -1,5 +1,5 @@
 SELECT PABT.id, PABT."GOSMActivity", PABT."submissionID", PABT."sequence", PABT."submittedBy", 
-       PABT."dateSubmitted", PABT.status, PABT."transferAccount",
+       PABT."dateSubmitted", PABT.status, PABT."establishment",
        to_char(PABT."dateSubmitted", 'MonthDD, YYYY') AS submissiondate, 
        to_char(PABT."dateSubmitted", 'HH:MI PM') AS submittime, GA.strategies, SO.name as organization,
        A.firstname, A.lastname, SO.id as orgid

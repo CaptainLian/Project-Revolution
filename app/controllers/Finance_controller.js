@@ -1503,6 +1503,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		    	financeModel.getExpensesWithoutTransactionCount(dbParam).then(transactionCount=>{
 
 		    		if (transactionCount.expensestotal > 0){
+
+		    			
 		           		
 						projectProposalModel.getProjectProposal(dbParam).then(data=>{
 
@@ -1510,11 +1512,16 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 								projectproposal: data.id
 							};
 
-							financeModel.getParticulars(param).then(data1=>{
+							database.task(t=>{
+								return t.batch([
+	                            	financeModel.getParticulars(param),
+	                            	financeModel.getBookTransferEstablishment()]);
+							}).then(data1=>{
 								const renderData = Object.create(null);
 					            renderData.extra_data = req.extra_data;
 					            renderData.csrfToken = req.csrfToken();
-					            renderData.particulars = data1;
+					            renderData.particulars = data1[0];
+					            renderData.establishments = data1[1];
 					            renderData.gosmactivity = req.params.gosmactivity;
 								return res.render('Finance/Preacts_BookTransfer', renderData);
 
@@ -1718,7 +1725,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				return t.batch([
 	                            financeModel.getPreActivityBookTransfer(dbParam),
 	                            financeModel.getBookTransferParticulars(dbParam),
-	                            financeModel.getBookTransferPendSignatory(dbParam)]);
+	                            financeModel.getBookTransferPendSignatory(dbParam),
+	                            financeModel.getBookTransferEstablishment()]);
 			}).then(data=>{
 
 				if (data[0].status == 2 && data[0].submittedBy == req.session.user.idNumber){
@@ -1729,6 +1737,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			        renderData.bookTransferParticulars = data[1]
 			        renderData.signatory = data[2];
    			        renderData.gosmactivity = data[0].GOSMActivity;
+   			        renderData.establishments = data[3];
 
 
 			        console.log(data);
