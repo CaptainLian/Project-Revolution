@@ -207,7 +207,7 @@
   			    },
             eventClick: function(calEvent, jsEvent, view) { 
                   var $this = this;
-                  $('#date').text(new Date(calEvent.start).toString().substr(0,16))
+                  $('#date').text(moment(calEvent.start).toString().substr(0,16))
                   $('#event-title').text(calEvent.title)
                   $('#pos').text(calEvent.person.text)
                   
@@ -440,8 +440,7 @@
 
        function getDate(date){
           
-          date = new Date(date)
-          return date.getMonth()+'/'+date.getDay()+'/'+date.getFullYear()
+          return moment(data).format("MM/DD/YYYY")
 
        }
 
