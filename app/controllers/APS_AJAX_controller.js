@@ -162,7 +162,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         var comment = ' ' + req.body.comment;
         console.log("asdasdasdasdasdklajsdlkajsdlakjsdlkasjdlaskjdalksjd")
         console.log(req.body)
-        if(false){
+        if(comment == ' '){
         // if(comment == ' '){
             return projectProposalModel.approvePPResched(req.body.activityID, comment,req.body.status).then(data=>{
                 res.json({status:1});
