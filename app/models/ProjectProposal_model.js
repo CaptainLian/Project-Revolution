@@ -249,7 +249,8 @@ module.exports = function(configuration, modules, db, queryFiles) {
         .where('projectProposal = ?', squel.select()
             .from('ProjectProposal')
             .where('GOSMActivity = ${id}')
-            .field('id'));
+            .field('id'))
+        .order("pppd.date");
         this._attachFields(query, fields);
 
         query = query.toString();

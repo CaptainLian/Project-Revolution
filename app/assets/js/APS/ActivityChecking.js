@@ -177,12 +177,17 @@ $(document).on('click', '#defer', function() {
     });
 });
 $(document).on('click', '#reschedule', function() {
+    var limit = $("#doc").attr("limit");
     var question = 
+
         '<div>' +
         '</div>' +
         '<div class="form-group col-md-12 >' +
             '<label class="col-md-12 text-left"  style="float:left" ><strong  style="float:left">New Schedule/s:</strong></label>' +
             '<input id="datepicker-inline" class="form-control mydatepicker" placeholder="" type="text">'+
+        '</div>' +
+        '<div class="form-group col-md-12" >' +
+            '<label> Number of dates should be match the program design('+limit +')  </label>'+
         '</div>' +
         '<div class="form-group col-md-12">' +
             '<label class="col-md-12 text-left"><strong>Reason/s:</strong></label>' +
@@ -217,7 +222,7 @@ $(document).on('click', '#reschedule', function() {
             '</div>'+
             */
             '<div class="form-group col-md-12" id="reason" style= "display:none">' +
-                '<label class="col-md-12 text-left"  style="float:left" ><strong style="float:left">Other Reason:</strong></label>' +
+                '<label class="col-md-12 text-left"  style="padding-left:0px" ><strong >Other Reason:</strong></label>' +
                 '<input id="others" class="form-control" placeholder="" type="text">'+
             '</div>' +
             
@@ -237,8 +242,8 @@ $(document).on('click', '#reschedule', function() {
             console.log("DATA");
             return new Promise(function(resolve, reject) {
                 setTimeout(function() {
-                    if (data === 'taken@example.com') {
-                        reject('This email is already taken.')
+                    if ($("#select-sec").val().split(",").length != $("#doc").attr("limit")+1) {
+                        reject('Date pick is not enough.')
                     } else {
                         resolve()
                     }
@@ -257,8 +262,9 @@ $(document).on('click', '#reschedule', function() {
             $('#datepicker-inline').datepicker({
                 autoclose: false,
                 todayHighlight: true,
-                multidate:true,
-                startDate: new Date()
+                
+                startDate: new Date(),
+                multidate:$("#doc").attr("limit")
             });
 
             $('select').change(function(event) {

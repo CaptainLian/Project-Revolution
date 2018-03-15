@@ -474,10 +474,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.signatories = data[6];
                 renderData.withExpense = data[1].length > 0;
                 renderData.withRevenue = data[2].length > 0;
+                renderData.limit = data[3][data[3].length -1]["dayid"]
 
                 console.log(data[2].length > 0)
                 console.log("REVENUE")
-                console.log(data[0])
+                console.log(data[3])
                 console.log("EXPENSE")
 
                 renderData.resched = timediff(data[3][0].datestart, data[3][0].currdate, 'D').days
