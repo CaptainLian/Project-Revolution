@@ -162,13 +162,38 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         var comment = ' ' + req.body.comment;
         console.log("asdasdasdasdasdklajsdlkajsdlakjsdlkasjdlaskjdalksjd")
         console.log(req.body)
-        return projectProposalModel.approvePPResched(req.body.activityID, comment,req.body.status).then(data=>{
-            res.json({status:1});
-        }).catch(err=>{
-            res.json({status:0});
-            console.log(err)
-            // return logger.error(`${err.message}\n${err.stack}`, log_options);
-        })
+        if(false){
+        // if(comment == ' '){
+            return projectProposalModel.approvePPResched(req.body.activityID, comment,req.body.status).then(data=>{
+                res.json({status:1});
+            }).catch(err=>{
+                res.json({status:0});
+                console.log(err)
+                // return logger.error(`${err.message}\n${err.stack}`, log_options);
+            })    
+        }else{
+            database.task(t=>{
+                return projectProposalModel.getActivityProjectProposalDetailsGAID(req.body.activityID,t)
+                .then(data=>{
+                    console.log(data.id)
+                    return t.batch([
+                            projectProposalModel.updateProjectProposalActualDate(req.body.activityID,data.rescheduledates),
+                            projectProposalModel.updateProjectProposalPD(data.gosmactivity,data.rescheduledates),
+                            projectProposalModel.approvePPResched(req.body.activityID, comment,req.body.status)
+                        ]).catch(err => {
+                   console.log(err)
+                });
+                    
+                })
+            }).then(data=>{
+                res.json({status:1});
+            }).catch(err=>{
+                res.json({status:0});
+                console.log(err)
+                // return logger.error(`${err.message}\n${err.stack}`, log_options);
+            })    
+        }
+        
     };
 
     APS_AJAXController.approvalResched = (req, res) => {
