@@ -249,7 +249,68 @@ module.exports = function(configuration, modules, db, queryFiles) {
         .where('projectProposal = ?', squel.select()
             .from('ProjectProposal')
             .where('GOSMActivity = ${id}')
-            .field('id'));
+            .field('id'))
+        .order("pppd.date");
+        this._attachFields(query, fields);
+
+        query = query.toString();
+        let param = Object.create(null);
+        param.id = id;
+        return connection.any(query, param);
+    };
+    ProjectProposalModel.prototype.updateProjectProposalActualDate = function(id, date, connection = this._db){
+         console.log(date)
+        console.log("date MODEL")
+        var day = 60 * 60 * 24 * 1000;
+        var date1 = new Date(date[0])
+        
+        date1 = new Date(date1.getTime() + day);
+        var date2 = new Date(date[date.length-1])
+        date2 = new Date(date2.getTime() + day);
+        let query = squel.update()
+        .table('projectproposal')
+        .set('actualDateStart',date1.toISOString().split('T')[0])
+        .set('actualDateEnd',date2.toISOString().split('T')[0])
+        .where('id = ?',id)
+            
+
+        query = query.toString();
+        console.log(query)
+        return connection.any(query);
+    };
+    ProjectProposalModel.prototype.updateProjectProposalPD = function(id, date, connection = this._db){
+        console.log(id)
+        var query ='';
+        var day = 60 * 60 * 24 * 1000;
+       
+        for(var ctr = 0; ctr < date.length; ctr++){
+             var date1 = new Date(date[ctr])
+        date1 = new Date(date1.getTime() + day);
+        console.log("asd")        
+            query = squel.update()
+                        .table('ProjectProposalProgramDesign')
+                        .set('date',date1.toISOString().split('T')[0])                 
+                        .where('dayid = ?',ctr)
+                        .where('projectProposal = ?',id)                        
+                        query = query.toString();    
+            query+=';'
+            console.log(query)
+
+        }
+        console.log(query)
+        return connection.any(query);
+    };
+    ProjectProposalModel.prototype.getProjectProposalProgramDesignDates = function(id, fields, connection = this._db){
+        let query = squel.select()
+        .from('ProjectProposalProgramDesign', 'pppd')
+        .field("DISTINCT(PPPD.DATE)")
+        .left_join('account','acc','pppd.personincharge = acc.idnumber')
+        .where('projectProposal = ?', squel.select()
+            .from('ProjectProposal')
+            .where('GOSMActivity = ${id}')
+            .field('id'))
+        .order("pppd.date")
+        
         this._attachFields(query, fields);
 
         query = query.toString();
@@ -363,7 +424,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
                          .table("ProjectProposal")
                          .set("status",status)
                          .set("reschedrejectreason", comment)                         
-                         .where("gosmactivity = ?",id)
+                         .where("gosmactivity = ?",id);
 
       
         return connection.any(query.toString());

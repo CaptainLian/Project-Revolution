@@ -177,12 +177,17 @@ $(document).on('click', '#defer', function() {
     });
 });
 $(document).on('click', '#reschedule', function() {
+    var limit = $("#doc").attr("limit");
     var question = 
+
         '<div>' +
         '</div>' +
         '<div class="form-group col-md-12 >' +
             '<label class="col-md-12 text-left"  style="float:left" ><strong  style="float:left">New Schedule/s:</strong></label>' +
             '<input id="datepicker-inline" class="form-control mydatepicker" placeholder="" type="text">'+
+        '</div>' +
+        '<div class="form-group col-md-12" >' +
+            '<label> Number of dates should be match the program design('+limit +')  </label>'+
         '</div>' +
         '<div class="form-group col-md-12">' +
             '<label class="col-md-12 text-left"><strong>Reason/s:</strong></label>' +
@@ -217,7 +222,7 @@ $(document).on('click', '#reschedule', function() {
             '</div>'+
             */
             '<div class="form-group col-md-12" id="reason" style= "display:none">' +
-                '<label class="col-md-12 text-left"  style="float:left" ><strong style="float:left">Other Reason:</strong></label>' +
+                '<label class="col-md-12 text-left"  style="padding-left:0px" ><strong >Other Reason:</strong></label>' +
                 '<input id="others" class="form-control" placeholder="" type="text">'+
             '</div>' +
             
@@ -237,8 +242,8 @@ $(document).on('click', '#reschedule', function() {
             console.log("DATA");
             return new Promise(function(resolve, reject) {
                 setTimeout(function() {
-                    if (data === 'taken@example.com') {
-                        reject('This email is already taken.')
+                    if ($("#select-sec").val().split(",").length != $("#doc").attr("limit")) {
+                        reject('Date pick is not enough.')
                     } else {
                         resolve()
                     }
@@ -255,10 +260,11 @@ $(document).on('click', '#reschedule', function() {
                 
             });
             $('#datepicker-inline').datepicker({
-                autoclose: false,
-                todayHighlight: true,
-                multidate:true,
-                startDate: new Date()
+                autoclose: true,
+                todayHighlight: true,                
+                startDate: new Date(),
+                multidate:$("#doc").attr("limit")
+                 
             });
 
             $('select').change(function(event) {
@@ -278,42 +284,62 @@ $(document).on('click', '#reschedule', function() {
         cancelButtonText: "Cancel",
 
     }).then(function(data) {
-
-        // console.log("ASD");
-        // $("html, body").animate({
-        //     scrollTop: 0
-        // }, function() {
-        //     $('#doc').removeClass("bounceOutUp animated").addClass("bounceOutUp   animated").one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-        //         $(this).removeClass("bounceOutUp animated");
-        //     });
-        // });
-
-
-    }).then(function(data) {
-       
-        $.ajax({
-            type: 'POST',
-            url: '/APS/ajax/approvalResched',
-            data: {
-                activityID: $("#doc").attr("ct"),
-                date: $('#datepicker-inline').val(),
-                reason:  $("#select-sec").select2('val'),
-                others:$("#others").val()
-            },
-            success: function(data) {
-                if(data.status){
-                    swal("Good job!", " ", "success").then(function(){
-                        location.reload()
-                    })
-
-                }else{
-                    //    swal("Good job!", " ", "success").then(function(){
-                    //     location.reload()
-                    // })
-                }
-                
-            }
+        var modified = '';
+        var arr = $("#doc").attr('ds').split(',');
+        var arr2 = $('#datepicker-inline').val().split(',');
+        arr2.sort(function(a,b){
+          
+          return new Date(a) - new Date(b);
         });
+        var date2='';
+        for(var ctr = 0; ctr < arr.length; ctr++){
+            modified+=
+            '<p>'+(new Date(arr[ctr])).toDateString()+' (old) to '+(new Date(arr2[ctr])).toDateString()+' (new)</p>';    
+            date2+=arr2[ctr]
+            if(ctr != arr.length -1){
+                date2+=','
+            }
+        }
+        var activityID = $("#doc").attr("ct")
+        var reason = $("#select-sec").select2('val');
+        var others = $("#others").val()
+       swal({
+            title: "Are you sure?",
+            html:modified,
+            showCancelButton: true,
+            reverseButtons: true,
+            confirmButtonColor: "#00C292",
+            confirmButtonText: "Yes",
+            cancelButtonText: "No",
+            focusConfirm: false,
+            focusCancel: false,    
+
+        }).then(function(data2){
+            $.ajax({
+                type: 'POST',
+                url: '/APS/ajax/approvalResched',
+                data: {
+                    activityID: activityID,
+                    date: date2,
+                    reason: reason  ,
+                    others: others
+                },
+                success: function(data) {
+                    if(data.status){
+                        swal("Good job!", " ", "success").then(function(){
+                            location.reload()
+                        })
+
+                    }else{
+                        //    swal("Good job!", " ", "success").then(function(){
+                        //     location.reload()
+                        // })
+                    }
+                    
+                }
+            });
+        })
+        
     });
 });
 $(document).on('click', '#reject', function() {
