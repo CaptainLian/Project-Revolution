@@ -913,7 +913,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 return task.batch([
                     projectProposalModel.getProjectProposal(dbParam),
                     projectProposalModel.getAllVenues(),
-                    projectProposalModel.getOrgFacultyAdvisers(dbParam)
+                    projectProposalModel.getOrgFacultyAdvisers(dbParam),
+                    projectProposalModel.getAllBuildings()
                 ]);
             }).then(data => {
 
@@ -923,6 +924,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.projectProposal = data[0];
                 renderData.venues = data[1];
                 renderData.advisers = data[2];
+                renderData.buildings = data[3];
                 renderData.gosmactivity = dbParam;
                 renderData.status = req.params.status;
 
