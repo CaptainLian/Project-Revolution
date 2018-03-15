@@ -39,7 +39,7 @@ $(document).ready(function() {
                     function() {
                         $(this).removeClass("shake animated");
                     });
-        }else if ($(this).val() == 'den') {
+        }else if ($(this).val() == 'all') {
             $("tr.pen").css('display', '');
             $("tr.app").css('display', '');
             $("tr.den").css('display', '');
