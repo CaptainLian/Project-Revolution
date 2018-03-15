@@ -34,6 +34,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const deleteProgramDesignSQL = queryFiles.deleteProgramDesign;
     const deleteExpensesSQL = queryFiles.deleteExpenses;
     const getAllVenuesSQL = queryFiles.getAllVenues;
+    const getAllBuildingsSQL = queryFiles.getAllBuildings;
     const getOrgFacultyAdvisersSQL = queryFiles.getOrgFacultyAdvisers;
     const getAllMyActivity = queryFiles.getAllMyActivity;
     const getPPRToCreatePubsList = queryFiles.getPPRToCreatePubsList;
@@ -609,6 +610,10 @@ module.exports = function(configuration, modules, db, queryFiles) {
 
     ProjectProposalModel.prototype.getAllVenues = function(connection = this._db){
         return connection.any(getAllVenuesSQL);
+    };
+
+    ProjectProposalModel.prototype.getAllBuildings = function(connection = this._db){
+        return connection.any(getAllBuildingsSQL);
     };
 
     ProjectProposalModel.prototype.getOrgFacultyAdvisers = function(param, connection = this._db){

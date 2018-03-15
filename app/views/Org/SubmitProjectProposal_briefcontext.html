@@ -114,18 +114,24 @@
 											<div class="col-md-9">
 												<select class="form-control" name="venue" data-placeholder="Choose a Category" tabindex="1">
 
-												{% for venue in venues %}
-													{% if venue.id == projectProposal.venue %}
+												{% for building in buildings %}
+                                            		<optgroup label="{{building.name}}">
+                                            			{% for venue in venues %}
+                                                			{% if venue.building == building.id %}
+                                                   				{% if venue.id == projectProposal.venue %}
 
-														<option value="{{venue.id}}" selected>{{venue.name}}</option>
+																	<option value="{{venue.id}}" selected>{{venue.name}}</option>
 
-													{% else %}
-														
-														<option value="{{venue.id}}">{{venue.name}}</option>
+																{% else %}
+																	
+																	<option value="{{venue.id}}">{{venue.name}}</option>
 
-													{% endif %}
+																{% endif %}
+                                                			{% endif %}	
+                                           				{% endfor %}
+                                            		</optgroup>
+                                        		{% endfor %}
 
-												{% endfor %}
 
 												</select>
 											</div>
