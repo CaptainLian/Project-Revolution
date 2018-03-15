@@ -416,7 +416,9 @@ module.exports = function(configuration, modules, db, queryFiles) {
     ProjectProposalModel.prototype.approvePPResched =  function(id, comment, status, connection = this._db){
         console.log("============================")
         console.log(comment)
-        if(comment === ''){
+         console.log(id)
+         console.log(status)
+        if(comment === ' '){
             console.log("PASDSd")
             comment = null
         }

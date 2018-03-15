@@ -159,12 +159,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     };
 
     APS_AJAXController.resched = (req, res) => {
-        var comment = ' ' + req.body.comment;
+        var commentssss = ' ' + req.body.comment;
         console.log("asdasdasdasdasdklajsdlkajsdlakjsdlkasjdlaskjdalksjd")
         console.log(req.body)
-        if(comment == ' '){
+        if(commentssss =! ' '){
         // if(comment == ' '){
-            return projectProposalModel.approvePPResched(req.body.activityID, comment,req.body.status).then(data=>{
+            console.log("comments")
+            return projectProposalModel.approvePPResched(req.body.activityID, commentssss,req.body.status).then(data=>{
                 res.json({status:1});
             }).catch(err=>{
                 res.json({status:0});
@@ -172,14 +173,15 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 // return logger.error(`${err.message}\n${err.stack}`, log_options);
             })    
         }else{
+            console.log("else pumasok")
             database.task(t=>{
                 return projectProposalModel.getActivityProjectProposalDetailsGAID(req.body.activityID,t)
                 .then(data=>{
                     console.log(data.id)
                     return t.batch([
-                            projectProposalModel.updateProjectProposalActualDate(req.body.activityID,data.rescheduledates),
-                            projectProposalModel.updateProjectProposalPD(data.gosmactivity,data.rescheduledates),
-                            projectProposalModel.approvePPResched(req.body.activityID, comment,req.body.status)
+                            projectProposalModel.updateProjectProposalActualDate(req.body.activityID,data.rescheduledates,t),
+                            projectProposalModel.updateProjectProposalPD(data.gosmactivity,data.rescheduledates,t),
+                            projectProposalModel.approvePPResched(data.gosmactivity, commentssss,req.body.status,t)
                         ]).catch(err => {
                    console.log(err)
                 });
