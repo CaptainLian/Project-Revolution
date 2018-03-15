@@ -40,13 +40,17 @@
                         <a class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#" aria-expanded="false">
                             <i class="icon-note"></i>
                             <div class="notify">
-                                <!-- <span class="label label-rounded label-danger pull-right">4</span> -->
+                                {%-if (extra_data.view.navbar.notifications.length)%}
+                                {#
+                                <span class="label label-rounded label-danger pull-right">{{-extra_data.view.navbar.notifications.length-}}</span>
+                                #}
                                 <span class="heartbit"></span>
                                 <span class="point"></span>
+                                {%endif-%}
                             </div>
                         </a>
                         <ul class="dropdown-menu dropdown-tasks scale-up scrollable-menu" role="menu" style="height: auto;
-                            max-height: 200px;
+                            max-height: 250px;
                             overflow-x: hidden;">
                             <li>
                                 <div class="message-center">
@@ -57,6 +61,9 @@
                                             No notifications
                                         {% endfor %}
                                     {% endblock -%}
+
+                                    
+
                                 </div>
                             </li>
                             {#
@@ -89,11 +96,12 @@
                             {%for organization in extra_data.view.navbar.organizationDropdown%}
                                 <li><a href="/System/ChangeOrganization/{{organization.id}}" class="text-success"><i class="ti-stamp text-success"></i>{{organization.acronym}}</a></li>
                             {%endfor%}
+
                             {#
-                            <li><a href="#"><i class="ti-stamp"></i> MooMedia</a></li>
+                            <li><a href="#"><i class="ti-stamp"></i>MooMedia</a></li>
                             #}
                             <li role="separator" class="divider"></li>
-                            <li><a href="/logout"><i class="fa fa-power-off"></i> Logout</a></li>
+                            <li><a href="/logout"><i class="fa fa-power-off"></i>Logout</a></li>
                         </ul>
                         <!-- /.dropdown-user -->
                     </li>
@@ -125,10 +133,10 @@
                         {%-block sidebar_content%}
                             {{sidebar_item('Home', '/home','fa fa-home')}}
                             {% for sidebar in extra_data.view.sidebars %}
-                                {{sidebar_item(sidebar.name, sidebar.link, sidebar.icon, sidebar.classes)}}
+                                {{-sidebar_item(sidebar.name, sidebar.link, sidebar.icon, sidebar.classes)-}}
                             {% endfor %}
-                            {{sidebar_item('Sign Project Proposal', '/APS/Signatory/ActivtiyList', 'fa fa-check')}}
-                            {{sidebar_item('Change Password', '/System/ChangePassword', 'fa fa-check')}}
+                            {{-sidebar_item('Sign Project Proposal', '/APS/Signatory/ActivtiyList', 'fa fa-check')-}}
+                            {{-sidebar_item('Change Password', '/System/ChangePassword', 'fa fa-check')-}}
                         {%endblock-%}
                     </ul>
                 </div>
@@ -201,21 +209,20 @@
 {% endmacro %}
 
 {% macro notification_item(title, description, timestamp, details=null) %}
-    <a href>
-        <div class="user-img">
-            {#
-            <img src="../plugins/images/users/pawandeep.jpg" alt="user" class="img-circle">
-            #}
-            {#
-                .profile-status adds the circle
-                .online or .away or .offline or .busy sets the inner color
-            #}
-            <span class="profile-status online pull-right"></span>
-        </div>
-        <div class="mail-contnet">
-            <h5>{{title}}</h5>
-            <span class="mail-desc">{{description}}</span>
-            <span class="time">{{timestamp}}</span>
-         </div>
-    </a>
+    <div class="user-img">
+        {#
+            sets the profile picture
+        <img src="../plugins/images/users/pawandeep.jpg" alt="user" class="img-circle">
+        #}
+        {#
+            .profile-status adds the circle
+            .online or .away or .offline or .busy sets the inner color
+        #}
+        <span class="profile-status online pull-right"></span>
+    </div>
+    <div class="mail-contnet">
+        <h5>{{title}}</h5>
+        <span class="mail-desc">{{description}}</span>
+        <span class="time">{{timestamp}}</span>
+     </div>
 {% endmacro %}

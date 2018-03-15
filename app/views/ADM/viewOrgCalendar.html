@@ -1,0 +1,125 @@
+{% extends '../template/CSO_master.html' %}
+{% import '../template/tags_macro.html' as tag %}
+
+{%block page_title%}CSO - View Activity List{%-endblock%}
+
+
+{%block style%}
+    {{super()}}
+    <!-- Bootstrap Core CSS -->
+    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
+
+    {{tag.style('/plugins/bower_components/bootstrap-table/dist/bootstrap-table.min.css')}}
+
+    {{tag.style('/plugins/bower_components/calendar/dist/fullcalendar.css')}}
+    
+    <!-- Menu CSS -->
+    {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
+    <!-- animation CSS -->
+    {{tag.style('/css/animate.css')}}
+    <!--alerts CSS -->
+    {{tag.style('/css/style.css')}}
+    <!-- color CSS -->
+    {{tag.style('/css/colors/blue.css')}}
+    <!--alerts CSS -->
+    {{tag.style('/plugins/bower_components/sweetalert/sweetalert.css')}}
+    <!-- page CSS -->
+    {{tag.style('/css/custom.css')}}
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- IMPORTANT -->
+
+{%endblock%}
+
+{%block defer_script%}
+    {{super()}}
+    <!-- jQuery -->
+    {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js')}}
+    <!-- Bootstrap Core JavaScript -->
+    {{tag.javascript('/bootstrap/dist/js/tether.min.js')}}
+    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js')}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js')}}
+
+    {{tag.javascript('/plugins/bower_components/bootstrap-table/dist/bootstrap-table.min.js')}}
+    <!-- Menu Plugin JavaScript -->
+    {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js')}}
+    <!--slimscroll JavaScript -->
+    {{tag.javascript('/js/jquery.slimscroll.js')}}
+    <!--Wave Effects -->
+    {{tag.javascript('/js/waves.js')}}
+    <!-- Custom Theme JavaScript -->
+    {{tag.javascript('/js/custom.min.js')}} 
+
+    <!--Style Switcher -->
+    {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js')}}
+
+    
+    {{tag.javascript('/plugins/bower_components/moment/moment.js')}}
+    {{tag.javascript('/plugins/bower_components/calendar/dist/fullcalendar.min.js')}}
+    <!-- {{tag.javascript('/plugins/bower_components/calendar/dist/cal-init.js', true)}} -->
+
+
+    {{tag.javascript('/js/system/AJAX_CSRF.js')}}
+    {{tag.javascript('/js/Organization/ProjectHeadHome.js')}}
+
+    <!-- tabs-->
+<script>
+
+    $(document).ready(function() {
+
+        $('#calendar').fullCalendar({
+        });
+
+    });
+
+</script>
+  <!--  {{tag.javascript('/js/PNP/PubsToCheck.js', true)}} -->
+{%endblock%}
+
+{%block content%}
+
+<div class="row">
+    <div class="col-md-3 col-xs-12 col-sm-6">
+        <div class="white-box text-center bg-inverse">
+            <h1 class=" text-white counter">32</h1>
+            <p class="text-white">Projects</p>
+        </div>
+    </div>
+     <div class="col-md-3 col-xs-12 col-sm-6">
+        <div class="white-box text-center bg-success">
+            <h1 class="text-white counter">32</h1>
+            <p class="text-white">Success</p>
+        </div>
+    </div>
+    <div class="col-md-3 col-xs-12 col-sm-6">
+        <div class="white-box text-center bg-warning">
+            <h1 class="counter text-white">32</h1>
+            <p class=" text-white">Pending</p>
+        </div>
+    </div>
+    <div class="col-md-3 col-xs-12 col-sm-6">
+        <div class="white-box text-center bg-danger">
+            <h1 class="text-white counter">32</h1>
+            <p class="text-white">Denied</p>
+        </div>
+    </div>
+    
+   
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="white-box">
+            <h2>Calendar of La Salle Computer Society</h2>
+            <div id="calendar"></div>
+        </div>
+    </div>  
+</div>
+{%endblock%}
+    

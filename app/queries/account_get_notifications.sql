@@ -3,4 +3,4 @@ SELECT "id", "sequence", "status", to_char("date", 'Mon DD, YYYY HH12:MI AM') AS
  WHERE "account" = ${idNumber}
    AND "status" <> 3
 ORDER BY "date" DESC
-LIMIT 5;
+LIMIT 20;

@@ -87,7 +87,13 @@ const configuration = {
         },
 
         "easter_eggs":{
-            "enable_footer_quotes": true
+            "enable_footer_quotes": true,
+
+            /* Only works if "enable_footer_quotes" is true, otherwise displays a default footer */
+
+            /* Choices: "communist", "john_de_la_salle" 
+               An invalid choice is defaulted */
+            "quotes_type": "john_de_la_salle"
         },
 
         "email": {
