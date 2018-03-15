@@ -288,14 +288,14 @@ module.exports = function(configuration, modules, db, queryFiles) {
              var date1 = new Date(date[ctr])
         date1 = new Date(date1.getTime() + day);
         console.log("asd")        
-            query = squel.update()
+            query += squel.update()
                         .table('ProjectProposalProgramDesign')
                         .set('date',date1.toISOString().split('T')[0])                 
                         .where('dayid = ?',ctr)
                         .where('projectProposal = ?',id)                        
                         query = query.toString();    
             query+=';'
-            console.log(query)
+            
 
         }
         console.log(query)

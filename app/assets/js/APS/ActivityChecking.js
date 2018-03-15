@@ -242,7 +242,7 @@ $(document).on('click', '#reschedule', function() {
             console.log("DATA");
             return new Promise(function(resolve, reject) {
                 setTimeout(function() {
-                    if ($("#select-sec").val().split(",").length != $("#doc").attr("limit")) {
+                    if ($("#datepicker-inline").val().split(",").length != $("#doc").attr("limit")) {
                         reject('Date pick is not enough.')
                     } else {
                         resolve()
