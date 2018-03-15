@@ -258,6 +258,24 @@ module.exports = function(configuration, modules, db, queryFiles) {
         param.id = id;
         return connection.any(query, param);
     };
+    ProjectProposalModel.prototype.getProjectProposalProgramDesignDates = function(id, fields, connection = this._db){
+        let query = squel.select()
+        .from('ProjectProposalProgramDesign', 'pppd')
+        .field("DISTINCT(PPPD.DATE)")
+        .left_join('account','acc','pppd.personincharge = acc.idnumber')
+        .where('projectProposal = ?', squel.select()
+            .from('ProjectProposal')
+            .where('GOSMActivity = ${id}')
+            .field('id'))
+        .order("pppd.date")
+        
+        this._attachFields(query, fields);
+
+        query = query.toString();
+        let param = Object.create(null);
+        param.id = id;
+        return connection.any(query, param);
+    };
 
 
     ProjectProposalModel.prototype.getAllOrgProposal = function(orgid, fields, connection = this._db){

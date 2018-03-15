@@ -242,7 +242,7 @@ $(document).on('click', '#reschedule', function() {
             console.log("DATA");
             return new Promise(function(resolve, reject) {
                 setTimeout(function() {
-                    if ($("#select-sec").val().split(",").length != $("#doc").attr("limit")+1) {
+                    if ($("#select-sec").val().split(",").length != $("#doc").attr("limit")) {
                         reject('Date pick is not enough.')
                     } else {
                         resolve()
@@ -260,11 +260,11 @@ $(document).on('click', '#reschedule', function() {
                 
             });
             $('#datepicker-inline').datepicker({
-                autoclose: false,
-                todayHighlight: true,
-                
+                autoclose: true,
+                todayHighlight: true,                
                 startDate: new Date(),
                 multidate:$("#doc").attr("limit")
+                 
             });
 
             $('select').change(function(event) {
@@ -284,42 +284,62 @@ $(document).on('click', '#reschedule', function() {
         cancelButtonText: "Cancel",
 
     }).then(function(data) {
-
-        // console.log("ASD");
-        // $("html, body").animate({
-        //     scrollTop: 0
-        // }, function() {
-        //     $('#doc').removeClass("bounceOutUp animated").addClass("bounceOutUp   animated").one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-        //         $(this).removeClass("bounceOutUp animated");
-        //     });
-        // });
-
-
-    }).then(function(data) {
-       
-        $.ajax({
-            type: 'POST',
-            url: '/APS/ajax/approvalResched',
-            data: {
-                activityID: $("#doc").attr("ct"),
-                date: $('#datepicker-inline').val(),
-                reason:  $("#select-sec").select2('val'),
-                others:$("#others").val()
-            },
-            success: function(data) {
-                if(data.status){
-                    swal("Good job!", " ", "success").then(function(){
-                        location.reload()
-                    })
-
-                }else{
-                    //    swal("Good job!", " ", "success").then(function(){
-                    //     location.reload()
-                    // })
-                }
-                
-            }
+        var modified = '';
+        var arr = $("#doc").attr('ds').split(',');
+        var arr2 = $('#datepicker-inline').val().split(',');
+        arr2.sort(function(a,b){
+          
+          return new Date(a) - new Date(b);
         });
+        var date2='';
+        for(var ctr = 0; ctr < arr.length; ctr++){
+            modified+=
+            '<p>'+(new Date(arr[ctr])).toDateString()+' (old) to '+(new Date(arr2[ctr])).toDateString()+' (new)</p>';    
+            date2+=arr2[ctr]
+            if(ctr != arr.length -1){
+                date2+=','
+            }
+        }
+        var activityID = $("#doc").attr("ct")
+        var reason = $("#select-sec").select2('val');
+        var others = $("#others").val()
+       swal({
+            title: "Are you sure?",
+            html:modified,
+            showCancelButton: true,
+            reverseButtons: true,
+            confirmButtonColor: "#00C292",
+            confirmButtonText: "Yes",
+            cancelButtonText: "No",
+            focusConfirm: false,
+            focusCancel: false,    
+
+        }).then(function(data2){
+            $.ajax({
+                type: 'POST',
+                url: '/APS/ajax/approvalResched',
+                data: {
+                    activityID: activityID,
+                    date: date2,
+                    reason: reason  ,
+                    others: others
+                },
+                success: function(data) {
+                    if(data.status){
+                        swal("Good job!", " ", "success").then(function(){
+                            location.reload()
+                        })
+
+                    }else{
+                        //    swal("Good job!", " ", "success").then(function(){
+                        //     location.reload()
+                        // })
+                    }
+                    
+                }
+            });
+        })
+        
     });
 });
 $(document).on('click', '#reject', function() {
