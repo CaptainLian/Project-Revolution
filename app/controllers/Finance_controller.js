@@ -1553,7 +1553,6 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 			console.log(req.body);
 
-			// TODO: recipient??
 			var dbParam = {
 				gosmactivity: req.body.gosmactivity,
 				submittedby: req.session.user.idNumber,
