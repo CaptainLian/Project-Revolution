@@ -267,7 +267,7 @@ module.exports = function(configuration, application, modules, database, queryFi
             }
 
 
-            if(req.extra_data.user.accessControl[organizationSelected.id][28]){
+            if(typeof req.extra_data.user.accessControl[organizationSelected.id][28] !== 'undefined' && req.extra_data.user.accessControl[organizationSelected.id][28]){
                 logger.debug('Can submit not in GOSM activities', log_options);
 
                 const newSidebar = Object.create(null);
