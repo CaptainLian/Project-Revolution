@@ -630,6 +630,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                 else{
 
                                     console.log("DITO DAPATAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+                                    renderData.submitbutton = true;
 
                                 }
 
@@ -712,6 +713,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         else{
 
                             console.log("DITO DAPATAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+                            renderData.submitbutton = true;
 
                         }
 
@@ -785,6 +787,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         else{
 
                             console.log("DITO DAPATAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+                            renderData.submitbutton = true;
+
 
                         }
 
