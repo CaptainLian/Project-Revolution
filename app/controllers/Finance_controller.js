@@ -638,8 +638,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			accountModel.pendCashAdvance(
 				req.body.cashAdvanceId, 
 				req.session.user.idNumber,
-				sections: '{'+req.body.sections+'}',
-				explain:req.body.explain
+				'{'+req.body.sections+'}',
+				req.body.explain
 			).then(data => {
 				logger.debug('Successfully pended cash advance', log_options);
 
