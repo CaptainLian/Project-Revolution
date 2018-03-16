@@ -266,8 +266,10 @@ module.exports = function(configuration, application, modules, database, queryFi
                 sidebars[sidebars.length] = newSidebar;
             }
 
+            let acl28 = req.extra_data.user.accessControl[organizationSelected.id];
+            acl28 = acl28['28'] ? acl28['28'] : acl28[28];
 
-            if(typeof req.extra_data.user.accessControl[organizationSelected.id][28] !== 'undefined' && req.extra_data.user.accessControl[organizationSelected.id][28]){
+            if(typeof acl28 !== 'undefined' && acl28 !== undefined){
                 logger.debug('Can submit not in GOSM activities', log_options);
 
                 const newSidebar = Object.create(null);
