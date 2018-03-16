@@ -121,8 +121,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             projectProposalModel.getApprovedActivities(),
                             projectProposalModel.getAllProjectProposal(),
                             gosmModel.getOrgGOSM(dbParam),
-                            postProjectProposalModel.getAllPostProjectProposal()
+                            postProjectProposalModel.getAllPostProjectProposal(),
                             //PNP
+                            pnpModel.getAllActivityPublicity()
                         ]);
                 }).then(data=>{
 
@@ -285,7 +286,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     var postactsApprovedActivities = 0;
                     var postactsLateApprovedActivities = 0;
 
-                    for (var i = 0; i < data[3]; i++){
+                    for (var i = 0; i < data[3].length; i++){
 
                         postactsTotalActivities = postactsTotalActivities + 1;
 
@@ -351,8 +352,100 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     }
 
                     //pnp grade
+                    var printedPoster = false;
+                    var tickets = false;
+                    var printedPublication = false;
+                    var onlinePublication = false;
+                    var printedPublicationCount = 0;
+                    var onlinePublicationCount = 0;
+                    var onlinePoster = false;
 
 
+
+                    for (var i = 0; i < data[4].length; i++){
+
+                        if (data[4].studentorganization == req.session.user.organizationSelected.id
+                            && data[4].status == 1) {
+
+                            if(data[4].modeOfDistribution == 1){
+
+                                printedPublication = true;
+
+                                printedPublicationCount = printedPublicationCount + 1;
+
+                                if(data[4].material == 5){
+                                    printedPoster = true;
+                                }
+
+                            }
+                            else{
+
+                                onlinePublication = true;
+
+                                onlinePublicationCount = onlinePublicationCount + 1;
+
+                                if(data[4].material == 5){
+                                    onlinePoster = true;
+                                }
+
+                            }
+
+                            if (data[4].material == 3) {
+                                tickets = true;
+                            }
+
+                        }
+
+                    }
+
+
+                    var UniversityPublicityInstrumentGrade = 0;
+                    var NewsLettersPublicationsGrade = 0;
+                    var OnlinePublicityGrade = 0;
+
+
+                    if (printedPoster) {
+                        UniversityPublicityInstrumentGrade = UniversityPublicityInstrumentGrade + 0.5;
+                    }
+
+                    if (tickets) {
+                        UniversityPublicityInstrumentGrade = UniversityPublicityInstrumentGrade + 0.7;
+                    }
+
+                    if (printedPublication) {
+                        NewsLettersPublicationsGrade = NewsLettersPublicationsGrade + 0.35;
+                    }
+
+                    if(onlinePublication) {
+                        NewsLettersPublicationsGrade = NewsLettersPublicationsGrade + 0.35;
+                    }
+
+                    if (printedPublicationCount == 1) {
+                        NewsLettersPublicationsGrade = NewsLettersPublicationsGrade + 0.05;
+                    }
+                    else if (printedPublicationCount == 2) {
+                        NewsLettersPublicationsGrade = NewsLettersPublicationsGrade + 0.1;
+                    }
+                    else if (printedPublicationCount >= 3) {
+                        NewsLettersPublicationsGrade = NewsLettersPublicationsGrade + 0.15;
+                    }
+
+                    if(onlinePublicationCount == 1){
+                        NewsLettersPublicationsGrade = NewsLettersPublicationsGrade + 0.0375;
+                    }
+                    else if (onlinePublicationCount == 2) {
+                        NewsLettersPublicationsGrade = NewsLettersPublicationsGrade + 0.075;
+                    }
+                    else if (onlinePublicationCount == 3){
+                        NewsLettersPublicationsGrade = NewsLettersPublicationsGrade + 0.1125;
+                    }
+                    else if (onlinePublicationCount >= 4) {
+                        NewsLettersPublicationsGrade = NewsLettersPublicationsGrade + 0.15;
+                    }
+
+                    if (onlinePoster) {
+                        OnlinePublicityGrade = OnlinePublicityGrade + 1.5;
+                    }
 
 
 
@@ -385,7 +478,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     renderData.lasallianFormationComplianceGrade = lasallianFormationComplianceGrade;
 
                     //pnp
-
+                    renderData.universityPublicityInstrumentGrade = UniversityPublicityInstrumentGrade;
+                    renderData.newsLettersPublicationsGrade = NewsLettersPublicationsGrade;
+                    renderData.onlinePublicityGrade = OnlinePublicityGrade;
                     renderData.pnpCompliance = 0.3;
 
                     console.log("preacts timing ratio gradeeeeeeeeeeeeeeeeeeeeee+++++++++++++");
