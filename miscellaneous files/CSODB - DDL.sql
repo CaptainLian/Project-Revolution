@@ -3164,7 +3164,8 @@ INSERT INTO "ActivityPublicityMaterial" ("id", "name")
                                  VALUES (   0, 'Not applicable'),
                                         (   1, 'Tarpualine'),
                                         (   2, 'Banderitas'),
-                                        (   3, 'Ticket');
+                                        (   3, 'Ticket'),
+                                        (   4, 'Publication');
 
 DROP TABLE IF EXISTS "ActivityPublicityModeOfDistribution" CASCADE;
 CREATE TABLE "ActivityPublicityModeOfDistribution"(
