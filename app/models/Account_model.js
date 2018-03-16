@@ -662,13 +662,14 @@ module.exports = function(configuration, modules, database, queryFiles) {
     };
 
     const pendCashAdvanceSQL = queryFiles.pendCashAdvance;
-    AccountModel.pendCashAdvance = function(cashAdvance, signatory, connection = database){
+    AccountModel.pendCashAdvance = function(cashAdvance, signatory, sections, explain, connection = database){
         logger.info(`call pendCashAdvance(cashAdvance: ${cashAdvance}, signatory: ${signatory})`, log_options);
 
         let param = Object.create(null);
         param.signatory = signatory;
         param.cashAdvance = cashAdvance;
-
+        param.sections = sections;
+        param.explain = explain;
         logger.debug(`Executing query: ${pendCashAdvanceSQL}`, log_options);
         return connection.none(pendCashAdvanceSQL, param);
     };

@@ -55,9 +55,9 @@
                                 '<div class="col-md-12">'+
                                     '<select class="col-md-12" multiple="" name="sections" id="select-sec">'+
                                         
-                                        '<option value="1">I. Particulars</option>'+
-                                        '<option value="2">II. Memo</option>'+
-                                        '<option value="3">III. Attachments</option>'+
+                                        '<option value="Particulars">I. Particulars</option>'+
+                                        '<option value="Memo">II. Memo</option>'+
+                                        '<option value="Attachments">III. Attachments</option>'+
                                         
                                         
                                     '</select>'+
@@ -67,7 +67,7 @@
                             '<div class="form-group col-md-12">'+
                                 '<label class="col-md-12 text-left"><strong>Explanation</strong></label>'+
                                 '<div class="col-md-12">'+
-                                    '<textarea class="form-control" rows="5" name="explain"></textarea>'+
+                                    '<textarea id="explain" class="form-control" rows="5" name="explain"></textarea>'+
                                 '</div>'+
                             '</div>'+
                         '</div>';
@@ -107,6 +107,20 @@
              
         }).then(function(data){
             if(data){
+                $('<input>').attr({
+                    type: 'hidden',
+                    id: 'asd',
+                    name: 'sections',
+                    value:$("#select-sec").val()
+                }).appendTo('#form-id2');
+
+                $('<input>').attr({
+                    type: 'text',
+                    id: 'asd2',
+                    name: 'explain',
+                    value:$("#explain").val()
+                }).appendTo('#form-id2');
+
                 $("#form-id2").submit();
             }
             console.log(data);
