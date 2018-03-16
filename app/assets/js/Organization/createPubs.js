@@ -33,11 +33,17 @@ function addRibbon(pub,stat){
     var filename = $(this).val().split('\\').pop();
     $("#filename").text(filename);
 });
-$("input[type='radio']").change(function(){
-	$("div#pubMat").toggle();
+
+$("input[type='radio'][name='optionsRadios2']").change(function(){
+	$("#pubMat").toggle();
+	$("#publication").toggle();
 	console.log("asd");
 })
 
+// $(".ModeDist").change(function(){
+// 	$("div#pubMat").toggle();
+// 	console.log("asd");
+// })
 $("#file").val("");
 
 

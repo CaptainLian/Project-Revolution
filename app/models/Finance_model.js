@@ -247,6 +247,11 @@ module.exports = function(configuration, modules, database, queryFiles){
         return connection.none(resubmitBookTransferSignatorySQL, param);
     };
 
+    const getBookTransferEstablishmentSQL = queryFiles.getBookTransferEstablishment;
+    FinanceModel.getBookTransferEstablishment = function(connection = database){
+        return connection.any(getBookTransferEstablishmentSQL);
+    };
+
     //Used for signing
     FinanceModel.getPreActivityCashAdvanceDetails = (cashAdvanceID, fields, connection = database) => {
         logger.info(`getPreActivityCashAdvanceDetails(cashAdvanceID: ${cashAdvanceID})`, log_options);
