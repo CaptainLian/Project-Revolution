@@ -148,7 +148,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             let orggosmsubmitted = data[2].orggosmsubmitted;
 
                             var gosmdiff = timediff(termstart, orggosmsubmitted, 'D');
-
+                            //error to do 
                             if(gosmdiff.days <= 14){
                                 gosmSubmissionGrade = 0.075;
                             }
