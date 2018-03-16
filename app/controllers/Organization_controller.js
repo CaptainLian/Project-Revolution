@@ -147,7 +147,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                             let orggosmsubmitted = data[2].orggosmsubmitted;
 
-                            var gosmdiff = timediff(termstart, orggosmsubmitted, 'D');
+                            var gosmdiff = timediff(termstart, orggosmsubmitted, 'D').days;
                             //error to do 
                             if(gosmdiff.days <= 14){
                                 gosmSubmissionGrade = 0.075;
@@ -178,7 +178,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             let datesigned = data[0][i].datesigned;
                             let targetdatestart = data[0][i].targetdatestart;
 
-                            var diff = timediff(actualdatestart, datesigned, 'D');
+                            var diff = timediff(actualdatestart, datesigned, 'D').days;
 
 
                             if (diff.days>2){
@@ -295,7 +295,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             let actualdatestart = data[3][i].actualdatestart;
                             let datesubmitted = data[3][i].datesubmitted;
 
-                            var diff = timediff(actualdatestart, datesubmitted, 'D');
+                            var diff = timediff(actualdatestart, datesubmitted, 'D').days;
 
 
                             if (diff.days>30){
