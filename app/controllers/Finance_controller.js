@@ -476,7 +476,9 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 			var dbParam = {
 				directPayment: req.body.directPaymentId,
-				signatory: req.session.user.idNumber
+				signatory: req.session.user.idNumber,
+				sections: '{'+req.body.sections+'}',
+				explain:req.body.explain
 			};
 
             //TODO: move function to accountModel
@@ -635,7 +637,9 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 			accountModel.pendCashAdvance(
 				req.body.cashAdvanceId, 
-				req.session.user.idNumber
+				req.session.user.idNumber,
+				sections: '{'+req.body.sections+'}',
+				explain:req.body.explain
 			).then(data => {
 				logger.debug('Successfully pended cash advance', log_options);
 
@@ -708,7 +712,9 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			var dbParam = {
 				booktransfer: req.body.bookTransferId,
 				gosmactivity: req.body.gosmactivity,
-				idnumber: req.session.user.idNumber
+				idnumber: req.session.user.idNumber,
+				sections: '{'+req.body.sections+'}',
+				explain:req.body.explain
 			}
 
 			financeModel.pendBookTransfer(dbParam)
