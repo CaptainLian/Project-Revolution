@@ -1,4 +1,66 @@
 $("#myTable").DataTable();
+var validName = false
+var validId = false
+
+$("#name").focusout(function(event) {
+   val = $(this).val()
+   if(!$.trim(this.value).length){
+        validId = false
+        $('#fullnamesmall').show();
+        console.log('fullname is null')
+   }else{
+        validName = true
+        $('#fullnamesmall').hide();
+        console.log('fullname is not null')
+        if(validName && validId){
+            $('addtolist').removeAttr('disabled')
+            console.log('button enabled')
+        }
+   }
+});
+$("#idnumber").focusout(function(event) {
+   val = $(this).val()
+   if($.isNumeric(val)){
+        validId = true
+        console.log('idnumber is not null')
+        $('#idnumbersmall').hide();
+        if(validName && validId){
+            $('addtolist').removeAttr('disabled')
+             console.log('button enabled')
+        }
+       
+   }else{
+        validId = false
+         $('#idnumbersmall').show();
+        console.log('idnumber is null')
+
+   }
+});
+
+
+$("#addtolist").click(function(event) {
+    var idnum = $("#idnumber").val()
+    var name = $("#name").val()
+
+
+    $('#idnumbersmall').hide();
+    $('#fullnamesmall').hide();
+    var add = "<tr>"+
+                "<td>"+name+"</td>"+
+                "<td>"+idnum+"</td>"+
+                '<td><i class="fa fa-pencil m-r-10" data-toggle="tooltip" data-original-title="edit"></i><i class="fa fa-times text-danger m-r-10" data-toggle="tooltip" data-original-title="delete"></i></td>'+
+            +'</tr>'
+    $('tbody').append(add);
+    
+});
+$(".fa-times").click(function(event) {
+    console.log('fatimes')
+    $('tbody').remove().closest('tr');
+});
+$(".fa-pencil").click(function(event) {
+    console.log('fapencil')
+});
+
 $(document).on('click', '#approve', function() {
 
     swal({
