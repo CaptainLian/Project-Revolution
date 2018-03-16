@@ -221,7 +221,33 @@
             },
             eventRender: function(event, element) { 
                 element.find('.fc-title').append("<br/>" + event.description); 
-            } 
+            },
+            eventDrop: function(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view) {
+            /// deny overlap of event
+                var start = new Date(event.start);
+                var end = new Date(event.end);
+
+                var overlap = $('#calendar').fullCalendar('clientEvents', function(ev) {
+                    if( ev == event) {
+                        return false;
+                    }
+                    var estart = new Date(ev.start);
+                    var eend = new Date(ev.end);
+
+                    return (
+                        ( Math.round(start) > Math.round(estart) && Math.round(start) < Math.round(eend) )
+                        ||
+                        ( Math.round(end) > Math.round(estart) && Math.round(end) < Math.round(eend) )
+                        ||
+                        ( Math.round(start) < Math.round(estart) && Math.round(end) > Math.round(eend) )
+                    );
+                });
+                if (overlap.length){
+                    revertFunc();
+                    return false;
+                }
+            }
+
               
                               
 
@@ -256,7 +282,7 @@
 		   $("#edit").on('click',function(){            
             $('#my-event').modal('hide');
 
-            $("#inp-date").val(getDate(data.start))
+            $("#inp-date").val((data.date))
             $("#inp-start").val(moment(data.start).format('HH:mm'))
             $("#inp-end").val(moment(data.end).format('HH:mm'))
             $("#inp-name").val(data.title)
@@ -427,7 +453,7 @@
               $("#inp-end").val('')
               $("#inp-name").val('')
               $("#inp-desc").val('')
-              $("#inp-pos").val('') 
+              
               $("#editButton").css('display','none')
               $("#submitButton").css('display','')
        }
@@ -439,7 +465,9 @@
        }
 
        function getDate(date){
-          
+          console.log(date)
+          console.log("DATE MOEMENT")
+          console.log(moment(data).format("MM/DD/YYYY"))
           return moment(data).format("MM/DD/YYYY")
 
        }
