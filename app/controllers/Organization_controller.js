@@ -70,14 +70,15 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
 
-            gosmModel.getOrgAllGOSM(req.session.user.organizationSelected.id)
-                     .then(data=>{
-                        renderData.gosms = data
-                        console.log(data)
-                        return res.render('Org/GOSMList', renderData);            
-                     }).catch(err=>{
-                        console.log(err)
-                     })
+            gosmModel.getOrgAllGOSM(
+                req.session.user.organizationSelected.id
+            ).then(data=>{
+                renderData.gosms = data
+                console.log(data)
+                return res.render('Org/GOSMList', renderData);            
+             }).catch(err=>{
+                console.log(err)
+             })
             
         },
         viewChangePassword: (req, res) => {
