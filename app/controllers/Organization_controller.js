@@ -621,8 +621,17 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             }
                             else if(data[2].isexpensecomplete == false){
 
-                                renderData.submitbutton = false;
-                                console.log("3asdasdasdasdasdasdasdasdas");
+                                if (data[2].isexpense == true) {
+
+                                    renderData.submitbutton = false;
+                                    console.log("3asdasdasdasdasdasdasdasdas");
+   
+                                }
+                                else{
+
+                                    console.log("DITO DAPATAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+
+                                }
 
                             }
                             else if(data[2].isprogramcomplete == false){
@@ -1770,37 +1779,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
             projectProposalModel.updatePPRBriefContext(dbParam).then(data => {
 
-                if (req.body.expense == false) {
-
-                    var expenseParam = {
-                        id: req.body.ppr,
-                        accumulatedOperationalFunds: req.body.ope,
-                        accumulatedDepositoryFunds: req.body.dep,
-                        organizationFundOtherSource: req.body.otherfunds,
-                        sourceFundOrganizational: req.body.org,
-                        sourceFundParticipantFee: req.body.par,
-                        sourceFundOther: req.body.others,
-                        isExpenseComplete: true
-                    };
-
-                    projectProposalModel.updatePPRExpenses(expenseParam)
-                    .then(expenseData=>{
-
-                        res.redirect(`/Organization/ProjectProposal/Main/${req.body.id}/${req.body.status}`);
-
-
-                    }).catch(error=>{
-
-                    });
-
-
-                }
-                else{
-
                     res.redirect(`/Organization/ProjectProposal/Main/${req.body.id}/${req.body.status}`);
-
-                }
-
             
 
             }).catch(error => {
