@@ -117,10 +117,12 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                 database.task(task => {
                         return task.batch([
+                            //APS AND ADM
                             projectProposalModel.getApprovedActivities(),
                             projectProposalModel.getAllProjectProposal(),
                             gosmModel.getOrgGOSM(dbParam),
                             postProjectProposalModel.getAllPostProjectProposal()
+                            //PNP
                         ]);
                 }).then(data=>{
 
@@ -348,6 +350,10 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         var lasallianFormationComplianceGrade = 0;
                     }
 
+                    //pnp grade
+
+
+
 
 
                     const renderData = Object.create(null);
@@ -377,6 +383,10 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     renderData.pushedThroughGrade = pushedThroughGrade;
                     renderData.notInGOSMGrade = notInGOSMGrade;
                     renderData.lasallianFormationComplianceGrade = lasallianFormationComplianceGrade;
+
+                    //pnp
+
+                    renderData.pnpCompliance = 0.3;
 
                     console.log("preacts timing ratio gradeeeeeeeeeeeeeeeeeeeeee+++++++++++++");
                     console.log(preactsTimingRatioGrade);
