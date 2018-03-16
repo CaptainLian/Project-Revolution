@@ -703,8 +703,17 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     }
                     else if(data[2].isexpensecomplete == false){
 
-                        renderData.submitbutton = false;
-                        console.log("3asdasdasdasdasdasdasdasdas");
+                        if (data[2].isexpense == true) {
+
+                            renderData.submitbutton = false;
+                            console.log("3asdasdasdasdasdasdasdasdas");
+   
+                        }
+                        else{
+
+                            console.log("DITO DAPATAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+
+                        }
 
                     }
                     else if(data[2].isprogramcomplete == false){
@@ -767,8 +776,17 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     }
                     else if(data[2].isexpensecomplete == false){
 
-                        renderData.submitbutton = false;
-                        console.log("3asdasdasdasdasdasdasdasdas");
+                        if (data[2].isexpense == true) {
+
+                            renderData.submitbutton = false;
+                            console.log("3asdasdasdasdasdasdasdasdas");
+   
+                        }
+                        else{
+
+                            console.log("DITO DAPATAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+
+                        }
 
                     }
                     else if(data[2].isprogramcomplete == false){
