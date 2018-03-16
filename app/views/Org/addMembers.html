@@ -103,17 +103,19 @@
         <div>
         
         <div>
-           <fieldset class="form-group col-md-5">
+                <fieldset class="form-group col-md-5">
                     <label for="exampleInputEmail1">Full Name</label>
                     <input type="text" class="form-control" id="name" placeholder="Enter Name" >
+                    <small id="fullnamesmall" class="text-danger" style="display: none">Full name cannot be empty!</small>
                 </fieldset>
+
 
                 <fieldset class="form-group col-md-5">
                     <label for="exampleInputEmail1">ID Number</label>
                     <input data-mask="99999999" type="text" class="form-control" id="idnumber" placeholder="eg. 11456789">
+                    <small id="idnumbersmall" class="text-danger" style="display: none">ID number cannot be empty!</small>
                 </fieldset>
-                
-                    <button type="submit" class="form-group btn btn-success addmember col-md-2" id="approve">Add member</button> 
+                    <button type="" class="form-group btn btn-success addmember col-md-2" id="addtolist">Add member</button> 
         </div>
                 
         
@@ -135,17 +137,12 @@
                     
                     </thead>
                     <tbody> 
-                        <tr>
-                            <td></td>
-                            <td></td> 
-                            <td><i class="fa fa-pencil m-r-10" data-toggle="tooltip" data-original-title="edit"></i><i class="fa fa-times text-danger m-r-10" data-toggle="tooltip" data-original-title="delete"></i></td>
-                        </tr>
+                        
                     </tbody> 
                 </table>
                 <div class="text-center col-md-12">
                     <button type="submit" class="form-group btn btn-success  " id="approve"><i class="fa fa-floppy-o m-r-10"></i>Save</button>    
-                    <button type="submit" class="form-group btn   " id="approve"><i class="fa m-r-10"></i>Cancel</button>    
-
+                    <button type="submit" class="form-group btn" id="approve"><i class="fa m-r-10"></i>Cancel</button>    
                 </div>
 
             </div>
