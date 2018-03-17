@@ -541,9 +541,14 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         renderData.dates+=','
                     }
                 }
+                renderData.isProjecthead =  data[4].some(function(el) {
+                                        console.log("asdasdl;asjdlaskjd cgecking if ")
+                                        
+                                        return el.idnumber == req.session.user.idNumber;
+                                      }); 
                 console.log(data[2].length > 0)
                 console.log("REVENUE")
-                console.log(renderData.dates)
+                console.log(renderData.isProjecthead)
                 console.log("EXPENSE")
 
                 renderData.resched = timediff(data[3][0].datestart, data[3][0].currdate, 'D').days
