@@ -599,7 +599,12 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                                                                                               ON pps.status = ss.id
                                                                                                        LEFT JOIN Account a
                                                                                                               ON pps.signatory = a.idNumber
-                                    ORDER BY st.lineup ASC, a.idNumber DESC;`, pa)
+                                    ORDER BY st.lineup ASC, a.idNumber DESC;`, pa),
+                        projectProposalModel.getProjectProposalProgramDesignDates(req.params.gosmactivity, [
+                            
+                            "to_char(pppd.date, 'MM/DD/YYYY') AS datestart",
+                            
+                        ])
                     ]);
                 }).catch(err => {
                     return logger.warn(`Unhandled error: ${err.message}\n${err.stack} `, log_options);
@@ -621,10 +626,22 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.signatories = data[6];
                 renderData.withExpense = data[1].length > 0;
                 renderData.withRevenue = data[2].length > 0;
-
+                renderData.limit = data[3][data[3].length -1]["dayid"]
+                renderData.dates = ''
+                for(var ctr = 0; ctr< data[7].length;ctr++){
+                    renderData.dates += data[7][ctr].datestart
+                    if(ctr != data[7].length - 1){
+                        renderData.dates+=','
+                    }
+                }
+                renderData.isProjecthead =  data[4].some(function(el) {
+                                        console.log("asdasdl;asjdlaskjd cgecking if ")
+                                        
+                                        return el.idnumber == req.session.user.idNumber;
+                                      }); 
                 console.log(data[2].length > 0)
                 console.log("REVENUE")
-                console.log(data[0])
+                console.log(renderData.isProjecthead)
                 console.log("EXPENSE")
 
                 renderData.resched = timediff(data[3][0].datestart, data[3][0].currdate, 'D').days

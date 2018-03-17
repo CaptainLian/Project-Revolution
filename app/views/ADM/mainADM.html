@@ -68,6 +68,29 @@
 
 {%block content%}
 <div class="row">
+    <div class="col-md-4 col-xs-12 col-sm-6">
+        <div class="white-box text-center bg-inverse">
+            <h1 class=" text-white counter">32</h1>
+            <p class="text-white">Unchecked Activity Report</p>
+        </div>
+    </div>
+     <div class="col-md-4 col-xs-12 col-sm-6">
+        <div class="white-box text-center bg-success">
+            <h1 class="text-white counter">32</h1>
+            <p class="text-white">Approved Activity Report</p>
+        </div>
+    </div>
+    <div class="col-md-4 col-xs-12 col-sm-6">
+        <div class="white-box text-center bg-warning">
+            <h1 class="counter text-white">32</h1>
+            <p class=" text-white">Pended Activity Report</p>
+        </div>
+    </div>
+
+    
+   
+</div>
+<div class="row">
 	<div class="col-sm-12">
 		<div class="white-box">
 			<h3 class="box-title m-b-0">ADM HOME</h3>
@@ -77,29 +100,21 @@
 					<thead>
 						<tr>
 							<th class="text-center" width="33%">List of Organizations</th>
-							
-						<!-- 	<th class="text-center" width="33%">Status</th> -->
-
+							<th class="text-center" width="33%">Actions</th>
 						</tr>
 					</thead>
-					<tbody>
-                         
-                        {%for pa in postacts%}
+					<tbody>                        
 						<tr>
-							<td class="text-center">{{pa.ddate}}</td>
-							<td class="text-center"><a href="/ADM/Activity/{{pa.GOSMActivity}}" class="btn-lnk">{{pa.strategies}}</a></td>
-                            {% if pub.status === 0 %}
-                                <td class="text-center"><span class="label label-warning">{{number[loop.index0].count}} Unapproved</span></td>
-                            {% elif pub.status === 1 %}
-                                <td class="text-center"><span class="label label-success">Checked</span></td>
-                            {% elif pub.status === 2 %}
-                                <td class="text-center"><span class="label label-warning">Pended</span></td>
-
-                            {% elif pub.status === 3 %}
-                                <td class="text-center"><span class="label label-danger">Denied</span></td>
-                            {% endif %}
+						  <td class="text-center">La Salle Computer Society</td>
+                          <td class="text-center">
+                              <a href="" data-toggle="tooltip" data-original-title="View Calendar">
+                                <i class="fa fa-calendar m-r-10"></i>
+                              </a>
+                              <a href="" data-toggle="tooltip" data-original-title="View GOSM">
+                                <i class="fa fa-list m-r-10"></i>
+                              </a>
+                          </td>
 						</tr>
-                        {%endfor %}
 					</tbody>
 				</table>
 			</div>

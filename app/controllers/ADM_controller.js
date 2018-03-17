@@ -44,6 +44,33 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         return res.render('ADM/mainADM');
         
     };
+    ADM_controller.viewGrades = (req, res) => {
+        // logger.info('call viewActivityToCheck()', log_options);
+
+        let renderData = Object.create(null);
+        renderData.extra_data = req.extra_data;
+        renderData.csrfToken = req.csrfToken();
+        return res.render('ADM/viewOrgGrades');
+        
+    };
+    ADM_controller.viewCalendar = (req, res) => {
+        // logger.info('call viewActivityToCheck()', log_options);
+
+        let renderData = Object.create(null);
+        renderData.extra_data = req.extra_data;
+        renderData.csrfToken = req.csrfToken();
+        return res.render('ADM/viewOrgCalendar');
+        
+    };
+    ADM_controller.viewGOSM = (req, res) => {
+        // logger.info('call viewActivityToCheck()', log_options);
+
+        let renderData = Object.create(null);
+        renderData.extra_data = req.extra_data;
+        renderData.csrfToken = req.csrfToken();
+        return res.render('ADM/viewOrgGOSM');
+        
+    };
     ADM_controller.viewOrgTerms = (req, res) => {
         logger.info('call viewActivityToCheck()', log_options);
 

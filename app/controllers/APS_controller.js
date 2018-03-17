@@ -218,7 +218,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 projectProposalModel.getAllProjectProposal(t)
             ]);    
         }).then(list => {
-            console.log(list)
+            console.log(list[0])
             console.log("asdasdas")
 
             renderData.activities = list[0];
