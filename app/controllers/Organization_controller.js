@@ -236,7 +236,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     }
 
                     var preactsPunctualityGrade = ((((parseFloat(preactsEarlyApprovedActivities)/parseFloat(preactsApprovedActivities))*100)-parseFloat(preactsDeniedActivities))*0.025);
-                    var preactsTimingRatioGrade = ((parseFloat(preactsTimingRatio)/parseFloat(totalActivities))*0.015);
+                    var preactsTimingRatioGrade = (((parseFloat(preactsTimingRatio)/parseFloat(totalActivities))*100)*0.015);
                     var preactsCompletenessGrade = (100 - (parseFloat(preactsPendCount)*0.5))*0.025;
 
                     var sixtyFortyRatioPercentage = isRelatedToOrganizationCount/preactsAllApprovedTotal;
@@ -314,7 +314,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     }
 
                     var postactsPunctualityGrade = ((((parseFloat(postactsEarlyApprovedActivities)/parseFloat(postactsApprovedActivities))*100)-parseFloat(preactsDeniedActivities))*0.025);
-                    var postactsCompletenessGrade = (parseFloat(postactsApprovedActivities)/parseFloat(preactsApprovedActivities))*0.025;
+                    var postactsCompletenessGrade = ((parseFloat(postactsApprovedActivities)/parseFloat(preactsApprovedActivities))*100)*0.025;
 
                     if(postactsApprovedActivities == 0){
                         postactsPunctualityGrade =0;
@@ -324,7 +324,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         postactsCompletenessGrade = 0;
                     }
 
-                    var pushedThroughGrade = (parseFloat(preactsApprovedActivities)/parseFloat(totalActivities))*0.0015;
+                    var pushedThroughGrade = ((parseFloat(preactsApprovedActivities)/parseFloat(totalActivities))*100)*0.0015;
 
                     if(totalActivities == 0){
 
@@ -335,7 +335,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                     if(notInGOSM){
 
-                        var notInGOSMGrade = 0.0015;
+                        var notInGOSMGrade = 0.15;
 
                     }
                     else{
@@ -483,8 +483,6 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     renderData.onlinePublicityGrade = OnlinePublicityGrade;
                     renderData.pnpCompliance = 0.3;
 
-                    console.log("preacts timing ratio gradeeeeeeeeeeeeeeeeeeeeee+++++++++++++");
-                    console.log(preactsTimingRatioGrade);
 
                     console.log(renderData)
                     renderData.extra_data = req.extra_data;
