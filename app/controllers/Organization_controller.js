@@ -121,8 +121,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             projectProposalModel.getApprovedActivities(),
                             projectProposalModel.getAllProjectProposal(),
                             gosmModel.getOrgGOSM(dbParam),
-                            postProjectProposalModel.getAllPostProjectProposal()
+                            postProjectProposalModel.getAllPostProjectProposal(),
                             //PNP
+                            pnpModel.getAllActivityPublicity()
                         ]);
                 }).then(data=>{
 
@@ -235,7 +236,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     }
 
                     var preactsPunctualityGrade = ((((parseFloat(preactsEarlyApprovedActivities)/parseFloat(preactsApprovedActivities))*100)-parseFloat(preactsDeniedActivities))*0.025);
-                    var preactsTimingRatioGrade = ((parseFloat(preactsTimingRatio)/parseFloat(totalActivities))*0.015);
+                    var preactsTimingRatioGrade = (((parseFloat(preactsTimingRatio)/parseFloat(totalActivities))*100)*0.015);
                     var preactsCompletenessGrade = (100 - (parseFloat(preactsPendCount)*0.5))*0.025;
 
                     var sixtyFortyRatioPercentage = isRelatedToOrganizationCount/preactsAllApprovedTotal;
@@ -285,7 +286,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     var postactsApprovedActivities = 0;
                     var postactsLateApprovedActivities = 0;
 
-                    for (var i = 0; i < data[3]; i++){
+                    for (var i = 0; i < data[3].length; i++){
 
                         postactsTotalActivities = postactsTotalActivities + 1;
 
@@ -313,7 +314,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     }
 
                     var postactsPunctualityGrade = ((((parseFloat(postactsEarlyApprovedActivities)/parseFloat(postactsApprovedActivities))*100)-parseFloat(preactsDeniedActivities))*0.025);
-                    var postactsCompletenessGrade = (parseFloat(postactsApprovedActivities)/parseFloat(preactsApprovedActivities))*0.025;
+                    var postactsCompletenessGrade = ((parseFloat(postactsApprovedActivities)/parseFloat(preactsApprovedActivities))*100)*0.025;
 
                     if(postactsApprovedActivities == 0){
                         postactsPunctualityGrade =0;
@@ -323,7 +324,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         postactsCompletenessGrade = 0;
                     }
 
-                    var pushedThroughGrade = (parseFloat(preactsApprovedActivities)/parseFloat(totalActivities))*0.0015;
+                    var pushedThroughGrade = ((parseFloat(preactsApprovedActivities)/parseFloat(totalActivities))*100)*0.0015;
 
                     if(totalActivities == 0){
 
@@ -334,7 +335,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                     if(notInGOSM){
 
-                        var notInGOSMGrade = 0.0015;
+                        var notInGOSMGrade = 0.15;
 
                     }
                     else{
@@ -351,8 +352,100 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     }
 
                     //pnp grade
+                    var printedPoster = false;
+                    var tickets = false;
+                    var printedPublication = false;
+                    var onlinePublication = false;
+                    var printedPublicationCount = 0;
+                    var onlinePublicationCount = 0;
+                    var onlinePoster = false;
 
 
+
+                    for (var i = 0; i < data[4].length; i++){
+
+                        if (data[4].studentorganization == req.session.user.organizationSelected.id
+                            && data[4].status == 1) {
+
+                            if(data[4].modeOfDistribution == 1){
+
+                                printedPublication = true;
+
+                                printedPublicationCount = printedPublicationCount + 1;
+
+                                if(data[4].material == 5){
+                                    printedPoster = true;
+                                }
+
+                            }
+                            else{
+
+                                onlinePublication = true;
+
+                                onlinePublicationCount = onlinePublicationCount + 1;
+
+                                if(data[4].material == 5){
+                                    onlinePoster = true;
+                                }
+
+                            }
+
+                            if (data[4].material == 3) {
+                                tickets = true;
+                            }
+
+                        }
+
+                    }
+
+
+                    var UniversityPublicityInstrumentGrade = 0;
+                    var NewsLettersPublicationsGrade = 0;
+                    var OnlinePublicityGrade = 0;
+
+
+                    if (printedPoster) {
+                        UniversityPublicityInstrumentGrade = UniversityPublicityInstrumentGrade + 0.5;
+                    }
+
+                    if (tickets) {
+                        UniversityPublicityInstrumentGrade = UniversityPublicityInstrumentGrade + 0.7;
+                    }
+
+                    if (printedPublication) {
+                        NewsLettersPublicationsGrade = NewsLettersPublicationsGrade + 0.35;
+                    }
+
+                    if(onlinePublication) {
+                        NewsLettersPublicationsGrade = NewsLettersPublicationsGrade + 0.35;
+                    }
+
+                    if (printedPublicationCount == 1) {
+                        NewsLettersPublicationsGrade = NewsLettersPublicationsGrade + 0.05;
+                    }
+                    else if (printedPublicationCount == 2) {
+                        NewsLettersPublicationsGrade = NewsLettersPublicationsGrade + 0.1;
+                    }
+                    else if (printedPublicationCount >= 3) {
+                        NewsLettersPublicationsGrade = NewsLettersPublicationsGrade + 0.15;
+                    }
+
+                    if(onlinePublicationCount == 1){
+                        NewsLettersPublicationsGrade = NewsLettersPublicationsGrade + 0.0375;
+                    }
+                    else if (onlinePublicationCount == 2) {
+                        NewsLettersPublicationsGrade = NewsLettersPublicationsGrade + 0.075;
+                    }
+                    else if (onlinePublicationCount == 3){
+                        NewsLettersPublicationsGrade = NewsLettersPublicationsGrade + 0.1125;
+                    }
+                    else if (onlinePublicationCount >= 4) {
+                        NewsLettersPublicationsGrade = NewsLettersPublicationsGrade + 0.15;
+                    }
+
+                    if (onlinePoster) {
+                        OnlinePublicityGrade = OnlinePublicityGrade + 1.5;
+                    }
 
 
 
@@ -385,11 +478,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     renderData.lasallianFormationComplianceGrade = lasallianFormationComplianceGrade;
 
                     //pnp
-
+                    renderData.universityPublicityInstrumentGrade = UniversityPublicityInstrumentGrade;
+                    renderData.newsLettersPublicationsGrade = NewsLettersPublicationsGrade;
+                    renderData.onlinePublicityGrade = OnlinePublicityGrade;
                     renderData.pnpCompliance = 0.3;
 
-                    console.log("preacts timing ratio gradeeeeeeeeeeeeeeeeeeeeee+++++++++++++");
-                    console.log(preactsTimingRatioGrade);
 
                     console.log(renderData)
                     renderData.extra_data = req.extra_data;
@@ -506,7 +599,12 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                                                                                               ON pps.status = ss.id
                                                                                                        LEFT JOIN Account a
                                                                                                               ON pps.signatory = a.idNumber
-                                    ORDER BY st.lineup ASC, a.idNumber DESC;`, pa)
+                                    ORDER BY st.lineup ASC, a.idNumber DESC;`, pa),
+                        projectProposalModel.getProjectProposalProgramDesignDates(req.params.gosmactivity, [
+                            
+                            "to_char(pppd.date, 'MM/DD/YYYY') AS datestart",
+                            
+                        ])
                     ]);
                 }).catch(err => {
                     return logger.warn(`Unhandled error: ${err.message}\n${err.stack} `, log_options);
@@ -528,10 +626,22 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.signatories = data[6];
                 renderData.withExpense = data[1].length > 0;
                 renderData.withRevenue = data[2].length > 0;
-
+                renderData.limit = data[3][data[3].length -1]["dayid"]
+                renderData.dates = ''
+                for(var ctr = 0; ctr< data[7].length;ctr++){
+                    renderData.dates += data[7][ctr].datestart
+                    if(ctr != data[7].length - 1){
+                        renderData.dates+=','
+                    }
+                }
+                renderData.isProjecthead =  data[4].some(function(el) {
+                                        console.log("asdasdl;asjdlaskjd cgecking if ")
+                                        
+                                        return el.idnumber == req.session.user.idNumber;
+                                      }); 
                 console.log(data[2].length > 0)
                 console.log("REVENUE")
-                console.log(data[0])
+                console.log(renderData.isProjecthead)
                 console.log("EXPENSE")
 
                 renderData.resched = timediff(data[3][0].datestart, data[3][0].currdate, 'D').days

@@ -9,7 +9,7 @@ WITH "CurrentTermPPR" AS (
                                                    AND g.status = 3))
   ORDER BY id ASC
 ),"AccountToSign" AS ( /* The minimum type of the user to sign PPRs */
-    SELECT DISTINCT pps.GOSMActivity AS GOSMActivity, status
+    SELECT DISTINCT ON (pps.GOSMActivity) GOSMActivity, status
       FROM ProjectProposalSignatory pps LEFT JOIN SignatoryType st
                                                ON pps.type = st.id
      WHERE pps.signatory = ${idNumber}

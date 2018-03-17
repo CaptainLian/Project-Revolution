@@ -23,6 +23,8 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const getPubDetails = queryFiles.getPubDetails;
     const updatePubsToPend = queryFiles.updatePubsToPend;
 
+    const getAllActivityPublicity = queryFiles.getAllActivityPublicity;
+
 	return{
 		getUnapprovePubsToCheck:function ( connection = db) {
             return connection.any(getUnapprovePubsToCheck);
@@ -62,6 +64,10 @@ module.exports = function(configuration, modules, db, queryFiles) {
         
         updatePubsToPend:function (param, connection = db) {
             return connection.none(updatePubsToPend, param);
+        },
+
+        getAllActivityPublicity:function (connection = db) {
+            return connection.any(getAllActivityPublicity);
         },
 
         getPublicityDetails: function(pubID, connection = db){
