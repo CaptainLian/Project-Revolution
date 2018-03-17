@@ -364,16 +364,16 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                     for (var i = 0; i < data[4].length; i++){
 
-                        if (data[4].studentorganization == req.session.user.organizationSelected.id
-                            && data[4].status == 1) {
+                        if (data[4][i].studentorganization == req.session.user.organizationSelected.id
+                            && data[4][i].status == 1) {
 
-                            if(data[4].modeOfDistribution == 1){
+                            if(data[4][i].modeOfDistribution == 1){
 
                                 printedPublication = true;
 
                                 printedPublicationCount = printedPublicationCount + 1;
 
-                                if(data[4].material == 5){
+                                if(data[4][i].material == 5){
                                     printedPoster = true;
                                 }
 
@@ -384,13 +384,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                                 onlinePublicationCount = onlinePublicationCount + 1;
 
-                                if(data[4].material == 5){
+                                if(data[4][i].material == 5){
                                     onlinePoster = true;
                                 }
 
                             }
 
-                            if (data[4].material == 3) {
+                            if (data[4][i].material == 3) {
                                 tickets = true;
                             }
 

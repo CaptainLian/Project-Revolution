@@ -70,19 +70,19 @@
 <div class="row">
     <div class="col-md-4 col-xs-12 col-sm-6">
         <div class="white-box text-center bg-inverse">
-            <h1 class=" text-white counter">32</h1>
+            <h1 class=" text-white counter">{{uncheckedActivityReport}}</h1>
             <p class="text-white">Unchecked Activity Report</p>
         </div>
     </div>
      <div class="col-md-4 col-xs-12 col-sm-6">
         <div class="white-box text-center bg-success">
-            <h1 class="text-white counter">32</h1>
+            <h1 class="text-white counter">{{ApprovedActivityReport}}</h1>
             <p class="text-white">Approved Activity Report</p>
         </div>
     </div>
     <div class="col-md-4 col-xs-12 col-sm-6">
         <div class="white-box text-center bg-warning">
-            <h1 class="counter text-white">32</h1>
+            <h1 class="counter text-white">{{PendedActivityReport}}</h1>
             <p class=" text-white">Pended Activity Report</p>
         </div>
     </div>
@@ -103,18 +103,26 @@
 							<th class="text-center" width="33%">Actions</th>
 						</tr>
 					</thead>
-					<tbody>                        
-						<tr>
-						  <td class="text-center">La Salle Computer Society</td>
-                          <td class="text-center">
-                              <a href="" data-toggle="tooltip" data-original-title="View Calendar">
-                                <i class="fa fa-calendar m-r-10"></i>
-                              </a>
-                              <a href="" data-toggle="tooltip" data-original-title="View GOSM">
-                                <i class="fa fa-list m-r-10"></i>
-                              </a>
-                          </td>
-						</tr>
+					<tbody>  
+
+                        {% for organization in studentorganizations %}
+                            {% for gosm in allGosm %}
+                                {% if gosm.organizationid == organization.id %}
+                                    <tr>
+                                      <td class="text-center">{{organization.name}}</td>
+                                      <td class="text-center">
+                                          <a href="/ADM/viewCalendar" data-toggle="tooltip" data-original-title="View Calendar">
+                                            <i class="fa fa-calendar m-r-10"></i>
+                                          </a>
+                                          <a href="/Organization/viewGOSMDetails/{{gosm.gosmid}}" data-toggle="tooltip" data-original-title="View GOSM">
+                                            <i class="fa fa-list m-r-10"></i>
+                                          </a>
+                                      </td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %}                      
+						
 					</tbody>
 				</table>
 			</div>

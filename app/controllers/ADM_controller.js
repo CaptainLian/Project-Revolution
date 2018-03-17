@@ -38,10 +38,47 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     ADM_controller.viewHome = (req, res) => {
         logger.info('call viewActivityToCheck()', log_options);
 
-        let renderData = Object.create(null);
-        renderData.extra_data = req.extra_data;
-        renderData.csrfToken = req.csrfToken();
-        return res.render('ADM/mainADM');
+        database.task(task => {
+                        return task.batch([
+                            postProjectProposalModel.getAllPostProjectProposal(),
+                            organizationModel.getAllStudentOrganizations(),
+                            gosmModel.getAllCurrent()
+                        ]);
+        }).then(data=>{
+
+            let renderData = Object.create(null);
+
+            var uncheckedActivityReport = 0;
+            var ApprovedActivityReport = 0;
+            var PendedActivityReport = 0;
+
+            for (var i = 0; i < data[0].length; i++){
+
+                if (data[0][i].status == 3) {
+                    uncheckedActivityReport = uncheckedActivityReport + 1;
+                }
+                else if(data[0][i].status == 4){
+                    ApprovedActivityReport = ApprovedActivityReport + 1;
+                }
+                else if(data[0][i].status == 5){
+                    PendedActivityReport = PendedActivityReport + 1;
+                }
+
+            }
+
+
+            renderData.uncheckedActivityReport = uncheckedActivityReport;
+            renderData.ApprovedActivityReport = ApprovedActivityReport;
+            renderData.PendedActivityReport = PendedActivityReport;
+            renderData.studentorganizations = data[1];
+            renderData.allGosm = data[2];
+            renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
+            return res.render('ADM/mainADM', renderData);
+
+        }).catch(error=>{
+            console.log(error);
+        });
         
     };
     ADM_controller.viewGrades = (req, res) => {
