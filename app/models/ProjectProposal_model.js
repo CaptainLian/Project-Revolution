@@ -416,9 +416,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
     ProjectProposalModel.prototype.approvePPResched =  function(id, comment, status, connection = this._db){
         console.log("============================")
         console.log(comment)
-         console.log(id)
-         console.log(status)
-        if(comment === ' '){
+        if(comment === ''){
             console.log("PASDSd")
             comment = null
         }
@@ -432,7 +430,6 @@ module.exports = function(configuration, modules, db, queryFiles) {
       
         return connection.any(query.toString());
     };
-
 
      ProjectProposalModel.prototype.deleteRevenue =  function(id, connection = this._db){
         

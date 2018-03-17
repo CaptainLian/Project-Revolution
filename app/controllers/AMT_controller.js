@@ -42,7 +42,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		}).then(data => {
 			renderData.allActivity = data[0];
 			renderData.myActivity = data[1];
-
+			console.log(data[0])
 			logger.debug(`${JSON.stringify(data[0])}`, log_options);
 			logger.debug(`${JSON.stringify(data[1])}`, log_options);
 
