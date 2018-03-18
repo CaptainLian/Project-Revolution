@@ -2810,6 +2810,8 @@ CREATE TABLE "ActivityResearchForm" (
   "IFIDTA" SMALLINT,
   "TAWWP" SMALLINT,
   "TOUMTGTTA" SMALLINT,
+  "field6" SMALLINT,
+  "field7" SMALLINT,
   "WWWITA" TEXT,
   "FAC" TEXT,
   "EFFA" TEXT,
@@ -3270,6 +3272,10 @@ CREATE TABLE "MemberSurveyForm" (
     "field7" SMALLINT NOT NULL,
     "field8" SMALLINT NOT NULL,
     "field9" SMALLINT NOT NULL,
+    "field10" SMALLINT NOT NULL,
+    "field11" SMALLINT NOT NULL,
+    "field12" SMALLINT NOT NULL,
+    "field13" SMALLINT NOT NULL,
 
     PRIMARY KEY("termID", "organizationID", "sequence")
 );

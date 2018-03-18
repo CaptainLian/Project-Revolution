@@ -123,7 +123,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             gosmModel.getOrgGOSM(dbParam),
                             postProjectProposalModel.getAllPostProjectProposal(),
                             //PNP
-                            pnpModel.getAllActivityPublicity()
+                            pnpModel.getAllActivityPublicity(),
+                            //ORGRES
+                            orgresModel.getAllOfficerSurveyForm(),
+                            orgresModel.getAllMemberSurveyForm(),
+                            orgresModel.getAllActivityResearchForm()
                         ]);
                 }).then(data=>{
 
@@ -205,7 +209,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                 isRelatedToOrganizationCount = isRelatedToOrganizationCount + 1;
                         }
 
-                        preactsAllApprovedTotal = preactsAllApprovedTotal + 1;
+                        if(data[0][i].studentorganization == organizationid){
+
+                            preactsAllApprovedTotal = preactsAllApprovedTotal + 1;
+
+                        }
 
                     }
 
@@ -288,28 +296,34 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                     for (var i = 0; i < data[3].length; i++){
 
-                        postactsTotalActivities = postactsTotalActivities + 1;
+                        if (data[3][i].studentorganization = organizationid) {
 
-                        // if approved
-                        if(data[3][i].status==4){
+                            postactsTotalActivities = postactsTotalActivities + 1;
 
-                            postactsApprovedActivities = postactsApprovedActivities + 1;
+                            // if approved
+                            if(data[3][i].status==4){
 
-
-                            let actualdatestart = data[3][i].actualdatestart;
-                            let datesubmitted = data[3][i].datesubmitted;
-
-                            var diff = timediff(actualdatestart, datesubmitted, 'D').days;
+                                postactsApprovedActivities = postactsApprovedActivities + 1;
 
 
-                            if (diff.days>30){
-                                postactsEarlyApprovedActivities = postactsEarlyApprovedActivities + 1;
+                                let actualdatestart = data[3][i].actualdatestart;
+                                let datesubmitted = data[3][i].datesubmitted;
+
+                                var diff = timediff(actualdatestart, datesubmitted, 'D').days;
+
+
+                                if (diff.days>30){
+                                    postactsEarlyApprovedActivities = postactsEarlyApprovedActivities + 1;
+                                }
+                                else{
+                                    postactsLateApprovedActivities = postactsLateApprovedActivities + 1;
+                                }
+
                             }
-                            else{
-                                postactsLateApprovedActivities = postactsLateApprovedActivities + 1;
-                            }
+
 
                         }
+                        
 
                     }
 
@@ -364,7 +378,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                     for (var i = 0; i < data[4].length; i++){
 
-                        if (data[4][i].studentorganization == req.session.user.organizationSelected.id
+                        if (data[4][i].studentorganization == organizationid
                             && data[4][i].status == 1) {
 
                             if(data[4][i].modeOfDistribution == 1){
@@ -447,8 +461,239 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         OnlinePublicityGrade = OnlinePublicityGrade + 1.5;
                     }
 
+                    //orgres grade
+
+                    //officer survey form
+                    var osfSurveyTotal = 0;
+                    var osfField1 = 0;
+                    var osfField2 = 0;
+                    var osfField3 = 0;
+                    var osfField4 = 0;
+                    var osfField5 = 0;
+                    var osfField6 = 0;
+                    var osfField7 = 0;
+                    var osfField8 = 0;
+                    var osfField9 = 0;
 
 
+                    for (var i = 0; i < data[5].length; i++){
+
+                        if(data[5][i].organizationID == organizationid){
+
+                            osfSurveyTotal = osfSurveyTotal + 1;
+
+                            osfField1 = osfField1 + data[5][i].field1;
+                            osfField2 = osfField2 + data[5][i].field2;
+                            osfField3 = osfField3 + data[5][i].field3;
+                            osfField4 = osfField4 + data[5][i].field4;
+                            osfField5 = osfField5 + data[5][i].field5;
+                            osfField6 = osfField6 + data[5][i].field6;
+                            osfField7 = osfField7 + data[5][i].field7;
+                            osfField8 = osfField8 + data[5][i].field8;
+                            osfField9 = osfField9 + data[5][i].field9;
+
+
+                        }
+
+
+                    }
+
+                    var osfField1Average = osfField1/osfSurveyTotal;
+                    var osfField2Average = osfField2/osfSurveyTotal;
+                    var osfField3Average = osfField3/osfSurveyTotal;
+                    var osfField4Average = osfField4/osfSurveyTotal;
+                    var osfField5Average = osfField5/osfSurveyTotal;
+                    var osfField6Average = osfField6/osfSurveyTotal;
+                    var osfField7Average = osfField7/osfSurveyTotal;
+                    var osfField8Average = osfField8/osfSurveyTotal;
+                    var osfField9Average = osfField9/osfSurveyTotal;
+
+                    if(osfSurveyTotal == 0){
+                        osfField1Average = 0;
+                        osfField2Average = 0;
+                        osfField3Average = 0;
+                        osfField4Average = 0;
+                        osfField5Average = 0;
+                        osfField6Average = 0;
+                        osfField7Average = 0;
+                        osfField8Average = 0;
+                        osfField9Average = 0;
+                    }
+
+                    //member survey form
+
+                    var msfSurveyTotal = 0;
+                    var msfField1 = 0;
+                    var msfField2 = 0;
+                    var msfField3 = 0;
+                    var msfField4 = 0;
+                    var msfField5 = 0;
+                    var msfField6 = 0;
+                    var msfField7 = 0;
+                    var msfField8 = 0;
+                    var msfField9 = 0;
+                    var msfField10 = 0;
+                    var msfField11 = 0;
+                    var msfField12 = 0;
+                    var msfField13 = 0;
+
+
+                    for (var i = 0; i < data[6].length; i++){
+
+                        if(data[6][i].organizationID == organizationid){
+
+                            msfSurveyTotal = msfSurveyTotal + 1;
+
+                            msfField1 = msfField1 + data[6][i].field1;
+                            msfField2 = msfField2 + data[6][i].field2;
+                            msfField3 = msfField3 + data[6][i].field3;
+                            msfField4 = msfField4 + data[6][i].field4;
+                            msfField5 = msfField5 + data[6][i].field5;
+                            msfField6 = msfField6 + data[6][i].field6;
+                            msfField7 = msfField7 + data[6][i].field7;
+                            msfField8 = msfField8 + data[6][i].field8;
+                            msfField9 = msfField9 + data[6][i].field9;
+                            msfField10 = msfField10 + data[6][i].field10;
+                            msfField11 = msfField11 + data[6][i].field11;
+                            msfField12 = msfField12 + data[6][i].field12;
+                            msfField13 = msfField13 + data[6][i].field13;
+
+
+                        }
+
+
+                    }
+
+                    var msfField1Average = msfField1/msfSurveyTotal;
+                    var msfField2Average = msfField2/msfSurveyTotal;
+                    var msfField3Average = msfField3/msfSurveyTotal;
+                    var msfField4Average = msfField4/msfSurveyTotal;
+                    var msfField5Average = msfField5/msfSurveyTotal;
+                    var msfField6Average = msfField6/msfSurveyTotal;
+                    var msfField7Average = msfField7/msfSurveyTotal;
+                    var msfField8Average = msfField8/msfSurveyTotal;
+                    var msfField9Average = msfField9/msfSurveyTotal;
+                    var msfField10Average = msfField10/msfSurveyTotal;
+                    var msfField11Average = msfField11/msfSurveyTotal;
+                    var msfField12Average = msfField12/msfSurveyTotal;
+                    var msfField13Average = msfField13/msfSurveyTotal;
+
+                    if(msfSurveyTotal == 0){
+                        msfField1Average = 0;
+                        msfField2Average = 0;
+                        msfField3Average = 0;
+                        msfField4Average = 0;
+                        msfField5Average = 0;
+                        msfField6Average = 0;
+                        msfField7Average = 0;
+                        msfField8Average = 0;
+                        msfField9Average = 0;
+                        msfField10Average = 0;
+                        msfField11Average = 0;
+                        msfField12Average = 0;
+                        msfField13Average = 0;
+                    }
+
+                    //activity research form
+
+                    var arfSurveyTotal = 0;
+                    var arfField1 = 0;
+                    var arfField2 = 0;
+                    var arfField3 = 0;
+                    var arfField4 = 0;
+                    var arfField5 = 0;
+                    var arfField6 = 0;
+                    var arfField7 = 0;
+                    
+
+                    var orgresActivityId = 0;
+                    var orgresActivityCount = 0;
+                    var orgresParticipantCount = 0;
+                    for (var i = 0; i < data[7].length; i++){
+
+                        if(data[7][i].organizationID == organizationid){
+
+                            arfSurveyTotal = arfSurveyTotal + 1;
+
+                            arfField1 = arfField1 + data[7][i].IUTPOTA;
+                            arfField2 = arfField2 + data[7][i].TASMI;
+                            arfField3 = arfField3 + data[7][i].IFIDTA;
+                            arfField4 = arfField4 + data[7][i].TAWWP;
+                            arfField5 = arfField5 + data[7][i].TOUMTGTTA;
+                            arfField6 = arfField6 + data[7][i].field6;
+                            arfField7 = arfField7 + data[7][i].field7;
+
+
+                            
+
+                        }
+
+
+                    }
+
+                    var arfField1Average = arfField1/arfSurveyTotal;
+                    var arfField2Average = arfField2/arfSurveyTotal;
+                    var arfField3Average = arfField3/arfSurveyTotal;
+                    var arfField4Average = arfField4/arfSurveyTotal;
+                    var arfField5Average = arfField5/arfSurveyTotal;
+                    var arfField6Average = arfField6/arfSurveyTotal;
+                    var arfField7Average = arfField7/arfSurveyTotal;
+
+                    if (arfSurveyTotal == 0){
+                        arfField1Average = 0;
+                        arfField2Average = 0;
+                        arfField3Average = 0;
+                        arfField4Average = 0;
+                        arfField5Average = 0;
+                        arfField6Average = 0;
+                        arfField7Average = 0;
+                    }
+
+                    // orgres purpose
+
+                    var purpose1 = ((msfField1Average/5)*100)*0.04;
+                    var purpose2 = ((((arfField1Average + msfField2Average)/2)/5)*100)*0.02;
+                    var purpose3 = ((((arfField2Average + msfField3Average + msfField4Average)/3)/5)*100)*0.04;
+
+                    var orgresPurposeGrade = purpose1 + purpose2 + purpose3;
+
+
+                    // orgres involvement
+
+                    var involvement1 = 0;
+                    var involvement2 = ((((arfField3Average + msfField5Average + msfField6Average)/3)/5)*100)*0.06;
+                    var involvement3 = ((((arfField4Average + msfField7Average)/2)/5)*100)*0.045;
+
+                    var orgresInvolvementGrade = involvement1 + involvement2 + involvement3;
+
+                    // orgres quality
+
+                    var quality1 = ((msfField8Average/5)*100)*0.0225;
+                    var quality2 = ((((msfField9Average + msfField10Average)/2)/5)*100)*0.015;
+                    var quality3 = ((arfField5Average/5)*100)*0.0225;
+                    var quality4 = ((((arfField6Average + msfField11Average)/2)/5)*100)*0.0225;
+                    var quality5 = ((((arfField7Average + msfField12Average)/2)/5)*100)*0.015;
+
+                    var orgresQualityGrade = quality1 + quality2 + quality3 + quality4 + quality5;
+
+
+                    //orgres leadership grade
+
+                    var leadership1 = ((((osfField1Average + osfField2Average)/2)/5)*100)*0.0015;
+                    var leadership2 = ((osfField3Average/5)*100)*0.0008;
+                    var leadership3 = ((osfField4Average/5)*100)*0.01;
+                    var leadership4 = ((osfField5Average/5)*100)*0.0015;
+                    var leadership5 = ((msfField13Average/5)*100)*0.0015;
+                    var leadership6 = ((((osfField6Average + osfField7Average)/2)/5)*100)*0.0045;
+                    var leadership7 = ((osfField8Average/5)*100)*0.003;
+                    var leadership8 = ((osfField9Average/5)*100)*0.0015;
+                    var leadership9 = 0;
+
+                    var orgresLeadershipGrade = leadership1 + leadership2 + leadership3 + leadership4 + leadership5 + leadership6 + leadership7 + leadership8 + leadership9;
+
+                    var orgresGrade = orgresPurposeGrade + orgresInvolvementGrade + orgresQualityGrade + orgresLeadershipGrade;
+ 
+                    // render data grades
                     const renderData = Object.create(null);
 
                     //preacts
@@ -466,6 +711,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     renderData.gosmSubmissionGrade = gosmSubmissionGrade;
                     renderData.sixtyFortyGrade = sixtyFortyGrade;
 
+
                     //postacts
                     renderData.postactsEarlyApprovedActivities = postactsEarlyApprovedActivities;
                     renderData.postactsTotalActivities = postactsTotalActivities;
@@ -476,6 +722,17 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     renderData.pushedThroughGrade = pushedThroughGrade;
                     renderData.notInGOSMGrade = notInGOSMGrade;
                     renderData.lasallianFormationComplianceGrade = lasallianFormationComplianceGrade;
+
+                    //orgres
+                    renderData.orgresPurposeGrade = orgresPurposeGrade;
+                    renderData.orgresInvolvementGrade = orgresInvolvementGrade;
+                    renderData.orgresQualityGrade = orgresQualityGrade;
+                    renderData.orgresLeadershipGrade = orgresLeadershipGrade;
+
+                    //documentation info
+                    renderData.sixtyCount = isRelatedToOrganizationCount;
+                    renderData.fortyCount = preactsAllApprovedTotal;
+
 
                     //pnp
                     renderData.universityPublicityInstrumentGrade = UniversityPublicityInstrumentGrade;
