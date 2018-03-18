@@ -2,6 +2,7 @@
         [].slice.call(document.querySelectorAll('.sttabs')).forEach(function(el) {
             new CBPFWTabs(el);
         });
+      $('#amtTable').dataTable();
 //Start of Online officer survey form results
      new Chart(document.getElementById("bar-chart1"), {
         type: 'bar',
@@ -510,6 +511,150 @@
         }
     });
 
+    //amt charts
+    new Chart(document.getElementById("chartamt1"), {
+        type: 'bar',
+        data: {
+          labels: ["venue", "equipment"],
+          datasets: [
+            {
+              label: "Average Grade",
+              backgroundColor: ["#3e95cd", "#8e5ea2"],
+              data: [4.7,3.6]
+            }
+          ]
+        },
+        options: {
+          legend: { display: false },
+          scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+    //activity process
+    new Chart(document.getElementById("chartamt2"), {
+        type: 'bar',
+        data: {
+          labels: ["Opening Start", "Time end", "Activity Execution", "Registration"],
+          datasets: [
+            {
+              label: "Average Grade",
+              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9"],
+              data: [3.14,4.9,4.7,3]
+            }
+          ]
+        },
+        options: {
+          legend: { display: false },
+          scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+    //gen assembly
+    new Chart(document.getElementById("chartamt3"), {
+        type: 'bar',
+        data: {
+          labels: ["Hosts", "Ushers", "Presentations", "Activities", "Standing Presentations"],
+          datasets: [
+            {
+              label: "Average Grade",
+              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+              data: [5,5,2.5,5,3]
+            }
+          ]
+        },
+        options: {
+          legend: { display: false },
+          scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+    //Academic Contest
+    new Chart(document.getElementById("chartamt4"), {
+        type: 'bar',
+        data: {
+          labels: ["Facilitators", "Hosts", "Program", "Mechanics"],
+          datasets: [
+            {
+              label: "Average Grade",
+              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9"],
+              data: [1,2,3,4,5]
+            }
+          ]
+        },
+        options: {
+          legend: { display: false },
+          scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+    //Seminar
+    new Chart(document.getElementById("chartamt5"), {
+        type: 'bar',
+        data: {
+          labels: ["Hosts", "Facilitators", "Presentations", "Speakers"],
+          datasets: [
+            {
+              label: "Average Grade",
+              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9"],
+              data: [4.2,4.4,5,4.9]
+            }
+          ]
+        },
+        options: {
+          legend: { display: false },
+          scales: {
+        yAxes: [{
+            ticks: {
+                beginAtZero: true
+            }
+        }]
+    }
+        }
+    });
+    //audience feedback
+    new Chart(document.getElementById("chartamt6"), {
+        type: 'bar',
+        data: {
+          labels: ["Announcements", "Awareness", "Interaction", "Interest", "Expectation", "Relevance", "Learning"],
+          datasets: [
+            {
+              label: "Average Grade",
+              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#FF685B", "#B153E8","#5BA0FF"],
+              data: [4.2,4.4,5,4.9, 8.5, 7.5, 5.5]
+            }
+          ]
+        },
+        options: {
+          legend: { display: false },
+          scales: {
+        yAxes: [{
+            ticks: {
+                beginAtZero: true
+            }
+        }]
+    }
+        }
+    });
     // When the user scrolls down 20px from the top of the document, show the button
         window.onscroll = function() {scrollFunction()};
 
