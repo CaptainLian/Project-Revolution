@@ -123,7 +123,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             gosmModel.getOrgGOSM(dbParam),
                             postProjectProposalModel.getAllPostProjectProposal(),
                             //PNP
-                            pnpModel.getAllActivityPublicity()
+                            pnpModel.getAllActivityPublicity(),
+                            //ORGRES
+                            orgresModel.getAllOfficerSurveyForm()
                         ]);
                 }).then(data=>{
 
@@ -205,7 +207,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                 isRelatedToOrganizationCount = isRelatedToOrganizationCount + 1;
                         }
 
-                        preactsAllApprovedTotal = preactsAllApprovedTotal + 1;
+                        if(data[0][i].studentorganization == organizationid){
+
+                            preactsAllApprovedTotal = preactsAllApprovedTotal + 1;
+
+                        }
 
                     }
 
@@ -288,28 +294,34 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                     for (var i = 0; i < data[3].length; i++){
 
-                        postactsTotalActivities = postactsTotalActivities + 1;
+                        if (data[3][i].studentorganization = organizationid) {
 
-                        // if approved
-                        if(data[3][i].status==4){
+                            postactsTotalActivities = postactsTotalActivities + 1;
 
-                            postactsApprovedActivities = postactsApprovedActivities + 1;
+                            // if approved
+                            if(data[3][i].status==4){
 
-
-                            let actualdatestart = data[3][i].actualdatestart;
-                            let datesubmitted = data[3][i].datesubmitted;
-
-                            var diff = timediff(actualdatestart, datesubmitted, 'D').days;
+                                postactsApprovedActivities = postactsApprovedActivities + 1;
 
 
-                            if (diff.days>30){
-                                postactsEarlyApprovedActivities = postactsEarlyApprovedActivities + 1;
+                                let actualdatestart = data[3][i].actualdatestart;
+                                let datesubmitted = data[3][i].datesubmitted;
+
+                                var diff = timediff(actualdatestart, datesubmitted, 'D').days;
+
+
+                                if (diff.days>30){
+                                    postactsEarlyApprovedActivities = postactsEarlyApprovedActivities + 1;
+                                }
+                                else{
+                                    postactsLateApprovedActivities = postactsLateApprovedActivities + 1;
+                                }
+
                             }
-                            else{
-                                postactsLateApprovedActivities = postactsLateApprovedActivities + 1;
-                            }
+
 
                         }
+                        
 
                     }
 
@@ -364,16 +376,16 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                     for (var i = 0; i < data[4].length; i++){
 
-                        if (data[4].studentorganization == req.session.user.organizationSelected.id
-                            && data[4].status == 1) {
+                        if (data[4][i].studentorganization == organizationid
+                            && data[4][i].status == 1) {
 
-                            if(data[4].modeOfDistribution == 1){
+                            if(data[4][i].modeOfDistribution == 1){
 
                                 printedPublication = true;
 
                                 printedPublicationCount = printedPublicationCount + 1;
 
-                                if(data[4].material == 5){
+                                if(data[4][i].material == 5){
                                     printedPoster = true;
                                 }
 
@@ -384,13 +396,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                                 onlinePublicationCount = onlinePublicationCount + 1;
 
-                                if(data[4].material == 5){
+                                if(data[4][i].material == 5){
                                     onlinePoster = true;
                                 }
 
                             }
 
-                            if (data[4].material == 3) {
+                            if (data[4][i].material == 3) {
                                 tickets = true;
                             }
 
@@ -447,8 +459,66 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         OnlinePublicityGrade = OnlinePublicityGrade + 1.5;
                     }
 
+                    //orgres grade
+
+                    //officer survey form
+                    var osfSurveyTotal = 0;
+                    var osfField1 = 0;
+                    var osfField2 = 0;
+                    var osfField3 = 0;
+                    var osfField4 = 0;
+                    var osfField5 = 0;
+                    var osfField6 = 0;
+                    var osfField7 = 0;
+                    var osfField8 = 0;
+                    var osfField9 = 0;
 
 
+                    for (var i = 0; i < data[5].length; i++){
+
+                        if(data[5][i].organizationID == organizationid){
+
+                            osfSurveyTotal = osfSurveyTotal + 1;
+
+                            osfField1 = osfField1 + data[5][i].field1;
+                            osfField2 = osfField2 + data[5][i].field2;
+                            osfField3 = osfField3 + data[5][i].field3;
+                            osfField4 = osfField4 + data[5][i].field4;
+                            osfField5 = osfField5 + data[5][i].field5;
+                            osfField6 = osfField6 + data[5][i].field6;
+                            osfField7 = osfField7 + data[5][i].field7;
+                            osfField8 = osfField8 + data[5][i].field8;
+                            osfField9 = osfField9 + data[5][i].field9;
+
+
+                        }
+
+
+                    }
+
+                    var osfField1Average = osfField1/osfSurveyTotal;
+                    var osfField2Average = osfField2/osfSurveyTotal;
+                    var osfField3Average = osfField3/osfSurveyTotal;
+                    var osfField4Average = osfField4/osfSurveyTotal;
+                    var osfField5Average = osfField5/osfSurveyTotal;
+                    var osfField6Average = osfField6/osfSurveyTotal;
+                    var osfField7Average = osfField7/osfSurveyTotal;
+                    var osfField8Average = osfField8/osfSurveyTotal;
+                    var osfField9Average = osfField9/osfSurveyTotal;
+
+                    //orgres leadership grade
+
+                    var leadership1 = ((((osfField1Average + osfField2Average)/2)/5)*100)*0.0015;
+                    var leadership2 = ((osfField3Average/5)*100)*0.0008;
+                    var leadership3 = ((osfField4Average/5)*100)*0.01;
+                    var leadership4 = ((osfField5Average/5)*100)*0.0015;
+                    var leadership5;
+                    var leadership6 = ((((osfField6Average + osfField7Average)/2)/5)*100)*0.0045;
+                    var leadership7 = ((osfField8Average/5)*100)*0.003;
+                    var leadership8 = ((osfField9Average/5)*100)*0.0015;
+                    var leadership9;
+
+                    // render data grades
                     const renderData = Object.create(null);
 
                     //preacts
@@ -466,6 +536,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     renderData.gosmSubmissionGrade = gosmSubmissionGrade;
                     renderData.sixtyFortyGrade = sixtyFortyGrade;
 
+
                     //postacts
                     renderData.postactsEarlyApprovedActivities = postactsEarlyApprovedActivities;
                     renderData.postactsTotalActivities = postactsTotalActivities;
@@ -476,6 +547,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     renderData.pushedThroughGrade = pushedThroughGrade;
                     renderData.notInGOSMGrade = notInGOSMGrade;
                     renderData.lasallianFormationComplianceGrade = lasallianFormationComplianceGrade;
+
+                    //documentation info
+                    renderData.sixtyCount = isRelatedToOrganizationCount;
+                    renderData.fortyCount = preactsAllApprovedTotal;
+
 
                     //pnp
                     renderData.universityPublicityInstrumentGrade = UniversityPublicityInstrumentGrade;

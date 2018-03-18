@@ -40,7 +40,19 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			console.log(err);	
 		})
 	};	
+	PNPController.viewHome = (req, res) => {
+ 
+	    let renderData = Object.create(null);
+	 
+	    renderData.csrfToken = req.csrfToken();
+	 
+	    renderData.extra_data = req.extra_data;
+	 
 
+	 
+	    return res.render('PNP/mainPNP');
+	 
+	  };
 	PNPController.viewPubsList = (req, res) => {
 		let renderData = Object.create(null);
 		renderData.csrfToken = req.csrfToken();
