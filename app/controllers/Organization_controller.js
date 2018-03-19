@@ -19,6 +19,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     const gosmModel = models.gosmModel;
     const orgresModel = models.Orgres_model;
     const amtModel = models.ActivityMonitoring_model;
+    const financeModel = models.Finance_model;
 
     const accountModel = models.Account_model;
 
@@ -132,7 +133,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             organizationModel.getAllCurrentOrganizationMembers(),
                             //AMT
                             amtModel.getAllAMTEvaluationResults(dbParam),
-                            amtModel.getAllAMTScoreAverages(dbParam)
+                            amtModel.getAllAMTScoreAverages(dbParam),
+                            //FINANCE
+                            financeModel.getAllApprovedTransactions(dbParam)
                         ]);
                 }).then(data=>{
 
@@ -160,8 +163,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                             let orggosmsubmitted = data[2].orggosmsubmitted;
 
-                            var gosmdiff = timediff(termstart, orggosmsubmitted, 'D').days;
-                            //error to do 
+                            var gosmdiff = timediff(termstart, orggosmsubmitted, 'D');
+
                             if(gosmdiff.days <= 14){
                                 gosmSubmissionGrade = 0.075;
                             }
@@ -191,7 +194,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             let datesigned = data[0][i].datesigned;
                             let targetdatestart = data[0][i].targetdatestart;
 
-                            var diff = timediff(actualdatestart, datesigned, 'D').days;
+                            var diff = timediff(actualdatestart, datesigned, 'D');
 
 
                             if (diff.days>2){
@@ -314,7 +317,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                 let actualdatestart = data[3][i].actualdatestart;
                                 let datesubmitted = data[3][i].datesubmitted;
 
-                                var diff = timediff(actualdatestart, datesubmitted, 'D').days;
+                                var diff = timediff(actualdatestart, datesubmitted, 'D');
 
 
                                 if (diff.days>30){
@@ -706,7 +709,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     var leadership6 = ((((osfField6Average + osfField7Average)/2)/5)*100)*0.0045;
                     var leadership7 = ((osfField8Average/5)*100)*0.003;
                     var leadership8 = ((osfField9Average/5)*100)*0.0015;
-                    var leadership9 = 0.003;
+                    var leadership9 = 0.3;//0.003*100
 
                     var orgresLeadershipGrade = leadership1 + leadership2 + leadership3 + leadership4 + leadership5 + leadership6 + leadership7 + leadership8 + leadership9;
 
@@ -724,6 +727,38 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                     var amtScore = totalAMTEvaluationScore/totalAMTEvaluations;
                     var amtGrade = amtScore*0.0375;
+
+                    //finance grade
+
+                    var onTimeTransaction = 0;
+                    var totalApprovedTransaction = 0;
+                    var approvedParticulars = 0;
+
+
+                    for (var i = 0; i < data[11].length; i++){
+
+                        let financesign = data[11][i].datesigned;
+                        let activitystart = data[11][i].datestart
+
+                        var budgetdiff = timediff(financesign, activitystart, 'D');
+
+                        if(budgetdiff.days <= 3){
+                            onTimeTransaction = onTimeTransaction + 1;
+                        }
+
+                        approvedParticulars = approvedParticulars + data[11][i].particulars;
+
+                        totalApprovedTransaction = totalApprovedTransaction + 1;
+
+
+                    }
+
+                    // finance monitoring grade
+
+                    var monitoring1 = ((onTimeTransaction/totalApprovedTransaction)*100)*0.01;
+
+                    var monitoring3 = 1;
+
 
  
                     // render data grades
