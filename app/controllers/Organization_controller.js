@@ -105,8 +105,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
             systemModel.getCurrentTerm([
                 'id',
-                'to_char(dateStart, \'Month DD, YYYY\') AS "dateStart"',
-                'to_char(dateEnd, \'Month DD, YYYY\') AS "dateEnd"'
+                'to_char(dateStart, \'YYYY-MM-DD\') AS "dateStart"',
+                'to_char(dateEnd, \'YYYY-MM-DD\') AS "dateEnd"'
             ]).then(term=>{
 
                 var dbParam = {

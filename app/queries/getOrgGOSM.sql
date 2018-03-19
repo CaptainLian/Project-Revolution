@@ -1,4 +1,4 @@
-SELECT *, to_char(dateSubmitted, 'Month DD, YYYY') AS orggosmsubmitted
+SELECT *, to_char(dateSubmitted, 'YYYY-MM-DD') AS orggosmsubmitted
   FROM GOSM
  WHERE termID = ${termID}
    AND studentOrganization = ${studentOrganization};
