@@ -45,6 +45,46 @@ module.exports = function(configuration, modules, database, queryFiles){
 		return connection.one(query.toString(), param);
 	};
 
+	OrganizationModel.addMember = (id, name, connection = database) => {
+		
+		let query = squel.insert()
+			.into('"OrganizationMember"')
+			.set('"idNumber"', id)
+			.set('"yearID"',  squel.str('system_get_current_year_id()'))
+		
+
+		let param = Object.create(null);
+		param.id = id;
+
+		query = query.toString();
+		 
+		return connection.any(query);
+	};
+	OrganizationModel.viewMember = (id, name, connection = database) => {
+		
+		let query = squel.select()
+			.from('"OrganizationMember"')
+			
+
+		let param = Object.create(null);
+		param.id = id;
+
+		query = query.toString();
+		 
+		return connection.any(query);
+	};
+
+	OrganizationModel.deleteMember = (id, connection = database) => {
+		console.log(id)
+		let query = squel.delete()
+			.from('"OrganizationMember"')
+			.where('"idNumber" = ?',id);	
+
+		query = query.toString();
+		 
+		return connection.any(query);
+	};
+
 
 	OrganizationModel.getActivitiesWithPPR = (param, fields, connection = database) => {
 		return connection.one(getActivitiesWithPPRSQL, param);
