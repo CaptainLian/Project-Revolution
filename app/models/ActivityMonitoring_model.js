@@ -11,6 +11,8 @@ module.exports = function(configuration, modules, database, queryFiles){
 	const getAvailableActivityToCheck = queryFiles.getAvailableActivityToCheck;
     const getAmtMyActivity = queryFiles.getAmtMyActivity;
 
+    const getAllAMTEvaluationResultsSQL = queryFiles.getAllAMTEvaluationResults;
+
 	ActivityMonitoringModel.insertAMTActivityEvaluation = function(param, connection = database) {
         return connection.none(insertAMTActivityEvaluationSQL, param);
     };
@@ -37,6 +39,10 @@ module.exports = function(configuration, modules, database, queryFiles){
 
     ActivityMonitoringModel.deleteToMyActivity = function(param, connection = database){
         return connection.result(deleteToMyActivity, param);
+    };
+
+    ActivityMonitoringModel.getAllAMTEvaluationResults = function(param, connection = database){
+        return connection.any(getAllAMTEvaluationResultsSQL, param);
     };
 
 	return ActivityMonitoringModel;

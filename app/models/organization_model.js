@@ -22,7 +22,7 @@ module.exports = function(configuration, modules, database, queryFiles){
 	const getStudentOrganizationSQL = queryFiles.getStudentOrganization;
 	const getAllStudentOrganizationsSQL = queryFiles.getAllStudentOrganizations;
 
-	const getAllCurrentOrganizationMembersSQL = getAllCurrentOrganizationMembers;
+	const getAllCurrentOrganizationMembersSQL = queryFiles.getAllCurrentOrganizationMembers;
 
     const logger = modules.logger;
 

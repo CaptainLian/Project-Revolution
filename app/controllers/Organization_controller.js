@@ -18,6 +18,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     const postProjectProposalModel = models.PostProjectProposal_model;
     const gosmModel = models.gosmModel;
     const orgresModel = models.Orgres_model;
+    const amtModel = models.ActivityMonitoring_model;
 
     const accountModel = models.Account_model;
 
@@ -128,7 +129,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             orgresModel.getAllOfficerSurveyForm(),
                             orgresModel.getAllMemberSurveyForm(),
                             orgresModel.getAllActivityResearchForm(),
-                            organizationModel.getAllCurrentOrganizationMembers()
+                            organizationModel.getAllCurrentOrganizationMembers(),
+                            //AMT
+                            amtModel.getAllAMTEvaluationResults(dbParam)
                         ]);
                 }).then(data=>{
 
@@ -707,6 +710,20 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     var orgresLeadershipGrade = leadership1 + leadership2 + leadership3 + leadership4 + leadership5 + leadership6 + leadership7 + leadership8 + leadership9;
 
                     var orgresGrade = orgresPurposeGrade + orgresInvolvementGrade + orgresQualityGrade + orgresLeadershipGrade;
+
+                    // amt grade
+                    var totalAMTEvaluations = data[9].length;
+                    var totalAMTEvaluationScore = 0;
+
+                    for (var i = 0; i < data[9].length; i++){
+
+                        totalAMTEvaluationScore = totalAMTEvaluationScore + data[9][i].amtgrade
+
+                    }
+
+                    var amtScore = totalAMTEvaluationScore/totalAMTEvaluations;
+                    var amtGrade = amtScore*0.0375;
+
  
                     // render data grades
                     const renderData = Object.create(null);
