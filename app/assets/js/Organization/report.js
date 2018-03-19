@@ -21,6 +21,7 @@
          
         }
     });
+    
 
     new Chart(document.getElementById("bar-chart2"), {
         type: 'bar',
