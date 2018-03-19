@@ -687,7 +687,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     var leadership6 = ((((osfField6Average + osfField7Average)/2)/5)*100)*0.0045;
                     var leadership7 = ((osfField8Average/5)*100)*0.003;
                     var leadership8 = ((osfField9Average/5)*100)*0.0015;
-                    var leadership9 = 0;
+                    var leadership9 = 0.003;
 
                     var orgresLeadershipGrade = leadership1 + leadership2 + leadership3 + leadership4 + leadership5 + leadership6 + leadership7 + leadership8 + leadership9;
 

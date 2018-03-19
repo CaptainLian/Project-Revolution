@@ -352,7 +352,10 @@
                             </div>
                         </div>
                     </div>
+
+                    {% if transactionType == 0 or transactionType == 1%}
                     <h4> <i class="fa fa-paperclip m-r-10 m-b-10"></i> Attachments <span></span> </h4>
+                    {% endif %}
                     <div class="row">
                         {% if transactionType == 0 %}
 
