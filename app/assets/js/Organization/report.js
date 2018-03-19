@@ -584,54 +584,54 @@
             }
         }
     });
-    //Academic Contest
-    new Chart(document.getElementById("chartamt4"), {
-        type: 'bar',
-        data: {
-          labels: ["Facilitators", "Hosts", "Program", "Mechanics"],
-          datasets: [
-            {
-              label: "Average Grade",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9"],
-              data: [1,2,3,4,5]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false },
-          scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }]
-            }
-        }
-    });
-    //Seminar
-    new Chart(document.getElementById("chartamt5"), {
-        type: 'bar',
-        data: {
-          labels: ["Hosts", "Facilitators", "Presentations", "Speakers"],
-          datasets: [
-            {
-              label: "Average Grade",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9"],
-              data: [4.2,4.4,5,4.9]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false },
-          scales: {
-        yAxes: [{
-            ticks: {
-                beginAtZero: true
-            }
-        }]
-    }
-        }
-    });
+    // //Academic Contest
+    // new Chart(document.getElementById("chartamt4"), {
+    //     type: 'bar',
+    //     data: {
+    //       labels: ["Facilitators", "Hosts", "Program", "Mechanics"],
+    //       datasets: [
+    //         {
+    //           label: "Average Grade",
+    //           backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9"],
+    //           data: [1,2,3,4,5]
+    //         }
+    //       ]
+    //     },
+    //     options: {
+    //       legend: { display: false },
+    //       scales: {
+    //             yAxes: [{
+    //                 ticks: {
+    //                     beginAtZero: true
+    //                 }
+    //             }]
+    //         }
+    //     }
+    // });
+    // //Seminar
+    // new Chart(document.getElementById("chartamt5"), {
+    //     type: 'bar',
+    //     data: {
+    //       labels: ["Hosts", "Facilitators", "Presentations", "Speakers"],
+    //       datasets: [
+    //         {
+    //           label: "Average Grade",
+    //           backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9"],
+    //           data: [4.2,4.4,5,4.9]
+    //         }
+    //       ]
+    //     },
+    //     options: {
+    //       legend: { display: false },
+    //       scales: {
+    //     yAxes: [{
+    //         ticks: {
+    //             beginAtZero: true
+    //         }
+    //     }]
+    // }
+    //     }
+    // });
     //audience feedback
     new Chart(document.getElementById("chartamt6"), {
         type: 'bar',
