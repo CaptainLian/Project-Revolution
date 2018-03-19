@@ -92,7 +92,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             console.log(req.param)
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
-            organizationModel.viewMember()
+            organizationModel.viewMember(req.session.user.organizationSelected.id)
             .then(data=>{
                 renderData.members = data
                 return res.render('Org/addMembers',renderData);
@@ -3651,7 +3651,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         addMember: (req, res) => {
             
            
-            organizationModel.addMember(req.body.idnumber, req.body.name).then(data=>{
+            organizationModel.addMember(req.body.idnumber, req.body.name, req.session.user.organizationSelected.id).then(data=>{
                 return res.json({status:1})     
             }).catch(err=>{
                 console.log(err)
@@ -3663,7 +3663,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         deleteMember: (req, res) => {
              
             
-            organizationModel.deleteMember(req.body.idnumber).then(data=>{
+            organizationModel.deleteMember(req.body.idnumber, req.session.user.organizationSelected.id).then(data=>{
                 return res.json({status:1})
             }).catch(err=>{
                 console.log(err)

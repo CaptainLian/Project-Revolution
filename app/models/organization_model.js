@@ -22,7 +22,7 @@ module.exports = function(configuration, modules, database, queryFiles){
 	const getStudentOrganizationSQL = queryFiles.getStudentOrganization;
 	const getAllStudentOrganizationsSQL = queryFiles.getAllStudentOrganizations;
 
-	const getAllCurrentOrganizationMembersSQL = getAllCurrentOrganizationMembers;
+	const getAllCurrentOrganizationMembersSQL = queryFiles.getAllCurrentOrganizationMembers;
 
     const logger = modules.logger;
 
@@ -47,12 +47,14 @@ module.exports = function(configuration, modules, database, queryFiles){
 		return connection.one(query.toString(), param);
 	};
 
-	OrganizationModel.addMember = (id, name, connection = database) => {
+	OrganizationModel.addMember = (id, name,orgid, connection = database) => {
 		
 		let query = squel.insert()
 			.into('"OrganizationMember"')
 			.set('"idNumber"', id)
+			.set('name', name)
 			.set('"yearID"',  squel.str('system_get_current_year_id()'))
+			.set("organization",orgid)
 		
 
 		let param = Object.create(null);
@@ -62,11 +64,11 @@ module.exports = function(configuration, modules, database, queryFiles){
 		 
 		return connection.any(query);
 	};
-	OrganizationModel.viewMember = (id, name, connection = database) => {
+	OrganizationModel.viewMember = (id, connection = database) => {
 		
 		let query = squel.select()
 			.from('"OrganizationMember"')
-			
+			.where("organization = ?",id)
 
 		let param = Object.create(null);
 		param.id = id;
@@ -76,11 +78,12 @@ module.exports = function(configuration, modules, database, queryFiles){
 		return connection.any(query);
 	};
 
-	OrganizationModel.deleteMember = (id, connection = database) => {
+	OrganizationModel.deleteMember = (id, orgid, connection = database) => {
 		console.log(id)
 		let query = squel.delete()
 			.from('"OrganizationMember"')
-			.where('"idNumber" = ?',id);	
+			.where('"idNumber" = ?',id)
+			.where("organization = ?",orgid);	
 
 		query = query.toString();
 		 

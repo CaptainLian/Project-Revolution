@@ -67,6 +67,7 @@ $("#addtolist").click(function(event) {
 
 $(document).on('click','table tbody tr td .fa-trash',function(event) {
         console.log('fatimes')
+         var dis =$(this)
         var idnum = $(this).attr("idnum");
          $.ajax({
             type: 'POST',
@@ -88,16 +89,12 @@ $(document).on('click','table tbody tr td .fa-trash',function(event) {
                               stack: 6
                             });
 
-                          table.row.add([
-                            idnum,
-                            name,
-                            td
-                            ]).draw()
-                             table.row($(this).closest("tr")).remove().draw()
+                          
+                            table.row(dis.closest("tr")).remove().draw()
                     }else{
                          $.toast({
                               heading: 'Failed!',          
-                              
+                              text:'Member already added.',
                               position: 'top-right',
                               loaderBg:'#ff6849',
                               icon: 'error',
