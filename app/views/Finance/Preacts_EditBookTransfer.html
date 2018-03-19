@@ -98,13 +98,7 @@
                                     <p>Sections to be edited: 
 
                                     {% for edit in signatory.sectionsToEdit %}
-                                        {% if edit == 0 %}
-                                            Particulars
-                                        {% elif edit == 1  %}
-                                            Memo
-                                        {% elif edit == 2 %}
-                                            Attachments
-                                        {% endif %}
+                                        {{edit}}
 
                                     {% endfor %}
                                     </p>

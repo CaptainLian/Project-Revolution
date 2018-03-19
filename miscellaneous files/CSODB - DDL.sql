@@ -1223,67 +1223,67 @@ CREATE TRIGGER before_insert_OrganizationRole
     EXECUTE PROCEDURE trigger_before_insert_OrganizationRole();
 
 
-INSERT INTO OrganizationRole (organization, name, shortname, uniquePosition, masterRole, rank)
+INSERT INTO OrganizationRole (organization, name, shortname, uniquePosition, masterRole, rank, home_url)
                       VALUES
                       		 -- 0
-                      		 ( 0, 'Chairperson', 'Chair', TRUE, NULL, 0),
+                      		 ( 0, 'Chairperson', 'Chair', TRUE, NULL, 0, NULL),
                       		 /* Executive board */
                              -- 1
-                             ( 0, 'Executive Vice Chairperson for Internals',                     'EVC - Interals',  TRUE, 0, 10),
+                             ( 0, 'Executive Vice Chairperson for Internals',                     'EVC - Interals',  TRUE, 0, 10, NULL),
                              -- 2
-                             ( 0, 'Executive Vice Chairperson for Externals',                     'EVC - Externals', TRUE, 0, 10),
+                             ( 0, 'Executive Vice Chairperson for Externals',                     'EVC - Externals', TRUE, 0, 10, NULL),
                              -- 3
-                             ( 0, 'Executive Vice Chairperson for Activities and Documentations', 'EVC - AND',       TRUE, 0, 10),
+                             ( 0, 'Executive Vice Chairperson for Activities and Documentations', 'EVC - AND',       TRUE, 0, 10, NULL),
                              -- 4
-                             ( 0, 'Executive Vice Chairperson for Finance',                       'EVC - Finance',   TRUE, 0, 10),
+                             ( 0, 'Executive Vice Chairperson for Finance',                       'EVC - Finance',   TRUE, 0, 10, NULL),
 
                              /* Activity Documentations and Management */
                              -- 5
-                             ( 0, 'Vice Chairperson for Activity Documentations and Management',            'VC - AND',  TRUE, 2, 20),
+                             ( 0, 'Vice Chairperson for Activity Documentations and Management',            'VC - AND',  TRUE, 2, 20, '/ADM/main'),
                              -- 6
-                             ( 0, 'Associate Vice Chairperson for Activity Documentations and Management', 'AVC - AND', FALSE, 5, 30),
+                             ( 0, 'Associate Vice Chairperson for Activity Documentations and Management', 'AVC - AND', FALSE, 5, 30, '/ADM/main'),
                              -- 7
-                             ( 0, 'Associate for Activity Documentations and Management',                  'AVC - AND', FALSE, 6, 40),
+                             ( 0, 'Associate for Activity Documentations and Management',                  'AVC - AND', FALSE, 6, 40, '/ADM/main'),
 
                              /* Activity Monitoring Team */
                              -- 8
-                             ( 0, 'Vice Chairperson for Activity Monitoring Team',            'VC - AMT',  TRUE, 2, 20),
+                             ( 0, 'Vice Chairperson for Activity Monitoring Team',            'VC - AMT',  TRUE, 2, 20, NULL),
                              -- 9
-                             ( 0, 'Associate Vice Chairperson for Activity Monitoring Team', 'AVC - AMT', FALSE, 9, 30),
+                             ( 0, 'Associate Vice Chairperson for Activity Monitoring Team', 'AVC - AMT', FALSE, 9, 30, NULL),
                              -- 10
-                             ( 0, 'Associate for Activity Monitoring Team',                    'A - AMT', FALSE, 10, 40),
+                             ( 0, 'Associate for Activity Monitoring Team',                    'A - AMT', FALSE, 10, 40, NULL),
 
                              /* Activity Processing and Screening */
                              -- 11
-                             ( 0, 'Vice Chairperson for Activity Processing and Screening',            'VC - APS',  TRUE, 2, 20),
+                             ( 0, 'Vice Chairperson for Activity Processing and Screening',            'VC - APS',  TRUE, 2, 20, NULL),
                              -- 12
-                             ( 0, 'Associate Vice Chairperson for Activity Processing and Screening', 'AVC - APS', FALSE, 11, 30),
+                             ( 0, 'Associate Vice Chairperson for Activity Processing and Screening', 'AVC - APS', FALSE, 11, 30, NULL),
                              -- 13
-                             ( 0, 'Associate Activity Processing and Screening',                        'A - APS', FALSE, 12, 40),
+                             ( 0, 'Associate Activity Processing and Screening',                        'A - APS', FALSE, 12, 40, NULL),
 
                              /* Finance */
                              -- 14
-                             ( 0, 'Vice Chairperson for Finance',            'VC - Finance',  TRUE, 2, 20),
+                             ( 0, 'Vice Chairperson for Finance',            'VC - Finance',  TRUE, 2, 20, NULL),
                              -- 15
-                             ( 0, 'Associate Vice Chairperson for Finance', 'AVC - Finance', FALSE, 14, 30),
+                             ( 0, 'Associate Vice Chairperson for Finance', 'AVC - Finance', FALSE, 14, 30, NULL),
                              -- 16
-                             ( 0, 'Associate for Finance',                    'A - Finance', FALSE, 15, 40),
+                             ( 0, 'Associate for Finance',                    'A - Finance', FALSE, 15, 40, NULL),
 
                              /* Publicity and Productions */
                              -- 17
-                             ( 0, 'Vice Chairperson for Publicity and Productions',            'VC - PNP',  TRUE, 3, 20),
+                             ( 0, 'Vice Chairperson for Publicity and Productions',            'VC - PNP',  TRUE, 3, 20, '/PNP/main'),
                              -- 18
-                             ( 0, 'Associate Vice Chairperson for Publicity and Productions', 'AVC - PNP', FALSE, 18, 30),
+                             ( 0, 'Associate Vice Chairperson for Publicity and Productions', 'AVC - PNP', FALSE, 18, 30, '/PNP/main'),
                              -- 19
-                             ( 0, 'Associate for Publicity and Productions',                    'A - PNP', FALSE, 19, 40),
+                             ( 0, 'Associate for Publicity and Productions',                    'A - PNP', FALSE, 19, 40, '/PNP/main'),
 
                              /* Organizational Research and Analysis */
                              -- 20
-                             ( 0, 'Vice Chairperson for Organizational Research and Analysis',            'VC - OrgRes', TRUE, 2, 20),
+                             ( 0, 'Vice Chairperson for Organizational Research and Analysis',            'VC - OrgRes', TRUE, 2, 20, NULL),
                              -- 21
-                             ( 0, 'Associate Vice Chairperson for Organizational Research and Analysis', 'AVC - OrgRes', FALSE, 21, 30),
+                             ( 0, 'Associate Vice Chairperson for Organizational Research and Analysis', 'AVC - OrgRes', FALSE, 21, 30, NULL),
                              -- 22
-                             ( 0, 'Associate for Organizational Research and Analysis',                    'A - OrgRes', FALSE, 22, 40);
+                             ( 0, 'Associate for Organizational Research and Analysis',                    'A - OrgRes', FALSE, 22, 40, NULL);
 
 DROP TABLE IF EXISTS OrganizationOfficer CASCADE;
 CREATE TABLE OrganizationOfficer (
@@ -1300,10 +1300,11 @@ DROP TABLE IF EXISTS "OrganizationMember" CASCADE;
 CREATE TABLE "OrganizationMember" (
     "id" SERIAL UNIQUE,
 	"idNumber" INTEGER,
+    "organization" INTEGER REFERENCES StudentOrganization(id),
 	"yearID" INTEGER REFERENCES SchoolYear(id),
 	"dateAdded" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
 
-	PRIMARY KEY("idNumber", "yearID")
+	PRIMARY KEY("idNumber", "organization", "yearID")
 );
 
     /* Organization Structure End */

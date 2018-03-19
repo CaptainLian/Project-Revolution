@@ -22,6 +22,8 @@ module.exports = function(configuration, modules, database, queryFiles){
 	const getStudentOrganizationSQL = queryFiles.getStudentOrganization;
 	const getAllStudentOrganizationsSQL = queryFiles.getAllStudentOrganizations;
 
+	const getAllCurrentOrganizationMembersSQL = getAllCurrentOrganizationMembers;
+
     const logger = modules.logger;
 
 	/**
@@ -64,6 +66,10 @@ module.exports = function(configuration, modules, database, queryFiles){
 
 	OrganizationModel.getAllStudentOrganizations = (connection = database) => {
 		return connection.any(getAllStudentOrganizationsSQL);
+	};
+
+	OrganizationModel.getAllCurrentOrganizationMembers = (connection = database) =>{
+		return connection.any(getAllCurrentOrganizationMembersSQL);
 	};
 
 	OrganizationModel.getFunctionality = (connection = database) => {

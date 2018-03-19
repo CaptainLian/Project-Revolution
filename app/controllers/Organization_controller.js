@@ -127,7 +127,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             //ORGRES
                             orgresModel.getAllOfficerSurveyForm(),
                             orgresModel.getAllMemberSurveyForm(),
-                            orgresModel.getAllActivityResearchForm()
+                            orgresModel.getAllActivityResearchForm(),
+                            organizationModel.getAllCurrentOrganizationMembers()
                         ]);
                 }).then(data=>{
 
@@ -649,6 +650,20 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         arfField7Average = 0;
                     }
 
+                    //orgres organization members count
+
+                    var totalOrganizationMembers = 0;
+
+                    for(var i = 0; i < data[8].length; i++){
+
+                        if (data[8][i].organization == organizationid){
+
+                            totalOrganizationMembers = totalOrganizationMembers + 1;
+                        }
+
+
+                    }
+
                     // orgres purpose
 
                     var purpose1 = ((msfField1Average/5)*100)*0.04;
@@ -660,7 +675,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                     // orgres involvement
 
-                    var involvement1 = 0;
+                    var involvement1 = ((msfSurveyTotal/totalOrganizationMembers)*100)*0.045;
                     var involvement2 = ((((arfField3Average + msfField5Average + msfField6Average)/3)/5)*100)*0.06;
                     var involvement3 = ((((arfField4Average + msfField7Average)/2)/5)*100)*0.045;
 
@@ -687,7 +702,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     var leadership6 = ((((osfField6Average + osfField7Average)/2)/5)*100)*0.0045;
                     var leadership7 = ((osfField8Average/5)*100)*0.003;
                     var leadership8 = ((osfField9Average/5)*100)*0.0015;
-                    var leadership9 = 0;
+                    var leadership9 = 0.003;
 
                     var orgresLeadershipGrade = leadership1 + leadership2 + leadership3 + leadership4 + leadership5 + leadership6 + leadership7 + leadership8 + leadership9;
 
