@@ -877,7 +877,7 @@ $trigger$
 
             IF OLD.status = 3 THEN
                 NEW.status = 1;
-            END IF;     
+            END IF;
         END IF;
 
         NEW.dateModified = CURRENT_TIMESTAMP;
@@ -1299,9 +1299,12 @@ CREATE TABLE OrganizationOfficer (
 DROP TABLE IF EXISTS "OrganizationMember" CASCADE;
 CREATE TABLE "OrganizationMember" (
     "id" SERIAL UNIQUE,
+
 	"idNumber" INTEGER,
     "organization" INTEGER REFERENCES StudentOrganization(id),
 	"yearID" INTEGER REFERENCES SchoolYear(id),
+    
+    "name" TEXT,
 	"dateAdded" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
 
 	PRIMARY KEY("idNumber", "organization", "yearID")
@@ -2005,7 +2008,7 @@ CREATE TRIGGER before_insert_ProjectProposalProgramDesign
     BEFORE INSERT ON ProjectProposalProgramDesign
     FOR EACH ROW
     EXECUTE PROCEDURE trigger_before_insert_ProjectProposalProgramDesign();
-    
+
 CREATE OR REPLACE FUNCTION "trigger_after_insert_ProjectProposalProgramDesign"()
 RETURNS TRIGGER AS
 $trigger$
