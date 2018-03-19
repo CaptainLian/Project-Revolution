@@ -131,7 +131,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             orgresModel.getAllActivityResearchForm(),
                             organizationModel.getAllCurrentOrganizationMembers(),
                             //AMT
-                            amtModel.getAllAMTEvaluationResults(dbParam)
+                            amtModel.getAllAMTEvaluationResults(dbParam),
+                            amtModel.getAllAMTScoreAverages(dbParam)
                         ]);
                 }).then(data=>{
 
@@ -771,6 +772,12 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     renderData.newsLettersPublicationsGrade = NewsLettersPublicationsGrade;
                     renderData.onlinePublicityGrade = OnlinePublicityGrade;
                     renderData.pnpCompliance = 0.3;
+
+                    //amt 
+                    renderData.amtActivities = data[9];
+                    renderData.amtAverageScores = data[10];
+                    renderData.amtScore = amtScore;
+                    renderData.amtGrade = amtGrade;
 
 
                     console.log(renderData)
