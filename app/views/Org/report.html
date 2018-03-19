@@ -30,6 +30,7 @@
     {{tag.style('/plugins/bower_components/bootstrap-select/bootstrap-select.min.css')}}
     {{tag.style('/css/style.css')}}
     {{tag.style('/css/custom.css')}}
+    {{tag.style('/css/doms.css')}}
     <!-- color CSS -->
     {{tag.style('/css/colors/default.css', id='theme')}}
 
@@ -102,620 +103,7 @@
     {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js', true)}}
     {{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
     {{tag.javascript('/js/Organization/report.js', true)}}
-
     <script>
-            (function() {
-        [].slice.call(document.querySelectorAll('.sttabs')).forEach(function(el) {
-            new CBPFWTabs(el);
-        });
-      $('#amtTable').dataTable();
-//Start of Online officer survey form results
-     new Chart(document.getElementById("bar-chart1"), {
-        type: 'bar',
-        data: {
-          labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
-          datasets: [
-            {
-              label: "Respondents",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: [100,5267,734,784,433] //number of respondents here
-            }
-          ]
-        },
-        options: {
-          legend: { display: false },
-         
-        }
-    });
-    
-
-    new Chart(document.getElementById("bar-chart2"), {
-        type: 'bar',
-        data: {
-          labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
-          datasets: [
-            {
-              label: "Respondents",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: [2478,5267,734,784,433]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false }
-        }
-    });
-     new Chart(document.getElementById("bar-chart3"), {
-        type: 'bar',
-        data: {
-          labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
-          datasets: [
-            {
-              label: "Respondents",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: [2478,5267,734,784,433]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false }
-        }
-    });
-     new Chart(document.getElementById("bar-chart4"), {
-        type: 'bar',
-        data: {
-          labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
-          datasets: [
-            {
-              label: "Respondents",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: [2478,5267,734,784,433]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false }
-        }
-    });
-     new Chart(document.getElementById("bar-chart5"), {
-        type: 'bar',
-        data: {
-          labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
-          datasets: [
-            {
-              label: "Respondents",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: [2478,5267,734,784,433]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false }
-        }
-    });
-     new Chart(document.getElementById("bar-chart6"), {
-        type: 'bar',
-        data: {
-          labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
-          datasets: [
-            {
-              label: "Respondents",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: [2478,5267,734,784,433]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false }
-        }
-    });
-     new Chart(document.getElementById("bar-chart7"), {
-        type: 'bar',
-        data: {
-          labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
-          datasets: [
-            {
-              label: "Respondents",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: [2478,5267,734,784,433]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false }
-        }
-    });
-     new Chart(document.getElementById("bar-chart8"), {
-        type: 'bar',
-        data: {
-          labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
-          datasets: [
-            {
-              label: "Respondents",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: [2478,5267,734,784,433]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false }
-        }
-    });
-     new Chart(document.getElementById("bar-chart9"), {
-        type: 'bar',
-        data: {
-          labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
-          datasets: [
-            {
-              label: "Respondents",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: [2478,5267,734,784,433]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false }
-        }
-    });
-
-    var data = {
-        datasets: [{
-            data: [10, 20, 30]
-        }],
-
-        // These labels appear in the legend and in the tooltips when hovering different arcs
-        labels: [
-            'Red',
-            'Yellow',
-            'Blue'
-        ]
-    };
-//End of Online officer survey form results
-//Start of Online member survey form results
-     new Chart(document.getElementById("chartm1"), {
-        type: 'bar',
-        data: {
-          labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
-          datasets: [
-            {
-              label: "Respondents",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: [100,5267,734,784,433] //number of respondents here
-            }
-          ]
-        },
-        options: {
-          legend: { display: false },
-         
-        }
-    });
-
-    new Chart(document.getElementById("chartm2"), {
-        type: 'bar',
-        data: {
-          labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
-          datasets: [
-            {
-              label: "Respondents",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: [2478,5267,734,784,433]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false }
-        }
-    });
-     new Chart(document.getElementById("chartm3"), {
-        type: 'bar',
-        data: {
-          labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
-          datasets: [
-            {
-              label: "Respondents",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: [2478,5267,734,784,433]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false }
-        }
-    });
-     new Chart(document.getElementById("chartm4"), {
-        type: 'bar',
-        data: {
-          labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
-          datasets: [
-            {
-              label: "Respondents",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: [2478,5267,734,784,433]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false }
-        }
-    });
-     new Chart(document.getElementById("chartm5"), {
-        type: 'bar',
-        data: {
-          labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
-          datasets: [
-            {
-              label: "Respondents",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: [2478,5267,734,784,433]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false }
-        }
-    });
-     new Chart(document.getElementById("chartm6"), {
-        type: 'bar',
-        data: {
-          labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
-          datasets: [
-            {
-              label: "Respondents",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: [2478,5267,734,784,433]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false }
-        }
-    });
-     new Chart(document.getElementById("chartm7"), {
-        type: 'bar',
-        data: {
-          labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
-          datasets: [
-            {
-              label: "Respondents",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: [2478,5267,734,784,433]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false }
-        }
-    });
-     new Chart(document.getElementById("chartm8"), {
-        type: 'bar',
-        data: {
-          labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
-          datasets: [
-            {
-              label: "Respondents",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: [2478,5267,734,784,433]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false }
-        }
-    });
-     new Chart(document.getElementById("chartm9"), {
-        type: 'bar',
-        data: {
-          labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
-          datasets: [
-            {
-              label: "Respondents",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: [2478,5267,734,784,433]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false }
-        }
-    });
-
-    var data = {
-        datasets: [{
-            data: [10, 20, 30]
-        }],
-
-        // These labels appear in the legend and in the tooltips when hovering different arcs
-        labels: [
-            'Red',
-            'Yellow',
-            'Blue'
-        ]
-    };
-    new Chart(document.getElementById("chartm10"), {
-        type: 'bar',
-        data: {
-          labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
-          datasets: [
-            {
-              label: "Respondents",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: [2478,5267,734,784,433]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false }
-        }
-    });
-
-    var data = {
-        datasets: [{
-            data: [10, 20, 30]
-        }],
-
-        // These labels appear in the legend and in the tooltips when hovering different arcs
-        labels: [
-            'Red',
-            'Yellow',
-            'Blue'
-        ]
-    };
-    new Chart(document.getElementById("chartm11"), {
-        type: 'bar',
-        data: {
-          labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
-          datasets: [
-            {
-              label: "Respondents",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: [2478,5267,734,784,433]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false }
-        }
-    });
-
-    var data = {
-        datasets: [{
-            data: [10, 20, 30]
-        }],
-
-        // These labels appear in the legend and in the tooltips when hovering different arcs
-        labels: [
-            'Red',
-            'Yellow',
-            'Blue'
-        ]
-    };
-    new Chart(document.getElementById("chartm12"), {
-        type: 'bar',
-        data: {
-          labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
-          datasets: [
-            {
-              label: "Respondents",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: [2478,5267,734,784,433]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false }
-        }
-    });
-
-    var data = {
-        datasets: [{
-            data: [10, 20, 30]
-        }],
-
-        // These labels appear in the legend and in the tooltips when hovering different arcs
-        labels: [
-            'Red',
-            'Yellow',
-            'Blue'
-        ]
-    };
-    new Chart(document.getElementById("chartm13"), {
-        type: 'bar',
-        data: {
-          labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
-          datasets: [
-            {
-              label: "Respondents",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: [2478,5267,734,784,433]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false }
-        }
-    });
-
-    var data = {
-        datasets: [{
-            data: [10, 20, 30]
-        }],
-
-        // These labels appear in the legend and in the tooltips when hovering different arcs
-        labels: [
-            'Red',
-            'Yellow',
-            'Blue'
-        ]
-    };
-//End of Online member survey form results
-    //60 40 ratio
-    new Chart(document.getElementById("chart3"),{
-        type: 'pie',
-        data: {
-          labels: ["Academic","Non-Academic"],
-          datasets: [
-            {
-              label: "Respondents",
-              backgroundColor: ["#3e95cd", "#8e5ea2"],
-              data: [2478,5267]
-            }
-          ]
-        },options: {
-          legend: { display: false },
-          title: {
-            display: true }
-        }
-    });
-     //60 40 ratio
-    new Chart(document.getElementById("chart4"),{
-        type: 'pie',
-        data: {
-          labels: ["Academic","Non-Academic"],
-          datasets: [
-            {
-              label: "Respondents",
-              backgroundColor: ["#3e95cd", "#8e5ea2"],
-              data: [2478,5267]
-            }
-          ]
-        },options: {
-          legend: { display: false },
-          title: {
-            display: true }
-        }
-    });
-     //Activity Summary
-     // color scheme
-    // FF685B - Academic Contest
-    // B153E8 - Distribution
-    // 5BA0FF - General Assembly
-    // 47E89A - Seminar/ Workshops
-    // D3FF5B - Publicity/ Awareness Campaign
-    // FF9F5A - Meetings
-    // 795AFF - Spiritual Activity
-    // 47D0E8 - Recruitment/ Audition
-    // 5AFF62 - Recreation
-    // E852A2
-    new Chart(document.getElementById("chart5"),{
-        type: 'pie',
-        data: {
-          labels: ["Academic Contest","Distribution","General Assembly",
-                    "Seminar/ Workshops","Publicity/ Awareness Campaign","Meetings",
-                    "Spiritual Activity","Recruitment/ Audition","Recreation"],
-          datasets: [
-            {
-              label: "Respondents",
-              backgroundColor: ["#FF685B", "#B153E8","#5BA0FF","#47E89A",
-                                "#D3FF5B","#FF9F5A","#795AFF","#47D0E8",
-                                "#5AFF62"],
-              data: [2478,5267,5267,5267,5267,5267,5267,5267,5267]
-            }
-          ]
-        },options: {
-          legend: { display: false },
-          title: {
-            display: true }
-        }
-    });
-
-    //amt charts
-    new Chart(document.getElementById("chartamt1"), {
-        type: 'bar',
-        data: {
-          labels: ["venue", "equipment"],
-          datasets: [
-            {
-              label: "Average Grade",
-              backgroundColor: ["#3e95cd", "#8e5ea2"],
-              data: [4.7,3.6]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false },
-          scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }]
-            }
-        }
-    });
-    //activity process
-    new Chart(document.getElementById("chartamt2"), {
-        type: 'bar',
-        data: {
-          labels: ["Opening Start", "Time end", "Activity Execution", "Registration"],
-          datasets: [
-            {
-              label: "Average Grade",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9"],
-              data: [3.14,4.9,4.7,3]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false },
-          scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }]
-            }
-        }
-    });
-    //gen assembly
-    new Chart(document.getElementById("chartamt3"), {
-        type: 'bar',
-        data: {
-          labels: ["Hosts", "Ushers", "Presentations", "Activities", "Standing Presentations"],
-          datasets: [
-            {
-              label: "Average Grade",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: [5,5,2.5,5,3]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false },
-          scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }]
-            }
-        }
-    });
-    
-    //audience feedback
-    new Chart(document.getElementById("chartamt6"), {
-        type: 'bar',
-        data: {
-          labels: ["Announcements", "Awareness", "Interaction", "Interest", "Expectation", "Relevance", "Learning"],
-          datasets: [
-            {
-              label: "Average Grade",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#FF685B", "#B153E8","#5BA0FF"],
-              data: [4.2,4.4,5,4.9, 8.5, 7.5, 5.5]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false },
-          scales: {
-        yAxes: [{
-            ticks: {
-                beginAtZero: true
-            }
-        }]
-    }
-        }
-    });
-    // When the user scrolls down 20px from the top of the document, show the button
         window.onscroll = function() {scrollFunction()};
 
         function scrollFunction() {
@@ -731,147 +119,9 @@
             document.body.scrollTop = 0;
             document.documentElement.scrollTop = 0;
         }
-    })();
-
-
     </script>
-<!-- 
-<script >
-        
 
 
-    var ctx3 = document.getElementById("chart3").getContext("2d");
-    var data3 = [
-        {
-            
-            value:25,
-            color:"#01579b",
-            highlight: "#0277bd",
-            label: "Academic"
-        },
-        {
-            value:25,
-            color: "#edf1f5",
-            highlight: "#FB9678",
-            label: "Non-Academic"
-        }
-    ];
-
-    var myPieChart = new Chart(ctx3).Pie(data3,{
-        segmentShowStroke : true,
-        segmentStrokeColor : "#fff",
-        segmentStrokeWidth : 0,
-        animationSteps : 100,
-        tooltipCornerRadius: 0,
-        animationEasing : "easeOutBounce",
-        animateRotate : true,
-        animateScale : false,
-
-        responsive: true
-    });
-
-
-    var ctx4 = document.getElementById("chart4").getContext("2d");
-    var data4 = [
-        {
-            value:25,
-            color: "#b8edf0",
-            highlight: "#b8edf0",
-            label: "pushed through"
-        },
-        {
-            value:25,            
-            color: "#006064",
-            highlight: "#00838f",
-            label: "not pushed through"
-        }
-    ];
-
-    var myPieChart = new Chart(ctx4).Pie(data4,{
-        segmentShowStroke : true,
-        segmentStrokeColor : "#fff",
-        segmentStrokeWidth : 0,
-        animationSteps : 100,
-        tooltipCornerRadius: 0,
-        animationEasing : "easeOutBounce",
-        animateRotate : true,
-        animateScale : false,
-
-        responsive: true
-    });
-
-    var ctx5 = document.getElementById("chart5").getContext("2d");
-    var data5 = [
-        {
-            value: 50,
-            color: "#FF443C",
-            highlight: "#FF443C",
-            label: "Academic Contest"
-        },
-        {
-            value: 100,
-            color: "#9837E8",
-            highlight: "#9837E8",
-            label: "Distribution"
-        },
-        {
-            value: 100,
-            color: "#3C9EFF",
-            highlight: "#3C9EFF",
-            label: "General Assembly"
-        },
-        {
-            value: 100,
-            color: "#2BE87B",
-            highlight: "#2BE87B",
-            label: "Seminar/Workshop"
-        },
-        {
-            value: 100,
-            color: "#E1FF3C",
-            highlight: "#E1FF3C",
-            label: "Publicity"
-        },
-        {
-            value: 100,
-            color: "#4C53FF",
-            highlight: "#4C53FF",
-            label: "Meetings"
-        },
-        {
-            value: 100,
-            color: "#45E8DC",
-            highlight: "#45E8DC",
-            label: "Spiritual Activity"
-        },
-        {
-            value: 100,
-            color: "#E8DD42",
-            highlight: "#E8DD42",
-            label: "Recruitment"
-        },
-        {
-            value: 100,
-            color: "#E83658",
-            highlight: "#E83658",
-            label: "Recreation"
-        },
-    ];
-
-    var myPieChart = new Chart(ctx5).Pie(data5,{
-        segmentShowStroke : true,
-        segmentStrokeColor : "#fff",
-        segmentStrokeWidth : 0,
-        animationSteps : 100,
-        tooltipCornerRadius: 0,
-        animationEasing : "easeOutBounce",
-        animateRotate : true,
-        animateScale : false,
-
-        responsive: true
-    });
-
-</script> -->
 
     <!-- /Page Scripts -->
 {%endblock%}
@@ -1511,9 +761,6 @@
                                                 </div>
                                             </div>
                                             <div class="row row-in">
-                                            
-                                                
-                                            
                                                 <div class="col-lg-3 col-sm-6  row-in-br  b-r-none">
                                                     <div class="col-in row">
                                                         <div class="col-md-6 col-sm-6 col-xs-6 text-center">
@@ -1731,27 +978,100 @@
                                             <!--/ADM -->
                                         </section>
                                         <section id="section-bar-4">
+                                        <div class="row row-in">
+
+                                            
+                                            <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
+                                                <div class="col-in row">
+                                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                                        <h5 class="text-muted vb">Monitoring</h5>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                                        <h3 class="counter text-right m-t-15 text-megna">50%</h3>
+                                                    </div>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                                        <div class="progress">
+                                                            <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
+                                                <div class="col-in row">
+                                                    <div class="col-md-6 col-sm-6 col-xs-6 ">
+                                                        <h5 class="text-muted vb">Generation</h5>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                                        <h3 class="counter text-right m-t-15 text-megna">20%</h3>
+                                                    </div>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                                        <div class="progress">
+                                                            <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-sm-6  b-0">
+                                                <div class="col-in row">
+                                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                                        <h5 class="text-muted vb">Allocation</h5>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                                        <h3 class="counter text-right m-t-15 text-megna">30%</h3>
+                                                    </div>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                                        <div class="progress">
+                                                            <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-lg-3 col-sm-6  row-in-br  b-r-none">
+                                                <div class="col-in row">
+                                                    <div class="col-md-6 col-sm-6 col-xs-6 text-center">
+                                                        <div data-icon="&#xe013;" class="linea-icon linea-basic text-center"></div>
+                                                        <h5 class="text-muted vb">Finance Grade</h5>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                                        <h3 class="counter text-right m-t-15 text-warning">10%</h3>
+                                                    </div>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                                        <div class="progress">
+                                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
                                         <table class="table table-striped" id="finTable">
                                                     <thead>
                                                         <tr>
+                                                            <th>As of</th><!--date approved-->
                                                             <th>Activity</th>
-                                                            <th>Activity Type</th>
-                                                            <th>Date</th>
-                                                            <th>Grade</th>
+                                                            <th>Process Type</th>
+                                                            <th>Expense</th>
+                                                            <th>Income</th>
+                                                            <th>Balance</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <tr>
-                                                            <td>Sample Activity </td>
-                                                            <td>General Assembly</td>
-                                                            <td>9/18/2015</td>
-                                                            <td>86.90%</td>
+                                                            <td>9/18/2015</td> <!--date approved-->
+                                                            <td>Junior Officer Training</td>
+                                                            <td>Cash Advance</td>
+                                                            <td>2,659.25</td>
+                                                            <td>49,920.00</td>
+                                                            <td>383,190.37</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>Sample Activity </td>
-                                                            <td>General Assembly</td>
-                                                            <td>9/18/2015</td>
-                                                            <td>90.90%</td>
+                                                            <td>9/18/2015</td> <!--date approved-->
+                                                            <td>Junior Officer Training</td>
+                                                            <td>Cash Advance</td>
+                                                            <td>2,659.25</td>
+                                                            <td>49,920.00</td>
+                                                            <td>383,190.37</td>
                                                         </tr>
                                                         <!-- amt grade ay average ng percentage ng lahat ng evaluated activity -->
                                                         
@@ -1760,8 +1080,10 @@
                                                         <tr>
                                                             <td></td>
                                                             <td></td>
-                                                            <td><strong>AMT Grade</strong></td>
-                                                            <td><strong>88.90%</strong></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td><strong>Organization Fund</strong></td>
+                                                            <td><strong>383,190.37</strong></td>
                                                         </tr>
                                                     </tfoot>
                                                 </table>
@@ -1784,9 +1106,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="row row-in">
                                             <h3 class="text-megna text-center col-md-12"><strong>Evaluated Activities</strong></h3>
-                                                <table class="table table-striped" id="amtTable">
+                                            <table class="table table-striped" id="amtTable">
                                                     <thead>
                                                         <tr>
                                                             <th>Activity</th>
@@ -1805,7 +1126,12 @@
                                                                 <td>{{activity.amtgrade}}%</td>
                                                             </tr>
                                                         {% endfor %}
-                                                        
+                                                        <tr>
+                                                                <td>{{activity.activityname}} </td>
+                                                                <td>{{activity.activitytype}}</td>
+                                                                <td>{{activity.dateevaluated}}</td>
+                                                                <td>{{activity.amtgrade}}%</td>
+                                                            </tr>
 
 
                                                         <!-- amt grade ay average ng percentage ng lahat ng evaluated activity -->
@@ -1820,6 +1146,9 @@
                                                         </tr>
                                                     </tfoot>
                                                 </table>
+                                            <div class="row row-in col-md-12">
+                                            
+                                                
                                                 <div class="row col-md-12" >
                                                     <div class="col-md-12">
                                                         <h3 class="text text-megna col-md-12 text-center"><strong>Statistics</strong></h3>
@@ -1898,5 +1227,4 @@
                         
                     </div>
                 </div>
-
 {%endblock%}
