@@ -39,7 +39,7 @@ INSERT INTO public."Building"(
 
 INSERT INTO public."Building"(
             id, name)
-    VALUES (2, 'Don Enrique Yuchengco Building');   
+    VALUES (2, 'Don Enrique Yuchengco Building');
 
 INSERT INTO public."Building"(
             id, name)
@@ -71,7 +71,7 @@ INSERT INTO public."Building"(
 
 INSERT INTO public."Building"(
             id, name)
-    VALUES (10, 'STRC Building');    
+    VALUES (10, 'STRC Building');
 
 INSERT INTO public."Building"(
             id, name)
@@ -84,7 +84,7 @@ INSERT INTO public."Building"(
 INSERT INTO public."Building"(
             id, name)
     VALUES (13, 'Henry Sy Building');
-    
+
 INSERT INTO public."Building"(
             id, name)
     VALUES (14, 'Others');
@@ -1297,13 +1297,159 @@ YzHusqxgGvoiJVkUQgkCQGXabuOyLicPFhwAVhlUkXHUgGd7KNsSFASAvjeBbsJp
 4F8HMpP+ChUqgW10mdON7mhsXoziRTmAnlLkYKOYlEw=
 -----END RSA PRIVATE KEY-----', 1, 1);
 
+
+-- ORG 2 ACCOUNTS
+INSERT INTO Account(email, idNumber, password, firstname, lastname, contactNumber, publicKey, privateKey, type)
+        VALUES('org2_president@dlsu.edu.ph', 2111111, '1234', 'Organization2', 'President', '6312312412', '-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC4rJy2UFtNdHu+W1DEQ8AlXeAt
+lcqnpBSUE/uP1V1xrOybXpkNba0sp5HCE0oKWlI5C3c4tUcW3DdvOCjsIIH1foJ6
+iXsLbjhpfG3BQBNdlUFT/uoeOFwCWALw+Iw2stNvaFLcJqU0sOmOhD4z8MTh4gwr
+wgXZLPlVyHxGuufO9QIDAQAB
+-----END PUBLIC KEY-----', '-----BEGIN RSA PRIVATE KEY-----
+MIICXgIBAAKBgQC4rJy2UFtNdHu+W1DEQ8AlXeAtlcqnpBSUE/uP1V1xrOybXpkN
+ba0sp5HCE0oKWlI5C3c4tUcW3DdvOCjsIIH1foJ6iXsLbjhpfG3BQBNdlUFT/uoe
+OFwCWALw+Iw2stNvaFLcJqU0sOmOhD4z8MTh4gwrwgXZLPlVyHxGuufO9QIDAQAB
+AoGBAI51ub56ZrRtczf5QWjlysgIjvMbZmXEEYvZjmn6ckdK2otQgkj1nm2gJrTM
+JIWv/1W6HpJEZT6hSrIlZIwi15y1ndX+37qH9NwcZqLhRl4xAtlDbzQErHgIAZNP
+9PlOR9eti6suvJkOj887wj1J6jZzfbANJXhOyYBaWFDePt9RAkEA5oBtpa/xDJIf
+5+O6/SzPDEP2qyMcJqruf+RwbuqMSMAGjS+/iwrWmwH2XPFiaHxTzXJVL4uJrYwj
+m6qW8kMnGwJBAM0aZgcHJr0Kyo5jV2wxmnfjsLReuBQ9yKf3Jom2CRvyhrRaQwTZ
+Dpwwe283oG8b+O+dciJ7QVFwZo3/gcWv8y8CQQC3eWbNydxviyjGZikDOVWdh8Oi
+uZHA3bJ2LpmoUB5WEjOk0mr+/COSwt8dYC5ayQvTrrxL2iA++hul3wXD1NwdAkEA
+kkH266AP4dKmKu9wUfj1W/UD9ztsLRL52b0GwEENMd66bDXJgNV/86UnAGI8h778
+v3IZB7m5FGgA2dWQJvaXhQJAffuC6I3UurV+ZUEPPmrNkq86AKUHCIdSIqVP1iF3
+3n4DR+xpWj0DItgiGWV+vdfqFxghu+4HpeVhpTY1jtVjMQ==
+-----END RSA PRIVATE KEY-----', 1);
+
+INSERT INTO Account(email, idNumber, password, firstname, lastname, contactNumber, publicKey, privateKey, type)
+        VALUES('org2_vp_internal@dlsu.edu.ph', 2111112, '1234', 'Organization2', 'VP - Internal', '6312312412', '-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCFQ92Jxf+nEJ0M3yaSg6AEwA+8
+1sEGse39TOM0+m5yOCVf7NoWJcrQBjayEXr2IetBTLh4NwZkeVlI0TN+Ekaz9q5f
+DKeatUg278bqJqPf+Wgdh2+0D9K3TytfAX9shtGFJkP/1SIMw+ODQuo3uUlExPDA
+pmy+d4D7v1WgUb79LwIDAQAB
+-----END PUBLIC KEY-----', '-----BEGIN RSA PRIVATE KEY-----
+MIICWwIBAAKBgQCFQ92Jxf+nEJ0M3yaSg6AEwA+81sEGse39TOM0+m5yOCVf7NoW
+JcrQBjayEXr2IetBTLh4NwZkeVlI0TN+Ekaz9q5fDKeatUg278bqJqPf+Wgdh2+0
+D9K3TytfAX9shtGFJkP/1SIMw+ODQuo3uUlExPDApmy+d4D7v1WgUb79LwIDAQAB
+AoGAIHQeh2bIk47gMDpH0nZribycGIjUCSVbp8wJqOUz8Gzr7ShpE+uwMGjS+Rp4
+r2gjOovMgLolvGIw9CK+P32D6gKgDREwWP+NvOY977HHKMtAPA4SRwAPJU4boAJw
+KiysLR9X3S/FiYXp21i1araXV2tscLdEkmEIEsOYrAPJIgECQQDwA2RK2FdkCYXd
+2JHJH70OUAQIW5ZbEJXXqQ7pO3Xp/n0mnCJz9o5nixwrI3KTWLITOpE4Em0lJH5b
+rnwC11nPAkEAjiQ/Y4kJUWS7RZlNNLqAz30ZZS89G3HYHIPBLS3Rc0Zc4/yctjPx
+Jwm4ysWPciEcNbEdR0IqvFCfl5FVYjLeoQJAZdjqnCAFpXutBKC77F69eO9XZryG
+pwn4q9UfcLU8qhjFvraOoCrF7wZG479dBU2j8yjtKqAXFKXRwNHf6cy8XQJAYzTf
+XSwu6bUhk9EMdsnYz3hjuiB/SOFrUXOP52V8MzWf7avJAM49+N4rMLM0jBaZ5suI
+QMzooOiwiovwCQqyIQJAUmw0ZcnzmAECb1x8umovIi65tdsI00FBDPU+nz/dJQ2j
+Kpn+OFihMZYue8HK51G2AMj8ufFhxvKoeIRPRq3+Ug==
+-----END RSA PRIVATE KEY-----', 1);
+
+
+
+INSERT INTO Account(email, idNumber, password, firstname, lastname, contactNumber, publicKey, privateKey, type)
+        VALUES('org2_vp_documentation@dlsu.edu.ph', 2111113, '1234', 'Organization2', 'VP - Documentation', '612424515','-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDIyvifYGHNb54ZF8wUankon5d6
+cAKy3eXhiS4GdCcpWPMnzfU2Dj+6gVbB2hIDNyZsPSmXD8NWcLCepPqfOrwigGXb
+BGzRYeXtgNYMlpUYk5b+9XhQ25uP8/XNBYVs7/9Mh0ONarGN3TjvL7orOAh6VWy7
+mTuU9jnyflD7mRlopQIDAQAB
+-----END PUBLIC KEY-----', '-----BEGIN RSA PRIVATE KEY-----
+MIICXAIBAAKBgQDIyvifYGHNb54ZF8wUankon5d6cAKy3eXhiS4GdCcpWPMnzfU2
+Dj+6gVbB2hIDNyZsPSmXD8NWcLCepPqfOrwigGXbBGzRYeXtgNYMlpUYk5b+9XhQ
+25uP8/XNBYVs7/9Mh0ONarGN3TjvL7orOAh6VWy7mTuU9jnyflD7mRlopQIDAQAB
+AoGACzH15rzy9wdQI0oGYOUG2FL9mSABpoNku8xwOn/jZxTEieWb1GW6++UWNzy3
+YGKEy+glF30TgRBLaKz+JD6cGp8R0+o/kFT9pPazWy5fuKoTxEmsXlqm+IO6gBxz
+rQKIhiI2Bwzwu2B2MDzfzhM9O/z4ZuP7Iyb16HQ8aNokgQkCQQDjRDO+uPrpGU4d
+zukEth/TgsF6u9SU/s7iKdNeqYmRFwey6Dh1JRLZb/5zU3cVB+nqh6ROt0MGA20e
+ZRYuy2dzAkEA4i3qPpfF5hhKcx6MHlk5XCSb0dheFBN+mnuyi0UoA9yXltUl83ZR
+vFqd2a7wdJnFFqe6XUqC1WAtglShRy35hwJBANayH5AVgDOlTD6ssUVaKEbQR6eC
+uhjnftn5WU0cLHF8qDFDX9KK63uuaVrZhq2/hCOjcH1Mc2zC39rO9F3QmjECQDDb
+tEczJ/fNdX+qsJ/5rC9gZRyOfbweffHHGMmG9d7nrwNRJfKSs5NZi9GzPZQih3We
+Y961Ms//B7WorHIg108CQF+Drrof608PluO6xjEW9GqG9bWmXY3lj7JVxrdRzaIT
+gtrnlHS0iq2WG9fcmONPTzL43dP1MABmrL49+nSIcwI=
+-----END RSA PRIVATE KEY-----', 1);
+
+INSERT INTO Account(email, idNumber, password, firstname, lastname, contactNumber, publicKey, privateKey, type)
+        VALUES('org2_avp_documentation@dlsu.edu.ph', 2111114, '1234', 'Organization2', 'AVP - Documentation', '612424515','-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCV+WSPPbpj1JFi/mGLrBBG33zP
+rC3x8ZH1/uyqJTwZ29eQ+P3Z6FCCKCld4jzKOqANowD3XjDMBnRMMB3bVbJYHzKQ
+61LOPZfwNgBw3m0WBzURlBbltFiIyTulSEuEFZGgV4YABnE11VqBZ7085ljmcJlV
++6oAoC4KMw6ZSBJfvwIDAQAB
+-----END PUBLIC KEY-----', '-----BEGIN RSA PRIVATE KEY-----
+MIICXQIBAAKBgQCV+WSPPbpj1JFi/mGLrBBG33zPrC3x8ZH1/uyqJTwZ29eQ+P3Z
+6FCCKCld4jzKOqANowD3XjDMBnRMMB3bVbJYHzKQ61LOPZfwNgBw3m0WBzURlBbl
+tFiIyTulSEuEFZGgV4YABnE11VqBZ7085ljmcJlV+6oAoC4KMw6ZSBJfvwIDAQAB
+AoGAL0FXyDKhCleuP8z7m3Dp6Ar/XshX6cY+QY7Dr5Dv8Q3uTIXIJuMmivxwnF5u
+3SG/0Mwtv8P0CDV4a5E1tyi3esS06icHviHfCPd6akVPxRrPRFcIMdp0GODzAwFh
+STtwZ2K60KMOr9Ho39yDBqMZDFRQhLRsqf2CeWb7FRND2xECQQDYP/UV5Ypchl+r
+igPbGreIXAQyEsUF9XJ1j5b+oom7W1OgFh9r5NE7WSTAs+jVaPtAByzzLnjRHFsw
+KHUYkmJjAkEAsYq13keWn0ZwsuKBvorLqDmJeV2ZUloFVHErkJe2rhhplnVQrM4p
+PKWG7ybYEaKkb102SU1ofdzC894h02cd9QJBAL4n938KupFEBAqWsW9Q3gTFTVcu
+1Bu6Sqz/1/oPuWeMFkwWSAkbS7WRXNUrHtnSl+Ukqi0pN0pCUhlV6inyRxsCQHyz
+D6BrKcj/QcLzQuvhMsAagYuECV+FKP8xacbqOH45WVg7WAm319Dn9kldQB/K27H4
+h1ufCgh1GV0OJTYF1E0CQQCrbEqZDEz60to9yz7B5ZIsjTxZZ5vel7tglcs9WeFR
+kFcuI3xRNAlNyTRFJs+aNXceKlUeJlI3Ayyp/q+d4vWI
+-----END RSA PRIVATE KEY-----', 1);
+
+INSERT INTO Account(email, idNumber, password, firstname, lastname, contactNumber, publicKey, privateKey, type)
+        VALUES('org2_vp_finance@dlsu.edu.ph', 2111115, '1234', 'Organization2', 'VP - Finance','612424515', '-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDYNkv/DXLS7fhRRLcG7heWNHKD
+/ye9abmaI9nQYfn42EEMihiIC+GqLI2pKcVBSSjLCXeUHnUvP5J/NafkVmBrYZaF
+be4uf1UNPf1/D4ORz0+18gIhDD3L5KnAq/mZCRoStYG9TAsQX4PBBwg8+Mt2WH3a
+UgY0Yfen0N0vn+n4qwIDAQAB
+-----END PUBLIC KEY-----', '-----BEGIN RSA PRIVATE KEY-----
+MIICXAIBAAKBgQDYNkv/DXLS7fhRRLcG7heWNHKD/ye9abmaI9nQYfn42EEMihiI
+C+GqLI2pKcVBSSjLCXeUHnUvP5J/NafkVmBrYZaFbe4uf1UNPf1/D4ORz0+18gIh
+DD3L5KnAq/mZCRoStYG9TAsQX4PBBwg8+Mt2WH3aUgY0Yfen0N0vn+n4qwIDAQAB
+AoGAP/CGtu2OOGyhk78DdWwx03y9JOXvJae/eKMDhgmDeCDT09Z+/LSuzrmQRyeQ
+Kwdspeat00LSmt9s/muqs+8LYgrW3DsOx2IO/Vs4+sfAoBMD2cHkmUWgKNeaW1ph
+vrFNcpf97uxjjZu+9kIk5BvUwgJI5nv6tg4yB9JVrdy5UDkCQQD2A5DFawzQlC8R
+pmPtZsS2xen0ocO96NnDVekb7eIc5UI7/YYRLtYN7wj/8vAzYHQvmPHrCvKvUsnV
+ylrA1XZ/AkEA4P0MRtU7UrWfJrIWl8w0CXEL6RwBto6OdanEFUghc302lhEkRWGj
+CMDSseJnKoG+L8b0CnN++YjZ2tMBAosf1QJAFZK8eENp7USBWCfiLWhMqcZzPKuO
+0bGAnxuChJt4r5X/F+mkfw8/YBttC5zPKYI0zhO4aycbnvpAjsne6XgOmwJBAKEB
+9isqpY2HFCHpCGoRZJvtHozv0foHAsQJfZ2NRQMU9F9oXQCZ4sZ810sdrp6owqYG
+RtbD2HZTDTSgE/TyAxECQE7Run0VOT6BNBsP9RlLX6/CBGWb0X7/nb2BpoKJOiry
+/cf+JtbPWuQMzJI2DtBOJDFqZvS4d3Dd/xi2J2vXKR0=
+-----END RSA PRIVATE KEY-----', 1);
+
+INSERT INTO Account(email, idNumber, password, firstname, lastname, contactNumber, publicKey, privateKey, type)
+        VALUES('org2_avp_finance@dlsu.edu.ph', 2111116, '1234', 'Organization2', 'AVP - Finance', '612424515', '-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCAzi5o0Zsng2PmPXBWjMtz+Ra9
+f8OR3cA0LEsgH1zq61xOVcNPPokAV65jyvSZTpoVm8JQtAErYQkWWgF7o7nF2haJ
+iWCky6edWuBclYDAyWNpwL9kAAox76KVVRnlRDFYLm/pqZBMRvzdqTBfGkD1GsSn
+fZibfHtWczJ3qtPsVwIDAQAB
+-----END PUBLIC KEY-----', '-----BEGIN RSA PRIVATE KEY-----
+MIICXAIBAAKBgQCAzi5o0Zsng2PmPXBWjMtz+Ra9f8OR3cA0LEsgH1zq61xOVcNP
+PokAV65jyvSZTpoVm8JQtAErYQkWWgF7o7nF2haJiWCky6edWuBclYDAyWNpwL9k
+AAox76KVVRnlRDFYLm/pqZBMRvzdqTBfGkD1GsSnfZibfHtWczJ3qtPsVwIDAQAB
+AoGAXORVVALWgoifY0yr179yexEI9WFPCcOC+h13kJMNz94tk9EGKgBPjY+ulQmp
+nWayeSL74Hfw3/f7NcNzjldlgeQwtik0cmcyltKAdnO86tZwj9liax0/QGSxxM6u
+ryj9bw18KSQaqVguqT9ukr69zpN7/ZnrpGi68LezFIn07AECQQDEQv7r1MdFQKXm
+lVIo23fh3M6VcVFXlvYrliKrlfDLAwvWB0QMOje5PJo7kTEZuoq1oaSBYIV4ccHA
+PrmUB3pRAkEAqALjvK/wyaAARCf7D/xNIfYFBDVDXSvWLSh5l7sVczg4hvjnTZYj
+LyjFK/nnNq+YO3tQhA4mi2hAXMoUEu8qJwJAUD+Ilos5M5Lcguz5XCVo3lx3x9k+
+xk6+t1G7OWekvo2vUENGSq2fTUl/Uu3qIrgIsX23kwMRcA8rhtze6q0oEQJBAKAR
+uLXhjnAaX4aP7NPLFhXAFgFvWZHgHPsDL+2OkZ4ntzto0r6Jx1W76za9rjrcyxYI
+o6pc7P4uwftlkACGGksCQCSv7IVwaKqcLYglwNgZRSFnkUlfU4bnFntlgNAbH/3x
+sxoqKQTWVqw038LwcLCp7OmZKjwwjc72lzxwKdM//dU=
+-----END RSA PRIVATE KEY-----', 1);
+
+
 INSERT INTO OrganizationOfficer (idNumber, role, yearID, dateAssigned)
+                        /* ORG 1*/
                   VALUES (1111111, 10023, system_get_current_year_id(), CURRENT_TIMESTAMP),
                          (1111112, 10026, system_get_current_year_id(), CURRENT_TIMESTAMP),
                          (1111113, 10027, system_get_current_year_id(), CURRENT_TIMESTAMP),
                          (1111114, 10028, system_get_current_year_id(), CURRENT_TIMESTAMP),
                          (1111115, 10029, system_get_current_year_id(), CURRENT_TIMESTAMP),
                          (1111116, 10030, system_get_current_year_id(), CURRENT_TIMESTAMP),
+
+                         /* ORG 2*/
+                         (2111111, 380356, system_get_current_year_id(), CURRENT_TIMESTAMP),
+                         (2111112, 380359, system_get_current_year_id(), CURRENT_TIMESTAMP),
+                         (2111113, 380360, system_get_current_year_id(), CURRENT_TIMESTAMP),
+                         (2111114, 380361, system_get_current_year_id(), CURRENT_TIMESTAMP),
+                         (2111115, 380362, system_get_current_year_id(), CURRENT_TIMESTAMP),
+                         (2111116, 380363, system_get_current_year_id(), CURRENT_TIMESTAMP),
 
                          (1011117, 0, system_get_current_year_id(), CURRENT_TIMESTAMP),
                          (1011118, 2, system_get_current_year_id(), CURRENT_TIMESTAMP),

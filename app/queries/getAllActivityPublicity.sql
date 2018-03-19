@@ -1,4 +1,4 @@
-SELECT * 
+SELECT *, AP.status as publicitystatus
   FROM "ActivityPublicity" AP JOIN GOSMACTIVITY GA
 				ON AP."GOSMActivity"=GA.id
 			      JOIN GOSM G

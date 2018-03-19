@@ -197,9 +197,11 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				ifidta: req.body.radio3,
 				tawwp: req.body.radio4,
 				toumtgtta: req.body.radio5,
+				field6: req.body.radio6,
+				field7: req.body.radio7,
 				wwwita: req.body.wentwell,
 				fac: req.body.feedback,
-				effa: req.body.expectations
+				effa: req.body.expectations,
 			};
 
 			orgresModel.insertActivityResearchForm(dbParam).then(data=>{
@@ -255,7 +257,11 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				field6: req.body.radio6,
 				field7: req.body.radio7,
 				field8: req.body.radio8,
-				field9: req.body.radio9
+				field9: req.body.radio9,
+				field10: req.body.radio10,
+				field11: req.body.radio11,
+				field12: req.body.radio12,
+				field13: req.body.radio13
 			};
 
 			orgresModel.insertMemberSurveyForm(dbParam).then(data => {

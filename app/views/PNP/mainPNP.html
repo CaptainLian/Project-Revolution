@@ -1,0 +1,196 @@
+{% extends '../template/CSO_master.html' %} 
+{% import '../template/tags_macro.html' as tag %} 
+ 
+{%block page_title%}CSO - View Publicity Materials{%-endblock%} 
+ 
+{%block meta%} 
+    {{super()}} 
+    <meta data-name="csrf" data-token="{{csrfToken}}" /> 
+{%endblock%} 
+ 
+ 
+{%block style%} 
+    {{super()}} 
+    <!-- Bootstrap Core CSS --> 
+    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}} 
+    {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}} 
+    {{tag.style('/plugins/bower_components/datatables/jquery.dataTables.min.css')}} 
+    {{tag.style('/plugins/bower_components/nestable/nestable.css')}} 
+    {{tag.style('https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css')}} 
+    {{tag.style('https://cdnjs.cloudflare.com/ajax/libs/nestable2/1.5.0/jquery.nestable.min.CSS')}} 
+ 
+    <!-- Menu CSS --> 
+    {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}} 
+    <!-- animation CSS --> 
+    {{tag.style('/css/animate.css')}} 
+    <!--alerts CSS --> 
+    {{tag.style('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.css')}} 
+    <!-- Custom CSS --> 
+    {{tag.style('/plugins/bower_components/Magnific-Popup-master/dist/magnific-popup.css')}} 
+    {{tag.style('/plugins/bower_components/custom-select/custom-select.css')}} 
+    {{tag.style('/plugins/bower_components/bootstrap-select/bootstrap-select.min.css')}} 
+    {{tag.style('/css/style.css')}} 
+    {{tag.style('/css/doms.css')}} 
+    {{tag.style('/css/custom.css')}} 
+    <!-- color CSS --> 
+    {{tag.style('/css/colors.css')}} 
+ 
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries --> 
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// --> 
+    <!--[if lt IE 9]> 
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script> 
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script> 
+    <![endif]--> 
+    <!-- IMPORTANT --> 
+    <style type="text/css"> 
+        .remove:{ 
+            color: yellow 
+        } 
+        .fixed { 
+            width: 500px; 
+            position: fixed; 
+            bottom: 0;  
+            right: 0; 
+            /*transform: translate(-50%,0);*/ 
+ 
+            margin: 0px; 
+            padding: 0px; 
+            z-index:2  
+ 
+        } 
+        .sweet-alert fieldset { 
+             
+            display: none; 
+        } 
+        .tabs-style-linebox nav a:hover{ 
+            color: #00c292;  
+            text-decoration-color:#00c292 !important; 
+        } 
+        a:focus::after,  
+        .tabs-style-linebox nav a:hover::after,  
+        .tabs-style-linebox nav li.tab-current a::after{ 
+            background: #00c292; 
+            text-decoration-color:#00c292 !important; 
+        } 
+        .tabs-style-linebox nav a:focus::after,  
+        .tabs-style-linebox nav a:hover::after,  
+        .tabs-style-linebox nav li.tab-current a::after{ 
+            background: #00c292; 
+            text-decoration-color:#00c292 !important; 
+        } 
+        .custom-class:focus { overflow: hidden; } 
+    </style> 
+     {{tag.style('/plugins/bower_components/custom-select/custom-select.css')}} 
+    {{tag.style('/plugins/bower_components/bootstrap-select/bootstrap-select.min.css')}} 
+{%endblock%} 
+     
+{%block defer_script%} 
+    {{super()}} 
+    <!-- jQuery --> 
+    {{tag.javascript('https://code.jquery.com/jquery-3.2.1.min.js', true)}} 
+    <!-- Bootstrap Core JavaScript --> 
+    {{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}} 
+    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}} 
+    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}} 
+    <!-- Menu Plugin JavaScript --> 
+    {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}} 
+    <!--slimscroll JavaScript --> 
+    {{tag.javascript('/js/jquery.slimscroll.js', true)}} 
+    <!--Wave Effects --> 
+    {{tag.javascript('/js/waves.js', true)}} 
+    <!-- Custom Theme JavaScript --> 
+    {{tag.javascript('/js/custom.min.js', true)}} 
+ 
+    {{tag.javascript('/plugins/bower_components/custom-select/custom-select.min.js', true)}} 
+    {{tag.javascript('/plugins/bower_components/bootstrap-select/bootstrap-select.min.js', true)}} 
+ 
+ 
+ 
+    {{tag.javascript('/js/cbpFWTabs.js', true)}} 
+    <!-- tabs--> 
+ 
+    {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}} 
+    <!-- Sweet-Alert  --> 
+     {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js', true)}} 
+    <!--Style Switcher --> 
+    {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}} 
+ 
+    {{tag.javascript('/plugins/bower_components/sweetalert/jquery.sweet-alert.custom.js', true)}} 
+ 
+ 
+    {{tag.javascript('/plugins/bower_components/Magnific-Popup-master/dist/jquery.magnific-popup.min.js', true)}} 
+    {{tag.javascript('/plugins/bower_components/Magnific-Popup-master/dist/jquery.magnific-popup-init.js', true)}} 
+    {{tag.javascript('/js/system/AJAX_CSRF.js', true)}} 
+    {{tag.javascript('/js/ADM/viewActivityToCheck.js', true)}} 
+ 
+ 
+<script type="text/javascript"> 
+    $('#myTable3').dataTable(); 
+</script> 
+{%endblock%} 
+ 
+{%block content%} 
+<div class="row"> 
+    <div class="col-md-4 col-xs-12 col-sm-6"> 
+        <div class="white-box text-center bg-inverse"> 
+            <h1 class=" text-white counter">{{uncheckedPublicityMaterials}}</h1> 
+            <p class="text-white">Unchecked Publicity Materials</p> 
+        </div> 
+    </div> 
+     <div class="col-md-4 col-xs-12 col-sm-6"> 
+        <div class="white-box text-center bg-success"> 
+            <h1 class="text-white counter">{{ApprovedPublicityMaterials}}</h1> 
+            <p class="text-white">Approved Publicity Materials</p> 
+        </div> 
+    </div> 
+    <div class="col-md-4 col-xs-12 col-sm-6"> 
+        <div class="white-box text-center bg-warning"> 
+            <h1 class="counter text-white">{{PendedPublicityMaterials}}</h1> 
+            <p class=" text-white">Pended Publicity Materials</p> 
+        </div> 
+    </div> 
+ 
+     
+    
+</div> 
+<div class="row"> 
+    <div class="col-sm-12"> 
+        <div class="white-box"> 
+            <h3 class="box-title m-b-0">PNP HOME</h3> 
+ 
+            <div class="table-responsive"> 
+                <table id="myTable3" class="table table-striped"> 
+                    <thead> 
+                        <tr> 
+                            <th class="text-center" width="33%">List of Organizations</th> 
+                            <th class="text-center" width="33%">Actions</th> 
+                        </tr> 
+                    </thead> 
+                    <tbody> 
+
+                        {% for organization in studentorganizations %}
+                            {% for gosm in allGosm %}
+                                {% if gosm.organizationid == organization.id %}
+                                    <tr>
+                                      <td class="text-center">{{organization.name}}</td>
+                                      <td class="text-center">
+                                          <a href="/ADM/viewCalendar" data-toggle="tooltip" data-original-title="View Calendar">
+                                            <i class="fa fa-calendar m-r-10"></i>
+                                          </a>
+                                          <a href="/Organization/viewGOSMDetails/{{gosm.gosmid}}" data-toggle="tooltip" data-original-title="View GOSM">
+                                            <i class="fa fa-list m-r-10"></i>
+                                          </a>
+                                      </td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %} 
+                    
+                    </tbody> 
+                </table> 
+            </div> 
+        </div> 
+    </div> 
+</div><!-- /modals --> 
+ 
+{%endblock%} 
