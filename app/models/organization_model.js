@@ -68,6 +68,10 @@ module.exports = function(configuration, modules, database, queryFiles){
 		return connection.any(getAllStudentOrganizationsSQL);
 	};
 
+	OrganizationModel.getAllCurrentOrganizationMembers = (connection = database) =>{
+		return connection.any(getAllCurrentOrganizationMembersSQL);
+	};
+
 	OrganizationModel.getFunctionality = (connection = database) => {
 		var query = squel.select()
 						.from("functionality")
