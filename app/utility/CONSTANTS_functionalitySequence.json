@@ -27,5 +27,7 @@
     "EvaluateProjectProposalResched": 30,
 
     "AddMember": 31,
-    "SubmitOfficerSurveyForm": 32
+    "SubmitOfficerSurveyForm": 32,
+
+    "SetOrganizationFunds": 33
 }

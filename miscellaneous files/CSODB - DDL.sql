@@ -1499,7 +1499,8 @@ INSERT INTO Functionality (id, name, category)
                           (104030, 'Evaluate Project Proposal Reschedule', 104),
                           (001031, 'Add Organization Member',  1),
 
-                          (109032, 'Submit Officer Survey Form', 109);
+                          (109032, 'Submit Officer Survey Form', 109),
+                          (105033, 'Set Organization Fund', 105);
 
 DROP TABLE IF EXISTS OrganizationAccessControl CASCADE;
 CREATE TABLE OrganizationAccessControl (
@@ -1690,8 +1691,10 @@ $trigger$
                                               -- Submit Not in GOSM Activity 28
                                               (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE),
                                               -- Submit Officer Survey Form
-                                              (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 32)), TRUE);
-
+                                              (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 32)), TRUE),
+                                              -- Set Organization Fund
+                                              (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 33)), TRUE);
+                                              
         INSERT INTO OrganizationRole(organization, name, shortname, uniquePosition, masterRole, home_url, rank)
                              VALUES (NEW.id, 'Associate Vice President of Finance', 'AVP-F',FALSE, vpfRoleID, NULL, 30)
         RETURNING id INTO avpfRoleID;

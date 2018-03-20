@@ -109,6 +109,11 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.AddMember] = [constructSidebar(
     'fa fa-quote-left'
 )];
 
+functionalitySidebars[FUNCTIONALITY_SEQUENCES.SetOrganizationFunds] = [constructSidebar(
+    'Set Funds',
+    '/Finance/Settings'
+)];
+
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.ViewActivityFeedback] = [constructSidebar(
     'View Activity Feedback',
     '/Organization/Orgres/list',
