@@ -298,6 +298,11 @@ module.exports = function(configuration, modules, database, queryFiles){
         return connection.none(deductExpensesSQL, param);
     };
 
+    const getOrgApprovedTransactionsSQL = queryFiles.getOrgApprovedTransactions;
+    FinanceModel.getOrgApprovedTransactions = function(param, connection = database){
+        return connection.any(getOrgApprovedTransactionsSQL, param);
+    };
+
     //Used for signing
     FinanceModel.getPreActivityCashAdvanceDetails = (cashAdvanceID, fields, connection = database) => {
         logger.info(`getPreActivityCashAdvanceDetails(cashAdvanceID: ${cashAdvanceID})`, log_options);

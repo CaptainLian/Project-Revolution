@@ -6,7 +6,7 @@ SELECT *
                                          JOIN GOSM G
                                            ON GA.GOSM=G.ID
                    WHERE PP.STATUS=3
-                     AND GA.ACTIVITYTYPE=3
+                     AND (GA.ACTIVITYTYPE=3 OR GA.ACTIVITYTYPE=0 OR GA.ACTIVITYTYPE=2)
                      AND GA.ID IN (SELECT GOSMACTIVITY 
                   		   FROM PROJECTPROPOSAL 
                        		  WHERE (ACTUALDATESTART >= (SELECT DATESTART

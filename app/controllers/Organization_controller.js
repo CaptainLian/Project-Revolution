@@ -145,7 +145,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             //FINANCE
                             financeModel.getAllApprovedTransactions(dbParam),
                             financeModel.getAllApprovedActivityExpenses(dbParam),
-                            financeModel.getOrganizationBudgetExpenses(dbParam)
+                            financeModel.getOrganizationBudgetExpenses(dbParam),
+                            financeModel.getOrgApprovedTransactions(dbParam)
                         ]);
                 }).then(data=>{
 
@@ -961,6 +962,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     renderData.financeGenerationGrade = financeGenerationGrade;
                     renderData.financeAllocationGrade = financeAllocationGrade;
                     renderData.financeGrade = financeGrade
+
+                    renderData.financeTransactions = data[14];
 
 
                     console.log(renderData)
