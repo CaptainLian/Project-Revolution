@@ -1481,6 +1481,10 @@ INSERT INTO OrganizationFacultyAdviser(organization, faculty, yearID)
 VALUES (1, 2011111, system_get_current_year_id()),
        (1, 2011112, system_get_current_year_id());
 
+INSERT INTO OrganizationFacultyAdviser(organization, faculty, yearID)
+VALUES (38, 2011111, system_get_current_year_id()),
+       (38, 2011112, system_get_current_year_id());
+
 UPDATE StudentOrganization
     -- galing sa la salle
     -- 1k operational
