@@ -292,6 +292,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 			var dbParam = {
 				organizationid: req.body.organization,
+				idnumber: req.body.idnumber,
 				field1: req.body.radio1,
 				field2: req.body.radio2,
 				field3: req.body.radio3,
