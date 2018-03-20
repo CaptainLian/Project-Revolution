@@ -1,6 +1,10 @@
 {% extends './Orgres_master.html' %}
 {% import '../template/tags_macro.html' as tag %}
 
+{%block meta%}
+    {{super()}}
+    <meta data-name="csrf" data-token="{{csrfToken}}" />
+{%endblock%}
 
 {%block style%}
     {{super()}}
@@ -61,7 +65,7 @@
     {{tag.javascript('/plugins/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js', true)}}
     {{tag.javascript('/plugins/bower_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js', true)}}
     {{tag.javascript('/plugins/bower_components/multiselect/js/jquery.multi-select.js', true)}}
-
+    {{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
     <!-- Page Scripts -->
     {{tag.javascript('/js/Orgres/submitMemberSurveyForm.js', true)}}
     <!-- /Page Scripts -->

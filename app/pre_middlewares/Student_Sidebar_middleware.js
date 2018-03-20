@@ -203,13 +203,6 @@ module.exports = function(configuration, application, modules, database, queryFi
                 ], task)
             ]);
         }).then(([isProjectHead, GOSMActivityWithActivityEvaluation, PPRApproved, hasPPRWithoutPostProjectProposal, hasSubmittedGOSM, buffer, GOSM]) => {
-            const [
-                isProjectHead,
-                GOSMActivityWithActivityEvaluation,
-                PPRApproved,
-                hasPPRWithoutPostProjectProposal,
-                hasSubmittedGOSM
-            ] = data;
 
             logger.debug(`isProjectHead: ${isProjectHead.exists}`, log_options);
             if (isProjectHead.exists && organizationSelected.id !== 0) {
@@ -271,7 +264,7 @@ module.exports = function(configuration, application, modules, database, queryFi
                 let acl28 = req.extra_data.user.accessControl[organizationSelected.id];
                 acl28 = acl28['28'] ? acl28['28'] : acl28[28];
 
-                if(GOSM.status === 3 && typeof acl28 !== 'undefined' && acl28 !== undefined){
+                if(GOSM && OSM.status === 3 && typeof acl28 !== 'undefined' && acl28 !== undefined){
                     logger.debug('Can submit not in GOSM activities', log_options);
 
                     const newSidebar = Object.create(null);

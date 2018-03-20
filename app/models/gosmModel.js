@@ -384,7 +384,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
             param.organizationID = organizationID;
 
             logger.debug(`Executing query: ${query}`, log_options);
-            return connection.one(query, param);
+            return connection.oneOrNone(query, param);
         }
     };
 };

@@ -1,5 +1,5 @@
 'use strict';
-
+const squel = require('squel').useFlavour('postgres');
 module.exports = function(configuration, modules, database, queryFiles){
 	const OrgresModel = Object.create(null);
 
@@ -32,6 +32,13 @@ module.exports = function(configuration, modules, database, queryFiles){
 
     OrgresModel.insertActivityResearchForm = function(param, connection = database) {
         return connection.none(insertActivityResearchFormSQL, param);
+    };
+    OrgresModel.idNumbercheck = function(id, orig, connection = database) {
+        var query = squel.select()
+        .from('"OrganizationMember"')
+        .where("organization = ?",orig)
+        .where("idNumber = ?",id)
+        return connection.one(query.toString());
     };
 
     OrgresModel.getOrgresList = function(param, connection = database) {

@@ -13,10 +13,11 @@ $(document).ready(function(){
 	$("#submit").attr("disabled","")
 	console.log("Doms")
 
-	$("#idnumber").keydown(function(){
+	$("#idnumber, #org-select").change(function(){
+		console.log("DOMS2")
 		var orgid = $("#org-select").val()
-		var idnumber = $(this).val()
-		$(this).closest('.form-group').removeClass("has-error")
+		var idnumber = $("#idnumber").val()
+		$('#idnumber').closest('.form-group').removeClass("has-error")
 		$.ajax({
 			type:'POST',
 			url:'/ORGRES/AJAX/idnumber',
