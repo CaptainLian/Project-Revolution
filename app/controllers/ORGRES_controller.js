@@ -88,10 +88,36 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		},
 
 		viewHome: (req, res) => {
+
+			database.task(task => {
+                        return task.batch([
+                            orgresModel.getActivitiesForResearchForm(),
+                            organizationModel.getAllStudentOrganizations(),
+                            gosmModel.getAllCurrent()
+                        ]);
+        }).then(data=>{
+
+            let renderData = Object.create(null);
+
+            var activityCount = data[0].length;
+
+
+            renderData.activityCount = activityCount;
+            renderData.studentorganizations = data[1];
+            renderData.allGosm = data[2];
+            renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
+            return res.render('Orgres/orgresHome', renderData);
+
+        }).catch(error=>{
+            console.log(error);
+        });
 			const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
 			return res.render('Orgres/orgresHome');
+
+			
 		},
 
 		viewManageTime: (req, res) => {
