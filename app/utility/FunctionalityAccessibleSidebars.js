@@ -22,7 +22,7 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.ViewProjectHeadDashboard] = [{
 //View APSReport
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.ViewAPSReport] = [{
     name: 'Term Grade',
-    link: '/Organization/APSReport'
+    link: '/Organization/report'
 }];
 
 //Evaluate GOSM
