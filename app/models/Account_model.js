@@ -638,6 +638,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
         logger.info(`call approveDirectPayment(directPaymentID: ${directPaymentID}, idNumber: ${idNumber})`)
 
         let param = Object.create(null);
+        param.idNumber = idNumber;
         param.directPayment = directPaymentID;
         param.signatory = idNumber;
         param.document = document;

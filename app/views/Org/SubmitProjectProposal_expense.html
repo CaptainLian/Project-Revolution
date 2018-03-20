@@ -104,12 +104,12 @@
 										Organizational Funds
 									</label>
 								</div>
-								<div class="form-group row">
+								<div style="display: none;" class="form-group row">
 									<label for="example-month-input" class="col-md-5 text-left offset-md-1 col-form-label">
 										Operational Funds
 									</label>
 									<div class="col-md-6">
-										<input class="form-control" readonly="" name="ope" id="ope-fund" type="text" value="{{FundsExpense.operationalfunds | round(2)}}">
+										<input class="form-control" readonly="" name="ope" id="ope-fund" type="text" value="0">
 										<span id="ope-help" class="help-block"> As of {{projectProposal.currentdate}} </span>
 									</div>
 								</div>
@@ -124,7 +124,7 @@
 										</span>
 									</div>
 								</div>
-								<div class="form-group row">
+								<div style="display: none;" class="form-group row">
 									<label for="example-month-input" class="col-md-5 text-left offset-md-1 col-form-label">
 										Other Funds
 									</label>

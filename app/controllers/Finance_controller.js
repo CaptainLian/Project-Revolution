@@ -94,7 +94,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 							return t.batch([
 	                            projectProposalModel.getProjectProposal(dbParam),
 								financeModel.getDirectPaymentParticulars(param),
-								financeModel.getDirectPaymentSignatory(param)]);
+								financeModel.getDirectPaymentSignatory(param),
+								financeModel.getDirectPaymentAccount(param)]);
 						}).then(data1=>{
 							const renderData = Object.create(null);
 				            renderData.extra_data = req.extra_data;
@@ -105,6 +106,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				            renderData.gosmactivity = data.GOSMActivity;
 				            // transactionType: if 0 direct payment; if 1 cash advance
 				            renderData.transactionType = req.params.transaction;
+				            renderData.account = data1[3]
 				            
 				            //to evaluate
 				           
@@ -120,12 +122,19 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				           		renderData.toEvaluate = false;
 				           	}
 
-				           	if(data.orgid == req.session.user.organizationSelected.id){
-					           	return res.render('Finance/EvaluateTransaction', renderData);
+				           	if(req.session.user.type == 1){
+				           		if(data.orgid == req.session.user.organizationSelected.id){
+					           		return res.render('Finance/EvaluateTransaction', renderData);
+					           	}
+					           	else{
+		    						return res.render('System/403');
+					           	}
 				           	}
 				           	else{
-	    						return res.render('System/403');
+				           			return res.render('Finance/EvaluateTransaction', renderData);
+
 				           	}
+				           	
 						}).catch(error => {
 							return logger.debug(`${error.message}\n${error.stack}`, log_options);
 						});
@@ -148,7 +157,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 						database.task(t=>{
 							return t.batch([projectProposalModel.getProjectProposal(dbParam),
 											financeModel.getCashAdvanceParticulars(param),
-											financeModel.checkCashAdvanceSignatory(param)]);
+											financeModel.checkCashAdvanceSignatory(param),
+											financeModel.getCashAdvanceAccount(param)]);
 						}).then(data1=>{
 							const renderData = Object.create(null);
 				            renderData.extra_data = req.extra_data;
@@ -159,6 +169,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				            renderData.gosmactivity = data.GOSMActivity;
 				            // transactionType: if 0 direct payment; if 1 cash advance
 				            renderData.transactionType = req.params.transaction;
+				            renderData.account = data1[3];
 				            
 
 				            //to evaluate
@@ -212,7 +223,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 							return t.batch([
 								projectProposalModel.getProjectProposal(dbParam),
 								financeModel.getBookTransferParticulars(param),
-								financeModel.getBookTransferSignatory(param)
+								financeModel.getBookTransferSignatory(param),
+								financeModel.getBookTransferAccount(param)
 							]);
 						}).then(data1=>{
 							const renderData = Object.create(null);
@@ -224,6 +236,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				            renderData.gosmactivity = data.GOSMActivity;
 				            // transactionType: if 0 direct payment; if 1 cash advance; if 2 book transfer; if 3 reimbursement
 				            renderData.transactionType = req.params.transaction;
+				            renderData.account = data1[3]
 				            
 
 				            //to evaluate
@@ -339,7 +352,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		approveDirectPayment: (req, res) =>{
             logger.info('call approveDirectPayment()', log_options);
-
+            console.log(req.body);
             /**
              * Gets all needed details for the digital signature
              */
@@ -359,8 +372,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
                         'to_char(padp."dateSubmitted", \'Mon DD, YYYY\') AS "dateSubmitted"',
                         'padp."nameOfEstablishment"',
                         'padp."reasonForDelayedPRSProcessing"',
-                        'padp."galsFilenameToShow" AS "GALS"',
-                        'padp."fqFilenameToShow" AS "FQ"',
+                        'padp."galsfilenameToShow" AS "GALS"',
+                        'padp."fqfilenameToShow" AS "FQ"',
                         'padp."rofFilenameToShow" AS "ROF"'
                     ], t),
                     //2
@@ -403,13 +416,18 @@ module.exports = function(configuration, modules, models, database, queryFiles){
                 const DOCUMENT_STRING = STRINGIFY(documentObject);
                 const {signature: DIGITAL_SIGNATURE} = SIGN(DOCUMENT_STRING, PRIVATE_KEY);
 
-                return accountModel.approveDirectPayment(
-                    req.body.directPaymentId,
-                    req.session.idNumber,
-                    DOCUMENT_STRING,
-                    DIGITAL_SIGNATURE
-                );
-            }).then(() => {
+                logger.debug('Approving direct payment', log_options);
+                return Promise.all([
+                	Promise.resolve(dpDetails),
+                	accountModel.approveDirectPayment(
+	                    req.body.directPaymentId,
+	                    req.session.user.idNumber,
+	                    DOCUMENT_STRING,
+	                    DIGITAL_SIGNATURE
+	                )
+                ]);
+                return ;
+            }).then(([dpDetails]) => {
                 logger.debug('Direct payment successfully approved', log_options);
                 res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
 
@@ -422,7 +440,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
                 			'a.idNumber "idNumber"'
                 		], t),
                 		financeModel.getPreActivityDirectPaymentNextSignatory(dpDetails.id, t),
-                		accountModel.getAccountDetails(req.session.idNumber, [
+                		accountModel.getAccountDetails(req.session.user.idNumber, [
                 			'a.idnumber AS "idNumber"',
                 			'a.firstname || \' \' || a.lastname'
                 		], t),
@@ -439,8 +457,9 @@ module.exports = function(configuration, modules, models, database, queryFiles){
             		let queries = [];
 
             		let details = Object.create(null);
-            		details.directPaymentID = dpDetails.id;
+            		details.directPaymentID = req.body.directPaymentId;
 
+            		logger.debug(`Next Signatory: ${nextSignatory}`, log_options);
             		if(nextSignatory){
             			queries[0] = accountModel.addNotification(
             				nextSignatory.idNumber,
@@ -454,6 +473,13 @@ module.exports = function(configuration, modules, models, database, queryFiles){
             				null,
             				t
             			);
+            		}
+            		else{
+            			var approveDirectPaymentParam = {
+            				directPayment: req.body.directPaymentId
+            			};
+            			queries[0] = financeModel.approveDirectPaymentTable(approveDirectPaymentParam, t);
+            			console.log("HEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY");
             		}
 
             		details.signatory = currentSignatoryDetails.idNumber;
@@ -492,8 +518,16 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			financeModel.pendDirectPayment(dbParam).then(data=>{
 				console.log("successfully pended direct payment");
 
-                //TODO: notifications
-				res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
+				financeModel.pendDirectPaymentTable(dbParam)
+				.then(data1=>{
+
+					//TODO: notifications
+					res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
+				}).catch(error=>{
+					console.log(error);
+				})
+
+                
 			}).catch(error=>{
 				console.log(error);
 			});
