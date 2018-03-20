@@ -561,7 +561,6 @@ INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
                  VALUES (38, 'YES', 'Young Entrepreneurs Society', 5, NULL);
 
-
 /* Sample Data */
 -- ORG 1 ACCOUNTS
 INSERT INTO Account(email, idNumber, password, firstname, lastname, contactNumber, publicKey, privateKey, type)
@@ -607,8 +606,6 @@ XSwu6bUhk9EMdsnYz3hjuiB/SOFrUXOP52V8MzWf7avJAM49+N4rMLM0jBaZ5suI
 QMzooOiwiovwCQqyIQJAUmw0ZcnzmAECb1x8umovIi65tdsI00FBDPU+nz/dJQ2j
 Kpn+OFihMZYue8HK51G2AMj8ufFhxvKoeIRPRq3+Ug==
 -----END RSA PRIVATE KEY-----', 1);
-
-
 
 INSERT INTO Account(email, idNumber, password, firstname, lastname, contactNumber, publicKey, privateKey, type)
         VALUES('org_vp_documentation@dlsu.edu.ph', 1111113, '1234', 'Organization', 'VP - Documentation', '612424515','-----BEGIN PUBLIC KEY-----
@@ -1486,7 +1483,7 @@ UPDATE StudentOrganization
     -- 1k operational
    SET operationalFunds = floor((random()*(1500 - 920 + 1))) + 920,
     -- 300k
-        depositoryFunds = floor((random()*(325000 - 246000 + 1))) + 246000,
+        depositoryFunds = floor((random()*(350000 - 300000 + 1))) + 300000,
         depositryFunds = depositoryFunds;
 
 COMMIT;

@@ -19,10 +19,9 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.ViewProjectHeadDashboard] = [{
 }];
 */
 
-
 //View APSReport
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.ViewAPSReport] = [{
-    name: 'APS Report',
+    name: 'Term Grade',
     link: '/Organization/APSReport'
 }];
 
