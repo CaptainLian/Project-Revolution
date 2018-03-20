@@ -1205,6 +1205,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             if(data[2].isbriefcontextcomplete == false){
                                 var contextCompletionRate = 0;
 
+                                var expensestatus = false;
+
                                 if (data[2].enp != null && data[2].enp != '') {
                                     contextCompletionRate  = contextCompletionRate + 3.125
                                 }
@@ -1214,14 +1216,12 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                 if (data[2].venue != null) {
                                     contextCompletionRate  = contextCompletionRate + 3.125
                                     console.log("venue");
+                                    expensestatus = true;
                                 }
                                 if (data[2].facultyadviser != null && data[2].facultyadviser != '') {
                                     contextCompletionRate  = contextCompletionRate + 3.125
                                     console.log("facultyadviser");
-                                }
-                                if (data[2].isexpense != null && data[2].isexpense != '') {
-                                    contextCompletionRate  = contextCompletionRate + 3.125
-                                    console.log("expense");
+                                    expensestatus = true;
                                 }
                                 if (data[2].context1 != null && data[2].context1 != '') {
                                     contextCompletionRate  = contextCompletionRate + 3.125
@@ -1230,6 +1230,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                     contextCompletionRate  = contextCompletionRate + 3.125
                                 }
                                 if (data[2].context3 != null && data[2].context3 != '') {
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                }
+                                if(expensestatus){
                                     contextCompletionRate  = contextCompletionRate + 3.125
                                 }
                                 renderData.contextCompletionRate = contextCompletionRate;
@@ -1322,6 +1325,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         if(data[2].isbriefcontextcomplete == false){
                                 var contextCompletionRate = 0;
 
+                                var expensestatus = false;
+
                                 if (data[2].enp != null && data[2].enp != '') {
                                     contextCompletionRate  = contextCompletionRate + 3.125
                                 }
@@ -1331,14 +1336,12 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                 if (data[2].venue != null) {
                                     contextCompletionRate  = contextCompletionRate + 3.125
                                     console.log("venue");
+                                    expensestatus = true;
                                 }
                                 if (data[2].facultyadviser != null && data[2].facultyadviser != '') {
                                     contextCompletionRate  = contextCompletionRate + 3.125
                                     console.log("facultyadviser");
-                                }
-                                if (data[2].isexpense != null && data[2].isexpense != '') {
-                                    contextCompletionRate  = contextCompletionRate + 3.125
-                                    console.log("expense");
+                                    expensestatus = true;
                                 }
                                 if (data[2].context1 != null && data[2].context1 != '') {
                                     contextCompletionRate  = contextCompletionRate + 3.125
@@ -1347,6 +1350,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                     contextCompletionRate  = contextCompletionRate + 3.125
                                 }
                                 if (data[2].context3 != null && data[2].context3 != '') {
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                }
+                                if(expensestatus){
                                     contextCompletionRate  = contextCompletionRate + 3.125
                                 }
                                 renderData.contextCompletionRate = contextCompletionRate;
@@ -1429,6 +1435,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         if(data[2].isbriefcontextcomplete == false){
                                 var contextCompletionRate = 0;
 
+                                var expensestatus = false;
+
                                 if (data[2].enp != null && data[2].enp != '') {
                                     contextCompletionRate  = contextCompletionRate + 3.125
                                 }
@@ -1438,14 +1446,12 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                 if (data[2].venue != null) {
                                     contextCompletionRate  = contextCompletionRate + 3.125
                                     console.log("venue");
+                                    expensestatus = true;
                                 }
                                 if (data[2].facultyadviser != null && data[2].facultyadviser != '') {
                                     contextCompletionRate  = contextCompletionRate + 3.125
                                     console.log("facultyadviser");
-                                }
-                                if (data[2].isexpense != null && data[2].isexpense != '') {
-                                    contextCompletionRate  = contextCompletionRate + 3.125
-                                    console.log("expense");
+                                    expensestatus = true;
                                 }
                                 if (data[2].context1 != null && data[2].context1 != '') {
                                     contextCompletionRate  = contextCompletionRate + 3.125
@@ -1454,6 +1460,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                     contextCompletionRate  = contextCompletionRate + 3.125
                                 }
                                 if (data[2].context3 != null && data[2].context3 != '') {
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                }
+                                if(expensestatus){
                                     contextCompletionRate  = contextCompletionRate + 3.125
                                 }
                                 renderData.contextCompletionRate = contextCompletionRate;
