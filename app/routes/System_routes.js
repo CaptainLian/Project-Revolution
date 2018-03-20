@@ -32,4 +32,6 @@ module.exports = function(configuration, modules, router, controllers){
     router.get('/System/ChangeExpiredPassword', controllers.System_controller.viewChangeExpiredPassword);
     router.get('/System/NewAccountPassword', controllers.System_controller.viewNewAccountPassword);
     router.get('/System/ChangePassword', controllers.System_controller.viewChangePassword);
+
+    router.get('/System/NotAllowed', controllers.System_controller.viewNotAllowed);
 };

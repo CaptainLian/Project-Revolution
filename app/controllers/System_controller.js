@@ -140,7 +140,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 }
             }
         }).catch(error => {
-            logger.error(`${error.message}: ${error.stack}`, log_options);
+            logger.error(`${error.message}\n${error.stack}`, log_options);
             
             return res.send({
                 success: false,
@@ -270,6 +270,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         
         logger.debug('Rendering ChangePassword page', log_options);
         return res.render('System/ChangePassword', renderData);
+    };
+
+    SystemController.viewNotAllowed = (req, res) => {
+        res.statusCode(403);
+        return res.render('System/403');
     };
 
     return SystemController;
