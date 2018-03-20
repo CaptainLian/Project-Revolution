@@ -1549,10 +1549,12 @@ INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       (    2,          2023,      TRUE),
                                       (   20,          2023,      TRUE),
                                       (   21,          2023,      TRUE),
+                                      /*
                                       -- View Activity Feedback
                                       (   20,        109029,      TRUE),
                                       (   21,        109029,      TRUE),
                                       (   22,        109029,      TRUE),
+                                      */
                                       -- Evaluate Project Proposal Reschedule
                                       (    1,        104030,      TRUE),
                                       (    2,        104030,      TRUE),
