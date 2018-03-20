@@ -35,21 +35,16 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		},
 
 		officerSurveyForm: (req, res) => {
-
-			organizationModel.getAllStudentOrganizations()
-			.then(data=>{
-
+			organizationModel.getAllStudentOrganizations().then(data=>{
 				const renderData = Object.create(null);
 				renderData.organizations = data;
 		        renderData.extra_data = req.extra_data;
 		        renderData.csrfToken = req.csrfToken();
+
 		        return res.render('Orgres/officerSurveyForm', renderData);
-
-
 			}).catch(error=>{
 				console.log(error);
 			});
-
     	},
 
     	memberSurveyForm: (req, res) => {
@@ -259,7 +254,6 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		},
 
 		submitOfficerSurveyForm: (req, res) =>{
-
 			console.log(req.body);
 
 			var dbParam = {
@@ -276,15 +270,12 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				field9: req.body.r9
 			};
 
-			orgresModel.insertOfficerSurveyForm(dbParam)
-			.then(data=>{
+			orgresModel.insertOfficerSurveyForm(dbParam).then(data=>{
 
 				return res.redirect('/home');
-
 			}).catch(error=>{
 				console.log(error);
 			});
-
 		},
 
 		submitMemberSurveyForm: (req, res) =>{

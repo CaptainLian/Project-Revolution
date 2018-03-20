@@ -1489,5 +1489,4 @@ UPDATE StudentOrganization
     -- 300k
         depositoryFunds = floor((random()*(350000 - 300000 + 1))) + 300000,
         depositryFunds = depositoryFunds;
-
 COMMIT;

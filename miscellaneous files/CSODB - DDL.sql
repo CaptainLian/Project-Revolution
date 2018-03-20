@@ -1488,6 +1488,7 @@ INSERT INTO Functionality (id, name, category)
                           -- Finance Signatory
                           -- mistakes were made in the design of ACLs, the two ACLS can be compressed into a single ACL
                           -- But for sanity and backwards compatability, they're retained
+                          -- NOTE: the ACLs could be renamed and category changed, however sequence of the ACL should never be changed
                           (211025, 'View/Submit Financial Documents as President', 211),
                           (211026, 'View/Submit Financial Documents as Treasurer', 211),
 
@@ -1495,7 +1496,10 @@ INSERT INTO Functionality (id, name, category)
 
                           (104028, 'Submit Not in GOSM Activities',  104),
                           (109029, 'View Activity Feedback', 109),
-                          (104030, 'Evaluate Project Proposal Reschedule', 104);
+                          (104030, 'Evaluate Project Proposal Reschedule', 104),
+                          (001031, 'Add Organization Member',  1),
+
+                          (109032, 'Submit Officer Survey Form', 109);
 
 DROP TABLE IF EXISTS OrganizationAccessControl CASCADE;
 CREATE TABLE OrganizationAccessControl (
@@ -1556,6 +1560,7 @@ INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       (   22,        109029,      TRUE),
                                       */
                                       -- Evaluate Project Proposal Reschedule
+                                      (    0,        104030,      TRUE),
                                       (    1,        104030,      TRUE),
                                       (    2,        104030,      TRUE),
                                       (    3,        104030,      TRUE),
@@ -1596,7 +1601,11 @@ $trigger$
                                               -- Submit Officer Survey Form
                                               (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 27)), TRUE),
                                               -- Submit Not in GOSM Activity 28
-                                              (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE);
+                                              (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE),
+                                              -- Add Members
+                                              (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 31)), TRUE),
+                                              -- Submit Officer Survey Form
+                                              (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 32)), TRUE);
 
         INSERT INTO OrganizationRole(organization, name, shortname, uniquePosition, masterRole, rank)
                              VALUES (NEW.id, 'Executive Secretariat','ES', TRUE, presidentRoleID, 10)
@@ -1607,7 +1616,9 @@ $trigger$
                                               -- Submit Officer Survey Form
                                              (executiveSecretariatRoleID, (SELECT id FROM functionality WHERE(id%1000 = 27)), TRUE),
                                               -- Submit Not in GOSM Activity 28
-                                             (executiveSecretariatRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE);
+                                             (executiveSecretariatRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE),
+                                              -- Submit Officer Survey Form
+                                             (executiveSecretariatRoleID, (SELECT id FROM functionality WHERE(id%1000 = 32)), TRUE);
 
         INSERT INTO OrganizationRole(organization, name, shortname, uniquePosition, masterRole, rank)
                              VALUES (NEW.id, 'External Executive Vice President', 'E-EVP', TRUE, presidentRoleID, 10)
@@ -1618,7 +1629,9 @@ $trigger$
                                               -- Submit Officer Survey Form
                                               (eevpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 27)), TRUE),
                                               -- Submit Not in GOSM Activity 28
-                                              (eevpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE);
+                                              (eevpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE),
+                                              -- Submit Officer Survey Form
+                                              (eevpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 32)), TRUE);
 
         INSERT INTO OrganizationRole(organization, name, shortname, uniquePosition, masterRole, rank)
                              VALUES (NEW.id, 'Internal Executive Vice President', 'I-EVP',TRUE, presidentRoleID, 10)
@@ -1628,7 +1641,9 @@ $trigger$
                                               -- Submit Officer Survey Form
                                               (ievpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 27)), TRUE),
                                               -- Submit Not in GOSM Activity 28
-                                              (ievpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE);
+                                              (ievpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE),
+                                              -- Submit Officer Survey Form
+                                              (ievpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 32)), TRUE);
 
         INSERT INTO OrganizationRole(organization, name, shortname, uniquePosition, masterRole, rank)
                              VALUES (NEW.id, 'Vice President of Documentations', 'VP-D', TRUE, executiveSecretariatRoleID, 20)
@@ -1640,7 +1655,9 @@ $trigger$
                                               -- Submit Officer Survey Form
                                               (vpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 27)), TRUE),
                                               -- Submit Not in GOSM Activity 28
-                                              (vpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE);
+                                              (vpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE),
+                                              -- Submit Officer Survey Form
+                                              (vpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 32)), TRUE);
 
         INSERT INTO OrganizationRole(organization, name, shortname, uniquePosition, masterRole, rank)
                              VALUES (NEW.id, 'Associate Vice President of Documentations', 'AVP-D', FALSE, vpdRoleID, 30)
@@ -1650,7 +1667,9 @@ $trigger$
                                               -- Submit Officer Survey Form
                                               (avpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 27)), TRUE),
                                               -- Submit Not in GOSM Activity 28
-                                              (avpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE);
+                                              (avpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE),
+                                              -- Submit Officer Survey Form
+                                              (avpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 32)), TRUE);
 
         INSERT INTO OrganizationRole(organization, name, shortname, uniquePosition, masterRole, home_url, rank)
                              VALUES (NEW.id, 'Vice President of Finance', 'VP-F', TRUE, ievpRoleID, NULL, 20)
@@ -1669,10 +1688,12 @@ $trigger$
                                               -- Submit Officer Survey Form
                                               (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 27)), TRUE),
                                               -- Submit Not in GOSM Activity 28
-                                              (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE);
+                                              (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE),
+                                              -- Submit Officer Survey Form
+                                              (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 32)), TRUE);
 
         INSERT INTO OrganizationRole(organization, name, shortname, uniquePosition, masterRole, home_url, rank)
-                             VALUES (NEW.id, 'Associate Vice President of Finance', 'AVP-F',FALSE, vpfRoleID, '/Organization/treasurer/dashboard', 30)
+                             VALUES (NEW.id, 'Associate Vice President of Finance', 'AVP-F',FALSE, vpfRoleID, NULL, 30)
         RETURNING id INTO avpfRoleID;
         INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       VALUES  (avpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
@@ -1682,7 +1703,9 @@ $trigger$
                                               -- Submit Officer Survey Form
                                               (avpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 27)), TRUE),
                                               -- Submit Not in GOSM Activity 28
-                                              (avpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE);
+                                              (avpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE),
+                                              -- Submit Officer Survey Form
+                                              (avpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 32)), TRUE);
 
         INSERT INTO OrganizationRole(organization, name, shortname, uniquePosition, rank)
                              VALUES (      NEW.id, 'Junior Officer', 'JO', FALSE, 40)

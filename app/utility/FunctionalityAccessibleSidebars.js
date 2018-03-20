@@ -103,6 +103,11 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.AccountManagement] = [{
     icon :'fa fa-group'
 }];
 */
+functionalitySidebars[FUNCTIONALITY_SEQUENCES.AddMember] = [constructSidebar(
+    'Add Members',
+    '/Organization/viewAddMember',
+    'fa fa-quote-left'
+)];
 
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.ViewActivityFeedback] = [constructSidebar(
     'View Activity Feedback',
@@ -113,6 +118,11 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.ViewActivityFeedback] = [construct
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateProjectProposalResched] = [constructSidebar(
     'Evaluate Activity Resched',
     '/APS/Resched'
+)];
+
+functionalitySidebars[FUNCTIONALITY_SEQUENCES.SubmitOfficerSurveyForm] = [constructSidebar(
+    'Submit Officer Survey Form',
+    '/OrgRes/OfficerSurveyForm'
 )];
 
 //Evaluate Post Project
