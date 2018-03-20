@@ -3,6 +3,7 @@ module.exports = function (configuration, modules, router, controllers, models, 
 	router.get('/APS/activityChecking',controllers.APS_controller.activityChecking);
 	router.get('/APS/resched', controllers.APS_controller.resched);
 	router.get('/APS/home', controllers.APS_controller.home);
+	router.get('/APS/viewCalendar', controllers.APS_controller.viewCalendar);
 	router.get('/APS/orgSummary', controllers.APS_controller.orgSummary);
 	router.get('/APS/viewOrglist', controllers.APS_controller.viewOrglist);
 	router.get('/APS/viewOrgGOSM', (req, res) => {

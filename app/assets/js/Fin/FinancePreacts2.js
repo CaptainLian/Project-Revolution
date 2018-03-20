@@ -1,4 +1,7 @@
- $("select").select2();
+ $(document).ready(function(){
+  $('select').trigger('change');
+ });
+
  $("#rec").select2({
     maximumSelectionSize:1
  });

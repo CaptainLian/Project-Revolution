@@ -9,6 +9,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 	const amtModel = models.ActivityMonitoring_model;
 	const projectProposalModel = models.ProjectProposal_model;
+	const organizationModel = models.organization_model;
+	const gosmModel = models.gosmModel;
 
 	AMTController.viewActivityEvaluation = (req, res) => {
 		const activityId = req.params.activity;
@@ -22,6 +24,54 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		
 		
 		return res.render('AMT/ActivityEvaluation', renderData);
+	};
+
+	AMTController.viewHome = (req, res) => {
+
+		database.task(task => {
+                        return task.batch([
+                            amtModel.getAllAMTEvaluation(),
+                            organizationModel.getAllStudentOrganizations(),
+                            gosmModel.getAllCurrent()
+                        ]);
+        }).then(data=>{
+
+            let renderData = Object.create(null);
+
+            var pendingActivities = 0;
+            var takenActivities = 0;
+            var evaluatedActivities = 0;
+
+            for (var i = 0; i < data[0].length; i++){
+
+                if (data[0][i].status == 0) {
+                    pendingActivities = pendingActivities + 1;
+                }
+                else if(data[0][i].status == 1){
+                    takenActivities = takenActivities + 1;
+                }
+                else if(data[0][i].status == 3){
+                    evaluatedActivities = evaluatedActivities + 1;
+                }
+
+            }
+
+
+            renderData.pendingActivities = pendingActivities;
+            renderData.takenActivities = takenActivities;
+            renderData.evaluatedActivities = evaluatedActivities;
+            renderData.studentorganizations = data[1];
+            renderData.allGosm = data[2];
+            renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
+            return res.render('AMT/AMTHome', renderData);
+
+        }).catch(error=>{
+            console.log(error);
+        });
+
+
+	
 	};
 	
 	//TODO: CHANGE SQL TO CURRENT TERM YEAR ONLY

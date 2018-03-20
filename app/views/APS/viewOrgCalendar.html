@@ -15,6 +15,7 @@
     {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
     <!-- animation CSS -->
     {{tag.style('/css/animate.css')}}
+    {{tag.style('/plugins/bower_components/calendar/dist/fullcalendar.css')}}
     <!--alerts CSS -->
     {{tag.style('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.css')}}
     <!-- Custom CSS -->
@@ -55,73 +56,59 @@
     <!-- Custom Theme JavaScript -->
     {{tag.javascript('/js/custom.min.js', true)}}
     {{tag.javascript('/js/cbpFWTabs.js', true)}}
+    {{tag.javascript('/plugins/bower_components/calendar/dist/fullcalendar.min.js')}}
     <!-- tabs-->
     
    {{tag.javascript('/js/APS/rescheduleChecking.js', true)}}
+   <script>
+
+        $(document).ready(function() {
+
+            $('#calendar').fullCalendar({
+            });
+
+        });
+
+    </script>
 {%endblock%}
 
 {%block content%}
 <div class="row">
-    <div class="col-md-4 col-xs-12 col-sm-6">
+    <div class="col-md-3 col-xs-12 col-sm-6">
         <div class="white-box text-center bg-inverse">
-            <h1 class=" text-white counter">{{uncheckedPPR}}</h1>
-            <p class="text-white">Unchecked Project Proposals</p>
+            <h1 class=" text-white counter">32</h1>
+            <p class="text-white">Projects</p>
         </div>
     </div>
-     <div class="col-md-4 col-xs-12 col-sm-6">
+     <div class="col-md-3 col-xs-12 col-sm-6">
         <div class="white-box text-center bg-success">
-            <h1 class="text-white counter">{{ApprovedPPR}}</h1>
-            <p class="text-white">Approved Project Proposals </p>
+            <h1 class="text-white counter">32</h1>
+            <p class="text-white">Success</p>
         </div>
     </div>
-    <div class="col-md-4 col-xs-12 col-sm-6">
+    <div class="col-md-3 col-xs-12 col-sm-6">
         <div class="white-box text-center bg-warning">
-            <h1 class="counter text-white">{{PendedPPR}}</h1>
-            <p class=" text-white">Pended Project Proposals</p>
+            <h1 class="counter text-white">32</h1>
+            <p class=" text-white">Pending</p>
         </div>
     </div>
-
+    <div class="col-md-3 col-xs-12 col-sm-6">
+        <div class="white-box text-center bg-danger">
+            <h1 class="text-white counter">32</h1>
+            <p class="text-white">Denied</p>
+        </div>
+    </div>
     
    
 </div>
+
 <div class="row">
-    <div class="col-sm-12">
+    <div class="col-md-12">
         <div class="white-box">
-            <h3 class="box-title m-b-0">APS HOME</h3>
-
-            <div class="table-responsive">
-                <table id="myTable3" class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th class="text-center" width="33%">List of Organizations</th>
-                            <th class="text-center" width="33%">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>  
-
-                        {% for organization in studentorganizations %}
-                            {% for gosm in allGosm %}
-                                {% if gosm.organizationid == organization.id %}
-                                    <tr>
-                                      <td class="text-center">{{organization.name}}</td>
-                                      <td class="text-center">
-                                          <a href="/ADM/viewCalendar/{{organization.id}}" data-toggle="tooltip" data-original-title="View Calendar">
-                                            <i class="fa fa-calendar m-r-10"></i>
-                                          </a>
-                                          <a href="/Organization/viewGOSMDetails/{{gosm.gosmid}}" data-toggle="tooltip" data-original-title="View GOSM">
-                                            <i class="fa fa-list m-r-10"></i>
-                                          </a>
-                                      </td>
-                                    </tr>
-                                {% endif %}
-                            {% endfor %}
-                        {% endfor %}                      
-                        
-                    </tbody>
-                </table>
-            </div>
+            <h2>Calendar of La Salle Computer Society</h2>
+            <div id="calendar"></div>
         </div>
-    </div>
+    </div>  
 </div>
 {%endblock%}
     

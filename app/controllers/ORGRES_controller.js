@@ -69,6 +69,16 @@ module.exports = function(configuration, modules, models, database, queryFiles){
     		});
 
     	},
+    	idNumberCheck: (req, res) => {
+    		orgresModel.idNumbercheck(req.body.idnumber, req.body.orgid).then(data=>{
+    			return res.json({status:1})	
+    		}).catch(err=>{
+    			console.log(err)
+    			return res.json({status:0})	
+    		})
+    		
+
+    	},
 
 		viewManageOrg: (req, res) => {
 			const renderData = Object.create(null);

@@ -252,6 +252,21 @@ module.exports = function(configuration, modules, database, queryFiles){
         return connection.any(getBookTransferEstablishmentSQL);
     };
 
+    const getAllApprovedTransactionsSQL = queryFiles.getAllApprovedTransactions;
+    FinanceModel.getAllApprovedTransactions = function(param, connection = database){
+        return connection.any(getAllApprovedTransactionsSQL, param);
+    };
+
+    const getAllApprovedActivityExpensesSQL = queryFiles.getAllApprovedActivityExpenses;
+    FinanceModel.getAllApprovedActivityExpenses = function(param, connection = database){
+        return connection.any(getAllApprovedActivityExpensesSQL, param);
+    };
+
+    const getOrganizationBudgetExpensesSQL = queryFiles.getOrganizationBudgetExpenses;
+    FinanceModel.getOrganizationBudgetExpenses = function(param, connection = database){
+        return connection.oneOrNone(getOrganizationBudgetExpensesSQL, param);
+    };  
+
     //Used for signing
     FinanceModel.getPreActivityCashAdvanceDetails = (cashAdvanceID, fields, connection = database) => {
         logger.info(`getPreActivityCashAdvanceDetails(cashAdvanceID: ${cashAdvanceID})`, log_options);

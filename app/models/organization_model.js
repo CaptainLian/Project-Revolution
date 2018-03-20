@@ -47,6 +47,49 @@ module.exports = function(configuration, modules, database, queryFiles){
 		return connection.one(query.toString(), param);
 	};
 
+	OrganizationModel.addMember = (id, name,orgid, connection = database) => {
+		
+		let query = squel.insert()
+			.into('"OrganizationMember"')
+			.set('"idNumber"', id)
+			.set('name', name)
+			.set('"yearID"',  squel.str('system_get_current_year_id()'))
+			.set("organization",orgid)
+		
+
+		let param = Object.create(null);
+		param.id = id;
+
+		query = query.toString();
+		 
+		return connection.any(query);
+	};
+	OrganizationModel.viewMember = (id, connection = database) => {
+		
+		let query = squel.select()
+			.from('"OrganizationMember"')
+			.where("organization = ?",id)
+
+		let param = Object.create(null);
+		param.id = id;
+
+		query = query.toString();
+		 
+		return connection.any(query);
+	};
+
+	OrganizationModel.deleteMember = (id, orgid, connection = database) => {
+		console.log(id)
+		let query = squel.delete()
+			.from('"OrganizationMember"')
+			.where('"idNumber" = ?',id)
+			.where("organization = ?",orgid);	
+
+		query = query.toString();
+		 
+		return connection.any(query);
+	};
+
 
 	OrganizationModel.getActivitiesWithPPR = (param, fields, connection = database) => {
 		return connection.one(getActivitiesWithPPRSQL, param);
@@ -66,6 +109,10 @@ module.exports = function(configuration, modules, database, queryFiles){
 
 	OrganizationModel.getAllStudentOrganizations = (connection = database) => {
 		return connection.any(getAllStudentOrganizationsSQL);
+	};
+
+	OrganizationModel.getAllCurrentOrganizationMembers = (connection = database) =>{
+		return connection.any(getAllCurrentOrganizationMembersSQL);
 	};
 
 	OrganizationModel.getFunctionality = (connection = database) => {

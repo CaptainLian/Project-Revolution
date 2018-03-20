@@ -18,6 +18,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     const postProjectProposalModel = models.PostProjectProposal_model;
     const gosmModel = models.gosmModel;
     const orgresModel = models.Orgres_model;
+    const amtModel = models.ActivityMonitoring_model;
+    const financeModel = models.Finance_model;
 
     const accountModel = models.Account_model;
 
@@ -91,7 +93,15 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             const renderData = Object.create(null);
             console.log(req.param)
             renderData.extra_data = req.extra_data;
-            return res.render('Org/addMembers');
+            renderData.csrfToken = req.csrfToken();
+            organizationModel.viewMember(req.session.user.organizationSelected.id)
+            .then(data=>{
+                renderData.members = data
+                return res.render('Org/addMembers',renderData);
+            }).catch(err=>{
+                console.log(err)
+            })
+            
         },
         viewReport: (req, res) => {
 
@@ -104,8 +114,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
             systemModel.getCurrentTerm([
                 'id',
-                'to_char(dateStart, \'Month DD, YYYY\') AS "dateStart"',
-                'to_char(dateEnd, \'Month DD, YYYY\') AS "dateEnd"'
+                'to_char(dateStart, \'YYYY-MM-DD\') AS "dateStart"',
+                'to_char(dateEnd, \'YYYY-MM-DD\') AS "dateEnd"'
             ]).then(term=>{
 
                 var dbParam = {
@@ -127,7 +137,15 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             //ORGRES
                             orgresModel.getAllOfficerSurveyForm(),
                             orgresModel.getAllMemberSurveyForm(),
-                            orgresModel.getAllActivityResearchForm()
+                            orgresModel.getAllActivityResearchForm(),
+                            organizationModel.getAllCurrentOrganizationMembers(),
+                            //AMT
+                            amtModel.getAllAMTEvaluationResults(dbParam),
+                            amtModel.getAllAMTScoreAverages(dbParam),
+                            //FINANCE
+                            financeModel.getAllApprovedTransactions(dbParam),
+                            financeModel.getAllApprovedActivityExpenses(dbParam),
+                            financeModel.getOrganizationBudgetExpenses(dbParam)
                         ]);
                 }).then(data=>{
 
@@ -155,8 +173,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                             let orggosmsubmitted = data[2].orggosmsubmitted;
 
-                            var gosmdiff = timediff(termstart, orggosmsubmitted, 'D').days;
-                            //error to do 
+                            var gosmdiff = timediff(termstart, orggosmsubmitted, 'D');
+
                             if(gosmdiff.days <= 14){
                                 gosmSubmissionGrade = 0.075;
                             }
@@ -186,7 +204,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             let datesigned = data[0][i].datesigned;
                             let targetdatestart = data[0][i].targetdatestart;
 
-                            var diff = timediff(actualdatestart, datesigned, 'D').days;
+                            var diff = timediff(actualdatestart, datesigned, 'D');
 
 
                             if (diff.days>2){
@@ -288,6 +306,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                     var sixtyFortyGrade = (100-(parseFloat(sixFourGradeRange)*4))*0.10;
 
+
+
                     //postacts grade
                     var postactsEarlyApprovedActivities = 0;
                     var postactsTotalActivities = 0;
@@ -309,7 +329,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                 let actualdatestart = data[3][i].actualdatestart;
                                 let datesubmitted = data[3][i].datesubmitted;
 
-                                var diff = timediff(actualdatestart, datesubmitted, 'D').days;
+                                var diff = timediff(actualdatestart, datesubmitted, 'D');
 
 
                                 if (diff.days>30){
@@ -364,6 +384,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     else{
                         var lasallianFormationComplianceGrade = 0;
                     }
+
+                    var documentationGrade = (preactsPunctualityGrade + preactsCompletenessGrade + preactsTimingRatioGrade 
+                                                + gosmSubmissionGrade + sixtyFortyGrade + postactsPunctualityGrade
+                                                + postactsCompletenessGrade + pushedThroughGrade + notInGOSMGrade
+                                                + lasallianFormationComplianceGrade);
 
                     //pnp grade
                     var printedPoster = false;
@@ -460,6 +485,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     if (onlinePoster) {
                         OnlinePublicityGrade = OnlinePublicityGrade + 1.5;
                     }
+
+                    var pnpGrade = UniversityPublicityInstrumentGrade + NewsLettersPublicationsGrade + OnlinePublicityGrade;
 
                     //orgres grade
 
@@ -649,6 +676,20 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         arfField7Average = 0;
                     }
 
+                    //orgres organization members count
+
+                    var totalOrganizationMembers = 0;
+
+                    for(var i = 0; i < data[8].length; i++){
+
+                        if (data[8][i].organization == organizationid){
+
+                            totalOrganizationMembers = totalOrganizationMembers + 1;
+                        }
+
+
+                    }
+
                     // orgres purpose
 
                     var purpose1 = ((msfField1Average/5)*100)*0.04;
@@ -660,7 +701,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                     // orgres involvement
 
-                    var involvement1 = 0;
+                    var involvement1 = ((msfSurveyTotal/totalOrganizationMembers)*100)*0.045;
                     var involvement2 = ((((arfField3Average + msfField5Average + msfField6Average)/3)/5)*100)*0.06;
                     var involvement3 = ((((arfField4Average + msfField7Average)/2)/5)*100)*0.045;
 
@@ -687,11 +728,171 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     var leadership6 = ((((osfField6Average + osfField7Average)/2)/5)*100)*0.0045;
                     var leadership7 = ((osfField8Average/5)*100)*0.003;
                     var leadership8 = ((osfField9Average/5)*100)*0.0015;
-                    var leadership9 = 0.003;
+                    var leadership9 = 0.3;//0.003*100
 
                     var orgresLeadershipGrade = leadership1 + leadership2 + leadership3 + leadership4 + leadership5 + leadership6 + leadership7 + leadership8 + leadership9;
 
                     var orgresGrade = orgresPurposeGrade + orgresInvolvementGrade + orgresQualityGrade + orgresLeadershipGrade;
+
+                    // amt grade
+                    var totalAMTEvaluations = data[9].length;
+                    var totalAMTEvaluationScore = 0;
+
+                    for (var i = 0; i < data[9].length; i++){
+
+                        totalAMTEvaluationScore = totalAMTEvaluationScore + data[9][i].amtgrade
+
+                    }
+
+                    var amtScore = totalAMTEvaluationScore/totalAMTEvaluations;
+                    var amtGrade = amtScore*0.0375;
+
+                    //finance grade
+
+                    var onTimeTransaction = 0;
+                    var totalApprovedTransaction = 0;
+                    var approvedParticulars = 0;
+                    var onBudgetActivities = 0;
+                    var totalFinanceActivities = 0;
+                    var relatedExpense = 0;
+                    var totalExpense = 0;
+                    var totalActivityBudget = 0
+
+                    // approved transactions
+                    for (var i = 0; i < data[11].length; i++){
+
+                        let financesign = data[11][i].datesigned;
+                        let activitystart = data[11][i].datestart
+
+                        var budgetdiff = timediff(financesign, activitystart, 'D');
+
+                        if(budgetdiff.days <= 3){
+                            onTimeTransaction = onTimeTransaction + 1;
+                        }
+
+                        approvedParticulars = approvedParticulars + data[11][i].particulars;
+
+                        totalApprovedTransaction = totalApprovedTransaction + 1;
+
+                    }
+
+                    // approved expenses(particulars)
+                    for(var i = 0; i < data[12].length; i++){
+
+                        if (data[12][i].expenses <= data[12][i].budget) {
+                            onBudgetActivities = onBudgetActivities + 1;
+                        }
+
+                        totalFinanceActivities = totalFinanceActivities + 1;
+
+                        if (data[12][i].isrelatedtoorganizationnature == true){
+                            relatedExpense = relatedExpense + data[12][i].expenses;
+                        }
+
+                        totalExpense = totalExpense + data[12][i].expenses;
+
+                        totalActivityBudget = totalActivityBudget + data[12][i].budget;
+
+                    }
+
+                    if(data[13]==null){
+                        console.log("itssssssssssss empty------------------------------------------------------------")
+                        var totalParticulars = 0;
+                        var operationalfunds = 0;
+                        var depositoryfunds = 0;
+                    }
+                    else {
+                        var totalParticulars = data[13].particulars;
+                        var operationalfunds = data[13].operationalfunds;
+                        var depositoryfunds = data[13].depositoryfunds;
+                    }
+
+
+                    // finance monitoring grade
+
+                    var monitoring1 = ((onTimeTransaction/totalApprovedTransaction)*100)*0.01;
+                    var monitoring2 = ((approvedParticulars/totalParticulars)*100)*0.005;
+                    var monitoring3 = 1;
+                    var tempMonitoring45 = ((Math.abs(totalExpense-totalActivityBudget))/totalActivityBudget)*100;
+
+                    if(tempMonitoring45 >= 90 && tempMonitoring45 <=110){
+                        var monitoring4 = 1.5;
+                    }
+                    else if(tempMonitoring45 >= 75 && tempMonitoring45 <= 125){
+                        var monitoring4 = 1.35;
+                    }
+                    else{
+                        var monitoring4 = 1.2;
+                    }
+
+                    if(tempMonitoring45 >= 90 && tempMonitoring45 <= 110){
+                        var monitoring5 = 1;
+                    }
+                    else if(tempMonitoring45 >= 85 && tempMonitoring45 <=115){
+                        var monitoring5 = 0.9;
+                    }
+                    else if(tempMonitoring45 >= 81 && tempMonitoring45 <=120){
+                        var monitoring5 = 0.8;
+                    }
+                    else if(tempMonitoring45 >= 75 && tempMonitoring45 <= 125){
+                        var monitoring5 = 0.7;
+                    }
+                    else{
+                        var monitoring5 = 0.6;
+                    }
+
+                    // finance generation grade
+
+                    var generation1 = 0;
+                    var generation2 = 0;
+
+                    // finance allocation grade
+
+                    var allocation1 = ((onBudgetActivities/totalFinanceActivities)*100)*0.01;
+
+                    var tempAllocation2 = Math.abs(60-((relatedExpense/totalExpense)*100));
+
+                    if(tempAllocation2 <= 10){
+                        var allocation2 = 1;
+                    }
+                    else if(tempAllocation2 <=20.99){
+                        var allocation2 = 0.9;
+                    }
+                    else if(tempAllocation2 <= 30){
+                        var allocation2 = 0.85;
+                    }
+                    else{
+                        var allocation2 = 0.75;
+                    }
+
+                    var tempAllocation3 = ((depositoryfunds-totalExpense)/depositoryfunds)*100;
+
+                    if(tempAllocation3 >= 100){
+                        var Allocation3 = 1;
+                    }
+                    else if(tempAllocation3 >= 90){
+                        var Allocation3 = 0.9;
+                    }
+                    else if(tempAllocation3 >= 80){
+                        var Allocation3 = 0.8;
+                    }
+                    else if(tempAllocation3 >= 70){
+                        var Allocation3 = 0.75;
+                    }
+                    else if(tempAllocation3 >= 60){
+                        var Allocation3 = 0.7;
+                    }
+                    else{
+                        var Allocation3 = 0.6;
+                    }
+
+                    var financeMonitoringGrade = monitoring1 + monitoring2 + monitoring3 + monitoring4 + monitoring5;
+                    var financeGenerationGrade = generation1 + generation2;
+                    var financeAllocationGrade = allocation1 + allocation2 + Allocation3;
+
+                    var financeGrade = financeMonitoringGrade + financeGenerationGrade + financeAllocationGrade;
+
+
  
                     // render data grades
                     const renderData = Object.create(null);
@@ -723,11 +924,14 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     renderData.notInGOSMGrade = notInGOSMGrade;
                     renderData.lasallianFormationComplianceGrade = lasallianFormationComplianceGrade;
 
+                    renderData.documentationGrade = documentationGrade;
+
                     //orgres
                     renderData.orgresPurposeGrade = orgresPurposeGrade;
                     renderData.orgresInvolvementGrade = orgresInvolvementGrade;
                     renderData.orgresQualityGrade = orgresQualityGrade;
                     renderData.orgresLeadershipGrade = orgresLeadershipGrade;
+                    renderData.orgresGrade = orgresGrade;
 
                     //documentation info
                     renderData.sixtyCount = isRelatedToOrganizationCount;
@@ -739,6 +943,19 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     renderData.newsLettersPublicationsGrade = NewsLettersPublicationsGrade;
                     renderData.onlinePublicityGrade = OnlinePublicityGrade;
                     renderData.pnpCompliance = 0.3;
+                    renderData.pnpGrade = pnpGrade + 0.3;
+
+                    //amt 
+                    renderData.amtActivities = data[9];
+                    renderData.amtAverageScores = data[10];
+                    renderData.amtScore = amtScore;
+                    renderData.amtGrade = amtGrade;
+
+                    //finance 
+                    renderData.financeMonitoringGrade = financeMonitoringGrade;
+                    renderData.financeGenerationGrade = financeGenerationGrade;
+                    renderData.financeAllocationGrade = financeAllocationGrade;
+                    renderData.financeGrade = financeGrade
 
 
                     console.log(renderData)
@@ -3639,6 +3856,29 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             }).catch(err => {
                 return logger.error(`${err.message}: ${err.stack}`, log_options);
             })
+        },
+        addMember: (req, res) => {
+            
+           
+            organizationModel.addMember(req.body.idnumber, req.body.name, req.session.user.organizationSelected.id).then(data=>{
+                return res.json({status:1})     
+            }).catch(err=>{
+                console.log(err)
+                return res.json({status:0})
+            })
+
+            
+        },
+        deleteMember: (req, res) => {
+             
+            
+            organizationModel.deleteMember(req.body.idnumber, req.session.user.organizationSelected.id).then(data=>{
+                return res.json({status:1})
+            }).catch(err=>{
+                console.log(err)
+                return res.json({status:0})
+            })
+            
         },
 
         orgresSpecficActivity: (req, res) => {

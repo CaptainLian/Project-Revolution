@@ -2,7 +2,9 @@
         [].slice.call(document.querySelectorAll('.sttabs')).forEach(function(el) {
             new CBPFWTabs(el);
         });
+      
       $('#amtTable').dataTable();
+      $('#finTable').dataTable();
 //Start of Online officer survey form results
      new Chart(document.getElementById("bar-chart1"), {
         type: 'bar',
@@ -584,54 +586,7 @@
             }
         }
     });
-    //Academic Contest
-    new Chart(document.getElementById("chartamt4"), {
-        type: 'bar',
-        data: {
-          labels: ["Facilitators", "Hosts", "Program", "Mechanics"],
-          datasets: [
-            {
-              label: "Average Grade",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9"],
-              data: [1,2,3,4,5]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false },
-          scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }]
-            }
-        }
-    });
-    //Seminar
-    new Chart(document.getElementById("chartamt5"), {
-        type: 'bar',
-        data: {
-          labels: ["Hosts", "Facilitators", "Presentations", "Speakers"],
-          datasets: [
-            {
-              label: "Average Grade",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9"],
-              data: [4.2,4.4,5,4.9]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false },
-          scales: {
-        yAxes: [{
-            ticks: {
-                beginAtZero: true
-            }
-        }]
-    }
-        }
-    });
+    
     //audience feedback
     new Chart(document.getElementById("chartamt6"), {
         type: 'bar',
@@ -657,20 +612,6 @@
         }
     });
     // When the user scrolls down 20px from the top of the document, show the button
-        window.onscroll = function() {scrollFunction()};
-
-        function scrollFunction() {
-            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-                document.getElementById("myBtn").style.display = "block";
-            } else {
-                document.getElementById("myBtn").style.display = "none";
-            }
-        }
-
-        // When the user clicks on the button, scroll to the top of the document
-        function topFunction() {
-            document.body.scrollTop = 0;
-            document.documentElement.scrollTop = 0;
-        }
+        
     })();
 
