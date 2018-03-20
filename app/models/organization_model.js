@@ -73,12 +73,14 @@ module.exports = function(configuration, modules, database, queryFiles){
 						.from("functionality")
 		return connection.any(query.toString());
 	};
+
 	OrganizationModel.getOrgRole = (connection = database) => {
 		var query = squel.select()
 						.from("studentOrganization", "so")
 						.left_join("OrganizationRole","orr","so.id = orr.organization")
 		return connection.any(query.toString());
 	};
+
 	OrganizationModel.getTestJson = (connection = database) => {
 		var query =
 			`SELECT json_object(array_agg(z.role)::text[], array_agg(z.rw)::text[])
@@ -214,7 +216,7 @@ module.exports = function(configuration, modules, database, queryFiles){
 
 	const hasGOSMSubmittedSQL = queryFiles.organization_GOSM_has_submitted;
 	OrganizationModel.hasGOSMSubmitted = (organizationID, connection = database) => {
-		logger.debug(`hasGOSMSubmitted(organizationID: ${organizationID})`, log_options);
+		logger.info(`hasGOSMSubmitted(organizationID: ${organizationID})`, log_options);
 
 		logger.debug(hasGOSMSubmittedSQL, log_options);
 		return connection.one(hasGOSMSubmittedSQL, {
@@ -276,7 +278,7 @@ module.exports = function(configuration, modules, database, queryFiles){
 						.from('"OrganizationRoles"')
 						.field('MIN(rank)'))))
 			.from('OrganizationOfficer', 'oo')
-			.left_join('Account', 'a', 'oo.idNumber = a.idNumber')
+				.left_join('Account', 'a', 'oo.idNumber = a.idNumber')
 			.where('oo.yearID = system_get_current_year_id()')
 			.where('oo.role IN ?',
 				squel.select()

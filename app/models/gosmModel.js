@@ -73,7 +73,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
             attachFields(query, fields);
 
             query = query.toString();
-             logger.debug(`Executing query: ${query}`, log_options);
+            logger.debug(`Executing query: ${query}`, log_options);
             return connection.many(query);
         },
 
@@ -90,41 +90,43 @@ module.exports = function(configuration, modules, db, queryFiles) {
             return connection.one(getObjectives,param);
         },
         getBuffer: function(orgid, connection = db) {
+            logger.info(`getBuffer(orgid: ${orgid})`, log_options);
+
             let query= squel.select()
-            .from('GOSM',"G")            
-            .field('COUNT(GA.ID) AS CGAID')
-            .left_join("GOSMActivity",'GA','G.ID = GA.GOSM')            
-            .where('GA.isInGOSM = FALSE')            
-            .where('G.studentOrganization = ?',orgid)
-            .group('G.ID');
-            query = query.toString();
+                .from('GOSM',"G")
+                    .left_join("GOSMActivity",'GA','G.ID = GA.GOSM')            
+                .field('COUNT(GA.ID) AS CGAID')    
+                .where('GA.isInGOSM = FALSE')            
+                .where('G.studentOrganization = ?',orgid)
+                .group('G.ID')
+                .toString();
             
+            logger.debug(`Executing query: ${query}`, log_options);
             return connection.any(query);
         },
 
         getGOSMActivities: function(GOSMID, fields, connection = db) {
             let query= squel.select()
             .from('GOSMActivity',"G")
-        
+                .left_join("ProjectProposal",'P','P.GOSMActivity = G.ID')
+            .where('GOSM = ?',GOSMID)
             .field("TO_CHAR(G.targetdatestart,'Mon DD, YYYY') as startdate")
             .field("*")
             .field("G.ID AS GID")
-            .left_join("ProjectProposal",'P','P.GOSMActivity = G.ID')
             .field('P.ID AS PID')
-            .field('P.STATUS AS PSTATUS')
-            .where('GOSM = ?',GOSMID);
+            .field('P.STATUS AS PSTATUS');
 
             query = query.toString();
             return connection.any(query);
         },
+
         getnotinGOSMActivities: function(GOSMID, fields, connection = db) {
             let query= squel.select()
             .from('GOSMActivity',"G")
-        
+                .left_join("ProjectProposal",'P','P.GOSMActivity = G.ID')
             .field("TO_CHAR(G.targetdatestart,'Mon DD, YYYY') as startdate")
             .field("*")
             .field("G.ID AS GID")
-            .left_join("ProjectProposal",'P','P.GOSMActivity = G.ID')
             .field('P.ID AS PID')
             .field('P.STATUS AS PSTATUS')
             .where('GOSM = ?',GOSMID)
@@ -133,6 +135,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
             query = query.toString();
             return connection.any(query);
         },
+
         getGOSMActivityType: function(GOSMID, fields = 'activityType', connection = db) {
             let query= squel.select()
             .from('GOSMActivity')
@@ -150,7 +153,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
         getGOSMActivityAttachmentRequirement: function(type, fields = 'activityType', connection = db) {
             let query= squel.select()
                 .from('ActivityAttachmentRequirement','aar')
-                .left_join('DocumentAttachmentRequirement', 'dar', 'aar.attachment = dar.id')
+                    .left_join('DocumentAttachmentRequirement', 'dar', 'aar.attachment = dar.id')
                 .where('aar.activitytype = ${type}');
             attachFields(query, fields);
 
@@ -382,6 +385,6 @@ module.exports = function(configuration, modules, db, queryFiles) {
 
             logger.debug(`Executing query: ${query}`, log_options);
             return connection.one(query, param);
-        },
+        }
     };
 };

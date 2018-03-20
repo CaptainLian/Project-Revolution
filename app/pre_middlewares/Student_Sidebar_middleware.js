@@ -197,9 +197,12 @@ module.exports = function(configuration, application, modules, database, queryFi
                 accountModel.hasPPRApproved(user.idNumber, task),
                 accountModel.hasPPRWithoutPostProjectProposal(user.idNumber, task),
                 organizationModel.hasGOSMSubmitted(organizationSelected.id, task),
-                gosmModel.getBuffer(organizationSelected.id, task)
+                gosmModel.getBuffer(organizationSelected.id, task),
+                gosmModel.getCurrentTermGOSM(user.organizationSelected.id, [
+                    'g.status'
+                ], task)
             ]);
-        }).then(data => {
+        }).then(([isProjectHead, GOSMActivityWithActivityEvaluation, PPRApproved, hasPPRWithoutPostProjectProposal, hasSubmittedGOSM, buffer, GOSM]) => {
             const [
                 isProjectHead,
                 GOSMActivityWithActivityEvaluation,
@@ -240,8 +243,6 @@ module.exports = function(configuration, application, modules, database, queryFi
                 newSidebar.link = '/blank';
                 newSidebar.icon = 'fa fa-star'
                 
-
-
                 sidebars[sidebars.length] = newSidebar;
             }
 
@@ -252,7 +253,6 @@ module.exports = function(configuration, application, modules, database, queryFi
                 newSidebar.link = '/Organization/Publicity/list';
                 newSidebar.icon = 'fa fa-photo';
                 
-
                 sidebars[sidebars.length] = newSidebar;
             }
 
@@ -271,18 +271,18 @@ module.exports = function(configuration, application, modules, database, queryFi
                 let acl28 = req.extra_data.user.accessControl[organizationSelected.id];
                 acl28 = acl28['28'] ? acl28['28'] : acl28[28];
 
-                if(typeof acl28 !== 'undefined' && acl28 !== undefined){
+                if(GOSM.status === 3 && typeof acl28 !== 'undefined' && acl28 !== undefined){
                     logger.debug('Can submit not in GOSM activities', log_options);
 
                     const newSidebar = Object.create(null);
                     console.log("ASDASDJASKLDJASLKDJ")
                     console.log(data[5][0])
-                    var ctr = 0 ;
-                    if(data[5][0] === undefined){
-                        ctr = 0
-                    }else{
-                        ctr =  data[5][0].cgaid
+            
+                    let ctr = 0;
+                    if(buffer[0]){
+                        ctr = buffer[0].cgaid;
                     }
+
                     req.session.notingosm = ctr;
                     newSidebar.name = 'Not in GOSM ('+ctr+'/10)';
                     newSidebar.link = '/Organization/additional';
@@ -291,7 +291,6 @@ module.exports = function(configuration, application, modules, database, queryFi
                     sidebars[sidebars.length] = newSidebar;
                 }
             }
-            
 
             return next();
         }).catch(err => {

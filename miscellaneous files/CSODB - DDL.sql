@@ -3264,9 +3264,11 @@ CREATE TABLE "OfficerSurveyForm" (
 DROP TABLE IF EXISTS "MemberSurveyForm" CASCADE;
 CREATE TABLE "MemberSurveyForm" (
     "id" SERIAL UNIQUE,
+
     "termID" INTEGER REFERENCES Term(id),
+    "member" INTEGER REFERENCES "OrganizationMember"("id"),
+
     "organizationID" INTEGER REFERENCES StudentOrganization(id),
-    "sequence" INTEGER DEFAULT -1,
     "field1" SMALLINT NOT NULL,
     "field2" SMALLINT NOT NULL,
     "field3" SMALLINT NOT NULL,
@@ -3281,12 +3283,8 @@ CREATE TABLE "MemberSurveyForm" (
     "field12" SMALLINT NOT NULL,
     "field13" SMALLINT NOT NULL,
 
-    PRIMARY KEY("termID", "organizationID", "sequence")
+    PRIMARY KEY("termID", "member", "organizationID")
 );
-CREATE TRIGGER "before_insert_MemberSurveyForm_sequence"
-    BEFORE INSERT ON "MemberSurveyForm"
-    FOR EACH ROW
-    EXECUTE PROCEDURE "trigger_before_insert_increment_sequence"('MemberSurveyForm', 'msf', '(msf."termID" = $1."termID") AND (msf."organizationID" = $1."organizationID")' );
 
 /* SESSION TABLE */
 DROP TABLE IF EXISTS session CASCADE;
