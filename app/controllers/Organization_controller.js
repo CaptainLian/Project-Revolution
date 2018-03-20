@@ -799,10 +799,12 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         console.log("itssssssssssss empty------------------------------------------------------------")
                         var totalParticulars = 0;
                         var operationalfunds = 0;
+                        var depositoryfunds = 0;
                     }
                     else {
                         var totalParticulars = data[13].particulars;
                         var operationalfunds = data[13].operationalfunds;
+                        var depositoryfunds = data[13].depositoryfunds;
                     }
 
 
@@ -863,7 +865,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         var allocation2 = 0.75;
                     }
 
-                    var tempAllocation3 = ((operationalfunds-totalExpense)/operationalfunds)*100;
+                    var tempAllocation3 = ((depositoryfunds-totalExpense)/depositoryfunds)*100;
 
                     if(tempAllocation3 >= 100){
                         var Allocation3 = 1;

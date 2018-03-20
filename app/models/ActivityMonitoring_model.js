@@ -14,6 +14,8 @@ module.exports = function(configuration, modules, database, queryFiles){
     const getAllAMTEvaluationResultsSQL = queryFiles.getAllAMTEvaluationResults;
     const getAllAMTScoreAveragesSQL = queryFiles.getAllAMTScoreAverages;
 
+    const getAllAMTEvaluationSQL = queryFiles.getAllAMTEvaluation;
+
 	ActivityMonitoringModel.insertAMTActivityEvaluation = function(param, connection = database) {
         return connection.none(insertAMTActivityEvaluationSQL, param);
     };
@@ -48,6 +50,10 @@ module.exports = function(configuration, modules, database, queryFiles){
 
     ActivityMonitoringModel.getAllAMTScoreAverages = function(param, connection = database){
         return connection.oneOrNone(getAllAMTScoreAveragesSQL, param);
+    };
+
+    ActivityMonitoringModel.getAllAMTEvaluation = function(connection = database){
+        return connection.any(getAllAMTEvaluationSQL);
     };
 
 	return ActivityMonitoringModel;

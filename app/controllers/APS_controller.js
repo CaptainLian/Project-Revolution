@@ -224,13 +224,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
             for (var i = 0; i < data[0].length; i++){
 
-                if (data[0][i].publicitystatus == 0) {
+                if (data[0][i].status == 2) {
                     uncheckedPPR = uncheckedPPR + 1;
                 }
-                else if(data[0][i].publicitystatus == 1){
+                else if(data[0][i].status == 3){
                     ApprovedPPR = ApprovedPPR + 1;
                 }
-                else if(data[0][i].publicitystatus == 2){
+                else if(data[0][i].status == 5 || data[0][i].status == 7){
                     PendedPPR = PendedPPR + 1;
                 }
 
