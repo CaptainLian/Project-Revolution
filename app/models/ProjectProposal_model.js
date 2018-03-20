@@ -273,7 +273,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
         .table('projectproposal')
         .set('actualDateStart',date1.toISOString().split('T')[0])
         .set('actualDateEnd',date2.toISOString().split('T')[0])
-        .where('id = ?',id)
+        .where('gosmactivity = ?',id)
             
 
         query = query.toString();
@@ -409,7 +409,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
                          .set("rescheduledates", "{"+dates+"}")
                          .set("reschedreasonother", other)
                          .set("reschedrejectreason", '')
-                         .where("GosmActivity = ?",id)
+                         .where("id = ?",id)
 
         console.log(query.toString())
         return connection.any(query.toString());

@@ -173,12 +173,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             })    
         }else{
             database.tx(t=>{
-                return projectProposalModel.getActivityProjectProposalDetailsGAID(req.body.activityID,t)
+                return projectProposalModel.getActivityProjectProposalDetailsGAID(req.body.activityID,['PP.ID AS PRID','PP.rescheduledates as rescheduledates'],t)
                 .then(data=>{
-                    console.log(data.id)
+                    console.log("data")
+                    console.log(data)
                     return t.batch([
                             projectProposalModel.updateProjectProposalActualDate(req.body.activityID,data.rescheduledates),
-                            projectProposalModel.updateProjectProposalPD(data.gosmactivity,data.rescheduledates),
+                            projectProposalModel.updateProjectProposalPD(data.prid,data.rescheduledates),
                             projectProposalModel.approvePPResched(req.body.activityID, comment,req.body.status)
                         ]).catch(err => {
                    console.log(err)
