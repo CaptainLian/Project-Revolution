@@ -87,6 +87,13 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			return res.render('Orgres/ManageOrg', renderData);
 		},
 
+		viewHome: (req, res) => {
+			const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
+			return res.render('Orgres/orgresHome');
+		},
+
 		viewManageTime: (req, res) => {
 			orgresModel.getCurrentSchoolYearTerms().then(data=>{
 				const renderData = Object.create(null);
