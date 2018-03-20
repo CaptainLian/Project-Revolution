@@ -2,6 +2,7 @@
 
 module.exports = function(configuration, modules, router, controllers, models, database, queryFiles){
 	router.get('/Finance/Settings', controllers.Finance_controller.viewFinanceSettings);
+	router.get('/Finance/viewHome', controllers.Finance_controller.viewHome);
 	router.get('/transaction', controllers.Finance_controller.createTransaction);
 	router.get('/transaction/preacts/', controllers.Finance_controller.viewFinanceList);
 	router.get('/transaction/evaluate/:transaction/:id', controllers.Finance_controller.evaluateTransaction);
