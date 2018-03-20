@@ -1,0 +1,114 @@
+{% extends '../template/CSO_master.html' %}
+{% import '../template/tags_macro.html' as tag %}
+
+{%block page_title%}CSO - View Rescheduled Activities{%-endblock%}
+
+
+{%block style%}
+    {{super()}}
+    <!-- Bootstrap Core CSS -->
+    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
+    {{tag.style('/plugins/bower_components/datatables/jquery.dataTables.min.css')}}
+    {{tag.style('/plugins/bower_components/nestable/nestable.css')}}
+    <!-- Menu CSS -->
+    {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
+    <!-- animation CSS -->
+    {{tag.style('/css/animate.css')}}
+    {{tag.style('/plugins/bower_components/calendar/dist/fullcalendar.css')}}
+    <!--alerts CSS -->
+    {{tag.style('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.css')}}
+    <!-- Custom CSS -->
+    {{tag.style('/plugins/bower_components/custom-select/custom-select.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-select/bootstrap-select.min.css')}}
+
+    {{tag.style('/css/style.css')}}
+    {{tag.style('/css/doms.css')}}
+    {{tag.style('/css/custom.css')}}
+    <!-- color CSS -->
+    {{tag.style('/css/colors/blue.css')}}
+    {{tag.style('/css/btn_lnk.css')}}
+    <style type="text/css">
+        th, td{
+            text-align: center
+        }
+    </style>
+
+{%endblock%}
+
+{%block defer_script%}
+    {{super()}}
+    <!-- jQuery -->
+    {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
+    <!-- Bootstrap Core JavaScript -->
+    {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
+    {{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
+    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
+    {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js', true)}}
+
+    <!-- Menu Plugin JavaScript -->
+    {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
+    <!--slimscroll JavaScript -->
+    {{tag.javascript('/js/jquery.slimscroll.js', true)}}
+    <!--Wave Effects -->
+    {{tag.javascript('/js/waves.js', true)}}
+    <!-- Custom Theme JavaScript -->
+    {{tag.javascript('/js/custom.min.js', true)}}
+    {{tag.javascript('/js/cbpFWTabs.js', true)}}
+    {{tag.javascript('/plugins/bower_components/calendar/dist/fullcalendar.min.js')}}
+    <!-- tabs-->
+    
+   {{tag.javascript('/js/APS/rescheduleChecking.js', true)}}
+   <script>
+
+        $(document).ready(function() {
+
+            $('#calendar').fullCalendar({
+            });
+
+        });
+
+    </script>
+{%endblock%}
+
+{%block content%}
+<div class="row">
+    <div class="col-md-3 col-xs-12 col-sm-6">
+        <div class="white-box text-center bg-inverse">
+            <h1 class=" text-white counter">32</h1>
+            <p class="text-white">Projects</p>
+        </div>
+    </div>
+     <div class="col-md-3 col-xs-12 col-sm-6">
+        <div class="white-box text-center bg-success">
+            <h1 class="text-white counter">32</h1>
+            <p class="text-white">Success</p>
+        </div>
+    </div>
+    <div class="col-md-3 col-xs-12 col-sm-6">
+        <div class="white-box text-center bg-warning">
+            <h1 class="counter text-white">32</h1>
+            <p class=" text-white">Pending</p>
+        </div>
+    </div>
+    <div class="col-md-3 col-xs-12 col-sm-6">
+        <div class="white-box text-center bg-danger">
+            <h1 class="text-white counter">32</h1>
+            <p class="text-white">Denied</p>
+        </div>
+    </div>
+    
+   
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="white-box">
+            <h2>Calendar of La Salle Computer Society</h2>
+            <div id="calendar"></div>
+        </div>
+    </div>  
+</div>
+{%endblock%}
+    

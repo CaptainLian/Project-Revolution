@@ -49,6 +49,7 @@
     <!-- Custom Theme JavaScript -->
     {{tag.javascript('/js/custom.min.js', true)}}
     {{tag.javascript('/js/cbpFWTabs.js', true)}}
+    {{tag.javascript('/js/mask.js', true)}}
     <!-- tabs-->
     {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}  
     <!--Style Switcher -->
@@ -98,6 +99,11 @@
                                 {% endfor %}
 
                             </select>
+
+                        </div>
+                        <div class="form-group m-b-40">
+                            <label>ID Number</label>
+                            <input data-mask="99999999" class="form-control" type="text" name="" value="" placeholder="">
                             <span class="highlight"></span> <span class="bar"></span>
                         </div>
                         <div class="form-group col-xs-12">
