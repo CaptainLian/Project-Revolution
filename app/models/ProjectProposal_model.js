@@ -49,6 +49,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const getProjectProposalCommentsPerStatusSQL = queryFiles.getProjectProposalCommentsPerStatus;
     const getApprovedActivitiesSQL = queryFiles.getApprovedActivities;
 
+
     const updatePPRSignatoryStatusSQL = queryFiles.updatePPRSignatoryStatus;
     const getPPRDetailsSQL = queryFiles.getPPRDetails;
 
@@ -714,6 +715,12 @@ module.exports = function(configuration, modules, db, queryFiles) {
 
     ProjectProposalModel.prototype.getApprovedActivities = function(connection = this._db){
         return connection.any(getApprovedActivitiesSQL);
+    };
+
+    const getOrganizationFundsAndExpenseSQL = queryFiles.getOrganizationFundsAndExpense;
+    ProjectProposalModel.prototype.getOrganizationFundsAndExpense = function(param, connection = this._db){
+        console.log('call getOrganizationFundsAndExpense()');
+        return connection.oneOrNone(getOrganizationFundsAndExpenseSQL, param);
     };
 
     const getAllProjectProposalSQL = queryFiles.getAllProjectProposal;

@@ -140,7 +140,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
      * @returns {Promise}  [description]
      */
     AccountModel.getAccountDetails = (idNumber, fields, connection = database) => {
-        logger.info('call getAccountDetails()', log_options);
+        logger.info(`call getAccountDetails(idNumber: ${idNumber})`, log_options);
 
         let param = Object.create(null);
         param.idNumber = idNumber;
@@ -638,6 +638,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
         logger.info(`call approveDirectPayment(directPaymentID: ${directPaymentID}, idNumber: ${idNumber})`)
 
         let param = Object.create(null);
+        param.idNumber = idNumber;
         param.directPayment = directPaymentID;
         param.signatory = idNumber;
         param.document = document;

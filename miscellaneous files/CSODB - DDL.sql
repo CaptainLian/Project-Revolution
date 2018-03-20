@@ -166,30 +166,30 @@ $trigger$
 	                                        FROM %I %I
 	                                       WHERE (%s));', TG_ARGV[1], TG_ARGV[0], TG_ARGV[1], TG_ARGV[2])
         INTO STRICT totalExpense
-        USING NEW;
+        USING OLD;
 
         IF totalExpense <= 5000.00 THEN
             EXECUTE format('DELETE FROM %I %I
                                   WHERE (%s)
                                     AND %I.type = 3;', TG_ARGV[3], TG_ARGV[4], TG_ARGV[5], TG_ARGV[4])
-            USING NEW;
+            USING OLD;
         END IF;
 
 	    IF totalExpense <= 50000.00 THEN
         EXECUTE format('DELETE FROM %I %I
                               WHERE (%s)
                                 AND %I.type = 4;', TG_ARGV[3], TG_ARGV[4], TG_ARGV[5], TG_ARGV[4])
-        USING NEW;
+        USING OLD;
         END IF;
 
 	    IF totalExpense <= 250000.00 THEN
             EXECUTE format('DELETE FROM %I %I
                                   WHERE (%s)
                                     AND %I.type = 5;', TG_ARGV[3], TG_ARGV[4], TG_ARGV[5], TG_ARGV[4])
-            USING NEW;
+            USING OLD;
 	    END IF;
 
-        RETURN NEW;
+        RETURN OLD;
     END
 $trigger$ LANGUAGE plpgsql;
 

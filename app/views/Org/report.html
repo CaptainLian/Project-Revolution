@@ -105,7 +105,55 @@
     {{tag.javascript('/js/Organization/report.js', true)}}
     <script>
         window.onscroll = function() {scrollFunction()};
+        //aps grades
+        //60 40 ratio
+        var academic
+        var nonAcademic
+        //push thrgouh ratio
+        var numPush
+        var numNotPush
+        //activities summary
+        var numAcademicContest
+        var numDistribution
+        var numGeneralAssembly
+        var numSeminar
+        var numPublicity
+        var numMeetings
+        var numSpiritualActivity
+        var numRecruitment
+        var numRecreation
+        var numDistribution
+        
 
+
+        //amt tab
+        //logistics chart 
+        var venue
+        var equipment
+
+        //activity process
+        var openingStart
+        var timeEnd
+        var activityExec
+        var Registration
+
+        //audience feedback
+        var Announcement
+        var Interaction
+        var expectation
+        var Awareness
+
+        //programdesign
+        var Hosts
+        var Ushers
+        var Presentations
+        var activities
+        var standingPresentation
+
+        
+        
+
+        
         function scrollFunction() {
             if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
                 document.getElementById("myBtn").style.display = "block";
@@ -779,13 +827,71 @@
                                                 </div>
                                             </div>
                                         <!-- Start Online Officer Survey Form Results -->
-                                            <div class="row text-center">
+                                            <div class="row">
                                                 
                                                 <div class="col-md-12">
                                                     <h3 class="text text-megna col-md-12"><strong>ONLINE OFFICER SURVEY FORM RESULTS</strong></h3>
                                                 </div>
+
+                                                <table class="table table-striped" id="ofSurTable">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Question</th>
+                                                            <th>Average Grade</th>
+                                                            
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>1. I believe that the organization has prepared us officers.</td>
+                                                            <td>3</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>2. Sufficient training was provided.</td>
+                                                            <td>3</td>
+                                                        </tr>
+
+
+                                                        <tr>
+                                                            <td>3. All of the officers were able to apply the leadership gained.</td>
+                                                            <td>3</td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>4. Officers who underwent special training echoed their learning to fellow officers.</td>
+                                                            <td>3</td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>5. Officers are able to identify ways to recognize the contributions of the members of the organization.</td>
+                                                            <td>3</td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>6. The organization has evaluation meetings after major activities to identify strengths, weak areas and develop corrective measures.</td>
+                                                            <td>3</td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>7. The organization has evaluation meetings with the faculty adviser/s after each term to identify strengths, weak areas and develop corrective measures.</td>
+                                                            <td>3</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>8. I am satisfied and fulfilled with my position in the organization.</td>
+                                                            <td>3</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>9. I believe that positions in the organization are well defined and has no overlaps of responsibilities.</td>
+                                                            <td>3</td>
+                                                        </tr>
+                                                        
+
+
+                                                    </tbody>
+                                    
+                                                </table>
                                             </div>
-                                            <div class="row row-in">
+                                            <!-- <div class="row row-in">
                                                 <div class="col-md-4">
                                                     <div class="white-box">
                                                         <div>
@@ -858,15 +964,88 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                                </div> -->
                                         <!--/ End Online officer survey form results -->
                                         <!-- Start Online mEMBER Survey Form Results -->
-                                            <div class="row text-center">
+                                            <div class="row">
                                                 <div class="col-md-12">
                                                     <h3 class="text text-megna col-md-12"><strong>ONLINE MEMBER SURVEY FORM RESULTS</strong></h3>
                                                 </div>
+                                                <table class="table table-striped" id="memsur">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Question</th>
+                                                            <th>Average Grade</th>
+                                                            
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>1. I know the goal of my organization.</td>
+                                                            <td>3</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>2) The activities of the organization clearly reflect their objectives.</td>
+                                                            <td>3</td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>3) I am satisfied with the services the organization has offered.</td>
+                                                            <td>3</td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>4) I believe that the organization has helped me in my chosen field of interest.</td>
+                                                            <td>3</td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>5) The organization has encouraged me to be involved in their activities.</td>
+                                                            <td>3</td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>6) The officers showed consistency in motivating the members to be actively involved in the organization.</td>
+                                                            <td>3</td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>7.) The organization was able to maximize their publicity media. Help text: Publicity media can be newsletters, magazines, online publicities (videos and pictures), etc.</td>
+                                                            <td>3</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>8.) The organization has provided a venue wherein  I can share my ideas/opinions/needs/ expectations (eg. (surveys, comment boxes, sharing, etc.)</td>
+                                                            <td>3</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>9.) I believe that the organization has made use of my input (ideas, opinions, expectations, needs which I have stated)</td>
+                                                            <td>3</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>10.) I believe that the organization has made use of my input (ideas, opinions, expectations, needs which I have stated)</td>
+                                                            <td>3</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>11.)  I can recall activities held by my organization that made an impact in my studies/interests.</td>
+                                                            <td>3</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>12.) The membership fee I paid for was worth it.</td>
+                                                            <td>3</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>13.) The organization provides recognition for outstanding members.</td>
+                                                            <td>3</td>
+                                                        </tr>
+                                                    
+
+                                                    </tbody>
+                                    
+                                                </table>
+                                                
                                             </div>
-                                            <div class="row row-in">
+
+                                            <!-- <div class="row row-in">
                                                 <div class="col-md-4">
                                                     <div class="white-box">
                                                         <div>
@@ -971,7 +1150,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                         <!--/ End Online member survey form results -->
                                             
                                             
@@ -1045,7 +1224,7 @@
                                             </div>
                                             
                                         </div>
-                                        <table class="table table-striped" id="finTable">
+                                                <table class="table table-striped" id="finTable">
                                                     <thead>
                                                         <tr>
                                                             <th>As of</th><!--date approved-->

@@ -4,6 +4,6 @@ UPDATE "PreActivityCashAdvanceSignatory"
        "digitalSignature" = ${digitalSignature},
        "dateSigned" = CURRENT_TIMESTAMP,
        "comments" = NULL,
-       "sectionsToEdit" = NULL,
+       "sectionsToEdit" = NULL
  WHERE "cashAdvance" = ${cashAdvance}
    AND "signatory" = ${idNumber};

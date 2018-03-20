@@ -79,7 +79,7 @@
 
     <form action="/transaction/approveDirectPayment" id="form-id" class="form-horizontal" method="POST">
     <input type="hidden" name="_csrf" value="{{csrfToken}}">
-    <input type="hidden" name="directPaymentId" value="{{directPaymnet.id}}">
+    <input type="hidden" name="directPaymentId" value="{{directPayment.id}}">
     <input type="hidden" name="transactionType" value="{{transactionType}}">
     <input type="hidden" name="gosmactivity" value="{{gosmactivity}}">
 
@@ -207,7 +207,7 @@
 
                         {% endif %}
                         
-                            <small>Payable to: Dominique Dagunton (114256432), VP Finance</small>
+                            <small>Payable to: {{account.firstname}} {{account.lastname}} ({{account.idnumber}}), {{account.role}}</small>
                         </div>
                     </div>
                     <div class="col-sm-12">
