@@ -8,6 +8,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 	const orgresModel = models.Orgres_model;
 	const systemModel = models.System_model;
+	const gosmModel = models.gosmModel;
 	const accModel = models.Account_model;
 	const organizationModel = models.organization_model;
 
@@ -84,12 +85,12 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		viewHome: (req, res) => {
 
-			database.task(task => {
-                        return task.batch([
-                            orgresModel.getActivitiesForResearchForm(),
-                            organizationModel.getAllStudentOrganizations(),
-                            gosmModel.getAllCurrent()
-                        ]);
+		database.task(task => {
+	                return task.batch([
+	                    orgresModel.getActivitiesForResearchForm(),
+	                    organizationModel.getAllStudentOrganizations(),
+	                    gosmModel.getAllCurrent()
+	                ]);
         }).then(data=>{
 
             let renderData = Object.create(null);
@@ -111,12 +112,6 @@ module.exports = function(configuration, modules, models, database, queryFiles){
         }).catch(error=>{
             console.log(error);
         });
-			const renderData = Object.create(null);
-            renderData.extra_data = req.extra_data;
-            renderData.csrfToken = req.csrfToken();
-			return res.render('Orgres/orgresHome');
-
-			
 		},
 
 		viewManageTime: (req, res) => {
