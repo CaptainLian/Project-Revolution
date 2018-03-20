@@ -1247,19 +1247,19 @@ INSERT INTO OrganizationRole (organization, name, shortname, uniquePosition, mas
 
                              /* Activity Monitoring Team */
                              -- 8
-                             ( 0, 'Vice Chairperson for Activity Monitoring Team',            'VC - AMT',  TRUE, 2, 20, NULL),
+                             ( 0, 'Vice Chairperson for Activity Monitoring Team',            'VC - AMT',  TRUE,  2, 20, '/AMT/AMTHome'),
                              -- 9
-                             ( 0, 'Associate Vice Chairperson for Activity Monitoring Team', 'AVC - AMT', FALSE, 9, 30, NULL),
+                             ( 0, 'Associate Vice Chairperson for Activity Monitoring Team', 'AVC - AMT', FALSE,  9, 30, '/AMT/AMTHome'),
                              -- 10
-                             ( 0, 'Associate for Activity Monitoring Team',                    'A - AMT', FALSE, 10, 40, NULL),
+                             ( 0, 'Associate for Activity Monitoring Team',                    'A - AMT', FALSE, 10, 40, '/AMT/AMTHome'),
 
                              /* Activity Processing and Screening */
                              -- 11
-                             ( 0, 'Vice Chairperson for Activity Processing and Screening',            'VC - APS',  TRUE, 2, 20, NULL),
+                             ( 0, 'Vice Chairperson for Activity Processing and Screening',            'VC - APS',  TRUE,  2, 20, '/APS/home'),
                              -- 12
-                             ( 0, 'Associate Vice Chairperson for Activity Processing and Screening', 'AVC - APS', FALSE, 11, 30, NULL),
+                             ( 0, 'Associate Vice Chairperson for Activity Processing and Screening', 'AVC - APS', FALSE, 11, 30, '/APS/home'),
                              -- 13
-                             ( 0, 'Associate Activity Processing and Screening',                        'A - APS', FALSE, 12, 40, NULL),
+                             ( 0, 'Associate Activity Processing and Screening',                        'A - APS', FALSE, 12, 40, '/APS/home'),
 
                              /* Finance */
                              -- 14
@@ -1271,7 +1271,7 @@ INSERT INTO OrganizationRole (organization, name, shortname, uniquePosition, mas
 
                              /* Publicity and Productions */
                              -- 17
-                             ( 0, 'Vice Chairperson for Publicity and Productions',            'VC - PNP',  TRUE, 3, 20, '/PNP/main'),
+                             ( 0, 'Vice Chairperson for Publicity and Productions',            'VC - PNP',  TRUE,  3, 20, '/PNP/main'),
                              -- 18
                              ( 0, 'Associate Vice Chairperson for Publicity and Productions', 'AVC - PNP', FALSE, 18, 30, '/PNP/main'),
                              -- 19
@@ -1279,11 +1279,11 @@ INSERT INTO OrganizationRole (organization, name, shortname, uniquePosition, mas
 
                              /* Organizational Research and Analysis */
                              -- 20
-                             ( 0, 'Vice Chairperson for Organizational Research and Analysis',            'VC - OrgRes', TRUE, 2, 20, NULL),
+                             ( 0, 'Vice Chairperson for Organizational Research and Analysis',            'VC - OrgRes',  TRUE,  2, 20, '/ORGRES/viewHome'),
                              -- 21
-                             ( 0, 'Associate Vice Chairperson for Organizational Research and Analysis', 'AVC - OrgRes', FALSE, 21, 30, NULL),
+                             ( 0, 'Associate Vice Chairperson for Organizational Research and Analysis', 'AVC - OrgRes', FALSE, 21, 30, '/ORGRES/viewHome'),
                              -- 22
-                             ( 0, 'Associate for Organizational Research and Analysis',                    'A - OrgRes', FALSE, 22, 40, NULL);
+                             ( 0, 'Associate for Organizational Research and Analysis',                    'A - OrgRes', FALSE, 22, 40, '/ORGRES/viewHome');
 
 DROP TABLE IF EXISTS OrganizationOfficer CASCADE;
 CREATE TABLE OrganizationOfficer (
