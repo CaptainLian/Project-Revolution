@@ -877,7 +877,7 @@ $trigger$
 
             IF OLD.status = 3 THEN
                 NEW.status = 1;
-            END IF;     
+            END IF;
         END IF;
 
         NEW.dateModified = CURRENT_TIMESTAMP;
@@ -1299,9 +1299,12 @@ CREATE TABLE OrganizationOfficer (
 DROP TABLE IF EXISTS "OrganizationMember" CASCADE;
 CREATE TABLE "OrganizationMember" (
     "id" SERIAL UNIQUE,
+
 	"idNumber" INTEGER,
     "organization" INTEGER REFERENCES StudentOrganization(id),
 	"yearID" INTEGER REFERENCES SchoolYear(id),
+    
+    "name" TEXT,
 	"dateAdded" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
 
 	PRIMARY KEY("idNumber", "organization", "yearID")
@@ -2005,7 +2008,7 @@ CREATE TRIGGER before_insert_ProjectProposalProgramDesign
     BEFORE INSERT ON ProjectProposalProgramDesign
     FOR EACH ROW
     EXECUTE PROCEDURE trigger_before_insert_ProjectProposalProgramDesign();
-    
+
 CREATE OR REPLACE FUNCTION "trigger_after_insert_ProjectProposalProgramDesign"()
 RETURNS TRIGGER AS
 $trigger$
@@ -3261,9 +3264,11 @@ CREATE TABLE "OfficerSurveyForm" (
 DROP TABLE IF EXISTS "MemberSurveyForm" CASCADE;
 CREATE TABLE "MemberSurveyForm" (
     "id" SERIAL UNIQUE,
+
     "termID" INTEGER REFERENCES Term(id),
+    "member" INTEGER REFERENCES "OrganizationMember"("id"),
+
     "organizationID" INTEGER REFERENCES StudentOrganization(id),
-    "sequence" INTEGER DEFAULT -1,
     "field1" SMALLINT NOT NULL,
     "field2" SMALLINT NOT NULL,
     "field3" SMALLINT NOT NULL,
@@ -3278,12 +3283,8 @@ CREATE TABLE "MemberSurveyForm" (
     "field12" SMALLINT NOT NULL,
     "field13" SMALLINT NOT NULL,
 
-    PRIMARY KEY("termID", "organizationID", "sequence")
+    PRIMARY KEY("termID", "member", "organizationID")
 );
-CREATE TRIGGER "before_insert_MemberSurveyForm_sequence"
-    BEFORE INSERT ON "MemberSurveyForm"
-    FOR EACH ROW
-    EXECUTE PROCEDURE "trigger_before_insert_increment_sequence"('MemberSurveyForm', 'msf', '(msf."termID" = $1."termID") AND (msf."organizationID" = $1."organizationID")' );
 
 /* SESSION TABLE */
 DROP TABLE IF EXISTS session CASCADE;
