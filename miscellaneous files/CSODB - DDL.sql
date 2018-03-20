@@ -876,7 +876,7 @@ $trigger$
             NEW.passwordExpiration = CURRENT_TIMESTAMP + (INTERVAL '3 MONTH');
 
             IF OLD.status = 3 THEN
-                NEW.status = 1;
+                NEW.status = 0;
             END IF;
         END IF;
 
