@@ -203,14 +203,6 @@ module.exports = function(configuration, application, modules, database, queryFi
                 ], task)
             ]);
         }).then(([isProjectHead, GOSMActivityWithActivityEvaluation, PPRApproved, hasPPRWithoutPostProjectProposal, hasSubmittedGOSM, buffer, GOSM]) => {
-            const [
-                isProjectHead,
-                GOSMActivityWithActivityEvaluation,
-                PPRApproved,
-                hasPPRWithoutPostProjectProposal,
-                hasSubmittedGOSM
-            ] = data;
-
             logger.debug(`isProjectHead: ${isProjectHead.exists}`, log_options);
             if (isProjectHead.exists && organizationSelected.id !== 0) {
                 const newSidebar = Object.create(null);
