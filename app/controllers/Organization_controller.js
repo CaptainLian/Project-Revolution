@@ -912,6 +912,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     renderData.gosmSubmissionGrade = gosmSubmissionGrade;
                     renderData.sixtyFortyGrade = sixtyFortyGrade;
 
+                    renderData.sixty = isRelatedToOrganizationCount;
+                    renderData.forty = preactsAllApprovedTotal-isRelatedToOrganizationCount;
+                    renderData.push = preactsApprovedActivities;
+                    renderData.notPush = totalActivities-preactsApprovedActivities;
+
 
                     //postacts
                     renderData.postactsEarlyApprovedActivities = postactsEarlyApprovedActivities;
