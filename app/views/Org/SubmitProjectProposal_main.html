@@ -147,7 +147,7 @@
 
 						{% else %}
 
-						{{contextCompletionRate | round(2)}}%
+						{{(contextCompletionRate/25)*100 | round(2)}}%
 
 						{% endif %}
 					</p>

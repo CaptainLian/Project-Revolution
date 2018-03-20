@@ -109,7 +109,7 @@
 										Operational Funds
 									</label>
 									<div class="col-md-6">
-										<input class="form-control" readonly="" name="ope" id="ope-fund" type="text" value="{{projectProposal.accumulatedoperationalfunds | round(2)}}">
+										<input class="form-control" readonly="" name="ope" id="ope-fund" type="text" value="{{FundsExpense.operationalfunds | round(2)}}">
 										<span id="ope-help" class="help-block"> As of {{projectProposal.currentdate}} </span>
 									</div>
 								</div>
@@ -118,7 +118,7 @@
 										Depository Funds
 									</label>
 									<div class="col-md-6">
-										<input class="form-control" readonly="" name="dep" id="dep-fund" type="text" value="{{projectProposal.accumulateddepositoryfunds | round(2)}}">
+										<input class="form-control" readonly="" name="dep" id="dep-fund" type="text" value="{{FundsExpense.depositoryfunds - FundsExpense.expense | round(2)}}">
 										<span id="dep-help" class="help-block"> 
 											Org. Balance as of {{projectProposal.currentdate}}
 										</span>
