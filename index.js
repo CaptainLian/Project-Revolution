@@ -124,8 +124,8 @@ cron.schedule('* 0 1 January,September,May *',function(){
   var command,ls;
   console.log("asdkajsdlkasdjlaskdjlskadj")
   console.log("asdkajsdlkasdjlaskdjlskadj")
-    
-  if(configuration.database.password == ""){
+  // if(configuration.database.password == ""){  
+  if(true){
     console.log("1st")
     command = util.format('pg_dumpall -c -h %s -p %d --data-only -U %s --file=%s -l %s --no-password', configuration.database.host, configuration.database.port, configuration.database.username, dir, configuration.database.database);        
         console.log(command)
