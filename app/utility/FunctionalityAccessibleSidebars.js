@@ -107,6 +107,11 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.ViewActivityFeedback] = [construct
     'fa fa-quote-left'
 )];
 
+functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateProjectProposalResched] = [constructSidebar(
+    'Evaluate Activity Resched',
+    '/APS/Resched'
+)];
+
 //Evaluate Post Project
 //NOTE experimental code
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluatePostProject] = [constructSidebar(
