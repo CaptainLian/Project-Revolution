@@ -5,444 +5,445 @@
       
       $('#amtTable').dataTable();
       $('#finTable').dataTable();
+      $('#memSurTable').dataTable();
 //Start of Online officer survey form results
-     new Chart(document.getElementById("bar-chart1"), {
-        type: 'bar',
-        data: {
-          labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
-          datasets: [
-            {
-              label: "Respondents",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: [100,5267,734,784,433] //number of respondents here
-            }
-          ]
-        },
-        options: {
-          legend: { display: false },
+//      new Chart(document.getElementById("bar-chart1"), {
+//         type: 'bar',
+//         data: {
+//           labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
+//           datasets: [
+//             {
+//               label: "Respondents",
+//               backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+//               data: [100,5267,734,784,433] //number of respondents here
+//             }
+//           ]
+//         },
+//         options: {
+//           legend: { display: false },
          
-        }
-    });
+//         }
+//     });
     
 
-    new Chart(document.getElementById("bar-chart2"), {
-        type: 'bar',
-        data: {
-          labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
-          datasets: [
-            {
-              label: "Respondents",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: [2478,5267,734,784,433]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false }
-        }
-    });
-     new Chart(document.getElementById("bar-chart3"), {
-        type: 'bar',
-        data: {
-          labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
-          datasets: [
-            {
-              label: "Respondents",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: [2478,5267,734,784,433]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false }
-        }
-    });
-     new Chart(document.getElementById("bar-chart4"), {
-        type: 'bar',
-        data: {
-          labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
-          datasets: [
-            {
-              label: "Respondents",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: [2478,5267,734,784,433]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false }
-        }
-    });
-     new Chart(document.getElementById("bar-chart5"), {
-        type: 'bar',
-        data: {
-          labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
-          datasets: [
-            {
-              label: "Respondents",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: [2478,5267,734,784,433]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false }
-        }
-    });
-     new Chart(document.getElementById("bar-chart6"), {
-        type: 'bar',
-        data: {
-          labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
-          datasets: [
-            {
-              label: "Respondents",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: [2478,5267,734,784,433]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false }
-        }
-    });
-     new Chart(document.getElementById("bar-chart7"), {
-        type: 'bar',
-        data: {
-          labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
-          datasets: [
-            {
-              label: "Respondents",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: [2478,5267,734,784,433]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false }
-        }
-    });
-     new Chart(document.getElementById("bar-chart8"), {
-        type: 'bar',
-        data: {
-          labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
-          datasets: [
-            {
-              label: "Respondents",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: [2478,5267,734,784,433]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false }
-        }
-    });
-     new Chart(document.getElementById("bar-chart9"), {
-        type: 'bar',
-        data: {
-          labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
-          datasets: [
-            {
-              label: "Respondents",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: [2478,5267,734,784,433]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false }
-        }
-    });
+//     new Chart(document.getElementById("bar-chart2"), {
+//         type: 'bar',
+//         data: {
+//           labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
+//           datasets: [
+//             {
+//               label: "Respondents",
+//               backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+//               data: [2478,5267,734,784,433]
+//             }
+//           ]
+//         },
+//         options: {
+//           legend: { display: false }
+//         }
+//     });
+//      new Chart(document.getElementById("bar-chart3"), {
+//         type: 'bar',
+//         data: {
+//           labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
+//           datasets: [
+//             {
+//               label: "Respondents",
+//               backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+//               data: [2478,5267,734,784,433]
+//             }
+//           ]
+//         },
+//         options: {
+//           legend: { display: false }
+//         }
+//     });
+//      new Chart(document.getElementById("bar-chart4"), {
+//         type: 'bar',
+//         data: {
+//           labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
+//           datasets: [
+//             {
+//               label: "Respondents",
+//               backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+//               data: [2478,5267,734,784,433]
+//             }
+//           ]
+//         },
+//         options: {
+//           legend: { display: false }
+//         }
+//     });
+//      new Chart(document.getElementById("bar-chart5"), {
+//         type: 'bar',
+//         data: {
+//           labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
+//           datasets: [
+//             {
+//               label: "Respondents",
+//               backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+//               data: [2478,5267,734,784,433]
+//             }
+//           ]
+//         },
+//         options: {
+//           legend: { display: false }
+//         }
+//     });
+//      new Chart(document.getElementById("bar-chart6"), {
+//         type: 'bar',
+//         data: {
+//           labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
+//           datasets: [
+//             {
+//               label: "Respondents",
+//               backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+//               data: [2478,5267,734,784,433]
+//             }
+//           ]
+//         },
+//         options: {
+//           legend: { display: false }
+//         }
+//     });
+//      new Chart(document.getElementById("bar-chart7"), {
+//         type: 'bar',
+//         data: {
+//           labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
+//           datasets: [
+//             {
+//               label: "Respondents",
+//               backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+//               data: [2478,5267,734,784,433]
+//             }
+//           ]
+//         },
+//         options: {
+//           legend: { display: false }
+//         }
+//     });
+//      new Chart(document.getElementById("bar-chart8"), {
+//         type: 'bar',
+//         data: {
+//           labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
+//           datasets: [
+//             {
+//               label: "Respondents",
+//               backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+//               data: [2478,5267,734,784,433]
+//             }
+//           ]
+//         },
+//         options: {
+//           legend: { display: false }
+//         }
+//     });
+//      new Chart(document.getElementById("bar-chart9"), {
+//         type: 'bar',
+//         data: {
+//           labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
+//           datasets: [
+//             {
+//               label: "Respondents",
+//               backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+//               data: [2478,5267,734,784,433]
+//             }
+//           ]
+//         },
+//         options: {
+//           legend: { display: false }
+//         }
+//     });
 
-    var data = {
-        datasets: [{
-            data: [10, 20, 30]
-        }],
+//     var data = {
+//         datasets: [{
+//             data: [10, 20, 30]
+//         }],
 
-        // These labels appear in the legend and in the tooltips when hovering different arcs
-        labels: [
-            'Red',
-            'Yellow',
-            'Blue'
-        ]
-    };
-//End of Online officer survey form results
+//         // These labels appear in the legend and in the tooltips when hovering different arcs
+//         labels: [
+//             'Red',
+//             'Yellow',
+//             'Blue'
+//         ]
+//     };
+// //End of Online officer survey form results
 //Start of Online member survey form results
-     new Chart(document.getElementById("chartm1"), {
-        type: 'bar',
-        data: {
-          labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
-          datasets: [
-            {
-              label: "Respondents",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: [100,5267,734,784,433] //number of respondents here
-            }
-          ]
-        },
-        options: {
-          legend: { display: false },
+    //  new Chart(document.getElementById("chartm1"), {
+    //     type: 'bar',
+    //     data: {
+    //       labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
+    //       datasets: [
+    //         {
+    //           label: "Respondents",
+    //           backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+    //           data: [100,5267,734,784,433] //number of respondents here
+    //         }
+    //       ]
+    //     },
+    //     options: {
+    //       legend: { display: false },
          
-        }
-    });
+    //     }
+    // });
 
-    new Chart(document.getElementById("chartm2"), {
-        type: 'bar',
-        data: {
-          labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
-          datasets: [
-            {
-              label: "Respondents",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: [2478,5267,734,784,433]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false }
-        }
-    });
-     new Chart(document.getElementById("chartm3"), {
-        type: 'bar',
-        data: {
-          labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
-          datasets: [
-            {
-              label: "Respondents",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: [2478,5267,734,784,433]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false }
-        }
-    });
-     new Chart(document.getElementById("chartm4"), {
-        type: 'bar',
-        data: {
-          labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
-          datasets: [
-            {
-              label: "Respondents",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: [2478,5267,734,784,433]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false }
-        }
-    });
-     new Chart(document.getElementById("chartm5"), {
-        type: 'bar',
-        data: {
-          labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
-          datasets: [
-            {
-              label: "Respondents",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: [2478,5267,734,784,433]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false }
-        }
-    });
-     new Chart(document.getElementById("chartm6"), {
-        type: 'bar',
-        data: {
-          labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
-          datasets: [
-            {
-              label: "Respondents",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: [2478,5267,734,784,433]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false }
-        }
-    });
-     new Chart(document.getElementById("chartm7"), {
-        type: 'bar',
-        data: {
-          labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
-          datasets: [
-            {
-              label: "Respondents",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: [2478,5267,734,784,433]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false }
-        }
-    });
-     new Chart(document.getElementById("chartm8"), {
-        type: 'bar',
-        data: {
-          labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
-          datasets: [
-            {
-              label: "Respondents",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: [2478,5267,734,784,433]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false }
-        }
-    });
-     new Chart(document.getElementById("chartm9"), {
-        type: 'bar',
-        data: {
-          labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
-          datasets: [
-            {
-              label: "Respondents",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: [2478,5267,734,784,433]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false }
-        }
-    });
+    // new Chart(document.getElementById("chartm2"), {
+    //     type: 'bar',
+    //     data: {
+    //       labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
+    //       datasets: [
+    //         {
+    //           label: "Respondents",
+    //           backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+    //           data: [2478,5267,734,784,433]
+    //         }
+    //       ]
+    //     },
+    //     options: {
+    //       legend: { display: false }
+    //     }
+    // });
+    //  new Chart(document.getElementById("chartm3"), {
+    //     type: 'bar',
+    //     data: {
+    //       labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
+    //       datasets: [
+    //         {
+    //           label: "Respondents",
+    //           backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+    //           data: [2478,5267,734,784,433]
+    //         }
+    //       ]
+    //     },
+    //     options: {
+    //       legend: { display: false }
+    //     }
+    // });
+    //  new Chart(document.getElementById("chartm4"), {
+    //     type: 'bar',
+    //     data: {
+    //       labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
+    //       datasets: [
+    //         {
+    //           label: "Respondents",
+    //           backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+    //           data: [2478,5267,734,784,433]
+    //         }
+    //       ]
+    //     },
+    //     options: {
+    //       legend: { display: false }
+    //     }
+    // });
+    //  new Chart(document.getElementById("chartm5"), {
+    //     type: 'bar',
+    //     data: {
+    //       labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
+    //       datasets: [
+    //         {
+    //           label: "Respondents",
+    //           backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+    //           data: [2478,5267,734,784,433]
+    //         }
+    //       ]
+    //     },
+    //     options: {
+    //       legend: { display: false }
+    //     }
+    // });
+    //  new Chart(document.getElementById("chartm6"), {
+    //     type: 'bar',
+    //     data: {
+    //       labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
+    //       datasets: [
+    //         {
+    //           label: "Respondents",
+    //           backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+    //           data: [2478,5267,734,784,433]
+    //         }
+    //       ]
+    //     },
+    //     options: {
+    //       legend: { display: false }
+    //     }
+    // });
+    //  new Chart(document.getElementById("chartm7"), {
+    //     type: 'bar',
+    //     data: {
+    //       labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
+    //       datasets: [
+    //         {
+    //           label: "Respondents",
+    //           backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+    //           data: [2478,5267,734,784,433]
+    //         }
+    //       ]
+    //     },
+    //     options: {
+    //       legend: { display: false }
+    //     }
+    // });
+    //  new Chart(document.getElementById("chartm8"), {
+    //     type: 'bar',
+    //     data: {
+    //       labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
+    //       datasets: [
+    //         {
+    //           label: "Respondents",
+    //           backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+    //           data: [2478,5267,734,784,433]
+    //         }
+    //       ]
+    //     },
+    //     options: {
+    //       legend: { display: false }
+    //     }
+    // });
+    //  new Chart(document.getElementById("chartm9"), {
+    //     type: 'bar',
+    //     data: {
+    //       labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
+    //       datasets: [
+    //         {
+    //           label: "Respondents",
+    //           backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+    //           data: [2478,5267,734,784,433]
+    //         }
+    //       ]
+    //     },
+    //     options: {
+    //       legend: { display: false }
+    //     }
+    // });
 
-    var data = {
-        datasets: [{
-            data: [10, 20, 30]
-        }],
+    // var data = {
+    //     datasets: [{
+    //         data: [10, 20, 30]
+    //     }],
 
-        // These labels appear in the legend and in the tooltips when hovering different arcs
-        labels: [
-            'Red',
-            'Yellow',
-            'Blue'
-        ]
-    };
-    new Chart(document.getElementById("chartm10"), {
-        type: 'bar',
-        data: {
-          labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
-          datasets: [
-            {
-              label: "Respondents",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: [2478,5267,734,784,433]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false }
-        }
-    });
+    //     // These labels appear in the legend and in the tooltips when hovering different arcs
+    //     labels: [
+    //         'Red',
+    //         'Yellow',
+    //         'Blue'
+    //     ]
+    // };
+    // new Chart(document.getElementById("chartm10"), {
+    //     type: 'bar',
+    //     data: {
+    //       labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
+    //       datasets: [
+    //         {
+    //           label: "Respondents",
+    //           backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+    //           data: [2478,5267,734,784,433]
+    //         }
+    //       ]
+    //     },
+    //     options: {
+    //       legend: { display: false }
+    //     }
+    // });
 
-    var data = {
-        datasets: [{
-            data: [10, 20, 30]
-        }],
+    // var data = {
+    //     datasets: [{
+    //         data: [10, 20, 30]
+    //     }],
 
-        // These labels appear in the legend and in the tooltips when hovering different arcs
-        labels: [
-            'Red',
-            'Yellow',
-            'Blue'
-        ]
-    };
-    new Chart(document.getElementById("chartm11"), {
-        type: 'bar',
-        data: {
-          labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
-          datasets: [
-            {
-              label: "Respondents",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: [2478,5267,734,784,433]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false }
-        }
-    });
+    //     // These labels appear in the legend and in the tooltips when hovering different arcs
+    //     labels: [
+    //         'Red',
+    //         'Yellow',
+    //         'Blue'
+    //     ]
+    // };
+    // new Chart(document.getElementById("chartm11"), {
+    //     type: 'bar',
+    //     data: {
+    //       labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
+    //       datasets: [
+    //         {
+    //           label: "Respondents",
+    //           backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+    //           data: [2478,5267,734,784,433]
+    //         }
+    //       ]
+    //     },
+    //     options: {
+    //       legend: { display: false }
+    //     }
+    // });
 
-    var data = {
-        datasets: [{
-            data: [10, 20, 30]
-        }],
+    // var data = {
+    //     datasets: [{
+    //         data: [10, 20, 30]
+    //     }],
 
-        // These labels appear in the legend and in the tooltips when hovering different arcs
-        labels: [
-            'Red',
-            'Yellow',
-            'Blue'
-        ]
-    };
-    new Chart(document.getElementById("chartm12"), {
-        type: 'bar',
-        data: {
-          labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
-          datasets: [
-            {
-              label: "Respondents",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: [2478,5267,734,784,433]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false }
-        }
-    });
+    //     // These labels appear in the legend and in the tooltips when hovering different arcs
+    //     labels: [
+    //         'Red',
+    //         'Yellow',
+    //         'Blue'
+    //     ]
+    // };
+    // new Chart(document.getElementById("chartm12"), {
+    //     type: 'bar',
+    //     data: {
+    //       labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
+    //       datasets: [
+    //         {
+    //           label: "Respondents",
+    //           backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+    //           data: [2478,5267,734,784,433]
+    //         }
+    //       ]
+    //     },
+    //     options: {
+    //       legend: { display: false }
+    //     }
+    // });
 
-    var data = {
-        datasets: [{
-            data: [10, 20, 30]
-        }],
+    // var data = {
+    //     datasets: [{
+    //         data: [10, 20, 30]
+    //     }],
 
-        // These labels appear in the legend and in the tooltips when hovering different arcs
-        labels: [
-            'Red',
-            'Yellow',
-            'Blue'
-        ]
-    };
-    new Chart(document.getElementById("chartm13"), {
-        type: 'bar',
-        data: {
-          labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
-          datasets: [
-            {
-              label: "Respondents",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: [2478,5267,734,784,433]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false }
-        }
-    });
+    //     // These labels appear in the legend and in the tooltips when hovering different arcs
+    //     labels: [
+    //         'Red',
+    //         'Yellow',
+    //         'Blue'
+    //     ]
+    // };
+    // new Chart(document.getElementById("chartm13"), {
+    //     type: 'bar',
+    //     data: {
+    //       labels: ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
+    //       datasets: [
+    //         {
+    //           label: "Respondents",
+    //           backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+    //           data: [2478,5267,734,784,433]
+    //         }
+    //       ]
+    //     },
+    //     options: {
+    //       legend: { display: false }
+    //     }
+    // });
 
-    var data = {
-        datasets: [{
-            data: [10, 20, 30]
-        }],
+    // var data = {
+    //     datasets: [{
+    //         data: [10, 20, 30]
+    //     }],
 
-        // These labels appear in the legend and in the tooltips when hovering different arcs
-        labels: [
-            'Red',
-            'Yellow',
-            'Blue'
-        ]
-    };
+    //     // These labels appear in the legend and in the tooltips when hovering different arcs
+    //     labels: [
+    //         'Red',
+    //         'Yellow',
+    //         'Blue'
+    //     ]
+    // };
 //End of Online member survey form results
     //60 40 ratio
     new Chart(document.getElementById("chart3"),{
@@ -466,7 +467,7 @@
     new Chart(document.getElementById("chart4"),{
         type: 'pie',
         data: {
-          labels: ["Academic","Non-Academic"],
+          labels: ["Pushed Through","Not pushed through"],
           datasets: [
             {
               label: "Respondents",
