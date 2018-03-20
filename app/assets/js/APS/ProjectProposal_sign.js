@@ -117,7 +117,7 @@ $(document).trigger("customGenerated");
             '<option value="Program Design">II. Program Design</option>' +
             // '<option value="Source of Funds">III. Source of Funds</option>' +
             // '<option value="Organizational Funds">IV. Organizational Funds</option>' +
-            '<option value="Revenue and Expense Table">III. Revenue and Expense Table</option>' +
+            '<option value="Revenue and Expense Table">III. Expense</option>' +
             '<option value="Attachments">IV. Attachments</option>' +
             '</select>' +
             '</div>' +
