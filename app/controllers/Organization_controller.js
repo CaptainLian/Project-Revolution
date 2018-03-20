@@ -1187,9 +1187,12 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         depositoryfunds: orgdata.depositryfunds
                     };
 
-
+                    console.log(dbParam)
                     projectProposalModel.insertProjectProposal(dbParam).then(data => {
+                        console.log("DATA  NIL")
+                        console.log(data)
                         database.task(task => {
+
                             return task.batch([
                                 gosmModel.getGOSMActivity(dbParam),
                                 gosmModel.getGOSMActivityProjectHeads(dbParam),
@@ -1288,13 +1291,20 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                             return res.render('Org/SubmitProjectProposal_main', renderData);
                         }).catch(err => {
-                            logger.error(`${err.message}\n${err.stack}`, log_options);
+
+                            console.log("err 3  ")
+                            console.log(err)
+                            // logger.error(`${err.message}\n${err.stack}`, log_options);
 
                         });
+                    }).catch(err=>{
+                         console.log("err 2 ")
+                            console.log(err)
                     })
 
                 }).catch(error => {
-
+                    console.log("err4")
+                     console.log(err)
                 });
 
 
