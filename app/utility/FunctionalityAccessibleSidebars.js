@@ -67,12 +67,14 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateActivity_OrgRes] = [{
     ]
 }];
 
+/*
 //Modify Organizational Structure
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.ModifyOrganizationalStructure] = [{
     name: 'Role Access',
     link: '/Organization/Setting/ACL',    
     icon :'fa fa-key'
 }];
+*/
 
 //View Publicities for Activity
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.ViewPublicityMaterial] = [{
@@ -94,12 +96,14 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluatePublicityMaterial] = [{
     icon: 'fa fa-check'
 }];
 
+/*
 //Manage Accounts
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.AccountManagement] = [{
     name: 'Account Management',
     link: '/ORGRES/Manage/Account',
     icon :'fa fa-group'
 }];
+*/
 
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.ViewActivityFeedback] = [constructSidebar(
     'View Activity Feedback',
