@@ -179,6 +179,15 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         renderData.extra_data = req.extra_data;
         return res.render('APS/Logs');
     };
+    APSController.viewCalendar = (req, res) => {
+        // logger.info('call viewActivityToCheck()', log_options);
+
+        let renderData = Object.create(null);
+        renderData.extra_data = req.extra_data;
+        renderData.csrfToken = req.csrfToken();
+        return res.render('APS/viewOrgCalendar');
+        
+    };
     APSController.resched = (req, res) => {
         const renderData = Object.create(null);
         renderData.extra_data = req.extra_data;
