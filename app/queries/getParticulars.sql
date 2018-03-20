@@ -7,6 +7,6 @@ SELECT PPE.id, PPE.projectProposal, PPE.material, PPE.quantity, PPE.unitcost, PP
    AND PPE.ID NOT IN (SELECT particular 
 			FROM "PreActivityDirectPaymentParticular")
    AND PPE.ID NOT IN (SELECT particular 
-			FROM "PostProjectBookTransferParticular")
+			FROM "PreActivityBookTransferParticular")
    AND PPE.ID NOT IN (SELECT particular 
 			FROM "PostProjectReimbursementParticular");

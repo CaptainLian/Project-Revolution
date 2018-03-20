@@ -186,12 +186,17 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				           		renderData.toEvaluate = false;
 				           	}
 				           
-				           
-							if(data.orgid == req.session.user.organizationSelected.id){
-					           	return res.render('Finance/EvaluateTransaction', renderData);
+				            if(req.session.user.type == 1){
+				           		if(data.orgid == req.session.user.organizationSelected.id){
+					           		return res.render('Finance/EvaluateTransaction', renderData);
+					           	}
+					           	else{
+		    						return res.render('System/403');
+					           	}
 				           	}
 				           	else{
-	    						return res.render('System/403');
+				           			return res.render('Finance/EvaluateTransaction', renderData);
+
 				           	}
 
 
@@ -256,11 +261,17 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				           	}
 				           
 				           
-							if(data.orgid == req.session.user.organizationSelected.id){
-					           	return res.render('Finance/EvaluateTransaction', renderData);
+							if(req.session.user.type == 1){
+				           		if(data.orgid == req.session.user.organizationSelected.id){
+					           		return res.render('Finance/EvaluateTransaction', renderData);
+					           	}
+					           	else{
+		    						return res.render('System/403');
+					           	}
 				           	}
 				           	else{
-	    						return res.render('System/403');
+				           			return res.render('Finance/EvaluateTransaction', renderData);
+
 				           	}
 
 
@@ -480,6 +491,51 @@ module.exports = function(configuration, modules, models, database, queryFiles){
             			};
             			queries[0] = financeModel.approveDirectPaymentTable(approveDirectPaymentParam, t);
             			console.log("HEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY");
+
+            			var deductParam2 = {
+            				id: req.body.directPaymentId
+            			}
+
+            			database.task(t =>{
+							return t.batch([
+		                        financeModel.getPreActivityDirectPayment(deductParam2),
+		                        financeModel.getDirectPaymentParticulars(deductParam2)
+		                    ]);
+						}).then(bookTransferData=>{
+
+							if(bookTransferData[0].status == 1){
+
+								var deductexpense = 0
+
+								for(var i = 0; i < bookTransferData[1].length; i++){
+									deductexpense = deductexpense + bookTransferData[1][i].amount;
+								}
+
+								var deductParam = {
+									studentOrganization: bookTransferData[0].orgid,
+									expenses: deductexpense
+								}
+
+								console.log("deductParam");
+								console.log(deductParam);
+
+								financeModel.deductExpenses(deductParam)
+								.then(deduct=>{
+			
+
+								}).catch(error=>{
+									console.log(error);
+									console.log("DITO MALIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII");
+								});
+
+							}
+							
+
+				            
+						}).catch(error=>{
+							console.log(error);
+						});
+
             		}
 
             		details.signatory = currentSignatoryDetails.idNumber;
@@ -616,7 +672,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 						//2
 						financeModel.getPreActivityCashAdvanceNextSignatory(cashAdvanceID, t),
 						//3
-						accountModel.getAccountDetails(req.session.idNumber, [
+						accountModel.getAccountDetails(req.session.user.idNumber, [
 							'a.idnumber AS "idNumber"',
 							'a.firstname || \' \' || a.lastname AS "name"'
 						], t),
@@ -634,6 +690,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
         			details.cashAdvanceID = cashAdvanceID;
 
 					if(nextSignatory){
+						logger.debug(`Has next signatory ${nextSignatory.idNumber}`, log_options);
 						queries[0] = accountModel.addNotification(
         					nextSignatory.idNumber,
 	        				//title
@@ -646,6 +703,50 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 	        				null,
 	        				t
         				);
+					}
+					else{
+
+						console.log("ENTERS HEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEREEEEEEEEEEEEEYYYYYYYY")
+
+						var deductParam2 = {
+            				id: req.body.cashAdvanceId
+            			}
+
+            			database.task(t =>{
+							return t.batch([
+		                        financeModel.getPreActivityCashAdvance(deductParam2),
+		                        financeModel.getCashAdvanceParticulars(deductParam2)
+		                    ]);
+						}).then(bookTransferData=>{
+
+							if(bookTransferData[0].status == 1){
+
+								var deductexpense = 0
+
+								for(var i = 0; i < bookTransferData[1].length; i++){
+									deductexpense = deductexpense + bookTransferData[1][i].amount;
+								}
+
+								var deductParam = {
+									studentOrganization: bookTransferData[0].orgid,
+									expenses: deductexpense
+								}
+
+								financeModel.deductExpenses(deductParam)
+								.then(deduct=>{
+			
+
+								}).catch(error=>{
+									console.log(error);
+								});
+
+							}
+							
+
+				            
+						}).catch(error=>{
+							console.log(error);
+						});
 					}
 
 					details.signatory = currentSignatoryDetails.idNumber;
@@ -737,8 +838,50 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			financeModel.approveBookTransfer(dbParam)
 			.then(data=>{
 
-				console.log("successfully approved book transfer");
-				res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
+				var param = {
+					id: req.body.bookTransferId
+				}
+
+				database.task(t =>{
+					return t.batch([
+                        financeModel.getPreActivityBookTransfer(param),
+                        financeModel.getBookTransferParticulars(param)
+                    ]);
+				}).then(bookTransferData=>{
+
+					if(bookTransferData[0].status == 1){
+
+						var deductexpense = 0
+
+						for(var i = 0; i < bookTransferData[1].length; i++){
+							deductexpense = deductexpense + bookTransferData[1][i].amount;
+						}
+
+						var deductParam = {
+							studentOrganization: bookTransferData[0].orgid,
+							expenses: deductexpense
+						}
+
+						financeModel.deductExpenses(deductParam)
+						.then(deduct=>{
+	
+							console.log("successfully approved book transfer");
+							res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
+
+						}).catch(error=>{
+							console.log(error);
+						});
+
+					}
+					else{
+						console.log("successfully approved book transfer");
+						res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
+					}
+
+		            
+				}).catch(error=>{
+					console.log(error);
+				});				
 
 
 			}).catch(error=>{
@@ -1925,6 +2068,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
             	let query = [
             		financeModel.resubmitCashAdvance(dbParam, t),
+            		financeModel.resubmitCashAdvanceSignatory(dbParam2, t),
 					financeModel.deleteCashAdvanceParticulars(dbParam2, t)
 				];
 

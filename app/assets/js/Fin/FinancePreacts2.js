@@ -2,7 +2,7 @@
   $('select').trigger('change');
  });
 
- $("#rec").select2({
+ $("select").select2({
     maximumSelectionSize:1
  });
     $('.selectpicker').selectpicker();

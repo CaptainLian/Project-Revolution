@@ -140,7 +140,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
      * @returns {Promise}  [description]
      */
     AccountModel.getAccountDetails = (idNumber, fields, connection = database) => {
-        logger.info('call getAccountDetails()', log_options);
+        logger.info(`call getAccountDetails(idNumber: ${idNumber})`, log_options);
 
         let param = Object.create(null);
         param.idNumber = idNumber;
