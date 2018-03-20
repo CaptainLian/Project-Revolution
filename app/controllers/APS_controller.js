@@ -207,9 +207,50 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         // return res.render('APS/RescheduleChecking');
     };
     APSController.home = (req, res) => {
-        const renderData = Object.create(null);
-        renderData.extra_data = req.extra_data;
-        return res.render('APS/APSHome');
+
+        database.task(task => {
+                        return task.batch([
+                            projectProposalModel.getAllProjectProposal(),
+                            organizationModel.getAllStudentOrganizations(),
+                            gosmModel.getAllCurrent()
+                        ]);
+        }).then(data=>{
+
+            let renderData = Object.create(null);
+
+            var uncheckedPPR = 0;
+            var ApprovedPPR = 0;
+            var PendedPPR = 0;
+
+            for (var i = 0; i < data[0].length; i++){
+
+                if (data[0][i].publicitystatus == 0) {
+                    uncheckedPPR = uncheckedPPR + 1;
+                }
+                else if(data[0][i].publicitystatus == 1){
+                    ApprovedPPR = ApprovedPPR + 1;
+                }
+                else if(data[0][i].publicitystatus == 2){
+                    PendedPPR = PendedPPR + 1;
+                }
+
+            }
+
+
+            renderData.uncheckedPPR = uncheckedPPR;
+            renderData.ApprovedPPR = ApprovedPPR;
+            renderData.PendedPPR = PendedPPR;
+            renderData.studentorganizations = data[1];
+            renderData.allGosm = data[2];
+            renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
+            return res.render('APS/APSHome', renderData);
+
+        }).catch(error=>{
+            console.log(error);
+        });
+
+       
     };
     APSController.orgSummary = (req, res) => {
         const renderData = Object.create(null);
