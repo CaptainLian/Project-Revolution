@@ -69,6 +69,11 @@ module.exports = function(configuration, modules, models, database, queryFiles){
     		});
 
     	},
+    	idNumberCheck: (req, res) => {
+
+    		return res.json({status:1})
+
+    	},
 
 		viewManageOrg: (req, res) => {
 			const renderData = Object.create(null);
