@@ -93,7 +93,15 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             const renderData = Object.create(null);
             console.log(req.param)
             renderData.extra_data = req.extra_data;
-            return res.render('Org/addMembers');
+            renderData.csrfToken = req.csrfToken();
+            organizationModel.viewMember(req.session.user.organizationSelected.id)
+            .then(data=>{
+                renderData.members = data
+                return res.render('Org/addMembers',renderData);
+            }).catch(err=>{
+                console.log(err)
+            })
+            
         },
         viewReport: (req, res) => {
 
@@ -3713,6 +3721,29 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             }).catch(err => {
                 return logger.error(`${err.message}: ${err.stack}`, log_options);
             })
+        },
+        addMember: (req, res) => {
+            
+           
+            organizationModel.addMember(req.body.idnumber, req.body.name, req.session.user.organizationSelected.id).then(data=>{
+                return res.json({status:1})     
+            }).catch(err=>{
+                console.log(err)
+                return res.json({status:0})
+            })
+
+            
+        },
+        deleteMember: (req, res) => {
+             
+            
+            organizationModel.deleteMember(req.body.idnumber, req.session.user.organizationSelected.id).then(data=>{
+                return res.json({status:1})
+            }).catch(err=>{
+                console.log(err)
+                return res.json({status:0})
+            })
+            
         },
 
         orgresSpecficActivity: (req, res) => {

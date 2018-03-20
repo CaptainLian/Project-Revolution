@@ -96,7 +96,17 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         let renderData = Object.create(null);
         renderData.extra_data = req.extra_data;
         renderData.csrfToken = req.csrfToken();
-        return res.render('ADM/viewOrgCalendar');
+        projectProposalModel.getAllOrgProposal(req.params.orgid, null)
+        .then(data=>{
+            console.log("DATA")
+            renderData.events = data
+            console.log(data)
+            return res.render('ADM/viewOrgCalendar',renderData);
+
+        }).catch(err=>{
+            console.log(err)
+        })
+        
         
     };
     ADM_controller.viewGOSM = (req, res) => {
