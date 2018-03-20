@@ -17,7 +17,7 @@ $(document).ready(function(){
 		console.log("DOMS2")
 		var orgid = $("#org-select").val()
 		var idnumber = $("#idnumber").val()
-		$('#idnumber').closest('.form-group').removeClass("has-error")
+		$('#idnumber').parent('.form-group').removeClass("has-error")
 		$.ajax({
 			type:'POST',
 			url:'/ORGRES/AJAX/idnumber',
@@ -29,7 +29,7 @@ $(document).ready(function(){
 					$("span.highlight").text("")
 					
 				}else{
-					$(this).closest('.form-group').addClass("has-error")
+					$('#idnumber').parent('.form-group').addClass("has-error")
 					$("span.highlight").text("Member does not exist")
 					$("span.highlight").css("color","#fb9678")
 					$("#submit").attr("disabled","")

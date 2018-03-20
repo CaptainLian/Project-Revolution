@@ -37,7 +37,7 @@ module.exports = function(configuration, modules, database, queryFiles){
         var query = squel.select()
         .from('"OrganizationMember"')
         .where("organization = ?",orig)
-        .where("idNumber = ?",id)
+        .where('"idNumber" = ?',id)
         return connection.one(query.toString());
     };
 

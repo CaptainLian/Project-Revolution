@@ -73,6 +73,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
     		orgresModel.idNumbercheck(req.body.idnumber, req.body.orgid).then(data=>{
     			return res.json({status:1})	
     		}).catch(err=>{
+    			console.log(err)
     			return res.json({status:0})	
     		})
     		
