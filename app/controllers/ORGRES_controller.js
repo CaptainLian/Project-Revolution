@@ -96,6 +96,10 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
             var activityCount = data[0].length;
 
+            if (data[0]==null) {
+            	activityCount=0;
+            }
+
 
             renderData.activityCount = activityCount;
             renderData.studentorganizations = data[1];
