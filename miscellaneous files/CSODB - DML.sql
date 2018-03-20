@@ -1482,8 +1482,11 @@ VALUES (1, 2011111, system_get_current_year_id()),
        (1, 2011112, system_get_current_year_id());
 
 UPDATE StudentOrganization
-   SET operationalFunds = 12000,
-        depositoryFunds = 12000,
-        depositryFunds = 12000;
+    -- galing sa la salle
+    -- 1k operational
+   SET operationalFunds = floor((random()*(1500 - 920 + 1))) + 920,
+    -- 300k
+        depositoryFunds = floor((random()*(325000 - 246000 + 1))) + 246000,
+        depositryFunds = depositoryFunds;
 
 COMMIT;

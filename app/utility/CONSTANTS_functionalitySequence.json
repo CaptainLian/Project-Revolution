@@ -22,5 +22,7 @@
     "AccountManagement": 23,
 
     "SubmitNotInGOSMActivity": 28,
-    "ViewActivityFeedback": 29
+    "ViewActivityFeedback": 29,
+
+    "EvaluateProjectProposalResched": 30
 }
