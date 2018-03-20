@@ -23,6 +23,20 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		
 		return res.render('AMT/ActivityEvaluation', renderData);
 	};
+
+	AMTController.viewHome = (req, res) => {
+		const activityId = req.params.activity;
+		console.log("activity is");
+		console.log(activityId);
+
+		let renderData = Object.create(null);
+		renderData = req.extra_data;
+		renderData.csrfToken = req.csrfToken();
+		renderData.activity = activityId;
+		
+		
+		return res.render('AMT/AMTHome');
+	};
 	
 	//TODO: CHANGE SQL TO CURRENT TERM YEAR ONLY
 	AMTController.viewActivity = (req, res) => {
