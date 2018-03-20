@@ -242,7 +242,7 @@
                         </div>
 
                     </div>
-                    {%if status !=3 and  status !=5 and  status !=2%}
+                    {%if status !=3  and  status !=2%}
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
@@ -284,7 +284,7 @@
                                 <tr>
                                     <td class="text-left"  >{{loop.index}}</td>
                                     <td class="text-left td-title" >{{activities.strategies}}</td>
-                                    <td class="text-left td-title" >{{activities.targetdatestart}} - {{activities.targetdateend}}</td>
+                                    <td class="text-left td-title" >{{activities.targetdatestart1}} - {{activities.targetdateend1}}</td>
                                     <td class="text-left td-title" >{{activities.description}}</td>
                                     <td class="text-center text-nowrap">
                                         <a  data-toggle="tooltip" data-original-title="Details"> 
@@ -302,7 +302,7 @@
                         </tbody>
                     </table>
                 </div>
-                {%if status !=3 and  status !=5 and  status !=2%}
+                {%if status !=3  and  status !=2%}
                 <div class="panel-footer"> 
                     <div class="row">
                         <div class=" col-md-12" style="text-align: center">
