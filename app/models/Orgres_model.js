@@ -1,6 +1,10 @@
 'use strict';
 const squel = require('squel').useFlavour('postgres');
 module.exports = function(configuration, modules, database, queryFiles){
+    const logger = modules.logger;
+    const log_options = Object.create(null);
+    log_options.from = 'ORGRES-Model';
+
 	const OrgresModel = Object.create(null);
 
     const getActivitiesForResearchFormSQL = queryFiles.getActivitiesForResearchForm;
@@ -70,6 +74,8 @@ module.exports = function(configuration, modules, database, queryFiles){
     };
 
     OrgresModel.insertMemberSurveyForm = function(param, connection = database){
+        logger.info('call insertMemberSurveyForm(' + JSON.stringify(param) + ')', log_options);
+        logger.debug('Executing query: ' + insertMemberSurveyFormSQL, log_options);
         return connection.none(insertMemberSurveyFormSQL, param);
     };
 

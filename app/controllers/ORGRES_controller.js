@@ -300,7 +300,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			};
 
 			orgresModel.insertMemberSurveyForm(dbParam).then(data => {
-				return res.redirect('/home');
+				return res.redirect('/');
 			}).catch(error => {
 				return logger.error(`${error.message}\n${error.stack}`, log_options);
 				console.log(error);
