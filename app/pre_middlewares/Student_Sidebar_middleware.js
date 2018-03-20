@@ -268,9 +268,7 @@ module.exports = function(configuration, application, modules, database, queryFi
                     logger.debug('Can submit not in GOSM activities', log_options);
 
                     const newSidebar = Object.create(null);
-                    console.log("ASDASDJASKLDJASLKDJ")
-                    console.log(data[5][0])
-            
+                    
                     let ctr = 0;
                     if(buffer[0]){
                         ctr = buffer[0].cgaid;
