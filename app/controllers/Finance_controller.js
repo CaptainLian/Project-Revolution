@@ -36,6 +36,13 @@ module.exports = function(configuration, modules, models, database, queryFiles){
             renderData.extra_data = req.extra_data;
 			return res.render('Finance/', renderData);
 		},
+		viewHome: (req, res) => {
+			logger.info('call viewPended()', log_options);
+
+			const renderData = Object.create(null);
+            renderData.extra_data = req.extra_data;
+			return res.render('Finance/financeHome');
+		},
 		viewFinanceSettings: (req, res) => {
 			logger.info('call viewFinanceSettings()', log_options);
 

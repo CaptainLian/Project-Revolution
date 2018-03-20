@@ -1,10 +1,8 @@
-{% extends './AMT_master.html' %}
+{% extends './Finance_master.html' %}
 {% import '../template/tags_macro.html' as tag %}
 
-{%block page_title%}AMT Home{%-endblock%}
-
 {%block style%}
-	{{super()}}
+    {{super()}}
     <!-- Bootstrap Core CSS -->
     {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
     {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
@@ -18,33 +16,25 @@
     <!-- animation CSS -->
     {{tag.style('/css/animate.css')}}
     <!--alerts CSS -->
-    {{tag.style('/plugins/bower_components/sweetalert/sweetalert.css')}}
-    {{tag.style('/plugins/bower_components/clockpicker/dist/jquery-clockpicker.min.css')}}
+    {{tag.style('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.css')}}
     <!-- Custom CSS -->
     {{tag.style('/plugins/bower_components/custom-select/custom-select.css')}}
     {{tag.style('/plugins/bower_components/bootstrap-select/bootstrap-select.min.css')}}
     {{tag.style('/css/style.css')}}
     {{tag.style('/css/custom.css')}}
-	<!-- color CSS -->
-    {{tag.style('/css/colors/default.css')}}
-    {{tag.style('/css/weeds.css')}}
+    <!-- color CSS -->
+    {{tag.style('/css/colors/default.css', id='theme')}}
+    <style type="text/css">
+        th,td{
+            text-align: center
+        }
+    </style>
 
-	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-	<!--[if lt IE 9]>
-	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-	<![endif]-->
-	<!-- IMPORTANT -->
-	<style type="text/css">
-	    .sttabs nav a span{
-	        display: block
-	    }
-	</style>
 {%endblock%}
-	
+
+
 {%block defer_script%}
-	{{super()}}
+    {{super()}}
     <!-- jQuery -->
     {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
     <!-- Bootstrap Core JavaScript -->
@@ -61,44 +51,60 @@
     {{tag.javascript('/js/custom.min.js', true)}}
     {{tag.javascript('/js/cbpFWTabs.js', true)}}
     <!-- tabs-->
-    {{tag.javascript('/plugins/bower_components/clockpicker/dist/jquery-clockpicker.min.js', true)}}
     {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
     <!-- Sweet-Alert  -->
-    {{tag.javascript('/plugins/bower_components/sweetalert/sweetalert.min.js', true)}}    
+    {{tag.javascript('/plugins/bower_components/sweetalert/sweetalert.min.js', true)}}
     <!--Style Switcher -->
     {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
 
-    {{tag.javascript('/plugins/bower_components/sweetalert/jquery.sweet-alert.custom.js', true)}}
-    {{tag.javascript('/js/AMT/ActivityEvaluation.js', true)}}
+    {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js', true)}}
+    {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js', true)}}
+    {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js', true)}}
+    {{tag.javascript('https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js', true)}}
+    {{tag.javascript('https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js', true)}}
+    {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js', true)}}
+    {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js', true)}}
+    {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js', true)}}
+    {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/nestable2/1.5.0/jquery.nestable.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/custom-select/custom-select.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-select/bootstrap-select.min.js', true)}}
+
+    <!-- Page Scripts -->
+    {{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
+    {{tag.javascript('/js/Fin/Finance_list.js', true)}}
     {{tag.javascript('/js/APS/rescheduleChecking.js', true)}}
-    
+
+    <!-- /Page Scripts -->
 {%endblock%}
 
 {%block content%}
 <div class="row">
     <div class="col-md-4 col-xs-12 col-sm-6">
         <div class="white-box text-center bg-inverse">
-            <h1 class=" text-white counter">{{pendingActivities}}</h1>
-            <p class="text-white">Pending Activities</p>
+            <h1 class=" text-white counter">{{uncheckedPPR}}</h1>
+            <p class="text-white">Transactions</p>
         </div>
     </div>
      <div class="col-md-4 col-xs-12 col-sm-6">
         <div class="white-box text-center bg-success">
-            <h1 class="text-white counter">{{takenActivities}}</h1>
-            <p class="text-white">Taken Activities</p>
+            <h1 class="text-white counter">{{ApprovedPPR}}</h1>
+            <p class="text-white">Approved Transaction</p>
         </div>
     </div>
     <div class="col-md-4 col-xs-12 col-sm-6">
         <div class="white-box text-center bg-warning">
-            <h1 class="counter text-white">{{evaluatedActivities}}</h1>
-            <p class=" text-white">Evaluated Activities</p>
+            <h1 class="counter text-white">{{PendedPPR}}</h1>
+            <p class=" text-white">Pended Project Proposals</p>
         </div>
     </div>
+
+    
+   
 </div>
 <div class="row">
     <div class="col-sm-12">
         <div class="white-box">
-            <h3 class="box-title m-b-0">AMT HOME</h3>
+            <h3 class="box-title m-b-0">APS HOME</h3>
 
             <div class="table-responsive">
                 <table id="myTable3" class="table table-striped">
