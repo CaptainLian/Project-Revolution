@@ -3884,6 +3884,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         },
 
         reuploadPubs: (req, res) => {
+
+            console.log("==========================")
+            console.log(req.body)
             var dir3 = __dirname + '/../assets/upload/';
             var dir3 = path.join(__dirname, '..', 'assets', 'upload');
 
@@ -3903,13 +3906,14 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             if (!fs.existsSync(dir2)) {
                 fs.mkdirSync(dir2);
             }
-
-
             dir2 = path.normalize(dir2);
             database.task(t => {
                 var dbParam = {
                     id: req.body.pubsid
                 }
+                 
+                console.log('GOOOOOOOOOOOOLD')
+                console.log(dbParam)
                 return t.batch([
                     //GINAGAWA NG UPDATE PUBS TO PEND NISESET NIYA YUNG PUBS SA OLD VERSION NA STATUS
                     pnpModel.updatePubsToPend(dbParam, t),
@@ -3955,6 +3959,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
             }).catch(err => {
                 console.log(err);
+                console.log('GOOOOOOOOOOOOLD')
             })
 
         },
