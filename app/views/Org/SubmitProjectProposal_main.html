@@ -103,6 +103,11 @@
 
 					{% set completionRate = completionRate + 25 %}
 
+				{% else %}
+
+					{% set completionRate = completionRate + contextCompletionRate %}
+					
+
 				{% endif %}
 
 				{% if projectProposal.isexpensecomplete %}
@@ -128,7 +133,7 @@
 				{% endif %}
 
 				{% if status == 1 %}
-					<h3>Completion Rate: {{completionRate}}%</h3>
+					<h3>Completion Rate: {{completionRate | round(2)}}%</h3>
 				{% else %}
 					<h3>Comments: </h3>
 				{% endif %}
@@ -142,7 +147,7 @@
 
 						{% else %}
 
-						0%
+						{{(contextCompletionRate/25)*100 | round(2)}}%
 
 						{% endif %}
 					</p>

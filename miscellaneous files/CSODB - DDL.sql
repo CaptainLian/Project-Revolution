@@ -166,30 +166,30 @@ $trigger$
 	                                        FROM %I %I
 	                                       WHERE (%s));', TG_ARGV[1], TG_ARGV[0], TG_ARGV[1], TG_ARGV[2])
         INTO STRICT totalExpense
-        USING NEW;
+        USING OLD;
 
         IF totalExpense <= 5000.00 THEN
             EXECUTE format('DELETE FROM %I %I
                                   WHERE (%s)
                                     AND %I.type = 3;', TG_ARGV[3], TG_ARGV[4], TG_ARGV[5], TG_ARGV[4])
-            USING NEW;
+            USING OLD;
         END IF;
 
 	    IF totalExpense <= 50000.00 THEN
         EXECUTE format('DELETE FROM %I %I
                               WHERE (%s)
                                 AND %I.type = 4;', TG_ARGV[3], TG_ARGV[4], TG_ARGV[5], TG_ARGV[4])
-        USING NEW;
+        USING OLD;
         END IF;
 
 	    IF totalExpense <= 250000.00 THEN
             EXECUTE format('DELETE FROM %I %I
                                   WHERE (%s)
                                     AND %I.type = 5;', TG_ARGV[3], TG_ARGV[4], TG_ARGV[5], TG_ARGV[4])
-            USING NEW;
+            USING OLD;
 	    END IF;
 
-        RETURN NEW;
+        RETURN OLD;
     END
 $trigger$ LANGUAGE plpgsql;
 
@@ -876,8 +876,8 @@ $trigger$
             NEW.passwordExpiration = CURRENT_TIMESTAMP + (INTERVAL '3 MONTH');
 
             IF OLD.status = 3 THEN
-                NEW.status = 1;
-            END IF;     
+                NEW.status = 0;
+            END IF;
         END IF;
 
         NEW.dateModified = CURRENT_TIMESTAMP;
@@ -1223,67 +1223,67 @@ CREATE TRIGGER before_insert_OrganizationRole
     EXECUTE PROCEDURE trigger_before_insert_OrganizationRole();
 
 
-INSERT INTO OrganizationRole (organization, name, shortname, uniquePosition, masterRole, rank)
+INSERT INTO OrganizationRole (organization, name, shortname, uniquePosition, masterRole, rank, home_url)
                       VALUES
                       		 -- 0
-                      		 ( 0, 'Chairperson', 'Chair', TRUE, NULL, 0),
+                      		 ( 0, 'Chairperson', 'Chair', TRUE, NULL, 0, NULL),
                       		 /* Executive board */
                              -- 1
-                             ( 0, 'Executive Vice Chairperson for Internals',                     'EVC - Interals',  TRUE, 0, 10),
+                             ( 0, 'Executive Vice Chairperson for Internals',                     'EVC - Interals',  TRUE, 0, 10, NULL),
                              -- 2
-                             ( 0, 'Executive Vice Chairperson for Externals',                     'EVC - Externals', TRUE, 0, 10),
+                             ( 0, 'Executive Vice Chairperson for Externals',                     'EVC - Externals', TRUE, 0, 10, NULL),
                              -- 3
-                             ( 0, 'Executive Vice Chairperson for Activities and Documentations', 'EVC - AND',       TRUE, 0, 10),
+                             ( 0, 'Executive Vice Chairperson for Activities and Documentations', 'EVC - AND',       TRUE, 0, 10, NULL),
                              -- 4
-                             ( 0, 'Executive Vice Chairperson for Finance',                       'EVC - Finance',   TRUE, 0, 10),
+                             ( 0, 'Executive Vice Chairperson for Finance',                       'EVC - Finance',   TRUE, 0, 10, NULL),
 
                              /* Activity Documentations and Management */
                              -- 5
-                             ( 0, 'Vice Chairperson for Activity Documentations and Management',            'VC - AND',  TRUE, 2, 20),
+                             ( 0, 'Vice Chairperson for Activity Documentations and Management',            'VC - AND',  TRUE, 2, 20, '/ADM/main'),
                              -- 6
-                             ( 0, 'Associate Vice Chairperson for Activity Documentations and Management', 'AVC - AND', FALSE, 5, 30),
+                             ( 0, 'Associate Vice Chairperson for Activity Documentations and Management', 'AVC - AND', FALSE, 5, 30, '/ADM/main'),
                              -- 7
-                             ( 0, 'Associate for Activity Documentations and Management',                  'AVC - AND', FALSE, 6, 40),
+                             ( 0, 'Associate for Activity Documentations and Management',                  'AVC - AND', FALSE, 6, 40, '/ADM/main'),
 
                              /* Activity Monitoring Team */
                              -- 8
-                             ( 0, 'Vice Chairperson for Activity Monitoring Team',            'VC - AMT',  TRUE, 2, 20),
+                             ( 0, 'Vice Chairperson for Activity Monitoring Team',            'VC - AMT',  TRUE,  2, 20, '/AMT/AMTHome'),
                              -- 9
-                             ( 0, 'Associate Vice Chairperson for Activity Monitoring Team', 'AVC - AMT', FALSE, 9, 30),
+                             ( 0, 'Associate Vice Chairperson for Activity Monitoring Team', 'AVC - AMT', FALSE,  9, 30, '/AMT/AMTHome'),
                              -- 10
-                             ( 0, 'Associate for Activity Monitoring Team',                    'A - AMT', FALSE, 10, 40),
+                             ( 0, 'Associate for Activity Monitoring Team',                    'A - AMT', FALSE, 10, 40, '/AMT/AMTHome'),
 
                              /* Activity Processing and Screening */
                              -- 11
-                             ( 0, 'Vice Chairperson for Activity Processing and Screening',            'VC - APS',  TRUE, 2, 20),
+                             ( 0, 'Vice Chairperson for Activity Processing and Screening',            'VC - APS',  TRUE,  2, 20, '/APS/home'),
                              -- 12
-                             ( 0, 'Associate Vice Chairperson for Activity Processing and Screening', 'AVC - APS', FALSE, 11, 30),
+                             ( 0, 'Associate Vice Chairperson for Activity Processing and Screening', 'AVC - APS', FALSE, 11, 30, '/APS/home'),
                              -- 13
-                             ( 0, 'Associate Activity Processing and Screening',                        'A - APS', FALSE, 12, 40),
+                             ( 0, 'Associate Activity Processing and Screening',                        'A - APS', FALSE, 12, 40, '/APS/home'),
 
                              /* Finance */
                              -- 14
-                             ( 0, 'Vice Chairperson for Finance',            'VC - Finance',  TRUE, 2, 20),
+                             ( 0, 'Vice Chairperson for Finance',            'VC - Finance',  TRUE, 2, 20, NULL),
                              -- 15
-                             ( 0, 'Associate Vice Chairperson for Finance', 'AVC - Finance', FALSE, 14, 30),
+                             ( 0, 'Associate Vice Chairperson for Finance', 'AVC - Finance', FALSE, 14, 30, NULL),
                              -- 16
-                             ( 0, 'Associate for Finance',                    'A - Finance', FALSE, 15, 40),
+                             ( 0, 'Associate for Finance',                    'A - Finance', FALSE, 15, 40, NULL),
 
                              /* Publicity and Productions */
                              -- 17
-                             ( 0, 'Vice Chairperson for Publicity and Productions',            'VC - PNP',  TRUE, 3, 20),
+                             ( 0, 'Vice Chairperson for Publicity and Productions',            'VC - PNP',  TRUE,  3, 20, '/PNP/main'),
                              -- 18
-                             ( 0, 'Associate Vice Chairperson for Publicity and Productions', 'AVC - PNP', FALSE, 18, 30),
+                             ( 0, 'Associate Vice Chairperson for Publicity and Productions', 'AVC - PNP', FALSE, 18, 30, '/PNP/main'),
                              -- 19
-                             ( 0, 'Associate for Publicity and Productions',                    'A - PNP', FALSE, 19, 40),
+                             ( 0, 'Associate for Publicity and Productions',                    'A - PNP', FALSE, 19, 40, '/PNP/main'),
 
                              /* Organizational Research and Analysis */
                              -- 20
-                             ( 0, 'Vice Chairperson for Organizational Research and Analysis',            'VC - OrgRes', TRUE, 2, 20),
+                             ( 0, 'Vice Chairperson for Organizational Research and Analysis',            'VC - OrgRes',  TRUE,  2, 20, '/ORGRES/viewHome'),
                              -- 21
-                             ( 0, 'Associate Vice Chairperson for Organizational Research and Analysis', 'AVC - OrgRes', FALSE, 21, 30),
+                             ( 0, 'Associate Vice Chairperson for Organizational Research and Analysis', 'AVC - OrgRes', FALSE, 21, 30, '/ORGRES/viewHome'),
                              -- 22
-                             ( 0, 'Associate for Organizational Research and Analysis',                    'A - OrgRes', FALSE, 22, 40);
+                             ( 0, 'Associate for Organizational Research and Analysis',                    'A - OrgRes', FALSE, 22, 40, '/ORGRES/viewHome');
 
 DROP TABLE IF EXISTS OrganizationOfficer CASCADE;
 CREATE TABLE OrganizationOfficer (
@@ -1299,11 +1299,15 @@ CREATE TABLE OrganizationOfficer (
 DROP TABLE IF EXISTS "OrganizationMember" CASCADE;
 CREATE TABLE "OrganizationMember" (
     "id" SERIAL UNIQUE,
+
 	"idNumber" INTEGER,
+    "organization" INTEGER REFERENCES StudentOrganization(id),
 	"yearID" INTEGER REFERENCES SchoolYear(id),
+    
+    "name" TEXT,
 	"dateAdded" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
 
-	PRIMARY KEY("idNumber", "yearID")
+	PRIMARY KEY("idNumber", "organization", "yearID")
 );
 
     /* Organization Structure End */
@@ -1484,13 +1488,19 @@ INSERT INTO Functionality (id, name, category)
                           -- Finance Signatory
                           -- mistakes were made in the design of ACLs, the two ACLS can be compressed into a single ACL
                           -- But for sanity and backwards compatability, they're retained
+                          -- NOTE: the ACLs could be renamed and category changed, however sequence of the ACL should never be changed
                           (211025, 'View/Submit Financial Documents as President', 211),
                           (211026, 'View/Submit Financial Documents as Treasurer', 211),
 
                           (214027, 'Submit Officer Survey Form', 214),
 
                           (104028, 'Submit Not in GOSM Activities',  104),
-                          (109029, 'View Activity Feedback', 109);
+                          (109029, 'View Activity Feedback', 109),
+                          (104030, 'Evaluate Project Proposal Reschedule', 104),
+                          (001031, 'Add Organization Member',  1),
+
+                          (109032, 'Submit Officer Survey Form', 109),
+                          (105033, 'Set Organization Fund', 105);
 
 DROP TABLE IF EXISTS OrganizationAccessControl CASCADE;
 CREATE TABLE OrganizationAccessControl (
@@ -1544,10 +1554,18 @@ INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       (    2,          2023,      TRUE),
                                       (   20,          2023,      TRUE),
                                       (   21,          2023,      TRUE),
+                                      /*
                                       -- View Activity Feedback
                                       (   20,        109029,      TRUE),
                                       (   21,        109029,      TRUE),
-                                      (   22,        109029,      TRUE);
+                                      (   22,        109029,      TRUE),
+                                      */
+                                      -- Evaluate Project Proposal Reschedule
+                                      (    0,        104030,      TRUE),
+                                      (    1,        104030,      TRUE),
+                                      (    2,        104030,      TRUE),
+                                      (    3,        104030,      TRUE),
+                                      (    4,        104030,      TRUE);
 
 /* Organization Default Structure */
 
@@ -1584,7 +1602,11 @@ $trigger$
                                               -- Submit Officer Survey Form
                                               (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 27)), TRUE),
                                               -- Submit Not in GOSM Activity 28
-                                              (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE);
+                                              (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE),
+                                              -- Add Members
+                                              (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 31)), TRUE),
+                                              -- Submit Officer Survey Form
+                                              (presidentRoleID, (SELECT id FROM functionality WHERE(id%1000 = 32)), TRUE);
 
         INSERT INTO OrganizationRole(organization, name, shortname, uniquePosition, masterRole, rank)
                              VALUES (NEW.id, 'Executive Secretariat','ES', TRUE, presidentRoleID, 10)
@@ -1595,7 +1617,9 @@ $trigger$
                                               -- Submit Officer Survey Form
                                              (executiveSecretariatRoleID, (SELECT id FROM functionality WHERE(id%1000 = 27)), TRUE),
                                               -- Submit Not in GOSM Activity 28
-                                             (executiveSecretariatRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE);
+                                             (executiveSecretariatRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE),
+                                              -- Submit Officer Survey Form
+                                             (executiveSecretariatRoleID, (SELECT id FROM functionality WHERE(id%1000 = 32)), TRUE);
 
         INSERT INTO OrganizationRole(organization, name, shortname, uniquePosition, masterRole, rank)
                              VALUES (NEW.id, 'External Executive Vice President', 'E-EVP', TRUE, presidentRoleID, 10)
@@ -1606,49 +1630,53 @@ $trigger$
                                               -- Submit Officer Survey Form
                                               (eevpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 27)), TRUE),
                                               -- Submit Not in GOSM Activity 28
-                                              (eevpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE);
+                                              (eevpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE),
+                                              -- Submit Officer Survey Form
+                                              (eevpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 32)), TRUE);
 
         INSERT INTO OrganizationRole(organization, name, shortname, uniquePosition, masterRole, rank)
                              VALUES (NEW.id, 'Internal Executive Vice President', 'I-EVP',TRUE, presidentRoleID, 10)
         RETURNING id INTO ievpRoleID;
         INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       VALUES  (ievpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
-                                              (ievpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE),
                                               -- Submit Officer Survey Form
                                               (ievpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 27)), TRUE),
                                               -- Submit Not in GOSM Activity 28
-                                              (ievpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE);
+                                              (ievpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE),
+                                              -- Submit Officer Survey Form
+                                              (ievpRoleID, (SELECT id FROM functionality WHERE(id%1000 = 32)), TRUE);
 
         INSERT INTO OrganizationRole(organization, name, shortname, uniquePosition, masterRole, rank)
                              VALUES (NEW.id, 'Vice President of Documentations', 'VP-D', TRUE, executiveSecretariatRoleID, 20)
         RETURNING id INTO vpdRoleID;
         INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       VALUES  (vpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
-                                              (vpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE),
                                               -- Sign PPR as Documentation
                                               (vpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 12)), TRUE),
                                               -- Submit Officer Survey Form
                                               (vpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 27)), TRUE),
                                               -- Submit Not in GOSM Activity 28
-                                              (vpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE);
+                                              (vpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE),
+                                              -- Submit Officer Survey Form
+                                              (vpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 32)), TRUE);
 
         INSERT INTO OrganizationRole(organization, name, shortname, uniquePosition, masterRole, rank)
                              VALUES (NEW.id, 'Associate Vice President of Documentations', 'AVP-D', FALSE, vpdRoleID, 30)
         RETURNING id INTO avpdRoleID;
         INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       VALUES  (avpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
-                                              (avpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE),
                                               -- Submit Officer Survey Form
                                               (avpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 27)), TRUE),
                                               -- Submit Not in GOSM Activity 28
-                                              (avpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE);
+                                              (avpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE),
+                                              -- Submit Officer Survey Form
+                                              (avpdRoleID, (SELECT id FROM functionality WHERE(id%1000 = 32)), TRUE);
 
         INSERT INTO OrganizationRole(organization, name, shortname, uniquePosition, masterRole, home_url, rank)
-                             VALUES (NEW.id, 'Vice President of Finance', 'VP-F', TRUE, ievpRoleID, '/Organization/treasurer/dashboard', 20)
+                             VALUES (NEW.id, 'Vice President of Finance', 'VP-F', TRUE, ievpRoleID, NULL, 20)
         RETURNING id INTO vpfRoleID;
         INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       VALUES  (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
-                                              (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE),
                                               -- Sign PPR as Treasurer
                                               (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 11)), TRUE),
                                               (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 18)), TRUE),
@@ -1661,21 +1689,26 @@ $trigger$
                                               -- Submit Officer Survey Form
                                               (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 27)), TRUE),
                                               -- Submit Not in GOSM Activity 28
-                                              (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE);
-
+                                              (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE),
+                                              -- Submit Officer Survey Form
+                                              (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 32)), TRUE),
+                                              -- Set Organization Fund
+                                              (vpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 33)), TRUE);
+                                              
         INSERT INTO OrganizationRole(organization, name, shortname, uniquePosition, masterRole, home_url, rank)
-                             VALUES (NEW.id, 'Associate Vice President of Finance', 'AVP-F',FALSE, vpfRoleID, '/Organization/treasurer/dashboard', 30)
+                             VALUES (NEW.id, 'Associate Vice President of Finance', 'AVP-F',FALSE, vpfRoleID, NULL, 30)
         RETURNING id INTO avpfRoleID;
         INSERT INTO OrganizationAccessControl (role, functionality, isAllowed)
                                       VALUES  (avpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 9)), TRUE),
-                                              (avpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 10)), TRUE),
                                               (avpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 18)), TRUE),
                                               -- Sign Finance Transaction as Treasurer
                                               (avpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 26)), TRUE),
                                               -- Submit Officer Survey Form
                                               (avpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 27)), TRUE),
                                               -- Submit Not in GOSM Activity 28
-                                              (avpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE);
+                                              (avpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 28)), TRUE),
+                                              -- Submit Officer Survey Form
+                                              (avpfRoleID, (SELECT id FROM functionality WHERE(id%1000 = 32)), TRUE);
 
         INSERT INTO OrganizationRole(organization, name, shortname, uniquePosition, rank)
                              VALUES (      NEW.id, 'Junior Officer', 'JO', FALSE, 40)
@@ -2004,7 +2037,7 @@ CREATE TRIGGER before_insert_ProjectProposalProgramDesign
     BEFORE INSERT ON ProjectProposalProgramDesign
     FOR EACH ROW
     EXECUTE PROCEDURE trigger_before_insert_ProjectProposalProgramDesign();
-    
+
 CREATE OR REPLACE FUNCTION "trigger_after_insert_ProjectProposalProgramDesign"()
 RETURNS TRIGGER AS
 $trigger$
@@ -2810,6 +2843,8 @@ CREATE TABLE "ActivityResearchForm" (
   "IFIDTA" SMALLINT,
   "TAWWP" SMALLINT,
   "TOUMTGTTA" SMALLINT,
+  "field6" SMALLINT,
+  "field7" SMALLINT,
   "WWWITA" TEXT,
   "FAC" TEXT,
   "EFFA" TEXT,
@@ -3164,7 +3199,9 @@ INSERT INTO "ActivityPublicityMaterial" ("id", "name")
                                  VALUES (   0, 'Not applicable'),
                                         (   1, 'Tarpualine'),
                                         (   2, 'Banderitas'),
-                                        (   3, 'Ticket');
+                                        (   3, 'Ticket'),
+                                        (   4, 'Publication'),
+                                        (   5, 'Poster');
 
 DROP TABLE IF EXISTS "ActivityPublicityModeOfDistribution" CASCADE;
 CREATE TABLE "ActivityPublicityModeOfDistribution"(
@@ -3256,9 +3293,11 @@ CREATE TABLE "OfficerSurveyForm" (
 DROP TABLE IF EXISTS "MemberSurveyForm" CASCADE;
 CREATE TABLE "MemberSurveyForm" (
     "id" SERIAL UNIQUE,
+
     "termID" INTEGER REFERENCES Term(id),
+    "member" INTEGER REFERENCES "OrganizationMember"("id"),
+
     "organizationID" INTEGER REFERENCES StudentOrganization(id),
-    "sequence" INTEGER DEFAULT -1,
     "field1" SMALLINT NOT NULL,
     "field2" SMALLINT NOT NULL,
     "field3" SMALLINT NOT NULL,
@@ -3268,13 +3307,13 @@ CREATE TABLE "MemberSurveyForm" (
     "field7" SMALLINT NOT NULL,
     "field8" SMALLINT NOT NULL,
     "field9" SMALLINT NOT NULL,
+    "field10" SMALLINT NOT NULL,
+    "field11" SMALLINT NOT NULL,
+    "field12" SMALLINT NOT NULL,
+    "field13" SMALLINT NOT NULL,
 
-    PRIMARY KEY("termID", "organizationID", "sequence")
+    PRIMARY KEY("termID", "member", "organizationID")
 );
-CREATE TRIGGER "before_insert_MemberSurveyForm_sequence"
-    BEFORE INSERT ON "MemberSurveyForm"
-    FOR EACH ROW
-    EXECUTE PROCEDURE "trigger_before_insert_increment_sequence"('MemberSurveyForm', 'msf', '(msf."termID" = $1."termID") AND (msf."organizationID" = $1."organizationID")' );
 
 /* SESSION TABLE */
 DROP TABLE IF EXISTS session CASCADE;

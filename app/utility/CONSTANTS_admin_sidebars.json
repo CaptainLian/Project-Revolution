@@ -1,4 +1,9 @@
 [{
-	"name": "View Account Logs",
-	"link": "/Admin/Account/Logs"
+	"name": "Role Access",
+    "link": "/Organization/Setting/ACL",    
+    "icon" :"fa fa-key"
+}, {
+	"name": "Account Management",
+    "link": "/ORGRES/Manage/Account",
+    "icon" :"fa fa-group"
 }]

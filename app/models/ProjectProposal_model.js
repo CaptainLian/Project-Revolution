@@ -34,6 +34,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const deleteProgramDesignSQL = queryFiles.deleteProgramDesign;
     const deleteExpensesSQL = queryFiles.deleteExpenses;
     const getAllVenuesSQL = queryFiles.getAllVenues;
+    const getAllBuildingsSQL = queryFiles.getAllBuildings;
     const getOrgFacultyAdvisersSQL = queryFiles.getOrgFacultyAdvisers;
     const getAllMyActivity = queryFiles.getAllMyActivity;
     const getPPRToCreatePubsList = queryFiles.getPPRToCreatePubsList;
@@ -47,6 +48,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const getActivitiesApprovedPerHeadSQL = queryFiles.getActivitiesApprovedPerHead;
     const getProjectProposalCommentsPerStatusSQL = queryFiles.getProjectProposalCommentsPerStatus;
     const getApprovedActivitiesSQL = queryFiles.getApprovedActivities;
+
 
     const updatePPRSignatoryStatusSQL = queryFiles.updatePPRSignatoryStatus;
     const getPPRDetailsSQL = queryFiles.getPPRDetails;
@@ -249,7 +251,69 @@ module.exports = function(configuration, modules, db, queryFiles) {
         .where('projectProposal = ?', squel.select()
             .from('ProjectProposal')
             .where('GOSMActivity = ${id}')
-            .field('id'));
+            .field('id'))
+        .order("pppd.date")
+        .order("pppd.sequence");
+        this._attachFields(query, fields);
+
+        query = query.toString();
+        let param = Object.create(null);
+        param.id = id;
+        return connection.any(query, param);
+    };
+    ProjectProposalModel.prototype.updateProjectProposalActualDate = function(id, date, connection = this._db){
+         console.log(date)
+        console.log("date MODEL")
+        var day = 60 * 60 * 24 * 1000;
+        var date1 = new Date(date[0])
+        
+        date1 = new Date(date1.getTime() + day);
+        var date2 = new Date(date[date.length-1])
+        date2 = new Date(date2.getTime() + day);
+        let query = squel.update()
+        .table('projectproposal')
+        .set('actualDateStart',date1.toISOString().split('T')[0])
+        .set('actualDateEnd',date2.toISOString().split('T')[0])
+        .where('gosmactivity = ?',id)
+            
+
+        query = query.toString();
+        console.log(query)
+        return connection.any(query);
+    };
+    ProjectProposalModel.prototype.updateProjectProposalPD = function(id, date, connection = this._db){
+        console.log(id)
+        var query ='';
+        var day = 60 * 60 * 24 * 1000;
+       
+        for(var ctr = 0; ctr < date.length; ctr++){
+             var date1 = new Date(date[ctr])
+        date1 = new Date(date1.getTime() + day);
+        console.log("asd")        
+            query += squel.update()
+                        .table('ProjectProposalProgramDesign')
+                        .set('date',date1.toISOString().split('T')[0])                 
+                        .where('dayid = ?',ctr)
+                        .where('projectProposal = ?',id)                        
+                        query = query.toString();    
+            query+=';'
+            
+
+        }
+        console.log(query)
+        return connection.any(query);
+    };
+    ProjectProposalModel.prototype.getProjectProposalProgramDesignDates = function(id, fields, connection = this._db){
+        let query = squel.select()
+        .from('ProjectProposalProgramDesign', 'pppd')
+        .field("DISTINCT(PPPD.DATE)")
+        .left_join('account','acc','pppd.personincharge = acc.idnumber')
+        .where('projectProposal = ?', squel.select()
+            .from('ProjectProposal')
+            .where('GOSMActivity = ${id}')
+            .field('id'))
+        .order("pppd.date")
+        
         this._attachFields(query, fields);
 
         query = query.toString();
@@ -346,7 +410,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
                          .set("rescheduledates", "{"+dates+"}")
                          .set("reschedreasonother", other)
                          .set("reschedrejectreason", '')
-                         .where("GosmActivity = ?",id)
+                         .where("id = ?",id)
 
         console.log(query.toString())
         return connection.any(query.toString());
@@ -363,12 +427,11 @@ module.exports = function(configuration, modules, db, queryFiles) {
                          .table("ProjectProposal")
                          .set("status",status)
                          .set("reschedrejectreason", comment)                         
-                         .where("gosmactivity = ?",id)
+                         .where("gosmactivity = ?",id);
 
       
         return connection.any(query.toString());
     };
-
 
      ProjectProposalModel.prototype.deleteRevenue =  function(id, connection = this._db){
         
@@ -611,6 +674,10 @@ module.exports = function(configuration, modules, db, queryFiles) {
         return connection.any(getAllVenuesSQL);
     };
 
+    ProjectProposalModel.prototype.getAllBuildings = function(connection = this._db){
+        return connection.any(getAllBuildingsSQL);
+    };
+
     ProjectProposalModel.prototype.getOrgFacultyAdvisers = function(param, connection = this._db){
         return connection.any(getOrgFacultyAdvisersSQL, param);
     };
@@ -648,6 +715,12 @@ module.exports = function(configuration, modules, db, queryFiles) {
 
     ProjectProposalModel.prototype.getApprovedActivities = function(connection = this._db){
         return connection.any(getApprovedActivitiesSQL);
+    };
+
+    const getOrganizationFundsAndExpenseSQL = queryFiles.getOrganizationFundsAndExpense;
+    ProjectProposalModel.prototype.getOrganizationFundsAndExpense = function(param, connection = this._db){
+        console.log('call getOrganizationFundsAndExpense()');
+        return connection.oneOrNone(getOrganizationFundsAndExpenseSQL, param);
     };
 
     const getAllProjectProposalSQL = queryFiles.getAllProjectProposal;

@@ -90,6 +90,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         let query = squel.select()
             .from('Account')
             .field('idNumber')
+            .field('status')
             .field('email')
             .field('passwordExpiration')
             .field('password')
@@ -118,9 +119,21 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             credential: input.credential
         }).then(account => {
             logger.debug(`Account found: ${JSON.stringify(account)}`, log_options);
+
             if (account.password === bcrypt.hashSync(input.password, account.salt)) {
                 logger.debug('Valid!', log_options);
 
+
+                if(account.status === 1 || account.status === 2){
+                    logger.debug('Disabled account! blocking', log_options);
+
+                    const reply = Object.create(null);
+                    reply.url = '/System/NotAllowed';
+                    reply.reroute = true;
+                    reply.valid = true;
+
+                    return res.send(reply);
+                }
 
                 /**
                  * Part of the sessions that contains the user credentials

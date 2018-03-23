@@ -1,0 +1,140 @@
+{% extends './AMT_master.html' %}
+{% import '../template/tags_macro.html' as tag %}
+
+{%block page_title%}AMT Home{%-endblock%}
+
+{%block style%}
+	{{super()}}
+    <!-- Bootstrap Core CSS -->
+    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
+    {{tag.style('/plugins/bower_components/datatables/jquery.dataTables.min.css')}}
+    {{tag.style('/plugins/bower_components/nestable/nestable.css')}}
+    {{tag.style('https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css')}}
+    {{tag.style('https://cdnjs.cloudflare.com/ajax/libs/nestable2/1.5.0/jquery.nestable.min.CSS')}}
+
+    <!-- Menu CSS -->
+    {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
+    <!-- animation CSS -->
+    {{tag.style('/css/animate.css')}}
+    <!--alerts CSS -->
+    {{tag.style('/plugins/bower_components/sweetalert/sweetalert.css')}}
+    {{tag.style('/plugins/bower_components/clockpicker/dist/jquery-clockpicker.min.css')}}
+    <!-- Custom CSS -->
+    {{tag.style('/plugins/bower_components/custom-select/custom-select.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-select/bootstrap-select.min.css')}}
+    {{tag.style('/css/style.css')}}
+    {{tag.style('/css/custom.css')}}
+	<!-- color CSS -->
+    {{tag.style('/css/colors/default.css')}}
+    {{tag.style('/css/weeds.css')}}
+
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+	<!-- IMPORTANT -->
+	<style type="text/css">
+	    .sttabs nav a span{
+	        display: block
+	    }
+	</style>
+{%endblock%}
+	
+{%block defer_script%}
+	{{super()}}
+    <!-- jQuery -->
+    {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
+    <!-- Bootstrap Core JavaScript -->
+    {{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
+    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
+    <!-- Menu Plugin JavaScript -->
+    {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
+    <!--slimscroll JavaScript -->
+    {{tag.javascript('/js/jquery.slimscroll.js', true)}}
+    <!--Wave Effects -->
+    {{tag.javascript('/js/waves.js', true)}}
+    <!-- Custom Theme JavaScript -->
+    {{tag.javascript('/js/custom.min.js', true)}}
+    {{tag.javascript('/js/cbpFWTabs.js', true)}}
+    <!-- tabs-->
+    {{tag.javascript('/plugins/bower_components/clockpicker/dist/jquery-clockpicker.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
+    <!-- Sweet-Alert  -->
+    {{tag.javascript('/plugins/bower_components/sweetalert/sweetalert.min.js', true)}}    
+    <!--Style Switcher -->
+    {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
+
+    {{tag.javascript('/plugins/bower_components/sweetalert/jquery.sweet-alert.custom.js', true)}}
+    {{tag.javascript('/js/AMT/ActivityEvaluation.js', true)}}
+    {{tag.javascript('/js/APS/rescheduleChecking.js', true)}}
+    
+{%endblock%}
+
+{%block content%}
+<div class="row">
+    <div class="col-md-4 col-xs-12 col-sm-6">
+        <div class="white-box text-center bg-inverse">
+            <h1 class=" text-white counter">{{pendingActivities}}</h1>
+            <p class="text-white">Pending Activities</p>
+        </div>
+    </div>
+     <div class="col-md-4 col-xs-12 col-sm-6">
+        <div class="white-box text-center bg-success">
+            <h1 class="text-white counter">{{takenActivities}}</h1>
+            <p class="text-white">Taken Activities</p>
+        </div>
+    </div>
+    <div class="col-md-4 col-xs-12 col-sm-6">
+        <div class="white-box text-center bg-warning">
+            <h1 class="counter text-white">{{evaluatedActivities}}</h1>
+            <p class=" text-white">Evaluated Activities</p>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="white-box">
+            <h3 class="box-title m-b-0">AMT HOME</h3>
+
+            <div class="table-responsive">
+                <table id="myTable3" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th class="text-center" width="33%">List of Organizations</th>
+                            <th class="text-center" width="33%">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>  
+
+                        {% for organization in studentorganizations %}
+                            {% for gosm in allGosm %}
+                                {% if gosm.organizationid == organization.id %}
+                                    <tr>
+                                      <td class="text-center">{{organization.name}}</td>
+                                      <td class="text-center">
+                                          <a href="/ADM/viewCalendar/{{organization.id}}" data-toggle="tooltip" data-original-title="View Calendar">
+                                            <i class="fa fa-calendar m-r-10"></i>
+                                          </a>
+                                          <a href="/Organization/viewGOSMDetails/{{gosm.gosmid}}" data-toggle="tooltip" data-original-title="View GOSM">
+                                            <i class="fa fa-list m-r-10"></i>
+                                          </a>
+                                          <a href="/Organization/report/{{organization.id}}" data-toggle="tooltip" data-original-title="View Grade">
+                                            <i class="fa fa-star m-r-10"></i>
+                                          </a>
+                                      </td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %}                      
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%}

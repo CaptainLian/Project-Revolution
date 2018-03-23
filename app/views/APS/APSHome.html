@@ -62,36 +62,69 @@
 
 {%block content%}
 <div class="row">
-	<div class="col-sm-12">
-		<div class="white-box">
-			<h3 class="box-title m-b-0">APS HOME</h3>
-            
-			<div class="table-responsive">
-				<table id="myTable" class="table table-striped">
-					<thead>
-						<tr>
-                            <th>Organization Name</th>
-                            <th>Punctuality</th>
-                            <th>Completeness</th>
-                            <th>Timing ratio</th>
-                            <th>Pushed-through ratio</th>
-                            <th>60/40 ratio</th>
-						</tr>
-					</thead>
-					<tbody>
-                            <tr>
-                                <td>La Salle Computer Society</td>
-                                <td>2.5%</td>
-                                <td>2.5%</td>
-                                <td>1.5%</td>
-                                <td>0.15%</td>
-                                <td>10%</td>
-                            </tr>
-					</tbody> 
-				</table>
-			</div>
-		</div>
-	</div>
+    <div class="col-md-4 col-xs-12 col-sm-6">
+        <div class="white-box text-center bg-inverse">
+            <h1 class=" text-white counter">{{uncheckedPPR}}</h1>
+            <p class="text-white">Unchecked Project Proposals</p>
+        </div>
+    </div>
+     <div class="col-md-4 col-xs-12 col-sm-6">
+        <div class="white-box text-center bg-success">
+            <h1 class="text-white counter">{{ApprovedPPR}}</h1>
+            <p class="text-white">Approved Project Proposals </p>
+        </div>
+    </div>
+    <div class="col-md-4 col-xs-12 col-sm-6">
+        <div class="white-box text-center bg-warning">
+            <h1 class="counter text-white">{{PendedPPR}}</h1>
+            <p class=" text-white">Pended Project Proposals</p>
+        </div>
+    </div>
+
+    
+   
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="white-box">
+            <h3 class="box-title m-b-0">APS HOME</h3>
+
+            <div class="table-responsive">
+                <table id="myTable3" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th class="text-center" width="33%">List of Organizations</th>
+                            <th class="text-center" width="33%">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>  
+
+                        {% for organization in studentorganizations %}
+                            {% for gosm in allGosm %}
+                                {% if gosm.organizationid == organization.id %}
+                                    <tr>
+                                      <td class="text-center">{{organization.name}}</td>
+                                      <td class="text-center">
+                                          <a href="/ADM/viewCalendar/{{organization.id}}" data-toggle="tooltip" data-original-title="View Calendar">
+                                            <i class="fa fa-calendar m-r-10"></i>
+                                          </a>
+                                          <a href="/Organization/viewGOSMDetails/{{gosm.gosmid}}" data-toggle="tooltip" data-original-title="View GOSM">
+                                            <i class="fa fa-list m-r-10"></i>
+                                          </a>
+                                          <a href="/Organization/report/{{organization.id}}" data-toggle="tooltip" data-original-title="View Grade">
+                                            <i class="fa fa-star m-r-10"></i>
+                                          </a>
+                                      </td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %}                      
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 {%endblock%}
     

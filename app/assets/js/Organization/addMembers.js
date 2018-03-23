@@ -1,54 +1,115 @@
-$("#myTable").DataTable();
-$(document).on('click', '#approve', function() {
+var table = $("#myTable").DataTable();
 
-    swal({
-        title: "Are you sure?",
-        showCancelButton: true,
-        reverseButtons: true,
-        confirmButtonColor: "#00C292",
-        confirmButtonText: "Yes",
-        cancelButtonText: "No",
-        focusConfirm: false,
-        focusCancel: false,
-        showLoaderOnConfirm: true,
-        preConfirm: function(data) {
-            console.log(data);
-            console.log("DATA");
-            return new Promise(function(resolve, reject) {
-                setTimeout(function() {
-                    if (data === 'taken@example.com') {
-                        reject('This email is already taken.')
-                    } else {
-                        resolve()
-                    }
-                }, 2000)
-            })
-        }
+$("input").change(function(){
+    console.log("ASDASd")
 
-    }).then(function(data) {
-        console.log("ASD");
-        $("html, body").animate({
-            scrollTop: 0
-        }, function() {
-            $('#doc').removeClass("bounceInRight animated").addClass("bounceInRight   animated").one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-                $(this).removeClass("bounceInRight animated");
-            });
-        });
+    if($.trim($("#name").val().length) > 0 && $.trim($("#idnumber").val().length) == 8){
+        $("#addtolist").removeAttr("disabled")
+    }
+})
 
-    }).then(function() {
-        $.ajax({
-            type: 'POST',
-            url: '',
-            data: {
-            },
 
-            success: function(data) {
-                var doc = $(data).find("#doc");
-                setTimeout(function() {
-                    $("#doc").replaceWith(doc);
-                    $(document).trigger("customGenerated");
-                }, 1000);
+$("#addtolist").click(function(event) {
+    var idnum = $("#idnumber").val()
+    var name = $("#name").val()
+    var td = '<td><i class="fa fa-trash text-danger m-r-10" idnum='+idnum+' data-toggle="tooltip" data-original-title="delete"></i></td>'
+
+   $.ajax({
+        type: 'POST',
+        url: '/Organization/AJAX/addMember',
+        data: {
+            idnumber:idnum,
+            name:name
+        },
+
+        success: function(data) {
+           
+            if(data.status){
+                $.toast({
+                      heading: 'Success!',          
+                      
+                      position: 'top-right',
+                      loaderBg:'#ff6849',
+                      icon: 'success',
+                      bgColor:'#00C292',
+                      hideAfter: 3500, 
+                      stack: 6
+                    });
+
+                  table.row.add([
+                    idnum,
+                    name,
+                    td
+                    ]).draw()
+            }else{
+                 $.toast({
+                      heading: 'Failed!',          
+                      
+                      position: 'top-right',
+                      loaderBg:'#ff6849',
+                      icon: 'error',
+                      bgColor:'#FB9678',
+                      hideAfter: 3500, 
+                      stack: 6
+                    });
             }
-        });
+            $("#name").val("") 
+            $("#idnumber").val("") 
+            $("input").trigger("change")
+            $("#addtolist").attr("disabled","");
+
+        }
     });
+
+  
+   
 });
+
+$(document).on('click','table tbody tr td .fa-trash',function(event) {
+        console.log('fatimes')
+         var dis =$(this)
+        var idnum = $(this).attr("idnum");
+         $.ajax({
+            type: 'POST',
+                url: '/Organization/AJAX/deleteMember',
+                data: {
+                    idnumber:idnum
+                },
+
+                success: function(data) {
+                    if(data.status){
+                        $.toast({
+                              heading: 'Success!',          
+                              
+                              position: 'top-right',
+                              loaderBg:'#ff6849',
+                              icon: 'success',
+                              bgColor:'#00C292',
+                              hideAfter: 3500, 
+                              stack: 6
+                            });
+
+                          
+                            table.row(dis.closest("tr")).remove().draw()
+                    }else{
+                         $.toast({
+                              heading: 'Failed!',          
+                              text:'Member already added.',
+                              position: 'top-right',
+                              loaderBg:'#ff6849',
+                              icon: 'error',
+                              bgColor:'#FB9678',
+                              hideAfter: 3500, 
+                              stack: 6
+                            });
+                    }
+                 
+                }
+        });
+        // table.row($(this).closest("tr")).remove().draw()
+
+    });
+
+
+
+ 

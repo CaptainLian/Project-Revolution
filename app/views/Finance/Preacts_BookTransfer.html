@@ -120,9 +120,13 @@
                                                                         <select class="form-control select2 m-b-10 col-md-9" name="recipient" id="org-select" required="">
                                                                         <option selected="true" disabled="disabled">Select a recipient</option>
 
-                                                                        <option value="1">tindahan ni aleng nena</option>
-                                                                        <option value="2">ate ricas</option>
-                                                                        <option value="3">noels</option>
+                                                                        {% for establishment in establishments %}
+
+                                                                            
+                                                                            <option value="{{establishment.id}}">{{establishment.name}}</option>
+                                                                            
+
+                                                                        {% endfor %}
                                                                 
 
                                                                     </select>

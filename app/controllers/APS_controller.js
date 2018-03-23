@@ -179,6 +179,15 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         renderData.extra_data = req.extra_data;
         return res.render('APS/Logs');
     };
+    APSController.viewCalendar = (req, res) => {
+        // logger.info('call viewActivityToCheck()', log_options);
+
+        let renderData = Object.create(null);
+        renderData.extra_data = req.extra_data;
+        renderData.csrfToken = req.csrfToken();
+        return res.render('APS/viewOrgCalendar');
+        
+    };
     APSController.resched = (req, res) => {
         const renderData = Object.create(null);
         renderData.extra_data = req.extra_data;
@@ -198,9 +207,50 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         // return res.render('APS/RescheduleChecking');
     };
     APSController.home = (req, res) => {
-        const renderData = Object.create(null);
-        renderData.extra_data = req.extra_data;
-        return res.render('APS/APSHome');
+
+        database.task(task => {
+                        return task.batch([
+                            projectProposalModel.getAllProjectProposal(),
+                            organizationModel.getAllStudentOrganizations(),
+                            gosmModel.getAllCurrent()
+                        ]);
+        }).then(data=>{
+
+            let renderData = Object.create(null);
+
+            var uncheckedPPR = 0;
+            var ApprovedPPR = 0;
+            var PendedPPR = 0;
+
+            for (var i = 0; i < data[0].length; i++){
+
+                if (data[0][i].status == 2) {
+                    uncheckedPPR = uncheckedPPR + 1;
+                }
+                else if(data[0][i].status == 3){
+                    ApprovedPPR = ApprovedPPR + 1;
+                }
+                else if(data[0][i].status == 5 || data[0][i].status == 7){
+                    PendedPPR = PendedPPR + 1;
+                }
+
+            }
+
+
+            renderData.uncheckedPPR = uncheckedPPR;
+            renderData.ApprovedPPR = ApprovedPPR;
+            renderData.PendedPPR = PendedPPR;
+            renderData.studentorganizations = data[1];
+            renderData.allGosm = data[2];
+            renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
+            return res.render('APS/APSHome', renderData);
+
+        }).catch(error=>{
+            console.log(error);
+        });
+
+       
     };
     APSController.orgSummary = (req, res) => {
         const renderData = Object.create(null);
@@ -218,7 +268,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 projectProposalModel.getAllProjectProposal(t)
             ]);    
         }).then(list => {
-            console.log(list)
+            console.log(list[0])
             console.log("asdasdas")
 
             renderData.activities = list[0];
@@ -292,7 +342,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     'acc.lastname AS lastname'
                 ]),
                 // 4
-                projectProposalModel.getProjectProposalProjectHeads(activityID),
+                projectProposalModel.getProjectHeadsGOSM({gosmid:activityID}),
                 // 5
                 projectProposalModel.getLatestProjectProposalAttachment({projectId: activityID}),
                 // 6
@@ -318,7 +368,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.status = data[7];
             console.log(data[2].length > 0);
             console.log("REVENUE");
-            console.log(data[0].expense);
+            console.log(activityID);
             console.log("EXPENSE");
 
             console.log(data[0].status);

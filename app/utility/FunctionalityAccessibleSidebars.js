@@ -19,11 +19,10 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.ViewProjectHeadDashboard] = [{
 }];
 */
 
-
 //View APSReport
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.ViewAPSReport] = [{
-    name: 'APS Report',
-    link: '/Organization/APSReport'
+    name: 'Term Grade',
+    link: '/Organization/report/1'
 }];
 
 //Evaluate GOSM
@@ -67,12 +66,14 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateActivity_OrgRes] = [{
     ]
 }];
 
+/*
 //Modify Organizational Structure
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.ModifyOrganizationalStructure] = [{
     name: 'Role Access',
     link: '/Organization/Setting/ACL',    
     icon :'fa fa-key'
 }];
+*/
 
 //View Publicities for Activity
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.ViewPublicityMaterial] = [{
@@ -94,17 +95,39 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluatePublicityMaterial] = [{
     icon: 'fa fa-check'
 }];
 
+/*
 //Manage Accounts
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.AccountManagement] = [{
     name: 'Account Management',
     link: '/ORGRES/Manage/Account',
     icon :'fa fa-group'
 }];
+*/
+functionalitySidebars[FUNCTIONALITY_SEQUENCES.AddMember] = [constructSidebar(
+    'Add Members',
+    '/Organization/viewAddMember',
+    'fa fa-quote-left'
+)];
+
+functionalitySidebars[FUNCTIONALITY_SEQUENCES.SetOrganizationFunds] = [constructSidebar(
+    'Set Funds',
+    '/Finance/Settings'
+)];
 
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.ViewActivityFeedback] = [constructSidebar(
     'View Activity Feedback',
     '/Organization/Orgres/list',
     'fa fa-quote-left'
+)];
+
+functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateProjectProposalResched] = [constructSidebar(
+    'Evaluate Activity Resched',
+    '/APS/Resched'
+)];
+
+functionalitySidebars[FUNCTIONALITY_SEQUENCES.SubmitOfficerSurveyForm] = [constructSidebar(
+    'Submit Officer Survey Form',
+    '/OrgRes/OfficerSurveyForm'
 )];
 
 //Evaluate Post Project

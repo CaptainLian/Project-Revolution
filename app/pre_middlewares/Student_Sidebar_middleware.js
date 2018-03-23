@@ -61,10 +61,10 @@ module.exports = function(configuration, application, modules, database, queryFi
                     }
                 }
 
-                logger.debug(`\tUser access control: ${JSON.stringify(accessControl)}`, log_options);
-                logger.debug(`\tAccessible functions list: ${JSON.stringify(accessibleFunctionalitiesList)}`, log_options);
                 req.extra_data.user.accessControl = accessControl;
                 req.extra_data.user.accessibleFunctionalitiesList = accessibleFunctionalitiesList;
+                logger.debug(`\tUser access control: ${JSON.stringify(accessControl)}`, log_options);
+                logger.debug(`\tAccessible functions list: ${JSON.stringify(accessibleFunctionalitiesList)}`, log_options);
 
                 return next();
             }).catch(error => {
@@ -197,16 +197,12 @@ module.exports = function(configuration, application, modules, database, queryFi
                 accountModel.hasPPRApproved(user.idNumber, task),
                 accountModel.hasPPRWithoutPostProjectProposal(user.idNumber, task),
                 organizationModel.hasGOSMSubmitted(organizationSelected.id, task),
-                gosmModel.getBuffer(organizationSelected.id, task)
+                gosmModel.getBuffer(organizationSelected.id, task),
+                gosmModel.getCurrentTermGOSM(user.organizationSelected.id, [
+                    'g.status'
+                ], task)
             ]);
-        }).then(data => {
-            const [
-                isProjectHead,
-                GOSMActivityWithActivityEvaluation,
-                PPRApproved,
-                hasPPRWithoutPostProjectProposal,
-                hasSubmittedGOSM
-            ] = data;
+        }).then(([isProjectHead, GOSMActivityWithActivityEvaluation, PPRApproved, hasPPRWithoutPostProjectProposal, hasSubmittedGOSM, buffer, GOSM]) => {
 
             logger.debug(`isProjectHead: ${isProjectHead.exists}`, log_options);
             if (isProjectHead.exists && organizationSelected.id !== 0) {
@@ -240,8 +236,6 @@ module.exports = function(configuration, application, modules, database, queryFi
                 newSidebar.link = '/blank';
                 newSidebar.icon = 'fa fa-star'
                 
-
-
                 sidebars[sidebars.length] = newSidebar;
             }
 
@@ -252,7 +246,6 @@ module.exports = function(configuration, application, modules, database, queryFi
                 newSidebar.link = '/Organization/Publicity/list';
                 newSidebar.icon = 'fa fa-photo';
                 
-
                 sidebars[sidebars.length] = newSidebar;
             }
 
@@ -267,24 +260,27 @@ module.exports = function(configuration, application, modules, database, queryFi
             }
 
 
-            if(req.extra_data.user.accessControl[organizationSelected.id][28]){
-                logger.debug('Can submit not in GOSM activities', log_options);
+            if(req.extra_data.user.accessControl[organizationSelected.id]){
+                let acl28 = req.extra_data.user.accessControl[organizationSelected.id];
+                acl28 = acl28['28'] ? acl28['28'] : acl28[28];
 
-                const newSidebar = Object.create(null);
-                console.log("ASDASDJASKLDJASLKDJ")
-                console.log(data[5][0])
-                var ctr = 0 ;
-                if(data[5][0] === undefined){
-                    ctr = 0
-                }else{
-                    ctr =  data[5][0].cgaid
+                if(GOSM && GOSM.status === 3 && typeof acl28 !== 'undefined' && acl28 !== undefined){
+                    logger.debug('Can submit not in GOSM activities', log_options);
+
+                    const newSidebar = Object.create(null);
+                    
+                    let ctr = 0;
+                    if(buffer[0]){
+                        ctr = buffer[0].cgaid;
+                    }
+
+                    req.session.notingosm = ctr;
+                    newSidebar.name = 'Not in GOSM ('+ctr+'/10)';
+                    newSidebar.link = '/Organization/additional';
+                    newSidebar.icon = 'fa fa-group';
+                    
+                    sidebars[sidebars.length] = newSidebar;
                 }
-                req.session.notingosm = ctr;
-                newSidebar.name = 'Not in GOSM ('+ctr+'/10)';
-                newSidebar.link = '/Organization/additional';
-                newSidebar.icon = 'fa fa-group';
-                
-                sidebars[sidebars.length] = newSidebar;
             }
 
             return next();

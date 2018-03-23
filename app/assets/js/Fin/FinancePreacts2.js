@@ -1,5 +1,8 @@
- $("select").select2();
- $("#rec").select2({
+ $(document).ready(function(){
+  $('select').trigger('change');
+ });
+
+ $("select").select2({
     maximumSelectionSize:1
  });
     $('.selectpicker').selectpicker();

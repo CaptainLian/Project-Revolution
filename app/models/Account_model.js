@@ -140,7 +140,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
      * @returns {Promise}  [description]
      */
     AccountModel.getAccountDetails = (idNumber, fields, connection = database) => {
-        logger.info('call getAccountDetails()', log_options);
+        logger.info(`call getAccountDetails(idNumber: ${idNumber})`, log_options);
 
         let param = Object.create(null);
         param.idNumber = idNumber;
@@ -638,6 +638,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
         logger.info(`call approveDirectPayment(directPaymentID: ${directPaymentID}, idNumber: ${idNumber})`)
 
         let param = Object.create(null);
+        param.idNumber = idNumber;
         param.directPayment = directPaymentID;
         param.signatory = idNumber;
         param.document = document;
@@ -662,13 +663,14 @@ module.exports = function(configuration, modules, database, queryFiles) {
     };
 
     const pendCashAdvanceSQL = queryFiles.pendCashAdvance;
-    AccountModel.pendCashAdvance = function(cashAdvance, signatory, connection = database){
+    AccountModel.pendCashAdvance = function(cashAdvance, signatory, sections, explain, connection = database){
         logger.info(`call pendCashAdvance(cashAdvance: ${cashAdvance}, signatory: ${signatory})`, log_options);
 
         let param = Object.create(null);
         param.signatory = signatory;
         param.cashAdvance = cashAdvance;
-
+        param.sections = sections;
+        param.explain = explain;
         logger.debug(`Executing query: ${pendCashAdvanceSQL}`, log_options);
         return connection.none(pendCashAdvanceSQL, param);
     };

@@ -115,7 +115,7 @@
 								<tbody> 
 									{% for activity in myActivity %}
 									<tr>
-										<td class="text">{{activity.strategies}}</td><!-- event name-->
+										<td class="text"><a class="btn-link" href='/Organization/projectproposal/projectproposaldetails/{{activity.id}}'>{{activity.strategies}}</a></td><!-- event name-->
 										<td>{{activity.name}}</td><!-- date of event-->                                                           
 										<td>{{activity.date}} </td><!-- date of event-->
 										<td>
@@ -159,7 +159,7 @@
 								<tbody> 
 									{%for activity in allActivity %}
 									<tr>
-										<td class="text ">{{activity.strategies}}</td><!-- event name-->
+										<td class="text "><a class="btn-link" href='/Organization/projectproposal/projectproposaldetails/{{activity.id}}'>{{activity.strategies}}</a></td><!-- event name-->
 										<td>{{activity.name}}</td><!-- date of event-->                                                           
 										<td>{{activity.date}} </td><!-- date of event-->
 										<td>

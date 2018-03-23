@@ -4,6 +4,6 @@ UPDATE "PreActivityDirectPaymentSignatory"
        "digitalSignature" = ${digitalSignature},
        "dateSigned" = CURRENT_TIMESTAMP,
        "comments" = NULL,
-       "sectionsToEdit" = NULL,
+       "sectionsToEdit" = NULL
  WHERE "directPayment" = ${directPayment}
    AND "signatory" = ${idNumber};

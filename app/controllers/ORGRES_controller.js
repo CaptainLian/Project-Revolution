@@ -8,6 +8,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 	const orgresModel = models.Orgres_model;
 	const systemModel = models.System_model;
+	const gosmModel = models.gosmModel;
 	const accModel = models.Account_model;
 	const organizationModel = models.organization_model;
 
@@ -35,21 +36,16 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		},
 
 		officerSurveyForm: (req, res) => {
-
-			organizationModel.getAllStudentOrganizations()
-			.then(data=>{
-
+			organizationModel.getAllStudentOrganizations().then(data=>{
 				const renderData = Object.create(null);
 				renderData.organizations = data;
 		        renderData.extra_data = req.extra_data;
 		        renderData.csrfToken = req.csrfToken();
+
 		        return res.render('Orgres/officerSurveyForm', renderData);
-
-
 			}).catch(error=>{
 				console.log(error);
 			});
-
     	},
 
     	memberSurveyForm: (req, res) => {
@@ -69,12 +65,53 @@ module.exports = function(configuration, modules, models, database, queryFiles){
     		});
 
     	},
+    	idNumberCheck: (req, res) => {
+    		orgresModel.idNumbercheck(req.body.idnumber, req.body.orgid).then(data=>{
+    			return res.json({status:1})	
+    		}).catch(err=>{
+    			console.log(err)
+    			return res.json({status:0})	
+    		})
+    		
+
+    	},
 
 		viewManageOrg: (req, res) => {
 			const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
 			return res.render('Orgres/ManageOrg', renderData);
+		},
+
+		viewHome: (req, res) => {
+
+		database.task(task => {
+	                return task.batch([
+	                    orgresModel.getActivitiesForResearchForm(),
+	                    organizationModel.getAllStudentOrganizations(),
+	                    gosmModel.getAllCurrent()
+	                ]);
+        }).then(data=>{
+
+            let renderData = Object.create(null);
+
+            var activityCount = data[0].length;
+
+            if (data[0]==null) {
+            	activityCount=0;
+            }
+
+
+            renderData.activityCount = activityCount;
+            renderData.studentorganizations = data[1];
+            renderData.allGosm = data[2];
+            renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
+            return res.render('Orgres/orgresHome', renderData);
+
+        }).catch(error=>{
+            console.log(error);
+        });
 		},
 
 		viewManageTime: (req, res) => {
@@ -197,9 +234,11 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				ifidta: req.body.radio3,
 				tawwp: req.body.radio4,
 				toumtgtta: req.body.radio5,
+				field6: req.body.radio6,
+				field7: req.body.radio7,
 				wwwita: req.body.wentwell,
 				fac: req.body.feedback,
-				effa: req.body.expectations
+				effa: req.body.expectations,
 			};
 
 			orgresModel.insertActivityResearchForm(dbParam).then(data=>{
@@ -214,7 +253,6 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		},
 
 		submitOfficerSurveyForm: (req, res) =>{
-
 			console.log(req.body);
 
 			var dbParam = {
@@ -231,15 +269,12 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				field9: req.body.r9
 			};
 
-			orgresModel.insertOfficerSurveyForm(dbParam)
-			.then(data=>{
+			orgresModel.insertOfficerSurveyForm(dbParam).then(data=>{
 
 				return res.redirect('/home');
-
 			}).catch(error=>{
 				console.log(error);
 			});
-
 		},
 
 		submitMemberSurveyForm: (req, res) =>{
@@ -247,6 +282,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 			var dbParam = {
 				organizationid: req.body.organization,
+				idnumber: req.body.idnumber,
 				field1: req.body.radio1,
 				field2: req.body.radio2,
 				field3: req.body.radio3,
@@ -255,11 +291,15 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				field6: req.body.radio6,
 				field7: req.body.radio7,
 				field8: req.body.radio8,
-				field9: req.body.radio9
+				field9: req.body.radio9,
+				field10: req.body.radio10,
+				field11: req.body.radio11,
+				field12: req.body.radio12,
+				field13: req.body.radio13
 			};
 
 			orgresModel.insertMemberSurveyForm(dbParam).then(data => {
-				return res.redirect('/home');
+				return res.redirect('/');
 			}).catch(error => {
 				return logger.error(`${error.message}\n${error.stack}`, log_options);
 				console.log(error);

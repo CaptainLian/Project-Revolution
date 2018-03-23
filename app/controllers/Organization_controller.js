@@ -18,6 +18,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     const postProjectProposalModel = models.PostProjectProposal_model;
     const gosmModel = models.gosmModel;
     const orgresModel = models.Orgres_model;
+    const amtModel = models.ActivityMonitoring_model;
+    const financeModel = models.Finance_model;
 
     const accountModel = models.Account_model;
 
@@ -70,14 +72,15 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
 
-            gosmModel.getOrgAllGOSM(req.session.user.organizationSelected.id)
-                     .then(data=>{
-                        renderData.gosms = data
-                        console.log(data)
-                        return res.render('Org/GOSMList', renderData);            
-                     }).catch(err=>{
-                        console.log(err)
-                     })
+            gosmModel.getOrgAllGOSM(
+                req.session.user.organizationSelected.id
+            ).then(data=>{
+                renderData.gosms = data
+                console.log(data)
+                return res.render('Org/GOSMList', renderData);            
+             }).catch(err=>{
+                console.log(err)
+             })
             
         },
         viewChangePassword: (req, res) => {
@@ -90,7 +93,15 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             const renderData = Object.create(null);
             console.log(req.param)
             renderData.extra_data = req.extra_data;
-            return res.render('Org/addMembers');
+            renderData.csrfToken = req.csrfToken();
+            organizationModel.viewMember(req.session.user.organizationSelected.id)
+            .then(data=>{
+                renderData.members = data
+                return res.render('Org/addMembers',renderData);
+            }).catch(err=>{
+                console.log(err)
+            })
+            
         },
         viewReport: (req, res) => {
 
@@ -103,8 +114,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
             systemModel.getCurrentTerm([
                 'id',
-                'dateStart AS "dateStart"',
-                'dateEnd AS "dateEnd"'
+                'to_char(dateStart, \'YYYY-MM-DD\') AS "dateStart"',
+                'to_char(dateEnd, \'YYYY-MM-DD\') AS "dateEnd"'
             ]).then(term=>{
 
                 var dbParam = {
@@ -116,10 +127,26 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                 database.task(task => {
                         return task.batch([
+                            //APS AND ADM
                             projectProposalModel.getApprovedActivities(),
                             projectProposalModel.getAllProjectProposal(),
                             gosmModel.getOrgGOSM(dbParam),
-                            postProjectProposalModel.getAllPostProjectProposal()
+                            postProjectProposalModel.getAllPostProjectProposal(),
+                            //PNP
+                            pnpModel.getAllActivityPublicity(),
+                            //ORGRES
+                            orgresModel.getAllOfficerSurveyForm(),
+                            orgresModel.getAllMemberSurveyForm(),
+                            orgresModel.getAllActivityResearchForm(),
+                            organizationModel.getAllCurrentOrganizationMembers(),
+                            //AMT
+                            amtModel.getAllAMTEvaluationResults(dbParam),
+                            amtModel.getAllAMTScoreAverages(dbParam),
+                            //FINANCE
+                            financeModel.getAllApprovedTransactions(dbParam),
+                            financeModel.getAllApprovedActivityExpenses(dbParam),
+                            financeModel.getOrganizationBudgetExpenses(dbParam),
+                            financeModel.getOrgApprovedTransactions(dbParam)
                         ]);
                 }).then(data=>{
 
@@ -134,19 +161,22 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     var gosmSubmissionGrade = 0;
                     var isRelatedToOrganizationCount = 0;
                     var sixtyFortyGrade = 0;
+                    var preactsAllApprovedTotal = 0;
+                    var notInGOSM = false;
+                    var lasallianFormationCompliance = false;
 
                     if(data[2] != null){
 
-                        if(data[2].dateSubmitted == null){
+                        if(data[2].orggosmsubmitted == null){
 
                         }
                         else{
 
-                            let orggosmsubmitted = data[2].datesubmitted;
+                            let orggosmsubmitted = data[2].orggosmsubmitted;
 
                             var gosmdiff = timediff(termstart, orggosmsubmitted, 'D');
 
-                            if(gosmdiff.days > 14){
+                            if(gosmdiff.days <= 14){
                                 gosmSubmissionGrade = 0.075;
                             }
 
@@ -165,6 +195,10 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             data[0][i].isingosm == true){
 
                             preactsApprovedActivities = preactsApprovedActivities + 1;
+
+                            if(data[0][i].activitynature == 8){
+                                lasallianFormationCompliance = true
+                            }
 
 
                             let actualdatestart = data[0][i].actualdatestart;
@@ -187,11 +221,16 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                 preactsTimingRatio = preactsTimingRatio + 1;
                             }
 
+                        }
 
-                            if(data[0][i].isrelatedtoorganization == true){
+                        if(data[0][i].studentorganization == organizationid &&
+                            data[0][i].isrelatedtoorganization == true){
                                 isRelatedToOrganizationCount = isRelatedToOrganizationCount + 1;
-                            }
+                        }
 
+                        if(data[0][i].studentorganization == organizationid){
+
+                            preactsAllApprovedTotal = preactsAllApprovedTotal + 1;
 
                         }
 
@@ -214,23 +253,28 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             }
 
                         }
+                        else if(data[1][i].studentorganization == organizationid &&
+                            data[1][i].isingosm == false){
+
+                            notInGOSM = true;
+
+                        }
 
                     }
 
                     var preactsPunctualityGrade = ((((parseFloat(preactsEarlyApprovedActivities)/parseFloat(preactsApprovedActivities))*100)-parseFloat(preactsDeniedActivities))*0.025);
-                    var preactsTimingRatioGrade = ((parseFloat(preactsTimingRatio)/parseFloat(totalActivities))*0.015);
+                    var preactsTimingRatioGrade = (((parseFloat(preactsTimingRatio)/parseFloat(totalActivities))*100)*0.015);
                     var preactsCompletenessGrade = (100 - (parseFloat(preactsPendCount)*0.5))*0.025;
 
-                    var sixtyFortyRatioPercentage = isRelatedToOrganizationCount/preactsApprovedActivities;
+                    var sixtyFortyRatioPercentage = isRelatedToOrganizationCount/preactsAllApprovedTotal;
 
 
                     if (preactsApprovedActivities == 0){
                         preactsPunctualityGrade = 0;
-                        sixtyFortyRatioPercentage = 0;
                     }
 
-                    if(totalActivities == 0){
-                        preactsTimingRatioGrade = 0;
+                    if (preactsAllApprovedTotal == 0){
+                        sixtyFortyRatioPercentage = 0;
                     }
 
 
@@ -263,41 +307,49 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                     var sixtyFortyGrade = (100-(parseFloat(sixFourGradeRange)*4))*0.10;
 
+
+
                     //postacts grade
                     var postactsEarlyApprovedActivities = 0;
                     var postactsTotalActivities = 0;
                     var postactsApprovedActivities = 0;
                     var postactsLateApprovedActivities = 0;
 
-                    for (var i = 0; i < data[3]; i++){
+                    for (var i = 0; i < data[3].length; i++){
 
-                        postactsTotalActivities = postactsTotalActivities + 1;
+                        if (data[3][i].studentorganization = organizationid) {
 
-                        // if approved
-                        if(data[3][i].status==4){
+                            postactsTotalActivities = postactsTotalActivities + 1;
 
-                            postactsApprovedActivities = postactsApprovedActivities + 1;
+                            // if approved
+                            if(data[3][i].status==4){
 
-
-                            let actualdatestart = data[3][i].actualdatestart;
-                            let datesubmitted = data[3][i].datesubmitted;
-
-                            var diff = timediff(actualdatestart, datesubmitted, 'D');
+                                postactsApprovedActivities = postactsApprovedActivities + 1;
 
 
-                            if (diff.days>30){
-                                postactsEarlyApprovedActivities = postactsEarlyApprovedActivities + 1;
+                                let actualdatestart = data[3][i].actualdatestart;
+                                let datesubmitted = data[3][i].datesubmitted;
+
+                                var diff = timediff(actualdatestart, datesubmitted, 'D');
+
+
+                                if (diff.days>30){
+                                    postactsEarlyApprovedActivities = postactsEarlyApprovedActivities + 1;
+                                }
+                                else{
+                                    postactsLateApprovedActivities = postactsLateApprovedActivities + 1;
+                                }
+
                             }
-                            else{
-                                postactsLateApprovedActivities = postactsLateApprovedActivities + 1;
-                            }
+
 
                         }
+                        
 
                     }
 
                     var postactsPunctualityGrade = ((((parseFloat(postactsEarlyApprovedActivities)/parseFloat(postactsApprovedActivities))*100)-parseFloat(preactsDeniedActivities))*0.025);
-                    var postactsCompletenessGrade = (parseFloat(postactsApprovedActivities)/parseFloat(preactsApprovedActivities))*0.025;
+                    var postactsCompletenessGrade = ((parseFloat(postactsApprovedActivities)/parseFloat(preactsApprovedActivities))*100)*0.025;
 
                     if(postactsApprovedActivities == 0){
                         postactsPunctualityGrade =0;
@@ -307,8 +359,543 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         postactsCompletenessGrade = 0;
                     }
 
+                    var pushedThroughGrade = ((parseFloat(preactsApprovedActivities)/parseFloat(totalActivities))*100)*0.0015;
+
+                    if(totalActivities == 0){
+
+                        preactsTimingRatioGrade = 0;
+                        pushedThroughGrade = 0;
+
+                    }
+
+                    if(notInGOSM){
+
+                        var notInGOSMGrade = 0.15;
+
+                    }
+                    else{
+
+                        var notInGOSMGrade = 0;
+
+                    }
+
+                    if(lasallianFormationCompliance){
+                        var lasallianFormationComplianceGrade = 6;
+                    }
+                    else{
+                        var lasallianFormationComplianceGrade = 0;
+                    }
+
+                    var documentationGrade = (preactsPunctualityGrade + preactsCompletenessGrade + preactsTimingRatioGrade 
+                                                + gosmSubmissionGrade + sixtyFortyGrade + postactsPunctualityGrade
+                                                + postactsCompletenessGrade + pushedThroughGrade + notInGOSMGrade
+                                                + lasallianFormationComplianceGrade);
+
+                    //pnp grade
+                    var printedPoster = false;
+                    var tickets = false;
+                    var printedPublication = false;
+                    var onlinePublication = false;
+                    var printedPublicationCount = 0;
+                    var onlinePublicationCount = 0;
+                    var onlinePoster = false;
 
 
+
+                    for (var i = 0; i < data[4].length; i++){
+
+                        if (data[4][i].studentorganization == organizationid
+                            && data[4][i].status == 1) {
+
+                            if(data[4][i].modeOfDistribution == 1){
+
+                                printedPublication = true;
+
+                                printedPublicationCount = printedPublicationCount + 1;
+
+                                if(data[4][i].material == 5){
+                                    printedPoster = true;
+                                }
+
+                            }
+                            else{
+
+                                onlinePublication = true;
+
+                                onlinePublicationCount = onlinePublicationCount + 1;
+
+                                if(data[4][i].material == 5){
+                                    onlinePoster = true;
+                                }
+
+                            }
+
+                            if (data[4][i].material == 3) {
+                                tickets = true;
+                            }
+
+                        }
+
+                    }
+
+
+                    var UniversityPublicityInstrumentGrade = 0;
+                    var NewsLettersPublicationsGrade = 0;
+                    var OnlinePublicityGrade = 0;
+
+
+                    if (printedPoster) {
+                        UniversityPublicityInstrumentGrade = UniversityPublicityInstrumentGrade + 0.5;
+                    }
+
+                    if (tickets) {
+                        UniversityPublicityInstrumentGrade = UniversityPublicityInstrumentGrade + 0.7;
+                    }
+
+                    if (printedPublication) {
+                        NewsLettersPublicationsGrade = NewsLettersPublicationsGrade + 0.35;
+                    }
+
+                    if(onlinePublication) {
+                        NewsLettersPublicationsGrade = NewsLettersPublicationsGrade + 0.35;
+                    }
+
+                    if (printedPublicationCount == 1) {
+                        NewsLettersPublicationsGrade = NewsLettersPublicationsGrade + 0.05;
+                    }
+                    else if (printedPublicationCount == 2) {
+                        NewsLettersPublicationsGrade = NewsLettersPublicationsGrade + 0.1;
+                    }
+                    else if (printedPublicationCount >= 3) {
+                        NewsLettersPublicationsGrade = NewsLettersPublicationsGrade + 0.15;
+                    }
+
+                    if(onlinePublicationCount == 1){
+                        NewsLettersPublicationsGrade = NewsLettersPublicationsGrade + 0.0375;
+                    }
+                    else if (onlinePublicationCount == 2) {
+                        NewsLettersPublicationsGrade = NewsLettersPublicationsGrade + 0.075;
+                    }
+                    else if (onlinePublicationCount == 3){
+                        NewsLettersPublicationsGrade = NewsLettersPublicationsGrade + 0.1125;
+                    }
+                    else if (onlinePublicationCount >= 4) {
+                        NewsLettersPublicationsGrade = NewsLettersPublicationsGrade + 0.15;
+                    }
+
+                    if (onlinePoster) {
+                        OnlinePublicityGrade = OnlinePublicityGrade + 1.5;
+                    }
+
+                    var pnpGrade = UniversityPublicityInstrumentGrade + NewsLettersPublicationsGrade + OnlinePublicityGrade;
+
+                    //orgres grade
+
+                    //officer survey form
+                    var osfSurveyTotal = 0;
+                    var osfField1 = 0;
+                    var osfField2 = 0;
+                    var osfField3 = 0;
+                    var osfField4 = 0;
+                    var osfField5 = 0;
+                    var osfField6 = 0;
+                    var osfField7 = 0;
+                    var osfField8 = 0;
+                    var osfField9 = 0;
+
+
+                    for (var i = 0; i < data[5].length; i++){
+
+                        if(data[5][i].organizationID == organizationid){
+
+                            osfSurveyTotal = osfSurveyTotal + 1;
+
+                            osfField1 = osfField1 + data[5][i].field1;
+                            osfField2 = osfField2 + data[5][i].field2;
+                            osfField3 = osfField3 + data[5][i].field3;
+                            osfField4 = osfField4 + data[5][i].field4;
+                            osfField5 = osfField5 + data[5][i].field5;
+                            osfField6 = osfField6 + data[5][i].field6;
+                            osfField7 = osfField7 + data[5][i].field7;
+                            osfField8 = osfField8 + data[5][i].field8;
+                            osfField9 = osfField9 + data[5][i].field9;
+
+
+                        }
+
+
+                    }
+
+                    var osfField1Average = osfField1/osfSurveyTotal;
+                    var osfField2Average = osfField2/osfSurveyTotal;
+                    var osfField3Average = osfField3/osfSurveyTotal;
+                    var osfField4Average = osfField4/osfSurveyTotal;
+                    var osfField5Average = osfField5/osfSurveyTotal;
+                    var osfField6Average = osfField6/osfSurveyTotal;
+                    var osfField7Average = osfField7/osfSurveyTotal;
+                    var osfField8Average = osfField8/osfSurveyTotal;
+                    var osfField9Average = osfField9/osfSurveyTotal;
+
+                    if(osfSurveyTotal == 0){
+                        osfField1Average = 0;
+                        osfField2Average = 0;
+                        osfField3Average = 0;
+                        osfField4Average = 0;
+                        osfField5Average = 0;
+                        osfField6Average = 0;
+                        osfField7Average = 0;
+                        osfField8Average = 0;
+                        osfField9Average = 0;
+                    }
+
+                    //member survey form
+
+                    var msfSurveyTotal = 0;
+                    var msfField1 = 0;
+                    var msfField2 = 0;
+                    var msfField3 = 0;
+                    var msfField4 = 0;
+                    var msfField5 = 0;
+                    var msfField6 = 0;
+                    var msfField7 = 0;
+                    var msfField8 = 0;
+                    var msfField9 = 0;
+                    var msfField10 = 0;
+                    var msfField11 = 0;
+                    var msfField12 = 0;
+                    var msfField13 = 0;
+
+
+                    for (var i = 0; i < data[6].length; i++){
+
+                        if(data[6][i].organizationID == organizationid){
+
+                            msfSurveyTotal = msfSurveyTotal + 1;
+
+                            msfField1 = msfField1 + data[6][i].field1;
+                            msfField2 = msfField2 + data[6][i].field2;
+                            msfField3 = msfField3 + data[6][i].field3;
+                            msfField4 = msfField4 + data[6][i].field4;
+                            msfField5 = msfField5 + data[6][i].field5;
+                            msfField6 = msfField6 + data[6][i].field6;
+                            msfField7 = msfField7 + data[6][i].field7;
+                            msfField8 = msfField8 + data[6][i].field8;
+                            msfField9 = msfField9 + data[6][i].field9;
+                            msfField10 = msfField10 + data[6][i].field10;
+                            msfField11 = msfField11 + data[6][i].field11;
+                            msfField12 = msfField12 + data[6][i].field12;
+                            msfField13 = msfField13 + data[6][i].field13;
+
+
+                        }
+
+
+                    }
+
+                    var msfField1Average = msfField1/msfSurveyTotal;
+                    var msfField2Average = msfField2/msfSurveyTotal;
+                    var msfField3Average = msfField3/msfSurveyTotal;
+                    var msfField4Average = msfField4/msfSurveyTotal;
+                    var msfField5Average = msfField5/msfSurveyTotal;
+                    var msfField6Average = msfField6/msfSurveyTotal;
+                    var msfField7Average = msfField7/msfSurveyTotal;
+                    var msfField8Average = msfField8/msfSurveyTotal;
+                    var msfField9Average = msfField9/msfSurveyTotal;
+                    var msfField10Average = msfField10/msfSurveyTotal;
+                    var msfField11Average = msfField11/msfSurveyTotal;
+                    var msfField12Average = msfField12/msfSurveyTotal;
+                    var msfField13Average = msfField13/msfSurveyTotal;
+
+                    if(msfSurveyTotal == 0){
+                        msfField1Average = 0;
+                        msfField2Average = 0;
+                        msfField3Average = 0;
+                        msfField4Average = 0;
+                        msfField5Average = 0;
+                        msfField6Average = 0;
+                        msfField7Average = 0;
+                        msfField8Average = 0;
+                        msfField9Average = 0;
+                        msfField10Average = 0;
+                        msfField11Average = 0;
+                        msfField12Average = 0;
+                        msfField13Average = 0;
+                    }
+
+                    //activity research form
+
+                    var arfSurveyTotal = 0;
+                    var arfField1 = 0;
+                    var arfField2 = 0;
+                    var arfField3 = 0;
+                    var arfField4 = 0;
+                    var arfField5 = 0;
+                    var arfField6 = 0;
+                    var arfField7 = 0;
+                    
+
+                    var orgresActivityId = 0;
+                    var orgresActivityCount = 0;
+                    var orgresParticipantCount = 0;
+                    for (var i = 0; i < data[7].length; i++){
+
+                        if(data[7][i].organizationID == organizationid){
+
+                            arfSurveyTotal = arfSurveyTotal + 1;
+
+                            arfField1 = arfField1 + data[7][i].IUTPOTA;
+                            arfField2 = arfField2 + data[7][i].TASMI;
+                            arfField3 = arfField3 + data[7][i].IFIDTA;
+                            arfField4 = arfField4 + data[7][i].TAWWP;
+                            arfField5 = arfField5 + data[7][i].TOUMTGTTA;
+                            arfField6 = arfField6 + data[7][i].field6;
+                            arfField7 = arfField7 + data[7][i].field7;
+
+
+                            
+
+                        }
+
+
+                    }
+
+                    var arfField1Average = arfField1/arfSurveyTotal;
+                    var arfField2Average = arfField2/arfSurveyTotal;
+                    var arfField3Average = arfField3/arfSurveyTotal;
+                    var arfField4Average = arfField4/arfSurveyTotal;
+                    var arfField5Average = arfField5/arfSurveyTotal;
+                    var arfField6Average = arfField6/arfSurveyTotal;
+                    var arfField7Average = arfField7/arfSurveyTotal;
+
+                    if (arfSurveyTotal == 0){
+                        arfField1Average = 0;
+                        arfField2Average = 0;
+                        arfField3Average = 0;
+                        arfField4Average = 0;
+                        arfField5Average = 0;
+                        arfField6Average = 0;
+                        arfField7Average = 0;
+                    }
+
+                    //orgres organization members count
+
+                    var totalOrganizationMembers = 0;
+
+                    for(var i = 0; i < data[8].length; i++){
+
+                        if (data[8][i].organization == organizationid){
+
+                            totalOrganizationMembers = totalOrganizationMembers + 1;
+                        }
+
+
+                    }
+
+                    // orgres purpose
+
+                    var purpose1 = ((msfField1Average/5)*100)*0.04;
+                    var purpose2 = ((((arfField1Average + msfField2Average)/2)/5)*100)*0.02;
+                    var purpose3 = ((((arfField2Average + msfField3Average + msfField4Average)/3)/5)*100)*0.04;
+
+                    var orgresPurposeGrade = purpose1 + purpose2 + purpose3;
+
+
+                    // orgres involvement
+
+                    var involvement1 = ((msfSurveyTotal/totalOrganizationMembers)*100)*0.045;
+                    var involvement2 = ((((arfField3Average + msfField5Average + msfField6Average)/3)/5)*100)*0.06;
+                    var involvement3 = ((((arfField4Average + msfField7Average)/2)/5)*100)*0.045;
+
+                    var orgresInvolvementGrade = involvement1 + involvement2 + involvement3;
+
+                    // orgres quality
+
+                    var quality1 = ((msfField8Average/5)*100)*0.0225;
+                    var quality2 = ((((msfField9Average + msfField10Average)/2)/5)*100)*0.015;
+                    var quality3 = ((arfField5Average/5)*100)*0.0225;
+                    var quality4 = ((((arfField6Average + msfField11Average)/2)/5)*100)*0.0225;
+                    var quality5 = ((((arfField7Average + msfField12Average)/2)/5)*100)*0.015;
+
+                    var orgresQualityGrade = quality1 + quality2 + quality3 + quality4 + quality5;
+
+
+                    //orgres leadership grade
+
+                    var leadership1 = ((((osfField1Average + osfField2Average)/2)/5)*100)*0.0015;
+                    var leadership2 = ((osfField3Average/5)*100)*0.0008;
+                    var leadership3 = ((osfField4Average/5)*100)*0.01;
+                    var leadership4 = ((osfField5Average/5)*100)*0.0015;
+                    var leadership5 = ((msfField13Average/5)*100)*0.0015;
+                    var leadership6 = ((((osfField6Average + osfField7Average)/2)/5)*100)*0.0045;
+                    var leadership7 = ((osfField8Average/5)*100)*0.003;
+                    var leadership8 = ((osfField9Average/5)*100)*0.0015;
+                    var leadership9 = 0.3;//0.003*100
+
+                    var orgresLeadershipGrade = leadership1 + leadership2 + leadership3 + leadership4 + leadership5 + leadership6 + leadership7 + leadership8 + leadership9;
+
+                    var orgresGrade = orgresPurposeGrade + orgresInvolvementGrade + orgresQualityGrade + orgresLeadershipGrade;
+
+                    // amt grade
+                    var totalAMTEvaluations = data[9].length;
+                    var totalAMTEvaluationScore = 0;
+
+                    for (var i = 0; i < data[9].length; i++){
+
+                        totalAMTEvaluationScore = totalAMTEvaluationScore + data[9][i].amtgrade
+
+                    }
+
+                    var amtScore = totalAMTEvaluationScore/totalAMTEvaluations;
+                    var amtGrade = amtScore*0.0375;
+
+                    //finance grade
+
+                    var onTimeTransaction = 0;
+                    var totalApprovedTransaction = 0;
+                    var approvedParticulars = 0;
+                    var onBudgetActivities = 0;
+                    var totalFinanceActivities = 0;
+                    var relatedExpense = 0;
+                    var totalExpense = 0;
+                    var totalActivityBudget = 0
+
+                    // approved transactions
+                    for (var i = 0; i < data[11].length; i++){
+
+                        let financesign = data[11][i].datesigned;
+                        let activitystart = data[11][i].datestart
+
+                        var budgetdiff = timediff(financesign, activitystart, 'D');
+
+                        if(budgetdiff.days <= 3){
+                            onTimeTransaction = onTimeTransaction + 1;
+                        }
+
+                        approvedParticulars = approvedParticulars + data[11][i].particulars;
+
+                        totalApprovedTransaction = totalApprovedTransaction + 1;
+
+                    }
+
+                    // approved expenses(particulars)
+                    for(var i = 0; i < data[12].length; i++){
+
+                        if (data[12][i].expenses <= data[12][i].budget) {
+                            onBudgetActivities = onBudgetActivities + 1;
+                        }
+
+                        totalFinanceActivities = totalFinanceActivities + 1;
+
+                        if (data[12][i].isrelatedtoorganizationnature == true){
+                            relatedExpense = relatedExpense + data[12][i].expenses;
+                        }
+
+                        totalExpense = totalExpense + data[12][i].expenses;
+
+                        totalActivityBudget = totalActivityBudget + data[12][i].budget;
+
+                    }
+
+                    if(data[13]==null){
+                        console.log("itssssssssssss empty------------------------------------------------------------")
+                        var totalParticulars = 0;
+                        var operationalfunds = 0;
+                        var depositoryfunds = 0;
+                    }
+                    else {
+                        var totalParticulars = data[13].particulars;
+                        var operationalfunds = data[13].operationalfunds;
+                        var depositoryfunds = data[13].depositoryfunds;
+                    }
+
+
+                    // finance monitoring grade
+
+                    var monitoring1 = ((onTimeTransaction/totalApprovedTransaction)*100)*0.01;
+                    var monitoring2 = ((approvedParticulars/totalParticulars)*100)*0.005;
+                    var monitoring3 = 1;
+                    var tempMonitoring45 = ((Math.abs(totalExpense-totalActivityBudget))/totalActivityBudget)*100;
+
+                    if(tempMonitoring45 >= 90 && tempMonitoring45 <=110){
+                        var monitoring4 = 1.5;
+                    }
+                    else if(tempMonitoring45 >= 75 && tempMonitoring45 <= 125){
+                        var monitoring4 = 1.35;
+                    }
+                    else{
+                        var monitoring4 = 1.2;
+                    }
+
+                    if(tempMonitoring45 >= 90 && tempMonitoring45 <= 110){
+                        var monitoring5 = 1;
+                    }
+                    else if(tempMonitoring45 >= 85 && tempMonitoring45 <=115){
+                        var monitoring5 = 0.9;
+                    }
+                    else if(tempMonitoring45 >= 81 && tempMonitoring45 <=120){
+                        var monitoring5 = 0.8;
+                    }
+                    else if(tempMonitoring45 >= 75 && tempMonitoring45 <= 125){
+                        var monitoring5 = 0.7;
+                    }
+                    else{
+                        var monitoring5 = 0.6;
+                    }
+
+                    // finance generation grade
+
+                    var generation1 = 0;
+                    var generation2 = 0;
+
+                    // finance allocation grade
+
+                    var allocation1 = ((onBudgetActivities/totalFinanceActivities)*100)*0.01;
+
+                    var tempAllocation2 = Math.abs(60-((relatedExpense/totalExpense)*100));
+
+                    if(tempAllocation2 <= 10){
+                        var allocation2 = 1;
+                    }
+                    else if(tempAllocation2 <=20.99){
+                        var allocation2 = 0.9;
+                    }
+                    else if(tempAllocation2 <= 30){
+                        var allocation2 = 0.85;
+                    }
+                    else{
+                        var allocation2 = 0.75;
+                    }
+
+                    var tempAllocation3 = ((depositoryfunds-totalExpense)/depositoryfunds)*100;
+
+                    if(tempAllocation3 >= 100){
+                        var Allocation3 = 1;
+                    }
+                    else if(tempAllocation3 >= 90){
+                        var Allocation3 = 0.9;
+                    }
+                    else if(tempAllocation3 >= 80){
+                        var Allocation3 = 0.8;
+                    }
+                    else if(tempAllocation3 >= 70){
+                        var Allocation3 = 0.75;
+                    }
+                    else if(tempAllocation3 >= 60){
+                        var Allocation3 = 0.7;
+                    }
+                    else{
+                        var Allocation3 = 0.6;
+                    }
+
+                    var financeMonitoringGrade = monitoring1 + monitoring2 + monitoring3 + monitoring4 + monitoring5;
+                    var financeGenerationGrade = generation1 + generation2;
+                    var financeAllocationGrade = allocation1 + allocation2 + Allocation3;
+
+                    var financeGrade = financeMonitoringGrade + financeGenerationGrade + financeAllocationGrade;
+
+
+ 
+                    // render data grades
                     const renderData = Object.create(null);
 
                     //preacts
@@ -326,6 +913,12 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     renderData.gosmSubmissionGrade = gosmSubmissionGrade;
                     renderData.sixtyFortyGrade = sixtyFortyGrade;
 
+                    renderData.sixty = isRelatedToOrganizationCount;
+                    renderData.forty = preactsAllApprovedTotal-isRelatedToOrganizationCount;
+                    renderData.push = preactsApprovedActivities;
+                    renderData.notPush = totalActivities-preactsApprovedActivities;
+
+
                     //postacts
                     renderData.postactsEarlyApprovedActivities = postactsEarlyApprovedActivities;
                     renderData.postactsTotalActivities = postactsTotalActivities;
@@ -333,9 +926,70 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     renderData.postactsLateApprovedActivities = postactsLateApprovedActivities;
                     renderData.postactsPunctualityGrade = postactsPunctualityGrade;
                     renderData.postactsCompletenessGrade = postactsCompletenessGrade;
+                    renderData.pushedThroughGrade = pushedThroughGrade;
+                    renderData.notInGOSMGrade = notInGOSMGrade;
+                    renderData.lasallianFormationComplianceGrade = lasallianFormationComplianceGrade;
 
-                    console.log("preacts timing ratio gradeeeeeeeeeeeeeeeeeeeeee+++++++++++++");
-                    console.log(preactsTimingRatioGrade);
+                    renderData.documentationGrade = documentationGrade;
+
+                    //orgres
+                    renderData.orgresPurposeGrade = orgresPurposeGrade;
+                    renderData.orgresInvolvementGrade = orgresInvolvementGrade;
+                    renderData.orgresQualityGrade = orgresQualityGrade;
+                    renderData.orgresLeadershipGrade = orgresLeadershipGrade;
+                    renderData.orgresGrade = orgresGrade;
+
+                    renderData.osfField1Average = osfField1Average;
+                    renderData.osfField2Average = osfField2Average;
+                    renderData.osfField3Average = osfField3Average;
+                    renderData.osfField4Average = osfField4Average;
+                    renderData.osfField5Average = osfField5Average;
+                    renderData.osfField6Average = osfField6Average;
+                    renderData.osfField7Average = osfField7Average;
+                    renderData.osfField8Average = osfField8Average;
+                    renderData.osfField9Average = osfField9Average;
+
+                    renderData.msfField1Average = msfField1Average;
+                    renderData.msfField2Average = msfField2Average;
+                    renderData.msfField3Average = msfField3Average;
+                    renderData.msfField4Average = msfField4Average;
+                    renderData.msfField5Average = msfField5Average;
+                    renderData.msfField6Average = msfField6Average;
+                    renderData.msfField7Average = msfField7Average;
+                    renderData.msfField8Average = msfField8Average;
+                    renderData.msfField9Average = msfField9Average;
+                    renderData.msfField10Average = msfField10Average;
+                    renderData.msfField11Average = msfField11Average;
+                    renderData.msfField12Average = msfField12Average;
+                    renderData.msfField13Average = msfField13Average;
+
+
+                    //documentation info
+                    renderData.sixtyCount = isRelatedToOrganizationCount;
+                    renderData.fortyCount = preactsAllApprovedTotal;
+
+
+                    //pnp
+                    renderData.universityPublicityInstrumentGrade = UniversityPublicityInstrumentGrade;
+                    renderData.newsLettersPublicationsGrade = NewsLettersPublicationsGrade;
+                    renderData.onlinePublicityGrade = OnlinePublicityGrade;
+                    renderData.pnpCompliance = 0.3;
+                    renderData.pnpGrade = pnpGrade + 0.3;
+
+                    //amt 
+                    renderData.amtActivities = data[9];
+                    renderData.amtAverageScores = data[10];
+                    renderData.amtScore = amtScore;
+                    renderData.amtGrade = amtGrade;
+
+                    //finance 
+                    renderData.financeMonitoringGrade = financeMonitoringGrade;
+                    renderData.financeGenerationGrade = financeGenerationGrade;
+                    renderData.financeAllocationGrade = financeAllocationGrade;
+                    renderData.financeGrade = financeGrade
+
+                    renderData.financeTransactions = data[14];
+
 
                     console.log(renderData)
                     renderData.extra_data = req.extra_data;
@@ -356,13 +1010,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         },
 
 
-        viewGOSMDetails: (req, res) => {
-            const renderData = Object.create(null);
-            console.log(req.param)
-            renderData.extra_data = req.extra_data;
-            return res.render('Org/gosmDetails');
+        // viewGOSMDetails: (req, res) => {
+        //     const renderData = Object.create(null);
+        //     console.log(req.param)
+        //     renderData.extra_data = req.extra_data;
+        //     return res.render('Org/gosmDetails');
 
-        },
+        // },
 
         viewNotInGosmList: (req, res) => {
             const renderData = Object.create(null);
@@ -452,13 +1106,19 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                                                                                               ON pps.status = ss.id
                                                                                                        LEFT JOIN Account a
                                                                                                               ON pps.signatory = a.idNumber
-                                    ORDER BY st.lineup ASC, a.idNumber DESC;`, pa)
+                                    ORDER BY st.lineup ASC, a.idNumber DESC;`, pa),
+                        projectProposalModel.getProjectProposalProgramDesignDates(req.params.gosmactivity, [
+                            
+                            "to_char(pppd.date, 'MM/DD/YYYY') AS datestart",
+                            
+                        ])
                     ]);
                 }).catch(err => {
-                    return logger.warn(`Unhandled error: ${err.message}\n${err.stack} `, log_options);
+                    console.log(err)
+                    // return logger.warn(`Unhandled error: ${err.message}\n${err.stack} `, log_options);
                 });
             }).then(data => {
-                logger.debug(`${JSON.stringify(data[3])}`, log_options);
+                // logger.debug(`${JSON.stringify(data[3])}`, log_options);
                 const renderData = Object.create(null);
                 renderData.csrfToken = req.csrfToken();
                 renderData.extra_data = req.extra_data;
@@ -474,25 +1134,33 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.signatories = data[6];
                 renderData.withExpense = data[1].length > 0;
                 renderData.withRevenue = data[2].length > 0;
-
-                console.log(data[2].length > 0)
+                renderData.limit = data[3][data[3].length -1]["dayid"]
+                renderData.dates = ''
+                for(var ctr = 0; ctr< data[7].length;ctr++){
+                    renderData.dates += data[7][ctr].datestart
+                    if(ctr != data[7].length - 1){
+                        renderData.dates+=','
+                    }
+                }
+                renderData.isProjecthead =  data[4].some(function(el) {
+                                        console.log("asdasdl;asjdlaskjd cgecking if ")
+                                        
+                                        return el.idnumber == req.session.user.idNumber;
+                                      }); 
+                // console.log(data[2].length > 0)
                 console.log("REVENUE")
-                console.log(data[0])
+                console.log(renderData.isProjecthead)
                 console.log("EXPENSE")
 
                 renderData.resched = timediff(data[3][0].datestart, data[3][0].currdate, 'D').days
                 console.log("Date DIFF")
-                console.log(data[3].currdate)
+                // console.log(data[3].currdate)
                 console.log(renderData.resched)
                 console.log(renderData.attachment);
                 console.log("renderData.attachment");
                 return res.render('Org/viewActivityDetails', renderData);
             }).catch(err => {
-                logger.debug(`${err.message}\n${err.stack}`, log_options);
-                const renderData = Object.create(null);
-                renderData.csrfToken = req.csrfToken();
-                renderData.extra_data = req.extra_data;
-                return res.render('template/APS/NoActivityToCheck', renderData);
+               console.log(err)
             });
         },
 
@@ -544,9 +1212,12 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         depositoryfunds: orgdata.depositryfunds
                     };
 
-
+                    console.log(dbParam)
                     projectProposalModel.insertProjectProposal(dbParam).then(data => {
+                        console.log("DATA  NIL")
+                        console.log(data)
                         database.task(task => {
+
                             return task.batch([
                                 gosmModel.getGOSMActivity(dbParam),
                                 gosmModel.getGOSMActivityProjectHeads(dbParam),
@@ -564,6 +1235,42 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             renderData.status = 1;
                             renderData.gosmid = req.params.id;
 
+                            if(data[2].isbriefcontextcomplete == false){
+                                var contextCompletionRate = 0;
+
+                                var expensestatus = false;
+
+                                if (data[2].enp != null && data[2].enp != '') {
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                }
+                                if (data[2].enmp != null && data[2].enmp != '') {
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                }
+                                if (data[2].venue != null) {
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                    console.log("venue");
+                                    expensestatus = true;
+                                }
+                                if (data[2].facultyadviser != null && data[2].facultyadviser != '') {
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                    console.log("facultyadviser");
+                                    expensestatus = true;
+                                }
+                                if (data[2].context1 != null && data[2].context1 != '') {
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                }
+                                if (data[2].context2 != null && data[2].context2 != '') {
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                }
+                                if (data[2].context3 != null && data[2].context3 != '') {
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                }
+                                if(expensestatus){
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                }
+                                renderData.contextCompletionRate = contextCompletionRate;
+                            }
+
                             if(data[2].isattachmentscomplete == false){
                                 
                                 renderData.submitbutton = false;
@@ -575,11 +1282,22 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                 renderData.submitbutton = false;
                                 console.log("2aadasdasdasd");
 
+
                             }
                             else if(data[2].isexpensecomplete == false){
 
-                                renderData.submitbutton = false;
-                                console.log("3asdasdasdasdasdasdasdasdas");
+                                if (data[2].isexpense == true) {
+
+                                    renderData.submitbutton = false;
+                                    console.log("3asdasdasdasdasdasdasdasdas");
+   
+                                }
+                                else{
+
+                                    console.log("DITO DAPATAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+                                    renderData.submitbutton = true;
+
+                                }
 
                             }
                             else if(data[2].isprogramcomplete == false){
@@ -598,13 +1316,20 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                             return res.render('Org/SubmitProjectProposal_main', renderData);
                         }).catch(err => {
-                            logger.error(`${err.message}\n${err.stack}`, log_options);
+
+                            console.log("err 3  ")
+                            console.log(err)
+                            // logger.error(`${err.message}\n${err.stack}`, log_options);
 
                         });
+                    }).catch(err=>{
+                         console.log("err 2 ")
+                            console.log(err)
                     })
 
                 }).catch(error => {
-
+                    console.log("err4")
+                     console.log(err)
                 });
 
 
@@ -637,6 +1362,42 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     console.log(renderData.gosmActivity);
                     console.log("KAHITANONGMESSAGE");
 
+                        if(data[2].isbriefcontextcomplete == false){
+                                var contextCompletionRate = 0;
+
+                                var expensestatus = false;
+
+                                if (data[2].enp != null && data[2].enp != '') {
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                }
+                                if (data[2].enmp != null && data[2].enmp != '') {
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                }
+                                if (data[2].venue != null) {
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                    console.log("venue");
+                                    expensestatus = true;
+                                }
+                                if (data[2].facultyadviser != null && data[2].facultyadviser != '') {
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                    console.log("facultyadviser");
+                                    expensestatus = true;
+                                }
+                                if (data[2].context1 != null && data[2].context1 != '') {
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                }
+                                if (data[2].context2 != null && data[2].context2 != '') {
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                }
+                                if (data[2].context3 != null && data[2].context3 != '') {
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                }
+                                if(expensestatus){
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                }
+                                renderData.contextCompletionRate = contextCompletionRate;
+                            }
+
                     if(data[2].isattachmentscomplete == false){
                                 
                         renderData.submitbutton = false;
@@ -651,8 +1412,18 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     }
                     else if(data[2].isexpensecomplete == false){
 
-                        renderData.submitbutton = false;
-                        console.log("3asdasdasdasdasdasdasdasdas");
+                        if (data[2].isexpense == true) {
+
+                            renderData.submitbutton = false;
+                            console.log("3asdasdasdasdasdasdasdasdas");
+   
+                        }
+                        else{
+
+                            console.log("DITO DAPATAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+                            renderData.submitbutton = true;
+
+                        }
 
                     }
                     else if(data[2].isprogramcomplete == false){
@@ -701,6 +1472,42 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     console.log(renderData.gosmActivity);
                     console.log("KAHITANONGMESSAGE");
 
+                        if(data[2].isbriefcontextcomplete == false){
+                                var contextCompletionRate = 0;
+
+                                var expensestatus = false;
+
+                                if (data[2].enp != null && data[2].enp != '') {
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                }
+                                if (data[2].enmp != null && data[2].enmp != '') {
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                }
+                                if (data[2].venue != null) {
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                    console.log("venue");
+                                    expensestatus = true;
+                                }
+                                if (data[2].facultyadviser != null && data[2].facultyadviser != '') {
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                    console.log("facultyadviser");
+                                    expensestatus = true;
+                                }
+                                if (data[2].context1 != null && data[2].context1 != '') {
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                }
+                                if (data[2].context2 != null && data[2].context2 != '') {
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                }
+                                if (data[2].context3 != null && data[2].context3 != '') {
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                }
+                                if(expensestatus){
+                                    contextCompletionRate  = contextCompletionRate + 3.125
+                                }
+                                renderData.contextCompletionRate = contextCompletionRate;
+                            }
+
                     if(data[2].isattachmentscomplete == false){
                                 
                         renderData.submitbutton = false;
@@ -715,8 +1522,19 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     }
                     else if(data[2].isexpensecomplete == false){
 
-                        renderData.submitbutton = false;
-                        console.log("3asdasdasdasdasdasdasdasdas");
+                        if (data[2].isexpense == true) {
+
+                            renderData.submitbutton = false;
+                            console.log("3asdasdasdasdasdasdasdasdas");
+   
+                        }
+                        else{
+
+                            console.log("DITO DAPATAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+                            renderData.submitbutton = true;
+
+
+                        }
 
                     }
                     else if(data[2].isprogramcomplete == false){
@@ -870,7 +1688,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 return task.batch([
                     projectProposalModel.getProjectProposal(dbParam),
                     projectProposalModel.getAllVenues(),
-                    projectProposalModel.getOrgFacultyAdvisers(dbParam)
+                    projectProposalModel.getOrgFacultyAdvisers(dbParam),
+                    projectProposalModel.getAllBuildings()
                 ]);
             }).then(data => {
 
@@ -880,9 +1699,10 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.projectProposal = data[0];
                 renderData.venues = data[1];
                 renderData.advisers = data[2];
+                renderData.buildings = data[3];
                 renderData.gosmactivity = dbParam;
                 renderData.status = req.params.status;
-
+                console.log(data[2])
                 return res.render('Org/SubmitProjectProposal_briefcontext', renderData);
             }).catch(error => {
                 logger.warning(`${error.message}\n${error.stack}`, log_options);
@@ -965,8 +1785,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             projectProposalModel.getProjectProposalExpenses(req.params.id,transaction),
                             projectProposalModel.getExpenseTypes(transaction),
                             projectProposalModel.getProjectProposalExpensesPPRID(data.id,transaction),
-                            projectProposalModel.getProjectProposalRevenuePPRID(data.id,transaction)
-
+                            projectProposalModel.getProjectProposalRevenuePPRID(data.id,transaction),
+                            projectProposalModel.getOrganizationFundsAndExpense(dbParam, transaction)
 
                         ]);    
                     })
@@ -982,8 +1802,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     renderData.revenue = req.params.revenue;
                     renderData.expenseTypes = data[2];
                     renderData.status = req.params.status;
-                    renderData.listexpenses = data[3]
-                    renderData.listrevenues = data[4]
+                    renderData.listexpenses = data[3];
+                    renderData.listrevenues = data[4];
+                    renderData.FundsExpense = data[5];
 
                     // renderData.sectionsToEdit = data[3];
 
@@ -1725,37 +2546,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
             projectProposalModel.updatePPRBriefContext(dbParam).then(data => {
 
-                if (req.body.expense == false) {
-
-                    var expenseParam = {
-                        id: req.body.ppr,
-                        accumulatedOperationalFunds: req.body.ope,
-                        accumulatedDepositoryFunds: req.body.dep,
-                        organizationFundOtherSource: req.body.otherfunds,
-                        sourceFundOrganizational: req.body.org,
-                        sourceFundParticipantFee: req.body.par,
-                        sourceFundOther: req.body.others,
-                        isExpenseComplete: true
-                    };
-
-                    projectProposalModel.updatePPRExpenses(expenseParam)
-                    .then(expenseData=>{
-
-                        res.redirect(`/Organization/ProjectProposal/Main/${req.body.id}/${req.body.status}`);
-
-
-                    }).catch(error=>{
-
-                    });
-
-
-                }
-                else{
-
                     res.redirect(`/Organization/ProjectProposal/Main/${req.body.id}/${req.body.status}`);
-
-                }
-
             
 
             }).catch(error => {
@@ -2032,7 +2823,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         if (typeof pictures == 'object') {
                             console.log(typeof pictures[Symbol.iterator]);
                             if (typeof pictures[Symbol.iterator] == 'function') {
-                                for (var ctr = 0; ctr < PICTURES.length; ctr++) {
+                                for (var ctr = 0; ctr < pictures.length; ctr++) {
                                     var orignalFileName = pictures[ctr].name;
                                     var ftype = path.extname(orignalFileName);
                                     console.log(ftype);
@@ -3093,6 +3884,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         },
 
         reuploadPubs: (req, res) => {
+
+            console.log("==========================")
+            console.log(req.body)
             var dir3 = __dirname + '/../assets/upload/';
             var dir3 = path.join(__dirname, '..', 'assets', 'upload');
 
@@ -3112,13 +3906,14 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             if (!fs.existsSync(dir2)) {
                 fs.mkdirSync(dir2);
             }
-
-
             dir2 = path.normalize(dir2);
             database.task(t => {
                 var dbParam = {
                     id: req.body.pubsid
                 }
+                 
+                console.log('GOOOOOOOOOOOOLD')
+                console.log(dbParam)
                 return t.batch([
                     //GINAGAWA NG UPDATE PUBS TO PEND NISESET NIYA YUNG PUBS SA OLD VERSION NA STATUS
                     pnpModel.updatePubsToPend(dbParam, t),
@@ -3164,6 +3959,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
             }).catch(err => {
                 console.log(err);
+                console.log('GOOOOOOOOOOOOLD')
             })
 
         },
@@ -3215,6 +4011,29 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             }).catch(err => {
                 return logger.error(`${err.message}: ${err.stack}`, log_options);
             })
+        },
+        addMember: (req, res) => {
+            
+           
+            organizationModel.addMember(req.body.idnumber, req.body.name, req.session.user.organizationSelected.id).then(data=>{
+                return res.json({status:1})     
+            }).catch(err=>{
+                console.log(err)
+                return res.json({status:0})
+            })
+
+            
+        },
+        deleteMember: (req, res) => {
+             
+            
+            organizationModel.deleteMember(req.body.idnumber, req.session.user.organizationSelected.id).then(data=>{
+                return res.json({status:1})
+            }).catch(err=>{
+                console.log(err)
+                return res.json({status:0})
+            })
+            
         },
 
         orgresSpecficActivity: (req, res) => {

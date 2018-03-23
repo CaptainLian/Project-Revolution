@@ -22,5 +22,12 @@
     "AccountManagement": 23,
 
     "SubmitNotInGOSMActivity": 28,
-    "ViewActivityFeedback": 29
+    "ViewActivityFeedback": 29,
+
+    "EvaluateProjectProposalResched": 30,
+
+    "AddMember": 31,
+    "SubmitOfficerSurveyForm": 32,
+
+    "SetOrganizationFunds": 33
 }

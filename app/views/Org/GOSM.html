@@ -242,7 +242,7 @@
                         </div>
 
                     </div>
-                    {%if status !=3 and  status !=5 and  status !=2%}
+                    {%if status !=3  and  status !=2%}
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
@@ -284,25 +284,28 @@
                                 <tr>
                                     <td class="text-left"  >{{loop.index}}</td>
                                     <td class="text-left td-title" >{{activities.strategies}}</td>
-                                    <td class="text-left td-title" >{{activities.targetdatestart}} - {{activities.targetdateend}}</td>
+                                    <td class="text-left td-title" >{{activities.targetdatestart1}} - {{activities.targetdateend1}}</td>
                                     <td class="text-left td-title" >{{activities.description}}</td>
                                     <td class="text-center text-nowrap">
                                         <a  data-toggle="tooltip" data-original-title="Details"> 
                                             <i db-id="{{activities.gid}}"  class="fa fa-eye text-inverse m-r-10"></i> 
                                         </a>
-                                        <a  data-toggle="tooltip" data-original-title="Edit"> 
+                                        {%if (status !=3 and status !=5 and status !=2) %}
+                                        <a data-toggle="tooltip" data-original-title="Edit"> 
                                             <i db-id="{{activities.gid}}"  class="fa fa-pencil text-inverse m-r-10"></i> 
                                         </a>
+                                        
                                         <a class="remove"  data-toggle="tooltip" data-original-title="Close"> 
                                             <i db-id="{{activities.gid}}" class="fa fa-close text-danger"></i> 
                                         </a>
+                                        {%endif%}
                                     </td>                                  
                                 </tr>
                             {% endfor %}
                         </tbody>
                     </table>
                 </div>
-                {%if status !=3 and  status !=5 and  status !=2%}
+                {%if (status !=3 and status !=5 and status !=2) %}
                 <div class="panel-footer"> 
                     <div class="row">
                         <div class=" col-md-12" style="text-align: center">

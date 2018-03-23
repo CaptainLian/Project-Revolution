@@ -20,7 +20,7 @@
     <!-- Animation CSS -->
     {{tag.style('/css/animate.css')}}
     <!-- Custom CSS -->
-    
+    {{tag.style('/plugins/bower_components/toast-master/css/jquery.toast.css')}}
 
     {{tag.style('/plugins/bower_components/datatables/jquery.dataTables.min.css')}}
     {{tag.style('http://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css')}}
@@ -89,9 +89,11 @@
     <!-- Page Scripts -->
 
     {{tag.javascript('/plugins/bower_components/Chart.js/Chart.min.js', true)}}
-    {{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
-    {{- tag.javascript('/js/mask.js', true)}}
+    
+    {{tag.javascript('/js/mask.js', true)}}
     {{tag.style('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.css')}}
+    {{tag.javascript('/plugins/bower_components/toast-master/js/jquery.toast.js')}}
+    {{- tag.javascript('/js/system/AJAX_CSRF.js', true)}}
     {{tag.javascript('/js/Organization/addMembers.js', true)}}
 
 {%endblock%}
@@ -103,17 +105,19 @@
         <div>
         
         <div>
-           <fieldset class="form-group col-md-5">
+                <fieldset class="form-group col-md-5">
                     <label for="exampleInputEmail1">Full Name</label>
                     <input type="text" class="form-control" id="name" placeholder="Enter Name" >
+                    <small id="fullnamesmall" class="text-danger" style="display: none">Full name cannot be empty!</small>
                 </fieldset>
+
 
                 <fieldset class="form-group col-md-5">
                     <label for="exampleInputEmail1">ID Number</label>
                     <input data-mask="99999999" type="text" class="form-control" id="idnumber" placeholder="eg. 11456789">
+                    <small id="idnumbersmall" class="text-danger" style="display: none">ID number cannot be empty!</small>
                 </fieldset>
-                
-                    <button type="submit" class="form-group btn btn-success addmember col-md-2" id="approve">Add member</button> 
+                    <button type="" class="form-group btn btn-success addmember col-md-2" id="addtolist" disabled="">Add member</button> 
         </div>
                 
         
@@ -128,30 +132,39 @@
                 <table id="myTable" class="table table-hover"  role="grid" aria-describedby="myTable_info">
                     <thead>
                         <tr>
-                            <th width="33%">Name</th>
                             <th width="33%">ID Number</th>
+                            <th width="33%">Name</th>
+                            
+                            <th width="33%">Actions</th>
                         </tr>
                     
                     </thead>
                     <tbody> 
-                        <tr>
-                            <td></td>
-                            <td></td>                            
-                        </tr>
+                        {%for member in members%}
+                            <tr>
+                                <td>{{member.idNumber}}</td>
+                                <td>{{member.name}}</td>
+                                <td><i class="fa fa-trash text-danger m-r-10" idnum='{{member.idNumber}}' data-toggle="tooltip" data-original-title="delete"></i></td>
+                            </tr>
+                        {%endfor%}
+                        
                     </tbody> 
                 </table>
+                
 
             </div>
         </div>
     </div>
     <div class="col-sm-12">
-        
+
+
     </div>
     <div class="col-sm-12">
-        
+    
     </div>
     
     
 </div>
+
 
 {%endblock%}

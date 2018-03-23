@@ -71,19 +71,23 @@ INSERT INTO public."Building"(
 
 INSERT INTO public."Building"(
             id, name)
-    VALUES (10, 'University Library Building');
+    VALUES (10, 'STRC Building');
 
 INSERT INTO public."Building"(
             id, name)
-    VALUES (11, 'William Shaw Building');
+    VALUES (11, 'University Library Building');
 
 INSERT INTO public."Building"(
             id, name)
-    VALUES (12, 'Others');
+    VALUES (12, 'William Shaw Building');
 
 INSERT INTO public."Building"(
             id, name)
     VALUES (13, 'Henry Sy Building');
+
+INSERT INTO public."Building"(
+            id, name)
+    VALUES (14, 'Others');
 
 INSERT INTO public."ActivityVenue"(id, name, capacity, size, rate, "rateType", building)
                            VALUES ( 0, 'A 1502-A Conference Room', 20, 0, 360, 0, 0),
@@ -104,8 +108,375 @@ INSERT INTO public."ActivityVenue"(id, name, capacity, size, rate, "rateType", b
                                   (15, '20th Floor Multipurpose Room', 200, 2, 2500, 0, 0),
                                   (16, 'Classroom (Full-size)', 45, 0, 620, 0, 0),
                                   (17, 'Classroom (Half-size', 25, 0, 340, 0, 0),
-                                  (18, 'Natividad Fajardo-Rosario Gonzalez Auditorium, 18th Flr.', 238, 2, 3000, 0, 0),
-                                  ( 19, 'Neil Room', 12,  2, 700.43,       4,        0);
+                                  (18, 'Natividad Fajardo-Rosario Gonzalez Auditorium, 18th Flr.', 238, 2, 3000, 0, 0);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (19, 'Br. Gabriel Connon Conference Room SPS 201', 30, 0, 385, 0, 1);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (20, 'Rehersal Room, SPS 507', 0, 0, 275, 0, 1);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (21, 'Tennis Court, Roof deck', 0, 0, 330, 0, 1);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (22, 'Waldo Perfecto Seminar Room, SPS 102', 156, 1, 1595, 0, 1);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (23, 'Classroom', 45, 0, 605, 0, 2);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (24, 'Teresa Yuchengco Auditorium, 7th-9th flr.', 1104, 2, 7700, 0, 2);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (25, 'Y 407 Seminar Room', 90, 1, 880, 0, 2);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (26, 'Y 408 Seminar Room', 90, 1, 880, 0, 2);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (27, 'Y 409 Seminar Room', 90, 1, 880, 0, 2);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (28, 'Y 507 Seminar Room', 90, 1, 880, 0, 2);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (29, 'Y 508 Seminar Room', 90, 1, 880, 0, 2);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (30, 'Y 509 Seminar Room', 90, 1, 880, 0, 2);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (31, '7th Floor Gym(w/ Scoreboard)', 0, 2, 1265, 0, 3);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (32, '7th Floor Gym(w/o Scoreboard)', 0, 2, 880, 0, 3);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (33, '9th Floor Gym(w/ Scoreboard)', 0, 2, 1815, 0, 3);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (34, '9th Floor Gym(w/o Scoreboard)', 0, 2, 1430, 0, 3);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (35, 'Classroom', 45, 0, 495, 0, 3);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (36, 'E201 Multipurpose Room', 90, 1, 880, 0, 3);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (37, 'E202 Multipurpose Room', 48, 0, 605, 0, 3);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (38, 'E 802 Practice Room', 0, 0, 275, 0, 3);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (39, 'E 803 Practice Room', 0, 0, 275, 0, 3);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (40, 'E 804 Dance Room', 45, 0, 375, 0, 3);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (41, 'E 1001 Practice Room', 0, 0, 230, 0, 3);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (42, 'E 1002 Practice Room', 0, 0, 230, 0, 3);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (43, 'E 1003 Practice Room', 0, 0, 230, 0, 3);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (44, 'E 1004 Practice Room', 0, 0, 230, 0, 3);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (45, 'E 1005 Practice Room', 0, 0, 230, 0, 3);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (46, 'Swimming Pool, 1st flr.', 0, 0, 132, 3, 3);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (47, 'Classroom', 45, 0, 495, 0, 4);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (48, 'Shell Companies in Philippines Audio Visual Room, V210', 93, 1, 880, 0, 4);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (49, 'Classroom', 45, 0, 495, 0, 5);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (50, 'Intellect Seminar Room', 120, 1, 715, 0, 5);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (51, 'Ariston Estrada Seminar Room, L 216', 60, 0, 715, 0, 6);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (52, 'Br. Richard Duerr Board Room, L 113', 25, 0, 605, 0, 6);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (53, 'Br. Richard Duerr Board Room Receiving Area, L 115', 0, 0, 495, 0, 6);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (54, 'Classroom', 45, 0, 495, 0, 6);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (55, 'Conference Room A, L128A', 20, 0, 275, 0, 6);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (56, 'Conference Room A, L128', 20, 0, 275, 0, 6);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (57, 'Conference Room A, L127A', 10, 0, 220, 0, 6);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (58, 'Conference Room A, L127', 10, 0, 220, 0, 6);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (59, 'L 112 Conference Room', 12, 0, 385, 0, 6);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (60, 'L 218 Case Room', 40, 0, 495, 0, 6);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (61, 'L 219 Case Room', 40, 0, 495, 0, 6);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (62, 'Marelian Gaerlan Conservatory North Wing (w/ Sound System), 1st flr.', 250, 2, 2200, 0, 6);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (63, 'Marelian Gaerlan Conservatory North Wing (w/o Sound System) 1st flr.', 250, 2, 1925, 0, 6);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (64, 'Marelian Gaerlan Conservatory South Wing, 1st flr.', 250, 2, 1925, 0, 6);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (65, 'Medrano Hall, L213', 100, 1, 1650, 0, 6);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (66, 'Most Blessed Sacrament (Main) Chapel (w/ airconditioning), 2nd flr.', 580, 2, 2750, 0, 6);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (67, 'Most Blessed Sacrament (Main) Chapel (w/o airconditioning), 2nd flr.', 580, 2, 2090, 0, 6);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (68, 'Pablo Nicholas Seminar Room, L 315', 170, 1, 1650, 0, 6);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (69, 'Tereso Lara Seminar Room, L 230', 60, 0, 715, 0, 6);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (70, 'Classroom', 45, 0, 495, 0, 7);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (71, 'Laboratory (Room Only)', 0, 0, 660, 0, 7);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (72, 'Pearl of Great Price Chapel, 1st flr.', 108, 1, 1540, 0, 7);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (73, 'Rosario Jose Science Lecture Room, J 504', 92, 1, 605, 0, 7);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (74, 'Classroom', 45, 0, 495, 0, 8);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (75, 'E Classroom, M 306', 40, 0, 2530, 0, 8);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (76, 'Classroom', 45, 0, 495, 0, 9);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (77, 'STRC 412 Seminar Room', 42, 0, 660, 0, 10);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (78, 'Ortigas Seminar Room, 1st flr.', 30, 0, 440, 0, 11);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (79, 'William Shaw Little Theatre, 1st flr.', 270, 2, 2970, 0, 12);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (80, 'Agno House', 20, 0, 440, 0, 13);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (81, 'Amphitheater (w/ Sound System)', 300, 2, 415, 0, 13);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (82, 'Amphitheater (w/o Sound System)', 300, 2, 250, 0, 13);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (83, 'Chess Plaza', 0, 0, 495, 0, 13);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (84, 'Football Field', 0, 0, 1515, 0, 13);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (85, 'Marian Quadrangle (w/ Sound System)', 0, 0, 770, 0, 13);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (86, 'Marian Quadrangle (w/o Sound System)', 0, 0, 660, 0, 13);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (87, 'Retreat House Room 101', 45, 0, 660, 0, 13);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (88, 'Retreat House Room 201', 45, 0, 660, 0, 13);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (89, 'Sound System', 0, 0, 165, 0, 13);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (90, 'Sports Plaza (Per Court)', 0, 0, 302.50, 0, 13);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (91, 'HSH101 (The Meadow-Main Lobby)', 0, 0, 5800, 0, 14);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (92, '2nd Floor - Enrollment Central Lobby', 20, 0, 1500, 0, 14);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (93, '3rd Floor - Conference Room', 0, 0, 700, 0, 14);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (94, '4th Floor - Function Room Lobby', 0, 0, 1920, 0, 14);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (95, '4th Floor (HSH401) - Multi-Purpose Room', 20, 0, 6700, 0, 14);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (96, '4th Floor (HSH402) - Meeting Room A', 14, 0, 778, 0, 14);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (97, '4th Floor (HSH406) - Meeting Room B', 0, 0, 320, 0, 14);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (98, '5th Floor - Function Room Lobby', 0, 0, 1920, 0, 14);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (99, '5th Floor (HSH501) - Multi-Purpose Room', 0, 0, 6700, 0, 14);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (100, '5th Floor - Bean Bag Area', 0, 0, 1260, 0, 14);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (101, '6th Floor - Display Area', 0, 0, 5700, 0, 14);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (102, '7th Floor (HSH701) - Meeting Room', 18, 0, 550, 0, 14);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (103, '8th Floor (HSH801) - Meeting Room', 18, 0, 550, 0, 14);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (104, '13th Floor - Audio Visual Room', 45, 0, 826, 0, 14);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (105, '13th Floor - EDC Multi-Purpose Room', 0, 0, 1126, 0, 14);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (106, '14th Floor - Conference Room 1', 20, 0, 673.92, 0, 14);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (107, '14th Floor - Conference Room 2', 16, 0, 544.32, 0, 14);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (108, '14th Floor - Board Room', 30, 0, 1504.80, 0, 14);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (109, 'Roof Deck - Dining Area', 0, 0, 1247, 0, 14);
+
+INSERT INTO public."ActivityVenue"(
+            id, name, capacity, size, rate, "rateType", building)
+    VALUES (110, 'Roof Deck - Garden', 0, 0, 1550, 0, 14);
 
 /* Organization Data */
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
@@ -190,7 +561,6 @@ INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
 INSERT INTO StudentOrganization (id, acronym, name, cluster, description)
                  VALUES (38, 'YES', 'Young Entrepreneurs Society', 5, NULL);
 
-
 /* Sample Data */
 -- ORG 1 ACCOUNTS
 INSERT INTO Account(email, idNumber, password, firstname, lastname, contactNumber, publicKey, privateKey, type)
@@ -236,8 +606,6 @@ XSwu6bUhk9EMdsnYz3hjuiB/SOFrUXOP52V8MzWf7avJAM49+N4rMLM0jBaZ5suI
 QMzooOiwiovwCQqyIQJAUmw0ZcnzmAECb1x8umovIi65tdsI00FBDPU+nz/dJQ2j
 Kpn+OFihMZYue8HK51G2AMj8ufFhxvKoeIRPRq3+Ug==
 -----END RSA PRIVATE KEY-----', 1);
-
-
 
 INSERT INTO Account(email, idNumber, password, firstname, lastname, contactNumber, publicKey, privateKey, type)
         VALUES('org_vp_documentation@dlsu.edu.ph', 1111113, '1234', 'Organization', 'VP - Documentation', '612424515','-----BEGIN PUBLIC KEY-----
@@ -924,15 +1292,161 @@ lPRXKs0/EJsu4JPLWFDwrkxS4ZCHDyYBKQJAKEKMkNQQqufrzvq+77cmIKrJZHX0
 Vn4yLVuSOLMCeMACq5H3J9bXILNkXlA+pZeOmfiL715Va9D/I75fxfldz2Tv2nNC
 YzHusqxgGvoiJVkUQgkCQGXabuOyLicPFhwAVhlUkXHUgGd7KNsSFASAvjeBbsJp
 4F8HMpP+ChUqgW10mdON7mhsXoziRTmAnlLkYKOYlEw=
------END RSA PRIVATE KEY-----', 1, 1);
+-----END RSA PRIVATE KEY-----', 0, 1);
+
+
+-- ORG 2 ACCOUNTS
+INSERT INTO Account(email, idNumber, password, firstname, lastname, contactNumber, publicKey, privateKey, type)
+        VALUES('org2_president@dlsu.edu.ph', 2111111, '1234', 'Organization2', 'President', '6312312412', '-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC4rJy2UFtNdHu+W1DEQ8AlXeAt
+lcqnpBSUE/uP1V1xrOybXpkNba0sp5HCE0oKWlI5C3c4tUcW3DdvOCjsIIH1foJ6
+iXsLbjhpfG3BQBNdlUFT/uoeOFwCWALw+Iw2stNvaFLcJqU0sOmOhD4z8MTh4gwr
+wgXZLPlVyHxGuufO9QIDAQAB
+-----END PUBLIC KEY-----', '-----BEGIN RSA PRIVATE KEY-----
+MIICXgIBAAKBgQC4rJy2UFtNdHu+W1DEQ8AlXeAtlcqnpBSUE/uP1V1xrOybXpkN
+ba0sp5HCE0oKWlI5C3c4tUcW3DdvOCjsIIH1foJ6iXsLbjhpfG3BQBNdlUFT/uoe
+OFwCWALw+Iw2stNvaFLcJqU0sOmOhD4z8MTh4gwrwgXZLPlVyHxGuufO9QIDAQAB
+AoGBAI51ub56ZrRtczf5QWjlysgIjvMbZmXEEYvZjmn6ckdK2otQgkj1nm2gJrTM
+JIWv/1W6HpJEZT6hSrIlZIwi15y1ndX+37qH9NwcZqLhRl4xAtlDbzQErHgIAZNP
+9PlOR9eti6suvJkOj887wj1J6jZzfbANJXhOyYBaWFDePt9RAkEA5oBtpa/xDJIf
+5+O6/SzPDEP2qyMcJqruf+RwbuqMSMAGjS+/iwrWmwH2XPFiaHxTzXJVL4uJrYwj
+m6qW8kMnGwJBAM0aZgcHJr0Kyo5jV2wxmnfjsLReuBQ9yKf3Jom2CRvyhrRaQwTZ
+Dpwwe283oG8b+O+dciJ7QVFwZo3/gcWv8y8CQQC3eWbNydxviyjGZikDOVWdh8Oi
+uZHA3bJ2LpmoUB5WEjOk0mr+/COSwt8dYC5ayQvTrrxL2iA++hul3wXD1NwdAkEA
+kkH266AP4dKmKu9wUfj1W/UD9ztsLRL52b0GwEENMd66bDXJgNV/86UnAGI8h778
+v3IZB7m5FGgA2dWQJvaXhQJAffuC6I3UurV+ZUEPPmrNkq86AKUHCIdSIqVP1iF3
+3n4DR+xpWj0DItgiGWV+vdfqFxghu+4HpeVhpTY1jtVjMQ==
+-----END RSA PRIVATE KEY-----', 1);
+
+INSERT INTO Account(email, idNumber, password, firstname, lastname, contactNumber, publicKey, privateKey, type)
+        VALUES('org2_vp_internal@dlsu.edu.ph', 2111112, '1234', 'Organization2', 'VP - Internal', '6312312412', '-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCFQ92Jxf+nEJ0M3yaSg6AEwA+8
+1sEGse39TOM0+m5yOCVf7NoWJcrQBjayEXr2IetBTLh4NwZkeVlI0TN+Ekaz9q5f
+DKeatUg278bqJqPf+Wgdh2+0D9K3TytfAX9shtGFJkP/1SIMw+ODQuo3uUlExPDA
+pmy+d4D7v1WgUb79LwIDAQAB
+-----END PUBLIC KEY-----', '-----BEGIN RSA PRIVATE KEY-----
+MIICWwIBAAKBgQCFQ92Jxf+nEJ0M3yaSg6AEwA+81sEGse39TOM0+m5yOCVf7NoW
+JcrQBjayEXr2IetBTLh4NwZkeVlI0TN+Ekaz9q5fDKeatUg278bqJqPf+Wgdh2+0
+D9K3TytfAX9shtGFJkP/1SIMw+ODQuo3uUlExPDApmy+d4D7v1WgUb79LwIDAQAB
+AoGAIHQeh2bIk47gMDpH0nZribycGIjUCSVbp8wJqOUz8Gzr7ShpE+uwMGjS+Rp4
+r2gjOovMgLolvGIw9CK+P32D6gKgDREwWP+NvOY977HHKMtAPA4SRwAPJU4boAJw
+KiysLR9X3S/FiYXp21i1araXV2tscLdEkmEIEsOYrAPJIgECQQDwA2RK2FdkCYXd
+2JHJH70OUAQIW5ZbEJXXqQ7pO3Xp/n0mnCJz9o5nixwrI3KTWLITOpE4Em0lJH5b
+rnwC11nPAkEAjiQ/Y4kJUWS7RZlNNLqAz30ZZS89G3HYHIPBLS3Rc0Zc4/yctjPx
+Jwm4ysWPciEcNbEdR0IqvFCfl5FVYjLeoQJAZdjqnCAFpXutBKC77F69eO9XZryG
+pwn4q9UfcLU8qhjFvraOoCrF7wZG479dBU2j8yjtKqAXFKXRwNHf6cy8XQJAYzTf
+XSwu6bUhk9EMdsnYz3hjuiB/SOFrUXOP52V8MzWf7avJAM49+N4rMLM0jBaZ5suI
+QMzooOiwiovwCQqyIQJAUmw0ZcnzmAECb1x8umovIi65tdsI00FBDPU+nz/dJQ2j
+Kpn+OFihMZYue8HK51G2AMj8ufFhxvKoeIRPRq3+Ug==
+-----END RSA PRIVATE KEY-----', 1);
+
+
+
+INSERT INTO Account(email, idNumber, password, firstname, lastname, contactNumber, publicKey, privateKey, type)
+        VALUES('org2_vp_documentation@dlsu.edu.ph', 2111113, '1234', 'Organization2', 'VP - Documentation', '612424515','-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDIyvifYGHNb54ZF8wUankon5d6
+cAKy3eXhiS4GdCcpWPMnzfU2Dj+6gVbB2hIDNyZsPSmXD8NWcLCepPqfOrwigGXb
+BGzRYeXtgNYMlpUYk5b+9XhQ25uP8/XNBYVs7/9Mh0ONarGN3TjvL7orOAh6VWy7
+mTuU9jnyflD7mRlopQIDAQAB
+-----END PUBLIC KEY-----', '-----BEGIN RSA PRIVATE KEY-----
+MIICXAIBAAKBgQDIyvifYGHNb54ZF8wUankon5d6cAKy3eXhiS4GdCcpWPMnzfU2
+Dj+6gVbB2hIDNyZsPSmXD8NWcLCepPqfOrwigGXbBGzRYeXtgNYMlpUYk5b+9XhQ
+25uP8/XNBYVs7/9Mh0ONarGN3TjvL7orOAh6VWy7mTuU9jnyflD7mRlopQIDAQAB
+AoGACzH15rzy9wdQI0oGYOUG2FL9mSABpoNku8xwOn/jZxTEieWb1GW6++UWNzy3
+YGKEy+glF30TgRBLaKz+JD6cGp8R0+o/kFT9pPazWy5fuKoTxEmsXlqm+IO6gBxz
+rQKIhiI2Bwzwu2B2MDzfzhM9O/z4ZuP7Iyb16HQ8aNokgQkCQQDjRDO+uPrpGU4d
+zukEth/TgsF6u9SU/s7iKdNeqYmRFwey6Dh1JRLZb/5zU3cVB+nqh6ROt0MGA20e
+ZRYuy2dzAkEA4i3qPpfF5hhKcx6MHlk5XCSb0dheFBN+mnuyi0UoA9yXltUl83ZR
+vFqd2a7wdJnFFqe6XUqC1WAtglShRy35hwJBANayH5AVgDOlTD6ssUVaKEbQR6eC
+uhjnftn5WU0cLHF8qDFDX9KK63uuaVrZhq2/hCOjcH1Mc2zC39rO9F3QmjECQDDb
+tEczJ/fNdX+qsJ/5rC9gZRyOfbweffHHGMmG9d7nrwNRJfKSs5NZi9GzPZQih3We
+Y961Ms//B7WorHIg108CQF+Drrof608PluO6xjEW9GqG9bWmXY3lj7JVxrdRzaIT
+gtrnlHS0iq2WG9fcmONPTzL43dP1MABmrL49+nSIcwI=
+-----END RSA PRIVATE KEY-----', 1);
+
+INSERT INTO Account(email, idNumber, password, firstname, lastname, contactNumber, publicKey, privateKey, type)
+        VALUES('org2_avp_documentation@dlsu.edu.ph', 2111114, '1234', 'Organization2', 'AVP - Documentation', '612424515','-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCV+WSPPbpj1JFi/mGLrBBG33zP
+rC3x8ZH1/uyqJTwZ29eQ+P3Z6FCCKCld4jzKOqANowD3XjDMBnRMMB3bVbJYHzKQ
+61LOPZfwNgBw3m0WBzURlBbltFiIyTulSEuEFZGgV4YABnE11VqBZ7085ljmcJlV
++6oAoC4KMw6ZSBJfvwIDAQAB
+-----END PUBLIC KEY-----', '-----BEGIN RSA PRIVATE KEY-----
+MIICXQIBAAKBgQCV+WSPPbpj1JFi/mGLrBBG33zPrC3x8ZH1/uyqJTwZ29eQ+P3Z
+6FCCKCld4jzKOqANowD3XjDMBnRMMB3bVbJYHzKQ61LOPZfwNgBw3m0WBzURlBbl
+tFiIyTulSEuEFZGgV4YABnE11VqBZ7085ljmcJlV+6oAoC4KMw6ZSBJfvwIDAQAB
+AoGAL0FXyDKhCleuP8z7m3Dp6Ar/XshX6cY+QY7Dr5Dv8Q3uTIXIJuMmivxwnF5u
+3SG/0Mwtv8P0CDV4a5E1tyi3esS06icHviHfCPd6akVPxRrPRFcIMdp0GODzAwFh
+STtwZ2K60KMOr9Ho39yDBqMZDFRQhLRsqf2CeWb7FRND2xECQQDYP/UV5Ypchl+r
+igPbGreIXAQyEsUF9XJ1j5b+oom7W1OgFh9r5NE7WSTAs+jVaPtAByzzLnjRHFsw
+KHUYkmJjAkEAsYq13keWn0ZwsuKBvorLqDmJeV2ZUloFVHErkJe2rhhplnVQrM4p
+PKWG7ybYEaKkb102SU1ofdzC894h02cd9QJBAL4n938KupFEBAqWsW9Q3gTFTVcu
+1Bu6Sqz/1/oPuWeMFkwWSAkbS7WRXNUrHtnSl+Ukqi0pN0pCUhlV6inyRxsCQHyz
+D6BrKcj/QcLzQuvhMsAagYuECV+FKP8xacbqOH45WVg7WAm319Dn9kldQB/K27H4
+h1ufCgh1GV0OJTYF1E0CQQCrbEqZDEz60to9yz7B5ZIsjTxZZ5vel7tglcs9WeFR
+kFcuI3xRNAlNyTRFJs+aNXceKlUeJlI3Ayyp/q+d4vWI
+-----END RSA PRIVATE KEY-----', 1);
+
+INSERT INTO Account(email, idNumber, password, firstname, lastname, contactNumber, publicKey, privateKey, type)
+        VALUES('org2_vp_finance@dlsu.edu.ph', 2111115, '1234', 'Organization2', 'VP - Finance','612424515', '-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDYNkv/DXLS7fhRRLcG7heWNHKD
+/ye9abmaI9nQYfn42EEMihiIC+GqLI2pKcVBSSjLCXeUHnUvP5J/NafkVmBrYZaF
+be4uf1UNPf1/D4ORz0+18gIhDD3L5KnAq/mZCRoStYG9TAsQX4PBBwg8+Mt2WH3a
+UgY0Yfen0N0vn+n4qwIDAQAB
+-----END PUBLIC KEY-----', '-----BEGIN RSA PRIVATE KEY-----
+MIICXAIBAAKBgQDYNkv/DXLS7fhRRLcG7heWNHKD/ye9abmaI9nQYfn42EEMihiI
+C+GqLI2pKcVBSSjLCXeUHnUvP5J/NafkVmBrYZaFbe4uf1UNPf1/D4ORz0+18gIh
+DD3L5KnAq/mZCRoStYG9TAsQX4PBBwg8+Mt2WH3aUgY0Yfen0N0vn+n4qwIDAQAB
+AoGAP/CGtu2OOGyhk78DdWwx03y9JOXvJae/eKMDhgmDeCDT09Z+/LSuzrmQRyeQ
+Kwdspeat00LSmt9s/muqs+8LYgrW3DsOx2IO/Vs4+sfAoBMD2cHkmUWgKNeaW1ph
+vrFNcpf97uxjjZu+9kIk5BvUwgJI5nv6tg4yB9JVrdy5UDkCQQD2A5DFawzQlC8R
+pmPtZsS2xen0ocO96NnDVekb7eIc5UI7/YYRLtYN7wj/8vAzYHQvmPHrCvKvUsnV
+ylrA1XZ/AkEA4P0MRtU7UrWfJrIWl8w0CXEL6RwBto6OdanEFUghc302lhEkRWGj
+CMDSseJnKoG+L8b0CnN++YjZ2tMBAosf1QJAFZK8eENp7USBWCfiLWhMqcZzPKuO
+0bGAnxuChJt4r5X/F+mkfw8/YBttC5zPKYI0zhO4aycbnvpAjsne6XgOmwJBAKEB
+9isqpY2HFCHpCGoRZJvtHozv0foHAsQJfZ2NRQMU9F9oXQCZ4sZ810sdrp6owqYG
+RtbD2HZTDTSgE/TyAxECQE7Run0VOT6BNBsP9RlLX6/CBGWb0X7/nb2BpoKJOiry
+/cf+JtbPWuQMzJI2DtBOJDFqZvS4d3Dd/xi2J2vXKR0=
+-----END RSA PRIVATE KEY-----', 1);
+
+INSERT INTO Account(email, idNumber, password, firstname, lastname, contactNumber, publicKey, privateKey, type)
+        VALUES('org2_avp_finance@dlsu.edu.ph', 2111116, '1234', 'Organization2', 'AVP - Finance', '612424515', '-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCAzi5o0Zsng2PmPXBWjMtz+Ra9
+f8OR3cA0LEsgH1zq61xOVcNPPokAV65jyvSZTpoVm8JQtAErYQkWWgF7o7nF2haJ
+iWCky6edWuBclYDAyWNpwL9kAAox76KVVRnlRDFYLm/pqZBMRvzdqTBfGkD1GsSn
+fZibfHtWczJ3qtPsVwIDAQAB
+-----END PUBLIC KEY-----', '-----BEGIN RSA PRIVATE KEY-----
+MIICXAIBAAKBgQCAzi5o0Zsng2PmPXBWjMtz+Ra9f8OR3cA0LEsgH1zq61xOVcNP
+PokAV65jyvSZTpoVm8JQtAErYQkWWgF7o7nF2haJiWCky6edWuBclYDAyWNpwL9k
+AAox76KVVRnlRDFYLm/pqZBMRvzdqTBfGkD1GsSnfZibfHtWczJ3qtPsVwIDAQAB
+AoGAXORVVALWgoifY0yr179yexEI9WFPCcOC+h13kJMNz94tk9EGKgBPjY+ulQmp
+nWayeSL74Hfw3/f7NcNzjldlgeQwtik0cmcyltKAdnO86tZwj9liax0/QGSxxM6u
+ryj9bw18KSQaqVguqT9ukr69zpN7/ZnrpGi68LezFIn07AECQQDEQv7r1MdFQKXm
+lVIo23fh3M6VcVFXlvYrliKrlfDLAwvWB0QMOje5PJo7kTEZuoq1oaSBYIV4ccHA
+PrmUB3pRAkEAqALjvK/wyaAARCf7D/xNIfYFBDVDXSvWLSh5l7sVczg4hvjnTZYj
+LyjFK/nnNq+YO3tQhA4mi2hAXMoUEu8qJwJAUD+Ilos5M5Lcguz5XCVo3lx3x9k+
+xk6+t1G7OWekvo2vUENGSq2fTUl/Uu3qIrgIsX23kwMRcA8rhtze6q0oEQJBAKAR
+uLXhjnAaX4aP7NPLFhXAFgFvWZHgHPsDL+2OkZ4ntzto0r6Jx1W76za9rjrcyxYI
+o6pc7P4uwftlkACGGksCQCSv7IVwaKqcLYglwNgZRSFnkUlfU4bnFntlgNAbH/3x
+sxoqKQTWVqw038LwcLCp7OmZKjwwjc72lzxwKdM//dU=
+-----END RSA PRIVATE KEY-----', 1);
+
 
 INSERT INTO OrganizationOfficer (idNumber, role, yearID, dateAssigned)
+                        /* ORG 1*/
                   VALUES (1111111, 10023, system_get_current_year_id(), CURRENT_TIMESTAMP),
                          (1111112, 10026, system_get_current_year_id(), CURRENT_TIMESTAMP),
                          (1111113, 10027, system_get_current_year_id(), CURRENT_TIMESTAMP),
                          (1111114, 10028, system_get_current_year_id(), CURRENT_TIMESTAMP),
                          (1111115, 10029, system_get_current_year_id(), CURRENT_TIMESTAMP),
                          (1111116, 10030, system_get_current_year_id(), CURRENT_TIMESTAMP),
+
+                         /* ORG 2*/
+                         (2111111, 380356, system_get_current_year_id(), CURRENT_TIMESTAMP),
+                         (2111112, 380359, system_get_current_year_id(), CURRENT_TIMESTAMP),
+                         (2111113, 380360, system_get_current_year_id(), CURRENT_TIMESTAMP),
+                         (2111114, 380361, system_get_current_year_id(), CURRENT_TIMESTAMP),
+                         (2111115, 380362, system_get_current_year_id(), CURRENT_TIMESTAMP),
+                         (2111116, 380363, system_get_current_year_id(), CURRENT_TIMESTAMP),
 
                          (1011117, 0, system_get_current_year_id(), CURRENT_TIMESTAMP),
                          (1011118, 2, system_get_current_year_id(), CURRENT_TIMESTAMP),
@@ -964,9 +1478,15 @@ INSERT INTO OrganizationFacultyAdviser(organization, faculty, yearID)
 VALUES (1, 2011111, system_get_current_year_id()),
        (1, 2011112, system_get_current_year_id());
 
-UPDATE StudentOrganization
-   SET operationalFunds = 12000,
-        depositoryFunds = 12000,
-        depositryFunds = 12000;
+INSERT INTO OrganizationFacultyAdviser(organization, faculty, yearID)
+VALUES (38, 2011111, system_get_current_year_id()),
+       (38, 2011112, system_get_current_year_id());
 
+UPDATE StudentOrganization
+    -- galing sa la salle
+    -- 1k operational
+   SET operationalFunds = floor((random()*(1500 - 920 + 1))) + 920,
+    -- 300k
+        depositoryFunds = floor((random()*(350000 - 300000 + 1))) + 300000,
+        depositryFunds = depositoryFunds;
 COMMIT;

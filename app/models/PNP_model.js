@@ -6,6 +6,11 @@ log_options.from = 'PNP Proposal-Model';
 const squel = require('squel').useFlavour('postgres');
 
 module.exports = function(configuration, modules, db, queryFiles) {
+    const logger = modules.logger;
+    const log_options = Object.create(null);
+    log_options.from = 'PNP-Model';
+
+    const squel = modules.squel;
 
 	const getUnapprovePubsToCheck = queryFiles.getUnapprovePubsToCheck;
 	const getSpecificPubSeq = queryFiles.getSpecificPubSeq;
@@ -17,6 +22,8 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const getMypubs = queryFiles.getMypubs;
     const getPubDetails = queryFiles.getPubDetails;
     const updatePubsToPend = queryFiles.updatePubsToPend;
+
+    const getAllActivityPublicity = queryFiles.getAllActivityPublicity;
 
 	return{
 		getUnapprovePubsToCheck:function ( connection = db) {
@@ -57,6 +64,26 @@ module.exports = function(configuration, modules, db, queryFiles) {
         
         updatePubsToPend:function (param, connection = db) {
             return connection.none(updatePubsToPend, param);
+        },
+
+        getAllActivityPublicity:function (connection = db) {
+            return connection.any(getAllActivityPublicity);
+        },
+
+        getPublicityDetails: function(pubID, connection = db){
+            logger.info('getPublicityDetails()', log_options);
+
+            let query = squel.select()
+                .from('"ActivityPublicity"', 'ap')
+                .where('ap.id = ${publicityID}')
+                .toString();
+
+            let param = Object.create(null);
+            param.publicityID = pubID;
+
+
+            logger.debug(query, log_options);
+            return connection.one(query, param);
         }
 	};
 }

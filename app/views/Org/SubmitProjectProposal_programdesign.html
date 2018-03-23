@@ -187,7 +187,8 @@
                         end: '{{event.date}} {{event.endtime}}',
                         description: '{{event.activitydescription}}',
                         person:'{{event.name}}',
-                        posid:{{event.personincharge}}
+                        posid:{{event.personincharge}},
+                         overlap: false
                        },
                        {%endfor%}
                   ],
@@ -207,9 +208,9 @@
   			    },
             eventClick: function(calEvent, jsEvent, view) { 
                   var $this = this;
-                  $('#date').text(new Date(calEvent.start).toString().substr(0,16))
+                  $('#date').text(moment(calEvent.start).toString().substr(0,16))
                   $('#event-title').text(calEvent.title)
-                  $('#pos').text(calEvent.person)
+                  $('#pos').text(calEvent.person.text)
                   
                   $('#desc').text(calEvent.description)
                   $('#start-time').text(moment(calEvent.start).format('HH:mm'))
@@ -221,9 +222,9 @@
             },
             eventRender: function(event, element) { 
                 element.find('.fc-title').append("<br/>" + event.description); 
-            } 
-              
-                              
+            }
+           
+     
 
           });
         id = {{programDesign.length +1}}
@@ -256,7 +257,7 @@
 		   $("#edit").on('click',function(){            
             $('#my-event').modal('hide');
 
-            $("#inp-date").val(getDate(data.start))
+            $("#inp-date").val((data.date))
             $("#inp-start").val(moment(data.start).format('HH:mm'))
             $("#inp-end").val(moment(data.end).format('HH:mm'))
             $("#inp-name").val(data.title)
@@ -327,14 +328,62 @@
                 
         })
 
+        function checkOverlap(event) {  
 
+              var start = new Date(event.start);
+              var end = new Date(event.end);
+              var pweds = true;
+              console.log(start)
+              var overlap = $('#calendar').fullCalendar('clientEvents');
+              
+              for(var ctr = 0; ctr < overlap.length; ctr++){
+                var ev = overlap[ctr]
+                 var estart = new Date(ev.start._i);
+                var eend =  new Date(ev.end._i);
+                console.log("estart")
+                console.log("ESTART: "+estart+"   EEND: "+eend)
+                console.log((start) >= (estart) && (start) <= (eend))
+                console.log("START: "+start+"   END: "+end)
+                console.log((start) >= (estart) && (start) <= (eend))
+
+                if (
+                    ( (start) > (estart) && (start) < (eend) )
+                    ||
+
+                    ( (end) > (estart) && (end) < (eend) )
+                    ||
+                    ( (start) < (estart) && (end) > (eend) )
+                    ||
+                    ( (start) == (estart) && (end) == (eend) )
+                    
+                ){
+                  console.log("NAGERROR")
+                  pweds = false;
+                }
+              }
+              return pweds;
+          }
          function addEvent(data){
           var startInp = $("#inp-start").val();
                     var endInp = $("#inp-end").val();
                     var actInp = $("#inp-name").val();
                     var descInp = $("#inp-desc").val();
                     var selInp = $("#inp-pos").val();
-          if(startInp < endInp){
+              var event = {                  
+                            id:data.id,
+                            title:$("#inp-name").val(),
+                            date:$("#inp-date").val(),
+                            start: setTime($("#inp-date").val(), $("#inp-start").val()),
+                            end: setTime($("#inp-date").val(), $("#inp-end").val()),
+                            description: $("#inp-desc").val(),
+                            person:$("#inp-pos").select2('data'),
+                            posid:$("#inp-pos").val(),
+                             overlap: false
+                            
+                            
+                    }
+            
+            if(startInp < endInp && checkOverlap(event)){
                     var dateInp = $("#inp-date").val();
                     
                     if( dateInp in sched){
@@ -365,18 +414,7 @@
                           sched[dateInp] = [];
                           sched[dateInp].push(act);
                     }
-                    var event = {                  
-                            id:data.id,
-                            title:$("#inp-name").val(),
-                            date:$("#inp-date").val(),
-                            start: setTime($("#inp-date").val(), $("#inp-start").val()),
-                            end: setTime($("#inp-date").val(), $("#inp-end").val()),
-                            description: $("#inp-desc").val(),
-                            person:$("#inp-pos").select2('data'),
-                            posid:$("#inp-pos").val()
-                            
-                            
-                    }
+                  
                     $("#calendar").fullCalendar('renderEvent',event);
           
                      $.toast({
@@ -390,6 +428,17 @@
                     });
                     $('#createEventModal').modal('hide');
           
+            }else if(!checkOverlap(event)){
+                $.toast({
+                      heading: 'Failed!',          
+                      text:'Schedule conflict.',
+                      position: 'top-right',
+                      loaderBg:'#ff6849',
+                      icon: 'error',
+                      bgColor:'#FB9678',
+                      hideAfter: 3500, 
+                      stack: 6
+                    });
             }else{
               $.toast({
                       heading: 'Failed!',          
@@ -427,7 +476,7 @@
               $("#inp-end").val('')
               $("#inp-name").val('')
               $("#inp-desc").val('')
-              $("#inp-pos").val('') 
+              
               $("#editButton").css('display','none')
               $("#submitButton").css('display','')
        }
@@ -439,9 +488,10 @@
        }
 
        function getDate(date){
-          
-          date = new Date(date)
-          return date.getMonth()+'/'+date.getDay()+'/'+date.getFullYear()
+          console.log(date)
+          console.log("DATE MOEMENT")
+          console.log(moment(data).format("MM/DD/YYYY"))
+          return moment(data).format("MM/DD/YYYY")
 
        }
 
