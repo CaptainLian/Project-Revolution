@@ -132,14 +132,15 @@
                     {%if status.status != 1 %}
                         {% if showActions %}
                             <div class="col-lg-4 col-sm-4 col-xs-12 text-center">
-                                <button id="reject" class="btn btn-block btn-danger">Reject</button>
+                                <button id="approve" class="btn btn-block   btn-success">Approve</button>
                             </div>
                             <div class="col-lg-4 col-sm-4 col-xs-12 text-center">
                                 <button id="defer" class="btn btn-block  btn-warning">Pend</button>
                             </div>
                             <div class="col-lg-4 col-sm-4 col-xs-12 text-center">
-                                <button id="approve" class="btn btn-block   btn-success">Approve</button>
+                                <button id="reject" class="btn btn-block btn-danger">Reject</button>
                             </div>
+                            
                         {% endif %}
                     {%endif%}
                 </div>
