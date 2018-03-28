@@ -3728,6 +3728,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             }).then(([pubs, activities, heads]) => {
                 renderData.pubs = pubs;
                 renderData.activities = activities;
+                console.log(heads)
                 renderData.heads = heads;
                 renderData.gosmid = req.params.gosmid
                 return res.render('Org/CreatePubs', renderData);
