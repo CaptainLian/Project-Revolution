@@ -117,3 +117,18 @@
 	opacity: .8;
 	border: 1px solid #FF5D00;
 }
+.label-gray{
+	background-color: #777777;
+	letter-spacing: .05em;
+	border-radius: 60px;
+	padding: 4px 16px 3px;
+	font-weight: 500;
+
+}
+.label-orange{
+	background-color: #FF5D00;
+	letter-spacing: .05em;
+	border-radius: 60px;
+	padding: 4px 16px 3px;
+	font-weight: 500;
+}
