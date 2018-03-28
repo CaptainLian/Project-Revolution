@@ -558,14 +558,26 @@ module.exports = function(configuration, modules, database, queryFiles) {
     };
 
     const getNotifcationsSQL = queryFiles.account_get_notifications;
-    AccountModel.getNotifications = (idNumber, connection = database) => {
-        logger.info(`call getNotifications(idNumber: ${idNumber})`, log_options);
-        logger.debug(`Executing query: ${getNotifcationsSQL}`, log_options);
+    AccountModel.getNotifications = (idNumber, minSequence, fields, connection = database) => {
+        logger.info(`call getNotifications(idNumber: ${idNumber}, minSequence: ${minSequence})`, log_options);
+        
+        let query = squel.select()
+            .from('"AccountNotification"')
+            .where('"account" = ${idNumber}');
+        attachFields(query, fields);
 
         const param = Object.create(null);
-        param.idNumber = idNumber;
 
-        return connection.any(getNotifcationsSQL, param);
+        if(minSequence){
+            query.where('"sequence" > ${sequence}');
+            param.sequence = minSequence;
+        }
+
+        param.idNumber = idNumber;
+        
+        query = query.toString();
+        logger.debug(`Executing query: ${query}`, log_options);
+        return connection.any(query, param);
     };
 
     /**
@@ -577,7 +589,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
      * @param {pg-connection} connection [description]
      */
     AccountModel.addNotification = (idNumber, title, description, details, returning, connection = database) => {
-        logger.info('call addNotification()', log_options);
+        logger.info(`call addNotification()`, log_options);
 
         let param = Object.create(null);
         param.idNumber = idNumber;
@@ -601,7 +613,25 @@ module.exports = function(configuration, modules, database, queryFiles) {
         logger.debug(`Executing query: ${query}`, log_options);
         return connection.oneOrNone(query, param);
     };
+    
+    AccountModel.updateNotifications = (idNumber, maxSequence, connection = database) => {
+        logger.info(`call viewNotifications(idNumber: ${idNumber}, maxSequence: ${maxSequence})`, log_options);
 
+        let query = squel.update()
+            .table('"AccountNotification"')
+            .set('"status" = 1')
+            .where('"account" = ${idNumber}')
+            .where('"sequence" <= ${maxSequence}')
+            .where('"status" <> 1')
+            .toString();
+        
+        let param = Object.create(null);
+        param.idNumber = idNumber;
+        param.maxSequence = maxSequence;
+
+        logger.debug(`Executing query: ${query}`, log_options);
+        return connection.none(query, param);
+    };
 
     AccountModel.isInOrganization = (idNumber, organizationID, connection = database) => {
         logger.info(`call isInOrganization(idNumber: ${idNumber}, organizationID: ${organizationID})`, log_options);
