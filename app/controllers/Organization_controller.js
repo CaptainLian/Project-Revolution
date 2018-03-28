@@ -2170,38 +2170,50 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             }
 
             var param = {
-                studentOrganization: req.session.user.organizationSelected.id
+                studentorganization: req.session.user.organizationSelected.id
             }
 
             organizationModel.getStudentOrganization(param)
             .then(organizationData=>{
 
+                console.log("organizationDAta IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII");
+
+                console.log(organizationData);
+
                 // ASO, CAP12, ENGAGE, PROBE
                 if(organizationData.cluster != 2){
 
+                    console.log("YOOOO IS TAMA==============================================");
+
                     if(req.body['nature-type'] == 1){
 
-                        let isRelatedToOrganization = true;
+                        var isRelatedToOrganization = true;
 
                     }
                     else{
 
-                        let isRelatedToOrganization = false;
+                        var isRelatedToOrganization = false;
 
                     }
 
 
-                }// ENGAGE
+                }// ASPIRE
                 else{
+
+                    console.log("ASPIRE BROOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
 
                     if(req.body['nature-type'] == 2){
 
-                        let isRelatedToOrganization = true;
+                        console.log("nature type ifffffffffffffffffffffffffffffffffffffffffff")
+
+                        var isRelatedToOrganization = true;
 
                     }
                     else{
 
-                        let isRelatedToOrganization = false;
+                        console.log("elseeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
+
+                        var isRelatedToOrganization = false;
 
                     }
 
