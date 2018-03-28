@@ -212,6 +212,19 @@ $("#edit-gosm").click(function() {
                     $("#edit-gosm").css("display", "none");
                     $("#cancel-gosm").css("display", "none");
                 });
+                table.row(currentNode).remove().draw();
+                var tr = 
+                    '<a  data-toggle="tooltip" data-original-title="Details"> ' +
+                    '<i db-id="' + currentID + '"  class="fa fa-eye text-inverse m-r-10"></i> ' +
+                    '</a>' +
+                    '<a data-toggle="tooltip" data-original-title="Edit"> <i db-id="' + currentID + '" class="fa fa-pencil text-inverse m-r-10"></i> </a>' +
+                    '<a  data-toggle="tooltip" data-original-title="Close"> <i db-id="' + currentID + '" class="fa fa-close text-danger"></i> </a>';
+                table.row.add([
+                    targetDateStart + ' - ' + targetDateEnd ,
+                    strategy,
+                    description,
+                    tr
+                    ]).draw()
                 $.toast({
                     heading: 'Success!',    
                     text:   'Edit is successful.',
@@ -263,7 +276,8 @@ $("#cancel-gosm").click(function() {
 
 
 $(document).on('click', "i.fa-pencil", function() {
-    currentID = $(this).attr('db-id');
+    currentNode = $(this).parents("tr");
+    currentID = $(this).attr("db-id")
     var trRow = $(this).attr("db-id");
     $("html, body").animate({
         scrollTop: 0
@@ -390,6 +404,7 @@ function dNat(val) {
 }
 var currentID = 0;
 var tPencil;
+var currentNode = 0 ;
 
 $(document).on('click', 'i.fa-eye', function() {
     $("#myModal").modal('show');
