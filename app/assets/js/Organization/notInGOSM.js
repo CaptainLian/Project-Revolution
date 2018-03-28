@@ -58,7 +58,7 @@ function clear() {
     $("#targetDateStart").val('');
     $("#targetDateEnd").val('');
     $("#objectives").val('');
-    $('input[name="isRelatedToOrganization"]').prop('checked', false);    
+    // $('input[name="isRelatedToOrganization"]').prop('checked', false);    
     $("#personInCharge").val('').trigger('change');
     $("#budget").val('');
 }
