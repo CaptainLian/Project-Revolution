@@ -77,7 +77,7 @@
 	                	
 	                    	<div class="form-body">
 	                        	<div class="row">
-	                            	<div class="col-md-12">
+	                            	<div class="col-md-12" id="attachment">
 	                            		{% for attachment in attachments%}
 	                                	<div class="form-group row">
 	                                        <label class="col-sm-3 offset-md-2">{{attachment.name}}</label>
@@ -106,16 +106,17 @@
 		                                        
 	                                    </div>
 	                                    {%endfor%}
+	                            
+	                                    
 	                            	</div>
 	                        	</div>
 	                        <!--/row-->
 	                    	</div>
-		                    <div class="form-actions">
-		                        
-		                    </div>
+		         
 		                
 	           		</div>
            		 	<div class="panel-footer text-center">
+           		 		<button class="btn btn-info" id='addBtn'>Add attachments</button>
 		                <button type="submit" class="btn btn-success"> <i class="fa fa-save"></i> &nbspSave</button>
 		                <a href="/Organization/ProjectProposal/Main/{{gid}}/{{status}}" type="button" class="btn btn-default">Cancel</a>
             		</div>
@@ -125,4 +126,37 @@
 	</div>
 </div>
 </form>
+<div class="modal fade" id="attachmentModal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title">Add other attachments</h4>
+			</div>
+			<div class="modal-body">
+				<label>Attachment type</label>
+				<select name="" id="types" class="form-control">
+					<option value="" >-- Select One --</option>
+					<option value="0" data-name="Mechanics">Mechanics</option>
+					<option value="1">Letter for use of Different Venues in Campus</option>
+					<option value="2">Sample Design</option>
+					<option value="3">Venue Reservation Ticket</option>
+					<option value="4"> Credentials of Speaker</option>
+					<option value="5">Sample Publicity</option>
+					<option value="6"> Agenda</option>
+					<option value="7"> LSPO Form</option>
+					<option value="8">Sample Application Form</option>
+					<option value="9">Informal Quotation</option>
+					<option value="10">Estimated List of Participants</option>
+					<option value="11">Mechanics of Competition</option>
+				</select>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-success" id="insertBtn">Add</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				
+			</div>
+		</div>
+	</div>
+</div>
 {%endblock%}
