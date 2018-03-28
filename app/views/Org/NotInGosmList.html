@@ -81,6 +81,14 @@
             <h3 class="box-title m-b-0">Activitiies not in GOSM
                 
             </h3>
+            <p class="box-title m-b-0 pull-right">legend:
+                <span class="label label-primary">In Progress</span>
+                <span class="label label-success">Approved</span>
+                <span class="label label-warning">Pended</span>
+                <span class="label label-danger">Denied</span>
+                <span class="label label-info">For Approval</span>
+                <span class="label label-megna">Rescheduled</span>
+            </p>
             <p class="text-muted m-b-30">List of submitted activities that are not in GOSM
                 <button class="btn btn-success pull-right" >Create Activity Not in GOSM</button>
             </p>
@@ -155,7 +163,7 @@
                                     <td><a href="/Organization/projectproposal/projectproposaldetails/{{activity.id}}" class="btn-link">{{activity.strategies}}</a></td>      
                                     
                                     
-                                    <td><span class="label label-info">Rescheduled</span></td>      
+                                    <td><span class="label label-megna">Rescheduled</span></td>      
                                 </tr>
                              {% elif activity.status == 7 %}
 
