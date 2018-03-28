@@ -3,20 +3,28 @@
 
 {%block page_title%}CSO Activity Management System{%-endblock%}
 
+{%block meta%}
+    {{- super() -}}
+    <meta data-name="csrf" data-token="{{csrfToken}}" />
+{%endblock%}
+
 {%block style%}
-    <link rel="icon" type="image/png" sizes="16x16" href="/plugins/images/cso.png">
+    {{- tag.style('/plugins/images/cso.png', null, null, 'image/png', 'icon') -}}
+    {{- tag.style('/css/system/notification.css') -}}
 {%endblock%}
 
 {%block defer_script%}
+    {{- super() -}}
+    {{- tag.javascript('/js/system/notification.js', true) -}}
 {%endblock%}
 
 {%block body%}
     <!-- .preloader -->
-    {%block body_preloader%}
+    {%-block body_preloader-%}
         <div class="preloader">
             <div class="cssload-speeding-wheel"></div>
         </div>
-    {%endblock%}
+    {%-endblock-%}
     <!--- ./preloader -->
     <div id="wrapper">
         <!-- Top Navigation -->
@@ -32,55 +40,24 @@
                 <ul class="nav navbar-top-links navbar-left hidden-xs">
                     <li><a href="javascript:void(0)" class="open-close hidden-xs waves-effect waves-light"><i class="ti-menu"></i></a></li>
                 </ul>
-                <ul class="nav navbar-top-links navbar-right pull-right" 
-                >
-
+                <ul class="nav navbar-top-links navbar-right pull-right" >
                     <!-- /.dropdown -->
                     <li class="dropdown">
-                        <a class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#" aria-expanded="false">
+                        <a id="dropdown_notification" class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="false">
                             <i class="icon-note"></i>
                             <div class="notify">
-                                {%-if (extra_data.view.navbar.notifications.length)%}
-                                {#
-                                <span class="label label-rounded label-danger pull-right">{{-extra_data.view.navbar.notifications.length-}}</span>
-                                #}
-                                <span class="heartbit"></span>
-                                <span class="point"></span>
-                                {%endif-%}
+                                <span id="display_numNotifications" class="label label-rounded label-danger pull-right"></span>
+                                {# <span class="heartbit"></span>  #}
+                                {# <span class="point"></span> #}
                             </div>
                         </a>
                         <ul class="dropdown-menu dropdown-tasks scale-up scrollable-menu" role="menu" style="height: auto;
                             max-height: 250px;
                             overflow-x: hidden;">
                             <li>
-                                <div class="message-center">
-                                    {%- block navbar_notifications %}
-                                        {% for notification in extra_data.view.navbar.notifications %}
-                                            {{-notification_item(notification.title, notification.description, notification.date, notification.details)-}}
-                                        {% else %}
-                                            No notifications
-                                        {% endfor %}
-                                    {% endblock -%}
-
-                                    
-
+                                <div id="display_notifications" class="message-center">
                                 </div>
                             </li>
-                            {#
-                                <!-- -->
-                            <li class="divider"></li>
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <p> <strong>Task 3</strong> <span class="pull-right text-muted">60% Complete</span> </p>
-                                        <div class="progress progress-striped active">
-                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%"> <span class="sr-only">60% Complete (warning)</span> </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            #}
 
                             <li class="divider"></li>
                             <li>
@@ -125,7 +102,9 @@
                             <div class="input-group custom-search-form">
                                 <input type="text" class="form-control" placeholder="Search...">
                                 <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button"> <i class="fa fa-search"></i> </button>
+                                    <button class="btn btn-default" type="button"> 
+                                        <i class="fa fa-search"></i> 
+                                    </button>
                                 </span>
                             </div>
                             <!-- /input-group -->
@@ -220,7 +199,8 @@
         #}
         <span class="profile-status online pull-right"></span>
     </div>
-    <div class="mail-contnet">
+
+    <div class="mail-content notif_unseen">
         <h5>{{title}}</h5>
         <span class="mail-desc">{{description}}</span>
         <span class="time">{{timestamp}}</span>

@@ -1014,7 +1014,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
             } else{
             	console.log("user reaches this point of if");
-            	
+
             	var viewTransaction = false;
 
 			    if (req.session.user.type == 1){
@@ -1043,13 +1043,11 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		            console.log("User is student and is president/treasurer");
 
-		            gosmModel.getGOSMActivityOrg(dbParam)
-		            .then(data=>{
-
+		            gosmModel.getGOSMActivityOrg(dbParam).then(data=>{
 		            	if(req.session.user.organizationSelected.id == data.studentorganization){
-
 		            		console.log("its this one");
-							database.task(t =>{
+
+							database.task(t => {
 								return t.batch([
 			                        financeModel.getActivityTransactions(dbParam),
 									gosmModel.getGOSMActivity(dbParam),

@@ -2,6 +2,6 @@
 	<script src="{{src}}" {%if (defer)%}defer="defer"{%endif%} {%if (async)%}async="async"{%endif%} type="text/javascript" {%if (id)%}id="{{id}}"{%endif%}{%if (class)%}class="{{class}}"{%endif%}></script>
 {% endmacro %}
 
-{% macro style(href, id='', class='') %}
-	<link href="{{href}}" type="text/css" rel="stylesheet" {%if (id)%}id="{{id}}"{%endif%}{%if (class)%}class="{{class}}"{%endif%}/>
+{% macro style(href, id='', class='', type='text/css', rel='stylesheet') %}
+	<link href="{{href}}" type="{{type}}" rel="{{rel}}" {%if (id)%}id="{{id}}"{%endif%}{%if (class)%}class="{{class}}"{%endif%}/>
 {% endmacro %}

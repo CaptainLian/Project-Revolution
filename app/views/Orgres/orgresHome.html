@@ -1,11 +1,6 @@
 {% extends '../template/CSO_master.html' %}
 {% import '../template/tags_macro.html' as tag %}
 
-{%block meta%}
-    {{super()}}
-    <meta data-name="csrf" data-token="{{csrfToken}}" />
-{%endblock%}
-
 {%block style%}
     {{super()}}
     <!-- Bootstrap Core CSS -->
