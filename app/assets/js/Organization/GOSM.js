@@ -224,7 +224,28 @@ $("#edit-gosm").click(function() {
                     strategy,
                     description,
                     tr
-                    ]).draw()
+                    ]).draw();
+
+                $.ajax({
+                    url:'/Organization/AJAX/checkRatio',
+                    type:'POST',                
+                    success:function(data){
+                        var rel = parseInt(data.related)
+                        var nrel = parseInt(data.notrelated)
+                        var rratio = ((rel) / (rel + nrel))*100
+                        var nratio = (nrel / (rel + nrel))*100
+                        rratio = Math.round(rratio)
+                        nratio = Math.round(nratio)
+                        if(isNaN(Math.round(rratio))){
+                            rratio = 0
+                            nratio = 0
+                        }
+                        $("#rel").text(Math.round(rratio))
+                        $("#notrel").text(Math.round(nratio))
+                        $("#rele").text(data.related)
+                        $("#nrele").text(data.notrelated)
+                    }
+                })
                 $.toast({
                     heading: 'Success!',    
                     text:   'Edit is successful.',
@@ -488,7 +509,26 @@ $(document).on('click', 'i.fa-close', function() {
                     hideAfter: 3500, 
                     stack: 6
                   });
-                 
+                 $.ajax({
+                    url:'/Organization/AJAX/checkRatio',
+                    type:'POST',                
+                    success:function(data){
+                        var rel = parseInt(data.related)
+                        var nrel = parseInt(data.notrelated)
+                        var rratio = ((rel) / (rel + nrel))*100
+                        var nratio = (nrel / (rel + nrel))*100
+                        rratio = Math.round(rratio)
+                        nratio = Math.round(nratio)
+                        if(isNaN(Math.round(rratio))){
+                            rratio = 0
+                            nratio = 0
+                        }
+                        $("#rel").text(Math.round(rratio))
+                        $("#notrel").text(Math.round(nratio))
+                        $("#rele").text(data.related)
+                        $("#nrele").text(data.notrelated)
+                    }
+                })
 
             } else {
                  $.toast({
@@ -645,6 +685,27 @@ $("#add-gosm").click(function(e) {
                     description,
                     tr
                     ]).draw()
+
+                $.ajax({
+                    url:'/Organization/AJAX/checkRatio',
+                    type:'POST',                
+                    success:function(data){
+                        var rel = parseInt(data.related)
+                        var nrel = parseInt(data.notrelated)
+                        var rratio = ((rel) / (rel + nrel))*100
+                        var nratio = (nrel / (rel + nrel))*100
+                        rratio = Math.round(rratio)
+                        nratio = Math.round(nratio)
+                        if(isNaN(Math.round(rratio))){
+                            rratio = 0
+                            nratio = 0
+                        }
+                        $("#rel").text(Math.round(rratio))
+                        $("#notrel").text(Math.round(nratio))
+                        $("#rele").text(data.related)
+                        $("#nrele").text(data.notrelated)
+                    }
+                })
 
                 // $("#added-act tbody").append(tr);
                 // Change Name

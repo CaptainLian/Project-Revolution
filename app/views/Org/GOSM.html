@@ -101,7 +101,7 @@
     <nav class="nav-tab-custom">
         <ul>
             <li id="home-tab" ><a  href="#section-linebox-1"><span>Proposed Activity</span></a></li>
-            <li id="other-tab"><a href="#section-linebox-2"><span>Added Activites</span></a></li>  
+            <li id="other-tab"><a href="#section-linebox-2"><span>Added Activites (<label id="rel">{{rrelated}}</label>/<label id="notrel">{{rnotrelated}}</label>)</span></a></li>  
             {%if status == 4 or status ==5%}          
             <li id="comment-tab"><a href="#section-linebox-3"><span>Comments</span></a></li>            
             {%endif%}
@@ -277,7 +277,7 @@
               
                 <div class="panel-body">
                     <div class="text-left">
-                        <h2>You have 32 organization related events and 10 non related</h2>
+                        <h2>You have <label id="rele">{{related}}</label> organization related events and <label id=nrele>{{notrelated}}</label> non related</h2>
                     </div>
                     <table id="added-act" class="table table-hover">
                         <thead>

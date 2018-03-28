@@ -122,6 +122,26 @@ module.exports = function(configuration, modules, db, queryFiles) {
             query = query.toString();
             return connection.any(query);
         },
+        getRelated:function(gosmid,connection = db){
+             let query= squel.select()
+            .from('GOSMActivity',"G")
+            .where('GOSM = ?',gosmid)
+            .where('isrelatedtoorganizationnature = true')
+            .field('COUNT(id) as related');
+
+            query = query.toString();
+            return connection.one(query);
+        },
+        getNotRelated:function(gosmid,connection = db){
+             let query= squel.select()
+            .from('GOSMActivity',"G")
+            .where('GOSM = ?',gosmid)
+            .where('isrelatedtoorganizationnature = false')
+            .field('COUNT(id) as notrelated');
+
+            query = query.toString();
+            return connection.one(query);
+        },
 
         getnotinGOSMActivities: function(GOSMID, fields, connection = db) {
             let query= squel.select()
