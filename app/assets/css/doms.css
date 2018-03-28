@@ -111,3 +111,9 @@
 #myBtn:hover {
   background-color: #555;
 }
+
+.btn-orange{
+	background: #FF5D00;
+	opacity: .8;
+	border: 1px solid #FF5D00;
+}
