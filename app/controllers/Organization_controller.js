@@ -2169,72 +2169,117 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 personInCharge = [personInCharge];
             }
 
-            let isRelatedToOrganization = req.body.isRelatedToOrganization;
-            let budget = req.body.budget;
+            var param = {
+                studentOrganization: req.session.user.organizationSelected.id
+            }
 
-            return systemModel.getCurrentTerm('id').then(term => {
-                logger.debug(`Current termID: ${term.id}`, log_options);
+            organizationModel.getStudentOrganization(param)
+            .then(organizationData=>{
 
-                /**
-                 * const param = {
-                 *      termID: term.id,
-                 *      studentOrganization
-                 * }
-                 * @type {Object}
-                 */
-                let param = Object.create(null);
-                param.termID = term.id;
-                param.studentOrganization = req.session.user.organizationSelected.id;
-                return gosmModel.getOrgGOSM(param);
-            }).then(gosm => {
-                logger.debug('starting transaction', log_options);
-                return database.tx(transaction => {
-                    const dbParam = {
-                        GOSM: gosm.id,
-                        goals: goals,
-                        objectives: objectives,
-                        strategies: strategy,
-                        description: description,
-                        measures: measures,
-                        targetDateStart: `${startDateSplit[2]}-${startDateSplit[0]}-${startDateSplit[1]}`,
-                        targetDateEnd: `${endDateSplit[2]}-${endDateSplit[0]}-${endDateSplit[1]}`,
-                        activityNature: natureType,
-                        activityType: activityType,
-                        activityTypeOtherDescription: others,
-                        isRelatedToOrganizationNature: isRelatedToOrganization,
-                        budget: budget,
-                        notingosm: notingosm
-                    };
+                // ASO, CAP12, ENGAGE, PROBE
+                if(organizationData.cluster != 2){
 
-                    if (activityType == 10 && others == null) {
-                        throw new Error('Error activity type others empty');
+                    if(req.body['nature-type'] == 1){
+
+                        let isRelatedToOrganization = true;
+
+                    }
+                    else{
+
+                        let isRelatedToOrganization = false;
+
                     }
 
-                    logger.debug('Inserting GOSM Activity', log_options);
-                    return gosmModel.insertProposedActivity(dbParam, transaction).then(activity => {
-                        logger.debug(`ActivityID: ${activity.activityid}, person-in-charge_length: ${personInCharge.length}`, log_options);
 
-                        let queries = [Promise.resolve(activity.activityid)];
+                }// ENGAGE
+                else{
 
-                        logger.debug('Inserting project heads', log_options);
-                        for (const projectHead of personInCharge) {
-                            const projectHeadParam = Object.create(null);
-                            projectHeadParam.idNumber = parseInt(projectHead);
-                            projectHeadParam.activityID = parseInt(activity.activityid);
+                    if(req.body['nature-type'] == 2){
 
-                            logger.debug(`${projectHead}`, log_options);
-                            queries[queries.length] = gosmModel.insertActivityProjectHead(projectHeadParam, transaction);
+                        let isRelatedToOrganization = true;
+
+                    }
+                    else{
+
+                        let isRelatedToOrganization = false;
+
+                    }
+
+                }
+
+                let budget = req.body.budget;
+
+                return systemModel.getCurrentTerm('id').then(term => {
+                    logger.debug(`Current termID: ${term.id}`, log_options);
+
+                    /**
+                     * const param = {
+                     *      termID: term.id,
+                     *      studentOrganization
+                     * }
+                     * @type {Object}
+                     */
+                    let param = Object.create(null);
+                    param.termID = term.id;
+                    param.studentOrganization = req.session.user.organizationSelected.id;
+                    return gosmModel.getOrgGOSM(param);
+                }).then(gosm => {
+                    logger.debug('starting transaction', log_options);
+                    return database.tx(transaction => {
+                        const dbParam = {
+                            GOSM: gosm.id,
+                            goals: goals,
+                            objectives: objectives,
+                            strategies: strategy,
+                            description: description,
+                            measures: measures,
+                            targetDateStart: `${startDateSplit[2]}-${startDateSplit[0]}-${startDateSplit[1]}`,
+                            targetDateEnd: `${endDateSplit[2]}-${endDateSplit[0]}-${endDateSplit[1]}`,
+                            activityNature: natureType,
+                            activityType: activityType,
+                            activityTypeOtherDescription: others,
+                            isRelatedToOrganizationNature: isRelatedToOrganization,
+                            budget: budget,
+                            notingosm: notingosm
+                        };
+
+                        if (activityType == 10 && others == null) {
+                            throw new Error('Error activity type others empty');
                         }
 
-                        logger.debug('Batching queries', log_options);
-                        return transaction.batch(queries);
+                        logger.debug('Inserting GOSM Activity', log_options);
+                        return gosmModel.insertProposedActivity(dbParam, transaction).then(activity => {
+                            logger.debug(`ActivityID: ${activity.activityid}, person-in-charge_length: ${personInCharge.length}`, log_options);
+
+                            let queries = [Promise.resolve(activity.activityid)];
+
+                            logger.debug('Inserting project heads', log_options);
+                            for (const projectHead of personInCharge) {
+                                const projectHeadParam = Object.create(null);
+                                projectHeadParam.idNumber = parseInt(projectHead);
+                                projectHeadParam.activityID = parseInt(activity.activityid);
+
+                                logger.debug(`${projectHead}`, log_options);
+                                queries[queries.length] = gosmModel.insertActivityProjectHead(projectHeadParam, transaction);
+                            }
+
+                            logger.debug('Batching queries', log_options);
+                            return transaction.batch(queries);
+                        });
                     });
+                }).then(([data]) => {
+                    return res.send(String(data));
+                }).catch(error => {
+                    return logger.error(`${error.message}\n${error.stack}`, log_options);
                 });
-            }).then(([data]) => {
-                return res.send(String(data));
-            }).catch(error => {
-                return logger.error(`${error.message}\n${error.stack}`, log_options);
+
+
+
+            }).catch(error=>{
+                console.log(error);
             });
+
+            
         },
 
         createActivityRequirements: (req, res) => {
