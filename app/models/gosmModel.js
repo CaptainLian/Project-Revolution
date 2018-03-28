@@ -113,6 +113,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
             .field("TO_CHAR(G.targetdatestart,'Mon DD, YYYY') as startdate")
             .field("TO_CHAR(G.targetdatestart,'MM/DD/YYYY') as targetdatestart1")
             .field("TO_CHAR(G.targetdateend,'MM/DD/YYYY') as targetdateend1")
+            .field("G.comments as gcomments")
             .field("*")
             .field("G.ID AS GID")
             .field('P.ID AS PID')

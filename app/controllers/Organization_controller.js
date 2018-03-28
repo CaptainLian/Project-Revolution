@@ -2470,7 +2470,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                     console.log(data[4])
                 }
-
+                
                 console.log("GOSM DATA")
 
                 logger.debug('Rendering page', log_options);

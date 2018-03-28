@@ -4,6 +4,8 @@
     });
 })();
 
+$("#yes").click();
+
 var con = $(document.createElement('div')).addClass("dy-obj");
 var cObj = 0;
 function removeError(){
@@ -34,7 +36,8 @@ $("#objectives-add").click(function() {
     $("#div-after-objectives").after(con);
 
 });
-
+var table = $("#added-act").DataTable()
+$("#comment-table").DataTable()
 $("select").select2();
 
 $("body").on('click', "i.remove", function() {
@@ -43,7 +46,8 @@ $("body").on('click', "i.remove", function() {
 });
 
 $('#date-range').datepicker({
-    toggleActive: true
+    toggleActive: true,
+    startDate: new Date()
 });
 
 
@@ -614,20 +618,20 @@ $("#add-gosm").click(function(e) {
                     ctr++;
                 });
 
-                var tr = '<tr>' +
-                    '<td width="5%" class="text-left">' + data + '</td>' +
-                    '<td width="15%" class="td-title text-left" >' + strategy + '</td>' +
-                    '<td width="15%" class="td-title text-left" >' + targetDateStart + ' - ' + targetDateEnd + '</td>' +
-                    '<td width="35%" class="td-title text-left" >' + description + '</td>' +
-                    '<td width="10%" class="text-nowrap text-center">' +
+                var tr = 
                     '<a  data-toggle="tooltip" data-original-title="Details"> ' +
                     '<i db-id="' + data + '"  class="fa fa-eye text-inverse m-r-10"></i> ' +
                     '</a>' +
                     '<a data-toggle="tooltip" data-original-title="Edit"> <i db-id="' + data + '" class="fa fa-pencil text-inverse m-r-10"></i> </a>' +
-                    '<a  data-toggle="tooltip" data-original-title="Close"> <i db-id="' + data + '" class="fa fa-close text-danger"></i> </a>' +
-                    '</td>' +
-                    '</tr>';
-                $("#added-act tbody").append(tr);
+                    '<a  data-toggle="tooltip" data-original-title="Close"> <i db-id="' + data + '" class="fa fa-close text-danger"></i> </a>';
+                table.row.add([
+                    targetDateStart + ' - ' + targetDateEnd ,
+                    strategy,
+                    description,
+                    tr
+                    ]).draw()
+
+                // $("#added-act tbody").append(tr);
                 // Change Name
                 $("#strategy-name").html(strategy);
                 //Hide Current Toast
