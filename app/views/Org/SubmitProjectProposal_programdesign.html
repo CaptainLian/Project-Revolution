@@ -230,6 +230,9 @@
         id = {{programDesign.length +1}}
         setSched()
         $("select").select2();
+        $("#inp-date").datepicker({
+          startDate: new Date()
+        })
   			$('#createEventModal').modal({ show: false})
   			
         $('.clockpicker1').clockpicker({
@@ -610,7 +613,7 @@
 
                   <div class="form-group">
                     <label class="form-control-label"> Date</label>
-                    <div class="input-group date" data-provide="datepicker">
+                    <div class="input-group date">
                         <input type="text" id="inp-date" class="form-control">
                         <div class="input-group-addon">
                             <span class="glyphicon glyphicon-calendar"></span>
