@@ -2169,71 +2169,117 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 personInCharge = [personInCharge];
             }
 
-            let isRelatedToOrganization = req.body.isRelatedToOrganization;
-            let budget = req.body.budget;
+            var param = {
+                studentorganization: req.session.user.organizationSelected.id
+            }
 
-            return systemModel.getCurrentTerm('id').then(term => {
-                logger.debug(`Current termID: ${term.id}`, log_options);
+            organizationModel.getStudentOrganization(param)
+            .then(organizationData=>{
 
-                /**
-                 * const param = {
-                 *      termID: term.id,
-                 *      studentOrganization
-                 * }
-                 * @type {Object}
-                 */
-                let param = Object.create(null);
-                param.termID = term.id;
-                param.studentOrganization = req.session.user.organizationSelected.id;
-                return gosmModel.getOrgGOSM(param);
-            }).then(gosm => {
-                logger.debug('starting transaction', log_options);
-                return database.tx(transaction => {
-                    const dbParam = {
-                        GOSM: gosm.id,
-                        goals: goals,
-                        objectives: objectives,
-                        strategies: strategy,
-                        description: description,
-                        measures: measures,
-                        targetDateStart: `${startDateSplit[2]}-${startDateSplit[0]}-${startDateSplit[1]}`,
-                        targetDateEnd: `${endDateSplit[2]}-${endDateSplit[0]}-${endDateSplit[1]}`,
-                        activityNature: natureType,
-                        activityType: activityType,
-                        activityTypeOtherDescription: others,
-                        isRelatedToOrganizationNature: isRelatedToOrganization,
-                        budget: budget,
-                        notingosm: notingosm
-                    };
+                console.log(organizationData);
 
-                    if (activityType == 10 && others == null) {
-                        throw new Error('Error activity type others empty');
+                // ASO, CAP12, ENGAGE, PROBE
+                if(organizationData.cluster != 2){
+
+
+                    if(req.body['nature-type'] == 1){
+
+                        var isRelatedToOrganization = true;
+
+                    }
+                    else{
+
+                        var isRelatedToOrganization = false;
+
                     }
 
-                    logger.debug('Inserting GOSM Activity', log_options);
-                    return gosmModel.insertProposedActivity(dbParam, transaction).then(activity => {
-                        logger.debug(`ActivityID: ${activity.activityid}, person-in-charge_length: ${personInCharge.length}`, log_options);
 
-                        let queries = [Promise.resolve(activity.activityid)];
+                }// ASPIRE
+                else{
 
-                        logger.debug('Inserting project heads', log_options);
-                        for (const projectHead of personInCharge) {
-                            const projectHeadParam = Object.create(null);
-                            projectHeadParam.idNumber = parseInt(projectHead);
-                            projectHeadParam.activityID = parseInt(activity.activityid);
+                    if(req.body['nature-type'] == 2){
 
-                            logger.debug(`${projectHead}`, log_options);
-                            queries[queries.length] = gosmModel.insertActivityProjectHead(projectHeadParam, transaction);
+                        var isRelatedToOrganization = true;
+
+                    }
+                    else{
+
+                        var isRelatedToOrganization = false;
+
+                    }
+
+                }
+
+                let budget = req.body.budget;
+
+                return systemModel.getCurrentTerm('id').then(term => {
+                    logger.debug(`Current termID: ${term.id}`, log_options);
+
+                    /**
+                     * const param = {
+                     *      termID: term.id,
+                     *      studentOrganization
+                     * }
+                     * @type {Object}
+                     */
+                    let param = Object.create(null);
+                    param.termID = term.id;
+                    param.studentOrganization = req.session.user.organizationSelected.id;
+                    return gosmModel.getOrgGOSM(param);
+                }).then(gosm => {
+                    logger.debug('starting transaction', log_options);
+                    return database.tx(transaction => {
+                        const dbParam = {
+                            GOSM: gosm.id,
+                            goals: goals,
+                            objectives: objectives,
+                            strategies: strategy,
+                            description: description,
+                            measures: measures,
+                            targetDateStart: `${startDateSplit[2]}-${startDateSplit[0]}-${startDateSplit[1]}`,
+                            targetDateEnd: `${endDateSplit[2]}-${endDateSplit[0]}-${endDateSplit[1]}`,
+                            activityNature: natureType,
+                            activityType: activityType,
+                            activityTypeOtherDescription: others,
+                            isRelatedToOrganizationNature: isRelatedToOrganization,
+                            budget: budget,
+                            notingosm: notingosm
+                        };
+
+                        if (activityType == 10 && others == null) {
+                            throw new Error('Error activity type others empty');
                         }
 
-                        logger.debug('Batching queries', log_options);
-                        return transaction.batch(queries);
+                        logger.debug('Inserting GOSM Activity', log_options);
+                        return gosmModel.insertProposedActivity(dbParam, transaction).then(activity => {
+                            logger.debug(`ActivityID: ${activity.activityid}, person-in-charge_length: ${personInCharge.length}`, log_options);
+
+                            let queries = [Promise.resolve(activity.activityid)];
+
+                            logger.debug('Inserting project heads', log_options);
+                            for (const projectHead of personInCharge) {
+                                const projectHeadParam = Object.create(null);
+                                projectHeadParam.idNumber = parseInt(projectHead);
+                                projectHeadParam.activityID = parseInt(activity.activityid);
+
+                                logger.debug(`${projectHead}`, log_options);
+                                queries[queries.length] = gosmModel.insertActivityProjectHead(projectHeadParam, transaction);
+                            }
+
+                            logger.debug('Batching queries', log_options);
+                            return transaction.batch(queries);
+                        });
                     });
+                }).then(([data]) => {
+                    return res.send(String(data));
+                }).catch(error => {
+                    return logger.error(`${error.message}\n${error.stack}`, log_options);
                 });
-            }).then(([data]) => {
-                return res.send(String(data));
-            }).catch(error => {
-                return logger.error(`${error.message}\n${error.stack}`, log_options);
+
+
+
+            }).catch(error=>{
+                console.log(error);
             });
         },
 
@@ -2438,7 +2484,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     };
 
                     let GOSMParam = Object.create(null);
-
+                    console.log(GOSM)
                     GOSMParam.termID = GOSM[1].termid
                     GOSMParam.studentOrganization = req.session.user.organizationSelected.id;
 
@@ -2448,12 +2494,14 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         gosmModel.getAllActivityTypes(['id', 'name'], task1),
                         gosmModel.getAllActivityNature(['id', 'name'], task1),
                         organizationModel.getStudentsOfOrganization(dbParam),
-                        gosmModel.getOrgGOSM(GOSMParam, task1)
+                        gosmModel.getOrgGOSM(GOSMParam, task1),
+                        gosmModel.getRelated(GOSM[0]),
+                        gosmModel.getNotRelated(GOSM[0])
                     ])
                 });
             }).then(data => {
                 console.log("TTTTTTTTTTTTTTTTTTTTTTTTTTT")
-                console.log(data[0])
+                console.log(data[5])
                 const renderData = Object.create(null);
                 renderData.extra_data = req.extra_data;
                 renderData.csrfToken = req.csrfToken();
@@ -2461,8 +2509,21 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.activityTypes = data[1];
                 renderData.activityNature = data[2];
                 renderData.gosmActivities = data[0];
-
+                renderData.oid = req.session.user.organizationSelected.id;
                 renderData.members = data[3];
+                var rele = parseInt(data[5].related)
+                var nrele = parseInt(data[6].notrelated);
+                renderData.rrelated = Math.round(rele / (rele+nrele)*100);
+                renderData.rnotrelated = Math.round(nrele / (rele+nrele)*100);
+                renderData.related = rele;
+                renderData.notrelated = nrele;
+                console.log("renderData.rrelated")
+                console.log(renderData.rrelated)
+                if(isNaN(renderData.rrelated)){
+                    console.log("renderData.rrelated PUMASOK")
+                    renderData.rrelated = 0
+                    renderData.rnotrelated = 0
+                }
 
                 if (data[4] != undefined) {
                     renderData.status = data[4].status;
@@ -2498,6 +2559,31 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             });
         },
 
+        checkRatio:(req, res)=>{
+
+            database.task(t=>{
+                return  gosmModel.getCurrentTermGOSM(req.session.user.organizationSelected.id,t)
+                        .then(data=>{
+                            console.log(data.id)
+                            return t.batch([
+                                    gosmModel.getRelated(data.id),
+                                    gosmModel.getNotRelated(data.id)
+                                    ])
+
+
+
+                        }).catch(err=>{
+
+                        })
+            }).then(data=>{
+                console.log("REAL DATA")
+                
+                return res.json({related:data[0].related,notrelated:data[1].notrelated})
+            }).catch(err=>{
+                console.log(err)
+            })
+           
+        },
         saveContext: (req, res) => {
             console.log(req.body);
 

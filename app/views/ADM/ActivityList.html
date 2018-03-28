@@ -71,14 +71,21 @@
 	<div class="col-sm-12">
 		<div class="white-box">
 			<h3 class="box-title m-b-0">List of Activities</h3>
-
+            <p class="box-title m-b-0 pull-right">legend:
+                
+                <span class="label label-success">Approved</span>
+                <span class="label label-primary">Pended</span>
+                <span class="label label-danger">Denied</span>
+                <span class="label label-info">Unchecked</span>
+            </p>
+            
 			<div class="table-responsive">
 				<table id="myTable3" class="table table-striped">
 					<thead>
 						<tr>
 							<th class="text-center" width="33%">Event Date</th>
 							<th class="text-center" width="33%">Activity Name</th>
-						<!-- 	<th class="text-center" width="33%">Status</th> -->
+							<th class="text-center" width="33%">Status</th>
 
 						</tr>
 					</thead>
@@ -89,9 +96,9 @@
 							<td class="text-center">{{pa.ddate}}</td>
 							<td class="text-center"><a href="/ADM/Activity/{{pa.GOSMActivity}}" class="btn-lnk">{{pa.strategies}}</a></td>
                             {% if pub.status === 0 %}
-                                <td class="text-center"><span class="label label-warning">{{number[loop.index0].count}} Unapproved</span></td>
+                                <td class="text-center"><span class="label label-info">{{number[loop.index0].count}} Unchecked</span></td>
                             {% elif pub.status === 1 %}
-                                <td class="text-center"><span class="label label-success">Checked</span></td>
+                                <td class="text-center"><span class="label label-success">Approved</span></td>
                             {% elif pub.status === 2 %}
                                 <td class="text-center"><span class="label label-warning">Pended</span></td>
 

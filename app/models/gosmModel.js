@@ -113,6 +113,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
             .field("TO_CHAR(G.targetdatestart,'Mon DD, YYYY') as startdate")
             .field("TO_CHAR(G.targetdatestart,'MM/DD/YYYY') as targetdatestart1")
             .field("TO_CHAR(G.targetdateend,'MM/DD/YYYY') as targetdateend1")
+            .field("G.comments as gcomments")
             .field("*")
             .field("G.ID AS GID")
             .field('P.ID AS PID')
@@ -120,6 +121,26 @@ module.exports = function(configuration, modules, db, queryFiles) {
 
             query = query.toString();
             return connection.any(query);
+        },
+        getRelated:function(gosmid,connection = db){
+             let query= squel.select()
+            .from('GOSMActivity',"G")
+            .where('GOSM = ?',gosmid)
+            .where('isrelatedtoorganizationnature = true')
+            .field('COUNT(id) as related');
+
+            query = query.toString();
+            return connection.one(query);
+        },
+        getNotRelated:function(gosmid,connection = db){
+             let query= squel.select()
+            .from('GOSMActivity',"G")
+            .where('GOSM = ?',gosmid)
+            .where('isrelatedtoorganizationnature = false')
+            .field('COUNT(id) as notrelated');
+
+            query = query.toString();
+            return connection.one(query);
         },
 
         getnotinGOSMActivities: function(GOSMID, fields, connection = db) {
