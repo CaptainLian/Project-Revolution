@@ -2176,14 +2176,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             organizationModel.getStudentOrganization(param)
             .then(organizationData=>{
 
-                console.log("organizationDAta IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII");
-
                 console.log(organizationData);
 
                 // ASO, CAP12, ENGAGE, PROBE
                 if(organizationData.cluster != 2){
 
-                    console.log("YOOOO IS TAMA==============================================");
 
                     if(req.body['nature-type'] == 1){
 
@@ -2200,18 +2197,12 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 }// ASPIRE
                 else{
 
-                    console.log("ASPIRE BROOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
-
                     if(req.body['nature-type'] == 2){
-
-                        console.log("nature type ifffffffffffffffffffffffffffffffffffffffffff")
 
                         var isRelatedToOrganization = true;
 
                     }
                     else{
-
-                        console.log("elseeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
 
                         var isRelatedToOrganization = false;
 
@@ -2290,8 +2281,6 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             }).catch(error=>{
                 console.log(error);
             });
-
-            
         },
 
         createActivityRequirements: (req, res) => {
@@ -2495,7 +2484,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     };
 
                     let GOSMParam = Object.create(null);
-
+                    console.log(GOSM)
                     GOSMParam.termID = GOSM[1].termid
                     GOSMParam.studentOrganization = req.session.user.organizationSelected.id;
 
@@ -2505,12 +2494,14 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         gosmModel.getAllActivityTypes(['id', 'name'], task1),
                         gosmModel.getAllActivityNature(['id', 'name'], task1),
                         organizationModel.getStudentsOfOrganization(dbParam),
-                        gosmModel.getOrgGOSM(GOSMParam, task1)
+                        gosmModel.getOrgGOSM(GOSMParam, task1),
+                        gosmModel.getRelated(GOSM[0]),
+                        gosmModel.getNotRelated(GOSM[0])
                     ])
                 });
             }).then(data => {
                 console.log("TTTTTTTTTTTTTTTTTTTTTTTTTTT")
-                console.log(data[0])
+                console.log(data[5])
                 const renderData = Object.create(null);
                 renderData.extra_data = req.extra_data;
                 renderData.csrfToken = req.csrfToken();
@@ -2518,8 +2509,21 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.activityTypes = data[1];
                 renderData.activityNature = data[2];
                 renderData.gosmActivities = data[0];
-
+                renderData.oid = req.session.user.organizationSelected.id;
                 renderData.members = data[3];
+                var rele = parseInt(data[5].related)
+                var nrele = parseInt(data[6].notrelated);
+                renderData.rrelated = Math.round(rele / (rele+nrele)*100);
+                renderData.rnotrelated = Math.round(nrele / (rele+nrele)*100);
+                renderData.related = rele;
+                renderData.notrelated = nrele;
+                console.log("renderData.rrelated")
+                console.log(renderData.rrelated)
+                if(isNaN(renderData.rrelated)){
+                    console.log("renderData.rrelated PUMASOK")
+                    renderData.rrelated = 0
+                    renderData.rnotrelated = 0
+                }
 
                 if (data[4] != undefined) {
                     renderData.status = data[4].status;
@@ -2555,6 +2559,31 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             });
         },
 
+        checkRatio:(req, res)=>{
+
+            database.task(t=>{
+                return  gosmModel.getCurrentTermGOSM(req.session.user.organizationSelected.id,t)
+                        .then(data=>{
+                            console.log(data.id)
+                            return t.batch([
+                                    gosmModel.getRelated(data.id),
+                                    gosmModel.getNotRelated(data.id)
+                                    ])
+
+
+
+                        }).catch(err=>{
+
+                        })
+            }).then(data=>{
+                console.log("REAL DATA")
+                
+                return res.json({related:data[0].related,notrelated:data[1].notrelated})
+            }).catch(err=>{
+                console.log(err)
+            })
+           
+        },
         saveContext: (req, res) => {
             console.log(req.body);
 

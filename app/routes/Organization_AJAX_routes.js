@@ -5,6 +5,8 @@ module.exports = function(configuration, modules, router, controllers){
 
 	//Pag add ng activity
 	router.post(`${base}/createGOSM`, controllers.Organization_controller.inputCreateGOSM);
+
+	router.post(`${base}/checkRatio`, controllers.Organization_controller.checkRatio);
 	//Pass with status change
 	router.post(`${base}/submitGOSM`, controllers.Organization_controller.submitGOSM);
 
