@@ -21,10 +21,16 @@
     {{tag.style('/plugins/bower_components/lobipanel/dist/css/lobipanel.min.css')}}
     {{tag.style('/plugins/bower_components/custom-select/custom-select.css')}}
     {{tag.style('/plugins/bower_components/bootstrap-daterangepicker/daterangepicker.css')}}
+
+    {{tag.style('/plugins/bower_components/datatables/jquery.dataTables.min.css')}}
+    {{tag.style('http://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css')}}
     <!-- Animation CSS -->
     {{tag.style('/css/animate.css')}}
     <!-- Custom CSS -->
     {{tag.style('/css/style.css')}}
+
+
+    
     <!-- {{tag.style('/css/styleCustom.css')}} -->
     {{tag.style('/plugins/bower_components/jqueryui/jquery-ui.min.css')}}
     <!-- color CSS you can use different color css from css/colors folder -->
@@ -78,6 +84,8 @@
     {{- tag.javascript('/plugins/bower_components/custom-select/custom-select.min.js', true)}}
     {{- tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
 
+    {{- tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
+
     {{- tag.javascript('/plugins/bower_components/lobipanel/dist/js/lobipanel.min.js', true)}}
     {{- tag.javascript('/plugins/bower_components/toast-master/js/jquery.toast.js', true)}}
     {{tag.javascript('/js/custom.min.js', true)}}
@@ -93,7 +101,7 @@
     <nav class="nav-tab-custom">
         <ul>
             <li id="home-tab" ><a  href="#section-linebox-1"><span>Proposed Activity</span></a></li>
-            <li id="other-tab"><a href="#section-linebox-2"><span>Added Activites</span></a></li>  
+            <li id="other-tab"><a href="#section-linebox-2"><span>Added Activites (<label id="rel">{{rrelated}}</label>/<label id="notrel">{{rnotrelated}}</label>)</span></a></li>  
             {%if status == 4 or status ==5%}          
             <li id="comment-tab"><a href="#section-linebox-3"><span>Comments</span></a></li>            
             {%endif%}
@@ -220,12 +228,12 @@
 
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group" style="display: none">
                             <label class="control-label col-md-3">Related to Organization</label>
                             <div class="col-md-9">
                                 <div class="radio-list">
-                                    <label>
-                                        <input type="radio" name="isRelatedToOrganization" value="true"> Yes </label>
+                                    <label id="yes">
+                                        <input type="radio" name="isRelatedToOrganization" value="true" checked="checked"> Yes </label>
                                         <label>
                                         <input type="radio"  name="isRelatedToOrganization" value="false" > No </label>
                                 </div>
@@ -268,13 +276,17 @@
             <div class="panel ">
               
                 <div class="panel-body">
+                    <div class="text-left">
+                        <h2>You have <label id="rele">{{related}}</label> organization related events and <label id=nrele>{{notrelated}}</label> non related</h2>
+                    </div>
                     <table id="added-act" class="table table-hover">
                         <thead>
                             <tr>
-                                <th width="5%">#</th>
-                                <th width="15%">Title</th>
-                                <th width="15%">Date</th>
-                                <th width="35%">Description</th>
+                                <th width="15%" class="text-center">Date</th>
+                                <th class="text-center" width="15%">Title</th>
+                                
+                             
+                                <th width="35%" class="text-center" >Description</th>
                                 <th width="10%" class="text-center">Actions</th>
                                 
                             </tr>
@@ -282,10 +294,10 @@
                         <tbody>
                             {% for activities in gosmActivities %}
                                 <tr>
-                                    <td class="text-left"  >{{loop.index}}</td>
-                                    <td class="text-left td-title" >{{activities.strategies}}</td>
-                                    <td class="text-left td-title" >{{activities.targetdatestart1}} - {{activities.targetdateend1}}</td>
-                                    <td class="text-left td-title" >{{activities.description}}</td>
+                                    <td class="text-center td-title" >{{activities.targetdatestart1}} - {{activities.targetdateend1}}</td>
+                                    <td class="text-center td-title" >{{activities.strategies}}</td>
+                                    
+                                    <td class="text-center td-title" >{{activities.description}}</td>
                                     <td class="text-center text-nowrap">
                                         <a  data-toggle="tooltip" data-original-title="Details"> 
                                             <i db-id="{{activities.gid}}"  class="fa fa-eye text-inverse m-r-10"></i> 
@@ -327,12 +339,12 @@
                     </div>
                     
                 </div>
-                <table  class="table table-hover">
+                <table id="comment-table"  class="table table-hover">
                     <thead>
                         <tr>
-                            <th width="5%">#</th>
-                            <th width="15%">Title</th>
-                            <th width="60%">Comments</th>
+                           
+                            <th class="text-center" width="15%">Title</th>
+                            <th width="60%" class="text-center">Comments</th>
                             
                             
                         </tr>
@@ -340,9 +352,9 @@
                     <tbody>
                         {% for activities in gosmActivities %}
                         <tr>
-                            <td class="text-left">{{loop.index}}</td>
-                            <td class="text-left">{{activities.strategies}}</td>
-                            <td class="text-left td-title" >{{activities.comments}}</td>
+                            
+                            <td class="text-center">{{activities.strategies}}</td>
+                            <td class="text-center td-title" >{{activities.gcomments}}</td>
                         </tr>
                         {%endfor%}
                     </tbody>
@@ -561,7 +573,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger waves-effect text-left" id="edit">Edit</button>
+                <button type="button" class="btn btn-muted waves-effect text-left" data-dismiss="modal">Close</button>
             </div>
         </div>
         <!-- /.modal-content -->
