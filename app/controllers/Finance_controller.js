@@ -515,18 +515,12 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 
 								}).catch(error=>{
-									console.log(error);
-									console.log("DITO MALIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII");
+									logger.error(`${error.message}\n${error.stack}`);
 								});
-
 							}
-
-
-
 						}).catch(error=>{
-							console.log(error);
+							logger.error(`${error.message}\n${error.stack}`);
 						});
-
             		}
 
             		details.signatory = currentSignatoryDetails.idNumber;
@@ -564,19 +558,15 @@ module.exports = function(configuration, modules, models, database, queryFiles){
             //TODO: move function to accountModel
 			financeModel.pendDirectPayment(dbParam).then(data=>{
 				console.log("successfully pended direct payment");
-
-				financeModel.pendDirectPaymentTable(dbParam)
-				.then(data1=>{
-
+                //TODO: Flatten promise
+				financeModel.pendDirectPaymentTable(dbParam).then(data1=>{
 					//TODO: notifications
 					res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
 				}).catch(error=>{
-					console.log(error);
+					logger.error(`${error.message}: ${error.stack}`);
 				})
-
-
 			}).catch(error=>{
-				console.log(error);
+				logger.error(`${error.message}: ${error.stack}`);
 			});
 		},
 
@@ -723,20 +713,14 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 									expenses: deductexpense
 								}
 
-								financeModel.deductExpenses(deductParam)
-								.then(deduct=>{
-
+								financeModel.deductExpenses(deductParam).then(deduct=>{
 
 								}).catch(error=>{
-									console.log(error);
+									logger.error(`${error.message}: ${error.stack}`);
 								});
-
 							}
-
-
-
 						}).catch(error=>{
-							console.log(error);
+							logger.error(`${error.message}: ${error.stack}`);
 						});
 					}
 
@@ -784,6 +768,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		},
 
 		approveReimbursement: (req, res) =>{
+            logger.info('call approveReimbursement()', log_options);
+
 			var dbParam = {
 				reimbursement: req.body.reimbursementId,
 				gosmactivity: req.body.gosmactivity,
@@ -799,7 +785,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		},
 
 		pendReimbursement: (req, res) =>{
-
+            logger.info('call pendReimbursement()', log_options);
 
 			var dbParam = {
 				reimbursement: req.body.reimbursementId,
@@ -808,17 +794,15 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			}
 
 			financeModel.pendReimbursement(dbParam).then(data=>{
-
 				console.log("successfully pended reimbursement");
 				res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
-
 			}).catch(error=>{
-				console.log(error);
+				logger.error(`${error.message}: ${error.stack}`);
 			});
 		},
 
 		approveBookTransfer: (req, res) =>{
-
+            logger.info('call approveBookTransfer()', log_options);
 
 			var dbParam = {
 				booktransfer: req.body.bookTransferId,
@@ -853,36 +837,29 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 							expenses: deductexpense
 						}
 
-						financeModel.deductExpenses(deductParam)
-						.then(deduct=>{
-
+                        //TODO: Flatten promise
+						financeModel.deductExpenses(deductParam).then(deduct=>{
 							console.log("successfully approved book transfer");
 							res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
-
 						}).catch(error=>{
-							console.log(error);
+							logger.error(`${error.message}: ${error.stack}`);
 						});
-
 					}
 					else{
 						console.log("successfully approved book transfer");
 						res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
 					}
-
-
 				}).catch(error=>{
-					console.log(error);
+					logger.error(`${error.message}: ${error.stack}`);
 				});
-
-
 			}).catch(error=>{
-				console.log(error);
+				logger.error(`${error.message}: ${error.stack}`);
 			});
 
 		},
 
 		pendBookTransfer: (req, res) =>{
-
+            logger.info('call pendBookTransfer()', log_options);
 
 			var dbParam = {
 				booktransfer: req.body.bookTransferId,
@@ -892,20 +869,16 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				explain:req.body.explain
 			}
 
-			financeModel.pendBookTransfer(dbParam)
-			.then(data=>{
-
+			financeModel.pendBookTransfer(dbParam).then(data=>{
 				console.log("successfully pended book transfer");
 				res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
-
-
 			}).catch(error=>{
-				console.log(error);
+				logger.error(`${error.message}: ${error.stack}`);
 			});
-
 		},
 
 		viewFinanceList: (req, res) => {
+            logger.info('call viewFinanceList()', log_options);
 
 			console.log("My user type is");
 			console.log(req.session.user.type);
@@ -942,14 +915,13 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		    }
 
 	        if (financeList){
-
 		        database.task(t =>{
-					return t.batch([financeModel.getActivitiesWithFinancialDocuments(),
-									financeModel.getTransactionTotalPerActivity(),
-									financeModel.getApprovedTransactionTotalPerActivity()]);
-				})
-				.then(data=>{
-
+					return t.batch([
+						financeModel.getActivitiesWithFinancialDocuments(),
+						financeModel.getTransactionTotalPerActivity(),
+						financeModel.getApprovedTransactionTotalPerActivity()
+					]);
+				}).then(data => {
 					const renderData = Object.create(null);
 		           	renderData.extra_data = req.extra_data;
 
@@ -989,25 +961,16 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 					//next();
 
 				}).catch(error=>{
-					console.log(error);
+					logger.error(`${error.message}: ${error.stack}`);
 				});
-
 	        }
 	    	else{
-
-
 	    		return res.render('System/403');
-
 	    	}
-
-
-
-
-
 		},
 
 		viewTransaction: (req, res) => {
-
+            logger.info('call viewTransaction()', log_options);
 
 			//TODO: error check if user may enter page
 			// current assumes user is authorized to view activity
@@ -1050,10 +1013,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				});
 
             } else{
-
             	console.log("user reaches this point of if");
-
-
+            	
             	var viewTransaction = false;
 
 			    if (req.session.user.type == 1){
@@ -1132,32 +1093,23 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 								return res.render('Finance/ViewActivityTransaction', renderData);
 							}).catch(error=>{
 								console.log(error);
-
 							});
 
 		            	} else{
-
 	    					return res.render('System/403');
-
 		            	}
-
 		            }).catch(error=>{
 		            	console.log("error is in the new query 1");
-		            	console.log(error);
+		            	logger.error(`${error.message}: ${error.stack}`);
 		            });
-
-
 	           	}else{
-
 	    			return res.render('System/403');
-
 	           	}
-
             }
-
 		},
 
 		createPreactsCashAdvance: (req, res) => {
+            logger.info('call createPreactsCashAdvance()', log_options);
 
 			var dbParam = {
 				gosmactivity: req.params.gosmactivity
@@ -1166,7 +1118,6 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			var addTransaction = false;
 
 		    if (req.session.user.type == 1){
-
 		    	const ACL = req.extra_data.user.accessControl[req.session.user.organizationSelected.id];
 		    	if(ACL[25] || ACL[26]){
 		    		addTransaction = true;
@@ -1174,7 +1125,6 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		    	else{
 		    		addTransaction = false;
 		    	}
-
 		    }
 		    else{
 		    	addTransaction = false;
@@ -1233,7 +1183,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		//Cash Advance
 		submitPreacts: (req, res) => {
-			logger.debug('submitPreacts()', log_options);
+			logger.info('call submitPreacts()', log_options);
 			console.log(req.body);
 
 			var dbParam = {
@@ -1322,6 +1272,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		},
 
 		createPreactsDirectPayment: (req, res) => {
+            logger.info('call createPreactsDirectPayment()', log_options);
 
 			var dbParam = {
 				gosmactivity: req.params.gosmactivity
@@ -1414,7 +1365,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		},
 
 		submitPreactsDirectPayment: (req, res) => {
-			logger.debug('submitPreactsDirectPayment()', log_options);
+			logger.info('call submitPreactsDirectPayment()', log_options);
 
 			var dir3 = __dirname + '/../assets/upload/';
             var dir3 = path.join(__dirname, '..', 'assets', 'upload');
@@ -1504,17 +1455,6 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 	            }
 
-
-
-
-
-
-
-
-
-
-
-
 	            return financeModel.insertPreActivityDirectPayment(dbParam, transaction).then(data => {
 	            	let query = [];
 
@@ -1536,7 +1476,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		},
 
 		createReimbursement: (req, res) => {
-
+            logger.info('call createPreactsBookTransfer()', log_options);
 
 			var dbParam = {
 				gosmactivity: req.params.gosmactivity
@@ -1620,6 +1560,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		},
 
 		submitReimbursement: (req, res) =>{
+            logger.info('call createPreactsBookTransfer()', log_options);
+
 			var dbParam = {
 				gosmactivity: req.body.gosmactivity,
 				justificationfdpp: req.body.justificationdelay,
@@ -1658,7 +1600,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		},
 
 		createPreactsBookTransfer: (req, res) => {
-
+            logger.info('call createPreactsBookTransfer()', log_options);
 			var dbParam = {
 				gosmactivity: req.params.gosmactivity
 			};
@@ -1726,11 +1668,10 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		    else{
 	    		return res.render('System/403');
 		    }
-
 		},
 
 		submitPreactsBookTransfer: (req, res) =>{
-			logger.debug('submitPreactsBookTransfer()', log_options);
+            logger.info('call submitPreactsBookTransfer()', log_options);
 
 			console.log(req.body);
 
@@ -1770,7 +1711,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		},
 
 		editPreactsCashAdvance: (req, res) =>{
-
+            logger.info('call editPreactsCashAdvance()', log_options);
 			var dbParam = {
 				id: req.params.id
 			};
@@ -1781,7 +1722,6 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 	                            financeModel.getCashAdvanceParticulars(dbParam),
 	                            financeModel.getCashAdvancePendSignatory(dbParam)]);
 			}).then(data=>{
-
 				if (data[0].status == 2 && data[0].submittedBy == req.session.user.idNumber){
 
 					const renderData = Object.create(null);
@@ -1829,21 +1769,19 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			        }).catch(error=>{
 			        	return logger.error(`${error.message}\n${error.stack}`, log_options);
 			        });
-
 				}
 				else{
 	    			return res.render('System/403');
 				}
-
-
 			}).catch(error=>{
-				console.log(error);
+				logger.error(`${error.message}\n${error.stack}`);
 			});
 
 
 		},
 
 		editPreactsDirectPayment: (req, res) =>{
+            logger.info('call editPreactsDirectPayment()', log_options);
 
 	    	var dbParam = {
 				id: req.params.id
@@ -1875,27 +1813,20 @@ module.exports = function(configuration, modules, models, database, queryFiles){
    			        	renderData.justification = true;
    			        }
 
-
-
-
 		            renderData.csrfToken = req.csrfToken();
-
-
-						return res.render('Finance/Preacts_EditDirectPayment', renderData);
-
+					return res.render('Finance/Preacts_EditDirectPayment', renderData);
 				}
 				else{
 	    			return res.render('System/403');
 				}
-
-
 			}).catch(error=>{
-				console.log(error);
+				logger.error(`${error.message}: ${error.stack}`, log_options);
 			});
 
 		},
 
 		editPreactsBookTransfer: (req, res) =>{
+            logger.info('call editPreactsBookTransfer()', log_options);
 
 			var dbParam = {
 				id: req.params.id
@@ -1931,16 +1862,14 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				else{
 	    			return res.render('System/403');
 				}
-
-
 			}).catch(error=>{
-				console.log(error);
+				logger.error(`${error.message}\n${error.stack}`);
 			});
 
 		},
 
 		editReimbursement: (req, res) =>{
-
+            logger.info('call editReimbursement()', log_options);
 			var dbParam = {
 				id: req.params.id
 			};
@@ -1988,17 +1917,13 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				else{
 	    			return res.render('System/403');
 				}
-
-
 			}).catch(error=>{
-				console.log(error);
+				logger.error(`${error.message}\n${error.stack}`);
 			});
-
-
 		},
 
 		submitEditCashAdvance: (req, res) =>{
-
+            logger.info('call submitEditCashAdvance()', log_options);
 			console.log(req.body);
 
 			var dbParam = {
@@ -2053,9 +1978,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
                 ]).then(result => {
                     console.log(result);
                 }).catch(err => {
-                    console.log(err);
+                   logger.error(`${error.message}\n${error.stack}`);
                 });
-
 
             	let query = [
             		financeModel.resubmitCashAdvance(dbParam, t),
@@ -2073,18 +1997,15 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
                 return t.batch(query);
             }).then(data => {
-
                 return res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
-
 			}).catch(error=>{
-				console.log(error);
+				logger.error(`${error.message}\n${error.stack}`);
 			});
-
-
-
 		},
 
 		submitEditDirectPayment: (req, res) =>{
+			logger.info('call submitEditDirectPayment()', log_options);
+
 			console.log(req.body);
 
 			var dbParam = {
@@ -2169,11 +2090,12 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			}).then(data=>{
 				return res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
 			}).catch(error=>{
-				console.log(error);
+				logger.error(`${error.message}\n${error.stack}`);
 			});
 		},
 
 		submitEditBookTransfer: (req, res) =>{
+			logger.info('call submitEditBookTransfer()', log_options);
 			console.log(req.body);
 
 			var dbParam = {
@@ -2190,13 +2112,12 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			}).then(data=>{
 				return res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
 			}).catch(error=>{
-				console.log(error);
+				logger.error(`${error.message}\n${error.stack}`);
 			});
 		},
 
 		submitEditReimbursement: (req, res) =>{
-
-			console.log(req.body);
+            logger.info('call submitEditReimbursement()', log_options);
 
 			var dbParam = {
 				id: req.body.id,
@@ -2213,7 +2134,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			}).then(data=>{
 				return res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
 			}).catch(error=>{
-				console.log(error);
+				logger.error(`${error.message}\n${error.stack}`);
 			});
 
 		}
