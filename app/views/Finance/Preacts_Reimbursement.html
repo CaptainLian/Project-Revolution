@@ -81,110 +81,100 @@
 
 {%block content%}
 <form action="/transaction/submitReimbursement" encType="multipart/form-data" id="form-id" class="form-horizontal" method="POST">
-                        <input type="hidden" name="_csrf" value="{{csrfToken}}">
-
-                        <input type="hidden" name="gosmactivity" value="{{gosmactivity}}">
-<div class="row">
-                    <div class="col-md-12">
-                        <div class="panel panel-success">
-                            <div class="panel-heading">Reimbursement</div>
-                            <div class="panel-wrapper collapse in" aria-expanded="true">
-                                <div class="panel-body">
-                                   
-                                        <div class="form-body">
-                                            <div class="row" >
-                                                        <div class="col-sm-12">
-                                                            <h3 class="box-title m-t-40">Payment Requisition Slip<span class="badge btn-circle btn-xs btn-success pull-right" data-toggle="tooltip" title="Click on the particulars field to add an expense to the cash advance request"><span class="fa fa-question"></span></span></h3>
-                                                            <hr>
-                                                            <div class="row">
-                                                                <div class="col-md-12 ">
-                                                                    <div class="form-group row form-inline">
-                                                                        <label class="col-md-3">Particulars</label>
-                                                                        <!-- food, accomodation, others, venue, transportation, honorarium, cash prize, cor -->
-                                                                        <select id="ca_particular" class="col-md-9 select2 m-b-10 select2-multiple"  multiple="multiple" data-placeholder="Choose" name="particulars">
-                                                                            <!-- data-item ="name of particular" data-type="expense type" <>data-item<>-->
-                                                                           
-
-                                                                            {% for particular in particulars %}
-    
-                                                                                <option value="{{particular.id}}" data-item="{{particular.material}}" data-amount="{{particular.unitcost}}" data-quantity ="{{particular.quantity}}" data-type="{{particular.name}}">{{particular.material}}</option>
-
-                                                                            {% endfor %}
-
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-12 ">
-                                                            
-                                                        </div>
+    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+    <input type="hidden" name="gosmactivity" value="{{gosmactivity}}">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-success">
+                <div class="panel-heading">Reimbursement</div>
+                <div class="panel-wrapper collapse in" aria-expanded="true">
+                    <div class="panel-body">
+                        
+                        <div class="form-body">
+                            <div class="row" >
+                                <div class="col-sm-12">
+                                    <h3 class="box-title m-t-40">Payment Requisition Slip<span class="badge btn-circle btn-xs btn-success pull-right" data-toggle="tooltip" title="Click on the particulars field to add an expense to the cash advance request"><span class="fa fa-question"></span></span></h3>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-12 ">
+                                            <div class="form-group row form-inline">
+                                                <label class="col-md-3">Particulars</label>
+                                                <!-- food, accomodation, others, venue, transportation, honorarium, cash prize, cor -->
+                                                <select id="ca_particular" class="col-md-9 select2 m-b-10 select2-multiple"  multiple="multiple" data-placeholder="Choose" name="particulars">
+                                                    <!-- data-item ="name of particular" data-type="expense type" <>data-item<>-->
+                                                    
+                                                    {% for particular in particulars %}
                                                         
-                                                                <div class="col-md-12 ">
-                                                                    <div class="form-group row form-inline">
-                                                                        <label class="col-md-3">Total Amount</label>
-                                                                        <p id='ca_amount' class="col-md-9 tab-2" ></p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                        </div>
-
-                                                        <div class="col-sm-12">
-                                                            <h3 class="box-title m-t-40">Memo</h3>
-                                                            <hr>
-                                                            <br>
-                                                            <table id="memoTable" class="table table-bordered m-b-0">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>Particulars</th>
-                                                                        <th>Amount</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody id='memo_body'>
-                                                                   <tr>
-
-                                                                  </tr>
-                                                              </tbody>
-                                                              <tfoot>
-                                                              </tfoot>
-                                                          </table>
-                                                          <br>
-                                                          <!-- COMMENT: Only show this div if the reimbursement is requested 30 days after the activity-->
-
-                                                            {% if justification %}
-
-                                                                <div class ='col-md-12' >
-                                                                    <div class="col-md-12 m-b-10" >
-                                                                        <label  style="">Justification for Delayed PRS Processing</label>
-                                                                        <textarea name="justificationdelay" style="width: 100%;"  required=""></textarea>   
-                                                                    </div>
-                                                                </div>
-
-                                                            {% endif %}
-                                                            
-                                                            <!-- COMMENT: Only show this div if the particulars selected amounts to >1000-->
-                                                            <div class ='col-md-12' style="display: none" id="justification">
-                                                                <div class="col-md-12 m-b-10" >
-                                                                    <label  style="">Justification for not using Cash Advance/Direct Payment</label>
-                                                                    <textarea id="justificationinput" name="nodpjustification" style="width: 100%;"  required=""></textarea>   
-                                                                </div>
-                                                            </div>
-                                                            
-                                                        </div>
-                                                        
-                                                    </div>
+                                                        <option value="{{particular.id}}" data-item="{{particular.material}}" data-amount="{{particular.unitcost}}" data-quantity ="{{particular.quantity}}" data-type="{{particular.name}}">{{particular.material}}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
                                         </div>
-                                        <div class="form-actions">
+                                        <div class="col-md-12 ">
                                             
                                         </div>
+                                        
+                                        <div class="col-md-12 ">
+                                            <div class="form-group row form-inline">
+                                                <label class="col-md-3">Total Amount</label>
+                                                <p id='ca_amount' class="col-md-9 tab-2" ></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <h3 class="box-title m-t-40">Memo</h3>
+                                    <hr>
+                                    <br>
+                                    <table id="memoTable" class="table table-bordered m-b-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Particulars</th>
+                                                <th>Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id='memo_body'>
+                                            <tr>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot>
+                                        </tfoot>
+                                    </table>
+                                    <br>
+                                    <!-- COMMENT: Only show this div if the reimbursement is requested 30 days after the activity-->
+                                    {% if justification %}
+                                        <div class ='col-md-12' >
+                                            <div class="col-md-12 m-b-10" >
+                                                <label  style="">Justification for Delayed PRS Processing</label>
+                                                <textarea name="justificationdelay" style="width: 100%;"  required=""></textarea>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    
+                                    <!-- COMMENT: Only show this div if the particulars selected amounts to >1000-->
+                                    <div class ='col-md-12' style="display: none" id="justification">
+                                        <div class="col-md-12 m-b-10" >
+                                            <label  style="">Justification for not using Cash Advance/Direct Payment</label>
+                                            <textarea id="justificationinput" name="nodpjustification" style="width: 100%;"  required=""></textarea>
+                                        </div>
+                                    </div>
                                     
                                 </div>
-                                <div class="panel-footer text-center">                                                    
-                                    <button type="submit" class="btn btn-success" id='submitButton' onclick="submit()">Submit</button>
-                                    <button type="button" class="btn btn-default">Cancel</button>                                
-                                </div>
+                                
                             </div>
                         </div>
+                        <div class="form-actions">
+                            
+                        </div>
+                        
+                    </div>
+                    <div class="panel-footer text-center">
+                        <button type="submit" class="btn btn-success" id='submitButton' onclick="submit()">Submit</button>
+                        <button type="button" class="btn btn-default">Cancel</button>
                     </div>
                 </div>
-                </form>
+            </div>
+        </div>
+    </div>
+</form>
 {%endblock%}

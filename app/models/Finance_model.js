@@ -3,16 +3,13 @@
 module.exports = function(configuration, modules, database, queryFiles){
     const squel = require('squel').useFlavour('postgres');
 
-
-	const FinanceModel = Object.create(null);
-    
-
     const attachFields = require('../utility/databaseHelper').attachFields;
 
     const logger = modules.logger;
     const log_options = Object.create(null);
     log_options.from = 'Finance-Model';
 
+    const FinanceModel = Object.create(null);
 
     const insertPreActivityCashAdvanceSQL = queryFiles.insertPreActivityCashAdvance;
 	FinanceModel.insertPreActivityCashAdvance = function(param, connection = database) {
@@ -33,7 +30,7 @@ module.exports = function(configuration, modules, database, queryFiles){
     FinanceModel.getActivitiesWithFinancialDocuments = function(connection = database){
         return connection.any(getActivitiesWithFinancialDocumentsSQL);
     };
-   
+
     const getTransactionTotalPerActivitySQL = queryFiles.getTransactionTotalPerActivity;
     FinanceModel.getTransactionTotalPerActivity = function(connection = database){
         return connection.any(getTransactionTotalPerActivitySQL);
@@ -266,7 +263,7 @@ module.exports = function(configuration, modules, database, queryFiles){
     const getOrganizationBudgetExpensesSQL = queryFiles.getOrganizationBudgetExpenses;
     FinanceModel.getOrganizationBudgetExpenses = function(param, connection = database){
         return connection.oneOrNone(getOrganizationBudgetExpensesSQL, param);
-    }; 
+    };
 
     const pendDirectPaymentTableSQL = queryFiles.pendDirectPaymentTable;
     FinanceModel.pendDirectPaymentTable = function(param, connection = database){
@@ -377,43 +374,84 @@ module.exports = function(configuration, modules, database, queryFiles){
         return connection.any(query, param);
     };
 
-    
-    const getNextSignantorySQL = queryFiles.finance_get_next_signatory;
+    const getNextSignantorySQL = squel.select()
+        .field('"signatory"', '"idNumber"')
+        .from(squel.select()
+            .from('"${financeSignatoryTable}"')
+            .where('"${column}" = ${value}')
+            .where('"status" = 0'), '"sl"')
+            .left_join('"FinanceSignatoryType"', '"fst"', '"sl"."type" = "fst"."id"')
+        .order('"fst"."lineup"', true)
+        .limit(1)
+        .toString();
 
     FinanceModel.getPreActivityDirectPaymentNextSignatory = (directPaymentID, connection = database) => {
         logger.info(`getPreActivityDirectPaymentNextSignatory(directPaymentID: ${directPaymentID})`, log_options);
-        let query = squel.select()
-            .from('"PreActivityDirectPaymentSignatory"', '"padps"')
-                .left_join('"FinanceSignatoryType"', '"fst"', '"padps"."type" = "fst"."id"')
-            .where('"padps"."status" = 0')
-            .where('"padps"."directPayment" = ${directPayment}')
-            .order('"fst"."lineup"', true)
-            .limit(1)
-            .toString();
 
         let param = Object.create(null);
-        param.directPayment = directPaymentID;
+        param.financeSignatoryTable = 'PreActivityDirectPaymentSignatory';
+        param.column = 'directPayment';
+        param.value = directPaymentID;
 
-        logger.debug(`Executing query: ${query}`, log_options);
-        return connection.oneOrNone(query, param);
+        logger.debug(`Executing query: ${getNextSignantorySQL}`, log_options);
+        return connection.oneOrNone(getNextSignantorySQL, param);
     };
 
     FinanceModel.getPreActivityCashAdvanceNextSignatory = (cashAdvanceID, connection = database) => {
         logger.info(`getPreActivityCashAdvanceNextSignatory(cashAdvanceID: ${cashAdvanceID})`, log_options);
-        let query = squel.select()
-            .from('"PreActivityCashAdvanceSignatory"', '"pacas"')
-                .left_join('"FinanceSignatoryType"', '"fst"', '"pacas"."type" = "fst"."id"')
-            .where('"pacas"."status" = 0')
-            .where('"pacas"."cashAdvance" = ${cashAdvance}')
-            .order('"fst"."lineup"', true)
-            .limit(1)
-            .toString();
 
         let param = Object.create(null);
-        param.cashAdvance = cashAdvanceID;
+        param.financeSignatoryTable = 'PreActivityCashAdvanceSignatory';
+        param.column = 'cashAdvance';
+        param.value = cashAdvanceID;
+
+        logger.debug(`Executing query: ${getNextSignantorySQL}`, log_options);
+        return connection.oneOrNone(getNextSignantorySQL, param);
+    };
+
+    const getAllSignatorySQL = squel.select()
+        .from(squel.select()
+            .from('"{financeSignatoryTable}"')
+            .where('"${column}" = ${value}'), '"sl"')
+            .left_join('"FinanceSignatoryType"', '"fst"', '"sl"."type" = "fst"."id"')
+            .order('"fst"."lineup"', true)
+            .limit(1);
+
+    const queryAllSignatory = (financeSignatoryTable, column, value, fields, connection) => {
+        logger.info(`call queryAllSignatory(financeSignatoryTable: ${financeSignatoryTable}, column: ${column}, value: ${value})`, log_options);
+        let query = getAllSignatorySQL.clone();
+        attachFields(query, fields);
+        query = query.toString();
+
+        let param = Object.create(null);
+        param.financeSignatoryTable = financeSignatoryTable;
+        param.column = column;
+        param.value = value;
 
         logger.debug(`Executing query: ${query}`, log_options);
-        return connection.oneOrNone(query, param);
+        return connection.many(query, param);
+    };
+
+    FinanceModel.getPreActivityDirectPaymentAllSignatory = (directPaymentID, fields, connection = database) => {
+        logger.info(`call getPreActivityDirectPaymentAllSignatory(directPaymentID: ${directPaymentID})`, log_options);
+
+        return queryAllSignatory('PreActivityDirectPaymentSignatory',
+            'directPayment',
+            directPaymentID,
+            fields,
+            connection
+        );
+    };
+
+    FinanceModel.getPreActivityCashAdvanceAllSignatory = (cashAdvanceID, fields, connection = database) => {
+        logger.info(`call getPreActivityDirectPaymentAllSignatory(cashAdvanceID: ${cashAdvanceID})`, log_options);
+
+        return queryAllSignatory('PreActivityDirectPaymentSignatory',
+            'PreActivityCashAdvanceSignatory',
+            cashAdvanceID,
+            fields,
+            connection
+        );
     };
 
 	return FinanceModel;

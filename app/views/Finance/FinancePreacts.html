@@ -79,121 +79,94 @@
 {%endblock%}
 
 {%block content%}
-<div class="row">
-
-                    <div class="col-md-12">
-                        <div class="panel panel-success">
-                            <div class="panel-heading">Pre-Activity Finance Documents</div>
-                            <div class="panel-wrapper collapse in" aria-expanded="true">
-                                <div class="panel-body">
-                                    <form action="#" class="form-horizontal">
-                                        <div class="form-body">
-                                          <div class="row" >
-                                                                                <div class="col-sm-12">
-                                                                                    <h3 class="box-title m-t-40">Payment Requisition Sliptest</h3>
-                                                                                    <hr>
-                                                                                    <div class="row">
-                                                                                        <div class="col-md-12 ">
-                                                                                            <div class="form-group row">
-                                                                                                <label class="col-md-3">Name of Establishment</label>
-                                                                                                <input class="form-control col-md-9" type="text">
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="col-md-12 ">
-                                                                                            <div class="form-group row">
-                                                                                                <label class="col-md-3">Amount</label>
-                                                                                                <input class="form-control col-md-9" >
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        
-                                                                                
-                                                                                        
-                                                                                    </div>
-                                                                                    
-                                                                                </div> 
-                                                                                
-                                                                                <div class="col-sm-12">
-                                                                                    <h3 class="box-title m-t-40">Memo </h3>
-                                                                                    <hr>
-                                                                                    <br>
-
-                                                                                    <div class="col-md-6">
-                                                                                        <label  style="">Reason for Delayed PRS Processing</label>    
-                                                                                    </div>
-                                                                                    <div class="col-md-6">
-                                                                                        <textarea name="dp-memo" style="width: 100%"></textarea>
-                                                                                    </div>
-
-                                                                                </div>
-                                                                                <div class="col-md-12">
-                                                                                    <h3 class="box-title m-t-40">Upload </h3>
-                                                                                    <hr>
-                                                                                    <br>
-                                                                                    <div class="row">
-                                                                                        <div class="col-md-12 m-10">
-                                                                                            <div class="col-md-4  text-left">
-                                                                                                <label  style="">1. General Attendance List Sheet</label>    
-                                                                                            </div>
-                                                                                            <div class="col-md-8">
-                                                                                                <input style="" type="file" accept=".pdf, .odt, .odp, .ods" name="...">    
-                                                                                            </div>
-                                                                                            
-                                                                                            
-                                                                                            
-                                                                                        </div>
-                                                                                        <div class="col-md-12 m-10">
-                                                                                            <div class="col-md-4  text-left">
-                                                                                                <label  style="">2. Formal Quotation</label>    
-                                                                                            </div>
-                                                                                            <div class="col-md-8">
-                                                                                                <input style="" type="file" accept=".pdf, .odt, .odp, .ods" name="...">    
-                                                                                            </div>
-                                                                                            
-                                                                                            
-                                                                                            
-                                                                                        </div>
-                                                                                        <div class="col-md-12 m-10">
-                                                                                            <div class="col-md-4  text-left">
-                                                                                                <label  style="">3. ROF</label>    
-                                                                                            </div>
-                                                                                            <div class="col-md-8">
-                                                                                                <input style="" type="file" accept=".pdf, .odt, .odp, .ods" name="...">    
-                                                                                            </div>
-                                                                                            
-                                                                                            
-                                                                                            
-                                                                                        </div>
-
-                                                                                    </div>
-
-                                                                        
-                                                                                </div> 
-
-                                                                                
-                                                                                
-                                                                            </div>
-
+<form action="#" class="form-horizontal">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-success">
+                <div class="panel-heading">Pre-Activity Finance Documents</div>
+                <div class="panel-wrapper collapse in" aria-expanded="true">
+                    <div class="panel-body">
+                        <div class="form-body">
+                            <div class="row" >
+                                <div class="col-sm-12">
+                                    <h3 class="box-title m-t-40">Payment Requisition Sliptest</h3>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-12 ">
+                                            <div class="form-group row">
+                                                <label class="col-md-3">Name of Establishment</label>
+                                                <input class="form-control col-md-9" type="text">
+                                            </div>
                                         </div>
-                                        <!-- /content -->
+                                        <div class="col-md-12 ">
+                                            <div class="form-group row">
+                                                <label class="col-md-3">Amount</label>
+                                                <input class="form-control col-md-9" >
+                                            </div>
+                                        </div>
                                     </div>
+                                </div>
+                                    
+                                <div class="col-sm-12">
+                                    <h3 class="box-title m-t-40">Memo </h3>
+                                    <hr>
+                                    <br>
+                                    <div class="col-md-6">
+                                        <label  style="">Reason for Delayed PRS Processing</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <textarea name="dp-memo" style="width: 100%"></textarea>
+                                    </div>
+                                </div>
 
-                                </div>                        
-                            </div>                                                                                            
-                        </div>     
+                                <div class="col-md-12">
+                                    <h3 class="box-title m-t-40">Upload </h3>
+                                    <hr>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-12 m-10">
+                                            <div class="col-md-4  text-left">
+                                                <label  style="">1. General Attendance List Sheet</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <input style="" type="file" accept=".pdf, .odt, .odp, .ods" name="...">
+                                            </div>
+                                            
+                                        </div>
 
+                                        <div class="col-md-12 m-10">
+                                            <div class="col-md-4  text-left">
+                                                <label  style="">2. Formal Quotation</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <input style="" type="file" accept=".pdf, .odt, .odp, .ods" name="...">
+                                            </div>   
+                                        </div>
+
+                                        <div class="col-md-12 m-10">
+                                            <div class="col-md-4  text-left">
+                                                <label  style="">3. ROF</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <input style="" type="file" accept=".pdf, .odt, .odp, .ods" name="...">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-actions">
-
-                    </div>
-            </div>
-            <div class="panel-footer text-center">                                                    
-                <button type="submit" class="btn btn-success" id='submitButton'>Submit</button>
-                <button type="button" class="btn btn-default">Cancel</button>                                
-            </form>
-
+                </div>
             </div>
         </div>
     </div>
-</div>
-</div>
+
+    <div class="form-actions">
+    </div>
+
+    <div class="panel-footer text-center">
+        <button type="submit" class="btn btn-success" id='submitButton'>Submit</button>
+        <button type="button" class="btn btn-default">Cancel</button>
+    </div>
+</form>
 {%endblock%}
