@@ -2246,7 +2246,8 @@ $trigger$
         SELECT COALESCE(MAX(sequence) + 1, 1) INTO STRICT NEW.sequence
           FROM ProjectProposalSourceFunds
          WHERE projectProposal = NEW.projectProposal;
-        return NEW;
+         
+        RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
 CREATE TRIGGER before_insert_ProjectProposalSourceFunds
@@ -2265,13 +2266,13 @@ CREATE TABLE ProjectProposalAttachment (
     filenametoShow TEXT,
     directory TEXT NOT NULL,
 
-    PRIMARY KEY (projectProposal, requirement, sequence)
+    PRIMARY KEY (id)
 );
 CREATE TRIGGER "before_insert_ProjectProposalAttachment_id"
     BEFORE INSERT ON ProjectProposalAttachment
     FOR EACH ROW
     EXECUTE PROCEDURE "trigger_before_insert_id"('projectproposalattachment');
-
+/*
 CREATE OR REPLACE FUNCTION trigger_before_insert_ProjectProposalAttachment()
 RETURNS TRIGGER AS
 $trigger$
@@ -2286,7 +2287,7 @@ CREATE TRIGGER before_insert_ProjectProposalAttachment
     BEFORE INSERT ON ProjectProposalAttachment
     FOR EACH ROW
     EXECUTE PROCEDURE trigger_before_insert_ProjectProposalAttachment();
-
+*/
   /* Project Proposal Signatories */
 DROP TABLE IF EXISTS SignatoryStatus CASCADE;
 CREATE TABLE SignatoryStatus (
@@ -2394,6 +2395,8 @@ $trigger$
         UPDATE ProjectProposal
            SET timesPended = timesPended + 1
          WHERE GOSMActivity = NEW.GOSMActivityID;
+
+         RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
 CREATE TRIGGER "after_update_ProjectProposalSignatory_completion"

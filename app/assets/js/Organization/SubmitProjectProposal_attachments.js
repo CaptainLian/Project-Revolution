@@ -1,10 +1,10 @@
-var AttachmentType;
+var AttachmentType, attachmentVal = 0;
 var toAdd="";
 $("select").select2();
 
 $("select").trigger('change');
 $('#attachmentModal').modal({ show: false});
-$("input[type='file']").change(function(){
+$("input[type='file']").on('change',function(){
 	console.log("PUMASOK");
 	console.log($(this).val().split(/[\\/]/g).pop());
 	var text = $(this).closest('div.fileinput.fileinput-new.input-group').find('span.fileinput-filename');
@@ -16,19 +16,24 @@ $("input[type='file']").change(function(){
 $('#addBtn').click(function(event) {
 	$('#attachmentModal').modal('show');
 	AttachmentType = $('#types option:selected').text();
-		
+	
 });
 $(document.body).on('change','#types',function(event) {
 		// AttachmentType = $(this).val();
+		console.log("BAFT")
+	attachmentVal  = $(this).val()
 	AttachmentType = $('#types option:selected').text();
+
+
 	console.log(AttachmentType);
 
 });
 $('#insertBtn').click(function(event) {
+	console.log("BEF")
 	toAdd = '<div class="form-group row">'+
                 '<label class="col-sm-3 offset-md-2">'+AttachmentType+'</label>'+
                     '<div class="col-sm-5">'+
-                    
+                    '<input type="hidden" value="'+attachmentVal+'" name="attachmentOthers[]">'+
                         '<div class="fileinput fileinput-new input-group" data-provides="fileinput">'+
                             '<div class="form-control" data-trigger="fileinput">'+
                                 '<i class="glyphicon glyphicon-file fileinput-exists"></i>'+

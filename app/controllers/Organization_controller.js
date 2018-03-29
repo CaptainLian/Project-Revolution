@@ -1650,7 +1650,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         return gosmModel.getGOSMActivityAttachmentRequirement(data[0].activitytype, task);
 
                     }),
-                    projectProposalModel.getLatestProjectProposalAttachment(gl)
+                    projectProposalModel.getLatestProjectProposalAttachment(gl,task)
 
                 ])
 
@@ -3640,88 +3640,111 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 'application/pdf'
             ];
 
-            database.task(task => {
+            database.tx(task => {
 
                 return gosmModel.getGOSMActivityType(req.body.activityId, undefined, task).
-                then(data => {
-                    console.log("DATA");
-                    console.log(data[0].activitytype);
-                    return gosmModel.getGOSMActivityAttachmentRequirement(data[0].activitytype, task);
+                    then(data => {
+                        console.log("DATA");
+                        console.log(data);
+                        return task.batch([
+                            projectProposalModel.getLatestVersionAttachment(req.body.pid,task),
+                            gosmModel.getGOSMActivityAttachmentRequirement(data[0].activitytype,task)
+                            ]).then(data=>{
+                                    var ctr = 0;
+                                    console.log("data")
+                                    console.log(data[0])
 
-                });
+                                    let files = req.files['uploadfile[]'] ? req.files['uploadfile[]'] : req.files.uploadFile;
+                                    if (!Array.isArray(files)) {
+                                        files = [files];
+                                    }
+                                    var seq = 1;
+                                    if(!isNaN(data[0][0].latest)){
+                                        console.log("PUMASOK SA VERSION")
+                                        seq = data[0][0].latest + 1;
+                                    }
+                                    var result = data[1].map(function(e){
+                                        return e.id
+                                    })
+                                    result = result.concat(req.body['attachmentOthers[]'])
+                                    // console.log(data);
+                                    console.log("TYPE OF ONE UPLOAD");
+                                    console.log(typeof files[Symbol.iterator]);
+                                    if (typeof files[Symbol.iterator] == 'function') {
+                                        
+                                        console.log("result")
+                                        console.log(result)
+                                        console.log(req.body['attachmentOthers[]'])
+
+                                        for (var file of files) {
+                                            // console.log(file);
+                                            // console.log("file");
+                                            // console.log(data[ctr].id);
+
+                                            var date = cuid();
+                                            var nFilename = file.name.split('.').pop();
+                                            console.log("new File name");
+                                            console.log(nFilename);
+                                            var db = {
+                                                projectId: req.body.pid,
+                                                requirement: result[ctr],
+                                                dir: dir2 + file.name + ' - ' + date,
+                                                idNumber: req.session.user.idNumber,
+                                                filename: date + '.' + nFilename,
+                                                filenametoShow: file.name,
+                                                sequence:seq
+
+                                            };
+                                            console.log("FILE");
+                                            console.log(db);
+                                            console.log(path.normalize(path.join(dir2, date + '.' + nFilename)));
+                                            var p = path.normalize(path.join(dir2, date + '.' + nFilename));
+                                            Promise.all([
+                                                file.mv(p),
+                                                projectProposalModel.insertProjectProposalAttachment(db,task)
+
+                                            ]).then(result => {
+                                                console.log(result);
+                                            }).catch(err => {
+                                                console.log(err);
+                                            });
+                                            ctr++
+                                        }
+                                    } else if (typeof files[Symbol.iterator] == 'undefined') {
+                                        var file = files;
+                                        var nFilename = file.name.split('.').pop();
+                                        console.log("new File name");
+                                        var date = cuid();
+                                        var db = {
+                                            projectId: req.body.pid,
+                                            requirement: result[ctr],
+                                            dir: dir2 + file.name + ' - ' + date,
+                                            idNumber: req.session.user.idNumber,
+                                            filename: date + '.' + nFilename,
+                                            filenametoShow: file.name,
+                                            sequence:seq
+
+                                        };
+
+                                        console.log("FILE");
+                                        var p = path.normalize(path.join(dir2, date + '.' + nFilename));
+                                        console.log(path.normalize(path.join(dir2, date + '.' + nFilename)));
+                                        Promise.all([
+                                                file.mv(p),
+                                                projectProposalModel.insertProjectProposalAttachment(db,task)
+
+                                            ]).then(result => {
+                                                console.log(result);
+                                            }).catch(err => {
+                                                console.log(err);
+                                            });
+                                    }
+                            })  
+                        
+                     });
 
             }).then(data => {
-                var ctr = 0;
-
-                let files = req.files['uploadfile[]'] ? req.files['uploadfile[]'] : req.files.uploadFile;
-                if (!Array.isArray(files)) {
-                    files = [files];
-                }
-
-                console.log(files);
-                console.log("TYPE OF ONE UPLOAD");
-                console.log(typeof files[Symbol.iterator]);
-                if (typeof files[Symbol.iterator] == 'function') {
-                    for (var file of files) {
-                        // console.log(file);
-                        // console.log("file");
-                        // console.log(data[ctr].id);
-
-                        var date = cuid();
-                        var nFilename = file.name.split('.').pop();
-                        console.log("new File name");
-                        console.log(nFilename);
-                        var db = {
-                            projectId: req.body.pid,
-                            requirement: data[ctr].id,
-                            dir: dir2 + file.name + ' - ' + date,
-                            idNumber: req.session.user.idNumber,
-                            filename: date + '.' + nFilename,
-                            filenametoShow: file.name
-
-                        };
-                        console.log("FILE");
-                        console.log(path.normalize(path.join(dir2, date + '.' + nFilename)));
-                        var p = path.normalize(path.join(dir2, date + '.' + nFilename));
-                        Promise.all([
-                            file.mv(p),
-                            projectProposalModel.insertProjectProposalAttachment(db)
-
-                        ]).then(result => {
-                            console.log(result);
-                        }).catch(err => {
-                            console.log(err);
-                        });
-                        ctr++
-                    }
-                } else if (typeof files[Symbol.iterator] == 'undefined') {
-                    var file = files;
-                    var nFilename = file.name.split('.').pop();
-                    console.log("new File name");
-                    var date = cuid();
-                    var db = {
-                        projectId: req.body.pid,
-                        requirement: data[ctr].id,
-                        dir: dir2 + file.name + ' - ' + date,
-                        idNumber: req.session.user.idNumber,
-                        filename: date + '.' + nFilename,
-                        filenametoShow: file.name
-
-                    };
-
-                    console.log("FILE");
-                    var p = path.normalize(path.join(dir2, date + '.' + nFilename));
-                    console.log(path.normalize(path.join(dir2, date + '.' + nFilename)));
-                    Promise.all([
-                        file.mv(p),
-                        projectProposalModel.insertProjectProposalAttachment(db)
-
-                    ]).then(result => {
-                        console.log(result);
-                    }).catch(err => {
-                        console.log(err);
-                    });
-                }
+               
 
 
                 // console.log("DATA1");
