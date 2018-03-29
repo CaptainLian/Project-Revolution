@@ -181,7 +181,7 @@ $(document).ready(function(){
                     '<td >' + itemName + '</td>' +
 
                     '<td></td>' +
-                    '<td class="text-right"><strong>₱</strong>' + ((quantity * price).toLocaleString()) + '</td>' +
+                    '<td class="text-right"><strong>₱</strong>' + ((quantity * price).toFixed(2).toLocaleString()) + '</td>' +
                     '<td class="text-center">' +
                     '<span class="mytooltip tooltip-effect-1">' +
                     '<span class="tooltip-item" style="background-color:white;padding:0px"><i class="fa fa-comment-o view-details" ></i>  </span>' +
@@ -208,10 +208,10 @@ $(document).ready(function(){
                 };
                 item["exp"][key] = obj;
                 $("#exp").prop("checked",true);
-                $("#texp").text(exp().toLocaleString());
+                $("#texp").text(exp().toFixed(2).toLocaleString());
                 $("#org-exp").val(parseFloat(exp()));
                 $("#org-exp").trigger('change')
-                $("#tfin").text((rev() - exp()).toLocaleString());
+                $("#tfin").text((rev() - exp()).toFixed(2).toLocaleString());
 
 
 
@@ -222,7 +222,7 @@ $(document).ready(function(){
                     '<td >' + itemName + '</td>' +
 
 
-                    '<td class="text-right"><strong>₱</strong>' + ((quantity * price).toLocaleString()) + '</td>' +
+                    '<td class="text-right"><strong>₱</strong>' + ((quantity * price).toFixed(2).toLocaleString()) + '</td>' +
                     '<td></td>' +
                     '<td class="text-center">' +
                     '<span class="mytooltip tooltip-effect-1">' +
@@ -251,8 +251,8 @@ $(document).ready(function(){
                 };
                 item["rev"][key] = obj;
 
-                $("#trev").text(rev().toLocaleString());
-                $("#tfin").text((rev() - exp()).toLocaleString());
+                $("#trev").text(rev().toFixed(2).toLocaleString());
+                $("#tfin").text((rev() - exp()).toFixed(2).toLocaleString());
 
             }
            
@@ -272,11 +272,11 @@ $(document).ready(function(){
             $("#"+keyDiv).remove();
             
             tr.remove();
-            $("#texp").text(exp().toLocaleString());
+            $("#texp").text(exp().toFixed(2).toLocaleString());
             $("#org-exp").val(parseFloat(exp()));
             $("#org-exp").trigger('change')
-            $("#trev").text(rev().toLocaleString());
-            $("#tfin").text((rev() - exp()).toLocaleString());
+            $("#trev").text(rev().toFixed(2).toLocaleString());
+            $("#tfin").text((rev() - exp()).toFixed(2).toLocaleString());
             console.log(item);
             console.log("REMOVE TIME")
         })
@@ -293,11 +293,11 @@ $(document).ready(function(){
             $("#"+keyDiv).remove();
             
             tr.remove();
-            $("#texp").text(exp().toLocaleString());
+            $("#texp").text(exp().toFixed(2).toLocaleString());
             $("#org-exp").val(parseFloat(exp()));
             $("#org-exp").trigger('change')
-            $("#trev").text(rev().toLocaleString());
-            $("#tfin").text((rev() - exp()).toLocaleString());
+            $("#trev").text(rev().toFixed(2).toLocaleString());
+            $("#tfin").text((rev() - exp()).toFixed(2).toLocaleString());
             console.log(item);
             console.log("REMOVE TIME")
         })
@@ -320,9 +320,9 @@ $(document).ready(function(){
     
 
     $("#ope-fund, #dep-fund, #oth-fund, #org-exp, #pat-exp, #oth2-exp").change(function() {
-        $("#tcd").text(fund().toLocaleString());
-        $("#tpe").text(exp2().toLocaleString());
-        $("#rb").text((fund() - exp2()).toLocaleString())
+        $("#tcd").text(fund().toFixed(2).toLocaleString());
+        $("#tpe").text(exp2().toFixed(2).toLocaleString());
+        $("#rb").text((fund() - exp2()).toFixed(2).toLocaleString())
     });
     $("#ope-fund").trigger("change");
 
@@ -432,11 +432,11 @@ $(document).ready(function(){
         console.log("ASd");
     });
 
-    $("#texp").text(exp().toLocaleString());
+    $("#texp").text(parseFloat(exp()).toFixed(2).toLocaleString());
     $("#org-exp").val(parseFloat(exp()));
     $("#org-exp").trigger('change')
-                $("#trev").text(rev().toLocaleString());
-                $("#tfin").text((rev() - exp()).toLocaleString());
+                $("#trev").text(rev().toFixed(2).toLocaleString());
+                $("#tfin").text((rev() - exp()).toFixed(2).toLocaleString());
 
     
 })
