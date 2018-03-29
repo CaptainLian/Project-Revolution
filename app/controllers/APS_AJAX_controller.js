@@ -166,8 +166,16 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         console.log("asdasdasdasdasdklajsdlkajsdlakjsdlkasjdlaskjdalksjd")
         console.log(req.body)
         if(comment != ' '){
+            console.log("PUMASOK")
         // if(comment == ' '){
-            return projectProposalModel.approvePPResched(req.body.activityID, comment,req.body.status).then(data=>{
+            database.task(t=>{
+                return t.batch([
+                            projectProposalModel.approvePPResched(req.body.activityID, comment,req.body.status)
+                            
+
+                        ])
+             
+            }).then(data=>{
                 res.json({status:1});
             }).catch(err=>{
                 res.json({status:0});
@@ -181,9 +189,10 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     console.log("data")
                     console.log(data)
                     return t.batch([
-                            projectProposalModel.updateProjectProposalActualDate(req.body.activityID,data.rescheduledates),
-                            projectProposalModel.updateProjectProposalPD(data.prid,data.rescheduledates),
-                            projectProposalModel.approvePPResched(req.body.activityID, comment,req.body.status)
+                            projectProposalModel.updateProjectProposalActualDate(req.body.activityID,data.rescheduledates,t),
+                            projectProposalModel.updateProjectProposalPD(data.prid,data.rescheduledates,t),
+                            projectProposalModel.updateVenueAttachment(req.body.activityID),
+                            projectProposalModel.approvePPResched(req.body.activityID, comment,req.body.status,t)
                         ]).catch(err => {
                    console.log(err)
                 });
@@ -230,7 +239,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             req.files['file'].mv(pg)
             return t.batch([
                 projectProposalModel.updatePPResched(req.body.activityID, req.body.reason, req.body.date, req.body.others, 6,t),
-                projectProposalModel.updateVenueAttachment(req.body.activityID, vrtFilename, vrtFilenameToShow, req.session.user.idNumber)
+                projectProposalModel.updateVenueAttachmentRequest(req.body.activityID, vrtFilename, vrtFilenameToShow, req.session.user.idNumber,t)
             ])    
         }).then(data=>{
             res.json({status:1});

@@ -329,12 +329,32 @@ module.exports = function(configuration, modules, db, queryFiles) {
         param.id = id;
         return connection.any(query, param);
     };
-     ProjectProposalModel.prototype.updateVenueAttachment = function(id,filename, filenameToShow, idNumber, connection = this._db){
+    ProjectProposalModel.prototype.updateVenueAttachmentRequest = function(id,filename, filenameToShow, idNumber, connection = this._db){
+        let query = squel.update()
+        .table("projectProposal")
+        .set("venueFilename",filename)
+        .set("venueFilenameToShow",filenameToShow)
+        .set("venueCreated", idNumber)        
+        .where("ID = ?",id)
+        
+        
+        return connection.any(query.toString());
+    };
+     ProjectProposalModel.prototype.updateVenueAttachment = function(id, connection = this._db){
         let query = squel.update()
         .table("ProjectProposalAttachment")
-        .set("filename",filename)
-        .set("filenameToShow",filenameToShow)
-        .set("idNumber", idNumber)
+        .set("filename", squel.select()
+                              .from("PROJECTPROPOSAL")
+                              .field("venueFilename")
+                              .where("ID = ?",id))
+        .set("filenameToShow", squel.select()
+                              .from("PROJECTPROPOSAL")
+                              .field("venueFilenameToShow")
+                              .where("ID = ?",id))
+        .set("idNumber",  squel.select()
+                              .from("PROJECTPROPOSAL")
+                              .field("venueCreated")
+                              .where("ID = ?",id))
         .where("SEQUENCE = ?", squel.select()
                               .from("ProjectProposalAttachment")
                               .where("PROJECTPROPOSAL = ?",id)
@@ -343,7 +363,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
         .where("requirement = 3")
         .where("PROJECTPROPOSAL = ?",id)
         
-        
+        console.log(query.toString())
         return connection.any(query.toString());
     };
 
@@ -473,7 +493,8 @@ module.exports = function(configuration, modules, db, queryFiles) {
                         .from('GOSM', 'G')
                         .left_join('GOSMACTIVITY','GA',' G.ID = GA.GOSM')
                         .left_join('PROJECTPROPOSAL','PP',' GA.ID = PP.GOSMACTIVITY')
-                        .left_join(squel.select().from("ProjectProposalAttachment").field("MAX(SEQUENCE)").field("*").where('REQUIREMENT = 3').group("PROJECTPROPOSAL").group("ID"),'PPA',' PP.ID = PPA.projectProposal')                        
+
+                        // .left_join(squel.select().from("ProjectProposalAttachment").field("MAX(SEQUENCE)").field("*").where('REQUIREMENT = 3').group("PROJECTPROPOSAL").group("ID"),'PPA',' PP.ID = PPA.projectProposal')                        
                         .left_join('PROJECTPROPOSALRESCHEDULEREASON','PPRR',' PP.RESCHEDULEREASON = PPRR.ID')
                                                    
                         .where('G.termID = ?',squel.str('system_get_current_term_id()'))
