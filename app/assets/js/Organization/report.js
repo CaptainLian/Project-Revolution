@@ -6,6 +6,7 @@
     $('#amtTable').dataTable();
     $('#finTable').dataTable();
     $('#memSurTable').dataTable();
+    $('#docuTable').dataTable();
     //Start of Online officer survey form results
     //      new Chart(document.getElementById("bar-chart1"), {
     //         type: 'bar',

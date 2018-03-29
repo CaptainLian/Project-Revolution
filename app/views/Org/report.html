@@ -91,66 +91,6 @@
     {{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
     {{tag.javascript('/js/Organization/report.js', true)}}
 
-<!--  <script>
-        window.onscroll = function() {scrollFunction()};
-        //aps grades
-        //60 40 ratio
-        var academic = {{sixty}};
-        var nonAcademic = {{forty}};
-        //push thrgouh ratio
-        var numPush = {{push}};
-        var numNotPush = {{notPush}};
-        //activities summary
-        var numAcademicContest;
-        var numDistribution;
-        var numGeneralAssembly;
-        var numSeminar;
-        var numPublicity;
-        var numMeetings;
-        var numSpiritualActivity;
-        var numRecruitment;
-        var numRecreation;
-        var numDistribution;
-        
-        //amt tab
-        //logistics chart 
-        var venue = {{amtAverageScores.venue}};
-        var equipment = {{amtAverageScores.equipment}};
-
-        //activity process
-        var openingStart = {{amtAverageScores.timestart}};
-        var timeEnd = {{amtAverageScores.timeend}};
-        var activityExec = {{amtAverageScores.activityexecution}};
-        var Registration = {{amtAverageScores.registration}};
-
-        //audience feedback
-        var Announcement = {{amtAverageScores.personea}};
-        var Interaction = {{amtAverageScores.personiomwm}};
-        var expectation = {{amtAverageScores.personea}};
-        var Awareness = {{amtAverageScores.personiitskoa}};
-
-        //programdesign
-        var Hosts = {{amtAverageScores.hosts}};
-        var Ushers = {{amtAverageScores.facilitators}};
-        var Presentations = {{amtAverageScores.presentation}};
-        var activities = {{amtAverageScores.activities}};
-        var standingPresentation = {{amtAverageScores.organizationstandingpresentation}};
-
-        function scrollFunction() {
-            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-                document.getElementById("myBtn").style.display = "block";
-            } else {
-                document.getElementById("myBtn").style.display = "none";
-            }
-        }
-
-        // When the user clicks on the button, scroll to the top of the document
-        function topFunction() {
-            document.body.scrollTop = 0;
-            document.documentElement.scrollTop = 0;
-        }
-    </script>
- -->
     <!-- /Page Scripts -->
 {%endblock%}
 
@@ -180,7 +120,66 @@
                                     <h4 class="text text-megna col-md-12"><strong>Documentation Grade</strong></h4>
                                 </div>
                             </div>
-
+                            
+                                <!-- Documentation table -->
+                                <table class="table table-striped" id="docuTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Grade</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                            <tr>
+                                                <td>Pre-Acts Punctuality</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Pre-acts Completeness</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Post-acts Punctuality</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Post-acts Completeness</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Timing</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>GOSM Submission</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Pushed-Through</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Not in GOSM Compliance</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>60/40</td>
+                                                <td></td>
+                                            </tr>
+                                            
+                                        
+                                        <!-- amt grade ay average ng percentage ng lahat ng evaluated activity -->
+                                        
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <td><strong>Documentation Grade</strong></td>
+                                        <td><strong>{{amtScore | round(2)}}%</strong></td>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            
+    
                             <div class="row row-in">
                                 <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
                                     <div class="col-in row">
@@ -597,12 +596,14 @@
                                 </div>
                             </div> 
                         </section>
+                        <!-- PNP GRADE -->
                         <section id="section-bar-2" class="">
                             <div class="row text-center">
                                 <div class="col-md-12">
                                     <h4 class="text text-megna col-md-12"><strong>Publicity and Production Grade</strong></h4>
                                 </div>
                             </div>
+
                             <div class="row row-in">
                                 <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
                                     <div class="col-in row">
@@ -634,16 +635,7 @@
                                             </div>
                                         </div>
                                         <!--/ADM -->
-                                        <div class="row">
-                                            <div class="col-lg-4">
-                                                <div class="white-box text-center">
-                                                    <h3 class="box-title">60/40 ratio</h3>
-                                                    <div>
-                                                        <canvas id="chart3" height="150"></canvas>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-sm-6  b-0">
@@ -658,21 +650,7 @@
                                             <div class="progress">
                                                 <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
                                             </div>
-                                            <div class="col-lg-4">
-                                                <div class="white-box text-center">
-                                                    <h3 class="box-title">ACTIVITIES SUMMARY</h3>
-                                                    <div>
-                                                        <canvas id="chart5" height="150"> </canvas>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        </section>
-                                        <section id="section-bar-2" class="">
-                                        <div class="row text-center">
-                                            <div class="col-md-12">
-                                                <h4 class="text text-megna col-md-12"><strong>Publicity and Production Grade</strong></h4>
-                                            </div>
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -693,10 +671,10 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            
-                            <!--/ADM -->
+                                
                         </section>
+                        
+                        <!-- ORGRES GRADE -->
                         <section id="section-bar-3" class="">
                             <div class="row text-center">
                                 <div class="col-md-12">
@@ -1098,6 +1076,7 @@
                             
                             <!--/ADM -->
                         </section>
+                        <!-- FINANCE GRADE -->
                         <section id="section-bar-4">
                             <div class="row row-in">
                                 
@@ -1209,7 +1188,9 @@
                             </table>
                             
                         </section>
-                        <section id="section-bar5">
+
+                        <!-- AMT GRADE -->
+                        <section id="section-bar-5">
                             <div class="col-lg-3 col-sm-6  row-in-br  b-r-none">
                                 <div class="col-in row">
                                     <div class="col-md-6 col-sm-6 col-xs-6 text-center">
@@ -1259,7 +1240,6 @@
                                 </tr>
                                 </tfoot>
                             </table>
-                            
                         </section>
                         
                         
