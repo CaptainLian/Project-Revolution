@@ -1133,7 +1133,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             
                             "to_char(pppd.date, 'MM/DD/YYYY') AS datestart",
                             
-                        ])
+                        ]),
+                        gosmModel.getTermEndDate()
+
                     ]);
                 }).catch(err => {
                     console.log(err)
@@ -1154,6 +1156,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.projectHeads = data[4];
                 renderData.attachment = data[5];
                 renderData.signatories = data[6];
+                renderData.termend = data[8]
                 renderData.withExpense = data[1].length > 0;
                 renderData.withRevenue = data[2].length > 0;
                 renderData.limit = data[3][data[3].length -1]["dayid"]
