@@ -70,6 +70,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             logger.info('viewGOSMList()', log_options);
 
             const renderData = Object.create(null);
+            renderData.csrfToken = req.csrfToken();
             renderData.extra_data = req.extra_data;
 
             gosmModel.getOrgAllGOSM(
@@ -87,6 +88,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             const renderData = Object.create(null);
             console.log(req.param)
             renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
             return res.render('Org/changePassword');
         },
         viewAddMember: (req, res) => {
@@ -1001,6 +1003,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                     console.log(renderData)
                     renderData.extra_data = req.extra_data;
+                    renderData.csrfToken = req.csrfToken();
                     return res.render('Org/report', renderData);
 
 
@@ -1028,31 +1031,37 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
         viewNotInGosmList: (req, res) => {
             const renderData = Object.create(null);
+            renderData.csrfToken = req.csrfToken();
             renderData.extra_data = req.extra_data;
             return res.render('Org/NotInGosmList');
         },
         viewNotInGosmMain: (req, res) => {
             const renderData = Object.create(null);
+            renderData.csrfToken = req.csrfToken();
             renderData.extra_data = req.extra_data;
             return res.render('Org/submitNotInGosm_main');
         },
         viewNotInGosmAttachments: (req, res) => {
             const renderData = Object.create(null);
+            renderData.csrfToken = req.csrfToken();
             renderData.extra_data = req.extra_data;
             return res.render('Org/submitNotInGosm_attachments');
         },
         viewNotInGosmBriefContext: (req, res) => {
             const renderData = Object.create(null);
+            renderData.csrfToken = req.csrfToken();
             renderData.extra_data = req.extra_data;
             return res.render('Org/SubmitNotInGosm_briefContext');
         },
         viewNotInGosmExpense: (req, res) => {
             const renderData = Object.create(null);
+            renderData.csrfToken = req.csrfToken();
             renderData.extra_data = req.extra_data;
             return res.render('Org/submitNotInGosm_expense');
         },
         viewNotInGosmProgramDesign: (req, res) => {
             const renderData = Object.create(null);
+            renderData.csrfToken = req.csrfToken();
             renderData.extra_data = req.extra_data;
             return res.render('Org/submitNotInGosm_programdesign');
         },
@@ -1965,7 +1974,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         viewOfficers: (req, res) => {
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
-            renderData.csrf = req.csrfToken();
+            renderData.csrfToken = req.csrfToken();
 
             return res.render('Org/Officers', renderData);
         },
@@ -1991,6 +2000,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 //TODO: add signatories and score
             }).then(data => {
                 const renderData = Object.create(null);
+                renderData.csrfToken = req.csrfToken();
                 renderData.extra_data = req.extra_data;
 
                 renderData.actWithPPR = data[0];
@@ -2556,6 +2566,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
         viewGOSMDetails: (req, res) => {
             const renderData = Object.create(null);
+            renderData.csrfToken = req.csrfToken();
             renderData.extra_data = req.extra_data;
             console.log(req.params.orgid)
             gosmModel.getGOSMActivities(req.params.orgid).then(data => {
