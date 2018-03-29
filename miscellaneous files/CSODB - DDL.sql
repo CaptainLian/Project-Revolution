@@ -2405,16 +2405,18 @@ CREATE OR REPLACE FUNCTION "trigger_after_update_ProjectProposalSignatory_counte
 RETURNS TRIGGER AS
 $trigger$
     BEGIN
-        UPDATE ProjectProposal
-           SET timesPended = timesPended + 1
-         WHERE GOSMActivity = NEW.GOSMActivityID;
-
-         RETURN NEW;
+        IF NEW.status = 4 THEN
+            UPDATE ProjectProposal
+               SET timesPended = timesPended + 1
+             WHERE GOSMActivity = NEW.GOSMActivityID;
+        END IF;
+        
+        RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
 CREATE TRIGGER "after_update_ProjectProposalSignatory_completion"
     AFTER UPDATE ON ProjectProposalSignatory
-    FOR EACH ROW WHEN (NEW.status = 4)
+    FOR EACH ROW WHEN (OLD.status <> NEW.status)
     EXECUTE PROCEDURE "trigger_after_update_ProjectProposalSignatory_counter"();
 
     /* Load balancing of Proposals */
