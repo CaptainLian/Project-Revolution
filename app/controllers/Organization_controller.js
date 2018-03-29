@@ -165,6 +165,12 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     var notInGOSM = false;
                     var lasallianFormationCompliance = false;
 
+                    console.log("data[0] IS ================================================================");
+                    console.log(data[0]);
+                    console.log("data[1] IS ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+                    console.log(data[1]);
+
+
                     if(data[2] != null){
 
                         if(data[2].orggosmsubmitted == null){

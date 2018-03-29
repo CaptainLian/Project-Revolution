@@ -388,8 +388,6 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
             }
 
-            
-
             logger.debug(`Signatories: ${JSON.stringify(renderData.signatories)}`, log_options);
             logger.debug('rendering page', log_options);
             return res.render('APS/ProjectProposal_sign', renderData);
