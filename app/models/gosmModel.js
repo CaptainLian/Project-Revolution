@@ -127,6 +127,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
             .from('GOSMActivity',"G")
             .where('GOSM = ?',gosmid)
             .where('isrelatedtoorganizationnature = true')
+            .where('isingosm = true')
             .field('COUNT(id) as related');
 
             query = query.toString();
@@ -137,6 +138,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
             .from('GOSMActivity',"G")
             .where('GOSM = ?',gosmid)
             .where('isrelatedtoorganizationnature = false')
+            .where('isingosm = true')
             .field('COUNT(id) as notrelated');
 
             query = query.toString();

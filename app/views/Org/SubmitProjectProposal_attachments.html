@@ -112,11 +112,11 @@
 	                        	</div>
 	                        <!--/row-->
 	                    	</div>
-		         
+		         	<div class="text-center"><button class="btn btn-info" id='addBtn'>Add attachments</button></div>
 		                
 	           		</div>
            		 	<div class="panel-footer text-center">
-           		 		<button class="btn btn-info" id='addBtn'>Add attachments</button>
+           		 		
 		                <button type="submit" class="btn btn-success"> <i class="fa fa-save"></i> &nbspSave</button>
 		                <a href="/Organization/ProjectProposal/Main/{{gid}}/{{status}}" type="button" class="btn btn-default">Cancel</a>
             		</div>
@@ -136,8 +136,8 @@
 			<div class="modal-body">
 				<label>Attachment type</label>
 				<select name="" id="types" class="form-control">
-					<option value="" >-- Select One --</option>
-					<option value="0" data-name="Mechanics">Mechanics</option>
+					<option value=""  disabled="">-- Select One --</option>
+					<option value="0" selected="" data-name="Mechanics">Mechanics</option>
 					<option value="1">Letter for use of Different Venues in Campus</option>
 					<option value="2">Sample Design</option>
 					<option value="3">Venue Reservation Ticket</option>
