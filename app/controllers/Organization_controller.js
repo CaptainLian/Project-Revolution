@@ -1650,7 +1650,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         return gosmModel.getGOSMActivityAttachmentRequirement(data[0].activitytype, task);
 
                     }),
-                    projectProposalModel.getLatestProjectProposalAttachment(gl)
+                    projectProposalModel.getLatestProjectProposalAttachment(gl,task)
 
                 ])
 
@@ -3652,24 +3652,26 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             ]).then(data=>{
                                     var ctr = 0;
                                     console.log("data")
-                                    console.log(data)
+                                    console.log(data[0])
 
                                     let files = req.files['uploadfile[]'] ? req.files['uploadfile[]'] : req.files.uploadFile;
                                     if (!Array.isArray(files)) {
                                         files = [files];
                                     }
                                     var seq = 1;
-                                    if(!isNaN(data[0].latest)){
-                                        seq = data[0].latest;
+                                    if(!isNaN(data[0][0].latest)){
+                                        console.log("PUMASOK SA VERSION")
+                                        seq = data[0][0].latest + 1;
                                     }
+                                    var result = data[1].map(function(e){
+                                        return e.id
+                                    })
+                                    result = result.concat(req.body['attachmentOthers[]'])
                                     // console.log(data);
                                     console.log("TYPE OF ONE UPLOAD");
                                     console.log(typeof files[Symbol.iterator]);
                                     if (typeof files[Symbol.iterator] == 'function') {
-                                        var result = data[1].map(function(e){
-                                            return e.id
-                                        })
-                                        result = result.concat(req.body['attachmentOthers[]'])
+                                        
                                         console.log("result")
                                         console.log(result)
                                         console.log(req.body['attachmentOthers[]'])
@@ -3715,7 +3717,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                         var date = cuid();
                                         var db = {
                                             projectId: req.body.pid,
-                                            requirement: data[ctr].id,
+                                            requirement: result[ctr],
                                             dir: dir2 + file.name + ' - ' + date,
                                             idNumber: req.session.user.idNumber,
                                             filename: date + '.' + nFilename,
