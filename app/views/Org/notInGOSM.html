@@ -46,8 +46,6 @@
 {%block defer_script%}
     {{super()}}
     {{- tag.javascript('/plugins/bower_components/jqueryui/jquery-ui.min.js', true)}}
-    <!-- Bootstrap Core JavaScript -->
-    {{- tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
     <!-- Menu Plugin JavaScript -->
     {{- tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
     <!--slimscroll JavaScript -->
@@ -61,12 +59,10 @@
     {{- tag.javascript('/plugins/bower_components/jquery-wizard-master/dist/jquery-wizard.min.js', true)}}
     {{- tag.javascript('/js/cbpFWTabs.js', true)}}
     {{- tag.javascript('/js/jasny-bootstrap.js', true)}}
-
     {{- tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
     <!--Style Switcher -->
     {{- tag.javascript('/plugins/bower_components/custom-select/custom-select.min.js', true)}}
     {{- tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
-
     {{- tag.javascript('/plugins/bower_components/lobipanel/dist/js/lobipanel.min.js', true)}}
     {{- tag.javascript('/plugins/bower_components/toast-master/js/jquery.toast.js', true)}}
     {{tag.javascript('/js/custom.min.js', true)}}
