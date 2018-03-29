@@ -46,8 +46,7 @@
     <!-- Custom Theme JavaScript -->
     {{tag.javascript('/js/custom.min.js', true)}}
     {{tag.javascript('/js/cbpFWTabs.js', true)}}
-    <!-- tabs-->
-    {{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
+    <!-- tabs-->    
    {{tag.javascript('/js/APS/rescheduleChecking.js', true)}}
 {%endblock%}
 
@@ -78,7 +77,7 @@
                                     <td>{{act.name}}{%if act.reschedulereason == 4%}: {{act.reschedreasonother}}{%endif%}</td>                                
                                     
                                     <td>
-                                        <a target="_new" href="/ViewerJS/#../upload/preacts/{{act.idnumber}}/{{act.filename}}">
+                                        <a target="_new" href="/ViewerJS/#../upload/preacts/{{act.venuecreated}}/{{act.venuefilename}}">
                                             <i act='' ds='' class="fa fa-file text-info" data-toggle='tooltip' data-original-title="View Attachment"></i>
                                         </a>
                                         <i act='{{act.gosmactivity}}' ds='{{act.rescheduledates}}' class="fa fa-check text-success" data-toggle='tooltip' data-original-title="Approve" id="approve"></i>

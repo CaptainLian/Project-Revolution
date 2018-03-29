@@ -6,6 +6,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 	TreasurerController.viewDashboard = (req, res) => {
     	const renderData = Object.create(null);
+    	renderData.csrfToken = req.csrfToken();
         renderData.extra_data = req.extra_data;
 
 		return res.render('Org/Treasurer/Dashboard', renderData);
@@ -13,6 +14,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 	TreasurerController.editPreactsCashAdvance = (req, res) => {
     	const renderData = Object.create(null);
+    	renderData.csrfToken = req.csrfToken();
         renderData.extra_data = req.extra_data;
 
 		return res.render('Org/Treasurer/finance_pend');
@@ -37,6 +39,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
     TreasurerController.newTransactionOthers = (req, res) => {
     	const renderData = Object.create(null);
+    	renderData.csrfToken = req.csrfToken();
         renderData.extra_data = req.extra_data;
 		return res.render('Org/Treasurer/NewTransactionOthers', renderData);
 	};

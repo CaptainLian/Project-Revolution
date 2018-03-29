@@ -23,7 +23,7 @@
                 maxSequence: maxSequence
             },
             error: (jqXHR, textStatus, errorThrown) => {
-                
+                console.error(errorThrown);
             },
             success: (notifs, textStatus, jqXHR ) => {
                 numUnread = 0;
@@ -46,7 +46,7 @@
                 minSequence: maxSequence
     		},
     		error: (jqXHR, textStatus, errorThrown) => {
-                
+                console.error(errorThrown);
     		},
     		success: (notifs, textStatus, jqXHR ) => {
                 for(const notif of (notifs ? notifs: [])){

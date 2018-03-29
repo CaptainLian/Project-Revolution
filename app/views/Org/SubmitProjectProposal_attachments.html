@@ -33,7 +33,7 @@
 {%block defer_script%}
 	{{super()}}
     <!-- jQuery -->
-    {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
+    
     <!-- Bootstrap Core JavaScript -->
     {{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
     <!-- Menu Plugin JavaScript -->
@@ -92,12 +92,7 @@
 		                                            </div>
 
 		                                        </div>
-		                                        {%for document in documents%}
-		                                        	{%if attachment.attachment == document.requirement%}
-		                                        	<span class="help-block offset-md-5 col-sm-5">Uploaded file for this is 
-		                                        	<a href="/ViewerJS/?title={{attachment.name}}#../upload/preacts/{{document.idnumber}}/{{document.filename}}" target="_blank" class="btn-link">{{document.filenametoshow}}</a></span>
-		                                        	{%endif%}
-		                                        {%endfor%}
+		                                        
 		                                        
 	                                    </div>
 	                                    {%endfor%}
@@ -110,18 +105,16 @@
 			                               </tr>
 			                             </thead>
 			                             <tbody>
-			                               <tr>
-			                                 <td>
-												<a>Venue Reservation Ticket<a><br>
-												<a href="#">Venue reservation ticket.pdf</a>
-			                                 </td>
-			                               </tr>
-			                               <tr>
-			                                 <td class="p-t-10">
-												<a>Venue Reservation Ticket<a><br>
-												<a href="#">Venue reservation ticket.pdf</a>
-			                                 </td>
-			                               </tr>
+			                             	{%for document in documents%}
+				                             	<tr>
+				                                 <td>
+													<a>{{document.name}}<a><br>
+													<a href="/ViewerJS/?title={{attachment.name}}#../upload/preacts/{{document.idnumber}}/{{document.filename}}" target="_blank" class="btn-link">{{document.filenametoshow}}</a></span>
+				                                 </td>
+				                               </tr>
+	                                        	 
+	                                        {%endfor%}
+			                               
 			                             </tbody>
 	                           		  </table>
                                 	</div>
@@ -155,8 +148,7 @@
 					<option value=""  disabled="">-- Select One --</option>
 					<option value="0" selected="" data-name="Mechanics">Mechanics</option>
 					<option value="1">Letter for use of Different Venues in Campus</option>
-					<option value="2">Sample Design</option>
-					<option value="3">Venue Reservation Ticket</option>
+					<option value="2">Sample Design</option>					
 					<option value="4"> Credentials of Speaker</option>
 					<option value="5">Sample Publicity</option>
 					<option value="6"> Agenda</option>
