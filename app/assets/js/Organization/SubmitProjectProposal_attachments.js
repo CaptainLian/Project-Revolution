@@ -4,7 +4,7 @@ $("select").select2();
 
 $("select").trigger('change');
 $('#attachmentModal').modal({ show: false});
-$("input[type='file']").change(function(){
+$("input[type='file']").on('change',function(){
 	console.log("PUMASOK");
 	console.log($(this).val().split(/[\\/]/g).pop());
 	var text = $(this).closest('div.fileinput.fileinput-new.input-group').find('span.fileinput-filename');
