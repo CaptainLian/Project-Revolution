@@ -2030,8 +2030,13 @@ CREATE TABLE ProjectProposal (
     reschedReasonOther TEXT,
     rescheduleDates DATE[],
     reschedRejectReason TEXT DEFAULT '',
-
+    
     timesPended INTEGER NOT NULL DEFAULT 0,
+
+    /* Neil's "Jejemon" columns */
+    venueFilename TEXT,
+    venueFilenameToShow TEXT,
+    venueCreated INTEGER REFERENCES Account(idNumber),
 
     PRIMARY KEY (GOSMActivity)
 );
