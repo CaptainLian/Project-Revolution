@@ -16,7 +16,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const getGOSMActivitySQL = queryFiles.getGOSMActivity;
     const getGOSMActivityOrgSQL = queryFiles.getGOSMActivityOrg;
 
-    const getActivitySummaryPerOrgSQL = getActivitySummaryPerOrg;
+    const getActivitySummaryPerOrgSQL = queryFiles.getActivitySummaryPerOrg;
 
     const insertGOSM = queryFiles.gosm_insert;
     const insertGOSM_Returning = queryFiles.gosm_insert_returning;
