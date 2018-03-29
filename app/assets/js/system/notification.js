@@ -14,6 +14,7 @@
 
     anchorNotifDropdown.addEventListener('click', () => {
         console.debug('Notif dropdown: clicked');
+        getNotifications();
 
         return $.ajax({
             method: 'POST',
@@ -98,6 +99,6 @@
 
     }
     getNotifications();
-    setInterval(getNotifications, 5000);
+    setInterval(getNotifications, 60000);
 
 })();
