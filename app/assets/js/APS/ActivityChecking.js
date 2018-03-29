@@ -185,10 +185,9 @@ $(document).on('click', '#reschedule', function() {
         '<div class="form-group col-md-12 >' +
             '<label class="col-md-12 text-left"  style="float:left" ><strong  style="float:left">New Schedule/s:</strong></label>' +
             '<input id="datepicker-inline" class="form-control mydatepicker" placeholder="" type="text">'+
+            '<small> Number of dates should match the program design('+limit +')  </small>'+
         '</div>' +
-        '<div class="form-group col-md-12" >' +
-            '<label> Number of dates should be match the program design('+limit +')  </label>'+
-        '</div>' +
+        
         '<div class="form-group col-md-12">' +
             '<label class="col-md-12 text-left"><strong>Reason/s:</strong></label>' +
         
@@ -198,33 +197,30 @@ $(document).on('click', '#reschedule', function() {
                  '<option value="1">Class Suspension</option>' +
                  '<option value="4">Others</option>' +
              '</select>' +
-             /*
-            '<div class="form-check col-md-12"  style="float:left" >'+
-                '<label class="custom-control custom-radio"  style="float:left">'+
-                    '<input id="radio1" value="3" name="radio" class="custom-control-input" type="radio"  style="float:left">'+
-                    '<span class="custom-control-indicator"  style="float:left" ></span>'+
-                    '<span class="custom-control-description"  style="float:left">Speaker Unavailable</span>'+
-                '</label>'+
-            '</div>'+
-            '<div class="form-check col-md-12"  style="float:left">'+
-                '<label class="custom-control custom-radio"  style="float:left">'+
-                    '<input id="radio2" value="2" name="radio" class="custom-control-input" type="radio"  style="float:left">'+
-                    '<span class="custom-control-indicator"  style="float:left"></span>'+
-                    '<span class="custom-control-description"  style="float:left">Insufficient Participants</span>'+
-                '</label>'+
-            '</div>'+
-            '<div class="form-check col-md-12"  style="float:left">'+
-                '<label class="custom-control custom-radio"  style="float:left">'+
-                    '<input id="radio3" value="1" name="radio" class="custom-control-input" type="radio">'+
-                    '<span class="custom-control-indicator"></span>'+
-                    '<span class="custom-control-description">Class Suspension</span>'+
-                '</label>'+
-            '</div>'+
-            */
             '<div class="form-group col-md-12" id="reason" style= "display:none">' +
                 '<label class="col-md-12 text-left"  style="padding-left:0px" ><strong >Other Reason:</strong></label>' +
                 '<input id="others" class="form-control" placeholder="" type="text">'+
             '</div>' +
+            '<div class="form-group col-md-12" >' +
+            
+            '</div>' +
+            '<div class="form-group col-md-12 row">'+
+                '<label class="col-md-12 text-left"  style="float:left" ><strong  style="float:left">Venue Reservation Ticket</strong></label>' +
+                    '<div class="col-md-12">'+
+                        '<div class="fileinput fileinput-new input-group" data-provides="fileinput">'+
+                            '<div class="form-control" data-trigger="fileinput">'+
+                                '<i class="glyphicon glyphicon-file fileinput-exists"></i>'+
+                                '<span class="fileinput-filename"></span>'+
+                            '</div>'+
+                            '<span class="input-group-addon btn btn-default btn-file">'+
+                                '<span class="fileinput-new">Select file</span>'+
+                                '<span class="fileinput-exists">Change</span>'+
+                                '<input type="hidden"><input required="" name="uploadfile[]" type="file">'+
+                            '</span>'+
+                            '<a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>'+
+                        '</div>'+
+                    '</div>'+
+            '</div>'+
             
         '</div>';
 

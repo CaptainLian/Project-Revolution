@@ -2265,7 +2265,7 @@ CREATE TABLE ProjectProposalAttachment (
     filenametoShow TEXT,
     directory TEXT NOT NULL,
 
-    PRIMARY KEY (projectProposal, requirement, sequence)
+    PRIMARY KEY (id)
 );
 CREATE TRIGGER "before_insert_ProjectProposalAttachment_id"
     BEFORE INSERT ON ProjectProposalAttachment
