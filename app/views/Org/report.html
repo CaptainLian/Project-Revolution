@@ -91,6 +91,72 @@
     {{tag.javascript('/js/Organization/report.js', true)}}
 
     <!-- /Page Scripts -->
+
+    <script>
+        window.onscroll = function() {scrollFunction()};
+        //aps grades
+        //60 40 ratio
+        var academic = {{sixty}}
+        var nonAcademic = {{forty}}
+        //push thrgouh ratio
+        var numPush = {{push}}
+        var numNotPush = {{notPush}}
+        //activities summary
+        var numAcademicContest
+        var numDistribution
+        var numGeneralAssembly
+        var numSeminar
+        var numPublicity
+        var numMeetings
+        var numSpiritualActivity
+        var numRecruitment
+        var numRecreation
+        var numDistribution
+        
+
+
+        //amt tab
+        //logistics chart 
+        var venue = {{amtAverageScores.venue}}
+        var equipment = {{amtAverageScores.equipment}}
+
+        //activity process
+        var openingStart = {{amtAverageScores.timestart}}
+        var timeEnd = {{amtAverageScores.timeend}}
+        var activityExec = {{amtAverageScores.activityexecution}}
+        var Registration = {{amtAverageScores.registration}}
+
+        //audience feedback
+        var Announcement = {{amtAverageScores.personea}}
+        var Interaction = {{amtAverageScores.personiomwm}}
+        var expectation = {{amtAverageScores.personea}}
+        var Awareness = {{amtAverageScores.personiitskoa}}
+
+        //programdesign
+        var Hosts = {{amtAverageScores.hosts}}
+        var Ushers = {{amtAverageScores.facilitators}}
+        var Presentations = {{amtAverageScores.presentation}}
+        var activities = {{amtAverageScores.activities}}
+        var standingPresentation = {{amtAverageScores.organizationstandingpresentation}}
+
+        
+        
+
+        
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                document.getElementById("myBtn").style.display = "block";
+            } else {
+                document.getElementById("myBtn").style.display = "none";
+            }
+        }
+
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+    </script>
 {%endblock%}
 
 
