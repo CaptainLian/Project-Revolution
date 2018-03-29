@@ -3,7 +3,7 @@ $('#slimtest1').slimScroll({
     height: '250px',
     
     alwaysVisible: true,
-    color: 'white'
+    color: '#424242'
 });
 (() => {
 	if(typeof $ === 'undefined'){
@@ -71,43 +71,10 @@ $('#slimtest1').slimScroll({
         var test =
           '<a href="#">'+
                 '<span class="profile-status online pull-right"></span>'+
-                '<div class="mail-contnet">'+
-                '<h5>'+title+'</h5> <span class="mail-desc">'+description+'</span> <span class="time">'+timestamp+'</span> </div>'+
+                '<div class="mail-content break">'+
+                '<h5>'+title+'</h5> <span class="mail-desc"><small>'+description+'</small></span><br><span class="time"><small>'+timestamp+'</small></span> </div>'+
             '</a>';
                                     
-        let usrDOM = document.createElement('div');
-        
-        let statusDOM = document.createElement('span');
-        
-        usrDOM.appendChild(statusDOM);
-
-        let contentDOM = document.createElement('div');
-        let titleDOM = document.createElement('h5');
-        titleDOM.innerHTML = title;
-        let descriptionDOM = document.createElement('span');
-        descriptionDOM.innerHTML = description;
-        let timestampDOM = document.createElement('span');
-        timestampDOM.innerHTML = timestamp;
-        
-        usrDOM.classList.add('user-img');
-        statusDOM.classList.add('profile-status');
-        statusDOM.classList.add('online');
-        statusDOM.classList.add('pull-right');
-        contentDOM.classList.add('mail-content');
-        if(status == 1){
-            contentDOM.classList.add('notif_seen');
-        }else{
-            contentDOM.classList.add('notif_unseen');
-        }
-        // descriptionDOM.classList.add('mail-desc');
-        // timestampDOM.classList.add('time');
-
-        // contentDOM.appendChild(titleDOM);
-        // contentDOM.appendChild(descriptionDOM);
-        // contentDOM.appendChild(timestampDOM);
-
-        // viewNotifs.appendChild(usrDOM);
-        // viewNotifs.appendChild(contentDOM);
         $("#display_notifications").append(test)
 
     }

@@ -91,6 +91,72 @@
     {{tag.javascript('/js/Organization/report.js', true)}}
 
     <!-- /Page Scripts -->
+
+    <script>
+        window.onscroll = function() {scrollFunction()};
+        //aps grades
+        //60 40 ratio
+        var academic = {{sixty}}
+        var nonAcademic = {{forty}}
+        //push thrgouh ratio
+        var numPush = {{push}}
+        var numNotPush = {{notPush}}
+        //activities summary
+        var numCompetition = {{activitySummary[0].activitycount}}
+        var numDistribution = {{activitySummary[1].activitycount}}
+        var numGeneralAssembly = {{activitySummary[2].activitycount}}
+        var numSeminar = {{activitySummary[3].activitycount}}
+        var numPublicity = {{activitySummary[4].activitycount}}
+        var numMeetings = {{activitySummary[5].activitycount}}
+        var numSpiritualActivity = {{activitySummary[6].activitycount}}
+        var numRecruitment = {{activitySummary[7].activitycount}}
+        var numRecreation = {{activitySummary[8].activitycount}}
+        var numOthers = {{activitySummary[9].activitycount}}
+        
+
+
+        //amt tab
+        //logistics chart 
+        var venue = {{amtAverageScores.venue}}
+        var equipment = {{amtAverageScores.equipment}}
+
+        //activity process
+        var openingStart = {{amtAverageScores.timestart}}
+        var timeEnd = {{amtAverageScores.timeend}}
+        var activityExec = {{amtAverageScores.activityexecution}}
+        var Registration = {{amtAverageScores.registration}}
+
+        //audience feedback
+        var Announcement = {{amtAverageScores.personea}}
+        var Interaction = {{amtAverageScores.personiomwm}}
+        var expectation = {{amtAverageScores.personea}}
+        var Awareness = {{amtAverageScores.personiitskoa}}
+
+        //programdesign
+        var Hosts = {{amtAverageScores.hosts}}
+        var Ushers = {{amtAverageScores.facilitators}}
+        var Presentations = {{amtAverageScores.presentation}}
+        var activities = {{amtAverageScores.activities}}
+        var standingPresentation = {{amtAverageScores.organizationstandingpresentation}}
+
+        
+        
+
+        
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                document.getElementById("myBtn").style.display = "block";
+            } else {
+                document.getElementById("myBtn").style.display = "none";
+            }
+        }
+
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+    </script>
 {%endblock%}
 
 
@@ -569,7 +635,7 @@
                             </div>
                             <!--/ADM -->
                               <div class="row">
-                                <div class="col-lg-4">
+                                <div class="col-lg-6">
                                     <div class="white-box text-center">
                                         <h3 class="box-title">60/40 ratio</h3>
                                         <div>
@@ -577,7 +643,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
+                                <div class="col-lg-6">
                                     <div class="white-box text-center">
                                         <h3 class="box-title">Push-through ratio</h3>
                                         <div>
@@ -585,11 +651,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
+                                <div class="col-lg-6">
                                     <div class="white-box text-center">
                                         <h3 class="box-title">ACTIVITIES SUMMARY</h3>
                                         <div>
-                                            <canvas id="chart5" height="150"> </canvas>
+                                            <canvas id="chartradar" width="600" height="400"> </canvas>
                                         </div>
                                     </div>
                                 </div>
@@ -1239,6 +1305,68 @@
                                 </tr>
                                 </tfoot>
                             </table>
+                            <div class="row row-in col-md-12">
+                                                <div class="row col-md-12" >
+                                                    <div class="col-md-12">
+                                                        <h3 class="text text-megna col-md-12 text-center"><strong>Statistics</strong></h3>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="white-box">
+                                                            <div>
+                                                            <label class="text-center">Logistics</label>
+                                                                <canvas id="chartamt1" width="800" height="600"></canvas>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="white-box">
+                                                            <div>
+                                                            <label class="text-center">Activity Process</label>
+                                                                <canvas id="chartamt2" width="800" height="800"></canvas>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="white-box">
+                                                            <div>
+                                                            <label class="text-center">Audience Feedback</label>
+                                                                <canvas id="chartamt6" width="800" height="800"></canvas>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <!-- <div class="col-md-12">
+                                                        <h4 class="text text-megna col-md-12 text-center"><strong>Program Design</strong></h4>
+                                                    </div> -->
+                                                    <div class="col-md-4">
+                                                        <div class="white-box">
+                                                            <div>
+                                                            <label class="text-center">Program Design</label>
+                                                                <canvas id="chartamt3" width="800" height="800"></canvas>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="white-box">
+                                                            <div>
+<!--                                                             <label class="text-center">Academic Contest</label>
+ -->                                                                <canvas id="chartamt4" width="800" height="800"></canvas>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="white-box">
+                                                            <div>
+<!--                                                             <label class="text-center">Seminar</label>
+ -->                                                                <canvas id="chartamt5" width="800" height="800"></canvas>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                
+                                            </div>
                         </section>
                         
                         

@@ -16,6 +16,8 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const getGOSMActivitySQL = queryFiles.getGOSMActivity;
     const getGOSMActivityOrgSQL = queryFiles.getGOSMActivityOrg;
 
+    const getActivitySummaryPerOrgSQL = getActivitySummaryPerOrg;
+
     const insertGOSM = queryFiles.gosm_insert;
     const insertGOSM_Returning = queryFiles.gosm_insert_returning;
     const dbHelper = require('../utility/databaseHelper');
@@ -245,6 +247,11 @@ module.exports = function(configuration, modules, db, queryFiles) {
         getOrgGOSM: function(param, connection = db) {
             return connection.oneOrNone(getOrgGOSMSQL, param);
         },
+
+        getActivitySummaryPerOrg: function(param, connection = db){
+            return connection.any(getActivitySummaryPerOrgSQL, param);
+        },
+
         getOrgAllGOSM: function(orgid, connection = db) {
             let query = squel.select()
                 .from('GOSM','G')
