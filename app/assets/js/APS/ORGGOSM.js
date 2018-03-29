@@ -158,7 +158,8 @@
                     showCancelButton: true,
                     confirmButtonColor: "#DD6B55",
                     confirmButtonText: "Confirm",
-                    closeOnConfirm: false
+                    closeOnConfirm: false,
+                    reverseButton:false
                 }, function() {
                     updateGOSMStatus(3, undefined, () => {
                         swal({
