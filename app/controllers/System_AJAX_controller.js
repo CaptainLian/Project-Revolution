@@ -257,9 +257,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     };
     
     SystemController.getAccountNotifications = (req, res) => {
-        logger.info('call getAccountNotifications()', log_options);
+        //logger.info('call getAccountNotifications()', log_options);
 
-        logger.debug(`body: ${JSON.stringify(req.body)}\nparam: ${JSON.stringify(req.params)}\nquery: ${JSON.stringify(req.query)}`, log_options);
+        //logger.debug(`body: ${JSON.stringify(req.body)}\nparam: ${JSON.stringify(req.params)}\nquery: ${JSON.stringify(req.query)}`, log_options);
         
         let minSequence = (typeof req.query.minSequence !== 'undefined' && req.query.minSequence !== 'null' && req.query.minSequence ) ? req.query.minSequence : 0;
         return accountModel.getNotifications(
@@ -275,7 +275,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         ]).then(notifications => {
             let response = (notifications && Array.isArray(notifications)) ? notifications : [];
 
-            logger.debug(`Response: ${JSON.stringify(response)}`, log_options);
+            //logger.debug(`Response: ${JSON.stringify(response)}`, log_options);
             return res.json(response);
         }).catch(error => {
             res.status(500);
@@ -285,9 +285,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     };
 
     SystemController.viewNotifications = (req, res) => {
-        logger.info('call viewNotifications()', log_options);
+        //logger.info('call viewNotifications()', log_options);
         
-        logger.debug(`body: ${JSON.stringify(req.body)}\nparam: ${JSON.stringify(req.params)}\nquery: ${JSON.stringify(req.query)}`, log_options);
+        //logger.debug(`body: ${JSON.stringify(req.body)}\nparam: ${JSON.stringify(req.params)}\nquery: ${JSON.stringify(req.query)}`, log_options);
 
         return accountModel.updateNotifications(
             req.session.user.idNumber,
