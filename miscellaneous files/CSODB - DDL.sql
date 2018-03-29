@@ -1068,22 +1068,35 @@ CREATE TABLE PreActivityAttachmentRequirement (
     CONSTRAINT PreActivityAttachmentRequirement_DocumentAttachmentRequirement_fkey FOREIGN KEY (attachment) REFERENCES DocumentAttachmentRequirement(id)
 ) INHERITS (ActivityAttachmentRequirement);
 INSERT INTO PreActivityAttachmentRequirement (activityType, attachment, optional)
-VALUES (0, 0, FALSE),
-       (0, 1, FALSE),
+VALUES 
+       /* Competition */
+       (0, 0, FALSE),
+       (0, 1, FALSE), 
+       (0, 3, FALSE),
+       /* Distribution */
        (1, 2, FALSE),
+       (1, 3, FALSE),
+       /* General Assembly */
        (2, 3, FALSE),
+       /* Seminar/Workshop */
        (3, 3, FALSE),
        (3, 4, FALSE),
+       /* Publicity/Awareness Campaign */
        (4, 3, FALSE),
        (4, 5, FALSE),
+       /* Meetings */
        (5, 3, FALSE),
        (5, 6, FALSE),
+       /* Spiritual Activity */
        (6, 3, FALSE),
        (6, 7,  TRUE),
+       /* Recruitment/Audition */
        (7, 3, FALSE),
        (7, 8, FALSE),
        (7, 0, FALSE),
+       /* Recreation */
        (8, 3, FALSE),
+       /* Others */
        (9, 3, FALSE);
 
 DROP TABLE IF EXISTS PostActivityAttachmentRequirement CASCADE;
