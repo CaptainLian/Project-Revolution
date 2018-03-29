@@ -201,6 +201,18 @@ $(document).on('click', '#reschedule', function() {
                 '<label class="col-md-12 text-left"  style="padding-left:0px" ><strong >Other Reason:</strong></label>' +
                 '<input id="others" class="form-control" placeholder="" type="text">'+
             '</div>' +
+            '<label class="col-md-12 text-left"><strong>Venue:</strong></label>' +
+        
+             '<select class="col-md-12" id="select-sec">' +
+                 '<option value="3">venue1</option>' +
+                 '<option value="2">venue1</option>' +
+                 '<option value="1">venue1</option>' +
+                 '<option value="4">venue1</option>' +
+             '</select>' +
+            '<div class="form-group col-md-12" id="reason" style= "display:none">' +
+                '<label class="col-md-12 text-left"  style="padding-left:0px" ><strong >Other Reason:</strong></label>' +
+                '<input id="others" class="form-control" placeholder="" type="text">'+
+            '</div>' +
             '<div class="form-group col-md-12" >' +
             
             '</div>' +
