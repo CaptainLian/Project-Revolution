@@ -10,11 +10,21 @@
 
 {%block style%}
     {{- tag.style('/plugins/images/cso.png', null, null, 'image/png', 'icon') -}}
+    <!-- Bootstrap Core CSS -->
+    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
+    <!-- Notifications -->
     {{- tag.style('/css/system/notification.css') -}}
 {%endblock%}
 
 {%block defer_script%}
     {{- super() -}}
+    <!-- jQuery -->
+    {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js')}}
+    <!-- Bootstrap Core JavaScript -->
+    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js')}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js')}}
+    <!-- Notifications -->
     {{- tag.javascript('/js/system/notification.js', true) -}}
 {%endblock%}
 

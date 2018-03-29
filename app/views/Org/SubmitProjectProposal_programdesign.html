@@ -3,15 +3,8 @@
 
 {%block page_title%}CSO - Evaluate Activity{%-endblock%}
 
-
-{%block meta%}
-    {{super()}}
-    <meta data-name="csrf" data-token="{{csrfToken}}" />
-{%endblock%}
-
 {%block style%}
 	{{super()}}
-	<!-- Bootstrap Core CSS -->
 	{{tag.style('/plugins/bower_components/jqueryui/jquery-ui.min.css')}}
    	<!-- Bootstrap Core CSS -->
    	{{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
@@ -99,13 +92,9 @@
 	
 {%block defer_script%}
 	{{super()}}
-
-	{{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js')}}
   {{tag.javascript('/plugins/bower_components/jqueryui/jquery-ui.min.js')}}
 	<!-- Bootstrap Core JavaScript -->
 	{{tag.javascript('/bootstrap/dist/js/tether.min.js')}}
-	{{tag.javascript('/bootstrap/dist/js/bootstrap.min.js')}}
-	{{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js')}}
 	<!-- Menu Plugin JavaScript -->
 	{{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js')}}
 	<!--slimscroll JavaScript -->
