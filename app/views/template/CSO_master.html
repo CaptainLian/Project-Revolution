@@ -14,7 +14,7 @@
     {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
     {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
     <!-- Notifications -->
-    {{- tag.style('/css/system/notification.css') -}}
+    
 {%endblock%}
 
 {%block defer_script%}
@@ -24,6 +24,8 @@
     <!-- Bootstrap Core JavaScript -->
     {{tag.javascript('/bootstrap/dist/js/tether.min.js')}}
     {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js')}}
+    {{tag.javascript('/js/jquery.slimscroll.js')}}
+    
     {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js')}}
     <!-- Notifications -->
     {{- tag.javascript('/js/system/notification.js', true) -}}
@@ -53,30 +55,27 @@
                 </ul>
                 <ul class="nav navbar-top-links navbar-right pull-right" >
                     <!-- /.dropdown -->
-                    <li class="dropdown">
-                        <a id="dropdown_notification" class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="false">
-                            <i class="fa fa-bell text-white"></i>
-                            <div class="notify">
-                                <span id="display_numNotifications" class="label label-rounded label-danger pull-right"></span>
-                                {# <span class="heartbit"></span>  #}
-                                {# <span class="point"></span> #}
-                            </div>
-                        </a>
-                        <ul class="dropdown-menu dropdown-tasks scale-up scrollable-menu" role="menu" style="height: auto;
-                            max-height: 250px;
-                            overflow-x: hidden;">
-                            <li>
+                    <li class="dropdown"> 
+                        <a id="dropdown_notification" class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#"><i class="icon-bell"></i>
+                              <div class="notify">
+                                <span id="display_numNotifications" class="label label-round label-danger pull-right"></span>
+                                {# <span class="heartbit"></span>
+                                <span class="point"></span>#}
+                              </div>
+                              </a>
+                        <ul  class="dropdown-menu mailbox animated bounceInDown">
+                           
+                            <li id="slimtest1">
                                 <div id="display_notifications" class="message-center">
+                                 
+                                     
                                 </div>
                             </li>
-
-                            <!-- <li class="divider"></li>
-                            <li>
-                                <a class="text-center" href="#"> <strong>See All Tasks</strong> <i class="fa fa-angle-right"></i> </a>
-                            </li> -->
+                        
                         </ul>
-                        <!-- /.dropdown-tasks -->
+                        <!-- /.dropdown-messages -->
                     </li>
+          
                     <!-- /.dropdown -->
                     <li class="dropdown">
                         <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false"><b class="hidden-xs">{%if(extra_data.user.name)%}{{extra_data.user.name}}{%else%}Steave{%endif%}</b> </a>
