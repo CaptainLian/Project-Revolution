@@ -1,22 +1,15 @@
-{% extends "../Org/Organization_master.html" %}
+{% extends "../template/CSO_master.html" %}
 {% import '../template/tags_macro.html' as tag%}
 
 {%block style%}
     {{super()}}
-
-    <!-- Bootstrap Core CSS -->
-    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
-    {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
     <!-- Menu CSS -->
     {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
     {{tag.style('/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css')}}
-
     {{tag.style('/plugins/bower_components/sweetalert/sweetalert.css')}}
     <!-- Animation CSS -->
     {{tag.style('/css/animate.css')}}
     <!-- Custom CSS -->
-    
-
     {{tag.style('/plugins/bower_components/datatables/jquery.dataTables.min.css')}}
     {{tag.style('http://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css')}}
     {{tag.style('/css/custom.css')}}
@@ -27,7 +20,6 @@
     -->
     {{tag.style('/css/colors/default.css')}}
     {{tag.style('/css/colors/blue.css')}}
-
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -43,12 +35,8 @@
 
 {%block defer_script%}
     {{super()}}
-    <!-- jQuery -->
-    {{- tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
     <!-- Bootstrap Core JavaScript -->
     {{- tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
-    {{- tag.javascript('/bootstrap/dist/js/bootstrap-3.3.7.min.js', true)}}
-    {{- tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
     <!-- Menu Plugin JavaScript -->
     {{- tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
     <!--slimscroll JavaScript -->

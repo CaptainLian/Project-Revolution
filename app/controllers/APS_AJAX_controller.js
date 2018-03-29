@@ -5,6 +5,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
     const SIGN = require('../utility/digitalSignature.js').signString;
     const STRINGIFY = require('json-stable-stringify');
+    const fs = require('fs');
+    var cuid = require('cuid');
+    const path = require('path');
 
     const PATH_ASSETS = configuration.webserver.assets.path;
 
@@ -199,14 +202,46 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
     APS_AJAXController.approvalResched = (req, res) => {
         logger.debug('approvalResched()', log_options);
-        console.log(req.body)
-        return projectProposalModel.updatePPResched(req.body.activityID, req.body.reason, req.body.date, req.body.others, 6).then(data=>{
+
+        console.log(req.files)
+        database.tx(t=>{
+            var dir3 = __dirname + '/../assets/upload/';
+            var dir3 = path.join(__dirname, '..', 'assets', 'upload');
+
+            //CHECK IF DIRECTOR EXIST
+            if (!fs.existsSync(dir3)) {
+                fs.mkdirSync(dir3);
+            }
+            var dir = __dirname + '/../assets/upload/preacts/';
+            var dir = path.join(__dirname, '..', 'assets', 'upload', 'preacts');
+            //CHECK IF DIRECTOR EXIST
+            if (!fs.existsSync(dir)) {
+                fs.mkdirSync(dir);
+            }
+            var dir2 = __dirname + '/../assets/upload/preacts/' + req.session.user.idNumber + '/';
+            var dir2 = path.join(__dirname, '..', 'assets', 'upload', 'preacts', req.session.user.idNumber + "");
+            //CHECK IF DIRECTOR EXIST
+            if (!fs.existsSync(dir2)) {
+                fs.mkdirSync(dir2);
+            }
+            var vrtFilename = cuid() + path.extname(req.files['file'].name);
+            var vrtFilenameToShow = (req.files['file'].name);
+            var pg = path.join(dir2, vrtFilename);
+
+            req.files['file'].mv(pg)
+            return t.batch([
+                projectProposalModel.updatePPResched(req.body.activityID, req.body.reason, req.body.date, req.body.others, 6,t),
+                projectProposalModel.updateVenueAttachment(req.body.activityID, vrtFilename, vrtFilenameToShow, req.session.user.idNumber)
+            ])    
+        }).then(data=>{
+
             res.json({status:1});
         }).catch(err=>{
             console.log(err)
             res.json({status:0});
             return logger.error(`${err.message}\n${err.stack}`);
         })
+        
     };
 
     APS_AJAXController.updateGOSMActivityComment = (req, res) => {

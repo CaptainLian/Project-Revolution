@@ -6,8 +6,6 @@
 {%block style%}
     {{super()}}
     <!-- Bootstrap Core CSS -->
-    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
-    {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
     {{tag.style('/plugins/bower_components/datatables/jquery.dataTables.min.css')}}
     {{tag.style('/plugins/bower_components/nestable/nestable.css')}}
     <!-- Menu CSS -->
@@ -35,13 +33,9 @@
 
 {%block defer_script%}
     {{super()}}
-    <!-- jQuery -->
-    {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
     <!-- Bootstrap Core JavaScript -->
     {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
     {{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
-    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}}
-    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
     <!-- Menu Plugin JavaScript -->
     {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
     <!--slimscroll JavaScript -->
@@ -61,6 +55,12 @@
 	<div class="col-sm-12">
 		<div class="white-box">
 			<h3 class="box-title m-b-0">Evaluate Activities </h3>
+            <p class="box-title m-b-0 pull-right">legend:
+                <span class="label label-success">Approved</span>
+                <span class="label label-warning">Pended</span>
+                <span class="label label-danger">Denied</span>
+                <span class="label label-info">For approval</span>
+            </p>
             <p class="text-muted m-b-30">List of activities that requires evaluation</p>
 			<div class="table-responsive">
 				<table id="myTable" class="table table-striped">
@@ -97,7 +97,7 @@
                                             {%elif activity.status == 3%}                                    
                                                 <td><span class="label label-danger">Denied</span></td>      
                                             {#{%elif activity.status == 3%}                                    
-                                                <td><span class="label label-danger">Force Signed</span></td>      #}    
+                                                <td><span class="label label-orange">Force Signed</span></td>      #}    
                                             {%endif%}
 
                                         {%elif project.status == 3%}                                    

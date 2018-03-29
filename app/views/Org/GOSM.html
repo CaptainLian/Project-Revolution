@@ -1,31 +1,22 @@
-{% extends "./Organization_master.html" %}
+{% extends '../template/CSO_master.html' %}
 {% import '../template/tags_macro.html' as tag%}
 
 {%block style%}
     {{super()}}
-
-    <!-- Bootstrap Core CSS -->
-    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
-    {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
     <!-- Menu CSS -->
     {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
     {{tag.style('/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css')}}
     {{tag.style('/plugins/bower_components/jquery-wizard-master/css/wizard.css')}}
-
     {{tag.style('/plugins/bower_components/sweetalert/sweetalert.css')}}
     {{tag.style('/plugins/bower_components/lobipanel/dist/css/lobipanel.min.css')}}
     {{tag.style('/plugins/bower_components/custom-select/custom-select.css')}}
     {{tag.style('/plugins/bower_components/bootstrap-daterangepicker/daterangepicker.css')}}
-
     {{tag.style('/plugins/bower_components/datatables/jquery.dataTables.min.css')}}
     {{tag.style('http://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css')}}
     <!-- Animation CSS -->
     {{tag.style('/css/animate.css')}}
     <!-- Custom CSS -->
     {{tag.style('/css/style.css')}}
-
-
-    
     <!-- {{tag.style('/css/styleCustom.css')}} -->
     {{tag.style('/plugins/bower_components/jqueryui/jquery-ui.min.css')}}
     <!-- color CSS you can use different color css from css/colors folder -->
@@ -55,13 +46,9 @@
 
 {%block defer_script%}
     {{super()}}
-    <!-- jQuery -->
-    {{- tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
     {{- tag.javascript('/plugins/bower_components/jqueryui/jquery-ui.min.js', true)}}
     <!-- Bootstrap Core JavaScript -->
     {{- tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
-    {{- tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}}
-    {{- tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
     <!-- Menu Plugin JavaScript -->
     {{- tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
     <!--slimscroll JavaScript -->
@@ -245,7 +232,7 @@
                         </div>
 
                     </div>
-                    {%if status !=3  and  status !=2%}
+                    {%if status !=3  and  status !=2 and status !=5%}
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-12">
