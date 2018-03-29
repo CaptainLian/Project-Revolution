@@ -64,17 +64,6 @@
 
     })();
 
-    /*
-    The wackiest set of symbols that makes sense in javascript
-    #UnopinnionatedCode
-        (() => {
-
-        })();
-    */
-
-    /* 
-        Activity Comments
-    */
     (() => {
         let btnAddComment = document.getElementById('modal_btn_add_comment');
         btnAddComment.addEventListener('click', () => {
@@ -155,13 +144,15 @@
                     title: "Approve Activity?",
                     text: "Clicking confirm will approve the activity",
                     type: "warning",
-                    
+                    showCancelButton: true,
+                    buttons: { confirm: true, cancel: true, },
                     confirmButtonColor: "#00c292",
                     confirmButtonText: "Confirm",
-                    showCancelButton: true,
-                    closeOnConfirm: false
-                }, function() {
-                    updateGOSMStatus(3, undefined, () => {
+                    closeOnConfirm: false,
+                    reverseButton:false
+
+                }).then(function(data){
+                     updateGOSMStatus(3, undefined, () => {
                         swal({
                                 title: "Success!",
                                 text: "The activity has been approved",
@@ -184,24 +175,43 @@
                 swal({
                         title: "Pend Activity",
                         text: "Write your reason for pending the activity:",
-                        type: "input",
+                        // type: "input",
+                        input:'text',
                         showCancelButton: true,
+                        buttons: { confirm: true, cancel: true, },
                         closeOnConfirm: false,
-                        inputPlaceholder: "Input comments"
-                    },
-                    function(inputValue) {
-                        if (inputValue) {
-                            updateGOSMStatus(4, inputValue, () => {
-                                swal('Success!', `you commented: ${inputValue}`, 'success');
-                            }, () => {
-                                swal("Uh oh!", "An error occured", "error");
-                            });
+                        // inputPlaceholder: "Input comments",
+                        reverseButtons: false
+                    }
+                    // ,
+                    // function(inputValue) {
+                    //     if (inputValue) {
+                    //         updateGOSMStatus(4, inputValue, () => {
+                    //             swal('Success!', `you commented: ${inputValue}`, 'success');
+                    //         }, () => {
+                    //             swal("Uh oh!", "An error occured", "error");
+                    //         });
 
-                        } else {
-                            swal.showInputError("You need to write something!");
-                            return false;
-                        }
-                        return true;
+                    //     } else {
+                    //         swal.showInputError("You need to write something!");
+                    //         return false;
+                    //     }
+                    //     return true;
+                    // }
+                    ).then(function(result){
+                          if (result) {
+                                updateGOSMStatus(4, result, () => {
+                                    swal('Success!', `you commented: ${result}`, 'success');
+                                }, () => {
+                                    swal("Uh oh!", "An error occured", "error");
+                                });
+
+                            } else {
+                                swal.showInputError("You need to write something!");
+                                return false;
+                            }
+                            return true;
+                        
                     });
             }, false);
         }
@@ -212,15 +222,31 @@
                 swal({
                         title: "Deny Activity",
                         text: "Write your reason for denying the activity:",
-                        type: "input",
+                        // type: "input",
+                        input:'text',
                         showCancelButton: true,
+                        buttons: { confirm: true, cancel: true, },
                         closeOnConfirm: false,
                         inputPlaceholder: "Write something"
-                    },
-                    function(inputValue) {
-                        if (inputValue) {
-                            updateGOSMStatus(5, inputValue, () => {
-                                swal('Success!', `You commented ${inputValue}`, 'success');
+                    }
+                    // ,
+                    // function(inputValue) {
+                    //     if (inputValue) {
+                    //         updateGOSMStatus(5, inputValue, () => {
+                    //             swal('Success!', `You commented ${inputValue}`, 'success');
+                    //         }, () => {
+                    //             swal("Oops", "An error occured", "error");
+                    //         });
+                    //     } else {
+                    //         swal.showInputError("You need to write something!");
+                    //         return false;
+                    //     }
+                    //     return true;
+                    // }
+                    ).then(function(result){
+                        if (result) {
+                            updateGOSMStatus(5, result, () => {
+                                swal('Success!', `You commented ${result}`, 'success');
                             }, () => {
                                 swal("Oops", "An error occured", "error");
                             });
@@ -234,3 +260,5 @@
         }
     })();
 })();
+
+

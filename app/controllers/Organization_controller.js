@@ -2535,7 +2535,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 console.log("GOSM DATA")
 
                 logger.debug('Rendering page', log_options);
-                if (renderData.status == 3) {
+                if (renderData.status == 3 || renderData.status == 5) {
                     return res.redirect('/Organization/viewGOSMList')
                 } else {
                     return res.render('Org/GOSM', renderData);
