@@ -7,6 +7,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     const STRINGIFY = require('json-stable-stringify');
     const fs = require('fs');
     var cuid = require('cuid');
+    const path = require('path');
 
     const PATH_ASSETS = configuration.webserver.assets.path;
 
@@ -228,7 +229,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
             req.files['file'].mv(pg)
             return t.batch([
-                projectProposalModel.updatePPResched(req.body.activityID, req.body.reason, req.body.date, req.body.others, 6,t)
+                projectProposalModel.updatePPResched(req.body.activityID, req.body.reason, req.body.date, req.body.others, 6,t),
                 projectProposalModel.updateVenueAttachment(req.body.activityID, vrtFilename, vrtFilenameToShow, req.session.user.idNumber)
             ])    
         }).then(data=>{
