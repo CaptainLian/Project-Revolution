@@ -2272,7 +2272,7 @@ CREATE TRIGGER "before_insert_ProjectProposalAttachment_id"
     BEFORE INSERT ON ProjectProposalAttachment
     FOR EACH ROW
     EXECUTE PROCEDURE "trigger_before_insert_id"('projectproposalattachment');
-
+/*
 CREATE OR REPLACE FUNCTION trigger_before_insert_ProjectProposalAttachment()
 RETURNS TRIGGER AS
 $trigger$
@@ -2287,7 +2287,7 @@ CREATE TRIGGER before_insert_ProjectProposalAttachment
     BEFORE INSERT ON ProjectProposalAttachment
     FOR EACH ROW
     EXECUTE PROCEDURE trigger_before_insert_ProjectProposalAttachment();
-
+*/
   /* Project Proposal Signatories */
 DROP TABLE IF EXISTS SignatoryStatus CASCADE;
 CREATE TABLE SignatoryStatus (
