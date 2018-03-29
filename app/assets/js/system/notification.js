@@ -71,7 +71,7 @@ $('#slimtest1').slimScroll({
         var test =
           '<a href="#">'+
                 '<span class="profile-status online pull-right"></span>'+
-                '<div class="mail-content break">'+
+                '<div class="mail-content breaks">'+
                 '<h5>'+title+'</h5> <span class="mail-desc"><small>'+description+'</small></span><br><span class="time"><small>'+timestamp+'</small></span> </div>'+
             '</a>';
                                     
