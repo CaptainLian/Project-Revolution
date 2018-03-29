@@ -39,7 +39,9 @@
 {%endblock%}
 
 {%block defer_script%}
+
     {{super()}}
+
     <!-- Menu Plugin JavaScript -->
     {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
     <!--slimscroll JavaScript -->
@@ -60,6 +62,9 @@
     <!-- Page-Scripts -->
     {{tag.javascript('/js/APS/ORGGOSM.js', true)}}
     <!-- /Page-Scripts -->
+
+    {{super()}}
+
 {%endblock%}
 
 {%block breadcrumb%}
