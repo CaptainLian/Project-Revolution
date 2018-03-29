@@ -1,5 +1,10 @@
 'use strict';
-
+$('#slimtest1').slimScroll({
+    height: '250px',
+    
+    alwaysVisible: true,
+    color: '#424242'
+});
 (() => {
 	if(typeof $ === 'undefined'){
 		console.error('WARNING: JQUERY NEEDED FOR THIS PAGE');
@@ -63,6 +68,13 @@
     }
 
     function addNotifDOM(title, description, timestamp, status){
+        var test =
+          '<a href="#">'+
+                '<span class="profile-status online pull-right"></span>'+
+                '<div class="mail-contnet">'+
+                '<h5>'+title+'</h5> <span class="mail-desc">'+description+'</span> <span class="time">'+timestamp+'</span> </div>'+
+            '</a>';
+                                    
         let usrDOM = document.createElement('div');
         
         let statusDOM = document.createElement('span');
@@ -87,15 +99,16 @@
         }else{
             contentDOM.classList.add('notif_unseen');
         }
-        descriptionDOM.classList.add('mail-desc');
-        timestampDOM.classList.add('time');
+        // descriptionDOM.classList.add('mail-desc');
+        // timestampDOM.classList.add('time');
 
-        contentDOM.appendChild(titleDOM);
-        contentDOM.appendChild(descriptionDOM);
-        contentDOM.appendChild(timestampDOM);
+        // contentDOM.appendChild(titleDOM);
+        // contentDOM.appendChild(descriptionDOM);
+        // contentDOM.appendChild(timestampDOM);
 
-        viewNotifs.appendChild(usrDOM);
-        viewNotifs.appendChild(contentDOM);
+        // viewNotifs.appendChild(usrDOM);
+        // viewNotifs.appendChild(contentDOM);
+        $("#display_notifications").append(test)
 
     }
     getNotifications();
