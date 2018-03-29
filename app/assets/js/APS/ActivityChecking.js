@@ -273,6 +273,7 @@ $(document).on('click', '#reschedule', function() {
                 autoclose: true,
                 todayHighlight: true,                
                 startDate: new Date(),
+                endDate: new Date (new Date($("#termend").val()) - (60*60*24*21*1000)  ),
                 multidate:$("#doc").attr("limit")
                  
             });
