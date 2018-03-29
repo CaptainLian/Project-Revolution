@@ -180,18 +180,19 @@ $(document).on('click', '#reschedule', function() {
     var limit = $("#doc").attr("limit");
     var question = 
 
-        '<div>' +
-        '</div>' +
+        '<form method="POST" action="/APS/ajax/approvalResched" encType="multipart/form-data">' +
+        
+        '<input value="'+$("#doc").attr("ct")+'" name="activityID" class="form-control mydatepicker" placeholder="" type="hidden">'+
         '<div class="form-group col-md-12 >' +
             '<label class="col-md-12 text-left"  style="float:left" ><strong  style="float:left">New Schedule/s:</strong></label>' +
-            '<input id="datepicker-inline" class="form-control mydatepicker" placeholder="" type="text">'+
+            '<input id="datepicker-inline" name="date" class="form-control mydatepicker" placeholder="" type="text">'+
             '<small> Number of dates should match the program design('+limit +')  </small>'+
         '</div>' +
         
         '<div class="form-group col-md-12">' +
             '<label class="col-md-12 text-left"><strong>Reason/s:</strong></label>' +
         
-             '<select class="col-md-12" id="select-sec">' +
+             '<select name="reason" class="col-md-12" id="select-sec">' +
                  '<option value="3">Speaker Unavailable</option>' +
                  '<option value="2">Insufficient Participants</option>' +
                  '<option value="1">Class Suspension</option>' +
@@ -203,7 +204,7 @@ $(document).on('click', '#reschedule', function() {
             '</div>' +
             '<label class="col-md-12 text-left"><strong>Venue:</strong></label>' +
         
-             '<select class="col-md-12" id="select-sec">' +
+             '<select class="col-md-12" name="venue" id="select-sec">' +
                  '<option value="3">venue1</option>' +
                  '<option value="2">venue1</option>' +
                  '<option value="1">venue1</option>' +
@@ -211,7 +212,7 @@ $(document).on('click', '#reschedule', function() {
              '</select>' +
             '<div class="form-group col-md-12" id="reason" style= "display:none">' +
                 '<label class="col-md-12 text-left"  style="padding-left:0px" ><strong >Other Reason:</strong></label>' +
-                '<input id="others" class="form-control" placeholder="" type="text">'+
+                '<input id="others" class="form-control" name="others" placeholder="" type="text">'+
             '</div>' +
             '<div class="form-group col-md-12" >' +
             
@@ -227,14 +228,15 @@ $(document).on('click', '#reschedule', function() {
                             '<span class="input-group-addon btn btn-default btn-file">'+
                                 '<span class="fileinput-new">Select file</span>'+
                                 '<span class="fileinput-exists">Change</span>'+
-                                '<input type="hidden"><input required="" name="uploadfile[]" type="file">'+
+                                '<input type="hidden"><input required="" id="file" name="file" type="file">'+
                             '</span>'+
                             '<a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>'+
                         '</div>'+
                     '</div>'+
             '</div>'+
             
-        '</div>';
+        '</div>'+
+        '</form>' ;
 
 
     swal({
@@ -311,6 +313,13 @@ $(document).on('click', '#reschedule', function() {
         var activityID = $("#doc").attr("ct")
         var reason = $("#select-sec").select2('val');
         var others = $("#others").val()
+        var file = $("#others").val();
+
+        var formData = new FormData($("form")[0]);
+        
+        formData.append('_csrf',$('meta[data-name="csrf"]').attr("data-token"));
+    
+    
        swal({
             title: "Are you sure?",
             html:modified,
@@ -323,15 +332,15 @@ $(document).on('click', '#reschedule', function() {
             focusCancel: false,    
 
         }).then(function(data2){
+            
             $.ajax({
                 type: 'POST',
                 url: '/APS/ajax/approvalResched',
-                data: {
-                    activityID: activityID,
-                    date: date2,
-                    reason: reason  ,
-                    others: others
-                },
+                data:formData,
+                processData: false,
+                    contentType: false,
+                    cache: false,
+                    enctype: 'multipart/form-data',
                 success: function(data) {
                     if(data.status){
                         swal("Good job!", " ", "success").then(function(){
