@@ -498,48 +498,49 @@
     // 47D0E8 - Recruitment/ Audition
     // 5AFF62 - Recreation
     // E852A2
-    new Chart(document.getElementById("chart5"), {
-        type: 'pie',
-        data: {
-            labels: ["Academic Contest", "Distribution", "General Assembly",
-                "Seminar/ Workshops", "Publicity/ Awareness Campaign", "Meetings",
-                "Spiritual Activity", "Recruitment/ Audition", "Recreation"
-            ],
-            datasets: [{
-                label: "Respondents",
-                backgroundColor: [
-                    "#FF685B", 
-                    "#B153E8", 
-                    "#5BA0FF", 
-                    "#47E89A",
-                    "#D3FF5B", 
-                    "#FF9F5A", 
-                    "#795AFF", 
-                    "#47D0E8",
-                    "#5AFF62"
-                ],
-                data: [
-                    2478, 
-                    5267, 
-                    5267, 
-                    5267, 
-                    5267, 
-                    5267, 
-                    5267, 
-                    5267, 
-                    5267
-                ]
-            }]
-        },
-        options: {
-            legend: {
-                display: false
-            },
-            title: {
-                display: true
-            }
-        }
-    });
+    //activity summary pie chart
+    // new Chart(document.getElementById("chart5"), {
+    //     type: 'pie',
+    //     data: {
+    //         labels: ["Academic Contest", "Distribution", "General Assembly",
+    //             "Seminar/ Workshops", "Publicity/ Awareness Campaign", "Meetings",
+    //             "Spiritual Activity", "Recruitment/ Audition", "Recreation"
+    //         ],
+    //         datasets: [{
+    //             label: "Respondents",
+    //             backgroundColor: [
+    //                 "#FF685B", 
+    //                 "#B153E8", 
+    //                 "#5BA0FF", 
+    //                 "#47E89A",
+    //                 "#D3FF5B", 
+    //                 "#FF9F5A", 
+    //                 "#795AFF", 
+    //                 "#47D0E8",
+    //                 "#5AFF62"
+    //             ],
+    //             data: [
+    //                 2478, 
+    //                 5267, 
+    //                 5267, 
+    //                 5267, 
+    //                 5267, 
+    //                 5267, 
+    //                 5267, 
+    //                 5267, 
+    //                 5267
+    //             ]
+    //         }]
+    //     },
+    //     options: {
+    //         legend: {
+    //             display: false
+    //         },
+    //         title: {
+    //             display: true
+    //         }
+    //     }
+    // });
 
     //amt charts
     new Chart(document.getElementById("chartamt1"), {
@@ -637,6 +638,23 @@
                 }]
             }
         }
+    });
+    let radarcanvas = document.getElementById("chartradar")
+    let marksData = {
+      labels: ["Academic Contest", "Distribution", "General Assembly",
+                 "Seminar/ Workshops", "Publicity/ Awareness Campaign", "Meetings",
+                 "Spiritual Activity", "Recruitment/ Audition", "Recreation"
+             ],
+      datasets: [{
+        label: "Data",
+        backgroundColor: "rgba(200,0,0,0.2)",
+        data: [65, 75, 70, 80, 60, 30, 25, 45]
+      }]
+    };
+
+    let radarChart = new Chart(radarcanvas, {
+      type: 'radar',
+      data: marksData
     });
     // When the user scrolls down 20px from the top of the document, show the button
 })();
