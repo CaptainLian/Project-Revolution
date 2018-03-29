@@ -72,7 +72,7 @@
 	                	
 	                    	<div class="form-body">
 	                        	<div class="row">
-	                            	<div class="col-md-12" id="attachment">
+	                            	<div class="col-md-9 b-r" id="attachment">
 	                            		{% for attachment in attachments%}
 	                                	<div class="form-group row">
 	                                        <label class="col-sm-3 offset-md-2">{{attachment.name}}</label>
@@ -101,9 +101,24 @@
 		                                        
 	                                    </div>
 	                                    {%endfor%}
-	                            
-	                                    
 	                            	</div>
+	                            	<div class="col-md-3">
+	                                  <table>
+			                             <thead>
+			                               <tr>
+			                                 <th>Previously added files</th>
+			                               </tr>
+			                             </thead>
+			                             <tbody>
+			                               <tr>
+			                                 <td><a href="#">Venue reservation ticket.pdf</a></td>
+			                               </tr>
+			                               <tr>
+			                                 <td><a href="#">Sample attachment.pdf</a></td>
+			                               </tr>
+			                             </tbody>
+	                           		  </table>
+                                	</div>
 	                        	</div>
 	                        <!--/row-->
 	                    	</div>
