@@ -2246,7 +2246,8 @@ $trigger$
         SELECT COALESCE(MAX(sequence) + 1, 1) INTO STRICT NEW.sequence
           FROM ProjectProposalSourceFunds
          WHERE projectProposal = NEW.projectProposal;
-        return NEW;
+         
+        RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
 CREATE TRIGGER before_insert_ProjectProposalSourceFunds
@@ -2394,6 +2395,8 @@ $trigger$
         UPDATE ProjectProposal
            SET timesPended = timesPended + 1
          WHERE GOSMActivity = NEW.GOSMActivityID;
+
+         RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
 CREATE TRIGGER "after_update_ProjectProposalSignatory_completion"
