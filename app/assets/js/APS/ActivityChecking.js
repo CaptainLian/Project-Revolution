@@ -228,7 +228,7 @@ $(document).on('click', '#reschedule', function() {
                             '<span class="input-group-addon btn btn-default btn-file">'+
                                 '<span class="fileinput-new">Select file</span>'+
                                 '<span class="fileinput-exists">Change</span>'+
-                                '<input type="hidden"><input required="" id="file" name="uploadfile" type="file">'+
+                                '<input type="hidden"><input required="" id="file" name="file" type="file">'+
                             '</span>'+
                             '<a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>'+
                         '</div>'+
