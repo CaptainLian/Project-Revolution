@@ -218,7 +218,8 @@
         setSched()
         $("select").select2();
         $("#inp-date").datepicker({
-          startDate: new Date()
+          startDate: new Date(),
+          endDate: new Date (new Date("{{termend.dateend}}") - (60*60*24*21*1000)  )
         })
   			$('#createEventModal').modal({ show: false})
   			

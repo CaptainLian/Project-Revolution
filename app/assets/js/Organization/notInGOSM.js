@@ -45,7 +45,8 @@ $("body").on('click', "i.remove", function() {
 
 $('#date-range').datepicker({
     toggleActive: true,
-    startDate: new Date()
+    startDate: new Date(),
+    endDate: new Date (new Date($("#termend").val()) - (60*60*24*21*1000)  )
 });
 
 

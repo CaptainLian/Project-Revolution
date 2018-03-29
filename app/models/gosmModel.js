@@ -41,6 +41,17 @@ module.exports = function(configuration, modules, db, queryFiles) {
             return connection.none(query.toString(), {activityID: activityID});
         },
 
+        getTermEndDate: ( connection = db) => {
+            logger.debug('getTermEndDate()', log_options);
+
+            let query = squel.select()
+            .from("Term")
+            .field("dateEnd")
+            .where("id = ?",squel.str('system_get_current_term_id()'))
+
+            return connection.one(query.toString());
+        },
+
         insertProjectHead:(activityID, projectHead, connection = db) => {
             logger.debug('insertProjectHead()', log_options);
             let query = squel.insert()

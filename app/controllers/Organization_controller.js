@@ -1869,7 +1869,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             'pppd.personincharge AS personincharge',
                             "concat(acc.firstname,' ',acc.middlename,' ',acc.lastname) AS name"
 
-                        ])
+                        ]),
+                         gosmModel.getTermEndDate(),
                     ]);
                 })
                 .then(data => {
@@ -1881,6 +1882,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.projectProposal = data[0];
                 renderData.projectHeads = data[1];
                 renderData.programDesign = data[2];
+                renderData.termend = data[3]
                 renderData.status = req.params.status;
                     console.log("renderData.programDesign");
                     console.log(renderData.programDesign);
@@ -2431,7 +2433,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             gosmModel.getAllActivityTypes(['id', 'name'], task1),
                             gosmModel.getAllActivityNature(['id', 'name'], task1),
                             organizationModel.getStudentsOfOrganization(dbParam),
-                            gosmModel.getOrgGOSM(GOSMParam, task1)
+                            gosmModel.getOrgGOSM(GOSMParam, task1),
+                            gosmModel.getTermEndDate(),
                         ])
                     });
                 }).then(data => {
@@ -2443,7 +2446,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     renderData.activityTypes = data[1];
                     renderData.activityNature = data[2];
                     renderData.gosmActivities = data[0];
-
+                    renderData.termend = data[5]
                     renderData.members = data[3];
 
                     if (data[4] != undefined) {
@@ -2519,7 +2522,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         organizationModel.getStudentsOfOrganization(dbParam),
                         gosmModel.getOrgGOSM(GOSMParam, task1),
                         gosmModel.getRelated(GOSM[0]),
-                        gosmModel.getNotRelated(GOSM[0])
+                        gosmModel.getNotRelated(GOSM[0]),
+                        gosmModel.getTermEndDate(),
                     ])
                 });
             }).then(data => {
@@ -2540,6 +2544,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.rnotrelated = Math.round(nrele / (rele+nrele)*100);
                 renderData.related = rele;
                 renderData.notrelated = nrele;
+                renderData.termend = data[7];
                 console.log("renderData.rrelated")
                 console.log(renderData.rrelated)
                 if(isNaN(renderData.rrelated)){
