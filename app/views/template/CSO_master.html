@@ -20,11 +20,13 @@
 {%block defer_script%}
     {{- super() -}}
     <!-- jQuery -->
-    {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js')}}
+    {{- tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js') -}}
     <!-- Bootstrap Core JavaScript -->
-    {{tag.javascript('/bootstrap/dist/js/tether.min.js')}}
-    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js')}}
-    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js')}}
+    {{- tag.javascript('/bootstrap/dist/js/tether.min.js') -}}
+    {{- tag.javascript('/bootstrap/dist/js/bootstrap.min.js') -}}
+    {{- tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js') -}}
+    <!-- CSRF for Jquery AJAX -->
+    {{- tag.javascript('/js/system/AJAX_CSRF.js') -}}
     <!-- Notifications -->
     {{- tag.javascript('/js/system/notification.js', true) -}}
 {%endblock%}
