@@ -3,7 +3,7 @@ $('#slimtest1').slimScroll({
     height: '250px',
     
     alwaysVisible: true,
-    color: 'white'
+    color: '#424242'
 });
 (() => {
 	if(typeof $ === 'undefined'){
