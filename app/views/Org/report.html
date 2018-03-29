@@ -58,91 +58,84 @@
 
 {%block defer_script%}
     {{super()}}
-    <!-- Bootstrap Core JavaScript -->
-    {{tag.javascript('/bootstrap/dist/js/tether.min.js')}}
     <!-- Menu Plugin JavaScript -->
-    {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js')}}
+    {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
     <!--slimscroll JavaScript -->
-    {{tag.javascript('/js/jquery.slimscroll.js')}}
+    {{tag.javascript('/js/jquery.slimscroll.js', true)}}
     <!--Wave Effects -->
-    {{tag.javascript('/js/waves.js')}}
+    {{tag.javascript('/js/waves.js', true)}}
     <!-- Custom Theme JavaScript -->
-    {{tag.javascript('/js/custom.min.js')}}
-    {{tag.javascript('/js/cbpFWTabs.js')}}
+    {{tag.javascript('/js/custom.min.js', true)}}
+    {{tag.javascript('/js/cbpFWTabs.js', true)}}
     <!-- tabs-->
-    {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js')}}
+    {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
     <!-- Sweet-Alert  -->
-    {{tag.javascript('/plugins/bower_components/sweetalert/sweetalert.min.js')}}
+    {{tag.javascript('/plugins/bower_components/sweetalert/sweetalert.min.js', true)}}
     <!--Style Switcher -->
-    {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js')}}
+    {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
 
-    {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js')}}
-    {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js')}}
-    {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js')}}
-    {{tag.javascript('https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js')}}
-    {{tag.javascript('https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js')}}
-    {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js')}}
-    {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js')}}
-    {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js')}}
-    {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/nestable2/1.5.0/jquery.nestable.min.js')}}
-    {{tag.javascript('/plugins/bower_components/custom-select/custom-select.min.js')}}
-    {{tag.javascript('/plugins/bower_components/bootstrap-select/bootstrap-select.min.js')}}
+    {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js', true)}}
+    {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js', true)}}
+    {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js', true)}}
+    {{tag.javascript('https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js', true)}}
+    {{tag.javascript('https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js', true)}}
+    {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js', true)}}
+    {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js', true)}}
+    {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js', true)}}
+    {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/nestable2/1.5.0/jquery.nestable.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/custom-select/custom-select.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-select/bootstrap-select.min.js', true)}}
     <!-- Page Scripts -->
 
-    {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js)}}
-    {{tag.javascript('/js/system/AJAX_CSRF.js')}}
-    {{tag.javascript('/js/Organization/report.js')}}
-    <script>
+    {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js', true)}}
+    {{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
+    {{tag.javascript('/js/Organization/report.js', true)}}
+
+<!--  <script>
         window.onscroll = function() {scrollFunction()};
         //aps grades
         //60 40 ratio
-        var academic = {{sixty}}
-        var nonAcademic = {{forty}}
+        var academic = {{sixty}};
+        var nonAcademic = {{forty}};
         //push thrgouh ratio
-        var numPush = {{push}}
-        var numNotPush = {{notPush}}
+        var numPush = {{push}};
+        var numNotPush = {{notPush}};
         //activities summary
-        var numAcademicContest
-        var numDistribution
-        var numGeneralAssembly
-        var numSeminar
-        var numPublicity
-        var numMeetings
-        var numSpiritualActivity
-        var numRecruitment
-        var numRecreation
-        var numDistribution
+        var numAcademicContest;
+        var numDistribution;
+        var numGeneralAssembly;
+        var numSeminar;
+        var numPublicity;
+        var numMeetings;
+        var numSpiritualActivity;
+        var numRecruitment;
+        var numRecreation;
+        var numDistribution;
         
-
-
         //amt tab
         //logistics chart 
-        var venue = {{amtAverageScores.venue}}
-        var equipment = {{amtAverageScores.equipment}}
+        var venue = {{amtAverageScores.venue}};
+        var equipment = {{amtAverageScores.equipment}};
 
         //activity process
-        var openingStart = {{amtAverageScores.timestart}}
-        var timeEnd = {{amtAverageScores.timeend}}
-        var activityExec = {{amtAverageScores.activityexecution}}
-        var Registration = {{amtAverageScores.registration}}
+        var openingStart = {{amtAverageScores.timestart}};
+        var timeEnd = {{amtAverageScores.timeend}};
+        var activityExec = {{amtAverageScores.activityexecution}};
+        var Registration = {{amtAverageScores.registration}};
 
         //audience feedback
-        var Announcement = {{amtAverageScores.personea}}
-        var Interaction = {{amtAverageScores.personiomwm}}
-        var expectation = {{amtAverageScores.personea}}
-        var Awareness = {{amtAverageScores.personiitskoa}}
+        var Announcement = {{amtAverageScores.personea}};
+        var Interaction = {{amtAverageScores.personiomwm}};
+        var expectation = {{amtAverageScores.personea}};
+        var Awareness = {{amtAverageScores.personiitskoa}};
 
         //programdesign
-        var Hosts = {{amtAverageScores.hosts}}
-        var Ushers = {{amtAverageScores.facilitators}}
-        var Presentations = {{amtAverageScores.presentation}}
-        var activities = {{amtAverageScores.activities}}
-        var standingPresentation = {{amtAverageScores.organizationstandingpresentation}}
+        var Hosts = {{amtAverageScores.hosts}};
+        var Ushers = {{amtAverageScores.facilitators}};
+        var Presentations = {{amtAverageScores.presentation}};
+        var activities = {{amtAverageScores.activities}};
+        var standingPresentation = {{amtAverageScores.organizationstandingpresentation}};
 
-        
-        
-
-        
         function scrollFunction() {
             if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
                 document.getElementById("myBtn").style.display = "block";
@@ -157,442 +150,491 @@
             document.documentElement.scrollTop = 0;
         }
     </script>
-
-
-
+ -->
     <!-- /Page Scripts -->
 {%endblock%}
 
 
 {%block content%}
 <div class="row">
-<button class="btn btn-success btn-rounded" onclick="topFunction()" id="myBtn" title="Go to top">back to top</button>
-                    <div class="col-sm-12">
-                    
-                    
-                        <div class="white-box">
-                  
-                            <br>
-                            <section>
-                                <div class="sttabs tabs-style-bar">
-                                    <nav>
-                                        <ul>
-                                            <li class="tab-current"><a href="#section-bar-1" class="fa fa-file"><span>&nbsp; APS & ADM</span></a></li>
-                                            <li class=""><a href="#section-bar-2" class="fa fa-file"><span>&nbsp; PNP</span></a></li>
-                                            <li class=""><a href="#section-bar-3" class="fa fa-file"><span>&nbsp; Orgres</span></a></li>
-                                            
-                                            <li class=""><a href="#section-bar-4" class="fa fa-file"><span>&nbsp; FIN</span></a></li>
-                                            <li class=""><a href="#section-bar-5" class="fa fa-file"><span>&nbsp; AMT</span></a></li>
-                                        </ul>
-                                    </nav>
-                                    <div class="content-wrap">
-                                        <section id="section-bar-1" class="content-current">
-                                        <!--start of APS -->
-                                        <div class="row text-center">
-                                            
-                                            
-                                            <div class="col-md-12">
-                                                <h4 class="text text-megna col-md-12"><strong>Documentation Grade</strong></h4>
-                                                
-                                            </div>
-                                             
-                                        </div>
-                                        <div class="row row-in">
+    <button class="btn btn-success btn-rounded" onclick="topFunction()" id="myBtn" title="Go to top">back to top</button>
+    <div class="col-sm-12">
+        <div class="white-box">
+            <br />
+            <section>
+                <div class="sttabs tabs-style-bar">
+                    <nav>
+                        <ul>
+                            <li class="tab-current"><a href="#section-bar-1" class="fa fa-file"><span>&nbsp; APS & ADM</span></a></li>
+                            <li class=""><a href="#section-bar-2" class="fa fa-file"><span>&nbsp; PNP</span></a></li>
+                            <li class=""><a href="#section-bar-3" class="fa fa-file"><span>&nbsp; Orgres</span></a></li>
+                            <li class=""><a href="#section-bar-4" class="fa fa-file"><span>&nbsp; FIN</span></a></li>
+                            <li class=""><a href="#section-bar-5" class="fa fa-file"><span>&nbsp; AMT</span></a></li>
+                        </ul>
+                    </nav>
+                    <div class="content-wrap">
+                        <section id="section-bar-1" class="content-current">
+                            <!--start of APS -->
+                            <div class="row text-center">
+                                <div class="col-md-12">
+                                    <h4 class="text text-megna col-md-12"><strong>Documentation Grade</strong></h4>
+                                </div>
+                            </div>
 
-                                            <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
-                                                <div class="col-in row">
-                                                    <div class="col-md-6 col-sm-6 col-xs-6 ">
-                                                        <!--  -->
-                                                        <h5 class="text-muted vb text-center">Pre-acts Punctuality</h5>
-                                                    </div>
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h3 class="counter text-right m-t-15 text-megna">{{preactsPunctualityGrade | round(2)}}</h3>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="progress">
-                                                            <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
-                                                <div class="col-in row">
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h5 class="text-muted vb">Pre-acts Completeness</h5>
-                                                    </div>
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h3 class="counter text-right m-t-15 text-megna">{{preactsCompletenessGrade | round(2)}}</h3>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="progress">
-                                                            <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 100%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
-                                                <div class="col-in row">
-                                                    <div class="col-md-6 col-sm-6 col-xs-6 ">
-                                                        <h5 class="text-muted vb">Post-acts Punctuality</h5>
-                                                    </div>
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h3 class="counter text-right m-t-15 text-megna">{{postactsPunctualityGrade | round(2)}}</h3>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="progress">
-                                                            <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-6  b-0">
-                                                <div class="col-in row">
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h5 class="text-muted vb">Post-acts Completeness</h5>
-                                                    </div>
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h3 class="counter text-right m-t-15 text-megna">{{postactsCompletenessGrade | round(2)}}</h3>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="progress">
-                                                            <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                            <div class="row row-in">
+                                <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
+                                    <div class="col-in row">
+                                        <div class="col-md-6 col-sm-6 col-xs-6 ">
+                                            <!--  -->
+                                            <h5 class="text-muted vb text-center">Pre-acts Punctuality</h5>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h3 class="counter text-right m-t-15 text-megna">{{preactsPunctualityGrade | round(2)}}</h3>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"> <span class="sr-only">40% Complete (success)</span> </div>
                                             </div>
                                         </div>
-                                        <div class="row row-in">
+                                    </div>
+                                </div>
 
-                                            <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
-                                                <div class="col-in row">
-                                                    <div class="col-md-6 col-sm-6 col-xs-6 ">
-                                                        
-                                                        <h5 class="text-muted vb text-center">Timing Grade</h5>
-                                                    </div>
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h3 class="counter text-right m-t-15 text-megna">{{preactsTimingRatioGrade | round(2)}}</h3>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="progress">
-                                                            <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
-                                                <div class="col-in row">
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h5 class="text-muted vb">GOSM Submission</h5>
-                                                    </div>
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h3 class="counter text-right m-t-15 text-megna text-smalls">{{gosmSubmissionGrade | round(2)}}</h3>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="progress">
-                                                            <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 100%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
-                                                <div class="col-in row">
-                                                    <div class="col-md-6 col-sm-6 col-xs-6 ">
-                                                        <h5 class="text-muted vb">Pushed-Through Grade</h5>
-                                                    </div>
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h3 class="counter text-right m-t-15 text-megna">{{pushedThroughGrade | round(2)}}</h3>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="progress">
-                                                            <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-6  b-0">
-                                                <div class="col-in row">
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h5 class="text-muted vb">Not in GOSM Compliance</h5>
-                                                    </div>
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h3 class="counter text-right m-t-15 text-megna">{{notInGOSMGrade | round(2)}}</h3>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="progress">
-                                                            <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
+                                    <div class="col-in row">
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h5 class="text-muted vb">Pre-acts Completeness</h5>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h3 class="counter text-right m-t-15 text-megna">{{preactsCompletenessGrade | round(2)}}</h3>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 100%"> <span class="sr-only">40% Complete (success)</span> </div>
                                             </div>
                                         </div>
-                                        <div class="row row-in">
-
-                                            <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
-                                                <div class="col-in row">
-                                                    <div class="col-md-6 col-sm-6 col-xs-6 ">
-                                                        
-                                                        <h5 class="text-muted vb text-center">60-40 Grade</h5>
-                                                    </div>
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h3 class="counter text-right m-t-15 text-megna">{{sixtyFortyGrade | round(2)}}</h3>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="progress">
-                                                            <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
-                                                <div class="col-in row">
-                                                    <!-- <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h5 class="text-muted vb">Institutional Activities Commitment</h5>
-                                                    </div>
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h3 class="counter text-right m-t-15 text-megna">3</h3>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="progress">
-                                                            <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 100%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                        </div>
-                                                    </div> -->
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
-                                                <div class="col-in row">
-                                                    <div class="col-md-6 col-sm-6 col-xs-6 ">
-                                                        <h5 class="text-muted vb">Lasallian Formation Compliance</h5>
-                                                    </div>
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h3 class="counter text-right m-t-15 text-megna">{{lasallianFormationComplianceGrade | round(2)}}</h3>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="progress">
-                                                            <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-6  b-0">
-                                                <div class="col-in row">
-                                                    <div class="col-md-6 col-sm-6 col-xs-6 text-center">
-                                                        <div data-icon="&#xe013;" class="linea-icon linea-basic text-center"></div>
-                                                        <h5 class="text-muted vb">Documentation Grade</h5>
-                                                    </div>
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h3 class="counter text-right m-t-15 text-warning">{{documentationGrade | round(2)}}</h3>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="progress">
-                                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
+                                    <div class="col-in row">
+                                        <div class="col-md-6 col-sm-6 col-xs-6 ">
+                                            <h5 class="text-muted vb">Post-acts Punctuality</h5>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h3 class="counter text-right m-t-15 text-megna">{{postactsPunctualityGrade | round(2)}}</h3>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
                                             </div>
                                         </div>
-                                        <div class="row text-center">
-                                            
-                                            
-                                            <div class="col-md-12">
-                                                <h4 class="text text-megna col-md-12"><strong>Activity Processing and Screening Report</strong></h4>
-                                                
-                                            </div>
-                                             
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6  b-0">
+                                    <div class="col-in row">
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h5 class="text-muted vb">Post-acts Completeness</h5>
                                         </div>
-                                        
-                                        <div class="row row-in">
-
-                                            
-                                            <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
-                                                <div class="col-in row">
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h5 class="text-muted vb">Early Approved Activities</h5>
-                                                    </div>
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h3 class="counter text-right m-t-15 text-megna">{{preactsEarlyApprovedActivities | round(2)}}</h3>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="progress">
-                                                            <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 100%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
-                                                <div class="col-in row">
-                                                    <div class="col-md-6 col-sm-6 col-xs-6 ">
-                                                        <h5 class="text-muted vb">Late Approved Activities</h5>
-                                                    </div>
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h3 class="counter text-right m-t-15 text-megna">{{preactsLateApprovedActivities | round(2)}}</h3>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="progress">
-                                                            <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-6  b-0">
-                                                <div class="col-in row">
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h5 class="text-muted vb">Total Approved Activities</h5>
-                                                    </div>
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h3 class="counter text-right m-t-15 text-megna">{{preactsApprovedActivities | round(2)}}</h3>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="progress">
-                                                            <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h3 class="counter text-right m-t-15 text-megna">{{postactsCompletenessGrade | round(2)}}</h3>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
                                             </div>
                                         </div>
-                                        
-                                        <div class="row row-in">
-
-                                            <div class="col-lg-3 col-sm-6 row-in-br">
-                                                <div class="col-in row">
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h5 class="text-muted vb">Timing</h5>
-                                                    </div>
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h3 class="counter text-right m-t-15 text-megna">{{preactsTimingRatio | round(2)}}</h3>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="progress">
-                                                            <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
-                                                <div class="col-in row">
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h5 class="text-muted vb">Denied Activities</h5>
-                                                    </div>
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h3 class="counter text-right m-t-15 text-megna">{{preactsDeniedActivities | round(2)}}</h3>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="progress">
-                                                            <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 100%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-6 row-in-br">
-                                                <div class="col-in row">
-                                                    <div class="col-md-6 col-sm-6 col-xs-6"> 
-                                                        <h5 class="text-muted vb">Total times pending</h5>
-                                                    </div>
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h3 class="counter text-right m-t-15 text-megna">{{preactsPendCount | round(2)}}</h3>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="progress">
-                                                            <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-6  b-0">
-                                                <div class="col-in row">
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h5 class="text-muted vb">Completeness</h5>
-                                                    </div>
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h3 class="counter text-right m-t-15 text-megna">{{totalActivities | round(2)}}</h3>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="progress">
-                                                            <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-in">
+                                <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
+                                    <div class="col-in row">
+                                        <div class="col-md-6 col-sm-6 col-xs-6 ">
+                                            
+                                            <h5 class="text-muted vb text-center">Timing Grade</h5>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h3 class="counter text-right m-t-15 text-megna">{{preactsTimingRatioGrade | round(2)}}</h3>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"> <span class="sr-only">40% Complete (success)</span> </div>
                                             </div>
                                         </div>
-                                        <hr>
-                                        <!--/APS -->
-                                        <!--start of ADM -->
-                                        <div class="row">
-                                             <h4 class="text-center text-megna col-md-12"><strong>Activity Documentations and Management Report</strong></h4>
-                                            
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
+                                    <div class="col-in row">
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h5 class="text-muted vb">GOSM Submission</h5>
                                         </div>
-                                        
-                                        <div class="row row-in">
-
-                                            
-                                            <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
-                                                <div class="col-in row">
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h5 class="text-muted vb">Early Approved Activities</h5>
-                                                    </div>
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h3 class="counter text-right m-t-15 text-megna">{{postactsEarlyApprovedActivities | round(2)}}</h3>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="progress">
-                                                            <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 100%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
-                                                <div class="col-in row">
-                                                    <div class="col-md-6 col-sm-6 col-xs-6 ">
-                                                        <h5 class="text-muted vb">Late Approved Activities</h5>
-                                                    </div>
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h3 class="counter text-right m-t-15 text-megna">{{postactsLateApprovedActivities | round(2)}}</h3>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="progress">
-                                                            <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-6  b-0">
-                                                <div class="col-in row">
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h5 class="text-muted vb">Total Approved Activities</h5>
-                                                    </div>
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h3 class="counter text-right m-t-15 text-megna">{{postactsApprovedActivities | round(2)}}</h3>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="progress">
-                                                            <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h3 class="counter text-right m-t-15 text-megna text-smalls">{{gosmSubmissionGrade | round(2)}}</h3>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 100%"> <span class="sr-only">40% Complete (success)</span> </div>
                                             </div>
                                         </div>
-                                        
-                                        <div class="row row-in">
-
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
+                                    <div class="col-in row">
+                                        <div class="col-md-6 col-sm-6 col-xs-6 ">
+                                            <h5 class="text-muted vb">Pushed-Through Grade</h5>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h3 class="counter text-right m-t-15 text-megna">{{pushedThroughGrade | round(2)}}</h3>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6  b-0">
+                                    <div class="col-in row">
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h5 class="text-muted vb">Not in GOSM Compliance</h5>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h3 class="counter text-right m-t-15 text-megna">{{notInGOSMGrade | round(2)}}</h3>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-in">
+                                <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
+                                    <div class="col-in row">
+                                        <div class="col-md-6 col-sm-6 col-xs-6 ">
                                             
-                                            
-                                            <div class="col-lg-3 col-sm-6  b-0">
-                                                <div class="col-in row">
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h5 class="text-muted vb">Completeness</h5>
-                                                    </div>
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h3 class="counter text-right m-t-15 text-megna">{{postactsTotalActivities | round(2)}}</h3>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="progress">
-                                                            <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                            <h5 class="text-muted vb text-center">60-40 Grade</h5>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h3 class="counter text-right m-t-15 text-megna">{{sixtyFortyGrade | round(2)}}</h3>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
+                                    <div class="col-in row">
+                                        <!-- <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h5 class="text-muted vb">Institutional Activities Commitment</h5>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h3 class="counter text-right m-t-15 text-megna">3</h3>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                            </div>
+                                        </div> -->
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
+                                    <div class="col-in row">
+                                        <div class="col-md-6 col-sm-6 col-xs-6 ">
+                                            <h5 class="text-muted vb">Lasallian Formation Compliance</h5>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h3 class="counter text-right m-t-15 text-megna">{{lasallianFormationComplianceGrade | round(2)}}</h3>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6  b-0">
+                                    <div class="col-in row">
+                                        <div class="col-md-6 col-sm-6 col-xs-6 text-center">
+                                            <div data-icon="&#xe013;" class="linea-icon linea-basic text-center"></div>
+                                            <h5 class="text-muted vb">Documentation Grade</h5>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h3 class="counter text-right m-t-15 text-warning">{{documentationGrade | round(2)}}</h3>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row text-center">
+                                
+                                
+                                <div class="col-md-12">
+                                    <h4 class="text text-megna col-md-12"><strong>Activity Processing and Screening Report</strong></h4>
+                                    
+                                </div>
+                                
+                            </div>
+                            
+                            <div class="row row-in">
+                                
+                                <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
+                                    <div class="col-in row">
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h5 class="text-muted vb">Early Approved Activities</h5>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h3 class="counter text-right m-t-15 text-megna">{{preactsEarlyApprovedActivities | round(2)}}</h3>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
+                                    <div class="col-in row">
+                                        <div class="col-md-6 col-sm-6 col-xs-6 ">
+                                            <h5 class="text-muted vb">Late Approved Activities</h5>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h3 class="counter text-right m-t-15 text-megna">{{preactsLateApprovedActivities | round(2)}}</h3>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6  b-0">
+                                    <div class="col-in row">
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h5 class="text-muted vb">Total Approved Activities</h5>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h3 class="counter text-right m-t-15 text-megna">{{preactsApprovedActivities | round(2)}}</h3>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row row-in">
+                                <div class="col-lg-3 col-sm-6 row-in-br">
+                                    <div class="col-in row">
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h5 class="text-muted vb">Timing</h5>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h3 class="counter text-right m-t-15 text-megna">{{preactsTimingRatio | round(2)}}</h3>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
+                                    <div class="col-in row">
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h5 class="text-muted vb">Denied Activities</h5>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h3 class="counter text-right m-t-15 text-megna">{{preactsDeniedActivities | round(2)}}</h3>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6 row-in-br">
+                                    <div class="col-in row">
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h5 class="text-muted vb">Total times pending</h5>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h3 class="counter text-right m-t-15 text-megna">{{preactsPendCount | round(2)}}</h3>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6  b-0">
+                                    <div class="col-in row">
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h5 class="text-muted vb">Completeness</h5>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h3 class="counter text-right m-t-15 text-megna">{{totalActivities | round(2)}}</h3>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <!--/APS -->
+                            <!--start of ADM -->
+                            <div class="row">
+                                <h4 class="text-center text-megna col-md-12"><strong>Activity Documentations and Management Report</strong></h4>
+                                
+                            </div>
+                            
+                            <div class="row row-in">
+                                
+                                <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
+                                    <div class="col-in row">
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h5 class="text-muted vb">Early Approved Activities</h5>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h3 class="counter text-right m-t-15 text-megna">{{postactsEarlyApprovedActivities | round(2)}}</h3>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
+                                    <div class="col-in row">
+                                        <div class="col-md-6 col-sm-6 col-xs-6 ">
+                                            <h5 class="text-muted vb">Late Approved Activities</h5>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h3 class="counter text-right m-t-15 text-megna">{{postactsLateApprovedActivities | round(2)}}</h3>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6  b-0">
+                                    <div class="col-in row">
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h5 class="text-muted vb">Total Approved Activities</h5>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h3 class="counter text-right m-t-15 text-megna">{{postactsApprovedActivities | round(2)}}</h3>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row row-in">
+                                
+                                
+                                <div class="col-lg-3 col-sm-6  b-0">
+                                    <div class="col-in row">
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h5 class="text-muted vb">Completeness</h5>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h3 class="counter text-right m-t-15 text-megna">{{postactsTotalActivities | round(2)}}</h3>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/ADM -->
+                              <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="white-box text-center">
+                                        <h3 class="box-title">60/40 ratio</h3>
+                                        <div>
+                                            <canvas id="chart3" height="150"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="white-box text-center">
+                                        <h3 class="box-title">Push-through ratio</h3>
+                                        <div>
+                                            <canvas id="chart4" height="150"> </canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="white-box text-center">
+                                        <h3 class="box-title">ACTIVITIES SUMMARY</h3>
+                                        <div>
+                                            <canvas id="chart5" height="150"> </canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> 
+                        </section>
+                        <section id="section-bar-2" class="">
+                            <div class="row text-center">
+                                <div class="col-md-12">
+                                    <h4 class="text text-megna col-md-12"><strong>Publicity and Production Grade</strong></h4>
+                                </div>
+                            </div>
+                            <div class="row row-in">
+                                <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
+                                    <div class="col-in row">
+                                        <div class="col-md-6 col-sm-6 col-xs-6 ">
+                                            <!--  -->
+                                            <h5 class="text-muted vb text-center">University Publicity Instrument</h5>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h3 class="counter text-right m-t-15 text-megna">{{universityPublicityInstrumentGrade | round(2)}}</h3>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
+                                    <div class="col-in row">
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h5 class="text-muted vb">News Letters, Publications</h5>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h3 class="counter text-right m-t-15 text-megna">{{newsLettersPublicationsGrade | round(2)}}</h3>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 100%"> <span class="sr-only">40% Complete (success)</span> </div>
                                             </div>
                                         </div>
                                         <!--/ADM -->
-                                       <!--  <div class="row">
+                                        <div class="row">
                                             <div class="col-lg-4">
                                                 <div class="white-box text-center">
                                                     <h3 class="box-title">60/40 ratio</h3>
@@ -601,13 +643,20 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-4">
-                                                <div class="white-box text-center">
-                                                    <h3 class="box-title">Push-through ratio</h3>
-                                                    <div>
-                                                        <canvas id="chart4" height="150"> </canvas>
-                                                    </div>
-                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6  b-0">
+                                    <div class="col-in row">
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h5 class="text-muted vb">Compliance</h5>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h3 class="counter text-right m-t-15 text-megna">{{pnpCompliance | round(2)}}</h3>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
                                             </div>
                                             <div class="col-lg-4">
                                                 <div class="white-box text-center">
@@ -617,7 +666,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div> -->
+                                        </div>
                                         </section>
                                         <section id="section-bar-2" class="">
                                         <div class="row text-center">
@@ -625,709 +674,607 @@
                                                 <h4 class="text text-megna col-md-12"><strong>Publicity and Production Grade</strong></h4>
                                             </div>
                                         </div>
-                                        <div class="row row-in">
-
-                                            <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
-                                                <div class="col-in row">
-                                                    <div class="col-md-6 col-sm-6 col-xs-6 ">
-                                                        <!--  -->
-                                                        <h5 class="text-muted vb text-center">University Publicity Instrument</h5>
-                                                    </div>
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h3 class="counter text-right m-t-15 text-megna">{{universityPublicityInstrumentGrade | round(2)}}</h3>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="progress">
-                                                            <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
-                                                <div class="col-in row">
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h5 class="text-muted vb">News Letters, Publications</h5>
-                                                    </div>
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h3 class="counter text-right m-t-15 text-megna">{{newsLettersPublicationsGrade | round(2)}}</h3>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="progress">
-                                                            <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 100%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
-                                                <div class="col-in row">
-                                                    <div class="col-md-6 col-sm-6 col-xs-6 ">
-                                                        <h5 class="text-muted vb">Online Publicity</h5>
-                                                    </div>
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h3 class="counter text-right m-t-15 text-megna">{{onlinePublicityGrade | round(2)}}</h3>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="progress">
-                                                            <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-6  b-0">
-                                                <div class="col-in row">
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h5 class="text-muted vb">Compliance</h5>
-                                                    </div>
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h3 class="counter text-right m-t-15 text-megna">{{pnpCompliance | round(2)}}</h3>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="progress">
-                                                            <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row row-in">
-
-                                            <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
-                                                <div class="col-in row">
-                                                   <!--  <div class="col-md-6 col-sm-6 col-xs-6 ">
-                                                        
-                                                        <h5 class="text-muted vb text-center">Members' Evaluation</h5>
-                                                    </div>
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h3 class="counter text-right m-t-15 text-megna">{#{{preactsTimingRatioGrade | round(2)}}#}</h3>
-                                                    </div> -->
-                                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="progress">
-                                                            <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        
-                                            <div class="col-lg-3 col-sm-6  row-in-br  b-r-none">
-                                                <div class="col-in row">
-                                                    <div class="col-md-6 col-sm-6 col-xs-6 text-center">
-                                                        <div data-icon="&#xe013;" class="linea-icon linea-basic text-center"></div>
-                                                        <h5 class="text-muted vb">PNP Grade</h5>
-                                                    </div>
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h3 class="counter text-right m-t-15 text-warning">{{pnpGrade | round(2)}}</h3>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="progress">
-                                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <!--/ADM -->
-                                    </section>
-                                        <section id="section-bar-3" class="">
-                                            <div class="row text-center">
-                                                <div class="col-md-12">
-                                                    <h4 class="text text-megna col-md-12"><strong>ORGRES Grade</strong></h4>
-                                                </div>
-                                            </div>
-                                            <div class="row row-in">
-                                                <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
-                                                    <div class="col-in row">
-                                                        <div class="col-md-6 col-sm-6 col-xs-6 ">
-                                                            <!--  -->
-                                                            <h5 class="text-muted vb text-center">Clear Sense of Purpose</h5>
-                                                        </div>
-                                                        <div class="col-md-6 col-sm-6 col-xs-6">
-                                                            <h3 class="counter text-right m-t-15 text-megna">{{orgresPurposeGrade | round(2)}}</h3>
-                                                        </div>
-                                                        <div class="col-md-12 col-sm-12 col-xs-12">
-                                                            <div class="progress">
-                                                                <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
-                                                    <div class="col-in row">
-                                                        <div class="col-md-6 col-sm-6 col-xs-6">
-                                                            <h5 class="text-muted vb">Member/Org Involvement</h5>
-                                                        </div>
-                                                        <div class="col-md-6 col-sm-6 col-xs-6">
-                                                            <h3 class="counter text-right m-t-15 text-megna">{{orgresInvolvementGrade | round(2)}}</h3>
-                                                        </div>
-                                                        <div class="col-md-12 col-sm-12 col-xs-12">
-                                                            <div class="progress">
-                                                                <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 100%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
-                                                    <div class="col-in row">
-                                                        <div class="col-md-6 col-sm-6 col-xs-6 ">
-                                                            <h5 class="text-muted vb">Quality of Activity</h5>
-                                                        </div>
-                                                        <div class="col-md-6 col-sm-6 col-xs-6">
-                                                            <h3 class="counter text-right m-t-15 text-megna">{{orgresQualityGrade | round(2)}}</h3>
-                                                        </div>
-                                                        <div class="col-md-12 col-sm-12 col-xs-12">
-                                                            <div class="progress">
-                                                                <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-3 col-sm-6  b-0">
-                                                    <div class="col-in row">
-                                                        <div class="col-md-6 col-sm-6 col-xs-6">
-                                                            <h5 class="text-muted vb">Leadership</h5>
-                                                        </div>
-                                                        <div class="col-md-6 col-sm-6 col-xs-6">
-                                                            <h3 class="counter text-right m-t-15 text-megna">{{orgresLeadershipGrade | round(2)}}</h3>
-                                                        </div>
-                                                        <div class="col-md-12 col-sm-12 col-xs-12">
-                                                            <div class="progress">
-                                                                <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row row-in">
-                                                <div class="col-lg-3 col-sm-6  row-in-br  b-r-none">
-                                                    <div class="col-in row">
-                                                        <div class="col-md-6 col-sm-6 col-xs-6 text-center">
-                                                            <div data-icon="&#xe013;" class="linea-icon linea-basic text-center"></div>
-                                                            <h5 class="text-muted vb">ORGRES Grade</h5>
-                                                        </div>
-                                                        <div class="col-md-6 col-sm-6 col-xs-6">
-                                                            <h3 class="counter text-right m-t-15 text-warning">{{orgresGrade | round(2)}}</h3>
-                                                        </div>
-                                                        <div class="col-md-12 col-sm-12 col-xs-12">
-                                                            <div class="progress">
-                                                                <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        <!-- Start Online Officer Survey Form Results -->
-                                            <div class="row">
-                                                
-                                                <div class="col-md-12">
-                                                    <h3 class="text text-megna col-md-12"><strong>ONLINE OFFICER SURVEY FORM RESULTS</strong></h3>
-                                                </div>
-
-                                                <table class="table table-striped" id="ofSurTable">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Question</th>
-                                                            <th>Average Grade</th>
-                                                            
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>1. I believe that the organization has prepared us officers.</td>
-                                                            <td>{{osfField1Average | round(2)}}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>2. Sufficient training was provided.</td>
-                                                            <td>{{osfField2Average | round(2)}}</td>
-                                                        </tr>
-
-
-                                                        <tr>
-                                                            <td>3. All of the officers were able to apply the leadership gained.</td>
-                                                            <td>{{osfField3Average | round(2)}}</td>
-                                                        </tr>
-
-                                                        <tr>
-                                                            <td>4. Officers who underwent special training echoed their learning to fellow officers.</td>
-                                                            <td>{{osfField4Average | round(2)}}</td>
-                                                        </tr>
-
-                                                        <tr>
-                                                            <td>5. Officers are able to identify ways to recognize the contributions of the members of the organization.</td>
-                                                            <td>{{osfField5Average | round(2)}}</td>
-                                                        </tr>
-
-                                                        <tr>
-                                                            <td>6. The organization has evaluation meetings after major activities to identify strengths, weak areas and develop corrective measures.</td>
-                                                            <td>{{osfField6Average | round(2)}}</td>
-                                                        </tr>
-
-                                                        <tr>
-                                                            <td>7. The organization has evaluation meetings with the faculty adviser/s after each term to identify strengths, weak areas and develop corrective measures.</td>
-                                                            <td>{{osfField7Average | round(2)}}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>8. I am satisfied and fulfilled with my position in the organization.</td>
-                                                            <td>{{osfField8Average | round(2)}}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>9. I believe that positions in the organization are well defined and has no overlaps of responsibilities.</td>
-                                                            <td>{{osfField9Average | round(2)}}</td>
-                                                        </tr>
-                                                        
-
-
-                                                    </tbody>
-                                    
-                                                </table>
-                                            </div>
-                                            <!-- <div class="row row-in">
-                                                <div class="col-md-4">
-                                                    <div class="white-box">
-                                                        <div>
-                                                        <label class="text-justify">1. I believe that the organization has prepared us officers.</label>
-                                                            <canvas id="bar-chart1" width="800" height="450"></canvas>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="white-box">
-                                                        <div>
-                                                        <label class="text-center">2. Sufficient training was provided.</label>
-                                                            <canvas id="bar-chart2" width="800" height="450"></canvas>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="white-box">
-                                                        <div>
-                                                        <label class="text-center">3. All of the officers were able to apply the leadership gained .</label>
-                                                            <canvas id="bar-chart3" width="800" height="450"></canvas>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="white-box">
-                                                        <div>
-                                                        <label class="text-center">4. Officers who underwent special training echoed their learning to fellow officers.</label>
-                                                            <canvas id="bar-chart4" width="800" height="450"></canvas>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="white-box">
-                                                        <div>
-                                                        <label class="text-center">5. Officers are able to identify ways to recognize the contributions of the members of the organization.</label>
-                                                            <canvas id="bar-chart5" width="800" height="450"></canvas>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="white-box">
-                                                        <div>
-                                                        <label class="text-center">6. The organization has evaluation meetings after major activities to identify strengths, weak areas and develop corrective measures.</label>
-                                                            <canvas id="bar-chart6" width="800" height="450"></canvas>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="white-box">
-                                                        <div>
-                                                        <label class="text-center">7. The organization has evaluation meetings with the faculty adviser/s after each term to identify strengths, weak areas and develop corrective measures.</label>
-                                                            <canvas id="bar-chart7" width="800" height="450"></canvas>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="white-box">
-                                                        <div>
-                                                        <label class="text-center">8. I am satisfied and fulfilled with my position in the organization.</label>
-                                                            <canvas id="bar-chart8" width="800" height="450"></canvas>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="white-box">
-                                                        <div>
-                                                        <label class="text-center">9. I believe that positions in the organization are well defined and has no overlaps of responsibilities.</label>
-                                                            <canvas id="bar-chart9" width="800" height="450"></canvas>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                </div> -->
-                                        <!--/ End Online officer survey form results -->
-                                        <!-- Start Online mEMBER Survey Form Results -->
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <h3 class="text text-megna col-md-12"><strong>ONLINE MEMBER SURVEY FORM RESULTS</strong></h3>
-                                                </div>
-                                                <table class="table table-striped" id="memsur">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Question</th>
-                                                            <th>Average Grade</th>
-                                                            
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>1) I know the goal of my organization.</td>
-                                                            <td>{{msfField1Average | round(2)}}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>2) The activities of the organization clearly reflect their objectives.</td>
-                                                            <td>{{msfField2Average | round(2)}}</td>
-                                                        </tr>
-
-                                                        <tr>
-                                                            <td>3) I am satisfied with the services the organization has offered.</td>
-                                                            <td>{{msfField3Average | round(2)}}</td>
-                                                        </tr>
-
-                                                        <tr>
-                                                            <td>4) I believe that the organization has helped me in my chosen field of interest.</td>
-                                                            <td>{{msfField4Average | round(2)}}</td>
-                                                        </tr>
-
-                                                        <tr>
-                                                            <td>5) The organization has encouraged me to be involved in their activities.</td>
-                                                            <td>{{msfField5Average | round(2)}}</td>
-                                                        </tr>
-
-                                                        <tr>
-                                                            <td>6) The officers showed consistency in motivating the members to be actively involved in the organization.</td>
-                                                            <td>{{msfField6Average | round(2)}}</td>
-                                                        </tr>
-
-                                                        <tr>
-                                                            <td>7.) The organization was able to maximize their publicity media. Help text: Publicity media can be newsletters, magazines, online publicities (videos and pictures), etc.</td>
-                                                            <td>{{msfField7Average | round(2)}}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>8.) The organization has provided a venue wherein  I can share my ideas/opinions/needs/ expectations (eg. (surveys, comment boxes, sharing, etc.)</td>
-                                                            <td>{{msfField8Average | round(2)}}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>9.) I believe that the organization has made use of my input (ideas, opinions, expectations, needs which I have stated)</td>
-                                                            <td>{{msfField9Average | round(2)}}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>10.) I believe that the organization has made use of my input (ideas, opinions, expectations, needs which I have stated)</td>
-                                                            <td>{{msfField10Average | round(2)}}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>11.)  I can recall activities held by my organization that made an impact in my studies/interests.</td>
-                                                            <td>{{msfField11Average | round(2)}}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>12.) The membership fee I paid for was worth it.</td>
-                                                            <td>{{msfField12Average | round(2)}}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>13.) The organization provides recognition for outstanding members.</td>
-                                                            <td>{{msfField13Average | round(2)}}</td>
-                                                        </tr>
-                                                    
-
-                                                    </tbody>
-                                    
-                                                </table>
-                                                
-                                            </div>
-
-                                            <!-- <div class="row row-in">
-                                                <div class="col-md-4">
-                                                    <div class="white-box">
-                                                        <div>
-                                                        <label class="text-justify">1. I know the goal of my organization.</label>
-                                                            <canvas id="chartm1" width="800" height="450"></canvas>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="white-box">
-                                                        <div>
-                                                        <label class="text-center">2. The activities of the organization clearly reflect their objectives.</label>
-                                                            <canvas id="chartm2" width="800" height="450"></canvas>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="white-box">
-                                                        <div>
-                                                        <label class="text-center">3. I am satisfied with the services the organization has offered.</label>
-                                                            <canvas id="chartm3" width="800" height="450"></canvas>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="white-box">
-                                                        <div>
-                                                        <label class="text-center">4. I believe that the organization has helped me in my chosen field of interest.</label>
-                                                            <canvas id="chartm4" width="800" height="450"></canvas>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="white-box">
-                                                        <div>
-                                                        <label class="text-center">5. The organization has encouraged me to be involved in their activities.</label>
-                                                            <canvas id="chartm5" width="800" height="450"></canvas>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="white-box">
-                                                        <div>
-                                                        <label class="text-center">6. The officers showed consistency in motivating the members to be actively involved in the organization.</label>
-                                                            <canvas id="chartm6" width="800" height="450"></canvas>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="white-box">
-                                                        <div>
-                                                        <label class="text-center">7. The organization was able to maximize their publicity media. Help text: Publicity media can be newsletters, magazines, online publicities (videos and pictures), etc.</label>
-                                                            <canvas id="chartm7" width="800" height="450"></canvas>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="white-box">
-                                                        <div>
-                                                        <label class="text-center">8. The organization has provided a venue wherein  I can share my ideas/opinions/needs/ expectations (eg. (surveys, comment boxes, sharing, etc.)</label>
-                                                            <canvas id="chartm8" width="800" height="450"></canvas>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="white-box">
-                                                        <div>
-                                                        <label class="text-center">9. I believe that the organization has made use of my input (ideas, opinions, expectations, needs which I have stated)</label>
-                                                            <canvas id="chartm9" width="800" height="450"></canvas>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="white-box">
-                                                        <div>
-                                                        <label class="text-center">10. The organization has adjusted to the needs/suggestions of the members wherein the organization applied those to its activities and services.</label>
-                                                            <canvas id="chartm10" width="800" height="450"></canvas>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="white-box">
-                                                        <div>
-                                                        <label class="text-center">11.  I can recall activities held by my organization that made an impact in my studies/interests.</label>
-                                                            <canvas id="chartm11" width="800" height="450"></canvas>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="white-box">
-                                                        <div>
-                                                        <label class="text-center">12.The membership fee I paid for was worth it.</label>
-                                                            <canvas id="chartm12" width="800" height="450"></canvas>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="white-box">
-                                                        <div>
-                                                        <label class="text-center">13. The organization provides recognition for outstanding members.</label>
-                                                            <canvas id="chartm13" width="800" height="450"></canvas>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div> -->
-                                        <!--/ End Online member survey form results -->
-                                            
-                                            
-                                            <!--/ADM -->
-                                        </section>
-                                        <section id="section-bar-4">
-                                        <div class="row row-in">
-
-                                            
-                                            <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
-                                                <div class="col-in row">
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h5 class="text-muted vb">Monitoring</h5>
-                                                    </div>
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h3 class="counter text-right m-t-15 text-megna">{{financeMonitoringGrade | round(2)}}</h3>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="progress">
-                                                            <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 100%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
-                                                <div class="col-in row">
-                                                    <div class="col-md-6 col-sm-6 col-xs-6 ">
-                                                        <h5 class="text-muted vb">Generation</h5>
-                                                    </div>
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h3 class="counter text-right m-t-15 text-megna">{{financeGenerationGrade | round(2)}}</h3>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="progress">
-                                                            <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-6  b-0">
-                                                <div class="col-in row">
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h5 class="text-muted vb">Allocation</h5>
-                                                    </div>
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h3 class="counter text-right m-t-15 text-megna">{{financeAllocationGrade | round(2)}}</h3>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="progress">
-                                                            <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-                                            <div class="col-lg-3 col-sm-6  row-in-br  b-r-none">
-                                                <div class="col-in row">
-                                                    <div class="col-md-6 col-sm-6 col-xs-6 text-center">
-                                                        <div data-icon="&#xe013;" class="linea-icon linea-basic text-center"></div>
-                                                        <h5 class="text-muted vb">Finance Grade</h5>
-                                                    </div>
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h3 class="counter text-right m-t-15 text-warning">{{financeGrade | round(2)}}</h3>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="progress">
-                                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-                                        </div>
-                                                <table class="table table-striped" id="finTable">
-                                                    <thead>
-                                                    
-                                                        <tr>
-                                                            <th>Date</th><!--date approved-->
-                                                            <th>Activity</th>
-                                                            <th>Process Type</th>
-                                                            <th>Expense</th>
-                                                        </tr>
-                                                    </thead>
-
-                                                    {% set totalAmount = 0 %}
-
-                                                    {% for transaction in financeTransactions %}
-
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>{{transaction.datestart}}</td> <!--date approved-->
-                                                                <td>{{transaction.strategies}}</td>
-                                                                {% if transaction.transaction == 1 %}
-                                                                    <td>Cash Advance</td>
-                                                                {% elif transaction.transaction == 2 %}
-                                                                    <td>Direct Payment</td>
-                                                                {% else %}
-                                                                    <td>Book Transfer</td>
-                                                                {% endif %}
-                                                                <td>{{transaction.amount}}</td>
-                                                            </tr>
-                                                            
-                                                            <!-- amt grade ay average ng percentage ng lahat ng evaluated activity -->
-                                                            
-                                                        </tbody>
-
-                                                    {% endfor %}
-                                                    
-                                                    <!-- <tfoot>
-                                                        <tr>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td><strong>Organization Fund</strong></td>
-                                                            <td><strong>383,190.37</strong></td>
-                                                        </tr>
-                                                    </tfoot> -->
-                                                </table>
-                                        
-                                        </section>
-                                        <section id="section-bar5">
-                                            <div class="col-lg-3 col-sm-6  row-in-br  b-r-none">
-                                                <div class="col-in row">
-                                                    <div class="col-md-6 col-sm-6 col-xs-6 text-center">
-                                                        <div data-icon="&#xe013;" class="linea-icon linea-basic text-center"></div>
-                                                        <h5 class="text-muted vb">AMT Grade</h5>
-                                                    </div>
-                                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                                        <h3 class="counter text-right m-t-15 text-warning">{{amtGrade | round(2)}}</h3>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="progress">
-                                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <h3 class="text-megna text-center col-md-12"><strong>Evaluated Activities</strong></h3>
-                                            <table class="table table-striped" id="amtTable">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Activity</th>
-                                                            <th>Activity Type</th>
-                                                            <th>Date</th>
-                                                            <th>Grade</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        
-                                                        {% for activity in amtActivities %}
-                                                            <tr>
-                                                                <td>{{activity.activityname}} </td>
-                                                                <td>{{activity.activitytype}}</td>
-                                                                <td>{{activity.dateevaluated}}</td>
-                                                                <td>{{activity.amtgrade}}%</td>
-                                                            </tr>
-                                                        {% endfor %}
-                                                        
-
-                                                        <!-- amt grade ay average ng percentage ng lahat ng evaluated activity -->
-                                                        
-                                                    </tbody>
-                                                    <tfoot>
-                                                        <tr>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td><strong>AMT Grade</strong></td>
-                                                            <td><strong>{{amtScore | round(2)}}%</strong></td>
-                                                        </tr>
-                                                    </tfoot>
-                                                </table>
-                                            
-                                        </section>
-                                        
-                                        
                                     </div>
-                                    <!-- /content -->
                                 </div>
-                                <!-- /tabs -->
-                            </section>
-                        </div>
-                    </div>
-                    <div class="col-sm-12">
+                                
+                                <div class="col-lg-3 col-sm-6  row-in-br  b-r-none">
+                                    <div class="col-in row">
+                                        <div class="col-md-6 col-sm-6 col-xs-6 text-center">
+                                            <div data-icon="&#xe013;" class="linea-icon linea-basic text-center"></div>
+                                            <h5 class="text-muted vb">PNP Grade</h5>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h3 class="counter text-right m-t-15 text-warning">{{pnpGrade | round(2)}}</h3>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!--/ADM -->
+                        </section>
+                        <section id="section-bar-3" class="">
+                            <div class="row text-center">
+                                <div class="col-md-12">
+                                    <h4 class="text text-megna col-md-12"><strong>ORGRES Grade</strong></h4>
+                                </div>
+                            </div>
+                            <div class="row row-in">
+                                <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
+                                    <div class="col-in row">
+                                        <div class="col-md-6 col-sm-6 col-xs-6 ">
+                                            <!--  -->
+                                            <h5 class="text-muted vb text-center">Clear Sense of Purpose</h5>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h3 class="counter text-right m-t-15 text-megna">{{orgresPurposeGrade | round(2)}}</h3>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
+                                    <div class="col-in row">
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h5 class="text-muted vb">Member/Org Involvement</h5>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h3 class="counter text-right m-t-15 text-megna">{{orgresInvolvementGrade | round(2)}}</h3>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
+                                    <div class="col-in row">
+                                        <div class="col-md-6 col-sm-6 col-xs-6 ">
+                                            <h5 class="text-muted vb">Quality of Activity</h5>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h3 class="counter text-right m-t-15 text-megna">{{orgresQualityGrade | round(2)}}</h3>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6  b-0">
+                                    <div class="col-in row">
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h5 class="text-muted vb">Leadership</h5>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h3 class="counter text-right m-t-15 text-megna">{{orgresLeadershipGrade | round(2)}}</h3>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-in">
+                                <div class="col-lg-3 col-sm-6  row-in-br  b-r-none">
+                                    <div class="col-in row">
+                                        <div class="col-md-6 col-sm-6 col-xs-6 text-center">
+                                            <div data-icon="&#xe013;" class="linea-icon linea-basic text-center"></div>
+                                            <h5 class="text-muted vb">ORGRES Grade</h5>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h3 class="counter text-right m-t-15 text-warning">{{orgresGrade | round(2)}}</h3>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Start Online Officer Survey Form Results -->
+                            <div class="row">
+                                
+                                <div class="col-md-12">
+                                    <h3 class="text text-megna col-md-12"><strong>ONLINE OFFICER SURVEY FORM RESULTS</strong></h3>
+                                </div>
+                                <table class="table table-striped" id="ofSurTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Question</th>
+                                            <th>Average Grade</th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1. I believe that the organization has prepared us officers.</td>
+                                            <td>{{osfField1Average | round(2)}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2. Sufficient training was provided.</td>
+                                            <td>{{osfField2Average | round(2)}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3. All of the officers were able to apply the leadership gained.</td>
+                                            <td>{{osfField3Average | round(2)}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>4. Officers who underwent special training echoed their learning to fellow officers.</td>
+                                            <td>{{osfField4Average | round(2)}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>5. Officers are able to identify ways to recognize the contributions of the members of the organization.</td>
+                                            <td>{{osfField5Average | round(2)}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>6. The organization has evaluation meetings after major activities to identify strengths, weak areas and develop corrective measures.</td>
+                                            <td>{{osfField6Average | round(2)}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>7. The organization has evaluation meetings with the faculty adviser/s after each term to identify strengths, weak areas and develop corrective measures.</td>
+                                            <td>{{osfField7Average | round(2)}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>8. I am satisfied and fulfilled with my position in the organization.</td>
+                                            <td>{{osfField8Average | round(2)}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>9. I believe that positions in the organization are well defined and has no overlaps of responsibilities.</td>
+                                            <td>{{osfField9Average | round(2)}}</td>
+                                        </tr>
+                                        
+                                    </tbody>
+                                    
+                                </table>
+                            </div>
+                            <!-- <div class="row row-in">
+                                <div class="col-md-4">
+                                    <div class="white-box">
+                                        <div>
+                                            <label class="text-justify">1. I believe that the organization has prepared us officers.</label>
+                                            <canvas id="bar-chart1" width="800" height="450"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="white-box">
+                                        <div>
+                                            <label class="text-center">2. Sufficient training was provided.</label>
+                                            <canvas id="bar-chart2" width="800" height="450"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="white-box">
+                                        <div>
+                                            <label class="text-center">3. All of the officers were able to apply the leadership gained .</label>
+                                            <canvas id="bar-chart3" width="800" height="450"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="white-box">
+                                        <div>
+                                            <label class="text-center">4. Officers who underwent special training echoed their learning to fellow officers.</label>
+                                            <canvas id="bar-chart4" width="800" height="450"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="white-box">
+                                        <div>
+                                            <label class="text-center">5. Officers are able to identify ways to recognize the contributions of the members of the organization.</label>
+                                            <canvas id="bar-chart5" width="800" height="450"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="white-box">
+                                        <div>
+                                            <label class="text-center">6. The organization has evaluation meetings after major activities to identify strengths, weak areas and develop corrective measures.</label>
+                                            <canvas id="bar-chart6" width="800" height="450"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="white-box">
+                                        <div>
+                                            <label class="text-center">7. The organization has evaluation meetings with the faculty adviser/s after each term to identify strengths, weak areas and develop corrective measures.</label>
+                                            <canvas id="bar-chart7" width="800" height="450"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="white-box">
+                                        <div>
+                                            <label class="text-center">8. I am satisfied and fulfilled with my position in the organization.</label>
+                                            <canvas id="bar-chart8" width="800" height="450"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="white-box">
+                                        <div>
+                                            <label class="text-center">9. I believe that positions in the organization are well defined and has no overlaps of responsibilities.</label>
+                                            <canvas id="bar-chart9" width="800" height="450"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+                            <!--/ End Online officer survey form results -->
+                            <!-- Start Online mEMBER Survey Form Results -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h3 class="text text-megna col-md-12"><strong>ONLINE MEMBER SURVEY FORM RESULTS</strong></h3>
+                                </div>
+                                <table class="table table-striped" id="memsur">
+                                    <thead>
+                                        <tr>
+                                            <th>Question</th>
+                                            <th>Average Grade</th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1) I know the goal of my organization.</td>
+                                            <td>{{msfField1Average | round(2)}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2) The activities of the organization clearly reflect their objectives.</td>
+                                            <td>{{msfField2Average | round(2)}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3) I am satisfied with the services the organization has offered.</td>
+                                            <td>{{msfField3Average | round(2)}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>4) I believe that the organization has helped me in my chosen field of interest.</td>
+                                            <td>{{msfField4Average | round(2)}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>5) The organization has encouraged me to be involved in their activities.</td>
+                                            <td>{{msfField5Average | round(2)}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>6) The officers showed consistency in motivating the members to be actively involved in the organization.</td>
+                                            <td>{{msfField6Average | round(2)}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>7.) The organization was able to maximize their publicity media. Help text: Publicity media can be newsletters, magazines, online publicities (videos and pictures), etc.</td>
+                                            <td>{{msfField7Average | round(2)}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>8.) The organization has provided a venue wherein  I can share my ideas/opinions/needs/ expectations (eg. (surveys, comment boxes, sharing, etc.)</td>
+                                            <td>{{msfField8Average | round(2)}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>9.) I believe that the organization has made use of my input (ideas, opinions, expectations, needs which I have stated)</td>
+                                            <td>{{msfField9Average | round(2)}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>10.) I believe that the organization has made use of my input (ideas, opinions, expectations, needs which I have stated)</td>
+                                            <td>{{msfField10Average | round(2)}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>11.)  I can recall activities held by my organization that made an impact in my studies/interests.</td>
+                                            <td>{{msfField11Average | round(2)}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>12.) The membership fee I paid for was worth it.</td>
+                                            <td>{{msfField12Average | round(2)}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>13.) The organization provides recognition for outstanding members.</td>
+                                            <td>{{msfField13Average | round(2)}}</td>
+                                        </tr>
+                                        
+                                    </tbody>
+                                    
+                                </table>
+                                
+                            </div>
+                            <!-- <div class="row row-in">
+                                <div class="col-md-4">
+                                    <div class="white-box">
+                                        <div>
+                                            <label class="text-justify">1. I know the goal of my organization.</label>
+                                            <canvas id="chartm1" width="800" height="450"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="white-box">
+                                        <div>
+                                            <label class="text-center">2. The activities of the organization clearly reflect their objectives.</label>
+                                            <canvas id="chartm2" width="800" height="450"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="white-box">
+                                        <div>
+                                            <label class="text-center">3. I am satisfied with the services the organization has offered.</label>
+                                            <canvas id="chartm3" width="800" height="450"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="white-box">
+                                        <div>
+                                            <label class="text-center">4. I believe that the organization has helped me in my chosen field of interest.</label>
+                                            <canvas id="chartm4" width="800" height="450"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="white-box">
+                                        <div>
+                                            <label class="text-center">5. The organization has encouraged me to be involved in their activities.</label>
+                                            <canvas id="chartm5" width="800" height="450"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="white-box">
+                                        <div>
+                                            <label class="text-center">6. The officers showed consistency in motivating the members to be actively involved in the organization.</label>
+                                            <canvas id="chartm6" width="800" height="450"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="white-box">
+                                        <div>
+                                            <label class="text-center">7. The organization was able to maximize their publicity media. Help text: Publicity media can be newsletters, magazines, online publicities (videos and pictures), etc.</label>
+                                            <canvas id="chartm7" width="800" height="450"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="white-box">
+                                        <div>
+                                            <label class="text-center">8. The organization has provided a venue wherein  I can share my ideas/opinions/needs/ expectations (eg. (surveys, comment boxes, sharing, etc.)</label>
+                                            <canvas id="chartm8" width="800" height="450"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="white-box">
+                                        <div>
+                                            <label class="text-center">9. I believe that the organization has made use of my input (ideas, opinions, expectations, needs which I have stated)</label>
+                                            <canvas id="chartm9" width="800" height="450"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="white-box">
+                                        <div>
+                                            <label class="text-center">10. The organization has adjusted to the needs/suggestions of the members wherein the organization applied those to its activities and services.</label>
+                                            <canvas id="chartm10" width="800" height="450"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="white-box">
+                                        <div>
+                                            <label class="text-center">11.  I can recall activities held by my organization that made an impact in my studies/interests.</label>
+                                            <canvas id="chartm11" width="800" height="450"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="white-box">
+                                        <div>
+                                            <label class="text-center">12.The membership fee I paid for was worth it.</label>
+                                            <canvas id="chartm12" width="800" height="450"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="white-box">
+                                        <div>
+                                            <label class="text-center">13. The organization provides recognition for outstanding members.</label>
+                                            <canvas id="chartm13" width="800" height="450"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+                            <!--/ End Online member survey form results -->
+                            
+                            
+                            <!--/ADM -->
+                        </section>
+                        <section id="section-bar-4">
+                            <div class="row row-in">
+                                
+                                <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
+                                    <div class="col-in row">
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h5 class="text-muted vb">Monitoring</h5>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h3 class="counter text-right m-t-15 text-megna">{{financeMonitoringGrade | round(2)}}</h3>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
+                                    <div class="col-in row">
+                                        <div class="col-md-6 col-sm-6 col-xs-6 ">
+                                            <h5 class="text-muted vb">Generation</h5>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h3 class="counter text-right m-t-15 text-megna">{{financeGenerationGrade | round(2)}}</h3>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6  b-0">
+                                    <div class="col-in row">
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h5 class="text-muted vb">Allocation</h5>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h3 class="counter text-right m-t-15 text-megna">{{financeAllocationGrade | round(2)}}</h3>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-lg-3 col-sm-6  row-in-br  b-r-none">
+                                    <div class="col-in row">
+                                        <div class="col-md-6 col-sm-6 col-xs-6 text-center">
+                                            <div data-icon="&#xe013;" class="linea-icon linea-basic text-center"></div>
+                                            <h5 class="text-muted vb">Finance Grade</h5>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <h3 class="counter text-right m-t-15 text-warning">{{financeGrade | round(2)}}</h3>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <table class="table table-striped" id="finTable">
+                                <thead>
+                                    
+                                    <tr>
+                                        <th>Date</th><!--date approved-->
+                                        <th>Activity</th>
+                                        <th>Process Type</th>
+                                        <th>Expense</th>
+                                    </tr>
+                                </thead>
+                                {% set totalAmount = 0 %}
+                                {% for transaction in financeTransactions %}
+                                    <tbody>
+                                        <tr>
+                                            <td>{{transaction.datestart}}</td> <!--date approved-->
+                                            <td>{{transaction.strategies}}</td>
+                                            {% if transaction.transaction == 1 %}
+                                                <td>Cash Advance</td>
+                                                {% elif transaction.transaction == 2 %}
+                                                <td>Direct Payment</td>
+                                            {% else %}
+                                                <td>Book Transfer</td>
+                                            {% endif %}
+                                            <td>{{transaction.amount}}</td>
+                                        </tr>
+                                        
+                                        <!-- amt grade ay average ng percentage ng lahat ng evaluated activity -->
+                                        
+                                    </tbody>
+                                {% endfor %}
+                                
+                                <!-- <tfoot>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><strong>Organization Fund</strong></td>
+                                    <td><strong>383,190.37</strong></td>
+                                </tr>
+                                </tfoot> -->
+                            </table>
+                            
+                        </section>
+                        <section id="section-bar5">
+                            <div class="col-lg-3 col-sm-6  row-in-br  b-r-none">
+                                <div class="col-in row">
+                                    <div class="col-md-6 col-sm-6 col-xs-6 text-center">
+                                        <div data-icon="&#xe013;" class="linea-icon linea-basic text-center"></div>
+                                        <h5 class="text-muted vb">AMT Grade</h5>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <h3 class="counter text-right m-t-15 text-warning">{{amtGrade | round(2)}}</h3>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <h3 class="text-megna text-center col-md-12"><strong>Evaluated Activities</strong></h3>
+                            <table class="table table-striped" id="amtTable">
+                                <thead>
+                                    <tr>
+                                        <th>Activity</th>
+                                        <th>Activity Type</th>
+                                        <th>Date</th>
+                                        <th>Grade</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                    {% for activity in amtActivities %}
+                                        <tr>
+                                            <td>{{activity.activityname}} </td>
+                                            <td>{{activity.activitytype}}</td>
+                                            <td>{{activity.dateevaluated}}</td>
+                                            <td>{{activity.amtgrade}}%</td>
+                                        </tr>
+                                    {% endfor %}
+                                    
+                                    <!-- amt grade ay average ng percentage ng lahat ng evaluated activity -->
+                                    
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td><strong>AMT Grade</strong></td>
+                                    <td><strong>{{amtScore | round(2)}}%</strong></td>
+                                </tr>
+                                </tfoot>
+                            </table>
+                            
+                        </section>
+                        
                         
                     </div>
-                    <div class="col-sm-12">
-                        
-                    </div>
+                    <!-- /content -->
                 </div>
+                <!-- /tabs -->
+            </section>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        
+    </div>
+    <div class="col-sm-12">
+        
+    </div>
+</div>
 {%endblock%}

@@ -105,8 +105,10 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         },
         viewReport: (req, res) => {
 
-            if (req.session.user.type == 1) {
+            if (req.session.user.type == 1 && req.session.user.organizationSelected.id != 0) {
                 var organizationid = req.session.user.organizationSelected.id;
+                console.log("THE ORGANIZATION ID IS +++++++++++++++++++++++++++++++++++++++++++++++++++");
+                console.log(req.session.user.organizationSelected.id);
             }
             else{
                 var organizationid = req.params.id;

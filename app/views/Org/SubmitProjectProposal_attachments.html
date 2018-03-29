@@ -92,12 +92,7 @@
 		                                            </div>
 
 		                                        </div>
-		                                        {%for document in documents%}
-		                                        	{%if attachment.attachment == document.requirement%}
-		                                        	<span class="help-block offset-md-5 col-sm-5">Uploaded file for this is 
-		                                        	<a href="/ViewerJS/?title={{attachment.name}}#../upload/preacts/{{document.idnumber}}/{{document.filename}}" target="_blank" class="btn-link">{{document.filenametoshow}}</a></span>
-		                                        	{%endif%}
-		                                        {%endfor%}
+		                                        
 		                                        
 	                                    </div>
 	                                    {%endfor%}
@@ -106,16 +101,20 @@
 	                                  <table>
 			                             <thead>
 			                               <tr>
-			                                 <th>Previously added files</th>
+			                                 <th><strong><h3>Previously added files	</h3></strong></th>
 			                               </tr>
 			                             </thead>
 			                             <tbody>
-			                               <tr>
-			                                 <td><a href="#">Venue reservation ticket.pdf</a></td>
-			                               </tr>
-			                               <tr>
-			                                 <td><a href="#">Sample attachment.pdf</a></td>
-			                               </tr>
+			                             	{%for document in documents%}
+				                             	<tr>
+				                                 <td>
+													<a>{{document.name}}<a><br>
+													<a href="/ViewerJS/?title={{attachment.name}}#../upload/preacts/{{document.idnumber}}/{{document.filename}}" target="_blank" class="btn-link">{{document.filenametoshow}}</a></span>
+				                                 </td>
+				                               </tr>
+	                                        	 
+	                                        {%endfor%}
+			                               
 			                             </tbody>
 	                           		  </table>
                                 	</div>

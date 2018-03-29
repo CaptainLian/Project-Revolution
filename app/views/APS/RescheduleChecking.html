@@ -36,7 +36,6 @@
     {{super()}}
     <!-- Bootstrap Core JavaScript -->
     {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
-    {{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
     {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js', true)}}
     <!-- Menu Plugin JavaScript -->
     {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
@@ -79,7 +78,7 @@
                                     <td>{{act.name}}{%if act.reschedulereason == 4%}: {{act.reschedreasonother}}{%endif%}</td>                                
                                     
                                     <td>
-                                        <a target="_new" href="/ViewerJS/#../upload/preacts/{{act.idnumber}}/{{act.filename}}">
+                                        <a target="_new" href="/ViewerJS/#../upload/preacts/{{act.venuecreated}}/{{act.venuefilename}}">
                                             <i act='' ds='' class="fa fa-file text-info" data-toggle='tooltip' data-original-title="View Attachment"></i>
                                         </a>
                                         <i act='{{act.gosmactivity}}' ds='{{act.rescheduledates}}' class="fa fa-check text-success" data-toggle='tooltip' data-original-title="Approve" id="approve"></i>
