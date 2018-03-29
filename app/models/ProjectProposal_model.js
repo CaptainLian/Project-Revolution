@@ -244,6 +244,14 @@ module.exports = function(configuration, modules, db, queryFiles) {
         return connection.any(query);
     };
 
+    ProjectProposalModel.prototype.getLatestVersionAttachment = function(pprid, connection = this._db){
+        let query = squel.select()
+        .from('ProjectProposalAttachment')
+        .where('projectProposal = ?', pprid)    
+        .field('MAX(sequence) as latest')            
+        return connection.any(query.toString());
+        
+    };
     ProjectProposalModel.prototype.getProjectProposalProgramDesign = function(id, fields, connection = this._db){
         let query = squel.select()
         .from('ProjectProposalProgramDesign', 'pppd')
