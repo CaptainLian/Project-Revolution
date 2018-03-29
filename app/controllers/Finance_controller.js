@@ -26,6 +26,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 			const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
 			return res.render('Finance/TransactionMain', renderData);
 		},
 
@@ -34,6 +35,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 			const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
 			return res.render('Finance/', renderData);
 		},
 		viewHome: (req, res) => {
@@ -41,6 +43,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 			const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
 			return res.render('Finance/financeHome');
 		},
 		viewFinanceSettings: (req, res) => {
@@ -48,6 +51,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 			const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
 			return res.render('Finance/Finance_Settings', renderData);
 		},
 
@@ -132,7 +136,6 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				           	}
 				           	else{
 				           			return res.render('Finance/EvaluateTransaction', renderData);
-
 				           	}
 
 						}).catch(error => {
@@ -884,6 +887,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			console.log(req.session.user.type);
 
 			const renderData = Object.create(null);
+			renderData.csrfToken = req.csrfToken();
 	       	renderData.extra_data = req.extra_data;
 
 	        //to evaluate
@@ -983,7 +987,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			console.log(dbParam);
 			const renderData = Object.create(null);
 	        renderData.extra_data = req.extra_data;
-
+            renderData.csrfToken = req.csrfToken();
 
            	//to evaluate
             renderData.isCso = null;
@@ -1882,6 +1886,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				if (data[0].status == 2 && data[0].submittedby == req.session.user.idNumber){
 
 					const renderData = Object.create(null);
+					renderData.csrfToken = req.csrfToken();
 			        renderData.extra_data = req.extra_data;
 			        renderData.reimbursement = data[0];
 			        renderData.reimbursementParticulars = data[1];

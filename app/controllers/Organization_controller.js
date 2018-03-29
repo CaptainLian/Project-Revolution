@@ -70,6 +70,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             logger.info('viewGOSMList()', log_options);
 
             const renderData = Object.create(null);
+            renderData.csrfToken = req.csrfToken();
             renderData.extra_data = req.extra_data;
 
             gosmModel.getOrgAllGOSM(
@@ -87,6 +88,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             const renderData = Object.create(null);
             console.log(req.param)
             renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
             return res.render('Org/changePassword');
         },
         viewAddMember: (req, res) => {
@@ -105,8 +107,10 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         },
         viewReport: (req, res) => {
 
-            if (req.session.user.type == 1) {
+            if (req.session.user.type == 1 && req.session.user.organizationSelected.id != 0) {
                 var organizationid = req.session.user.organizationSelected.id;
+                console.log("THE ORGANIZATION ID IS +++++++++++++++++++++++++++++++++++++++++++++++++++");
+                console.log(req.session.user.organizationSelected.id);
             }
             else{
                 var organizationid = req.params.id;
@@ -164,6 +168,12 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     var preactsAllApprovedTotal = 0;
                     var notInGOSM = false;
                     var lasallianFormationCompliance = false;
+
+                    console.log("data[0] IS ================================================================");
+                    console.log(data[0]);
+                    console.log("data[1] IS ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+                    console.log(data[1]);
+
 
                     if(data[2] != null){
 
@@ -993,6 +1003,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                     console.log(renderData)
                     renderData.extra_data = req.extra_data;
+                    renderData.csrfToken = req.csrfToken();
                     return res.render('Org/report', renderData);
 
 
@@ -1020,31 +1031,37 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
         viewNotInGosmList: (req, res) => {
             const renderData = Object.create(null);
+            renderData.csrfToken = req.csrfToken();
             renderData.extra_data = req.extra_data;
             return res.render('Org/NotInGosmList');
         },
         viewNotInGosmMain: (req, res) => {
             const renderData = Object.create(null);
+            renderData.csrfToken = req.csrfToken();
             renderData.extra_data = req.extra_data;
             return res.render('Org/submitNotInGosm_main');
         },
         viewNotInGosmAttachments: (req, res) => {
             const renderData = Object.create(null);
+            renderData.csrfToken = req.csrfToken();
             renderData.extra_data = req.extra_data;
             return res.render('Org/submitNotInGosm_attachments');
         },
         viewNotInGosmBriefContext: (req, res) => {
             const renderData = Object.create(null);
+            renderData.csrfToken = req.csrfToken();
             renderData.extra_data = req.extra_data;
             return res.render('Org/SubmitNotInGosm_briefContext');
         },
         viewNotInGosmExpense: (req, res) => {
             const renderData = Object.create(null);
+            renderData.csrfToken = req.csrfToken();
             renderData.extra_data = req.extra_data;
             return res.render('Org/submitNotInGosm_expense');
         },
         viewNotInGosmProgramDesign: (req, res) => {
             const renderData = Object.create(null);
+            renderData.csrfToken = req.csrfToken();
             renderData.extra_data = req.extra_data;
             return res.render('Org/submitNotInGosm_programdesign');
         },
@@ -1957,7 +1974,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         viewOfficers: (req, res) => {
             const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
-            renderData.csrf = req.csrfToken();
+            renderData.csrfToken = req.csrfToken();
 
             return res.render('Org/Officers', renderData);
         },
@@ -1983,6 +2000,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 //TODO: add signatories and score
             }).then(data => {
                 const renderData = Object.create(null);
+                renderData.csrfToken = req.csrfToken();
                 renderData.extra_data = req.extra_data;
 
                 renderData.actWithPPR = data[0];
@@ -2548,6 +2566,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
         viewGOSMDetails: (req, res) => {
             const renderData = Object.create(null);
+            renderData.csrfToken = req.csrfToken();
             renderData.extra_data = req.extra_data;
             console.log(req.params.orgid)
             gosmModel.getGOSMActivities(req.params.orgid).then(data => {

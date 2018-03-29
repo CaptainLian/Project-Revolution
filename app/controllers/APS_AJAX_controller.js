@@ -211,6 +211,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
     APS_AJAXController.approvalResched = (req, res) => {
         logger.debug('approvalResched()', log_options);
+
         console.log(req.files)
         database.tx(t=>{
             var dir3 = __dirname + '/../assets/upload/';
@@ -242,6 +243,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 projectProposalModel.updateVenueAttachmentRequest(req.body.activityID, vrtFilename, vrtFilenameToShow, req.session.user.idNumber,t)
             ])    
         }).then(data=>{
+
             res.json({status:1});
         }).catch(err=>{
             console.log(err)

@@ -35,7 +35,9 @@
 {%endblock%}
 
 {%block defer_script%}
+
     {{super()}}
+
     <!-- Menu Plugin JavaScript -->
     {{- tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
     <!--slimscroll JavaScript -->
@@ -51,6 +53,8 @@
 
     {{- tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
     {{- tag.javascript('/js/Organization/ActivityToImplement.js', true)}}
+
+    {{super()}}
 {%endblock%}
 
 {%block content%}

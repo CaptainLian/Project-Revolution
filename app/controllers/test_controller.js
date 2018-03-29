@@ -5,8 +5,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 
 	testController.test = (req, res) => {
-		models.organization_model.getOrganizationStructure(0)
-		.then(data => {
+		models.organization_model.getOrganizationStructure(0).then(data => {
 			return res.send(data);
 		}).catch(err => {
 			return logger.error(`${err.message}\n${err.stack}`);

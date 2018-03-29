@@ -177,6 +177,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     APSController.viewAPSLogs = (req, res) => {
         const renderData = Object.create(null);
         renderData.extra_data = req.extra_data;
+        renderData.csrfToken = req.csrfToken();
         return res.render('APS/Logs');
     };
     APSController.viewCalendar = (req, res) => {
@@ -203,17 +204,16 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             return res.render('APS/RescheduleChecking', renderData);
         }).catch(err=>{
             console.log(err)
-        })
-        // return res.render('APS/RescheduleChecking');
+        });
     };
-    APSController.home = (req, res) => {
 
+    APSController.home = (req, res) => {
         database.task(task => {
-                        return task.batch([
-                            projectProposalModel.getAllProjectProposal(),
-                            organizationModel.getAllStudentOrganizations(),
-                            gosmModel.getAllCurrent()
-                        ]);
+            return task.batch([
+                projectProposalModel.getAllProjectProposal(),
+                organizationModel.getAllStudentOrganizations(),
+                gosmModel.getAllCurrent()
+            ]);
         }).then(data=>{
 
             let renderData = Object.create(null);
@@ -255,13 +255,15 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     APSController.orgSummary = (req, res) => {
         const renderData = Object.create(null);
         renderData.extra_data = req.extra_data;
+        renderData.csrfToken = req.csrfToken();
         return res.render('APS/OrgApsSummary');
     };
 
     APSController.viewPPRListToSign = (req, res) => {
         const renderData = Object.create(null);
         renderData.extra_data = req.extra_data;
-
+        renderData.csrfToken = req.csrfToken();
+        
         database.task(t => {
             return t.batch([ 
                 accountModel.getPPRToSignList(req.session.user.idNumber, t),
@@ -272,7 +274,6 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             console.log("asdasdas")
 
             renderData.activities = list[0];
-
             renderData.projectProposal = list[1];
             console.log(list[0])
             return res.render('APS/ProjectProposal_sign_list', renderData);
@@ -387,8 +388,6 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 }
 
             }
-
-            
 
             logger.debug(`Signatories: ${JSON.stringify(renderData.signatories)}`, log_options);
             logger.debug('rendering page', log_options);
