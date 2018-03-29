@@ -329,6 +329,23 @@ module.exports = function(configuration, modules, db, queryFiles) {
         param.id = id;
         return connection.any(query, param);
     };
+     ProjectProposalModel.prototype.updateVenueAttachment = function(id,filename, filenameToShow, idNumber, connection = this._db){
+        let query = squel.update()
+        .table("ProjectProposalAttachment")
+        .set("filename",filename)
+        .set("filenameToShow",filenameToShow)
+        .set("idNumber", idNumber)
+        .where("SEQUENCE = ?", squel.select()
+                              .from("ProjectProposalAttachment")
+                              .where("PROJECTPROPOSAL = ?",id)
+                              .where("requirement = 3")
+                              .field("MAX(SEQUENCE)"))
+        .where("requirement = 3")
+        .where("PROJECTPROPOSAL = ?",id)
+        
+        
+        return connection.any(query.toString());
+    };
 
 
     ProjectProposalModel.prototype.getAllOrgProposal = function(orgid, fields, connection = this._db){
@@ -456,12 +473,14 @@ module.exports = function(configuration, modules, db, queryFiles) {
                         .from('GOSM', 'G')
                         .left_join('GOSMACTIVITY','GA',' G.ID = GA.GOSM')
                         .left_join('PROJECTPROPOSAL','PP',' GA.ID = PP.GOSMACTIVITY')
-
+                        .left_join(squel.select().from("ProjectProposalAttachment").field("MAX(SEQUENCE)").field("*").where('REQUIREMENT = 3').group("PROJECTPROPOSAL").group("ID"),'PPA',' PP.ID = PPA.projectProposal')                        
                         .left_join('PROJECTPROPOSALRESCHEDULEREASON','PPRR',' PP.RESCHEDULEREASON = PPRR.ID')
-
+                                                   
                         .where('G.termID = ?',squel.str('system_get_current_term_id()'))
-                        .where('PP.STATUS = 6')                                
-        query = query.toString();        
+                        .where('PP.STATUS = 6')               
+                        
+        query = query.toString();    
+        console.log(query)
         return connection.any(query);
     };
 

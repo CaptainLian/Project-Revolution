@@ -2030,8 +2030,13 @@ CREATE TABLE ProjectProposal (
     reschedReasonOther TEXT,
     rescheduleDates DATE[],
     reschedRejectReason TEXT DEFAULT '',
-
+    
     timesPended INTEGER NOT NULL DEFAULT 0,
+
+    /* Neil's "Jejemon" columns */
+    venueFilename TEXT,
+    venueFilenameToShow TEXT,
+    venueCreated INTEGER REFERENCES Account(idNumber),
 
     PRIMARY KEY (GOSMActivity)
 );
@@ -2382,21 +2387,21 @@ $trigger$
                    SET status = 3
                  WHERE GOSMActivity = NEW.GOSMActivity;
             END IF;
-	ELSIF NEW.status = 2 THEN
-	    UPDATE ProjectProposal
-                SET status = 4
-              WHERE GOSMActivity = NEW.GOSMActivity;
+	    ELSIF NEW.status = 2 THEN
+	        UPDATE ProjectProposal
+               SET status = 4
+             WHERE GOSMActivity = NEW.GOSMActivity;
         ELSIF NEW.status = 3 THEN
             UPDATE ProjectProposal
                SET status = 5
              WHERE GOSMActivity = NEW.GOSMActivity;
-	END IF;
-
+	    END IF;
 
         RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
-CREATE TRIGGER after_update_ProjectProposalSignatory_completion
+
+CREATE TRIGGER "after_update_ProjectProposalSignatory_completion"
     AFTER UPDATE ON ProjectProposalSignatory
     FOR EACH ROW WHEN (OLD.status <> NEW.status)
     EXECUTE PROCEDURE "trigger_after_update_ProjectProposalSignatory_completion"();
@@ -2405,18 +2410,16 @@ CREATE OR REPLACE FUNCTION "trigger_after_update_ProjectProposalSignatory_counte
 RETURNS TRIGGER AS
 $trigger$
     BEGIN
-        IF NEW.status = 4 THEN
-            UPDATE ProjectProposal
-               SET timesPended = timesPended + 1
-             WHERE GOSMActivity = NEW.GOSMActivityID;
-        END IF;
-        
+        UPDATE ProjectProposal
+           SET timesPended = timesPended + 1
+         WHERE GOSMActivity = NEW.GOSMActivity;
+
         RETURN NEW;
     END;
 $trigger$ LANGUAGE plpgsql;
-CREATE TRIGGER "after_update_ProjectProposalSignatory_completion"
+CREATE TRIGGER "after_update_ProjectProposalSignatory_PendCounter"
     AFTER UPDATE ON ProjectProposalSignatory
-    FOR EACH ROW WHEN (OLD.status <> NEW.status)
+    FOR EACH ROW WHEN (NEW.status = 2)
     EXECUTE PROCEDURE "trigger_after_update_ProjectProposalSignatory_counter"();
 
     /* Load balancing of Proposals */
