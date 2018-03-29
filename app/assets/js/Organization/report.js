@@ -2,7 +2,21 @@
     [].slice.call(document.querySelectorAll('.sttabs')).forEach(function(el) {
         new CBPFWTabs(el);
     });
+    window.onscroll = function() {scrollFunction()};
+    function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                document.getElementById("myBtn").style.display = "block";
+            } else {
+                document.getElementById("myBtn").style.display = "none";
+            }
+        }
 
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+            console.log('to the top you go')
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
     $('#amtTable').dataTable();
     $('#finTable').dataTable();
     $('#memSurTable').dataTable();
