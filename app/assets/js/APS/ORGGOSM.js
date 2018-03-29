@@ -155,9 +155,10 @@
                     title: "Approve Activity?",
                     text: "Clicking confirm will approve the activity",
                     type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#DD6B55",
+                    
+                    confirmButtonColor: "#00c292",
                     confirmButtonText: "Confirm",
+                    showCancelButton: true,
                     closeOnConfirm: false
                 }, function() {
                     updateGOSMStatus(3, undefined, () => {
