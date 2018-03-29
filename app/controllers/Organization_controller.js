@@ -150,7 +150,10 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             financeModel.getAllApprovedTransactions(dbParam),
                             financeModel.getAllApprovedActivityExpenses(dbParam),
                             financeModel.getOrganizationBudgetExpenses(dbParam),
-                            financeModel.getOrgApprovedTransactions(dbParam)
+                            financeModel.getOrgApprovedTransactions(dbParam),
+                            //ACTIVITIES SUMMARY
+                            gosmModel.getActivitySummaryPerOrg(dbParam)
+
                         ]);
                 }).then(data=>{
 
@@ -977,6 +980,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     //documentation info
                     renderData.sixtyCount = isRelatedToOrganizationCount;
                     renderData.fortyCount = preactsAllApprovedTotal;
+
+                    renderData.activitySummary = data[15];
 
 
                     //pnp

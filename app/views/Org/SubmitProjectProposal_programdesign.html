@@ -342,13 +342,15 @@
 
                     ( (end) > (estart) && (end) < (eend) )
                     ||
+                     ( (end) >= (estart) && (end) <= (eend) )
+                    ||
                     ( (start) < (estart) && (end) > (eend) )
                     ||
-                    ( (start) == (estart) && (end) == (eend) )
+                    ( (start) === (estart) && (end) === (eend) )
                     
                 ){
                   console.log("NAGERROR")
-                  pweds = false;
+                  return pweds = false;
                 }
               }
               return pweds;
