@@ -1,16 +1,17 @@
 'use strict';
-$('#slimtest1').slimScroll({
-    height: '250px',
-    
-    alwaysVisible: true,
-    color: '#424242'
-});
+
 (() => {
 	if(typeof $ === 'undefined'){
 		console.error('WARNING: JQUERY NEEDED FOR THIS PAGE');
         return;
 	}
-    
+
+    $('#slimtest1').slimScroll({
+        height: '250px',
+        alwaysVisible: true,
+        color: '#424242'
+    });
+
     let numUnread = 0;
 	let maxSequence = 0;
 	let viewNotifs = document.getElementById('display_notifications');
@@ -42,7 +43,7 @@ $('#slimtest1').slimScroll({
             }
         });
     });
-   
+
     function getNotifications() {
         return $.ajax({
     		method: 'GET',
@@ -68,17 +69,21 @@ $('#slimtest1').slimScroll({
     }
 
     function addNotifDOM(title, description, timestamp, status){
-        var test =
-          '<a href="#">'+
-                '<span class="profile-status online pull-right"></span>'+
-                '<div class="mail-content breaks">'+
-                '<h5>'+title+'</h5> <span class="mail-desc"><small>'+description+'</small></span><br><span class="time text-gray"><small>'+timestamp+'</small></span> </div>'+
-            '</a>';
-                                    
-        $("#display_notifications").append(test)
+        var test = `<a href="#">
+                        <span class="profile-status online pull-right"></span>
+                        <div class="mail-content breaks">
+                            <h5>${title}</h5>
+                            <span class="mail-desc">
+                                <small>${description}</small>
+                            </span>
+                            <br />
+                            <span class="time text-gray">
+                            <small>${timestamp}</small></span>
+                        </div>
+                    </a>`;
 
+        $(viewNotifs).append(test)
     }
     getNotifications();
     setInterval(getNotifications, 60000);
-
 })();

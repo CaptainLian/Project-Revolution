@@ -2,21 +2,21 @@
     [].slice.call(document.querySelectorAll('.sttabs')).forEach(function(el) {
         new CBPFWTabs(el);
     });
-    window.onscroll = function() {scrollFunction()};
-    function scrollFunction() {
-            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-                document.getElementById("myBtn").style.display = "block";
-            } else {
-                document.getElementById("myBtn").style.display = "none";
-            }
-        }
 
-        // When the user clicks on the button, scroll to the top of the document
-        function topFunction() {
-            console.log('to the top you go')
-            document.body.scrollTop = 0;
-            document.documentElement.scrollTop = 0;
+    $('#myBtn').click(function(event) {
+        console.log('to the top you go')
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+    });
+
+    window.onscroll = () => {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            document.getElementById("myBtn").style.display = "block";
+        } else {
+            document.getElementById("myBtn").style.display = "none";
         }
+    };
+
     $('#amtTable').dataTable();
     $('#finTable').dataTable();
     $('#memSurTable').dataTable();
@@ -468,7 +468,7 @@
             datasets: [{
                 label: "Respondents",
                 backgroundColor: ["#3e95cd", "#8e5ea2"],
-                data: [2478, 5267]
+                data: [academic, nonAcademic]
             }]
         },
         options: {
@@ -488,7 +488,7 @@
             datasets: [{
                 label: "Respondents",
                 backgroundColor: ["#3e95cd", "#8e5ea2"],
-                data: [2478, 5267]
+                data: [numPush, numNotPush]
             }]
         },
         options: {
@@ -523,25 +523,25 @@
     //         datasets: [{
     //             label: "Respondents",
     //             backgroundColor: [
-    //                 "#FF685B", 
-    //                 "#B153E8", 
-    //                 "#5BA0FF", 
+    //                 "#FF685B",
+    //                 "#B153E8",
+    //                 "#5BA0FF",
     //                 "#47E89A",
-    //                 "#D3FF5B", 
-    //                 "#FF9F5A", 
-    //                 "#795AFF", 
+    //                 "#D3FF5B",
+    //                 "#FF9F5A",
+    //                 "#795AFF",
     //                 "#47D0E8",
     //                 "#5AFF62"
     //             ],
     //             data: [
-    //                 2478, 
-    //                 5267, 
-    //                 5267, 
-    //                 5267, 
-    //                 5267, 
-    //                 5267, 
-    //                 5267, 
-    //                 5267, 
+    //                 2478,
+    //                 5267,
+    //                 5267,
+    //                 5267,
+    //                 5267,
+    //                 5267,
+    //                 5267,
+    //                 5267,
     //                 5267
     //             ]
     //         }]
@@ -653,22 +653,41 @@
             }
         }
     });
-    let radarcanvas = document.getElementById("chartradar")
-    let marksData = {
-      labels: ["Academic Contest", "Distribution", "General Assembly",
-                 "Seminar/ Workshops", "Publicity/ Awareness Campaign", "Meetings",
-                 "Spiritual Activity", "Recruitment/ Audition", "Recreation"
-             ],
-      datasets: [{
-        label: "Data",
-        backgroundColor: "rgba(200,0,0,0.2)",
-        data: [65, 75, 70, 80, 60, 30, 25, 45]
-      }]
-    };
 
-    let radarChart = new Chart(radarcanvas, {
-      type: 'radar',
-      data: marksData
-    });
+    new Chart(
+        document.getElementById("chartradar"), {
+            type: 'radar',
+            data: {
+                labels: [
+                    "Academic Contest",
+                    "Distribution",
+                    "General Assembly",
+                    "Seminar/ Workshops",
+                    "Publicity/ Awareness Campaign",
+                    "Meetings",
+                    "Spiritual Activity",
+                    "Recruitment/ Audition",
+                    "Recreation",
+                    "Others"
+                ],
+                datasets: [{
+                    label: "Current Term Activities",
+                    backgroundColor: "rgba(200,0,0,0.2)",
+                    data: [
+                        numCompetition,
+                        numDistribution,
+                        numGeneralAssembly,
+                        numSeminar,
+                        numPublicity,
+                        numMeetings,
+                        numSpiritualActivity,
+                        numRecruitment,
+                        numRecreation,
+                        numOthers
+                    ]
+                }]
+            }
+        }
+    );
     // When the user scrolls down 20px from the top of the document, show the button
 })();
