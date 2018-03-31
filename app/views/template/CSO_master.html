@@ -13,8 +13,9 @@
     <!-- Bootstrap Core CSS -->
     {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
     {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
+    {{tag.style('/css/system/notification.css')}}
     <!-- Notifications -->
-    
+
 {%endblock%}
 
 {%block defer_script%}
@@ -22,7 +23,7 @@
     <!-- jQuery -->
     {{- tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js') -}}
     <!-- Bootstrap Core JavaScript -->
- 
+
     {{- tag.javascript('/bootstrap/dist/js/tether.min.js') -}}
     {{- tag.javascript('/bootstrap/dist/js/bootstrap.min.js') -}}
     {{tag.javascript('/js/jquery.slimscroll.js')}}
@@ -58,7 +59,7 @@
                 </ul>
                 <ul class="nav navbar-top-links navbar-right pull-right" >
                     <!-- /.dropdown -->
-                    <li class="dropdown"> 
+                    <li class="dropdown">
                         <a id="dropdown_notification" class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#"><i class="icon-bell"></i>
                               <div class="notify">
                                 <span id="display_numNotifications" class="label label-round label-danger pull-right"></span>
@@ -67,18 +68,18 @@
                               </div>
                               </a>
                         <ul  class="dropdown-menu mailbox animated bounceInDown">
-                           
+
                             <li id="slimtest1">
                                 <div id="display_notifications" class="message-center">
-                                 
-                                     
+
+
                                 </div>
                             </li>
-                        
+
                         </ul>
                         <!-- /.dropdown-messages -->
                     </li>
-          
+
                     <!-- /.dropdown -->
                     <li class="dropdown">
                         <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false"><b class="hidden-xs">{%if(extra_data.user.name)%}{{extra_data.user.name}}{%else%}Steave{%endif%}</b> </a>
@@ -115,8 +116,8 @@
                             <div class="input-group custom-search-form">
                                 <input type="text" class="form-control" placeholder="Search...">
                                 <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button"> 
-                                        <i class="fa fa-search"></i> 
+                                    <button class="btn btn-default" type="button">
+                                        <i class="fa fa-search"></i>
                                     </button>
                                 </span>
                             </div>
@@ -156,7 +157,7 @@
                     <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
                         <ol class="breadcrumb">
                             <!-- %breadcrumb -->
-                       
+
                             <!-- /%breadcrumb -->
                         </ol>
                     </div><!-- /.col-lg-12 -->

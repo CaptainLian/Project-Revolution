@@ -34,12 +34,6 @@
             success: (notifs, textStatus, jqXHR ) => {
                 numUnread = 0;
                 numNotificationDOM.innerHTML = '';
-
-                let elements = document.querySelectorAll('.notif_unseen');
-                for(const dom of elements){
-                    dom.classList.remove('notif_unseen');
-                    dom.classList.add('notif_seen');
-                }
             }
         });
     });
@@ -69,20 +63,24 @@
     }
 
     function addNotifDOM(title, description, timestamp, status){
-        var test = `<a href="#">
-                        <span class="profile-status online pull-right"></span>
-                        <div class="mail-content breaks">
-                            <h5>${title}</h5>
-                            <span class="mail-desc">
-                                <small>${description}</small>
-                            </span>
-                            <br />
-                            <span class="time text-gray">
-                            <small>${timestamp}</small></span>
-                        </div>
-                    </a>`;
+        let seenClass = '';
+        if(status != 1){
+            seenClass = 'notif_unseen';
+        }
+        const notifDOM = `<a href="#" class="${seenClass}">
+                            <span class="profile-status online pull-right"></span>
+                            <div class="mail-content breaks">
+                                <h5>${title}</h5>
+                                <span class="mail-desc">
+                                    <small>${description}</small>
+                                </span>
+                                <br />
+                                <span class="time text-gray">
+                                <small>${timestamp}</small></span>
+                            </div>
+                          </a>`;
 
-        $(viewNotifs).append(test)
+        $(viewNotifs).append(notifDOM)
     }
     getNotifications();
     setInterval(getNotifications, 60000);
