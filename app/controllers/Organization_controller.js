@@ -172,10 +172,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     var notInGOSM = false;
                     var lasallianFormationCompliance = false;
 
-                    console.log("data[0] IS ================================================================");
-                    console.log(data[0]);
-                    console.log("data[1] IS ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-                    console.log(data[1]);
+                    console.log("data[15] IS ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+                    console.log(data[15]);
 
 
                     if(data[2] != null){
@@ -981,7 +979,16 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     renderData.sixtyCount = isRelatedToOrganizationCount;
                     renderData.fortyCount = preactsAllApprovedTotal;
 
-                    renderData.activitySummary = data[15];
+                    renderData.numCompetition = data[15][0];
+                    renderData.numDistribution = data[15][1];
+                    renderData.numGeneralAssembly = data[15][2];
+                    renderData.numSeminar = data[15][3];
+                    renderData.numPublicity = data[15][4];
+                    renderData.numMeetings = data[15][5];
+                    renderData.numSpiritualActivity = data[15][6];
+                    renderData.numRecruitment = data[15][7];
+                    renderData.numRecreation = data[15][8];
+                    renderData.numOthers = data[15][9];
 
 
                     //pnp
