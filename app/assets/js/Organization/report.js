@@ -564,7 +564,7 @@
             datasets: [{
                 label: "Average Grade",
                 backgroundColor: ["#3e95cd", "#8e5ea2"],
-                data: [4.7, 3.6]
+                data: [venue, equipment]
             }]
         },
         options: {
@@ -588,7 +588,7 @@
             datasets: [{
                 label: "Average Grade",
                 backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9"],
-                data: [3.14, 4.9, 4.7, 3]
+                data: [openingStart, timeEnd, activityExec, Registration]
             }]
         },
         options: {
@@ -612,7 +612,7 @@
             datasets: [{
                 label: "Average Grade",
                 backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
-                data: [5, 5, 2.5, 5, 3]
+                data: [Hosts, Ushers, Presentations, activities, standingPresentation]
             }]
         },
         options: {
@@ -633,11 +633,11 @@
     new Chart(document.getElementById("chartamt6"), {
         type: 'bar',
         data: {
-            labels: ["Announcements", "Awareness", "Interaction", "Interest", "Expectation", "Relevance", "Learning"],
+            labels: ["Announcements", "Interaction", "Interest", "Learning"],
             datasets: [{
                 label: "Average Grade",
                 backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#FF685B", "#B153E8", "#5BA0FF"],
-                data: [4.2, 4.4, 5, 4.9, 8.5, 7.5, 5.5]
+                data: [announcement, interaction, interest, learning]
             }]
         },
         options: {
