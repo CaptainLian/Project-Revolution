@@ -91,6 +91,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.csrfToken = req.csrfToken();
             return res.render('Org/changePassword');
         },
+        viewGradeList: (req, res) => {
+            const renderData = Object.create(null);
+            console.log(req.param)
+            renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
+            return res.render('Org/gradeList');
+        },
         viewAddMember: (req, res) => {
             const renderData = Object.create(null);
             console.log(req.param)
@@ -105,6 +112,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             })
             
         },
+       
         viewReport: (req, res) => {
 
             if (req.session.user.type == 1 && req.session.user.organizationSelected.id != 0) {
