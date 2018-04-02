@@ -13,7 +13,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 	const logger = modules.logger;
 	const log_options = Object.create(null);
-	log_options.from = 'Finance-Controlelr';
+	log_options.from = 'Finance-Controller';
 
     const projectProposalModel = models.ProjectProposal_model;
     const financeModel = models.Finance_model;
@@ -56,7 +56,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		},
 
 		evaluateTransaction: (req, res) => {
-			logger.info('call 3evaluateTransaction()', log_options);
+			logger.info('call evaluateTransaction()', log_options);
 
 			var viewEvaluation = false;
 		    if (req.session.user.type == 1){
@@ -96,10 +96,22 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 						database.task(t=>{
 							return t.batch([
-	                            projectProposalModel.getProjectProposal(dbParam),
-								financeModel.getDirectPaymentParticulars(param),
-								financeModel.getDirectPaymentSignatory(param),
-								financeModel.getDirectPaymentAccount(param)]);
+								//0
+	                            projectProposalModel.getProjectProposal(dbParam, t),
+	                            //1
+								financeModel.getDirectPaymentParticulars(param, t),
+								//2
+								financeModel.getDirectPaymentSignatory(param, t),
+								//3
+								financeModel.getDirectPaymentAccount(param, t),
+								//4
+								financeModel.getPreActivityDirectPaymentAllSignatory(data.id, [
+                                    'ss.name AS status',
+                                    'to_char("sl"."dateSigned", \'Mon DD, YYYY\') AS dateSigned',
+                                    '(a.firstname || \' \' || a.lastname) AS signatoryname',
+                                    '"sl"."digitalSignature" AS digitalSignature'
+								], t)
+							]);
 						}).then(data1=>{
 							const renderData = Object.create(null);
 				            renderData.extra_data = req.extra_data;
@@ -111,9 +123,9 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				            // transactionType: if 0 direct payment; if 1 cash advance
 				            renderData.transactionType = req.params.transaction;
 				            renderData.account = data1[3]
+				            renderData.signatories = data1[4];
 
 				            //to evaluate
-
 				           	if(data.status==0){
 				           		if(data1[2].signatory == req.session.user.idNumber){
 				           			renderData.toEvaluate = true;
@@ -128,6 +140,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 				           	if(req.session.user.type == 1){
 				           		if(data.orgid == req.session.user.organizationSelected.id){
+				           			logger.debug(`Rendering Finance/EvaluateTransaction\nWith data: ${JSON.stringify(renderData)}`, log_options);
 					           		return res.render('Finance/EvaluateTransaction', renderData);
 					           	}
 					           	else{
@@ -135,14 +148,15 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 					           	}
 				           	}
 				           	else{
-				           			return res.render('Finance/EvaluateTransaction', renderData);
+				           		logger.debug(`Rendering Finance/EvaluateTransaction\nWith data: ${JSON.stringify(renderData)}`, log_options);
+				           		return res.render('Finance/EvaluateTransaction', renderData);
 				           	}
 
 						}).catch(error => {
-							return logger.debug(`${error.message}\n${error.stack}`, log_options);
+							return logger.error(`${error.message}: ${error.stack}`, log_options);
 						});
 					}).catch(error => {
-						return logger.debug(`${error.message}\n${error.stack}`, log_options);
+						return logger.error(`${error.message}: ${error.stack}`, log_options);
 					});
 				} // cash advance
 			 	else if (req.params.transaction == 1){
@@ -157,12 +171,23 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 						};
 
 						logger.debug('starting tasks', log_options);
-						database.task(t=>{
+						database.task(t => {
 							return t.batch([
-                                projectProposalModel.getProjectProposal(dbParam),
-								financeModel.getCashAdvanceParticulars(param),
-								financeModel.checkCashAdvanceSignatory(param),
-								financeModel.getCashAdvanceAccount(param)
+								//0
+                                projectProposalModel.getProjectProposal(dbParam, t),
+                                //1
+								financeModel.getCashAdvanceParticulars(param, t),
+								//2
+								financeModel.checkCashAdvanceSignatory(param, t),
+								//3
+								financeModel.getCashAdvanceAccount(param, t),
+								//4
+								financeModel.getPreActivityCashAdvanceAllSignatory(data.id, [
+                                    'ss.name AS status',
+                                    'to_char("sl"."dateSigned", \'Mon DD, YYYY\') AS dateSigned',
+                                    '(a.firstname || \' \' || a.lastname) AS signatoryname',
+                                    '"sl"."digitalSignature" AS digitalSignature'
+								], t)
                             ]);
 						}).then(data1=>{
 							const renderData = Object.create(null);
@@ -175,6 +200,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				            // transactionType: if 0 direct payment; if 1 cash advance
 				            renderData.transactionType = req.params.transaction;
 				            renderData.account = data1[3];
+				            renderData.signatories = data1[4];
+
 				            //to evaluate
 				            if(data.status==0){
 				           		if(data1[2].signatory == req.session.user.idNumber){
@@ -190,22 +217,21 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 				            if(req.session.user.type == 1){
 				           		if(data.orgid == req.session.user.organizationSelected.id){
+				           			logger.debug(`Rendering Finance/EvaluateTransaction\nWith data: ${JSON.stringify(renderData)}`, log_options);
 					           		return res.render('Finance/EvaluateTransaction', renderData);
 					           	}else{
                                     res.statusCode(403);
 		    						return res.render('System/403');
 					           	}
 				           	}else{
+				           		logger.debug(`Rendering Finance/EvaluateTransaction\nWith data: ${JSON.stringify(renderData)}`, log_options);
 				           		return res.render('Finance/EvaluateTransaction', renderData);
 				           	}
-
-
-
-						}).catch(error=>{
-							return logger.debug(`${error.message}\n${error.stack}`, log_options);
+						}).catch(error => {
+							return logger.error(`${error.message}\n${error.stack}`, log_options);
 						});
-					}).catch(error=>{
-						return logger.debug(`${error.message}\n${error.stack}`, log_options);
+					}).catch(error => {
+						return logger.error(`${error.message}\n${error.stack}`, log_options);
 					});
 
 
@@ -226,10 +252,21 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 						logger.debug('starting tasks', log_options);
 						database.task(t=>{
 							return t.batch([
-								projectProposalModel.getProjectProposal(dbParam),
-								financeModel.getBookTransferParticulars(param),
-								financeModel.getBookTransferSignatory(param),
-								financeModel.getBookTransferAccount(param)
+								//0
+								projectProposalModel.getProjectProposal(dbParam, t),
+								//1
+								financeModel.getBookTransferParticulars(param, t),
+								//2
+								financeModel.getBookTransferSignatory(param, t),
+								//3
+								financeModel.getBookTransferAccount(param, t),
+								//4
+								financeModel.getPreActivityBookTransferAllSignatory(data.id, [
+                                    'ss.name AS status',
+                                    'to_char("sl"."dateSigned", \'Mon DD, YYYY\') AS dateSigned',
+                                    '(a.firstname || \' \' || a.lastname) AS signatoryname',
+                                    '"sl"."digitalSignature" AS digitalSignature'
+								], t)
 							]);
 						}).then(data1=>{
 							const renderData = Object.create(null);
@@ -242,7 +279,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				            // transactionType: if 0 direct payment; if 1 cash advance; if 2 book transfer; if 3 reimbursement
 				            renderData.transactionType = req.params.transaction;
 				            renderData.account = data1[3]
-
+				            renderData.signatories = data1[4];
 
 				            //to evaluate
 
@@ -270,6 +307,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 					           	}
 				           	}
 				           	else{
+				           		logger.debug(`Rendering Finance/EvaluateTransaction\nWith data: ${JSON.stringify(renderData)}`, log_options);
 				           		return res.render('Finance/EvaluateTransaction', renderData);
 				           	}
 						}).catch(error=>{
@@ -293,9 +331,21 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 						logger.debug('starting tasks', log_options);
 						database.task(t=>{
-							return t.batch([projectProposalModel.getProjectProposal(dbParam),
-											financeModel.getReimbursementParticulars(param),
-											financeModel.getReimbursementSignatory(param)]);
+							return t.batch([
+								//0
+								projectProposalModel.getProjectProposal(dbParam, t),
+								//1
+								financeModel.getReimbursementParticulars(param, t),
+								//2
+								financeModel.getReimbursementSignatory(param, t),
+								//3
+								financeModel.getPostProjectReimbursmentAllSignatory(data.id, [
+                                    'ss.name AS status',
+                                    'to_char("sl"."dateSigned", \'Mon DD, YYYY\') AS dateSigned',
+                                    '(a.firstname || \' \' || a.lastname) AS signatoryname',
+                                    '"sl"."digitalSignature" AS digitalSignature'
+								], t)
+							]);
 						}).then(data1=>{
 							const renderData = Object.create(null);
 				            renderData.extra_data = req.extra_data;
@@ -306,7 +356,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				            renderData.gosmactivity = data.GOSMActivity;
 				            // transactionType: if 0 direct payment; if 1 cash advance; if 2 book transfer; if 3 reimbursement
 				            renderData.transactionType = req.params.transaction;
-
+				            renderData.signatories = data1[3];
 
 				            //to evaluate
 
@@ -315,7 +365,6 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				            	console.log(data[2]);
 				            	console.log("This is the signatory");
 
-
 				           		//TODO: if all has signed
 				           		if(data1[2].signatory == req.session.user.idNumber){
 				           			renderData.toEvaluate = true;
@@ -323,12 +372,10 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 					           	else{
 					           		renderData.toEvaluate = false;
 					           	}
-
 				           	}
 				           	else{
 				           		renderData.toEvaluate = false;
 				           	}
-
 
 							if(data.orgid == req.session.user.organizationSelected.id){
 					           	return res.render('Finance/EvaluateTransaction', renderData);
@@ -336,9 +383,6 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				           	else{
 	    						return res.render('System/403');
 				           	}
-
-
-
 						}).catch(error=>{
 							return logger.debug(`${error.message}\n${error.stack}`, log_options);
 						});

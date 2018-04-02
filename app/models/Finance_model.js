@@ -409,18 +409,18 @@ module.exports = function(configuration, modules, database, queryFiles){
         return connection.oneOrNone(getNextSignantorySQL, param);
     };
 
-    const getAllSignatorySQL = squel.select()
-        .from(squel.select()
-            .from('"{financeSignatoryTable}"')
-            .where('"${column}" = ${value}'), '"sl"')
-            .left_join('"FinanceSignatoryType"', '"fst"', '"sl"."type" = "fst"."id"')
-            .order('"fst"."lineup"', true)
-            .limit(1);
-
     const queryAllSignatory = (financeSignatoryTable, column, value, fields, connection) => {
         logger.info(`call queryAllSignatory(financeSignatoryTable: ${financeSignatoryTable}, column: ${column}, value: ${value})`, log_options);
-        let query = getAllSignatorySQL.clone();
+        let query = squel.select()
+            .from(squel.select()
+                .from(`"${financeSignatoryTable}"`)
+                .where(`"${column}" = \${value}`), '"sl"' )
+            .left_join('"FinanceSignatoryType"', '"fst"', '"sl"."type" = "fst"."id"')
+            .left_join('Account', 'a', '"sl"."signatory" = "a".idNumber')
+            .left_join('SignatoryStatus', 'ss', '"sl"."status" = ss.id')
+            .order('"fst"."lineup"', true);
         attachFields(query, fields);
+
         query = query.toString();
 
         let param = Object.create(null);
@@ -446,9 +446,31 @@ module.exports = function(configuration, modules, database, queryFiles){
     FinanceModel.getPreActivityCashAdvanceAllSignatory = (cashAdvanceID, fields, connection = database) => {
         logger.info(`call getPreActivityDirectPaymentAllSignatory(cashAdvanceID: ${cashAdvanceID})`, log_options);
 
-        return queryAllSignatory('PreActivityDirectPaymentSignatory',
-            'PreActivityCashAdvanceSignatory',
+        return queryAllSignatory('PreActivityCashAdvanceSignatory',
+            'cashAdvance',
             cashAdvanceID,
+            fields,
+            connection
+        );
+    };
+    
+    FinanceModel.getPreActivityBookTransferAllSignatory = (bookTransferID, fields, connection = database) => {
+        logger.info(`call getPreActivityBookTransferAllSignatory(bookTransferID: ${bookTransferID})`, log_options);
+
+        return queryAllSignatory('PreActivityBookTransferSignatory',
+            'bookTransfer',
+            bookTransferID,
+            fields,
+            connection
+        );
+    };
+
+    FinanceModel.getPostProjectReimbursmentAllSignatory = (reimbursementID, fields, connection = database) => {
+        logger.info(`call getPreActivityBookTransferAllSignatory(bookTransferID: ${bookTransferID})`, log_options);
+
+        return queryAllSignatory('PostProjectReimbursementSignatory',
+            'reimbursement',
+            bookTransferID,
             fields,
             connection
         );

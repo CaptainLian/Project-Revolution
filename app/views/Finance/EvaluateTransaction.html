@@ -59,67 +59,58 @@
 {%endblock%}
 
 {%block content%}
-
 {% if transactionType ==0 %}
-
     <form action="/transaction/approveDirectPayment" id="form-id" class="form-horizontal" method="POST">
-    <input type="hidden" name="_csrf" value="{{csrfToken}}">
-    <input type="hidden" name="directPaymentId" value="{{directPayment.id}}">
-    <input type="hidden" name="transactionType" value="{{transactionType}}">
-    <input type="hidden" name="gosmactivity" value="{{gosmactivity}}">
-
+        <input type="hidden" name="_csrf" value="{{csrfToken}}" />
+        <input type="hidden" name="directPaymentId" value="{{directPayment.id}}" />
+        <input type="hidden" name="transactionType" value="{{transactionType}}" />
+        <input type="hidden" name="gosmactivity" value="{{gosmactivity}}"  />
     </form>
 
     <form action="/transaction/pendDirectPayment" id="form-id2" class="form-horizontal" method="POST">
-    <input type="hidden" name="_csrf" value="{{csrfToken}}">
-    <input type="hidden" name="directPaymentId" value="{{directPayment.id}}">
-    <input type="hidden" name="gosmactivity" value="{{gosmactivity}}">
-
+        <input type="hidden" name="_csrf" value="{{csrfToken}}" />
+        <input type="hidden" name="directPaymentId" value="{{directPayment.id}}"  />
+        <input type="hidden" name="gosmactivity" value="{{gosmactivity}}" />
+    </form>
 {% elif transactionType ==1 %}
-
     <form action="/transaction/approveCashAdvance" id="form-id" class="form-horizontal" method="POST">
-    <input type="hidden" name="_csrf" value="{{csrfToken}}">
-    <input type="hidden" name="cashAdvanceId" value="{{cashAdvance.id}}">
-    <input type="hidden" name="transactionType" value="{{transactionType}}">
-    <input type="hidden" name="gosmactivity" value="{{gosmactivity}}">
-
+        <input type="hidden" name="_csrf" value="{{csrfToken}}" />
+        <input type="hidden" name="cashAdvanceId" value="{{cashAdvance.id}}" />
+        <input type="hidden" name="transactionType" value="{{transactionType}}" />
+        <input type="hidden" name="gosmactivity" value="{{gosmactivity}}" />
     </form>
 
     <form action="/transaction/pendCashAdvance" id="form-id2" class="form-horizontal" method="POST">
-    <input type="hidden" name="_csrf" value="{{csrfToken}}">
-    <input type="hidden" name="cashAdvanceId" value="{{cashAdvance.id}}">
-    <input type="hidden" name="gosmactivity" value="{{gosmactivity}}">
-
+        <input type="hidden" name="_csrf" value="{{csrfToken}}" />
+        <input type="hidden" name="cashAdvanceId" value="{{cashAdvance.id}}" />
+        <input type="hidden" name="gosmactivity" value="{{gosmactivity}}" />
+    </form>
 {% elif transactionType ==2 %}
-
     <form action="/transaction/approveBookTransfer" id="form-id" class="form-horizontal" method="POST">
-    <input type="hidden" name="_csrf" value="{{csrfToken}}">
-    <input type="hidden" name="bookTransferId" value="{{bookTransfer.id}}">
-    <input type="hidden" name="transactionType" value="{{transactionType}}">
-    <input type="hidden" name="gosmactivity" value="{{gosmactivity}}">
-
+        <input type="hidden" name="_csrf" value="{{csrfToken}}" />
+        <input type="hidden" name="bookTransferId" value="{{bookTransfer.id}}" />
+        <input type="hidden" name="transactionType" value="{{transactionType}}" />
+        <input type="hidden" name="gosmactivity" value="{{gosmactivity}}" />
     </form>
 
     <form action="/transaction/pendBookTransfer" id="form-id2" class="form-horizontal" method="POST">
-    <input type="hidden" name="_csrf" value="{{csrfToken}}">
-    <input type="hidden" name="bookTransferId" value="{{bookTransfer.id}}">
-    <input type="hidden" name="gosmactivity" value="{{gosmactivity}}">
-
+        <input type="hidden" name="_csrf" value="{{csrfToken}}" />
+        <input type="hidden" name="bookTransferId" value="{{bookTransfer.id}}" />
+        <input type="hidden" name="gosmactivity" value="{{gosmactivity}}" />
+    </form>
 {% elif transactionType ==3 %}
-
     <form action="/transaction/approveReimbursement" id="form-id" class="form-horizontal" method="POST">
-    <input type="hidden" name="_csrf" value="{{csrfToken}}">
-    <input type="hidden" name="reimbursementId" value="{{reimbursement.id}}">
-    <input type="hidden" name="transactionType" value="{{transactionType}}">
-    <input type="hidden" name="gosmactivity" value="{{gosmactivity}}">
-
+        <input type="hidden" name="_csrf" value="{{csrfToken}}" />
+        <input type="hidden" name="reimbursementId" value="{{reimbursement.id}}" />
+        <input type="hidden" name="transactionType" value="{{transactionType}}" />
+        <input type="hidden" name="gosmactivity" value="{{gosmactivity}}" />
     </form>
 
     <form action="/transaction/pendReimbursement" id="form-id2" class="form-horizontal" method="POST">
-    <input type="hidden" name="_csrf" value="{{csrfToken}}">
-    <input type="hidden" name="reimbursementId" value="{{reimbursement.id}}">
-    <input type="hidden" name="gosmactivity" value="{{gosmactivity}}">
-
+       <input type="hidden" name="_csrf" value="{{csrfToken}}" /> 
+       <input type="hidden" name="reimbursementId" value="{{reimbursement.id}}" />
+       <input type="hidden" name="gosmactivity" value="{{gosmactivity}}" />
+    </form>
 {% endif %}
 <div class="row">
     <!-- Left sidebar -->
@@ -229,54 +220,32 @@
                                         <div class="col-md-6">
                 
                                         {% if transactionType == 0 %}
-
                                             <label style="">From: {{directPayment.firstname}} {{directPayment.lastname}}</label>
-                                        
                                         {% elif transactionType == 1 %}
-
                                             <label style="">From: {{cashAdvance.firstname}} {{cashAdvance.lastname}}</label>
-
                                         {% elif transactionType == 2 %}
-
                                             <label style="">From: {{bookTransfer.firstname}} {{bookTransfer.lastname}}</label>
-
                                         {% elif transactionType == 3 %}
-
                                             <label style="">From: {{reimbursement.firstname}} {{reimbursement.lastname}}</label>
-
-
                                         {% endif %}    
                                         </div>
                                     </div>
                                 </div>
-                            
                             </div>
-                            <br>
-                            <br>
+                            <br />
+                            <br />
                             <div class="col-sm-12">
-
                                 {% if transactionType == 0 %}
-
                                     <h3 class="box-title m-t-40">Direct Payment Memo</h3>
-
-
                                 {% elif transactionType == 1 %}
-            
                                     <h3 class="box-title m-t-40">Cash Advance Memo</h3>
-
                                 {% elif transactionType == 2 %}
-            
                                     <h3 class="box-title m-t-40">Book Transfer Memo</h3>
-
                                 {% elif transactionType == 3 %}
-            
                                     <h3 class="box-title m-t-40">Reimbursement Memo</h3>
-
                                 {% endif %}
-
-
-                                <hr>
-                                <br>
+                                <hr />
+                                <br />
                                 <table id="memoTable" class="table table-bordered m-b-0">
                                     <thead>
                                         <tr>
@@ -284,63 +253,44 @@
                                             <th>Amount</th>
                                         </tr>
                                     </thead>
+
                                     <tbody id="memo_body">
-
                                     {% set totalamount = 0 | float %}
-
                                     {% for particular in particulars %}
-
                                         {% set amount = (particular.amount | round(2)) %}
-
                                         {% set totalamount = (totalamount | float) + (amount | round(2)) %}
-
                                         <tr><td>{{particular.material}}</td><td>Php {{particular.amount}}</td></tr>
-
                                     {% endfor %}
-
-                                    
 
                                     <tr><th class="text-right">Total Expense:</th><th>Php {{totalamount | round(2)}}</th></tr></tbody>
                                     <tfoot>
                                     </tfoot>
                                 </table>
-                                <br>
+                                <br />
+
                                 <div class="col-md-12" id="" style="display: block;">
                                     <div class="col-md-12 m-b-10">
-
-
                                     {% if transactionType == 0 %}
-
                                         <label style="">Justification:</label>
                                         <p>{{directPayment.justification}}</p>  
-
-
                                     {% elif transactionType == 1 %}
-
                                         <label style="">Justification for not using Direct Payment:</label>
                                         <p>{{cashAdvance.justification}}</p>  
-
-
                                     {% endif %}
-
                                     </div>
-
-
                                     <!-- 
-
                                     <div class="col-md-12 m-b-10">
                                         <label style="">Purpose:</label>
                                         <p>{{cashAdvance.purpose}}</p>  
-                                    </div> -->
-                                
-
+                                    </div> 
+                                -->
                                 </div>
-                                <!-- IF CASH PRIZE 
-                                 -->
+                                <!-- IF CASH PRIZE -->
                                 <div class="col-md-12" id="justification_cp" style="display: none;">
                                     <div class="col-md-6 m-b-10">
                                         <label style="">Justification for using Cash Prize</label>    
                                     </div>
+
                                     <div class="col-md-6 m-b-10">
                                         <textarea name="dp-memo" style="width: 100%"></textarea>
                                     </div>
@@ -348,11 +298,14 @@
                             </div>
 
                             {% if transactionType == 0 or transactionType == 1%}
-                            <h4> <i class="fa fa-paperclip m-r-10 m-b-10"></i> Attachments <span></span> </h4>
+                            <h4> 
+                                <i class="fa fa-paperclip m-r-10 m-b-10"></i> 
+                                Attachments <span></span> 
+                            </h4>
                             {% endif %}
+
                             <div class="row">
                                 {% if transactionType == 0 %}
-
                                     <div class="col-md-12">
                                         <label>Formal Quotation: </label>
                                         <a href="/ViewerJS/?title={{attachment.name}}#../upload/finance/{{directPayment.submittedBy}}/{{directPayment.fqFilename}}" target="_blank" class="btn-link">{{directPayment.fqfilenameToShow}}</a>
@@ -373,61 +326,50 @@
                                     {%endif%}
 
                                 {% elif transactionType == 1 %}
-
                                     <div class="col-md-12">
                                         <label>Formal Quotation: </label>
                                         <a href="/ViewerJS/?title={{attachment.name}}#../upload/finance/{{cashAdvance.submittedBy}}/{{cashAdvance.filename}}" target="_blank" class="btn-link">{{cashAdvance.filenameToShow}}</a>
                                     </div>
-
-
                                 {% endif %}
-                                
-                                 
                             </div>
                             <hr>
                         </section>
                         <section id="section-linebox-2">
-                         
-                       <div class="white-box">
-                           <hr />
-
-                           <div class="comment-center">
-                            {% for signatory in signatories %}
-                                <div class="comment-body col-md-12 text-center">
-                                    <div class="user-img">  </div>
-                                    <div class="mail-contnet text-center">
-
-                                    <h5 class="text-center">
-                                        {%if signatory.status =='Unsigned' %}
-                                        <span class="label label-rounded label-default text-black pull-left" style="color:black">{{signatory.status}}</span>
-                                        {%elif  signatory.status == 'Approved'%}
-                                        <span class="label label-rounded label-success pull-left">{{signatory.status}}</span>
-                                        {%elif  signatory.status == 'Pend'%}
-                                        <span class="label label-rounded label-warning pull-left">{{signatory.status}}</span>
-                                        {%elif  signatory.status == 'Denied'%}
-                                        <span class="label label-rounded label-danger pull-left">{{signatory.status}}</span>
-                                        {%endif%}
-
-                                        <span class="time pull-right">
-                                        {% if(signatory.datesigned)%}
-                                            {{signatory.datesigned}}
-                                        {% else %}
-                                            N/A
-                                        {% endif %}
-                                        </span>
-                                        
-                                    </h5> 
-                                    <h5>{{signatory.signatoryname}}</h5>
-                                    <p>{{signatory.type}}</p>
-                                    <p class="break">{{signatory.digitalsignature}}</p>
-                                    </div>
-                                </div>
-
-                            {% endfor %}
-                            </div>
-                           <hr />
-                           <br />
-                       </div>
+                           <div class="white-box">
+                               <hr />
+                               <div class="comment-center">
+                                    {% for signatory in signatories %}
+                                        <div class="comment-body col-md-12 text-center">
+                                            <div class="user-img">  </div>
+                                                <div class="mail-contnet text-center">
+                                                    <h5 class="text-center">
+                                                    {%if signatory.status =='Unsigned' %}
+                                                        <span class="label label-rounded label-default text-black pull-left" style="color:black">{{signatory.status}}</span>
+                                                    {%elif  signatory.status == 'Approved'%}
+                                                        <span class="label label-rounded label-success pull-left">{{signatory.status}}</span>
+                                                    {%elif  signatory.status == 'Pend'%}
+                                                        <span class="label label-rounded label-warning pull-left">{{signatory.status}}</span>
+                                                    {%elif  signatory.status == 'Denied'%}
+                                                        <span class="label label-rounded label-danger pull-left">{{signatory.status}}</span>
+                                                    {%endif%}
+                                                        <span class="time pull-right">
+                                                            {% if(signatory.datesigned)%}
+                                                                {{signatory.datesigned}}
+                                                            {% else %}
+                                                                N/A
+                                                            {% endif %}
+                                                        </span>
+                                                    </h5> 
+                                                    <h5>{{signatory.signatoryname}}</h5>
+                                                    <p>{{signatory.type}}</p>
+                                                    <p class="break">{{signatory.digitalsignature}}</p>
+                                                </div>
+                                            </div>
+                                    {% endfor %}
+                               </div>
+                               <hr />
+                               <br />
+                           </div>
                         </section>
                     </div>
                 </div> 
