@@ -85,41 +85,43 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		viewHome: (req, res) => {
 
-		database.task(task => {
-	                return task.batch([
-	                    orgresModel.getActivitiesForResearchForm(),
-	                    organizationModel.getAllStudentOrganizations(),
-	                    gosmModel.getAllCurrent()
-	                ]);
-        }).then(data=>{
-
-            let renderData = Object.create(null);
-
-            var activityCount = data[0].length;
-
-            if (data[0]==null) {
-            	activityCount=0;
-            }
-
-
-            renderData.activityCount = activityCount;
-            renderData.studentorganizations = data[1];
-            renderData.allGosm = data[2];
-            renderData.extra_data = req.extra_data;
-            renderData.csrfToken = req.csrfToken();
-            return res.render('Orgres/orgresHome', renderData);
-
-        }).catch(error=>{
-            console.log(error);
-        });
+		    database.task(task => {
+	            return task.batch([
+	               orgresModel.getActivitiesForResearchForm(),
+	               organizationModel.getAllStudentOrganizations(),
+	               gosmModel.getAllCurrent()
+	            ]);
+            }).then(data=>{
+    
+                let renderData = Object.create(null);
+    
+                var activityCount = data[0].length;
+    
+                if (data[0]==null) {
+                	activityCount=0;
+                }
+                renderData.activityCount = activityCount;
+                renderData.studentorganizations = data[1];
+                renderData.allGosm = data[2];
+                renderData.extra_data = req.extra_data;
+                renderData.csrfToken = req.csrfToken();
+                
+                return res.render('Orgres/orgresHome', renderData);
+            }).catch(error=>{
+                console.log(error);
+            });
 		},
 
 		viewManageTime: (req, res) => {
+			logger.info('call viewManageTime()', log_options);
+
 			orgresModel.getCurrentSchoolYearTerms().then(data=>{
 				const renderData = Object.create(null);
     	        renderData.extra_data = req.extra_data;
 	            renderData.csrfToken = req.csrfToken();
 	            renderData.termdates = data;
+
+	            logger.debug('Rendering Orgres/ManageTime', log_options);
 				return res.render('Orgres/ManageTime', renderData);
 			}).catch(error=>{
 				logger.error(`${error.message}: ${error.stack}`, log_options);
