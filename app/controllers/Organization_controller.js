@@ -711,6 +711,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     // orgres involvement
 
                     var involvement1 = ((msfSurveyTotal/totalOrganizationMembers)*100)*0.045;
+
+                    if(totalOrganizationMembers == 0){
+                        involvement1 = 0;
+                    }
+
                     var involvement2 = ((((arfField3Average + msfField5Average + msfField6Average)/3)/5)*100)*0.06;
                     var involvement3 = ((((arfField4Average + msfField7Average)/2)/5)*100)*0.045;
 
@@ -754,6 +759,12 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     }
 
                     var amtScore = totalAMTEvaluationScore/totalAMTEvaluations;
+
+                    if (totalAMTEvaluations == 0){
+
+                        amtScore = 0;
+
+                    }
                     var amtGrade = amtScore*0.0375;
 
                     //finance grade
@@ -819,8 +830,84 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                     // finance monitoring grade
 
-                    var monitoring1 = ((onTimeTransaction/totalApprovedTransaction)*100)*0.01;
-                    var monitoring2 = ((approvedParticulars/totalParticulars)*100)*0.005;
+                    var tempMonitoring1 = ((onTimeTransaction/totalApprovedTransaction)*100);//*0.01;
+
+                    if (tempMonitoring1 >= 98){
+                        var monitoring1 = 1;
+                    }
+                    else if (tempMonitoring1 >= 95) {
+                        var monitoring1 = 0.95;
+                    }
+                    else if (tempMonitoring1 >= 92) {
+                        var monitoring1 = 0.9;
+                    }
+                    else if (tempMonitoring1 >= 89) {
+                        var monitoring1 = 0.85;
+                    }
+                    else if (tempMonitoring1 >= 86) {
+                        var monitoring1 = 0.8;
+                    }
+                    else if (tempMonitoring1 >= 83) {
+                        var monitoring1 = 0.75;
+                    }
+                    else if (tempMonitoring1 >= 80) {
+                        var monitoring1 = 0.7;
+                    }
+                    else if (tempMonitoring1 >= 77) {
+                        var monitoring1 = 0.65;
+                    }
+                    else if (tempMonitoring1 >= 74) {
+                        var monitoring1 = 0.6;
+                    }
+                    else if (tempMonitoring1 >= 71) {
+                        var monitoring1 = 0.55;
+                    }
+                    else{
+                        var monitoring1 = 0.5;
+                    }
+
+                    var tempMonitoring2 = ((approvedParticulars/totalParticulars)*100);//0.005;
+
+                    if (tempMonitoring2 >= 98){
+                        var monitoring2 = 0.5;
+                    }
+                    else if (tempMonitoring2 >= 95) {
+                        var monitoring2 = 0.475;
+                    }
+                    else if (tempMonitoring2 >= 92) {
+                        var monitoring2 = 0.45;
+                    }
+                    else if (tempMonitoring2 >= 89) {
+                        var monitoring2 = 0.425;
+                    }
+                    else if (tempMonitoring2 >= 86) {
+                        var monitoring2 = 0.4;
+                    }
+                    else if (tempMonitoring2 >= 83) {
+                        var monitoring2 = 0.375;
+                    }
+                    else if (tempMonitoring2 >= 80) {
+                        var monitoring2 = 0.35;
+                    }
+                    else if (tempMonitoring2 >= 77) {
+                        var monitoring2 = 0.325;
+                    }
+                    else if (tempMonitoring2 >= 74) {
+                        var monitoring2 = 0.3;
+                    }
+                    else if (tempMonitoring2 >= 71) {
+                        var monitoring2 = 0.275;
+                    }
+                    else if (tempMonitoring2 >= 68) {
+                        var monitoring2 = 0.25;
+                    }
+                    else if (tempMonitoring2 >= 65) {
+                        var monitoring2 = 0.225;
+                    }
+                    else{
+                        var monitoring2 = 0.2;
+                    }
+
                     var monitoring3 = 1;
                     var tempMonitoring45 = ((Math.abs(totalExpense-totalActivityBudget))/totalActivityBudget)*100;
 
@@ -857,7 +944,35 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                     // finance allocation grade
 
-                    var allocation1 = ((onBudgetActivities/totalFinanceActivities)*100)*0.01;
+                    var tempAllocation1 = ((onBudgetActivities/totalFinanceActivities)*100);//*0.01;
+
+                    if(tempAllocation1 >= 85){
+                        var allocation1 = 1;
+                    }
+                    else if(tempAllocation1 >= 80){
+                        var allocation1 = 0.95;
+                    }
+                    else if(tempAllocation1 >= 75){
+                        var allocation1 = 0.9;
+                    }
+                    else if(tempAllocation1 >= 70){
+                        var allocation1 = 0.85;
+                    }
+                    else if(tempAllocation1 >= 65){
+                        var allocation1 = 0.8;
+                    }
+                    else if(tempAllocation1 >= 60){
+                        var allocation1 = 0.75;
+                    }
+                    else if(tempAllocation1 >= 55){
+                        var allocation1 = 0.7;
+                    }
+                    else if(tempAllocation1 >= 50){
+                        var allocation1 = 0.65;
+                    }
+                    else{
+                        var allocation1 = 0.6;
+                    }
 
                     var tempAllocation2 = Math.abs(60-((relatedExpense/totalExpense)*100));
 
@@ -873,6 +988,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     else{
                         var allocation2 = 0.75;
                     }
+
+
 
                     var tempAllocation3 = ((depositoryfunds-totalExpense)/depositoryfunds)*100;
 
@@ -2712,7 +2829,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 !(req.body.learning).trim() ||
                 !(req.body.develop).trim() ||
                 !(req.body.learning).trim() ||
-                !(req.body.mistakes).trim()
+                !(req.body.mistakes).trim() ||
+                !(req.body.anmp).trim() ||
+                !(req.body.anp).trim()
             ) {
 
 
@@ -4200,7 +4319,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.projectHeads = data[1];
                 renderData.others = data[2];
                 renderData.scores = data[3][0];
-
+                console.log(data[2])
                 res.render('Orgres/orgresSpecificActivity', renderData);
             }).catch(err => {
                 return logger.error(`${err.message}: ${err.stack}`, log_options);

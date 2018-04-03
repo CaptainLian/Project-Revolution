@@ -33,7 +33,7 @@ $(document).on('click', '#approve', function() {
     swal({
         title: "Are you sure?",
         showCancelButton: true,
-        reverseButtons: true,
+        reverseButtons: false,
         confirmButtonColor: "#00C292",
         confirmButtonText: "Yes",
         cancelButtonText: "No",
@@ -119,7 +119,7 @@ $(document).on('click', '#defer', function() {
         focusConfirm: false,
         focusCancel: false,
         showLoaderOnConfirm: true,
-        reverseButtons: true,
+        reverseButtons: false,
         allowOutsideClick: false,
         preConfirm: function(data) {
             console.log($("#select-sec").val());
@@ -245,7 +245,7 @@ $(document).on('click', '#reschedule', function() {
         focusConfirm: false,
         focusCancel: false,
         showLoaderOnConfirm: true,
-        reverseButtons: true,
+        reverseButtons: false,
         allowOutsideClick: false,
         preConfirm: function(data) {
             console.log($("#datepicker-inline").val());
@@ -325,7 +325,7 @@ $(document).on('click', '#reschedule', function() {
             title: "Are you sure?",
             html:modified,
             showCancelButton: true,
-            reverseButtons: true,
+            reverseButtons: false,
             confirmButtonColor: "#00C292",
             confirmButtonText: "Yes",
             cancelButtonText: "No",
@@ -380,7 +380,7 @@ $(document).on('click', '#reject', function() {
         showLoaderOnConfirm: true,
         focusConfirm: false,
         focusCancel: false,
-        reverseButtons: true,
+        reverseButtons: false,
         allowOutsideClick: false,
         showCancelButton: true,
         confirmButtonColor: "#FB9678",

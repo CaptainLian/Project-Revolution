@@ -88,6 +88,7 @@
     {{tag.javascript('/plugins/bower_components/Magnific-Popup-master/dist/jquery.magnific-popup.min.js', true)}}
     {{tag.javascript('/plugins/bower_components/Magnific-Popup-master/dist/jquery.magnific-popup-init.js', true)}}
     <!-- Page Scripts -->
+    {{- tag.javascript('/js/system/AJAX_CSRF.js', true)}}
     {{tag.javascript('/js/ADM/viewActivityToCheck.js', true)}}
     <!-- /Page Scripts -->
 {%endblock%}
@@ -114,17 +115,20 @@
         <div class="white-box">
             <div class="text-center"> <h1>{{activity.title}}</h1> </div>
             <p class="text-center">{{activity.org}}</p>
+
+            {%if activity.status == 3 %}
             <div class="row button-box" >
                                      
-                   
-                    <div class="col-lg-6 col-sm-4 col-xs-12 ">
-                        <button id="defer" class="btn btn-block  btn-warning">Pend</button>
-                    </div>
                     <div class="col-lg-6 col-sm-4 col-xs-12 ">
                         <button id="approve" class="btn btn-block  btn-success">Approve</button>
                     </div>
+                    <div class="col-lg-6 col-sm-4 col-xs-12 ">
+                        <button id="defer" class="btn btn-block  btn-warning">Pend</button>
+                    </div>
+                    
                     
             </div>
+            {%endif%}
             <div class="user-btm-box">
                 <!-- .row -->
                
