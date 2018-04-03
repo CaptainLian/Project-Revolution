@@ -115,11 +115,13 @@
                 <h1>{{activities.strategies}}</h1> 
             </div>
             <p class="text-center">{{activities.orgname}}</p>
+            {%if pubstime%}
             <div class="row" style="margin-top: 10px">
                 <button id='addButton' class="btn btn-outline-info btn-md col-md-8 offset-md-2" data-toggle="modal" data-target="#addModal">
                     <i class="fa fa-plus" data-toggle="tooltip" title="add publicity material"></i> &nbsp; Add Publicity Material
                 </button> 
             </div>
+            {%endif%}
             <div class="user-btm-box">
                 <!-- .row -->
                 <div class="row text-center ">
