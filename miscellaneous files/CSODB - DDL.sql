@@ -1972,7 +1972,8 @@ INSERT INTO ProjectProposalStatus (id, name)
                                   (4, 'Pending'),
                                   (5, 'Denied'),
                                   (6, 'Rescheduled'),
-                                  (7, 'Rescheduled Denied');
+                                  (7, 'Rescheduled Denied'),
+                                  (8, 'On-hold');
 
 DROP TABLE IF EXISTS ProjectProposalRescheduleReason CASCADE;
 CREATE TABLE ProjectProposalRescheduleReason (
