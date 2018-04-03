@@ -6,7 +6,7 @@ $(document).on('click', '#approve', function() {
     swal({
         title: "Are you sure?",
         showCancelButton: true,
-        reverseButtons: true,
+        reverseButtons: false,
         confirmButtonColor: "#00C292",
         confirmButtonText: "Yes",
         cancelButtonText: "No",
@@ -74,25 +74,25 @@ $(document).on('click', '#deny', function() {
         showLoaderOnConfirm: true,
         focusConfirm: false,
         focusCancel: false,
-        reverseButtons: true,
+        reverseButtons: false,
         allowOutsideClick: false,
         showCancelButton: true,
         confirmButtonColor: "#FB9678",
         confirmButtonText: "Reject",
         cancelButtonText: "Cancel",
-        // preConfirm: function(data) {
-        //     console.log(data);
-        //     console.log("DATA");
-        //     return new Promise(function(resolve, reject) {
-        //         setTimeout(function() {
-        //             if (data === 'taken@example.com') {
-        //                 reject('This email is already taken.')
-        //             } else {
-        //                 resolve()
-        //             }
-        //         }, 2000)
-        //     })
-        // }
+        preConfirm: function(data) {
+            console.log(data);
+            console.log("DATA");
+            return new Promise(function(resolve, reject) {
+                setTimeout(function() {
+                    if ($.trim($("#reject-comment").val()).length === 0) {
+                        reject('Reason cannot be empty.')
+                    } else {
+                        resolve()
+                    }
+                }, 2000)
+            })
+        }
         
     }).then(function() {
         var comment = $("#reject-comment").val()

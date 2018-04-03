@@ -4319,7 +4319,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.projectHeads = data[1];
                 renderData.others = data[2];
                 renderData.scores = data[3][0];
-
+                console.log(data[2])
                 res.render('Orgres/orgresSpecificActivity', renderData);
             }).catch(err => {
                 return logger.error(`${err.message}: ${err.stack}`, log_options);

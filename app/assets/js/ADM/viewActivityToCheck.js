@@ -25,7 +25,10 @@ $("#approve").click(function(){
                 data:{status:4,gosmid:$("input#gosmid").val()},
                 success:function(data){
                     if(data){
-                        window.location.href='/ADM/Activity/List';
+                        swal("Success!", "", "success").then(function(){
+                            window.location.href='/ADM/Activity/List';
+                        })
+                        
                     }
                 }
            })
@@ -102,7 +105,9 @@ $("#defer").click(function(){
                 data:{sections:sections,comment:$("textarea").val(),status:5,gosmid:$("input#gosmid").val()},
                 success:function(data){
                     if(data){
-                        window.location.href='/ADM/Activity/List';
+                        swal("Success!", "", "success").then(function(){
+                            window.location.href='/ADM/Activity/List';
+                        })
                     }
                 }
            })
