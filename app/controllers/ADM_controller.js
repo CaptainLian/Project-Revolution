@@ -216,7 +216,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.id = activity.id;
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
-
+            console.log("activity");
+            console.log(activity);
             renderData.pheads = projectHeads;
             return res.render('ADM/ActivityToCheck', renderData);
         }).catch(error => {

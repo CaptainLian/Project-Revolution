@@ -12,7 +12,7 @@ $("#approve").click(function(){
       text: "Once you submit this you all finance transaction for this activity will be canceled, and you can no longer add finance transaction for this activity",
       type: 'warning',
       showCancelButton: true,
-      reverseButtons:true,
+      reverseButtons:false,
       confirmButtonColor: '#00C292',
       
       confirmButtonText: 'Submit'
@@ -65,7 +65,7 @@ $("#defer").click(function(){
         focusConfirm:false,
         focusCancel:false,
         showLoaderOnConfirm: true,
-        reverseButtons:true,
+        reverseButtons:false,
         allowOutsideClick: false,
         preConfirm: function (data) {
             console.log($("#select-sec").val());

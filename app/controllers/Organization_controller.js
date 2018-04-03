@@ -2712,7 +2712,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 !(req.body.learning).trim() ||
                 !(req.body.develop).trim() ||
                 !(req.body.learning).trim() ||
-                !(req.body.mistakes).trim()
+                !(req.body.mistakes).trim() ||
+                !(req.body.anmp).trim() ||
+                !(req.body.anp).trim()
             ) {
 
 
