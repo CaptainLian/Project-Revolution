@@ -5,29 +5,25 @@ START TRANSACTION;
 INSERT INTO SchoolYear(startYear, endYear, dateStart, dateEnd)
                VALUES (2015, 2016, '2015-08-24', '2016-08-27');
 INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
-          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2015 AND endYear = 2016), 1, '2015-08-24', '2015-12-08');
-INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
-          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2015 AND endYear = 2016), 2, '2016-01-06', '2016-04-16');
-INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
-          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2015 AND endYear = 2016), 3, '2016-05-23', '2016-08-27');
+          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2015 AND endYear = 2016), 1, '2015-08-24', '2015-12-08'),
+                 ((SELECT id FROM SchoolYear WHERE startYear = 2015 AND endYear = 2016), 2, '2016-01-06', '2016-04-16'),
+                 ((SELECT id FROM SchoolYear WHERE startYear = 2015 AND endYear = 2016), 3, '2016-05-23', '2016-08-27');
+
 /* 2016 - 2017 */
 INSERT INTO SchoolYear(id, startYear, endYear, dateStart, dateEnd)
                VALUES (2, 2016, 2017, '2016-09-12', '2017-08-19');
 INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
-          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2016 AND endYear = 2017), 1, '2016-09-12', '2016-12-17');
-INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
-          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2016 AND endYear = 2017), 2, '2016-01-04', '2016-04-11');
-INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
-          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2016 AND endYear = 2017), 3, '2017-05-15', '2017-08-19');
+          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2016 AND endYear = 2017), 1, '2016-09-12', '2016-12-17'),
+                 ((SELECT id FROM SchoolYear WHERE startYear = 2016 AND endYear = 2017), 2, '2016-01-04', '2016-04-11'),
+                 ((SELECT id FROM SchoolYear WHERE startYear = 2016 AND endYear = 2017), 3, '2017-05-15', '2017-08-19');
+
 /* 2017 - 2018 */
 INSERT INTO SchoolYear(id, startYear, endYear, dateStart, dateEnd)
                VALUES (3, 2017, 2018, '2017-09-11', '2018-08-28');
 INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
-          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2017 AND endYear = 2018), 1, '2017-09-11', '2017-12-16');
-INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
-          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2017 AND endYear = 2018), 2, '2018-01-08', '2018-04-21');
-INSERT INTO TERM (schoolYearID, number, dateStart, dateEnd)
-          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2017 AND endYear = 2018), 3, '2018-05-24', '2018-08-28');
+          VALUES ((SELECT id FROM SchoolYear WHERE startYear = 2017 AND endYear = 2018), 1, '2017-09-11', '2017-12-16'),
+                 ((SELECT id FROM SchoolYear WHERE startYear = 2017 AND endYear = 2018), 2, '2018-01-08', '2018-04-21'),
+                 ((SELECT id FROM SchoolYear WHERE startYear = 2017 AND endYear = 2018), 3, '2018-05-24', '2018-08-28');
 
 INSERT INTO public."Building"(
             id, name)
@@ -94,20 +90,20 @@ INSERT INTO public."ActivityVenue"(id, name, capacity, size, rate, "rateType", b
                                   ( 1, 'A 1502-B Conference Room', 10, 0, 230, 0, 0),
                                   ( 2, 'A 1505-A Conference Room', 12, 0, 240, 0, 0),
                                   ( 3, 'A 1505-B Conference Room', 8, 0, 110, 0, 0),
-                                  ( 4, 'A 1506 Conference Room', 30, 0, 850, 0, 0),
-                                  ( 5, 'A 1602 Conference Room', 20, 0, 680, 0, 0),
-                                  ( 6, 'A 703 Lecture Room', 120, 1, 1200, 0, 0),
-                                  ( 7, 'A 903 Lecture Room', 120, 1, 1200, 0, 0),
-                                  ( 8, 'A 1103 Lecture Room', 120, 1, 1200, 0, 0),
-                                  ( 9, 'A 1403 Lecture Room', 120, 1, 1200, 0, 0),
-                                  (10, 'A 1703 Lecture Room', 120, 1, 1200, 0, 0),
+                                  ( 4,  'A 1506 Conference Room' , 30, 0, 850, 0, 0),
+                                  ( 5, 'A 1602 Conference Room'  , 20, 0, 680, 0, 0),
+                                  ( 6, 'A 703 Lecture Room'      , 120, 1, 1200, 0, 0),
+                                  ( 7, 'A 903 Lecture Room'      , 120, 1, 1200, 0, 0),
+                                  ( 8, 'A 1103 Lecture Room'     , 120, 1, 1200, 0, 0),
+                                  ( 9, 'A 1403 Lecture Room'     , 120, 1, 1200, 0, 0),
+                                  (10, 'A 1703 Lecture Room'     , 120, 1, 1200, 0, 0),
                                   (11, 'A1402 Micro Teaching Laboratory', 45, 0, 700, 0, 0),
                                   (12, 'A1805 Micro Teaching Laboratory', 45, 0, 700, 0, 0),
-                                  (13, '20th Floor Board Room', 20, 0, 900, 0, 0),
-                                  (14, '20th Floor Conference Room', 8, 0, 400, 0, 0),
+                                  (13, '20th Floor Board Room'       , 20, 0, 900, 0, 0),
+                                  (14, '20th Floor Conference Room'  , 8, 0, 400, 0, 0),
                                   (15, '20th Floor Multipurpose Room', 200, 2, 2500, 0, 0),
                                   (16, 'Classroom (Full-size)', 45, 0, 620, 0, 0),
-                                  (17, 'Classroom (Half-size', 25, 0, 340, 0, 0),
+                                  (17, 'Classroom (Half-size', 25, 0 , 340, 0, 0),
                                   (18, 'Natividad Fajardo-Rosario Gonzalez Auditorium, 18th Flr.', 238, 2, 3000, 0, 0);
 
 INSERT INTO public."ActivityVenue"(
@@ -1429,7 +1425,6 @@ uLXhjnAaX4aP7NPLFhXAFgFvWZHgHPsDL+2OkZ4ntzto0r6Jx1W76za9rjrcyxYI
 o6pc7P4uwftlkACGGksCQCSv7IVwaKqcLYglwNgZRSFnkUlfU4bnFntlgNAbH/3x
 sxoqKQTWVqw038LwcLCp7OmZKjwwjc72lzxwKdM//dU=
 -----END RSA PRIVATE KEY-----', 1);
-
 
 INSERT INTO OrganizationOfficer (idNumber, role, yearID, dateAssigned)
                         /* ORG 1*/
