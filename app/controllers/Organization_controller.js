@@ -98,6 +98,20 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.csrfToken = req.csrfToken();
             return res.render('Org/gradeList');
         },
+        viewAmtEval: (req, res) => {
+            const renderData = Object.create(null);
+            console.log(req.param)
+            renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
+            return res.render('Org/viewAMTEval');
+        },
+        viewAmtEvalList: (req, res) => {
+            const renderData = Object.create(null);
+            console.log(req.param)
+            renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
+            return res.render('Org/viewAMTEvalList');
+        },
         viewAddMember: (req, res) => {
             const renderData = Object.create(null);
             console.log(req.param)
