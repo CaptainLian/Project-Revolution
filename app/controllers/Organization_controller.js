@@ -103,7 +103,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             console.log(req.param)
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
-            return res.render('Org/viewAMTeval');
+            amtModel.viewOrgMyActivity(req.params.id)
+            .then(data=>{
+                return res.render('Org/viewAMTeval');
+            }).catch(err=>{
+                console.log(err)
+            })
+            
         },
         viewAmtEvalList: (req, res) => {
             const renderData = Object.create(null);

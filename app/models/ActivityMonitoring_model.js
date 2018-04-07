@@ -44,6 +44,14 @@ module.exports = function(configuration, modules, database, queryFiles){
     ActivityMonitoringModel.deleteToMyActivity = function(param, connection = database){
         return connection.result(deleteToMyActivity, param);
     };
+    ActivityMonitoringModel.viewAMTSpecificAct = function(id, connection = database){
+        var query = squel.select()
+                    .from("AMTActivityEvaluation")
+                    .where("Activity = ?",id)
+        console.log("=========================")    
+        console.log(query.toString())
+        return connection.any(query.toString());
+    };
 
     ActivityMonitoringModel.viewOrgMyActivity = function(idNumber, connection = database){
           var query = squel.select()
