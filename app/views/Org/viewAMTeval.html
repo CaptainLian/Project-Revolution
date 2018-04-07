@@ -56,37 +56,37 @@
 {%block defer_script%}
     {{super()}}
     <!-- Menu Plugin JavaScript -->
-    {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js')}}
+    {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
     <!--slimscroll JavaScript -->
-    {{tag.javascript('/js/jquery.slimscroll.js')}}
+    {{tag.javascript('/js/jquery.slimscroll.js', true)}}
     <!--Wave Effects -->
-    {{tag.javascript('/js/waves.js')}}
-    
+    {{tag.javascript('/js/waves.js', true)}}
+    <!-- Custom Theme JavaScript -->
+    {{tag.javascript('/js/custom.min.js', true)}}
+    {{tag.javascript('/js/cbpFWTabs.js', true)}}
     <!-- tabs-->
-    {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js')}}
+    {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
     <!-- Sweet-Alert  -->
     {{tag.javascript('/plugins/bower_components/sweetalert/sweetalert.min.js', true)}}
     <!--Style Switcher -->
-    {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js')}}
-    {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js')}}
-    {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js')}}
-    {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js')}}
-    {{tag.javascript('https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js')}}
-    {{tag.javascript('https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js')}}
-    {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js')}}
-    {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js')}}
-    {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js')}}
-    {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/nestable2/1.5.0/jquery.nestable.min.js')}}
-    {{tag.javascript('/plugins/bower_components/custom-select/custom-select.min.js')}}
-    {{tag.javascript('/plugins/bower_components/bootstrap-select/bootstrap-select.min.js')}}
+    {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
+
+    {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js', true)}}
+    {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js', true)}}
+    {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js', true)}}
+    {{tag.javascript('https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js', true)}}
+    {{tag.javascript('https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js', true)}}
+    {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js', true)}}
+    {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js', true)}}
+    {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js', true)}}
+    {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/nestable2/1.5.0/jquery.nestable.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/custom-select/custom-select.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-select/bootstrap-select.min.js', true)}}
     <!-- Page Scripts -->
-    {{tag.javascript('/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.js')}}
-    {{tag.javascript('/plugins/bower_components/bootstrap-daterangepicker/daterangepicker.js')}}
-    {{- tag.javascript('/js/Organization/viewAMTEval.js')}}
-    <!-- Custom Theme JavaScript -->
-    {{tag.javascript('/js/custom.min.js')}}
-    {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js')}}
-    {{tag.javascript('/js/cbpFWTabs.js')}}
+
+    {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js', true)}}
+    <!-- {{tag.javascript('/js/Organization/report.js', true)}} -->
+    {{tag.javascript('/js/Organization/viewAMTEval.js',true)}}
 {%endblock%}
 
 {%block content%}
@@ -140,31 +140,199 @@
                 <div class="sttabs tabs-style-linebox">
                     <nav>
                         <ul>
-                            <li><a href="#section-linebox-5"><span>Logistics</span></a></li>
-                            <li><a href="#section-linebox-4"><span>Activity Process</span></a></li>
-                            <li><a href="#section-linebox-2"><span>Program</span></a></li>
-                            <li><a href="#section-linebox-3"><span>Audience Feedback</span></a></li>
+                            <li><a href="#section-linebox-1"><span>Logistics</span></a></li>
+                            <li><a href="#section-linebox-2"><span>Activity Process</span></a></li>
+                            <li><a href="#section-linebox-3"><span>Program</span></a></li>
+                            <li><a href="#section-linebox-4"><span>Audience Feedback</span></a></li>
                         </ul>
                     </nav>
                     <div class="content-wrap text-center">
+                        
                         <section id="section-linebox-1">
-                            <div class="col-md-12">
-                                <div class="white-box">
-                                    <div>
-                                    <label class="text-center">Logistics</label>
-                                        <canvas id="chartamt1" width="800" height="600"></canvas>
-                                    </div>
-                                </div>
-                            </div>
+                        <h2>Logistics</h2>
+                            <table class="table table-hover" id="logistics table">
+                                <thead>
+                                    <tr>
+                                        <th  class="text-center">Criteria</th>
+                                        <th class="text-center">Grade</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Venue</td>
+                                        <td data-toggle="tooltip" data-original-title="Appropriate for the activity, and all attendees were accommodated">5</td>
+                                        <!-- <td data-toggle="tooltip" data-original-title="Appropriate for ENP, but ANP has exceeded/lacking of ENP">3</td>
+                                        <td data-toggle="tooltip" data-original-title="Inappropriate for the activity, too big/small for the attendees">1</td> -->
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Equipment</td>
+                                        <td data-toggle="tooltip" data-original-title="Needed equipment were present, and well-functioning">5</td>
+                                        <!-- <td data-toggle="tooltip" data-original-title="Needed equipment were present, but faculty">3</td>
+                                        <td data-toggle="tooltip" data-original-title="Needed equipment were not functioning/present">1</td> -->
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Materials</td>
+                                        <td data-toggle="tooltip" data-original-title="Needed materials were well-prepared on time, and functioning">5</td>
+                                        <!-- <td data-toggle="tooltip" data-original-title="Needed materials were unprepared, and lacking">3</td>
+                                        <td data-toggle="tooltip" data-original-title="Needed materials were not present">1</td> -->
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </section>
                         <section id="section-linebox-2">
-                            <h2>Tabbing 2</h2></section>
+                            <h2>Activity Process</h2>
+                            <table class="table table-hover" id="logistics table">
+                                <thead>
+                                    <tr>
+                                        <th  class="text-center">Criteria</th>
+                                        <th class="text-center">Grade</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Registration</td>
+                                        <td data-toggle="tooltip" data-original-title="The registration process was smooth, and did not cause delay to the event">3</td>
+                                        <!-- <td data-toggle="tooltip" data-original-title="The registration process was poorly done">1</td>
+                                        -->
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Time Start </td>
+                                        <td data-toggle="tooltip" data-original-title="Early or at least on time">5</td>
+                                        <!-- <td data-toggle="tooltip" data-original-title="5 minutes late">4</td>
+                                        <td data-toggle="tooltip" data-original-title="10 minutes late or late due to unforeseen events">3</td>
+                                        <td data-toggle="tooltip" data-original-title="15 minutes late">2</td>
+                                        <td data-toggle="tooltip" data-original-title="20 minutes onwards">1</td> -->
+                                        
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Time End</td>
+                                        <td data-toggle="tooltip" data-original-title="Early or at least on time">5</td>
+                                        <!-- <td data-toggle="tooltip" data-original-title="5 minutes late">4</td>
+                                        <td data-toggle="tooltip" data-original-title="10 minutes late or late due to unforeseen events">3</td>
+                                        <td data-toggle="tooltip" data-original-title="15 minutes late">2</td>
+                                        <td data-toggle="tooltip" data-original-title="20 minutes onwards">1</td> -->
+                                    </tr>
+                                    <tr>
+                                        <td>Activity Execution</td>
+                                        <td data-toggle="tooltip" data-original-title="Followed the program flow">5</td>
+                                        <!-- <td data-toggle="tooltip" data-original-title="Partially followed the program flow">3</td>
+                                        <td data-toggle="tooltip" data-original-title="Did not follow the program flow">1</td> -->
+                                    </tr>
+                                    <tr>
+                                        <td>Activity Transition</td>
+                                        <td data-toggle="tooltip" data-original-title="Spontaneous transitions">2</td>
+                                        <!-- <td data-toggle="tooltip" data-original-title="Average transitions">1</td> -->
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
                         <section id="section-linebox-3">
-                            <h2>Tabbing 3</h2></section>
+                            <h2>Program</h2>
+                            <table class="table table-hover" id="logistics table">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">Criteria</th>
+                                        <th class="text-center">Grade</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Host/s</td>
+                                        <td data-toggle="tooltip" data-original-title="Able to regulate activity flow; Able to address the audience and questions; Lively">5</td>
+                                        <!-- <td data-toggle="tooltip" data-original-title="Slightly able to regulate activity flow; Lacks energy">3</td>
+                                        <td data-toggle="tooltip" data-original-title="Not able to regulate activity flow; Not accommodating to audience; Monotonous and dragging">1</td>
+                                         -->
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Facilitator/Ushers</td>
+                                        <td>
+                                            <p>Ushered the audience</p><br> 
+                                            <!-- <p>Approachable</p><br> 
+                                            <p>Assisted the host </p><br> 
+                                            <p>Maintained order</p><br>  -->
+                                        </td>
+                                        
+                                    </tr>
+                                    <tr>
+                                        <td>Presentations</td>
+                                        <td data-toggle="tooltip" data-original-title="Creative use of presentations and visual aids; Information were well organized">5</td>
+                                       <!--  <td data-toggle="tooltip" data-original-title="Presentations and visual aids were used; Information were organized">4</td>
+                                        <td data-toggle="tooltip" data-original-title="Presentation and visual aids were poorly used; insufficient information, but organized">3</td>
+                                        <td data-toggle="tooltip" data-original-title="Presentation and visual aids were poorly used; information were poor">2</td>
+                                        <td data-toggle="tooltip" data-original-title="There were no visual aids nor any form of presentation used">1</td> -->
+                                    </tr>
+                                    <tr>
+                                        <td>Activities</td>
+                                        <td data-toggle="tooltip" data-original-title="Creative means were used to engage members; activities maximized member participation">5</td>
+                                        <!-- <td data-toggle="tooltip" data-original-title="Activities and ice breakers were present; member participation was ensured">4</td>
+                                        <td data-toggle="tooltip" data-original-title="There was an effort to achieve good ice breakers, but lacking">3</td>
+                                        <td data-toggle="tooltip" data-original-title="Activities and ice breakers were poorly handled; Minimal member interaction">2</td>
+                                        <td data-toggle="tooltip" data-original-title="There were no activities and ice breakers; Poor member interaction">1</td> -->
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
                         <section id="section-linebox-4">
-                            <h2>Tabbing 4</h2></section>
-                        <section id="section-linebox-5">
-                            <h2>Tabbing 5</h2></section>
+                            <h2>Audience Feedback</h2>
+                            <table class="table table-hover" id="logistics table">
+                                <thead>
+                                    <tr>
+                                        <th  class="text-center">Criteria</th>
+                                        <th class="text-center">Grade</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Host/s</td>
+                                        <td>5</td>
+                                        <!-- <td>4</td>
+                                        <td>3</td>
+                                        <td>2</td>
+                                        <td>1</td> -->
+                                    </tr>
+
+                                    <tr>
+                                        <td>Facilitator/Ushers</td>
+                                        
+                                            <td>5</td>
+                                        <!-- <td>4</td>
+                                        <td>3</td>
+                                        <td>2</td>
+                                        <td>1</td> -->
+                                        
+                                        
+                                    </tr>
+                                    <tr>
+                                        <td>Presentations</td>
+                                        <td>5</td>
+                                        <!-- <td>4</td>
+                                        <td>3</td>
+                                        <td>2</td>
+                                        <td>1</td> -->
+                                    </tr>
+                                    <tr>
+                                        <td>Activities</td>
+                                        <td>5</td>
+                                        <!-- <td>4</td>
+                                        <td>3</td>
+                                        <td>2</td>
+                                        <td>1</td> -->
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <h2>Comments:</h2>
+
+                        </section>
+                        
                     </div>
                     <!-- /content -->
                 </div>
