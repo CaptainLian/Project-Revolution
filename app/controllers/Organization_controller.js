@@ -103,14 +103,29 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             console.log(req.param)
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
-            return res.render('Org/viewAMTEval');
+            amtModel.viewOrgMyActivity(req.params.id)
+            .then(data=>{
+                return res.render('Org/viewAMTeval');
+            }).catch(err=>{
+                console.log(err)
+            })
+            
         },
         viewAmtEvalList: (req, res) => {
             const renderData = Object.create(null);
             console.log(req.param)
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
-            return res.render('Org/viewAMTEvalList');
+            amtModel.viewOrgMyActivity(req.session.user.idNumber)
+            .then(data=>{
+                renderData.amt = data
+                console.log("===============")
+                console.log(data)
+                return res.render('Org/viewAMTEvalList',renderData);
+            }).catch(err=>{
+                console.log(err)
+            })
+            
         },
         viewAddMember: (req, res) => {
             const renderData = Object.create(null);

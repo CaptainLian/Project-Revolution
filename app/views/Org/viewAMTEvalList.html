@@ -77,23 +77,33 @@
                 <table id="amtTable" class="table table-hover"  role="grid" aria-describedby="myTable_info">
                     <thead>
                         <tr>
-                            <th width="33%">Activity Name</th>
                             <th width="33%">Date</th>
+                            <th width="33%">Activity Name</th>
+                            
                             <th width="33%">Status</th>
                         </tr>
                     
                     </thead>
                     <tbody> 
-                                <tr>
-                                    <td><a href="#" class="btn-link">general assembly</a></td>
-                                    <td> Sept. 13, 2018</td>      
-                                    <td><span class="label label-success">Evaluated</span></td>      
-                                </tr>
-                                <tr>
-                                    <td><a href="#" class="btn-link">general assembly</a></td>      
-                                    <td> Sept. 13, 2018</td> 
-                                    <td><span class="label label-warning">Unevaluated</span></td>      
-                                </tr>
+                                {%for act in amt%}
+                                    <tr>
+                                        <td>
+                                            {%filter replace('00:00:00 GMT+0800 (+08)','')%}
+                                                {{act.actualdatestart }}
+                                            {%endfilter%}
+                                        </td>      
+                                        {%if act.aaestatus == 3%}
+                                            <td><a href="#" class="btn-link">{{act.strategies}}</a></td>
+                                        
+                                            <td><span class="label label-success">Evaluated</span></td>
+                                        {%else%}
+                                            <td><a >{{act.strategies}}</a></td>
+                                        
+                                            <td><span class="label label-warning">Unevaluated</span></td>
+                                        {%endif%}
+                                    </tr>
+                                {%endfor%}
+                                
                     </tbody>
                 </table>
 
