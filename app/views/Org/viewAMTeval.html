@@ -56,36 +56,37 @@
 {%block defer_script%}
     {{super()}}
     <!-- Menu Plugin JavaScript -->
-    {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js')}}
     <!--slimscroll JavaScript -->
-    {{tag.javascript('/js/jquery.slimscroll.js', true)}}
+    {{tag.javascript('/js/jquery.slimscroll.js')}}
     <!--Wave Effects -->
-    {{tag.javascript('/js/waves.js', true)}}
+    {{tag.javascript('/js/waves.js')}}
     
     <!-- tabs-->
-    {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js')}}
     <!-- Sweet-Alert  -->
     {{tag.javascript('/plugins/bower_components/sweetalert/sweetalert.min.js', true)}}
     <!--Style Switcher -->
-    {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
-    {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js', true)}}
-    {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js', true)}}
-    {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js', true)}}
-    {{tag.javascript('https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js', true)}}
-    {{tag.javascript('https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js', true)}}
-    {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js', true)}}
-    {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js', true)}}
-    {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js', true)}}
-    {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/nestable2/1.5.0/jquery.nestable.min.js', true)}}
-    {{tag.javascript('/plugins/bower_components/custom-select/custom-select.min.js', true)}}
-    {{tag.javascript('/plugins/bower_components/bootstrap-select/bootstrap-select.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js')}}
+    {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js')}}
+    {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js')}}
+    {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js')}}
+    {{tag.javascript('https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js')}}
+    {{tag.javascript('https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js')}}
+    {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js')}}
+    {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js')}}
+    {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js')}}
+    {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/nestable2/1.5.0/jquery.nestable.min.js')}}
+    {{tag.javascript('/plugins/bower_components/custom-select/custom-select.min.js')}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-select/bootstrap-select.min.js')}}
     <!-- Page Scripts -->
-    {{tag.javascript('/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.js', true)}}
-    {{tag.javascript('/plugins/bower_components/bootstrap-daterangepicker/daterangepicker.js', true)}}
-    {{- tag.javascript('/js/Organization/viewAMTEval.js', true)}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.js')}}
+    {{tag.javascript('/plugins/bower_components/bootstrap-daterangepicker/daterangepicker.js')}}
+    {{- tag.javascript('/js/Organization/viewAMTEval.js')}}
     <!-- Custom Theme JavaScript -->
-    {{tag.javascript('/js/custom.min.js', true)}}
-    {{tag.javascript('/js/cbpFWTabs.js', true)}}
+    {{tag.javascript('/js/custom.min.js')}}
+    {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js')}}
+    {{tag.javascript('/js/cbpFWTabs.js')}}
 {%endblock%}
 
 {%block content%}
@@ -135,26 +136,40 @@
     </div>
     <div class="col-md-8 col-xs-12" style="border-left: rgba(120,130,140,13) solid 1px">
         <div class="white-box"  style="padding: 25px 0px 0px 0px">
-            
-            <div class="sttabs tabs-style-linebox ">
-                <nav>
-                    <ul>
-                        <li><a href="#section-linebox-1"><span>Details</span></a></li>
-                        <li><a href="#section-linebox-2"><span>Schedule</span></a></li>
-                        
-                    </ul>
-                </nav>
-                <div class="content-wrap text-center">
-                    <section id="section-linebox-1">
-                    zxczxc
-                    </section>
-                    <section id="section-linebox-2 text-left">
-                    zxczxc
-                    </section>
-                    
+            <section class="m-t-40">
+                <div class="sttabs tabs-style-linebox">
+                    <nav>
+                        <ul>
+                            <li><a href="#section-linebox-5"><span>Logistics</span></a></li>
+                            <li><a href="#section-linebox-4"><span>Activity Process</span></a></li>
+                            <li><a href="#section-linebox-2"><span>Program</span></a></li>
+                            <li><a href="#section-linebox-3"><span>Audience Feedback</span></a></li>
+                        </ul>
+                    </nav>
+                    <div class="content-wrap text-center">
+                        <section id="section-linebox-1">
+                            <div class="col-md-12">
+                                <div class="white-box">
+                                    <div>
+                                    <label class="text-center">Logistics</label>
+                                        <canvas id="chartamt1" width="800" height="600"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <section id="section-linebox-2">
+                            <h2>Tabbing 2</h2></section>
+                        <section id="section-linebox-3">
+                            <h2>Tabbing 3</h2></section>
+                        <section id="section-linebox-4">
+                            <h2>Tabbing 4</h2></section>
+                        <section id="section-linebox-5">
+                            <h2>Tabbing 5</h2></section>
+                    </div>
+                    <!-- /content -->
                 </div>
-                <!-- /content -->
-            </div>
+                <!-- /tabs -->
+            </section>
         </div>
     </div>
 </div>
