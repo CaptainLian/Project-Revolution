@@ -93,28 +93,34 @@
 <div id="doc" class="row white-box">
     <div class="col-md-4 col-xs-12">
         <div class="white-box">
-            <div class="text-center"> <h1>Activity jkljlkjlkjTitle Shiite</h1> </div>
-            <p class="text-center">La Salle Computer Society</p>
+            <div class="text-center">
+                <h1>{{activities.strategies}}</h1> 
+            </div>
+            <p class="text-center">{{activities.orgname}}</p>
+            
             <div class="user-btm-box">
                 <!-- .row -->
-               
                 <div class="row text-center ">
-                    <div class="col-md-6 b-r"><strong>Type</strong>
-                        <p>Recreation</p>
+                    <div class="col-md-6 b-r">
+                        <strong>Type</strong>
+                        <p>{{activities.typename}}</p>
                     </div>
-                    <div class="col-md-6"><strong>Nature</strong>
-                        <p>Special Interest</p>
+                    <div class="col-md-6">
+                        <strong>Nature</strong>
+                        <p>{{activities.natname }}</p>
                     </div>
                 </div>
                 <!-- /.row -->
                 <hr>
                 <!-- .row -->
                 <div class="row text-center m-t-10">
-                    <div class="col-md-6 b-r"><strong>Venue</strong>
-                        <p>Gokongwei Building</p>
+                    <div class="col-md-6 b-r">
+                        <strong>Venue</strong>
+                        <p>{{activities.activityvenue}}</p>
                     </div>
-                    <div class="col-md-6"><strong>ENMP / EMP</strong>
-                        <p>50 / 20</p>
+                    <div class="col-md-6">
+                        <strong>ENMP / EMP</strong>
+                        <p>{{activities.enmp}} / {{activities.enp}}</p>
                     </div>
                 </div>
                 <!-- /.row -->
@@ -123,11 +129,12 @@
                 <div class="row text-center m-t-10">
                     <div class="col-md-12">
                         <p><strong>Project Heads</strong></p>
-
-                        <p>Neil Capistrano</p>
-                        <p>09390290166</p>
-                        <p>Dominique Dagunton</p>
-                        <p>09290430145</p>
+                        {% for head in heads%}
+                            <p>{{head.firstname}} {{head.middlename}} {{head.lastname}}</p>
+                            <p>{{head.contactnumber}}</p>
+                        {%  endfor %}
+                        
+                       
                     </div>
                 </div>
                 <hr>
@@ -160,7 +167,7 @@
                                 <tbody>
                                     <tr>
                                         <td>Venue</td>
-                                        <td data-toggle="tooltip" data-original-title="Appropriate for the activity, and all attendees were accommodated">5</td>
+                                        <td data-toggle="tooltip" data-original-title="Appropriate for the activity, and all attendees were accommodated">{{amt.venue}}</td>
                                         <!-- <td data-toggle="tooltip" data-original-title="Appropriate for ENP, but ANP has exceeded/lacking of ENP">3</td>
                                         <td data-toggle="tooltip" data-original-title="Inappropriate for the activity, too big/small for the attendees">1</td> -->
                                         </td>
@@ -168,14 +175,14 @@
 
                                     <tr>
                                         <td>Equipment</td>
-                                        <td data-toggle="tooltip" data-original-title="Needed equipment were present, and well-functioning">5</td>
+                                        <td data-toggle="tooltip" data-original-title="Needed equipment were present, and well-functioning">{{amt.equipment}}</td>
                                         <!-- <td data-toggle="tooltip" data-original-title="Needed equipment were present, but faculty">3</td>
                                         <td data-toggle="tooltip" data-original-title="Needed equipment were not functioning/present">1</td> -->
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Materials</td>
-                                        <td data-toggle="tooltip" data-original-title="Needed materials were well-prepared on time, and functioning">5</td>
+                                        <td data-toggle="tooltip" data-original-title="Needed materials were well-prepared on time, and functioning">{{amt.materials}}</td>
                                         <!-- <td data-toggle="tooltip" data-original-title="Needed materials were unprepared, and lacking">3</td>
                                         <td data-toggle="tooltip" data-original-title="Needed materials were not present">1</td> -->
                                         </td>
@@ -195,7 +202,7 @@
                                 <tbody>
                                     <tr>
                                         <td>Registration</td>
-                                        <td data-toggle="tooltip" data-original-title="The registration process was smooth, and did not cause delay to the event">3</td>
+                                        <td data-toggle="tooltip" data-original-title="The registration process was smooth, and did not cause delay to the event">{{amt.registration}}</td>
                                         <!-- <td data-toggle="tooltip" data-original-title="The registration process was poorly done">1</td>
                                         -->
                                         </td>
@@ -203,7 +210,7 @@
 
                                     <tr>
                                         <td>Time Start </td>
-                                        <td data-toggle="tooltip" data-original-title="Early or at least on time">5</td>
+                                        <td data-toggle="tooltip" data-original-title="Early or at least on time">{{amt.timestart}}</td>
                                         <!-- <td data-toggle="tooltip" data-original-title="5 minutes late">4</td>
                                         <td data-toggle="tooltip" data-original-title="10 minutes late or late due to unforeseen events">3</td>
                                         <td data-toggle="tooltip" data-original-title="15 minutes late">2</td>
@@ -213,7 +220,7 @@
                                     </tr>
                                     <tr>
                                         <td>Time End</td>
-                                        <td data-toggle="tooltip" data-original-title="Early or at least on time">5</td>
+                                        <td data-toggle="tooltip" data-original-title="Early or at least on time">{{amt.timeend}}</td>
                                         <!-- <td data-toggle="tooltip" data-original-title="5 minutes late">4</td>
                                         <td data-toggle="tooltip" data-original-title="10 minutes late or late due to unforeseen events">3</td>
                                         <td data-toggle="tooltip" data-original-title="15 minutes late">2</td>
@@ -221,15 +228,11 @@
                                     </tr>
                                     <tr>
                                         <td>Activity Execution</td>
-                                        <td data-toggle="tooltip" data-original-title="Followed the program flow">5</td>
+                                        <td data-toggle="tooltip" data-original-title="Followed the program flow">{{amt.activityexecution}}</td>
                                         <!-- <td data-toggle="tooltip" data-original-title="Partially followed the program flow">3</td>
                                         <td data-toggle="tooltip" data-original-title="Did not follow the program flow">1</td> -->
                                     </tr>
-                                    <tr>
-                                        <td>Activity Transition</td>
-                                        <td data-toggle="tooltip" data-original-title="Spontaneous transitions">2</td>
-                                        <!-- <td data-toggle="tooltip" data-original-title="Average transitions">1</td> -->
-                                    </tr>
+                                    
                                 </tbody>
                             </table>
                         </section>
@@ -245,7 +248,7 @@
                                 <tbody>
                                     <tr>
                                         <td>Host/s</td>
-                                        <td data-toggle="tooltip" data-original-title="Able to regulate activity flow; Able to address the audience and questions; Lively">5</td>
+                                        <td data-toggle="tooltip" data-original-title="Able to regulate activity flow; Able to address the audience and questions; Lively">{{amt.hosts}}</td>
                                         <!-- <td data-toggle="tooltip" data-original-title="Slightly able to regulate activity flow; Lacks energy">3</td>
                                         <td data-toggle="tooltip" data-original-title="Not able to regulate activity flow; Not accommodating to audience; Monotonous and dragging">1</td>
                                          -->
@@ -254,17 +257,13 @@
 
                                     <tr>
                                         <td>Facilitator/Ushers</td>
-                                        <td>
-                                            <p>Ushered the audience</p><br> 
-                                            <!-- <p>Approachable</p><br> 
-                                            <p>Assisted the host </p><br> 
-                                            <p>Maintained order</p><br>  -->
-                                        </td>
+                                        
+                                        <td data-toggle="tooltip" data-original-title="Able to regulate activity flow; Able to address the audience and questions; Lively">{{amt.facilitators}}</td>
                                         
                                     </tr>
                                     <tr>
                                         <td>Presentations</td>
-                                        <td data-toggle="tooltip" data-original-title="Creative use of presentations and visual aids; Information were well organized">5</td>
+                                        <td data-toggle="tooltip" data-original-title="Creative use of presentations and visual aids; Information were well organized">{{amt.presentations}}</td>
                                        <!--  <td data-toggle="tooltip" data-original-title="Presentations and visual aids were used; Information were organized">4</td>
                                         <td data-toggle="tooltip" data-original-title="Presentation and visual aids were poorly used; insufficient information, but organized">3</td>
                                         <td data-toggle="tooltip" data-original-title="Presentation and visual aids were poorly used; information were poor">2</td>
@@ -272,7 +271,7 @@
                                     </tr>
                                     <tr>
                                         <td>Activities</td>
-                                        <td data-toggle="tooltip" data-original-title="Creative means were used to engage members; activities maximized member participation">5</td>
+                                        <td data-toggle="tooltip" data-original-title="Creative means were used to engage members; activities maximized member participation">{{amt.activities}}</td>
                                         <!-- <td data-toggle="tooltip" data-original-title="Activities and ice breakers were present; member participation was ensured">4</td>
                                         <td data-toggle="tooltip" data-original-title="There was an effort to achieve good ice breakers, but lacking">3</td>
                                         <td data-toggle="tooltip" data-original-title="Activities and ice breakers were poorly handled; Minimal member interaction">2</td>
@@ -293,7 +292,7 @@
                                 <tbody>
                                     <tr>
                                         <td>Host/s</td>
-                                        <td>5</td>
+                                        <td>{{(amt.person1ea + amt.person2ea)/ 2}}</td>
                                         <!-- <td>4</td>
                                         <td>3</td>
                                         <td>2</td>
@@ -303,7 +302,7 @@
                                     <tr>
                                         <td>Facilitator/Ushers</td>
                                         
-                                            <td>5</td>
+                                            <td>{{(amt.person1loa + amt.person2loa)/ 2}}</td>
                                         <!-- <td>4</td>
                                         <td>3</td>
                                         <td>2</td>
@@ -313,7 +312,7 @@
                                     </tr>
                                     <tr>
                                         <td>Presentations</td>
-                                        <td>5</td>
+                                        <td>{{(amt.person1iitskoa + amt.person2iitskoa)/ 2}}</td>
                                         <!-- <td>4</td>
                                         <td>3</td>
                                         <td>2</td>
@@ -321,7 +320,7 @@
                                     </tr>
                                     <tr>
                                         <td>Activities</td>
-                                        <td>5</td>
+                                        <td>{{(amt.person1iomwm + amt.person2iomwm)/ 2}}</td>
                                         <!-- <td>4</td>
                                         <td>3</td>
                                         <td>2</td>
@@ -330,7 +329,8 @@
                                 </tbody>
                             </table>
                             <h2>Comments:</h2>
-
+                            <p>{{amt.comments1}}</p>
+                            
                         </section>
                         
                     </div>
