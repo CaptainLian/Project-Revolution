@@ -63,6 +63,11 @@ module.exports = function(configuration, modules, database, queryFiles){
 		return connection.oneOrNone(query);
 	};
 
+	const getTermDetailsSQL = queryFiles.getTermDetails
+	SystemModel.getTermDetails = (param, connection = database) => {
+		return connection.one(getTermDetailsSQL, param);
+	};
+
 
 	return SystemModel;
 };

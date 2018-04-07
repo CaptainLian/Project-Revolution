@@ -6,7 +6,7 @@ module.exports = function(configuration, modules, router, controllers){
 
 	router.get(`${base}/Officers`,controllers.Organization_controller.viewOfficers);
     router.get(`${base}/report/`,controllers.Organization_controller.viewReport);
-    router.get(`${base}/report/:id`,controllers.Organization_controller.viewReport);
+    router.get(`${base}/report/:organizationId/:syOrTerm/:syTermId`,controllers.Organization_controller.viewReport);
     router.get(`${base}/viewAddMember`,controllers.Organization_controller.viewAddMember);
 	router.get(`${base}/createGOSM`, controllers.Organization_controller.viewCreateGOSM); 
     router.get(`${base}/viewGradeList`, controllers.Organization_controller.viewGradeList); 

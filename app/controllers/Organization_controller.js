@@ -115,19 +115,28 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
         viewReport: (req, res) => {
             if (req.session.user.type == 1 && req.session.user.organizationSelected.id != 0) {
-                var organizationid = req.session.user.organizationSelected.id;
-                console.log("THE ORGANIZATION ID IS +++++++++++++++++++++++++++++++++++++++++++++++++++");
-                console.log(req.session.user.organizationSelected.id);
+
+                const ACL = req.extra_data.user.accessControl[req.session.user.organizationSelected.id];
+                if(ACL[25]){
+                    var organizationid = req.session.user.organizationSelected.id;
+                    console.log("THE ORGANIZATION ID IS +++++++++++++++++++++++++++++++++++++++++++++++++++");
+                    console.log(req.session.user.organizationSelected.id);
+                }
+                else{
+                    res.redirect(`/System/NotAllowed`);
+                }
+                
             }
             else{
-                var organizationid = req.params.id;
+                var organizationid = req.params.organizationId;
             }
 
-            systemModel.getCurrentTerm([
-                'id',
-                'to_char(dateStart, \'YYYY-MM-DD\') AS "dateStart"',
-                'to_char(dateEnd, \'YYYY-MM-DD\') AS "dateEnd"'
-            ]).then(term=>{
+            var termParam = {
+                termid: req.params.syTermId
+            }
+
+            systemModel.getTermDetails(termParam)
+            .then(term=>{
 
                 var dbParam = {
                     studentOrganization: organizationid,
