@@ -103,14 +103,45 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             console.log(req.param)
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
-            return res.render('Org/viewAMTEval');
+            var dbParam = {
+                gosmid: req.params.id
+            };
+            var dbParam2 = {
+                gosmactivity: req.params.id
+            };
+            database.task(t=>{
+                return t.batch([
+                 pnpModel.getActivityDetailsforPubs(dbParam, t),
+                 amtModel.viewAMTSpecificAct(req.params.id,t),
+                 gosmModel.getGOSMActivityProjectHeads(dbParam2, t)
+                 ])    
+            }).then(data=>{
+                console.log("data[1]")
+                console.log(data[1])
+                renderData.amt = data[1][0]
+                renderData.activities = data[0];
+                renderData.heads = data[2]
+                return res.render('Org/viewAMTeval',renderData);
+            }).catch(err=>{
+                console.log(err)
+            })
+            
         },
         viewAmtEvalList: (req, res) => {
             const renderData = Object.create(null);
             console.log(req.param)
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
-            return res.render('Org/viewAMTEvalList');
+            amtModel.viewOrgMyActivity(req.session.user.idNumber)
+            .then(data=>{
+                renderData.amt = data
+                console.log("===============")
+                console.log(data)
+                return res.render('Org/viewAMTEvalList',renderData);
+            }).catch(err=>{
+                console.log(err)
+            })
+            
         },
         viewAddMember: (req, res) => {
             const renderData = Object.create(null);

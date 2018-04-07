@@ -1,5 +1,6 @@
 'use strict';
 
+const squel = require('squel').useFlavour('postgres');
 module.exports = function(configuration, modules, database, queryFiles){
 	const ActivityMonitoringModel = Object.create(null);
 
@@ -42,6 +43,39 @@ module.exports = function(configuration, modules, database, queryFiles){
 
     ActivityMonitoringModel.deleteToMyActivity = function(param, connection = database){
         return connection.result(deleteToMyActivity, param);
+    };   
+
+    ActivityMonitoringModel.viewAMTSpecificAct = function(id, connection = database){
+        var query = squel.select()
+                    .from("AMTActivityEvaluation")
+                    .where("Activity = ?",id)
+        console.log("=========================")    
+        console.log(query.toString())
+        return connection.any(query.toString());
+    };
+
+    ActivityMonitoringModel.viewOrgMyActivity = function(idNumber, connection = database){
+          var query = squel.select()
+            .from('GOSMActivity','GA')
+
+            .join(squel.select().from("ProjectProposal").where("status = 3"),'PP','GA.ID = PP.GOSMActivity')
+            
+            .join('GOSM','G','G.ID = GA.GOSM')
+            .join(squel.select().from("GOSMActivityProjectHead").where("idNumber = ?",idNumber),'GAPH','GA.ID = GAPH.ActivityID')
+            .join('AMTActivityEvaluation','AAE','AAE.Activity = GA.ID')
+            .field('*')
+            .field('AAE.status as aaestatus')
+
+
+            
+            .where(squel.expr().or("GA.ActivityType = 3").or("GA.ActivityType = 2").or("GA.ActivityNature = 1"))
+            .where("G.TERMID = ?", squel.str('system_get_current_term_id()'))            
+        console.log("=========================")    
+        console.log(query.toString())
+        return connection.any(query.toString());
+
+
+
     };
 
     ActivityMonitoringModel.getAllAMTEvaluationResults = function(param, connection = database){
