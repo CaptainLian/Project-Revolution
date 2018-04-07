@@ -24,6 +24,53 @@ $trigger$
     END;
 $trigger$ LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION "is_valid_idNumber"(idNumber INTEGER)
+RETURNS BOOLEAN AS
+$trigger$
+    DECLARE
+        sum INTEGER DEFAULT 0;
+    BEGIN
+        /* less than 8 digit number */
+        IF idNumber <= 10000000 THEN
+            RETURN FALSE;
+        END IF;
+        
+        /* 
+            for example 11445955 
+            sum = 1*8 + 1*7 + 4*6 + 4*5 + 5*4 + 9*3 + 5*2 + 5*1
+            The sum is equal to the sum of the product of its digits and a decrementing integer.
+
+            It's a valid id number if sum is divisible by 11 - As taught by Thomas James Tiam-Lee in INTPRG1
+        */
+        sum := sum + (idNumber%10);
+        idNumber = idNumber/10;
+
+        sum := sum + (idNumber%10)*2;
+        idNumber = idNumber/10;
+
+        sum := sum + (idNumber%10)*3;
+        idNumber = idNumber/10;
+
+        sum := sum + (idNumber%10)*4;
+        idNumber = idNumber/10;
+
+        sum := sum + (idNumber%10)*5;
+        idNumber = idNumber/10;
+
+        sum := sum + (idNumber%10)*6;
+        idNumber = idNumber/10;
+
+        sum := sum + (idNumber%10)*7;
+        idNumber = idNumber/10;
+
+        sum := sum + (idNumber%10)*8;
+        idNumber = idNumber/10;
+
+        /* Divisible by 11 */
+        RETURN (sum%11) = 0;
+    END;
+$trigger$ LANGUAGE plpgsql STABLE;
+
 /**
 $1 is the NEW data
 NEW.GOSMActivity should be $1.GOSMActivity when using this function
@@ -1532,7 +1579,7 @@ INSERT INTO Functionality (id, name, category)
                           -- mistakes were made in the design of ACLs, the two ACLS can be compressed into a single ACL
                           -- But for sanity and backwards compatability, they're retained
                           -- NOTE: the ACLs could be renamed and category changed, however sequence of the ACL should never be changed
-                          (211025, 'View/Submit Financial Documents as President', 211),
+                          (211025, 'View/Submit Financial Documents as President AND president powers', 211),
                           (211026, 'View/Submit Financial Documents as Treasurer', 211),
 
                           (214027, 'Submit Officer Survey Form', 214),
@@ -2966,6 +3013,9 @@ INSERT INTO "ARFOrganizationPosition" ("id", "name")
 DROP TABLE IF EXISTS "ActivityResearchForm" CASCADE;
 CREATE TABLE "ActivityResearchForm" (
   "GOSMActivity" INTEGER REFERENCES ProjectProposal(GOSMActivity),
+  "idNumber" INTEGER NOT NULL,
+  
+  "email" TEXT NOT NULL,
   "sequence" INTEGER,
   "positionInOrganization" SMALLINT REFERENCES "ARFOrganizationPosition"("id"),
   "IUTPOTA" SMALLINT,
@@ -2980,7 +3030,7 @@ CREATE TABLE "ActivityResearchForm" (
   "EFFA" TEXT,
   "dateSubmitted" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-  PRIMARY KEY("GOSMActivity", "sequence")
+  PRIMARY KEY("GOSMActivity", "idNumber")
 );
 CREATE TRIGGER "before_insert_ActivityResearchForm_sequence"
     BEFORE INSERT ON "ActivityResearchForm"

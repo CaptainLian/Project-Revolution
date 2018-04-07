@@ -315,22 +315,22 @@
                                         {{projectProposal.sourcefundorganizational | round(2)}}
                                     </div>
                                 </div>
-                                <div class="col-md-12">
+                                <!-- <div class="col-md-12">
                                     <div class="col-md-6 col-xs-12 text-left">
                                         <strong>Participants Fee:</strong>
                                     </div>
                                     <div class="col-md-6 col-xs-12">
                                         {{projectProposal.sourcefundparticipantfee | round(2)}}
                                     </div>
-                                </div>
-                                <div class="col-md-12">
+                                </div> -->
+                                <!-- <div class="col-md-12">
                                     <div class="col-md-6 col-xs-12 text-left">
                                         <strong>Others:</strong>
                                     </div>
                                     <div class="col-md-6 col-xs-12">
                                         {{projectProposal.sourcefundother | round(2)}}
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="col-md-12">
                                     <div class="col-md-6 col-xs-12 text-right">
                                         <strong>Total:</strong>
@@ -346,14 +346,14 @@
                             <hr>
                             <br/>
                             <div class="row">
-                                <div class="col-md-12">
+                                <!-- <div class="col-md-12">
                                     <div class="col-md-6 col-xs-12 text-left">
                                         <strong>Operational Funds:</strong>
                                     </div>
                                     <div class="col-md-6 col-xs-12">
                                         {{projectProposal.accumulatedoperationalfunds | round(2)}}
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="col-md-12">
                                     <div class="col-md-6 col-xs-12 text-left">
                                         <strong>Depository Funds:</strong>
@@ -362,20 +362,21 @@
                                         {{projectProposal.accumulateddepositoryfunds | round(2)}}
                                     </div>
                                 </div>
-                                <div class="col-md-12">
+                                <!-- <div class="col-md-12">
                                     <div class="col-md-6 col-xs-12 text-left">
                                         <strong>Others:</strong>
                                     </div>
                                     <div class="col-md-6 col-xs-12">
                                         {{projectProposal.organizationfundothersource | round(2)}}
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="col-md-12">
                                     <div class="col-md-6 col-xs-12 text-right">
                                         <strong>Total Cash for Disbursement:</strong>
                                     </div>
                                     <div class="col-md-6 col-xs-12">
                                         {% set disbursement = ((projectProposal.accumulatedoperationalfunds | round(2))+(projectProposal.accumulateddepositoryfunds | round(2))+(projectProposal.organizationfundothersource | round(2))) %}
+
                                         {{disbursement | round(2)}}
                                     </div>
                                 </div>

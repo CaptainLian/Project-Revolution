@@ -98,6 +98,20 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.csrfToken = req.csrfToken();
             return res.render('Org/gradeList');
         },
+        viewAmtEval: (req, res) => {
+            const renderData = Object.create(null);
+            console.log(req.param)
+            renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
+            return res.render('Org/viewAMTEval');
+        },
+        viewAmtEvalList: (req, res) => {
+            const renderData = Object.create(null);
+            console.log(req.param)
+            renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
+            return res.render('Org/viewAMTEvalList');
+        },
         viewAddMember: (req, res) => {
             const renderData = Object.create(null);
             console.log(req.param)
@@ -4333,8 +4347,120 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.projectProposal = data[0];
                 renderData.projectHeads = data[1];
                 renderData.others = data[2];
-                renderData.scores = data[3][0];
-                console.log(data[2])
+                renderData.scores = data[3];
+                var arr = data[3]
+                var first = [0,0,0,0,0];
+                var second = [0,0,0,0,0];
+                var third = [0,0,0,0,0];
+                var fourth = [0,0,0,0,0];
+                var fifth = [0,0,0,0,0];    
+                var sixth = [0,0,0,0,0];    
+                var seventh = [0,0,0,0,0];    
+
+                var fave = 0
+                var fctr = 0 ;
+                var save = 0
+                var sctr = 0 ;
+                var tave = 0
+                var tctr = 0 ;
+                var ffave = 0
+                var ffctr = 0 ;
+                var fffave = 0
+                var fffctr = 0 ;
+
+                var ssave = 0
+                var ssctr = 0 ;
+
+                var sssave = 0
+                var sssctr = 0 ;
+                for(var ctr = 0; ctr < arr.length; ctr++){
+                    console.log(arr[ctr])
+                    if(arr[ctr].test == 1){
+                        first[arr[ctr].IUTPOTA -1] = arr[ctr].count
+                        fave += arr[ctr].IUTPOTA * parseInt(arr[ctr].count)
+                        console.log(fave)
+                        fctr += parseInt(arr[ctr].count)
+                        console.log(fctr)
+                    }else if (arr[ctr].test == 2){
+                        second[arr[ctr].IUTPOTA - 1] = arr[ctr].count
+                        save += arr[ctr].IUTPOTA * parseInt(arr[ctr].count)
+                        sctr += parseInt(arr[ctr].count)
+                    }else if (arr[ctr].test == 3){
+                        third[arr[ctr].IUTPOTA - 1] = arr[ctr].count
+                        tave += arr[ctr].IUTPOTA * parseInt(arr[ctr].count)
+                        tctr += parseInt(arr[ctr].count)
+                    }else if (arr[ctr].test == 4){
+                        fourth[arr[ctr].IUTPOTA -1 ] = arr[ctr].count
+                        ffave += arr[ctr].IUTPOTA * parseInt(arr[ctr].count)
+                        ffctr += parseInt(arr[ctr].count)
+                    }else if (arr[ctr].test == 5){
+                        fifth[arr[ctr].IUTPOTA - 1] = arr[ctr].count
+                        fffave += arr[ctr].IUTPOTA * parseInt(arr[ctr].count)
+                        fffctr += parseInt(arr[ctr].count)
+                    }else if (arr[ctr].test == 6){
+                        sixth[arr[ctr].IUTPOTA - 1] = arr[ctr].count
+                        ssave += arr[ctr].IUTPOTA * parseInt(arr[ctr].count)
+                        ssctr += parseInt(arr[ctr].count)
+                    }else if (arr[ctr].test == 7){
+                        seventh[arr[ctr].IUTPOTA - 1] = arr[ctr].count
+                        sssave += arr[ctr].IUTPOTA * parseInt(arr[ctr].count)
+                        sssctr += parseInt(arr[ctr].count)
+                    }
+                }
+                renderData.first = first
+                var temp =  parseFloat(fave / fctr)
+                if(isNaN(temp)){
+                    temp = 0
+                }
+                renderData.fave = temp
+
+                renderData.second = second
+
+                var temp2 =  parseFloat(save / sctr)
+                if(isNaN(temp2)){
+                    temp2 = 0
+                }
+                renderData.save =  temp2
+
+                var temp3 =  parseFloat(tave / tctr)
+                if(isNaN(temp3)){
+                    temp3 = 0
+                }
+                renderData.third = third
+                renderData.tave =  temp3
+
+
+                var temp4 =  parseFloat(ffave / ffctr)
+                if(isNaN(temp4)){
+                    temp4 = 0
+                }
+                renderData.fourth = fourth
+                renderData.ffave =  temp4
+
+
+                var temp5 =  parseFloat(fffave / fffctr)
+                if(isNaN(temp5)){
+                    temp5 = 0
+                }
+                renderData.fifth = fifth;
+                renderData.fffave = temp5
+
+                var temp6 =  parseFloat(ssave / ssctr)
+                if(isNaN(temp6)){
+                    temp6 = 0
+                }               
+                renderData.sixth = sixth;
+                renderData.ssave = temp6
+
+                var temp7 =  parseFloat(sssave / sssctr)
+                if(isNaN(temp7)){
+                    temp7 = 0
+                }       
+
+                renderData.seventh = seventh;
+                renderData.sssave = temp7
+
+                console.log(renderData)
                 res.render('Orgres/orgresSpecificActivity', renderData);
             }).catch(err => {
                 return logger.error(`${err.message}: ${err.stack}`, log_options);

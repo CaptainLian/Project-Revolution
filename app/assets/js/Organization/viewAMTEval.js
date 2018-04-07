@@ -1,0 +1,1 @@
+$("#amtTable").DataTable();

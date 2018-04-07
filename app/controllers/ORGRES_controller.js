@@ -85,41 +85,43 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		viewHome: (req, res) => {
 
-		database.task(task => {
-	                return task.batch([
-	                    orgresModel.getActivitiesForResearchForm(),
-	                    organizationModel.getAllStudentOrganizations(),
-	                    gosmModel.getAllCurrent()
-	                ]);
-        }).then(data=>{
-
-            let renderData = Object.create(null);
-
-            var activityCount = data[0].length;
-
-            if (data[0]==null) {
-            	activityCount=0;
-            }
-
-
-            renderData.activityCount = activityCount;
-            renderData.studentorganizations = data[1];
-            renderData.allGosm = data[2];
-            renderData.extra_data = req.extra_data;
-            renderData.csrfToken = req.csrfToken();
-            return res.render('Orgres/orgresHome', renderData);
-
-        }).catch(error=>{
-            console.log(error);
-        });
+		    database.task(task => {
+	            return task.batch([
+	               orgresModel.getActivitiesForResearchForm(),
+	               organizationModel.getAllStudentOrganizations(),
+	               gosmModel.getAllCurrent()
+	            ]);
+            }).then(data=>{
+    
+                let renderData = Object.create(null);
+    
+                var activityCount = data[0].length;
+    
+                if (data[0]==null) {
+                	activityCount=0;
+                }
+                renderData.activityCount = activityCount;
+                renderData.studentorganizations = data[1];
+                renderData.allGosm = data[2];
+                renderData.extra_data = req.extra_data;
+                renderData.csrfToken = req.csrfToken();
+                
+                return res.render('Orgres/orgresHome', renderData);
+            }).catch(error=>{
+                console.log(error);
+            });
 		},
 
 		viewManageTime: (req, res) => {
+			logger.info('call viewManageTime()', log_options);
+
 			orgresModel.getCurrentSchoolYearTerms().then(data=>{
 				const renderData = Object.create(null);
     	        renderData.extra_data = req.extra_data;
 	            renderData.csrfToken = req.csrfToken();
 	            renderData.termdates = data;
+
+	            logger.debug('Rendering Orgres/ManageTime', log_options);
 				return res.render('Orgres/ManageTime', renderData);
 			}).catch(error=>{
 				logger.error(`${error.message}: ${error.stack}`, log_options);
@@ -194,13 +196,10 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		           	logger.error(`${error.message}: ${error.stack}`, log_options);
 		        })
 
-		        console.log("CORRECT ---------------------------------");
+		        logger.debug('Correct', log_options);
 	        }).catch(error=>{
 		       logger.error(`${error.message}: ${error.stack}`, log_options);
 	        });
-
-
-
 		},
 
 		viewSubmitResearchActivityForm: (req, res) => {
@@ -223,11 +222,13 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		},
 
 		submitResearchActivityForm: (req, res) =>{
-			console.log("enters this");
-			console.log(req.body);
+			logger.info('call submitResearchActivityForm()', log_options);
+			logger.debug(`req.body: ${req.body}`, log_options);
 
-			var dbParam = {
+			return orgresModel.insertActivityResearchForm({
 				gosmactivity: req.body.activity,
+				idNumber: req.body.idNumber,
+				email: req.body.email,
 				positionInOrganization: req.body.position,
 				iutpota: req.body.radio1,
 				tasmi: req.body.radio2,
@@ -239,20 +240,19 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				wwwita: req.body.wentwell,
 				fac: req.body.feedback,
 				effa: req.body.expectations,
-			};
-
-			orgresModel.insertActivityResearchForm(dbParam).then(data=>{
+			}).then(data=>{
 				const renderData = Object.create(null);
 	            renderData.extra_data = req.extra_data;
 	            renderData.csrfToken = req.csrfToken();
-
+                
+                logger.debug('Rendering /Orgres/SubmitActivityResearchForm', log_options);
 				return res.redirect('/Orgres/SubmitActivityResearchForm');
 			}).catch(error=>{
 				logger.error(`${error.message}: ${error.stack}`, log_options);
 			});
 		},
 
-		submitOfficerSurveyForm: (req, res) =>{
+		submitOfficerSurveyForm: (req, res) => {
 			console.log(req.body);
 
 			var dbParam = {

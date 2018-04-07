@@ -61,6 +61,8 @@ module.exports = function(configuration, modules, router, controllers){
     router.get(`${base}/treasurer/dashboard`, controllers.Treasurer_controller.viewDashboard);
 
     router.get(`${base}/Orgres/list`, controllers.Organization_controller.orgresLists);
+    router.get(`${base}/viewAmtEvalList`, controllers.Organization_controller.viewAmtEvalList); //list of activities to be evaluated
+    router.get(`${base}/viewAmtEval`, controllers.Organization_controller.viewAmtEval);//the activity evaluation results
     router.get(`${base}/Orgres/Specific/:id`, controllers.Organization_controller.orgresSpecficActivity);
 
     router.get(`${base}/APSReport`, controllers.Organization_controller.apsReport);
