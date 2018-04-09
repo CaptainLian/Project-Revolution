@@ -63,9 +63,14 @@ module.exports = function(configuration, modules, database, queryFiles){
 		return connection.oneOrNone(query);
 	};
 
-	const getTermDetailsSQL = queryFiles.getTermDetails
+	const getTermDetailsSQL = queryFiles.getTermDetails;
 	SystemModel.getTermDetails = (param, connection = database) => {
 		return connection.one(getTermDetailsSQL, param);
+	};
+
+	const getSchoolYearTermsSQL = queryFiles.getSchoolYearTerms;
+	SystemModel.getSchoolYearTerms = (param, connection = database) => {
+		return connection.any(getSchoolYearTermsSQL, param);
 	};
 
 

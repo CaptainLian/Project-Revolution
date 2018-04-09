@@ -38,4 +38,4 @@ UNION (SELECT PADP.id as transactionid, PADP."GOSMActivity" as gosmactivity, 1 a
 				JOIN PROJECTPROPOSAL PP
 				  ON GA.id=PP.GOSMACTIVITY
 WHERE G.studentorganization=${studentOrganization}
-  AND G.TERMID=system_get_current_term_id();				 
+  AND G.TERMID=${termID};				 

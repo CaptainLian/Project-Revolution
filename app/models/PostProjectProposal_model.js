@@ -40,6 +40,8 @@ module.exports = function(configuration, modules, db, queryFiles) {
 
     const getAllPostProjectProposalSQL = queryFiles.getAllPostProjectProposal;
 
+    const getAllPostProjectProposalPerTermSQL = queryFiles.getAllPostProjectProposalPerTerm;
+
 
 	return {
         insertPostBT:function (param, connection = db) {
@@ -140,6 +142,10 @@ module.exports = function(configuration, modules, db, queryFiles) {
 
         getAllPostProjectProposal:function(connection = db){
             return connection.any(getAllPostProjectProposalSQL);
+        },
+
+        getAllPostProjectProposalPerTerm:function(param, connection = db){
+            return connection.any(getAllPostProjectProposalPerTermSQL, param);
         }
 	};
 }

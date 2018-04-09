@@ -25,6 +25,10 @@ module.exports = function(configuration, modules, database, queryFiles){
     const getAllActivityResearchFormSQL = queryFiles.getAllActivityResearchForm;
     const getAllMemberSurveyFormSQL = queryFiles.getAllMemberSurveyForm;
 
+    const getAllOfficerSurveyFormPerTermSQL = queryFiles.getAllOfficerSurveyFormPerTerm;
+    const getAllActivityResearchFormPerTermSQL = queryFiles.getAllActivityResearchFormPerTerm;
+    const getAllMemberSurveyFormPerTermSQL = queryFiles.getAllMemberSurveyFormPerTerm;
+
 	OrgresModel.getActivitiesForResearchForm = function(connection = database) {
         return connection.any(getActivitiesForResearchFormSQL);
     };
@@ -98,6 +102,18 @@ module.exports = function(configuration, modules, database, queryFiles){
 
     OrgresModel.getAllMemberSurveyForm = function(connection = database){
         return connection.any(getAllMemberSurveyFormSQL);
+    };
+
+    OrgresModel.getAllOfficerSurveyFormPerTerm = function(param, connection = database){
+        return connection.any(getAllOfficerSurveyFormPerTermSQL, param);
+    };
+
+    OrgresModel.getAllActivityResearchFormPerTerm = function(param, connection = database){
+        return connection.any(getAllActivityResearchFormPerTermSQL, param);
+    };
+
+    OrgresModel.getAllMemberSurveyFormPerTerm = function(param, connection = database){
+        return connection.any(getAllMemberSurveyFormPerTermSQL, param);
     };
 
 	return OrgresModel;

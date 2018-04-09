@@ -761,8 +761,8 @@ module.exports = function(configuration, modules, db, queryFiles) {
         return connection.oneOrNone(getGOSMCountPerOrgSQL, param);
     };
 
-    ProjectProposalModel.prototype.getApprovedActivities = function(connection = this._db){
-        return connection.any(getApprovedActivitiesSQL);
+    ProjectProposalModel.prototype.getApprovedActivities = function(param, connection = this._db){
+        return connection.any(getApprovedActivitiesSQL, param);
     };
 
     const getOrganizationFundsAndExpenseSQL = queryFiles.getOrganizationFundsAndExpense;
@@ -774,6 +774,11 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const getAllProjectProposalSQL = queryFiles.getAllProjectProposal;
     ProjectProposalModel.prototype.getAllProjectProposal = function(connection = this._db){
         return connection.any(getAllProjectProposalSQL);
+    };
+
+    const getAllProjectProposalPerTermSQL = queryFiles.getAllProjectProposalPerTerm;
+    ProjectProposalModel.prototype.getAllProjectProposalPerTerm = function(param, connection = this._db){
+        return connection.any(getAllProjectProposalPerTermSQL, param);
     };
 
     const getNextPPRSignatorySQL = queryFiles.getNextPPRSignatory;

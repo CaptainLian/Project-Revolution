@@ -24,6 +24,8 @@ module.exports = function(configuration, modules, database, queryFiles){
 
 	const getAllCurrentOrganizationMembersSQL = queryFiles.getAllCurrentOrganizationMembers;
 
+	const getAllOrganizationMembersPerYearSQL = queryFiles.getAllOrganizationMembersPerYear;
+
     const logger = modules.logger;
 
 	/**
@@ -113,6 +115,10 @@ module.exports = function(configuration, modules, database, queryFiles){
 
 	OrganizationModel.getAllCurrentOrganizationMembers = (connection = database) =>{
 		return connection.any(getAllCurrentOrganizationMembersSQL);
+	};
+
+	OrganizationModel.getAllOrganizationMembersPerYear = (param, connection = database) =>{
+		return connection.any(getAllOrganizationMembersPerYearSQL, param);
 	};
 
 	OrganizationModel.getFunctionality = (connection = database) => {

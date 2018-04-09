@@ -103,40 +103,96 @@
         var numPush = {{push}}
         var numNotPush = {{notPush}}
         //activities summary
-        var numCompetition = {{numCompetition.activitycount}}
-        var numDistribution = {{numDistribution.activitycount}}
-        var numGeneralAssembly = {{numGeneralAssembly.activitycount}}
-        var numSeminar = {{numSeminar.activitycount}}
-        var numPublicity = {{numPublicity.activitycount}}
-        var numMeetings = {{numMeetings.activitycount}}
-        var numSpiritualActivity = {{numSpiritualActivity.activitycount}}
-        var numRecruitment = {{numRecruitment.activitycount}}
-        var numRecreation = {{numRecreation.activitycount}}
-        var numOthers = {{numOthers.activitycount}}
+        
 
-        //amt tab
-        //logistics chart
-        var venue = {{amtAverageScores.venue}}
-        var equipment = {{amtAverageScores.equipment}}
+        if({{gradeType}} == true){
 
-        //activity process
-        var openingStart = {{amtAverageScores.timestart}}
-        var timeEnd = {{amtAverageScores.timeend}}
-        var activityExec = {{amtAverageScores.activityexecution}}
-        var Registration = {{amtAverageScores.registration}}
+            // var numCompetition = {{numCompetition.activitycount}} + {{numCompetition2.activitycount}} + {{numCompetition3.activitycount}}
+            // var numDistribution = {{numDistribution.activitycount}} + {{numDistribution2.activitycount}} + {{numDistribution3.activitycount}}
+            // var numGeneralAssembly = {{numGeneralAssembly.activitycount}} + {{numGeneralAssembly2.activitycount}} + {{numGeneralAssembly3.activitycount}}
+            // var numSeminar = {{numSeminar.activitycount}} + {{numSeminar2.activitycount}} + {{numSeminar3.activitycount}}
+            // var numPublicity = {{numPublicity.activitycount}} + {{numPublicity2.activitycount}} + {{numPublicity3.activitycount}}
+            // var numMeetings = {{numMeetings.activitycount}} + {{numMeetings2.activitycount}} + {{numMeetings3.activitycount}}
+            // var numSpiritualActivity = {{numSpiritualActivity.activitycount}} + {{numSpiritualActivity2.activitycount}} + {{numSpiritualActivity3.activitycount}}
+            // var numRecruitment = {{numRecruitment.activitycount}} + {{numRecruitment2.activitycount}} + {{numRecruitment3.activitycount}}
+            // var numRecreation = {{numRecreation.activitycount}} + {{numRecreation2.activitycount}} + {{numRecreation3.activitycount}}
+            // var numOthers = {{numOthers.activitycount}} + {{numOthers2.activitycount}} + {{numOthers3.activitycount}}
 
-        //audience feedback
-        var announcement = {{amtAverageScores.personea}}
-        var interaction = {{amtAverageScores.personiomwm}}
-        var interest = {{amtAverageScores.personiitskoa}}
-        var learning = {{amtAverageScores.personloa}}
+            var numCompetition = {{numCompetition}}
+            var numDistribution = {{numDistribution}}
+            var numGeneralAssembly = {{numGeneralAssembly}}
+            var numSeminar = {{numSeminar}}
+            var numPublicity = {{numPublicity}}
+            var numMeetings = {{numMeetings}}
+            var numSpiritualActivity = {{numSpiritualActivity}}
+            var numRecruitment = {{numRecruitment}}
+            var numRecreation = {{numRecreation}}
+            var numOthers = {{numOthers}}
 
-        //programdesign
-        var Hosts = {{amtAverageScores.hosts}}
-        var Ushers = {{amtAverageScores.facilitators}}
-        var Presentations = {{amtAverageScores.presentation}}
-        var activities = {{amtAverageScores.activities}}
-        var standingPresentation = {{amtAverageScores.organizationstandingpresentation}}
+            //amt tab
+            //logistics chart
+            var venue = ({{amtAverageScores.venue}} + {{amtAverageScores2.venue}} + {{amtAverageScores3.venue}})/3
+            var equipment = ({{amtAverageScores.equipment}} + {{amtAverageScores2.equipment}} + {{amtAverageScores.equipment}})/3
+
+            //activity process
+            var openingStart = ({{amtAverageScores.timestart}} + {{amtAverageScores2.timestart}} + {{amtAverageScores3.timestart}})/3
+            var timeEnd = ({{amtAverageScores.timeend}} + {{amtAverageScores2.timeend}} + {{amtAverageScores3.timeend}})/3
+            var activityExec = ({{amtAverageScores.activityexecution}} + {{amtAverageScores2.activityexecution}} + {{amtAverageScores.activityexecution}})/3
+            var Registration = ({{amtAverageScores.registration}} + {{amtAverageScores2.registration}} + {{amtAverageScores3.registration}})/3
+
+            //audience feedback
+            var announcement = ({{amtAverageScores.personea}} + {{amtAverageScores2.personea}} + {{amtAverageScores3.personea}})/3
+            var interaction = ({{amtAverageScores.personiomwm}} + {{amtAverageScores2.personiomwm}} + {{amtAverageScores3.personiomwm}})/3
+            var interest = ({{amtAverageScores.personiitskoa}} + {{amtAverageScores2.personiitskoa}} + {{amtAverageScores3.personiitskoa}})/3
+            var learning = ({{amtAverageScores.personloa}} + {{amtAverageScores2.personloa}} + {{amtAverageScores3.personloa}})/3
+
+            //programdesign
+            var Hosts = ({{amtAverageScores.hosts}} + {{amtAverageScores2.hosts}} + {{amtAverageScores3.hosts}})/3
+            var Ushers = ({{amtAverageScores.facilitators}} + {{amtAverageScores2.facilitators}} + {{amtAverageScores3.facilitators}})/3
+            var Presentations = ({{amtAverageScores.presentation}} + {{amtAverageScores2.presentation}} + {{amtAverageScores3.presentation}})/3
+            var activities = ({{amtAverageScores.activities}} + {{amtAverageScores2.activities}} + {{amtAverageScores3.activities}})/3
+            var standingPresentation = ({{amtAverageScores.organizationstandingpresentation}} + {{amtAverageScores2.organizationstandingpresentation}} + {{amtAverageScores3.organizationstandingpresentation}})/3
+
+        }
+        else{
+            var numCompetition = {{numCompetition}}
+            var numDistribution = {{numDistribution}}
+            var numGeneralAssembly = {{numGeneralAssembly}}
+            var numSeminar = {{numSeminar}}
+            var numPublicity = {{numPublicity}}
+            var numMeetings = {{numMeetings}}
+            var numSpiritualActivity = {{numSpiritualActivity}}
+            var numRecruitment = {{numRecruitment}}
+            var numRecreation = {{numRecreation}}
+            var numOthers = {{numOthers}}
+
+            //amt tab
+            //logistics chart
+            var venue = {{amtAverageScores.venue}}
+            var equipment = {{amtAverageScores.equipment}}
+
+            //activity process
+            var openingStart = {{amtAverageScores.timestart}}
+            var timeEnd = {{amtAverageScores.timeend}}
+            var activityExec = {{amtAverageScores.activityexecution}}
+            var Registration = {{amtAverageScores.registration}}
+
+            //audience feedback
+            var announcement = {{amtAverageScores.personea}}
+            var interaction = {{amtAverageScores.personiomwm}}
+            var interest = {{amtAverageScores.personiitskoa}}
+            var learning = {{amtAverageScores.personloa}}
+
+            //programdesign
+            var Hosts = {{amtAverageScores.hosts}}
+            var Ushers = {{amtAverageScores.facilitators}}
+            var Presentations = {{amtAverageScores.presentation}}
+            var activities = {{amtAverageScores.activities}}
+            var standingPresentation = {{amtAverageScores.organizationstandingpresentation}}
+
+        }
+
+        
 
     </script>
 {%endblock%}
@@ -1201,9 +1257,10 @@
                                         <th>Expense</th>
                                     </tr>
                                 </thead>
+                                <tbody>
                                 {% set totalAmount = 0 %}
                                 {% for transaction in financeTransactions %}
-                                    <tbody>
+                                    
                                         <tr>
                                             <td>{{transaction.datestart}}</td> <!--date approved-->
                                             <td>{{transaction.strategies}}</td>
@@ -1219,8 +1276,51 @@
 
                                         <!-- amt grade ay average ng percentage ng lahat ng evaluated activity -->
 
-                                    </tbody>
+                                    
                                 {% endfor %}
+
+                                {% if gradeType %}
+
+                                    {% for transaction in financeTransactions2 %}
+                                    
+                                            <tr>
+                                                <td>{{transaction.datestart}}</td> <!--date approved-->
+                                                <td>{{transaction.strategies}}</td>
+                                                {% if transaction.transaction == 1 %}
+                                                    <td>Cash Advance</td>
+                                                    {% elif transaction.transaction == 2 %}
+                                                    <td>Direct Payment</td>
+                                                {% else %}
+                                                    <td>Book Transfer</td>
+                                                {% endif %}
+                                                <td>{{transaction.amount}}</td>
+                                            </tr>
+
+                                        
+                                    {% endfor %}
+
+                                    {% for transaction in financeTransactions3 %}
+                                    
+                                            <tr>
+                                                <td>{{transaction.datestart}}</td> <!--date approved-->
+                                                <td>{{transaction.strategies}}</td>
+                                                {% if transaction.transaction == 1 %}
+                                                    <td>Cash Advance</td>
+                                                    {% elif transaction.transaction == 2 %}
+                                                    <td>Direct Payment</td>
+                                                {% else %}
+                                                    <td>Book Transfer</td>
+                                                {% endif %}
+                                                <td>{{transaction.amount}}</td>
+                                            </tr>
+
+                                        
+                                    {% endfor %}
+
+
+                                {% endif %}
+
+                                </tbody>
 
                                 <!-- <tfoot>
                                 <tr>
@@ -1274,6 +1374,29 @@
                                             <td>{{activity.amtgrade}}%</td>
                                         </tr>
                                     {% endfor %}
+
+                                    {% if gradeType %}
+
+                                        {% for activity in amtActivities2 %}
+                                            <tr>
+                                                <td>{{activity.activityname}} </td>
+                                                <td>{{activity.activitytype}}</td>
+                                                <td>{{activity.dateevaluated}}</td>
+                                                <td>{{activity.amtgrade}}%</td>
+                                            </tr>
+                                        {% endfor %}
+
+                                        {% for activity in amtActivities3 %}
+                                            <tr>
+                                                <td>{{activity.activityname}} </td>
+                                                <td>{{activity.activitytype}}</td>
+                                                <td>{{activity.dateevaluated}}</td>
+                                                <td>{{activity.amtgrade}}%</td>
+                                            </tr>
+                                        {% endfor %}
+
+
+                                    {% endif %}
 
                                     <!-- amt grade ay average ng percentage ng lahat ng evaluated activity -->
 

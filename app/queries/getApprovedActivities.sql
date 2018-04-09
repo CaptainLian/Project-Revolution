@@ -11,4 +11,4 @@ SELECT G.studentorganization, PPR.gosmactivity, to_char(PPR.actualdatestart, 'YY
 			   JOIN GOSM G
 			     ON G.ID=GA.GOSM
  WHERE PPR.STATUS=3
-   AND G.TERMID=system_get_current_term_id();
+   AND G.TERMID=${termID};

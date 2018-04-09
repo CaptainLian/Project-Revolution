@@ -6,12 +6,15 @@ SELECT COALESCE (AVG(venue), 0) as venue, COALESCE (AVG(equipment), 0) as equipm
        COALESCE (AVG((person1ea+person2ea)/2), 0) as personea, COALESCE (AVG((person1loa + person2loa)/2), 0) as personloa, 
        COALESCE (AVG((person1iitskoa+person2iitskoa)/2), 0) as personiitskoa, COALESCE (AVG((person1iomwm+person2iomwm)/2), 0) as personiomwm, 
        G.studentorganization
-  FROM GOSM G LEFT JOIN GOSMACTIVITY GA
+  FROM TERM T LEFT JOIN (SELECT * 
+                           FROM GOSM 
+                          WHERE studentorganization=${studentOrganization}) G
+                     ON T.ID=G.TERMID 
+              LEFT JOIN GOSMACTIVITY GA
                      ON GA.GOSM=G.ID
               LEFT JOIN (SELECT * 
-         FROM public.amtactivityevaluation AMTE
-        WHERE status=3) AMTE
+                           FROM public.amtactivityevaluation AMTE
+                          WHERE status=3) AMTE
                      ON AMTE.activity=GA.ID
- WHERE G.studentorganization=${studentOrganization}
-   AND G.TERMID=system_get_current_term_id()
+ WHERE T.ID=${termID}
  GROUP BY G.studentorganization;
