@@ -1260,6 +1260,8 @@
                                 <tbody>
                                 {% set totalAmount = 0 %}
                                 {% for transaction in financeTransactions %}
+
+                                        {% set totalAmount = (totalAmount | round(2)) + (transaction.amount | round(2)) %}
                                     
                                         <tr>
                                             <td>{{transaction.datestart}}</td> <!--date approved-->
@@ -1271,7 +1273,7 @@
                                             {% else %}
                                                 <td>Book Transfer</td>
                                             {% endif %}
-                                            <td>{{transaction.amount}}</td>
+                                            <td>Php {{transaction.amount}}</td>
                                         </tr>
 
                                         <!-- amt grade ay average ng percentage ng lahat ng evaluated activity -->
@@ -1282,6 +1284,8 @@
                                 {% if gradeType %}
 
                                     {% for transaction in financeTransactions2 %}
+
+                                        {% set totalAmount = (totalAmount | round(2)) + (transaction.amount | round(2)) %}
                                     
                                             <tr>
                                                 <td>{{transaction.datestart}}</td> <!--date approved-->
@@ -1293,13 +1297,15 @@
                                                 {% else %}
                                                     <td>Book Transfer</td>
                                                 {% endif %}
-                                                <td>{{transaction.amount}}</td>
+                                                <td>Php {{transaction.amount}}</td>
                                             </tr>
 
                                         
                                     {% endfor %}
 
                                     {% for transaction in financeTransactions3 %}
+
+                                        {% set totalAmount = (totalAmount | round(2)) + (transaction.amount | round(2)) %}
                                     
                                             <tr>
                                                 <td>{{transaction.datestart}}</td> <!--date approved-->
@@ -1311,7 +1317,7 @@
                                                 {% else %}
                                                     <td>Book Transfer</td>
                                                 {% endif %}
-                                                <td>{{transaction.amount}}</td>
+                                                <td>Php {{transaction.amount}}</td>
                                             </tr>
 
                                         
@@ -1322,16 +1328,14 @@
 
                                 </tbody>
 
-                                <!-- <tfoot>
+                                <tfoot>
                                 <tr>
                                     <td></td>
                                     <td></td>
-                                    <td></td>
-                                    <td></td>
                                     <td><strong>Organization Fund</strong></td>
-                                    <td><strong>383,190.37</strong></td>
+                                    <td><strong>Php {{totalAmount}}</strong></td>
                                 </tr>
-                                </tfoot> -->
+                                </tfoot>
                             </table>
 
                         </section>

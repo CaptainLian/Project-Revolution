@@ -87,13 +87,7 @@
                         <p>Date Checked: {{signatory.datesigned}}</p>
                         <p>Sections to be edited:
                             {% for edit in signatory.sectionsToEdit %}
-                                {% if edit == 0 %}
-                                    Particulars
-                                    {% elif edit == 1  %}
-                                    Memo
-                                    {% elif edit == 2 %}
-                                    Attachments
-                                {% endif %}
+                                {{edit}}
                             {% endfor %}
                         </p>
                         <p>Explanation: {{signatory.comments}}</p>
@@ -205,8 +199,10 @@
                     </div>
                     <div class="panel-footer text-center">
                         <button type="submit" class="btn btn-success"> Submit</button>
-                        <button type="button" class="btn btn-default">Cancel</button>
-                    </div>
+<!--                         <button type="button" class="btn btn-default">Cancel</button>
+ -->
+                        <a href="/finance/list/transaction/{{gosmactivity}}" type="button" class="btn btn-default">Cancel</a>
+                     </div>
                 </div>
             </div>
         </div>

@@ -562,10 +562,12 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 
 								}).catch(error=>{
+									console.log("deduct error++++++++++++++++++++++++++++++++++++++++++++++");
 									logger.error(`${error.message}\n${error.stack}`);
 								});
 							}
 						}).catch(error=>{
+							console.log("error in boook transfer daaataaaaaaaaaaaaaaaaa");
 							logger.error(`${error.message}\n${error.stack}`);
 						});
             		}
@@ -588,6 +590,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
             }).then(() => {
             	return logger.debug('Notifications successfully added', log_options);
             }).catch(err => {
+            	console.log("error in lian's query+++++++++++++++++++++++++++++++++++++++++++++++");
                 return logger.error(`${err.message}\n${err.stack}`, log_options);
             });
 		},
