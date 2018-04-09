@@ -92,11 +92,51 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             return res.render('Org/changePassword');
         },
         viewGradeList: (req, res) => {
-            const renderData = Object.create(null);
-            console.log(req.param)
-            renderData.extra_data = req.extra_data;
-            renderData.csrfToken = req.csrfToken();
-            return res.render('Org/gradeList');
+
+            // checks if student and not cso
+            if (req.session.user.type == 1 && req.session.user.organizationSelected.id != 0) {
+
+                // Checks if user is president; only president can view in org side
+                const ACL = req.extra_data.user.accessControl[req.session.user.organizationSelected.id];
+                if(ACL[25]){
+                    var organizationid = req.session.user.organizationSelected.id;
+                    console.log(req.session.user.organizationSelected.id);
+                }
+                else{ // not president
+                    res.redirect(`/System/NotAllowed`);
+                    console.log("enterrrrrrrrrrrrrr hererererererererererererererererer");
+                }
+                
+            }
+            else{ // is cso; can view diff organization grades
+                var organizationid = req.params.organizationId;
+            }
+
+            var dbParam = {
+                studentorganization: organizationid
+            }
+
+            database.task(task => {
+                return task.batch([        
+                    organizationModel.getStudentOrganization(dbParam),
+                    systemModel.getAllSchoolYear()
+                ]);
+
+            }).then(data=>{
+
+                const renderData = Object.create(null);
+                console.log(req.param)
+                renderData.extra_data = req.extra_data;
+                renderData.csrfToken = req.csrfToken();
+
+                renderData.studentorganization = data[0];
+                renderData.schoolyear = data[1];
+                return res.render('Org/gradeList', renderData);
+
+            }).catch(error=>{
+                console.log(error);
+            })            
+
         },
         viewAmtEval: (req, res) => {
             const renderData = Object.create(null);

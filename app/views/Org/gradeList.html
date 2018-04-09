@@ -60,7 +60,7 @@
     <div class="col-sm-12">
         <div class="white-box">
         <div>
-            <h3 class="box-title m-b-0">List of Grades for La Salle Computer Society
+            <h3 class="box-title m-b-0">List of Grades for {{studentorganization.name}}
                 
             </h3>
             {# <p class="box-title m-b-0 pull-right">legend:
@@ -81,15 +81,21 @@
                         </tr>
                     </thead>
                     <tbody> 
-                        <tr>
-                            <td>2017-2018</td>
-                            <td>
-                                <a  class="mr-4" href="#" data-toggle="tooltip" data-placement="top" data-original-title="View Term 1 Grade">Term 1</a>
-                                <a  class="mr-4" href="#" data-toggle="tooltip" data-placement="top" data-original-title="View Term 2 Grade">Term 2</a>
-                                <a  class="mr-4" href="#" data-toggle="tooltip" data-placement="top" data-original-title="View Term 3 Grade">Term 3</a>
-                                <a class="mr-4" href="#" data-toggle="tooltip" data-placement="top" data-original-title="View Grade for the Year">Academic Year</a>
-                            </td>
-                        </tr>
+                        
+                        {% for year in schoolyear %}
+                            
+                            <tr>
+                                <td>{{year.startyear}}-{{year.endyear}}</td>
+                                <td>
+                                    <a  class="mr-4" href="/Organization/report/{{studentorganization.id}}/1/{{year.id}}1" data-toggle="tooltip" data-placement="top" data-original-title="View Term 1 Grade">Term 1</a>
+                                    <a  class="mr-4" href="/Organization/report/{{studentorganization.id}}/1/{{year.id}}2" data-toggle="tooltip" data-placement="top" data-original-title="View Term 2 Grade">Term 2</a>
+                                    <a  class="mr-4" href="/Organization/report/{{studentorganization.id}}/1/{{year.id}}3" data-toggle="tooltip" data-placement="top" data-original-title="View Term 3 Grade">Term 3</a>
+                                    <a class="mr-4" href="/Organization/report/{{studentorganization.id}}/2/{{year.id}}" data-toggle="tooltip" data-placement="top" data-original-title="View Grade for the Year">Academic Year</a>
+                                </td>
+                            </tr>
+
+                        {% endfor %}
+
                     </tbody>    
                 </table>
 
