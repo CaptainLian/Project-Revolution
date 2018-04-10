@@ -4,6 +4,7 @@ SELECT G.studentorganization, PPR.gosmactivity, to_char(PPR.actualdatestart, 'YY
 		GA.isrelatedtoorganizationnature as isrelatedtoorganization, GA.activitynature
   FROM PROJECTPROPOSAL PPR JOIN (SELECT GOSMACTIVITY, MAX(DATESIGNED) as DATESIGNED
 				 				   FROM PROJECTPROPOSALSIGNATORY
+				 				  WHERE STATUS=1
 				 				  GROUP BY 1) PPRS
 			     ON PPR.ID=PPRS.GOSMACTIVITY
 			   JOIN GOSMACTIVITY GA
