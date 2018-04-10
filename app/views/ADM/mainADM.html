@@ -96,22 +96,25 @@
 
                         {% for organization in studentorganizations %}
                             {% for gosm in allGosm %}
-                                {% if gosm.organizationid == organization.id %}
                                     <tr>
                                       <td class="text-center">{{organization.name}}</td>
                                       <td class="text-center">
                                           <a href="/ADM/viewCalendar/{{organization.id}}" data-toggle="tooltip" data-original-title="View Calendar">
                                             <i class="fa fa-calendar m-r-10"></i>
                                           </a>
+                                {% if gosm.organizationid == organization.id %}
+
                                           <a href="/Organization/viewGOSMDetails/{{gosm.gosmid}}" data-toggle="tooltip" data-original-title="View GOSM">
                                             <i class="fa fa-list m-r-10"></i>
-                                          </a>
+                                {% else %}
+                                            <a data-toggle="tooltip" data-original-title="View GOSM">
+                                            <i class="fa fa-list m-r-10 font-gray"></i>
+                                {% endif %}
                                           <a href="/Organization/viewGradeList/{{organization.id}}" data-toggle="tooltip" data-original-title="View Grade">
                                             <i class="fa fa-star m-r-10"></i>
                                           </a>
                                       </td>
                                     </tr>
-                                {% endif %}
                             {% endfor %}
                         {% endfor %}                      
 						
