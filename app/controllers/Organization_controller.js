@@ -752,7 +752,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         var orgresParticipantCount = 0;
                         for (var i = 0; i < data[7].length; i++){
 
-                            if(data[7][i].organizationID == organizationid){
+                            if(data[7][i].studentorganization == organizationid){
 
                                 arfSurveyTotal = arfSurveyTotal + 1;
 
@@ -1845,7 +1845,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         var orgresParticipantCount1 = 0;
                         for (var i = 0; i < data[7].length; i++){
 
-                            if(data[7][i].organizationID == organizationid){
+                            if(data[7][i].studentorganization == organizationid){
 
                                 arfSurveyTotal1 = arfSurveyTotal1 + 1;
 
@@ -2691,7 +2691,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         var orgresParticipantCount2 = 0;
                         for (var i = 0; i < data[23].length; i++){
 
-                            if(data[23][i].organizationID == organizationid){
+                            if(data[23][i].studentorganization == organizationid){
 
                                 arfSurveyTotal2 = arfSurveyTotal2 + 1;
 
@@ -3536,7 +3536,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         var orgresParticipantCount3 = 0;
                         for (var i = 0; i < data[39].length; i++){
 
-                            if(data[39][i].organizationID == organizationid){
+                            if(data[39][i].studentorganization == organizationid){
 
                                 arfSurveyTotal3 = arfSurveyTotal3 + 1;
 
