@@ -19,9 +19,9 @@
     function showAttachments(array){
         //food, accomodation, others, venue, transportation, honorarium, cash prize
         if(arrayContains('food',array)||arrayContains('accomodation',array)){
-            $('#elop').show();
+            $('#elop').show().attr("required");
         }else{
-            $('#elop').hide();
+            $('#elop').hide().removeAttribute("required");
         }
         if(arrayContains('cash prize',array)){
             $('#moc').show();
