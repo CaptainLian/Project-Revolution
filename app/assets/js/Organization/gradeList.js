@@ -1,4 +1,5 @@
 $(document).ready(function() {
-    //window.location.href("facebook.com");
-    $('#myTable').DataTable();
-});
+    $('#myTable').DataTable( {
+        "order": [[ 0, "desc" ]]
+    } );
+} );
