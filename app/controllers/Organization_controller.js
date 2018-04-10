@@ -1226,11 +1226,24 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                         renderData.gradeType = false;
 
+                        var organizationParam = {
+                            studentorganization: organizationid
+                        };
 
-                        console.log(renderData)
-                        renderData.extra_data = req.extra_data;
-                        renderData.csrfToken = req.csrfToken();
-                        return res.render('Org/report', renderData);
+                        organizationModel.getStudentOrganization(organizationParam)
+                        .then(organizationData=>{
+
+                            renderData.organization = organizationData;
+                            renderData.term = term;
+                            console.log(renderData);
+                            renderData.extra_data = req.extra_data;
+                            renderData.csrfToken = req.csrfToken();
+                            return res.render('Org/report', renderData);
+
+                        }).catch(error=>{
+                            console.log(error);
+                        })
+                        
 
 
                     }).catch(error=>{
@@ -4003,11 +4016,23 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                         renderData.gradeType = true;
 
+                        var organizationParam = {
+                            studentorganization: organizationid
+                        };
 
-                        console.log(renderData)
-                        renderData.extra_data = req.extra_data;
-                        renderData.csrfToken = req.csrfToken();
-                        return res.render('Org/report', renderData);
+                        organizationModel.getStudentOrganization(organizationParam)
+                        .then(organizationData=>{
+
+                            renderData.organization = organizationData;
+                            renderData.term = term[0];
+                            console.log(renderData)
+                            renderData.extra_data = req.extra_data;
+                            renderData.csrfToken = req.csrfToken();
+                            return res.render('Org/report', renderData);
+
+                        }).catch(error=>{
+                            console.log(error);
+                        })
 
 
                     }).catch(error=>{
