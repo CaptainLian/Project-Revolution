@@ -518,7 +518,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         for (var i = 0; i < data[4].length; i++){
 
                             if (data[4][i].studentorganization == organizationid
-                                && data[4][i].status == 1) {
+                                && data[4][i].apstatus == 1) {
 
                                 if(data[4][i].modeOfDistribution == 1){
 
@@ -1611,7 +1611,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         for (var i = 0; i < data[4].length; i++){
 
                             if (data[4][i].studentorganization == organizationid
-                                && data[4][i].status == 1) {
+                                && data[4][i].apstatus == 1) {
 
                                 if(data[4][i].modeOfDistribution == 1){
 
@@ -2457,7 +2457,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         for (var i = 0; i < data[20].length; i++){
 
                             if (data[20][i].studentorganization == organizationid
-                                && data[20][i].status == 1) {
+                                && data[20][i].apstatus == 1) {
 
                                 if(data[20][i].modeOfDistribution == 1){
 
@@ -3302,7 +3302,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         for (var i = 0; i < data[36].length; i++){
 
                             if (data[36][i].studentorganization == organizationid
-                                && data[36][i].status == 1) {
+                                && data[36][i].apstatus == 1) {
 
                                 if(data[36][i].modeOfDistribution == 1){
 
