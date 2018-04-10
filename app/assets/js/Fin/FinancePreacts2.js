@@ -19,9 +19,11 @@
     function showAttachments(array){
         //food, accomodation, others, venue, transportation, honorarium, cash prize
         if(arrayContains('food',array)||arrayContains('accomodation',array)){
-            $('#elop').show().find("input").attr("required");
+            $('#elop').show()
+            $("#elop-file").attr("required","");
         }else{
-            $('#elop').hide().find("input").removeAttr("required");
+            $('#elop').hide()
+            $("#elop-file").removeAttr("required");
         }
         if(arrayContains('cash prize',array)){
             $('#moc').show();

@@ -18,6 +18,8 @@ module.exports = function(configuration, modules, db, queryFiles) {
 
     const getActivitySummaryPerOrgSQL = queryFiles.getActivitySummaryPerOrg;
 
+    const getAllCurrentGOSMSQL = queryFiles.getAllCurrentGOSM;
+
     const insertGOSM = queryFiles.gosm_insert;
     const insertGOSM_Returning = queryFiles.gosm_insert_returning;
     const dbHelper = require('../utility/databaseHelper');
@@ -261,6 +263,10 @@ module.exports = function(configuration, modules, db, queryFiles) {
 
         getActivitySummaryPerOrg: function(param, connection = db){
             return connection.any(getActivitySummaryPerOrgSQL, param);
+        },
+
+        getAllCurrentGOSM: function(connection = db){
+            return connection.any(getAllCurrentGOSMSQL);
         },
 
         getOrgAllGOSM: function(orgid, connection = db) {

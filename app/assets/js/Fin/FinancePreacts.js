@@ -52,7 +52,8 @@ $(document).ready(function(){
 
      if(value!=null){
             $('#purpose').show();
-            $('#iq').show().find("input").attr("required");
+            $('#iq').show()
+            $("#iq-file").attr("required","");
       $('#ca_particular :selected').each(function(){
         //get the value of current selected item
         value = $(this).val();
@@ -102,7 +103,8 @@ $(document).ready(function(){
           }
      }else{
         $('#purpose').hide();
-        $('#iq').hide().find("input").removeAttr("required");
+        $('#iq').hide();
+        $("#iq-file").removeAttr("required");
         attachments = [];
         $('#ca_amount').html("");
         $('#memo_body').html("");
