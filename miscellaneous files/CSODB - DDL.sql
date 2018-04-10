@@ -1052,10 +1052,10 @@ INSERT INTO College (shortAcronym, fullAcronym, name)
                     ('CCS', NULL, 'College of Computer Studies'),
                     ('COL', NULL, 'College of Law'),
                     ('CLA', NULL, 'College of Liberal Arts'),
-                    ('COS', null, 'College of Science'),
+                    ('COS', NULL, 'College of Science'),
                     ('COE', 'GCOE', 'Gokongwei College of Engineering'),
                     ('COB', 'RVRCOB', 'Ramon V. del Rosario College of Business'),
-                    ('SOE', null, 'School of Economics');
+                    ('SOE', NULL, 'School of Economics');
 
 DROP TABLE IF EXISTS ActivityType CASCADE;
 CREATE TABLE ActivityType (
@@ -1312,17 +1312,16 @@ CREATE TRIGGER before_insert_OrganizationRole
 INSERT INTO OrganizationRole (organization, name, shortname, uniquePosition, masterRole, rank, home_url)
                       VALUES
                       		 -- 0
-                      		 ( 0, 'Chairperson', 'Chair', TRUE, NULL, 0, NULL),
-                      		 /* Executive board */
+                      		   ( 0, 'Chairperson', 'Chair', TRUE, NULL, 0, '/CSO/home'),
+                      		   /* Executive board */
                              -- 1
-                             ( 0, 'Executive Vice Chairperson for Internals',                     'EVC - Interals',  TRUE, 0, 10, NULL),
+                             ( 0, 'Executive Vice Chairperson for Internals',                     'EVC - Interals',  TRUE, 0, 10, '/CSO/home'),
                              -- 2
-                             ( 0, 'Executive Vice Chairperson for Externals',                     'EVC - Externals', TRUE, 0, 10, NULL),
+                             ( 0, 'Executive Vice Chairperson for Externals',                     'EVC - Externals', TRUE, 0, 10, '/CSO/home'),
                              -- 3
-                             ( 0, 'Executive Vice Chairperson for Activities and Documentations', 'EVC - AND',       TRUE, 0, 10, NULL),
+                             ( 0, 'Executive Vice Chairperson for Activities and Documentations', 'EVC - AND',       TRUE, 0, 10, '/CSO/home'),
                              -- 4
-                             ( 0, 'Executive Vice Chairperson for Finance',                       'EVC - Finance',   TRUE, 0, 10, NULL),
-
+                             ( 0, 'Executive Vice Chairperson for Finance',                       'EVC - Finance',   TRUE, 0, 10, '/CSO/home'),
                              /* Activity Documentations and Management */
                              -- 5
                              ( 0, 'Vice Chairperson for Activity Documentations and Management',            'VC - AND',  TRUE, 2, 20, '/ADM/main'),
