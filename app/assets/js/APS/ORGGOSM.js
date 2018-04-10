@@ -154,13 +154,12 @@
                 }).then(function(data){
                      updateGOSMStatus(3, undefined, () => {
                         swal({
-                                title: "Success!",
-                                text: "The activity has been approved",
-                                type: "success"
-                            },
-                            () => {
-                                location.reload(true);
-                            });
+                            title: "Success!",
+                            text: "The activity has been approved",
+                            type: "success"
+                        }).then(data => {
+                            location.reload(true);
+                        });
                     }, () => {
                         swal("Oh oh!", "An error occured", "error");
                     });
@@ -201,7 +200,9 @@
                     ).then(function(result){
                           if (result) {
                                 updateGOSMStatus(4, result, () => {
-                                    swal('Success!', `you commented: ${result}`, 'success');
+                                    swal('Success!', `you commented: ${result}`, 'success').then(data => {
+                                        location.reload(true);
+                                    });
                                 }, () => {
                                     swal("Uh oh!", "An error occured", "error");
                                 });
@@ -246,7 +247,9 @@
                     ).then(function(result){
                         if (result) {
                             updateGOSMStatus(5, result, () => {
-                                swal('Success!', `You commented ${result}`, 'success');
+                                swal('Success!', `You commented ${result}`, 'success').then(data => {
+                                    location.reload(true);
+                                });
                             }, () => {
                                 swal("Oops", "An error occured", "error");
                             });
