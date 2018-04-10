@@ -14,6 +14,8 @@ module.exports = function (configuration, modules, router, controllers, models, 
 	router.get('/APS/ActivityList', controllers.APS_controller.viewActivityList);
 	router.get('/APS/Logs', controllers.APS_controller.viewAPSLogs);
 
+	router.get('/CSO/home', controllers.CSO_controller.viewExecHome);//for cso exec home
+
 	router.get('/APS/Signatory/ActivtiyList', controllers.APS_controller.viewPPRListToSign);
 	router.get('/APS/Signatory/Activtiy/:activityID', controllers.APS_controller.viewPPRSign);
 	router.get('/APS/Signatory/Activtiy/', (req, res) => {

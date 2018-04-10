@@ -41,6 +41,15 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         logger.debug(`login CSRFToken: ${renderData.csrfToken}`, log_options);
         return res.render('System/LoginMain', renderData);
     };
+    CSOController.viewExecHome = (req, res) => {
+        logger.debug(`Extra-data contents: ${JSON.stringify(req.extra_data)}`, log_options);
+        const renderData = Object.create(null);
+        renderData.extra_data = req.extra_data;
+        renderData.csrfToken = req.csrfToken();
+
+        logger.debug(`login CSRFToken: ${renderData.csrfToken}`, log_options);
+        return res.render('System/viewExecHome');
+    };
 
     return CSOController;
 };
