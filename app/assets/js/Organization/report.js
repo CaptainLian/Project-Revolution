@@ -557,102 +557,160 @@
     // });
 
     //amt charts
-    new Chart(document.getElementById("chartamt1"), {
-        type: 'bar',
-        data: {
-            labels: ["venue", "equipment"],
-            datasets: [{
-                label: "Average Grade",
-                backgroundColor: ["#3e95cd", "#8e5ea2"],
-                data: [venue, equipment]
-            }]
-        },
-        options: {
-            legend: {
-                display: false
-            },
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
+    new Chart(
+        document.getElementById("chartamt1"), {
+            type: 'radar',
+            data: {
+                labels: [
+                    "Venue",
+                    "Equipment"
+                ],
+                datasets: [{
+                    label: "Average Grade",
+                    backgroundColor: "rgba(200,0,0,0.2)",
+                    data: [
+                        venue,
+                        equipment
+                    ]
                 }]
             }
         }
-    });
+    );
+    // new Chart(document.getElementById("chartamt1"), {
+    //     type: 'bar',
+    //     data: {
+    //         labels: ["venue", "equipment"],
+    //         datasets: [{
+    //             label: "Average Grade",
+    //             backgroundColor: ["#3e95cd", "#8e5ea2"],
+    //             data: [venue, equipment]
+    //         }]
+    //     },
+    //     options: {
+    //         legend: {
+    //             display: false
+    //         },
+    //         scales: {
+    //             yAxes: [{
+    //                 ticks: {
+    //                     beginAtZero: true
+    //                 }
+    //             }]
+    //         }
+    //     }
+    // });
     //activity process
-    new Chart(document.getElementById("chartamt2"), {
-        type: 'bar',
-        data: {
-            labels: ["Opening Start", "Time end", "Activity Execution", "Registration"],
-            datasets: [{
-                label: "Average Grade",
-                backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9"],
-                data: [openingStart, timeEnd, activityExec, Registration]
-            }]
-        },
-        options: {
-            legend: {
-                display: false
-            },
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
+    // new Chart(document.getElementById("chartamt2"), {
+    //     type: 'bar',
+    //     data: {
+    //         labels: ["Opening Start", "Time end", "Activity Execution", "Registration"],
+    //         datasets: [{
+    //             label: "Average Grade",
+    //             backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9"],
+    //             data: [openingStart, timeEnd, activityExec, Registration]
+    //         }]
+    //     },
+    //     options: {
+    //         legend: {
+    //             display: false
+    //         },
+    //         scales: {
+    //             yAxes: [{
+    //                 ticks: {
+    //                     beginAtZero: true
+    //                 }
+    //             }]
+    //         }
+    //     }
+    // });
+    new Chart(
+        document.getElementById("chartamt2"), {
+            type: 'radar',
+            data: {
+                labels: ["Opening Start", "Time end", "Activity Execution", "Registration"],
+                datasets: [{
+                    label: "Average Grade",
+                    backgroundColor: "rgba(200,0,0,0.2)",
+                    data: [openingStart, timeEnd, activityExec, Registration]
                 }]
             }
         }
-    });
+    );
     //gen assembly
-    new Chart(document.getElementById("chartamt3"), {
-        type: 'bar',
-        data: {
-            labels: ["Hosts", "Ushers", "Presentations", "Activities", "Standing Presentations"],
-            datasets: [{
-                label: "Average Grade",
-                backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
-                data: [Hosts, Ushers, Presentations, activities, standingPresentation]
-            }]
-        },
-        options: {
-            legend: {
-                display: false
-            },
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
+    // new Chart(document.getElementById("chartamt3"), {
+    //     type: 'bar',
+    //     data: {
+    //         labels: ["Hosts", "Ushers", "Presentations", "Activities", "Standing Presentations"],
+    //         datasets: [{
+    //             label: "Average Grade",
+    //             backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
+    //             data: [Hosts, Ushers, Presentations, activities, standingPresentation]
+    //         }]
+    //     },
+    //     options: {
+    //         legend: {
+    //             display: false
+    //         },
+    //         scales: {
+    //             yAxes: [{
+    //                 ticks: {
+    //                     beginAtZero: true
+    //                 }
+    //             }]
+    //         }
+    //     }
+    // });
+    new Chart(
+        document.getElementById("chartamt3"), {
+            type: 'radar',
+            data: {
+                labels: ["Hosts", "Ushers", "Presentations", "Activities", "Standing Presentations"],
+                datasets: [{
+                    label: "Average Grade",
+                    backgroundColor: "rgba(200,0,0,0.2)",
+                    data: [Hosts, Ushers, Presentations, activities, standingPresentation]
                 }]
             }
         }
-    });
+    );
 
     //audience feedback
-    new Chart(document.getElementById("chartamt6"), {
-        type: 'bar',
-        data: {
-            labels: ["Announcements", "Interaction", "Interest", "Learning"],
-            datasets: [{
-                label: "Average Grade",
-                backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#FF685B", "#B153E8", "#5BA0FF"],
-                data: [announcement, interaction, interest, learning]
-            }]
-        },
-        options: {
-            legend: {
-                display: false
-            },
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
+    // new Chart(document.getElementById("chartamt6"), {
+    //     type: 'bar',
+    //     data: {
+    //         labels: ["Announcements", "Interaction", "Interest", "Learning"],
+    //         datasets: [{
+    //             label: "Average Grade",
+    //             backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#FF685B", "#B153E8", "#5BA0FF"],
+    //             data: [announcement, interaction, interest, learning]
+    //         }]
+    //     },
+    //     options: {
+    //         legend: {
+    //             display: false
+    //         },
+    //         scales: {
+    //             yAxes: [{
+    //                 ticks: {
+    //                     beginAtZero: true
+    //                 }
+    //             }]
+    //         }
+    //     }
+    // });
+    new Chart(
+        document.getElementById("chartamt6"), {
+            type: 'radar',
+            data: {
+                labels: ["Announcements", "Interaction", "Interest", "Learning"],
+                datasets: [{
+                    label: "Average Grade",
+                    backgroundColor: "rgba(200,0,0,0.2)",
+                    data: [announcement, interaction, interest, learning]
                 }]
             }
         }
-    });
+    );
 
     new Chart(
         document.getElementById("chartradar"), {
