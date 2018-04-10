@@ -489,7 +489,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
                 		gosmModel.getActivityProjectHeads(dpDetails.activityID, [
                 			'a.idNumber "idNumber"'
                 		], t),
-                		financeModel.getPreActivityDirectPaymentNextSignatory(dpDetails.id, t),
+                		financeModel.getPreActivityDirectPaymentNextSignatory(dpDetails.id),
                 		accountModel.getAccountDetails(req.session.user.idNumber, [
                 			'a.idnumber AS "idNumber"',
                 			'a.firstname || \' \' || a.lastname'
@@ -557,9 +557,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 								console.log("deductParam");
 								console.log(deductParam);
 
-								financeModel.deductExpenses(deductParam)
-								.then(deduct=>{
-
+								financeModel.deductExpenses(deductParam).then(deduct=>{
 
 								}).catch(error=>{
 									console.log("deduct error++++++++++++++++++++++++++++++++++++++++++++++");
@@ -590,7 +588,6 @@ module.exports = function(configuration, modules, models, database, queryFiles){
             }).then(() => {
             	return logger.debug('Notifications successfully added', log_options);
             }).catch(err => {
-            	console.log("error in lian's query+++++++++++++++++++++++++++++++++++++++++++++++");
                 return logger.error(`${err.message}\n${err.stack}`, log_options);
             });
 		},
