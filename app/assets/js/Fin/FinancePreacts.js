@@ -52,7 +52,7 @@ $(document).ready(function(){
 
      if(value!=null){
             $('#purpose').show();
-            $('#iq').show();
+            $('#iq').show().find("input").attr("required");
       $('#ca_particular :selected').each(function(){
         //get the value of current selected item
         value = $(this).val();
@@ -102,7 +102,7 @@ $(document).ready(function(){
           }
      }else{
         $('#purpose').hide();
-        $('#iq').hide();
+        $('#iq').hide().find("input").removeAttr("required");
         attachments = [];
         $('#ca_amount').html("");
         $('#memo_body').html("");
@@ -113,9 +113,9 @@ $(document).ready(function(){
 
     //show justification for not using direct payment if sum is greater than 2000
     if(sum>2000){
-        $('#justification_dp').show().attr("required");
+        $('#justification_dp').show();
     }else{
-        $('#justification_dp').hide().removeAttr("required");
+        $('#justification_dp').hide();
     }
 
     showAttachments(attachments);
