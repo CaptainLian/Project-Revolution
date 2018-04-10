@@ -113,9 +113,9 @@ $(document).ready(function(){
 
     //show justification for not using direct payment if sum is greater than 2000
     if(sum>2000){
-        $('#justification_dp').show();
+        $('#justification_dp').show().attr("required");
     }else{
-        $('#justification_dp').hide();
+        $('#justification_dp').hide().removeAttr("required");
     }
 
     showAttachments(attachments);
