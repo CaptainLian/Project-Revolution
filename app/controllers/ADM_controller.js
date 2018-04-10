@@ -96,10 +96,21 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         let renderData = Object.create(null);
         renderData.extra_data = req.extra_data;
         renderData.csrfToken = req.csrfToken();
-        projectProposalModel.getAllOrgProposal(req.params.orgid, null)
+
+        var dbParam = {
+            studentorganization: req.params.orgid
+        }
+
+         database.task(task => {
+                        return task.batch([
+                            organizationModel.getStudentOrganization(dbParam),
+                            projectProposalModel.getAllOrgProposal(req.params.orgid, null)
+                        ]);
+        })       
         .then(data=>{
             console.log("DATA")
-            renderData.events = data
+            renderData.studentorganization = data[0]
+            renderData.events = data[1];
             console.log(data)
             return res.render('ADM/viewOrgCalendar',renderData);
 

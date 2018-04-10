@@ -10,7 +10,7 @@
         swal({   
             title: "Are you sure?",                                           
             showCancelButton: true,   
-            reverseButtons:true,
+            reverseButtons:false,
             confirmButtonColor: "#00C292",   
             confirmButtonText: "Yes",   
             cancelButtonText: "No", 
@@ -80,7 +80,7 @@
             focusConfirm:false,
             focusCancel:false,
             showLoaderOnConfirm: true,
-            reverseButtons:true,
+            reverseButtons:false,
             allowOutsideClick: false,
             preConfirm: function (data) {
                 console.log($("#select-sec").val());
