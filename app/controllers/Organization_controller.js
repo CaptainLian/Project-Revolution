@@ -304,7 +304,6 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             if(data[0][i].studentorganization == organizationid &&
                                 data[0][i].isingosm == true){
 
-                                console.log("ENTERSSSSSS HEREEEEEEEEEEEEEEEEEEEEEEEE++++++++++++++++++++++++++++++++++")
 
                                 preactsApprovedActivities = preactsApprovedActivities + 1;
 
@@ -320,7 +319,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                 var diff = timediff(actualdatestart, datesigned, 'D');
 
 
-                                if (diff.days>2){
+                                if (diff.days<2){
                                     preactsEarlyApprovedActivities = preactsEarlyApprovedActivities + 1;
                                 }
                                 else{
@@ -445,7 +444,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                     var diff = timediff(actualdatestart, datesubmitted, 'D');
 
 
-                                    if (diff.days>30){
+                                    if (diff.days<30){
                                         postactsEarlyApprovedActivities = postactsEarlyApprovedActivities + 1;
                                     }
                                     else{
@@ -1419,7 +1418,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                 var diff1 = timediff(actualdatestart1, datesigned1, 'D');
 
 
-                                if (diff1.days>2){
+                                if (diff1.days<2){
                                     preactsEarlyApprovedActivities1 = preactsEarlyApprovedActivities1 + 1;
                                 }
                                 else{
@@ -1538,7 +1537,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                     var diff1 = timediff(actualdatestart1, datesubmitted1, 'D');
 
 
-                                    if (diff1.days>30){
+                                    if (diff1.days<30){
                                         postactsEarlyApprovedActivities1 = postactsEarlyApprovedActivities1 + 1;
                                     }
                                     else{
@@ -2265,7 +2264,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                 var diff2 = timediff(actualdatestart2, datesigned2, 'D');
 
 
-                                if (diff2.days>2){
+                                if (diff2.days<2){
                                     preactsEarlyApprovedActivities2 = preactsEarlyApprovedActivities2 + 1;
                                 }
                                 else{
@@ -2384,7 +2383,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                     var diff2 = timediff(actualdatestart2, datesubmitted2, 'D');
 
 
-                                    if (diff2.days>30){
+                                    if (diff2.days<30){
                                         postactsEarlyApprovedActivities2 = postactsEarlyApprovedActivities2 + 1;
                                     }
                                     else{
@@ -3110,7 +3109,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                 var diff3 = timediff(actualdatestart3, datesigned3, 'D');
 
 
-                                if (diff3.days>2){
+                                if (diff3.days<2){
                                     preactsEarlyApprovedActivities3 = preactsEarlyApprovedActivities3 + 1;
                                 }
                                 else{
@@ -3229,7 +3228,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                                     var diff3 = timediff(actualdatestart3, datesubmitted3, 'D');
 
 
-                                    if (diff3.days>30){
+                                    if (diff3.days<30){
                                         postactsEarlyApprovedActivities3 = postactsEarlyApprovedActivities3 + 1;
                                     }
                                     else{
