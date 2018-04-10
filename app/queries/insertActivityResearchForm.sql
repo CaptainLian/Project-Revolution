@@ -1,7 +1,7 @@
 INSERT INTO "ActivityResearchForm"(
             "GOSMActivity",
             "idNumber",
-            "email" 
+            "email",
             "positionInOrganization", 
             "IUTPOTA", 
             "TASMI", 
