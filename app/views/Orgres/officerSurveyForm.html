@@ -1,18 +1,12 @@
 {% extends './Orgres_master.html' %}
 {% import '../template/tags_macro.html' as tag %}
 
-
 {%block style%}
     {{super()}}
-
-    <!-- Bootstrap Core CSS -->
-    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
-    {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
     <!-- Wizard CSS -->
     {{tag.style('/plugins/bower_components/jquery-wizard-master/css/wizard.css')}}
     <!-- datatables -->
     {{tag.style('/plugins/bower_components/datatables/jquery.dataTables.min.css')}}
-
     <!-- Menu CSS -->
     {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
     <!-- animation CSS -->
@@ -34,12 +28,6 @@
 
 {%block defer_script%}
     {{super()}}
-    <!-- jQuery -->
-    {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
-    <!-- Bootstrap Core JavaScript -->
-    {{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
-    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}}
-    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
     <!-- Menu Plugin JavaScript -->
     {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
     <!--slimscroll JavaScript -->

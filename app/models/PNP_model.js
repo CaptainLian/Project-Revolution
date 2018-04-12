@@ -25,6 +25,8 @@ module.exports = function(configuration, modules, db, queryFiles) {
 
     const getAllActivityPublicity = queryFiles.getAllActivityPublicity;
 
+    const getAllActivityPublicityPerTerm = queryFiles.getAllActivityPublicityPerTerm;
+
 	return{
 		getUnapprovePubsToCheck:function ( connection = db) {
             return connection.any(getUnapprovePubsToCheck);
@@ -68,6 +70,10 @@ module.exports = function(configuration, modules, db, queryFiles) {
 
         getAllActivityPublicity:function (connection = db) {
             return connection.any(getAllActivityPublicity);
+        },
+
+        getAllActivityPublicityPerTerm:function (param, connection = db) {
+            return connection.any(getAllActivityPublicityPerTerm, param);
         },
 
         getPublicityDetails: function(pubID, connection = db){

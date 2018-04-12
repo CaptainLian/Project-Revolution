@@ -3,17 +3,11 @@
 
 {%block page_title%}CSO - View Activity List{%-endblock%}
 
-
 {%block style%}
     {{super()}}
     <!-- Bootstrap Core CSS -->
-    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
-    {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
-
     {{tag.style('/plugins/bower_components/bootstrap-table/dist/bootstrap-table.min.css')}}
-
     {{tag.style('/plugins/bower_components/calendar/dist/fullcalendar.css')}}
-    
     <!-- Menu CSS -->
     {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
     <!-- animation CSS -->
@@ -39,13 +33,7 @@
 
 {%block defer_script%}
     {{super()}}
-    <!-- jQuery -->
-    {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js')}}
     <!-- Bootstrap Core JavaScript -->
-    {{tag.javascript('/bootstrap/dist/js/tether.min.js')}}
-    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js')}}
-    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js')}}
-
     {{tag.javascript('/plugins/bower_components/bootstrap-table/dist/bootstrap-table.min.js')}}
     <!-- Menu Plugin JavaScript -->
     {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js')}}
@@ -55,19 +43,13 @@
     {{tag.javascript('/js/waves.js')}}
     <!-- Custom Theme JavaScript -->
     {{tag.javascript('/js/custom.min.js')}} 
-
     <!--Style Switcher -->
     {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js')}}
-
-    
     {{tag.javascript('/plugins/bower_components/moment/moment.js')}}
     {{tag.javascript('/plugins/bower_components/calendar/dist/fullcalendar.min.js')}}
     <!-- {{tag.javascript('/plugins/bower_components/calendar/dist/cal-init.js', true)}} -->
-
-
     {{tag.javascript('/js/system/AJAX_CSRF.js')}}
     {{tag.javascript('/js/Organization/ProjectHeadHome.js')}}
-
     <!-- tabs-->
 <script>
 
@@ -110,11 +92,10 @@
 {%endblock%}
 
 {%block content%}
-
 <div class="row">
     <div class="col-md-12">
         <div class="white-box">
-            <h2>Calendar of La Salle Computer Society</h2>
+            <h2>Calendar of {{studentorganization.name}}</h2>
             <div id="calendar"></div>
         </div>
     </div>  

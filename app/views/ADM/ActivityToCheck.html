@@ -3,16 +3,9 @@
 
 {%block page_title%}ADM - Activity Checking{%-endblock%}
 
-{%block meta%}
-    {{super()}}
-    <meta data-name="csrf" data-token="{{csrfToken}}" />
-{%endblock%}
-
 {%block style%}
     {{super()}}
     <!-- Bootstrap Core CSS -->
-    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
-    {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
     {{tag.style('/plugins/bower_components/datatables/jquery.dataTables.min.css')}}
     {{tag.style('/plugins/bower_components/nestable/nestable.css')}}
     {{tag.style('https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css')}}
@@ -65,10 +58,6 @@
     {{super()}}
     <!-- jQuery -->
     {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
-    <!-- Bootstrap Core JavaScript -->
-    {{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
-    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}}
-    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
     <!-- Menu Plugin JavaScript -->
     {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
     <!--slimscroll JavaScript -->
@@ -99,7 +88,7 @@
     {{tag.javascript('/plugins/bower_components/Magnific-Popup-master/dist/jquery.magnific-popup.min.js', true)}}
     {{tag.javascript('/plugins/bower_components/Magnific-Popup-master/dist/jquery.magnific-popup-init.js', true)}}
     <!-- Page Scripts -->
-    {{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
+    {{- tag.javascript('/js/system/AJAX_CSRF.js', true)}}
     {{tag.javascript('/js/ADM/viewActivityToCheck.js', true)}}
     <!-- /Page Scripts -->
 {%endblock%}
@@ -126,17 +115,20 @@
         <div class="white-box">
             <div class="text-center"> <h1>{{activity.title}}</h1> </div>
             <p class="text-center">{{activity.org}}</p>
+
+            {%if activity.status == 3 %}
             <div class="row button-box" >
                                      
-                   
-                    <div class="col-lg-6 col-sm-4 col-xs-12 ">
-                        <button id="defer" class="btn btn-block  btn-warning">Pend</button>
-                    </div>
                     <div class="col-lg-6 col-sm-4 col-xs-12 ">
                         <button id="approve" class="btn btn-block  btn-success">Approve</button>
                     </div>
+                    <div class="col-lg-6 col-sm-4 col-xs-12 ">
+                        <button id="defer" class="btn btn-block  btn-warning">Pend</button>
+                    </div>
+                    
                     
             </div>
+            {%endif%}
             <div class="user-btm-box">
                 <!-- .row -->
                
@@ -168,10 +160,11 @@
                 <div class="row text-center m-t-10">
                     <div class="col-md-12">
                         <p><strong>Project Heads</strong></p>
-                        {%for p in pheads%}
-                        <p>{{p.name}}</p>
-                        <p>{{p.contactnumber}}</p>
-                        {%endfor%}
+                        
+                        {% for head in projectHeads %}
+                            <p>{{head.firstname}} {{head.lastname}}</p>
+                            <p>{{head.contactnumber}}</p>
+                        {% endfor %}
                         
                     </div>
                 </div>

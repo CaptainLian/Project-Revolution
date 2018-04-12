@@ -3,19 +3,8 @@
 
 {%block page_title%}CSO - ACL Setting{%-endblock%}
 
-
-{%block meta%}
-    {{super()}}
-    <meta data-name="csrf" data-token="{{csrfToken}}" />
-{%endblock%}
-
 {%block style%}
 	{{super()}}
-	<!-- Bootstrap Core CSS -->
-	
-   	<!-- Bootstrap Core CSS -->
-   	{{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
-   	{{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
    <!-- Menu CSS -->
    {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
    {{tag.style('/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css')}}
@@ -29,12 +18,11 @@
    {{tag.style('/css/animate.css')}}
    {{tag.style('/css/styleCustom.css')}}
    {{tag.style('/css/custom.css')}}
-    <!-- color CSS -->
-    {{tag.style('/css/colors/default.css')}}
-    {{tag.style('https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css')}}
-    {{tag.style('https://cdn.datatables.net/fixedcolumns/3.2.3/css/fixedColumns.dataTables.min.css')}}
-    
-
+   <!-- color CSS -->
+   {{tag.style('/css/colors/default.css')}}
+   {{tag.style('https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css')}}
+   {{tag.style('https://cdn.datatables.net/fixedcolumns/3.2.3/css/fixedColumns.dataTables.min.css')}}
+  
 	<style type="text/css">
          th, td {
           white-space: nowrap; 
@@ -43,21 +31,13 @@
             width: 1000px;
             margin: 0 auto;
         }
-       
-      
-    </style>
+  </style>
 {%endblock%}
-
 
 {%block defer_script%}
 	{{super()}}
 
-	{{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
-    {{tag.javascript('/plugins/bower_components/jqueryui/jquery-ui.min.js', true)}}
-	<!-- Bootstrap Core JavaScript -->
-	{{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
-	{{tag.javascript('/bootstrap/dist/js/bootstrap-3.3.7.min.js', true)}}
-	{{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
+  {{tag.javascript('/plugins/bower_components/jqueryui/jquery-ui.min.js', true)}}
 	<!-- Menu Plugin JavaScript -->
 	{{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
 	<!--slimscroll JavaScript -->

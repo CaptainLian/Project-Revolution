@@ -1,0 +1,9 @@
+SELECT AT.ID, COUNT(GOSM.ID) as activitycount
+  FROM ACTIVITYTYPE AT LEFT JOIN (SELECT GA.ID as ID, GA.ACTIVITYTYPE 
+				    				FROM GOSMACTIVITY GA JOIN GOSM G
+							   							   ON GA.GOSM=G.ID
+				   				   WHERE G.TERMID=${termID}
+				     				 AND STUDENTORGANIZATION=${studentOrganization}) GOSM
+			      			  ON GOSM.ACTIVITYTYPE=AT.ID
+ GROUP BY AT.ID
+ ORDER BY 1 ASC

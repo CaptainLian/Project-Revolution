@@ -13,7 +13,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 	const logger = modules.logger;
 	const log_options = Object.create(null);
-	log_options.from = 'Finance-Controlelr';
+	log_options.from = 'Finance-Controller';
 
     const projectProposalModel = models.ProjectProposal_model;
     const financeModel = models.Finance_model;
@@ -26,6 +26,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 			const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
 			return res.render('Finance/TransactionMain', renderData);
 		},
 
@@ -34,6 +35,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 			const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
 			return res.render('Finance/', renderData);
 		},
 		viewHome: (req, res) => {
@@ -41,6 +43,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 			const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
 			return res.render('Finance/financeHome');
 		},
 		viewFinanceSettings: (req, res) => {
@@ -48,11 +51,12 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 			const renderData = Object.create(null);
             renderData.extra_data = req.extra_data;
+            renderData.csrfToken = req.csrfToken();
 			return res.render('Finance/Finance_Settings', renderData);
 		},
 
 		evaluateTransaction: (req, res) => {
-			logger.info('call 3evaluateTransaction()', log_options);
+			logger.info('call evaluateTransaction()', log_options);
 
 			var viewEvaluation = false;
 		    if (req.session.user.type == 1){
@@ -92,10 +96,22 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 						database.task(t=>{
 							return t.batch([
-	                            projectProposalModel.getProjectProposal(dbParam),
-								financeModel.getDirectPaymentParticulars(param),
-								financeModel.getDirectPaymentSignatory(param),
-								financeModel.getDirectPaymentAccount(param)]);
+								//0
+	                            projectProposalModel.getProjectProposal(dbParam, t),
+	                            //1
+								financeModel.getDirectPaymentParticulars(param, t),
+								//2
+								financeModel.getDirectPaymentSignatory(param, t),
+								//3
+								financeModel.getDirectPaymentAccount(param, t),
+								//4
+								financeModel.getPreActivityDirectPaymentAllSignatory(data.id, [
+                                    'ss.name AS status',
+                                    'to_char("sl"."dateSigned", \'Mon DD, YYYY\') AS dateSigned',
+                                    '(a.firstname || \' \' || a.lastname) AS signatoryname',
+                                    '"sl"."digitalSignature" AS digitalSignature'
+								], t)
+							]);
 						}).then(data1=>{
 							const renderData = Object.create(null);
 				            renderData.extra_data = req.extra_data;
@@ -107,12 +123,12 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				            // transactionType: if 0 direct payment; if 1 cash advance
 				            renderData.transactionType = req.params.transaction;
 				            renderData.account = data1[3]
-				            
+				            renderData.signatories = data1[4];
+
 				            //to evaluate
-				           
 				           	if(data.status==0){
 				           		if(data1[2].signatory == req.session.user.idNumber){
-				           			renderData.toEvaluate = true; 
+				           			renderData.toEvaluate = true;
 					           	}
 					           	else{
 					           		renderData.toEvaluate = false;
@@ -124,6 +140,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 				           	if(req.session.user.type == 1){
 				           		if(data.orgid == req.session.user.organizationSelected.id){
+				           			logger.debug(`Rendering Finance/EvaluateTransaction\nWith data: ${JSON.stringify(renderData)}`, log_options);
 					           		return res.render('Finance/EvaluateTransaction', renderData);
 					           	}
 					           	else{
@@ -131,15 +148,15 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 					           	}
 				           	}
 				           	else{
-				           			return res.render('Finance/EvaluateTransaction', renderData);
-
+				           		logger.debug(`Rendering Finance/EvaluateTransaction\nWith data: ${JSON.stringify(renderData)}`, log_options);
+				           		return res.render('Finance/EvaluateTransaction', renderData);
 				           	}
-				           	
+
 						}).catch(error => {
-							return logger.debug(`${error.message}\n${error.stack}`, log_options);
+							return logger.error(`${error.message}: ${error.stack}`, log_options);
 						});
 					}).catch(error => {
-						return logger.debug(`${error.message}\n${error.stack}`, log_options);
+						return logger.error(`${error.message}: ${error.stack}`, log_options);
 					});
 				} // cash advance
 			 	else if (req.params.transaction == 1){
@@ -154,11 +171,24 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 						};
 
 						logger.debug('starting tasks', log_options);
-						database.task(t=>{
-							return t.batch([projectProposalModel.getProjectProposal(dbParam),
-											financeModel.getCashAdvanceParticulars(param),
-											financeModel.checkCashAdvanceSignatory(param),
-											financeModel.getCashAdvanceAccount(param)]);
+						database.task(t => {
+							return t.batch([
+								//0
+                                projectProposalModel.getProjectProposal(dbParam, t),
+                                //1
+								financeModel.getCashAdvanceParticulars(param, t),
+								//2
+								financeModel.checkCashAdvanceSignatory(param, t),
+								//3
+								financeModel.getCashAdvanceAccount(param, t),
+								//4
+								financeModel.getPreActivityCashAdvanceAllSignatory(data.id, [
+                                    'ss.name AS status',
+                                    'to_char("sl"."dateSigned", \'Mon DD, YYYY\') AS dateSigned',
+                                    '(a.firstname || \' \' || a.lastname) AS signatoryname',
+                                    '"sl"."digitalSignature" AS digitalSignature'
+								], t)
+                            ]);
 						}).then(data1=>{
 							const renderData = Object.create(null);
 				            renderData.extra_data = req.extra_data;
@@ -170,13 +200,12 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				            // transactionType: if 0 direct payment; if 1 cash advance
 				            renderData.transactionType = req.params.transaction;
 				            renderData.account = data1[3];
-				            
+				            renderData.signatories = data1[4];
 
 				            //to evaluate
-
 				            if(data.status==0){
 				           		if(data1[2].signatory == req.session.user.idNumber){
-				           			renderData.toEvaluate = true; 
+				           			renderData.toEvaluate = true;
 					           	}
 					           	else{
 					           		renderData.toEvaluate = false;
@@ -185,27 +214,24 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				           	else{
 				           		renderData.toEvaluate = false;
 				           	}
-				           
+
 				            if(req.session.user.type == 1){
 				           		if(data.orgid == req.session.user.organizationSelected.id){
+				           			logger.debug(`Rendering Finance/EvaluateTransaction\nWith data: ${JSON.stringify(renderData)}`, log_options);
 					           		return res.render('Finance/EvaluateTransaction', renderData);
-					           	}
-					           	else{
+					           	}else{
+                                    res.statusCode(403);
 		    						return res.render('System/403');
 					           	}
+				           	}else{
+				           		logger.debug(`Rendering Finance/EvaluateTransaction\nWith data: ${JSON.stringify(renderData)}`, log_options);
+				           		return res.render('Finance/EvaluateTransaction', renderData);
 				           	}
-				           	else{
-				           			return res.render('Finance/EvaluateTransaction', renderData);
-
-				           	}
-
-
-							
-						}).catch(error=>{
-							return logger.debug(`${error.message}\n${error.stack}`, log_options);
+						}).catch(error => {
+							return logger.error(`${error.message}\n${error.stack}`, log_options);
 						});
-					}).catch(error=>{
-						return logger.debug(`${error.message}\n${error.stack}`, log_options);
+					}).catch(error => {
+						return logger.error(`${error.message}\n${error.stack}`, log_options);
 					});
 
 
@@ -226,10 +252,21 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 						logger.debug('starting tasks', log_options);
 						database.task(t=>{
 							return t.batch([
-								projectProposalModel.getProjectProposal(dbParam),
-								financeModel.getBookTransferParticulars(param),
-								financeModel.getBookTransferSignatory(param),
-								financeModel.getBookTransferAccount(param)
+								//0
+								projectProposalModel.getProjectProposal(dbParam, t),
+								//1
+								financeModel.getBookTransferParticulars(param, t),
+								//2
+								financeModel.getBookTransferSignatory(param, t),
+								//3
+								financeModel.getBookTransferAccount(param, t),
+								//4
+								financeModel.getPreActivityBookTransferAllSignatory(data.id, [
+                                    'ss.name AS status',
+                                    'to_char("sl"."dateSigned", \'Mon DD, YYYY\') AS dateSigned',
+                                    '(a.firstname || \' \' || a.lastname) AS signatoryname',
+                                    '"sl"."digitalSignature" AS digitalSignature'
+								], t)
 							]);
 						}).then(data1=>{
 							const renderData = Object.create(null);
@@ -242,14 +279,14 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				            // transactionType: if 0 direct payment; if 1 cash advance; if 2 book transfer; if 3 reimbursement
 				            renderData.transactionType = req.params.transaction;
 				            renderData.account = data1[3]
-				            
+				            renderData.signatories = data1[4];
 
 				            //to evaluate
 
 				            if(data.status==0){
-				           		
+
 				           		if(data1[2].signatory == req.session.user.idNumber){
-				           			renderData.toEvaluate = true; 
+				           			renderData.toEvaluate = true;
 					           	}
 					           	else{
 					           		renderData.toEvaluate = false;
@@ -259,8 +296,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				           	else{
 				           		renderData.toEvaluate = false;
 				           	}
-				           
-				           
+
+
 							if(req.session.user.type == 1){
 				           		if(data.orgid == req.session.user.organizationSelected.id){
 					           		return res.render('Finance/EvaluateTransaction', renderData);
@@ -270,19 +307,15 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 					           	}
 				           	}
 				           	else{
-				           			return res.render('Finance/EvaluateTransaction', renderData);
-
+				           		logger.debug(`Rendering Finance/EvaluateTransaction\nWith data: ${JSON.stringify(renderData)}`, log_options);
+				           		return res.render('Finance/EvaluateTransaction', renderData);
 				           	}
-
-
-							
 						}).catch(error=>{
-							return logger.debug(`${error.message}\n${error.stack}`, log_options);
+							return logger.error(`${error.message}\n${error.stack}`, log_options);
 						});
 					}).catch(error=>{
-						return logger.debug(`${error.message}\n${error.stack}`, log_options);
+						return logger.error(`${error.message}\n${error.stack}`, log_options);
 					});
-
 				}// reimbursement
 				else if(req.params.transaction==3){
 
@@ -298,9 +331,21 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 						logger.debug('starting tasks', log_options);
 						database.task(t=>{
-							return t.batch([projectProposalModel.getProjectProposal(dbParam),
-											financeModel.getReimbursementParticulars(param),
-											financeModel.getReimbursementSignatory(param)]);
+							return t.batch([
+								//0
+								projectProposalModel.getProjectProposal(dbParam, t),
+								//1
+								financeModel.getReimbursementParticulars(param, t),
+								//2
+								financeModel.getReimbursementSignatory(param, t),
+								//3
+								financeModel.getPostProjectReimbursmentAllSignatory(data.id, [
+                                    'ss.name AS status',
+                                    'to_char("sl"."dateSigned", \'Mon DD, YYYY\') AS dateSigned',
+                                    '(a.firstname || \' \' || a.lastname) AS signatoryname',
+                                    '"sl"."digitalSignature" AS digitalSignature'
+								], t)
+							]);
 						}).then(data1=>{
 							const renderData = Object.create(null);
 				            renderData.extra_data = req.extra_data;
@@ -311,7 +356,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				            renderData.gosmactivity = data.GOSMActivity;
 				            // transactionType: if 0 direct payment; if 1 cash advance; if 2 book transfer; if 3 reimbursement
 				            renderData.transactionType = req.params.transaction;
-				            
+				            renderData.signatories = data1[3];
 
 				            //to evaluate
 
@@ -320,30 +365,24 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				            	console.log(data[2]);
 				            	console.log("This is the signatory");
 
-
 				           		//TODO: if all has signed
 				           		if(data1[2].signatory == req.session.user.idNumber){
-				           			renderData.toEvaluate = true; 
+				           			renderData.toEvaluate = true;
 					           	}
 					           	else{
 					           		renderData.toEvaluate = false;
 					           	}
-					           	
 				           	}
 				           	else{
 				           		renderData.toEvaluate = false;
 				           	}
-				           
-				           
+
 							if(data.orgid == req.session.user.organizationSelected.id){
 					           	return res.render('Finance/EvaluateTransaction', renderData);
 				           	}
 				           	else{
 	    						return res.render('System/403');
 				           	}
-
-
-							
 						}).catch(error=>{
 							return logger.debug(`${error.message}\n${error.stack}`, log_options);
 						});
@@ -450,12 +489,11 @@ module.exports = function(configuration, modules, models, database, queryFiles){
                 		gosmModel.getActivityProjectHeads(dpDetails.activityID, [
                 			'a.idNumber "idNumber"'
                 		], t),
-                		financeModel.getPreActivityDirectPaymentNextSignatory(dpDetails.id, t),
+                		financeModel.getPreActivityDirectPaymentNextSignatory(dpDetails.id),
                 		accountModel.getAccountDetails(req.session.user.idNumber, [
                 			'a.idnumber AS "idNumber"',
                 			'a.firstname || \' \' || a.lastname'
-                		], t),
-
+                		], t)
                 	]);
                 });
             }).then(data => {
@@ -519,23 +557,17 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 								console.log("deductParam");
 								console.log(deductParam);
 
-								financeModel.deductExpenses(deductParam)
-								.then(deduct=>{
-			
+								financeModel.deductExpenses(deductParam).then(deduct=>{
 
 								}).catch(error=>{
-									console.log(error);
-									console.log("DITO MALIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII");
+									console.log("deduct error++++++++++++++++++++++++++++++++++++++++++++++");
+									logger.error(`${error.message}\n${error.stack}`);
 								});
-
 							}
-							
-
-				            
 						}).catch(error=>{
-							console.log(error);
+							console.log("error in boook transfer daaataaaaaaaaaaaaaaaaa");
+							logger.error(`${error.message}\n${error.stack}`);
 						});
-
             		}
 
             		details.signatory = currentSignatoryDetails.idNumber;
@@ -573,19 +605,15 @@ module.exports = function(configuration, modules, models, database, queryFiles){
             //TODO: move function to accountModel
 			financeModel.pendDirectPayment(dbParam).then(data=>{
 				console.log("successfully pended direct payment");
-
-				financeModel.pendDirectPaymentTable(dbParam)
-				.then(data1=>{
-
+                //TODO: Flatten promise
+				financeModel.pendDirectPaymentTable(dbParam).then(data1=>{
 					//TODO: notifications
 					res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
 				}).catch(error=>{
-					console.log(error);
+					logger.error(`${error.message}: ${error.stack}`);
 				})
-
-                
 			}).catch(error=>{
-				console.log(error);
+				logger.error(`${error.message}: ${error.stack}`);
 			});
 		},
 
@@ -732,20 +760,14 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 									expenses: deductexpense
 								}
 
-								financeModel.deductExpenses(deductParam)
-								.then(deduct=>{
-			
+								financeModel.deductExpenses(deductParam).then(deduct=>{
 
 								}).catch(error=>{
-									console.log(error);
+									logger.error(`${error.message}: ${error.stack}`);
 								});
-
 							}
-							
-
-				            
 						}).catch(error=>{
-							console.log(error);
+							logger.error(`${error.message}: ${error.stack}`);
 						});
 					}
 
@@ -778,7 +800,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			console.log(req.body.cashAdvanceId);
 
 			accountModel.pendCashAdvance(
-				req.body.cashAdvanceId, 
+				req.body.cashAdvanceId,
 				req.session.user.idNumber,
 				'{'+req.body.sections+'}',
 				req.body.explain
@@ -793,6 +815,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		},
 
 		approveReimbursement: (req, res) =>{
+            logger.info('call approveReimbursement()', log_options);
+
 			var dbParam = {
 				reimbursement: req.body.reimbursementId,
 				gosmactivity: req.body.gosmactivity,
@@ -808,7 +832,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		},
 
 		pendReimbursement: (req, res) =>{
-			
+            logger.info('call pendReimbursement()', log_options);
 
 			var dbParam = {
 				reimbursement: req.body.reimbursementId,
@@ -817,17 +841,15 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			}
 
 			financeModel.pendReimbursement(dbParam).then(data=>{
-
 				console.log("successfully pended reimbursement");
 				res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
-
 			}).catch(error=>{
-				console.log(error);
+				logger.error(`${error.message}: ${error.stack}`);
 			});
 		},
 
 		approveBookTransfer: (req, res) =>{
-
+            logger.info('call approveBookTransfer()', log_options);
 
 			var dbParam = {
 				booktransfer: req.body.bookTransferId,
@@ -862,36 +884,29 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 							expenses: deductexpense
 						}
 
-						financeModel.deductExpenses(deductParam)
-						.then(deduct=>{
-	
+                        //TODO: Flatten promise
+						financeModel.deductExpenses(deductParam).then(deduct=>{
 							console.log("successfully approved book transfer");
 							res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
-
 						}).catch(error=>{
-							console.log(error);
+							logger.error(`${error.message}: ${error.stack}`);
 						});
-
 					}
 					else{
 						console.log("successfully approved book transfer");
 						res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
 					}
-
-		            
 				}).catch(error=>{
-					console.log(error);
-				});				
-
-
+					logger.error(`${error.message}: ${error.stack}`);
+				});
 			}).catch(error=>{
-				console.log(error);
+				logger.error(`${error.message}: ${error.stack}`);
 			});
 
 		},
 
 		pendBookTransfer: (req, res) =>{
-
+            logger.info('call pendBookTransfer()', log_options);
 
 			var dbParam = {
 				booktransfer: req.body.bookTransferId,
@@ -901,25 +916,22 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				explain:req.body.explain
 			}
 
-			financeModel.pendBookTransfer(dbParam)
-			.then(data=>{
-
+			financeModel.pendBookTransfer(dbParam).then(data=>{
 				console.log("successfully pended book transfer");
 				res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
-
-
 			}).catch(error=>{
-				console.log(error);
+				logger.error(`${error.message}: ${error.stack}`);
 			});
-
 		},
 
 		viewFinanceList: (req, res) => {
+            logger.info('call viewFinanceList()', log_options);
 
 			console.log("My user type is");
 			console.log(req.session.user.type);
 
 			const renderData = Object.create(null);
+			renderData.csrfToken = req.csrfToken();
 	       	renderData.extra_data = req.extra_data;
 
 	        //to evaluate
@@ -951,14 +963,13 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		    }
 
 	        if (financeList){
-
 		        database.task(t =>{
-					return t.batch([financeModel.getActivitiesWithFinancialDocuments(),
-									financeModel.getTransactionTotalPerActivity(),
-									financeModel.getApprovedTransactionTotalPerActivity()]);
-				})
-				.then(data=>{
-
+					return t.batch([
+						financeModel.getActivitiesWithFinancialDocuments(),
+						financeModel.getTransactionTotalPerActivity(),
+						financeModel.getApprovedTransactionTotalPerActivity()
+					]);
+				}).then(data => {
 					const renderData = Object.create(null);
 		           	renderData.extra_data = req.extra_data;
 
@@ -973,7 +984,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		           		renderData.toadd = false;
 		           		console.log("Is in this if actually");
 		           	}
-			       
+
 
 		           	renderData.activities = data[0];
 		           	renderData.transactionTotal = data[1];
@@ -998,25 +1009,16 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 					//next();
 
 				}).catch(error=>{
-					console.log(error);
+					logger.error(`${error.message}: ${error.stack}`);
 				});
-
 	        }
 	    	else{
-
-
 	    		return res.render('System/403');
-
 	    	}
-
-
-            
-
-
 		},
 
 		viewTransaction: (req, res) => {
-
+            logger.info('call viewTransaction()', log_options);
 
 			//TODO: error check if user may enter page
 			// current assumes user is authorized to view activity
@@ -1029,7 +1031,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			console.log(dbParam);
 			const renderData = Object.create(null);
 	        renderData.extra_data = req.extra_data;
-
+            renderData.csrfToken = req.csrfToken();
 
            	//to evaluate
             renderData.isCso = null;
@@ -1059,9 +1061,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				});
 
             } else{
-
             	console.log("user reaches this point of if");
-
 
             	var viewTransaction = false;
 
@@ -1091,13 +1091,11 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		            console.log("User is student and is president/treasurer");
 
-		            gosmModel.getGOSMActivityOrg(dbParam)
-		            .then(data=>{
-
+		            gosmModel.getGOSMActivityOrg(dbParam).then(data=>{
 		            	if(req.session.user.organizationSelected.id == data.studentorganization){
-
 		            		console.log("its this one");
-							database.task(t =>{
+
+							database.task(t => {
 								return t.batch([
 			                        financeModel.getActivityTransactions(dbParam),
 									gosmModel.getGOSMActivity(dbParam),
@@ -1141,32 +1139,23 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 								return res.render('Finance/ViewActivityTransaction', renderData);
 							}).catch(error=>{
 								console.log(error);
-
 							});
 
 		            	} else{
-		
 	    					return res.render('System/403');
-
 		            	}
-
 		            }).catch(error=>{
 		            	console.log("error is in the new query 1");
-		            	console.log(error);
+		            	logger.error(`${error.message}: ${error.stack}`);
 		            });
-
-
 	           	}else{
-
 	    			return res.render('System/403');
-
 	           	}
-
             }
-
 		},
 
 		createPreactsCashAdvance: (req, res) => {
+            logger.info('call createPreactsCashAdvance()', log_options);
 
 			var dbParam = {
 				gosmactivity: req.params.gosmactivity
@@ -1175,7 +1164,6 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			var addTransaction = false;
 
 		    if (req.session.user.type == 1){
-
 		    	const ACL = req.extra_data.user.accessControl[req.session.user.organizationSelected.id];
 		    	if(ACL[25] || ACL[26]){
 		    		addTransaction = true;
@@ -1183,7 +1171,6 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		    	else{
 		    		addTransaction = false;
 		    	}
-
 		    }
 		    else{
 		    	addTransaction = false;
@@ -1197,7 +1184,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		    		console.log("eyyyyyyyyyyyyy");
 
 		    		if (transactionCount.expensestotal > 0){
-		           		
+
 						projectProposalModel.getProjectProposal(dbParam)
 						.then(data=>{
 
@@ -1219,7 +1206,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 						}).catch(error=>{
 							console.log(error);
-						});	
+						});
 
 		        	}
 		        	else{
@@ -1235,14 +1222,14 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 	    		return res.render('System/403');
 		    }
 
-			
 
-			
+
+
 		},
 
 		//Cash Advance
 		submitPreacts: (req, res) => {
-			logger.debug('submitPreacts()', log_options);
+			logger.info('call submitPreacts()', log_options);
 			console.log(req.body);
 
 			var dbParam = {
@@ -1331,6 +1318,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		},
 
 		createPreactsDirectPayment: (req, res) => {
+            logger.info('call createPreactsDirectPayment()', log_options);
 
 			var dbParam = {
 				gosmactivity: req.params.gosmactivity
@@ -1359,7 +1347,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		    	.then(transactionCount=>{
 
 		    		if (transactionCount.expensestotal > 0){
-		           		
+
 						projectProposalModel.getProjectProposal(dbParam)
 						.then(data=>{
 
@@ -1406,7 +1394,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 						}).catch(error=>{
 							console.log(error);
-						});	
+						});
 
 		        	}
 		        	else{
@@ -1423,7 +1411,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		},
 
 		submitPreactsDirectPayment: (req, res) => {
-			logger.debug('submitPreactsDirectPayment()', log_options);
+			logger.info('call submitPreactsDirectPayment()', log_options);
 
 			var dir3 = __dirname + '/../assets/upload/';
             var dir3 = path.join(__dirname, '..', 'assets', 'upload');
@@ -1468,7 +1456,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
             	  //TEMP SAVING FILEs
             	console.log("FQ ")
 
-            	
+
 	            var date = cuid();
 	            var nFilename = req.files['fq'].name.split('.').pop();
 	            dbParam["fqfn"] = date + '.' + nFilename;
@@ -1482,12 +1470,12 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 	            })
 	            console.log("FRF ")
 	            if(req.files['frf'] != undefined){
-	            	
+
 		            var date2 = cuid();
 		            var nFilename2 = req.files['frf'].name.split('.').pop();
 		            var p2 = path.normalize(path.join(dir2, date2 + '.' + nFilename2));
 		            dbParam["roffn"] = date2 + '.' + nFilename;
-		            dbParam["roffts"] = req.files['frf'].name.split('.')[0]+'.'+nFilename2	
+		            dbParam["roffts"] = req.files['frf'].name.split('.')[0]+'.'+nFilename2
 		            req.files['frf'].mv(p2,function(err){
 		            	if(err){
 		            		console.log("FRF ERROR")
@@ -1496,14 +1484,14 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		            })
 
 	            }
-	            
+
 	            console.log("ELP ")
 	            if(req.files['elp'] != undefined){
 		            var date3 = cuid();
 		            var nFilename3 = req.files['elp'].name.split('.').pop();
 		            var p3 = path.normalize(path.join(dir2, date3 + '.' + nFilename3));
 		            dbParam["galfn"] = date3 + '.' + nFilename;
-		            dbParam["galfts"] = req.files['elp'].name.split('.')[0]+'.'+nFilename3	
+		            dbParam["galfts"] = req.files['elp'].name.split('.')[0]+'.'+nFilename3
 		            req.files['elp'].mv(p2,function(err){
 		            	if(err){
 		            		console.log("ELP ERROR")
@@ -1512,17 +1500,6 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		            })
 
 	            }
-	            
-
-	            
-	           
-
-
-	            
-                 
-
-
-
 
 	            return financeModel.insertPreActivityDirectPayment(dbParam, transaction).then(data => {
 	            	let query = [];
@@ -1543,9 +1520,9 @@ module.exports = function(configuration, modules, models, database, queryFiles){
                 console.log(err)
             });
 		},
-		
-		createReimbursement: (req, res) => {
 
+		createReimbursement: (req, res) => {
+            logger.info('call createPreactsBookTransfer()', log_options);
 
 			var dbParam = {
 				gosmactivity: req.params.gosmactivity
@@ -1591,7 +1568,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				           	console.log("difference");
 
 							financeModel.getParticulars(param).then(data1=>{
-								
+
 								const renderData = Object.create(null);
 
 								if (diff.days>30){
@@ -1613,7 +1590,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 						}).catch(error=>{
 							console.log(error);
-						});	
+						});
 		        	}
 		        	else{
 	    				return res.render('System/403');
@@ -1629,6 +1606,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		},
 
 		submitReimbursement: (req, res) =>{
+            logger.info('call createPreactsBookTransfer()', log_options);
+
 			var dbParam = {
 				gosmactivity: req.body.gosmactivity,
 				justificationfdpp: req.body.justificationdelay,
@@ -1667,7 +1646,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		},
 
 		createPreactsBookTransfer: (req, res) => {
-
+            logger.info('call createPreactsBookTransfer()', log_options);
 			var dbParam = {
 				gosmactivity: req.params.gosmactivity
 			};
@@ -1694,8 +1673,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 		    		if (transactionCount.expensestotal > 0){
 
-		    			
-		           		
+
+
 						projectProposalModel.getProjectProposal(dbParam).then(data=>{
 
 							var param ={
@@ -1721,7 +1700,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 						}).catch(error=>{
 							console.log(error);
-						});	
+						});
 
 		        	}
 		        	else{
@@ -1735,11 +1714,10 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		    else{
 	    		return res.render('System/403');
 		    }
-
 		},
 
 		submitPreactsBookTransfer: (req, res) =>{
-			logger.debug('submitPreactsBookTransfer()', log_options);
+            logger.info('call submitPreactsBookTransfer()', log_options);
 
 			console.log(req.body);
 
@@ -1779,7 +1757,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		},
 
 		editPreactsCashAdvance: (req, res) =>{
-
+            logger.info('call editPreactsCashAdvance()', log_options);
 			var dbParam = {
 				id: req.params.id
 			};
@@ -1790,7 +1768,6 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 	                            financeModel.getCashAdvanceParticulars(dbParam),
 	                            financeModel.getCashAdvancePendSignatory(dbParam)]);
 			}).then(data=>{
-
 				if (data[0].status == 2 && data[0].submittedBy == req.session.user.idNumber){
 
 					const renderData = Object.create(null);
@@ -1838,21 +1815,19 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			        }).catch(error=>{
 			        	return logger.error(`${error.message}\n${error.stack}`, log_options);
 			        });
-
 				}
 				else{
 	    			return res.render('System/403');
 				}
-				
-
 			}).catch(error=>{
-				console.log(error);
+				logger.error(`${error.message}\n${error.stack}`);
 			});
 
-	    	
+
 		},
 
 		editPreactsDirectPayment: (req, res) =>{
+            logger.info('call editPreactsDirectPayment()', log_options);
 
 	    	var dbParam = {
 				id: req.params.id
@@ -1884,27 +1859,20 @@ module.exports = function(configuration, modules, models, database, queryFiles){
    			        	renderData.justification = true;
    			        }
 
-
-
-		
 		            renderData.csrfToken = req.csrfToken();
-
-
-						return res.render('Finance/Preacts_EditDirectPayment', renderData);
-
+					return res.render('Finance/Preacts_EditDirectPayment', renderData);
 				}
 				else{
 	    			return res.render('System/403');
 				}
-				
-
 			}).catch(error=>{
-				console.log(error);
+				logger.error(`${error.message}: ${error.stack}`, log_options);
 			});
 
 		},
 
 		editPreactsBookTransfer: (req, res) =>{
+            logger.info('call editPreactsBookTransfer()', log_options);
 
 			var dbParam = {
 				id: req.params.id
@@ -1930,7 +1898,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 
 			        console.log(data);
-		
+
 		            renderData.csrfToken = req.csrfToken();
 
 
@@ -1940,16 +1908,14 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				else{
 	    			return res.render('System/403');
 				}
-				
-
 			}).catch(error=>{
-				console.log(error);
+				logger.error(`${error.message}\n${error.stack}`);
 			});
 
 		},
 
 		editReimbursement: (req, res) =>{
-
+            logger.info('call editReimbursement()', log_options);
 			var dbParam = {
 				id: req.params.id
 			};
@@ -1964,6 +1930,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				if (data[0].status == 2 && data[0].submittedby == req.session.user.idNumber){
 
 					const renderData = Object.create(null);
+					renderData.csrfToken = req.csrfToken();
 			        renderData.extra_data = req.extra_data;
 			        renderData.reimbursement = data[0];
 			        renderData.reimbursementParticulars = data[1];
@@ -1971,7 +1938,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			        renderData.gosmactivity = data[0].GOSMActivity;
 
 			        console.log(data);
-		
+
 		            renderData.csrfToken = req.csrfToken();
 
 		            if(data[0].justificationfdpp == null){
@@ -1997,17 +1964,13 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				else{
 	    			return res.render('System/403');
 				}
-				
-
 			}).catch(error=>{
-				console.log(error);
+				logger.error(`${error.message}\n${error.stack}`);
 			});
-
-
 		},
 
 		submitEditCashAdvance: (req, res) =>{
-
+            logger.info('call submitEditCashAdvance()', log_options);
 			console.log(req.body);
 
 			var dbParam = {
@@ -2062,9 +2025,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
                 ]).then(result => {
                     console.log(result);
                 }).catch(err => {
-                    console.log(err);
+                   logger.error(`${error.message}\n${error.stack}`);
                 });
-
 
             	let query = [
             		financeModel.resubmitCashAdvance(dbParam, t),
@@ -2082,18 +2044,14 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
                 return t.batch(query);
             }).then(data => {
-
                 return res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
-
 			}).catch(error=>{
-				console.log(error);
+				logger.error(`${error.message}\n${error.stack}`);
 			});
-
-
-
 		},
 
 		submitEditDirectPayment: (req, res) =>{
+			logger.info('call submitEditDirectPayment()', log_options);
 
 			console.log(req.body);
 
@@ -2109,9 +2067,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				galfts:''
 			};
 
-
-			 
-             var dir3 = __dirname + '/../assets/upload/';
+            var dir3 = __dirname + '/../assets/upload/';
             var dir3 = path.join(__dirname, '..', 'assets', 'upload');
 
             //CHECK IF DIRECTOR EXIST
@@ -2131,12 +2087,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
                 fs.mkdirSync(dir2);
             }
 
-
-
-
 			database.task(t=>{
-
-
 	            var date = cuid();
 	            var nFilename = req.files['fq'].name.split('.').pop();
 	            dbParam["fqfn"] = date + '.' + nFilename;
@@ -2147,57 +2098,51 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 	            		console.log("FQ ERROR")
 	            		return err;
 	            	}
-	            })
+	            });
 	            console.log("FRF ")
 	            if(req.files['frf'] != undefined){
-	            	
+
 		            var date2 = cuid();
 		            var nFilename2 = req.files['frf'].name.split('.').pop();
 		            var p2 = path.normalize(path.join(dir2, date2 + '.' + nFilename2));
 		            dbParam["roffn"] = date2 + '.' + nFilename;
-		            dbParam["roffts"] = req.files['frf'].name.split('.')[0]+'.'+nFilename2	
+		            dbParam["roffts"] = req.files['frf'].name.split('.')[0]+'.'+nFilename2
 		            req.files['frf'].mv(p2,function(err){
 		            	if(err){
 		            		console.log("FRF ERROR")
 		            		return err;
 		            	}
-		            })
-
+		            });
 	            }
-	            
+
 	            console.log("ELP ")
 	            if(req.files['elp'] != undefined){
 		            var date3 = cuid();
 		            var nFilename3 = req.files['elp'].name.split('.').pop();
 		            var p3 = path.normalize(path.join(dir2, date3 + '.' + nFilename3));
 		            dbParam["galfn"] = date3 + '.' + nFilename;
-		            dbParam["galfts"] = req.files['elp'].name.split('.')[0]+'.'+nFilename3	
+		            dbParam["galfts"] = req.files['elp'].name.split('.')[0]+'.'+nFilename3
 		            req.files['elp'].mv(p2,function(err){
 		            	if(err){
 		            		console.log("ELP ERROR")
 		            		return err;
 		            	}
-		            })
-
+		            });
 	            }
-	            
 
 				return t.batch([
 	                financeModel.resubmitDirectPaymentSignatory(dbParam, t),
 	                financeModel.resubmitDirectPayment(dbParam, t)
 				]);
 			}).then(data=>{
-
 				return res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
-
 			}).catch(error=>{
-				console.log(error);
+				logger.error(`${error.message}\n${error.stack}`);
 			});
-
 		},
 
 		submitEditBookTransfer: (req, res) =>{
-
+			logger.info('call submitEditBookTransfer()', log_options);
 			console.log(req.body);
 
 			var dbParam = {
@@ -2212,19 +2157,14 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 	                financeModel.resubmitBookTransfer(dbParam, t)
 				]);
 			}).then(data=>{
-
 				return res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
-
 			}).catch(error=>{
-				console.log(error);
+				logger.error(`${error.message}\n${error.stack}`);
 			});
-
-
 		},
 
 		submitEditReimbursement: (req, res) =>{
-
-			console.log(req.body);
+            logger.info('call submitEditReimbursement()', log_options);
 
 			var dbParam = {
 				id: req.body.id,
@@ -2239,11 +2179,9 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 	                financeModel.resubmitReimbursement(dbParam, t)
 				]);
 			}).then(data=>{
-
 				return res.redirect(`/finance/list/transaction/${req.body.gosmactivity}`);
-
 			}).catch(error=>{
-				console.log(error);
+				logger.error(`${error.message}\n${error.stack}`);
 			});
 
 		}

@@ -16,6 +16,7 @@
     const modal_nature = $('#modal_nature');
     const modal_date = $('#modal_date');
     const modal_comments = $('#modal_txtarea_comments');
+    const modal_activity_name = $('#modal_activity_name');
 
     /* Viewing and updating of each GOSM activity */
     (() => {
@@ -33,11 +34,13 @@
                     if (data.valid) {
                         const activityDetails = data.activityDetails;
                         const projectHeads = data.projectHeads;
+
+                        modal_activity_name.html(activityDetails.strategies);
                         modal_type.html(activityDetails.type);
                         modal_nature.html(activityDetails.nature);
                         modal_date.html(activityDetails.startdate + ' - ' + activityDetails.enddate);
                         modal_comments.val(activityDetails.comments);
-
+ 
                         modal_table.find('.modal_head_row').remove();
 
                         if (projectHeads.length > 0) {
@@ -64,17 +67,6 @@
 
     })();
 
-    /*
-    The wackiest set of symbols that makes sense in javascript
-    #UnopinnionatedCode
-        (() => {
-
-        })();
-    */
-
-    /* 
-        Activity Comments
-    */
     (() => {
         let btnAddComment = document.getElementById('modal_btn_add_comment');
         btnAddComment.addEventListener('click', () => {
@@ -156,19 +148,21 @@
                     text: "Clicking confirm will approve the activity",
                     type: "warning",
                     showCancelButton: true,
-                    confirmButtonColor: "#DD6B55",
+                    buttons: { confirm: true, cancel: true, },
+                    confirmButtonColor: "#00c292",
                     confirmButtonText: "Confirm",
-                    closeOnConfirm: false
-                }, function() {
-                    updateGOSMStatus(3, undefined, () => {
+                    closeOnConfirm: false,
+                    reverseButton:false
+
+                }).then(function(data){
+                     updateGOSMStatus(3, undefined, () => {
                         swal({
-                                title: "Success!",
-                                text: "The activity has been approved",
-                                type: "success"
-                            },
-                            () => {
-                                location.reload(true);
-                            });
+                            title: "Success!",
+                            text: "The activity has been approved",
+                            type: "success"
+                        }).then(data => {
+                            location.reload(true);
+                        });
                     }, () => {
                         swal("Oh oh!", "An error occured", "error");
                     });
@@ -183,24 +177,45 @@
                 swal({
                         title: "Pend Activity",
                         text: "Write your reason for pending the activity:",
-                        type: "input",
+                        // type: "input",
+                        input:'text',
                         showCancelButton: true,
+                        buttons: { confirm: true, cancel: true, },
                         closeOnConfirm: false,
-                        inputPlaceholder: "Input comments"
-                    },
-                    function(inputValue) {
-                        if (inputValue) {
-                            updateGOSMStatus(4, inputValue, () => {
-                                swal('Success!', `you commented: ${inputValue}`, 'success');
-                            }, () => {
-                                swal("Uh oh!", "An error occured", "error");
-                            });
+                        // inputPlaceholder: "Input comments",
+                        reverseButtons: false
+                    }
+                    // ,
+                    // function(inputValue) {
+                    //     if (inputValue) {
+                    //         updateGOSMStatus(4, inputValue, () => {
+                    //             swal('Success!', `you commented: ${inputValue}`, 'success');
+                    //         }, () => {
+                    //             swal("Uh oh!", "An error occured", "error");
+                    //         });
 
-                        } else {
-                            swal.showInputError("You need to write something!");
-                            return false;
-                        }
-                        return true;
+                    //     } else {
+                    //         swal.showInputError("You need to write something!");
+                    //         return false;
+                    //     }
+                    //     return true;
+                    // }
+                    ).then(function(result){
+                          if (result) {
+                                updateGOSMStatus(4, result, () => {
+                                    swal('Success!', `you commented: ${result}`, 'success').then(data => {
+                                        location.reload(true);
+                                    });
+                                }, () => {
+                                    swal("Uh oh!", "An error occured", "error");
+                                });
+
+                            } else {
+                                swal.showInputError("You need to write something!");
+                                return false;
+                            }
+                            return true;
+                        
                     });
             }, false);
         }
@@ -211,15 +226,33 @@
                 swal({
                         title: "Deny Activity",
                         text: "Write your reason for denying the activity:",
-                        type: "input",
+                        // type: "input",
+                        input:'text',
                         showCancelButton: true,
+                        buttons: { confirm: true, cancel: true, },
                         closeOnConfirm: false,
                         inputPlaceholder: "Write something"
-                    },
-                    function(inputValue) {
-                        if (inputValue) {
-                            updateGOSMStatus(5, inputValue, () => {
-                                swal('Success!', `You commented ${inputValue}`, 'success');
+                    }
+                    // ,
+                    // function(inputValue) {
+                    //     if (inputValue) {
+                    //         updateGOSMStatus(5, inputValue, () => {
+                    //             swal('Success!', `You commented ${inputValue}`, 'success');
+                    //         }, () => {
+                    //             swal("Oops", "An error occured", "error");
+                    //         });
+                    //     } else {
+                    //         swal.showInputError("You need to write something!");
+                    //         return false;
+                    //     }
+                    //     return true;
+                    // }
+                    ).then(function(result){
+                        if (result) {
+                            updateGOSMStatus(5, result, () => {
+                                swal('Success!', `You commented ${result}`, 'success').then(data => {
+                                    location.reload(true);
+                                });
                             }, () => {
                                 swal("Oops", "An error occured", "error");
                             });
@@ -233,3 +266,5 @@
         }
     })();
 })();
+
+

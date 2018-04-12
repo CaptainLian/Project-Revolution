@@ -4,6 +4,8 @@
     });
 })();
 
+$("#yes").click();
+
 var con = $(document.createElement('div')).addClass("dy-obj");
 var cObj = 0;
 function removeError(){
@@ -34,7 +36,8 @@ $("#objectives-add").click(function() {
     $("#div-after-objectives").after(con);
 
 });
-
+var table = $("#added-act").DataTable()
+$("#comment-table").DataTable()
 $("select").select2();
 
 $("body").on('click', "i.remove", function() {
@@ -43,7 +46,9 @@ $("body").on('click', "i.remove", function() {
 });
 
 $('#date-range').datepicker({
-    toggleActive: true
+    toggleActive: true,
+    startDate: new Date(),
+    endDate: new Date (new Date($("#termend").val()) - (60*60*24*21*1000)  )
 });
 
 
@@ -56,7 +61,7 @@ function clear() {
     $("#targetDateStart").val('');
     $("#targetDateEnd").val('');
     $("#objectives").val('');
-    $('input[name="isRelatedToOrganization"]').prop('checked', false);    
+    // $('input[name="isRelatedToOrganization"]').prop('checked', false);    
     $("#personInCharge").val('').trigger('change');
     $("#budget").val('');
 }
@@ -208,6 +213,40 @@ $("#edit-gosm").click(function() {
                     $("#edit-gosm").css("display", "none");
                     $("#cancel-gosm").css("display", "none");
                 });
+                table.row(currentNode).remove().draw();
+                var tr = 
+                    '<a  data-toggle="tooltip" data-original-title="Details"> ' +
+                    '<i db-id="' + currentID + '"  class="fa fa-eye text-inverse m-r-10"></i> ' +
+                    '</a>' +
+                    '<a data-toggle="tooltip" data-original-title="Edit"> <i db-id="' + currentID + '" class="fa fa-pencil text-inverse m-r-10"></i> </a>' +
+                    '<a  data-toggle="tooltip" data-original-title="Close"> <i db-id="' + currentID + '" class="fa fa-close text-danger"></i> </a>';
+                table.row.add([
+                    targetDateStart + ' - ' + targetDateEnd ,
+                    strategy,
+                    description,
+                    tr
+                    ]).draw();
+
+                $.ajax({
+                    url:'/Organization/AJAX/checkRatio',
+                    type:'POST',                
+                    success:function(data){
+                        var rel = parseInt(data.related)
+                        var nrel = parseInt(data.notrelated)
+                        var rratio = ((rel) / (rel + nrel))*100
+                        var nratio = (nrel / (rel + nrel))*100
+                        rratio = Math.round(rratio)
+                        nratio = Math.round(nratio)
+                        if(isNaN(Math.round(rratio))){
+                            rratio = 0
+                            nratio = 0
+                        }
+                        $("#rel").text(Math.round(rratio))
+                        $("#notrel").text(Math.round(nratio))
+                        $("#rele").text(data.related)
+                        $("#nrele").text(data.notrelated)
+                    }
+                })
                 $.toast({
                     heading: 'Success!',    
                     text:   'Edit is successful.',
@@ -259,7 +298,8 @@ $("#cancel-gosm").click(function() {
 
 
 $(document).on('click', "i.fa-pencil", function() {
-    currentID = $(this).attr('db-id');
+    currentNode = $(this).parents("tr");
+    currentID = $(this).attr("db-id")
     var trRow = $(this).attr("db-id");
     $("html, body").animate({
         scrollTop: 0
@@ -386,6 +426,7 @@ function dNat(val) {
 }
 var currentID = 0;
 var tPencil;
+var currentNode = 0 ;
 
 $(document).on('click', 'i.fa-eye', function() {
     $("#myModal").modal('show');
@@ -469,7 +510,26 @@ $(document).on('click', 'i.fa-close', function() {
                     hideAfter: 3500, 
                     stack: 6
                   });
-                 
+                 $.ajax({
+                    url:'/Organization/AJAX/checkRatio',
+                    type:'POST',                
+                    success:function(data){
+                        var rel = parseInt(data.related)
+                        var nrel = parseInt(data.notrelated)
+                        var rratio = ((rel) / (rel + nrel))*100
+                        var nratio = (nrel / (rel + nrel))*100
+                        rratio = Math.round(rratio)
+                        nratio = Math.round(nratio)
+                        if(isNaN(Math.round(rratio))){
+                            rratio = 0
+                            nratio = 0
+                        }
+                        $("#rel").text(Math.round(rratio))
+                        $("#notrel").text(Math.round(nratio))
+                        $("#rele").text(data.related)
+                        $("#nrele").text(data.notrelated)
+                    }
+                })
 
             } else {
                  $.toast({
@@ -614,20 +674,41 @@ $("#add-gosm").click(function(e) {
                     ctr++;
                 });
 
-                var tr = '<tr>' +
-                    '<td width="5%" class="text-left">' + data + '</td>' +
-                    '<td width="15%" class="td-title text-left" >' + strategy + '</td>' +
-                    '<td width="15%" class="td-title text-left" >' + targetDateStart + ' - ' + targetDateEnd + '</td>' +
-                    '<td width="35%" class="td-title text-left" >' + description + '</td>' +
-                    '<td width="10%" class="text-nowrap text-center">' +
+                var tr = 
                     '<a  data-toggle="tooltip" data-original-title="Details"> ' +
                     '<i db-id="' + data + '"  class="fa fa-eye text-inverse m-r-10"></i> ' +
                     '</a>' +
                     '<a data-toggle="tooltip" data-original-title="Edit"> <i db-id="' + data + '" class="fa fa-pencil text-inverse m-r-10"></i> </a>' +
-                    '<a  data-toggle="tooltip" data-original-title="Close"> <i db-id="' + data + '" class="fa fa-close text-danger"></i> </a>' +
-                    '</td>' +
-                    '</tr>';
-                $("#added-act tbody").append(tr);
+                    '<a  data-toggle="tooltip" data-original-title="Close"> <i db-id="' + data + '" class="fa fa-close text-danger"></i> </a>';
+                table.row.add([
+                    targetDateStart + ' - ' + targetDateEnd ,
+                    strategy,
+                    description,
+                    tr
+                    ]).draw()
+
+                $.ajax({
+                    url:'/Organization/AJAX/checkRatio',
+                    type:'POST',                
+                    success:function(data){
+                        var rel = parseInt(data.related)
+                        var nrel = parseInt(data.notrelated)
+                        var rratio = ((rel) / (rel + nrel))*100
+                        var nratio = (nrel / (rel + nrel))*100
+                        rratio = Math.round(rratio)
+                        nratio = Math.round(nratio)
+                        if(isNaN(Math.round(rratio))){
+                            rratio = 0
+                            nratio = 0
+                        }
+                        $("#rel").text(Math.round(rratio))
+                        $("#notrel").text(Math.round(nratio))
+                        $("#rele").text(data.related)
+                        $("#nrele").text(data.notrelated)
+                    }
+                })
+
+                // $("#added-act tbody").append(tr);
                 // Change Name
                 $("#strategy-name").html(strategy);
                 //Hide Current Toast
@@ -710,7 +791,7 @@ $("#submit-gosm").click(function() {
                         }
                     });
              setTimeout(function(){
-                 window.location.href = '/blank';
+                 window.location.href = '/Organization/ProjectHead/Home';
                   
              }
             , 3000);

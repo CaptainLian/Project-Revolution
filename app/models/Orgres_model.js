@@ -9,7 +9,7 @@ module.exports = function(configuration, modules, database, queryFiles){
 
     const getActivitiesForResearchFormSQL = queryFiles.getActivitiesForResearchForm;
     const getOrganizationsForResearchFormSQL = queryFiles.getOrganizationsForResearchForm;
-    const insertActivityResearchFormSQL = queryFiles.insertActivityResearchForm;
+    
     const getOrgresList = queryFiles.getOrgresList;
     const getOrgresOtherDetails = queryFiles.getOrgresOtherDetails;
     const calculate_peractivity = queryFiles.calculate_peractivity;
@@ -25,6 +25,9 @@ module.exports = function(configuration, modules, database, queryFiles){
     const getAllActivityResearchFormSQL = queryFiles.getAllActivityResearchForm;
     const getAllMemberSurveyFormSQL = queryFiles.getAllMemberSurveyForm;
 
+    const getAllOfficerSurveyFormPerTermSQL = queryFiles.getAllOfficerSurveyFormPerTerm;
+    const getAllActivityResearchFormPerTermSQL = queryFiles.getAllActivityResearchFormPerTerm;
+    const getAllMemberSurveyFormPerTermSQL = queryFiles.getAllMemberSurveyFormPerTerm;
 
 	OrgresModel.getActivitiesForResearchForm = function(connection = database) {
         return connection.any(getActivitiesForResearchFormSQL);
@@ -33,16 +36,26 @@ module.exports = function(configuration, modules, database, queryFiles){
     OrgresModel.getOrganizationsForResearchForm = function(connection = database) {
         return connection.any(getOrganizationsForResearchFormSQL);
     };
-
+    
+    const insertActivityResearchFormSQL = queryFiles.insertActivityResearchForm;
     OrgresModel.insertActivityResearchForm = function(param, connection = database) {
+        logger.info(`call insertActivityResearchForm(${JSON.stringify(param)})`, log_options);
         return connection.none(insertActivityResearchFormSQL, param);
     };
     OrgresModel.idNumbercheck = function(id, orig, connection = database) {
+        logger.info(`call idNumbercheck(id: ${id}, orig: ${orig})`, log_options);
         var query = squel.select()
-        .from('"OrganizationMember"')
-        .where("organization = ?",orig)
-        .where('"idNumber" = ?',id)
-        return connection.one(query.toString());
+            .from('"OrganizationMember"')
+            .where("organization = ${orig}")
+            .where('"idNumber" = ${id}')
+            .toString();
+
+        let param = Object.create(null);
+        param.id = id;
+        param.orig = orig;
+
+        logger.debug(`Executing query: ${query}`, log_options);
+        return connection.one(query, param);
     };
 
     OrgresModel.getOrgresList = function(param, connection = database) {
@@ -89,6 +102,18 @@ module.exports = function(configuration, modules, database, queryFiles){
 
     OrgresModel.getAllMemberSurveyForm = function(connection = database){
         return connection.any(getAllMemberSurveyFormSQL);
+    };
+
+    OrgresModel.getAllOfficerSurveyFormPerTerm = function(param, connection = database){
+        return connection.any(getAllOfficerSurveyFormPerTermSQL, param);
+    };
+
+    OrgresModel.getAllActivityResearchFormPerTerm = function(param, connection = database){
+        return connection.any(getAllActivityResearchFormPerTermSQL, param);
+    };
+
+    OrgresModel.getAllMemberSurveyFormPerTerm = function(param, connection = database){
+        return connection.any(getAllMemberSurveyFormPerTermSQL, param);
     };
 
 	return OrgresModel;

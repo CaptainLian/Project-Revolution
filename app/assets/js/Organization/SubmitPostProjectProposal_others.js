@@ -135,7 +135,7 @@
 
   var fields ='<div class="pic-group col-md-12">' +
                         '<div class="col-md-5 m-b-10 col-sm-12" style="overflow:hidden;"  >'+
-                            '<input style="" type="file" accept=".jpeg, .jpe, .jpg,.png" name="pictures[]" >'+
+                            '<input style="" required="" type="file" accept=".jpeg, .jpe, .jpg,.png" name="pictures[]" >'+
                         '</div>'+
                         '<div class="col-md-5 col-sm-12 m-b-10">'+
                             '<input style="" type="text" placeholder="e.g. Post-group picture of Activity" required="" name="pictureCaption[]" style="box-sizing: border-box;width: 100%" >'+

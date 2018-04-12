@@ -22,6 +22,6 @@ SELECT GA.Strategies as activityname, GA.Budget, SUM(PPRE.quantity*PPRE.unitcost
 				 				  JOIN GOSM G
 				   					ON GA.GOSM=G.ID
 WHERE G.studentorganization=${studentOrganization}
-  AND G.TERMID=system_get_current_term_id()
+  AND G.TERMID=${termID}
 GROUP BY GA.ID, GA.strategies, GA.budget, GA.isrelatedtoorganizationnature;
 

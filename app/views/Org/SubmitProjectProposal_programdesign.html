@@ -3,15 +3,8 @@
 
 {%block page_title%}CSO - Evaluate Activity{%-endblock%}
 
-
-{%block meta%}
-    {{super()}}
-    <meta data-name="csrf" data-token="{{csrfToken}}" />
-{%endblock%}
-
 {%block style%}
 	{{super()}}
-	<!-- Bootstrap Core CSS -->
 	{{tag.style('/plugins/bower_components/jqueryui/jquery-ui.min.css')}}
    	<!-- Bootstrap Core CSS -->
    	{{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
@@ -99,13 +92,7 @@
 	
 {%block defer_script%}
 	{{super()}}
-
-	{{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js')}}
   {{tag.javascript('/plugins/bower_components/jqueryui/jquery-ui.min.js')}}
-	<!-- Bootstrap Core JavaScript -->
-	{{tag.javascript('/bootstrap/dist/js/tether.min.js')}}
-	{{tag.javascript('/bootstrap/dist/js/bootstrap.min.js')}}
-	{{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js')}}
 	<!-- Menu Plugin JavaScript -->
 	{{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js')}}
 	<!--slimscroll JavaScript -->
@@ -137,7 +124,7 @@
   
 	{{tag.javascript('/js/system/AJAX_CSRF.js')}}
   
-  {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.21.0/moment.min.js')}}
+  {{tag.javascript('/js/https/moment.min.js')}}
 	{{tag.javascript('/plugins/bower_components/moment/moment.js')}}
 	{{tag.javascript('/plugins/bower_components/calendar/dist/fullcalendar.min.js')}}
 
@@ -161,7 +148,7 @@
         var calendar  = $('#calendar').fullCalendar({
               height:500,
               defaultView: 'listYear',
-              defaultDate: '2018-03-01',
+              // defaultDate: '2018-03-01',
   		      	editable: false,
               overlap:false,
   		      	selectable: true,
@@ -202,7 +189,7 @@
   			        }
   			    },
   			    header: {
-  			        right: 'listYear agendaWeek month  prev,next',
+  			        right: 'listYear agendaWeek   prev,next',
   			        center: 'title',
   			        left: 'add_event'
   			    },
@@ -230,6 +217,10 @@
         id = {{programDesign.length +1}}
         setSched()
         $("select").select2();
+        $("#inp-date").datepicker({
+          startDate: new Date(),
+          endDate: new Date (new Date("{{termend.dateend}}") - (60*60*24*21*1000)  )
+        })
   			$('#createEventModal').modal({ show: false})
   			
         $('.clockpicker1').clockpicker({
@@ -352,13 +343,15 @@
 
                     ( (end) > (estart) && (end) < (eend) )
                     ||
+                     ( (end) >= (estart) && (end) <= (eend) )
+                    ||
                     ( (start) < (estart) && (end) > (eend) )
                     ||
-                    ( (start) == (estart) && (end) == (eend) )
+                    ( (start) === (estart) && (end) === (eend) )
                     
                 ){
                   console.log("NAGERROR")
-                  pweds = false;
+                  return pweds = false;
                 }
               }
               return pweds;
@@ -587,9 +580,11 @@
                 
               </div>
               <div class="modal-footer">
-                  <button type="button" class="btn btn-white waves-effect" data-dismiss="modal">Close</button>                  
-                  <button type="button" id="delete" class="btn btn-danger delete-event waves-effect waves-light" data-dismiss="modal">Delete</button>
                   <button type="button" id="edit" class="btn btn-warning save-event waves-effect waves-light">Edit</button>
+              
+                  <button type="button" id="delete" class="btn btn-danger delete-event waves-effect waves-light" data-dismiss="modal">Delete</button>
+                  <button type="button" class="btn btn-white waves-effect" data-dismiss="modal">Close</button>              
+
                   
               </div>
           </div>
@@ -610,7 +605,7 @@
 
                   <div class="form-group">
                     <label class="form-control-label"> Date</label>
-                    <div class="input-group date" data-provide="datepicker">
+                    <div class="input-group date">
                         <input type="text" id="inp-date" class="form-control">
                         <div class="input-group-addon">
                             <span class="glyphicon glyphicon-calendar"></span>
@@ -658,9 +653,9 @@
               </div>
             </div>
             <div class="modal-footer">
-                <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
-                <button type="submit" class="btn btn-primary" id="editButton" style="display: none">Edit </button>
                 <button type="submit" class="btn btn-primary" id="submitButton">Add </button>
+                <button type="submit" class="btn btn-primary" id="editButton" style="display: none">Edit </button>
+                <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
             </div>
         </div>
     </div>

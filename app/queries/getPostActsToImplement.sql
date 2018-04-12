@@ -8,7 +8,7 @@ SELECT GA.STRATEGIES AS STRATEGIES, PPP.STATUS as STATUS, GA.ID AS ID, TO_CHAR(P
  WHERE GAP.IDNUMBER = ${idNumber}
 
    AND PP.status = 3
-
+   AND PP.actualdatestart < NOW()
    AND  PPP."GOSMActivity" IN (SELECT GA.ID 
    				  FROM GOSMACTIVITY GA JOIN GOSM G
    				    					 ON  GA.GOSM = G.ID   				 

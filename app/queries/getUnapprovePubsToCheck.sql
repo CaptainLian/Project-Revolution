@@ -3,5 +3,7 @@
   							      ON AP."GOSMActivity" = PP.GOSMACTIVITY
   							    JOIN GOSMACTIVITY GA
  								  ON PP.GOSMACTIVITY = GA.ID
-   WHERE AP."status" = 0
+ 								JOIN GOSM G
+ 								  ON GA.GOSM = G.ID
+   WHERE AP."status" = 0 AND  G.TERMID = system_get_current_term_id()
 GROUP BY 1,2,3,5

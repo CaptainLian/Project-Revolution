@@ -244,6 +244,14 @@ module.exports = function(configuration, modules, db, queryFiles) {
         return connection.any(query);
     };
 
+    ProjectProposalModel.prototype.getLatestVersionAttachment = function(pprid, connection = this._db){
+        let query = squel.select()
+        .from('ProjectProposalAttachment')
+        .where('projectProposal = ?', pprid)    
+        .field('MAX(sequence) as latest')            
+        return connection.any(query.toString());
+        
+    };
     ProjectProposalModel.prototype.getProjectProposalProgramDesign = function(id, fields, connection = this._db){
         let query = squel.select()
         .from('ProjectProposalProgramDesign', 'pppd')
@@ -320,6 +328,43 @@ module.exports = function(configuration, modules, db, queryFiles) {
         let param = Object.create(null);
         param.id = id;
         return connection.any(query, param);
+    };
+    ProjectProposalModel.prototype.updateVenueAttachmentRequest = function(id,filename, filenameToShow, idNumber, connection = this._db){
+        let query = squel.update()
+        .table("projectProposal")
+        .set("venueFilename",filename)
+        .set("venueFilenameToShow",filenameToShow)
+        .set("venueCreated", idNumber)        
+        .where("ID = ?",id)
+        
+        
+        return connection.any(query.toString());
+    };
+     ProjectProposalModel.prototype.updateVenueAttachment = function(id, connection = this._db){
+        let query = squel.update()
+        .table("ProjectProposalAttachment")
+        .set("filename", squel.select()
+                              .from("PROJECTPROPOSAL")
+                              .field("venueFilename")
+                              .where("ID = ?",id))
+        .set("filenameToShow", squel.select()
+                              .from("PROJECTPROPOSAL")
+                              .field("venueFilenameToShow")
+                              .where("ID = ?",id))
+        .set("idNumber",  squel.select()
+                              .from("PROJECTPROPOSAL")
+                              .field("venueCreated")
+                              .where("ID = ?",id))
+        .where("SEQUENCE = ?", squel.select()
+                              .from("ProjectProposalAttachment")
+                              .where("PROJECTPROPOSAL = ?",id)
+                              .where("requirement = 3")
+                              .field("MAX(SEQUENCE)"))
+        .where("requirement = 3")
+        .where("PROJECTPROPOSAL = ?",id)
+        
+        console.log(query.toString())
+        return connection.any(query.toString());
     };
 
 
@@ -449,11 +494,14 @@ module.exports = function(configuration, modules, db, queryFiles) {
                         .left_join('GOSMACTIVITY','GA',' G.ID = GA.GOSM')
                         .left_join('PROJECTPROPOSAL','PP',' GA.ID = PP.GOSMACTIVITY')
 
+                        // .left_join(squel.select().from("ProjectProposalAttachment").field("MAX(SEQUENCE)").field("*").where('REQUIREMENT = 3').group("PROJECTPROPOSAL").group("ID"),'PPA',' PP.ID = PPA.projectProposal')                        
                         .left_join('PROJECTPROPOSALRESCHEDULEREASON','PPRR',' PP.RESCHEDULEREASON = PPRR.ID')
-
+                                                   
                         .where('G.termID = ?',squel.str('system_get_current_term_id()'))
-                        .where('PP.STATUS = 6')                                
-        query = query.toString();        
+                        .where('PP.STATUS = 6')               
+                        
+        query = query.toString();    
+        console.log(query)
         return connection.any(query);
     };
 
@@ -713,8 +761,8 @@ module.exports = function(configuration, modules, db, queryFiles) {
         return connection.oneOrNone(getGOSMCountPerOrgSQL, param);
     };
 
-    ProjectProposalModel.prototype.getApprovedActivities = function(connection = this._db){
-        return connection.any(getApprovedActivitiesSQL);
+    ProjectProposalModel.prototype.getApprovedActivities = function(param, connection = this._db){
+        return connection.any(getApprovedActivitiesSQL, param);
     };
 
     const getOrganizationFundsAndExpenseSQL = queryFiles.getOrganizationFundsAndExpense;
@@ -726,6 +774,11 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const getAllProjectProposalSQL = queryFiles.getAllProjectProposal;
     ProjectProposalModel.prototype.getAllProjectProposal = function(connection = this._db){
         return connection.any(getAllProjectProposalSQL);
+    };
+
+    const getAllProjectProposalPerTermSQL = queryFiles.getAllProjectProposalPerTerm;
+    ProjectProposalModel.prototype.getAllProjectProposalPerTerm = function(param, connection = this._db){
+        return connection.any(getAllProjectProposalPerTermSQL, param);
     };
 
     const getNextPPRSignatorySQL = queryFiles.getNextPPRSignatory;

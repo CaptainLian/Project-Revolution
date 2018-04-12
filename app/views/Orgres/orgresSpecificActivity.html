@@ -3,21 +3,13 @@
 
 {%block page_title%}ORGRES - Review{%-endblock%}
 
-{%block meta%}
-    {{super()}}
-    <meta data-name="csrf" data-token="{{csrfToken}}" />
-{%endblock%}
-
 {%block style%}
     {{super()}}
     <!-- Bootstrap Core CSS -->
-    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
-    {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
     {{tag.style('/plugins/bower_components/datatables/jquery.dataTables.min.css')}}
     {{tag.style('/plugins/bower_components/nestable/nestable.css')}}
     {{tag.style('https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css')}}
     {{tag.style('https://cdnjs.cloudflare.com/ajax/libs/nestable2/1.5.0/jquery.nestable.min.CSS')}}
-
     <!-- Menu CSS -->
     {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
     <!-- animation CSS -->
@@ -62,12 +54,6 @@
 
 {%block defer_script%}
     {{super()}}
-    <!-- jQuery -->
-    {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
-    <!-- Bootstrap Core JavaScript -->
-    {{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
-    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}}
-    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
     <!-- Menu Plugin JavaScript -->
     {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
     <!--slimscroll JavaScript -->
@@ -99,6 +85,7 @@
     <!-- Page Scripts -->
     {{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
     {{tag.javascript('/js/APS/ActivityChecking.js', true)}}
+    {{tag.javascript('/js/Organization/orgspecificactivity.js', true)}}
     <!-- /Page Scripts -->
 {%endblock%}
 
@@ -173,7 +160,8 @@
                                 </nav>
                                 <div class="content-wrap text-center">
                                     <section id="section-linebox-1">
-                                      
+                                    <label>Legend: </label>
+                                      <label><strong>SD:</strong> Strongly Disagree, <strong>D:</strong> Disagree, <strong>N:</strong>Neutral, <strong>D:</strong>Agree, <strong>SA:</strong> Strongly Agree</label>
                                         <div class="white-box text-left">
                                                 
                                               <!--   <p class="text-center"><strong>Legend:</strong></p>
@@ -186,108 +174,216 @@
                                                     1 - Strongly Disagree
                                                 </p> -->
 
-                                                
-                                                
-                                                
-        
                                                 <div class="table-responsive">
                                                     <table class="table table-borderless">
                                                             <thead>
-                                                                <tr><th>Construct</th>
-                                                                <th>Average Grade</th>
-                                                                
-                                                            </tr></thead>
-                                                            <tbody>
-                                                                
-                                                                <tr>
-                                                                    <th>I understood the purpose of the activity</th>
-                                                                    <td class="text-center">
-                                                                    	{%if (scores.first | round) == 5%}
-	                                                                    	Strongly Agree  
-                                                                    	{%elif (scores.first | round) == 4%}
-                                                                    		Agree
-                                                                    	{%elif (scores.first | round) == 3%}
-                                                                    	 Neutral
-                                                                    	{%elif (scores.first | round) == 2%}
-                                                                    	Disagree
-                                                                    	{%elif (scores.first | round) == 1%}
-                                                                    	Strongly Disagree
-                                                                    	
-                                                                    	{%endif%}
-
-                                                                    </td>
-                                                                </tr>
-                                                                
-                                                                <tr>
-                                                                    <th>The activity served my interest</th>
-                                                                    <td class="text-center">
-                                                                    	{%if (scores.second | round) == 5%}
-	                                                                    	Strongly Agree  
-                                                                    	{%elif (scores.second | round)  == 4%}
-                                                                    		Agree
-                                                                    	{%elif (scores.second | round)  == 3%}
-                                                                    	 Neutral
-                                                                    	{%elif (scores.second | round)  == 2%}
-                                                                    	Disagree
-                                                                    	{%elif (scores.second | round(1))  == 1%}
-                                                                    	Strongly Disagree
-                                                                    	
-                                                                    	{%endif%}
-                                                                    </td>
+                                                                    <th>Construct</th>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td></td>
                                                                     
-                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                               
                                                                 <tr>
-                                                                    <th>The activity made me happy and satisfied</th>
+                                                                    <th>
+                                                                        I understood the purpose of the activity<br>
+                                                                   
+                                                                        Average:{{fave| round(2) }} 
+                                                                        {%if fave| round() == 1 %}
+                                                                            (Strongly Disagree)
+                                                                        {%elif  fave| round() == 2%}
+                                                                            (Disagree)
+                                                                        {%elif  fave| round() == 3%}
+                                                                            (Neutral)
+                                                                        {%elif  fave| round() == 4%}
+                                                                            (Agree)
+                                                                        {%elif  fave| round() == 5%}
+                                                                            (Strongly Agree)
+                                                                        {%endif%}
+                                                                        
+
+                                                                    </th>
+                                                                   
                                                                     <td class="text-center">
-                                                                    	{%if (scores.third | round) == 5%}
-	                                                                    	Strongly Agree  
-                                                                    	{%elif (scores.third | round) == 4%}
-                                                                    		Agree
-                                                                    	{%elif (scores.third | round) == 3%}
-                                                                    	 Neutral
-                                                                    	{%elif (scores.third | round) == 2%}
-                                                                    	Disagree
-                                                                    	{%elif (scores.third | round) == 1%}
-                                                                    	Strongly Disagree
-                                                                    	
-                                                                    	{%endif%}
+                                                                        <td><strong>SD:</strong>{{first[0]}}</td>
+                                                                        <td><strong>D:</strong>{{first[1]}}</td>
+                                                                        <td><strong>N:</strong>{{first[2]}}</td>
+                                                                        <td><strong>A:</strong>{{first[3]}}</td>
+                                                                        <td><strong>SA:</strong>{{first[4]}}</td>
+                                                                
+                                                                    </td>
+                                                                </tr>
+                                                                
+                                                                
+                                                                
+                                                                <tr>
+                                                                    <th>
+                                                                        The activity served my interest<br>
+                                                                       
+
+                                                                        Average:{{save| round(2) }} 
+                                                                        {%if save| round() == 1 %}
+                                                                            (Strongly Disagree)
+                                                                        {%elif  save| round() == 2%}
+                                                                            (Disagree)
+                                                                        {%elif  save| round() == 3%}
+                                                                            (Neutral)
+                                                                        {%elif  save| round() == 4%}
+                                                                            (Agree)
+                                                                        {%elif  save| round() == 5%}
+                                                                            (Strongly Agree)
+                                                                        {%endif%}
+                                                                    </th>
+                                                                    <td class="text-center">
+                                                                        <td><strong>SD:</strong>{{second[0]}}</td>
+                                                                        <td><strong>D:</strong>{{second[1]}}</td>
+                                                                        <td><strong>N:</strong>{{second[2]}}</td>
+                                                                        <td><strong>A:</strong>{{second[3]}}</td>
+                                                                        <td><strong>SA:</strong>{{second[4]}}</td>
+                                                                      
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <th>I felt involved during the activity</th>
+                                                                    <th>
+                                                                        I felt involved during the activity.<br>
+                                                                        
+                                                                        Average:{{tave| round(2) }} 
+                                                                        {%if tave| round() == 1 %}
+                                                                            (Strongly Disagree)
+                                                                        {%elif  tave| round() == 2%}
+                                                                            (Disagree)
+                                                                        {%elif  tave| round() == 3%}
+                                                                            (Neutral)
+                                                                        {%elif  tave| round() == 4%}
+                                                                            (Agree)
+                                                                        {%elif  tave| round() == 5%}
+                                                                            (Strongly Agree)
+                                                                        {%endif%}
+                                                                    </th>
                                                                     <td class="text-center">
-                                                                    	{%if (scores.fourth | round) == 5%}
-	                                                                    	Strongly Agree  
-                                                                    	{%elif (scores.fourth | round) == 4%}
-                                                                    		Agree
-                                                                    	{%elif (scores.fourth | round) == 3%}
-                                                                    	 Neutral
-                                                                    	{%elif (scores.fourth | round) == 2%}
-                                                                    	Disagree
-                                                                    	{%elif (scores.fourth | round) == 1%}
-                                                                    	Strongly Disagree
-                                                                    	
-                                                                    	{%endif%}
+                                                                       <td><strong>SD:</strong>{{third[0]}}</td>
+                                                                        <td><strong>D:</strong>{{third[1]}}</td>
+                                                                        <td><strong>N:</strong>{{third[2]}}</td>
+                                                                        <td><strong>A:</strong>{{third[3]}}</td>
+                                                                        <td><strong>SA:</strong>{{third[4]}}</td>
+                                                                       
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>The activity was well-publicized.<br>
+                                                                        
+                                                                        
+
+                                                                        Average:{{ffave| round(2) }} 
+                                                                        {%if ffave| round() == 1 %}
+                                                                            (Strongly Disagree)
+                                                                        {%elif  ffave| round() == 2%}
+                                                                            (Disagree)
+                                                                        {%elif  ffave| round() == 3%}
+                                                                            (Neutral)
+                                                                        {%elif  ffave| round() == 4%}
+                                                                            (Agree)
+                                                                        {%elif  ffave| round() == 5%}
+                                                                            (Strongly Agree)
+                                                                        {%endif%}
+
+                                                                    </th>
+                                                                    <td class="text-center">
+                                                                        <td><strong>SD:</strong>{{fourth[0]}}</td>
+                                                                        <td><strong>D:</strong>{{fourth[1]}}</td>
+                                                                        <td><strong>N:</strong>{{fourth[2]}}</td>
+                                                                        <td><strong>A:</strong>{{fourth[3]}}</td>
+                                                                        <td><strong>SA:</strong>{{fourth[4]}}</td>
                                                                     </td>
                                                                 </tr>
                                                                <tr>
-                                                                    <th>I felt involved during the activity</th>
+                                                                    <th>The organization urged me to go to this activity.<br>
+                                                                        Average:{{fffave | round(2)}}
+
+
+                                                                          
+                                                                        {%if fffave| round() == 1 %}
+                                                                            (Strongly Disagree)
+                                                                        {%elif  fffave| round() == 2%}
+                                                                            (Disagree)
+                                                                        {%elif  fffave| round() == 3%}
+                                                                            (Neutral)
+                                                                        {%elif  fffave| round() == 4%}
+                                                                            (Agree)
+                                                                        {%elif  fffave| round() == 5%}
+                                                                            (Strongly Agree)
+                                                                        {%endif%}
+                                                                    </th>
                                                                     <td class="text-center">
-                                                                    	{%if (scores.fifth | round) == 5%}
-	                                                                    	Strongly Agree  
-                                                                    	{%elif (scores.fifth | round) == 4%}
-                                                                    		Agree
-                                                                    	{%elif (scores.fifth | round) == 3%}
-                                                                    	 Neutral
-                                                                    	{%elif (scores.fifth | round) == 2%}
-                                                                    	Disagree
-                                                                    	{%elif (scores.fifth | round) == 1%}
-                                                                    	Strongly Disagree
-                                                                    	
-                                                                    	{%endif%}
+                                                                        <td><strong>SD:</strong>{{fifth[0]}}</td>
+                                                                        <td><strong>D:</strong>{{fifth[1]}}</td>
+                                                                        <td><strong>N:</strong>{{fifth[2]}}</td>
+                                                                        <td><strong>A:</strong>{{fifth[3]}}</td>
+                                                                        <td><strong>SA:</strong>{{fifth[4]}}</td>
+                                                                        
                                                                     </td>
                                                                 </tr>
-                                                            
+                                                                
+
+                                                                <tr>
+                                                                    <th>The activity was memorable for me.<br>
+                                                                        Average:{{ssave | round(2)}} 
+
+
+                                                                          
+                                                                        {%if ssave| round() == 1 %}
+                                                                            (Strongly Disagree)
+                                                                        {%elif  ssave| round() == 2%}
+                                                                            (Disagree)
+                                                                        {%elif  ssave| round() == 3%}
+                                                                            (Neutral)
+                                                                        {%elif  ssave| round() == 4%}
+                                                                            (Agree)
+                                                                        {%elif  ssave| round() == 5%}
+                                                                            (Strongly Agree)
+                                                                        {%endif%}
+                                                                    </th>
+                                                                    <td class="text-center">
+                                                                        <td><strong>SD:</strong>{{sixth[0]}}</td>
+                                                                        <td><strong>D:</strong>{{sixth[1]}}</td>
+                                                                        <td><strong>N:</strong>{{sixth[2]}}</td>
+                                                                        <td><strong>A:</strong>{{sixth[3]}}</td>
+                                                                        <td><strong>SA:</strong>{{sixth[4]}}</td>
+                                                                        
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>The activity made me appreaciate the organization more.<br>
+                                                                        Average:{{sssave | round(2)}}  
+
+                                                                          
+                                                                           
+                                                                        {%if sssave| round() == 1 %}
+                                                                            (Strongly Disagree)
+                                                                        {%elif  sssave| round() == 2%}
+                                                                            (Disagree)
+                                                                        {%elif  sssave| round() == 3%}
+                                                                            (Neutral)
+                                                                        {%elif  sssave| round() == 4%}
+                                                                            (Agree)
+                                                                        {%elif  sssave| round() == 5%}
+                                                                            (Strongly Agree)
+                                                                        {%endif%}
+                                                                    </th>
+                                                                    <td class="text-center">
+                                                                        <td><strong>SD:</strong>{{seventh[0]}}</td>
+                                                                        <td><strong>D:</strong>{{seventh[1]}}</td>
+                                                                        <td><strong>N:</strong>{{seventh[2]}}</td>
+                                                                        <td><strong>A:</strong>{{seventh[3]}}</td>
+                                                                        <td><strong>SA:</strong>{{seventh[4]}}</td>
+                                                                        
+                                                                    </td>
+                                                                    
+                                                                </tr>
                                                             </tbody>
                                                     </table>
 
@@ -298,77 +394,61 @@
                                     </section>
                                     <section id="section-linebox-2 text-left">
                                         <div class="white-box">
-                                             <p><strong>Officers</strong></p>
-                                             {%for oth in others%}
-                                             	{%if oth.positionInOrganization == 0%}
-                                             		<dd>{{oth.WWWITA}}</dd>
-                                             	{%endif%}
-                                             {%endfor%}
-                                             
-
-                                             <p><strong>Members</strong></p>
-                                             {%for oth in others%}
-                                             	{%if oth.positionInOrganization == 1%}
-                                             		<dd>{{oth.WWWITA}}</dd>
-                                             	{%endif%}
-                                             {%endfor%}
-                                             
-                                             <p><strong>Non-Members</strong></p>
-                                             {%for oth in others%}
-                                             	{%if oth.positionInOrganization == 2%}
-                                             		<dd>{{oth.WWWITA}}</dd>
-                                             	{%endif%}
-                                             {%endfor%}
+                                             <table class="table table-hover" id="wellTable">
+                                                 <thead>
+                                                     <tr>
+                                                         <th>What went well in the activity</th>
+                                                     </tr>
+                                                 </thead>
+                                                 <tbody>
+                                                     {%for oth in others%}
+                                                        <tr>
+                                                            <td>{{oth.WWWITA}}</td>
+                                                        </tr>
+                                                     {%endfor%}
+                                                 </tbody>
+                                             </table>
+                                              
                                         </div>
                                     </section>
                                     
                                     <section id="section-linebox-3">
                                         <div class="white-box">
-                                             <p><strong>Officers</strong></p>
-                                            {%for oth in others%}
-                                             	{%if oth.positionInOrganization == 0%}
-                                             		<dd>{{oth.FAC}}</dd>
-                                             	{%endif%}
-                                             {%endfor%}
-
-                                             <p><strong>Members</strong></p>
-                                             {%for oth in others%}
-                                             	{%if oth.positionInOrganization == 1%}
-                                             		<dd>{{oth.FAC}}</dd>
-                                             	{%endif%}
-                                             {%endfor%}
-                                             
-                                             <p><strong>Non-Members</strong></p>
-                                            {%for oth in others%}
-                                             	{%if oth.positionInOrganization == 2%}
-                                             		<dd>{{oth.FAC}}</dd>
-                                             	{%endif%}
-                                             {%endfor%}
+                                            <table class="table table-hover" id="futureTable">
+                                                 <thead>
+                                                     <tr>
+                                                         <th>Future expectations from the participants</th>
+                                                     </tr>
+                                                 </thead>
+                                                 <tbody>
+                                                      {%for oth in others%}
+                                                        <tr>
+                                                            <td>{{oth.FAC}}</td>
+                                                        </tr>
+                                                     {%endfor%}
+                                                 </tbody>
+                                             </table>
+                                            
                                         </div>
                                     </section>
                                     
                                     <section id="section-linebox-5">
                                          <div class="white-box">
-                                                 <p><strong>Officers</strong></p>
-                                                {%for oth in others%}
-	                                             	{%if oth.positionInOrganization == 0%}
-	                                             		<dd>{{oth.EFFA}}</dd>
-	                                             	{%endif%}
-	                                             {%endfor%}
-
-                                                 <p><strong>Members</strong></p>
-                                                  {%for oth in others%}
-	                                             	{%if oth.positionInOrganization == 1%}
-	                                             		<dd>{{oth.EFFA}}</dd>
-	                                             	{%endif%}
-	                                             {%endfor%}
-
-                                                 <p><strong>Non-Members</strong></p>
-                                                 {%for oth in others%}
-	                                             	{%if oth.positionInOrganization == 2%}
-	                                             		<dd>{{oth.EFFA}}</dd>
-	                                             	{%endif%}
-	                                             {%endfor%}
+                                            <table class="table table-hover" id="commentsTable">
+                                                 <thead>
+                                                     <tr>
+                                                         <th>Comments from the participants</th>
+                                                     </tr>
+                                                 </thead>
+                                                 <tbody>
+                                                      {%for oth in others%}
+                                                        <tr>
+                                                            <td>{{oth.EFFA}}</td>
+                                                        </tr>
+                                                     {%endfor%}
+                                                 </tbody>
+                                             </table>
+                                              
                                             </div>
                                     </section>
                                     

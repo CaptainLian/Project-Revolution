@@ -255,6 +255,54 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             });
         });
     };
+    
+    SystemController.getAccountNotifications = (req, res) => {
+        //logger.info('call getAccountNotifications()', log_options);
+
+        //logger.debug(`body: ${JSON.stringify(req.body)}\nparam: ${JSON.stringify(req.params)}\nquery: ${JSON.stringify(req.query)}`, log_options);
+        
+        let minSequence = (typeof req.query.minSequence !== 'undefined' && req.query.minSequence !== 'null' && req.query.minSequence ) ? req.query.minSequence : 0;
+        return accountModel.getNotifications(
+            req.session.user.idNumber, 
+            minSequence, [
+            '"id"',
+            '"sequence"',
+            'to_char("date", \'Mon DD, YYYY HH12:MI AM\') AS "displayDate"',
+            '"title"', 
+            '"description"',
+            'extract(epoch from "date") AS "rawDate"',
+            '"status"'
+        ]).then(notifications => {
+            let response = (notifications && Array.isArray(notifications)) ? notifications : [];
+
+            //logger.debug(`Response: ${JSON.stringify(response)}`, log_options);
+            return res.json(response);
+        }).catch(error => {
+            res.status(500);
+            res.send();
+            return logger.error(`${error.message}: ${error.stack}`, log_options);
+        });
+    };
+
+    SystemController.viewNotifications = (req, res) => {
+        //logger.info('call viewNotifications()', log_options);
+        
+        //logger.debug(`body: ${JSON.stringify(req.body)}\nparam: ${JSON.stringify(req.params)}\nquery: ${JSON.stringify(req.query)}`, log_options);
+
+        return accountModel.updateNotifications(
+            req.session.user.idNumber,
+            req.body.maxSequence
+        ).then(() => {
+            return res.json({
+                success: true,
+                valid: true
+            });
+        }).catch(error => {
+            res.status(500);
+            res.send();
+            return logger.error(`${error.message}: ${error.stack}`, log_options);
+        });
+    };
 
     return SystemController;
 };

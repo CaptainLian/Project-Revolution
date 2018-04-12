@@ -3,12 +3,9 @@
 
 {%block page_title%}CSO - View Rescheduled Activities{%-endblock%}
 
-
 {%block style%}
     {{super()}}
     <!-- Bootstrap Core CSS -->
-    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
-    {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
     {{tag.style('/plugins/bower_components/datatables/jquery.dataTables.min.css')}}
     {{tag.style('/plugins/bower_components/nestable/nestable.css')}}
     <!-- Menu CSS -->
@@ -20,7 +17,6 @@
     <!-- Custom CSS -->
     {{tag.style('/plugins/bower_components/custom-select/custom-select.css')}}
     {{tag.style('/plugins/bower_components/bootstrap-select/bootstrap-select.min.css')}}
-
     {{tag.style('/css/style.css')}}
     {{tag.style('/css/doms.css')}}
     {{tag.style('/css/custom.css')}}
@@ -37,15 +33,9 @@
 
 {%block defer_script%}
     {{super()}}
-    <!-- jQuery -->
-    {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
     <!-- Bootstrap Core JavaScript -->
     {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
-    {{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
-    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}}
-    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
     {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js', true)}}
-
     <!-- Menu Plugin JavaScript -->
     {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
     <!--slimscroll JavaScript -->
@@ -56,8 +46,7 @@
     {{tag.javascript('/js/custom.min.js', true)}}
     {{tag.javascript('/js/cbpFWTabs.js', true)}}
     <!-- tabs-->
-    
-   {{tag.javascript('/js/APS/rescheduleChecking.js', true)}}
+    {{tag.javascript('/js/APS/rescheduleChecking.js', true)}}
 {%endblock%}
 
 {%block content%}
@@ -100,24 +89,52 @@
                     <tbody>  
 
                         {% for organization in studentorganizations %}
+                            {% set hasgosm = false %}
+
                             {% for gosm in allGosm %}
                                 {% if gosm.organizationid == organization.id %}
+
+                                    {% set hasgosm = true %}
                                     <tr>
                                       <td class="text-center">{{organization.name}}</td>
                                       <td class="text-center">
                                           <a href="/ADM/viewCalendar/{{organization.id}}" data-toggle="tooltip" data-original-title="View Calendar">
                                             <i class="fa fa-calendar m-r-10"></i>
                                           </a>
+
                                           <a href="/Organization/viewGOSMDetails/{{gosm.gosmid}}" data-toggle="tooltip" data-original-title="View GOSM">
                                             <i class="fa fa-list m-r-10"></i>
+
+                                
                                           </a>
-                                          <a href="/Organization/report/{{organization.id}}" data-toggle="tooltip" data-original-title="View Grade">
+                                          <a href="/Organization/viewGradeList/{{organization.id}}" data-toggle="tooltip" data-original-title="View Grade">
                                             <i class="fa fa-star m-r-10"></i>
                                           </a>
                                       </td>
                                     </tr>
                                 {% endif %}
                             {% endfor %}
+
+                            {% if hasgosm == false %}
+
+                                    <tr>
+                                      <td class="text-center">{{organization.name}}</td>
+                                      <td class="text-center">
+                                          <a href="/ADM/viewCalendar/{{organization.id}}" data-toggle="tooltip" data-original-title="View Calendar">
+                                            <i class="fa fa-calendar m-r-10"></i>
+                                          </a>
+
+                                            <a data-toggle="tooltip" data-original-title="View GOSM">
+                                            <i class="fa fa-list m-r-10 font-gray"></i>
+                                
+                                          </a>
+                                          <a href="/Organization/viewGradeList/{{organization.id}}" data-toggle="tooltip" data-original-title="View Grade">
+                                            <i class="fa fa-star m-r-10"></i>
+                                          </a>
+                                      </td>
+                                    </tr>
+
+                            {% endif %}
                         {% endfor %}                      
                         
                     </tbody>

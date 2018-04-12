@@ -1,22 +1,12 @@
-{% extends "./Organization_master.html" %}
+{% extends '../template/CSO_master.html' %}
 {% import '../template/tags_macro.html' as tag%}
-
-{%block meta%}
-    {{super()}}
-    <meta data-name="csrf" data-token="{{csrfToken}}" />
-{%endblock%}
 
 {%block style%}
     {{super()}}
-
-    <!-- Bootstrap Core CSS -->
-    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
-    {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
     <!-- Menu CSS -->
     {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
     {{tag.style('/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css')}}
     {{tag.style('/plugins/bower_components/jquery-wizard-master/css/wizard.css')}}
-
     {{tag.style('/plugins/bower_components/sweetalert/sweetalert.css')}}
     {{tag.style('/plugins/bower_components/lobipanel/dist/css/lobipanel.min.css')}}
     {{tag.style('/plugins/bower_components/custom-select/custom-select.css')}}
@@ -24,6 +14,8 @@
     <!-- Animation CSS -->
     {{tag.style('/css/animate.css')}}
     <!-- Custom CSS -->
+    {{tag.style('/plugins/bower_components/datatables/jquery.dataTables.min.css')}}
+    {{tag.style('http://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css')}}
     {{tag.style('/css/style.css')}}
     <!-- {{tag.style('/css/styleCustom.css')}} -->
     {{tag.style('/plugins/bower_components/jqueryui/jquery-ui.min.css')}}
@@ -32,7 +24,6 @@
     <!-- We have chosen the skin-blue (blue.css) for this starter
           page. However, you can choose any other skin from folder css / colors .
     -->
-
     {{tag.style('/css/colors/default.css')}}
     {{tag.style('/css/weeds.css')}}
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -54,13 +45,7 @@
 
 {%block defer_script%}
     {{super()}}
-    <!-- jQuery -->
-    {{- tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
     {{- tag.javascript('/plugins/bower_components/jqueryui/jquery-ui.min.js', true)}}
-    <!-- Bootstrap Core JavaScript -->
-    {{- tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
-    {{- tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}}
-    {{- tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
     <!-- Menu Plugin JavaScript -->
     {{- tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
     <!--slimscroll JavaScript -->
@@ -74,10 +59,10 @@
     {{- tag.javascript('/plugins/bower_components/jquery-wizard-master/dist/jquery-wizard.min.js', true)}}
     {{- tag.javascript('/js/cbpFWTabs.js', true)}}
     {{- tag.javascript('/js/jasny-bootstrap.js', true)}}
+    {{- tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
     <!--Style Switcher -->
     {{- tag.javascript('/plugins/bower_components/custom-select/custom-select.min.js', true)}}
     {{- tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
-
     {{- tag.javascript('/plugins/bower_components/lobipanel/dist/js/lobipanel.min.js', true)}}
     {{- tag.javascript('/plugins/bower_components/toast-master/js/jquery.toast.js', true)}}
     {{tag.javascript('/js/custom.min.js', true)}}
@@ -89,6 +74,7 @@
 {%endblock%}
 
 {%block content%}
+<input id="termend" type="hidden" value="{{termend.dateend}}">
 <div class="sttabs tabs-style-linebox">
     <nav class="nav-tab-custom">
         <ul>
@@ -220,11 +206,11 @@
 
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group"  style="display: none">
                             <label class="control-label col-md-3">Related to Organization</label>
                             <div class="col-md-9">
                                 <div class="radio-list">
-                                    <label>
+                                    <label id="yes">
                                         <input type="radio" name="isRelatedToOrganization" value="true"> Yes </label>
                                         <label>
                                         <input type="radio"  name="isRelatedToOrganization" value="false" > No </label>
@@ -271,10 +257,10 @@
                     <table id="added-act" class="table table-hover">
                         <thead>
                             <tr>
-                                <th width="5%">#</th>
-                                <th width="15%">Title</th>
-                                <th width="15%">Date</th>
-                                <th width="35%">Description</th>
+                                <th class="text-center" width="15%">Date</th>
+                                <th class="text-center" width="15%">Title</th>
+                                
+                                <th class="text-center" width="35%">Description</th>
                                 <th width="10%" class="text-center">Actions</th>
                                 
                             </tr>
@@ -282,10 +268,10 @@
                         <tbody>
                             {% for activities in gosmActivities %}
                                 <tr>
-                                    <td class="text-left"  >{{loop.index}}</td>
-                                    <td class="text-left td-title" >{{activities.strategies}}</td>
-                                    <td class="text-left td-title" >{{activities.targetdatestart1}} - {{activities.targetdateend1}}</td>
-                                    <td class="text-left td-title" >{{activities.description}}</td>
+                                    <td class="text-center td-title" >{{activities.targetdatestart1}} - {{activities.targetdateend1}}</td>
+                                    <td class="text-center td-title" >{{activities.strategies}}</td>
+                                    
+                                    <td class="text-center td-title" >{{activities.description}}</td>
                                     <td class="text-center text-nowrap">
                                         <a  data-toggle="tooltip" data-original-title="Details"> 
                                             <i db-id="{{activities.gid}}"  class="fa fa-eye text-inverse m-r-10"></i> 
@@ -558,7 +544,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger waves-effect text-left" id="edit">Edit</button>
+                <button type="button" class="btn btn-muted waves-effect text-left" data-dismiss="modal">Close</button>
             </div>
         </div>
         <!-- /.modal-content -->

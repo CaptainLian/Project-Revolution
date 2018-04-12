@@ -3,21 +3,13 @@
 
 {%block page_title%}CSO - Project Proposal{%-endblock%}
 
-{%block meta%}
-    {{super()}}
-    <meta data-name="csrf" data-token="{{csrfToken}}" />
-{%endblock%}
-
 {%block style%}
     {{super()}}
     <!-- Bootstrap Core CSS -->
-    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
-    {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
     {{tag.style('/plugins/bower_components/datatables/jquery.dataTables.min.css')}}
     {{tag.style('/plugins/bower_components/nestable/nestable.css')}}
     {{tag.style('https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css')}}
     {{tag.style('https://cdnjs.cloudflare.com/ajax/libs/nestable2/1.5.0/jquery.nestable.min.CSS')}}
-
     <!-- Menu CSS -->
     {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
     <!-- animation CSS -->
@@ -63,12 +55,6 @@
 
 {%block defer_script%}
     {{super()}}
-    <!-- jQuery -->
-    {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
-    <!-- Bootstrap Core JavaScript -->
-    {{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
-    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}}
-    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
     <!-- Menu Plugin JavaScript -->
     {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
     <!--slimscroll JavaScript -->
@@ -84,7 +70,6 @@
     {{tag.javascript('/plugins/bower_components/sweetalert/sweetalert.min.js', true)}}
     <!--Style Switcher -->
     {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
-
     {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js', true)}}
     {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js', true)}}
     {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js', true)}}
@@ -92,15 +77,12 @@
     {{tag.javascript('https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js', true)}}
     {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js', true)}}
     {{tag.javascript('https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js', true)}}
-    {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js', true)}}
+    {{tag.javascript('/js/https/sweetalert.js', true)}}
     {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/nestable2/1.5.0/jquery.nestable.min.js', true)}}
     {{tag.javascript('/plugins/bower_components/custom-select/custom-select.min.js', true)}}
     {{tag.javascript('/plugins/bower_components/bootstrap-select/bootstrap-select.min.js', true)}}
-
     <!-- Page Scripts -->
-    {{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
     {{tag.javascript('/js/APS/ProjectProposal_sign.js', true)}}
-
     <script type="text/javascript">
         (() => {
             let storage = localStorage || window.localStorage;
@@ -132,14 +114,15 @@
                     {%if status.status != 1 %}
                         {% if showActions %}
                             <div class="col-lg-4 col-sm-4 col-xs-12 text-center">
-                                <button id="reject" class="btn btn-block btn-danger">Reject</button>
+                                <button id="approve" class="btn btn-block   btn-success">Approve</button>
                             </div>
                             <div class="col-lg-4 col-sm-4 col-xs-12 text-center">
                                 <button id="defer" class="btn btn-block  btn-warning">Pend</button>
                             </div>
                             <div class="col-lg-4 col-sm-4 col-xs-12 text-center">
-                                <button id="approve" class="btn btn-block   btn-success">Approve</button>
+                                <button id="reject" class="btn btn-block btn-danger">Reject</button>
                             </div>
+                            
                         {% endif %}
                     {%endif%}
                 </div>

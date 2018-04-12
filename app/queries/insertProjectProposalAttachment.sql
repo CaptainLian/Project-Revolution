@@ -1,3 +1,3 @@
-INSERT INTO PROJECTPROPOSALATTACHMENT (projectProposal,requirement,directory,filename,idNumber,filenametoShow)
-     VALUES (${projectId},${requirement},${dir},${filename},${idNumber},${filenametoShow}) 
+INSERT INTO PROJECTPROPOSALATTACHMENT (projectProposal, sequence,requirement,directory,filename,idNumber,filenametoShow)
+     VALUES (${projectId}, ${sequence},${requirement},${dir},${filename},${idNumber},${filenametoShow}) 
         

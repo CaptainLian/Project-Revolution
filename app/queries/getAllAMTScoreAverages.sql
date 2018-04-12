@@ -1,16 +1,20 @@
-SELECT AVG(venue) as venue, AVG(equipment) as equipment, AVG(materials) as materials,
-       AVG(registration) as registration, AVG(timeend) as timeend, 
-       AVG(activityexecution) as activityexecution, AVG(hosts) as hosts, AVG(facilitators) as facilitators,
-       AVG(presentation) as presentation, AVG(activities) as activities, 
-       AVG(organizationstandingpresentation) as organizationstandingpresentation, AVG(timestart) as timestart,
-       AVG((person1ea+person2ea)/2) as personea, AVG((person1loa + person2loa)/2) as personloa, 
-       AVG((person1iitskoa+person2iitskoa)/2) as personiitskoa, AVG((person1iomwm+person2iomwm)/2) as personiomwm, 
+SELECT COALESCE (AVG(venue), 0) as venue, COALESCE (AVG(equipment), 0) as equipment, COALESCE (AVG(materials), 0) as materials,
+       COALESCE (AVG(registration), 0) as registration, COALESCE (AVG(timeend), 0) as timeend, 
+       COALESCE (AVG(activityexecution), 0) as activityexecution, COALESCE (AVG(hosts), 0) as hosts, COALESCE (AVG(facilitators), 0) as facilitators,
+       COALESCE (AVG(presentation), 0) as presentation, COALESCE (AVG(activities), 0) as activities, 
+       COALESCE (AVG(organizationstandingpresentation), 0) as organizationstandingpresentation, COALESCE (AVG(timestart), 0) as timestart,
+       COALESCE (AVG((person1ea+person2ea)/2), 0) as personea, COALESCE (AVG((person1loa + person2loa)/2), 0) as personloa, 
+       COALESCE (AVG((person1iitskoa+person2iitskoa)/2), 0) as personiitskoa, COALESCE (AVG((person1iomwm+person2iomwm)/2), 0) as personiomwm, 
        G.studentorganization
-  FROM public.amtactivityevaluation AMTE JOIN GOSMACTIVITY GA
-                                           ON AMTE.activity=GA.ID
-                                         JOIN GOSM G
-                                           ON GA.GOSM=G.ID
- WHERE AMTE.status=3 
-   AND G.studentorganization=${studentOrganization}
-   AND G.TERMID=system_get_current_term_id()
+  FROM TERM T LEFT JOIN (SELECT * 
+                           FROM GOSM 
+                          WHERE studentorganization=${studentOrganization}) G
+                     ON T.ID=G.TERMID 
+              LEFT JOIN GOSMACTIVITY GA
+                     ON GA.GOSM=G.ID
+              LEFT JOIN (SELECT * 
+                           FROM public.amtactivityevaluation AMTE
+                          WHERE status=3) AMTE
+                     ON AMTE.activity=GA.ID
+ WHERE T.ID=${termID}
  GROUP BY G.studentorganization;

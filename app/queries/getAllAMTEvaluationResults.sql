@@ -16,4 +16,4 @@ SELECT activity as gosmactivity, GA.strategies as activityname,
                                            ON GA.ACTIVITYTYPE=AT.ID
  WHERE AMTE.status=3
    AND G.studentorganization=${studentOrganization} 
-   AND G.TERMID=system_get_current_term_id();
+   AND G.TERMID=${termID};

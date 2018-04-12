@@ -10,6 +10,6 @@ SELECT SO.operationalfunds, SO.depositoryfunds, SUM(PPRE.quantity*PPRE.unitcost)
 		        ON SO.ID=G.studentorganization
 WHERE PP.STATUS=3
   AND G.studentorganization=${studentOrganization}
-  AND G.TERMID=system_get_current_term_id()
+  AND G.TERMID=${termID}
 GROUP BY SO.operationalfunds, SO.depositoryfunds;
 	        

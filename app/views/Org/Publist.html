@@ -7,11 +7,8 @@
 {%block style%}
     {{super()}}
     <!-- Bootstrap Core CSS -->
-    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
-    {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
     {{tag.style('/plugins/bower_components/datatables/jquery.dataTables.min.css')}}
     {{tag.style('/plugins/bower_components/nestable/nestable.css')}}
-    
     <!-- Menu CSS -->
     {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
     <!-- animation CSS -->
@@ -27,18 +24,12 @@
     <!-- color CSS -->
     {{tag.style('/css/colors/blue.css')}}
     {{tag.style('/css/btn_lnk.css')}}
-
 {%endblock%}
 
 {%block defer_script%}
     {{super()}}
-    <!-- jQuery -->
-    {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
     <!-- Bootstrap Core JavaScript -->
     {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
-    {{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
-    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}}
-    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
     <!-- Menu Plugin JavaScript -->
     {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
     <!--slimscroll JavaScript -->
@@ -57,6 +48,10 @@
 	<div class="col-sm-12">
 		<div class="white-box">
 			<h3 class="box-title m-b-0">Activity Materials </h3>
+            <p class="box-title m-b-0 pull-right">legend:
+                <span class="label label-success">Submitted</span>
+                <span class="label label-info">No Pubs Submitted</span>
+            </p>
             <p class="text-muted m-b-30">List activities that is eligible for publicity material submission</p>
 
 			<div class="table-responsive">

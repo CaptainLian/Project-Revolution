@@ -3,28 +3,22 @@
 
 {%block page_title%}CSO - View Activity List{%-endblock%}
 
-
 {%block style%}
     {{super()}}
     <!-- Bootstrap Core CSS -->
-    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
-    {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
     {{tag.style('/plugins/bower_components/datatables/jquery.dataTables.min.css')}}
     {{tag.style('/plugins/bower_components/nestable/nestable.css')}}
-    
     <!-- Menu CSS -->
     {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
     <!-- animation CSS -->
-    
     <!--alerts CSS -->
     {{tag.style('/plugins/bower_components/sweetalert/sweetalert.css')}}
     <!-- Custom CSS -->
     {{tag.style('/plugins/bower_components/custom-select/custom-select.css')}}
     {{tag.style('/plugins/bower_components/bootstrap-select/bootstrap-select.min.css')}}
-   
     {{tag.style('/plugins/bower_components/Magnific-Popup-master/dist/magnific-popup.css')}}
-     {{tag.style('/css/style.css')}}
-     {{tag.style('/css/animate.css')}}
+    {{tag.style('/css/style.css')}}
+    {{tag.style('/css/animate.css')}}
     {{tag.style('/css/custom.css')}}
     <!-- color CSS -->
     {{tag.style('/css/colors/blue.css')}}
@@ -42,14 +36,8 @@
 
 {%block defer_script%}
     {{super()}}
-    <!-- jQuery -->
-    {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
     <!-- Bootstrap Core JavaScript -->
     {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
-    {{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
-    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}}
-    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
-    <!-- Menu Plugin JavaScript -->
     {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
     <!--slimscroll JavaScript -->
     {{tag.javascript('/plugins/bower_components/Magnific-Popup-master/dist/jquery.magnific-popup.min.js', true)}}

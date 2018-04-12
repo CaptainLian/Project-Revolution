@@ -1,22 +1,13 @@
 {% extends './Orgres_master.html' %}
 {% import '../template/tags_macro.html' as tag %}
 
-{%block meta%}
-    {{super()}}
-    <meta data-name="csrf" data-token="{{csrfToken}}" />
-{%endblock%}
-
 {%block style%}
     {{super()}}
     <!-- Bootstrap Core CSS -->
-    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
-    {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
     {{tag.style('/plugins/bower_components/datatables/jquery.dataTables.min.css')}}
     {{tag.style('/plugins/bower_components/nestable/nestable.css')}}
     {{tag.style('https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css')}}
     {{tag.style('https://cdnjs.cloudflare.com/ajax/libs/nestable2/1.5.0/jquery.nestable.min.CSS')}}
-    
-    
     {{tag.style('/plugins/bower_components/toast-master/css/jquery.toast.css')}}
     <!-- Menu CSS -->
     {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
@@ -36,18 +27,11 @@
         background-color: #F7FAFC
         }
     </style> -->
-
 {%endblock%}
 
 
 {%block defer_script%}
     {{super()}}
-    <!-- jQuery -->
-    {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
-    <!-- Bootstrap Core JavaScript -->
-    {{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
-    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}}
-    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
     <!-- Menu Plugin JavaScript -->
     {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
     <!--slimscroll JavaScript -->
@@ -83,7 +67,6 @@
     {{tag.javascript('/plugins/bower_components/footable/js/footable.all.min.js', true)}}
     {{tag.javascript('/plugins/bower_components/toast-master/js/jquery.toast.js', true)}}
     <!-- Page Scripts -->
-    {{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
     {{tag.javascript('/js/Orgres/ManageAccount.js', true)}}
     <!-- /Page Scripts -->
 {%endblock%}

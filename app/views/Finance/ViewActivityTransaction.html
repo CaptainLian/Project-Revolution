@@ -1,16 +1,13 @@
-{% extends './Finance_master.html' %}
+{% extends '../template/CSO_master.html' %}
 {% import '../template/tags_macro.html' as tag %}
 
 {%block style%}
     {{super()}}
     <!-- Bootstrap Core CSS -->
-    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
-    {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
     {{tag.style('/plugins/bower_components/datatables/jquery.dataTables.min.css')}}
     {{tag.style('/plugins/bower_components/nestable/nestable.css')}}
     {{tag.style('https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css')}}
     {{tag.style('https://cdnjs.cloudflare.com/ajax/libs/nestable2/1.5.0/jquery.nestable.min.CSS')}}
-
     <!-- Menu CSS -->
     {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
     <!-- animation CSS -->
@@ -24,18 +21,11 @@
     {{tag.style('/css/custom.css')}}
     <!-- color CSS -->
     {{tag.style('/css/colors/default.css', id='theme')}}
-
 {%endblock%}
 
 
 {%block defer_script%}
     {{super()}}
-    <!-- jQuery -->
-    {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
-    <!-- Bootstrap Core JavaScript -->
-    {{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
-    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}}
-    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
     <!-- Menu Plugin JavaScript -->
     {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
     <!--slimscroll JavaScript -->
@@ -65,324 +55,228 @@
     {{tag.javascript('/plugins/bower_components/bootstrap-select/bootstrap-select.min.js', true)}}
 
     <!-- Page Scripts -->
-    {{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
     {{tag.javascript('/js/Fin/ViewActivityTransaction.js', true)}}
     <!-- /Page Scripts -->
 {%endblock%}
 
 {%block content%}
 <div class="row">
-                    <!-- Left sidebar -->
-                    <div class="col-md-12">
-                        <div class="white-box">
-                            <div class="row">
-                                <div class="col-lg-2 col-md-3  col-sm-4 col-xs-12 inbox-panel">
-                                    <div class="">
-                                        <div class="list-group mail-list m-t-20 ">
-                                            <div class="btn-group col-md-12">
-
-                                                {% if toadd %}
-
-                                                <button aria-expanded="false" data-toggle="dropdown" class="fixedWidth finadd btn btn-info btn-block  waves-effect waves-light" type="button"><i class="fa fa-plus"></i> Add <span class="caret"></span></button>
-                                                    <ul role="menu" class="dropdown-menu">
-                                                        
-                                                        <li><a href="/transaction/preacts/directpayment/{{gosmactivity.id}}">Direct Payment</a></li>
-                                                        
-                                                        <li><a href="/transaction/preacts/cashadvance/{{gosmactivity.id}}">Cash Advance</a></li>
-
-                                                        <li><a href="/transaction/preacts/booktransfer/{{gosmactivity.id}}">Book Transfer</a></li>
-
-
-                                                            <!-- <li><a href="/transaction/reimbursement/{{projectProposal.id}}">Reimbursement</a></li>
- -->
-                                                        
-                                                    </ul>
-
-                                                {% endif %}
-
-                                            </div>
-                                            <button type="button" href="#" class="fixedWidth backBtn btn goBack" onclick="window.location = '/finance/list'">Go Back</button>
-                                        </div>
-                                        
-                                        
-                                    </div>
-                                </div>
-                                <div class="col-lg-10 col-md-9 col-sm-8 col-xs-12 mail_listing">
-                                    
-                                        <h4 class="font-bold m-t-0 text-success text-center">List of Transactions for {{gosmactivity.strategies}}</h4>
-                                        
-                                    
-                                    <div class="col-md-12">
-                                        <table id="" class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Date of Event</th>
-                                            <th>Transaction</th>
-                                            <th>Amount</th>
-                                            <th>Status</th>
-                                            
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                        {% if isStudent %}
-
-
-                                            {% for transaction in transactions %}
-
-                                                <!--displays the pended to edit first-->
-
-                                                {% if transaction.status == 2 and transaction.submittedby == idnumber %}
-
-                                                        <!-- if direct payment  -->
-                                                    {% if(transaction.transaction == 0)  or (transaction.transaction == 1) %}
-
-                                                        <tr onclick="window.location = '/transaction/preacts/editDirectPayment/{{transaction.id}}'">
-
-                                                    {% elif (transaction.transaction == 2) or (transaction.transaction == 3) %} <!-- if cash advance -->
-                                                        
-                                                        <tr onclick="window.location = '/transaction/preacts/editCashAdvance/{{transaction.id}}'">
-
-                                                    {% elif (transaction.transaction == 4) or (transaction.transaction == 5) %} <!-- if book transfer -->
-
-                                                        <tr onclick="window.location = '/transaction/preacts/editBookTransfer/{{transaction.id}}'">
-
-
-                                                    {% elif (transaction.transaction == 6) or (transaction.transaction == 7) %} <!-- if reimbursement -->
-
-                                                        <tr onclick="window.location = '/transaction/editReimbursement/{{transaction.id}}'">
-
-                                                    {% endif %}
-
-                                                        <td>{{transaction.startdate}}</td>
-
-                                                        {% if (transaction.transaction == 0)  or (transaction.transaction == 1) %}
-                                                            <td>Direct Payment</td>
-                                                        {% elif (transaction.transaction == 2)  or (transaction.transaction == 3) %}
-                                                            <td>Cash Advance</td>
-                                                        {% elif (transaction.transaction == 4)  or (transaction.transaction == 5) %}
-                                                            <td>Book Transfer</td>
-                                                        {% elif (transaction.transaction == 6)  or (transaction.transaction == 7) %}
-                                                            <td>Reimbursement</td>
-                                                        {% endif %}
-                                                        
-                                                        <td>Php {{transaction.amount | round(2)}}</td>
-
-                                                        {% if transaction.status == 0 %}
-
-                                                            {% if transaction.approval == 0 %}
-
-                                                                <td><span class="label label-table label-primary">For Approval</span></td>
-
-                                                            {% elif transaction.approval == 1 %}
-
-                                                                <td><span class="label label-table label-info">For Approval</span></td>
-
-                                                            {% endif %}
-
-
-                                                        {% endif %}
-
-                                                        {% if transaction.status == 1 %}
-                                                       
-                                                            <td><span class="label label-table label-success">Approved</span></td>
-
-                                                        {% endif %}
-
-                                                        {% if transaction.status == 2 %}
-                
-                                                            <td><span class="label label-table label-warning">Pended</span></td>
-
-                                                        {% endif %}
-
-                                                        {% if transaction.status == 3 %}
-
-                                                            <td><span class="label label-table label-danger">Denied</span></td>
-
-
-                                                        {% endif %}
-                                                    </tr>
-
-                                                {% endif %}                                                
-
-                                            {% endfor %}
-
-
-                                            {% for transaction in transactions %}
-
-                                                <!--displays the not pended to editable of current user-->
-
-                                                {% if transaction.status == 2 and transaction.submittedby == idnumber %}
-
-                                                {% else %}
-
-                                                    <!-- if direct payment  -->
-                                                    {% if(transaction.transaction == 0)  or (transaction.transaction == 1) %}
-
-                                                        <tr onclick="window.location = '/transaction/evaluate/0/{{transaction.id}}'">
-
-                                                    {% elif (transaction.transaction == 2) or (transaction.transaction == 3) %} <!-- if cash advance -->
-                                                        
-                                                        <tr onclick="window.location = '/transaction/evaluate/1/{{transaction.id}}'">
-
-                                                    {% elif (transaction.transaction == 4) or (transaction.transaction == 5) %} <!-- if book transfer -->
-
-                                                        <tr onclick="window.location = '/transaction/evaluate/2/{{transaction.id}}'">
-
-
-                                                    {% elif (transaction.transaction == 6) or (transaction.transaction == 7) %} <!-- if reimbursement -->
-
-                                                        <tr onclick="window.location = '/transaction/evaluate/3/{{transaction.id}}'">
-
-                                                    {% endif %}
-
-                                                        <td>{{transaction.startdate}}</td>
-
-                                                        {% if (transaction.transaction == 0)  or (transaction.transaction == 1) %}
-                                                            <td>Direct Payment</td>
-                                                        {% elif (transaction.transaction == 2)  or (transaction.transaction == 3) %}
-                                                            <td>Cash Advance</td>
-                                                        {% elif (transaction.transaction == 4)  or (transaction.transaction == 5) %}
-                                                            <td>Book Transfer</td>
-                                                        {% elif (transaction.transaction == 6)  or (transaction.transaction == 7) %}
-                                                            <td>Reimbursement</td>
-                                                        {% endif %}
-                                                        
-                                                        <td>Php {{transaction.amount | round(2)}}</td>
-
-                                                        {% if transaction.status == 0 %}
-
-                                                            {% if transaction.approval == 0 %}
-
-                                                                <td><span class="label label-table label-primary">For Approval</span></td>
-
-                                                            {% elif transaction.approval == 1 %}
-
-                                                                <td><span class="label label-table label-info">For Approval</span></td>
-
-                                                            {% endif %}
-
-
-                                                        {% endif %}
-
-                                                        {% if transaction.status == 1 %}
-                                                       
-                                                            <td><span class="label label-table label-success">Approved</span></td>
-
-                                                        {% endif %}
-
-                                                        {% if transaction.status == 2 %}
-                
-                                                            <td><span class="label label-table label-warning">Pended</span></td>
-
-                                                        {% endif %}
-
-                                                        {% if transaction.status == 3 %}
-
-                                                            <td><span class="label label-table label-danger">Denied</span></td>
-
-
-                                                        {% endif %}
-                                                    </tr>
-
-                                                {% endif %}                                                
-
-                                            {% endfor %}
-
-
-                                        {% else %}
-
-
-                                            {% for transaction in transactions %}
-
-                                                <!-- if direct payment  -->
-                                                {% if(transaction.transaction == 0)  or (transaction.transaction == 1) %}
-
-                                                    <tr onclick="window.location = '/transaction/evaluate/0/{{transaction.id}}'">
-
-                                                {% elif (transaction.transaction == 2) or (transaction.transaction == 3) %} <!-- if cash advance -->
-                                                    
-                                                    <tr onclick="window.location = '/transaction/evaluate/1/{{transaction.id}}'">
-
-                                                {% elif (transaction.transaction == 4) or (transaction.transaction == 5) %} <!-- if book transfer -->
-
-                                                    <tr onclick="window.location = '/transaction/evaluate/2/{{transaction.id}}'">
-
-
-                                                {% elif (transaction.transaction == 6) or (transaction.transaction == 7) %} <!-- if reimbursement -->
-
-                                                    <tr onclick="window.location = '/transaction/evaluate/3/{{transaction.id}}'">
-
-                                                {% endif %}
-
-                                                    <td>{{transaction.startdate}}</td>
-
-                                                    {% if (transaction.transaction == 0)  or (transaction.transaction == 1) %}
-                                                        <td>Direct Payment</td>
-                                                    {% elif (transaction.transaction == 2)  or (transaction.transaction == 3) %}
-                                                        <td>Cash Advance</td>
-                                                    {% elif (transaction.transaction == 4)  or (transaction.transaction == 5) %}
-                                                        <td>Book Transfer</td>
-                                                    {% elif (transaction.transaction == 6)  or (transaction.transaction == 7) %}
-                                                        <td>Reimbursement</td>
-                                                    {% endif %}
-                                                    
-                                                    <td>Php {{transaction.amount | round(2)}}</td>
-
-                                                    {% if transaction.status == 0 %}
-
-                                                        {% if transaction.approval == 0 %}
-
-                                                            <td><span class="label label-table label-primary">For Approval</span></td>
-
-                                                        {% elif transaction.approval == 1 %}
-
-                                                            <td><span class="label label-table label-info">For Approval</span></td>
-
-                                                        {% endif %}
-
-
-                                                    {% endif %}
-
-                                                    {% if transaction.status == 1 %}
-                                                   
-                                                        <td><span class="label label-table label-success">Approved</span></td>
-
-                                                    {% endif %}
-
-                                                    {% if transaction.status == 2 %}
-            
-                                                        <td><span class="label label-table label-warning">Pended</span></td>
-
-                                                    {% endif %}
-
-                                                    {% if transaction.status == 3 %}
-
-                                                        <td><span class="label label-table label-danger">Denied</span></td>
-
-
-                                                    {% endif %}
-                                                </tr>
-
-
-                                           
-                                            
-
-                                            {% endfor %}
-
-                                        {% endif %}
-                                        
-                                    </tbody>
-                                </table>
-                                    </div>
-                                        
-                                    <hr>
-                                    
-                                    <hr>
-                                    
-                                </div>
+    <!-- Left sidebar -->
+    <div class="col-md-12">
+        <div class="white-box">
+            <div class="row">
+                <div class="col-lg-2 col-md-3  col-sm-4 col-xs-12 inbox-panel">
+                    <div class="">
+                        <div class="list-group mail-list m-t-20 ">
+                            <div class="btn-group col-md-12">
+                                {% if toadd %}
+                                <button aria-expanded="false" data-toggle="dropdown" class="fixedWidth finadd btn btn-info btn-block  waves-effect waves-light" type="button"><i class="fa fa-plus"></i> Add <span class="caret"></span></button>
+                                <ul role="menu" class="dropdown-menu">
+                                    <li><a href="/transaction/preacts/directpayment/{{gosmactivity.id}}">Direct Payment</a></li>
+                                    <li><a href="/transaction/preacts/cashadvance/{{gosmactivity.id}}">Cash Advance</a></li>
+                                    <li><a href="/transaction/preacts/booktransfer/{{gosmactivity.id}}">Book Transfer</a></li>
+                                    <!-- <li><a href="/transaction/reimbursement/{{projectProposal.id}}">Reimbursement</a></li>-->
+                                </ul>
+                                {% endif %}
                             </div>
+                            <button type="button" href="#" class="fixedWidth backBtn btn goBack" onclick="window.location = '/finance/list'">Go Back</button>
                         </div>
                     </div>
                 </div>
+
+                <div class="col-lg-10 col-md-9 col-sm-8 col-xs-12 mail_listing">
+                    <h4 class="font-bold m-t-0 text-success text-center">List of Transactions for {{gosmactivity.strategies}}</h4>
+
+                    <p class="box-title m-b-0">legend:
+                        <span class="label label-primary">For Your Approval</span>
+                        <span class="label label-info">For Approval</span>
+                        <span class="label label-success">Approved</span>
+                        <span class="label label-warning">Pended</span>
+<!--                         <span class="label label-danger">Denied</span>
+ -->                        
+                    </p>
+                    <br>
+                    <div class="col-md-12">
+                        <table id="" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Date of Event</th>
+                                    <th>Transaction</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if isStudent %}
+                                    {% for transaction in transactions %}
+                                    <!--displays the pended to edit first-->
+                                    {% if transaction.status == 2 and transaction.submittedby == idnumber %}
+                                    <!-- if direct payment  -->
+                                        {% if(transaction.transaction == 0) or (transaction.transaction == 1) %}
+                                            <tr onclick="window.location = '/transaction/preacts/editDirectPayment/{{transaction.id}}'">
+                                        {% elif (transaction.transaction == 2) or (transaction.transaction == 3) %}
+                                            <!-- if cash advance -->
+                                            <tr onclick="window.location = '/transaction/preacts/editCashAdvance/{{transaction.id}}'">
+                                        {% elif (transaction.transaction == 4) or (transaction.transaction == 5) %}
+                                            <!-- if book transfer -->
+                                            <tr onclick="window.location = '/transaction/preacts/editBookTransfer/{{transaction.id}}'">
+                                        {% elif (transaction.transaction == 6) or (transaction.transaction == 7) %}
+                                            <!-- if reimbursement -->
+                                            <tr onclick="window.location = '/transaction/editReimbursement/{{transaction.id}}'">
+                                        {% endif %}
+
+                                        <td>{{transaction.startdate}}</td>
+
+                                        {% if (transaction.transaction == 0) or (transaction.transaction == 1) %}
+                                            <td>Direct Payment</td>
+                                        {% elif (transaction.transaction == 2) or (transaction.transaction == 3) %}
+                                            <td>Cash Advance</td>
+                                        {% elif (transaction.transaction == 4) or (transaction.transaction == 5) %}
+                                            <td>Book Transfer</td>
+                                        {% elif (transaction.transaction == 6) or (transaction.transaction == 7) %}
+                                            <td>Reimbursement</td>
+                                        {% endif %}
+
+                                        <td>Php {{transaction.amount | round(2)}}</td>
+
+                                        {% if transaction.status == 0 %}
+                                            {% if transaction.approval == 0 %}
+                                                <td><span class="label label-table label-primary">For Your Approval</span></td>
+                                            {% elif transaction.approval == 1 %}
+                                                <td><span class="label label-table label-info">For Approval</span></td>
+                                            {% endif %}
+                                        {% endif %}
+
+                                        {% if transaction.status == 1 %}
+                                            <td><span class="label label-table label-success">Approved</span></td>
+                                        {% endif %}
+                                        {% if transaction.status == 2 %}
+                                            <td><span class="label label-table label-warning">Pended</span></td>
+                                        {% endif %}
+
+                                        {% if transaction.status == 3 %}
+                                            <td><span class="label label-table label-danger">Denied</span></td>
+                                        {% endif %}
+
+                                            </tr>
+
+                                    {% endif %}
+                                {% endfor %}
+
+                                {% for transaction in transactions %}
+                                    <!--displays the not pended to editable of current user-->
+                                    {% if transaction.status == 2 and transaction.submittedby == idnumber %}
+                                    {% else %}
+
+                                    <!-- if direct payment  -->
+                                    {% if(transaction.transaction == 0) or (transaction.transaction == 1) %}
+                                        <tr onclick="window.location = '/transaction/evaluate/0/{{transaction.id}}'">
+                                    {% elif (transaction.transaction == 2) or (transaction.transaction == 3) %}
+                                    <!-- if cash advance -->
+                                        <tr onclick="window.location = '/transaction/evaluate/1/{{transaction.id}}'">
+
+                                    {% elif (transaction.transaction == 4) or (transaction.transaction == 5) %}
+                                        <!-- if book transfer -->
+                                        <tr onclick="window.location = '/transaction/evaluate/2/{{transaction.id}}'">
+                                    {% elif (transaction.transaction == 6) or (transaction.transaction == 7) %}
+                                        <!-- if reimbursement -->
+                                        <tr onclick="window.location = '/transaction/evaluate/3/{{transaction.id}}'">
+                                    {% endif %}
+
+                                    <td>{{transaction.startdate}}</td>
+
+                                    {% if (transaction.transaction == 0) or (transaction.transaction == 1) %}
+                                        <td>Direct Payment</td>
+                                    {% elif (transaction.transaction == 2) or (transaction.transaction == 3) %}
+                                        <td>Cash Advance</td>
+                                    {% elif (transaction.transaction == 4) or (transaction.transaction == 5) %}
+                                        <td>Book Transfer</td>
+                                    {% elif (transaction.transaction == 6) or (transaction.transaction == 7) %}
+                                        <td>Reimbursement</td>
+                                    {% endif %}
+
+                                    <td>Php {{transaction.amount | round(2)}}</td>
+
+                                    {% if transaction.status == 0 %}
+                                        {% if transaction.approval == 0 %}
+                                            <td><span class="label label-table label-primary">For Your Approval</span></td>
+                                        {% elif transaction.approval == 1 %}
+                                            <td><span class="label label-table label-info">For Approval</span></td>
+                                        {% endif %}
+                                    {% endif %}
+
+                                    {% if transaction.status == 1 %}
+                                        <td><span class="label label-table label-success">Approved</span></td>
+                                    {% endif %} {% if transaction.status == 2 %}
+                                        <td><span class="label label-table label-warning">Pended</span></td>
+                                    {% endif %} {% if transaction.status == 3 %}
+                                        <td><span class="label label-table label-danger">Denied</span></td>
+                                    {% endif %}
+
+                                    </tr>
+
+                                {% endif %}
+                            {% endfor %}
+
+                            {% else %} {# not isStudent #}
+                                {% for transaction in transactions %}
+                                    <!-- if direct payment  -->
+                                    {% if(transaction.transaction == 0) or (transaction.transaction == 1) %}
+                                        <tr onclick="window.location = '/transaction/evaluate/0/{{transaction.id}}'">
+                                    {% elif (transaction.transaction == 2) or (transaction.transaction == 3) %}
+                                    <!-- if cash advance -->
+                                        <tr onclick="window.location = '/transaction/evaluate/1/{{transaction.id}}'">
+                                        {% elif (transaction.transaction == 4) or (transaction.transaction == 5) %}
+                                            <!-- if book transfer -->
+                                            <tr onclick="window.location = '/transaction/evaluate/2/{{transaction.id}}'">
+                                        {% elif (transaction.transaction == 6) or (transaction.transaction == 7) %}
+                                                <!-- if reimbursement -->
+                                            <tr onclick="window.location = '/transaction/evaluate/3/{{transaction.id}}'">
+                                        {% endif %}
+                                        <td>{{transaction.startdate}}</td>
+
+                                        {% if (transaction.transaction == 0) or (transaction.transaction == 1) %}
+                                            <td>Direct Payment</td>
+                                        {% elif (transaction.transaction == 2) or (transaction.transaction == 3) %}
+                                            <td>Cash Advance</td>
+                                        {% elif (transaction.transaction == 4) or (transaction.transaction == 5) %}
+                                            <td>Book Transfer</td>
+                                        {% elif (transaction.transaction == 6) or (transaction.transaction == 7) %}
+                                            <td>Reimbursement</td>
+                                        {% endif %}
+
+                                        <td>Php {{transaction.amount | round(2)}}</td>
+                                            {% if transaction.status == 0 %}
+                                                {% if transaction.approval == 0 %}
+                                                    <td><span class="label label-table label-primary">For Your Approval</span></td>
+                                                {% elif transaction.approval == 1 %}
+                                                    <td><span class="label label-table label-info">For Approval</span></td>
+                                                {% endif %}
+                                            {% endif %}
+
+                                            {% if transaction.status == 1 %}
+                                                <td><span class="label label-table label-success">Approved</span></td>
+                                            {% endif %}
+
+                                            {% if transaction.status == 2 %}
+                                                <td><span class="label label-table label-warning">Pended</span></td>
+                                            {% endif %}
+
+                                            {% if transaction.status == 3 %}
+                                                <td><span class="label label-table label-danger">Denied</span></td>
+                                            {% endif %}
+                                    </tr>
+                                    {% endfor %}
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <hr>
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {%endblock%}

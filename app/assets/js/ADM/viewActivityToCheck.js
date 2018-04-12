@@ -12,7 +12,7 @@ $("#approve").click(function(){
       text: "Once you submit this you all finance transaction for this activity will be canceled, and you can no longer add finance transaction for this activity",
       type: 'warning',
       showCancelButton: true,
-      reverseButtons:true,
+      reverseButtons:false,
       confirmButtonColor: '#00C292',
       
       confirmButtonText: 'Submit'
@@ -25,7 +25,10 @@ $("#approve").click(function(){
                 data:{status:4,gosmid:$("input#gosmid").val()},
                 success:function(data){
                     if(data){
-                        window.location.href='/ADM/Activity/List';
+                        swal("Success!", "", "success").then(function(){
+                            window.location.href='/ADM/Activity/List';
+                        })
+                        
                     }
                 }
            })
@@ -65,7 +68,7 @@ $("#defer").click(function(){
         focusConfirm:false,
         focusCancel:false,
         showLoaderOnConfirm: true,
-        reverseButtons:true,
+        reverseButtons:false,
         allowOutsideClick: false,
         preConfirm: function (data) {
             console.log($("#select-sec").val());
@@ -102,7 +105,9 @@ $("#defer").click(function(){
                 data:{sections:sections,comment:$("textarea").val(),status:5,gosmid:$("input#gosmid").val()},
                 success:function(data){
                     if(data){
-                        window.location.href='/ADM/Activity/List';
+                        swal("Success!", "", "success").then(function(){
+                            window.location.href='/ADM/Activity/List';
+                        })
                     }
                 }
            })

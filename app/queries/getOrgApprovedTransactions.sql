@@ -21,4 +21,4 @@ UNION (SELECT 3 as transaction, PACA.id, (PPRE.quantity*PPRE.unitcost) as amount
 										   										  ON GA.ID=PP.GOSMACTIVITY
 WHERE U.status=1
   AND G.studentorganization=${studentOrganization}
-  AND G.TERMID=system_get_current_term_id();
+  AND G.TERMID=${termID};

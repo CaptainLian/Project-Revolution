@@ -5,15 +5,17 @@ module.exports = function(configuration, modules, router, controllers){
 	router.get(`${base}/ProjectHead/home`, controllers.Organization_controller.viewProjectHeadHome);
 
 	router.get(`${base}/Officers`,controllers.Organization_controller.viewOfficers);
-    router.get(`${base}/report/:id`,controllers.Organization_controller.viewReport);
+    router.get(`${base}/report/:organizationId/:syOrTerm/:syTermId`,controllers.Organization_controller.viewReport);
     router.get(`${base}/viewAddMember`,controllers.Organization_controller.viewAddMember);
 	router.get(`${base}/createGOSM`, controllers.Organization_controller.viewCreateGOSM); 
+    router.get(`${base}/viewGradeList/:organizationId`, controllers.Organization_controller.viewGradeList); 
+
     router.get(`${base}/viewGOSMList`, controllers.Organization_controller.viewGOSMList);//shows the list of approved gosm for the school year
 	router.get(`${base}/activityRequirements`, controllers.Organization_controller.createActivityRequirements);
     router.get(`${base}/viewGOSMDetails/:orgid`, controllers.Organization_controller.viewGOSMDetails);//shows the list of approved gosm for the school year
 
     router.get(`${base}/additional`, controllers.Organization_controller.additional);
-    
+
     router.get(`${base}/ProjectProposal/GOSMList`, controllers.Organization_controller.viewGOSMActivityListProjectProposal);
     router.get(`${base}/ProjectProposal/Main/:id/:status`, controllers.Organization_controller.viewSubmitProjectProposalMain);
     router.get(`${base}/ProjectProposal/Attachments/:id/:gid/:status`, controllers.Organization_controller.viewSubmitProjectProposalAttachments);
@@ -58,8 +60,11 @@ module.exports = function(configuration, modules, router, controllers){
     router.get(`${base}/treasurer/dashboard`, controllers.Treasurer_controller.viewDashboard);
 
     router.get(`${base}/Orgres/list`, controllers.Organization_controller.orgresLists);
+    router.get(`${base}/viewAmtEvalList`, controllers.Organization_controller.viewAmtEvalList); //list of activities to be evaluated
+    router.get(`${base}/viewAmtEval/:id`, controllers.Organization_controller.viewAmtEval);//the activity evaluation results
     router.get(`${base}/Orgres/Specific/:id`, controllers.Organization_controller.orgresSpecficActivity);
 
     router.get(`${base}/APSReport`, controllers.Organization_controller.apsReport);
+    // router.get(`${base}/venue`, controllers.Organization_controller.venue);
 
 };

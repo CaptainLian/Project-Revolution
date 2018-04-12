@@ -1,27 +1,16 @@
-{% extends "./Organization_master.html" %}
+{% extends '../template/CSO_master.html' %}
 {% import '../template/tags_macro.html' as tag%}
-
-{%block meta%}
-    {{super()}}
-    <meta data-name="csrf" data-token="{{csrfToken}}" />
-{%endblock%}
 
 {%block style%}
     {{super()}}
-
-    <!-- Bootstrap Core CSS -->
-    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
-    {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
     <!-- Menu CSS -->
     {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
     {{tag.style('/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css')}}
-
     {{tag.style('/plugins/bower_components/sweetalert/sweetalert.css')}}
     <!-- Animation CSS -->
     {{tag.style('/css/animate.css')}}
     <!-- Custom CSS -->
     {{tag.style('/plugins/bower_components/toast-master/css/jquery.toast.css')}}
-
     {{tag.style('/plugins/bower_components/datatables/jquery.dataTables.min.css')}}
     {{tag.style('http://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css')}}
     {{tag.style('/css/custom.css')}}
@@ -31,7 +20,6 @@
     <!-- We have chosen the skin-blue (blue.css) for this starter
           page. However, you can choose any other skin from folder css / colors .
     -->
-    
     {{tag.style('/css/colors/default.css')}}
     {{tag.style('/css/colors/blue.css')}}
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -45,18 +33,10 @@
             text-align: center
         }
     </style>
-
-    
 {%endblock%}
 
 {%block defer_script%}
     {{super()}}
-   <!-- jQuery -->
-    {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js')}}
-    <!-- Bootstrap Core JavaScript -->
-    {{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
-    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}}
-    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
     <!-- Menu Plugin JavaScript -->
     {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
     <!--slimscroll JavaScript -->
@@ -102,33 +82,25 @@
 <div class="row">
     <div class="col-sm-12">
         <div class="white-box">
-        <div>
-        
-        <div>
-                <fieldset class="form-group col-md-5">
-                    <label for="exampleInputEmail1">Full Name</label>
-                    <input type="text" class="form-control" id="name" placeholder="Enter Name" >
-                    <small id="fullnamesmall" class="text-danger" style="display: none">Full name cannot be empty!</small>
-                </fieldset>
-
-
-                <fieldset class="form-group col-md-5">
-                    <label for="exampleInputEmail1">ID Number</label>
-                    <input data-mask="99999999" type="text" class="form-control" id="idnumber" placeholder="eg. 11456789">
-                    <small id="idnumbersmall" class="text-danger" style="display: none">ID number cannot be empty!</small>
-                </fieldset>
-                    <button type="" class="form-group btn btn-success addmember col-md-2" id="addtolist" disabled="">Add member</button> 
-        </div>
-                
-        
-            
-                        
-        </div>
+            <div>
+                <div>
+                    <fieldset class="form-group col-md-5">
+                        <label for="exampleInputEmail1">Full Name</label>
+                        <input type="text" class="form-control" id="name" placeholder="Enter Name" >
+                        <small id="fullnamesmall" class="text-danger" style="display: none">Full name cannot be empty!</small>
+                    </fieldset>
+                    <fieldset class="form-group col-md-5">
+                        <label for="exampleInputEmail1">ID Number</label>
+                        <input data-mask="99999999" type="text" class="form-control" id="idnumber" placeholder="eg. 11456789">
+                        <small id="idnumbersmall" class="text-danger" style="display: none">ID number cannot be empty!</small>
+                    </fieldset>
+                    <button type="" class="form-group btn btn-success addmember col-md-2" id="addtolist" disabled="">Add member</button>
+                </div>
+            </div>
             
             <div class="table-responsive">
-            <h3 class="box-title m-b-0">List of Members
-            </h3>
-
+                <h3 class="box-title m-b-0">List of Members
+                </h3>
                 <table id="myTable" class="table table-hover"  role="grid" aria-describedby="myTable_info">
                     <thead>
                         <tr>
@@ -137,34 +109,27 @@
                             
                             <th width="33%">Actions</th>
                         </tr>
-                    
+                        
                     </thead>
-                    <tbody> 
+                    <tbody>
                         {%for member in members%}
-                            <tr>
-                                <td>{{member.idNumber}}</td>
-                                <td>{{member.name}}</td>
-                                <td><i class="fa fa-trash text-danger m-r-10" idnum='{{member.idNumber}}' data-toggle="tooltip" data-original-title="delete"></i></td>
-                            </tr>
+                        <tr>
+                            <td>{{member.idNumber}}</td>
+                            <td>{{member.name}}</td>
+                            <td><i class="fa fa-trash text-danger m-r-10" idnum='{{member.idNumber}}' data-toggle="tooltip" data-original-title="delete"></i></td>
+                        </tr>
                         {%endfor%}
                         
-                    </tbody> 
+                    </tbody>
                 </table>
                 
-
             </div>
         </div>
     </div>
     <div class="col-sm-12">
-
-
     </div>
     <div class="col-sm-12">
-    
+        
     </div>
-    
-    
 </div>
-
-
 {%endblock%}

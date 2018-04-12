@@ -3,17 +3,9 @@
 
 {%block page_title%}CSO - View Publicity Materials{%-endblock%}
 
-{%block meta%}
-    {{super()}}
-    <meta data-name="csrf" data-token="{{csrfToken}}" />
-{%endblock%}
-
-
 {%block style%}
     {{super()}}
     <!-- Bootstrap Core CSS -->
-    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
-    {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
     {{tag.style('/plugins/bower_components/datatables/jquery.dataTables.min.css')}}
     {{tag.style('/plugins/bower_components/nestable/nestable.css')}}
     {{tag.style('https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css')}}
@@ -38,7 +30,7 @@
     <!-- color CSS -->
     
     {{tag.style('/css/colors.css')}}
-{{tag.style('/css/style.css')}}
+    {{tag.style('/css/style.css')}}
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -86,18 +78,12 @@
         .custom-class:focus { overflow: hidden; }
        
     </style>
-     {{tag.style('/plugins/bower_components/custom-select/custom-select.css')}}
+    {{tag.style('/plugins/bower_components/custom-select/custom-select.css')}}
     {{tag.style('/plugins/bower_components/bootstrap-select/bootstrap-select.min.css')}}
 {%endblock%}
     
 {%block defer_script%}
     {{super()}}
-    <!-- jQuery -->
-    {{tag.javascript('https://code.jquery.com/jquery-3.2.1.min.js', true)}}
-    <!-- Bootstrap Core JavaScript -->
-    {{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
-    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}}
-    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
     <!-- Menu Plugin JavaScript -->
     {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
     <!--slimscroll JavaScript -->
@@ -107,28 +93,17 @@
     <!-- Custom Theme JavaScript -->
     {{tag.javascript('/js/custom.min.js', true)}}
     {{tag.javascript('/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.js', true)}}
-
-
-
-       {{tag.javascript('/plugins/bower_components/custom-select/custom-select.min.js', true)}}
+    {{tag.javascript('/plugins/bower_components/custom-select/custom-select.min.js', true)}}
     {{tag.javascript('/plugins/bower_components/bootstrap-select/bootstrap-select.min.js', true)}}
-
-
-
     {{tag.javascript('/js/cbpFWTabs.js', true)}}
-       
     {{tag.javascript('/plugins/bower_components/Magnific-Popup-master/dist/jquery.magnific-popup.min.js', true)}}
     {{tag.javascript('/plugins/bower_components/Magnific-Popup-master/dist/jquery.magnific-popup-init.js', true)}}
     {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
     <!-- Sweet-Alert  -->
-     {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js', true)}}
+    {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js', true)}}
     <!--Style Switcher -->
     {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
-
     {{tag.javascript('/plugins/bower_components/toast-master/js/jquery.toast.js', true)}}
-
-     {{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
-
     {{tag.javascript('/js/Organization/createPubs.js', true)}}
 {%endblock%}
 
@@ -140,11 +115,13 @@
                 <h1>{{activities.strategies}}</h1> 
             </div>
             <p class="text-center">{{activities.orgname}}</p>
+            {%if pubstime%}
             <div class="row" style="margin-top: 10px">
                 <button id='addButton' class="btn btn-outline-info btn-md col-md-8 offset-md-2" data-toggle="modal" data-target="#addModal">
                     <i class="fa fa-plus" data-toggle="tooltip" title="add publicity material"></i> &nbsp; Add Publicity Material
                 </button> 
             </div>
+            {%endif%}
             <div class="user-btm-box">
                 <!-- .row -->
                 <div class="row text-center ">
@@ -177,7 +154,7 @@
                     <div class="col-md-12">
                         <p><strong>Project Heads</strong></p>
                         {% for head in heads%}
-                            <p>{{head.firstname}} {{head.middlename}} {{head.lastrname}}</p>
+                            <p>{{head.firstname}} {{head.middlename}} {{head.lastname}}</p>
                             <p>{{head.contactnumber}}</p>
                         {%  endfor %}
                         
@@ -450,8 +427,9 @@
                                 <input type="hidden" name="gosmid" value="{{gosmid}}">
                             </div>
                             <div class="modal-footer text-center">
-                                <button  class="btn btn-default" type="button" data-dismiss="modal">Close</button>
                                 <button  class="btn btn-info" id="submit" type="submit">Submit</button>
+                                <button  class="btn btn-default" type="button" data-dismiss="modal">Close</button>
+                                
                             </div>
                         </div>
                     </div>

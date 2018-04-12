@@ -3,17 +3,9 @@
 
 {%block page_title%}CSO - View Rescheduled Activities{%-endblock%}
 
-
-{%block meta%}
-    {{super()}}
-    <meta data-name="csrf" data-token="{{csrfToken}}" />
-{%endblock%}
-
 {%block style%}
     {{super()}}
     <!-- Bootstrap Core CSS -->
-    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
-    {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
     {{tag.style('/plugins/bower_components/datatables/jquery.dataTables.min.css')}}
     {{tag.style('/plugins/bower_components/nestable/nestable.css')}}
     <!-- Menu CSS -->
@@ -42,15 +34,9 @@
 
 {%block defer_script%}
     {{super()}}
-    <!-- jQuery -->
-    {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
     <!-- Bootstrap Core JavaScript -->
     {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
-    {{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
-    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}}
-    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
     {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js', true)}}
-
     <!-- Menu Plugin JavaScript -->
     {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
     <!--slimscroll JavaScript -->
@@ -60,8 +46,7 @@
     <!-- Custom Theme JavaScript -->
     {{tag.javascript('/js/custom.min.js', true)}}
     {{tag.javascript('/js/cbpFWTabs.js', true)}}
-    <!-- tabs-->
-    {{tag.javascript('/js/system/AJAX_CSRF.js', true)}}
+    <!-- tabs-->    
    {{tag.javascript('/js/APS/rescheduleChecking.js', true)}}
 {%endblock%}
 
@@ -92,8 +77,13 @@
                                     <td>{{act.name}}{%if act.reschedulereason == 4%}: {{act.reschedreasonother}}{%endif%}</td>                                
                                     
                                     <td>
-                                        <i act='{{act.gosmactivity}}' class="fa fa-times text-danger" data-toggle='tooltip' data-original-title="Deny" id="deny"></i>
+                                        <a target="_new" href="/ViewerJS/#../upload/preacts/{{act.venuecreated}}/{{act.venuefilename}}">
+                                            <i act='' ds='' class="fa fa-file text-info" data-toggle='tooltip' data-original-title="View Attachment"></i>
+                                        </a>
                                         <i act='{{act.gosmactivity}}' ds='{{act.rescheduledates}}' class="fa fa-check text-success" data-toggle='tooltip' data-original-title="Approve" id="approve"></i>
+                                        <i act='{{act.gosmactivity}}' class="fa fa-times text-danger" data-toggle='tooltip' data-original-title="Deny" id="deny"></i>
+                                        
+                                        
                                     </td>
                                 </tr>
                             {%endfor%}

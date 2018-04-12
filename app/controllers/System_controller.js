@@ -273,7 +273,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     };
 
     SystemController.viewNotAllowed = (req, res) => {
-        res.statusCode(403);
+        res.status(403);
         return res.render('System/403');
     };
 

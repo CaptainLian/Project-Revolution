@@ -1,24 +1,13 @@
 {% extends '../template/CSO_master.html' %}
 {% import '../template/tags_macro.html' as tag %}
 
-{%block meta%}
-    {{super()}}
-    <meta data-name="csrf" data-token="{{csrfToken}}" />
-{%endblock%}
-
 {%block page_title%}Organization - Project Head{%-endblock%}
 
 {%block style%}
 	{{super()}}
-    
     <!-- Bootstrap Core CSS -->
-    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
-    {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
-
     {{tag.style('/plugins/bower_components/bootstrap-table/dist/bootstrap-table.min.css')}}
-
     {{tag.style('/plugins/bower_components/calendar/dist/fullcalendar.css')}}
-    
     <!-- Menu CSS -->
     {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
     <!-- animation CSS -->
@@ -31,9 +20,6 @@
     {{tag.style('/plugins/bower_components/sweetalert/sweetalert.css')}}
     <!-- page CSS -->
     {{tag.style('/css/custom.css')}}
-    
-
-    
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -41,24 +27,15 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <style type="text/css">
-             th,td{
-                text-align: center
-             }
-
+        th,td{
+            text-align: center
+        }
     </style>
 {%endblock%}
 
-    
 {%block defer_script%}
     {{super()}}    
-
-    <!-- jQuery -->
-    {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js')}}
     <!-- Bootstrap Core JavaScript -->
-    {{tag.javascript('/bootstrap/dist/js/tether.min.js')}}
-    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js')}}
-    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js')}}
-
     {{tag.javascript('/plugins/bower_components/bootstrap-table/dist/bootstrap-table.min.js')}}
     <!-- Menu Plugin JavaScript -->
     {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js')}}
@@ -71,13 +48,9 @@
 
     <!--Style Switcher -->
     {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js')}}
-
-    
     {{tag.javascript('/plugins/bower_components/moment/moment.js')}}
     {{tag.javascript('/plugins/bower_components/calendar/dist/fullcalendar.min.js')}}
     <!-- {{tag.javascript('/plugins/bower_components/calendar/dist/cal-init.js', true)}} -->
-
-
     {{tag.javascript('/js/system/AJAX_CSRF.js')}}
     {{tag.javascript('/js/Organization/ProjectHeadHome.js')}}
     <script type="text/javascript">
@@ -166,8 +139,21 @@
 <!--row -->
 <div class="row">
     <div class="col-md-12">
+
         <div class="white-box">
-            <div id="calendar"></div>
+            <div class="col-md-12">
+                 <p class="box-title pull-right">legend:
+                <span class="label label-primary">In Progress</span>
+                <span class="label label-success">Approved</span>
+                <span class="label label-warning">Pended</span>
+                <span class="label label-danger">Denied</span>
+                <span class="label label-megna">Unprocessed</span>
+            </p>
+                
+            </div>
+            <div id="calendar">
+                
+            </div>
         </div>
     </div>
     <div class="modal none-border" id="my-event">

@@ -210,35 +210,31 @@ module.exports = function(configuration, application, modules, database, queryFi
                 newSidebar.name = 'Pre Activity';
                 newSidebar.link = '/Organization/ProjectProposal/GOSMList';
                 newSidebar.icon = 'fa fa-file-o'
-                
                 sidebars[sidebars.length] = newSidebar;
 
                 const newSidebar2 = Object.create(null);
                 newSidebar2.name = 'Post Activity';
                 newSidebar2.link = '/Organization/PostProjectProposal/GOSMList';
                 newSidebar2.icon = 'fa fa-file-text-o'
-                
                 sidebars[sidebars.length] = newSidebar2;
 
                 const newSidebar3 = Object.create(null);
                 newSidebar3.name = 'Activity Feedback';
                 newSidebar3.link = '/Organization/Orgres/list';
                 newSidebar3.icon = 'fa fa-quote-left';
-                
                 sidebars[sidebars.length] = newSidebar3;
+
+                const newSidebar4 = Object.create(null);
+                newSidebar4.name = 'Activity Grade';
+                newSidebar4.link = '/Organization/viewAmtEvalList';
+                //newSidebar4.icon = 'fa fa-quote-left';
+                sidebars[sidebars.length] = newSidebar4;
             }
 
-
+            
             logger.debug(`Has GOSM activity with AMT Evaluation: ${GOSMActivityWithActivityEvaluation.exists}`, log_options);
-            if (GOSMActivityWithActivityEvaluation.exists) {
-                const newSidebar = Object.create(null);
-                newSidebar.name = 'Activity Grade';
-                newSidebar.link = '/blank';
-                newSidebar.icon = 'fa fa-star'
-                
-                sidebars[sidebars.length] = newSidebar;
-            }
-
+            logger.warn('AMT Evaluation is unused', log_options);
+            
             logger.debug(`Has PPR Approved: ${PPRApproved.exists}`, log_options);
             if(PPRApproved.exists){
                 const newSidebar = Object.create(null);

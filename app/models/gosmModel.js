@@ -16,6 +16,10 @@ module.exports = function(configuration, modules, db, queryFiles) {
     const getGOSMActivitySQL = queryFiles.getGOSMActivity;
     const getGOSMActivityOrgSQL = queryFiles.getGOSMActivityOrg;
 
+    const getActivitySummaryPerOrgSQL = queryFiles.getActivitySummaryPerOrg;
+
+    const getAllCurrentGOSMSQL = queryFiles.getAllCurrentGOSM;
+
     const insertGOSM = queryFiles.gosm_insert;
     const insertGOSM_Returning = queryFiles.gosm_insert_returning;
     const dbHelper = require('../utility/databaseHelper');
@@ -37,6 +41,17 @@ module.exports = function(configuration, modules, db, queryFiles) {
                 });
 
             return connection.none(query.toString(), {activityID: activityID});
+        },
+
+        getTermEndDate: ( connection = db) => {
+            logger.debug('getTermEndDate()', log_options);
+
+            let query = squel.select()
+            .from("Term")
+            .field("dateEnd")
+            .where("id = ?",squel.str('system_get_current_term_id()'))
+
+            return connection.one(query.toString());
         },
 
         insertProjectHead:(activityID, projectHead, connection = db) => {
@@ -113,6 +128,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
             .field("TO_CHAR(G.targetdatestart,'Mon DD, YYYY') as startdate")
             .field("TO_CHAR(G.targetdatestart,'MM/DD/YYYY') as targetdatestart1")
             .field("TO_CHAR(G.targetdateend,'MM/DD/YYYY') as targetdateend1")
+            .field("G.comments as gcomments")
             .field("*")
             .field("G.ID AS GID")
             .field('P.ID AS PID')
@@ -120,6 +136,28 @@ module.exports = function(configuration, modules, db, queryFiles) {
 
             query = query.toString();
             return connection.any(query);
+        },
+        getRelated:function(gosmid,connection = db){
+             let query= squel.select()
+            .from('GOSMActivity',"G")
+            .where('GOSM = ?',gosmid)
+            .where('isrelatedtoorganizationnature = true')
+            .where('isingosm = true')
+            .field('COUNT(id) as related');
+
+            query = query.toString();
+            return connection.one(query);
+        },
+        getNotRelated:function(gosmid,connection = db){
+             let query= squel.select()
+            .from('GOSMActivity',"G")
+            .where('GOSM = ?',gosmid)
+            .where('isrelatedtoorganizationnature = false')
+            .where('isingosm = true')
+            .field('COUNT(id) as notrelated');
+
+            query = query.toString();
+            return connection.one(query);
         },
 
         getnotinGOSMActivities: function(GOSMID, fields, connection = db) {
@@ -222,6 +260,15 @@ module.exports = function(configuration, modules, db, queryFiles) {
         getOrgGOSM: function(param, connection = db) {
             return connection.oneOrNone(getOrgGOSMSQL, param);
         },
+
+        getActivitySummaryPerOrg: function(param, connection = db){
+            return connection.any(getActivitySummaryPerOrgSQL, param);
+        },
+
+        getAllCurrentGOSM: function(connection = db){
+            return connection.any(getAllCurrentGOSMSQL);
+        },
+
         getOrgAllGOSM: function(orgid, connection = db) {
             let query = squel.select()
                 .from('GOSM','G')

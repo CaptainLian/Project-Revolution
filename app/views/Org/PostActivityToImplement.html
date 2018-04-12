@@ -1,36 +1,24 @@
-{% extends "./Organization_master.html" %}
+{% extends "../template/CSO_master.html" %}
 {% import '../template/tags_macro.html' as tag%}
-
-{%block meta%}
-    {{super()}}
-    <meta data-name="csrf" data-token="{{csrfToken}}" />
-{%endblock%}
 
 {%block style%}
     {{super()}}
-
-    <!-- Bootstrap Core CSS -->
-    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
-    {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
     <!-- Menu CSS -->
     {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
     {{tag.style('/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css')}}
-
     {{tag.style('/plugins/bower_components/sweetalert/sweetalert.css')}}
     <!-- Animation CSS -->
     {{tag.style('/css/animate.css')}}
     <!-- Custom CSS -->
-    
-
     {{tag.style('/plugins/bower_components/datatables/jquery.dataTables.min.css')}}
     {{tag.style('http://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css')}}
     {{tag.style('/css/custom.css')}}
     {{tag.style('/css/style.css')}}
+    {{tag.style('/css/doms.css')}}
     <!-- color CSS you can use different color css from css/colors folder -->
     <!-- We have chosen the skin-blue (blue.css) for this starter
           page. However, you can choose any other skin from folder css / colors .
     -->
-    
     {{tag.style('/css/colors/default.css')}}
     {{tag.style('/css/colors/blue.css')}}
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -48,12 +36,6 @@
 
 {%block defer_script%}
     {{super()}}
-    <!-- jQuery -->
-    {{- tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
-    <!-- Bootstrap Core JavaScript -->
-    {{- tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
-    {{- tag.javascript('/bootstrap/dist/js/bootstrap-3.3.7.min.js', true)}}
-    {{- tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
     <!-- Menu Plugin JavaScript -->
     {{- tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
     <!--slimscroll JavaScript -->
@@ -66,7 +48,6 @@
     {{- tag.javascript('/js/cbpFWTabs.js', true)}}
     <!--Style Switcher -->
     {{- tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
-
     {{- tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
     {{- tag.javascript('/js/Organization/ActivityToImplement.js', true)}}
 {%endblock%}
@@ -86,6 +67,13 @@
     <div class="col-sm-12">
         <div class="white-box">
             <h3 class="box-title m-b-0">Finished Activities</h3>
+            <p class="box-title m-b-0 pull-right">legend:
+                <span class="label label-primary">In Progress</span>
+                <span class="label label-success">Approved</span>
+                <span class="label label-warning">Pended</span>
+                <span class="label label-danger">Denied</span>
+                <span class="label label-gray">Unprocessed</span>
+            </p>
             <p class="text-muted m-b-30">List of activities that require post activity documents</p>
             <div class="table-responsive">
 
@@ -112,7 +100,7 @@
                                     <td><a href="/Organization/PostProjectProposal/Main/{{activity.id}}" class="btn-link">{{activity.strategies}}</a></td>      
                                   
                                     
-                                    <td><span class="label label-info">Unprocessed</span></td>      
+                                    <td><span class="label label-gray">Unprocessed</span></td>      
                                 </tr>
                              {% elif activity.status == 1 %}
 
@@ -120,7 +108,7 @@
                                     <td><a href="/Organization/PostProjectProposal/Main/{{activity.id}}" class="btn-link">{{activity.strategies}}</a></td>      
                                   
                                     
-                                    <td><span class="label label-info">Unprocessed</span></td>      
+                                    <td><span class="label label-gray">Unprocessed</span></td>      
                                 </tr>
                             {% elif activity.status == 2 %}
 
@@ -129,7 +117,7 @@
                                     <td><a href="/Organization/PostProjectProposal/Main/{{activity.id}}" class="btn-link">{{activity.strategies}}</a></td>      
                                    
                                     
-                                    <td><span class="label label-warning">In Progress</span></td>      
+                                    <td><span class="label label-primary">In Progress</span></td>      
                                 </tr>
 
                             
@@ -158,7 +146,7 @@
                                     <td><a href="/Organization/PostProjectProposal/Main/{{activity.id}}" class="btn-link">{{activity.strategies}}</a></td>      
                                    
                                     
-                                    <td><span class="label label-danger">Pend</span></td>      
+                                    <td><span class="label label-warning">Pend</span></td>      
                                 </tr>
 
                             {% endif %}

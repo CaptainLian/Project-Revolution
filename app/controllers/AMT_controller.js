@@ -22,7 +22,6 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		renderData.csrfToken = req.csrfToken();
 		renderData.activity = activityId;
 		
-		
 		return res.render('AMT/ActivityEvaluation', renderData);
 	};
 
@@ -53,9 +52,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
                 else if(data[0][i].status == 3){
                     evaluatedActivities = evaluatedActivities + 1;
                 }
-
             }
-
 
             renderData.pendingActivities = pendingActivities;
             renderData.takenActivities = takenActivities;
@@ -69,9 +66,6 @@ module.exports = function(configuration, modules, models, database, queryFiles){
         }).catch(error=>{
             console.log(error);
         });
-
-
-	
 	};
 	
 	//TODO: CHANGE SQL TO CURRENT TERM YEAR ONLY
@@ -87,8 +81,10 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		};
 		
 		database.task(t =>{
-			return t.batch([amtModel.getAvailableActivityToCheck(),
-							amtModel.getAmtMyActivity(dbParam)]);
+			return t.batch([
+				amtModel.getAvailableActivityToCheck(),
+				amtModel.getAmtMyActivity(dbParam)
+			]);
 		}).then(data => {
 			renderData.allActivity = data[0];
 			renderData.myActivity = data[1];

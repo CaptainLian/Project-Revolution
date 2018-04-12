@@ -4,7 +4,6 @@
 {%block meta%}
     {{super()}}
     <meta data-name="GOSM" data-id="{{GOSMID}}" />
-    <meta data-name="csrf" data-token="{{csrfToken}}" />
 {%endblock%}
 
 {%block page_title%}APS - {{organizationName}} GOSM Submission{%-endblock%}
@@ -12,28 +11,24 @@
 {%block style%}
     {{super()}}
     <!-- Bootstrap Core CSS -->
-    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
-    {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
     {{tag.style('/plugins/bower_components/datatables/jquery.dataTables.min.css')}}
     <!-- Menu CSS -->
     {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
     <!-- animation CSS -->
     {{tag.style('/css/animate.css')}}
     <!--alerts CSS -->
-    {{tag.style('/plugins/bower_components/sweetalert/sweetalert.css')}}
+    {{tag.style('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.css')}}
     <!-- Custom CSS -->
     {{tag.style('/css/style.css')}}
     {{tag.style('/css/custom.css')}}
     <!-- color CSS -->
     {{tag.style('/css/colors/default.css')}}
-
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
     <!-- Page Styles -->
     {{tag.style('/css/ViewOrgGOSM')}}
     <!-- /Page Styles -->
@@ -41,16 +36,9 @@
 
 {%block defer_script%}
     {{super()}}
-    <!-- jQuery -->
-    {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
-    <!-- Bootstrap Core JavaScript -->
-    {{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
-    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}}
-    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
     <!-- Menu Plugin JavaScript -->
     {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
     <!--slimscroll JavaScript -->
-    {{tag.javascript('/js/jquery.slimscroll.js', true)}}
     <!--Wave Effects -->
     {{tag.javascript('/js/waves.js', true)}}
     <!-- Custom Theme JavaScript -->
@@ -59,10 +47,9 @@
     <!-- tabs-->
     {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
     <!-- Sweet-Alert  -->
-    {{tag.javascript('/plugins/bower_components/sweetalert/sweetalert.min.js', true)}}
+    {{tag.javascript('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js', true)}}
     <!--Style Switcher -->
     {{tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
-
     <!-- Page-Scripts -->
     {{tag.javascript('/js/APS/ORGGOSM.js', true)}}
     <!-- /Page-Scripts -->
@@ -88,7 +75,7 @@
                                     <thead>
                                         <tr role="row">
                                             <th class="sorting" tabindex="0" aria-controls="myTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 139px;">Activity Name</th>
-                                            <th class="sorting" tabindex="0" aria-controls="myTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 139px;">Activity Date</th>
+                                            <th class="sorting" tabindex="0" aria-controls="myTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 139px;">Target Date</th>
                                         </tr>
                                     </thead>
 
@@ -130,7 +117,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" id="">Activity Name</h4>
+                    <h4 class="modal-title" id="modal_activity_name">Activity Name</h4>
                 </div>
                 <div class="modal-body">
                     <section>

@@ -1,0 +1,120 @@
+{% extends '../template/CSO_master.html' %}
+{% import '../template/tags_macro.html' as tag%}
+
+{%block style%}
+    {{super()}}
+    <!-- Menu CSS -->
+    {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
+    {{tag.style('/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css')}}
+    {{tag.style('/plugins/bower_components/sweetalert/sweetalert.css')}}
+    <!-- Animation CSS -->
+    {{tag.style('/css/animate.css')}}
+    <!-- Custom CSS -->
+    {{tag.style('/plugins/bower_components/datatables/jquery.dataTables.min.css')}}
+    {{tag.style('http://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css')}}
+    {{tag.style('/css/custom.css')}}
+    {{tag.style('/css/doms.css')}}
+    {{tag.style('/css/style.css')}}
+    <!-- color CSS you can use different color css from css/colors folder -->
+    <!-- We have chosen the skin-blue (blue.css) for this starter
+          page. However, you can choose any other skin from folder css / colors .
+    -->
+    {{tag.style('/css/colors/default.css')}}
+    {{tag.style('/css/colors/blue.css')}}
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style type="text/css">
+        th, td{
+            text-align: center
+        }
+    </style>
+{%endblock%}
+
+{%block defer_script%}
+    {{super()}}
+    <!-- Menu Plugin JavaScript -->
+    {{- tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
+    <!--slimscroll JavaScript -->
+    {{- tag.javascript('/js/jquery.slimscroll.js', true)}}
+    <!--Wave Effects -->    
+    {{- tag.javascript('/plugins/bower_components/sweetalert/sweetalert.min.js', true)}}
+    {{- tag.javascript('/plugins/bower_components/sweetalert/jquery.sweet-alert.custom.js', true)}}
+    {{- tag.javascript('/js/waves.js', true)}}
+    {{- tag.javascript('/js/custom.min.js', true)}}
+    {{- tag.javascript('/js/cbpFWTabs.js', true)}}
+    <!--Style Switcher -->
+    {{- tag.javascript('/plugins/bower_components/styleswitcher/jQuery.style.switcher.js', true)}}
+
+    {{- tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
+    {{- tag.javascript('/js/Organization/amtList.js',true)}}
+{%endblock%}
+
+{%block content%}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="white-box">
+        <div>
+            <h3 class="box-title m-b-0">List of Activities for AMT
+                
+            </h3>
+            <p class="box-title m-b-0 pull-right">legend:
+                
+                <span class="label label-success">Evaluated</span>
+                <span class="label label-warning">Unevaluated</span>
+                
+            </p>
+            <p class="text-muted m-b-30">List of submitted activities that are available for Activity Monitoring Team evaluation
+            </p>
+            
+        </div>
+            
+            <div class="table-responsive">
+                <table id="amtTable" class="table table-hover"  role="grid" aria-describedby="myTable_info">
+                    <thead>
+                        <tr>
+                            <th width="33%">Date</th>
+                            <th width="33%">Activity Name</th>
+                            
+                            <th width="33%">Status</th>
+                        </tr>
+                    
+                    </thead>
+                    <tbody> 
+                                {%for act in amt%}
+                                    <tr>
+                                        <td>
+                                            {%filter replace('00:00:00 GMT+0800 (+08)','')%}
+                                                {{act.actualdatestart }}
+                                            {%endfilter%}
+                                        </td>      
+                                        {%if act.aaestatus == 3%}
+                                            <td><a href="/Organization/viewAmtEval/{{act.activityid}}" class="btn-link">{{act.strategies}}</a></td>
+                                        
+                                            <td><span class="label label-success">Evaluated</span></td>
+                                        {%else%}
+                                            <td><a >{{act.strategies}}</a></td>
+                                        
+                                            <td><span class="label label-warning">Unevaluated</span></td>
+                                        {%endif%}
+                                    </tr>
+                                {%endfor%}
+                                
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        
+    </div>
+    <div class="col-sm-12">
+        
+    </div>
+</div>
+{%endblock%}

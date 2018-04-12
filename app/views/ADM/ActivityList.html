@@ -7,24 +7,18 @@
 {%block style%}
     {{super()}}
     <!-- Bootstrap Core CSS -->
-    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
-    {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
     {{tag.style('/plugins/bower_components/datatables/jquery.dataTables.min.css')}}
     {{tag.style('/plugins/bower_components/nestable/nestable.css')}}
-    
     <!-- Menu CSS -->
     {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
-    <!-- animation CSS -->
-    
     <!--alerts CSS -->
     {{tag.style('/plugins/bower_components/sweetalert/sweetalert.css')}}
     <!-- Custom CSS -->
     {{tag.style('/plugins/bower_components/custom-select/custom-select.css')}}
     {{tag.style('/plugins/bower_components/bootstrap-select/bootstrap-select.min.css')}}
-   
     {{tag.style('/plugins/bower_components/Magnific-Popup-master/dist/magnific-popup.css')}}
-     {{tag.style('/css/style.css')}}
-     {{tag.style('/css/animate.css')}}
+    {{tag.style('/css/style.css')}}
+    {{tag.style('/css/animate.css')}}
     {{tag.style('/css/custom.css')}}
     <!-- color CSS -->
     {{tag.style('/css/colors/blue.css')}}
@@ -42,13 +36,8 @@
 
 {%block defer_script%}
     {{super()}}
-    <!-- jQuery -->
-    {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
     <!-- Bootstrap Core JavaScript -->
     {{tag.javascript('/plugins/bower_components/datatables/jquery.dataTables.min.js', true)}}
-    {{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
-    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}}
-    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
     <!-- Menu Plugin JavaScript -->
     {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
     <!--slimscroll JavaScript -->
@@ -71,14 +60,20 @@
 	<div class="col-sm-12">
 		<div class="white-box">
 			<h3 class="box-title m-b-0">List of Activities</h3>
-
+            <p class="box-title m-b-0 pull-right">legend:
+                
+                <span class="label label-success">Approved</span>
+                <span class="label label-warning">Pended</span>                
+                <span class="label label-info">Unchecked</span>
+            </p>
+            
 			<div class="table-responsive">
 				<table id="myTable3" class="table table-striped">
 					<thead>
 						<tr>
 							<th class="text-center" width="33%">Event Date</th>
 							<th class="text-center" width="33%">Activity Name</th>
-						<!-- 	<th class="text-center" width="33%">Status</th> -->
+							<th class="text-center" width="33%">Status</th>
 
 						</tr>
 					</thead>
@@ -88,15 +83,13 @@
 						<tr>
 							<td class="text-center">{{pa.ddate}}</td>
 							<td class="text-center"><a href="/ADM/Activity/{{pa.GOSMActivity}}" class="btn-lnk">{{pa.strategies}}</a></td>
-                            {% if pub.status === 0 %}
-                                <td class="text-center"><span class="label label-warning">{{number[loop.index0].count}} Unapproved</span></td>
-                            {% elif pub.status === 1 %}
-                                <td class="text-center"><span class="label label-success">Checked</span></td>
-                            {% elif pub.status === 2 %}
-                                <td class="text-center"><span class="label label-warning">Pended</span></td>
-
-                            {% elif pub.status === 3 %}
-                                <td class="text-center"><span class="label label-danger">Denied</span></td>
+                            
+                            {% if pa.pstatus === 3 %}
+                                <td class="text-center"><span class="label label-info">Unchecked</span></td>
+                            {% elif pa.pstatus === 5 %}
+                                <td class="text-center"><span class="label label-warning">Pended</span></td>                        
+                            {% elif pa.pstatus === 4 %}
+                                <td class="text-center"><span class="label label-success">Approved</span></td>                            
                             {% endif %}
 						</tr>
                         {%endfor %}

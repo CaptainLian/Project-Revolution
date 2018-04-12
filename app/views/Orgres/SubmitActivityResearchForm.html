@@ -1,18 +1,12 @@
 {% extends './Orgres_master.html' %}
 {% import '../template/tags_macro.html' as tag %}
 
-
 {%block style%}
     {{super()}}
-
-    <!-- Bootstrap Core CSS -->
-    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
-    {{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
     <!-- Wizard CSS -->
     {{tag.style('/plugins/bower_components/jquery-wizard-master/css/wizard.css')}}
     <!-- datatables -->
     {{tag.style('/plugins/bower_components/datatables/jquery.dataTables.min.css')}}
-
     <!-- Menu CSS -->
     {{tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
     <!-- animation CSS -->
@@ -31,15 +25,8 @@
 	<![endif]-->
 {%endblock%}
 
-
 {%block defer_script%}
     {{super()}}
-    <!-- jQuery -->
-    {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
-    <!-- Bootstrap Core JavaScript -->
-    {{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
-    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}}
-    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
     <!-- Menu Plugin JavaScript -->
     {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
     <!--slimscroll JavaScript -->
@@ -60,8 +47,8 @@
     {{tag.javascript('/plugins/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js', true)}}
     {{tag.javascript('/plugins/bower_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js', true)}}
     {{tag.javascript('/plugins/bower_components/multiselect/js/jquery.multi-select.js', true)}}
-
     <!-- Page Scripts -->
+    {{tag.javascript('/js/mask.js', true)}}
     {{tag.javascript('/js/Orgres/SubmitActivityResearchForm.js', true)}}
     <!-- /Page Scripts -->
 {%endblock%}
@@ -69,91 +56,119 @@
 
 {%block content%}
 <form action="/ORGRES/SubmitResearchForm" id="form-id" method="POST">
-<input type="hidden" name="_csrf" value="{{csrfToken}}">
+    <input type="hidden" name="_csrf" value="{{csrfToken}}" />
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="white-box">
+                <!--content-->
+                <!-- .row -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="white-box p-l-20 p-r-20">
+                            <h3 class="box-title text-center">Activity Research Form</h3>
+                            <hr>
+                            <br />
+                            {%
+                                set examples = [{
+                                    email: 'dominque_dagunton',
+                                    idNumber: 11426403
+                                }, {
+                                    email: 'neil_capistrano',
+                                    idNumber: 11425784
+                                }, {
+                                    email: 'markus_flores',
+                                    idNumber: 11400226
+                                }, {
+                                    email: 'juliano_laguio',
+                                    idNumber: 11445955
+                                }]
+                             %}
+                            {%
+                                set example = (examples | random)
+                            %}
+                            <div class="row">
+                               <div class="col-md-4">
+                                    <div class="form-group m-b-40" id="id_num_group">
+                                       <input data-mask="99999999" name="idNumber" type="text" class="form-control" id="idNumber" placeholder="eg. {{example.idNumber}}">
+                                       <span class="highlight"></span> <span class="bar"></span>
+                                       <label for="idNumber">ID Number</label>
+                                    </div>
+                               </div> 
 
+                               <div class="col-md-5">
+                                    <div class="form-group m-b-40">
+                                       <div class="input-group">
+                                            <input name="email" type="text" class="form-control" id="email" placeholder="eg. {{example.email}}">
+                                            <span class="input-group-addon">@dlsu.edu.ph</span>
+                                        </div>
+                                        <span class="highlight"></span> <span class="bar"></span>
+                                       <label for="email">Email</label>
+                                    </div>
+                               </div> 
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group m-b-40">
+                                        <select class="form-control select2" name="activity" id ="transaction">
+                                            <option selected="true" disabled="disabled">Select</option>
+                                              {% for organization in organizations %}
+                                                <optgroup label="{{organization.name}}">
+                                                  {% for activity in activities %}
+                                                      {% if activity.organization == organization.id %}
+                                                         <option value="{{activity.id}}">{{organization.name}} - {{activity.strategies}}</option>
+                                                      {% endif %}
+                                                  {% endfor %}
+                                                </optgroup>
+                                              {% endfor %}
+                                          </select>
+                                          <span class="highlight"></span> <span class="bar"></span>
+                                          <label for="activity">Activity</label>
+                                          <span class="help-block"><small>Select the Activity to be evaluated.</small></span>
+                                       </div>
+                                   </div>
+                               </div>
+                           
+                               <div class="col-xs-12">
+                                  <div class="form-group col-xs-12">
+                                      <label class="col-xs-12">1. I understand the purpose of the activity.</label>
+                                       <div class="text-center">
+                                           <label class="">Strongly Disagree </label>&nbsp;
+                                           <input  type="radio" name="radio1" id="inlineRadio1" value="1" />&nbsp;
+                                           <input  type="radio" name="radio1" id="inlineRadio1" value="2" />&nbsp;
+                                           <input  type="radio" name="radio1" id="inlineRadio1" value="3" />&nbsp;
+                                           <input  type="radio" name="radio1" id="inlineRadio1" value="4" />&nbsp;
+                                           <input  type="radio" name="radio1" id="inlineRadio1" value="5" />&nbsp;
+                                           <label class=""> Strongly Agree</label>
+                                      </div>                                                     
+                                   </div>
+                               
+                               <div class="form-group col-xs-12">
+                                   <label class="col-xs-12">2. The activity served my interests.</label>
+                                   <div class="text-center">
+                                       <label class="">Strongly Disagree </label>&nbsp;
+                                       <input  type="radio" name="radio2" id="inlineRadio1" value="1">&nbsp;
+                                       <input  type="radio" name="radio2" id="inlineRadio1" value="2">&nbsp;
+                                       <input  type="radio" name="radio2" id="inlineRadio1" value="3">&nbsp;
+                                       <input  type="radio" name="radio2" id="inlineRadio1" value="4">&nbsp;
+                                       <input  type="radio" name="radio2" id="inlineRadio1" value="5">&nbsp;
+                                       <label class=""> Strongly Agree</label>
+                                   </div>                                                     
+                               </div>
+                               
+                               <div class="form-group col-xs-12">
+                                   <label class="col-xs-12">3. I felt involved during the activity.</label>
+                                   <div class="text-center">
+                                       <label class="">Strongly Disagree </label>&nbsp;
+                                           <input  type="radio" name="radio3" id="inlineRadio1" value="1">&nbsp;
+                                           <input  type="radio" name="radio3" id="inlineRadio1" value="2">&nbsp;
+                                           <input  type="radio" name="radio3" id="inlineRadio1" value="3">&nbsp;
+                                           <input  type="radio" name="radio3" id="inlineRadio1" value="4">&nbsp;
+                                           <input  type="radio" name="radio3" id="inlineRadio1" value="5">&nbsp;
+                                       <label class=""> Strongly Agree</label>
+                                   </div>                                                     
+                               </div>
 
-<div class="row">
-    <div class="col-sm-12">
-        <div class="white-box">
-        <!--content-->
-        <!-- .row -->
-        <div class="row">
-            <div class="col-md-12">
-                <div class="white-box p-l-20 p-r-20">
-                    <h3 class="box-title text-center">Activity Research Form</h3>
-                    <hr>
-                    <br />
-                    <!-- <div class="col-xs-12">
-                        <div class="form-group m-b-40">
-                            <select class="form-control select2" name="position" id="org-select">
-                                <option selected="true" disabled="disabled">Select an Organization</option>
-                                <option value="0">Officer</option>
-                                <option value="1">Member</option>
-                                <option value="2">Non-member</option>
-                            </select>
-                            <span class="highlight"></span> <span class="bar"></span>
-                            <label for="input6">Position in the Organization</label>
-                        </div>
-                    </div> -->
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group m-b-40">
-                                <select class="form-control select2" name="activity" id ="transaction">
-                                    <option selected="true" disabled="disabled">Select</option>
-                                        {% for organization in organizations %}
-                                            <optgroup label="{{organization.name}}">
-                                            {% for activity in activities %}
-                                                {% if activity.organization == organization.id %}
-                                                   <option value="{{activity.id}}">{{organization.name}} - {{activity.strategies}}</option>
-                                                {% endif %}
-                                            {% endfor %}
-                                            </optgroup>
-                                        {% endfor %}
-                                </select>
-                                <span class="highlight"></span> <span class="bar"></span>
-                                <label for="input6">Activity</label>
-                                <span class="help-block"><small>Select the Activity to be evaluated.</small></span>
-                                </div>
-                        </div>
-                    </div>
-                    
-                        <div class="col-xs-12">
-                                <div class="form-group col-xs-12">
-                                    <label class="col-xs-12">1. I understand the purpose of the activity.</label>
-                                    <div class="text-center">
-                                        <label class="">Strongly Disagree </label>&nbsp;
-                                            <input  type="radio" name="radio1" id="inlineRadio1" value="1">&nbsp;
-                                            <input  type="radio" name="radio1" id="inlineRadio1" value="2">&nbsp;
-                                            <input  type="radio" name="radio1" id="inlineRadio1" value="3">&nbsp;
-                                            <input  type="radio" name="radio1" id="inlineRadio1" value="4">&nbsp;
-                                            <input  type="radio" name="radio1" id="inlineRadio1" value="5">&nbsp;
-                                        <label class=""> Strongly Agree</label>
-                                    </div>                                                     
-                                </div>
-                                <div class="form-group col-xs-12">
-                                    <label class="col-xs-12">2. The activity served my interests.</label>
-                                    <div class="text-center">
-                                        <label class="">Strongly Disagree </label>&nbsp;
-                                            <input  type="radio" name="radio2" id="inlineRadio1" value="1">&nbsp;
-                                            <input  type="radio" name="radio2" id="inlineRadio1" value="2">&nbsp;
-                                            <input  type="radio" name="radio2" id="inlineRadio1" value="3">&nbsp;
-                                            <input  type="radio" name="radio2" id="inlineRadio1" value="4">&nbsp;
-                                            <input  type="radio" name="radio2" id="inlineRadio1" value="5">&nbsp;
-                                        <label class=""> Strongly Agree</label>
-                                    </div>                                                     
-                                </div>
-                                <div class="form-group col-xs-12">
-                                    <label class="col-xs-12">3. I felt involved during the activity.</label>
-                                    <div class="text-center">
-                                        <label class="">Strongly Disagree </label>&nbsp;
-                                            <input  type="radio" name="radio3" id="inlineRadio1" value="1">&nbsp;
-                                            <input  type="radio" name="radio3" id="inlineRadio1" value="2">&nbsp;
-                                            <input  type="radio" name="radio3" id="inlineRadio1" value="3">&nbsp;
-                                            <input  type="radio" name="radio3" id="inlineRadio1" value="4">&nbsp;
-                                            <input  type="radio" name="radio3" id="inlineRadio1" value="5">&nbsp;
-                                        <label class=""> Strongly Agree</label>
-                                    </div>                                                     
-                                </div>
                                 <div class="form-group col-xs-12">
                                     <label class="col-xs-12">4. The activity was well-publicized.</label>
                                     <div class="text-center">
@@ -166,6 +181,7 @@
                                         <label class=""> Strongly Agree</label>
                                     </div>                                                     
                                 </div>
+
                                 <div class="form-group col-xs-12">
                                     <label class="col-xs-12">5. The organization urged me to go to this activity.</label>
                                     <div class="text-center">
@@ -178,6 +194,7 @@
                                         <label class=""> Strongly Agree</label>
                                     </div>                                                     
                                 </div>
+
                                 <div class="form-group col-xs-12">
                                     <label class="col-xs-12">6. The activity was memorable for me.</label>
                                     <div class="text-center">
@@ -190,6 +207,7 @@
                                         <label class=""> Strongly Agree</label>
                                     </div>                                                     
                                 </div>
+
                                 <div class="form-group col-xs-12">
                                     <label class="col-xs-12">7. The activity made me appreaciate the organization more.</label>
                                     <div class="text-center">
@@ -202,40 +220,39 @@
                                         <label class=""> Strongly Agree</label>
                                     </div>                                                     
                                 </div>
-                                 <div class="form-group col-xs-12">
+
+                                <div class="form-group col-xs-12">
                                     <label class="col-xs-12">What went well in the activity</label>
                                     <div class="text-center">
                                         <textarea name="wentwell" id="input" class="form-control" rows="3" required="required"></textarea>
                                     </div>                                                     
                                 </div>
+        
                                 <div class="form-group col-xs-12">
                                     <label class="col-xs-12">Feedbacks and Comments</label>
                                     <div class="text-center">
                                         <textarea name="feedback" id="input" class="form-control" rows="3" required="required"></textarea>
                                     </div>                                                     
                                 </div>
+        
                                 <div class="form-group col-xs-12">
                                     <label class="col-xs-12">Expectations for future activities</label>
                                     <div class="text-center">
                                         <textarea name="expectations" id="input" class="form-control" rows="3" required="required"></textarea>
                                     </div>                                                     
                                 </div>
-                                        
-                                    <div class="text-center" id="arf-submit"><button type="submit" class="btn btn-primary">Submit</button></div>
-                                    
                                 
-                                
-                            
-                                
+                                <div class="text-center" id="arf-submit">
+                                    <button id="ARF_btn_submit" type="submit" class="btn btn-primary">Submit</button>
+                                </div>                      
+                            </div>
                         </div>
-                    
+                    </div>
                 </div>
+            <!-- /.row -->
             </div>
         </div>
-        <!-- /.row -->
-        </div>
     </div>
-</div>
 </form>
 {%endblock%}
 

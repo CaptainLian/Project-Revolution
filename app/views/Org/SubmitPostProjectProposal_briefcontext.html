@@ -6,9 +6,6 @@
 
 {%block style%}
 	{{super()}}
-    <!-- Bootstrap Core CSS -->
-    {{tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
-   	{{tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
     <!-- animation CSS -->
     {{tag.style('/css/animate.css')}}
     <!-- Menu CSS -->
@@ -38,12 +35,6 @@
 	
 {%block defer_script%}
 	{{super()}}
-    <!-- jQuery -->
-    {{tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
-    <!-- Bootstrap Core JavaScript -->
-    {{tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
-    {{tag.javascript('/bootstrap/dist/js/bootstrap.min.js', true)}}
-    {{tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
     <!-- Menu Plugin JavaScript -->
     {{tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
     <!--slimscroll JavaScript -->
@@ -79,7 +70,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-md-3">ANP</label>
                                                     <div class="col-md-9">
-                                                        <input type="number" name="anp" class="form-control">
+                                                        <input type="number" name="anp" value="{{save.ANP}}" class="form-control" min="0">
                                                         <span class="help-block"> Actual number of Participants</span> </div>
                                                 </div>
                                             </div>
@@ -88,7 +79,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-md-3">ANMP</label>
                                                     <div class="col-md-9">
-                                                        <input type="number" name="anmp" class="form-control">
+                                                        <input type="number" name="anmp" value="{{save.ANMP}}" min="0" class="form-control">
                                                         <span class="help-block"> Actual number of Member Participants</span> </div>
                                                 </div>
                                             </div>

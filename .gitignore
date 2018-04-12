@@ -1,6 +1,10 @@
 node_modules/
+
 system.log
 npm-debug.log
+
 package-lock.json
+
 config.sublime-workspace
+
 app/assets/upload/

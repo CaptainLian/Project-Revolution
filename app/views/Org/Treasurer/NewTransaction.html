@@ -1,17 +1,8 @@
 {% extends "../Organization_master.html" %}
 {% import '../../template/tags_macro.html' as tag%}
 
-{%block meta%}
-    {{super()}}
-    <meta data-name="csrf" data-token="{{csrfToken}}" />
-{%endblock%}
-
 {%block style%}
     {{super()}}
-
-    <!-- Bootstrap Core CSS -->
-    {{- tag.style('/bootstrap/dist/css/bootstrap.min.css')}}
-    {{- tag.style('/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}
     <!-- Menu CSS -->
     {{- tag.style('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}
     <!-- Wizard CSS -->
@@ -31,9 +22,7 @@
           page. However, you can choose any other skin from folder css / colors .
     -->
     {{- tag.style('/css/colors/blue.css')}}
-
     <!-- FormValidation -->
-
     {{- tag.style('/css/custom.css')}}
     {{- tag.style('/plugins/bower_components/jquery-wizard-master/libs/formvalidation/formValidation.min.css')}}
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -47,13 +36,6 @@
 
 {%block defer_script%}
     {{super()}}
-
-    <!-- jQuery -->
-    {{- tag.javascript('/plugins/bower_components/jquery/dist/jquery.min.js', true)}}
-    <!-- Bootstrap Core JavaScript -->
-    {{- tag.javascript('/bootstrap/dist/js/tether.min.js', true)}}
-    {{- tag.javascript('/bootstrap/dist/js/bootstrap-3.3.7.min.js', true)}}
-    {{- tag.javascript('/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js', true)}}
     <!-- Menu Plugin JavaScript -->
     {{- tag.javascript('/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', true)}}
     <!--slimscroll JavaScript -->

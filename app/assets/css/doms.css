@@ -111,3 +111,31 @@
 #myBtn:hover {
   background-color: #555;
 }
+
+.btn-orange{
+	background: #FF5D00;
+	opacity: .8;
+	border: 1px solid #FF5D00;
+}
+.label-gray{
+	background-color: #777777;
+	letter-spacing: .05em;
+	border-radius: 60px;
+	padding: 4px 16px 3px;
+	font-weight: 500;
+
+}
+.label-orange{
+	background-color: #FF5D00;
+	letter-spacing: .05em;
+	border-radius: 60px;
+	padding: 4px 16px 3px;
+	font-weight: 500;
+}
+.breaks{
+	width: 248px;
+	word-break: keep-all;
+}
+.font-gray{
+	color: gray;
+}
