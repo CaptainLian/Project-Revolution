@@ -9,7 +9,7 @@ $("#myTable3").DataTable();
 $("#approve").click(function(){
     swal({
       title: 'Warning',
-      text: "Once you submit this you all finance transaction for this activity will be canceled, and you can no longer add finance transaction for this activity",
+      text: "Once you submit this, all finance transaction for this activity will be canceled, and you can no longer add finance transaction for this activity",
       type: 'warning',
       showCancelButton: true,
       reverseButtons:false,
