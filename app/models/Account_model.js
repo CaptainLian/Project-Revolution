@@ -707,6 +707,56 @@ module.exports = function(configuration, modules, database, queryFiles) {
         return connection.none(pendCashAdvanceSQL, param);
     };
 
+    /******
+    * ADM *
+    *******/
+
+    AccountModel.approvePostProjectProposal = (GOSMActivityID, idNumber, document, digitalSignature, connection = database) => {
+        logger.info(`call approvePostProjectProposal(GOSMActivityID: ${GOSMActivityID}, idNumber: ${idNumber})`);
+        const DONT_QUOTE = Object.create(null);
+        DONT_QUOTE.dontQuote = true;
+
+        let query = squel.update()
+            .table('"PostProjectProposalSignatory"', DONT_QUOTE)
+            .set('"status"', 1, DONT_QUOTE)
+            .set('"document"', '${document}', DONT_QUOTE)
+            .set('"digitalSignature"', '${digitalSignature}', DONT_QUOTE)
+            .set('"dateSigned"', 'CURRENT_TIMESTAMP', DONT_QUOTE)
+            .where('"GOSMActivity" = ${GOSMActivityID}')
+            .where('"signatory" = ${idNumber}')
+            .toString();
+
+        let param = Object.create(null);
+        param.document = document;
+        param.digitalSignature = digitalSignature;
+        param.GOSMActivityID = GOSMActivityID;
+        param.idNumber = idNumber;
+
+        logger.debug(`Executing query: ${query}`, log_options);
+        return connection.none(query, param);
+    };
+
+    AccountModel.pendPostProjectProposal = (GOSMActivityID, idNumber, comments, sections, connection = database) => {
+        logger.info(`call pendPostProjectProposal(GOSMActivityID: ${GOSMActivityID}, idNumber: ${idNumber})`);
+
+        let query = squel.update()
+            .table('"PostProjectProposalSignatory"', DONT_QUOTE)
+            .set('"status"', 2, DONT_QUOTE)
+            .set('"comments"', '${comments}', DONT_QUOTE)
+            .set('"sectionsToBeEdited"', '${sectionsToBeEdited}', DONT_QUOTE)
+            .where('"GOSMActivity" = ${GOSMActivityID}')
+            .where('"signatory" = ${idNumber}')
+            .toString();
+
+        let param = Object.create(null);
+        param.comments = comments;
+        param.sectionsToBeEdited = sections;
+        param.GOSMActivityID = GOSMActivityID;
+        param.idNumber = idNumber;
+
+        logger.debug(`Executing query: ${query}`, log_options);
+        return connection.none(query, param);
+    };
 
     return AccountModel;
 };

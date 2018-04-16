@@ -195,6 +195,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             const reply = Object.create(null);
             reply.status = 1;
 
+            logger.debug(`Sending reply: ${reply}`, log_options);
             return res.json(reply);
         }).catch(error => {
             return logger.error(`${error.message}:\n${error.stack}`, log_options);
