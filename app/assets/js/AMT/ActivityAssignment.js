@@ -44,19 +44,21 @@ $(document).ready(function(){
          
           "columns": [
             { "width": "35%" },
-            { "width": "25%" },
-            { "width": "15%" },
-            { "width": "20%" },
+            { "width": "10%" },
+            { "width": "30%" },
+            { "width": "10%" },
+            { "width": "10%" },
             { "width": "5%" },
           ]
     });
     var table2 = $('#myTable2').DataTable( {
          
           "columns": [
-            { "width": "35%" },
-            { "width": "25%" },
-            { "width": "15%" },
-            { "width": "20%" },
+             { "width": "35%" },
+            { "width": "10%" },
+            { "width": "30%" },
+            { "width": "10%" },
+            { "width": "10%" },
             { "width": "5%" },
           ]
     });
