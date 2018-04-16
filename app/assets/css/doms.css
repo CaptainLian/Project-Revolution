@@ -139,3 +139,6 @@
 .font-gray{
 	color: gray;
 }
+table.dataTable tbody tr.related{
+	background-color: #9bffc0;
+}
