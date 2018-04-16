@@ -1,16 +1,15 @@
 'use strict';
-var timediff = require('timediff');
-
 module.exports = function(configuration, modules, models, database, queryFiles) {
-    let ADM_controller = Object.create(null);
+    const STRINGIFY = require('json-stable-stringify');
+    const SIGN = require('../utility/digitalSignature.js').signString;
 
     const logger = modules.logger;
     const log_options = Object.create(null);
     log_options.from = 'ADM-Controlller';
 
+    const accountModel = models.Account_model;
     const amtModel = models.ActivityMonitoring_model;
     const systemModel = models.System_model;
-
     const pnpModel = models.PNP_model;
     const organizationModel = models.organization_model;
     const projectProposalModel = models.ProjectProposal_model;
@@ -18,6 +17,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     const gosmModel = models.gosmModel;
 
     const path = require('path');
+
+    let ADM_controller = Object.create(null);
 
     ADM_controller.viewActivityToCheck = (req, res) => {
         logger.info('call viewActivityToCheck()', log_options);
@@ -39,11 +40,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         logger.info('call viewActivityToCheck()', log_options);
 
         database.task(task => {
-                        return task.batch([
-                            postProjectProposalModel.getAllPostProjectProposal(),
-                            organizationModel.getAllStudentOrganizations(),
-                            gosmModel.getAllCurrent()
-                        ]);
+            return task.batch([
+                postProjectProposalModel.getAllPostProjectProposal(),
+                organizationModel.getAllStudentOrganizations(),
+                gosmModel.getAllCurrent()
+            ]);
         }).then(data=>{
 
             let renderData = Object.create(null);
@@ -79,7 +80,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         }).catch(error=>{
             console.log(error);
         });
-        
+
     };
     ADM_controller.viewGrades = (req, res) => {
         // logger.info('call viewActivityToCheck()', log_options);
@@ -88,7 +89,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         renderData.extra_data = req.extra_data;
         renderData.csrfToken = req.csrfToken();
         return res.render('ADM/viewOrgGrades');
-        
+
     };
     ADM_controller.viewCalendar = (req, res) => {
         // logger.info('call viewActivityToCheck()', log_options);
@@ -99,27 +100,24 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
         var dbParam = {
             studentorganization: req.params.orgid
-        }
+        };
 
          database.task(task => {
-                        return task.batch([
-                            organizationModel.getStudentOrganization(dbParam),
-                            projectProposalModel.getAllOrgProposal(req.params.orgid, null)
-                        ]);
-        })       
-        .then(data=>{
-            console.log("DATA")
-            renderData.studentorganization = data[0]
+            return task.batch([
+                organizationModel.getStudentOrganization(dbParam),
+                projectProposalModel.getAllOrgProposal(req.params.orgid, null)
+            ]);
+        }).then(data=>{
+            console.log("DATA");
+            renderData.studentorganization = data[0];
             renderData.events = data[1];
-            console.log(data)
+            console.log(data);
             return res.render('ADM/viewOrgCalendar',renderData);
-
         }).catch(err=>{
-            console.log(err)
-        })
-        
-        
+            console.log(err);
+        });
     };
+
     ADM_controller.viewGOSM = (req, res) => {
         // logger.info('call viewActivityToCheck()', log_options);
 
@@ -127,7 +125,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         renderData.extra_data = req.extra_data;
         renderData.csrfToken = req.csrfToken();
         return res.render('ADM/viewOrgGOSM');
-        
+
     };
     ADM_controller.viewOrgTerms = (req, res) => {
         logger.info('call viewActivityToCheck()', log_options);
@@ -136,7 +134,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         renderData.extra_data = req.extra_data;
         renderData.csrfToken = req.csrfToken();
         return res.render('ADM/viewOrgTerms');
-        
+
     };
     ADM_controller.updateStatus = (req, res) => {
         logger.info('call updateStatus()', log_options);
@@ -148,50 +146,73 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             sections = [sections];
         }
 
-        let stat = {
-            otherFinance: true,
-            briefContext: true,
-            gosmid: req.body.gosmid
-        };
-
-        if ( req.body.status == '4') {
-            dbParam = {
-                gosmid: req.body.gosmid,
-                status: 4,
-                comments: "",
-                sections: sections
-            };
-        } else {
-            dbParam = {
-                gosmid: req.body.gosmid,
-                status: 5,
-                comments: req.body.comment,
-                sections: sections
-            };
-
-            for (var x = 0; x < sections.length; x++) {
-                console.log("asd");
-                if (sections[x] == "1") {
-                    stat.briefContext = false;
-                }
-                if (sections[x] == "2") {
-                    stat.briefContext = false;
-                }
-                if (sections[x] == "3") {
-                    stat.otherFinance = false;
-                }
-                if (sections[x] == "4") {
-                    stat.otherFinance = false;
-                }
-            }
-        }
-
         return database.task(t => {
+            /**
+             * This is for the promise that would update the status of the signatory sign
+             * @type {Promise}
+             */
+            let statusPromise = null;
+
+            let stat = {
+                otherFinance: true,
+                briefContext: true,
+                gosmid: req.body.gosmid
+            };
+
+            //User pended
+            if(req.body.status == '5'){
+                statusPromise = accountModel.pendPostProjectProposal(
+                    req.body.gosmid,
+                    req.session.user.idNumber,
+                    req.body.comment,
+                    req.body.sections,
+                    t
+                );
+
+                for (var x = 0; x < sections.length; x++) {
+                    console.log("asd");
+                    if (sections[x] == "1") {
+                        stat.briefContext = false;
+                    }
+                    if (sections[x] == "2") {
+                        stat.briefContext = false;
+                    }
+                    if (sections[x] == "3") {
+                        stat.otherFinance = false;
+                    }
+                    if (sections[x] == "4") {
+                        stat.otherFinance = false;
+                    }
+                }
+            }else if(req.body.status == '4'){
+                statusPromise = accountModel.getAccountDetails(
+                    req.session.user.idNumber, [
+                    'a.privateKey'
+                ]).then(accountDetails => {
+                    const documentObj = Object.create(null);
+                    documentObj.GOSMActivityID = req.body.gosmid;
+                    //TODO: Other details
+
+                    const DOCUMENT_STRING = STRINGIFY(documentObj);
+                    const {signature: DIGITAL_SIGNATURE} = SIGN(DOCUMENT_STRING, accountDetails.privatekey);
+                    logger.debug(`Document: ${DOCUMENT_STRING}\nDigital Signature: ${DIGITAL_SIGNATURE}`, log_options);
+
+                    //This is the statusPromise
+                    return accountModel.approvePostProjectProposal(
+                        req.body.gosmid,
+                        req.session.user.idNumber,
+                        DOCUMENT_STRING,
+                        DIGITAL_SIGNATURE,
+                        t
+                    );
+                });
+            }
+
             return t.batch([
-                postProjectProposalModel.updatePostPPR(dbParam, t),
+                statusPromise,
                 postProjectProposalModel.updatePostStatus(stat, t)
             ]);
-        }).then(data => {
+        }).then(() => {
             const reply = Object.create(null);
             reply.status = 1;
 
