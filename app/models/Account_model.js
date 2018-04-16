@@ -559,11 +559,13 @@ module.exports = function(configuration, modules, database, queryFiles) {
 
     const getNotifcationsSQL = queryFiles.account_get_notifications;
     AccountModel.getNotifications = (idNumber, minSequence, fields, connection = database) => {
-        //logger.info(`call getNotifications(idNumber: ${idNumber}, minSequence: ${minSequence})`, log_options);
+        logger.info(`call getNotifications(idNumber: ${idNumber}, minSequence: ${minSequence})`, log_options);
         
         let query = squel.select()
             .from('"AccountNotification"')
-            .where('"account" = ${idNumber}');
+            .where('"account" = ${idNumber}')
+            //Descending
+            .order('"sequence"', false);
         attachFields(query, fields);
 
         const param = Object.create(null);
@@ -576,7 +578,7 @@ module.exports = function(configuration, modules, database, queryFiles) {
         param.idNumber = idNumber;
         
         query = query.toString();
-        //logger.debug(`Executing query: ${query}`, log_options);
+        logger.debug(`Executing query: ${query}`, log_options);
         return connection.any(query, param);
     };
 
