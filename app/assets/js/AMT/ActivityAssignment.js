@@ -82,9 +82,10 @@ $(document).ready(function(){
         var d = $(this);
         var tr = $(this).closest("tr");
         var actName  = tr.find("td:nth-child(1)").html();
-        var ven = tr.find("td:nth-child(2)").html();
-        var date = tr.find("td:nth-child(3)").html();
-        var time = (tr.find("td:nth-child(4)").html());
+        var ven = tr.find("td:nth-child(3)").html();
+        var date = tr.find("td:nth-child(4)").html();
+        var time = (tr.find("td:nth-child(5)").html());
+        var org = tr.find("td:nth-child(2)").html();
         console.log(tr.find("td:nth-child(1)").html());
         console.log(tr.find("td:nth-child(2)").html());
         console.log(tr.find("td:nth-child(3)").html());
@@ -112,6 +113,7 @@ $(document).ready(function(){
                                         
                     var row = table.row.add( [
                                     actName,
+                                    org,
                                     ven,
                                     date,
                                     time,
@@ -154,10 +156,11 @@ $(document).ready(function(){
     });
     $(document).on('click',' .remove-activity', function(){
         var tr = $(this).closest("tr");
-        var actName  = tr.find("td:nth-child(1)").html();
-        var ven = tr.find("td:nth-child(2)").html();
-        var date = tr.find("td:nth-child(3)").html();
-        var time = (tr.find("td:nth-child(4)").html());
+         var actName  = tr.find("td:nth-child(1)").html();
+        var ven = tr.find("td:nth-child(3)").html();
+        var date = tr.find("td:nth-child(4)").html();
+        var time = (tr.find("td:nth-child(5)").html());
+        var org = tr.find("td:nth-child(2)").html();
         console.log("evaluate-activity");
         var d = $(this);
         var id = $(this).attr('activity-id');
@@ -178,6 +181,7 @@ $(document).ready(function(){
                    
                     var row = table2.row.add( [
                                     actName,
+                                    org,
                                     ven,
                                     date,
                                     time,
