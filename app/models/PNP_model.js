@@ -1,10 +1,4 @@
 'use strict';
-
-const log_options= Object.create(null);
-log_options.from = 'PNP Proposal-Model';
-
-const squel = require('squel').useFlavour('postgres');
-
 module.exports = function(configuration, modules, db, queryFiles) {
     const logger = modules.logger;
     const log_options = Object.create(null);
@@ -63,7 +57,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
         getSpecificPubSeq:function (param, connection = db) {
             return connection.one(getSpecificPubSeq, param);
         },
-        
+
         updatePubsToPend:function (param, connection = db) {
             return connection.none(updatePubsToPend, param);
         },

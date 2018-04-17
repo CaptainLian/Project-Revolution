@@ -1,5 +1,10 @@
 'use strict';
 module.exports = function(configuration, modules, models, database, queryFiles){
+    const logger = modules.logger;
+    const log_options = {
+        from: 'PNP-Controller'
+    };
+
 	let PNPController = Object.create(null);
 	const pnpModel = models.PNP_model;
 	const gosmModel = models.gosmModel;
@@ -12,7 +17,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		renderData.extra_data = req.extra_data;
 
 		return res.render('PNP/ViewPubs', renderData);
-	};	
+	};
 
 	PNPController.viewSpecificPubs = (req, res) => {
 		let renderData = Object.create(null);
@@ -31,24 +36,25 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				gosmModel.getGOSMActivityProjectHeads(gosmParam2,t)
 			]);
 		}).then(pubs=>{
-				console.log(pubs[0]);
+			console.log(pubs[0]);
 			renderData.pubs = pubs[0];
 			renderData.activities = pubs[1];
 			renderData.heads = pubs[2];
 			return res.render('PNP/ViewPubs', renderData);
 		}).catch(err=>{
 			console.log("ERROR VIEW PUB");
-			console.log(err);	
+			console.log(err);
 		})
-	};	
+	};
 	PNPController.viewHome = (req, res) => {
+        logger.info('call viewHome', log_options);
 
 		 database.task(task => {
-                        return task.batch([
-                            pnpModel.getAllActivityPublicity(),
-                            organizationModel.getAllStudentOrganizations(),
-                            gosmModel.getAllCurrent()
-                        ]);
+            return task.batch([
+                pnpModel.getAllActivityPublicity(),
+                organizationModel.getAllStudentOrganizations(),
+                gosmModel.getAllCurrent()
+            ]);
         }).then(data=>{
 
             let renderData = Object.create(null);
@@ -68,9 +74,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
                 else if(data[0][i].publicitystatus == 2){
                     PendedPublicityMaterials = PendedPublicityMaterials + 1;
                 }
-
             }
-
 
             renderData.uncheckedPublicityMaterials = uncheckedPublicityMaterials;
             renderData.ApprovedPublicityMaterials = ApprovedPublicityMaterials;
@@ -80,12 +84,9 @@ module.exports = function(configuration, modules, models, database, queryFiles){
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
 		    return res.render('PNP/mainPNP', renderData);
-
         }).catch(error=>{
             console.log(error);
         });
-
-	 
 	  };
 
 	PNPController.viewPubsList = (req, res) => {
@@ -101,13 +102,13 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			console.log(pubs);
 			renderData.pubs = pubs[0];
 			renderData.number = pubs[1];
-			
+
 			return res.render('PNP/PubsToCheck', renderData);
 		}).catch(err=>{
 			console.log("ERROR VIEW PUB");
-			console.log(err);	
+			console.log(err);
 		});
-	};	
-	
+	};
+
 	return PNPController;
 };
