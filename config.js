@@ -5,7 +5,7 @@
  * how to connect, what directories, etc.
  *
  * The current working directory is the file of the config.js
- * The paths are manually transformed to absoulute paths at the bottom of this script. 
+ * The paths are manually transformed to absoulute paths at the bottom of this script.
  *
  * @type  {Object}
  */
@@ -93,9 +93,9 @@ const configuration = {
 
             /* Only works if "enable_footer_quotes" is true, otherwise displays a default footer */
 
-            /* Choices: "communist", "john_de_la_salle" 
+            /* Choices: "communist", "john_de_la_salle"
                An invalid choice is defaulted */
-            "quotes_type": "john_de_la_salle"
+            "quotes_type": "communist"
         },
 
         "email": {
@@ -106,13 +106,13 @@ const configuration = {
         	"username": "dlsum.facultyattendance@gmail.com",
         	"password": "01234567891011"
         },
-        /* 
-            Configuration on the parsing of http requests 
+        /*
+            Configuration on the parsing of http requests
         */
         "parsing": {
-            "extended": true /* Default false */, 
+            "extended": true /* Default false */,
             "limit": "1mb" /* Default 100kb */,
-            "parameterLimit": 1000000 /* Default 1000 */ 
+            "parameterLimit": 1000000 /* Default 1000 */
         }
     },
     "database": {
