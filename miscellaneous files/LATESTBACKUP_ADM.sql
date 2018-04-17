@@ -528,6 +528,8 @@ DROP FUNCTION public."PreAct_CashAdvance_get_organization"("param_CAID" integer)
 DROP FUNCTION public."PreAct_BookTransfer_get_organization_next_treasurer_signatory"(organizationid integer);
 DROP FUNCTION public."PreActCashAdvance_get_organization_next_treasurer_signatory"(organizationid integer);
 DROP FUNCTION public."PreActCashAdvance_get_number_to_sign_per_account"();
+DROP FUNCTION public."PostProject_CSO_ADM_toSign_per_account"();
+DROP FUNCTION public."PostProject_CSO_ADM_get_next_postproject_signatory"();
 DROP FUNCTION public."PostAct_Reimbursement_get_organization_next_treasurer_signatory"(organizationid integer);
 DROP FUNCTION public."PPR_get_organization_next_treasurer_signatory"(organizationid integer);
 DROP FUNCTION public."PPR_get_organization_next_immediate_supervisor_signatory"(preparedby integer, organizationid integer);
@@ -538,6 +540,7 @@ DROP FUNCTION public."PPR_get_cso_next_first_phase_signatory"();
 DROP FUNCTION public."PPR_get_GOSMActivity_id_from_PPRID"(param_pprid integer);
 DROP FUNCTION public."GOSMActivity_get_organization"(gosmactivityid integer);
 DROP FUNCTION public."GOSMActivity_get_current_term_activity_ids"();
+DROP FUNCTION public."CSO_ADM_get_postproject_signatories"();
 DROP EXTENSION "uuid-ossp";
 DROP EXTENSION pgcrypto;
 DROP EXTENSION plpgsql;
@@ -604,6 +607,27 @@ COMMENT ON EXTENSION "uuid-ossp" IS 'generate universally unique identifiers (UU
 
 
 SET search_path = public, pg_catalog;
+
+--
+-- Name: CSO_ADM_get_postproject_signatories(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION "CSO_ADM_get_postproject_signatories"() RETURNS TABLE(idnumber integer)
+    LANGUAGE plpgsql STABLE
+    AS $$
+     BEGIN
+         RETURN QUERY SELECT DISTINCT oo.idNumber
+                        FROM OrganizationOfficer oo
+                       WHERE oo.yearID = system_get_current_year_id()
+                         AND oo.role IN (SELECT DISTINCT oac.role
+                                         FROM OrganizationAccessControl oac
+                                        WHERE oac.functionality%1000 = 20)
+                         AND oo.role/10000 = 0;
+     END;
+ $$;
+
+
+ALTER FUNCTION public."CSO_ADM_get_postproject_signatories"() OWNER TO postgres;
 
 --
 -- Name: GOSMActivity_get_current_term_activity_ids(); Type: FUNCTION; Schema: public; Owner: postgres
@@ -852,6 +876,53 @@ $$;
 
 
 ALTER FUNCTION public."PostAct_Reimbursement_get_organization_next_treasurer_signatory"(organizationid integer) OWNER TO postgres;
+
+--
+-- Name: PostProject_CSO_ADM_get_next_postproject_signatory(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION "PostProject_CSO_ADM_get_next_postproject_signatory"() RETURNS integer
+    LANGUAGE plpgsql STABLE
+    AS $$
+    DECLARE
+        csoOfficerID INTEGER;
+    BEGIN
+         WITH "CSONumSign" AS (
+             SELECT ot.idNumber, COALESCE(n."numSign", 0) AS "numSign"
+               FROM "CSO_ADM_get_postproject_signatories"() ot LEFT JOIN "PostProject_CSO_ADM_toSign_per_account"() n
+                                                                      ON ot.idNumber = n.idNumber
+         )
+         SELECT ot.idNumber INTO csoOfficerID
+           FROM "CSONumSign" ot
+         ORDER BY "numSign" ASC, ot.idNumber DESC
+         LIMIT 1;
+
+        RETURN csoOfficerID;
+    END;
+$$;
+
+
+ALTER FUNCTION public."PostProject_CSO_ADM_get_next_postproject_signatory"() OWNER TO postgres;
+
+--
+-- Name: PostProject_CSO_ADM_toSign_per_account(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION "PostProject_CSO_ADM_toSign_per_account"() RETURNS TABLE(idnumber integer, "numSign" bigint)
+    LANGUAGE plpgsql
+    AS $$
+    BEGIN
+        RETURN QUERY SELECT signatory AS idNumber, COUNT(ppps.id) AS "numSign"
+                       FROM "PostProjectProposalSignatory" ppps
+                      WHERE status = 0
+                        AND "GOSMActivity" IN (SELECT ga.id 
+                                                FROM "GOSMActivity_get_current_term_activity_ids"() ga)
+                   GROUP BY signatory;
+    END;
+$$;
+
+
+ALTER FUNCTION public."PostProject_CSO_ADM_toSign_per_account"() OWNER TO postgres;
 
 --
 -- Name: PreActCashAdvance_get_number_to_sign_per_account(); Type: FUNCTION; Schema: public; Owner: postgres
@@ -1757,40 +1828,47 @@ CREATE FUNCTION trigger_after_insert_adm_signatories() RETURNS trigger
     LANGUAGE plpgsql
     AS $_$
     DECLARE
-	"var_GOSM" INTEGER;
-	"var_presidentID" INTEGER;
-	"var_organizationID" INTEGER;
-	"var_facultyID" INTEGER;
+  "var_GOSM" INTEGER;
+  "var_presidentID" INTEGER;
+  "var_organizationID" INTEGER;
+  "var_facultyID" INTEGER;
     BEGIN
-	SELECT facultyAdviser INTO STRICT "var_facultyID"
-	  FROM ProjectProposal
-	 WHERE GOSMActivity = NEW."GOSMActivity";
+  SELECT facultyAdviser INTO STRICT "var_facultyID"
+    FROM ProjectProposal
+   WHERE GOSMActivity = NEW."GOSMActivity";
 
-	SELECT GOSM INTO STRICT "var_GOSM"
-	  FROM GOSMActivity
-	 WHERE id = NEW."GOSMActivity";
+  SELECT GOSM INTO STRICT "var_GOSM"
+    FROM GOSMActivity
+   WHERE id = NEW."GOSMActivity";
 
-	SELECT studentOrganization INTO STRICT "var_organizationID"
-	  FROM GOSM
-	 WHERE id = "var_GOSM";
+  SELECT studentOrganization INTO STRICT "var_organizationID"
+    FROM GOSM
+   WHERE id = "var_GOSM";
 
-	"var_presidentID" := organization_get_president("var_organizationID");
+  "var_presidentID" := organization_get_president("var_organizationID");
 
-	EXECUTE format(
-	    'INSERT INTO %I ("GOSMActivity", "signatory", "type")
-	             VALUES (             $1,         $2,      0);',
-	    TG_ARGV[0]
-	)
-	USING NEW."GOSMActivity", "var_presidentID";
+  EXECUTE format(
+      'INSERT INTO %I ("GOSMActivity", "signatory", "type")
+               VALUES (             $1,         $2,      0);',
+      TG_ARGV[0]
+  )
+  USING NEW."GOSMActivity", "var_presidentID";
 
-	EXECUTE format(
-	    'INSERT INTO %I ("GOSMActivity", "signatory", "type")
-	             VALUES (             $1,         $2,      1);',
-	    TG_ARGV[0]
-	)
-	USING NEW."GOSMActivity", "var_facultyID";
+  EXECUTE format(
+      'INSERT INTO %I ("GOSMActivity", "signatory", "type")
+               VALUES (             $1,         $2,      1);',
+      TG_ARGV[0]
+  )
+  USING NEW."GOSMActivity", "var_facultyID";
 
-	RETURN NEW;
+  EXECUTE format(
+      'INSERT INTO %I ("GOSMActivity", "signatory", "type")
+               VALUES (             $1,         $2,      3);',
+      TG_ARGV[0]
+  )
+  USING NEW."GOSMActivity", "PostProject_CSO_ADM_get_next_postproject_signatory"();
+
+  RETURN NEW;
     END
 $_$;
 
@@ -5416,9 +5494,7 @@ COPY "PostProjectProposal" ("GOSMActivity", "preparedBy", status, "dateCreated",
 9	\N	0	2018-01-10 22:34:08.224238+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
 83	\N	0	2018-01-10 22:48:56.894334+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
 85	\N	0	2018-01-10 22:58:19.266276+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
-62	\N	0	2018-01-10 23:12:16.928111+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
 12	\N	0	2018-01-10 23:13:13.973541+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
-64	\N	0	2018-01-10 23:16:30.501087+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
 28	\N	0	2018-01-10 23:18:31.222625+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
 67	\N	0	2018-01-10 23:21:52.778067+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
 68	\N	0	2018-01-10 23:25:17.973024+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
@@ -5434,6 +5510,8 @@ COPY "PostProjectProposal" ("GOSMActivity", "preparedBy", status, "dateCreated",
 61	\N	0	2018-01-10 23:49:43.655282+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
 88	\N	0	2018-01-10 23:51:43.630391+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
 92	\N	0	2018-01-11 00:02:24.657423+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
+62	3111114	3	2018-01-10 23:12:16.928111+08	\N	51	51	{asasd}	asdas	 dasdasdasd	asdasd	asdasdasd	cjg3f750h0000ksuomk7f8gv4.png	26105657_1707078166015575_1788244349_n.png	f	t	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
+64	\N	5	2018-01-10 23:16:30.501087+08	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	t	f	f	f	f	f	\N	\N	\N	\N	\N	\N	\N
 \.
 
 
@@ -5443,6 +5521,7 @@ COPY "PostProjectProposal" ("GOSMActivity", "preparedBy", status, "dateCreated",
 
 COPY "PostProjectProposalEventPicture" (id, "GOSMActivity", "submissionID", sequence, filename, "filenameToShow", description, "idNumber") FROM stdin;
 1	118	0	1	cjelng5m20001ifntpclv6t61.jpg	activity pic2 (2).jpg	List of participants	1111114
+2	62	0	1	cjg3f750t0001ksuosa8rtyut.jpg	alorica.jpg	aguy	3111114
 \.
 
 
@@ -5459,6 +5538,138 @@ COPY "PostProjectProposalExpense" (id, "GOSMActivity", "submissionID", sequence,
 --
 
 COPY "PostProjectProposalSignatory" (id, "GOSMActivity", signatory, type, status, comments, "sectionsToBeEdited", document, "digitalSignature", "dateSigned") FROM stdin;
+1	1	1111111	0	0	\N	\N	\N	\N	\N
+2	2	1111111	0	0	\N	\N	\N	\N	\N
+3	3	7111111	0	0	\N	\N	\N	\N	\N
+4	5	7111111	0	0	\N	\N	\N	\N	\N
+5	6	1111111	0	0	\N	\N	\N	\N	\N
+6	7	4111111	0	0	\N	\N	\N	\N	\N
+7	8	1111111	0	0	\N	\N	\N	\N	\N
+8	9	7111111	0	0	\N	\N	\N	\N	\N
+9	10	1111111	0	0	\N	\N	\N	\N	\N
+10	11	4111111	0	0	\N	\N	\N	\N	\N
+11	12	7111111	0	0	\N	\N	\N	\N	\N
+12	13	1111111	0	0	\N	\N	\N	\N	\N
+13	14	4111111	0	0	\N	\N	\N	\N	\N
+14	17	1111111	0	0	\N	\N	\N	\N	\N
+15	21	1111111	0	0	\N	\N	\N	\N	\N
+16	22	7111111	0	0	\N	\N	\N	\N	\N
+17	92	10111111	0	0	\N	\N	\N	\N	\N
+18	24	7111111	0	0	\N	\N	\N	\N	\N
+19	25	7111111	0	0	\N	\N	\N	\N	\N
+20	27	7111111	0	0	\N	\N	\N	\N	\N
+21	28	7111111	0	0	\N	\N	\N	\N	\N
+22	29	4111111	0	0	\N	\N	\N	\N	\N
+23	30	1111111	0	0	\N	\N	\N	\N	\N
+24	31	1111111	0	0	\N	\N	\N	\N	\N
+25	61	3111111	0	0	\N	\N	\N	\N	\N
+26	62	3111111	0	0	\N	\N	\N	\N	\N
+27	64	3111111	0	0	\N	\N	\N	\N	\N
+28	65	10111111	0	0	\N	\N	\N	\N	\N
+29	67	3111111	0	0	\N	\N	\N	\N	\N
+30	68	3111111	0	0	\N	\N	\N	\N	\N
+31	69	3111111	0	0	\N	\N	\N	\N	\N
+32	70	10111111	0	0	\N	\N	\N	\N	\N
+33	72	3111111	0	0	\N	\N	\N	\N	\N
+34	73	10111111	0	0	\N	\N	\N	\N	\N
+35	75	3111111	0	0	\N	\N	\N	\N	\N
+36	79	3111111	0	0	\N	\N	\N	\N	\N
+37	80	10111111	0	0	\N	\N	\N	\N	\N
+38	81	3111111	0	0	\N	\N	\N	\N	\N
+39	83	10111111	0	0	\N	\N	\N	\N	\N
+40	85	10111111	0	0	\N	\N	\N	\N	\N
+41	86	10111111	0	0	\N	\N	\N	\N	\N
+42	88	10111111	0	0	\N	\N	\N	\N	\N
+43	90	10111111	0	0	\N	\N	\N	\N	\N
+44	118	1111111	0	0	\N	\N	\N	\N	\N
+45	27	2011112	1	0	\N	\N	\N	\N	\N
+46	65	2011111	1	0	\N	\N	\N	\N	\N
+47	2	2011111	1	0	\N	\N	\N	\N	\N
+48	7	2011112	1	0	\N	\N	\N	\N	\N
+49	11	2011111	1	0	\N	\N	\N	\N	\N
+50	30	2011111	1	0	\N	\N	\N	\N	\N
+51	21	2011111	1	0	\N	\N	\N	\N	\N
+52	3	2011111	1	0	\N	\N	\N	\N	\N
+53	31	2011111	1	0	\N	\N	\N	\N	\N
+54	1	2011111	1	0	\N	\N	\N	\N	\N
+55	8	2011111	1	0	\N	\N	\N	\N	\N
+56	13	2011111	1	0	\N	\N	\N	\N	\N
+57	17	2011111	1	0	\N	\N	\N	\N	\N
+58	10	2011111	1	0	\N	\N	\N	\N	\N
+59	118	2011111	1	0	\N	\N	\N	\N	\N
+60	70	2011111	1	0	\N	\N	\N	\N	\N
+61	6	2011111	1	0	\N	\N	\N	\N	\N
+62	24	2011112	1	0	\N	\N	\N	\N	\N
+63	14	2011111	1	0	\N	\N	\N	\N	\N
+64	73	2011111	1	0	\N	\N	\N	\N	\N
+65	28	2011112	1	0	\N	\N	\N	\N	\N
+66	29	2011111	1	0	\N	\N	\N	\N	\N
+67	5	2011111	1	0	\N	\N	\N	\N	\N
+68	80	2011112	1	0	\N	\N	\N	\N	\N
+69	12	2011111	1	0	\N	\N	\N	\N	\N
+70	9	2011111	1	0	\N	\N	\N	\N	\N
+71	83	2011111	1	0	\N	\N	\N	\N	\N
+72	90	2011112	1	0	\N	\N	\N	\N	\N
+73	85	2011111	1	0	\N	\N	\N	\N	\N
+74	25	2011111	1	0	\N	\N	\N	\N	\N
+75	22	2011111	1	0	\N	\N	\N	\N	\N
+76	72	2011111	1	0	\N	\N	\N	\N	\N
+77	67	2011111	1	0	\N	\N	\N	\N	\N
+78	69	2011111	1	0	\N	\N	\N	\N	\N
+79	86	2011111	1	0	\N	\N	\N	\N	\N
+80	75	2011111	1	0	\N	\N	\N	\N	\N
+81	62	2011111	1	0	\N	\N	\N	\N	\N
+82	64	2011111	1	0	\N	\N	\N	\N	\N
+83	81	2011111	1	0	\N	\N	\N	\N	\N
+84	79	2011111	1	0	\N	\N	\N	\N	\N
+85	68	2011111	1	0	\N	\N	\N	\N	\N
+86	61	2011111	1	0	\N	\N	\N	\N	\N
+87	92	2011111	1	0	\N	\N	\N	\N	\N
+88	88	2011111	1	0	\N	\N	\N	\N	\N
+89	62	1011136	3	0	\N	\N	\N	\N	\N
+90	118	1011135	3	0	\N	\N	\N	\N	\N
+91	8	1011134	3	0	\N	\N	\N	\N	\N
+92	10	1011136	3	0	\N	\N	\N	\N	\N
+93	13	1011135	3	0	\N	\N	\N	\N	\N
+94	17	1011134	3	0	\N	\N	\N	\N	\N
+95	65	1011136	3	0	\N	\N	\N	\N	\N
+96	21	1011135	3	0	\N	\N	\N	\N	\N
+97	30	1011134	3	0	\N	\N	\N	\N	\N
+98	31	1011136	3	0	\N	\N	\N	\N	\N
+99	7	1011135	3	0	\N	\N	\N	\N	\N
+100	24	1011134	3	0	\N	\N	\N	\N	\N
+101	1	1011136	3	0	\N	\N	\N	\N	\N
+102	6	1011135	3	0	\N	\N	\N	\N	\N
+103	11	1011134	3	0	\N	\N	\N	\N	\N
+104	2	1011136	3	0	\N	\N	\N	\N	\N
+105	70	1011135	3	0	\N	\N	\N	\N	\N
+106	27	1011134	3	0	\N	\N	\N	\N	\N
+107	14	1011136	3	0	\N	\N	\N	\N	\N
+108	73	1011135	3	0	\N	\N	\N	\N	\N
+109	80	1011134	3	0	\N	\N	\N	\N	\N
+110	3	1011136	3	0	\N	\N	\N	\N	\N
+111	5	1011135	3	0	\N	\N	\N	\N	\N
+112	29	1011134	3	0	\N	\N	\N	\N	\N
+113	9	1011136	3	0	\N	\N	\N	\N	\N
+114	83	1011135	3	0	\N	\N	\N	\N	\N
+115	85	1011134	3	0	\N	\N	\N	\N	\N
+116	12	1011136	3	0	\N	\N	\N	\N	\N
+118	28	1011134	3	0	\N	\N	\N	\N	\N
+119	67	1011136	3	0	\N	\N	\N	\N	\N
+120	68	1011135	3	0	\N	\N	\N	\N	\N
+121	25	1011134	3	0	\N	\N	\N	\N	\N
+122	22	1011136	3	0	\N	\N	\N	\N	\N
+123	69	1011135	3	0	\N	\N	\N	\N	\N
+124	86	1011134	3	0	\N	\N	\N	\N	\N
+125	72	1011136	3	0	\N	\N	\N	\N	\N
+126	75	1011135	3	0	\N	\N	\N	\N	\N
+127	79	1011134	3	0	\N	\N	\N	\N	\N
+128	81	1011136	3	0	\N	\N	\N	\N	\N
+129	90	1011135	3	0	\N	\N	\N	\N	\N
+130	61	1011134	3	0	\N	\N	\N	\N	\N
+131	88	1011136	3	0	\N	\N	\N	\N	\N
+132	92	1011135	3	0	\N	\N	\N	\N	\N
+117	64	1011135	3	2	dadsds	{3}	\N	\N	\N
 \.
 
 
@@ -5541,6 +5752,7 @@ COPY "PostProjectSignatoryStatus" (id, name) FROM stdin;
 COPY "PostProjectSignatoryType" (id, name, lineup) FROM stdin;
 0	Organization President	0
 1	Adviser	10
+3	CSO - ADM	20
 \.
 
 
@@ -9954,6 +10166,7 @@ COPY schoolyear (id, startyear, endyear, datestart, dateend) FROM stdin;
 --
 
 COPY session (sid, sess, expire) FROM stdin;
+d1zLIIIgus6uFw192fqZabqJjEpb9OF3	{"cookie":{"originalMaxAge":3600000,"expires":"2018-04-17T11:24:45.990Z","secure":false,"httpOnly":false,"path":"/","sameSite":"strict"},"csrfSecret":"9u9r0mOuCw3GPGy7EaYLaJXG","user":{"idNumber":1011135,"name":{"first":"CSO","middle":null,"last":"AVC - ADM"},"type":1,"organizationSelected":{"id":0,"path_profilePicture":"\\\\plugins\\\\images\\\\cso.png"}},"valid":true}	2018-04-17 19:24:46
 \.
 
 
