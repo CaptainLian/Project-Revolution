@@ -28,7 +28,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         renderData.csrfToken = req.csrfToken();
 
         logger.debug(`extra_data: ${JSON.stringify(req.extra_data)}`, log_options);
-        return postProjectProposalModel.getPostActsToCheck().then(data => {
+        return accountModel.getPostActsToSign(req.session.user.idNumber).then(data => {
             console.log(data);
             console.log("data");
             renderData.postacts = data;
@@ -36,8 +36,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             return res.render('ADM/ActivityList', renderData);
         });
     };
+
     ADM_controller.viewHome = (req, res) => {
-        logger.info('call viewActivityToCheck()', log_options);
+        logger.info('call viewHome()', log_options);
 
         database.task(task => {
             return task.batch([
@@ -83,16 +84,15 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
     };
     ADM_controller.viewGrades = (req, res) => {
-        // logger.info('call viewActivityToCheck()', log_options);
+        logger.info('call viewGrades()', log_options);
 
         let renderData = Object.create(null);
         renderData.extra_data = req.extra_data;
         renderData.csrfToken = req.csrfToken();
         return res.render('ADM/viewOrgGrades');
-
     };
     ADM_controller.viewCalendar = (req, res) => {
-        // logger.info('call viewActivityToCheck()', log_options);
+        logger.info('call viewCalendar()', log_options);
 
         let renderData = Object.create(null);
         renderData.extra_data = req.extra_data;
@@ -119,7 +119,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     };
 
     ADM_controller.viewGOSM = (req, res) => {
-        // logger.info('call viewActivityToCheck()', log_options);
+        logger.info('call viewGOSM()', log_options);
 
         let renderData = Object.create(null);
         renderData.extra_data = req.extra_data;
@@ -128,7 +128,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
     };
     ADM_controller.viewOrgTerms = (req, res) => {
-        logger.info('call viewActivityToCheck()', log_options);
+        logger.info('call viewOrgTerms()', log_options);
 
         let renderData = Object.create(null);
         renderData.extra_data = req.extra_data;
@@ -216,7 +216,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             const reply = Object.create(null);
             reply.status = 1;
 
-            logger.debug(`Sending reply: ${reply}`, log_options);
+            logger.debug(`Sending reply: ${JSON.stringify(reply)}`, log_options);
             return res.json(reply);
         }).catch(error => {
             return logger.error(`${error.message}:\n${error.stack}`, log_options);
@@ -242,9 +242,20 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 //2
                 postProjectProposalModel.getLatestPostExpense(dbParam, t),
                 //3
-                gosmModel.getGOSMActivityProjectHeads(dbParam1,t)
+                gosmModel.getGOSMActivityProjectHeads(dbParam1,t),
+                //4
+                postProjectProposalModel.getAllPostProjectSignatories(
+                    req.params.id, [
+                        "to_char(sig.\"dateSigned\", 'Mon DD, YYYY') AS \"dateSigned\"",
+                        '"ppss"."name" AS "status"',
+                        'a.firstname || \' \' || a.lastname AS "name"',
+                        '"sig"."digitalSignature"',
+                        '"ppst"."name" AS "type"'
+                    ],
+                    t
+                )
             ]);
-        }).then(([activity, pictures, expense, projectHeads]) => {
+        }).then(([activity, pictures, expense, projectHeads, signatories]) => {
             const renderData = Object.create(null);
             renderData.activity = activity;
             renderData.pictures = pictures;
@@ -252,9 +263,10 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.id = activity.id;
             renderData.extra_data = req.extra_data;
             renderData.csrfToken = req.csrfToken();
-            console.log("activity");
-            console.log(projectHeads);
             renderData.projectHeads = projectHeads;
+            renderData.signatories = signatories;
+
+            logger.debug('rendering ADM/ActivityToCheck', log_options);
             return res.render('ADM/ActivityToCheck', renderData);
         }).catch(error => {
             return logger.error(`${error.message}:\n${error.stack}`, log_options);
