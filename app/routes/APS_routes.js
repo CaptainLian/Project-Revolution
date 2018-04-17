@@ -4,14 +4,19 @@ module.exports = function (configuration, modules, router, controllers, models, 
 
     logger.debug('/APS/activityChecking');
 	router.get('/APS/activityChecking',controllers.APS_controller.activityChecking);
+
     logger.debug('/APS/resched');
 	router.get('/APS/resched', controllers.APS_controller.resched);
+
     logger.debug('/APS/home');
 	router.get('/APS/home', controllers.APS_controller.home);
+
     logger.debug('/APS/viewCalendar');
 	router.get('/APS/viewCalendar', controllers.APS_controller.viewCalendar);
+
     logger.debug('/APS/orgSummary');
 	router.get('/APS/orgSummary', controllers.APS_controller.orgSummary);
+
     logger.debug('/APS/viewOrglist');
 	router.get('/APS/viewOrglist', controllers.APS_controller.viewOrglist);
 
