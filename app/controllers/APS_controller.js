@@ -244,21 +244,20 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
             }
 
-            renderData.totalGrade;
+            var totalGrade = [];
 
-            for (var s = 0; s < homeData[1].length; s++){
-
-                var organizationid = homeData[1][s].id;
-                console.log("organizationid is");
-                console.log(organizationid);
-
-
-                systemModel.getCurrentTerm([
+            systemModel.getCurrentTerm([
                     'id',
                     "to_char(dateStart, 'YYYY-MM-DD') AS dateStart", 
                     "to_char(dateEnd, 'YYYY-MM-DD') AS dateEnd"
                     ])
                 .then(term=>{
+
+                for (var s = 0; s < homeData[1].length; s++){
+
+                    var organizationid = homeData[1][s].id;
+                    console.log("organizationid is");
+                    console.log(organizationid);                
 
                     var dbParam = {
                         studentOrganization: organizationid,
@@ -297,6 +296,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                         ]);
                     }).then(data=>{
+
+                        console.log("index is++++++++++++++++++++++++++++++++++++++++++++++++");
+                        console.log(s);
 
                         // preacts grade
                         var preactsApprovedActivities = 0;
@@ -1151,10 +1153,10 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
 
 
-                        renderData.totalGrade[s] = amtGrade+documentationGrade+orgresGrade+financeGrade+pnpGrade;
+                        totalGrade[s] = amtGrade+documentationGrade+orgresGrade+financeGrade+pnpGrade;
                         console.log("computes up to here")
                         console.log(s);
-                        console.log(renderData.totalGrade);
+                        console.log(totalGrade);
 
 
                     }).catch(error=>{
@@ -1162,16 +1164,19 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         console.log("May Error dito");
                     });
 
-                }).catch(error=>{
-                    console.log(error);
-                    console.log("May error din dito pre");
-                });
+                }
+
+            }).catch(error=>{
+                console.log(error);
+                console.log("May error din dito pre");
+            });
 
 
-            }
+            
 
             console.log('total grades are');
             console.log(renderData.totalGrade);
+            renderData.totalGrade = totalGrade;
             renderData.uncheckedPPR = uncheckedPPR;
             renderData.ApprovedPPR = ApprovedPPR;
             renderData.PendedPPR = PendedPPR;
