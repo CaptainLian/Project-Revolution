@@ -237,7 +237,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 }
             }
 
-            return database.task(task => {
+        return database.task(task => {
                 return task.batch([
                     //list of organizations
                     Promise.resolve(homeData[1]),
