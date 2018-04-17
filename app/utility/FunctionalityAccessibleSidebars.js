@@ -30,6 +30,9 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.ViewAPSReport] = [{
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateGOSM] = [{
     name: 'GOSM Submissions',
     link: '/APS/viewOrglist'
+},{
+    name: 'Post ProjectHead',
+    link: '/ADM/Activity/List'
 }];
 
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.CreateGOSM] = [{
