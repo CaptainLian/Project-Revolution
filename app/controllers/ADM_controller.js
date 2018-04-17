@@ -125,6 +125,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     //wew task
                     queries.push(task.task(task => {
                         return task.batch([
+
                             //0
                             projectProposalModel.getApprovedActivities(dbParam, task),
                             //1
@@ -935,6 +936,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         renderData.csrfToken = req.csrfToken();
         return res.render('ADM/viewOrgGrades');
     };
+
     ADM_controller.viewCalendar = (req, res) => {
         logger.info('call viewCalendar()', log_options);
 
