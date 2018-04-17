@@ -1052,7 +1052,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 var financeAllocationGrade = allocation1 + allocation2 + Allocation3;
 
                 var financeGrade = financeMonitoringGrade + financeGenerationGrade + financeAllocationGrade;
-                totalGrade.push(amtGrade + documentationGrade + orgresGrade + financeGrade + pnpGrade);
+                totalGrade.push({
+                    orgid: organizationid,
+                    grade: amtGrade + documentationGrade + orgresGrade + financeGrade + pnpGrade});
             }
             const end = Date.now() - start;
             logger.debug(`Computation finished - ${end}ms`, log_options);
@@ -1068,6 +1070,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         }).then(([organizations, gosm, uncheckedPPR, ApprovedPPR, PendedPPR, totalGrade]) => {
             let renderData = Object.create(null);
             renderData.totalGrade = totalGrade;
+            console.log("Total grades are");
+            console.log(totalGrade);
             renderData.uncheckedPPR = uncheckedPPR;
             renderData.ApprovedPPR = ApprovedPPR;
             renderData.PendedPPR = PendedPPR;
