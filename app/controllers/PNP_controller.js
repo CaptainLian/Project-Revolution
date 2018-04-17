@@ -3,6 +3,11 @@
 var timediff = require('timediff');
 
 module.exports = function(configuration, modules, models, database, queryFiles){
+    const logger = modules.logger;
+    const log_options = {
+        from: 'PNP-Controller'
+    };
+
 	let PNPController = Object.create(null);
 	const pnpModel = models.PNP_model;
 	const gosmModel = models.gosmModel;
@@ -22,7 +27,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		renderData.extra_data = req.extra_data;
 
 		return res.render('PNP/ViewPubs', renderData);
-	};	
+	};
 
 	PNPController.viewSpecificPubs = (req, res) => {
 		let renderData = Object.create(null);
@@ -41,25 +46,28 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 				gosmModel.getGOSMActivityProjectHeads(gosmParam2,t)
 			]);
 		}).then(pubs=>{
-				console.log(pubs[0]);
+			console.log(pubs[0]);
 			renderData.pubs = pubs[0];
 			renderData.activities = pubs[1];
 			renderData.heads = pubs[2];
 			return res.render('PNP/ViewPubs', renderData);
 		}).catch(err=>{
 			console.log("ERROR VIEW PUB");
-			console.log(err);	
+			console.log(err);
 		})
-	};	
+	};
 	PNPController.viewHome = (req, res) => {
+        logger.info('call viewHome', log_options);
 
 		 database.task(task => {
+
                         return task.batch([
                             pnpModel.getAllActivityPublicity(),
                             organizationModel.getAllStudentOrganizations(),
                             gosmModel.getAllCurrent()
                         ]);
         }).then(homeData=>{
+
 
             let renderData = Object.create(null);
 
@@ -78,9 +86,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
                 else if(homeData[0][i].publicitystatus == 2){
                     PendedPublicityMaterials = PendedPublicityMaterials + 1;
                 }
-
             }
-
 
             return database.task(task => {
                 return task.batch([
@@ -933,6 +939,7 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 
 
 	 
+
 	  };
 
 	PNPController.viewPubsList = (req, res) => {
@@ -948,13 +955,13 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 			console.log(pubs);
 			renderData.pubs = pubs[0];
 			renderData.number = pubs[1];
-			
+
 			return res.render('PNP/PubsToCheck', renderData);
 		}).catch(err=>{
 			console.log("ERROR VIEW PUB");
-			console.log(err);	
+			console.log(err);
 		});
-	};	
-	
+	};
+
 	return PNPController;
 };
