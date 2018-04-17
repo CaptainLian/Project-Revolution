@@ -3639,6 +3639,58 @@ CREATE TRIGGER "before_insert_PostProjectProposalSignatory_id"
     FOR EACH ROW
     EXECUTE PROCEDURE "trigger_before_insert_id"('PostProjectProposalSignatory');
 
+CREATE OR REPLACE FUNCTION "CSO_ADM_get_postproject_signatories"()
+ RETURNS TABLE (
+     idNumber INTEGER
+ ) AS
+ $function$
+     BEGIN
+         RETURN QUERY SELECT DISTINCT oo.idNumber
+                        FROM OrganizationOfficer oo
+                       WHERE oo.yearID = system_get_current_year_id()
+                         AND oo.role IN (SELECT DISTINCT oac.role
+                                         FROM OrganizationAccessControl oac
+                                        WHERE oac.functionality%1000 = 20)
+                         AND oo.role/10000 = 0;
+     END;
+ $function$ STABLE LANGUAGE plpgsql;
+ 
+CREATE OR REPLACE FUNCTION "PostProject_CSO_ADM_toSign_per_account"()
+RETURNS TABLE (
+    idNumber INTEGER,
+    "numSign" BIGINT
+) AS
+$function$
+    BEGIN
+        RETURN QUERY SELECT signatory AS idNumber, COUNT(ppps.id) AS "numSign"
+                       FROM "PostProjectProposalSignatory" ppps
+                      WHERE status = 0
+                        AND "GOSMActivity" IN (SELECT ga.id 
+                                                FROM "GOSMActivity_get_current_term_activity_ids"() ga)
+                   GROUP BY signatory;
+    END;
+$function$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION "PostProject_CSO_ADM_get_next_postproject_signatory"()
+RETURNS INTEGER AS
+$function$
+    DECLARE
+        csoOfficerID INTEGER;
+    BEGIN
+         WITH "CSONumSign" AS (
+             SELECT ot.idNumber, COALESCE(n."numSign", 0) AS "numSign"
+               FROM "CSO_ADM_get_postproject_signatories"() ot LEFT JOIN "PostProject_CSO_ADM_toSign_per_account"() n
+                                                                      ON ot.idNumber = n.idNumber
+         )
+         SELECT ot.idNumber INTO csoOfficerID
+           FROM "CSONumSign" ot
+         ORDER BY "numSign" ASC, ot.idNumber DESC
+         LIMIT 1;
+
+        RETURN csoOfficerID;
+    END;
+$function$ LANGUAGE plpgsql STABLE;
+
 CREATE OR REPLACE FUNCTION "trigger_after_insert_adm_signatories"(/*param_signatoryTable*/)
 RETURNS TRIGGER AS 
 $trigger$
@@ -3676,10 +3728,16 @@ $trigger$
   )
   USING NEW."GOSMActivity", "var_facultyID";
 
+  EXECUTE format(
+      'INSERT INTO %I ("GOSMActivity", "signatory", "type")
+               VALUES (             $1,         $2,      3);',
+      TG_ARGV[0]
+  )
+  USING NEW."GOSMActivity", "PostProject_CSO_ADM_get_next_postproject_signatory"();
+
   RETURN NEW;
     END
 $trigger$ LANGUAGE plpgsql;
-
 DROP TRIGGER IF EXISTS "after_insert_PostProjectProposal_initial_signatories" ON "PostProjectProposal";
 CREATE TRIGGER "after_insert_PostProjectProposal_initial_signatories"
     AFTER INSERT ON "PostProjectProposal"

@@ -116,7 +116,7 @@
             <div class="text-center"> <h1>{{activity.title}}</h1> </div>
             <p class="text-center">{{activity.org}}</p>
 
-            {%if activity.status == 3 %}
+            {%if activity.status == 0 %}
             <div class="row button-box" >
                                      
                     <div class="col-lg-6 col-sm-4 col-xs-12 ">
@@ -286,49 +286,40 @@
                            <h4 class="text-left">Signatories</h4>
 
                            <hr />
+                               <div class="comment-center">
+                                {% for signatory in signatories %}
+                                    <div class="comment-body col-md-12 text-center">
+                                        <div class="user-img">  </div>
+                                        <div class="mail-contnet text-center">
 
-                           <div class="comment-center">
-                                <div class="comment-body col-md-12 text-center">
-                                    <div class="user-img">  </div>
-                                    <div class="mail-contnet text-center">
+                                        <h5 class="text-center">
+                                            {%if signatory.status =='Unsigned' %}
+                                            <span class="label label-rounded label-default text-black pull-left" style="color:black">{{signatory.status}}</span>
+                                            {%elif  signatory.status == 'Approved'%}
+                                            <span class="label label-rounded label-success pull-left">{{signatory.status}}</span>
+                                            {%elif  signatory.status == 'Pend'%}
+                                            <span class="label label-rounded label-warning pull-left">{{signatory.status}}</span>
+                                            {%elif  signatory.status == 'Denied'%}
+                                            <span class="label label-rounded label-danger pull-left">{{signatory.status}}</span>
+                                            {%endif%}
 
-                                    <h5 class="text-center">
-                                        <span class="label label-rounded label-default text-black pull-left" style="color:black">{{signatory.status}}</span>
-                                        
-                                        <span class="label label-rounded label-success pull-left">Approved</span>
-                                        <!-- <span class="label label-rounded label-warning pull-left">{{signatory.status}}</span>
-                                        <span class="label label-rounded label-danger pull-left">{{signatory.status}}</span> -->
-                                        <span class="time pull-right">
-                                            N/A
-                                        </span>
-                                        
-                                    </h5> 
-                                    <h5>Dominique Dagunton</h5>
-                                    <p>President</p>
-                                    <p class="break">Digital Signature</p>
+                                            <span class="time pull-right">
+                                            {% if(signatory.datesigned)%}
+                                                {{signatory.datesigned}}
+                                            {% else %}
+                                                N/A
+                                            {% endif %}
+                                            </span>
+                                            
+                                        </h5> 
+                                        <h5>{{signatory.name}}</h5>
+                                        <p>{{signatory.type}}</p>
+                                        <p class="break">{{signatory.digitalSignature}}</p>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="comment-body col-md-12 text-center">
-                                    <div class="user-img">  </div>
-                                    <div class="mail-contnet text-center">
 
-                                    <h5 class="text-center">
-                                        <span class="label label-rounded label-default text-black pull-left" style="color:black">{{signatory.status}}</span>
-                                        
-                                        <span class="label label-rounded label-success pull-left">Approved</span>
-                                        <!-- <span class="label label-rounded label-warning pull-left">{{signatory.status}}</span>
-                                        <span class="label label-rounded label-danger pull-left">{{signatory.status}}</span> -->
-                                        <span class="time pull-right">
-                                            N/A
-                                        </span>
-                                        
-                                    </h5> 
-                                    <h5>Dominique Dagunton</h5>
-                                    <p>Faculty Adviser</p>
-                                    <p class="break">Digital Signature</p>
-                                    </div>
+                                {% endfor %}
                                 </div>
-                            </div>
                            <hr />
                            <br />
                        </div>
