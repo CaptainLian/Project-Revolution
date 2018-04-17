@@ -3591,3 +3591,208 @@ SELECT *
     |  |     /  _____  \  |  |\  \----.|  `--'  | |  |_)  |  /  _____  \  .----)   |   |  .  \  |  | |  |_)  |  /  _____  \  .----)   |
     |__|    /__/     \__\ | _| `._____| \______/  |______/  /__/     \__\ |_______/    |__|\__\ |__| |______/  /__/     \__\ |_______/
  */
+
+DROP TABLE IF EXISTS "PostProjectSignatoryType" CASCADE;
+CREATE TABLE "PostProjectSignatoryType"(
+    "id" SMALLINT,
+    "name" VARCHAR(45) NOT NULL,
+    "lineup" SMALLINT,
+
+    PRIMARY KEY("id")
+);
+INSERT INTO "PostProjectSignatoryType"("id", "name", "lineup")
+                               VALUES (   0, 'Organization President', 0),
+                                      (   1,                'Adviser', 10);
+                                      
+DROP TABLE IF EXISTS "PostProjectSignatoryStatus" CASCADE;
+CREATE TABLE "PostProjectSignatoryStatus"(
+    "id" SMALLINT,
+    "name" VARCHAR(45) NOT NULL,
+
+    PRIMARY KEY("id")
+);
+INSERT INTO "PostProjectSignatoryStatus"("id", "name")
+                                 VALUES (  0, 'Unsigned'),
+                                        (  1, 'Approved'),
+                                        (  2, 'Pend'),
+                                        (  3, 'Denied');
+                       
+DROP TABLE IF EXISTS "PostProjectProposalSignatory" CASCADE;
+CREATE TABLE "PostProjectProposalSignatory"(
+    "id" INTEGER NOT NULL UNIQUE,
+    "GOSMActivity" INTEGER REFERENCES "PostProjectProposal"("GOSMActivity"),
+    "signatory" INTEGER REFERENCES Account(idNumber),
+    "type" SMALLINT REFERENCES "PostProjectSignatoryType"("id"),
+    "status" SMALLINT REFERENCES "PostProjectSignatoryStatus"("id") DEFAULT 0,
+    
+    "comments" TEXT,
+    "sectionsToBeEdited" VARCHAR(60)[],
+    
+    "document" JSONB,
+    "digitalSignature" TEXT,
+    "dateSigned" TIMESTAMP WITH TIME ZONE,
+
+    PRIMARY KEY("GOSMActivity", "signatory", "type")
+);
+CREATE TRIGGER "before_insert_PostProjectProposalSignatory_id"
+    BEFORE INSERT ON "PostProjectProposalSignatory"
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_before_insert_id"('PostProjectProposalSignatory');
+
+CREATE OR REPLACE FUNCTION "CSO_ADM_get_postproject_signatories"()
+ RETURNS TABLE (
+     idNumber INTEGER
+ ) AS
+ $function$
+     BEGIN
+         RETURN QUERY SELECT DISTINCT oo.idNumber
+                        FROM OrganizationOfficer oo
+                       WHERE oo.yearID = system_get_current_year_id()
+                         AND oo.role IN (SELECT DISTINCT oac.role
+                                         FROM OrganizationAccessControl oac
+                                        WHERE oac.functionality%1000 = 20)
+                         AND oo.role/10000 = 0;
+     END;
+ $function$ STABLE LANGUAGE plpgsql;
+ 
+CREATE OR REPLACE FUNCTION "PostProject_CSO_ADM_toSign_per_account"()
+RETURNS TABLE (
+    idNumber INTEGER,
+    "numSign" BIGINT
+) AS
+$function$
+    BEGIN
+        RETURN QUERY SELECT signatory AS idNumber, COUNT(ppps.id) AS "numSign"
+                       FROM "PostProjectProposalSignatory" ppps
+                      WHERE status = 0
+                        AND "GOSMActivity" IN (SELECT ga.id 
+                                                FROM "GOSMActivity_get_current_term_activity_ids"() ga)
+                   GROUP BY signatory;
+    END;
+$function$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION "PostProject_CSO_ADM_get_next_postproject_signatory"()
+RETURNS INTEGER AS
+$function$
+    DECLARE
+        csoOfficerID INTEGER;
+    BEGIN
+         WITH "CSONumSign" AS (
+             SELECT ot.idNumber, COALESCE(n."numSign", 0) AS "numSign"
+               FROM "CSO_ADM_get_postproject_signatories"() ot LEFT JOIN "PostProject_CSO_ADM_toSign_per_account"() n
+                                                                      ON ot.idNumber = n.idNumber
+         )
+         SELECT ot.idNumber INTO csoOfficerID
+           FROM "CSONumSign" ot
+         ORDER BY "numSign" ASC, ot.idNumber DESC
+         LIMIT 1;
+
+        RETURN csoOfficerID;
+    END;
+$function$ LANGUAGE plpgsql STABLE;
+
+CREATE OR REPLACE FUNCTION "trigger_after_insert_adm_signatories"(/*param_signatoryTable*/)
+RETURNS TRIGGER AS 
+$trigger$
+    DECLARE
+  "var_GOSM" INTEGER;
+  "var_presidentID" INTEGER;
+  "var_organizationID" INTEGER;
+  "var_facultyID" INTEGER;
+    BEGIN
+  SELECT facultyAdviser INTO STRICT "var_facultyID"
+    FROM ProjectProposal
+   WHERE GOSMActivity = NEW."GOSMActivity";
+
+  SELECT GOSM INTO STRICT "var_GOSM"
+    FROM GOSMActivity
+   WHERE id = NEW."GOSMActivity";
+
+  SELECT studentOrganization INTO STRICT "var_organizationID"
+    FROM GOSM
+   WHERE id = "var_GOSM";
+
+  "var_presidentID" := organization_get_president("var_organizationID");
+
+  EXECUTE format(
+      'INSERT INTO %I ("GOSMActivity", "signatory", "type")
+               VALUES (             $1,         $2,      0);',
+      TG_ARGV[0]
+  )
+  USING NEW."GOSMActivity", "var_presidentID";
+
+  EXECUTE format(
+      'INSERT INTO %I ("GOSMActivity", "signatory", "type")
+               VALUES (             $1,         $2,      1);',
+      TG_ARGV[0]
+  )
+  USING NEW."GOSMActivity", "var_facultyID";
+
+  EXECUTE format(
+      'INSERT INTO %I ("GOSMActivity", "signatory", "type")
+               VALUES (             $1,         $2,      3);',
+      TG_ARGV[0]
+  )
+  USING NEW."GOSMActivity", "PostProject_CSO_ADM_get_next_postproject_signatory"();
+
+  RETURN NEW;
+    END
+$trigger$ LANGUAGE plpgsql;
+DROP TRIGGER IF EXISTS "after_insert_PostProjectProposal_initial_signatories" ON "PostProjectProposal";
+CREATE TRIGGER "after_insert_PostProjectProposal_initial_signatories"
+    AFTER INSERT ON "PostProjectProposal"
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_after_insert_adm_signatories"('PostProjectProposalSignatory');
+
+CREATE OR REPLACE FUNCTION "trigger_after_update_PostProjectProposalSignatory_completion"(/*param_parentTable, param_signatoryTable*/)
+RETURNS TRIGGER AS 
+$trigger$
+    DECLARE 
+        "var_numApproved" INTEGER;
+        "var_numSignatories" INTEGER;
+    BEGIN
+  IF NEW."status" = 2 THEN
+      EXECUTE format('
+    UPDATE %I
+       SET "status" = 5
+     WHERE "GOSMActivity" = $1;', 
+     TG_ARGV[0]) 
+      USING NEW."GOSMActivity";
+  ELSIF NEW."status" = 1 THEN
+      -- Get the total number of signatories 
+      EXECUTE format('
+    SELECT COUNT(t."signatory")
+      FROM %I t
+     WHERE t."GOSMActivity" = $1;', 
+     TG_ARGV[1])
+      USING NEW."GOSMActivity"
+      INTO STRICT "var_numSignatories";
+
+      -- Get the number of signatories that approved
+      EXECUTE format('
+    SELECT COUNT(t."signatory")
+      FROM %I t
+     WHERE t."GOSMActivity" = $1
+       AND t.status = 1;', 
+     TG_ARGV[1])
+      USING NEW."GOSMActivity"
+      INTO STRICT "var_numApproved";
+
+            -- Check if all signatories have approved
+      IF "var_numSignatories" = "var_numApproved" THEN
+    EXECUTE format('
+        UPDATE %I
+           SET "status" = 4
+         WHERE "GOSMActivity" = $1;', 
+     TG_ARGV[0]) 
+      USING NEW."GOSMActivity";
+      END IF;
+  END IF;
+      
+  RETURN NEW;
+    END
+$trigger$ LANGUAGE plpgsql;
+CREATE TRIGGER "after_insert_PostProjectProposal_completion"
+    AFTER UPDATE ON "PostProjectProposalSignatory"
+    FOR EACH ROW
+    EXECUTE PROCEDURE "trigger_after_update_PostProjectProposalSignatory_completion"('PostProjectProposal', 'PostProjectProposalSignatory');

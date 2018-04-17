@@ -84,12 +84,12 @@
 							<td class="text-center">{{pa.ddate}}</td>
 							<td class="text-center"><a href="/ADM/Activity/{{pa.GOSMActivity}}" class="btn-lnk">{{pa.strategies}}</a></td>
                             
-                            {% if pa.pstatus === 3 %}
-                                <td class="text-center"><span class="label label-info">Unchecked</span></td>
-                            {% elif pa.pstatus === 5 %}
-                                <td class="text-center"><span class="label label-warning">Pended</span></td>                        
-                            {% elif pa.pstatus === 4 %}
-                                <td class="text-center"><span class="label label-success">Approved</span></td>                            
+                            {% if pa.pstatus === 0 %}
+                                <td class="text-center"><span class="label label-info">For your Approval</span></td>
+                            {% elif pa.pstatus === 1 %}
+                                <td class="text-center"><span class="label label-success">Approved</span></td>                        
+                            {% elif pa.pstatus === 2 %}
+                                <td class="text-center"><span class="label label-warning">Pend</span></td>                            
                             {% endif %}
 						</tr>
                         {%endfor %}

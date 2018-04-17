@@ -83,6 +83,7 @@
                     <thead>
                         <tr>
                             <th class="text-center" width="33%">List of Organizations</th>
+                            <th class="text-center" width="33%">Term Grade</th>
                             <th class="text-center" width="33%">Actions</th>
                         </tr>
                     </thead>
@@ -97,6 +98,7 @@
                                     {% set hasgosm = true %}
                                     <tr>
                                       <td class="text-center">{{organization.name}}</td>
+                                      <td>{{totalGrade[loop.index]}}</td>
                                       <td class="text-center">
                                           <a href="/ADM/viewCalendar/{{organization.id}}" data-toggle="tooltip" data-original-title="View Calendar">
                                             <i class="fa fa-calendar m-r-10"></i>
@@ -119,6 +121,7 @@
 
                                     <tr>
                                       <td class="text-center">{{organization.name}}</td>
+                                      <td>0</td>
                                       <td class="text-center">
                                           <a href="/ADM/viewCalendar/{{organization.id}}" data-toggle="tooltip" data-original-title="View Calendar">
                                             <i class="fa fa-calendar m-r-10"></i>

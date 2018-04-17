@@ -1,9 +1,12 @@
 SELECT activity as gosmactivity, GA.strategies as activityname,
-       (((venue + equipment + materials + registration + timeend + 
-       activityexecution + hosts + facilitators + presentation + activities + 
-       organizationstandingpresentation + timestart + 
-       person1ea + person1loa + person1iitskoa + person1iomwm + 
-       person2ea + person2loa + person2iitskoa + person2iomwm)/20)/5)*100 as amtgrade, 
+       (cast(venue as decimal) + cast(equipment as decimal) + cast(materials as decimal) + cast(registration as decimal) + 
+        cast(timeend as decimal) + 
+       cast(activityexecution as decimal) + cast(hosts as decimal) + cast(facilitators as decimal) + cast(presentation as decimal) + 
+       cast(activities as decimal) + 
+       cast(organizationstandingpresentation as decimal) + cast(timestart as decimal) + 
+       cast(person1ea as decimal) + cast(person1loa as decimal) + cast(person1iitskoa as decimal) + cast(person1iomwm as decimal) + 
+       cast(person2ea as decimal) + cast(person2loa as decimal) + cast(person2iitskoa as decimal) + 
+       cast(person2iomwm as decimal)) as amtgrade, 
 
        evaluator, AMTE.status, datereserved, AT.name as activitytype,
        TO_CHAR(AMTE.dateevaluated,'Mon DD, YYYY') AS dateevaluated,
