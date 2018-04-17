@@ -181,6 +181,7 @@
                     <ul>
                         <li><a href="#section-linebox-1"><span>Activity Report</span></a></li>
                         <li><a href="#section-linebox-2"><span>Attachments</span></a></li>
+                        <li><a href="#section-linebox-2"><span>Signatories</span></a></li>
                        <!--  <li><a href="#section-linebox-3"><span>Expenses</span></a></li> -->
                        
                     </ul>
@@ -280,76 +281,58 @@
 	                        
                         </div>
                     </section>
-                    
-                 <!--    <section id="section-linebox-3">
-                        <div class="white-box">
-                            
-                            <h4 class="text-left">IV. List of Expenses</h4>
-                            <hr>
-                            <br/>
-                                                            
-                            <table class="table bg">
-                                <thead>
-                                   
-                                    <tr">
-                                        <th class="text-center"  style="border-top: white solid 0px "  >Particular</th>
-                                        <th class="text-center" style="border-top: white solid 0px ">Establishment</th>
-                                        <th class="text-center" style="border-top: white solid 0px ">Amount</th>
+                    <section id="section-linebox-3">
+                       <div class="white-box">
+                           <h4 class="text-left">Signatories</h4>
+
+                           <hr />
+
+                           <div class="comment-center">
+                                <div class="comment-body col-md-12 text-center">
+                                    <div class="user-img">  </div>
+                                    <div class="mail-contnet text-center">
+
+                                    <h5 class="text-center">
+                                        <span class="label label-rounded label-default text-black pull-left" style="color:black">{{signatory.status}}</span>
                                         
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {%set amount = 0%}
-                                    {%for exp in expense%}
-                                          <tr>
-                                            <td>
-                                                {{exp.particular}}
-                                            </td>
-                                            <td>
-                                                {{exp.establishment}}
-                                            </td>
-                                            
-                                            <td  class="text-right">
-                                               {{exp.price}}
-                                               {% set amount = ((amount|float) + (exp.price |float)| round(2)) %}
-                                            </td>
-                                        </tr>
-                                    {%endfor%}
-                                  
-                                    
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td class="text-right text-success" colspan="2"><strong>Total Expense</strong></td>
-                                        <td  class="text-right">{{amount}}</td>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                            <br/>
-                            
-                            
-                            <br/>
-                            <h4 class="text-left">V. Receipts</h4>
-                            <div class="white-box el-element-overlay">
-                                {% for exp in expense%}
-                                      <div class="col-md-4 el-card-item">
-                                          
-                                        <div class="el-card-avatar el-overlay-1 "> <img src="../plugins/images/users/1.jpg" />
-                                            <div class="el-overlay">
-                                                <ul class="el-info">
-                                                    <li><a class="btn default btn-outline image-popup-vertical-fit" href="/upload/images/{{pic.idNumber}}/{{pic.filename}}"><i class="icon-magnifier"></i></a></li>
-                                                    <li><a class="btn default btn-outline " data-toggle="modal" data-target="#modal-id"><i class="icon-bubble"></i></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>  
-                                {% endfor %}
-                              
+                                        <span class="label label-rounded label-success pull-left">Approved</span>
+                                        <!-- <span class="label label-rounded label-warning pull-left">{{signatory.status}}</span>
+                                        <span class="label label-rounded label-danger pull-left">{{signatory.status}}</span> -->
+                                        <span class="time pull-right">
+                                            N/A
+                                        </span>
+                                        
+                                    </h5> 
+                                    <h5>Dominique Dagunton</h5>
+                                    <p>President</p>
+                                    <p class="break">Digital Signature</p>
+                                    </div>
+                                </div>
+                                <div class="comment-body col-md-12 text-center">
+                                    <div class="user-img">  </div>
+                                    <div class="mail-contnet text-center">
 
+                                    <h5 class="text-center">
+                                        <span class="label label-rounded label-default text-black pull-left" style="color:black">{{signatory.status}}</span>
+                                        
+                                        <span class="label label-rounded label-success pull-left">Approved</span>
+                                        <!-- <span class="label label-rounded label-warning pull-left">{{signatory.status}}</span>
+                                        <span class="label label-rounded label-danger pull-left">{{signatory.status}}</span> -->
+                                        <span class="time pull-right">
+                                            N/A
+                                        </span>
+                                        
+                                    </h5> 
+                                    <h5>Dominique Dagunton</h5>
+                                    <p>Faculty Adviser</p>
+                                    <p class="break">Digital Signature</p>
+                                    </div>
+                                </div>
                             </div>
-
-                        </div>
-                    </section> -->
+                           <hr />
+                           <br />
+                       </div>
+                    </section>
                  
                 </div>
                 <!-- /content -->
