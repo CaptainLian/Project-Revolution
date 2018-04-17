@@ -70,11 +70,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
             for (var i = 0; i < data[1]; i++){
 
-               
+
 
                 systemModel.getCurrentTerm([
                     'id',
-                    "to_char(t.dateStart, 'YYYY-MM-DD') AS 'dateStart'", 
+                    "to_char(t.dateStart, 'YYYY-MM-DD') AS 'dateStart'",
                     "to_char(t.dateEnd, 'YYYY-MM-DD') AS 'dateEnd'"
                     ])
                 .then(term=>{
@@ -94,8 +94,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             //APS AND ADM
                             projectProposalModel.getApprovedActivities(dbParam),
                             projectProposalModel.getAllProjectProposalPerTerm(dbParam),
-                            gosmModel.getOrgGOSM(dbParam), 
-                            postProjectProposalModel.getAllPostProjectProposalPerTerm(dbParam), 
+                            gosmModel.getOrgGOSM(dbParam),
+                            postProjectProposalModel.getAllPostProjectProposalPerTerm(dbParam),
                             //PNP
                             pnpModel.getAllActivityPublicityPerTerm(dbParam),
                             //ORGRES
@@ -1009,6 +1009,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         renderData.csrfToken = req.csrfToken();
         return res.render('ADM/viewOrgGrades');
     };
+
     ADM_controller.viewCalendar = (req, res) => {
         logger.info('call viewCalendar()', log_options);
 
