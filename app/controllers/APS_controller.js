@@ -645,7 +645,6 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         var osfField8 = 0;
                         var osfField9 = 0;
 
-
                         for (var i = 0; i < data[5].length; i++){
 
                             if(data[5][i].organizationID == organizationid){
@@ -1174,6 +1173,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
             
 
+
             console.log('total grades are');
             console.log(renderData.totalGrade);
             renderData.totalGrade = totalGrade;
@@ -1299,11 +1299,30 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.activity = activityID;
             renderData.projectedIncome = data[2];
             renderData.programDesign = data[3];
-            console.log("data[4]")
-            console.log(data[4])
+            console.log("data[6]")
+            console.log(data[6])
+            var newArray = [];
+            var obj = []
+
+            data[6].forEach(function(ctr){
+                console.log()
+                var bool=  true;
+                newArray.forEach(function(i){
+                    if(i == ctr.signatory){
+                        bool = false
+                    }
+                })
+                if(bool){
+                    newArray.push(ctr.signatory)
+                    obj.push(ctr)
+                }
+            })
+            
+            console.log("NEW ARRAY")
+            console.log(obj)
             renderData.projectHeads = data[4];
             renderData.attachment = data[5];
-            renderData.signatories = data[6];
+            renderData.signatories = obj;
             renderData.withExpense = data[0].expense;
             renderData.withRevenue = data[2].length >0;
             renderData.status = data[7];
