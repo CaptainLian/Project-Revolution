@@ -175,7 +175,7 @@ module.exports = function(configuration, modules, db, queryFiles) {
                 .left_join('"PostProjectSignatoryType"', '"ppst"', '"sig"."type" = "ppst"."id"')
                 .left_join('"PostProjectSignatoryStatus"', '"ppss"', '"sig"."status" = "ppss"."id"')
                 .left_join('Account', 'a', '"sig"."signatory" = a.idNumber')
-                .order('"ppst"."lineup"', false);
+                .order('"ppst"."lineup"');
             attachFields(query, fields);
 
             query = query.toString();

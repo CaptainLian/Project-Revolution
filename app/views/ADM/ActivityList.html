@@ -64,7 +64,7 @@
                 
                 <span class="label label-success">Approved</span>
                 <span class="label label-warning">Pended</span>                
-                <span class="label label-info">Unchecked</span>
+                <span class="label label-info">For Approval</span>
             </p>
             
 			<div class="table-responsive">
@@ -85,7 +85,7 @@
 							<td class="text-center"><a href="/ADM/Activity/{{pa.GOSMActivity}}" class="btn-lnk">{{pa.strategies}}</a></td>
                             
                             {% if pa.pstatus === 0 %}
-                                <td class="text-center"><span class="label label-info">For your Approval</span></td>
+                                <td class="text-center"><span class="label label-info">For Approval</span></td>
                             {% elif pa.pstatus === 1 %}
                                 <td class="text-center"><span class="label label-success">Approved</span></td>                        
                             {% elif pa.pstatus === 2 %}
