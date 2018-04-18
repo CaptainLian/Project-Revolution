@@ -1,7 +1,7 @@
 'use strict';
 
 var timediff = require('timediff');
-    
+
 module.exports = function(configuration, modules, models, database, queryFiles) {
     const STRINGIFY = require('json-stable-stringify');
     const SIGN = require('../utility/digitalSignature.js').signString;
@@ -18,7 +18,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
     const projectProposalModel = models.ProjectProposal_model;
     const postProjectProposalModel = models.PostProjectProposal_model;
     const gosmModel = models.gosmModel;
-    const orgresModel = models.Orgres_model;   
+    const orgresModel = models.Orgres_model;
     const financeModel = models.Finance_model;
 
     const path = require('path');
@@ -924,7 +924,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
         });
 
 
-                    
+
 
     };
 
@@ -1092,6 +1092,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 //4
                 postProjectProposalModel.getAllPostProjectSignatories(
                     req.params.id, [
+                        'sig.signatory AS "idNumber"',
+                        'sig.status AS "signStatus"',
                         "to_char(sig.\"dateSigned\", 'Mon DD, YYYY') AS \"dateSigned\"",
                         '"ppss"."name" AS "status"',
                         'a.firstname || \' \' || a.lastname AS "name"',
@@ -1111,6 +1113,13 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             renderData.csrfToken = req.csrfToken();
             renderData.projectHeads = projectHeads;
             renderData.signatories = signatories;
+            renderData.showSignButton = true;
+
+            for(const signatory of signatories){
+                if(signatory.idNumber == req.session.user.idNumber && (signatory.signStatus >= 1 && signatory.signStatus <= 3)){
+                    renderData.showSignButton = false;
+                }
+            }
 
             logger.debug('rendering ADM/ActivityToCheck', log_options);
             return res.render('ADM/ActivityToCheck', renderData);
