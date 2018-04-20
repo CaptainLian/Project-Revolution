@@ -206,6 +206,22 @@
             <br />
             <section>
                 <h3>{{organization.name}} {% if gradeType == false %}Term {{term.number}} {% endif %}SY {{term.startyear}}-{{term.endyear}} Grade</h3>
+                <div class="col-lg-3 col-sm-6  row-in-br  b-r-none">
+                    <div class="col-in row">
+                        <div class="col-md-6 col-sm-6 col-xs-6 text-center">
+                            <div data-icon="&#xe013;" class="linea-icon linea-basic text-center"></div>
+                            <h5 class="text-muted vb">Total Grade</h5>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-6">
+                            <h3 class="counter text-right m-t-15 text-warning">{{totalGrade | round(2)}}</h3>
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%"> <span class="sr-only">40% Complete (success)</span> </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="sttabs tabs-style-bar">
                     <nav>
                         <ul>
@@ -926,81 +942,7 @@
 
                                 </table>
                             </div>
-                            <!-- <div class="row row-in">
-                                <div class="col-md-4">
-                                    <div class="white-box">
-                                        <div>
-                                            <label class="text-justify">1. I believe that the organization has prepared us officers.</label>
-                                            <canvas id="bar-chart1" width="800" height="450"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="white-box">
-                                        <div>
-                                            <label class="text-center">2. Sufficient training was provided.</label>
-                                            <canvas id="bar-chart2" width="800" height="450"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="white-box">
-                                        <div>
-                                            <label class="text-center">3. All of the officers were able to apply the leadership gained .</label>
-                                            <canvas id="bar-chart3" width="800" height="450"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="white-box">
-                                        <div>
-                                            <label class="text-center">4. Officers who underwent special training echoed their learning to fellow officers.</label>
-                                            <canvas id="bar-chart4" width="800" height="450"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="white-box">
-                                        <div>
-                                            <label class="text-center">5. Officers are able to identify ways to recognize the contributions of the members of the organization.</label>
-                                            <canvas id="bar-chart5" width="800" height="450"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="white-box">
-                                        <div>
-                                            <label class="text-center">6. The organization has evaluation meetings after major activities to identify strengths, weak areas and develop corrective measures.</label>
-                                            <canvas id="bar-chart6" width="800" height="450"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="white-box">
-                                        <div>
-                                            <label class="text-center">7. The organization has evaluation meetings with the faculty adviser/s after each term to identify strengths, weak areas and develop corrective measures.</label>
-                                            <canvas id="bar-chart7" width="800" height="450"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="white-box">
-                                        <div>
-                                            <label class="text-center">8. I am satisfied and fulfilled with my position in the organization.</label>
-                                            <canvas id="bar-chart8" width="800" height="450"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="white-box">
-                                        <div>
-                                            <label class="text-center">9. I believe that positions in the organization are well defined and has no overlaps of responsibilities.</label>
-                                            <canvas id="bar-chart9" width="800" height="450"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> -->
-                            <!--/ End Online officer survey form results -->
+                            
                             <!-- Start Online mEMBER Survey Form Results -->
                             <div class="row">
                                 <div class="col-md-12">
@@ -1073,113 +1015,7 @@
                                 </table>
 
                             </div>
-                            <!-- <div class="row row-in">
-                                <div class="col-md-4">
-                                    <div class="white-box">
-                                        <div>
-                                            <label class="text-justify">1. I know the goal of my organization.</label>
-                                            <canvas id="chartm1" width="800" height="450"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="white-box">
-                                        <div>
-                                            <label class="text-center">2. The activities of the organization clearly reflect their objectives.</label>
-                                            <canvas id="chartm2" width="800" height="450"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="white-box">
-                                        <div>
-                                            <label class="text-center">3. I am satisfied with the services the organization has offered.</label>
-                                            <canvas id="chartm3" width="800" height="450"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="white-box">
-                                        <div>
-                                            <label class="text-center">4. I believe that the organization has helped me in my chosen field of interest.</label>
-                                            <canvas id="chartm4" width="800" height="450"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="white-box">
-                                        <div>
-                                            <label class="text-center">5. The organization has encouraged me to be involved in their activities.</label>
-                                            <canvas id="chartm5" width="800" height="450"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="white-box">
-                                        <div>
-                                            <label class="text-center">6. The officers showed consistency in motivating the members to be actively involved in the organization.</label>
-                                            <canvas id="chartm6" width="800" height="450"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="white-box">
-                                        <div>
-                                            <label class="text-center">7. The organization was able to maximize their publicity media. Help text: Publicity media can be newsletters, magazines, online publicities (videos and pictures), etc.</label>
-                                            <canvas id="chartm7" width="800" height="450"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="white-box">
-                                        <div>
-                                            <label class="text-center">8. The organization has provided a venue wherein  I can share my ideas/opinions/needs/ expectations (eg. (surveys, comment boxes, sharing, etc.)</label>
-                                            <canvas id="chartm8" width="800" height="450"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="white-box">
-                                        <div>
-                                            <label class="text-center">9. I believe that the organization has made use of my input (ideas, opinions, expectations, needs which I have stated)</label>
-                                            <canvas id="chartm9" width="800" height="450"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="white-box">
-                                        <div>
-                                            <label class="text-center">10. The organization has adjusted to the needs/suggestions of the members wherein the organization applied those to its activities and services.</label>
-                                            <canvas id="chartm10" width="800" height="450"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="white-box">
-                                        <div>
-                                            <label class="text-center">11.  I can recall activities held by my organization that made an impact in my studies/interests.</label>
-                                            <canvas id="chartm11" width="800" height="450"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="white-box">
-                                        <div>
-                                            <label class="text-center">12.The membership fee I paid for was worth it.</label>
-                                            <canvas id="chartm12" width="800" height="450"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="white-box">
-                                        <div>
-                                            <label class="text-center">13. The organization provides recognition for outstanding members.</label>
-                                            <canvas id="chartm13" width="800" height="450"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> -->
-                            <!--/ End Online member survey form results -->
+                            
 
 
                             <!--/ADM -->
@@ -1427,7 +1263,83 @@
                                                             <strong>Statistics</strong>
                                                         </h3>
                                                     </div>
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-12">
+                                                        <table class="table table-hover" id="amtTable2">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Criteria</th>
+                                                                    <th>Grade</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>Venue</td>
+                                                                    <td>{{amtAverageScores.venue | round(2)}}/5</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Equipment</td>
+                                                                    <td>{{amtAverageScores.equipment | round(2)}}/5</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Materials</td>
+                                                                    <td>{{amtAverageScores.materials | round(2)}}/5</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Registration</td>
+                                                                    <td>{{amtAverageScores.registration | round(2)}}/3</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Time Start</td>
+                                                                    <td>{{amtAverageScores.timestart | round(2)}}/5</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Time End</td>
+                                                                    <td>{{amtAverageScores.timeend | round(2)}}/5</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Activity Execution</td>
+                                                                    <td>{{amtAverageScores.activityexecution | round(2)}}/7</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Hosts</td>
+                                                                    <td>{{amtAverageScores.hosts | round(2)}}/5</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Facilitator/Usher</td>
+                                                                    <td>{{amtAverageScores.facilitators | round(2)}}/5</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Presentations</td>
+                                                                    <td>{{amtAverageScores.presentation | round(2)}}/5</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Activities</td>
+                                                                    <td>{{amtAverageScores.activities | round(2)}}/5</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Organization Standing Presentation</td>
+                                                                    <td>{{amtAverageScores.organizationstandingpresentation | round(2)}}/5</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Announcement</td>
+                                                                    <td>{{amtAverageScores.personea | round(2)}}/5</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Interaction</td>
+                                                                    <td>{{amtAverageScores.personiomwm | round(2)}}/5</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Interest</td>
+                                                                    <td>{{amtAverageScores.personiitskoa | round(2)}}/5</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Learning</td>
+                                                                    <td>{{amtAverageScores.personloa | round(2)}}/5</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+<!--                                                     <div class="col-md-4">
                                                         <div class="white-box">
                                                             <div>
                                                             <label class="text-center">Logistics</label>
@@ -1453,9 +1365,9 @@
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                <!-- <div class="col-md-12">
+                                                <div class="col-md-12">
                                                     <h4 class="text text-megna col-md-12 text-center"><strong>Program Design</strong></h4>
-                                                </div> -->
+                                                </div>
                                                 <div class="col-md-4">
                                                     <div class="white-box">
                                                         <div>
@@ -1467,19 +1379,19 @@
                                                 <div class="col-md-4">
                                                     <div class="white-box">
                                                         <div>
-    <!--                                                             <label class="text-center">Academic Contest</label>
-    -->                                                                <canvas id="chartamt4" width="800" height="800"></canvas>
+                                                                 <label class="text-center">Academic Contest</label>
+                                                                    <canvas id="chartamt4" width="800" height="800"></canvas>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="white-box">
                                                         <div>
-    <!--                                                             <label class="text-center">Seminar</label>
-    -->                                                                <canvas id="chartamt5" width="800" height="800"></canvas>
+                                                                 <label class="text-center">Seminar</label>
+                                                                    <canvas id="chartamt5" width="800" height="800"></canvas>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> 
                                             </div>
 
                             </div>

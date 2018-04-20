@@ -276,7 +276,7 @@ $(".modal-desc").on('click',function(){
                                 $.ajax({
                                     type:'POST',
                                     url:'/Organization/Publicity/modal',
-                                    data:{id:d.attr("data-id"),type:1},                                 
+                                    data:{id:d.attr("data-id"),type:1,create:0},                                 
                                     success:function(data){
                                         resolve(data);
                                     }

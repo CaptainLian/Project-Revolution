@@ -35,7 +35,10 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateGOSM] = [{
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.CreateGOSM] = [{
     name: 'GOSM',
     link: '/Organization/createGOSM',
-    icon: 'fa fa-columns',
+    icon: 'fa fa-columns'
+},{
+    name: 'Post ProjectHead',
+    link: '/ADM/Activity/List'
 }];
 
 //Evaluate PPR
@@ -52,7 +55,7 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateActivity_AMT] = [{
     name: 'Evaluate Activity',
     link: '/AMT/AssignActivity',
     icon: 'fa fa-gavel',
-    
+
 }];
 
 //Evaluate Activity (OrgRes)
@@ -60,7 +63,7 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateActivity_OrgRes] = [{
     name: 'Research Form',
     link: '/ORGRES/SubmitActivityResearchForm',
     icon: 'fa fa-search',
-    
+
     //NOTE: currently useless
     sublinks: [
 
@@ -71,7 +74,7 @@ functionalitySidebars[FUNCTIONALITY_SEQUENCES.EvaluateActivity_OrgRes] = [{
 //Modify Organizational Structure
 functionalitySidebars[FUNCTIONALITY_SEQUENCES.ModifyOrganizationalStructure] = [{
     name: 'Role Access',
-    link: '/Organization/Setting/ACL',    
+    link: '/Organization/Setting/ACL',
     icon :'fa fa-key'
 }];
 */

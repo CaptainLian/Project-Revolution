@@ -9,15 +9,15 @@ $("#myTable3").DataTable();
 $("#approve").click(function(){
     swal({
       title: 'Warning',
-      text: "Once you submit this you all finance transaction for this activity will be canceled, and you can no longer add finance transaction for this activity",
+      //text: "Once you submit this, all finance transaction for this activity will be canceled, and you can no longer add finance transaction for this activity",
       type: 'warning',
       showCancelButton: true,
       reverseButtons:false,
       confirmButtonColor: '#00C292',
-      
+
       confirmButtonText: 'Submit'
     }).then(function (result) {
-        
+
       if (result) {
             $.ajax({
                 type:'POST',
@@ -28,7 +28,7 @@ $("#approve").click(function(){
                         swal("Success!", "", "success").then(function(){
                             window.location.href='/ADM/Activity/List';
                         })
-                        
+
                     }
                 }
            })
@@ -47,7 +47,7 @@ $("#defer").click(function(){
     '<option value="1">I. How objectives were met</option>'+
     '<option value="2">II. Learnings</option>'+
     '<option value="3">III. General Attendace Sheet</option>'+
-    '<option value="4">IV. Event Pictures </option>'+ 
+    '<option value="4">IV. Event Pictures </option>'+
     '</select>'+
     '</div>'+
 
@@ -61,8 +61,8 @@ $("#defer").click(function(){
     '</div>';
 
 
-    swal({   
-        title: "Pend",   
+    swal({
+        title: "Pend",
         text:"Select the sections that should be change, then explain why.",
         html:question,
         focusConfirm:false,
@@ -88,10 +88,10 @@ $("#defer").click(function(){
             console.log("INIT SELECT");
         },
 
-        showCancelButton: true,   
-        confirmButtonColor: "#FEC107",   
-        confirmButtonText: "Pend",   
-        cancelButtonText: "Cancel",   
+        showCancelButton: true,
+        confirmButtonColor: "#FEC107",
+        confirmButtonText: "Pend",
+        cancelButtonText: "Cancel",
 
     }).then(function(data){
        console.log($("#select-sec").val());
@@ -114,7 +114,7 @@ $("#defer").click(function(){
        }
 
        console.log(data)
-      
+
 
     });
 });
@@ -132,8 +132,8 @@ $("#reject").click(function(){
     '</div>'+
     '</div>'+
     '</div>';
-    swal({   
-        title: "Reject",   
+    swal({
+        title: "Reject",
 
         html:question,
         showLoaderOnConfirm: true,
@@ -141,9 +141,9 @@ $("#reject").click(function(){
         focusCancel:false,
         reverseButtons:true,
         allowOutsideClick: false,
-        showCancelButton: true,   
-        confirmButtonColor: "#FB9678",   
-        confirmButtonText: "Submit",   
+        showCancelButton: true,
+        confirmButtonColor: "#FB9678",
+        confirmButtonText: "Submit",
         cancelButtonText: "Cancel",
         preConfirm: function (email) {
             return new Promise(function (resolve, reject) {
@@ -155,7 +155,7 @@ $("#reject").click(function(){
                     }
                 }, 2000)
             })
-        } 
+        }
 
     }).then(function(data){
         console.log(data);

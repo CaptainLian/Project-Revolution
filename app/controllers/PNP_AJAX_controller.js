@@ -2,6 +2,7 @@
 module.exports = function(configuration, modules, models, database, queryFiles){
     const logger = modules.logger;
     const log_options = Object.create(null);
+    
     log_options.from = 'PNP-AJAX-Controller';
 
 	const pnpModel = models.PNP_model;
@@ -84,8 +85,8 @@ module.exports = function(configuration, modules, models, database, queryFiles){
 		}).catch(err=>{
 			return logger.error(`${err.message}: ${err.stack}`, log_options);
 		});
-	};	
+	};
 
-	
+
 	return PNPAJAXController;
 };

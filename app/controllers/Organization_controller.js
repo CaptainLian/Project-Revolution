@@ -119,7 +119,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     res.redirect(`/System/NotAllowed`);
                     console.log("enterrrrrrrrrrrrrr hererererererererererererererererer");
                 }
-                
+
             }
             else{ // is cso; can view diff organization grades
                 var organizationid = req.params.organizationId;
@@ -130,7 +130,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             }
 
             database.task(task => {
-                return task.batch([        
+                return task.batch([
                     organizationModel.getStudentOrganization(dbParam),
                     systemModel.getAllSchoolYear()
                 ]);
@@ -148,7 +148,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
             }).catch(error=>{
                 console.log(error);
-            })            
+            })
 
         },
         viewAmtEval: (req, res) => {
@@ -167,7 +167,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                  pnpModel.getActivityDetailsforPubs(dbParam, t),
                  amtModel.viewAMTSpecificAct(req.params.id,t),
                  gosmModel.getGOSMActivityProjectHeads(dbParam2, t)
-                 ])    
+                 ])
             }).then(data=>{
                 console.log("data[1]")
                 console.log(data[1])
@@ -178,7 +178,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             }).catch(err=>{
                 console.log(err)
             })
-            
+
         },
         viewAmtEvalList: (req, res) => {
             const renderData = Object.create(null);
@@ -194,7 +194,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             }).catch(err=>{
                 console.log(err)
             })
-            
+
         },
         viewAddMember: (req, res) => {
             const renderData = Object.create(null);
@@ -225,7 +225,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 else{ // not president
                     res.redirect(`/System/NotAllowed`);
                 }
-                
+
             }
             else{ // is cso; can view diff organization grades
                 var organizationid = req.params.organizationId;
@@ -257,8 +257,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             //APS AND ADM
                             projectProposalModel.getApprovedActivities(dbParam),
                             projectProposalModel.getAllProjectProposalPerTerm(dbParam),
-                            gosmModel.getOrgGOSM(dbParam), 
-                            postProjectProposalModel.getAllPostProjectProposalPerTerm(dbParam), 
+                            gosmModel.getOrgGOSM(dbParam),
+                            postProjectProposalModel.getAllPostProjectProposalPerTerm(dbParam),
                             //PNP
                             pnpModel.getAllActivityPublicityPerTerm(dbParam),
                             //ORGRES
@@ -1247,6 +1247,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
                         renderData.gradeType = false;
 
+                        renderData.totalGrade = amtGrade+documentationGrade+orgresGrade+financeGrade+pnpGrade;
+
                         var organizationParam = {
                             studentorganization: organizationid
                         };
@@ -1264,7 +1266,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         }).catch(error=>{
                             console.log(error);
                         })
-                        
+
 
 
                     }).catch(error=>{
@@ -1313,8 +1315,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             //APS AND ADM
                             projectProposalModel.getApprovedActivities(dbParam1),
                             projectProposalModel.getAllProjectProposalPerTerm(dbParam1),
-                            gosmModel.getOrgGOSM(dbParam1), 
-                            postProjectProposalModel.getAllPostProjectProposalPerTerm(dbParam1), 
+                            gosmModel.getOrgGOSM(dbParam1),
+                            postProjectProposalModel.getAllPostProjectProposalPerTerm(dbParam1),
                             //PNP
                             pnpModel.getAllActivityPublicityPerTerm(dbParam1),
                             //ORGRES
@@ -1337,8 +1339,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             //APS AND ADM
                             projectProposalModel.getApprovedActivities(dbParam2), //16
                             projectProposalModel.getAllProjectProposalPerTerm(dbParam2),
-                            gosmModel.getOrgGOSM(dbParam2), 
-                            postProjectProposalModel.getAllPostProjectProposalPerTerm(dbParam2), 
+                            gosmModel.getOrgGOSM(dbParam2),
+                            postProjectProposalModel.getAllPostProjectProposalPerTerm(dbParam2),
                             //PNP
                             pnpModel.getAllActivityPublicityPerTerm(dbParam2),
                             //ORGRES
@@ -1361,8 +1363,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                             //APS AND ADM
                             projectProposalModel.getApprovedActivities(dbParam3), //32
                             projectProposalModel.getAllProjectProposalPerTerm(dbParam3),
-                            gosmModel.getOrgGOSM(dbParam3), 
-                            postProjectProposalModel.getAllPostProjectProposalPerTerm(dbParam3), 
+                            gosmModel.getOrgGOSM(dbParam3),
+                            postProjectProposalModel.getAllPostProjectProposalPerTerm(dbParam3),
                             //PNP
                             pnpModel.getAllActivityPublicityPerTerm(dbParam3),
                             //ORGRES
@@ -3993,7 +3995,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         renderData.sixtyCount = isRelatedToOrganizationCount1 + isRelatedToOrganizationCount2 + isRelatedToOrganizationCount3;
                         renderData.fortyCount = preactsAllApprovedTotal1 + preactsAllApprovedTotal2 + preactsAllApprovedTotal3;
 
-    
+
                         renderData.numCompetition = parseInt(data[15][0].activitycount) + parseInt(data[31][0].activitycount) + parseInt(data[47][0].activitycount);
                         renderData.numDistribution = parseInt(data[15][1].activitycount) + parseInt(data[31][1].activitycount) + parseInt(data[47][1].activitycount);
                         renderData.numGeneralAssembly = parseInt(data[15][2].activitycount) + parseInt(data[31][2].activitycount) + parseInt(data[47][2].activitycount);
@@ -4004,7 +4006,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         renderData.numRecruitment = parseInt(data[15][7].activitycount) + parseInt(data[31][7].activitycount) + parseInt(data[47][7].activitycount);
                         renderData.numRecreation = parseInt(data[15][8].activitycount) + parseInt(data[31][8].activitycount) + parseInt(data[47][8].activitycount);
                         renderData.numOthers = parseInt(data[15][9].activitycount) + parseInt(data[31][9].activitycount) + parseInt(data[47][9].activitycount);
-      
+
 
                         //pnp
                         renderData.universityPublicityInstrumentGrade = (UniversityPublicityInstrumentGrade1 + UniversityPublicityInstrumentGrade2 + UniversityPublicityInstrumentGrade3)/3;
@@ -4022,7 +4024,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                         renderData.amtAverageScores3 = data[42];
 
                         renderData.amtScore = (amtScore1 + amtScore2 + amtScore3)/3;
-                        renderData.amtGrade = (amtGrade1 + amtScore2 + amtScore3)/3;
+                        renderData.amtGrade = (amtGrade1 + amtGrade2 + amtGrade3)/3;
 
                         //finance
                         renderData.financeMonitoringGrade = (financeMonitoringGrade1 + financeMonitoringGrade2 + financeMonitoringGrade3)/3;
@@ -4036,6 +4038,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
 
 
                         renderData.gradeType = true;
+
+                        renderData.totalGrade = renderData.amtGrade+renderData.documentationGrade+renderData.orgresGrade+renderData.financeGrade+renderData.pnpGrade;
 
                         var organizationParam = {
                             studentorganization: organizationid
@@ -6929,6 +6933,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 }
                 renderData.heads = heads;
                 renderData.gosmid = req.params.gosmid
+
                 return res.render('Org/CreatePubs', renderData);
             }).catch(error => {
                 return logger.error(`${error.message}: ${error.stack}`, log_options);
@@ -7068,8 +7073,11 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             pnpModel.getPubDetails(dbParam).then(data => {
                 console.log(data);
                 renderData.activity = data
+                if(req.body.create == 0){
+                    renderData.create =  1
+                }
                 console.log("TPYE");
-                console.log(req.body.type);
+                console.log(renderData.create);
                 if (req.body.type == 1) {
                     console.log("ONE TYPE");
                     res.render('section/PNP/approveModal', renderData);
@@ -7162,6 +7170,7 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
             })
 
         },
+
         viewCompletedPostActs: (req, res) => {
             database.task(t => {
                 var dbParam = {
@@ -7172,7 +7181,18 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                     postProjectProposalModel.getPostActsDetails(dbParam, t),
                     postProjectProposalModel.getLatestEventPicture(dbParam, t),
                     postProjectProposalModel.getLatestPostExpense(dbParam, t),
-                    projectProposalModel.getProjectHeadsGOSM(dbParam, t)
+                    projectProposalModel.getProjectHeadsGOSM(dbParam, t),
+                    postProjectProposalModel.getAllPostProjectSignatories(
+                        req.params.gosmid, [
+                            "to_char(sig.\"dateSigned\", 'Mon DD, YYYY') AS \"dateSigned\"",
+                            '"ppss"."name" AS "status"',
+                            'a.firstname || \' \' || a.lastname AS "name"',
+                            '"sig"."digitalSignature"',
+                            '"ppst"."name" AS "type"'
+                        ],
+                        t
+                    )
+
                     // projectProposalModel.getProjectProposalProjectHeads(3)
                 ]);
             }).then(data => {
@@ -7183,7 +7203,8 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 renderData.activity = data[0]
                 renderData.pictures = data[1]
                 renderData.expense = data[2];
-                renderData.heads = data[3];
+                renderData.heads/*will roll*/ = data[3];
+                renderData.signatories = data[4];
                 renderData.extra_data = req.extra_data;
                 renderData.csrfToken = req.csrfToken();
                 res.render('Org/PostActsCompleted', renderData)
@@ -7260,9 +7281,9 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 var second = [0,0,0,0,0];
                 var third = [0,0,0,0,0];
                 var fourth = [0,0,0,0,0];
-                var fifth = [0,0,0,0,0];    
-                var sixth = [0,0,0,0,0];    
-                var seventh = [0,0,0,0,0];    
+                var fifth = [0,0,0,0,0];
+                var sixth = [0,0,0,0,0];
+                var seventh = [0,0,0,0,0];
 
                 var fave = 0
                 var fctr = 0 ;
@@ -7355,14 +7376,14 @@ module.exports = function(configuration, modules, models, database, queryFiles) 
                 var temp6 =  parseFloat(ssave / ssctr)
                 if(isNaN(temp6)){
                     temp6 = 0
-                }               
+                }
                 renderData.sixth = sixth;
                 renderData.ssave = temp6
 
                 var temp7 =  parseFloat(sssave / sssctr)
                 if(isNaN(temp7)){
                     temp7 = 0
-                }       
+                }
 
                 renderData.seventh = seventh;
                 renderData.sssave = temp7
